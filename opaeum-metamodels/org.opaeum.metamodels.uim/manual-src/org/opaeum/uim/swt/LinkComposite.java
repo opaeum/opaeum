@@ -3,6 +3,7 @@ package org.opaeum.uim.swt;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -18,6 +19,8 @@ public class LinkComposite extends Composite{
 		setLayout(layout);
 		Link link = new Link(this,SWT.NONE);
 		link.setText("<Object Name>");
+		link.setTouchEnabled(true);
+		link.setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_HAND));
 		link.setForeground(new Color(Display.getDefault(), new RGB(0, 0, 255)));
 		layout.topControl=link;
 		layout();

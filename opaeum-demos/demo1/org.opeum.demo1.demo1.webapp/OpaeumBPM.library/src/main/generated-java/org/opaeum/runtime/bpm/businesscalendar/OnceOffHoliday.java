@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.businesscalendar;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -77,6 +79,8 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 778183449069016075l;
 	private String uid;
 
@@ -94,6 +98,10 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	public OnceOffHoliday() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -145,7 +153,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6562992976013110785l,opposite="onceOffHoliday",uuid="252060@_7Uk4IdcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6562992976013110785l,opposite="onceOffHoliday",uuid="252060@_7Uk4IdcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_7Uk4IdcCEeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -157,7 +165,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2042390036019006515l,uuid="252060@__KuDQNcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2042390036019006515l,uuid="252060@__KuDQNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@__KuDQNcCEeCJ0dmaHEVVnw")
 	public Date getDate() {
 		Date result = this.date;
@@ -173,7 +181,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4100408756676310359l,uuid="252060@_94Gk0NcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4100408756676310359l,uuid="252060@_94Gk0NcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_94Gk0NcCEeCJ0dmaHEVVnw")
 	public String getName() {
 		String result = this.name;
@@ -246,7 +254,12 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessCalendar(BusinessCalendar businessCalendar) {
+		propertyChangeSupport.firePropertyChange("businessCalendar",getBusinessCalendar(),businessCalendar);
 		if ( this.getBusinessCalendar()!=null ) {
 			this.getBusinessCalendar().z_internalRemoveFromOnceOffHoliday(this);
 		}
@@ -264,6 +277,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void setDate(Date date) {
+		propertyChangeSupport.firePropertyChange("date",getDate(),date);
 		this.z_internalAddToDate(date);
 	}
 	
@@ -276,6 +290,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void setName(String name) {
+		propertyChangeSupport.firePropertyChange("name",getName(),name);
 		this.z_internalAddToName(name);
 	}
 	

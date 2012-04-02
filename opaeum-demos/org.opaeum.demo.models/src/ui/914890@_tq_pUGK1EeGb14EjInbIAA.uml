@@ -9,8 +9,8 @@
           <control xmi:type="ctl:UimText" xmi:id="_CYKBYHvPEeGxE-GvRyD0sA"/>
           <binding xmi:id="_CYKBYXvPEeGxE-GvRyD0sA" umlElementUid="914890@_kRetkHphEeGlh5y8zQdYBA"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_CYKocHvPEeGxE-GvRyD0sA" name="Manager" preferredHeight="30" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_-dBPQHvTEeGxE-GvRyD0sA"/>
+        <children xmi:type="uim:UimField" xmi:id="_CYKocHvPEeGxE-GvRyD0sA" name="Manager" preferredHeight="25" fillHorizontally="true" controlKind="link" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimLinkControl" xmi:id="_qhbv4HyqEeGzgepkEtQ56w"/>
           <binding xmi:id="_CYKocnvPEeGxE-GvRyD0sA" umlElementUid="914890@_MwHicHvJEeGIOPhylek76A"/>
         </children>
       </panel>
@@ -55,8 +55,8 @@
       </panel>
     </pages><pages xmi:id="_CYO54nvPEeGxE-GvRyD0sA" name="I business role">
       <panel xmi:type="panel:GridPanel" xmi:id="_CYPg8HvPEeGxE-GvRyD0sA" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_CYPg8XvPEeGxE-GvRyD0sA" name="Represented person" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_CYPg8nvPEeGxE-GvRyD0sA"/>
+        <children xmi:type="uim:UimField" xmi:id="_CYPg8XvPEeGxE-GvRyD0sA" name="Represented person" preferredHeight="25" fillHorizontally="true" controlKind="link" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimLinkControl" xmi:id="__2A44HyLEeGFaPlrkwhhpw"/>
           <binding xmi:id="_CYPg83vPEeGxE-GvRyD0sA" umlElementUid="252060@_3lcZgVYuEeGj5_I7bIwNoA"/>
         </children>
       </panel>

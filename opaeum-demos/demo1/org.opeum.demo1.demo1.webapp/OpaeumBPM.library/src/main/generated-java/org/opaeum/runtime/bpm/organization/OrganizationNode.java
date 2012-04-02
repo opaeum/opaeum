@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.organization;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -105,6 +107,8 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="organization",targetEntity=OrganizationPhoneNumber.class)
 	@MapKey(name="z_keyOfPhoneNumberOnOrganizationNode")
 	private Map<String, OrganizationPhoneNumber> phoneNumber = new HashMap<String,OrganizationPhoneNumber>();
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 9636702410571466l;
 	private String uid;
 
@@ -144,6 +148,10 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		for ( Organization_iBusinessComponent_1 o : organization_iBusinessComponent_1_businessComponent ) {
 			addToOrganization_iBusinessComponent_1_businessComponent(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	public void addToBusinessActor(IBusinessActor businessActor) {
@@ -393,7 +401,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2759918346397932051l,opposite="organization",uuid="252060@_8YsOoFZFEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2759918346397932051l,opposite="organization",uuid="252060@_8YsOoFZFEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_8YsOoFZFEeGj5_I7bIwNoA")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -409,7 +417,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4954312663461917749l,opposite="organization",uuid="252060@_4uxKkUvREeGmqIr8YsFD4g")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4954312663461917749l,opposite="organization",uuid="252060@_4uxKkUvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_4uxKkUvREeGmqIr8YsFD4g")
 	public BusinessNetwork getBusinessNetwork() {
 		BusinessNetwork result = this.businessNetwork;
@@ -433,7 +441,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=6276678134555712740l,opposite="organization",uuid="252060@_JF99wEtqEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6276678134555712740l,opposite="organization",uuid="252060@_JF99wEtqEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_JF99wEtqEeGd4cpyhpib9Q")
 	public Set<OrganizationEMailAddress> getEMailAddress() {
 		Set<OrganizationEMailAddress> result = new HashSet<OrganizationEMailAddress>(this.eMailAddress.values());
@@ -445,7 +453,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=286422379505074318l,uuid="252060@_OorfwEtnEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=286422379505074318l,uuid="252060@_OorfwEtnEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_OorfwEtnEeGd4cpyhpib9Q")
 	public String getName() {
 		String result = this.name;
@@ -457,7 +465,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5544220265950373323l,opposite="organization",uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5544220265950373323l,opposite="organization",uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public Set<OrganizationFullfillsActorRole> getOrganizationFullfillsActorRole_businessActor() {
 		Set<OrganizationFullfillsActorRole> result = this.organizationFullfillsActorRole_businessActor;
@@ -474,7 +482,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return null;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=6254493747225779734l,opposite="representedOrganization",uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6254493747225779734l,opposite="representedOrganization",uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	public Set<Organization_iBusinessComponent_1> getOrganization_iBusinessComponent_1_businessComponent() {
 		Set<Organization_iBusinessComponent_1> result = this.organization_iBusinessComponent_1_businessComponent;
@@ -507,7 +515,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=1861213202254517122l,opposite="organization",uuid="252060@_HF7DgEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=1861213202254517122l,opposite="organization",uuid="252060@_HF7DgEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_HF7DgEtoEeGd4cpyhpib9Q")
 	public Set<OrganizationPhoneNumber> getPhoneNumber() {
 		Set<OrganizationPhoneNumber> result = new HashSet<OrganizationPhoneNumber>(this.phoneNumber.values());
@@ -700,13 +708,19 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessActor(Set<IBusinessActor> businessActor) {
+		propertyChangeSupport.firePropertyChange("businessActor",getBusinessActor(),businessActor);
 		this.clearBusinessActor();
 		this.addAllToBusinessActor(businessActor);
 	}
 	
 	public void setBusinessCalendar(BusinessCalendar businessCalendar) {
 		BusinessCalendar oldValue = this.getBusinessCalendar();
+		propertyChangeSupport.firePropertyChange("businessCalendar",getBusinessCalendar(),businessCalendar);
 		if ( oldValue==null ) {
 			if ( businessCalendar!=null ) {
 				OrganizationNode oldOther = (OrganizationNode)businessCalendar.getOrganization();
@@ -735,11 +749,13 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	}
 	
 	public void setBusinessComponent(Set<IBusinessComponent> businessComponent) {
+		propertyChangeSupport.firePropertyChange("businessComponent",getBusinessComponent(),businessComponent);
 		this.clearBusinessComponent();
 		this.addAllToBusinessComponent(businessComponent);
 	}
 	
 	public void setBusinessNetwork(BusinessNetwork businessNetwork) {
+		propertyChangeSupport.firePropertyChange("businessNetwork",getBusinessNetwork(),businessNetwork);
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromOrganization(this);
 		}
@@ -765,6 +781,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	}
 	
 	public void setName(String name) {
+		propertyChangeSupport.firePropertyChange("name",getName(),name);
 		this.z_internalAddToName(name);
 	}
 	
@@ -773,11 +790,13 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	}
 	
 	public void setOrganizationFullfillsActorRole_businessActor(Set<OrganizationFullfillsActorRole> organizationFullfillsActorRole_businessActor) {
+		propertyChangeSupport.firePropertyChange("organizationFullfillsActorRole_businessActor",getOrganizationFullfillsActorRole_businessActor(),organizationFullfillsActorRole_businessActor);
 		this.clearOrganizationFullfillsActorRole_businessActor();
 		this.addAllToOrganizationFullfillsActorRole_businessActor(organizationFullfillsActorRole_businessActor);
 	}
 	
 	public void setOrganization_iBusinessComponent_1_businessComponent(Set<Organization_iBusinessComponent_1> organization_iBusinessComponent_1_businessComponent) {
+		propertyChangeSupport.firePropertyChange("organization_iBusinessComponent_1_businessComponent",getOrganization_iBusinessComponent_1_businessComponent(),organization_iBusinessComponent_1_businessComponent);
 		this.clearOrganization_iBusinessComponent_1_businessComponent();
 		this.addAllToOrganization_iBusinessComponent_1_businessComponent(organization_iBusinessComponent_1_businessComponent);
 	}

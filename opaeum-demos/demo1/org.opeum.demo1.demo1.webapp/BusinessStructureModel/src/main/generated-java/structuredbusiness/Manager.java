@@ -1,5 +1,7 @@
 package structuredbusiness;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,8 +82,10 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="dishwashers_inc_id",nullable=true)
 	private DishwashersInc dishwashersInc;
-	@OneToOne(fetch=javax.persistence.FetchType.LAZY,mappedBy="manager")
-	private DocumentVerifier documentVerifier;
+	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(fetch=javax.persistence.FetchType.LAZY,mappedBy="manager",targetEntity=DocumentVerifier.class)
+	private Set<DocumentVerifier> documentVerifier = new HashSet<DocumentVerifier>();
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
@@ -104,6 +108,8 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="person_i_business_role_1_represented_person_id",nullable=true)
 	private Person_iBusinessRole_1 person_iBusinessRole_1_representedPerson;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 3586662115628447123l;
 	private String uid;
 
@@ -121,9 +127,27 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	public Manager() {
 	}
 
+	public void addAllToDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
+		for ( DocumentVerifier o : documentVerifier ) {
+			addToDocumentVerifier(o);
+		}
+	}
+	
 	public void addAllToParticipation(Set<Participation> participation) {
 		for ( Participation o : participation ) {
 			addToParticipation(o);
+		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
+	public void addToDocumentVerifier(DocumentVerifier documentVerifier) {
+		if ( documentVerifier!=null ) {
+			documentVerifier.z_internalRemoveFromManager(documentVerifier.getManager());
+			documentVerifier.z_internalAddToManager(this);
+			z_internalAddToDocumentVerifier(documentVerifier);
 		}
 	}
 	
@@ -180,22 +204,20 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		}
 	}
 	
+	public void clearDocumentVerifier() {
+		removeAllFromDocumentVerifier(getDocumentVerifier());
+	}
+	
 	public void clearParticipation() {
 		removeAllFromParticipation(getParticipation());
 	}
 	
 	public void copyShallowState(Manager from, Manager to) {
 		to.setName(from.getName());
-		if ( from.getDocumentVerifier()!=null ) {
-			to.setDocumentVerifier(from.getDocumentVerifier().makeShallowCopy());
-		}
 	}
 	
 	public void copyState(Manager from, Manager to) {
 		to.setName(from.getName());
-		if ( from.getDocumentVerifier()!=null ) {
-			to.setDocumentVerifier(from.getDocumentVerifier().makeCopy());
-		}
 	}
 	
 	public void createComponents() {
@@ -222,7 +244,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDishwashersIncSourcePopulation",opaeumId=325738725014330933l,opposite="manager",uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=325738725014330933l,opposite="manager",uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -230,10 +252,10 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDocumentVerifierSourcePopulation",opaeumId=7856994707582868888l,opposite="manager",uuid="914890@_MwNCAXvJEeGIOPhylek76A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7856994707582868888l,opposite="manager",uuid="914890@_MwNCAXvJEeGIOPhylek76A")
 	@NumlMetaInfo(uuid="914890@_MwNCAXvJEeGIOPhylek76A")
-	public DocumentVerifier getDocumentVerifier() {
-		DocumentVerifier result = this.documentVerifier;
+	public Set<DocumentVerifier> getDocumentVerifier() {
+		Set<DocumentVerifier> result = this.documentVerifier;
 		
 		return result;
 	}
@@ -242,7 +264,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getInitiatedRequestsSourcePopulation",opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests() {
 		Collection<AbstractRequest> result = collect9();
@@ -250,7 +272,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getInterestingRequestsSourcePopulation",opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests() {
 		Collection<AbstractRequest> result = collect2();
@@ -258,7 +280,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getManagedRequestsSourcePopulation",opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests() {
 		Collection<AbstractRequest> result = collect4();
@@ -266,7 +288,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getNameSourcePopulation",opaeumId=1221154963085114366l,uuid="914890@_hU8D8HphEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1221154963085114366l,uuid="914890@_hU8D8HphEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_hU8D8HphEeGlh5y8zQdYBA")
 	public String getName() {
 		String result = this.name;
@@ -282,7 +304,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.outgoingEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getOwnedTaskRequestsSourcePopulation",opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests() {
 		Collection<TaskRequest> result = collect7();
@@ -294,7 +316,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return getDishwashersInc();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParticipationSourcePopulation",opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -302,7 +324,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParticipationsInRequestsSourcePopulation",opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests() {
 		Collection<ParticipationInRequest> result = collect6();
@@ -310,7 +332,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParticipationsInTasksSourcePopulation",opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks() {
 		Collection<ParticipationInTask> result = collect11();
@@ -318,7 +340,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getPerson_iBusinessRole_1_representedPersonSourcePopulation",opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;
@@ -378,9 +400,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( getDishwashersInc()!=null ) {
 			getDishwashersInc().z_internalRemoveFromManager(this);
 		}
-		if ( getDocumentVerifier()!=null ) {
-			getDocumentVerifier().z_internalRemoveFromManager(this);
-		}
 		setDeletedOn(new Date());
 	}
 	
@@ -406,10 +425,24 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		}
 	}
 	
+	public void removeAllFromDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
+		Set<DocumentVerifier> tmp = new HashSet<DocumentVerifier>(documentVerifier);
+		for ( DocumentVerifier o : tmp ) {
+			removeFromDocumentVerifier(o);
+		}
+	}
+	
 	public void removeAllFromParticipation(Set<Participation> participation) {
 		Set<Participation> tmp = new HashSet<Participation>(participation);
 		for ( Participation o : tmp ) {
 			removeFromParticipation(o);
+		}
+	}
+	
+	public void removeFromDocumentVerifier(DocumentVerifier documentVerifier) {
+		if ( documentVerifier!=null ) {
+			documentVerifier.z_internalRemoveFromManager(this);
+			z_internalRemoveFromDocumentVerifier(documentVerifier);
 		}
 	}
 	
@@ -424,6 +457,10 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -433,6 +470,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
+		propertyChangeSupport.firePropertyChange("dishwashersInc",getDishwashersInc(),dishwashersInc);
 		if ( this.getDishwashersInc()!=null ) {
 			this.getDishwashersInc().z_internalRemoveFromManager(this);
 		}
@@ -445,33 +483,10 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		}
 	}
 	
-	public void setDocumentVerifier(DocumentVerifier documentVerifier) {
-		DocumentVerifier oldValue = this.getDocumentVerifier();
-		if ( oldValue==null ) {
-			if ( documentVerifier!=null ) {
-				Manager oldOther = (Manager)documentVerifier.getManager();
-				documentVerifier.z_internalRemoveFromManager(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromDocumentVerifier(documentVerifier);
-				}
-				documentVerifier.z_internalAddToManager((Manager)this);
-			}
-			this.z_internalAddToDocumentVerifier(documentVerifier);
-		} else {
-			if ( !oldValue.equals(documentVerifier) ) {
-				oldValue.z_internalRemoveFromManager(this);
-				z_internalRemoveFromDocumentVerifier(oldValue);
-				if ( documentVerifier!=null ) {
-					Manager oldOther = (Manager)documentVerifier.getManager();
-					documentVerifier.z_internalRemoveFromManager(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromDocumentVerifier(documentVerifier);
-					}
-					documentVerifier.z_internalAddToManager((Manager)this);
-				}
-				this.z_internalAddToDocumentVerifier(documentVerifier);
-			}
-		}
+	public void setDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
+		propertyChangeSupport.firePropertyChange("documentVerifier",getDocumentVerifier(),documentVerifier);
+		this.clearDocumentVerifier();
+		this.addAllToDocumentVerifier(documentVerifier);
 	}
 	
 	public void setId(Long id) {
@@ -479,6 +494,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setName(String name) {
+		propertyChangeSupport.firePropertyChange("name",getName(),name);
 		this.z_internalAddToName(name);
 	}
 	
@@ -491,12 +507,14 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setParticipation(Set<Participation> participation) {
+		propertyChangeSupport.firePropertyChange("participation",getParticipation(),participation);
 		this.clearParticipation();
 		this.addAllToParticipation(participation);
 	}
 	
 	public void setPerson_iBusinessRole_1_representedPerson(Person_iBusinessRole_1 person_iBusinessRole_1_representedPerson) {
 		Person_iBusinessRole_1 oldValue = this.getPerson_iBusinessRole_1_representedPerson();
+		propertyChangeSupport.firePropertyChange("person_iBusinessRole_1_representedPerson",getPerson_iBusinessRole_1_representedPerson(),person_iBusinessRole_1_representedPerson);
 		if ( oldValue==null ) {
 			if ( person_iBusinessRole_1_representedPerson!=null ) {
 				Manager oldOther = (Manager)person_iBusinessRole_1_representedPerson.getBusinessRole();
@@ -529,6 +547,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setRepresentedPerson(PersonNode representedPerson) {
+		propertyChangeSupport.firePropertyChange("representedPerson",getRepresentedPerson(),representedPerson);
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromBusinessRole(this);
 		}
@@ -572,7 +591,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void z_internalAddToDocumentVerifier(DocumentVerifier val) {
-		this.documentVerifier=val;
+		this.documentVerifier.add(val);
 	}
 	
 	public void z_internalAddToName(String val) {
@@ -601,10 +620,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void z_internalRemoveFromDocumentVerifier(DocumentVerifier val) {
-		if ( getDocumentVerifier()!=null && val!=null && val.equals(getDocumentVerifier()) ) {
-			this.documentVerifier=null;
-			this.documentVerifier=null;
-		}
+		this.documentVerifier.remove(val);
 	}
 	
 	public void z_internalRemoveFromName(String val) {

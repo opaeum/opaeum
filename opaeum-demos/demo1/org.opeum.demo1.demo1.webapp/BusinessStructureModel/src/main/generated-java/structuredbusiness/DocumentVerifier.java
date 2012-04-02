@@ -1,5 +1,7 @@
 package structuredbusiness;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +26,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -70,8 +71,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="document_verifier",uniqueConstraints=
-	@UniqueConstraint(columnNames={"manager_id","deleted_on"}))
+@Table(name="document_verifier")
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="DocumentVerifier")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -112,6 +112,8 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="person_i_business_role_1_represented_person_id",nullable=true)
 	private Person_iBusinessRole_1 person_iBusinessRole_1_representedPerson;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 6562910277794880901l;
 	private String uid;
 
@@ -133,6 +135,10 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		for ( Participation o : participation ) {
 			addToParticipation(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
@@ -463,6 +469,10 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -472,6 +482,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
+		propertyChangeSupport.firePropertyChange("dishwashersInc",getDishwashersInc(),dishwashersInc);
 		if ( this.getDishwashersInc()!=null ) {
 			this.getDishwashersInc().z_internalRemoveFromDocumentVerifier(this);
 		}
@@ -489,35 +500,18 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void setManager(Manager manager) {
-		Manager oldValue = this.getManager();
-		if ( oldValue==null ) {
-			if ( manager!=null ) {
-				DocumentVerifier oldOther = (DocumentVerifier)manager.getDocumentVerifier();
-				manager.z_internalRemoveFromDocumentVerifier(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromManager(manager);
-				}
-				manager.z_internalAddToDocumentVerifier((DocumentVerifier)this);
-			}
+		propertyChangeSupport.firePropertyChange("manager",getManager(),manager);
+		if ( this.getManager()!=null ) {
+			this.getManager().z_internalRemoveFromDocumentVerifier(this);
+		}
+		if ( manager!=null ) {
+			manager.z_internalAddToDocumentVerifier(this);
 			this.z_internalAddToManager(manager);
-		} else {
-			if ( !oldValue.equals(manager) ) {
-				oldValue.z_internalRemoveFromDocumentVerifier(this);
-				z_internalRemoveFromManager(oldValue);
-				if ( manager!=null ) {
-					DocumentVerifier oldOther = (DocumentVerifier)manager.getDocumentVerifier();
-					manager.z_internalRemoveFromDocumentVerifier(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromManager(manager);
-					}
-					manager.z_internalAddToDocumentVerifier((DocumentVerifier)this);
-				}
-				this.z_internalAddToManager(manager);
-			}
 		}
 	}
 	
 	public void setName(String name) {
+		propertyChangeSupport.firePropertyChange("name",getName(),name);
 		this.z_internalAddToName(name);
 	}
 	
@@ -530,12 +524,14 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void setParticipation(Set<Participation> participation) {
+		propertyChangeSupport.firePropertyChange("participation",getParticipation(),participation);
 		this.clearParticipation();
 		this.addAllToParticipation(participation);
 	}
 	
 	public void setPerson_iBusinessRole_1_representedPerson(Person_iBusinessRole_1 person_iBusinessRole_1_representedPerson) {
 		Person_iBusinessRole_1 oldValue = this.getPerson_iBusinessRole_1_representedPerson();
+		propertyChangeSupport.firePropertyChange("person_iBusinessRole_1_representedPerson",getPerson_iBusinessRole_1_representedPerson(),person_iBusinessRole_1_representedPerson);
 		if ( oldValue==null ) {
 			if ( person_iBusinessRole_1_representedPerson!=null ) {
 				DocumentVerifier oldOther = (DocumentVerifier)person_iBusinessRole_1_representedPerson.getBusinessRole();
@@ -568,6 +564,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void setRepresentedPerson(PersonNode representedPerson) {
+		propertyChangeSupport.firePropertyChange("representedPerson",getRepresentedPerson(),representedPerson);
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromBusinessRole(this);
 		}

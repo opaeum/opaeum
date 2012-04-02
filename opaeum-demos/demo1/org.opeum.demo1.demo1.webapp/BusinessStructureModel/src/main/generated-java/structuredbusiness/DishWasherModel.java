@@ -1,5 +1,7 @@
 package structuredbusiness;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,6 +87,8 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	private String partNumber;
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 9167031835761131135l;
 	private String uid;
 	@Type(type="structuredbusiness.VendorResolver")
@@ -109,6 +113,10 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		for ( DishWasherComponent o : component ) {
 			addToComponent(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	public void addToComponent(DishWasherComponent component) {
@@ -209,7 +217,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getComponentSourcePopulation",opaeumId=6689744676322243651l,opposite="dishWasher",uuid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6689744676322243651l,opposite="dishWasher",uuid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ")
 	@NumlMetaInfo(uuid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ")
 	public Set<DishWasherComponent> getComponent() {
 		Set<DishWasherComponent> result = this.component;
@@ -221,7 +229,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDishwashersIncSourcePopulation",opaeumId=8669346731255087885l,opposite="dishWasher",uuid="914890@_z0NB0XHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8669346731255087885l,opposite="dishWasher",uuid="914890@_z0NB0XHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_z0NB0XHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -233,7 +241,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getNameSourcePopulation",opaeumId=8027636478953627954l,uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8027636478953627954l,uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
 	public String getName() {
 		String result = this.name;
@@ -253,7 +261,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return getDishwashersInc();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getPartNumberSourcePopulation",opaeumId=6341938639454514848l,uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6341938639454514848l,uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
 	public String getPartNumber() {
 		String result = this.partNumber;
@@ -268,7 +276,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getVendorSourcePopulation",opaeumId=1278716437618707842l,opposite="dishWasherModel",uuid="914890@_7RIUYHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1278716437618707842l,opposite="dishWasherModel",uuid="914890@_7RIUYHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_7RIUYHsKEeGBGZr9IpIa3A")
 	public Vendor getVendor() {
 		Vendor result = this.vendor;
@@ -348,11 +356,16 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
 	
 	public void setComponent(Set<DishWasherComponent> component) {
+		propertyChangeSupport.firePropertyChange("component",getComponent(),component);
 		this.clearComponent();
 		this.addAllToComponent(component);
 	}
@@ -362,6 +375,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
+		propertyChangeSupport.firePropertyChange("dishwashersInc",getDishwashersInc(),dishwashersInc);
 		if ( this.getDishwashersInc()!=null ) {
 			this.getDishwashersInc().z_internalRemoveFromDishWasher(this);
 		}
@@ -379,6 +393,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setName(String name) {
+		propertyChangeSupport.firePropertyChange("name",getName(),name);
 		this.z_internalAddToName(name);
 	}
 	
@@ -391,6 +406,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setPartNumber(String partNumber) {
+		propertyChangeSupport.firePropertyChange("partNumber",getPartNumber(),partNumber);
 		this.z_internalAddToPartNumber(partNumber);
 	}
 	
@@ -399,6 +415,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setVendor(Vendor vendor) {
+		propertyChangeSupport.firePropertyChange("vendor",getVendor(),vendor);
 		this.z_internalAddToVendor(vendor);
 	}
 	

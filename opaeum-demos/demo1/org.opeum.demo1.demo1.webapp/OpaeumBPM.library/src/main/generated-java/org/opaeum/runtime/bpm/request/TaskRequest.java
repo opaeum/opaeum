@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.request;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -125,6 +127,8 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	transient private WorkflowProcessInstance processInstance;
 	@Column(name="process_instance_id")
 	private Long processInstanceId;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 8501108023512204129l;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
@@ -162,6 +166,10 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		for ( AbstractRequest o : subRequests ) {
 			addToSubRequests(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	@NumlMetaInfo(uuid="252060@_v52VoI6SEeCrtavWRHwoHg")
@@ -699,7 +707,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return this.currentException;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4580607342736823288l,opposite="taskRequest",uuid="252060@_84NrDrRZEeCilvbXE8KmHA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4580607342736823288l,opposite="taskRequest",uuid="252060@_84NrDrRZEeCilvbXE8KmHA")
 	@NumlMetaInfo(uuid="252060@_84NrDrRZEeCilvbXE8KmHA")
 	public TaskDelegation getDelegation() {
 		TaskDelegation result = this.delegation;
@@ -750,7 +758,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return this.outgoingEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8552480891737957111l,uuid="252060@_wy5fAKDREeCi16HgBnUGFw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8552480891737957111l,uuid="252060@_wy5fAKDREeCi16HgBnUGFw")
 	@NumlMetaInfo(uuid="252060@_wy5fAKDREeCi16HgBnUGFw")
 	public Participant getOwner() {
 		Participant result = any1().getParticipant();
@@ -762,7 +770,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return getTaskObject();
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=7631795069536317681l,opposite="taskRequest",uuid="252060@_BB8NEI6VEeCne5ArYLDbiA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=7631795069536317681l,opposite="taskRequest",uuid="252060@_BB8NEI6VEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_BB8NEI6VEeCne5ArYLDbiA")
 	public Set<ParticipationInTask> getParticipationInTask() {
 		Set<ParticipationInTask> result = this.participationInTask;
@@ -770,7 +778,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3802915038871319282l,uuid="252060@_sMysAKDQEeCEB8xJMe8jaA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3802915038871319282l,uuid="252060@_sMysAKDQEeCEB8xJMe8jaA")
 	@NumlMetaInfo(uuid="252060@_sMysAKDQEeCEB8xJMe8jaA")
 	public Set<Participant> getPotentialOwners() {
 		Set<Participant> result = Stdlib.collectionAsSet(collect3());
@@ -805,7 +813,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4881745325393372278l,opposite="parentTask",uuid="252060@_tog08I29EeCrtavWRHwoHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4881745325393372278l,opposite="parentTask",uuid="252060@_tog08I29EeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_tog08I29EeCrtavWRHwoHg")
 	public Set<AbstractRequest> getSubRequests() {
 		Set<AbstractRequest> result = this.subRequests;
@@ -829,7 +837,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return isStepActive(TaskRequestState.SUSPENDED_RESERVEDBUTSUSPENDED);
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5302390646449487153l,opposite="taskRequest",uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5302390646449487153l,opposite="taskRequest",uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
 	public ITaskObject getTaskObject() {
 		ITaskObject result = (ITaskObject)this.taskObject.getValue(persistence);
@@ -1117,6 +1125,10 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	@NumlMetaInfo(uuid="252060@_wuzAoI6SEeCrtavWRHwoHg")
 	public void removeTaskRequestParticipant(@ParameterMetaInfo(name="participant",opaeumId=7590474051790031114l,uuid="252060@_wuzAoY6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(name="kind",opaeumId=6120680878221412726l,uuid="252060@_wuzAoo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
 		TaskRequest tgtRemoveParticipation=this;
@@ -1149,6 +1161,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public void setDelegation(TaskDelegation delegation) {
+		propertyChangeSupport.firePropertyChange("delegation",getDelegation(),delegation);
 		this.z_internalAddToDelegation(delegation);
 	}
 	
@@ -1170,6 +1183,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public void setParticipationInTask(Set<ParticipationInTask> participationInTask) {
+		propertyChangeSupport.firePropertyChange("participationInTask",getParticipationInTask(),participationInTask);
 		this.clearParticipationInTask();
 		this.addAllToParticipationInTask(participationInTask);
 	}
@@ -1188,12 +1202,14 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public void setSubRequests(Set<AbstractRequest> subRequests) {
+		propertyChangeSupport.firePropertyChange("subRequests",getSubRequests(),subRequests);
 		this.clearSubRequests();
 		this.addAllToSubRequests(subRequests);
 	}
 	
 	public void setTaskObject(ITaskObject taskObject) {
 		ITaskObject oldValue = this.getTaskObject();
+		propertyChangeSupport.firePropertyChange("taskObject",getTaskObject(),taskObject);
 		if ( oldValue==null ) {
 			if ( taskObject!=null ) {
 				TaskRequest oldOther = (TaskRequest)taskObject.getTaskRequest();

@@ -63,7 +63,7 @@ public interface ITaskObject extends HibernateEntity, CompositionNode, IRequestO
 	
 	public void generateOnSuspendedEvent(@ParameterMetaInfo(name="suspendedBy",opaeumId=7500393394354827722l,uuid="252060@_wGUosK0NEeCK48ywUpk_rg") Participant suspendedBy);
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2623282203224602767l,opposite="taskObject",uuid="252060@_I3guUY3pEeCfQedkc0TCdA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2623282203224602767l,opposite="taskObject",uuid="252060@_I3guUY3pEeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_I3guUY3pEeCfQedkc0TCdA")
 	public TaskRequest getTaskRequest();
 	

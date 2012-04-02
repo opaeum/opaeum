@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.organization;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,6 +120,8 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="postal_address_id",nullable=true)
 	private PostalAddress postalAddress;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	@Column(name="refresh_token")
 	private String refreshToken;
 	static final private long serialVersionUID = 3517707551286497542l;
@@ -176,6 +180,10 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		for ( Person_iBusinessRole_1 o : person_iBusinessRole_1_businessRole ) {
 			addToPerson_iBusinessRole_1_businessRole(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	public void addToBusinessActor(IBusinessActor businessActor) {
@@ -451,7 +459,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7236993358477623696l,uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7236993358477623696l,uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
 	public String getAuthenticationToken() {
 		String result = this.authenticationToken;
@@ -479,7 +487,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4065462070317474495l,opposite="person",uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4065462070317474495l,opposite="person",uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
 	public BusinessNetwork getCollaboration() {
 		BusinessNetwork result = this.collaboration;
@@ -499,7 +507,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=399677207222426596l,opposite="person",uuid="252060@_fNec4EtpEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=399677207222426596l,opposite="person",uuid="252060@_fNec4EtpEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_fNec4EtpEeGd4cpyhpib9Q")
 	public Set<PersonEMailAddress> getEMailAddress() {
 		Set<PersonEMailAddress> result = new HashSet<PersonEMailAddress>(this.eMailAddress.values());
@@ -507,7 +515,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4316964747083058398l,uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4316964747083058398l,uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
 	public String getFirstName() {
 		String result = this.firstName;
@@ -515,7 +523,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2959327275138211382l,uuid="252060@_oRHdEEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2959327275138211382l,uuid="252060@_oRHdEEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_oRHdEEtoEeGd4cpyhpib9Q")
 	public String getFullName() {
 		String result = (this.getFirstName().concat((" "))).concat(this.getSurname());
@@ -527,7 +535,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=8728994280524309614l,opposite="person",uuid="252060@_UvAxkEt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=8728994280524309614l,opposite="person",uuid="252060@_UvAxkEt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_UvAxkEt3EeGElKTCe2jfDw")
 	public Set<Leave> getLeave() {
 		Set<Leave> result = this.leave;
@@ -551,7 +559,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return getCollaboration();
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=455318727460481644l,opposite="representedPerson",uuid="252060@_X4_MgEtyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=455318727460481644l,opposite="representedPerson",uuid="252060@_X4_MgEtyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_MgEtyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public Set<PersonFullfillsActorRole> getPersonFullfillsActorRole_businessActor() {
 		Set<PersonFullfillsActorRole> result = this.personFullfillsActorRole_businessActor;
@@ -568,7 +576,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return null;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5291344624570808175l,opposite="representedPerson",uuid="252060@_3lakUFYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5291344624570808175l,opposite="representedPerson",uuid="252060@_3lakUFYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lakUFYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Set<Person_iBusinessRole_1> getPerson_iBusinessRole_1_businessRole() {
 		Set<Person_iBusinessRole_1> result = this.person_iBusinessRole_1_businessRole;
@@ -593,7 +601,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=213312905486829476l,opposite="person",uuid="252060@_GjivMEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=213312905486829476l,opposite="person",uuid="252060@_GjivMEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_GjivMEtoEeGd4cpyhpib9Q")
 	public Set<PersonPhoneNumber> getPhoneNumber() {
 		Set<PersonPhoneNumber> result = new HashSet<PersonPhoneNumber>(this.phoneNumber.values());
@@ -601,7 +609,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3105719662914651808l,opposite="person",uuid="252060@_U_gx0F-mEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3105719662914651808l,opposite="person",uuid="252060@_U_gx0F-mEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_U_gx0F-mEeGSPaWW9iQb9Q")
 	public PhysicalAddress getPhysicalAddress() {
 		PhysicalAddress result = this.physicalAddress;
@@ -609,7 +617,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3364558357702710040l,opposite="person",uuid="252060@_Ueg9kF-mEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3364558357702710040l,opposite="person",uuid="252060@_Ueg9kF-mEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_Ueg9kF-mEeGSPaWW9iQb9Q")
 	public PostalAddress getPostalAddress() {
 		PostalAddress result = this.postalAddress;
@@ -617,7 +625,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6339644735992273166l,uuid="252060@_U9amkHaQEeGv4aLPxieKNg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6339644735992273166l,uuid="252060@_U9amkHaQEeGv4aLPxieKNg")
 	@NumlMetaInfo(uuid="252060@_U9amkHaQEeGv4aLPxieKNg")
 	public String getRefreshToken() {
 		String result = this.refreshToken;
@@ -625,7 +633,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4565578190639246320l,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4565578190639246320l,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	public String getSurname() {
 		String result = this.surname;
@@ -633,7 +641,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3343613060723219152l,uuid="252060@_WDO_IHaQEeGv4aLPxieKNg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3343613060723219152l,uuid="252060@_WDO_IHaQEeGv4aLPxieKNg")
 	@NumlMetaInfo(uuid="252060@_WDO_IHaQEeGv4aLPxieKNg")
 	public Date getTokenExpiryDateTime() {
 		Date result = this.tokenExpiryDateTime;
@@ -648,7 +656,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6611446670906621554l,uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6611446670906621554l,uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
 	public String getUsername() {
 		String result = this.username;
@@ -872,16 +880,23 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setAuthenticationToken(String authenticationToken) {
+		propertyChangeSupport.firePropertyChange("authenticationToken",getAuthenticationToken(),authenticationToken);
 		this.z_internalAddToAuthenticationToken(authenticationToken);
 	}
 	
 	public void setBusinessActor(Set<IBusinessActor> businessActor) {
+		propertyChangeSupport.firePropertyChange("businessActor",getBusinessActor(),businessActor);
 		this.clearBusinessActor();
 		this.addAllToBusinessActor(businessActor);
 	}
 	
 	public void setBusinessRole(Set<IBusinessRole> businessRole) {
+		propertyChangeSupport.firePropertyChange("businessRole",getBusinessRole(),businessRole);
 		this.clearBusinessRole();
 		this.addAllToBusinessRole(businessRole);
 	}
@@ -891,6 +906,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void setCollaboration(BusinessNetwork collaboration) {
+		propertyChangeSupport.firePropertyChange("collaboration",getCollaboration(),collaboration);
 		if ( this.getCollaboration()!=null ) {
 			this.getCollaboration().z_internalRemoveFromPerson(this.getUsername(),this);
 		}
@@ -908,6 +924,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void setFirstName(String firstName) {
+		propertyChangeSupport.firePropertyChange("firstName",getFirstName(),firstName);
 		this.z_internalAddToFirstName(firstName);
 	}
 	
@@ -916,6 +933,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void setLeave(Set<Leave> leave) {
+		propertyChangeSupport.firePropertyChange("leave",getLeave(),leave);
 		this.clearLeave();
 		this.addAllToLeave(leave);
 	}
@@ -929,32 +947,39 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void setPersonFullfillsActorRole_businessActor(Set<PersonFullfillsActorRole> personFullfillsActorRole_businessActor) {
+		propertyChangeSupport.firePropertyChange("personFullfillsActorRole_businessActor",getPersonFullfillsActorRole_businessActor(),personFullfillsActorRole_businessActor);
 		this.clearPersonFullfillsActorRole_businessActor();
 		this.addAllToPersonFullfillsActorRole_businessActor(personFullfillsActorRole_businessActor);
 	}
 	
 	public void setPerson_iBusinessRole_1_businessRole(Set<Person_iBusinessRole_1> person_iBusinessRole_1_businessRole) {
+		propertyChangeSupport.firePropertyChange("person_iBusinessRole_1_businessRole",getPerson_iBusinessRole_1_businessRole(),person_iBusinessRole_1_businessRole);
 		this.clearPerson_iBusinessRole_1_businessRole();
 		this.addAllToPerson_iBusinessRole_1_businessRole(person_iBusinessRole_1_businessRole);
 	}
 	
 	public void setPhysicalAddress(PhysicalAddress physicalAddress) {
+		propertyChangeSupport.firePropertyChange("physicalAddress",getPhysicalAddress(),physicalAddress);
 		this.z_internalAddToPhysicalAddress(physicalAddress);
 	}
 	
 	public void setPostalAddress(PostalAddress postalAddress) {
+		propertyChangeSupport.firePropertyChange("postalAddress",getPostalAddress(),postalAddress);
 		this.z_internalAddToPostalAddress(postalAddress);
 	}
 	
 	public void setRefreshToken(String refreshToken) {
+		propertyChangeSupport.firePropertyChange("refreshToken",getRefreshToken(),refreshToken);
 		this.z_internalAddToRefreshToken(refreshToken);
 	}
 	
 	public void setSurname(String surname) {
+		propertyChangeSupport.firePropertyChange("surname",getSurname(),surname);
 		this.z_internalAddToSurname(surname);
 	}
 	
 	public void setTokenExpiryDateTime(Date tokenExpiryDateTime) {
+		propertyChangeSupport.firePropertyChange("tokenExpiryDateTime",getTokenExpiryDateTime(),tokenExpiryDateTime);
 		this.z_internalAddToTokenExpiryDateTime(tokenExpiryDateTime);
 	}
 	
@@ -963,6 +988,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void setUsername(String username) {
+		propertyChangeSupport.firePropertyChange("username",getUsername(),username);
 		if ( getCollaboration()!=null && getUsername()!=null ) {
 			getCollaboration().z_internalRemoveFromPerson(this.getUsername(),this);
 		}

@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.organization;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,6 +78,8 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="person_id",nullable=true)
 	private PersonNode person;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 5351150154132902312l;
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="to_date")
@@ -96,6 +100,10 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	public Leave() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -155,7 +163,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3694564450390573092l,uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3694564450390573092l,uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
 	public Date getFromDate() {
 		Date result = this.fromDate;
@@ -183,7 +191,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return getPerson();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2100864140378992430l,opposite="leave",uuid="252060@_UvR3UUt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2100864140378992430l,opposite="leave",uuid="252060@_UvR3UUt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_UvR3UUt3EeGElKTCe2jfDw")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -191,7 +199,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7751222380771627172l,uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7751222380771627172l,uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
 	public Date getToDate() {
 		Date result = this.toDate;
@@ -252,6 +260,10 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -261,6 +273,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	}
 	
 	public void setFromDate(Date fromDate) {
+		propertyChangeSupport.firePropertyChange("fromDate",getFromDate(),fromDate);
 		this.z_internalAddToFromDate(fromDate);
 	}
 	
@@ -277,6 +290,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	}
 	
 	public void setPerson(PersonNode person) {
+		propertyChangeSupport.firePropertyChange("person",getPerson(),person);
 		if ( this.getPerson()!=null ) {
 			this.getPerson().z_internalRemoveFromLeave(this);
 		}
@@ -290,6 +304,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	}
 	
 	public void setToDate(Date toDate) {
+		propertyChangeSupport.firePropertyChange("toDate",getToDate(),toDate);
 		this.z_internalAddToToDate(toDate);
 	}
 	

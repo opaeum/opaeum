@@ -35,17 +35,12 @@ public class OpaeumPage extends FormPage{
 			body.setLayout(gl);
 			gl.numColumns = ((GridPanel) opaeumPage.getPanel()).getNumberOfColumns();
 		}
-		ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput().getPersistentObject(), getOpaeumApplication().getEnvironment()
-				.getMetaInfoMap(),getOpaeumApplication().getValidator());
+		ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput().getPersistentObject(), getEditorInput());
 		EList<UimComponent> children = opaeumPage.getPanel().getChildren();
 		for(UimComponent child:children){
-			builder.addComponent(body, child);
+			builder.addComponent(body, child,getEditorInput().getDataBindingContext());
 		}
 		body.layout();
-	}
-	public IOpaeumApplication getOpaeumApplication(){
-		IOpaeumApplication opaeumApplication = getEditorInput().getOpaeumSession().getApplication();
-		return opaeumApplication;
 	}
 	public EntityEditorInput getEditorInput(){
 		EntityEditorInput eei = (EntityEditorInput) super.getEditorInput();

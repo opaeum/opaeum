@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.request;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -93,6 +95,8 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	transient private WorkflowProcessInstance processInstance;
 	@Column(name="process_instance_id")
 	private Long processInstanceId;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 8869913001046429952l;
 
 	/** This constructor is intended for easy initialization in unit tests
@@ -112,6 +116,10 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	@NumlMetaInfo(uuid="252060@_4zDaYK0wEeCTTvcJZSDicw")
 	public void abort() {
 		generateAbortEvent();
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
@@ -322,7 +330,7 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		return this.processInstanceId;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5083858478754845985l,opposite="processRequest",uuid="252060@_JY15xI3pEeCfQedkc0TCdA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5083858478754845985l,opposite="processRequest",uuid="252060@_JY15xI3pEeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_JY15xI3pEeCfQedkc0TCdA")
 	public IProcessObject getProcessObject() {
 		IProcessObject result = null;
@@ -446,6 +454,10 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	
 	public void removeFromOwningObject() {
 		this.markDeleted();
+	}
+	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
 	}
 	
 	public void setCallingNodeInstanceUniqueId(String callingNodeInstanceUniqueId) {

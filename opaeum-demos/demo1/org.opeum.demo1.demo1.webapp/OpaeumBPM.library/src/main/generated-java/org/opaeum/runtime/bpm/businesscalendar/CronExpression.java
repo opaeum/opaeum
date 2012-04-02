@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.businesscalendar;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,6 +69,8 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	private int objectVersion;
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 5460935804071936083l;
 	private String uid;
 
@@ -75,6 +79,10 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	public CronExpression() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	static public Set<? extends CronExpression> allInstances() {
 		if ( mockedAllInstances==null ) {
 			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
@@ -125,7 +133,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		to.setDayOfWeek(from.getDayOfWeek());
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=9055417578278384593l,uuid="252060@_pCvIQASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=9055417578278384593l,uuid="252060@_pCvIQASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_pCvIQASQEeGb9qsDxKJdSA")
 	public String getDayOfMonth() {
 		String result = this.dayOfMonth;
@@ -133,7 +141,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=708173574190646295l,uuid="252060@_sJLUwASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=708173574190646295l,uuid="252060@_sJLUwASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_sJLUwASQEeGb9qsDxKJdSA")
 	public String getDayOfWeek() {
 		String result = this.dayOfWeek;
@@ -145,7 +153,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=220906512785518639l,uuid="252060@_nh_HMASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=220906512785518639l,uuid="252060@_nh_HMASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_nh_HMASQEeGb9qsDxKJdSA")
 	public String getHours() {
 		String result = this.hours;
@@ -157,7 +165,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5291683613794914355l,uuid="252060@_m6UqQASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5291683613794914355l,uuid="252060@_m6UqQASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_m6UqQASQEeGb9qsDxKJdSA")
 	public String getMinutes() {
 		String result = this.minutes;
@@ -165,7 +173,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7632703191246202423l,uuid="252060@_qpRBMASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7632703191246202423l,uuid="252060@_qpRBMASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_qpRBMASQEeGb9qsDxKJdSA")
 	public String getMonth() {
 		String result = this.month;
@@ -218,11 +226,17 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setDayOfMonth(String dayOfMonth) {
+		propertyChangeSupport.firePropertyChange("dayOfMonth",getDayOfMonth(),dayOfMonth);
 		this.z_internalAddToDayOfMonth(dayOfMonth);
 	}
 	
 	public void setDayOfWeek(String dayOfWeek) {
+		propertyChangeSupport.firePropertyChange("dayOfWeek",getDayOfWeek(),dayOfWeek);
 		this.z_internalAddToDayOfWeek(dayOfWeek);
 	}
 	
@@ -231,6 +245,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	}
 	
 	public void setHours(String hours) {
+		propertyChangeSupport.firePropertyChange("hours",getHours(),hours);
 		this.z_internalAddToHours(hours);
 	}
 	
@@ -239,10 +254,12 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	}
 	
 	public void setMinutes(String minutes) {
+		propertyChangeSupport.firePropertyChange("minutes",getMinutes(),minutes);
 		this.z_internalAddToMinutes(minutes);
 	}
 	
 	public void setMonth(String month) {
+		propertyChangeSupport.firePropertyChange("month",getMonth(),month);
 		this.z_internalAddToMonth(month);
 	}
 	

@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.contact;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,7 +69,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Email(groups={},message="",payload={})
+	@Email(groups={},message="Invalid e-mail address format",payload={})
 	@Column(name="email_address")
 	private String emailAddress;
 	@Id
@@ -85,6 +87,8 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 1041028322921096628l;
 	@Type(type="org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeResolver")
 	@Column(name="type",nullable=true)
@@ -109,6 +113,10 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 	public OrganizationEMailAddress() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -168,7 +176,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5531057527551508520l,uuid="252060@_jaw6AHr7EeGX8L_MMRBizg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5531057527551508520l,uuid="252060@_jaw6AHr7EeGX8L_MMRBizg")
 	@NumlMetaInfo(uuid="252060@_jaw6AHr7EeGX8L_MMRBizg")
 	public String getEmailAddress() {
 		String result = this.emailAddress;
@@ -188,7 +196,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8005294553343313076l,opposite="eMailAddress",uuid="252060@_JGNOUUtqEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8005294553343313076l,opposite="eMailAddress",uuid="252060@_JGNOUUtqEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_JGNOUUtqEeGd4cpyhpib9Q")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -204,7 +212,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 		return getOrganization();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=394850772574497840l,opposite="organizationEMailAddress",uuid="252060@_Ju-ehEtqEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=394850772574497840l,opposite="organizationEMailAddress",uuid="252060@_Ju-ehEtqEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_Ju-ehEtqEeGd4cpyhpib9Q")
 	public OrganizationEMailAddressType getType() {
 		OrganizationEMailAddressType result = this.type;
@@ -269,6 +277,10 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -278,6 +290,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 	}
 	
 	public void setEmailAddress(String emailAddress) {
+		propertyChangeSupport.firePropertyChange("emailAddress",getEmailAddress(),emailAddress);
 		this.z_internalAddToEmailAddress(emailAddress);
 	}
 	
@@ -290,6 +303,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 	}
 	
 	public void setOrganization(OrganizationNode organization) {
+		propertyChangeSupport.firePropertyChange("organization",getOrganization(),organization);
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
@@ -307,6 +321,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 	}
 	
 	public void setType(OrganizationEMailAddressType type) {
+		propertyChangeSupport.firePropertyChange("type",getType(),type);
 		if ( getOrganization()!=null && getType()!=null ) {
 			getOrganization().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}

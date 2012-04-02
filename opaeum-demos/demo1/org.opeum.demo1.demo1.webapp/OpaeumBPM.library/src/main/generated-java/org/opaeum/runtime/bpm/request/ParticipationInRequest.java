@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.request;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,6 +68,8 @@ public class ParticipationInRequest extends Participation implements IPersistent
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	@Index(columnNames="request_id",name="idx_participation_in_request_request_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="request_id",nullable=true)
@@ -86,6 +90,10 @@ public class ParticipationInRequest extends Participation implements IPersistent
 	public ParticipationInRequest() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -141,7 +149,7 @@ public class ParticipationInRequest extends Participation implements IPersistent
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3310250841268333114l,opposite="participationInRequest",uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3310250841268333114l,opposite="participationInRequest",uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
 	public RequestParticipationKind getKind() {
 		RequestParticipationKind result = this.kind;
@@ -161,7 +169,7 @@ public class ParticipationInRequest extends Participation implements IPersistent
 		return getRequest();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=440094146247750780l,opposite="participationInRequest",uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=440094146247750780l,opposite="participationInRequest",uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
 	public AbstractRequest getRequest() {
 		AbstractRequest result = this.request;
@@ -229,6 +237,10 @@ public class ParticipationInRequest extends Participation implements IPersistent
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -239,6 +251,7 @@ public class ParticipationInRequest extends Participation implements IPersistent
 	}
 	
 	public void setKind(RequestParticipationKind kind) {
+		propertyChangeSupport.firePropertyChange("kind",getKind(),kind);
 		this.z_internalAddToKind(kind);
 	}
 	
@@ -247,6 +260,7 @@ public class ParticipationInRequest extends Participation implements IPersistent
 	}
 	
 	public void setRequest(AbstractRequest request) {
+		propertyChangeSupport.firePropertyChange("request",getRequest(),request);
 		if ( this.getRequest()!=null ) {
 			this.getRequest().z_internalRemoveFromParticipationInRequest(this);
 		}

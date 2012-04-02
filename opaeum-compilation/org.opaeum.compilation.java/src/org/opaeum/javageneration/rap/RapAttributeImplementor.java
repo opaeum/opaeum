@@ -1,0 +1,52 @@
+package org.opaeum.javageneration.rap;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+import org.opaeum.feature.StepDependency;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.hibernate.HibernateAttributeImplementor;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
+
+@StepDependency(phase = JavaTransformationPhase.class,replaces = HibernateAttributeImplementor.class)
+public class RapAttributeImplementor extends HibernateAttributeImplementor{
+	@Override
+	protected OJOperation buildSetter(INakedClassifier umlOwner,OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+		OJOperation setter = super.buildSetter(umlOwner, owner, map);
+		setter.getBody().addToStatements(
+				0,
+				new OJSimpleStatement("propertyChangeSupport.firePropertyChange(\"" + map.umlName() + "\"," + map.getter() + "(),"
+						+ map.fieldname() + ")"));
+		return setter;
+	}
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+		OJAnnotatedField support = new OJAnnotatedField("propertyChangeSupport", new OJPathName(PropertyChangeSupport.class.getName()));
+		OJAnnotatedClass ojClass = findJavaClass(umlOwner);
+		ojClass.addToFields(support);
+		support.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+		support.setInitExp("new PropertyChangeSupport(this)");
+		OJAnnotatedOperation remove = new OJAnnotatedOperation("removePropertyChangeListener");
+		ojClass.addToOperations(remove);
+		remove.addParam("property", new OJPathName("String"));
+		remove.addParam("listener", new OJPathName(PropertyChangeListener.class.getName()));
+		remove.getBody().addToStatements("propertyChangeSupport.removePropertyChangeListener(property,listener)");
+		OJAnnotatedOperation add = new OJAnnotatedOperation("addPropertyChangeListener");
+		ojClass.addToOperations(add);
+		add.addParam("property", new OJPathName("String"));
+		add.addParam("listener", new OJPathName(PropertyChangeListener.class.getName()));
+		add.getBody().addToStatements("propertyChangeSupport.addPropertyChangeListener(property,listener)");
+		// TODO Auto-generated method stub
+		super.visitComplexStructure(umlOwner);
+	}
+}

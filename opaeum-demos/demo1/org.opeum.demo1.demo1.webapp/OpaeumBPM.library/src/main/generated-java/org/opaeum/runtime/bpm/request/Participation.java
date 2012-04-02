@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.request;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,6 +82,8 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 	private InterfaceValue participant = new InterfaceValue();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 3694398622584451528l;
 	private String uid;
 
@@ -88,6 +92,10 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 	public Participation() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -156,7 +164,7 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 		return null;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1801402104881341029l,opposite="participation",uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1801402104881341029l,opposite="participation",uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	public Participant getParticipant() {
 		Participant result = (Participant)this.participant.getValue(persistence);
@@ -225,6 +233,10 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -246,6 +258,7 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 	}
 	
 	public void setParticipant(Participant participant) {
+		propertyChangeSupport.firePropertyChange("participant",getParticipant(),participant);
 		if ( this.getParticipant()!=null ) {
 			this.getParticipant().z_internalRemoveFromParticipation(this);
 		}

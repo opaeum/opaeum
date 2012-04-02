@@ -39,7 +39,7 @@ public class OpenEditorAction extends SelectionProviderAction{
 	public void run(){
 		IStructuredSelection structuredSelection = getStructuredSelection();
 		Object firstElement = structuredSelection.getFirstElement();
-		openEditor(firstElement, true,opaeumSession);
+		openEditor(firstElement, true, opaeumSession);
 	}
 	public static boolean openEditor(final Object entity,final boolean showMessage,OpaeumRapSession opaeumSession){
 		boolean result = false;
@@ -47,9 +47,16 @@ public class OpenEditorAction extends SelectionProviderAction{
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		IWorkbenchPage activePage = window.getActivePage();
 		if(canOpen(activePage)){
-			IPersistentObject po = ((PersistentObjectTreeItem) entity).getEntity();
+			IPersistentObject po = null;
+			if(entity instanceof PersistentObjectTreeItem){
+				po = ((PersistentObjectTreeItem) entity).getEntity();
+			}else if(entity instanceof IPersistentObject){
+				po = (IPersistentObject) entity;
+			}
 			Image image = Activator.getDefault().getImage(Activator.IMG_PROJECT);
-			IEditorInput input = new EntityEditorInput(po, "Edit " + IntrospectionUtil.getOriginalClass(po).getSimpleName() + ": "+  po.getName(), ImageDescriptor.createFromImage(image),opaeumSession);
+			IEditorInput input = new EntityEditorInput(po,
+					"Edit " + IntrospectionUtil.getOriginalClass(po).getSimpleName() + ": " + po.getName(), ImageDescriptor.createFromImage(image),
+					opaeumSession);
 			IEditorReference[] refs = activePage.getEditorReferences();
 			boolean found = false;
 			for(int i = 0;!found && i < refs.length;i++){

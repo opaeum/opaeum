@@ -1,5 +1,7 @@
 package structuredbusiness;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,6 +90,8 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 7267980829799356539l;
 	private String uid;
 
@@ -105,6 +109,10 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	public IdBook() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -178,7 +186,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDateOfBirthSourcePopulation",opaeumId=1406233976933179724l,uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1406233976933179724l,uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
 	public Date getDateOfBirth() {
 		Date result = this.dateOfBirth;
@@ -190,7 +198,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDishwashersIncSourcePopulation",opaeumId=3496196660294374553l,opposite="idBook",uuid="914890@_0EgusXHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3496196660294374553l,opposite="idBook",uuid="914890@_0EgusXHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0EgusXHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -198,7 +206,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDocumentTypeSourcePopulation",opaeumId=759998593327277107l,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=759998593327277107l,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	@NumlMetaInfo(uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	public DocumentType getDocumentType() {
 		DocumentType result = this.documentType;
@@ -206,7 +214,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getFullNamesSourcePopulation",opaeumId=8379936838922333184l,uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8379936838922333184l,uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
 	public String getFullNames() {
 		String result = this.fullNames;
@@ -218,7 +226,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getIdNumberSourcePopulation",opaeumId=3895930087602592634l,uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3895930087602592634l,uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
 	public String getIdNumber() {
 		String result = this.idNumber;
@@ -296,11 +304,16 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
 	
 	public void setDateOfBirth(Date dateOfBirth) {
+		propertyChangeSupport.firePropertyChange("dateOfBirth",getDateOfBirth(),dateOfBirth);
 		this.z_internalAddToDateOfBirth(dateOfBirth);
 	}
 	
@@ -309,6 +322,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
+		propertyChangeSupport.firePropertyChange("dishwashersInc",getDishwashersInc(),dishwashersInc);
 		if ( this.getDishwashersInc()!=null ) {
 			this.getDishwashersInc().z_internalRemoveFromIdBook(this);
 		}
@@ -322,10 +336,12 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void setDocumentType(DocumentType documentType) {
+		propertyChangeSupport.firePropertyChange("documentType",getDocumentType(),documentType);
 		this.z_internalAddToDocumentType(documentType);
 	}
 	
 	public void setFullNames(String fullNames) {
+		propertyChangeSupport.firePropertyChange("fullNames",getFullNames(),fullNames);
 		this.z_internalAddToFullNames(fullNames);
 	}
 	
@@ -334,6 +350,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void setIdNumber(String idNumber) {
+		propertyChangeSupport.firePropertyChange("idNumber",getIdNumber(),idNumber);
 		this.z_internalAddToIdNumber(idNumber);
 	}
 	

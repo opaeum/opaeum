@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.organization;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,6 +74,8 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 	private int objectVersion;
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	@Index(columnNames="represented_organization_id",name="idx_organization_i_business_component_1_represented_organization_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="represented_organization_id",nullable=true)
@@ -104,6 +108,10 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 	public Organization_iBusinessComponent_1() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -143,7 +151,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=736417380271461952l,opposite="organization_iBusinessComponent_1_representedOrganization",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=736417380271461952l,opposite="organization_iBusinessComponent_1_representedOrganization",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public IBusinessComponent getBusinessComponent() {
 		IBusinessComponent result = (IBusinessComponent)this.businessComponent.getValue(persistence);
@@ -171,7 +179,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 		return getBusinessComponent();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5468800036735903732l,opposite="organization_iBusinessComponent_1_businessComponent",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf2LYFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5468800036735903732l,opposite="organization_iBusinessComponent_1_businessComponent",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf2LYFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf2LYFYuEeGj5_I7bIwNoA")
 	public OrganizationNode getRepresentedOrganization() {
 		OrganizationNode result = this.representedOrganization;
@@ -240,8 +248,13 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessComponent(IBusinessComponent businessComponent) {
 		IBusinessComponent oldValue = this.getBusinessComponent();
+		propertyChangeSupport.firePropertyChange("businessComponent",getBusinessComponent(),businessComponent);
 		if ( oldValue==null ) {
 			if ( businessComponent!=null ) {
 				Organization_iBusinessComponent_1 oldOther = (Organization_iBusinessComponent_1)businessComponent.getOrganization_iBusinessComponent_1_representedOrganization();
@@ -282,6 +295,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 	}
 	
 	public void setRepresentedOrganization(OrganizationNode representedOrganization) {
+		propertyChangeSupport.firePropertyChange("representedOrganization",getRepresentedOrganization(),representedOrganization);
 		if ( this.getRepresentedOrganization()!=null ) {
 			this.getRepresentedOrganization().z_internalRemoveFromOrganization_iBusinessComponent_1_businessComponent(this);
 		}

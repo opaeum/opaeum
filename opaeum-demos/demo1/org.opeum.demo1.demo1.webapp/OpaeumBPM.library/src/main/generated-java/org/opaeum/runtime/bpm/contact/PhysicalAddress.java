@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.contact;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,6 +60,8 @@ public class PhysicalAddress extends Address implements IPersistentObject, IEven
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 3794601824342079784l;
 
 	/** Default constructor for PhysicalAddress
@@ -65,6 +69,10 @@ public class PhysicalAddress extends Address implements IPersistentObject, IEven
 	public PhysicalAddress() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -193,6 +201,10 @@ public class PhysicalAddress extends Address implements IPersistentObject, IEven
 	
 	public void removeFromOwningObject() {
 		this.markDeleted();
+	}
+	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {

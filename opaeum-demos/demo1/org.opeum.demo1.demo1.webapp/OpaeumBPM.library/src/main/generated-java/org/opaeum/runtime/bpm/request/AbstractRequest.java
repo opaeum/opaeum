@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.request;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -117,6 +119,8 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	transient private WorkflowProcessInstance processInstance;
 	@Column(name="process_instance_id")
 	private Long processInstanceId;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 8866332427474042484l;
 	private String uid;
 
@@ -134,6 +138,10 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		for ( ParticipationInRequest o : participationInRequest ) {
 			addToParticipationInRequest(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	@NumlMetaInfo(uuid="252060@_Qo338I6QEeCrtavWRHwoHg")
@@ -426,7 +434,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return null;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5501213897228443240l,opposite="subRequests",uuid="252060@_towFgY29EeCrtavWRHwoHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5501213897228443240l,opposite="subRequests",uuid="252060@_towFgY29EeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_towFgY29EeCrtavWRHwoHg")
 	public TaskRequest getParentTask() {
 		TaskRequest result = this.parentTask;
@@ -434,7 +442,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=3022263813028286216l,opposite="request",uuid="252060@_XLHkUI6NEeCrtavWRHwoHg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3022263813028286216l,opposite="request",uuid="252060@_XLHkUI6NEeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_XLHkUI6NEeCrtavWRHwoHg")
 	public Set<ParticipationInRequest> getParticipationInRequest() {
 		Set<ParticipationInRequest> result = this.participationInRequest;
@@ -460,7 +468,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return this.processInstanceId;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8918582809852333993l,opposite="request",uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8918582809852333993l,opposite="request",uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
 	public IRequestObject getRequestObject() {
 		IRequestObject result = null;
@@ -598,6 +606,10 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	@NumlMetaInfo(uuid="252060@_Nl5kQI6SEeCrtavWRHwoHg")
 	public void removeRequestParticipant(@ParameterMetaInfo(name="participant",opaeumId=5904449775692844716l,uuid="252060@_P68JAI6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(name="kind",opaeumId=5058842751504084224l,uuid="252060@_P8scgI6SEeCrtavWRHwoHg") RequestParticipationKind kind) {
 		AbstractRequest tgtRemoveParticipation=this;
@@ -650,6 +662,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	}
 	
 	public void setParentTask(TaskRequest parentTask) {
+		propertyChangeSupport.firePropertyChange("parentTask",getParentTask(),parentTask);
 		if ( this.getParentTask()!=null ) {
 			this.getParentTask().z_internalRemoveFromSubRequests(this);
 		}
@@ -660,6 +673,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	}
 	
 	public void setParticipationInRequest(Set<ParticipationInRequest> participationInRequest) {
+		propertyChangeSupport.firePropertyChange("participationInRequest",getParticipationInRequest(),participationInRequest);
 		this.clearParticipationInRequest();
 		this.addAllToParticipationInRequest(participationInRequest);
 	}

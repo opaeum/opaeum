@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.businesscalendar;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,6 +69,8 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	private int objectVersion;
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 2904073007558910507l;
 	private String uid;
 
@@ -77,6 +81,10 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		this.setHours( 0 );
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	static public Set<? extends TimeOfDay> allInstances() {
 		if ( mockedAllInstances==null ) {
 			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
@@ -116,7 +124,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6786898535260920075l,uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6786898535260920075l,uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
 	public Integer getHours() {
 		Integer result = this.hours;
@@ -128,7 +136,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3808798176605930566l,uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3808798176605930566l,uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	@NumlMetaInfo(uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	public Integer getMinuteOfDay() {
 		Integer result = (this.getHours() * 60) + this.getMinutes();
@@ -136,7 +144,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5836556839916014923l,uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5836556839916014923l,uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
 	public Integer getMinutes() {
 		Integer result = this.minutes;
@@ -189,11 +197,16 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
 	}
 	
 	public void setHours(Integer hours) {
+		propertyChangeSupport.firePropertyChange("hours",getHours(),hours);
 		this.z_internalAddToHours(hours);
 	}
 	
@@ -202,6 +215,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	}
 	
 	public void setMinutes(Integer minutes) {
+		propertyChangeSupport.firePropertyChange("minutes",getMinutes(),minutes);
 		this.z_internalAddToMinutes(minutes);
 	}
 	

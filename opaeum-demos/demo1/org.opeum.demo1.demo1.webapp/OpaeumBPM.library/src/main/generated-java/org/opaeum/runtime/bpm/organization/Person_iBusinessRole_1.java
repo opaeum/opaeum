@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.organization;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,6 +74,8 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	private int objectVersion;
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	@Index(columnNames="represented_person_id",name="idx_person_i_business_role_1_represented_person_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="represented_person_id",nullable=true)
@@ -104,6 +108,10 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	public Person_iBusinessRole_1() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -143,7 +151,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4277904497685277802l,opposite="person_iBusinessRole_1_representedPerson",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lcZgVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4277904497685277802l,opposite="person_iBusinessRole_1_representedPerson",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	public IBusinessRole getBusinessRole() {
 		IBusinessRole result = (IBusinessRole)this.businessRole.getValue(persistence);
@@ -171,7 +179,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		return getBusinessRole();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7968352312603460268l,opposite="person_iBusinessRole_1_businessRole",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lakUFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7968352312603460268l,opposite="person_iBusinessRole_1_businessRole",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lakUFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lakUFYuEeGj5_I7bIwNoA")
 	public PersonNode getRepresentedPerson() {
 		PersonNode result = this.representedPerson;
@@ -240,8 +248,13 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessRole(IBusinessRole businessRole) {
 		IBusinessRole oldValue = this.getBusinessRole();
+		propertyChangeSupport.firePropertyChange("businessRole",getBusinessRole(),businessRole);
 		if ( oldValue==null ) {
 			if ( businessRole!=null ) {
 				Person_iBusinessRole_1 oldOther = (Person_iBusinessRole_1)businessRole.getPerson_iBusinessRole_1_representedPerson();
@@ -282,6 +295,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	}
 	
 	public void setRepresentedPerson(PersonNode representedPerson) {
+		propertyChangeSupport.firePropertyChange("representedPerson",getRepresentedPerson(),representedPerson);
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromPerson_iBusinessRole_1_businessRole(this);
 		}

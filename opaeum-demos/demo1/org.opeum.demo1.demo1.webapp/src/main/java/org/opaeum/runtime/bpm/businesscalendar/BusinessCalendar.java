@@ -319,21 +319,21 @@ public class BusinessCalendar extends BusinessCalendarGenerated{
 	}
 	@Override
 	public Integer getBusinessDaysPerMonth(){
-		if(super.getBusinessDaysPerMonth() == 0){
-			super.setBusinessDaysPerMonth(21);
+		if(super.getBusinessDaysPerMonth()==null || super.getBusinessDaysPerMonth() == 0){
+			super.z_internalAddToBusinessDaysPerMonth(21);
 		}
 		return super.getBusinessDaysPerMonth();
 	}
 	public Double getBusinessHoursPerDay(){
-		if(super.getBusinessHoursPerDay() == 0){
-			super.setBusinessHoursPerDay(getWorkDay(WorkDayKind.WEEKDAY).getMinutesPerDay().doubleValue() / 60);
+		if(super.getBusinessHoursPerDay()==null || super.getBusinessHoursPerDay() == 0){
+			super.z_internalAddToBusinessHoursPerDay(getWorkDay(WorkDayKind.WEEKDAY).getMinutesPerDay().doubleValue() / 60);
 		}
 		return super.getBusinessHoursPerDay();
 	}
 	@Override
 	public Double getBusinessHoursPerWeek(){
-		if(super.getBusinessHoursPerWeek() == 0){
-			super.setBusinessHoursPerWeek(getBusinessHoursPerDay() * 5 + (getWorkDay(WorkDayKind.SATURDAY).getMinutesPerDay())
+		if(super.getBusinessHoursPerWeek()==null || super.getBusinessHoursPerWeek() == 0){
+			super.z_internalAddToBusinessHoursPerWeek(getBusinessHoursPerDay() * 5 + (getWorkDay(WorkDayKind.SATURDAY).getMinutesPerDay())
 					+ getWorkDay(WorkDayKind.SUNDAY).getMinutesPerDay());
 		}
 		return super.getBusinessHoursPerWeek();

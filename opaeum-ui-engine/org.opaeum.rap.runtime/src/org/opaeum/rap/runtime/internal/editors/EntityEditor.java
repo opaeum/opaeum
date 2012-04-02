@@ -2,13 +2,26 @@ package org.opaeum.rap.runtime.internal.editors;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Iterator;
+import java.util.UUID;
 
+import org.eclipse.core.databinding.Binding;
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.ValidationStatusProvider;
+import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.value.AbstractObservableValue;
+import org.eclipse.core.databinding.observable.value.ComputedValue;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.internal.databinding.beans.BeanObservableValueDecorator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.databinding.swt.ISWTObservable;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -19,7 +32,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -36,7 +48,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.HyperlinkSettings;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.IMessage;
-import org.eclipse.ui.forms.IMessageManager;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.editor.SharedHeaderFormEditor;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
@@ -44,9 +55,7 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.statushandlers.StatusManager;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -56,10 +65,10 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.rap.runtime.IOpaeumApplication;
+import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.datamodel.EntityEditorInput;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
-import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.editor.EditorPage;
@@ -67,7 +76,6 @@ import org.opaeum.uim.editor.EditorPage;
 public class EntityEditor extends SharedHeaderFormEditor implements ISelectionListener{
 	private static final long serialVersionUID = 11231512131231L;
 	private FormPage[] editorPages;
-	ConversationalPersistence persistence;
 	private final class SelectionProvider implements ISelectionProvider{
 		public void addSelectionChangedListener(final ISelectionChangedListener listener){
 		}
@@ -87,7 +95,6 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		setTitleImage(input.getImageDescriptor().createImage());
 		getSite().getPage().addSelectionListener(this);
 		getSite().setSelectionProvider(new SelectionProvider());
-		persistence = getOpaeumApplication().getEnvironment().createConversationalPersistence();
 	}
 	protected void createHeaderContents(final IManagedForm headerForm){
 		final FormToolkit toolkit = headerForm.getToolkit();
@@ -98,45 +105,88 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		Composite headerClient = new Composite(section, SWT.NONE);
 		section.setClient(headerClient);
 		EObject rootUimObject = getRootUimObject();
+		final DataBindingContext bc = getEditorInput().getDataBindingContext();
 		if(rootUimObject instanceof ClassUserInteractionModel){
 			GridLayout gl = new GridLayout();
 			headerClient.setLayout(gl);
 			gl.numColumns = 20;
 			ClassUserInteractionModel cuim = (ClassUserInteractionModel) rootUimObject;
 			EList<UimComponent> children = cuim.getPrimaryEditor().getActionBar().getChildren();
-			ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput().getPersistentObject(), getOpaeumApplication()
-					.getEnvironment().getMetaInfoMap(), getOpaeumApplication().getValidator());
+			ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput().getPersistentObject(), getEditorInput());
 			for(UimComponent uimComponent:children){
-				builder.addComponent(headerClient, uimComponent);
+				builder.addComponent(headerClient, uimComponent, bc);
 			}
 			section.getParent().layout();
 		}
 		toolkit.getHyperlinkGroup().setHyperlinkUnderlineMode(HyperlinkSettings.UNDERLINE_HOVER);
 		toolkit.decorateFormHeading(headerForm.getForm().getForm());
+		IObservableValue errorObservable = new AbstractObservableValue(){
+			Object status;
+			public Object getValueType(){
+				return Object.class;
+			}
+			@Override
+			protected Object doGetValue(){
+				return status;
+			}
+			protected void doSetValue(Object value){
+				status = value;
+			}
+		};
+		// This one listenes to all changes
+		ComputedValue computedValue = new ComputedValue(bc.getValidationRealm(), Object.class){
+			@Override
+			protected Object calculate(){
+				getHeaderForm().getForm().getForm().getMessageManager().removeAllMessages();
+				MultiStatus statuses = new MultiStatus(Activator.ID, Status.ERROR, "Multiple Problems", null);
+				for(Iterator it = bc.getValidationStatusProviders().iterator();it.hasNext();){
+					ValidationStatusProvider validationStatusProvider = (ValidationStatusProvider) it.next();
+					IStatus status = (IStatus) validationStatusProvider.getValidationStatus().getValue();
+					if(!status.isOK()){
+						addMessages(getHeaderForm(), status);
+					}
+				}
+				return Status.OK;
+			}
+			private void addMessages(final IManagedForm headerForm,IStatus status2){
+				if(status2 instanceof MultiStatus){
+					IStatus[] children = status2.getChildren();
+					for(IStatus s:children){
+						addMessages(headerForm, s);
+					}
+				}else if(!status2.isOK()){
+					headerForm.getForm().getForm().getMessageManager()
+							.addMessage(UUID.randomUUID(), getMessage(status2), null, IMessageProvider.ERROR);
+				}
+			}
+			private String getMessage(IStatus status2){
+				return status2.getMessage() == null || status2.getMessage().length() == 0 ? "Unkown validation error" : status2.getMessage();
+			}
+		};
+		bc.bindValue(errorObservable, computedValue/* new AggregateValidationStatus(bc, AggregateValidationStatus.MAX_SEVERITY) */, null, null);
 		headerForm.getForm().getForm().addMessageHyperlinkListener(new HyperlinkAdapter(){
 			public void linkActivated(HyperlinkEvent e){
-//				String title = e.getLabel();
-//				Object href = e.getHref();
-//				if(href instanceof IMessage[]){
-//				}
-//				Point hl = ((Control) e.widget).toDisplay(0, 0);
-//				hl.x += 10;
-//				hl.y += 10;
-//				Shell shell = new Shell(headerForm.getForm().getShell(), SWT.ON_TOP | SWT.TOOL);
-//				shell.setImage(getImage(headerForm. getForm().getForm().getMessageType()));
-//				shell.setText(title);
-//				shell.setLayout(new FillLayout());
-//				FormText text = toolkit.createFormText(shell, true);
-//				configureFormText(headerForm. getForm().getForm(), text);
-//				if(href instanceof IMessage[]){
-//					text.setText(createFormTextContent((IMessage[]) href), true, false);
-//				}
-//				shell.setLocation(hl);
-//				shell.pack();
-//				shell.open();
+				String title = e.getLabel();
+				Object href = e.getHref();
+				if(href instanceof IMessage[]){
+				}
+				Point hl = ((Control) e.widget).toDisplay(0, 0);
+				hl.x += 10;
+				hl.y += 10;
+				Shell shell = new Shell(headerForm.getForm().getShell(), SWT.ON_TOP | SWT.TOOL);
+				shell.setImage(getImage(headerForm.getForm().getForm().getMessageType()));
+				shell.setText(title);
+				shell.setLayout(new FillLayout());
+				FormText text = toolkit.createFormText(shell, true);
+				configureFormText(headerForm.getForm().getForm(), text);
+				if(href instanceof IMessage[]){
+					text.setText(createFormTextContent((IMessage[]) href), true, false);
+				}
+				shell.setLocation(hl);
+				shell.pack();
+				shell.open();
 			}
 		});
-		headerForm.getForm().getForm().getMessageManager().addMessage("asdf", "1251245125145", null, IMessageProvider.ERROR);
 	}
 	private Image getImage(int type){
 		switch(type){
@@ -169,7 +219,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		text.setImage("warning", getImage(IMessageProvider.WARNING));
 		text.setImage("info", getImage(IMessageProvider.INFORMATION));
 	}
-	String createFormTextContent(IMessage[] messages){
+	private String createFormTextContent(IMessage[] messages){
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		pw.println("<form>");
@@ -255,14 +305,14 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		for(int i = 0;i < editorPages.length;i++){
 			editorPages[i].doSave(monitor);
 		}
+		getEditorInput().getPersistence().flush();
 	}
 	@Override
 	public boolean isDirty(){
-		return true;
+		return getEditorInput().isDirty();
 	}
 	@Override
 	public void doSaveAs(){
-		persistence.flush();
 	}
 	@Override
 	public boolean isSaveAsAllowed(){

@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.businesscalendar;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,6 +90,8 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 5790311637175134369l;
 	@ManyToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="start_time_id",nullable=true)
@@ -112,6 +116,10 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	public WorkDay() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -221,7 +229,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1754968245033077063l,opposite="workDay",uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1754968245033077063l,opposite="workDay",uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -237,7 +245,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=1916778051938121831l,opposite="workDay",uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=1916778051938121831l,opposite="workDay",uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getEndTime() {
 		TimeOfDay result = this.endTime;
@@ -249,7 +257,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=378853448039264835l,opposite="workDay",uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=378853448039264835l,opposite="workDay",uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
 	public WorkDayKind getKind() {
 		WorkDayKind result = this.kind;
@@ -257,7 +265,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4204288269954036939l,uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4204288269954036939l,uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
 	@NumlMetaInfo(uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
 	public Integer getMinutesPerDay() {
 		Integer result = (this.getEndTime().getMinuteOfDay() - this.getStartTime().getMinuteOfDay());
@@ -281,7 +289,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return getBusinessCalendar();
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=3879474800558390783l,opposite="workDay",uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3879474800558390783l,opposite="workDay",uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getStartTime() {
 		TimeOfDay result = this.startTime;
@@ -371,7 +379,12 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessCalendar(BusinessCalendar businessCalendar) {
+		propertyChangeSupport.firePropertyChange("businessCalendar",getBusinessCalendar(),businessCalendar);
 		if ( this.getBusinessCalendar()!=null ) {
 			this.getBusinessCalendar().z_internalRemoveFromWorkDay(this.getKind(),this);
 		}
@@ -393,6 +406,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setEndTime(TimeOfDay endTime) {
+		propertyChangeSupport.firePropertyChange("endTime",getEndTime(),endTime);
 		this.z_internalAddToEndTime(endTime);
 	}
 	
@@ -401,6 +415,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setKind(WorkDayKind kind) {
+		propertyChangeSupport.firePropertyChange("kind",getKind(),kind);
 		if ( getBusinessCalendar()!=null && getKind()!=null ) {
 			getBusinessCalendar().z_internalRemoveFromWorkDay(this.getKind(),this);
 		}
@@ -419,6 +434,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setStartTime(TimeOfDay startTime) {
+		propertyChangeSupport.firePropertyChange("startTime",getStartTime(),startTime);
 		this.z_internalAddToStartTime(startTime);
 	}
 	

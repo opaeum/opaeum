@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.businesscalendar;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,6 +64,8 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 	private int objectVersion;
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	@Column(name="quantity")
 	private Double quantity;
 	static final private long serialVersionUID = 6916267881564579221l;
@@ -75,6 +79,10 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 	public Duration() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	static public Set<? extends Duration> allInstances() {
 		if ( mockedAllInstances==null ) {
 			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
@@ -119,7 +127,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6322466500479470605l,uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6322466500479470605l,uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
 	public Date getFromDate() {
 		Date result = this.fromDate;
@@ -139,7 +147,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6914589408308567071l,uuid="252060@_twyWUASREeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6914589408308567071l,uuid="252060@_twyWUASREeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_twyWUASREeGb9qsDxKJdSA")
 	public Double getQuantity() {
 		Double result = this.quantity;
@@ -147,7 +155,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=534845350479709337l,uuid="252060@_sa4TUASREeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=534845350479709337l,uuid="252060@_sa4TUASREeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_sa4TUASREeGb9qsDxKJdSA")
 	public BusinessTimeUnit getTimeUnit() {
 		BusinessTimeUnit result = this.timeUnit;
@@ -192,11 +200,16 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
 	}
 	
 	public void setFromDate(Date fromDate) {
+		propertyChangeSupport.firePropertyChange("fromDate",getFromDate(),fromDate);
 		this.z_internalAddToFromDate(fromDate);
 	}
 	
@@ -209,10 +222,12 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 	}
 	
 	public void setQuantity(Double quantity) {
+		propertyChangeSupport.firePropertyChange("quantity",getQuantity(),quantity);
 		this.z_internalAddToQuantity(quantity);
 	}
 	
 	public void setTimeUnit(BusinessTimeUnit timeUnit) {
+		propertyChangeSupport.firePropertyChange("timeUnit",getTimeUnit(),timeUnit);
 		this.z_internalAddToTimeUnit(timeUnit);
 	}
 	

@@ -21,7 +21,7 @@ public interface IBusinessDocument extends HibernateEntity, CompositionNode, Ser
 	
 	public void generateMakeCopyEvent();
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=759998593327277107l,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=759998593327277107l,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	@NumlMetaInfo(uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	public DocumentType getDocumentType();
 	

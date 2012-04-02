@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.organization;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,6 +78,8 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	private OrganizationNode organization;
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 2252066632228028224l;
 	private String uid;
 
@@ -104,6 +108,10 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	public OrganizationFullfillsActorRole() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -143,7 +151,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7885609895206246713l,opposite="organizationFullfillsActorRole_organization",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7885609895206246713l,opposite="organizationFullfillsActorRole_organization",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public IBusinessActor getBusinessActor() {
 		IBusinessActor result = (IBusinessActor)this.businessActor.getValue(persistence);
@@ -167,7 +175,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7882025735278420517l,opposite="organizationFullfillsActorRole_businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7882025735278420517l,opposite="organizationFullfillsActorRole_businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -240,8 +248,13 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessActor(IBusinessActor businessActor) {
 		IBusinessActor oldValue = this.getBusinessActor();
+		propertyChangeSupport.firePropertyChange("businessActor",getBusinessActor(),businessActor);
 		if ( oldValue==null ) {
 			if ( businessActor!=null ) {
 				OrganizationFullfillsActorRole oldOther = (OrganizationFullfillsActorRole)businessActor.getOrganizationFullfillsActorRole_organization();
@@ -282,6 +295,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	}
 	
 	public void setOrganization(OrganizationNode organization) {
+		propertyChangeSupport.firePropertyChange("organization",getOrganization(),organization);
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromOrganizationFullfillsActorRole_businessActor(this);
 		}

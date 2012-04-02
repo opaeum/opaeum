@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.businesscalendar;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -91,6 +93,8 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport((BusinessCalendar)this);
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="businessCalendar",targetEntity=RecurringHoliday.class)
@@ -127,6 +131,10 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		for ( RecurringHoliday o : recurringHoliday ) {
 			addToRecurringHoliday(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	@NumlMetaInfo(uuid="252060@_NTccANcEEeCJ0dmaHEVVnw")
@@ -336,7 +344,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4593486266796409453l,uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4593486266796409453l,uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
 	public Integer getBusinessDaysPerMonth() {
 		Integer result = this.businessDaysPerMonth;
@@ -344,7 +352,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=782414597865687081l,uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=782414597865687081l,uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerDay() {
 		Double result = this.businessHoursPerDay;
@@ -352,7 +360,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3032867667035280017l,uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3032867667035280017l,uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerWeek() {
 		Double result = this.businessHoursPerWeek;
@@ -380,7 +388,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5435749030548125197l,opposite="businessCalendar",uuid="252060@_7UFI4NcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5435749030548125197l,opposite="businessCalendar",uuid="252060@_7UFI4NcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_7UFI4NcCEeCJ0dmaHEVVnw")
 	public Set<OnceOffHoliday> getOnceOffHoliday() {
 		Set<OnceOffHoliday> result = this.onceOffHoliday;
@@ -388,7 +396,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5488709261826613047l,opposite="businessCalendar",uuid="252060@_8YuD0VZFEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5488709261826613047l,opposite="businessCalendar",uuid="252060@_8YuD0VZFEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_8YuD0VZFEeGj5_I7bIwNoA")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -404,7 +412,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return getOrganization();
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5865908630178342957l,opposite="businessCalendar",uuid="252060@_xucEUNcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5865908630178342957l,opposite="businessCalendar",uuid="252060@_xucEUNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_xucEUNcCEeCJ0dmaHEVVnw")
 	public Set<RecurringHoliday> getRecurringHoliday() {
 		Set<RecurringHoliday> result = this.recurringHoliday;
@@ -427,7 +435,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2874459130083887215l,opposite="businessCalendar",uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2874459130083887215l,opposite="businessCalendar",uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
 	public Set<WorkDay> getWorkDay() {
 		Set<WorkDay> result = new HashSet<WorkDay>(this.workDay.values());
@@ -557,15 +565,22 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessDaysPerMonth(Integer businessDaysPerMonth) {
+		propertyChangeSupport.firePropertyChange("businessDaysPerMonth",getBusinessDaysPerMonth(),businessDaysPerMonth);
 		this.z_internalAddToBusinessDaysPerMonth(businessDaysPerMonth);
 	}
 	
 	public void setBusinessHoursPerDay(Double businessHoursPerDay) {
+		propertyChangeSupport.firePropertyChange("businessHoursPerDay",getBusinessHoursPerDay(),businessHoursPerDay);
 		this.z_internalAddToBusinessHoursPerDay(businessHoursPerDay);
 	}
 	
 	public void setBusinessHoursPerWeek(Double businessHoursPerWeek) {
+		propertyChangeSupport.firePropertyChange("businessHoursPerWeek",getBusinessHoursPerWeek(),businessHoursPerWeek);
 		this.z_internalAddToBusinessHoursPerWeek(businessHoursPerWeek);
 	}
 	
@@ -586,12 +601,14 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	}
 	
 	public void setOnceOffHoliday(Set<OnceOffHoliday> onceOffHoliday) {
+		propertyChangeSupport.firePropertyChange("onceOffHoliday",getOnceOffHoliday(),onceOffHoliday);
 		this.clearOnceOffHoliday();
 		this.addAllToOnceOffHoliday(onceOffHoliday);
 	}
 	
 	public void setOrganization(OrganizationNode organization) {
 		OrganizationNode oldValue = this.getOrganization();
+		propertyChangeSupport.firePropertyChange("organization",getOrganization(),organization);
 		if ( oldValue==null ) {
 			if ( organization!=null ) {
 				BusinessCalendar oldOther = (BusinessCalendar)organization.getBusinessCalendar();
@@ -624,6 +641,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	}
 	
 	public void setRecurringHoliday(Set<RecurringHoliday> recurringHoliday) {
+		propertyChangeSupport.firePropertyChange("recurringHoliday",getRecurringHoliday(),recurringHoliday);
 		this.clearRecurringHoliday();
 		this.addAllToRecurringHoliday(recurringHoliday);
 	}

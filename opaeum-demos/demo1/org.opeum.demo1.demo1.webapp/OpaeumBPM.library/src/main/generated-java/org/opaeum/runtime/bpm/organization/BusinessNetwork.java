@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.organization;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +89,8 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="collaboration",targetEntity=PersonNode.class)
 	@MapKey(name="z_keyOfPersonOnBusinessNetwork")
 	private Map<String, PersonNode> person = new HashMap<String,PersonNode>();
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 2395627898464121473l;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
@@ -121,6 +125,10 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		for ( Structuredbusiness o : structuredbusiness ) {
 			addToStructuredbusiness(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	public void addToBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
@@ -324,7 +332,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2189163074731335617l,opposite="businessNetwork",uuid="252060@_YJETMFYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2189163074731335617l,opposite="businessNetwork",uuid="252060@_YJETMFYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJETMFYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public Set<BusinessNetworkFacilatatesCollaboration> getBusinessNetworkFacilatatesCollaboration_businessCollaboration() {
 		Set<BusinessNetworkFacilatatesCollaboration> result = this.businessNetworkFacilatatesCollaboration_businessCollaboration;
@@ -361,7 +369,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5972556763473316153l,opposite="businessNetwork",uuid="252060@_4uZ-MEvREeGmqIr8YsFD4g")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5972556763473316153l,opposite="businessNetwork",uuid="252060@_4uZ-MEvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_4uZ-MEvREeGmqIr8YsFD4g")
 	public Set<OrganizationNode> getOrganization() {
 		Set<OrganizationNode> result = this.organization;
@@ -385,7 +393,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2470938974911877691l,opposite="collaboration",uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2470938974911877691l,opposite="collaboration",uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
 	public Set<PersonNode> getPerson() {
 		Set<PersonNode> result = new HashSet<PersonNode>(this.person.values());
@@ -393,7 +401,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=729829469926896176l,opposite="businessNetwork",uuid="252060@_NRu9QFYjEeGJUqEGX7bKSg914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=729829469926896176l,opposite="businessNetwork",uuid="252060@_NRu9QFYjEeGJUqEGX7bKSg914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Set<Structuredbusiness> getStructuredbusiness() {
 		Set<Structuredbusiness> result = this.structuredbusiness;
 		
@@ -429,10 +437,10 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void markDeleted() {
-		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
+		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
 			child.markDeleted();
 		}
-		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
+		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
 			child.markDeleted();
 		}
 		for ( OrganizationNode child : new ArrayList<OrganizationNode>(getOrganization()) ) {
@@ -565,12 +573,18 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessCollaboration(Set<IBusinessCollaboration> businessCollaboration) {
+		propertyChangeSupport.firePropertyChange("businessCollaboration",getBusinessCollaboration(),businessCollaboration);
 		this.clearBusinessCollaboration();
 		this.addAllToBusinessCollaboration(businessCollaboration);
 	}
 	
 	public void setBusinessNetworkFacilatatesCollaboration_businessCollaboration(Set<BusinessNetworkFacilatatesCollaboration> businessNetworkFacilatatesCollaboration_businessCollaboration) {
+		propertyChangeSupport.firePropertyChange("businessNetworkFacilatatesCollaboration_businessCollaboration",getBusinessNetworkFacilatatesCollaboration_businessCollaboration(),businessNetworkFacilatatesCollaboration_businessCollaboration);
 		this.clearBusinessNetworkFacilatatesCollaboration_businessCollaboration();
 		this.addAllToBusinessNetworkFacilatatesCollaboration_businessCollaboration(businessNetworkFacilatatesCollaboration_businessCollaboration);
 	}
@@ -592,6 +606,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void setOrganization(Set<OrganizationNode> organization) {
+		propertyChangeSupport.firePropertyChange("organization",getOrganization(),organization);
 		this.clearOrganization();
 		this.addAllToOrganization(organization);
 	}
@@ -601,6 +616,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void setStructuredbusiness(Set<Structuredbusiness> structuredbusiness) {
+		propertyChangeSupport.firePropertyChange("structuredbusiness",getStructuredbusiness(),structuredbusiness);
 		this.clearStructuredbusiness();
 		this.addAllToStructuredbusiness(structuredbusiness);
 	}

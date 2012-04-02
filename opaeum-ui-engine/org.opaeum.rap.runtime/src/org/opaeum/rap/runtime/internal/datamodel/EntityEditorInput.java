@@ -9,26 +9,38 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.internal.datamodel;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.value.IValueChangeListener;
+import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.persistence.ConversationalPersistence;
 
-public class EntityEditorInput implements IEditorInput {
+public class EntityEditorInput implements IEditorInput , IValueChangeListener{
 	private final String name;
 	private final ImageDescriptor imageDescriptor;
 	private final IPersistentObject entity;
 	private OpaeumRapSession opaeumSession;
+	private DataBindingContext dataBindingContext;
+	private ConversationalPersistence persistence;
+	private boolean dirty;
 
 	public EntityEditorInput(final IPersistentObject entity,
 			final String name, final ImageDescriptor imageDescriptor, OpaeumRapSession opaeumSession) {
-		this.entity = entity;
+		this.dataBindingContext=PageUtil.createBindingContext();
+		persistence=opaeumSession.getApplication().getEnvironment().createConversationalPersistence();
+		this.entity = persistence.find(IntrospectionUtil.getOriginalClass(entity), entity.getId());
 		this.name = name;
 		this.imageDescriptor = imageDescriptor;
-		this.setOpaeumSession(opaeumSession);
+		this.opaeumSession=opaeumSession;
 	}
-
+	public boolean isDirty(){
+		return dirty;
+	}
 	public boolean exists() {
 		return false;
 	}
@@ -62,11 +74,18 @@ public class EntityEditorInput implements IEditorInput {
 		return opaeumSession;
 	}
 
-	public void setOpaeumSession(OpaeumRapSession opaeumSession){
-		this.opaeumSession = opaeumSession;
-	}
-
 	public IPersistentObject getPersistentObject(){
 		return entity;
 	}
+
+	public DataBindingContext getDataBindingContext(){
+		return dataBindingContext;
+	}
+	public ConversationalPersistence getPersistence(){
+		return persistence;
+	}
+	public void handleValueChange(ValueChangeEvent event){
+		dirty=true;
+	}
+
 }

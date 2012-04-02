@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.contact;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,6 +91,8 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 	@Digits(fraction=0,groups={},integer=15,message="",payload={})
 	@Column(name="phone_number")
 	private String phoneNumber;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 11888058762954742l;
 	@Type(type="org.opaeum.runtime.contact.PersonPhoneNumberTypeResolver")
 	@Column(name="type",nullable=true)
@@ -113,6 +117,10 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 	public PersonPhoneNumber() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -192,7 +200,7 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 		return getPerson();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4171052596734632680l,opposite="phoneNumber",uuid="252060@_Gjz08EtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4171052596734632680l,opposite="phoneNumber",uuid="252060@_Gjz08EtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_Gjz08EtoEeGd4cpyhpib9Q")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -200,7 +208,7 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2490948071546069620l,uuid="252060@_fjrTsHr7EeGX8L_MMRBizg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2490948071546069620l,uuid="252060@_fjrTsHr7EeGX8L_MMRBizg")
 	@NumlMetaInfo(uuid="252060@_fjrTsHr7EeGX8L_MMRBizg")
 	public String getPhoneNumber() {
 		String result = this.phoneNumber;
@@ -208,7 +216,7 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1377242588430375366l,opposite="personPhoneNumber",uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1377242588430375366l,opposite="personPhoneNumber",uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
 	public PersonPhoneNumberType getType() {
 		PersonPhoneNumberType result = this.type;
@@ -273,6 +281,10 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -294,6 +306,7 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 	}
 	
 	public void setPerson(PersonNode person) {
+		propertyChangeSupport.firePropertyChange("person",getPerson(),person);
 		if ( this.getPerson()!=null ) {
 			this.getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
@@ -307,10 +320,12 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 	}
 	
 	public void setPhoneNumber(String phoneNumber) {
+		propertyChangeSupport.firePropertyChange("phoneNumber",getPhoneNumber(),phoneNumber);
 		this.z_internalAddToPhoneNumber(phoneNumber);
 	}
 	
 	public void setType(PersonPhoneNumberType type) {
+		propertyChangeSupport.firePropertyChange("type",getType(),type);
 		if ( getPerson()!=null && getType()!=null ) {
 			getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}

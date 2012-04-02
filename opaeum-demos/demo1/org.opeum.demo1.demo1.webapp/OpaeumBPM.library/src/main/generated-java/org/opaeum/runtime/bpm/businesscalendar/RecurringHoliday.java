@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.businesscalendar;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,6 +87,8 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 6208240707029980235l;
 	private String uid;
 
@@ -102,6 +106,10 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	public RecurringHoliday() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -158,7 +166,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7899854084172381059l,opposite="recurringHoliday",uuid="252060@_xu4wQdcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7899854084172381059l,opposite="recurringHoliday",uuid="252060@_xu4wQdcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_xu4wQdcCEeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -170,7 +178,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2528290867262960345l,uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2528290867262960345l,uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
 	public Integer getDay() {
 		Integer result = this.day;
@@ -186,7 +194,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=660142128285799895l,uuid="252060@_EgnmYNcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=660142128285799895l,uuid="252060@_EgnmYNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_EgnmYNcCEeCJ0dmaHEVVnw")
 	public Month getMonth() {
 		Month result = this.month;
@@ -194,7 +202,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6018749174316171601l,uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6018749174316171601l,uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
 	public String getName() {
 		String result = this.name;
@@ -267,7 +275,12 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessCalendar(BusinessCalendar businessCalendar) {
+		propertyChangeSupport.firePropertyChange("businessCalendar",getBusinessCalendar(),businessCalendar);
 		if ( this.getBusinessCalendar()!=null ) {
 			this.getBusinessCalendar().z_internalRemoveFromRecurringHoliday(this);
 		}
@@ -285,6 +298,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void setDay(Integer day) {
+		propertyChangeSupport.firePropertyChange("day",getDay(),day);
 		this.z_internalAddToDay(day);
 	}
 	
@@ -297,10 +311,12 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void setMonth(Month month) {
+		propertyChangeSupport.firePropertyChange("month",getMonth(),month);
 		this.z_internalAddToMonth(month);
 	}
 	
 	public void setName(String name) {
+		propertyChangeSupport.firePropertyChange("name",getName(),name);
 		this.z_internalAddToName(name);
 	}
 	

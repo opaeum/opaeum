@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.request;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,6 +68,8 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 8655129122508963499l;
 	@Index(columnNames="task_request_id",name="idx_participation_in_task_task_request_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
@@ -86,6 +90,10 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 	public ParticipationInTask() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -141,7 +149,7 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7015815221919899759l,opposite="participation",uuid="252060@_2tlBVI6UEeCne5ArYLDbiA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7015815221919899759l,opposite="participation",uuid="252060@_2tlBVI6UEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_2tlBVI6UEeCne5ArYLDbiA")
 	public TaskParticipationKind getKind() {
 		TaskParticipationKind result = this.kind;
@@ -161,7 +169,7 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 		return getTaskRequest();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1010997141532452205l,opposite="participationInTask",uuid="252060@_BCPvEY6VEeCne5ArYLDbiA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1010997141532452205l,opposite="participationInTask",uuid="252060@_BCPvEY6VEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_BCPvEY6VEeCne5ArYLDbiA")
 	public TaskRequest getTaskRequest() {
 		TaskRequest result = this.taskRequest;
@@ -229,6 +237,10 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -239,6 +251,7 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 	}
 	
 	public void setKind(TaskParticipationKind kind) {
+		propertyChangeSupport.firePropertyChange("kind",getKind(),kind);
 		this.z_internalAddToKind(kind);
 	}
 	
@@ -247,6 +260,7 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 	}
 	
 	public void setTaskRequest(TaskRequest taskRequest) {
+		propertyChangeSupport.firePropertyChange("taskRequest",getTaskRequest(),taskRequest);
 		if ( this.getTaskRequest()!=null ) {
 			this.getTaskRequest().z_internalRemoveFromParticipationInTask(this);
 		}

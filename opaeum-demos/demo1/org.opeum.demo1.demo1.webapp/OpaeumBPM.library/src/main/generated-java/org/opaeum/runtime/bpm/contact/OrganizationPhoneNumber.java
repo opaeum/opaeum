@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.contact;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +89,8 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 6058915114543502092l;
 	@Type(type="org.opaeum.runtime.bpm.contact.OrganizationPhoneNumberTypeResolver")
 	@Column(name="type",nullable=true)
@@ -111,6 +115,10 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	public OrganizationPhoneNumber() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -170,7 +178,7 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7229033838421414396l,uuid="252060@_ls8YAHr7EeGX8L_MMRBizg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7229033838421414396l,uuid="252060@_ls8YAHr7EeGX8L_MMRBizg")
 	@NumlMetaInfo(uuid="252060@_ls8YAHr7EeGX8L_MMRBizg")
 	public String getHponeNumber() {
 		String result = this.hponeNumber;
@@ -190,7 +198,7 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7964194700080601190l,opposite="phoneNumber",uuid="252060@_HGK7IUtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7964194700080601190l,opposite="phoneNumber",uuid="252060@_HGK7IUtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_HGK7IUtoEeGd4cpyhpib9Q")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -206,7 +214,7 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 		return getOrganization();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3953173395695543848l,opposite="organizationPhoneNumber",uuid="252060@_1i74dEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3953173395695543848l,opposite="organizationPhoneNumber",uuid="252060@_1i74dEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_1i74dEtoEeGd4cpyhpib9Q")
 	public OrganizationPhoneNumberType getType() {
 		OrganizationPhoneNumberType result = this.type;
@@ -271,6 +279,10 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -280,6 +292,7 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	}
 	
 	public void setHponeNumber(String hponeNumber) {
+		propertyChangeSupport.firePropertyChange("hponeNumber",getHponeNumber(),hponeNumber);
 		this.z_internalAddToHponeNumber(hponeNumber);
 	}
 	
@@ -292,6 +305,7 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	}
 	
 	public void setOrganization(OrganizationNode organization) {
+		propertyChangeSupport.firePropertyChange("organization",getOrganization(),organization);
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
@@ -309,6 +323,7 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	}
 	
 	public void setType(OrganizationPhoneNumberType type) {
+		propertyChangeSupport.firePropertyChange("type",getType(),type);
 		if ( getOrganization()!=null && getType()!=null ) {
 			getOrganization().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}

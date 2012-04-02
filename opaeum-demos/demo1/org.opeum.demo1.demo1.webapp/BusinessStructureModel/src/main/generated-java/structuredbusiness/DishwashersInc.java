@@ -1,5 +1,7 @@
 package structuredbusiness;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -125,12 +127,14 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	private Set<Participation> participation = new HashSet<Participation>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	@Index(columnNames="root_id",name="idx_dishwashers_inc_root_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="root_id",nullable=true)
 	private Structuredbusiness root;
 	static final private long serialVersionUID = 8415961198448241003l;
-	@Email(groups={},message="",payload={})
+	@Email(groups={},message="Invalid e-mail address format",payload={})
 	@Column(name="support_e_mail_address")
 	private String supportEMailAddress;
 	@Length(groups={},max=15,message="Phone number must consist of between  9 and 15 characters",min=8,payload={})
@@ -189,6 +193,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		for ( Participation o : participation ) {
 			addToParticipation(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	public void addToAccountant(Accountant accountant) {
@@ -487,7 +495,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return false;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getAccountantSourcePopulation",opaeumId=7823994331136448473l,opposite="dishwashersInc",uuid="914890@_0mn9QHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=7823994331136448473l,opposite="dishwashersInc",uuid="914890@_0mn9QHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0mn9QHHgEeGus4aKic9sIg")
 	public Set<Accountant> getAccountant() {
 		Set<Accountant> result = this.accountant;
@@ -495,7 +503,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getBusinessCollaborationSourcePopulation",opaeumId=2952021989536159761l,opposite="business",uuid="252060@_Rj0oE1YkEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2952021989536159761l,opposite="business",uuid="252060@_Rj0oE1YkEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_Rj0oE1YkEeGJUqEGX7bKSg")
 	public IBusinessCollaboration getBusinessCollaboration() {
 		IBusinessCollaboration result = null;
@@ -513,7 +521,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getDishWasherSourcePopulation",opaeumId=5940555815826406889l,opposite="dishwashersInc",uuid="914890@_z0LMoHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5940555815826406889l,opposite="dishwashersInc",uuid="914890@_z0LMoHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_z0LMoHHgEeGus4aKic9sIg")
 	public Set<DishWasherModel> getDishWasher() {
 		Set<DishWasherModel> result = this.dishWasher;
@@ -521,7 +529,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getDocumentVerifierSourcePopulation",opaeumId=3418722451639770409l,opposite="dishwashersInc",uuid="914890@_03oNsHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3418722451639770409l,opposite="dishwashersInc",uuid="914890@_03oNsHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_03oNsHHgEeGus4aKic9sIg")
 	public Set<DocumentVerifier> getDocumentVerifier() {
 		Set<DocumentVerifier> result = this.documentVerifier;
@@ -533,7 +541,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getIdBookSourcePopulation",opaeumId=3308359593929749339l,opposite="dishwashersInc",uuid="914890@_0EdEUHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3308359593929749339l,opposite="dishwashersInc",uuid="914890@_0EdEUHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0EdEUHHgEeGus4aKic9sIg")
 	public Set<IdBook> getIdBook() {
 		Set<IdBook> result = this.idBook;
@@ -541,7 +549,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getInitiatedRequestsSourcePopulation",opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests() {
 		Collection<AbstractRequest> result = collect11();
@@ -549,7 +557,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getInitiationDateSourcePopulation",opaeumId=2129484770117698232l,uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2129484770117698232l,uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
 	public Date getInitiationDate() {
 		Date result = this.initiationDate;
@@ -557,7 +565,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getInterestingRequestsSourcePopulation",opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests() {
 		Collection<AbstractRequest> result = collect2();
@@ -565,7 +573,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getManagedRequestsSourcePopulation",opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests() {
 		Collection<AbstractRequest> result = collect7();
@@ -573,7 +581,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getManagerSourcePopulation",opaeumId=6644597149462340021l,opposite="dishwashersInc",uuid="914890@_0XGTgHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6644597149462340021l,opposite="dishwashersInc",uuid="914890@_0XGTgHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0XGTgHHgEeGus4aKic9sIg")
 	public Set<Manager> getManager() {
 		Set<Manager> result = this.manager;
@@ -581,7 +589,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getNameSourcePopulation",opaeumId=2403097927264790462l,uuid="914890@_8-HO8HorEeGBZ7vhZCNgsg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2403097927264790462l,uuid="914890@_8-HO8HorEeGBZ7vhZCNgsg")
 	@NumlMetaInfo(uuid="914890@_8-HO8HorEeGBZ7vhZCNgsg")
 	public String getName() {
 		String result = this.name;
@@ -593,7 +601,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getOrganization_iBusinessComponent_1_representedOrganizationSourcePopulation",opaeumId=5756915452752219728l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5756915452752219728l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf4noVYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	public Organization_iBusinessComponent_1 getOrganization_iBusinessComponent_1_representedOrganization() {
 		Organization_iBusinessComponent_1 result = this.organization_iBusinessComponent_1_representedOrganization;
@@ -613,7 +621,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.outgoingEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getOwnedTaskRequestsSourcePopulation",opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests() {
 		Collection<TaskRequest> result = collect3();
@@ -625,7 +633,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return getRoot();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParticipationSourcePopulation",opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -633,7 +641,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParticipationsInRequestsSourcePopulation",opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests() {
 		Collection<ParticipationInRequest> result = collect9();
@@ -641,7 +649,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParticipationsInTasksSourcePopulation",opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks() {
 		Collection<ParticipationInTask> result = collect5();
@@ -657,7 +665,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getRootSourcePopulation",opaeumId=7737100568581358598l,opposite="dishwashersInc",uuid="914890@_CQTWAGOeEeGwMNo027LgxA914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7737100568581358598l,opposite="dishwashersInc",uuid="914890@_CQTWAGOeEeGwMNo027LgxA914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Structuredbusiness getRoot() {
 		Structuredbusiness result = this.root;
@@ -665,7 +673,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSupportEMailAddressSourcePopulation",opaeumId=656426330587139118l,uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=656426330587139118l,uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
 	public String getSupportEMailAddress() {
 		String result = this.supportEMailAddress;
@@ -673,7 +681,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSupportNumberSourcePopulation",opaeumId=77118842450650400l,uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=77118842450650400l,uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
 	public String getSupportNumber() {
 		String result = this.supportNumber;
@@ -688,7 +696,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getVatNumberSourcePopulation",opaeumId=8454956352695908190l,uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8454956352695908190l,uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
 	public Integer getVatNumber() {
 		Integer result = this.vatNumber;
@@ -903,7 +911,12 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setAccountant(Set<Accountant> accountant) {
+		propertyChangeSupport.firePropertyChange("accountant",getAccountant(),accountant);
 		this.clearAccountant();
 		this.addAllToAccountant(accountant);
 	}
@@ -917,11 +930,13 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void setDishWasher(Set<DishWasherModel> dishWasher) {
+		propertyChangeSupport.firePropertyChange("dishWasher",getDishWasher(),dishWasher);
 		this.clearDishWasher();
 		this.addAllToDishWasher(dishWasher);
 	}
 	
 	public void setDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
+		propertyChangeSupport.firePropertyChange("documentVerifier",getDocumentVerifier(),documentVerifier);
 		this.clearDocumentVerifier();
 		this.addAllToDocumentVerifier(documentVerifier);
 	}
@@ -931,20 +946,24 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void setIdBook(Set<IdBook> idBook) {
+		propertyChangeSupport.firePropertyChange("idBook",getIdBook(),idBook);
 		this.clearIdBook();
 		this.addAllToIdBook(idBook);
 	}
 	
 	public void setInitiationDate(Date initiationDate) {
+		propertyChangeSupport.firePropertyChange("initiationDate",getInitiationDate(),initiationDate);
 		this.z_internalAddToInitiationDate(initiationDate);
 	}
 	
 	public void setManager(Set<Manager> manager) {
+		propertyChangeSupport.firePropertyChange("manager",getManager(),manager);
 		this.clearManager();
 		this.addAllToManager(manager);
 	}
 	
 	public void setName(String name) {
+		propertyChangeSupport.firePropertyChange("name",getName(),name);
 		this.z_internalAddToName(name);
 	}
 	
@@ -954,6 +973,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void setOrganization_iBusinessComponent_1_representedOrganization(Organization_iBusinessComponent_1 organization_iBusinessComponent_1_representedOrganization) {
 		Organization_iBusinessComponent_1 oldValue = this.getOrganization_iBusinessComponent_1_representedOrganization();
+		propertyChangeSupport.firePropertyChange("organization_iBusinessComponent_1_representedOrganization",getOrganization_iBusinessComponent_1_representedOrganization(),organization_iBusinessComponent_1_representedOrganization);
 		if ( oldValue==null ) {
 			if ( organization_iBusinessComponent_1_representedOrganization!=null ) {
 				DishwashersInc oldOther = (DishwashersInc)organization_iBusinessComponent_1_representedOrganization.getBusinessComponent();
@@ -986,6 +1006,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void setParticipation(Set<Participation> participation) {
+		propertyChangeSupport.firePropertyChange("participation",getParticipation(),participation);
 		this.clearParticipation();
 		this.addAllToParticipation(participation);
 	}
@@ -995,6 +1016,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void setRepresentedOrganization(OrganizationNode representedOrganization) {
+		propertyChangeSupport.firePropertyChange("representedOrganization",getRepresentedOrganization(),representedOrganization);
 		if ( this.getRepresentedOrganization()!=null ) {
 			this.getRepresentedOrganization().z_internalRemoveFromBusinessComponent(this);
 		}
@@ -1005,6 +1027,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void setRoot(Structuredbusiness root) {
+		propertyChangeSupport.firePropertyChange("root",getRoot(),root);
 		if ( this.getRoot()!=null ) {
 			this.getRoot().z_internalRemoveFromDishwashersInc(this);
 		}
@@ -1018,10 +1041,12 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void setSupportEMailAddress(String supportEMailAddress) {
+		propertyChangeSupport.firePropertyChange("supportEMailAddress",getSupportEMailAddress(),supportEMailAddress);
 		this.z_internalAddToSupportEMailAddress(supportEMailAddress);
 	}
 	
 	public void setSupportNumber(String supportNumber) {
+		propertyChangeSupport.firePropertyChange("supportNumber",getSupportNumber(),supportNumber);
 		this.z_internalAddToSupportNumber(supportNumber);
 	}
 	
@@ -1030,6 +1055,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void setVatNumber(Integer vatNumber) {
+		propertyChangeSupport.firePropertyChange("vatNumber",getVatNumber(),vatNumber);
 		this.z_internalAddToVatNumber(vatNumber);
 	}
 	

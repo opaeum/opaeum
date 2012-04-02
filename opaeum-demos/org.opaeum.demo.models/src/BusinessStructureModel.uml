@@ -288,7 +288,7 @@
       <ownedEnd xmi:id="_MwNCAXvJEeGIOPhylek76A" name="documentVerifier" type="_tq_pUGK1EeGb14EjInbIAA" association="_MwNCAHvJEeGIOPhylek76A">
         <eAnnotations xmi:id="_M1fKoHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MwNCAnvJEeGIOPhylek76A"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MwNCA3vJEeGIOPhylek76A" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MwNCA3vJEeGIOPhylek76A" value="*"/>
       </ownedEnd>
     </packagedElement>
     <profileApplication xmi:id="_BMNPoHHfEeGyMMwFc1M9cQ">

@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.organization;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,6 +80,8 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	private int objectVersion;
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 2393652207927689043l;
 	private String uid;
 
@@ -106,6 +110,10 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	public BusinessNetworkFacilatatesCollaboration() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -162,7 +170,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=9180074202228577303l,opposite="businessNetworkFacilatatesCollaboration_businessNetwork",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJGvcVYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=9180074202228577303l,opposite="businessNetworkFacilatatesCollaboration_businessNetwork",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	public IBusinessCollaboration getBusinessCollaboration() {
 		IBusinessCollaboration result = (IBusinessCollaboration)this.businessCollaboration.getValue(persistence);
@@ -170,7 +178,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4534287215016532533l,opposite="businessNetworkFacilatatesCollaboration_businessCollaboration",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJETMFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4534287215016532533l,opposite="businessNetworkFacilatatesCollaboration_businessCollaboration",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJETMFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJETMFYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork() {
 		BusinessNetwork result = this.businessNetwork;
@@ -259,8 +267,13 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
 		IBusinessCollaboration oldValue = this.getBusinessCollaboration();
+		propertyChangeSupport.firePropertyChange("businessCollaboration",getBusinessCollaboration(),businessCollaboration);
 		if ( oldValue==null ) {
 			if ( businessCollaboration!=null ) {
 				BusinessNetworkFacilatatesCollaboration oldOther = (BusinessNetworkFacilatatesCollaboration)businessCollaboration.getBusinessNetworkFacilatatesCollaboration_businessNetwork();
@@ -289,6 +302,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	}
 	
 	public void setBusinessNetwork(BusinessNetwork businessNetwork) {
+		propertyChangeSupport.firePropertyChange("businessNetwork",getBusinessNetwork(),businessNetwork);
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessCollaboration(this);
 		}

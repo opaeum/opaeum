@@ -1,9 +1,13 @@
 package structuredbusiness;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.persistence.Transient;
 
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.domain.ISignal;
@@ -17,6 +21,8 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 
 @NumlMetaInfo(uuid="914890@_o9aQgGCfEeG6xvYqJACneg")
 public class ProductAnnouncement implements ISignal, Serializable {
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 4518636647403222403l;
 	private String uid;
 
@@ -25,6 +31,10 @@ public class ProductAnnouncement implements ISignal, Serializable {
 	public ProductAnnouncement() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
 		NodeList propertyNodes = xml.getChildNodes();
@@ -60,6 +70,10 @@ public class ProductAnnouncement implements ISignal, Serializable {
 			Node currentPropertyNode = propertyNodes.item(i++);
 		
 		}
+	}
+	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
 	}
 	
 	public void setUid(String newUid) {

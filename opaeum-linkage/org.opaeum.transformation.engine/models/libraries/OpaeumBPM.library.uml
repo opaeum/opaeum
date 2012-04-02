@@ -2296,7 +2296,7 @@
   <OpaeumStandardProfile:AssociationEnd xmi:id="_8oufYHaqEeGJmrelahyJag" base_Property="_JF99wEtqEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Attribute xmi:id="_a2NfAHr7EeGX8L_MMRBizg" base_Property="_XkOw4Hr7EeGX8L_MMRBizg"/>
   <OpaeumStandardProfile:Attribute xmi:id="_lEAvwHr7EeGX8L_MMRBizg" base_Property="_jaw6AHr7EeGX8L_MMRBizg"/>
-  <HibernateValidation:Email xmi:id="_ArVmMHr-EeGLG4a8Ss1xJw" base_DataType="_SvHAkHrxEeGgA7LmG6YzjA" base_PrimitiveType="_SvHAkHrxEeGgA7LmG6YzjA"/>
+  <HibernateValidation:Email xmi:id="_ArVmMHr-EeGLG4a8Ss1xJw" base_DataType="_SvHAkHrxEeGgA7LmG6YzjA" base_PrimitiveType="_SvHAkHrxEeGgA7LmG6YzjA" message="Invalid e-mail address format"/>
   <JavaxValidation:Digits xmi:id="_KnxaIHr-EeGLG4a8Ss1xJw" integer="15" base_DataType="_S-ZOMHr7EeGX8L_MMRBizg" base_PrimitiveType="_S-ZOMHr7EeGX8L_MMRBizg"/>
   <HibernateValidation:Length xmi:id="_KovqgHr-EeGLG4a8Ss1xJw" base_DataType="_S-ZOMHr7EeGX8L_MMRBizg" base_PrimitiveType="_S-ZOMHr7EeGX8L_MMRBizg" max="15" message="Phone number must consist of between  9 and 15 characters" min="8"/>
 </xmi:XMI>

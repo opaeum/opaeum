@@ -1,5 +1,7 @@
 package structuredbusiness;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -101,6 +103,8 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="person_fullfills_actor_role_represented_person_id",nullable=true)
 	private PersonFullfillsActorRole personFullfillsActorRole_representedPerson;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	@Index(columnNames="root_id",name="idx_online__customer_root_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="root_id",nullable=true)
@@ -126,6 +130,10 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		for ( Participation o : participation ) {
 			addToParticipation(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
@@ -184,7 +192,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=124417441767574741l,opposite="businessActor",uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=124417441767574741l,opposite="businessActor",uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
 	public IBusinessCollaboration getBusinessCollaboration() {
 		IBusinessCollaboration result = null;
@@ -206,7 +214,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests() {
 		Collection<AbstractRequest> result = collect11();
@@ -214,7 +222,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests() {
 		Collection<AbstractRequest> result = collect2();
@@ -222,7 +230,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests() {
 		Collection<AbstractRequest> result = collect7();
@@ -246,7 +254,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=4147448129438915430l,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4147448129438915430l,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public OrganizationFullfillsActorRole getOrganizationFullfillsActorRole_organization() {
 		OrganizationFullfillsActorRole result = this.organizationFullfillsActorRole_organization;
@@ -266,7 +274,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return this.outgoingEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests() {
 		Collection<TaskRequest> result = collect3();
@@ -278,7 +286,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return getRoot();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -286,7 +294,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests() {
 		Collection<ParticipationInRequest> result = collect9();
@@ -294,7 +302,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks() {
 		Collection<ParticipationInTask> result = collect5();
@@ -302,7 +310,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=9023075862366939329l,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=9023075862366939329l,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public PersonFullfillsActorRole getPersonFullfillsActorRole_representedPerson() {
 		PersonFullfillsActorRole result = this.personFullfillsActorRole_representedPerson;
@@ -326,7 +334,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7737100568581358598l,opposite="online_Customer",uuid="914890@_xQY8oGFKEeG2AvOqZt1NZQ914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7737100568581358598l,opposite="online_Customer",uuid="914890@_xQY8oGFKEeG2AvOqZt1NZQ914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Structuredbusiness getRoot() {
 		Structuredbusiness result = this.root;
@@ -412,6 +420,10 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -433,6 +445,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setOrganization(OrganizationNode organization) {
+		propertyChangeSupport.firePropertyChange("organization",getOrganization(),organization);
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromBusinessActor(this);
 		}
@@ -444,6 +457,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void setOrganizationFullfillsActorRole_organization(OrganizationFullfillsActorRole organizationFullfillsActorRole_organization) {
 		OrganizationFullfillsActorRole oldValue = this.getOrganizationFullfillsActorRole_organization();
+		propertyChangeSupport.firePropertyChange("organizationFullfillsActorRole_organization",getOrganizationFullfillsActorRole_organization(),organizationFullfillsActorRole_organization);
 		if ( oldValue==null ) {
 			if ( organizationFullfillsActorRole_organization!=null ) {
 				Online_Customer oldOther = (Online_Customer)organizationFullfillsActorRole_organization.getBusinessActor();
@@ -476,12 +490,14 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setParticipation(Set<Participation> participation) {
+		propertyChangeSupport.firePropertyChange("participation",getParticipation(),participation);
 		this.clearParticipation();
 		this.addAllToParticipation(participation);
 	}
 	
 	public void setPersonFullfillsActorRole_representedPerson(PersonFullfillsActorRole personFullfillsActorRole_representedPerson) {
 		PersonFullfillsActorRole oldValue = this.getPersonFullfillsActorRole_representedPerson();
+		propertyChangeSupport.firePropertyChange("personFullfillsActorRole_representedPerson",getPersonFullfillsActorRole_representedPerson(),personFullfillsActorRole_representedPerson);
 		if ( oldValue==null ) {
 			if ( personFullfillsActorRole_representedPerson!=null ) {
 				Online_Customer oldOther = (Online_Customer)personFullfillsActorRole_representedPerson.getBusinessActor();
@@ -514,6 +530,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setRepresentedPerson(PersonNode representedPerson) {
+		propertyChangeSupport.firePropertyChange("representedPerson",getRepresentedPerson(),representedPerson);
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromBusinessActor(this);
 		}
@@ -524,6 +541,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setRoot(Structuredbusiness root) {
+		propertyChangeSupport.firePropertyChange("root",getRoot(),root);
 		if ( this.getRoot()!=null ) {
 			this.getRoot().z_internalRemoveFromOnline_Customer(this);
 		}

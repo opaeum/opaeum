@@ -1,5 +1,7 @@
 package structuredbusiness;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,6 +95,8 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 7737100568581358598l;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
@@ -130,6 +134,10 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		for ( Supplier o : supplier ) {
 			addToSupplier(o);
 		}
+	}
+	
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
 	
 	public void addToDishwashersInc(DishwashersInc dishwashersInc) {
@@ -277,7 +285,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=675923819432853497l,opposite="businessCollaboration",uuid="252060@_Rj0oEFYkEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=675923819432853497l,opposite="businessCollaboration",uuid="252060@_Rj0oEFYkEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_Rj0oEFYkEeGJUqEGX7bKSg")
 	public Set<IBusiness> getBusiness() {
 		Set<IBusiness> result = new HashSet<IBusiness>();
@@ -285,7 +293,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2554691001457309645l,opposite="businessCollaboration",uuid="252060@_pP5QQVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2554691001457309645l,opposite="businessCollaboration",uuid="252060@_pP5QQVYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_pP5QQVYuEeGj5_I7bIwNoA")
 	public Set<IBusinessActor> getBusinessActor() {
 		Set<IBusinessActor> result = new HashSet<IBusinessActor>();
@@ -294,7 +302,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2395627898464121473l,opposite="structuredbusiness",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration252060@_NRu9QFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2395627898464121473l,opposite="structuredbusiness",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration252060@_NRu9QFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_NRu9QFYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork() {
 		BusinessNetwork result = this.businessNetwork;
@@ -302,7 +310,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=4246171799000216537l,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4246171799000216537l,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public BusinessNetworkFacilatatesCollaboration getBusinessNetworkFacilatatesCollaboration_businessNetwork() {
 		BusinessNetworkFacilatatesCollaboration result = this.businessNetworkFacilatatesCollaboration_businessNetwork;
@@ -318,7 +326,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2329680291382308507l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_CQTWAGOeEeGwMNo027LgxA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2329680291382308507l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_CQTWAGOeEeGwMNo027LgxA")
 	public Set<DishwashersInc> getDishwashersInc() {
 		Set<DishwashersInc> result = this.dishwashersInc;
 		
@@ -337,7 +345,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=6808203985768568000l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_xQY8oGFKEeG2AvOqZt1NZQ")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6808203985768568000l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_xQY8oGFKEeG2AvOqZt1NZQ")
 	public Set<Online_Customer> getOnline_Customer() {
 		Set<Online_Customer> result = this.online_Customer;
 		
@@ -352,7 +360,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return getBusinessNetwork();
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=4152922492096726072l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_-N6PwGK6EeGNuoaMwaBk1w")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4152922492096726072l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_-N6PwGK6EeGNuoaMwaBk1w")
 	public Set<Supplier> getSupplier() {
 		Set<Supplier> result = this.supplier;
 		
@@ -481,7 +489,12 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		}
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setBusinessNetwork(BusinessNetwork businessNetwork) {
+		propertyChangeSupport.firePropertyChange("businessNetwork",getBusinessNetwork(),businessNetwork);
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromStructuredbusiness(this);
 		}
@@ -496,6 +509,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	
 	public void setBusinessNetworkFacilatatesCollaboration_businessNetwork(BusinessNetworkFacilatatesCollaboration businessNetworkFacilatatesCollaboration_businessNetwork) {
 		BusinessNetworkFacilatatesCollaboration oldValue = this.getBusinessNetworkFacilatatesCollaboration_businessNetwork();
+		propertyChangeSupport.firePropertyChange("businessNetworkFacilatatesCollaboration_businessNetwork",getBusinessNetworkFacilatatesCollaboration_businessNetwork(),businessNetworkFacilatatesCollaboration_businessNetwork);
 		if ( oldValue==null ) {
 			if ( businessNetworkFacilatatesCollaboration_businessNetwork!=null ) {
 				Structuredbusiness oldOther = (Structuredbusiness)businessNetworkFacilatatesCollaboration_businessNetwork.getBusinessCollaboration();
@@ -532,6 +546,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void setDishwashersInc(Set<DishwashersInc> dishwashersInc) {
+		propertyChangeSupport.firePropertyChange("dishwashersInc",getDishwashersInc(),dishwashersInc);
 		this.clearDishwashersInc();
 		this.addAllToDishwashersInc(dishwashersInc);
 	}
@@ -545,6 +560,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void setOnline_Customer(Set<Online_Customer> online_Customer) {
+		propertyChangeSupport.firePropertyChange("online_Customer",getOnline_Customer(),online_Customer);
 		this.clearOnline_Customer();
 		this.addAllToOnline_Customer(online_Customer);
 	}
@@ -554,6 +570,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void setSupplier(Set<Supplier> supplier) {
+		propertyChangeSupport.firePropertyChange("supplier",getSupplier(),supplier);
 		this.clearSupplier();
 		this.addAllToSupplier(supplier);
 	}

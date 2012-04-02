@@ -1,14 +1,16 @@
-Reactivate test data generation
-Simulation
-SimpleDataTypes
-Implement propertySheetProvider that displays a property sheet  per simulation model in the original model
+UIEngine
+Editability and links in tables
+Get * to display on modification
+Invoke additional property validations ( invariants)
+Use LookupBindings
+Support complex expressions everywhere.
+Implement userintefaces for PersonNodes - sharing of ui's required
+Implement generate userinterfaces action on folder level
+Implement actionbuttons and actionpopups
+Implement popupsearch with selectionbinding
 
 Allow configured user to log in with Google Id
 Allow for defaultUser to be looked up for dev purposes to avoid login
-Read metadata from java, don't load uml model
-populate tree using the composition annotation
-put properties and methods in metainfomap group by class for easy navigation in tree
-implement featureItem and objectitem
 
 TreeConfiguration - show treeview with checkboxes - hidden,visible,hiddenclasses
 
@@ -23,6 +25,8 @@ Drag and drop uml items from a tree (properties, actions)
 Add forcedLabelWidth and sameWidth to AbstractPanel
 
 Simulation:
+SimpleDataTypes like dates
+Implement propertySheetProvider that displays a property sheet  per simulation model in the original model
 Task durations distributions
 Calculate resource availability on a 15 minute basis
 Allow a specific simulation model to be associated with the current model and display the relevant simulation settings in the property section of simulated elements

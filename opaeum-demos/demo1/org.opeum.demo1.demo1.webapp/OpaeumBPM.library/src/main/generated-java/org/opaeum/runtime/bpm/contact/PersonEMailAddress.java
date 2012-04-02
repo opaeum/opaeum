@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.contact;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,7 +71,7 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Email(groups={},message="",payload={})
+	@Email(groups={},message="Invalid e-mail address format",payload={})
 	@Column(name="email_address")
 	private String emailAddress;
 	@Id
@@ -87,6 +89,8 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="person_id",nullable=true)
 	private PersonNode person;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 2460027813273694992l;
 	@Type(type="org.opaeum.runtime.contact.PersonEMailAddressTypeResolver")
 	@Column(name="type",nullable=true)
@@ -111,6 +115,10 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	public PersonEMailAddress() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -170,7 +178,7 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4200000522195976260l,uuid="252060@_XkOw4Hr7EeGX8L_MMRBizg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4200000522195976260l,uuid="252060@_XkOw4Hr7EeGX8L_MMRBizg")
 	@NumlMetaInfo(uuid="252060@_XkOw4Hr7EeGX8L_MMRBizg")
 	public String getEmailAddress() {
 		String result = this.emailAddress;
@@ -198,7 +206,7 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 		return getPerson();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7889195384454107184l,opposite="eMailAddress",uuid="252060@_fNvioUtpEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7889195384454107184l,opposite="eMailAddress",uuid="252060@_fNvioUtpEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_fNvioUtpEeGd4cpyhpib9Q")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -206,7 +214,7 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2816184780881689238l,opposite="personEMailAddress",uuid="252060@_NrUNtEtpEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2816184780881689238l,opposite="personEMailAddress",uuid="252060@_NrUNtEtpEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_NrUNtEtpEeGd4cpyhpib9Q")
 	public PersonEMailAddressType getType() {
 		PersonEMailAddressType result = this.type;
@@ -271,6 +279,10 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -280,6 +292,7 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void setEmailAddress(String emailAddress) {
+		propertyChangeSupport.firePropertyChange("emailAddress",getEmailAddress(),emailAddress);
 		this.z_internalAddToEmailAddress(emailAddress);
 	}
 	
@@ -296,6 +309,7 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void setPerson(PersonNode person) {
+		propertyChangeSupport.firePropertyChange("person",getPerson(),person);
 		if ( this.getPerson()!=null ) {
 			this.getPerson().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
@@ -309,6 +323,7 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void setType(PersonEMailAddressType type) {
+		propertyChangeSupport.firePropertyChange("type",getType(),type);
 		if ( getPerson()!=null && getType()!=null ) {
 			getPerson().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}

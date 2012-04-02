@@ -1,5 +1,7 @@
 package org.opaeum.runtime.bpm.contact;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,6 +74,8 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 	private AbstractPersistence persistence;
 	@Column(name="property1")
 	private String property1;
+	@Transient
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 8212401318043182240l;
 	@Column(name="street_name")
 	private String streetName;
@@ -86,6 +90,10 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 	public Address() {
 	}
 
+	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(property,listener);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -155,7 +163,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=803417683337410610l,uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=803417683337410610l,uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
 	public String getComplexName() {
 		String result = this.complexName;
@@ -187,7 +195,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return null;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=9050182878831642158l,uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=9050182878831642158l,uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
 	public String getProperty1() {
 		String result = this.property1;
@@ -195,7 +203,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6661262784939673274l,uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6661262784939673274l,uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
 	public String getStreetName() {
 		String result = this.streetName;
@@ -203,7 +211,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7701164517031304452l,uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7701164517031304452l,uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
 	public String getStreetNumber() {
 		String result = this.streetNumber;
@@ -218,7 +226,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=922468094468620152l,uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=922468094468620152l,uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
 	public String getUnitNumber() {
 		String result = this.unitNumber;
@@ -268,11 +276,16 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		this.markDeleted();
 	}
 	
+	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
 	
 	public void setComplexName(String complexName) {
+		propertyChangeSupport.firePropertyChange("complexName",getComplexName(),complexName);
 		this.z_internalAddToComplexName(complexName);
 	}
 	
@@ -293,14 +306,17 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setProperty1(String property1) {
+		propertyChangeSupport.firePropertyChange("Property1",getProperty1(),property1);
 		this.z_internalAddToProperty1(property1);
 	}
 	
 	public void setStreetName(String streetName) {
+		propertyChangeSupport.firePropertyChange("streetName",getStreetName(),streetName);
 		this.z_internalAddToStreetName(streetName);
 	}
 	
 	public void setStreetNumber(String streetNumber) {
+		propertyChangeSupport.firePropertyChange("streetNumber",getStreetNumber(),streetNumber);
 		this.z_internalAddToStreetNumber(streetNumber);
 	}
 	
@@ -309,6 +325,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setUnitNumber(String unitNumber) {
+		propertyChangeSupport.firePropertyChange("unitNumber",getUnitNumber(),unitNumber);
 		this.z_internalAddToUnitNumber(unitNumber);
 	}
 	
