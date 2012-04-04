@@ -36,6 +36,9 @@ public class OpaeumRapSession{
 		this.accessTokenResponse = accessToken;
 		sessionPersistence= application.getEnvironment().createConversationalPersistence();
 	}
+	public ConversationalPersistence getPersistence(){
+		return sessionPersistence;
+	}
 	public IOpaeumApplication getApplication(){
 		return application;
 	}

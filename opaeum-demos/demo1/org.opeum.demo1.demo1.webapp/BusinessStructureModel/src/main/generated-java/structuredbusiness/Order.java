@@ -80,7 +80,7 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
 	static private Set<Order> mockedAllInstances;
-	@Column(name="description")
+	@Column(name="my_special_description")
 	private String mySpecialDescription;
 	@Version
 	@Column(name="object_version")
@@ -243,6 +243,10 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	
 	public List<DishWasherModel> getSourcePopulationForDishWasherModel() {
 		return new ArrayList<DishWasherModel>(Stdlib.collectionAsSet(this.getDishwashersInc().getDishWasher()));
+	}
+	
+	public List<Accountant> getSourcePopulationForDispatchAccountant() {
+		return new ArrayList<Accountant>(Stdlib.collectionAsSet(this.getDishwashersInc().getAccountant()));
 	}
 	
 	public String getUid() {

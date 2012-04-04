@@ -1,19 +1,11 @@
 UIEngine
 Editability and links in tables
-Get * to display on modification
 Invoke additional property validations ( invariants)
-Use LookupBindings
-Support complex expressions everywhere.
 Implement libraries with ui's required
-Implement generate userinterfaces action on folder level
 Implement popupsearch with selectionbinding
 Implement requiredRole and inheritFromparent
-Implement lookups for parameters
-Allow configured user to log in with Google Id
-Allow for defaultUser to be looked up for dev purposes to avoid login
-
 TreeConfiguration - show treeview with checkboxes - hidden,visible,hiddenclasses
-
+Add IgnoredFeatures to UserIntefaceEntryPoint
 New Tasks:
 UIM:
 DEfine an RMI service that takes a bytearray in and updates userinterface resources from it

@@ -66,7 +66,11 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		OJAnnotationAttributeValue constraints = new OJAnnotationAttributeValue("constraints");
 		ap.putAttribute(constraints);
 		for(INakedConstraint c:map.getProperty().getOwner().getOwnedRules()){
-			if(c.getSpecification().isValidOclValue() && c.getConstrainedElements().contains(map.getProperty())){
+			boolean isLookupConstraint = c.getConstrainedElements().contains(map.getProperty());
+			if(!isLookupConstraint && map.getProperty() instanceof EmulatingElement){
+				isLookupConstraint=c.getConstrainedElements().contains(((EmulatingElement) map.getProperty()).getOriginalElement());
+			}
+			if(c.getSpecification().isValidOclValue() && isLookupConstraint){
 				if(c.getSpecification().getOclValue().getExpression().getExpressionType().isCollectionKind()){
 					ap.putAttribute("lookupMethod", "get" + c.getMappingInfo().getJavaName().getCapped());
 					// Lookup method

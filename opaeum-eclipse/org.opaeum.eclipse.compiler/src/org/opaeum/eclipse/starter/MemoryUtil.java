@@ -13,7 +13,7 @@ import org.opaeum.textmetamodel.TextOutputNode;
 public class MemoryUtil{
 	@SuppressWarnings("unused")
 	public static void printMemoryUsage(){
-		if(false){
+		if(true){
 			EmfToOpaeumSynchronizer.schedule(new Runnable(){
 				@Override
 				public void run(){

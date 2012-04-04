@@ -25,14 +25,14 @@ public class JavaTypedElement{
 	Class<?> type;
 	private Class<?> declaringClass;
 	private Method readMethod;
-	private Method lookupMethod;
+	private String lookupMethod;
 	private Method writeMethod;
 	// TODO extract method and move to new class
 	public JavaTypedElement(Method getter){
 		super();
 		buildTypedElementOnGetter(getter);
 		declaringClass = getter.getDeclaringClass();
-		this.readMethod=getter;
+		this.readMethod = getter;
 	}
 	protected void buildJavaTypedElement(PropertyDescriptor descriptor){
 		Method readMethod = descriptor.getReadMethod();
@@ -40,12 +40,12 @@ public class JavaTypedElement{
 		buildTypedElementOnGetter(readMethod);
 	}
 	public void buildTypedElementOnGetter(Method readMethod){
-		this.readMethod=readMethod;
+		this.readMethod = readMethod;
 		String setterName = readMethod.getName();
 		if(readMethod.getName().startsWith("is")){
-			name =  NameConverter.decapitalize(readMethod.getName().substring(2));
+			name = NameConverter.decapitalize(readMethod.getName().substring(2));
 		}else{
-		name =  NameConverter.decapitalize(readMethod.getName().substring(3));
+			name = NameConverter.decapitalize(readMethod.getName().substring(3));
 		}
 		setterName = "set" + NameConverter.capitalize(name);
 		try{
@@ -56,15 +56,11 @@ public class JavaTypedElement{
 		Class<PropertyMetaInfo> annotationClass = PropertyMetaInfo.class;
 		PropertyMetaInfo annotation = readMethod.getAnnotation(annotationClass);
 		if(annotation != null){
-			try{
-				lookupMethod = readMethod.getDeclaringClass().getMethod(annotation.lookupMethod());
-			}catch(SecurityException e1){
-			}catch(NoSuchMethodException e1){
-			}
-			this.isComposite=annotation.isComposite();
+			this.isComposite = annotation.isComposite();
 			this.opaeumId = annotation.opaeumId();
 			this.uuid = annotation.uuid();
 			this.opposite = null;// ???
+			this.lookupMethod=annotation.lookupMethod();
 			try{
 				this.strategyFactory = annotation.strategyFactory().newInstance();
 			}catch(InstantiationException e){
@@ -133,10 +129,10 @@ public class JavaTypedElement{
 		return declaringClass;
 	}
 	public boolean isReadOnly(){
-		return writeMethod==null;
+		return writeMethod == null;
 	}
 	public Object invokeGetter(Object target){
-		if(readMethod==null){
+		if(readMethod == null){
 			return null;
 		}else{
 			try{
@@ -149,16 +145,19 @@ public class JavaTypedElement{
 		}
 	}
 	public Object invokeLookupMethod(IPersistentObject target){
-		if(lookupMethod==null){
+		if(lookupMethod == null){
 			return null;
 		}else{
 			try{
+				Method lookupMethod = target.getClass().getMethod(this.lookupMethod);
 				return lookupMethod.invoke(target);
+			}catch(SecurityException e1){
+			}catch(NoSuchMethodException e1){
 			}catch(InvocationTargetException e){
 				throw new RuntimeException(e.getTargetException());
 			}catch(Exception e){
-				return null;
 			}
+			return null;
 		}
 	}
 	public boolean isMany(){

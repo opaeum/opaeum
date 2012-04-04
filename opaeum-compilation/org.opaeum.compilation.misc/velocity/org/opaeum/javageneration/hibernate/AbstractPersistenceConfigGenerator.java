@@ -28,6 +28,7 @@ import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.rap.RapCapabilities;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.util.SortedProperties;
@@ -64,7 +65,8 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		}
 	}
 	protected boolean shouldProcessModel(){
-		return !transformationContext.isIntegrationPhase();
+		SourceFolderDefinition sfd = config.getSourceFolderDefinition(TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE);
+		return !(transformationContext.isIntegrationPhase() || sfd.isOneProjectPerWorkspace());
 	}
 	protected abstract String getOutputPath(INakedElementOwner model);
 	protected abstract String getConfigName(INakedElementOwner model);

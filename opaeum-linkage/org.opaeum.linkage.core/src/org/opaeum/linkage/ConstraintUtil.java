@@ -8,6 +8,8 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedConstraintImpl;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
+import org.opaeum.metamodel.core.internal.emulated.EmulatingElement;
+import org.opaeum.metamodel.name.SingularNameWrapper;
 
 public class ConstraintUtil{
 	public static NakedConstraintImpl buildArtificialConstraint(INakedProperty p,String ocl,String constraintName){
@@ -32,18 +34,19 @@ public class ConstraintUtil{
 		parsedOclContext.setExpressionString(ocl);
 		return constraint;
 	}
-	
-	public static NakedConstraintImpl buildArtificialConstraint(INakedClassifier owner, INakedProperty p,String ocl,String constraintName){
+	public static NakedConstraintImpl buildArtificialConstraint(INakedClassifier owner,INakedProperty p,String ocl,String constraintName){
+
 		NakedConstraintImpl constraint = new NakedConstraintImpl();
 		MappingInfo constraintMappingInfo = p.getMappingInfo().getCopy();
 		constraint.setMappingInfo(constraintMappingInfo);
+		constraint.getMappingInfo().setJavaName(new SingularNameWrapper(constraintName, null));
 		constraintMappingInfo.setIdInModel(constraintMappingInfo.getIdInModel() + constraintName);
 		constraint.initialize(constraintMappingInfo.getIdInModel(), constraintName, false);
 		NakedValueSpecificationImpl vs = new NakedValueSpecificationImpl();
 		vs.setOwnerElement(constraint);
 		MappingInfo vsMappingInfo = constraintMappingInfo.getCopy();
 		vs.setMappingInfo(vsMappingInfo);
-		vsMappingInfo.setIdInModel(constraintMappingInfo.getIdInModel()+"VS");
+		vsMappingInfo.setIdInModel(constraintMappingInfo.getIdInModel() + "VS");
 		vs.initialize(vsMappingInfo.getIdInModel(), constraintName, false);
 		ParsedOclString parsedOclContext = new ParsedOclString(p.getName() + constraintName, OclUsageType.INV);
 		parsedOclContext.setContext(owner, p);
@@ -53,6 +56,11 @@ public class ConstraintUtil{
 		constraint.setName(constraintName);
 		owner.addOwnedElement(constraint);
 		parsedOclContext.setExpressionString(ocl);
+		if(p instanceof EmulatingElement){
+			constraint.getConstrainedElements().add(((EmulatingElement) p).getOriginalElement());
+		}else{
+			constraint.getConstrainedElements().add(p);
+		}
 		return constraint;
-	}	
+	}
 }

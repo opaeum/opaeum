@@ -57,7 +57,7 @@ public class AddAccountantHandler4272470142100685737 implements ICallEventHandle
 		return this.isEvent;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3326746136356078816l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForAddAccountantManager",opaeumId=3326746136356078816l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ")
 	public Manager getManager() {
 		return this.manager;
 	}

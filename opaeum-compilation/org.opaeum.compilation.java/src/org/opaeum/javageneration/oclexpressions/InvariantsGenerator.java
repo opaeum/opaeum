@@ -66,10 +66,11 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 				IClassifier et = rule.getSpecification().getOclValue().getExpression().getExpressionType();
 				Collection<INakedElement> ce = rule.getConstrainedElements();
 				if(et.isCollectionKind()){
-					if(ce.size() > 0 && ce.iterator().next() instanceof INakedProperty){
+					if(ce.size() > 0 && ce.iterator().next() instanceof INakedTypedElement){
 						String body = ec.makeExpression(cont.getExpression(), false, new ArrayList<OJParameter>());
 						OJAnnotatedOperation oper = new OJAnnotatedOperation("get" + rule.getMappingInfo().getJavaName().getCapped());
 						myClass.addToImports("java.util.List");
+
 						myClass.addToImports("java.util.ArrayList");
 						OJPathName returnType = new OJPathName();
 						returnType.addToNames("List");

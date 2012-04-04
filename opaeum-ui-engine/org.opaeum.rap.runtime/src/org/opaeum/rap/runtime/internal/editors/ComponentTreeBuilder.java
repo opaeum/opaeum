@@ -1,5 +1,8 @@
 package org.opaeum.rap.runtime.internal.editors;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import javax.persistence.Entity;
 import javax.validation.Validator;
 
@@ -12,8 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.databinding.fieldassist.ControlDecorationSupport;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
+import org.eclipse.jface.viewers.AbstractListViewer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -77,7 +79,7 @@ public class ComponentTreeBuilder{
 	private OpaeumRapSession session;
 	private EntityEditorInput input;
 	// Constructor for operation invocations
-	public ComponentTreeBuilder(IPersistentObject selectedObject,Object handler, OpaeumRapSession session){
+	public ComponentTreeBuilder(IPersistentObject selectedObject,Object handler,OpaeumRapSession session){
 		this.session = session;
 		this.application = session.getApplication();
 		this.validator = application.getValidator();
@@ -87,7 +89,7 @@ public class ComponentTreeBuilder{
 	}
 	// Constructor for class editors
 	public ComponentTreeBuilder(IPersistentObject selectedObject,EntityEditorInput input){
-		this(selectedObject, selectedObject,input.getOpaeumSession());
+		this(selectedObject, selectedObject, input.getOpaeumSession());
 		this.input = input;
 	}
 	public void addComponent(final Composite body,UimComponent comp,DataBindingContext bc){
@@ -109,9 +111,7 @@ public class ComponentTreeBuilder{
 			TableAndActionBarComposite table = new TableAndActionBarComposite(body, SWT.BORDER);
 			TableViewer tableViewer = new TableViewer(table.getTable());
 			tableViewer.setContentProvider(new ArrayContentProvider());
-			// TODO complex expressions
 			UimDataTable uimTable = (UimDataTable) comp;
-			JavaTypedElement tableRef = this.javaMetaInfo.getTypedElement(uimTable.getBinding().getUmlElementUid());
 			EList<UimComponent> children = uimTable.getChildren();
 			setLayoutData(table, uimTable);
 			int i = 0;
@@ -120,17 +120,14 @@ public class ComponentTreeBuilder{
 					final TableViewerColumn viewerColumn = new TableViewerColumn(tableViewer, SWT.NONE, i++);
 					final TableColumn column = viewerColumn.getColumn();
 					column.setText(child.getName());
-					UimField uimField = (UimField) child;
+					final UimField uimField = (UimField) child;
 					column.setWidth(uimField.getPreferredWidth() == null ? 130 : uimField.getPreferredWidth());
 					column.setResizable(true);
 					column.setMoveable(true);
-					// TODO complex expressions
-					final JavaTypedElement te = this.javaMetaInfo.getTypedElement(uimField.getBinding().getUmlElementUid());
 					viewerColumn.setLabelProvider(new ColumnLabelProvider(){
 						@Override
 						public String getText(Object element){
-							// TODO complex expressions
-							Object value = te.invokeGetter(element);
+							Object value = invoke(element, uimField.getBinding());
 							if(value instanceof IPersistentObject){
 								return ((IPersistentObject) value).getName();
 							}else if(value instanceof Enum){
@@ -148,7 +145,7 @@ public class ComponentTreeBuilder{
 			for(UimAction uimAction:actionsOnMultipleSelection){
 				addComponent(table.getActionBar(), uimAction, bc);
 			}
-			tableViewer.setInput(tableRef.invokeGetter(objectBeingUpdated));
+			tableViewer.setInput(invoke(objectBeingUpdated, uimTable.getBinding()));
 		}else if(comp instanceof BuiltInActionButton){
 			BuiltInActionButton btn = (BuiltInActionButton) comp;
 			Button button = new Button(body, SWT.PUSH);
@@ -224,7 +221,7 @@ public class ComponentTreeBuilder{
 			break;
 		case LINK:
 			LinkComposite link = (LinkComposite) uimFieldComposite.getControl();
-			final IPersistentObject linked = (IPersistentObject) typedElement.invokeGetter(objectBeingUpdated);
+			final IPersistentObject linked = (IPersistentObject) invoke(objectBeingUpdated, uimField.getBinding());
 			Link firstLink = (Link) link.getChildren()[0];
 			firstLink.setText(linked.getName());
 			firstLink.addMouseListener(new MouseListener(){
@@ -261,11 +258,15 @@ public class ComponentTreeBuilder{
 		}
 	}
 	private ISWTObservableValue observeListbox(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement){
+		AbstractListViewer cb = new ListViewer((List) uimFieldComposite.getControl());
+		return observeListViewer(uimFieldComposite, uimField, typedElement, cb);
+	}
+	private ISWTObservableValue observeListViewer(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement,
+			AbstractListViewer cb){
 		ISWTObservableValue observeText;
 		observeText = SWTObservables.observeSelection(uimFieldComposite.getControl());
 		if(typedElement.getBaseType().isEnum()){
 		}else if(typedElement.getBaseType().isAnnotationPresent(Entity.class)){
-			ListViewer cb = new ListViewer((List) uimFieldComposite.getControl());
 			cb.setLabelProvider(new LabelProvider(){
 				@Override
 				public String getText(Object element){
@@ -276,51 +277,19 @@ public class ComponentTreeBuilder{
 			UimLookup lookup = (UimLookup) uimField.getControl();
 			if(lookup.getLookupSource() == null){
 				if(typedElement.isReadOnly()){
-					// TODO complex expressions
-					cb.setInput(typedElement.invokeGetter(objectBeingUpdated));
+					cb.setInput(invoke(objectBeingUpdated, uimField.getBinding()));
 				}else{
 					cb.setInput(typedElement.invokeLookupMethod(selectedObject));
 				}
 			}else{
-				// TODO lookup
+				cb.setInput(invoke(objectBeingUpdated, lookup.getLookupSource()));
 			}
 		}
 		return observeText;
 	}
 	private IObservableValue observeDropdown(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement){
-		IViewerObservableValue observeText;
 		ComboViewer cb = new ComboViewer((CCombo) uimFieldComposite.getControl());
-		if(typedElement.getBaseType().isEnum()){
-			cb.setLabelProvider(new LabelProvider(){
-				@Override
-				public String getText(Object element){
-					return ((Enum) element).name();
-				}
-			});
-			cb.setContentProvider(new ArrayContentProvider());
-			cb.setInput(typedElement.getBaseType().getEnumConstants());
-		}else if(IPersistentObject.class.isAssignableFrom(typedElement.getBaseType())){
-			cb.setLabelProvider(new LabelProvider(){
-				@Override
-				public String getText(Object element){
-					return ((IPersistentObject) element).getName();
-				}
-			});
-			cb.setContentProvider(new ArrayContentProvider());
-			UimLookup lookup = (UimLookup) uimField.getControl();
-			if(lookup.getLookupSource() == null){
-				if(typedElement.isReadOnly()){
-					// TODO complex expressions
-					cb.setInput(typedElement.invokeGetter(objectBeingUpdated));
-				}else{
-					cb.setInput(typedElement.invokeLookupMethod(selectedObject));
-				}
-			}else{
-				// TODO lookup
-			}
-		}
-		observeText = ViewerProperties.singleSelection().observe(cb);
-		return observeText;
+		return observeListViewer(uimFieldComposite, uimField, typedElement, cb);
 	}
 	private ISWTObservableValue populateTextStrategies(UimFieldComposite uimFieldComposite,JavaTypedElement typedElement,
 			UpdateValueStrategy targetToModel,UpdateValueStrategy modelToTarget){
@@ -341,12 +310,27 @@ public class ComponentTreeBuilder{
 	}
 	private String getExpression(UimBinding b){
 		JavaTypedElement typedElement = javaMetaInfo.getTypedElement(b.getUmlElementUid());
-		if(typedElement == null){
-			System.out.println();
-		}
 		StringBuilder sb = new StringBuilder(typedElement.getName());
 		appendExpression(sb, b.getNext());
 		return sb.toString();
+	}
+	private Object invoke(Object target,UimBinding b){
+		JavaTypedElement typedElement = javaMetaInfo.getTypedElement(b.getUmlElementUid());
+		Object value = typedElement.invokeGetter(target);
+		if(b.getNext() != null){
+			return invoke(value, b.getNext());
+		}else{
+			return value;
+		}
+	}
+	private Object invoke(Object target,PropertyRef next){
+		JavaTypedElement typedElement = javaMetaInfo.getTypedElement(next.getUmlElementUid());
+		Object value = typedElement.invokeGetter(target);
+		if(next.getNext() != null){
+			return invoke(value, next.getNext());
+		}else{
+			return value;
+		}
 	}
 	private void appendExpression(StringBuilder sb,PropertyRef next){
 		if(next != null){

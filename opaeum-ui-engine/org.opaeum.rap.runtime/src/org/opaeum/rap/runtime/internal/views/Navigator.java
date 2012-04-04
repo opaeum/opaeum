@@ -35,6 +35,7 @@ import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.actions.NewAction;
 import org.opaeum.rap.runtime.internal.actions.OpenEditorAction;
+import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.organization.IPersonNode;
@@ -44,6 +45,7 @@ public class Navigator extends ViewPart{
 	private DrillDownAdapter drillDownAdapter;
 	private Action openEditor;
 	private OpaeumRapSession opaeumSession;
+	private NavigatorContentProvider provider;
 	private class ViewLabelProvider extends LabelProvider{
 		public String getText(final Object element){
 			if(element instanceof IPersonNode){
@@ -64,7 +66,8 @@ public class Navigator extends ViewPart{
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
 		this.opaeumSession = (OpaeumRapSession) RWT.getRequest().getSession(true).getAttribute("opaeumSession");
-		viewer.setContentProvider(new NavigatorContentProvider(opaeumSession));
+		this.provider = new NavigatorContentProvider(opaeumSession);
+		viewer.setContentProvider(provider);
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setInput(opaeumSession.getPersonNode());
 		makeActions();
@@ -76,14 +79,38 @@ public class Navigator extends ViewPart{
 				if(part != Navigator.this){
 					IPersistentObject entity = (IPersistentObject) part.getAdapter(IPersistentObject.class);
 					if(entity != null){
-						ISelection selection = new StructuredSelection(entity);
-						viewer.setSelection(selection, true);
+						PersistentObjectTreeItem ti = provider.getTreeItemFor(entity);
+						if(ti == null){
+							// Newly created or not expanded yet
+							CompositionNode cn = (CompositionNode) entity;
+							ti = provider.getTreeItemFor((IPersistentObject) cn.getOwningObject());
+							if(ti != null){
+								// Newly created
+								opaeumSession.getPersistence().refresh(ti.getEntity());//NB!! Get entity from THIS session
+								viewer.refresh(ti);
+							}
+						}else{
+							opaeumSession.getPersistence().refresh(ti.getEntity());//NB!! Get entity from THIS session
+							ISelection selection = new StructuredSelection(ti);
+							viewer.setSelection(selection, true);
+						}
 					}
 				}
 			}
 			public void partBroughtToTop(final IWorkbenchPart part){
 			}
 			public void partClosed(final IWorkbenchPart part){
+				if(part != Navigator.this){
+					IPersistentObject entity = (IPersistentObject) part.getAdapter(IPersistentObject.class);
+					if(entity != null){
+						PersistentObjectTreeItem ti = provider.getTreeItemFor(entity);
+						if(ti != null){
+							opaeumSession.getPersistence().refresh(ti.getEntity());//NB!! Get entity from THIS session
+							viewer.refresh(ti);
+							
+						}
+					}
+				}
 			}
 			public void partDeactivated(final IWorkbenchPart part){
 			}

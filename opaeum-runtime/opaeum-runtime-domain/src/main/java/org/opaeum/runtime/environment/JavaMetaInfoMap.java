@@ -104,6 +104,7 @@ public abstract class JavaMetaInfoMap{
 		allClasses.add(c);
 		classUuidMap.put(c, uuid);
 		uuidClassMap.put(uuid, c);
+		uuidClassMap.put(c.getName(), c);
 	}
 	private void putTypedElements(JavaTypedElementContainer jtec){
 		for(Entry<String,JavaTypedElement> entry:jtec.getTypedElements().entrySet()){

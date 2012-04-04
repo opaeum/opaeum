@@ -15,23 +15,24 @@ import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.internal.CompositionSiblingsFinder;
 import org.opaeum.metamodel.core.internal.NakedConstraintImpl;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.name.NameConverter;
 
-@StepDependency(phase = LinkagePhase.class,after = {
-		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class
-},requires = {
-		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class
-},before = NakedParsedOclStringResolver.class)
+@StepDependency(phase = LinkagePhase.class,after = {MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,
+		CompositionEmulator.class},requires = {MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,
+		CompositionEmulator.class},before = NakedParsedOclStringResolver.class)
 public class SourcePopulationResolver extends AbstractModelElementLinker{
 	@Deprecated
 	private Map<INakedClassifier,Collection<INakedClassifier>> hierarchicalSubClasses = new HashMap<INakedClassifier,Collection<INakedClassifier>>();
@@ -46,20 +47,22 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 	public void visitEntity(INakedEntity e){
 		for(INakedProperty p:e.getEffectiveAttributes()){
 			if(p.getOwner() instanceof INakedInterface){
-				buildSourcePopulationConstraint(e, p);
+				buildSourcePopulationConstraint(e, p, "SourcePopulationFor" + NameConverter.capitalize(p.getName()));
 			}
 		}
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitProperty(INakedProperty p){
 		if(p.getOwner() instanceof INakedEntity){
-			buildSourcePopulationConstraint((ICompositionParticipant) p.getOwner(), p);
+			buildSourcePopulationConstraint((ICompositionParticipant) p.getOwner(), p,
+					"SourcePopulationFor" + NameConverter.capitalize(p.getName()));
 		}
 	}
-	private void buildSourcePopulationConstraint(ICompositionParticipant owner,INakedProperty p){
+	private void buildSourcePopulationConstraint(ICompositionParticipant owner,INakedProperty p,String name){
+		INakedConstraint constr = null;
 		boolean isComposition = p.isComposite() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite());
 		if(!isComposition && shouldResolve(p, owner) && !p.isDerived() && !p.isReadOnly()){
-			INakedConstraint constr = getSourcePopulationConstraint(p, owner);
+			constr = getSourcePopulationConstraint(p, owner);
 			if(constr == null){
 				if(owner.hasStereotype(HIERARCHY)){
 					// Find concrete owners of root of hierarchy
@@ -68,12 +71,11 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 					for(INakedClassifier iClassifier:subClasses){
 						if(!iClassifier.getIsAbstract()){
 							e = (ICompositionParticipant) iClassifier;
-							constr = buildOclConstraint(p, constr, e);
+							constr = buildOclConstraint(p, constr, e, name);
 						}
 					}
-					constr = null;
 				}else{
-					constr = buildOclConstraint(p, constr, owner);
+					constr = buildOclConstraint(p, constr, owner, name);
 				}
 			}
 			if(constr != null && constr.getSpecification().getOclValue() instanceof ParsedOclString){
@@ -94,11 +96,10 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			pcs.setExpressionString(pcs.getExpressionString() + "->asSet()");
 		}
 	}
-	private INakedConstraint buildOclConstraint(INakedProperty p,INakedConstraint constr,ICompositionParticipant e){
+	private INakedConstraint buildOclConstraint(INakedProperty p,INakedConstraint constr,ICompositionParticipant e,String name){
 		String ocl = buildOcl(e, p);
 		if(ocl != null){
-			NakedConstraintImpl constraint = ConstraintUtil.buildArtificialConstraint(e, p, ocl, "SourcePopulationFor" + NameConverter.capitalize(p.getName()));
-			constraint.getConstrainedElements().add(p);
+			NakedConstraintImpl constraint = ConstraintUtil.buildArtificialConstraint(e, p, ocl, name);
 			constr = constraint;
 		}
 		return constr;
@@ -150,11 +151,11 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			}
 			calculatePathFromOwnerToCommonCompositionsAncestorForAncestor(commonComposite, owner, baseType, pathToCommonComposite);
 		}else{
-			commonComposite = calculatePathFromOwnerToCommonCompositionsAncestor(owner, baseType, pathToCommonComposite,30);
+			commonComposite = calculatePathFromOwnerToCommonCompositionsAncestor(owner, baseType, pathToCommonComposite, 30);
 		}
 		if(commonComposite != null){
 			StringBuilder pathFromCommonComposite = new StringBuilder();
-			calculatePathFromCommonCompositionsAncestorToBaseType(commonComposite, baseType, pathFromCommonComposite,30);
+			calculatePathFromCommonCompositionsAncestorToBaseType(commonComposite, baseType, pathFromCommonComposite, 30);
 			ocl = pathToCommonComposite.toString() + pathFromCommonComposite;
 		}else{
 			System.out.println("No compositional ancestor found between " + getPathNameInModel(owner) + " and " + getPathNameInModel(baseType));
@@ -163,7 +164,8 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 	}
 	private boolean shouldResolve(INakedTypedElement p,INakedClassifier owner){
 		INakedClassifier baseType = p.getNakedBaseType();
-		return ((baseType instanceof ICompositionParticipant || (baseType instanceof INakedEnumeration) && owner instanceof ICompositionParticipant))
+		return ((baseType instanceof ICompositionParticipant || (baseType instanceof INakedEnumeration)
+				&& owner instanceof ICompositionParticipant))
 				&& !(baseType.hasStereotype(StereotypeNames.HELPER) || owner.hasStereotype(StereotypeNames.HELPER));
 	}
 	private INakedConstraint getSourcePopulationConstraint(INakedMultiplicityElement t,INakedClassifier owner){
@@ -174,8 +176,8 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 		}
 		return null;
 	}
-	private ICompositionParticipant calculatePathFromOwnerToCommonCompositionsAncestorForAncestor(ICompositionParticipant ancestor,ICompositionParticipant owner,
-			ICompositionParticipant type,StringBuilder expression){
+	private ICompositionParticipant calculatePathFromOwnerToCommonCompositionsAncestorForAncestor(ICompositionParticipant ancestor,
+			ICompositionParticipant owner,ICompositionParticipant type,StringBuilder expression){
 		if(owner.equals(ancestor)){
 			return owner;
 		}else{
@@ -185,12 +187,14 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			}else{
 				expression.append(".");
 				expression.append(endToComposite.getName());
-				return calculatePathFromOwnerToCommonCompositionsAncestorForAncestor(ancestor, (INakedEntity) endToComposite.getNakedBaseType(), type, expression);
+				return calculatePathFromOwnerToCommonCompositionsAncestorForAncestor(ancestor, (INakedEntity) endToComposite.getNakedBaseType(),
+						type, expression);
 			}
 		}
 	}
-	private ICompositionParticipant calculatePathFromOwnerToCommonCompositionsAncestor(ICompositionParticipant owner,ICompositionParticipant type,StringBuilder expression, int depth){
-		if(CompositionSiblingsFinder.isCompositionAncestorOf(owner, type) || depth==0){
+	private ICompositionParticipant calculatePathFromOwnerToCommonCompositionsAncestor(ICompositionParticipant owner,
+			ICompositionParticipant type,StringBuilder expression,int depth){
+		if(CompositionSiblingsFinder.isCompositionAncestorOf(owner, type) || depth == 0){
 			return owner;
 		}else{
 			INakedProperty endToComposite = owner.getEndToComposite();
@@ -199,19 +203,22 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			}else{
 				expression.append(".");
 				expression.append(endToComposite.getName());
-				return calculatePathFromOwnerToCommonCompositionsAncestor((ICompositionParticipant) endToComposite.getNakedBaseType(), type, expression,--depth);
+				return calculatePathFromOwnerToCommonCompositionsAncestor((ICompositionParticipant) endToComposite.getNakedBaseType(), type,
+						expression, --depth);
 			}
 		}
 	}
-	private void calculatePathFromCommonCompositionsAncestorToBaseType(ICompositionParticipant ancestor,ICompositionParticipant baseType,StringBuilder expression, int depth){
+	private void calculatePathFromCommonCompositionsAncestorToBaseType(ICompositionParticipant ancestor,ICompositionParticipant baseType,
+			StringBuilder expression,int depth){
 		INakedProperty endToComposite = baseType.getEndToComposite();
-		if(endToComposite == null || depth==0){
+		if(endToComposite == null || depth == 0){
 			return;
 		}else if(endToComposite.getNakedBaseType().conformsTo(ancestor)){
 			expression.append(".");
 			expression.append(endToComposite.getOtherEnd().getName());
 		}else{
-			calculatePathFromCommonCompositionsAncestorToBaseType(ancestor, (ICompositionParticipant) endToComposite.getNakedBaseType(), expression,--depth);
+			calculatePathFromCommonCompositionsAncestorToBaseType(ancestor, (ICompositionParticipant) endToComposite.getNakedBaseType(),
+					expression, --depth);
 			expression.append("->collect(c|c.");
 			expression.append(endToComposite.getOtherEnd().getName());
 			expression.append(")");
@@ -229,10 +236,18 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitParameter(INakedParameter p){
-		// TODO provide lookups for Parameters
+		INakedElement owner = (INakedElement) p.getOwnerElement();
+		if(owner instanceof INakedOperation && owner.getOwnerElement() instanceof ICompositionParticipant){
+
+			ICompositionParticipant compositionParticipant = (ICompositionParticipant) owner.getOwnerElement();
+			TypedElementPropertyBridge tepb = new TypedElementPropertyBridge(compositionParticipant, p);
+			String name = "SourcePopulationFor" + NameConverter.capitalize(owner.getName()) + NameConverter.capitalize(p.getName());
+			buildSourcePopulationConstraint(compositionParticipant, tepb, name);
+		}
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitParameter(INakedOutputPin p){
-		// TODO provide lookups for Output pins for tasks
+		String name = "SourcePopulationFor" + NameConverter.capitalize(p.getAction().getName()) + NameConverter.capitalize(p.getName());
+		buildSourcePopulationConstraint(p.getActivity(), new TypedElementPropertyBridge(p.getActivity(), p), name);
 	}
 }

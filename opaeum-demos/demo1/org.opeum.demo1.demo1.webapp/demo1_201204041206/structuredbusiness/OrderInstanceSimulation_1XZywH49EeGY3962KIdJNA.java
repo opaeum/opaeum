@@ -14,7 +14,7 @@ public class OrderInstanceSimulation_1XZywH49EeGY3962KIdJNA extends EntityInstan
 		int descriptionCount = 0;
 		while ( descriptionCount<1 ) {
 			descriptionCount++;
-			result.setDescription((String)SimulationMetaData.getInstance().getNextValueForProperty("demo1_201204041206::OrderInstanceSimulation","description"));
+			result.setMySpecialDescription((String)SimulationMetaData.getInstance().getNextValueForProperty("demo1_201204041206::OrderInstanceSimulation","description"));
 		}
 		result.addToOwningObject();
 		return result;

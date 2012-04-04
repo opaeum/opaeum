@@ -1,7 +1,9 @@
 package org.opaeum.rap.runtime.internal.views;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -18,19 +20,21 @@ import org.opaeum.runtime.organization.IPersonNode;
 public class NavigatorContentProvider implements ITreeContentProvider {
 
 	private static final long serialVersionUID = -2355313344107959671L;
-	private StructuredViewer viewer;
 	private OpaeumRapSession opaeumSession;
-
+	Map<IPersistentObject,PersistentObjectTreeItem> objectItemMap=new HashMap<IPersistentObject,PersistentObjectTreeItem>();
+	
 	public NavigatorContentProvider(OpaeumRapSession opaeumRapSession) {
 		this.opaeumSession=opaeumRapSession;
 	}
 
 	public void inputChanged(final Viewer viewer, final Object oldInput,
 			final Object newInput) {
-		this.viewer = (StructuredViewer) viewer;
 	}
 
 	public void dispose() {
+	}
+	public PersistentObjectTreeItem getTreeItemFor(IPersistentObject p){
+		return objectItemMap.get(p);
 	}
 
 	public Object[] getElements(final Object parent) {
@@ -53,7 +57,7 @@ public class NavigatorContentProvider implements ITreeContentProvider {
 			for (IBusinessRoleBase br : ((IPersonNode) parent)
 					.getBusinessRole()) {
 				result.add(new PersistentObjectTreeItem(parent,
-						(IPersistentObject) br.getOwningObject()));
+						(IPersistentObject) br.getOwningObject(),objectItemMap));
 			}
 			return result.toArray();
 		} else if (parent instanceof PersistentObjectTreeItem) {
@@ -66,13 +70,5 @@ public class NavigatorContentProvider implements ITreeContentProvider {
 
 	public boolean hasChildren(final Object parent) {
 		return getChildren(parent).length > 0;
-	}
-
-	public void doEntityCreated(final ModelEvent evt) {
-//		EntityAdapter.refreshAssociations(evt.getEntity(), viewer);
-		if (viewer.getControl().getDisplay() == Display.getCurrent()) {
-			ISelection selection = new StructuredSelection(evt.getEntity());
-			viewer.setSelection(selection, true);
-		}
 	}
 }

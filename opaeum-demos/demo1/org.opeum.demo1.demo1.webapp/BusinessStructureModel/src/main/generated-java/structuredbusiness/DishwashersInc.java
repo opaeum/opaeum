@@ -688,6 +688,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
+	public List<Manager> getSourcePopulationForAddAccountantManager() {
+		return new ArrayList<Manager>(Stdlib.collectionAsSet(this.getManager()));
+	}
+	
 	public List<OrganizationNode> getSourcePopulationForRepresentedOrganization() {
 		return new ArrayList<OrganizationNode>(Stdlib.collectionAsSet(this.getRoot().getBusinessNetwork().getOrganization()));
 	}

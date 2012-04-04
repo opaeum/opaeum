@@ -15,6 +15,7 @@ import org.eclipse.papyrus.infra.core.lifecycleevents.ISaveAndDirtyService;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerPageBookView;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerView;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -26,6 +27,7 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.internal.WorkbenchWindow;
@@ -91,7 +93,7 @@ public class OpaeumPageListener implements IStartup{
 			if(part instanceof PapyrusMultiDiagramEditor){
 				PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) part;
 				IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
-				if(!(umlFile.getParent().getName().equals("ui")||umlFile.getParent().getName().equals("simulation"))){
+				if(!(umlFile.getParent().getName().equals("ui") || umlFile.getParent().getName().equals("simulation"))){
 					OpaeumEclipseContext result = OpaeumEclipseContext.getContextFor(umlFile.getParent());
 					if(result != null){
 						result.onClose(umlFile);
@@ -137,7 +139,8 @@ public class OpaeumPageListener implements IStartup{
 			if(result.getEditingContextFor(umlFile) == null){
 				((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
 				result.startSynch(e.getEditingDomain(), umlFile);
-				result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(e.getSite().getWorkbenchWindow()));
+				final IWorkbenchWindow workbenchWindow = e.getSite().getWorkbenchWindow();
+				result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(workbenchWindow));
 				ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);
 				saveAndDirtyService.registerIsaveablePart(new ISaveablePart(){
 					public boolean isSaveOnCloseNeeded(){
@@ -156,6 +159,12 @@ public class OpaeumPageListener implements IStartup{
 					}
 				});
 				result.setCurrentEditContext(e.getEditingDomain(), umlFile, result.geteObjectSelectorUI());
+				try{
+					workbenchWindow.getActivePage().showView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
+				}catch(PartInitException e1){
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 		IWorkbenchWindow window = Workbench.getInstance().getActiveWorkbenchWindow();
@@ -165,13 +174,13 @@ public class OpaeumPageListener implements IStartup{
 			if(((WorkbenchWindow) window).getCoolBarVisible()){
 				coolBarManager = ((WorkbenchWindow) window).getCoolBarManager2();
 			}
-//			IContributionItem[] items = coolBarManager.getItems();
-//			for(IContributionItem item:items){
-//				if(item.getId().toLowerCase().contains("org.eclipse.papyrus.uml.diagram.ui.toolbar")){
-//					coolBarManager.remove(item);
-//				}
-//			}
-//			coolBarManager.update(true);
+			// IContributionItem[] items = coolBarManager.getItems();
+			// for(IContributionItem item:items){
+			// if(item.getId().toLowerCase().contains("org.eclipse.papyrus.uml.diagram.ui.toolbar")){
+			// coolBarManager.remove(item);
+			// }
+			// }
+			// coolBarManager.update(true);
 		}
 	}
 	private ISaveAndDirtyService getSaveAndDirtyService(PapyrusMultiDiagramEditor e){

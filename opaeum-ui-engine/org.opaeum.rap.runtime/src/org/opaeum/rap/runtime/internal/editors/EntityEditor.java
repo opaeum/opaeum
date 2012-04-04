@@ -93,6 +93,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		getSite().setSelectionProvider(new SelectionProvider());
 		getEditorInput().setDirtyListener(this);
 	}
+	
 	protected void createHeaderContents(final IManagedForm headerForm){
 		final FormToolkit toolkit = headerForm.getToolkit();
 		Section section = toolkit.createSection(headerForm.getForm().getForm().getHead(), Section.EXPANDED);
@@ -321,7 +322,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 	final Class adapter){
 		Object result;
 		if(adapter == IPersistentObject.class){
-			result = getEditorInput().getAdapter(adapter);
+			result = getEditorInput().getPersistentObject();
 		}else if(adapter == IPropertySheetPage.class){
 			result = createPropertySheetPage();
 		}else{

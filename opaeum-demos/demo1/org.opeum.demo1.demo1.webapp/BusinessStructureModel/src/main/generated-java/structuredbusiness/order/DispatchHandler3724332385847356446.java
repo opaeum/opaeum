@@ -41,7 +41,7 @@ public class DispatchHandler3724332385847356446 implements ICallEventHandler {
 	public DispatchHandler3724332385847356446() {
 	}
 
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8931706039232190181l,uuid="914890@_5a6WYH47EeGarqqEaoJFHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForDispatchAccountant",opaeumId=8931706039232190181l,uuid="914890@_5a6WYH47EeGarqqEaoJFHg")
 	public Accountant getAccountant() {
 		return this.accountant;
 	}
