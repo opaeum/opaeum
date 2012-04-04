@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.name.NameConverter;
@@ -67,6 +66,9 @@ public abstract class JavaMetaInfoMap{
 						String handlerName = c.getName().toLowerCase() + "." + NameConverter.capitalize(method.getName()) + "Handler" + nakedUmlId;
 						Class<? extends IEventHandler> mi = (Class<? extends IEventHandler>) c.getClassLoader().loadClass(handlerName);
 						this.eventHandlersByUuid.put(uuid, mi);
+						JavaTypedElementContainer con = new JavaTypedElementContainer(mi);
+						this.typedElementContainers.put(uuid, con);
+						putTypedElements(con);
 						allClasses.add(mi);
 					}catch(ClassNotFoundException e){
 					}
@@ -182,5 +184,9 @@ public abstract class JavaMetaInfoMap{
 		}else{
 			return IntrospectionUtil.newInstance(c);
 		}
+	}
+	public JavaTypedElementContainer getTypedElementContainer(String id){
+		return typedElementContainers.get(id);
+		
 	}
 }

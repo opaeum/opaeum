@@ -9,11 +9,11 @@ public class HibernateConversationalPersistence extends AbstractHibernatePersist
 	}
 	@Override
 	public void close(){
-		session.close();
+		getSession().close();
 	}
 	@Override
 	public void flush(){
-		session.flush();
+		getSession().flush();
 	}
 	
 }

@@ -151,7 +151,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return false;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7885609895206246713l,opposite="organizationFullfillsActorRole_organization",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7885609895206246713l,opposite="organizationFullfillsActorRole_organization",uuid="252060@_AN3QcEtxEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public IBusinessActor getBusinessActor() {
 		IBusinessActor result = (IBusinessActor)this.businessActor.getValue(persistence);
@@ -175,7 +175,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7882025735278420517l,opposite="organizationFullfillsActorRole_businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7882025735278420517l,opposite="organizationFullfillsActorRole_businessActor",uuid="252060@_pZdQEEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;

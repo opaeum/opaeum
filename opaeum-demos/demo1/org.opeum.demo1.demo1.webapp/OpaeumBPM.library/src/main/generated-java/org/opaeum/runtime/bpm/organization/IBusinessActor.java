@@ -25,11 +25,11 @@ public interface IBusinessActor extends Participant, HibernateEntity, Compositio
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public OrganizationNode getOrganization();
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4147448129438915430l,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4147448129438915430l,opposite="businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public OrganizationFullfillsActorRole getOrganizationFullfillsActorRole_organization();
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=9023075862366939329l,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=9023075862366939329l,opposite="businessActor",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public PersonFullfillsActorRole getPersonFullfillsActorRole_representedPerson();
 	

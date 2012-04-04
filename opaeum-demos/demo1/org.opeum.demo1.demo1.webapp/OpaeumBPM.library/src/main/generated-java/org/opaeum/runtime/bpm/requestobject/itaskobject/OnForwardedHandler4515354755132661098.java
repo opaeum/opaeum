@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.ITaskObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
@@ -44,10 +45,12 @@ public class OnForwardedHandler4515354755132661098 implements ICallEventHandler 
 		return this.firstOccurrenceScheduledFor;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2435983182155799959l,uuid="252060@_Qcqd4K0OEeCK48ywUpk_rg")
 	public Participant getForwardedBy() {
 		return this.forwardedBy;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=938298307904775797l,uuid="252060@_Qv0DYK0OEeCK48ywUpk_rg")
 	public Participant getForwardedTo() {
 		return this.forwardedTo;
 	}

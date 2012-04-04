@@ -11,6 +11,7 @@ import org.opaeum.uim.Page;
 import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
+import org.opaeum.uim.UimRootElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
@@ -118,6 +119,7 @@ public class EditorSwitch<T> {
 				ActionTaskEditor actionTaskEditor = (ActionTaskEditor)theEObject;
 				T result = caseActionTaskEditor(actionTaskEditor);
 				if (result == null) result = caseAbstractEditor(actionTaskEditor);
+				if (result == null) result = caseUimRootElement(actionTaskEditor);
 				if (result == null) result = caseUmlReference(actionTaskEditor);
 				if (result == null) result = caseUserInterfaceEntryPoint(actionTaskEditor);
 				if (result == null) result = caseUserInteractionElement(actionTaskEditor);
@@ -151,6 +153,7 @@ public class EditorSwitch<T> {
 				QueryInvocationEditor queryInvocationEditor = (QueryInvocationEditor)theEObject;
 				T result = caseQueryInvocationEditor(queryInvocationEditor);
 				if (result == null) result = caseAbstractEditor(queryInvocationEditor);
+				if (result == null) result = caseUimRootElement(queryInvocationEditor);
 				if (result == null) result = caseUmlReference(queryInvocationEditor);
 				if (result == null) result = caseUserInterfaceEntryPoint(queryInvocationEditor);
 				if (result == null) result = caseUserInteractionElement(queryInvocationEditor);
@@ -362,6 +365,21 @@ public class EditorSwitch<T> {
 	 * @generated
 	 */
 	public T caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Root Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Root Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUimRootElement(UimRootElement object) {
 		return null;
 	}
 

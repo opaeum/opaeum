@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.document.IBusinessDocument;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
@@ -50,6 +51,7 @@ public class MakeCopyHandler4293337385271490119 implements ICallEventHandler {
 		return "OpaeumLibraryForBPM::document::IBusinessDocument::makeCopy";
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6993432784255552729l,uuid="252060@_qe-NkF9lEeG3X_yvufTVmw")
 	public IBusinessDocument getResult() {
 		return this.result;
 	}

@@ -170,7 +170,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		return false;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=9180074202228577303l,opposite="businessNetworkFacilatatesCollaboration_businessNetwork",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJGvcVYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=9180074202228577303l,opposite="businessNetworkFacilatatesCollaboration_businessNetwork",uuid="252060@_zGMYgEvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	public IBusinessCollaboration getBusinessCollaboration() {
 		IBusinessCollaboration result = (IBusinessCollaboration)this.businessCollaboration.getValue(persistence);
@@ -178,7 +178,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4534287215016532533l,opposite="businessNetworkFacilatatesCollaboration_businessCollaboration",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJETMFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4534287215016532533l,opposite="businessNetworkFacilatatesCollaboration_businessCollaboration",uuid="252060@_NRu9QFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJETMFYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork() {
 		BusinessNetwork result = this.businessNetwork;

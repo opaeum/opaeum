@@ -60,7 +60,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	private BusinessCalendar businessCalendar;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	@Column(name="date")
+	@Column(name="`date`")
 	private Date date;
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)

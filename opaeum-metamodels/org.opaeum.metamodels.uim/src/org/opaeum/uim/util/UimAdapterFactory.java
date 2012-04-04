@@ -155,6 +155,10 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 				return createPageContainerAdapter();
 			}
 			@Override
+			public Adapter caseUimRootElement(UimRootElement object) {
+				return createUimRootElementAdapter();
+			}
+			@Override
 			public Adapter caseConstrainedObject(ConstrainedObject object) {
 				return createConstrainedObjectAdapter();
 			}
@@ -425,6 +429,20 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPageContainerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimRootElement <em>Root Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.UimRootElement
+	 * @generated
+	 */
+	public Adapter createUimRootElementAdapter() {
 		return null;
 	}
 

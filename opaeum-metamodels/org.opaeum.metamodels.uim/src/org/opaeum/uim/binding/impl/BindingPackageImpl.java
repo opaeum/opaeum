@@ -343,7 +343,6 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 		// Obtain other dependent packages
 		ControlPackage theControlPackage = (ControlPackage)EPackage.Registry.INSTANCE.getEPackage(ControlPackage.eNS_URI);
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
-		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -370,8 +369,6 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 		initEReference(getUimBinding_Next(), this.getPropertyRef(), this.getPropertyRef_Binding(), "next", null, 0, 1, UimBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(uimBindingEClass, ecorePackage.getEString(), "getLastPropertyUuid", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		addEOperation(uimBindingEClass, theEcorePackage.getEString(), "getExpression", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(propertyRefEClass, PropertyRef.class, "PropertyRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPropertyRef_Binding(), this.getUimBinding(), this.getUimBinding_Next(), "binding", null, 0, 1, PropertyRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

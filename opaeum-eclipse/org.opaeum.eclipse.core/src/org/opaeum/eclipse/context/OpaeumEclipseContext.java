@@ -162,8 +162,8 @@ public class OpaeumEclipseContext{
 		return newlyCreated;
 	}
 	public void reinitialize(){
-		this.directoryEmfWorkspace=null;
-		this.directoryEditingDomain=null;
+		this.directoryEmfWorkspace = null;
+		this.directoryEditingDomain = null;
 		resourceSetsStartedButNotLoaded.clear();
 		umlElementCache.reinitializeProcess();
 		ArrayList<OpenUmlFile> arrayList = new ArrayList<OpenUmlFile>(openUmlFiles.values());
@@ -338,7 +338,7 @@ public class OpaeumEclipseContext{
 			}
 			getEmfToOpaeumSynchronizer().resume();
 			errorMarker.maybeSchedule();
-			return directoryEmfWorkspace=dew;
+			return directoryEmfWorkspace = dew;
 		}catch(CoreException e){
 			throw new RuntimeException(e);
 		}finally{
@@ -453,8 +453,12 @@ public class OpaeumEclipseContext{
 		}
 	}
 	public static OpaeumEclipseContext getContextFor(Element element){
-		return getContextFor(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(element.eResource().getURI().toPlatformString(true)))
-				.getParent());
+		String platformString = element.eResource().getURI().toPlatformString(true);
+		if(platformString == null){
+			return null;
+		}else{
+			return getContextFor(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString)).getParent());
+		}
 	}
 	public EObjectSelectorUI geteObjectSelectorUI(){
 		return eObjectSelectorUI;

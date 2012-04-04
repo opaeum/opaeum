@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -37,6 +38,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.IBusiness;
 import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
@@ -68,7 +70,7 @@ import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
 @NumlMetaInfo(uuid="914890@_CQTWAGOeEeGwMNo027LgxA")
-@BusinessComponent(businessRoles={Manager.class,Accountant.class,DocumentVerifier.class},isRoot=true)
+@BusinessComponent(businessRoles={Manager.class,Accountant.class},isRoot=true)
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
@@ -91,10 +93,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc",targetEntity=DishWasherModel.class)
 	private Set<DishWasherModel> dishWasher = new HashSet<DishWasherModel>();
-	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
-	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
-	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc",targetEntity=DocumentVerifier.class)
-	private Set<DocumentVerifier> documentVerifier = new HashSet<DocumentVerifier>();
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
@@ -114,6 +112,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc",targetEntity=Order.class)
+	private Set<Order> order = new HashSet<Order>();
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="organization_i_business_component_1_represented_organization_id",nullable=true)
 	private Organization_iBusinessComponent_1 organization_iBusinessComponent_1_representedOrganization;
@@ -159,6 +161,11 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	public DishwashersInc() {
 	}
 
+	@NumlMetaInfo(uuid="914890@_FGOJ8H4bEeGW5bASaRr7SQ")
+	public void addAccountant(@ParameterMetaInfo(name="name",opaeumId=341190338248797855l,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ") String name, @ParameterMetaInfo(name="isChartered",opaeumId=9099761849766142693l,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ") Boolean isChartered, @ParameterMetaInfo(name="manager",opaeumId=4684052632804621483l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ") Manager manager) {
+		generateAddAccountantEvent(name,isChartered,manager);
+	}
+	
 	public void addAllToAccountant(Set<Accountant> accountant) {
 		for ( Accountant o : accountant ) {
 			addToAccountant(o);
@@ -171,12 +178,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void addAllToDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
-		for ( DocumentVerifier o : documentVerifier ) {
-			addToDocumentVerifier(o);
-		}
-	}
-	
 	public void addAllToIdBook(Set<IdBook> idBook) {
 		for ( IdBook o : idBook ) {
 			addToIdBook(o);
@@ -186,6 +187,12 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	public void addAllToManager(Set<Manager> manager) {
 		for ( Manager o : manager ) {
 			addToManager(o);
+		}
+	}
+	
+	public void addAllToOrder(Set<Order> order) {
+		for ( Order o : order ) {
+			addToOrder(o);
 		}
 	}
 	
@@ -215,14 +222,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void addToDocumentVerifier(DocumentVerifier documentVerifier) {
-		if ( documentVerifier!=null ) {
-			documentVerifier.z_internalRemoveFromDishwashersInc(documentVerifier.getDishwashersInc());
-			documentVerifier.z_internalAddToDishwashersInc(this);
-			z_internalAddToDocumentVerifier(documentVerifier);
-		}
-	}
-	
 	public void addToIdBook(IdBook idBook) {
 		if ( idBook!=null ) {
 			idBook.z_internalRemoveFromDishwashersInc(idBook.getDishwashersInc());
@@ -236,6 +235,14 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 			manager.z_internalRemoveFromDishwashersInc(manager.getDishwashersInc());
 			manager.z_internalAddToDishwashersInc(this);
 			z_internalAddToManager(manager);
+		}
+	}
+	
+	public void addToOrder(Order order) {
+		if ( order!=null ) {
+			order.z_internalRemoveFromDishwashersInc(order.getDishwashersInc());
+			order.z_internalAddToDishwashersInc(this);
+			z_internalAddToOrder(order);
 		}
 	}
 	
@@ -355,20 +362,20 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("documentVerifier") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3418722451639770409")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("order") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("7756368123419967328")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						DocumentVerifier curVal;
+						Order curVal;
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
 							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.addToDocumentVerifier(curVal);
+						this.addToOrder(curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -402,10 +409,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		removeAllFromDishWasher(getDishWasher());
 	}
 	
-	public void clearDocumentVerifier() {
-		removeAllFromDocumentVerifier(getDocumentVerifier());
-	}
-	
 	public void clearIdBook() {
 		removeAllFromIdBook(getIdBook());
 	}
@@ -414,8 +417,17 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		removeAllFromManager(getManager());
 	}
 	
+	public void clearOrder() {
+		removeAllFromOrder(getOrder());
+	}
+	
 	public void clearParticipation() {
 		removeAllFromParticipation(getParticipation());
+	}
+	
+	public boolean consumeAddAccountantOccurrence(@ParameterMetaInfo(name="name",opaeumId=341190338248797855l,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ") String name, @ParameterMetaInfo(name="isChartered",opaeumId=9099761849766142693l,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ") Boolean isChartered, @ParameterMetaInfo(name="manager",opaeumId=4684052632804621483l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ") Manager manager) {
+		boolean consumed = false;
+		return consumed;
 	}
 	
 	public void copyShallowState(DishwashersInc from, DishwashersInc to) {
@@ -439,14 +451,14 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		for ( Accountant child : from.getAccountant() ) {
 			to.addToAccountant(child.makeCopy());
 		}
-		for ( DocumentVerifier child : from.getDocumentVerifier() ) {
-			to.addToDocumentVerifier(child.makeCopy());
-		}
 		to.setName(from.getName());
 		to.setSupportNumber(from.getSupportNumber());
 		to.setSupportEMailAddress(from.getSupportEMailAddress());
 		to.setInitiationDate(from.getInitiationDate());
 		to.setVatNumber(from.getVatNumber());
+		for ( Order child : from.getOrder() ) {
+			to.addToOrder(child.makeCopy());
+		}
 	}
 	
 	public Accountant createAccountant() {
@@ -464,12 +476,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return newInstance;
 	}
 	
-	public DocumentVerifier createDocumentVerifier() {
-		DocumentVerifier newInstance= new DocumentVerifier();
-		newInstance.init(this);
-		return newInstance;
-	}
-	
 	public IdBook createIdBook() {
 		IdBook newInstance= new IdBook();
 		newInstance.init(this);
@@ -478,6 +484,12 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	
 	public Manager createManager() {
 		Manager newInstance= new Manager();
+		newInstance.init(this);
+		return newInstance;
+	}
+	
+	public Order createOrder() {
+		Order newInstance= new Order();
 		newInstance.init(this);
 		return newInstance;
 	}
@@ -493,6 +505,9 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 			return other==this || ((DishwashersInc)other).getUid().equals(this.getUid());
 		}
 		return false;
+	}
+	
+	public void generateAddAccountantEvent(@ParameterMetaInfo(name="name",opaeumId=341190338248797855l,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ") String name, @ParameterMetaInfo(name="isChartered",opaeumId=9099761849766142693l,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ") Boolean isChartered, @ParameterMetaInfo(name="manager",opaeumId=4684052632804621483l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ") Manager manager) {
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=7823994331136448473l,opposite="dishwashersInc",uuid="914890@_0mn9QHHgEeGus4aKic9sIg")
@@ -525,14 +540,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	@NumlMetaInfo(uuid="914890@_z0LMoHHgEeGus4aKic9sIg")
 	public Set<DishWasherModel> getDishWasher() {
 		Set<DishWasherModel> result = this.dishWasher;
-		
-		return result;
-	}
-	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3418722451639770409l,opposite="dishwashersInc",uuid="914890@_03oNsHHgEeGus4aKic9sIg")
-	@NumlMetaInfo(uuid="914890@_03oNsHHgEeGus4aKic9sIg")
-	public Set<DocumentVerifier> getDocumentVerifier() {
-		Set<DocumentVerifier> result = this.documentVerifier;
 		
 		return result;
 	}
@@ -601,7 +608,15 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5756915452752219728l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=7756368123419967328l,opposite="dishwashersInc",uuid="914890@_nyiKcH47EeGarqqEaoJFHg")
+	@NumlMetaInfo(uuid="914890@_nyiKcH47EeGarqqEaoJFHg")
+	public Set<Order> getOrder() {
+		Set<Order> result = this.order;
+		
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5756915452752219728l,opposite="businessComponent",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf4noVYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	public Organization_iBusinessComponent_1 getOrganization_iBusinessComponent_1_representedOrganization() {
 		Organization_iBusinessComponent_1 result = this.organization_iBusinessComponent_1_representedOrganization;
@@ -665,12 +680,16 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7737100568581358598l,opposite="dishwashersInc",uuid="914890@_CQTWAGOeEeGwMNo027LgxA914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7737100568581358598l,opposite="dishwashersInc",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Structuredbusiness getRoot() {
 		Structuredbusiness result = this.root;
 		
 		return result;
+	}
+	
+	public List<OrganizationNode> getSourcePopulationForRepresentedOrganization() {
+		return new ArrayList<OrganizationNode>(Stdlib.collectionAsSet(this.getRoot().getBusinessNetwork().getOrganization()));
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=656426330587139118l,uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
@@ -745,7 +764,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		for ( Accountant child : new ArrayList<Accountant>(getAccountant()) ) {
 			child.markDeleted();
 		}
-		for ( DocumentVerifier child : new ArrayList<DocumentVerifier>(getDocumentVerifier()) ) {
+		for ( Order child : new ArrayList<Order>(getOrder()) ) {
 			child.markDeleted();
 		}
 		setDeletedOn(new Date());
@@ -800,13 +819,13 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("documentVerifier") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3418722451639770409")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("order") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("7756368123419967328")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						((DocumentVerifier)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+						((Order)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -837,13 +856,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void removeAllFromDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
-		Set<DocumentVerifier> tmp = new HashSet<DocumentVerifier>(documentVerifier);
-		for ( DocumentVerifier o : tmp ) {
-			removeFromDocumentVerifier(o);
-		}
-	}
-	
 	public void removeAllFromIdBook(Set<IdBook> idBook) {
 		Set<IdBook> tmp = new HashSet<IdBook>(idBook);
 		for ( IdBook o : tmp ) {
@@ -855,6 +867,13 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		Set<Manager> tmp = new HashSet<Manager>(manager);
 		for ( Manager o : tmp ) {
 			removeFromManager(o);
+		}
+	}
+	
+	public void removeAllFromOrder(Set<Order> order) {
+		Set<Order> tmp = new HashSet<Order>(order);
+		for ( Order o : tmp ) {
+			removeFromOrder(o);
 		}
 	}
 	
@@ -879,13 +898,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void removeFromDocumentVerifier(DocumentVerifier documentVerifier) {
-		if ( documentVerifier!=null ) {
-			documentVerifier.z_internalRemoveFromDishwashersInc(this);
-			z_internalRemoveFromDocumentVerifier(documentVerifier);
-		}
-	}
-	
 	public void removeFromIdBook(IdBook idBook) {
 		if ( idBook!=null ) {
 			idBook.z_internalRemoveFromDishwashersInc(this);
@@ -897,6 +909,13 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		if ( manager!=null ) {
 			manager.z_internalRemoveFromDishwashersInc(this);
 			z_internalRemoveFromManager(manager);
+		}
+	}
+	
+	public void removeFromOrder(Order order) {
+		if ( order!=null ) {
+			order.z_internalRemoveFromDishwashersInc(this);
+			z_internalRemoveFromOrder(order);
 		}
 	}
 	
@@ -935,12 +954,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		this.addAllToDishWasher(dishWasher);
 	}
 	
-	public void setDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
-		propertyChangeSupport.firePropertyChange("documentVerifier",getDocumentVerifier(),documentVerifier);
-		this.clearDocumentVerifier();
-		this.addAllToDocumentVerifier(documentVerifier);
-	}
-	
 	public void setId(Long id) {
 		this.id=id;
 	}
@@ -969,6 +982,12 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void setObjectVersion(int objectVersion) {
 		this.objectVersion=objectVersion;
+	}
+	
+	public void setOrder(Set<Order> order) {
+		propertyChangeSupport.firePropertyChange("order",getOrder(),order);
+		this.clearOrder();
+		this.addAllToOrder(order);
 	}
 	
 	public void setOrganization_iBusinessComponent_1_representedOrganization(Organization_iBusinessComponent_1 organization_iBusinessComponent_1_representedOrganization) {
@@ -1105,11 +1124,11 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 			sb.append("\n" + accountant.toXmlString());
 		}
 		sb.append("\n</accountant>");
-		sb.append("\n<documentVerifier propertyId=\"3418722451639770409\">");
-		for ( DocumentVerifier documentVerifier : getDocumentVerifier() ) {
-			sb.append("\n" + documentVerifier.toXmlString());
+		sb.append("\n<order propertyId=\"7756368123419967328\">");
+		for ( Order order : getOrder() ) {
+			sb.append("\n" + order.toXmlString());
 		}
-		sb.append("\n</documentVerifier>");
+		sb.append("\n</order>");
 		if ( getOrganization_iBusinessComponent_1_representedOrganization()==null ) {
 			sb.append("\n<organization_iBusinessComponent_1_representedOrganization/>");
 		} else {
@@ -1129,10 +1148,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		this.dishWasher.add(val);
 	}
 	
-	public void z_internalAddToDocumentVerifier(DocumentVerifier val) {
-		this.documentVerifier.add(val);
-	}
-	
 	public void z_internalAddToIdBook(IdBook val) {
 		this.idBook.add(val);
 	}
@@ -1147,6 +1162,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void z_internalAddToName(String val) {
 		this.name=val;
+	}
+	
+	public void z_internalAddToOrder(Order val) {
+		this.order.add(val);
 	}
 	
 	public void z_internalAddToOrganization_iBusinessComponent_1_representedOrganization(Organization_iBusinessComponent_1 val) {
@@ -1187,10 +1206,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		this.dishWasher.remove(val);
 	}
 	
-	public void z_internalRemoveFromDocumentVerifier(DocumentVerifier val) {
-		this.documentVerifier.remove(val);
-	}
-	
 	public void z_internalRemoveFromIdBook(IdBook val) {
 		this.idBook.remove(val);
 	}
@@ -1211,6 +1226,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 			this.name=null;
 			this.name=null;
 		}
+	}
+	
+	public void z_internalRemoveFromOrder(Order val) {
+		this.order.remove(val);
 	}
 	
 	public void z_internalRemoveFromOrganization_iBusinessComponent_1_representedOrganization(Organization_iBusinessComponent_1 val) {

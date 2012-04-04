@@ -18,6 +18,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.basicjava.Java6ModelGenerator;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -284,6 +285,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				OJAnnotatedOperation getter = new OJAnnotatedOperation(m.getter(), m.javaTypePath());
 				getter.getBody().addToStatements("return this." + m.fieldname());
 				handler.addToOperations(getter);
+				AttributeImplementor.addPropertyMetaInfo(m, getter);
 				OJAnnotatedOperation setter = new OJAnnotatedOperation(m.setter());
 				setter.addParam(m.fieldname(), m.javaTypePath());
 				setter.getBody().addToStatements("this." + m.fieldname() + "=" + m.fieldname());

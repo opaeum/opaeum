@@ -332,7 +332,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2189163074731335617l,opposite="businessNetwork",uuid="252060@_YJETMFYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2189163074731335617l,opposite="businessNetwork",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJETMFYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public Set<BusinessNetworkFacilatatesCollaboration> getBusinessNetworkFacilatatesCollaboration_businessCollaboration() {
 		Set<BusinessNetworkFacilatatesCollaboration> result = this.businessNetworkFacilatatesCollaboration_businessCollaboration;
@@ -401,7 +401,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=729829469926896176l,opposite="businessNetwork",uuid="252060@_NRu9QFYjEeGJUqEGX7bKSg914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=729829469926896176l,opposite="businessNetwork",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Set<Structuredbusiness> getStructuredbusiness() {
 		Set<Structuredbusiness> result = this.structuredbusiness;
 		
@@ -437,10 +437,10 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void markDeleted() {
-		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
+		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
 			child.markDeleted();
 		}
-		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
+		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
 			child.markDeleted();
 		}
 		for ( OrganizationNode child : new ArrayList<OrganizationNode>(getOrganization()) ) {

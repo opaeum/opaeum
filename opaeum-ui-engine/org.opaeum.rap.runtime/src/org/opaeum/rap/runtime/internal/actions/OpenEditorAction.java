@@ -1,7 +1,4 @@
-// Created on 13.09.2007
 package org.opaeum.rap.runtime.internal.actions;
-
-import java.util.Map;
 
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -24,13 +21,13 @@ import org.opaeum.rap.runtime.Constants;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
-import org.opaeum.rap.runtime.internal.datamodel.EntityAdapter;
-import org.opaeum.rap.runtime.internal.datamodel.EntityEditorInput;
+import org.opaeum.rap.runtime.internal.editors.EntityEditorInput;
 import org.opaeum.rap.runtime.internal.views.PersistentObjectTreeItem;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class OpenEditorAction extends SelectionProviderAction{
+	private static final long serialVersionUID = -2907313475126686117L;
 	private OpaeumRapSession opaeumSession;
 	public OpenEditorAction(final ISelectionProvider provider,final String text,OpaeumRapSession session){
 		super(provider, text);
@@ -41,7 +38,7 @@ public class OpenEditorAction extends SelectionProviderAction{
 		Object firstElement = structuredSelection.getFirstElement();
 		openEditor(firstElement, true, opaeumSession);
 	}
-	public static boolean openEditor(final Object entity,final boolean showMessage,OpaeumRapSession opaeumSession){
+	public static boolean openEditor(final Object entity,final boolean showMessa,OpaeumRapSession opaeumSession){
 		boolean result = false;
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -68,7 +65,7 @@ public class OpenEditorAction extends SelectionProviderAction{
 				}
 			}
 			if(!found){
-				if(canOpen(entity, activePage, showMessage)){
+				if(canOpen(entity, activePage, true)){
 					try{
 						activePage.openEditor(input, Constants.ENTITY_EDITOR_ID, true);
 						result = true;

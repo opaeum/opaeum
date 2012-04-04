@@ -302,7 +302,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2395627898464121473l,opposite="structuredbusiness",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration252060@_NRu9QFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2395627898464121473l,opposite="structuredbusiness",uuid="252060@_NRu9QFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_NRu9QFYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork() {
 		BusinessNetwork result = this.businessNetwork;
@@ -310,7 +310,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4246171799000216537l,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4246171799000216537l,opposite="businessCollaboration",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public BusinessNetworkFacilatatesCollaboration getBusinessNetworkFacilatatesCollaboration_businessNetwork() {
 		BusinessNetworkFacilatatesCollaboration result = this.businessNetworkFacilatatesCollaboration_businessNetwork;
@@ -326,7 +326,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2329680291382308507l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_CQTWAGOeEeGwMNo027LgxA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2329680291382308507l,opposite="root",uuid="914890@_CQTWAGOeEeGwMNo027LgxA")
 	public Set<DishwashersInc> getDishwashersInc() {
 		Set<DishwashersInc> result = this.dishwashersInc;
 		
@@ -345,7 +345,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6808203985768568000l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_xQY8oGFKEeG2AvOqZt1NZQ")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6808203985768568000l,opposite="root",uuid="914890@_xQY8oGFKEeG2AvOqZt1NZQ")
 	public Set<Online_Customer> getOnline_Customer() {
 		Set<Online_Customer> result = this.online_Customer;
 		
@@ -360,7 +360,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return getBusinessNetwork();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4152922492096726072l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_-N6PwGK6EeGNuoaMwaBk1w")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4152922492096726072l,opposite="root",uuid="914890@_-N6PwGK6EeGNuoaMwaBk1w")
 	public Set<Supplier> getSupplier() {
 		Set<Supplier> result = this.supplier;
 		

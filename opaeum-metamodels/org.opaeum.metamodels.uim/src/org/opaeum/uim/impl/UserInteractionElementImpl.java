@@ -17,6 +17,7 @@ import org.opaeum.uim.UserInteractionElement;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.impl.UserInteractionElementImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UserInteractionElementImpl#isUnderUserControl <em>Under User Control</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,7 +32,7 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -42,6 +43,26 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean UNDER_USER_CONTROL_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -88,11 +109,34 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isUnderUserControl() {
+		return underUserControl;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUnderUserControl(boolean newUnderUserControl) {
+		boolean oldUnderUserControl = underUserControl;
+		underUserControl = newUnderUserControl;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 				return getName();
+			case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL:
+				return isUnderUserControl();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -107,6 +151,9 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 		switch (featureID) {
 			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 				setName((String)newValue);
+				return;
+			case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL:
+				setUnderUserControl((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -123,6 +170,9 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL:
+				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -137,6 +187,8 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 		switch (featureID) {
 			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL:
+				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -153,6 +205,8 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", underUserControl: ");
+		result.append(underUserControl);
 		result.append(')');
 		return result.toString();
 	}

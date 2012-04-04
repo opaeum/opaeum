@@ -48,11 +48,9 @@
 		@MetaValue(targetEntity=BusinessNetwork.class,value="2395627898464121473"),name="IBusinessNetwork"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Accountant.class,value="3718403143352034683"),
-		@MetaValue(targetEntity=DocumentVerifier.class,value="6562910277794880901"),
 		@MetaValue(targetEntity=Manager.class,value="3586662115628447123")},name="IBusinessRole"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Accountant.class,value="3718403143352034683"),
-		@MetaValue(targetEntity=DocumentVerifier.class,value="6562910277794880901"),
 		@MetaValue(targetEntity=Manager.class,value="3586662115628447123")},name="IBusinessRoleBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IBusinessService"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
@@ -63,7 +61,6 @@
 		@MetaValue(targetEntity=Supplier.class,value="6592718997733823438"),
 		@MetaValue(targetEntity=DishwashersInc.class,value="8415961198448241003"),
 		@MetaValue(targetEntity=Accountant.class,value="3718403143352034683"),
-		@MetaValue(targetEntity=DocumentVerifier.class,value="6562910277794880901"),
 		@MetaValue(targetEntity=Manager.class,value="3586662115628447123"),
 		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="Participant"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IProcessObject"),
@@ -76,7 +73,6 @@
 	@NamedQuery(name="ProcessInstancesWaitingForEvent",query="select processInstanceInfo.processInstanceId from org.jbpm.persistence.processinstance.ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)"))
 package org.opeum.demo1.util;
 import org.opaeum.runtime.contact.PersonEMailAddressTypeResolver;
-import structuredbusiness.DocumentVerifier;
 import structuredbusiness.IdBook;
 import org.hibernate.annotations.FilterDef;
 import org.opaeum.runtime.bpm.request.TaskRequestStateResolver;

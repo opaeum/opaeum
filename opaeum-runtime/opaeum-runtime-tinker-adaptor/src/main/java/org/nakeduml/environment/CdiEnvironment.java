@@ -5,6 +5,8 @@ import java.lang.annotation.Annotation;
 import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.event.INotificationService;
+import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class CdiEnvironment extends Environment{
@@ -41,6 +43,21 @@ public class CdiEnvironment extends Environment{
 	}
 	@Override
 	public UmtPersistence newUmtPersistence() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public INotificationService getNotificationService(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ConversationalPersistence createConversationalPersistence(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public UmtPersistence getUmtPersistence(){
 		// TODO Auto-generated method stub
 		return null;
 	}

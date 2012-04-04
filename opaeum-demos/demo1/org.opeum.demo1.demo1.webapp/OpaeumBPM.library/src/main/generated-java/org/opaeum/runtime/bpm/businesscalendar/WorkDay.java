@@ -38,6 +38,7 @@ import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.domain.IConstrained;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -62,7 +63,7 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="WorkDay")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+public class WorkDay implements IPersistentObject, IEventGenerator, IConstrained, HibernateEntity, CompositionNode, Serializable {
 	@Index(columnNames="business_calendar_id",name="idx_work_day_business_calendar_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="business_calendar_id",nullable=true)
@@ -253,6 +254,14 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
+	public Set<String> getFailedInvariants() {
+		Set<String> failedInvariants = new HashSet<String>();
+		if ( !isUniqueInBusinessCalendar() ) {
+			failedInvariants.add("org.opaeum.runtime.bpm.businesscalendar.WorkDay.uniqueInBusinessCalendar");
+		}
+		return failedInvariants;
+	}
+	
 	public Long getId() {
 		return this.id;
 	}
@@ -315,6 +324,12 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	public void init(CompositionNode owner) {
 		this.z_internalAddToBusinessCalendar((BusinessCalendar)owner);
 		createComponents();
+	}
+	
+	public boolean isUniqueInBusinessCalendar() {
+		boolean result = forAll1();
+		
+		return result;
 	}
 	
 	public WorkDay makeCopy() {
@@ -520,6 +535,17 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 			this.startTime=null;
 			this.startTime=null;
 		}
+	}
+	
+	/** Implements ->forAll( p : WorkDay | (p.kind = self.kind) implies p = self )
+	 */
+	private boolean forAll1() {
+		for ( WorkDay p : this.getBusinessCalendar().getWorkDay() ) {
+			if ( !((p.getKind().equals( this.getKind())) ? p.equals(this) : true) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

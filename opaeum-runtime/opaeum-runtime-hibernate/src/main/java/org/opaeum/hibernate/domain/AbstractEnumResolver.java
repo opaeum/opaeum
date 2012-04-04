@@ -32,7 +32,7 @@ public abstract class AbstractEnumResolver  implements EnumResolver,UserType{
 		if(value == null){
 			st.setNull(index, Types.INTEGER);
 		}else{
-			st.setInt(index, toOpaeumId((IEnum) value));
+			st.setLong(index, toOpaeumId((IEnum) value));
 		}
 	}
 	@Override

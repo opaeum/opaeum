@@ -42,6 +42,7 @@ import org.opaeum.runtime.contact.PersonEMailAddressType;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.domain.IConstrained;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -64,7 +65,7 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="PersonEMailAddress")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class PersonEMailAddress implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IPersonEMailAddress, Serializable {
+public class PersonEMailAddress implements IPersistentObject, IEventGenerator, IConstrained, HibernateEntity, CompositionNode, IPersonEMailAddress, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
@@ -186,6 +187,14 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
+	public Set<String> getFailedInvariants() {
+		Set<String> failedInvariants = new HashSet<String>();
+		if ( !isUniqueInPerson() ) {
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonEMailAddress.uniqueInPerson");
+		}
+		return failedInvariants;
+	}
+	
 	public Long getId() {
 		return this.id;
 	}
@@ -240,6 +249,12 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	public void init(CompositionNode owner) {
 		this.z_internalAddToPerson((PersonNode)owner);
 		createComponents();
+	}
+	
+	public boolean isUniqueInPerson() {
+		boolean result = forAll1();
+		
+		return result;
 	}
 	
 	public PersonEMailAddress makeCopy() {
@@ -393,6 +408,17 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 			this.type=null;
 			this.type=null;
 		}
+	}
+	
+	/** Implements ->forAll( p : PersonEMailAddress | (p.type = self.type) implies p = self )
+	 */
+	private boolean forAll1() {
+		for ( PersonEMailAddress p : this.getPerson().getEMailAddress() ) {
+			if ( !((p.getType().equals( this.getType())) ? p.equals(this) : true) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

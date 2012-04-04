@@ -38,6 +38,13 @@
 				class="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection">
 			</propertySection>
 			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementIsUnderUserControlSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.UserInteractionElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementIsUnderUserControlSection">
+			</propertySection>
+			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
 				tab="org.opaeum.uim.userinteractionproperties.basic"

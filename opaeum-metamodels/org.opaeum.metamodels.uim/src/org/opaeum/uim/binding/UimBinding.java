@@ -57,12 +57,4 @@ public interface UimBinding extends UmlReference {
 	 */
 	String getLastPropertyUuid();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	String getExpression();
-
 } // UimBinding

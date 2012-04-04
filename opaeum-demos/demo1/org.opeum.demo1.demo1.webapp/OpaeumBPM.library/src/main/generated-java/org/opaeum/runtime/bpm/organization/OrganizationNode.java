@@ -4,9 +4,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -465,7 +467,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5544220265950373323l,opposite="organization",uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5544220265950373323l,opposite="organization",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public Set<OrganizationFullfillsActorRole> getOrganizationFullfillsActorRole_businessActor() {
 		Set<OrganizationFullfillsActorRole> result = this.organizationFullfillsActorRole_businessActor;
@@ -482,7 +484,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return null;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6254493747225779734l,opposite="representedOrganization",uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6254493747225779734l,opposite="representedOrganization",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	public Set<Organization_iBusinessComponent_1> getOrganization_iBusinessComponent_1_businessComponent() {
 		Set<Organization_iBusinessComponent_1> result = this.organization_iBusinessComponent_1_businessComponent;
@@ -521,6 +523,14 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		Set<OrganizationPhoneNumber> result = new HashSet<OrganizationPhoneNumber>(this.phoneNumber.values());
 		
 		return result;
+	}
+	
+	public List<IBusinessActor> getSourcePopulationForBusinessActor() {
+		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect1()));
+	}
+	
+	public List<IBusinessComponent> getSourcePopulationForBusinessComponent() {
+		return new ArrayList<IBusinessComponent>(Stdlib.collectionAsSet(Stdlib.collectionAsSet(collect3())));
 	}
 	
 	public String getUid() {
@@ -959,6 +969,39 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		StringBuilder key = new StringBuilder();
 		key.append(type.getUid());
 		this.phoneNumber.remove(key.toString());
+	}
+	
+	/** Implements ->collect( c : IBusinessCollaboration | c.businessActor )
+	 */
+	private Collection<IBusinessActor> collect1() {
+		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
+		for ( IBusinessCollaboration c : this.getBusinessNetwork().getBusinessCollaboration() ) {
+			Set<IBusinessActor> bodyExpResult = c.getBusinessActor();
+			result.addAll( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements ->collect( c : IBusinessCollaboration | c.business )
+	 */
+	private Collection<IBusiness> collect2() {
+		Collection<IBusiness> result = new ArrayList<IBusiness>();
+		for ( IBusinessCollaboration c : this.getBusinessNetwork().getBusinessCollaboration() ) {
+			Set<IBusiness> bodyExpResult = c.getBusiness();
+			result.addAll( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements ->collect( g : IBusiness | g.oclAsType(IBusinessComponent) )
+	 */
+	private Collection<IBusinessComponent> collect3() {
+		Collection<IBusinessComponent> result = new ArrayList<IBusinessComponent>();
+		for ( IBusiness g : collect2() ) {
+			IBusinessComponent bodyExpResult = ((IBusinessComponent) g);
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
 	}
 
 }

@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.opaeum.uim.UserInteractionElement#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.UserInteractionElement#isUnderUserControl <em>Under User Control</em>}</li>
  * </ul>
  * </p>
  *
@@ -23,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface UserInteractionElement extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
@@ -32,7 +34,7 @@ public interface UserInteractionElement extends EObject {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.opaeum.uim.UimPackage#getUserInteractionElement_Name()
-	 * @model
+	 * @model default=""
 	 * @generated
 	 */
 	String getName();
@@ -46,5 +48,32 @@ public interface UserInteractionElement extends EObject {
 	 * @generated
 	 */
 	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Under User Control</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Under User Control</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Under User Control</em>' attribute.
+	 * @see #setUnderUserControl(boolean)
+	 * @see org.opaeum.uim.UimPackage#getUserInteractionElement_UnderUserControl()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isUnderUserControl();
+
+	/**
+	 * Sets the value of the '{@link org.opaeum.uim.UserInteractionElement#isUnderUserControl <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Under User Control</em>' attribute.
+	 * @see #isUnderUserControl()
+	 * @generated
+	 */
+	void setUnderUserControl(boolean value);
 
 } // UserInteractionElement

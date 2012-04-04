@@ -258,9 +258,9 @@ public class Intro extends ViewPart{
 				Activator.IMG_INTRO_NAVIGATOR, RMSMessages.get().Intro_SelectionContent, new SwitchPerspective(selection, false, null), true);
 		createImageLabelSection(form, left, RMSMessages.get().Intro_EditorTitle, RMSMessages.get().Intro_EditorDesc,
 				Activator.IMG_INTRO_CONTEXT_MENU, RMSMessages.get().Intro_EditorContent, new SwitchPerspective(null, true, null), true);
-		NewAction newAction = new NewAction(principal, IProject.class, "", null,opaeumRapSession); //$NON-NLS-1$
-		createImageLabelSection(form, left, RMSMessages.get().Intro_WizardTitle, RMSMessages.get().Intro_WizardDesc,
-				Activator.IMG_INTRO_NEW_PROJECT, RMSMessages.get().Intro_WizardContent, new SwitchPerspective(null, false, newAction), false);
+//		NewAction newAction = new NewAction(principal, IProject.class, "", null,opaeumRapSession); //$NON-NLS-1$
+//		createImageLabelSection(form, left, RMSMessages.get().Intro_WizardTitle, RMSMessages.get().Intro_WizardDesc,
+//				Activator.IMG_INTRO_NEW_PROJECT, RMSMessages.get().Intro_WizardContent, new SwitchPerspective(null, false, newAction), false);
 		createImageLabelSection(form, left, RMSMessages.get().Intro_RcsTitle, RMSMessages.get().Intro_RcsDesc, Activator.IMG_INTRO_DATE_PICKER,
 				RMSMessages.get().Intro_RcsContent, new SwitchPerspective(null, true, null), false);
 	}

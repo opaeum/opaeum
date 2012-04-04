@@ -30,7 +30,7 @@ public interface IBusinessCollaboration extends IBusinessCollaborationBase, Hibe
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork();
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4246171799000216537l,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4246171799000216537l,opposite="businessCollaboration",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public BusinessNetworkFacilatatesCollaboration getBusinessNetworkFacilatatesCollaboration_businessNetwork();
 	

@@ -19,14 +19,12 @@ import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UserInterface;
-import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.LinkToQuery;
 import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.action.OperationPopup;
 import org.opaeum.uim.action.TransitionButton;
-import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.EditorActionBar;
 import org.opaeum.uim.panel.GridPanel;
@@ -52,6 +50,7 @@ import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UserInterfaceEditPart;
 
+@SuppressWarnings("unchecked")
 public class DiagramCreator{
 	private PageContainer pageContainer;
 	private Resource resource;

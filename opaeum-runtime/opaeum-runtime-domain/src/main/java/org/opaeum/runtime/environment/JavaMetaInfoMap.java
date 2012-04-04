@@ -1,10 +1,13 @@
 package org.opaeum.runtime.environment;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.name.NameConverter;
@@ -22,20 +25,37 @@ public abstract class JavaMetaInfoMap{
 	private Map<Class<?>,String> classUuidMap = new HashMap<Class<?>,String>();
 	private Map<Class<?>,Map<Class<?>,Object>> secondaryClassMap = new HashMap<Class<?>,Map<Class<?>,Object>>();
 	private Map<String,Class<? extends IEventHandler>> eventHandlersByUuid = new HashMap<String,Class<? extends IEventHandler>>();
+	private Map<String,JavaTypedElementContainer> typedElementContainers = new HashMap<String,JavaTypedElementContainer>();
+	private Map<String,JavaTypedElement> typedElements = new HashMap<String,JavaTypedElement>();
 	public void importMetaInfo(JavaMetaInfoMap other){
 		classUuidMap.putAll(other.classUuidMap);
 		allClasses.addAll(other.allClasses);
 		uuidClassMap.putAll(other.uuidClassMap);
 		secondaryClassMap.putAll(other.secondaryClassMap);
 		eventHandlersByUuid.putAll(other.eventHandlersByUuid);
+		typedElementContainers.putAll(other.typedElementContainers);
+		typedElements.putAll(other.typedElements);
 	}
 	public Collection<Class<?>> getAllClasses(){
 		return allClasses;
 	}
-	@SuppressWarnings("unchecked")
-	public <T> T newInstance(String uuid){
-		return (T)IntrospectionUtil.newInstance(getClass(uuid));
+	public Collection<Class<?>> getClassesByAnnotation(Class<? extends Annotation> a){
+		Collection<Class<?>> result = new HashSet<Class<?>>();
+		for(Class<?> c:getAllClasses()){
+			if(c.isAnnotationPresent(a)){
+				result.add(c);
+			}
+		}
+		return result;
 	}
+	@SuppressWarnings("unchecked")
+	public <T>T newInstance(String uuid){
+		return (T) IntrospectionUtil.newInstance(getClass(uuid));
+	}
+	public JavaTypedElement getTypedElement(String uuid){
+		return typedElements.get(uuid);
+	}
+	@SuppressWarnings("unchecked")
 	protected void putMethod(Class<? extends Object> c,String uuid,long nakedUmlId){
 		// Will only be called from the declaring model, so this nakedUmlId
 		// won't be unique, but does serve to identifiy the handler
@@ -45,10 +65,10 @@ public abstract class JavaMetaInfoMap{
 				if(uuid.equals(method.getAnnotation(NumlMetaInfo.class).uuid())){
 					try{
 						String handlerName = c.getName().toLowerCase() + "." + NameConverter.capitalize(method.getName()) + "Handler" + nakedUmlId;
-						Class<? extends IEventHandler> mi = IntrospectionUtil.classForName(handlerName);
+						Class<? extends IEventHandler> mi = (Class<? extends IEventHandler>) c.getClassLoader().loadClass(handlerName);
 						this.eventHandlersByUuid.put(uuid, mi);
 						allClasses.add(mi);
-					}catch(RuntimeException e){
+					}catch(ClassNotFoundException e){
 					}
 					break;
 				}
@@ -61,21 +81,37 @@ public abstract class JavaMetaInfoMap{
 	public void putEventHandler(Class<? extends IEventHandler> handler,String uuid){
 		eventHandlersByUuid.put(uuid, handler);
 	}
+	@SuppressWarnings("unchecked")
 	protected void putClass(Class<? extends Object> c,String uuid){
-//		if(ISignal.class.isAssignableFrom(c)){
-//			Class<? extends IEventHandler> handler = IntrospectionUtil.classForName(c.getName() + "Handler");
-//			putEventHandler(handler, uuid);
-//		}else if(IPersistentObject.class.isAssignableFrom(c)){
-//			// TODO datagenerator
-//		}else if(IEnum.class.isAssignableFrom(c)){
-//			addSecondaryClass(EnumResolver.class, c, "Resolver", true);
-//		}
-//		if(IProcessObject.class.isAssignableFrom(c)){
-//			addSecondaryClass(EnumResolver.class, c, "StateResolver", true);
-//		}
+		if(ISignal.class.isAssignableFrom(c)){
+			Class<? extends IEventHandler> handler=null;
+			try{
+				handler = (Class<? extends IEventHandler>) c.getClassLoader().loadClass(c.getName() + "Handler");
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+			putEventHandler(handler, uuid);
+		}else if(IPersistentObject.class.isAssignableFrom(c)){
+			JavaTypedElementContainer jtec = new JavaTypedElementContainer(c);
+			typedElementContainers.put(uuid, jtec);
+			putTypedElements(jtec);
+		}else if(IEnum.class.isAssignableFrom(c)){
+			addSecondaryClass(EnumResolver.class, c, "Resolver", true);
+		}
+		if(IProcessObject.class.isAssignableFrom(c)){
+			addSecondaryClass(EnumResolver.class, c, "StateResolver", true);
+		}
 		allClasses.add(c);
 		classUuidMap.put(c, uuid);
 		uuidClassMap.put(uuid, c);
+	}
+	private void putTypedElements(JavaTypedElementContainer jtec){
+		for(Entry<String,JavaTypedElement> entry:jtec.getTypedElements().entrySet()){
+			JavaTypedElement javaTypedElement = typedElements.get(entry.getKey());
+			if(javaTypedElement==null || !javaTypedElement.getDeclaringClass().isInterface()){
+				typedElements.put(entry.getKey(), entry.getValue());
+			}
+		} 
 	}
 	@SuppressWarnings("unchecked")
 	public <T>T getSecondaryObject(Class<T> secondaryClass,Class<?> c){
@@ -93,7 +129,7 @@ public abstract class JavaMetaInfoMap{
 	}
 	private void addSecondaryClass(Class<?> secondaryClassSuperclass,Class<? extends Object> c,String string,boolean singleton){
 		try{
-			Class<?> secondaryClass = Class.forName(c.getName() + string);
+			Class<?> secondaryClass = c.getClassLoader().loadClass(c.getName() + string);
 			Map<Class<?>,Object> map = secondaryClassMap.get(secondaryClassSuperclass);
 			if(map == null){
 				map = new HashMap<Class<?>,Object>();

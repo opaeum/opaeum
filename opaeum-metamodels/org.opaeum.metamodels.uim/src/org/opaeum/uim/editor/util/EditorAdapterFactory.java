@@ -11,6 +11,7 @@ import org.opaeum.uim.Page;
 import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
+import org.opaeum.uim.UimRootElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
@@ -137,6 +138,10 @@ public class EditorAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
 				return createUserInterfaceEntryPointAdapter();
+			}
+			@Override
+			public Adapter caseUimRootElement(UimRootElement object) {
+				return createUimRootElementAdapter();
 			}
 			@Override
 			public Adapter caseUserInterface(UserInterface object) {
@@ -341,6 +346,20 @@ public class EditorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUserInterfaceEntryPointAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimRootElement <em>Root Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.UimRootElement
+	 * @generated
+	 */
+	public Adapter createUimRootElementAdapter() {
 		return null;
 	}
 

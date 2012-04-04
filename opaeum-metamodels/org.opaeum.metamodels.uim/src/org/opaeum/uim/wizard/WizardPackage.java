@@ -75,6 +75,15 @@ public interface WizardPackage extends EPackage {
 	int ABSTRACT_WIZARD__NAME = UimPackage.USER_INTERFACE_ENTRY_POINT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_WIZARD__UNDER_USER_CONTROL = UimPackage.USER_INTERFACE_ENTRY_POINT__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -137,6 +146,15 @@ public interface WizardPackage extends EPackage {
 	 * @ordered
 	 */
 	int NEW_OBJECT_WIZARD__NAME = ABSTRACT_WIZARD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEW_OBJECT_WIZARD__UNDER_USER_CONTROL = ABSTRACT_WIZARD__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -203,6 +221,15 @@ public interface WizardPackage extends EPackage {
 	int INVOKE_RESPONSIBILITY_WIZARD__NAME = ABSTRACT_WIZARD__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_RESPONSIBILITY_WIZARD__UNDER_USER_CONTROL = ABSTRACT_WIZARD__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -265,6 +292,15 @@ public interface WizardPackage extends EPackage {
 	 * @ordered
 	 */
 	int WIZARD_PAGE__NAME = UimPackage.PAGE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIZARD_PAGE__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.

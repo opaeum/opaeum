@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
@@ -53,6 +54,7 @@ public class ForwardHandler7251280809563715157 implements ICallEventHandler {
 		return "OpaeumLibraryForBPM::request::TaskRequest::forward";
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1985379146355107034l,uuid="252060@_kN7FcJTyEeChgI0v02SJHQ")
 	public IBusinessRole getToPerson() {
 		return this.toPerson;
 	}

@@ -427,9 +427,11 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 		abstractEditorEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 		abstractEditorEClass.getESuperTypes().add(theUimPackage.getUserInterfaceEntryPoint());
 		actionTaskEditorEClass.getESuperTypes().add(this.getAbstractEditor());
+		actionTaskEditorEClass.getESuperTypes().add(theUimPackage.getUimRootElement());
 		classEditorEClass.getESuperTypes().add(this.getAbstractEditor());
 		responsibilityTaskEditorEClass.getESuperTypes().add(this.getAbstractEditor());
 		queryInvocationEditorEClass.getESuperTypes().add(this.getAbstractEditor());
+		queryInvocationEditorEClass.getESuperTypes().add(theUimPackage.getUimRootElement());
 		editorPageEClass.getESuperTypes().add(theUimPackage.getPage());
 		editorActionBarEClass.getESuperTypes().add(theUimPackage.getAbstractActionBar());
 		visibleOperationEClass.getESuperTypes().add(theUimPackage.getUmlReference());

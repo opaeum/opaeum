@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_eJhn1X5GEeGJWskstUYw2Q" umlElementUid="252060@_LSLzIEtpEeGd4cpyhpib9Q" name="Person e mail address User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_eJhn1n5GEeGJWskstUYw2Q" umlElementUid="252060@_LSLzIEtpEeGd4cpyhpib9Q" name="EditPersonEMailAddress"><actionBar xmi:id="_eJhn335GEeGJWskstUYw2Q" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_eJhn4H5GEeGJWskstUYw2Q" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_eJhn4X5GEeGJWskstUYw2Q" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_eJhn135GEeGJWskstUYw2Q" name="Edit Person e mail address">
+      <panel xmi:type="panel:GridPanel" xmi:id="_eJhn2H5GEeGJWskstUYw2Q" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_eJhn2X5GEeGJWskstUYw2Q" name="Email address" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_eJhn2n5GEeGJWskstUYw2Q"/>
+          <binding xmi:id="_eJhn235GEeGJWskstUYw2Q" umlElementUid="252060@_XkOw4Hr7EeGX8L_MMRBizg"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_eJhn3H5GEeGJWskstUYw2Q" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_eJhn3X5GEeGJWskstUYw2Q"/>
+          <binding xmi:id="_eJhn3n5GEeGJWskstUYw2Q" umlElementUid="252060@_NrUNtEtpEeGd4cpyhpib9Q"/>
+        </children>
+      </panel>
+    </pages></primaryEditor>
+  <newObjectWizard xmi:id="_eJhn4n5GEeGJWskstUYw2Q" name="CreatePersonEMailAddress" umlElementUid="252060@_LSLzIEtpEeGd4cpyhpib9Q">
+    <pages xmi:id="_eJhn435GEeGJWskstUYw2Q" name="CreatePerson e mail address">
+      <panel xmi:type="panel:GridPanel" xmi:id="_eJhn5H5GEeGJWskstUYw2Q" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_eJhn5X5GEeGJWskstUYw2Q" name="Email address" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_eJhn5n5GEeGJWskstUYw2Q"/>
+          <binding xmi:id="_eJhn535GEeGJWskstUYw2Q" umlElementUid="252060@_XkOw4Hr7EeGX8L_MMRBizg"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_eJhn6H5GEeGJWskstUYw2Q" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_eJhn6X5GEeGJWskstUYw2Q"/>
+          <binding xmi:id="_eJhn6n5GEeGJWskstUYw2Q" umlElementUid="252060@_NrUNtEtpEeGd4cpyhpib9Q"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</uim:ClassUserInteractionModel>

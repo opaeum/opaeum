@@ -17,16 +17,16 @@ import org.opaeum.uim.impl.UmlReferenceImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.opaeum.uim.binding.impl.UimBindingImpl#getNext <em>Next</em>}</li>
+ *   <li>{@link org.opaeum.uim.binding.impl.UimBindingImpl#getNext <em>Next</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public abstract class UimBindingImpl extends UmlReferenceImpl implements UimBinding{
 	/**
-	 * The cached value of the '{@link #getNext() <em>Next</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getNext() <em>Next</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNext()
 	 * @generated
 	 * @ordered
@@ -34,7 +34,6 @@ public abstract class UimBindingImpl extends UmlReferenceImpl implements UimBind
 	protected PropertyRef next;
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected UimBindingImpl(){
@@ -42,7 +41,6 @@ public abstract class UimBindingImpl extends UmlReferenceImpl implements UimBind
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -51,7 +49,6 @@ public abstract class UimBindingImpl extends UmlReferenceImpl implements UimBind
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public PropertyRef getNext(){
@@ -59,37 +56,32 @@ public abstract class UimBindingImpl extends UmlReferenceImpl implements UimBind
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetNext(PropertyRef newNext,NotificationChain msgs){
 		PropertyRef oldNext = next;
 		next = newNext;
-		if(eNotificationRequired()){
+		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BindingPackage.UIM_BINDING__NEXT, oldNext, newNext);
-			if(msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setNext(PropertyRef newNext){
-		if(newNext != next){
+		if (newNext != next) {
 			NotificationChain msgs = null;
-			if(next != null)
-				msgs = ((InternalEObject) next).eInverseRemove(this, BindingPackage.PROPERTY_REF__BINDING, PropertyRef.class, msgs);
-			if(newNext != null)
-				msgs = ((InternalEObject) newNext).eInverseAdd(this, BindingPackage.PROPERTY_REF__BINDING, PropertyRef.class, msgs);
+			if (next != null)
+				msgs = ((InternalEObject)next).eInverseRemove(this, BindingPackage.PROPERTY_REF__BINDING, PropertyRef.class, msgs);
+			if (newNext != null)
+				msgs = ((InternalEObject)newNext).eInverseAdd(this, BindingPackage.PROPERTY_REF__BINDING, PropertyRef.class, msgs);
 			msgs = basicSetNext(newNext, msgs);
-			if(msgs != null)
-				msgs.dispatch();
-		}else if(eNotificationRequired())
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BindingPackage.UIM_BINDING__NEXT, newNext, newNext));
 	}
 	/**
@@ -123,83 +115,77 @@ public abstract class UimBindingImpl extends UmlReferenceImpl implements UimBind
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd,int featureID,NotificationChain msgs){
-		switch(featureID){
-		case BindingPackage.UIM_BINDING__NEXT:
-			if(next != null)
-				msgs = ((InternalEObject) next).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BindingPackage.UIM_BINDING__NEXT, null, msgs);
-			return basicSetNext((PropertyRef) otherEnd, msgs);
+		switch (featureID) {
+			case BindingPackage.UIM_BINDING__NEXT:
+				if (next != null)
+					msgs = ((InternalEObject)next).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BindingPackage.UIM_BINDING__NEXT, null, msgs);
+				return basicSetNext((PropertyRef)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,int featureID,NotificationChain msgs){
-		switch(featureID){
-		case BindingPackage.UIM_BINDING__NEXT:
-			return basicSetNext(null, msgs);
+		switch (featureID) {
+			case BindingPackage.UIM_BINDING__NEXT:
+				return basicSetNext(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID,boolean resolve,boolean coreType){
-		switch(featureID){
-		case BindingPackage.UIM_BINDING__NEXT:
-			return getNext();
+		switch (featureID) {
+			case BindingPackage.UIM_BINDING__NEXT:
+				return getNext();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID,Object newValue){
-		switch(featureID){
-		case BindingPackage.UIM_BINDING__NEXT:
-			setNext((PropertyRef) newValue);
-			return;
+		switch (featureID) {
+			case BindingPackage.UIM_BINDING__NEXT:
+				setNext((PropertyRef)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID){
-		switch(featureID){
-		case BindingPackage.UIM_BINDING__NEXT:
-			setNext((PropertyRef) null);
-			return;
+		switch (featureID) {
+			case BindingPackage.UIM_BINDING__NEXT:
+				setNext((PropertyRef)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID){
-		switch(featureID){
-		case BindingPackage.UIM_BINDING__NEXT:
-			return next != null;
+		switch (featureID) {
+			case BindingPackage.UIM_BINDING__NEXT:
+				return next != null;
 		}
 		return super.eIsSet(featureID);
 	}

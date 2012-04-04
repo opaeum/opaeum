@@ -10,7 +10,7 @@
 	<classpathentry kind="src" path="OpaeumBPM.library/src/test/generated-java"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="demo1_201203311243"/>
 	<classpathentry kind="lib" path="/home/ampie/.m2/repository/postgresql/postgresql/9.0-801.jdbc4/postgresql-9.0-801.jdbc4.jar"/>
+	<classpathentry kind="src" path="demo1_201204041206"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

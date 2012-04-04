@@ -78,4 +78,5 @@ Export-Package: org.apache.commons.collections,
  org.opaeum.rap,
  org.opaeum.velocity,
  org.opaeum.versioning,
+ org.opaeum.visitor,
  templates.Model

@@ -2,6 +2,8 @@
  */
 package org.opaeum.uim.editor;
 
+import org.opaeum.uim.UimRootElement;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -13,5 +15,5 @@ package org.opaeum.uim.editor;
  * @model
  * @generated
  */
-public interface ActionTaskEditor extends AbstractEditor {
+public interface ActionTaskEditor extends AbstractEditor, UimRootElement {
 } // ActionTaskEditor

@@ -84,13 +84,22 @@ public interface EditorPackage extends EPackage {
 	int ABSTRACT_EDITOR__NAME = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_EDITOR__UNDER_USER_CONTROL = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR__EDITABILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
+	int ABSTRACT_EDITOR__EDITABILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -99,7 +108,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR__VISIBILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
+	int ABSTRACT_EDITOR__VISIBILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Action Bar</b></em>' containment reference.
@@ -108,7 +117,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR__ACTION_BAR = UimPackage.UML_REFERENCE_FEATURE_COUNT + 3;
+	int ABSTRACT_EDITOR__ACTION_BAR = UimPackage.UML_REFERENCE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Menu Configuration</b></em>' containment reference.
@@ -117,7 +126,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR__MENU_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 4;
+	int ABSTRACT_EDITOR__MENU_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
@@ -126,7 +135,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR__PAGES = UimPackage.UML_REFERENCE_FEATURE_COUNT + 5;
+	int ABSTRACT_EDITOR__PAGES = UimPackage.UML_REFERENCE_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Abstract Editor</em>' class.
@@ -135,7 +144,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 6;
+	int ABSTRACT_EDITOR_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.ActionTaskEditorImpl <em>Action Task Editor</em>}' class.
@@ -164,6 +173,15 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ACTION_TASK_EDITOR__NAME = ABSTRACT_EDITOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TASK_EDITOR__UNDER_USER_CONTROL = ABSTRACT_EDITOR__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -211,13 +229,22 @@ public interface EditorPackage extends EPackage {
 	int ACTION_TASK_EDITOR__PAGES = ABSTRACT_EDITOR__PAGES;
 
 	/**
+	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TASK_EDITOR__LINKED_UML_RESOURCE = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Action Task Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_TASK_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
+	int ACTION_TASK_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.ClassEditorImpl <em>Class Editor</em>}' class.
@@ -246,6 +273,15 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLASS_EDITOR__NAME = ABSTRACT_EDITOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_EDITOR__UNDER_USER_CONTROL = ABSTRACT_EDITOR__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -330,6 +366,15 @@ public interface EditorPackage extends EPackage {
 	int RESPONSIBILITY_TASK_EDITOR__NAME = ABSTRACT_EDITOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_TASK_EDITOR__UNDER_USER_CONTROL = ABSTRACT_EDITOR__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -412,6 +457,15 @@ public interface EditorPackage extends EPackage {
 	int QUERY_INVOCATION_EDITOR__NAME = ABSTRACT_EDITOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY_INVOCATION_EDITOR__UNDER_USER_CONTROL = ABSTRACT_EDITOR__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -457,13 +511,22 @@ public interface EditorPackage extends EPackage {
 	int QUERY_INVOCATION_EDITOR__PAGES = ABSTRACT_EDITOR__PAGES;
 
 	/**
+	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY_INVOCATION_EDITOR__LINKED_UML_RESOURCE = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Query Invocation Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int QUERY_INVOCATION_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
+	int QUERY_INVOCATION_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.EditorPageImpl <em>Page</em>}' class.
@@ -483,6 +546,15 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int EDITOR_PAGE__NAME = UimPackage.PAGE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_PAGE__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -556,6 +628,15 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int EDITOR_ACTION_BAR__NAME = UimPackage.ABSTRACT_ACTION_BAR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_ACTION_BAR__UNDER_USER_CONTROL = UimPackage.ABSTRACT_ACTION_BAR__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.

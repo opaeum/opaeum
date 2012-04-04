@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.ITaskObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
@@ -53,6 +54,7 @@ public class OnStartedHandler8267495570932079064 implements ICallEventHandler {
 		return "OpaeumLibraryForBPM::requestobject::ITaskObject::onStarted";
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=126801374956786235l,uuid="252060@_mYTrQK0NEeCK48ywUpk_rg")
 	public Participant getStartedBy() {
 		return this.startedBy;
 	}

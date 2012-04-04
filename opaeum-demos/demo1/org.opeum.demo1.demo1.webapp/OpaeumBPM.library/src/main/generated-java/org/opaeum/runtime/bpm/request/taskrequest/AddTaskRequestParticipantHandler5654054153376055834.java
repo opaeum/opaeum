@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.request.TaskParticipationKind;
 import org.opaeum.runtime.bpm.request.TaskRequest;
@@ -53,10 +54,12 @@ public class AddTaskRequestParticipantHandler5654054153376055834 implements ICal
 		return this.isEvent;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2180533000149157561l,uuid="252060@_v52Voo6SEeCrtavWRHwoHg")
 	public TaskParticipationKind getKind() {
 		return this.kind;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3650326173717775949l,uuid="252060@_v52VoY6SEeCrtavWRHwoHg")
 	public Participant getNewParticipant() {
 		return this.newParticipant;
 	}

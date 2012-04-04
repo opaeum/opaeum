@@ -37,7 +37,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 			field.addAnnotationIfNew(temporal);
 		}
 		OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
-		column.putAttribute("name", f.getMappingInfo().getPersistentName().getAsIs());
+		column.putAttribute("name", JpaUtil.getValidSqlName(f.getMappingInfo().getPersistentName().getAsIs()));
 		field.addAnnotationIfNew(column);
 		INakedSimpleType simpleType = (INakedSimpleType) f.getNakedBaseType();
 		if(simpleType.hasStrategy(JpaStrategy.class)){

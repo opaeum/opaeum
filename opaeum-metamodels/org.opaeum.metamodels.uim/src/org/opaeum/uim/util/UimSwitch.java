@@ -219,6 +219,7 @@ public class UimSwitch<T> {
 				T result = caseClassUserInteractionModel(classUserInteractionModel);
 				if (result == null) result = caseUmlReference(classUserInteractionModel);
 				if (result == null) result = caseUserInteractionElement(classUserInteractionModel);
+				if (result == null) result = caseUimRootElement(classUserInteractionModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -227,6 +228,7 @@ public class UimSwitch<T> {
 				T result = caseResponsibilityUserInteractionModel(responsibilityUserInteractionModel);
 				if (result == null) result = caseUserInteractionElement(responsibilityUserInteractionModel);
 				if (result == null) result = caseUmlReference(responsibilityUserInteractionModel);
+				if (result == null) result = caseUimRootElement(responsibilityUserInteractionModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -245,6 +247,12 @@ public class UimSwitch<T> {
 			case UimPackage.PAGE_CONTAINER: {
 				PageContainer pageContainer = (PageContainer)theEObject;
 				T result = casePageContainer(pageContainer);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UimPackage.UIM_ROOT_ELEMENT: {
+				UimRootElement uimRootElement = (UimRootElement)theEObject;
+				T result = caseUimRootElement(uimRootElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -504,6 +512,21 @@ public class UimSwitch<T> {
 	 * @generated
 	 */
 	public T casePageContainer(PageContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Root Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Root Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUimRootElement(UimRootElement object) {
 		return null;
 	}
 

@@ -29,9 +29,9 @@ import org.opaeum.runtime.strategy.ValidationResult;
 public class GenericValidator implements IValidator{
 	private AfterConvertValidator afterConvertValidator;
 	private JavaTypedElement typedElement;
-	private Class<? extends IPersistentObject> parentClass;
+	private Class<?> parentClass;
 	private Validator validator;
-	public GenericValidator(Class<? extends IPersistentObject> parentClass,JavaTypedElement typedElement,Validator validator){
+	public GenericValidator(Class<?> parentClass,JavaTypedElement typedElement,Validator validator){
 		super();
 		this.parentClass = parentClass;
 		this.typedElement = typedElement;
@@ -40,9 +40,8 @@ public class GenericValidator implements IValidator{
 	}
 	public IStatus validate(Object value){
 		List<IStatus> statusList = new ArrayList<IStatus>();
-		Set<? extends ConstraintViolation<? extends IPersistentObject>> vs = validator
-				.validateValue(parentClass, typedElement.getName(), value);
-		for(ConstraintViolation<? extends IPersistentObject> v:vs){
+		Set<? extends ConstraintViolation<?>> vs = validator.validateValue(parentClass, typedElement.getName(), value);
+		for(ConstraintViolation<?> v:vs){
 			statusList.add(new Status(IStatus.ERROR, Activator.ID, v.getMessage()));
 		}
 		if(afterConvertValidator != null){
@@ -55,7 +54,7 @@ public class GenericValidator implements IValidator{
 		}
 		if(statusList.isEmpty()){
 			return Status.OK_STATUS;
-		}else if(statusList.size()==1){
+		}else if(statusList.size() == 1){
 			return statusList.get(0);
 		}else{
 			return new MultiStatus(Activator.ID, IStatus.ERROR, statusList.toArray(new IStatus[statusList.size()]), "Validation errors", null);

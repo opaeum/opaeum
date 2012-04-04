@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UimRootElement;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.editor.ClassEditor;
 import org.opaeum.uim.wizard.NewObjectWizard;
@@ -26,6 +27,8 @@ import org.opaeum.uim.wizard.NewObjectWizard;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#isUnderUserControl <em>Under User Control</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#getLinkedUmlResource <em>Linked Uml Resource</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#getPrimaryEditor <em>Primary Editor</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#getSecondaryEditors <em>Secondary Editors</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#getNewObjectWizard <em>New Object Wizard</em>}</li>
@@ -43,7 +46,7 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -54,6 +57,46 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean UNDER_USER_CONTROL_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getLinkedUmlResource() <em>Linked Uml Resource</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLinkedUmlResource()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String LINKED_UML_RESOURCE_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getLinkedUmlResource() <em>Linked Uml Resource</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLinkedUmlResource()
+	 * @generated
+	 * @ordered
+	 */
+	protected String linkedUmlResource = LINKED_UML_RESOURCE_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getPrimaryEditor() <em>Primary Editor</em>}' containment reference.
@@ -123,6 +166,48 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.CLASS_USER_INTERACTION_MODEL__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isUnderUserControl() {
+		return underUserControl;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUnderUserControl(boolean newUnderUserControl) {
+		boolean oldUnderUserControl = underUserControl;
+		underUserControl = newUnderUserControl;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLinkedUmlResource() {
+		return linkedUmlResource;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLinkedUmlResource(String newLinkedUmlResource) {
+		String oldLinkedUmlResource = linkedUmlResource;
+		linkedUmlResource = newLinkedUmlResource;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE, oldLinkedUmlResource, linkedUmlResource));
 	}
 
 	/**
@@ -251,6 +336,10 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 		switch (featureID) {
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NAME:
 				return getName();
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				return isUnderUserControl();
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
+				return getLinkedUmlResource();
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR:
 				return getPrimaryEditor();
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS:
@@ -272,6 +361,12 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 		switch (featureID) {
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NAME:
 				setName((String)newValue);
+				return;
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				setUnderUserControl((Boolean)newValue);
+				return;
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
+				setLinkedUmlResource((String)newValue);
 				return;
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR:
 				setPrimaryEditor((ClassEditor)newValue);
@@ -298,6 +393,12 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
+				return;
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
+				setLinkedUmlResource(LINKED_UML_RESOURCE_EDEFAULT);
+				return;
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR:
 				setPrimaryEditor((ClassEditor)null);
 				return;
@@ -321,6 +422,10 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 		switch (featureID) {
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
+				return LINKED_UML_RESOURCE_EDEFAULT == null ? linkedUmlResource != null : !LINKED_UML_RESOURCE_EDEFAULT.equals(linkedUmlResource);
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR:
 				return primaryEditor != null;
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS:
@@ -341,6 +446,13 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 		if (baseClass == UserInteractionElement.class) {
 			switch (derivedFeatureID) {
 				case UimPackage.CLASS_USER_INTERACTION_MODEL__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
+				case UimPackage.CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL: return UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+				default: return -1;
+			}
+		}
+		if (baseClass == UimRootElement.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE: return UimPackage.UIM_ROOT_ELEMENT__LINKED_UML_RESOURCE;
 				default: return -1;
 			}
 		}
@@ -357,6 +469,13 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return UimPackage.CLASS_USER_INTERACTION_MODEL__NAME;
+				case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL: return UimPackage.CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL;
+				default: return -1;
+			}
+		}
+		if (baseClass == UimRootElement.class) {
+			switch (baseFeatureID) {
+				case UimPackage.UIM_ROOT_ELEMENT__LINKED_UML_RESOURCE: return UimPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE;
 				default: return -1;
 			}
 		}
@@ -375,6 +494,10 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", underUserControl: ");
+		result.append(underUserControl);
+		result.append(", linkedUmlResource: ");
+		result.append(linkedUmlResource);
 		result.append(')');
 		return result.toString();
 	}

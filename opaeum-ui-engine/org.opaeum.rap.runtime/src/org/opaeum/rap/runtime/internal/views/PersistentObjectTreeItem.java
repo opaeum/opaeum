@@ -1,14 +1,14 @@
 package org.opaeum.rap.runtime.internal.views;
 
-import java.beans.PropertyDescriptor;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.JavaTypedElement;
+import org.opaeum.runtime.environment.JavaTypedElementContainer;
 
 public class PersistentObjectTreeItem{
 	private IPersistentObject entity;
@@ -20,9 +20,8 @@ public class PersistentObjectTreeItem{
 	public boolean equals(Object obj){
 		if(obj instanceof PersistentObjectTreeItem){
 			return ((PersistentObjectTreeItem) obj).entity.equals(entity);
-		}else{
-			return false;
 		}
+		return false;
 	}
 	@Override
 	public int hashCode(){
@@ -38,17 +37,15 @@ public class PersistentObjectTreeItem{
 	}
 	public Object[] getChildren(){
 		Collection<Object> result = new ArrayList<Object>();
-		PropertyDescriptor[] properties = IntrospectionUtil.getProperties(IntrospectionUtil.getOriginalClass(entity));
-		for(PropertyDescriptor pd:properties){
-			Method rm = pd.getReadMethod();
-			if(rm != null && rm.isAnnotationPresent(PropertyMetaInfo.class)){
-				PropertyMetaInfo metaData = rm.getAnnotation(PropertyMetaInfo.class);
-				if(metaData.isComposite()){
-					if(Collection.class.isAssignableFrom(rm.getReturnType())){
-						result.add(new PropertyTreeItem(this, pd));
-					}else{
-						result.add(new PersistentObjectTreeItem(this, (IPersistentObject) IntrospectionUtil.get(pd, entity)));
-					}
+		Class<IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(entity);
+		JavaTypedElementContainer tec = Environment.getInstance().getMetaInfoMap()
+				.getTypedElementContainer(originalClass.getAnnotation(NumlMetaInfo.class).uuid());
+		for(JavaTypedElement pd:tec.getTypedElements().values()){
+			if(pd.isComposite()){
+				if(pd.isMany()){
+					result.add(new PropertyTreeItem(this, pd));
+				}else{
+					result.add(new PersistentObjectTreeItem(this, (IPersistentObject) pd.invokeGetter(entity)));
 				}
 			}
 		}

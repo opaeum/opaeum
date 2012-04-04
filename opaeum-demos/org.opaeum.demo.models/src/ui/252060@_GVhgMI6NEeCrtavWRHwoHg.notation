@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <notation:Diagram type="userinterface" name="Edit Participation in request" measurementUnit="Pixel">
+    <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
+      <children xsi:type="notation:DecorationNode" type="5011"/>
+      <children xsi:type="notation:DecorationNode" type="7001">
+        <children xsi:type="notation:Shape" type="3001">
+          <children xsi:type="notation:DecorationNode" type="5001"/>
+          <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJQiFH5GEeGJWskstUYw2Q"/>
+        </children>
+        <children xsi:type="notation:Shape" type="3001">
+          <children xsi:type="notation:DecorationNode" type="5001"/>
+          <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJQiF35GEeGJWskstUYw2Q"/>
+        </children>
+        <layoutConstraint xsi:type="notation:Bounds"/>
+      </children>
+      <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJQiE35GEeGJWskstUYw2Q"/>
+      <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
+    </children>
+    <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJQiEn5GEeGJWskstUYw2Q"/>
+  </notation:Diagram>
+  <notation:Diagram type="abstractactionbar" name="ActionBar" measurementUnit="Pixel">
+    <children xsi:type="notation:Shape" type="2011" fontName="Sans" fontHeight="8" lineColor="0">
+      <children xsi:type="notation:DecorationNode" type="5016"/>
+      <children xsi:type="notation:DecorationNode" type="7001">
+        <children xsi:type="notation:Shape" type="3004">
+          <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJQiG35GEeGJWskstUYw2Q"/>
+        </children>
+        <children xsi:type="notation:Shape" type="3004">
+          <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJQiHH5GEeGJWskstUYw2Q"/>
+        </children>
+        <layoutConstraint xsi:type="notation:Bounds"/>
+      </children>
+      <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJQiGn5GEeGJWskstUYw2Q"/>
+      <layoutConstraint xsi:type="notation:Bounds" width="1028" height="200"/>
+    </children>
+    <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJQiEX5GEeGJWskstUYw2Q"/>
+  </notation:Diagram>
+  <notation:Diagram type="userinterface" name="CreateParticipation in request" measurementUnit="Pixel">
+    <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
+      <children xsi:type="notation:DecorationNode" type="5011"/>
+      <children xsi:type="notation:DecorationNode" type="7001">
+        <children xsi:type="notation:Shape" type="3001">
+          <children xsi:type="notation:DecorationNode" type="5001"/>
+          <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJRJIX5GEeGJWskstUYw2Q"/>
+        </children>
+        <children xsi:type="notation:Shape" type="3001">
+          <children xsi:type="notation:DecorationNode" type="5001"/>
+          <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJRJJH5GEeGJWskstUYw2Q"/>
+        </children>
+        <layoutConstraint xsi:type="notation:Bounds"/>
+      </children>
+      <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJRJIH5GEeGJWskstUYw2Q"/>
+      <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
+    </children>
+    <element href="252060@_GVhgMI6NEeCrtavWRHwoHg.uml#_eJQiHn5GEeGJWskstUYw2Q"/>
+  </notation:Diagram>
+</xmi:XMI>

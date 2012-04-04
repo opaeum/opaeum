@@ -571,7 +571,7 @@
 		commandId="org.opaeum.uimodeler.util.CreateUserInterfaceDiagramCommand">
 		<activeWhen>
 			<with variable="activeEditorId">
-				<equals value="org.eclipse.papyrus.infra.core.papyrusEditor"/>
+				<equals value="org.opaeum.uimodeler.OpaeumMultiDiagramEditor"/>
 			</with>
 		</activeWhen>
 	</handler>

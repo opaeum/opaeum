@@ -1,11 +1,11 @@
 package org.opaeum.uim.swt;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.List;
@@ -34,7 +34,7 @@ public class UimSwtUtil{
 			fig.setControl(new DateTime((Composite) fig, SWT.BORDER));
 			break;
 		case DROPDOWN:
-			Combo c = new Combo((Composite) fig, SWT.BORDER|SWT.READ_ONLY);
+			CCombo c = new CCombo((Composite) fig, SWT.BORDER|SWT.READ_ONLY);
 			c.add("Item 1");
 			c.add("Item 2");
 			c.add("Item 3");
@@ -77,7 +77,7 @@ public class UimSwtUtil{
 			fig.setControl(new NumberScroller((Composite) fig, SWT.NONE | SWT.BORDER));
 			break;
 		case TEXT:
-			fig.setControl(new Text((Composite) fig, SWT.BORDER));
+			fig.setControl(new Text((Composite) fig, SWT.NONE|SWT.BORDER));
 			break;
 		case TEXT_AREA:
 			fig.setControl(new Text((Composite) fig, SWT.BORDER | SWT.MULTI));

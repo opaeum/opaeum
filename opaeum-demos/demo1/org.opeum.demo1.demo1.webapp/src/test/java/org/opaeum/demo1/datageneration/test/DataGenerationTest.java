@@ -1,6 +1,7 @@
 package org.opaeum.demo1.datageneration.test;
 
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.ejb.Ejb3Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hsqldb.lib.FileUtil;
@@ -16,7 +17,16 @@ public class DataGenerationTest{
 		FileUtil.getFileUtil().removeElement("/tmp/demo1DB.properties");
 		FileUtil.getFileUtil().removeElement("/tmp/demo1DB.tmp");
 //		Ejb3Configuration conf = (new Ejb3Configuration()).configure("demo1");
-//		SchemaExport schemaExport = new SchemaExport(conf.getHibernateConfiguration());
+//		Configuration hibernateConfiguration = conf.getHibernateConfiguration();
+//		hibernateConfiguration.getProperties().put("hibernate.dialect" ,"org.hibernate.dialect.PostgreSQL82Dialect");
+//		hibernateConfiguration.getProperties().put("hibernate.dialect" ,"org.hibernate.dialect.PostgreSQL82Dialect");
+//		hibernateConfiguration.getProperties().put("hibernate.dialect" ,"org.hibernate.dialect.PostgreSQL82Dialect");
+//		hibernateConfiguration.getProperties().put("hibernate.dialect" ,"org.hibernate.dialect.PostgreSQL82Dialect");
+//		hibernateConfiguration.getProperties().put("hibernate.connection.driver_class" ,"org.postgresql.Driver" );
+//		hibernateConfiguration.getProperties().put("hibernate.connection.url" ,"jdbc:postgresql://localhost:5433/test" );
+//		hibernateConfiguration.getProperties().put("hibernate.connection.username" ,"postgres" );
+//		hibernateConfiguration.getProperties().put("hibernate.connection.password","postgres" );
+//		SchemaExport schemaExport = new SchemaExport(hibernateConfiguration);
 //		schemaExport.create(true, true);
 
 		Demo1DataGenerator.main(new String[0]);

@@ -21,13 +21,16 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Link;
@@ -39,11 +42,12 @@ import org.opaeum.rap.runtime.internal.actions.OpenEditorAction;
 import org.opaeum.rap.runtime.internal.binding.GenericFromStringConverter;
 import org.opaeum.rap.runtime.internal.binding.GenericToStringConverter;
 import org.opaeum.rap.runtime.internal.binding.GenericValidator;
-import org.opaeum.rap.runtime.internal.datamodel.EntityEditorInput;
+import org.opaeum.rap.runtime.internal.wizards.OperationInvocationWizard;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.environment.JavaTypedElement;
+import org.opaeum.runtime.event.IEventHandler;
 import org.opaeum.runtime.strategy.FromStringConverter;
 import org.opaeum.runtime.strategy.ToStringConverter;
 import org.opaeum.uim.UimComponent;
@@ -65,24 +69,28 @@ import org.opaeum.uim.swt.UimFieldComposite;
 import org.opaeum.uim.swt.UimSwtUtil;
 
 public class ComponentTreeBuilder{
-	IPersistentObject persistentObject;
+	IPersistentObject selectedObject;
+	Object objectBeingUpdated;
 	JavaMetaInfoMap javaMetaInfo;
-	Class<? extends IPersistentObject> objectClass;
 	private Validator validator;
 	IOpaeumApplication application;
 	private OpaeumRapSession session;
 	private EntityEditorInput input;
-	public ComponentTreeBuilder(IPersistentObject persistentObject,EntityEditorInput input){
-		super();
-		this.input=input;
-		this.session = input.getOpaeumSession();
+	// Constructor for operation invocations
+	public ComponentTreeBuilder(IPersistentObject selectedObject,Object handler, OpaeumRapSession session){
+		this.session = session;
 		this.application = session.getApplication();
 		this.validator = application.getValidator();
-		this.persistentObject = persistentObject;
+		this.objectBeingUpdated = handler;
+		this.selectedObject = selectedObject;
 		this.javaMetaInfo = application.getEnvironment().getMetaInfoMap();
-		objectClass = IntrospectionUtil.getOriginalClass(persistentObject);
 	}
-	public void addComponent(Composite body,UimComponent comp,DataBindingContext bc){
+	// Constructor for class editors
+	public ComponentTreeBuilder(IPersistentObject selectedObject,EntityEditorInput input){
+		this(selectedObject, selectedObject,input.getOpaeumSession());
+		this.input = input;
+	}
+	public void addComponent(final Composite body,UimComponent comp,DataBindingContext bc){
 		if(comp instanceof GridPanel){
 			GridPanelComposite gpc = new GridPanelComposite(body, SWT.NONE);
 			Integer numberOfColumns = ((GridPanel) comp).getNumberOfColumns();
@@ -140,17 +148,40 @@ public class ComponentTreeBuilder{
 			for(UimAction uimAction:actionsOnMultipleSelection){
 				addComponent(table.getActionBar(), uimAction, bc);
 			}
-			tableViewer.setInput(tableRef.invokeGetter(persistentObject));
+			tableViewer.setInput(tableRef.invokeGetter(objectBeingUpdated));
 		}else if(comp instanceof BuiltInActionButton){
 			BuiltInActionButton btn = (BuiltInActionButton) comp;
 			Button button = new Button(body, SWT.PUSH);
 			button.setText(btn.getName());
 			setLayoutData(button, btn);
+			switch(btn.getKind()){
+			case UPDATE:
+				break;
+			case DELETE:
+				break;
+			case EXECUTE_OPERATION:
+				break;
+			}
 		}else if(comp instanceof OperationButton){
-			OperationButton ob = (OperationButton) comp;
+			final OperationButton ob = (OperationButton) comp;
 			Button button = new Button(body, SWT.PUSH);
 			button.setText(ob.getName());
 			setLayoutData(button, ob);
+			button.addSelectionListener(new SelectionListener(){
+				public void widgetSelected(SelectionEvent e){
+					if(ob.eContainer() instanceof UimDataTable){
+						// TODO handle multiple selection etc.
+					}else{
+						IEventHandler eventHandler = javaMetaInfo.getEventHandler(ob.getUmlElementUid());
+						OperationInvocationWizard wizard = new OperationInvocationWizard((IPersistentObject) objectBeingUpdated, eventHandler, ob
+								.getPopup(), input);
+						WizardDialog dialog = new WizardDialog(body.getShell(), wizard);
+						dialog.open();
+					}
+				}
+				public void widgetDefaultSelected(SelectionEvent e){
+				}
+			});
 		}
 	}
 	private void addUimFieldComposite(Composite body,UimComponent comp,DataBindingContext bc){
@@ -165,8 +196,8 @@ public class ComponentTreeBuilder{
 		final JavaTypedElement typedElement = javaMetaInfo.getTypedElement(uimField.getBinding().getLastPropertyUuid());
 		UpdateValueStrategy targetToModel = new UpdateValueStrategy();
 		UpdateValueStrategy modelToTarget = new UpdateValueStrategy();
-		IObservableValue observeValue = BeansObservables.observeValue(persistentObject, getExpression(uimField.getBinding()));
-		targetToModel.setAfterConvertValidator(new GenericValidator(IntrospectionUtil.getOriginalClass(persistentObject), typedElement,
+		IObservableValue observeValue = BeansObservables.observeValue(objectBeingUpdated, getExpression(uimField.getBinding()));
+		targetToModel.setAfterConvertValidator(new GenericValidator(IntrospectionUtil.getOriginalClass(objectBeingUpdated), typedElement,
 				this.validator));
 		IObservableValue observeControl = null;
 		switch(uimField.getControlKind()){
@@ -193,7 +224,7 @@ public class ComponentTreeBuilder{
 			break;
 		case LINK:
 			LinkComposite link = (LinkComposite) uimFieldComposite.getControl();
-			final IPersistentObject linked = (IPersistentObject) typedElement.invokeGetter(persistentObject);
+			final IPersistentObject linked = (IPersistentObject) typedElement.invokeGetter(objectBeingUpdated);
 			Link firstLink = (Link) link.getChildren()[0];
 			firstLink.setText(linked.getName());
 			firstLink.addMouseListener(new MouseListener(){
@@ -222,13 +253,12 @@ public class ComponentTreeBuilder{
 			break;
 		}
 		if(observeControl != null){
-			observeValue.addValueChangeListener(getEditorInput());
+			if(input != null){
+				observeValue.addValueChangeListener(input);
+			}
 			Binding bindValue = bc.bindValue(observeControl, observeValue, targetToModel, modelToTarget);
 			ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.LEFT);
 		}
-	}
-	private EntityEditorInput getEditorInput(){
-		return input;
 	}
 	private ISWTObservableValue observeListbox(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement){
 		ISWTObservableValue observeText;
@@ -247,9 +277,9 @@ public class ComponentTreeBuilder{
 			if(lookup.getLookupSource() == null){
 				if(typedElement.isReadOnly()){
 					// TODO complex expressions
-					cb.setInput(typedElement.invokeGetter(persistentObject));
+					cb.setInput(typedElement.invokeGetter(objectBeingUpdated));
 				}else{
-					cb.setInput(typedElement.invokeLookupMethod(persistentObject));
+					cb.setInput(typedElement.invokeLookupMethod(selectedObject));
 				}
 			}else{
 				// TODO lookup
@@ -259,7 +289,7 @@ public class ComponentTreeBuilder{
 	}
 	private IObservableValue observeDropdown(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement){
 		IViewerObservableValue observeText;
-		ComboViewer cb = new ComboViewer((Combo) uimFieldComposite.getControl());
+		ComboViewer cb = new ComboViewer((CCombo) uimFieldComposite.getControl());
 		if(typedElement.getBaseType().isEnum()){
 			cb.setLabelProvider(new LabelProvider(){
 				@Override
@@ -281,9 +311,9 @@ public class ComponentTreeBuilder{
 			if(lookup.getLookupSource() == null){
 				if(typedElement.isReadOnly()){
 					// TODO complex expressions
-					cb.setInput(typedElement.invokeGetter(persistentObject));
+					cb.setInput(typedElement.invokeGetter(objectBeingUpdated));
 				}else{
-					cb.setInput(typedElement.invokeLookupMethod(persistentObject));
+					cb.setInput(typedElement.invokeLookupMethod(selectedObject));
 				}
 			}else{
 				// TODO lookup
@@ -311,6 +341,9 @@ public class ComponentTreeBuilder{
 	}
 	private String getExpression(UimBinding b){
 		JavaTypedElement typedElement = javaMetaInfo.getTypedElement(b.getUmlElementUid());
+		if(typedElement == null){
+			System.out.println();
+		}
 		StringBuilder sb = new StringBuilder(typedElement.getName());
 		appendExpression(sb, b.getNext());
 		return sb.toString();

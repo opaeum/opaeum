@@ -178,7 +178,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 								copyMany.addParam("from", map.javaTypePath());
 								owner.addToImports(map.javaDefaultTypePath());
 								copyMany.initializeResultVariable("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">()");
-								copyMany.getResultVariable().setType(owner.getPathName());
+//								copyMany.getResultVariable().setType(owner.getPathName());
 								OJForStatement forS = new OJForStatement("", "", "entity", "from");
 								forS.setElemType(map.javaBaseTypePath());
 								forS.setBody(forBlock);

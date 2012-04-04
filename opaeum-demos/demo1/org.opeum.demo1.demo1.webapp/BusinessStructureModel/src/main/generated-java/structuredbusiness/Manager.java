@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -82,10 +83,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="dishwashers_inc_id",nullable=true)
 	private DishwashersInc dishwashersInc;
-	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
-	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
-	@OneToMany(fetch=javax.persistence.FetchType.LAZY,mappedBy="manager",targetEntity=DocumentVerifier.class)
-	private Set<DocumentVerifier> documentVerifier = new HashSet<DocumentVerifier>();
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
@@ -127,12 +124,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	public Manager() {
 	}
 
-	public void addAllToDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
-		for ( DocumentVerifier o : documentVerifier ) {
-			addToDocumentVerifier(o);
-		}
-	}
-	
 	public void addAllToParticipation(Set<Participation> participation) {
 		for ( Participation o : participation ) {
 			addToParticipation(o);
@@ -141,14 +132,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(property,listener);
-	}
-	
-	public void addToDocumentVerifier(DocumentVerifier documentVerifier) {
-		if ( documentVerifier!=null ) {
-			documentVerifier.z_internalRemoveFromManager(documentVerifier.getManager());
-			documentVerifier.z_internalAddToManager(this);
-			z_internalAddToDocumentVerifier(documentVerifier);
-		}
 	}
 	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
@@ -204,10 +187,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		}
 	}
 	
-	public void clearDocumentVerifier() {
-		removeAllFromDocumentVerifier(getDocumentVerifier());
-	}
-	
 	public void clearParticipation() {
 		removeAllFromParticipation(getParticipation());
 	}
@@ -248,14 +227,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@NumlMetaInfo(uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
-		
-		return result;
-	}
-	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7856994707582868888l,opposite="manager",uuid="914890@_MwNCAXvJEeGIOPhylek76A")
-	@NumlMetaInfo(uuid="914890@_MwNCAXvJEeGIOPhylek76A")
-	public Set<DocumentVerifier> getDocumentVerifier() {
-		Set<DocumentVerifier> result = this.documentVerifier;
 		
 		return result;
 	}
@@ -340,7 +311,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;
@@ -362,6 +333,10 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 			result = this.person_iBusinessRole_1_representedPerson.getRepresentedPerson();
 		}
 		return result;
+	}
+	
+	public List<PersonNode> getSourcePopulationForRepresentedPerson() {
+		return new ArrayList<PersonNode>(Stdlib.collectionAsSet(this.getDishwashersInc().getRoot().getBusinessNetwork().getPerson()));
 	}
 	
 	public String getUid() {
@@ -425,24 +400,10 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		}
 	}
 	
-	public void removeAllFromDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
-		Set<DocumentVerifier> tmp = new HashSet<DocumentVerifier>(documentVerifier);
-		for ( DocumentVerifier o : tmp ) {
-			removeFromDocumentVerifier(o);
-		}
-	}
-	
 	public void removeAllFromParticipation(Set<Participation> participation) {
 		Set<Participation> tmp = new HashSet<Participation>(participation);
 		for ( Participation o : tmp ) {
 			removeFromParticipation(o);
-		}
-	}
-	
-	public void removeFromDocumentVerifier(DocumentVerifier documentVerifier) {
-		if ( documentVerifier!=null ) {
-			documentVerifier.z_internalRemoveFromManager(this);
-			z_internalRemoveFromDocumentVerifier(documentVerifier);
 		}
 	}
 	
@@ -481,12 +442,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		} else {
 			markDeleted();
 		}
-	}
-	
-	public void setDocumentVerifier(Set<DocumentVerifier> documentVerifier) {
-		propertyChangeSupport.firePropertyChange("documentVerifier",getDocumentVerifier(),documentVerifier);
-		this.clearDocumentVerifier();
-		this.addAllToDocumentVerifier(documentVerifier);
 	}
 	
 	public void setId(Long id) {
@@ -590,10 +545,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		this.dishwashersInc=val;
 	}
 	
-	public void z_internalAddToDocumentVerifier(DocumentVerifier val) {
-		this.documentVerifier.add(val);
-	}
-	
 	public void z_internalAddToName(String val) {
 		this.name=val;
 	}
@@ -617,10 +568,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 			this.dishwashersInc=null;
 			this.dishwashersInc=null;
 		}
-	}
-	
-	public void z_internalRemoveFromDocumentVerifier(DocumentVerifier val) {
-		this.documentVerifier.remove(val);
 	}
 	
 	public void z_internalRemoveFromName(String val) {

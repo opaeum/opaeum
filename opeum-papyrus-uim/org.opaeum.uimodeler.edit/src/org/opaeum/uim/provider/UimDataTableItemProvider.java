@@ -65,6 +65,7 @@ public class UimDataTableItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addUnderUserControlPropertyDescriptor(object);
 			addPreferredWidthPropertyDescriptor(object);
 			addPreferredHeightPropertyDescriptor(object);
 			addFillHorizontallyPropertyDescriptor(object);
@@ -91,6 +92,28 @@ public class UimDataTableItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Under User Control feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUnderUserControlPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInteractionElement_underUserControl_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_underUserControl_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -255,6 +278,7 @@ public class UimDataTableItemProvider
 
 		switch (notification.getFeatureID(UimDataTable.class)) {
 			case UimPackage.UIM_DATA_TABLE__NAME:
+			case UimPackage.UIM_DATA_TABLE__UNDER_USER_CONTROL:
 			case UimPackage.UIM_DATA_TABLE__PREFERRED_WIDTH:
 			case UimPackage.UIM_DATA_TABLE__PREFERRED_HEIGHT:
 			case UimPackage.UIM_DATA_TABLE__FILL_HORIZONTALLY:

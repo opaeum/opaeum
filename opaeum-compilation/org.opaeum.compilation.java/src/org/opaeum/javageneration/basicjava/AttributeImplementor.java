@@ -17,6 +17,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
@@ -25,6 +26,7 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedConstraint;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedGeneralization;
 import org.opaeum.metamodel.core.INakedHelper;
@@ -33,6 +35,7 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.EndToAssociationClass;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.emulated.EmulatingElement;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class},after = {Java6ModelGenerator.class})
 public class AttributeImplementor extends AbstractStructureVisitor{
@@ -42,6 +45,44 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	@Override
 	protected int getThreadPoolSize(){
 		return 12;
+	}
+	public static void addPropertyMetaInfo(NakedStructuralFeatureMap map,OJAnnotatedOperation element){
+		// TODO move thisS
+		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyMetaInfo"));
+		ap.putAttribute("isComposite", map.getProperty().isComposite());
+		if(map.getProperty() instanceof EmulatingElement){
+			EmulatingElement ee = (EmulatingElement) map.getProperty();
+			ap.putAttribute("uuid", ee.getOriginalElement().getId());
+		}else{
+			ap.putAttribute("uuid", map.getProperty().getId());
+		}
+		ap.putAttribute("opaeumId", map.getProperty().getMappingInfo().getOpaeumId());
+		if(map.getProperty().getDocumentation() != null){
+			ap.putAttribute("shortDescripion", map.getProperty().getDocumentation());
+		}
+		if(map.getProperty().getOtherEnd() != null){
+			ap.putAttribute("opposite", map.getProperty().getOtherEnd().getName());
+		}
+		OJAnnotationAttributeValue constraints = new OJAnnotationAttributeValue("constraints");
+		ap.putAttribute(constraints);
+		for(INakedConstraint c:map.getProperty().getOwner().getOwnedRules()){
+			if(c.getSpecification().isValidOclValue() && c.getConstrainedElements().contains(map.getProperty())){
+				if(c.getSpecification().getOclValue().getExpression().getExpressionType().isCollectionKind()){
+					ap.putAttribute("lookupMethod", "get" + c.getMappingInfo().getJavaName().getCapped());
+					// Lookup method
+				}else{
+					// Associated constraint
+					OJAnnotationValue constraint = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyConstraint"));
+					constraint.putAttribute("method", "is" + c.getMappingInfo().getJavaName().getCapped());
+					constraint.putAttribute("message", c.getMappingInfo().getJavaName().getSeparateWords().getAsIs());
+					constraints.addAnnotationValue(constraint);
+				}
+			}
+		}
+		// if(ap.findAttribute("lookupMethod") == null){
+		// ap.putAttribute("lookupMethod", ((OJOperation) element).getName() + "SourcePopulation");
+		// }
+		element.addAnnotationIfNew(ap);
 	}
 	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
@@ -117,7 +158,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected OJAnnotatedOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean derived){
-
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
@@ -139,6 +179,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		getter.setStatic(map.isStatic());
 		INakedElement property = map.getProperty();
 		OJUtil.addMetaInfo(getter, property);
+		addPropertyMetaInfo(map, getter);
 		return getter;
 	}
 	@Override
@@ -292,7 +333,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}else{
 			buildSetter(umlOwner, owner, map);
 		}
-		
 		OJAnnotatedOperation getter = buildGetter(owner, map, false);
 		if(field != null){
 			applyStereotypesAsAnnotations((p), field);

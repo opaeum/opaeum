@@ -42,7 +42,12 @@ public class JavaTypedElement{
 	public void buildTypedElementOnGetter(Method readMethod){
 		this.readMethod=readMethod;
 		String setterName = readMethod.getName();
-		setterName = "set" + setterName.substring(3);
+		if(readMethod.getName().startsWith("is")){
+			name =  NameConverter.decapitalize(readMethod.getName().substring(2));
+		}else{
+		name =  NameConverter.decapitalize(readMethod.getName().substring(3));
+		}
+		setterName = "set" + NameConverter.capitalize(name);
 		try{
 			this.writeMethod = readMethod.getDeclaringClass().getMethod(setterName, readMethod.getReturnType());
 		}catch(SecurityException e1){
@@ -56,6 +61,7 @@ public class JavaTypedElement{
 			}catch(SecurityException e1){
 			}catch(NoSuchMethodException e1){
 			}
+			this.isComposite=annotation.isComposite();
 			this.opaeumId = annotation.opaeumId();
 			this.uuid = annotation.uuid();
 			this.opposite = null;// ???
@@ -70,7 +76,6 @@ public class JavaTypedElement{
 			}
 			this.shortDescription = annotation.shortDescription();
 		}
-		name = NameConverter.decapitalize(readMethod.getName().substring(3));
 		this.type = readMethod.getReturnType();
 		Type genericReturnType = readMethod.getGenericReturnType();
 		calcBaseType(genericReturnType);
@@ -155,5 +160,11 @@ public class JavaTypedElement{
 				return null;
 			}
 		}
+	}
+	public boolean isMany(){
+		return Collection.class.isAssignableFrom(readMethod.getReturnType());
+	}
+	public Class<?> getType(){
+		return readMethod.getReturnType();
 	}
 }

@@ -40,7 +40,9 @@ import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.event.INotificationService;
 import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
+import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.UmtPersistence;
 import org.opaeum.seam3.persistence.ManagedHibernateSessionFactoryProvider;
 import org.opaeum.test.adaptor.CditTestLogger;
@@ -268,6 +270,21 @@ public class CdiTestEnvironment extends Environment{
 	}
 	@Override
 	public UmtPersistence newUmtPersistence(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public INotificationService getNotificationService(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ConversationalPersistence createConversationalPersistence(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public UmtPersistence getUmtPersistence(){
 		// TODO Auto-generated method stub
 		return null;
 	}

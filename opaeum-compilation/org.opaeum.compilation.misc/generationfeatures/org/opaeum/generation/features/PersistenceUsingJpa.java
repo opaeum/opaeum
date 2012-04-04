@@ -10,6 +10,6 @@ import org.opaeum.javageneration.hibernate.JpaPersistenceXmlGenerator;
 import org.opaeum.pomgeneration.JpaDomainPomStep;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		JpaDomainPomStep.class,HibernateAnnotator.class,HibernatePackageAnnotator.class,JavaPersistence.class,JpaPersistenceXmlGenerator.class,HibernateAttributeImplementor.class})
+		JpaDomainPomStep.class,HibernateAnnotator.class,HibernatePackageAnnotator.class,JavaPersistence.class,JpaPersistenceXmlGenerator.class})
 public class PersistenceUsingJpa extends JavaFeature{
 }

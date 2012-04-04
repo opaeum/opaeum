@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.request.TaskParticipationKind;
 import org.opaeum.runtime.bpm.request.TaskRequest;
@@ -53,10 +54,12 @@ public class RemoveTaskRequestParticipantHandler3079422596157096726 implements I
 		return this.isEvent;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4755164557368116669l,uuid="252060@_wuzAoo6SEeCrtavWRHwoHg")
 	public TaskParticipationKind getKind() {
 		return this.kind;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6224957730936735057l,uuid="252060@_wuzAoY6SEeCrtavWRHwoHg")
 	public Participant getParticipant() {
 		return this.participant;
 	}

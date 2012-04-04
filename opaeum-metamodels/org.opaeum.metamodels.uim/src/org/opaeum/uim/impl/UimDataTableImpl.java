@@ -35,6 +35,7 @@ import org.opaeum.uim.panel.PanelPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#isUnderUserControl <em>Under User Control</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getVisibility <em>Visibility</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getEditability <em>Editability</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getChildren <em>Children</em>}</li>
@@ -58,7 +59,7 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -69,6 +70,26 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean UNDER_USER_CONTROL_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getVisibility() <em>Visibility</em>}' containment reference.
@@ -238,6 +259,27 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isUnderUserControl() {
+		return underUserControl;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUnderUserControl(boolean newUnderUserControl) {
+		boolean oldUnderUserControl = underUserControl;
+		underUserControl = newUnderUserControl;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
 	}
 
 	/**
@@ -537,6 +579,8 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		switch (featureID) {
 			case UimPackage.UIM_DATA_TABLE__NAME:
 				return getName();
+			case UimPackage.UIM_DATA_TABLE__UNDER_USER_CONTROL:
+				return isUnderUserControl();
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				return getVisibility();
 			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
@@ -570,6 +614,9 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		switch (featureID) {
 			case UimPackage.UIM_DATA_TABLE__NAME:
 				setName((String)newValue);
+				return;
+			case UimPackage.UIM_DATA_TABLE__UNDER_USER_CONTROL:
+				setUnderUserControl((Boolean)newValue);
 				return;
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				setVisibility((UserInteractionConstraint)newValue);
@@ -615,6 +662,9 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 			case UimPackage.UIM_DATA_TABLE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case UimPackage.UIM_DATA_TABLE__UNDER_USER_CONTROL:
+				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
+				return;
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				setVisibility((UserInteractionConstraint)null);
 				return;
@@ -656,6 +706,8 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		switch (featureID) {
 			case UimPackage.UIM_DATA_TABLE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case UimPackage.UIM_DATA_TABLE__UNDER_USER_CONTROL:
+				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				return visibility != null;
 			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
@@ -688,6 +740,7 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		if (baseClass == UserInteractionElement.class) {
 			switch (derivedFeatureID) {
 				case UimPackage.UIM_DATA_TABLE__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
+				case UimPackage.UIM_DATA_TABLE__UNDER_USER_CONTROL: return UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
 				default: return -1;
 			}
 		}
@@ -736,6 +789,7 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return UimPackage.UIM_DATA_TABLE__NAME;
+				case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL: return UimPackage.UIM_DATA_TABLE__UNDER_USER_CONTROL;
 				default: return -1;
 			}
 		}
@@ -786,6 +840,8 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", underUserControl: ");
+		result.append(underUserControl);
 		result.append(", preferredWidth: ");
 		result.append(preferredWidth);
 		result.append(", preferredHeight: ");

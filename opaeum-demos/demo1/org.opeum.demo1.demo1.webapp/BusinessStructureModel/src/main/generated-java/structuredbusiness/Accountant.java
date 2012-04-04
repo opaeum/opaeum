@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -306,7 +307,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;
@@ -328,6 +329,10 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 			result = this.person_iBusinessRole_1_representedPerson.getRepresentedPerson();
 		}
 		return result;
+	}
+	
+	public List<PersonNode> getSourcePopulationForRepresentedPerson() {
+		return new ArrayList<PersonNode>(Stdlib.collectionAsSet(this.getDishwashersInc().getRoot().getBusinessNetwork().getPerson()));
 	}
 	
 	public String getUid() {

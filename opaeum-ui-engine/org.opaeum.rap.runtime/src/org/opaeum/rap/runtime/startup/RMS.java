@@ -9,7 +9,6 @@ import org.eclipse.rwt.lifecycle.UICallBack;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.opaeum.rap.runtime.internal.Activator;
-import org.opaeum.rap.runtime.internal.datamodel.EntityAdapter;
 import org.opaeum.rap.runtime.internal.startup.RMSWorkbenchAdvisor;
 
 /**
@@ -18,7 +17,6 @@ import org.opaeum.rap.runtime.internal.startup.RMSWorkbenchAdvisor;
 public class RMS implements IEntryPoint {
 
   static {
-    EntityAdapter.editorInputRegistry = new EditorInputRegistry();
     Locale.setDefault( Locale.ENGLISH );
   }
 

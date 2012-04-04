@@ -96,13 +96,22 @@ public interface UimPackage extends EPackage {
 	int UIM_FIELD__NAME = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__UNDER_USER_CONTROL = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__PREFERRED_WIDTH = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 1;
+	int UIM_FIELD__PREFERRED_WIDTH = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -111,7 +120,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__PREFERRED_HEIGHT = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 2;
+	int UIM_FIELD__PREFERRED_HEIGHT = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -120,7 +129,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__FILL_HORIZONTALLY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 3;
+	int UIM_FIELD__FILL_HORIZONTALLY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -129,7 +138,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__FILL_VERTICALLY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 4;
+	int UIM_FIELD__FILL_VERTICALLY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Control</b></em>' containment reference.
@@ -138,7 +147,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__CONTROL = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 5;
+	int UIM_FIELD__CONTROL = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Control Kind</b></em>' attribute.
@@ -147,7 +156,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__CONTROL_KIND = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 6;
+	int UIM_FIELD__CONTROL_KIND = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Minimum Label Width</b></em>' attribute.
@@ -156,7 +165,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__MINIMUM_LABEL_WIDTH = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 7;
+	int UIM_FIELD__MINIMUM_LABEL_WIDTH = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Binding</b></em>' containment reference.
@@ -165,7 +174,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__BINDING = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 8;
+	int UIM_FIELD__BINDING = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute.
@@ -174,7 +183,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__ORIENTATION = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 9;
+	int UIM_FIELD__ORIENTATION = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Field</em>' class.
@@ -183,7 +192,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD_FEATURE_COUNT = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 10;
+	int UIM_FIELD_FEATURE_COUNT = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.impl.UserInteractionElementImpl <em>User Interaction Element</em>}' class.
@@ -205,13 +214,22 @@ public interface UimPackage extends EPackage {
 	int USER_INTERACTION_ELEMENT__NAME = 0;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL = 1;
+
+	/**
 	 * The number of structural features of the '<em>User Interaction Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_INTERACTION_ELEMENT_FEATURE_COUNT = 1;
+	int USER_INTERACTION_ELEMENT_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.impl.UimComponentImpl <em>Component</em>}' class.
@@ -231,6 +249,15 @@ public interface UimPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_COMPONENT__NAME = USER_INTERACTION_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_COMPONENT__UNDER_USER_CONTROL = USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -307,13 +334,22 @@ public interface UimPackage extends EPackage {
 	int UIM_DATA_TABLE__NAME = MASTER_COMPONENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATA_TABLE__UNDER_USER_CONTROL = MASTER_COMPONENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__VISIBILITY = MASTER_COMPONENT_FEATURE_COUNT + 1;
+	int UIM_DATA_TABLE__VISIBILITY = MASTER_COMPONENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -322,7 +358,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__EDITABILITY = MASTER_COMPONENT_FEATURE_COUNT + 2;
+	int UIM_DATA_TABLE__EDITABILITY = MASTER_COMPONENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -331,7 +367,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__CHILDREN = MASTER_COMPONENT_FEATURE_COUNT + 3;
+	int UIM_DATA_TABLE__CHILDREN = MASTER_COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -340,7 +376,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__PREFERRED_WIDTH = MASTER_COMPONENT_FEATURE_COUNT + 4;
+	int UIM_DATA_TABLE__PREFERRED_WIDTH = MASTER_COMPONENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -349,7 +385,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__PREFERRED_HEIGHT = MASTER_COMPONENT_FEATURE_COUNT + 5;
+	int UIM_DATA_TABLE__PREFERRED_HEIGHT = MASTER_COMPONENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -358,7 +394,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__FILL_HORIZONTALLY = MASTER_COMPONENT_FEATURE_COUNT + 6;
+	int UIM_DATA_TABLE__FILL_HORIZONTALLY = MASTER_COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -367,7 +403,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__FILL_VERTICALLY = MASTER_COMPONENT_FEATURE_COUNT + 7;
+	int UIM_DATA_TABLE__FILL_VERTICALLY = MASTER_COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Binding</b></em>' containment reference.
@@ -376,7 +412,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__BINDING = MASTER_COMPONENT_FEATURE_COUNT + 8;
+	int UIM_DATA_TABLE__BINDING = MASTER_COMPONENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Actions On Multiple Selection</b></em>' containment reference list.
@@ -385,7 +421,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION = MASTER_COMPONENT_FEATURE_COUNT + 9;
+	int UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION = MASTER_COMPONENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Data Table</em>' class.
@@ -394,7 +430,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE_FEATURE_COUNT = MASTER_COMPONENT_FEATURE_COUNT + 10;
+	int UIM_DATA_TABLE_FEATURE_COUNT = MASTER_COMPONENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.impl.UimContainerImpl <em>Container</em>}' class.
@@ -414,6 +450,15 @@ public interface UimPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_CONTAINER__NAME = UIM_COMPONENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_CONTAINER__UNDER_USER_CONTROL = UIM_COMPONENT__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -527,6 +572,15 @@ public interface UimPackage extends EPackage {
 	int DETAIL_COMPONENT__NAME = UIM_COMPONENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL_COMPONENT__UNDER_USER_CONTROL = UIM_COMPONENT__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -591,6 +645,15 @@ public interface UimPackage extends EPackage {
 	int USER_INTERFACE_ENTRY_POINT__NAME = USER_INTERACTION_ELEMENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERFACE_ENTRY_POINT__UNDER_USER_CONTROL = USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -637,6 +700,15 @@ public interface UimPackage extends EPackage {
 	int USER_INTERFACE__NAME = USER_INTERACTION_ELEMENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERFACE__UNDER_USER_CONTROL = USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -681,6 +753,15 @@ public interface UimPackage extends EPackage {
 	 * @ordered
 	 */
 	int PAGE__NAME = USER_INTERFACE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE__UNDER_USER_CONTROL = USER_INTERFACE__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -802,13 +883,31 @@ public interface UimPackage extends EPackage {
 	int CLASS_USER_INTERACTION_MODEL__NAME = UML_REFERENCE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL = UML_REFERENCE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE = UML_REFERENCE_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Primary Editor</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR = UML_REFERENCE_FEATURE_COUNT + 1;
+	int CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR = UML_REFERENCE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Secondary Editors</b></em>' containment reference list.
@@ -817,7 +916,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS = UML_REFERENCE_FEATURE_COUNT + 2;
+	int CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS = UML_REFERENCE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>New Object Wizard</b></em>' containment reference.
@@ -826,7 +925,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD = UML_REFERENCE_FEATURE_COUNT + 3;
+	int CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD = UML_REFERENCE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Class User Interaction Model</em>' class.
@@ -835,7 +934,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_USER_INTERACTION_MODEL_FEATURE_COUNT = UML_REFERENCE_FEATURE_COUNT + 4;
+	int CLASS_USER_INTERACTION_MODEL_FEATURE_COUNT = UML_REFERENCE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.impl.ResponsibilityUserInteractionModelImpl <em>Responsibility User Interaction Model</em>}' class.
@@ -857,6 +956,15 @@ public interface UimPackage extends EPackage {
 	int RESPONSIBILITY_USER_INTERACTION_MODEL__NAME = USER_INTERACTION_ELEMENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL = USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -866,13 +974,22 @@ public interface UimPackage extends EPackage {
 	int RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Invocation Wizard</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Task Editor</b></em>' containment reference.
@@ -881,7 +998,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL__TASK_EDITOR = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__TASK_EDITOR = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Responsibility User Interaction Model</em>' class.
@@ -890,7 +1007,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL_FEATURE_COUNT = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 3;
+	int RESPONSIBILITY_USER_INTERACTION_MODEL_FEATURE_COUNT = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.impl.AbstractActionBarImpl <em>Abstract Action Bar</em>}' class.
@@ -910,6 +1027,15 @@ public interface UimPackage extends EPackage {
 	 * @ordered
 	 */
 	int ABSTRACT_ACTION_BAR__NAME = PanelPackage.ABSTRACT_PANEL__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_ACTION_BAR__UNDER_USER_CONTROL = PanelPackage.ABSTRACT_PANEL__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -967,6 +1093,34 @@ public interface UimPackage extends EPackage {
 	int PAGE_CONTAINER_FEATURE_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link org.opaeum.uim.UimRootElement <em>Root Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.UimRootElement
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimRootElement()
+	 * @generated
+	 */
+	int UIM_ROOT_ELEMENT = 17;
+
+	/**
+	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_ROOT_ELEMENT__LINKED_UML_RESOURCE = 0;
+
+	/**
+	 * The number of structural features of the '<em>Root Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_ROOT_ELEMENT_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link org.opaeum.uim.Orientation <em>Orientation</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -974,7 +1128,7 @@ public interface UimPackage extends EPackage {
 	 * @see org.opaeum.uim.impl.UimPackageImpl#getOrientation()
 	 * @generated
 	 */
-	int ORIENTATION = 17;
+	int ORIENTATION = 18;
 
 
 	/**
@@ -1072,6 +1226,17 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getUserInteractionElement_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UserInteractionElement#isUnderUserControl <em>Under User Control</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Under User Control</em>'.
+	 * @see org.opaeum.uim.UserInteractionElement#isUnderUserControl()
+	 * @see #getUserInteractionElement()
+	 * @generated
+	 */
+	EAttribute getUserInteractionElement_UnderUserControl();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.UimDataTable <em>Data Table</em>}'.
@@ -1412,6 +1577,27 @@ public interface UimPackage extends EPackage {
 	EClass getPageContainer();
 
 	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimRootElement <em>Root Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Root Element</em>'.
+	 * @see org.opaeum.uim.UimRootElement
+	 * @generated
+	 */
+	EClass getUimRootElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UimRootElement#getLinkedUmlResource <em>Linked Uml Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Linked Uml Resource</em>'.
+	 * @see org.opaeum.uim.UimRootElement#getLinkedUmlResource()
+	 * @see #getUimRootElement()
+	 * @generated
+	 */
+	EAttribute getUimRootElement_LinkedUmlResource();
+
+	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.Orientation <em>Orientation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1520,6 +1706,14 @@ public interface UimPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute USER_INTERACTION_ELEMENT__NAME = eINSTANCE.getUserInteractionElement_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Under User Control</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL = eINSTANCE.getUserInteractionElement_UnderUserControl();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimDataTableImpl <em>Data Table</em>}' class.
@@ -1804,6 +1998,24 @@ public interface UimPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PAGE_CONTAINER = eINSTANCE.getPageContainer();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.UimRootElement <em>Root Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.UimRootElement
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimRootElement()
+		 * @generated
+		 */
+		EClass UIM_ROOT_ELEMENT = eINSTANCE.getUimRootElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Linked Uml Resource</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UIM_ROOT_ELEMENT__LINKED_UML_RESOURCE = eINSTANCE.getUimRootElement_LinkedUmlResource();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.Orientation <em>Orientation</em>}' enum.

@@ -41,6 +41,7 @@ import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.domain.IConstrained;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -63,7 +64,7 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="OrganizationPhoneNumber")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerator, IConstrained, HibernateEntity, CompositionNode, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
@@ -178,6 +179,14 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 		return this.deletedOn;
 	}
 	
+	public Set<String> getFailedInvariants() {
+		Set<String> failedInvariants = new HashSet<String>();
+		if ( !isUniqueInOrganization() ) {
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber.uniqueInOrganization");
+		}
+		return failedInvariants;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7229033838421414396l,uuid="252060@_ls8YAHr7EeGX8L_MMRBizg")
 	@NumlMetaInfo(uuid="252060@_ls8YAHr7EeGX8L_MMRBizg")
 	public String getHponeNumber() {
@@ -240,6 +249,12 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	public void init(CompositionNode owner) {
 		this.z_internalAddToOrganization((OrganizationNode)owner);
 		createComponents();
+	}
+	
+	public boolean isUniqueInOrganization() {
+		boolean result = forAll1();
+		
+		return result;
 	}
 	
 	public OrganizationPhoneNumber makeCopy() {
@@ -393,6 +408,17 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 			this.type=null;
 			this.type=null;
 		}
+	}
+	
+	/** Implements ->forAll( p : OrganizationPhoneNumber | (p.type = self.type) implies p = self )
+	 */
+	private boolean forAll1() {
+		for ( OrganizationPhoneNumber p : this.getOrganization().getPhoneNumber() ) {
+			if ( !((p.getType().equals( this.getType())) ? p.equals(this) : true) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

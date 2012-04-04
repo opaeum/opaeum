@@ -188,8 +188,8 @@ public final class EmfToOpaeumSynchronizer{
 				Arrays.asList(StereotypeApplicationExtractor.class));
 		Set<Class<? extends AbstractModelElementLinker>> allSteps = LinkagePhase.getAllSteps();
 		// TODO ignore linkage steps as they will be included from Javatransformations
-		allSteps.remove(SourcePopulationResolver.class);
-		allSteps.remove(QualifierLogicCalculator.class);
+//		allSteps.remove(SourcePopulationResolver.class);
+//		allSteps.remove(QualifierLogicCalculator.class);
 		result.addAll(allSteps);
 		result.addAll(ValidationPhase.getAllValidationSteps());
 		result.add(JavaNameRegenerator.class);

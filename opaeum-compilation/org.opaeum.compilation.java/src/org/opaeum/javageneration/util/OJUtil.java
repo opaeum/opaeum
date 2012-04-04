@@ -349,40 +349,6 @@ public class OJUtil{
 			metaInfo.putAttribute("uuid", property.getMappingInfo().getIdInModel());
 			element.putAnnotation(metaInfo);
 		}
-		// TODO move thisS
-		if(property instanceof INakedProperty && element instanceof OJOperation){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((INakedProperty) property);
-			OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyMetaInfo"));
-			ap.putAttribute("isComposite", map.getProperty().isComposite());
-			ap.putAttribute("uuid", map.getProperty().getId());
-			ap.putAttribute("opaeumId", map.getProperty().getMappingInfo().getOpaeumId());
-			if(map.getProperty().getDocumentation() != null){
-				ap.putAttribute("shortDescripion", map.getProperty().getDocumentation());
-			}
-			if(map.getProperty().getOtherEnd() != null){
-				ap.putAttribute("opposite", map.getProperty().getOtherEnd().getName());
-			}
-			OJAnnotationAttributeValue constraints = new OJAnnotationAttributeValue("constraints");
-			ap.putAttribute(constraints);
-			for(INakedConstraint c:map.getProperty().getOwner().getOwnedRules()){
-				if(c.getSpecification().isValidOclValue() && c.getConstrainedElements().contains(map.getProperty())){
-					if(c.getSpecification().getOclValue().getExpression().getExpressionType().isCollectionKind()){
-						ap.putAttribute("lookupMethod", "get" + c.getMappingInfo().getJavaName().getCapped());
-						// Lookup method
-					}else{
-						// Associated constraint
-						OJAnnotationValue constraint = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyConstraint"));
-						constraint.putAttribute("method", "is" + c.getMappingInfo().getJavaName().getCapped());
-						constraint.putAttribute("message", c.getMappingInfo().getJavaName().getSeparateWords().getAsIs());
-						constraints.addAnnotationValue(constraint);
-					}
-				}
-			}
-//			if(ap.findAttribute("lookupMethod") == null){
-//				ap.putAttribute("lookupMethod", ((OJOperation) element).getName() + "SourcePopulation");
-//			}
-			element.addAnnotationIfNew(ap);
-		}
 	}
 	public static void addField(OJEnum ojEnum,OJConstructor constr,String name,OJPathName type){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation("get" + NameConverter.capitalize(name), type);

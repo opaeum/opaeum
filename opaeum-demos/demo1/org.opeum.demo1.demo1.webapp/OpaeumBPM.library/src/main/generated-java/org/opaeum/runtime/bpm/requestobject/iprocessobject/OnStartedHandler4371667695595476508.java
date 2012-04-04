@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.requestobject.IProcessObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
@@ -52,6 +53,7 @@ public class OnStartedHandler4371667695595476508 implements ICallEventHandler {
 		return "OpaeumLibraryForBPM::requestobject::IProcessObject::onStarted";
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7164018525775632552l,uuid="252060@_v7N4p0uBEeGElKTCe2jfDw")
 	public String getStartedBy() {
 		return this.startedBy;
 	}

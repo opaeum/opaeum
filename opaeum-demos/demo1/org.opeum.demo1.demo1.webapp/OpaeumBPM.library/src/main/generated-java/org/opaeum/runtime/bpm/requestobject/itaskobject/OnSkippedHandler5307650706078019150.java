@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.ITaskObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
@@ -53,6 +54,7 @@ public class OnSkippedHandler5307650706078019150 implements ICallEventHandler {
 		return "OpaeumLibraryForBPM::requestobject::ITaskObject::onSkipped";
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3134444701670082025l,uuid="252060@_hELpwK0OEeCK48ywUpk_rg")
 	public Participant getSkippedBy() {
 		return this.skippedBy;
 	}

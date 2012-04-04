@@ -59,6 +59,8 @@ public class ClassUserInteractionModelItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addUnderUserControlPropertyDescriptor(object);
+			addLinkedUmlResourcePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -77,6 +79,50 @@ public class ClassUserInteractionModelItemProvider
 				 getString("_UI_UserInteractionElement_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
 				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Under User Control feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUnderUserControlPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInteractionElement_underUserControl_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_underUserControl_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Linked Uml Resource feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addLinkedUmlResourcePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UimRootElement_linkedUmlResource_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UimRootElement_linkedUmlResource_feature", "_UI_UimRootElement_type"),
+				 UimPackage.Literals.UIM_ROOT_ELEMENT__LINKED_UML_RESOURCE,
 				 true,
 				 false,
 				 false,
@@ -155,6 +201,8 @@ public class ClassUserInteractionModelItemProvider
 
 		switch (notification.getFeatureID(ClassUserInteractionModel.class)) {
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NAME:
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR:

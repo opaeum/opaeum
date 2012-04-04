@@ -22,7 +22,7 @@ import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
  * @model
  * @generated
  */
-public interface ResponsibilityUserInteractionModel extends UserInteractionElement, UmlReference {
+public interface ResponsibilityUserInteractionModel extends UserInteractionElement, UmlReference, UimRootElement {
 	/**
 	 * Returns the value of the '<em><b>Invocation Wizard</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

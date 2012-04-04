@@ -26,6 +26,11 @@ public class CreateUserInterfaceDiagramCommand extends AbstractPapyrusGmfCreateD
 	UserInterface editorPage;
 	private String name;
 	@Override
+	public boolean isEnabled(){
+		return true;
+	}
+
+	@Override
 	protected String getDefaultDiagramName(){
 		return "User Interface";
 	}

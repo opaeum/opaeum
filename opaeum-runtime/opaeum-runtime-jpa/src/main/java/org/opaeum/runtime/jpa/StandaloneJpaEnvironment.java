@@ -23,6 +23,7 @@ import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.IEventHandler;
+import org.opaeum.runtime.event.INotificationService;
 import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
@@ -176,5 +177,13 @@ public class StandaloneJpaEnvironment extends Environment{
 		EntityManager result = openHibernateSession();
 		((Session) result.getDelegate()).enableFilter("noDeletedObjects");
 		return new StandaloneJpaUmtPersistence(result);
+	}
+	@Override
+	public INotificationService getNotificationService(){
+		return null;
+	}
+	@Override
+	public ConversationalPersistence createConversationalPersistence(){
+		return new StandaloneJpaConversationalPersistence(getEntityManager());
 	}
 }

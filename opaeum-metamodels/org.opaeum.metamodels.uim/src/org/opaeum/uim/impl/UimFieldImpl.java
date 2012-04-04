@@ -30,6 +30,7 @@ import org.opaeum.uim.panel.PanelPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#isUnderUserControl <em>Under User Control</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getPreferredWidth <em>Preferred Width</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getPreferredHeight <em>Preferred Height</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getFillHorizontally <em>Fill Horizontally</em>}</li>
@@ -53,7 +54,7 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -64,6 +65,26 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean UNDER_USER_CONTROL_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
@@ -263,6 +284,27 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isUnderUserControl() {
+		return underUserControl;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUnderUserControl(boolean newUnderUserControl) {
+		boolean oldUnderUserControl = underUserControl;
+		underUserControl = newUnderUserControl;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
 	}
 
 	/**
@@ -553,6 +595,8 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		switch (featureID) {
 			case UimPackage.UIM_FIELD__NAME:
 				return getName();
+			case UimPackage.UIM_FIELD__UNDER_USER_CONTROL:
+				return isUnderUserControl();
 			case UimPackage.UIM_FIELD__PREFERRED_WIDTH:
 				return getPreferredWidth();
 			case UimPackage.UIM_FIELD__PREFERRED_HEIGHT:
@@ -585,6 +629,9 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		switch (featureID) {
 			case UimPackage.UIM_FIELD__NAME:
 				setName((String)newValue);
+				return;
+			case UimPackage.UIM_FIELD__UNDER_USER_CONTROL:
+				setUnderUserControl((Boolean)newValue);
 				return;
 			case UimPackage.UIM_FIELD__PREFERRED_WIDTH:
 				setPreferredWidth((Integer)newValue);
@@ -628,6 +675,9 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 			case UimPackage.UIM_FIELD__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case UimPackage.UIM_FIELD__UNDER_USER_CONTROL:
+				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
+				return;
 			case UimPackage.UIM_FIELD__PREFERRED_WIDTH:
 				setPreferredWidth(PREFERRED_WIDTH_EDEFAULT);
 				return;
@@ -669,6 +719,8 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		switch (featureID) {
 			case UimPackage.UIM_FIELD__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case UimPackage.UIM_FIELD__UNDER_USER_CONTROL:
+				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
 			case UimPackage.UIM_FIELD__PREFERRED_WIDTH:
 				return PREFERRED_WIDTH_EDEFAULT == null ? preferredWidth != null : !PREFERRED_WIDTH_EDEFAULT.equals(preferredWidth);
 			case UimPackage.UIM_FIELD__PREFERRED_HEIGHT:
@@ -701,6 +753,7 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		if (baseClass == UserInteractionElement.class) {
 			switch (derivedFeatureID) {
 				case UimPackage.UIM_FIELD__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
+				case UimPackage.UIM_FIELD__UNDER_USER_CONTROL: return UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
 				default: return -1;
 			}
 		}
@@ -731,6 +784,7 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return UimPackage.UIM_FIELD__NAME;
+				case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL: return UimPackage.UIM_FIELD__UNDER_USER_CONTROL;
 				default: return -1;
 			}
 		}
@@ -763,6 +817,8 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", underUserControl: ");
+		result.append(underUserControl);
 		result.append(", preferredWidth: ");
 		result.append(preferredWidth);
 		result.append(", preferredHeight: ");

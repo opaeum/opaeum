@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.ITaskObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
@@ -33,6 +34,7 @@ public class OnActivatedHandler1858551074079807460 implements ICallEventHandler 
 	public OnActivatedHandler1858551074079807460() {
 	}
 
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6541472267702295119l,uuid="252060@_YslssK0OEeCK48ywUpk_rg")
 	public Participant getActivatedBy() {
 		return this.activatedBy;
 	}

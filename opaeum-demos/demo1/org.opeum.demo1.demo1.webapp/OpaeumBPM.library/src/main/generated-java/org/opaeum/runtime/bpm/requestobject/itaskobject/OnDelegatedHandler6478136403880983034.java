@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.ITaskObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
@@ -40,10 +41,12 @@ public class OnDelegatedHandler6478136403880983034 implements ICallEventHandler 
 		return 5;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=32234149633093879l,uuid="252060@_Fe698K0OEeCK48ywUpk_rg")
 	public Participant getDelegatedBy() {
 		return this.delegatedBy;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6374719633211256763l,uuid="252060@_GAGYYK0OEeCK48ywUpk_rg")
 	public Participant getDelegatedTo() {
 		return this.delegatedTo;
 	}

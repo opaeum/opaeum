@@ -7,12 +7,10 @@ import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.OperationPopupPage;
 
 public class CreateEditorPageCommandHandler extends CreateCommandHandler{
-
 	@Override
 	protected EReference getFeature(){
 		return ActionPackage.eINSTANCE.getOperationPopup_Pages();
 	}
-
 	@Override
 	protected EObject getNewObject(){
 		OperationPopupPage p = ActionFactory.eINSTANCE.createOperationPopupPage();

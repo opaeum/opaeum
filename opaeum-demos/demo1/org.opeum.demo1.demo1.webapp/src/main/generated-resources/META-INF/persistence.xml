@@ -9,7 +9,7 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>org.opaeum.runtime.bpm.businesscalendar.WorkDay</class>
 		<class>structuredbusiness.IdBook</class>
-		<class>structuredbusiness.DocumentVerifier</class>
+		<class>structuredbusiness.Order</class>
 		<class>org.opaeum.runtime.bpm.contact.PersonEMailAddress</class>
 		<class>structuredbusiness.Online_Customer</class>
 		<class>structuredbusiness.Structuredbusiness</class>

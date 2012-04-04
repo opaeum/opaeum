@@ -25,6 +25,7 @@ import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UimRootElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
@@ -171,6 +172,13 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * @generated
 	 */
 	private EClass pageContainerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uimRootElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -348,6 +356,15 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 */
 	public EAttribute getUserInteractionElement_Name() {
 		return (EAttribute)userInteractionElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUserInteractionElement_UnderUserControl() {
+		return (EAttribute)userInteractionElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -643,6 +660,24 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getUimRootElement() {
+		return uimRootElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUimRootElement_LinkedUmlResource() {
+		return (EAttribute)uimRootElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getOrientation() {
 		return orientationEEnum;
 	}
@@ -686,6 +721,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 
 		userInteractionElementEClass = createEClass(USER_INTERACTION_ELEMENT);
 		createEAttribute(userInteractionElementEClass, USER_INTERACTION_ELEMENT__NAME);
+		createEAttribute(userInteractionElementEClass, USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL);
 
 		uimDataTableEClass = createEClass(UIM_DATA_TABLE);
 		createEReference(uimDataTableEClass, UIM_DATA_TABLE__BINDING);
@@ -732,6 +768,9 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		abstractActionBarEClass = createEClass(ABSTRACT_ACTION_BAR);
 
 		pageContainerEClass = createEClass(PAGE_CONTAINER);
+
+		uimRootElementEClass = createEClass(UIM_ROOT_ELEMENT);
+		createEAttribute(uimRootElementEClass, UIM_ROOT_ELEMENT__LINKED_UML_RESOURCE);
 
 		// Create enums
 		orientationEEnum = createEEnum(ORIENTATION);
@@ -807,8 +846,10 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		panelClassEClass.getESuperTypes().add(this.getUmlReference());
 		classUserInteractionModelEClass.getESuperTypes().add(this.getUmlReference());
 		classUserInteractionModelEClass.getESuperTypes().add(this.getUserInteractionElement());
+		classUserInteractionModelEClass.getESuperTypes().add(this.getUimRootElement());
 		responsibilityUserInteractionModelEClass.getESuperTypes().add(this.getUserInteractionElement());
 		responsibilityUserInteractionModelEClass.getESuperTypes().add(this.getUmlReference());
+		responsibilityUserInteractionModelEClass.getESuperTypes().add(this.getUimRootElement());
 		abstractActionBarEClass.getESuperTypes().add(thePanelPackage.getAbstractPanel());
 
 		// Initialize classes and features; add operations and parameters
@@ -824,7 +865,8 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		addEOperation(uimComponentEClass, this.getUimContainer(), "getParent", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(userInteractionElementEClass, UserInteractionElement.class, "UserInteractionElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getUserInteractionElement_Name(), theEcorePackage.getEString(), "name", null, 0, 1, UserInteractionElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserInteractionElement_Name(), theEcorePackage.getEString(), "name", "", 0, 1, UserInteractionElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserInteractionElement_UnderUserControl(), theEcorePackage.getEBoolean(), "underUserControl", "false", 0, 1, UserInteractionElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(uimDataTableEClass, UimDataTable.class, "UimDataTable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUimDataTable_Binding(), theBindingPackage.getTableBinding(), theBindingPackage.getTableBinding_Table(), "binding", null, 0, 1, UimDataTable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -873,6 +915,9 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		initEClass(pageContainerEClass, PageContainer.class, "PageContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		addEOperation(pageContainerEClass, this.getPage(), "getPages", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(uimRootElementEClass, UimRootElement.class, "UimRootElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUimRootElement_LinkedUmlResource(), theEcorePackage.getEString(), "linkedUmlResource", "", 0, 1, UimRootElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(orientationEEnum, Orientation.class, "Orientation");

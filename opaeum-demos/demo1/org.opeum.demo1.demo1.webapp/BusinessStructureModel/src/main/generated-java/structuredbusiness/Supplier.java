@@ -254,7 +254,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4147448129438915430l,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4147448129438915430l,opposite="businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public OrganizationFullfillsActorRole getOrganizationFullfillsActorRole_organization() {
 		OrganizationFullfillsActorRole result = this.organizationFullfillsActorRole_organization;
@@ -310,7 +310,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=9023075862366939329l,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=9023075862366939329l,opposite="businessActor",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public PersonFullfillsActorRole getPersonFullfillsActorRole_representedPerson() {
 		PersonFullfillsActorRole result = this.personFullfillsActorRole_representedPerson;
@@ -334,7 +334,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7737100568581358598l,opposite="supplier",uuid="914890@_-N6PwGK6EeGNuoaMwaBk1w914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7737100568581358598l,opposite="supplier",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Structuredbusiness getRoot() {
 		Structuredbusiness result = this.root;

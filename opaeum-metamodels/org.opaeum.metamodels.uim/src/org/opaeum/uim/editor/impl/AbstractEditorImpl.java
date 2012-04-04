@@ -32,6 +32,7 @@ import org.opaeum.uim.impl.UmlReferenceImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#isUnderUserControl <em>Under User Control</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getEditability <em>Editability</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getVisibility <em>Visibility</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getActionBar <em>Action Bar</em>}</li>
@@ -51,7 +52,7 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -62,6 +63,26 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean UNDER_USER_CONTROL_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getEditability() <em>Editability</em>}' containment reference.
@@ -151,6 +172,27 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.ABSTRACT_EDITOR__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isUnderUserControl() {
+		return underUserControl;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUnderUserControl(boolean newUnderUserControl) {
+		boolean oldUnderUserControl = underUserControl;
+		underUserControl = newUnderUserControl;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.ABSTRACT_EDITOR__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
 	}
 
 	/**
@@ -388,6 +430,8 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 		switch (featureID) {
 			case EditorPackage.ABSTRACT_EDITOR__NAME:
 				return getName();
+			case EditorPackage.ABSTRACT_EDITOR__UNDER_USER_CONTROL:
+				return isUnderUserControl();
 			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
 				return getEditability();
 			case EditorPackage.ABSTRACT_EDITOR__VISIBILITY:
@@ -413,6 +457,9 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 		switch (featureID) {
 			case EditorPackage.ABSTRACT_EDITOR__NAME:
 				setName((String)newValue);
+				return;
+			case EditorPackage.ABSTRACT_EDITOR__UNDER_USER_CONTROL:
+				setUnderUserControl((Boolean)newValue);
 				return;
 			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
 				setEditability((RootUserInteractionConstraint)newValue);
@@ -445,6 +492,9 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 			case EditorPackage.ABSTRACT_EDITOR__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case EditorPackage.ABSTRACT_EDITOR__UNDER_USER_CONTROL:
+				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
+				return;
 			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
 				setEditability((RootUserInteractionConstraint)null);
 				return;
@@ -474,6 +524,8 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 		switch (featureID) {
 			case EditorPackage.ABSTRACT_EDITOR__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case EditorPackage.ABSTRACT_EDITOR__UNDER_USER_CONTROL:
+				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
 			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
 				return editability != null;
 			case EditorPackage.ABSTRACT_EDITOR__VISIBILITY:
@@ -498,6 +550,7 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 		if (baseClass == UserInteractionElement.class) {
 			switch (derivedFeatureID) {
 				case EditorPackage.ABSTRACT_EDITOR__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
+				case EditorPackage.ABSTRACT_EDITOR__UNDER_USER_CONTROL: return UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
 				default: return -1;
 			}
 		}
@@ -526,6 +579,7 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return EditorPackage.ABSTRACT_EDITOR__NAME;
+				case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL: return EditorPackage.ABSTRACT_EDITOR__UNDER_USER_CONTROL;
 				default: return -1;
 			}
 		}
@@ -556,6 +610,8 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", underUserControl: ");
+		result.append(underUserControl);
 		result.append(')');
 		return result.toString();
 	}

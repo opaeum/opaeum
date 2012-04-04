@@ -2,6 +2,18 @@
 <?eclipse version="3.4"?>
 
 <plugin>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            class="org.opaeum.uimodeler.UimMultiDiagramEditor"
+            contributorClass="org.opaeum.uimodeler.OpaeumActionBarContributor"
+            default="true"
+            extensions="di"
+            icon="icons/papyrus/Papyrus_16x16.gif"
+            id="org.opaeum.uimodeler.OpaeumMultiDiagramEditor"
+            matchingStrategy="org.eclipse.papyrus.editor.PapyrusMatchingStrategy"
+            name="Opaeum  Editor Core">
+      </editor>
+   </extension>
 
    <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
       <browserCustomization file="resource/UimPapyrusDefaultBrowserCustomization.uiCustom" loadByDefault="true"/>

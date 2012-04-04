@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.extraction.EmfExtractionPhase;
 import org.opaeum.feature.TransformationProcess;
@@ -32,7 +33,9 @@ public final class SynchronizationProcessRunner extends Job{
 	public IStatus run(final IProgressMonitor monitor){
 		try{
 			// TODO pass the OpenUmlFile along and get the EditingDomain there - double check with Topcased
-			OpaeumEclipseContext.getCurrentContext().getEditingDomain().getCommandStack().execute(new AbstractCommand(){
+			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
+			EditingDomain editingDomain = currentContext.getEditingDomain();
+			editingDomain.getCommandStack().execute(new AbstractCommand(){
 				@Override
 				public boolean canExecute(){
 					return true;

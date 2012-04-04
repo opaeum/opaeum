@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
@@ -37,6 +38,7 @@ public class DelegateHandler6837298467385087869 implements ICallEventHandler {
 		return 5;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8875522699807731568l,uuid="252060@_TsfTcJTyEeChgI0v02SJHQ")
 	public IBusinessRole getDelegate() {
 		return this.delegate;
 	}

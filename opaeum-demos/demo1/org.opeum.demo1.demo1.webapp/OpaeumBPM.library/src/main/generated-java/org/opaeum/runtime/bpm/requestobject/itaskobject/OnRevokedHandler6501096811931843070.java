@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.ITaskObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
@@ -53,6 +54,7 @@ public class OnRevokedHandler6501096811931843070 implements ICallEventHandler {
 		return "OpaeumLibraryForBPM::requestobject::ITaskObject::onRevoked";
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2696318863854405149l,uuid="252060@_AhkTIK0OEeCK48ywUpk_rg")
 	public Participant getRevokedBy() {
 		return this.revokedBy;
 	}

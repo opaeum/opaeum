@@ -34,10 +34,14 @@ public class JpaUtil{
 		RESERVED_NAMES.add("group");
 		RESERVED_NAMES.add("user");
 		RESERVED_NAMES.add("min");
+		RESERVED_NAMES.add("order");
 		RESERVED_NAMES.add("max");
 		RESERVED_NAMES.add("count");
 		RESERVED_NAMES.add("sum");
 		RESERVED_NAMES.add("avg");
+		RESERVED_NAMES.add("date");
+		RESERVED_NAMES.add("int");
+		RESERVED_NAMES.add("timestamp");
 	}
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config){
 		return buildTableAnnotation(owner, tableName, config, null);
@@ -77,7 +81,7 @@ public class JpaUtil{
 			table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + tableName + BACKTICK));
 		}
 	}
-	private static String getValidSqlName(String tableName){
+	public static String getValidSqlName(String tableName){
 		if(RESERVED_NAMES.contains(tableName.toLowerCase())){
 			return '`' + tableName + '`';
 		}else{

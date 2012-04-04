@@ -22,12 +22,6 @@
     <availablePage>
       <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/6"/>
     </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/7"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/8"/>
-    </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
@@ -52,12 +46,6 @@
         </children>
         <children>
           <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/6"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/7"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/8"/>
         </children>
       </children>
     </windows>

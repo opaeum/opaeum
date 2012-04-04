@@ -4,9 +4,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -515,6 +517,14 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
+	public Set<String> getFailedInvariants() {
+		Set<String> failedInvariants = new HashSet<String>();
+		if ( !isUniqueInCollaboration() ) {
+			failedInvariants.add("org.opaeum.runtime.bpm.organization.PersonNode.uniqueInCollaboration");
+		}
+		return failedInvariants;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4316964747083058398l,uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
 	public String getFirstName() {
@@ -559,7 +569,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return getCollaboration();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=455318727460481644l,opposite="representedPerson",uuid="252060@_X4_MgEtyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=455318727460481644l,opposite="representedPerson",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_MgEtyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public Set<PersonFullfillsActorRole> getPersonFullfillsActorRole_businessActor() {
 		Set<PersonFullfillsActorRole> result = this.personFullfillsActorRole_businessActor;
@@ -576,7 +586,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return null;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5291344624570808175l,opposite="representedPerson",uuid="252060@_3lakUFYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5291344624570808175l,opposite="representedPerson",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lakUFYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Set<Person_iBusinessRole_1> getPerson_iBusinessRole_1_businessRole() {
 		Set<Person_iBusinessRole_1> result = this.person_iBusinessRole_1_businessRole;
@@ -633,6 +643,10 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
+	public List<IBusinessActor> getSourcePopulationForBusinessActor() {
+		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect1()));
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4565578190639246320l,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	public String getSurname() {
@@ -675,6 +689,12 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	public void init(CompositionNode owner) {
 		this.z_internalAddToCollaboration((BusinessNetwork)owner);
 		createComponents();
+	}
+	
+	public boolean isUniqueInCollaboration() {
+		boolean result = forAll2();
+		
+		return result;
 	}
 	
 	public PersonNode makeCopy() {
@@ -1253,6 +1273,28 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 			this.username=null;
 			this.username=null;
 		}
+	}
+	
+	/** Implements ->collect( c : IBusinessCollaboration | c.businessActor )
+	 */
+	private Collection<IBusinessActor> collect1() {
+		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
+		for ( IBusinessCollaboration c : this.getCollaboration().getBusinessCollaboration() ) {
+			Set<IBusinessActor> bodyExpResult = c.getBusinessActor();
+			result.addAll( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements ->forAll( p : PersonNode | (p.username = self.username) implies p = self )
+	 */
+	private boolean forAll2() {
+		for ( PersonNode p : this.getCollaboration().getPerson() ) {
+			if ( !(p.getUsername().equals(this.getUsername()) ? p.equals(this) : true) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

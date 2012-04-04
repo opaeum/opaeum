@@ -14,7 +14,7 @@ public class HibernateUmtPersistence extends AbstractHibernatePersistence implem
 
 	@Override
 	public void beginTransaction(){
-		this.tx = super.session.beginTransaction();
+		this.tx = super.getSession().beginTransaction();
 		tx.setTimeout(timeout);
 		
 	}
@@ -48,7 +48,7 @@ public class HibernateUmtPersistence extends AbstractHibernatePersistence implem
 
 	@Override
 	public void close(){
-		session.close();
+		getSession().close();
 		
 	}
 

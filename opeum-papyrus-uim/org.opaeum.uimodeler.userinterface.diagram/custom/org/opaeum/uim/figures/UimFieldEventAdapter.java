@@ -10,6 +10,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uim.Orientation;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
@@ -45,7 +46,8 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 		if(figure.getWidget().isDisposed()){
 			element.eAdapters().remove(this);
 		}else if(notification.getNotifier() instanceof UimField){
-			switch(notification.getFeatureID(UimField.class)){
+			int featureId = notification.getFeatureID(UimField.class);
+			switch(featureId){
 			case UimPackage.UIM_FIELD__CONTROL:
 				onControlChanged(notification);
 				super.prepareForRepaint();

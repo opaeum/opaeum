@@ -5,15 +5,12 @@ import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.UUID;
 
-import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ValidationStatusProvider;
-import org.eclipse.core.databinding.observable.IObservable;
-import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.value.AbstractObservableValue;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.internal.databinding.beans.BeanObservableValueDecorator;
+import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -21,7 +18,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.databinding.swt.ISWTObservable;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -37,6 +33,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISelectionListener;
@@ -66,14 +63,13 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.internal.Activator;
-import org.opaeum.rap.runtime.internal.datamodel.EntityEditorInput;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.editor.EditorPage;
 
-public class EntityEditor extends SharedHeaderFormEditor implements ISelectionListener{
+public class EntityEditor extends SharedHeaderFormEditor implements ISelectionListener, IDirtyListener{
 	private static final long serialVersionUID = 11231512131231L;
 	private FormPage[] editorPages;
 	private final class SelectionProvider implements ISelectionProvider{
@@ -95,6 +91,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		setTitleImage(input.getImageDescriptor().createImage());
 		getSite().getPage().addSelectionListener(this);
 		getSite().setSelectionProvider(new SelectionProvider());
+		getEditorInput().setDirtyListener(this);
 	}
 	protected void createHeaderContents(final IManagedForm headerForm){
 		final FormToolkit toolkit = headerForm.getToolkit();
@@ -266,7 +263,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 				EList<EditorPage> pages2 = cuim.getPrimaryEditor().getPages();
 				editorPages = new FormPage[pages2.size()];
 				for(int i = 0;i < editorPages.length;i++){
-					editorPages[i] = new OpaeumPage(this, pages2.get(i));
+					editorPages[i] = new OpaeumEditorPage(this, pages2.get(i));
 				}
 			}
 			for(int i = 0;i < editorPages.length;i++){
@@ -383,5 +380,8 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		Composite pc = super.createPageContainer(parent);
 		pc.setLayout(new FillLayout(SWT.VERTICAL));
 		return pc;
+	}
+	public void dirtyChanged(boolean dirty){
+		firePropertyChange(IEditorPart.PROP_DIRTY); 
 	}
 }

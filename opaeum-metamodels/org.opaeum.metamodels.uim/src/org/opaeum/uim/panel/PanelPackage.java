@@ -75,6 +75,15 @@ public interface PanelPackage extends EPackage {
 	int ABSTRACT_PANEL__NAME = UimPackage.UIM_CONTAINER__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_PANEL__UNDER_USER_CONTROL = UimPackage.UIM_CONTAINER__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -128,6 +137,15 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLAPSIBLE_PANEL__NAME = ABSTRACT_PANEL__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLAPSIBLE_PANEL__UNDER_USER_CONTROL = ABSTRACT_PANEL__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -228,6 +246,15 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int GRID_PANEL__NAME = COLLAPSIBLE_PANEL__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GRID_PANEL__UNDER_USER_CONTROL = COLLAPSIBLE_PANEL__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -339,6 +366,15 @@ public interface PanelPackage extends EPackage {
 	int VERTICAL_PANEL__NAME = COLLAPSIBLE_PANEL__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERTICAL_PANEL__UNDER_USER_CONTROL = COLLAPSIBLE_PANEL__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -437,6 +473,15 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int HORIZONTAL_PANEL__NAME = COLLAPSIBLE_PANEL__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HORIZONTAL_PANEL__UNDER_USER_CONTROL = COLLAPSIBLE_PANEL__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.

@@ -151,7 +151,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		return false;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4277904497685277802l,opposite="person_iBusinessRole_1_representedPerson",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lcZgVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4277904497685277802l,opposite="person_iBusinessRole_1_representedPerson",uuid="252060@_tH0fAIoVEeCLqpffVZYAlw")
 	@NumlMetaInfo(uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	public IBusinessRole getBusinessRole() {
 		IBusinessRole result = (IBusinessRole)this.businessRole.getValue(persistence);
@@ -179,7 +179,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		return getBusinessRole();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7968352312603460268l,opposite="person_iBusinessRole_1_businessRole",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lakUFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7968352312603460268l,opposite="person_iBusinessRole_1_businessRole",uuid="252060@_k23OoEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lakUFYuEeGj5_I7bIwNoA")
 	public PersonNode getRepresentedPerson() {
 		PersonNode result = this.representedPerson;

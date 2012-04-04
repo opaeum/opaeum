@@ -59,6 +59,7 @@ public class ResponsibilityUserInteractionModelItemProvider
 			super.getPropertyDescriptors(object);
 
 			addUmlElementUidPropertyDescriptor(object);
+			addLinkedUmlResourcePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -77,6 +78,28 @@ public class ResponsibilityUserInteractionModelItemProvider
 				 getString("_UI_UmlReference_umlElementUid_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
 				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Linked Uml Resource feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addLinkedUmlResourcePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UimRootElement_linkedUmlResource_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UimRootElement_linkedUmlResource_feature", "_UI_UimRootElement_type"),
+				 UimPackage.Literals.UIM_ROOT_ELEMENT__LINKED_UML_RESOURCE,
 				 true,
 				 false,
 				 false,
@@ -154,6 +177,7 @@ public class ResponsibilityUserInteractionModelItemProvider
 
 		switch (notification.getFeatureID(ResponsibilityUserInteractionModel.class)) {
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
+			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD:

@@ -26,6 +26,7 @@
     </genClasses>
     <genClasses image="false" ecoreClass="Uim.ecore#//UserInteractionElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UserInteractionElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UserInteractionElement/underUserControl"/>
     </genClasses>
     <genClasses ecoreClass="Uim.ecore#//UimDataTable">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UimDataTable/binding"/>
@@ -70,6 +71,9 @@
     <genClasses ecoreClass="Uim.ecore#//AbstractActionBar"/>
     <genClasses ecoreClass="Uim.ecore#//PageContainer">
       <genOperations ecoreOperation="Uim.ecore#//PageContainer/getPages"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Uim.ecore#//UimRootElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UimRootElement/linkedUmlResource"/>
     </genClasses>
     <nestedGenPackages prefix="Control" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//control">
@@ -159,6 +163,7 @@
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//binding/UimBinding">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//binding/UimBinding/next"/>
+        <genOperations ecoreOperation="Uim.ecore#//binding/UimBinding/getLastPropertyUuid"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//binding/PropertyRef">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/PropertyRef/binding"/>
@@ -215,10 +220,7 @@
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//action/UimAction"/>
       <genClasses ecoreClass="Uim.ecore#//action/TransitionButton"/>
-      <genClasses ecoreClass="Uim.ecore#//action/LinkToQuery">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference Uim.ecore#//action/LinkToQuery/toForm"/>
-      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//action/LinkToQuery"/>
       <genClasses ecoreClass="Uim.ecore#//action/OperationButton">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/OperationButton/popup"/>
       </genClasses>
@@ -296,18 +298,16 @@
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerConfiguration">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/perspective"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/hiddenClasses"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/visibleNonCompositeProperties"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/hiddenCompositeProperties"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/configuredClasses"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/configuredProperties"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//perspective/HiddenClass">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/HiddenClass/explorerConfiguration"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerClassConfiguration">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerClassConfiguration/explorerConfiguration"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ExplorerClassConfiguration/isVisible"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//perspective/VisibleNonCompositeProperty">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/VisibleNonCompositeProperty/explorerConfiguration"/>
-      </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//perspective/HiddenCompositeProperty">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/HiddenCompositeProperty/explorerConfiguration"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerPropertyConfiguration">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerPropertyConfiguration/explorerConfiguration"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ExplorerPropertyConfiguration/isVisible"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>

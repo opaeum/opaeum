@@ -12,7 +12,7 @@ public class JavaTypedElementContainer{
 		try{
 			Method[] methods = c.getMethods();
 			for(Method pd:methods){
-				if(pd.getName().startsWith("get") && pd.getParameterTypes().length==0 && pd.getReturnType()!=Void.class){
+				if((pd.getName().startsWith("get")||pd.getName().startsWith("is")) && pd.getParameterTypes().length==0 && pd.getReturnType()!=Void.class){
 					JavaTypedElement jte = new JavaTypedElement(pd);
 					typedElements.put(jte.getUuid(), jte);
 				}

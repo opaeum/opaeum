@@ -43,6 +43,7 @@ import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.domain.IConstrained;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -65,7 +66,7 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="PersonPhoneNumber")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IPersonPhoneNumber, Serializable {
+public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, IConstrained, HibernateEntity, CompositionNode, IPersonPhoneNumber, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
@@ -180,6 +181,14 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 		return this.deletedOn;
 	}
 	
+	public Set<String> getFailedInvariants() {
+		Set<String> failedInvariants = new HashSet<String>();
+		if ( !isUniqueInPerson() ) {
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonPhoneNumber.uniqueInPerson");
+		}
+		return failedInvariants;
+	}
+	
 	public Long getId() {
 		return this.id;
 	}
@@ -242,6 +251,12 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 	public void init(CompositionNode owner) {
 		this.z_internalAddToPerson((PersonNode)owner);
 		createComponents();
+	}
+	
+	public boolean isUniqueInPerson() {
+		boolean result = forAll1();
+		
+		return result;
 	}
 	
 	public PersonPhoneNumber makeCopy() {
@@ -395,6 +410,17 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 			this.type=null;
 			this.type=null;
 		}
+	}
+	
+	/** Implements ->forAll( p : PersonPhoneNumber | (p.type = self.type) implies p = self )
+	 */
+	private boolean forAll1() {
+		for ( PersonPhoneNumber p : this.getPerson().getPhoneNumber() ) {
+			if ( !((p.getType().equals( this.getType())) ? p.equals(this) : true) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.ITaskObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
@@ -53,6 +54,7 @@ public class OnStoppedHandler2702047623996785310 implements ICallEventHandler {
 		return "OpaeumLibraryForBPM::requestobject::ITaskObject::onStopped";
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3712332519223125261l,uuid="252060@_1Xu38K0NEeCK48ywUpk_rg")
 	public Participant getStoppedBy() {
 		return this.stoppedBy;
 	}

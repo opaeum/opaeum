@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.requestobject.IProcessObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
@@ -32,6 +33,7 @@ public class OnCompletedHandler267318476342637340 implements ICallEventHandler {
 	public OnCompletedHandler267318476342637340() {
 	}
 
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7178376328681079896l,uuid="252060@_yDSYZ0uBEeGElKTCe2jfDw")
 	public String getCompletedBy() {
 		return this.completedBy;
 	}

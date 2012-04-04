@@ -72,59 +72,6 @@
         <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
       </interfaceRealization>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_tq_pUGK1EeGb14EjInbIAA" clientDependency="_twrakGK1EeGb14EjInbIAA" name="DocumentVerifier">
-      <eAnnotations xmi:id="_trA3cGK1EeGb14EjInbIAA" source="http://www.opaeum.org"/>
-      <ownedRule xmi:id="_QnQMEHvJEeGIOPhylek76A" name="ManagerSource" constrainedElement="_MwHicHvJEeGIOPhylek76A">
-        <eAnnotations xmi:id="_QsJ6MHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
-        <specification xmi:type="uml:OpaqueExpression" xmi:id="_RHJ0IHvJEeGIOPhylek76A" name="ManagerSource_body">
-          <eAnnotations xmi:id="_RHNegHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
-          <language>OCL</language>
-          <body>self.dishwashersInc.manager</body>
-        </specification>
-      </ownedRule>
-      <ownedRule xmi:id="_XjQ78HvJEeGIOPhylek76A" name="nameSizeGreaterThanFour" constrainedElement="_kRetkHphEeGlh5y8zQdYBA">
-        <eAnnotations xmi:id="_XoW3UHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
-        <specification xmi:type="uml:OpaqueExpression" xmi:id="_egHZUHvJEeGIOPhylek76A" name="nameSizeGreaterThanFour_body">
-          <eAnnotations xmi:id="_egKcoHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
-          <language>OCL</language>
-          <body>self.name.size()>4</body>
-        </specification>
-      </ownedRule>
-      <ownedAttribute xmi:id="_kRetkHphEeGlh5y8zQdYBA" name="name">
-        <eAnnotations xmi:id="_kWa38HphEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </ownedAttribute>
-      <ownedAttribute xmi:id="_MwHicHvJEeGIOPhylek76A" name="manager" type="_u7lZEGQWEeGbL9nlXe9lTQ" association="_MwNCAHvJEeGIOPhylek76A">
-        <eAnnotations xmi:id="_M1d8gHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MwHicXvJEeGIOPhylek76A" value="1"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MwHicnvJEeGIOPhylek76A" value="1"/>
-      </ownedAttribute>
-      <interfaceRealization xmi:id="_twrakGK1EeGb14EjInbIAA" name="isAIBusinessRole" client="_tq_pUGK1EeGb14EjInbIAA">
-        <eAnnotations xmi:id="_tyxFQGK1EeGb14EjInbIAA" source="http://www.opaeum.org"/>
-        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
-        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
-      </interfaceRealization>
-      <ownedOperation xmi:id="_vaiUUGK1EeGb14EjInbIAA" name="verifyRequiredDocuments" precondition="_I7Xl4HOvEeGl3p8N17xGRA">
-        <eAnnotations xmi:id="_vajicGK1EeGb14EjInbIAA" source="http://www.opaeum.org"/>
-        <ownedRule xmi:id="_I7Xl4HOvEeGl3p8N17xGRA" name="newConstraint">
-          <eAnnotations xmi:id="_M_tlEHOvEeGl3p8N17xGRA" source="http://www.opaeum.org"/>
-          <specification xmi:type="uml:OpaqueExpression" xmi:id="_I7Xl4XOvEeGl3p8N17xGRA" name="newConstraint_body">
-            <eAnnotations xmi:id="_M_sW8HOvEeGl3p8N17xGRA" source="http://www.opaeum.org"/>
-            <language>OCL</language>
-            <body>self.dishwashersInc.participation->isEmpty()</body>
-          </specification>
-        </ownedRule>
-        <ownedParameter xmi:id="_4vyzgGK1EeGb14EjInbIAA" name="id">
-          <eAnnotations xmi:id="_4vzakGK1EeGb14EjInbIAA" source="http://www.opaeum.org"/>
-        </ownedParameter>
-      </ownedOperation>
-      <ownedOperation xmi:id="_BkEGYG33EeGRLMabaulNTg" name="theQuery" isQuery="true">
-        <eAnnotations xmi:id="_BpuCcG33EeGRLMabaulNTg" source="http://www.opaeum.org"/>
-        <ownedParameter xmi:id="_CXfucG33EeGRLMabaulNTg" name="param0" direction="return">
-          <eAnnotations xmi:id="_CcWZQG33EeGRLMabaulNTg" source="http://www.opaeum.org"/>
-        </ownedParameter>
-      </ownedOperation>
-    </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_-N6PwGK6EeGNuoaMwaBk1w" clientDependency="_-YXzUGK6EeGNuoaMwaBk1w" name="Supplier">
       <eAnnotations xmi:id="_-RXzcGK6EeGNuoaMwaBk1w" source="http://www.opaeum.org"/>
       <interfaceRealization xmi:id="_-YXzUGK6EeGNuoaMwaBk1w" name="isAIBusinessActor" client="_-N6PwGK6EeGNuoaMwaBk1w">
@@ -161,11 +108,6 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0mn9QXHgEeGus4aKic9sIg"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0mn9QnHgEeGus4aKic9sIg" value="*"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_03oNsHHgEeGus4aKic9sIg" name="documentVerifier" type="_tq_pUGK1EeGb14EjInbIAA" aggregation="composite" association="_03qp8HHgEeGus4aKic9sIg">
-        <eAnnotations xmi:id="_08wlUHHgEeGus4aKic9sIg" source="http://www.opaeum.org"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_03oNsXHgEeGus4aKic9sIg"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_03oNsnHgEeGus4aKic9sIg" value="*"/>
-      </ownedAttribute>
       <ownedAttribute xmi:id="_8-HO8HorEeGBZ7vhZCNgsg" name="name">
         <eAnnotations xmi:id="_9DO_gHorEeGBZ7vhZCNgsg" source="http://www.opaeum.org"/>
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
@@ -186,11 +128,30 @@
         <eAnnotations xmi:id="_VSMCgHsLEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_nyiKcH47EeGarqqEaoJFHg" name="order" type="_gTMrEH47EeGarqqEaoJFHg" aggregation="composite" association="_nyl00H47EeGarqqEaoJFHg">
+        <eAnnotations xmi:id="_n3yd4H47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nyixgH47EeGarqqEaoJFHg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nyixgX47EeGarqqEaoJFHg" value="*"/>
+      </ownedAttribute>
       <interfaceRealization xmi:id="_CXC3MWOeEeGwMNo027LgxA" name="isAIBusinessComponent" client="_CQTWAGOeEeGwMNo027LgxA">
         <eAnnotations xmi:id="_CZHTwGOeEeGwMNo027LgxA" source="http://www.opaeum.org"/>
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
         <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
       </interfaceRealization>
+      <ownedOperation xmi:id="_FGOJ8H4bEeGW5bASaRr7SQ" name="addAccountant">
+        <eAnnotations xmi:id="_FGTpgH4bEeGW5bASaRr7SQ" source="http://www.opaeum.org"/>
+        <ownedParameter xmi:id="_HmRE0H4bEeGW5bASaRr7SQ" name="name">
+          <eAnnotations xmi:id="_HmSS8H4bEeGW5bASaRr7SQ" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_MWWvsH4bEeGW5bASaRr7SQ" name="isChartered">
+          <eAnnotations xmi:id="_MWXWwH4bEeGW5bASaRr7SQ" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_RA5zQH4bEeGW5bASaRr7SQ" name="manager" type="_u7lZEGQWEeGbL9nlXe9lTQ">
+          <eAnnotations xmi:id="_RA5zQX4bEeGW5bASaRr7SQ" source="http://www.opaeum.org"/>
+        </ownedParameter>
+      </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_u7lZEGQWEeGbL9nlXe9lTQ" clientDependency="_u_BHkWQWEeGbL9nlXe9lTQ" name="Manager">
       <eAnnotations xmi:id="_u7mnMGQWEeGbL9nlXe9lTQ" source="http://www.opaeum.org"/>
@@ -236,14 +197,6 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0mpyc3HgEeGus4aKic9sIg" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_03qp8HHgEeGus4aKic9sIg" name="dishwashersInc_documentVerifier_1" memberEnd="_03qp8XHgEeGus4aKic9sIg _03oNsHHgEeGus4aKic9sIg" navigableOwnedEnd="_03qp8XHgEeGus4aKic9sIg">
-      <eAnnotations xmi:id="_03r4EHHgEeGus4aKic9sIg" source="http://www.opaeum.org"/>
-      <ownedEnd xmi:id="_03qp8XHgEeGus4aKic9sIg" name="dishwashersInc" type="_CQTWAGOeEeGwMNo027LgxA" association="_03qp8HHgEeGus4aKic9sIg">
-        <eAnnotations xmi:id="_08yagHHgEeGus4aKic9sIg" source="http://www.opaeum.org"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_03qp8nHgEeGus4aKic9sIg" value="1"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_03qp83HgEeGus4aKic9sIg" value="1"/>
-      </ownedEnd>
-    </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_x_4WgHJ6EeG5aYCQXxe9BQ" name="DishWasherComponent">
       <eAnnotations xmi:id="_x_9PAHJ6EeG5aYCQXxe9BQ" source="http://www.opaeum.org"/>
       <ownedAttribute xmi:id="_Fn4Q0HJ7EeG5aYCQXxe9BQ" name="partNumber">
@@ -283,12 +236,54 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7RKwo3sKEeGBGZr9IpIa3A" value="*"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_MwNCAHvJEeGIOPhylek76A" name="documentVerifier_manager_1" memberEnd="_MwNCAXvJEeGIOPhylek76A _MwHicHvJEeGIOPhylek76A" navigableOwnedEnd="_MwNCAXvJEeGIOPhylek76A">
-      <eAnnotations xmi:id="_MwO3MHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
-      <ownedEnd xmi:id="_MwNCAXvJEeGIOPhylek76A" name="documentVerifier" type="_tq_pUGK1EeGb14EjInbIAA" association="_MwNCAHvJEeGIOPhylek76A">
-        <eAnnotations xmi:id="_M1fKoHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MwNCAnvJEeGIOPhylek76A"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MwNCA3vJEeGIOPhylek76A" value="*"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_gTMrEH47EeGarqqEaoJFHg" name="Order">
+      <eAnnotations xmi:id="_gTg0IH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+      <ownedAttribute xmi:id="_jKoLMH47EeGarqqEaoJFHg" name="dishWasherModel" type="_nhV7IGCfEeG6xvYqJACneg" association="_jKqncH47EeGarqqEaoJFHg">
+        <eAnnotations xmi:id="_jP5FsH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jKoLMX47EeGarqqEaoJFHg" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jKoLMn47EeGarqqEaoJFHg" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_sQarAH47EeGarqqEaoJFHg" name="  orderDate">
+        <eAnnotations xmi:id="_sQcgMH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_uIu3gH47EeGarqqEaoJFHg" name="mySpecialDescription">
+        <eAnnotations xmi:id="_uIwssH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_weIooH47EeGarqqEaoJFHg" name="dueDate">
+        <eAnnotations xmi:id="_weKd0H47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+      </ownedAttribute>
+      <ownedOperation xmi:id="_2Wwo4H47EeGarqqEaoJFHg" name="dispatch">
+        <eAnnotations xmi:id="_2WyeEH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+        <ownedParameter xmi:id="_5a6WYH47EeGarqqEaoJFHg" name="accountant" type="_mec6wGCfEeG6xvYqJACneg">
+          <eAnnotations xmi:id="_5a69cH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_5cxXkH47EeGarqqEaoJFHg" name="date">
+          <eAnnotations xmi:id="_5cx-oH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_5eWr8H47EeGarqqEaoJFHg" name="complete">
+          <eAnnotations xmi:id="_5eXTAH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_jKqncH47EeGarqqEaoJFHg" name="order_dishWasherModel_1" memberEnd="_jKqncX47EeGarqqEaoJFHg _jKoLMH47EeGarqqEaoJFHg">
+      <eAnnotations xmi:id="_jKr1kH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+      <ownedEnd xmi:id="_jKqncX47EeGarqqEaoJFHg" name="order" type="_gTMrEH47EeGarqqEaoJFHg" association="_jKqncH47EeGarqqEaoJFHg">
+        <eAnnotations xmi:id="_jP8JAH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jKqncn47EeGarqqEaoJFHg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jKqnc347EeGarqqEaoJFHg" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_nyl00H47EeGarqqEaoJFHg" name="dishwashersInc_order_1" memberEnd="_nyl00X47EeGarqqEaoJFHg _nyiKcH47EeGarqqEaoJFHg" navigableOwnedEnd="_nyl00X47EeGarqqEaoJFHg">
+      <eAnnotations xmi:id="_nyo4IH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+      <ownedEnd xmi:id="_nyl00X47EeGarqqEaoJFHg" name="dishwashersInc" type="_CQTWAGOeEeGwMNo027LgxA" association="_nyl00H47EeGarqqEaoJFHg">
+        <eAnnotations xmi:id="_n30TEH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nymb4H47EeGarqqEaoJFHg" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nymb4X47EeGarqqEaoJFHg" value="1"/>
       </ownedEnd>
     </packagedElement>
     <profileApplication xmi:id="_BMNPoHHfEeGyMMwFc1M9cQ">
@@ -306,12 +301,10 @@
   </uml:Model>
   <OpaeumBPMProfile:BusinessComponent xmi:id="_C-wLUHHfEeGyMMwFc1M9cQ" base_Component="_CQTWAGOeEeGwMNo027LgxA"/>
   <OpaeumBPMProfile:BusinessRole xmi:id="_EYFVwHHfEeGyMMwFc1M9cQ" base_Class="_mec6wGCfEeG6xvYqJACneg"/>
-  <OpaeumBPMProfile:BusinessRole xmi:id="_H8hs4HHfEeGyMMwFc1M9cQ" base_Class="_tq_pUGK1EeGb14EjInbIAA"/>
   <OpaeumBPMProfile:BusinessRole xmi:id="_JL6RIHHfEeGyMMwFc1M9cQ" base_Class="_u7lZEGQWEeGbL9nlXe9lTQ"/>
   <OpaeumStandardProfile:Model xmi:id="_w6v94HHfEeGR5Y29CSTzSA" base_Model="_-VLbkE8VEeGA3PFuQY5w7Q"/>
   <OpaeumStandardProfile:Entity xmi:id="_xtdNMHHfEeGR5Y29CSTzSA" base_Class="_oiVeEGCfEeG6xvYqJACneg"/>
   <OpaeumBPMProfile:BusinessDocument xmi:id="_zhmrYHHfEeGR5Y29CSTzSA" base_Class="_oiVeEGCfEeG6xvYqJACneg"/>
-  <OpaeumStandardProfile:Entity xmi:id="_u64icHHgEeGus4aKic9sIg" base_Class="_tq_pUGK1EeGb14EjInbIAA"/>
   <OpaeumStandardProfile:Entity xmi:id="_vFczsHHgEeGus4aKic9sIg" base_Class="_CQTWAGOeEeGwMNo027LgxA"/>
   <OpaeumStandardProfile:Entity xmi:id="_vs3ZAHHgEeGus4aKic9sIg" base_Class="_mec6wGCfEeG6xvYqJACneg"/>
   <OpaeumStandardProfile:Entity xmi:id="_x_Bo4HHgEeGus4aKic9sIg" base_Class="_u7lZEGQWEeGbL9nlXe9lTQ"/>
@@ -323,4 +316,6 @@
   <OpaeumStandardProfile:Attribute xmi:id="_ebYAYHpiEeGlh5y8zQdYBA" base_Property="_aFhacHpiEeGlh5y8zQdYBA"/>
   <OpaeumStandardProfile:Attribute xmi:id="_twLQ0HsKEeGBGZr9IpIa3A" base_Property="_rZMyYHsKEeGBGZr9IpIa3A"/>
   <OpaeumStandardProfile:Attribute xmi:id="_YLpi8HsLEeGBGZr9IpIa3A" base_Property="_VSJmQHsLEeGBGZr9IpIa3A"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_tl7FYH47EeGarqqEaoJFHg" base_Property="_sQarAH47EeGarqqEaoJFHg"/>
+  <OpaeumStandardProfile:Entity xmi:id="_1GCA0H47EeGarqqEaoJFHg" base_Class="_gTMrEH47EeGarqqEaoJFHg"/>
 </xmi:XMI>

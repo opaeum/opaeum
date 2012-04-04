@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.request.AbstractRequest;
 import org.opaeum.runtime.bpm.request.RequestParticipationKind;
@@ -53,10 +54,12 @@ public class RemoveRequestParticipantHandler4679685790909812900 implements ICall
 		return this.isEvent;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6886011154463740206l,uuid="252060@_P8scgI6SEeCrtavWRHwoHg")
 	public RequestParticipationKind getKind() {
 		return this.kind;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6040404130274979714l,uuid="252060@_P68JAI6SEeCrtavWRHwoHg")
 	public Participant getParticipant() {
 		return this.participant;
 	}

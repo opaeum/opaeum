@@ -24,7 +24,7 @@ import org.opaeum.uim.wizard.NewObjectWizard;
  * @model
  * @generated
  */
-public interface ClassUserInteractionModel extends UmlReference, UserInteractionElement {
+public interface ClassUserInteractionModel extends UmlReference, UserInteractionElement, UimRootElement {
 	/**
 	 * Returns the value of the '<em><b>Primary Editor</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

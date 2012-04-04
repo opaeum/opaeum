@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UimRootElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.editor.ResponsibilityTaskEditor;
 import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
@@ -21,6 +22,7 @@ import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.impl.ResponsibilityUserInteractionModelImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.ResponsibilityUserInteractionModelImpl#getLinkedUmlResource <em>Linked Uml Resource</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.ResponsibilityUserInteractionModelImpl#getInvocationWizard <em>Invocation Wizard</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.ResponsibilityUserInteractionModelImpl#getTaskEditor <em>Task Editor</em>}</li>
  * </ul>
@@ -48,6 +50,26 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 	 * @ordered
 	 */
 	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getLinkedUmlResource() <em>Linked Uml Resource</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLinkedUmlResource()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String LINKED_UML_RESOURCE_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getLinkedUmlResource() <em>Linked Uml Resource</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLinkedUmlResource()
+	 * @generated
+	 * @ordered
+	 */
+	protected String linkedUmlResource = LINKED_UML_RESOURCE_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getInvocationWizard() <em>Invocation Wizard</em>}' containment reference.
@@ -107,6 +129,27 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 		umlElementUid = newUmlElementUid;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLinkedUmlResource() {
+		return linkedUmlResource;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLinkedUmlResource(String newLinkedUmlResource) {
+		String oldLinkedUmlResource = linkedUmlResource;
+		linkedUmlResource = newLinkedUmlResource;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE, oldLinkedUmlResource, linkedUmlResource));
 	}
 
 	/**
@@ -221,6 +264,8 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 		switch (featureID) {
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
 				return getUmlElementUid();
+			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
+				return getLinkedUmlResource();
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD:
 				return getInvocationWizard();
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__TASK_EDITOR:
@@ -239,6 +284,9 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 		switch (featureID) {
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
 				setUmlElementUid((String)newValue);
+				return;
+			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
+				setLinkedUmlResource((String)newValue);
 				return;
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD:
 				setInvocationWizard((InvokeResponsibilityWizard)newValue);
@@ -261,6 +309,9 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
 				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
+			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
+				setLinkedUmlResource(LINKED_UML_RESOURCE_EDEFAULT);
+				return;
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD:
 				setInvocationWizard((InvokeResponsibilityWizard)null);
 				return;
@@ -281,6 +332,8 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 		switch (featureID) {
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
 				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
+			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
+				return LINKED_UML_RESOURCE_EDEFAULT == null ? linkedUmlResource != null : !LINKED_UML_RESOURCE_EDEFAULT.equals(linkedUmlResource);
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD:
 				return invocationWizard != null;
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__TASK_EDITOR:
@@ -302,6 +355,12 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 				default: return -1;
 			}
 		}
+		if (baseClass == UimRootElement.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE: return UimPackage.UIM_ROOT_ELEMENT__LINKED_UML_RESOURCE;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -315,6 +374,12 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 		if (baseClass == UmlReference.class) {
 			switch (baseFeatureID) {
 				case UimPackage.UML_REFERENCE__UML_ELEMENT_UID: return UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		if (baseClass == UimRootElement.class) {
+			switch (baseFeatureID) {
+				case UimPackage.UIM_ROOT_ELEMENT__LINKED_UML_RESOURCE: return UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE;
 				default: return -1;
 			}
 		}
@@ -333,6 +398,8 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (umlElementUid: ");
 		result.append(umlElementUid);
+		result.append(", linkedUmlResource: ");
+		result.append(linkedUmlResource);
 		result.append(')');
 		return result.toString();
 	}

@@ -52,9 +52,10 @@ public class EditorCreator extends AbstractUserInterfaceCreator{
 				OperationButton button = ActionFactory.eINSTANCE.createOperationButton();
 				button.setUmlElementUid(EmfWorkspace.getId(operation));
 				button.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
+				panel.getChildren().add(button);
 				OperationPopup popup = ActionFactory.eINSTANCE.createOperationPopup();
 				button.setPopup(popup);
-				prepareFormPanel(button.getPopup(), button.getName(), operation.getOwnedParameters());
+				addFormPanel(button.getPopup(), button.getName(), operation.getOwnedParameters());
 				
 			}
 		}

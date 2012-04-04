@@ -31,6 +31,8 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 			getter.initializeResultVariable("(" + map.javaType() + ")" + getReferencePrefix(owner, map) + map.fieldname()
 					+ ".getValue(persistence)");
 			INakedElement property = map.getProperty();
+			addPropertyMetaInfo(map, getter);
+
 			OJUtil.addMetaInfo(getter, property);
 			return getter;
 		}else{

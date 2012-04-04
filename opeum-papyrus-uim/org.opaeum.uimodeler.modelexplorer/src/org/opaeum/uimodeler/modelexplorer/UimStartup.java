@@ -2,7 +2,6 @@ package org.opaeum.uimodeler.modelexplorer;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
@@ -19,6 +18,7 @@ import org.eclipse.ui.PlatformUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.util.UmlUimLinks;
+import org.opaeum.uimodeler.UimMultiDiagramEditor;
 
 public class UimStartup implements IStartup {
 	class UimWorkbenchListener implements IWorkbenchListener {
@@ -37,8 +37,8 @@ public class UimStartup implements IStartup {
 
 		public void pageClosed(IWorkbenchPage page) {
 			for (IEditorReference er : page.getEditorReferences()) {
-				if (er.getEditor(false) instanceof PapyrusMultiDiagramEditor) {
-					PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) er
+				if (er.getEditor(false) instanceof UimMultiDiagramEditor) {
+					UimMultiDiagramEditor e = (UimMultiDiagramEditor) er
 							.getEditor(false);
 					if (e.getDiagram()!=null && e.getDiagram().getElement() instanceof UserInteractionElement) {
 						page.closeEditor(e, true);
@@ -98,8 +98,8 @@ public class UimStartup implements IStartup {
 			IWorkbenchWindow workbenchWindow = site.getWorkbenchWindow();
 			IWorkbenchPage activePage = workbenchWindow.getActivePage();
 			IEditorPart editor = activePage.getActiveEditor();
-			if (editor instanceof PapyrusMultiDiagramEditor) {
-				PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) editor;
+			if (editor instanceof UimMultiDiagramEditor) {
+				UimMultiDiagramEditor e = (UimMultiDiagramEditor) editor;
 				IFile uimFile = ((IFileEditorInput) e.getEditorInput())
 						.getFile();
 				if (uimFile.getParent().getName().equals("ui")) {
@@ -119,8 +119,8 @@ public class UimStartup implements IStartup {
 
 	private void closeOrphanedUimModelers(IWorkbenchPage page) {
 		for (IEditorReference er : page.getEditorReferences()) {
-			if (er.getEditor(false) instanceof PapyrusMultiDiagramEditor) {
-				PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) er
+			if (er.getEditor(false) instanceof UimMultiDiagramEditor) {
+				UimMultiDiagramEditor e = (UimMultiDiagramEditor) er
 						.getEditor(false);
 				if (e.getDiagram() !=null &&  e.getDiagram().getElement() instanceof UserInteractionElement) {
 					if (UmlUimLinks

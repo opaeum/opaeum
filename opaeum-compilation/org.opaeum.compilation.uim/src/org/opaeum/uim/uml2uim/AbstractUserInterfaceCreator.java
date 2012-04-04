@@ -3,12 +3,16 @@ package org.opaeum.uim.uml2uim;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
@@ -27,6 +31,8 @@ import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimField;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
@@ -49,7 +55,20 @@ public abstract class AbstractUserInterfaceCreator{
 	}
 	protected abstract Page addPage(PageContainer container);
 	protected abstract UserInterfaceEntryPoint getUserInterfaceEntryPoint();
-	public void prepareFormPanel(PageContainer container,String title,Collection<? extends TypedElement> typedElements){
+	protected boolean isUnderUserControl(Element e,UimContainer container){
+		String id = EmfWorkspace.getId(e);
+		TreeIterator<EObject> eAllContents = container.eAllContents();
+		while(eAllContents.hasNext()){
+			EObject eObject = (EObject) eAllContents.next();
+			if(eObject instanceof UmlReference && id.equals(((UmlReference) eObject).getUmlElementUid())){
+				if(eObject instanceof UserInteractionElement && ((UserInteractionElement) eObject).isUnderUserControl()){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public void addFormPanel(PageContainer container,String title,Collection<? extends TypedElement> typedElements){
 		Map<Interface,Collection<TypedElement>> interfaces = extractPropertiesByInterface(typedElements);
 		Page page = addPage(container);
 		page.setName(title);
@@ -57,33 +76,59 @@ public abstract class AbstractUserInterfaceCreator{
 		layout.setNumberOfColumns(1);
 		page.setPanel(layout);
 		addUserFields(container, layout, typedElements);
-		addInterfaceProperties(container, interfaces, page);
+		addInterfaceProperties(container, interfaces);
 	}
-	private void addInterfaceProperties(PageContainer contaier,Map<Interface,Collection<TypedElement>> interfaces,@Deprecated Page p){
+	private void addInterfaceProperties(PageContainer container,Map<Interface,Collection<TypedElement>> interfaces){
 		for(Entry<Interface,Collection<TypedElement>> entry:interfaces.entrySet()){
-			Page page2 = addPage(contaier);
+			Page page2 = addPage(container);
 			page2.setName(NameConverter.separateWords(entry.getKey().getName()));
 			GridPanel rootGridPanel = PanelFactory.eINSTANCE.createGridPanel();
 			rootGridPanel.setNumberOfColumns(1);
 			page2.setPanel(rootGridPanel);
-			addUserFields(contaier, rootGridPanel, entry.getValue());
+			addUserFields(container, rootGridPanel, entry.getValue());
 		}
 	}
 	private Map<Interface,Collection<TypedElement>> extractPropertiesByInterface(Collection<? extends TypedElement> typedElements){
-		Map<Interface,Collection<TypedElement>> interfaces = new HashMap<Interface,Collection<TypedElement>>();
+		Map<Interface,Collection<TypedElement>> interfaces = buildInterfaceMap(typedElements);
 		for(TypedElement typedElement:new ArrayList<TypedElement>(typedElements)){
 			EObject container = EmfElementFinder.getContainer(typedElement);
 			if(container instanceof Interface){
 				typedElements.remove(typedElement);
-				Collection<TypedElement> collection = interfaces.get(container);
-				if(collection == null){
-					collection = new ArrayList<TypedElement>();
-					interfaces.put((Interface) container, collection);
-				}
+				Collection<TypedElement> collection = getMatchingCollection(interfaces, (Interface) container);
 				collection.add(typedElement);
 			}
 		}
 		return interfaces;
+	}
+	private Map<Interface,Collection<TypedElement>> buildInterfaceMap(Collection<? extends TypedElement> typedElements){
+		// NB!! this looks like a roundabout way, but remember we don't want to display overridden and redefined properties twice, so only look
+		// for the properties
+		// present contained by interfaces AFTER redefinition and overriding has been applied
+		Map<Interface,Collection<TypedElement>> interfaces = new HashMap<Interface,Collection<TypedElement>>();
+		for(TypedElement typedElement:new ArrayList<TypedElement>(typedElements)){
+			EObject container = EmfElementFinder.getContainer(typedElement);
+			if(container instanceof Interface){
+				interfaces.put((Interface) container, new ArrayList<TypedElement>());
+			}
+		}
+		Set<Interface> keySet = new HashSet<Interface>(interfaces.keySet());
+		for(Interface interface1:keySet){
+			for(Interface interface2:keySet){
+				if(interface2!=interface1 && interface2.conformsTo(interface1)){
+					interfaces.remove(interface1);
+				}
+			}
+		}
+		return interfaces;
+	}
+	private Collection<TypedElement> getMatchingCollection(Map<Interface,Collection<TypedElement>> interfaces,Interface container){
+		Set<Entry<Interface,Collection<TypedElement>>> entrySet = interfaces.entrySet();
+		for(Entry<Interface,Collection<TypedElement>> entry:entrySet){
+			if(entry.getKey().conformsTo(container)){
+				return entry.getValue();
+			}
+		}
+		throw new IllegalStateException("All collections should have been created");
 	}
 	private void addUserFields(PageContainer pc,UimContainer layout,Collection<? extends TypedElement> typedElements){
 		for(TypedElement property:typedElements){
@@ -158,7 +203,7 @@ public abstract class AbstractUserInterfaceCreator{
 				action.setUmlElementUid(EmfWorkspace.getId(operation));
 				action.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
 				action.setPopup(ActionFactory.eINSTANCE.createOperationPopup());
-				prepareFormPanel(action.getPopup(), action.getName(), operation.getOwnedParameters());
+				addFormPanel(action.getPopup(), action.getName(), operation.getOwnedParameters());
 			}
 		}
 	}

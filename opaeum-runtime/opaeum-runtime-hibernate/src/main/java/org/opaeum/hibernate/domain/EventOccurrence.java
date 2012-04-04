@@ -65,11 +65,11 @@ public class EventOccurrence extends AbstractEventOccurrence{
 					this.eventTargetId += ((IPersistentObject) object).getId();//Just used to generate a uuid
 				}
 				if(eventTargetClassId == null){
-					this.eventTargetClassId = Environment.getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
+					this.eventTargetClassId = Environment.getInstance(). getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
 				}
 			}
 		}else{
-			this.eventTargetClassId = Environment.getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
+			this.eventTargetClassId = Environment.getInstance().getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
 			if(target instanceof IPersistentObject){
 				this.eventTargetId = ((IPersistentObject) target).getId();
 			}

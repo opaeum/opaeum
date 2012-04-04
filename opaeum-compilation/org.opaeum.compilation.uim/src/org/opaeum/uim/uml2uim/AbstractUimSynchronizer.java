@@ -49,7 +49,7 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 	@Override
 	public Collection<Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
-			return new HashSet<Element>(((EmfWorkspace) root).getGeneratingModelsOrProfiles());
+			return new HashSet<Element>(((EmfWorkspace) root).getOwnedModels());
 		}else{
 			return super.getChildren(root);
 		}

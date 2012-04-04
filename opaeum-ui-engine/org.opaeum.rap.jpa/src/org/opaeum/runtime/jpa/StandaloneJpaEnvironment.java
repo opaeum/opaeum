@@ -114,10 +114,7 @@ public class StandaloneJpaEnvironment extends Environment{
 		}
 	}
 	public ConversationalPersistence createConversationalPersistence(){
-		if(persistence == null){
-			persistence = new StandaloneJpaConversationalPersistence(getEntityManager());
-		}
-		return persistence;
+			return new StandaloneJpaConversationalPersistence(openHibernateSession());
 	}
 	private EntityManager getEntityManager(){
 		if(this.entityManager == null){

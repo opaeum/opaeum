@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.WorkspaceMappingInfo;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
@@ -60,8 +61,8 @@ public class EmfWorkspace implements Element{
 		addGeneratingModelOrProfile(model);
 	}
 	public ECrossReferenceAdapter getCrossReferenceAdapter(){
-		if(crossReferenceAdaptor==null){
-			crossReferenceAdaptor=ECrossReferenceAdapter.getCrossReferenceAdapter(resourceSet);
+		if(crossReferenceAdaptor == null){
+			crossReferenceAdaptor = ECrossReferenceAdapter.getCrossReferenceAdapter(resourceSet);
 		}
 		return this.crossReferenceAdaptor;
 	}
@@ -125,11 +126,16 @@ public class EmfWorkspace implements Element{
 	}
 	public EList<Element> getOwnedElements(){
 		final EList<Element> result = new BasicEList<Element>();
-		for(Resource r:resourceSet.getResources()){
+		EList<Resource> resources2 = new BasicEList<Resource>(resourceSet.getResources());
+		for(Resource r:resources2){
 			Package pkg = getPackageFrom(r);
 			String fileString = r.getURI().toString();
-			if((pkg != null && (pkg.getName() == null || (!fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore"))) && isRootObject(pkg))){
-				result.add(pkg);
+			if(pkg != null && (pkg.getName() == null || (!fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore")))
+					&& isRootObject(pkg)){
+				boolean hasStereotype = StereotypesHelper.hasStereotype(pkg, "EPackage");
+				if(!hasStereotype || "PrimitiveTypes".equals(pkg.getName()) || "UMLPrimitiveTypes".equals(pkg.getName())){
+					result.add(pkg);
+				}
 			}
 		}
 		if(result.size() != resources.size()){
@@ -171,22 +177,22 @@ public class EmfWorkspace implements Element{
 		return null;
 	}
 	public EList<Stereotype> getApplicableStereotypes(){
-		return null;
+		return new BasicEList<Stereotype>();
 	}
 	public Stereotype getAppliedStereotype(String arg0){
 		return null;
 	}
 	public EList<Stereotype> getAppliedStereotypes(){
-		return null;
+		return new BasicEList<Stereotype>();
 	}
 	public Stereotype getAppliedSubstereotype(Stereotype arg0,String arg1){
 		return null;
 	}
 	public EList<Stereotype> getAppliedSubstereotypes(Stereotype arg0){
-		return null;
+		return new BasicEList<Stereotype>();
 	}
 	public EList<String> getKeywords(){
-		return null;
+		return new BasicEList<String>();
 	}
 	public Model getModel(){
 		return null;

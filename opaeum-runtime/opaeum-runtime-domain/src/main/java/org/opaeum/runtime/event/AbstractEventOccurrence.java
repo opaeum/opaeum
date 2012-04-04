@@ -69,7 +69,7 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		return this.eventTarget;
 	}
 	public void prepareForDelivery(AbstractPersistence session){
-		JavaMetaInfoMap map = Environment.getMetaInfoMap();
+		JavaMetaInfoMap map = Environment.getInstance().getMetaInfoMap();
 		this.handler = map.getEventHandler(getHandlerUuid());
 		if(handler==null){
 			Class<? extends IEventHandler> clss = IntrospectionUtil.classForName(getHandlerUuid());
@@ -79,7 +79,7 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		eventTarget = Value.valueOf(getTargetValue(), session);
 	}
 	public Class<?> getEventSourceClass(){
-		Class<?> class1 = Environment.getMetaInfoMap().getClass(getEventTargetClassId());
+		Class<?> class1 = Environment.getInstance().getMetaInfoMap().getClass(getEventTargetClassId());
 		return class1;
 	}
 	public String getName(){

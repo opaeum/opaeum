@@ -77,6 +77,15 @@ public interface ActionPackage extends EPackage {
 	int UIM_ACTION__NAME = UimPackage.UIM_COMPONENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_ACTION__UNDER_USER_CONTROL = UimPackage.UIM_COMPONENT__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -148,6 +157,15 @@ public interface ActionPackage extends EPackage {
 	 * @ordered
 	 */
 	int BUILT_IN_ACTION_BUTTON__NAME = UIM_ACTION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUILT_IN_ACTION_BUTTON__UNDER_USER_CONTROL = UIM_ACTION__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -232,6 +250,15 @@ public interface ActionPackage extends EPackage {
 	int TRANSITION_BUTTON__NAME = UIM_ACTION__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION_BUTTON__UNDER_USER_CONTROL = UIM_ACTION__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -314,6 +341,15 @@ public interface ActionPackage extends EPackage {
 	int UIM_LINK__NAME = UimPackage.UIM_COMPONENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LINK__UNDER_USER_CONTROL = UimPackage.UIM_COMPONENT__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -385,6 +421,15 @@ public interface ActionPackage extends EPackage {
 	 * @ordered
 	 */
 	int LINK_TO_QUERY__NAME = UIM_LINK__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_TO_QUERY__UNDER_USER_CONTROL = UIM_LINK__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -467,6 +512,15 @@ public interface ActionPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_BUTTON__NAME = UIM_ACTION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_BUTTON__UNDER_USER_CONTROL = UIM_ACTION__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -606,6 +660,15 @@ public interface ActionPackage extends EPackage {
 	int OPERATION_POPUP_PAGE__NAME = UimPackage.PAGE__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_POPUP_PAGE__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -668,6 +731,15 @@ public interface ActionPackage extends EPackage {
 	 * @ordered
 	 */
 	int BUILT_IN_LINK__NAME = UIM_LINK__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUILT_IN_LINK__UNDER_USER_CONTROL = UIM_LINK__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.

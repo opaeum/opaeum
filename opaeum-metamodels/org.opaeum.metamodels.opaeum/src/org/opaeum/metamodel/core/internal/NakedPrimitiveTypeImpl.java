@@ -12,7 +12,8 @@ public class NakedPrimitiveTypeImpl extends NakedSimpleDataTypeImpl implements I
 	}
 	public IPrimitiveType getOclType(){
 		if(hasSupertype()){
-			return ((INakedPrimitiveType) getSupertype()).getOclType();
+			INakedPrimitiveType iNakedPrimitiveType = (INakedPrimitiveType) getSupertype();
+			return iNakedPrimitiveType.getOclType();
 		}else{
 			return this.oclType;
 		}

@@ -59,7 +59,7 @@ public class IntrospectionUtil{
 	}
 	public static PropertyDescriptor[] getProperties(Class<?> c){
 		try{
-			PropertyDescriptor[] properties = Introspector.getBeanInfo(c).getPropertyDescriptors();
+			PropertyDescriptor[] properties = Introspector.getBeanInfo(c, Object.class).getPropertyDescriptors();
 			return properties;
 		}catch(IntrospectionException e){
 			throw new RuntimeException(e);
