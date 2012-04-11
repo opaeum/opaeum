@@ -24,6 +24,15 @@ public class WindowBuilderUtil{
 		}
 		return null;
 	}
+	public static void layoutRecursively(Composite root){
+		root.layout();
+		Control[] children = root.getChildren();
+		for(Control control:children){
+			if(control instanceof Composite){
+				layoutRecursively((Composite) control);
+			}
+		}
+	}
 	public static boolean needsComponentShot(Composite root){
 		if(root.getData(OSSupport.WBP_NEED_IMAGE) != null){
 			return true;
@@ -32,7 +41,7 @@ public class WindowBuilderUtil{
 		for(Control control:children){
 			if(control instanceof Composite && needsComponentShot((Composite) control)){
 				return true;
-			}else if(root.getData(OSSupport.WBP_NEED_IMAGE) != null){
+			}else if(control.getData(OSSupport.WBP_NEED_IMAGE) != null){
 				return true;
 			}
 		}

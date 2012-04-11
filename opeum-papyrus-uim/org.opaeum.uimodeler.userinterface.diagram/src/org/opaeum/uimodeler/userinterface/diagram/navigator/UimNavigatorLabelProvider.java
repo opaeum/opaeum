@@ -19,12 +19,14 @@ import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.panel.HorizontalPanel;
 import org.opaeum.uim.panel.VerticalPanel;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLink2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
@@ -137,6 +139,8 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 					"Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInActionButton", UimElementTypes.BuiltInActionButton_3025); //$NON-NLS-1$
 		case OperationButton3EditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?OperationButton", UimElementTypes.OperationButton_3026); //$NON-NLS-1$
+		case BuiltInLink2EditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInLink", UimElementTypes.BuiltInLink_3027); //$NON-NLS-1$
 		case GridPanel2EditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/panel/1.0?GridPanel", UimElementTypes.GridPanel_3017); //$NON-NLS-1$
 		}
@@ -219,6 +223,8 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return getBuiltInActionButton_3025Text(view);
 		case OperationButton3EditPart.VISUAL_ID:
 			return getOperationButton_3026Text(view);
+		case BuiltInLink2EditPart.VISUAL_ID:
+			return getBuiltInLink_3027Text(view);
 		case GridPanel2EditPart.VISUAL_ID:
 			return getGridPanel_3017Text(view);
 		}
@@ -443,6 +449,18 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
 		}else{
 			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5019); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getBuiltInLink_3027Text(View view){
+		BuiltInLink domainModelElement = (BuiltInLink) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3027); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}

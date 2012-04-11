@@ -1207,24 +1207,6 @@
       <element xmi:type="ecore:EEnum" href="Uim.ecore#//action/ActionKind"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WFkCwpEEEeCRrPMyAkG-kg" x="610" y="80"/>
     </children>
-    <children xmi:type="notation:Node" xmi:id="_xb59sGT7EeGn-v1xHUgH1Q" type="1001">
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_xcNfsGT7EeGn-v1xHUgH1Q" source="Shortcut">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_xcNfsWT7EeGn-v1xHUgH1Q" key="modelID" value="EcoreTools"/>
-      </eAnnotations>
-      <children xmi:type="notation:Node" xmi:id="_xb7L0GT7EeGn-v1xHUgH1Q" type="4001"/>
-      <children xmi:type="notation:Node" xmi:id="_xb7L0WT7EeGn-v1xHUgH1Q" type="5001">
-        <styles xmi:type="notation:DrawerStyle" xmi:id="_xb7L0mT7EeGn-v1xHUgH1Q"/>
-        <styles xmi:type="notation:SortingStyle" xmi:id="_xb7L02T7EeGn-v1xHUgH1Q"/>
-        <styles xmi:type="notation:FilteringStyle" xmi:id="_xb7L1GT7EeGn-v1xHUgH1Q"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_xb7y4GT7EeGn-v1xHUgH1Q" type="5002">
-        <styles xmi:type="notation:DrawerStyle" xmi:id="_xb7y4WT7EeGn-v1xHUgH1Q"/>
-        <styles xmi:type="notation:SortingStyle" xmi:id="_xb7y4mT7EeGn-v1xHUgH1Q"/>
-        <styles xmi:type="notation:FilteringStyle" xmi:id="_xb7y42T7EeGn-v1xHUgH1Q"/>
-      </children>
-      <styles xmi:type="notation:ShapeStyle" xmi:id="_xb6kwGT7EeGn-v1xHUgH1Q" fontColor="4210752" fontName="Sans" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xb6kwWT7EeGn-v1xHUgH1Q" x="845" y="555"/>
-    </children>
     <children xmi:type="notation:Node" xmi:id="_4P_goGT7EeGn-v1xHUgH1Q" type="1001">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4QX7IGT7EeGn-v1xHUgH1Q" source="Shortcut">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4QX7IWT7EeGn-v1xHUgH1Q" key="modelID" value="EcoreTools"/>

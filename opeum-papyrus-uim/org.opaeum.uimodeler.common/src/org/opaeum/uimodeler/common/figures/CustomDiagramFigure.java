@@ -52,8 +52,4 @@ public final class CustomDiagramFigure extends BorderItemsAwareFreeFormLayer imp
 	@Override
 	public void setLabelText(String string){
 	}
-	@Override
-	public void markForRepaint(){
-		// TODO Auto-generated method stub
-	}
 }

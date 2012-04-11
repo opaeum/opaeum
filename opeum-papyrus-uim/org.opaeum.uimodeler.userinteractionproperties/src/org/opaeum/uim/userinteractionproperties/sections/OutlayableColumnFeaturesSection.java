@@ -1,5 +1,6 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -14,6 +15,7 @@ public class OutlayableColumnFeaturesSection extends AbstractMultiFeaturePropert
 	private Button fillHorizontally;
 	private Label label;
 	private Label toLabel;
+	boolean isRefreshing = false;
 	protected void setSectionData(Composite composite){
 		layout(null, label, 143);
 		layout(label, preferredWidth, 30);
@@ -25,6 +27,13 @@ public class OutlayableColumnFeaturesSection extends AbstractMultiFeaturePropert
 	}
 	protected Outlayable getProperty(){
 		return (Outlayable) getEObject();
+	}
+	@Override
+	protected void handleModelChanged(Notification msg){
+		super.handleModelChanged(msg);
+		if(msg.getNotifier() instanceof Outlayable){
+			refresh();
+		}
 	}
 	@Override
 	protected void createWidgets(Composite composite){
@@ -43,7 +52,11 @@ public class OutlayableColumnFeaturesSection extends AbstractMultiFeaturePropert
 	}
 	@Override
 	public void refresh(){
-		preferredWidth.setText(getProperty().getPreferredWidth()==null?"":getProperty().getPreferredWidth().toString());
-		fillHorizontally.setSelection(Boolean.TRUE.equals(getProperty().getFillHorizontally()));
+		if(!isRefreshing){
+			isRefreshing = true;
+			preferredWidth.setText(getProperty().getPreferredWidth() == null ? "" : getProperty().getPreferredWidth().toString());
+			fillHorizontally.setSelection(Boolean.TRUE.equals(getProperty().getFillHorizontally()));
+			isRefreshing=false;
+		}
 	}
 }

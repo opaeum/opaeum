@@ -20,9 +20,6 @@
         <children>
           <emfPageIdentifier href="252060@_Nn1XcGIIEeGzlJ4_CwngCw.notation#/1"/>
         </children>
-        <children>
-          <emfPageIdentifier href="252060@_Nn1XcGIIEeGzlJ4_CwngCw.notation#/2"/>
-        </children>
       </children>
     </windows>
   </sashModel>

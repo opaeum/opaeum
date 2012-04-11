@@ -36,28 +36,7 @@
           <emfPageIdentifier href="252060@_pZdQEEtmEeGd4cpyhpib9Q.notation#/0"/>
         </children>
         <children>
-          <emfPageIdentifier href="252060@_pZdQEEtmEeGd4cpyhpib9Q.notation#/1"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="252060@_pZdQEEtmEeGd4cpyhpib9Q.notation#/2"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="252060@_pZdQEEtmEeGd4cpyhpib9Q.notation#/3"/>
-        </children>
-        <children>
           <emfPageIdentifier href="252060@_pZdQEEtmEeGd4cpyhpib9Q.notation#/4"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="252060@_pZdQEEtmEeGd4cpyhpib9Q.notation#/5"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="252060@_pZdQEEtmEeGd4cpyhpib9Q.notation#/6"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="252060@_pZdQEEtmEeGd4cpyhpib9Q.notation#/7"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="252060@_pZdQEEtmEeGd4cpyhpib9Q.notation#/8"/>
         </children>
       </children>
     </windows>

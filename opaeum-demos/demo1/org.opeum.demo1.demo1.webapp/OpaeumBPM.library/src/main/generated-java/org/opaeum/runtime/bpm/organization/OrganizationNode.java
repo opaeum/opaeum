@@ -395,6 +395,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return false;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForBusinessActor",opaeumId=5524780793534395552l,opposite="organization",uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	public Set<IBusinessActor> getBusinessActor() {
 		Set<IBusinessActor> result = new HashSet<IBusinessActor>();
 		for ( OrganizationFullfillsActorRole cur : this.getOrganizationFullfillsActorRole_businessActor() ) {
@@ -411,6 +412,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForBusinessComponent",opaeumId=5399857156390828985l,opposite="representedOrganization",uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA")
 	public Set<IBusinessComponent> getBusinessComponent() {
 		Set<IBusinessComponent> result = new HashSet<IBusinessComponent>();
 		for ( Organization_iBusinessComponent_1 cur : this.getOrganization_iBusinessComponent_1_businessComponent() ) {

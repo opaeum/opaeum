@@ -48,8 +48,7 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 	@Override
 	public void setBounds(Rectangle rect){
 		super.setBounds(rect);
-		// Here because the GRidPanel will likely print the components before we get to painti
-//		composite.prepareForPaint(rect);
+//		this.composite.recalculateColumns();
 	};
 	protected void layout(){
 		IFigure parent = getParent();
@@ -63,7 +62,6 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 		Rectangle bnds = parent.getBounds();
 		// Convert back to the correct bounds
 		Figure columnCompartment = (Figure) getChildren().get(0);
-		System.out.println("CustomUimDataTableFigure.layout()" + bnds);
 		Rectangle columnCompartmentBounds = new Rectangle();
 		columnCompartmentBounds.x = bnds.x-3;
 		columnCompartmentBounds.y = bnds.y+UimDataTableComposite.ROW_HEIGHT-12;
@@ -78,6 +76,7 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 		actionBarCompartmentBounds.height = UimDataTableComposite.ROW_HEIGHT+3;
 		actionBarCompartment.setBackgroundColor(ColorConstants.blue);
 		actionBarCompartment.setBounds(actionBarCompartmentBounds);
+//		this.composite.recalculateColumns();
 	}
 	@Override
 	protected void paintClientArea(Graphics graphics){
@@ -85,9 +84,7 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 		// Layout is called +- 20 times per redraw, with different values. Call it one last time to ensure the most recent values have been
 		// applied TODO investigate why.
 		// Layout is fairly inexpensive here, but this is not ideal
-		layout();
-		composite.prepareForPaint(getBounds());
-		Rectangle bnds = getBounds();
+//		layout();
 		// Prepare as late as possible to avoid accidental resizing and the subsequent repainting
 		try{
 			if(WindowBuilderUtil.needsComponentShot(composite)){
@@ -128,8 +125,5 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 	}
 	public Composite getFirstRow(){
 		return composite.getFirstRow();
-	}
-	@Override
-	public void markForRepaint(){
 	}
 }

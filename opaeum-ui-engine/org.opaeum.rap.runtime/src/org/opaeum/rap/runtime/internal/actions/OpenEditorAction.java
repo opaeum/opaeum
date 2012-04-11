@@ -55,16 +55,21 @@ public class OpenEditorAction extends SelectionProviderAction{
 					"Edit " + IntrospectionUtil.getOriginalClass(po).getSimpleName() + ": " + po.getName(), ImageDescriptor.createFromImage(image),
 					opaeumSession);
 			IEditorReference[] refs = activePage.getEditorReferences();
-			boolean found = false;
-			for(int i = 0;!found && i < refs.length;i++){
+			IWorkbenchPart found = null;
+			for(int i = 0;i < refs.length;i++){
 				try{
-					found = ((EntityEditorInput) refs[i].getEditorInput()).getPersistentObject().equals(po);
+					if(((EntityEditorInput) refs[i].getEditorInput()).getPersistentObject().equals(po)){
+						found=refs[i].getEditor(true);
+						break;
+					}
 				}catch(PartInitException e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			if(!found){
+			if(found!=null){
+				activePage.activate(found);
+			}else{
 				if(canOpen(entity, activePage, true)){
 					try{
 						activePage.openEditor(input, Constants.ENTITY_EDITOR_ID, true);

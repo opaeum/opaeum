@@ -110,20 +110,18 @@ public class UmlUimLinks{
 		return typedElement;
 	}
 	public Classifier getNearestClass(EObject uc){
-		UimDataTable nearestTable = getNearestTable(uc);
 		if(uc instanceof UimAction){
-			UmlReference ae = getNearestForm((UimAction) uc);
-			return getRepresentedClass(ae);
-		}else if(uc instanceof UimLink){
-			UmlReference ae = getNearestForm((UimLink) uc);
-			return getRepresentedClass(ae);
-		}else if(nearestTable == null){
-			UserInterface uf = getNearestForm(uc);
-			return getRepresentedClass(uf);
-		}else if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
-			return (Classifier) getBindingType(nearestTable.getBinding());
+			return getRepresentedClass(getNearestForm((UimAction)uc));
+		}else{
+			UimDataTable nearestTable = getNearestTable(uc);
+			if(nearestTable == null){
+				UserInterface uf = getNearestForm(uc);
+				return getRepresentedClass(uf);
+			}else if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
+				return (Classifier) getBindingType(nearestTable.getBinding());
+			}
+			return null;
 		}
-		return null;
 	}
 	private Classifier getBindingType(UimBinding b){
 		if(b.getNext() == null || getProperty(b.getNext()) == null){

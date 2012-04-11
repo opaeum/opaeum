@@ -75,6 +75,8 @@ public class UimEditPartFactory implements EditPartFactory{
 				return new OperationButton3EditPart(view);
 			case OperationButtonName2EditPart.VISUAL_ID:
 				return new OperationButtonName2EditPart(view);
+			case BuiltInLink2EditPart.VISUAL_ID:
+				return new BuiltInLink2EditPart(view);
 			case GridPanel2EditPart.VISUAL_ID:
 				return new GridPanel2EditPart(view);
 			case GridPanelName2EditPart.VISUAL_ID:

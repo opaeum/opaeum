@@ -19,6 +19,7 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.OneLineBorder;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
+import org.opaeum.uimodeler.userinterface.diagram.edit.policies.UimDataTableTableTableActionBarCompartmentCanonicalEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.UimDataTableTableTableActionBarCompartmentItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.Messages;
 

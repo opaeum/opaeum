@@ -3,6 +3,7 @@ package org.opaeum.uimodeler.userinterface.diagram.edit.policies;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.opaeum.uimodeler.userinterface.diagram.edit.commands.BuiltInActionButton2CreateCommand;
+import org.opaeum.uimodeler.userinterface.diagram.edit.commands.BuiltInLink2CreateCommand;
 import org.opaeum.uimodeler.userinterface.diagram.edit.commands.OperationButton2CreateCommand;
 import org.opaeum.uimodeler.userinterface.diagram.edit.commands.UimField2CreateCommand;
 import org.opaeum.uimodeler.userinterface.diagram.providers.UimElementTypes;
@@ -29,6 +30,9 @@ public class UimDataTableDataTableColumnCompartmentItemSemanticEditPolicy extend
 		}
 		if(UimElementTypes.OperationButton_3024 == req.getElementType()){
 			return getGEFWrapper(new OperationButton2CreateCommand(req));
+		}
+		if(UimElementTypes.BuiltInLink_3027 == req.getElementType()){
+			return getGEFWrapper(new BuiltInLink2CreateCommand(req));
 		}
 		return super.getCreateCommand(req);
 	}

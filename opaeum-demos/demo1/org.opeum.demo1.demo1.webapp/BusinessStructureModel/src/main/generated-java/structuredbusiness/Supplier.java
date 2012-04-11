@@ -246,6 +246,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return this.objectVersion;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8203889236759279938l,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = null;
 		if ( this.organizationFullfillsActorRole_organization!=null ) {
@@ -326,6 +327,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		}
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=9151265436220545056l,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw")
 	public PersonNode getRepresentedPerson() {
 		PersonNode result = null;
 		if ( this.personFullfillsActorRole_representedPerson!=null ) {

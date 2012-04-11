@@ -70,7 +70,6 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 						String body = ec.makeExpression(cont.getExpression(), false, new ArrayList<OJParameter>());
 						OJAnnotatedOperation oper = new OJAnnotatedOperation("get" + rule.getMappingInfo().getJavaName().getCapped());
 						myClass.addToImports("java.util.List");
-
 						myClass.addToImports("java.util.ArrayList");
 						OJPathName returnType = new OJPathName();
 						returnType.addToNames("List");

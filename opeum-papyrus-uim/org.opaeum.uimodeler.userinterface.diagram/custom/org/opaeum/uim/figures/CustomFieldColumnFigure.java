@@ -1,6 +1,7 @@
 package org.opaeum.uim.figures;
 
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -27,27 +28,24 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 	private TableColumn column;
 	private UimDataTableComposite dataTableComposite;
 	public CustomFieldColumnFigure(UimDataTableComposite comp){
-		createContents();
-		this.dataTableComposite=comp;
+		this.dataTableComposite = comp;
+		FlowLayout layoutThis = new FlowLayout();
+		layoutThis.setStretchMinorAxis(false);
+		layoutThis.setMinorAlignment(FlowLayout.ALIGN_CENTER);
+		layoutThis.setMajorAlignment(FlowLayout.ALIGN_CENTER);
+		layoutThis.setMajorSpacing(5);
+		layoutThis.setMinorSpacing(5);
+		layoutThis.setHorizontal(true);
+		this.setLayoutManager(layoutThis);
+		// createContents();
 		Table table = comp.getTable();
 		column = new TableColumn(table, SWT.LEFT);
-		this.composite = new ColumnComposite(comp.getFirstRow(), SWT.NONE){
-			@Override
-			public void setData(String key,Object data){
-				super.setData(key, data);
-				column.setData(key, data);
-			}
-			@Override
-			public void dispose(){
-				super.dispose();
-				column.dispose();
-			}
-		};
+		this.composite = new ColumnComposite(comp.getFirstRow(), SWT.NONE);
 		getComposite().setData(UimFigureUtil.FIGURE, this);
 	}
 	private void createContents(){
 		fColumnNameFigure = new WrappingLabel();
-		fColumnNameFigure.setText("<..>");
+		fColumnNameFigure.setText("<...>");
 		this.add(fColumnNameFigure);
 	}
 	public WrappingLabel getColumnNameFigure(){
@@ -63,8 +61,10 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 	}
 	@Override
 	public void setLabelText(String string){
-		column.setText(string);
-		dataTableComposite.recalculateColumns();
+		if(column.getText() == null || !column.getText().equals(string)){
+			column.setText(string);
+			dataTableComposite.markTableForRepait();
+		}
 	}
 	@Override
 	public void setMinimumLabelWidth(Integer minimumLabelWidth){
@@ -76,13 +76,5 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 	}
 	@Override
 	public void setMinimumLabelHeigh(Integer newValue){
-	}
-	@Override
-	public void markForRepaint(){
-		column.getParent().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-		column.getParent().layout();
-		Table t = dataTableComposite.getTable();
-		t.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-		dataTableComposite.recalculateColumns();
 	}
 }

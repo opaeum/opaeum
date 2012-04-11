@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_eJo8kH5GEeGJWskstUYw2Q" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg" name="Business network User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_eJo8kX5GEeGJWskstUYw2Q" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg" name="EditBusinessNetwork"><actionBar xmi:id="_eJpjoH5GEeGJWskstUYw2Q" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_eJpjoX5GEeGJWskstUYw2Q" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_eJpjon5GEeGJWskstUYw2Q" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_eJo8kn5GEeGJWskstUYw2Q" name="Edit Business network">
-      <panel xmi:type="panel:GridPanel" xmi:id="_eJo8k35GEeGJWskstUYw2Q" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_eJo8lH5GEeGJWskstUYw2Q" name="Business collaboration" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_eJo8lX5GEeGJWskstUYw2Q"/>
-          <binding xmi:id="_eJo8ln5GEeGJWskstUYw2Q" umlElementUid="252060@_YJETMFYjEeGJUqEGX7bKSg"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_Y2mP8IIHEeGpLKgWd7Nm5w" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg" name="Business network User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_Y2mP8YIHEeGpLKgWd7Nm5w" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg" name="EditBusinessNetwork"><actionBar xmi:id="_Y2mP94IHEeGpLKgWd7Nm5w" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_Y2mP-IIHEeGpLKgWd7Nm5w" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_Y2mP-YIHEeGpLKgWd7Nm5w" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_Y2mP8oIHEeGpLKgWd7Nm5w" name="Edit Business network">
+      <panel xmi:type="panel:GridPanel" xmi:id="_Y2mP84IHEeGpLKgWd7Nm5w" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_Y2mP9IIHEeGpLKgWd7Nm5w" name="Business collaboration" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_Y2mP9YIHEeGpLKgWd7Nm5w"/>
+          <binding xmi:id="_Y2mP9oIHEeGpLKgWd7Nm5w" umlElementUid="252060@_YJETMFYjEeGJUqEGX7bKSg"/>
         </children>
       </panel>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_eJpjo35GEeGJWskstUYw2Q" name="CreateBusinessNetwork" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg">
-    <pages xmi:id="_eJpjpH5GEeGJWskstUYw2Q" name="CreateBusiness network">
-      <panel xmi:type="panel:GridPanel" xmi:id="_eJpjpX5GEeGJWskstUYw2Q" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_eJpjpn5GEeGJWskstUYw2Q" name="Business collaboration" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_eJpjp35GEeGJWskstUYw2Q"/>
-          <binding xmi:id="_eJpjqH5GEeGJWskstUYw2Q" umlElementUid="252060@_YJETMFYjEeGJUqEGX7bKSg"/>
+  <newObjectWizard xmi:id="_Y2mP-oIHEeGpLKgWd7Nm5w" name="CreateBusinessNetwork" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg">
+    <pages xmi:id="_Y2mP-4IHEeGpLKgWd7Nm5w" name="CreateBusiness network">
+      <panel xmi:type="panel:GridPanel" xmi:id="_Y2mP_IIHEeGpLKgWd7Nm5w" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_Y2mP_YIHEeGpLKgWd7Nm5w" name="Business collaboration" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_Y2mP_oIHEeGpLKgWd7Nm5w"/>
+          <binding xmi:id="_Y2mP_4IHEeGpLKgWd7Nm5w" umlElementUid="252060@_YJETMFYjEeGJUqEGX7bKSg"/>
         </children>
       </panel>
     </pages>

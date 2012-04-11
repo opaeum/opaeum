@@ -15,6 +15,7 @@ import org.eclipse.gmf.runtime.diagram.core.services.view.CreateNodeViewOperatio
 import org.eclipse.gmf.runtime.diagram.core.services.view.CreateViewForKindOperation;
 import org.eclipse.gmf.runtime.diagram.core.services.view.CreateViewOperation;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
+import org.eclipse.gmf.runtime.diagram.ui.preferences.IPreferenceConstants;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.emf.core.util.EMFCoreUtil;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -42,6 +43,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLink2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
@@ -187,6 +189,7 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 				case OperationButton2EditPart.VISUAL_ID:
 				case BuiltInActionButton3EditPart.VISUAL_ID:
 				case OperationButton3EditPart.VISUAL_ID:
+				case BuiltInLink2EditPart.VISUAL_ID:
 				case GridPanel2EditPart.VISUAL_ID:
 					if(domainElement == null || visualID != UimVisualIDRegistry.getNodeVisualID(op.getContainerView(), domainElement)){
 						return false; // visual id in semantic hint should match visual id for domain element
@@ -205,7 +208,8 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 				|| BuiltInLinkEditPart.VISUAL_ID == visualID || UimDataTableEditPart.VISUAL_ID == visualID
 				|| UimField2EditPart.VISUAL_ID == visualID || BuiltInActionButton2EditPart.VISUAL_ID == visualID
 				|| OperationButton2EditPart.VISUAL_ID == visualID || BuiltInActionButton3EditPart.VISUAL_ID == visualID
-				|| OperationButton3EditPart.VISUAL_ID == visualID || GridPanel2EditPart.VISUAL_ID == visualID;
+				|| OperationButton3EditPart.VISUAL_ID == visualID || BuiltInLink2EditPart.VISUAL_ID == visualID
+				|| GridPanel2EditPart.VISUAL_ID == visualID;
 	}
 	/**
 	 * @generated
@@ -284,6 +288,8 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 			return createBuiltInActionButton_3025(domainElement, containerView, index, persisted, preferencesHint);
 		case OperationButton3EditPart.VISUAL_ID:
 			return createOperationButton_3026(domainElement, containerView, index, persisted, preferencesHint);
+		case BuiltInLink2EditPart.VISUAL_ID:
+			return createBuiltInLink_3027(domainElement, containerView, index, persisted, preferencesHint);
 		case GridPanel2EditPart.VISUAL_ID:
 			return createGridPanel_3017(domainElement, containerView, index, persisted, preferencesHint);
 		}
@@ -598,6 +604,22 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "OperationButton");
 		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "OperationButton");
 		Node label5019 = createLabel(node, UimVisualIDRegistry.getType(OperationButtonName2EditPart.VISUAL_ID));
+		return node;
+	}
+	/**
+	 * @generated
+	 */
+	public Node createBuiltInLink_3027(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(UimVisualIDRegistry.getType(BuiltInLink2EditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInLink");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInLink");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInLink");
 		return node;
 	}
 	/**

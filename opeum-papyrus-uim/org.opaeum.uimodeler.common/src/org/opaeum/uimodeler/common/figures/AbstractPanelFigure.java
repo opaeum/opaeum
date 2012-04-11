@@ -79,11 +79,6 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 	protected void layout(){
 		super.layout();
 		widget.layout();
-		Control[] children2 = widget.getContentPane().getChildren();
-		for(Control control:children2){
-			IFigure f = (IFigure) control.getData(UimFigureUtil.FIGURE);
-			control.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-		}
 		List<Figure> childFigures = getChildren();
 		for(Figure figure:childFigures){
 			if(figure instanceof ResizableCompartmentFigure){
@@ -113,12 +108,14 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 				layout();
 				widget.setData("NEEDS_LAYOUT", null);
 			}
+			//Layout first to see if anything changes
+			WindowBuilderUtil.layoutRecursively(widget);
 			if(WindowBuilderUtil.needsComponentShot(widget)){
 				WindowBuilderUtil.activateRootComposite(widget);
 				long start = System.currentTimeMillis();
-				 OSSupport.get().beginShot(widget);
+				OSSupport.get().beginShot(widget);
 				OSSupport.get().makeShots(widget);
-				 OSSupport.get().endShot(widget);
+				OSSupport.get().endShot(widget);
 				System.out.println("Shot took " + (System.currentTimeMillis() - start));
 				WindowBuilderUtil.clearNeedsImage(widget);
 			}

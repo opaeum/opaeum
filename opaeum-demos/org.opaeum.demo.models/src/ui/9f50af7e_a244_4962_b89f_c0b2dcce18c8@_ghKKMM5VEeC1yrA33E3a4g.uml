@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<frm:QueryInvocationEditor xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:frm="http://opaeum.org/uimetamodel/form/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/form/1.0 http://opaeum.org/uimetamodel/1.0#//editor http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_eJqKsH5GEeGJWskstUYw2Q" umlElementUid="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g" name="after" linkedUmlResource="OpaeumSimpleTypes.papyrus.uml">
-  <actionBar xmi:id="_eJqKuX5GEeGJWskstUYw2Q" name="ActionBar">
-    <children xmi:type="uact:BuiltInActionButton" xmi:id="_eJqxwH5GEeGJWskstUYw2Q" name="Execute operation" kind="executeOperation"/>
+<frm:QueryInvocationEditor xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:frm="http://opaeum.org/uimetamodel/form/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/form/1.0 http://opaeum.org/uimetamodel/1.0#//editor http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_Y25K9IIHEeGpLKgWd7Nm5w" umlElementUid="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g" name="after" linkedUmlResource="OpaeumSimpleTypes.papyrus.uml">
+  <actionBar xmi:id="_Y25x9oIHEeGpLKgWd7Nm5w" name="ActionBar">
+    <children xmi:type="uact:BuiltInActionButton" xmi:id="_Y25x94IHEeGpLKgWd7Nm5w" name="Execute operation" kind="executeOperation"/>
   </actionBar>
-  <pages xmi:id="_eJqKsX5GEeGJWskstUYw2Q" name="Task: After">
-    <panel xmi:type="panel:GridPanel" xmi:id="_eJqKsn5GEeGJWskstUYw2Q" numberOfColumns="1">
-      <children xmi:type="uim:UimField" xmi:id="_eJqKs35GEeGJWskstUYw2Q" name="In" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimDatePopup" xmi:id="_eJqKtH5GEeGJWskstUYw2Q"/>
-        <binding xmi:id="_eJqKtX5GEeGJWskstUYw2Q" umlElementUid="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_hhBrwM5VEeC1yrA33E3a4g"/>
+  <pages xmi:id="_Y25K9YIHEeGpLKgWd7Nm5w" name="Task: After">
+    <panel xmi:type="panel:GridPanel" xmi:id="_Y25K9oIHEeGpLKgWd7Nm5w" numberOfColumns="1">
+      <children xmi:type="uim:UimField" xmi:id="_Y25x8IIHEeGpLKgWd7Nm5w" name="In" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimDatePopup" xmi:id="_Y25x8YIHEeGpLKgWd7Nm5w"/>
+        <binding xmi:id="_Y25x8oIHEeGpLKgWd7Nm5w" umlElementUid="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_hhBrwM5VEeC1yrA33E3a4g"/>
       </children>
-      <children xmi:type="uim:UimField" xmi:id="_eJqKtn5GEeGJWskstUYw2Q" name="Result" preferredHeight="25" fillHorizontally="true" controlKind="checkBox" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimCheckBox" xmi:id="_eJqKt35GEeGJWskstUYw2Q"/>
-        <binding xmi:id="_eJqKuH5GEeGJWskstUYw2Q" umlElementUid="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_i9fCsM5VEeC1yrA33E3a4g"/>
+      <children xmi:type="uim:UimField" xmi:id="_Y25x84IHEeGpLKgWd7Nm5w" name="Result" preferredHeight="25" fillHorizontally="true" controlKind="checkBox" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimCheckBox" xmi:id="_Y25x9IIHEeGpLKgWd7Nm5w"/>
+        <binding xmi:id="_Y25x9YIHEeGpLKgWd7Nm5w" umlElementUid="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_i9fCsM5VEeC1yrA33E3a4g"/>
       </children>
     </panel>
   </pages>

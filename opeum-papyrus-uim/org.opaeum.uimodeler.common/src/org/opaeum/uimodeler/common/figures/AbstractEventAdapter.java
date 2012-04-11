@@ -10,11 +10,24 @@ import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gmf.runtime.notation.Node;
+import org.eclipse.gmf.runtime.notation.Shape;
+import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.papyrus.infra.core.services.ServiceException;
+import org.eclipse.papyrus.infra.core.utils.ServiceUtilsForActionHandlers;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -25,7 +38,8 @@ import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uim.swt.GridPanelComposite;
 
-public class AbstractEventAdapter extends AdapterImpl implements FigureListener,LayoutListener,MouseMotionListener,MouseListener{
+public class AbstractEventAdapter extends AdapterImpl implements FigureListener,LayoutListener,MouseMotionListener,MouseListener,
+		ControlListener{
 	protected ISWTFigure figure;
 	protected GraphicalEditPart editPart;
 	protected UserInteractionElement element;
@@ -34,7 +48,19 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	public AbstractEventAdapter(GraphicalEditPart editPart,ISWTFigure figure){
 		super();
 		this.editPart = editPart;
+		org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart gep = (org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart) this.editPart;
+		Node view = (Node) gep.getPrimaryView();
+		EList children = view.getChildren();
+		if(view.getLayoutConstraint() != null){
+			view.getLayoutConstraint().eAdapters().add(new AdapterImpl(){
+				@Override
+				public void notifyChanged(Notification msg){
+					super.notifyChanged(msg);
+				}
+			});
+		}
 		this.figure = figure;
+		figure.getWidget().addControlListener(this);
 		this.element = (UserInteractionElement) this.editPart.getAdapter(EObject.class);
 		element.eAdapters().add(this);
 		this.figure.addFigureListener(this);
@@ -90,25 +116,27 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		}else{
 			if(msg.getNotifier() instanceof Outlayable){
 				int featureId = msg.getFeatureID(Outlayable.class);
-				switch(featureId){
-				case PanelPackage.OUTLAYABLE__FILL_HORIZONTALLY:
-					fillHorizontally((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-					prepareForRepaint();
-					break;
-				case PanelPackage.OUTLAYABLE__FILL_VERTICALLY:
-					fillVertically((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-					prepareForRepaint();
-					break;
-				case PanelPackage.OUTLAYABLE__PREFERRED_HEIGHT:
-					setHeightHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-					prepareForRepaint();
-					break;
-				case PanelPackage.OUTLAYABLE__PREFERRED_WIDTH:
-					setWidthHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-					prepareForRepaint();
-					break;
-				default:
-					break;
+				if(!updatingSize){
+					switch(featureId){
+					case PanelPackage.OUTLAYABLE__FILL_HORIZONTALLY:
+						fillHorizontally((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
+						prepareForRepaint();
+						break;
+					case PanelPackage.OUTLAYABLE__FILL_VERTICALLY:
+						fillVertically((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
+						prepareForRepaint();
+						break;
+					case PanelPackage.OUTLAYABLE__PREFERRED_HEIGHT:
+						setHeightHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
+						prepareForRepaint();
+						break;
+					case PanelPackage.OUTLAYABLE__PREFERRED_WIDTH:
+						setWidthHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
+						prepareForRepaint();
+						break;
+					default:
+						break;
+					}
 				}
 			}
 			int featureId = msg.getFeatureID(UserInteractionElement.class);
@@ -122,21 +150,15 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		super.notifyChanged(msg);
 	}
 	public void prepareForRepaint(){
-		/* VOODOO Code - trial and error */
-		figure.markForRepaint();
-		if(figure.getParent() instanceof HackedDefaultSizeNodeFigure){
-			figure.getParent().invalidate();
-		}
+		figure.getParent().invalidate();
 		figure.getWidget().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		if(figure.getWidget() instanceof Composite){
 			((Composite) figure.getWidget()).layout();
 		}
 		Composite parent = getParent();
-		parent.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		Figure fig = (Figure) parent.getData(UimFigureUtil.FIGURE);
 		if(fig == null){
 			parent = parent.getParent();
-			parent.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 			fig = (Figure) parent.getData(UimFigureUtil.FIGURE);
 		}
 		figure.invalidate();
@@ -146,22 +168,31 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 				parent.getParent().layout();
 			}
 			figure.revalidate();
-			final Figure parentFig = fig;
-			// Display.getCurrent().asyncExec(new Runnable(){
-			// @Override
-			// public void run(){
-			// parentFig.validate();
-			// parentFig.repaint();
-			// }
-			// });
 		}
 	}
 	@Override
 	public void figureMoved(IFigure source){
-		if(source == figure && readyForMove && !updatingSize){
+		if(source == figure.getParent() && readyForMove && !updatingSize && source instanceof HackedDefaultSizeNodeFigure){
 			GridData layoutData = (GridData) figure.getWidget().getLayoutData();
-			if(!updatingSize && (layoutData.heightHint != source.getBounds().height || layoutData.widthHint != source.getBounds().width)){
+			Rectangle originalBounds = ((HackedDefaultSizeNodeFigure) source).getOriginalBounds();
+			if(!updatingSize){
 				updatingSize = true;
+				if(layoutData.widthHint != originalBounds.width){
+					try{
+						CompoundCommand cc = new CompoundCommand();
+						TransactionalEditingDomain editingDomain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
+						cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_PreferredWidth(), originalBounds.width));
+						cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_FillHorizontally(), Boolean.FALSE));
+						editingDomain.getCommandStack().execute(cc);
+						GridData gd = (GridData) ((Control) figure.getWidget()).getLayoutData();
+						fillHorizontally(gd, (Outlayable) element);
+						setWidthHint(gd, (Outlayable) element);
+						prepareForRepaint();
+					}catch(ServiceException e){
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				System.out.println(layoutData.widthHint + "," + layoutData.heightHint);
 				System.out.println(source.getBounds());
 				updatingSize = false;
@@ -172,9 +203,6 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	public void invalidate(IFigure container){
 		if(figure.getWidget().isDisposed()){
 			element.eAdapters().remove(this);
-		}else{
-			figure.getWidget().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-			Figure f = (Figure) getParent().getData(UimFigureUtil.FIGURE);
 		}
 	}
 	protected Composite getParent(){
@@ -238,5 +266,12 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	@Override
 	public void mouseDoubleClicked(MouseEvent me){
 		// TODO Auto-generated method stub
+	}
+	@Override
+	public void controlMoved(ControlEvent e){
+	}
+	@Override
+	public void controlResized(ControlEvent e){
+		e.widget.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 	}
 }

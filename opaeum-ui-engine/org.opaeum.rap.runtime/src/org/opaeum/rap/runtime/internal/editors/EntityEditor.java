@@ -110,7 +110,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 			gl.numColumns = 20;
 			ClassUserInteractionModel cuim = (ClassUserInteractionModel) rootUimObject;
 			EList<UimComponent> children = cuim.getPrimaryEditor().getActionBar().getChildren();
-			ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput().getPersistentObject(), getEditorInput());
+			ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput());
 			for(UimComponent uimComponent:children){
 				builder.addComponent(headerClient, uimComponent, bc);
 			}

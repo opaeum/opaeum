@@ -11,8 +11,4 @@ public class CustomGridPanelFigure extends AbstractPanelFigure implements ISWTFi
 	protected int getColumnCount(){
 		return 2;
 	}
-	@Override
-	public void markForRepaint(){
-		
-	}
 }

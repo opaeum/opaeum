@@ -18,17 +18,10 @@ public abstract class CustomActionColumnFigure extends CustomUimActionFigure{
 	private UimDataTableComposite dataTableComposite;
 	public CustomActionColumnFigure(UimDataTableComposite comp){
 		super(comp.getFirstRow());
-		this.dataTableComposite =  comp;
+		this.dataTableComposite = comp;
 		Table table = dataTableComposite.getTable();
 		column = new TableColumn(table, SWT.LEFT);
-		getWidget().addDisposeListener(new DisposeListener(){
-			@Override
-			public void widgetDisposed(DisposeEvent e){
-				column.dispose();
-			}
-		});
 		table.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-		table.layout();
 	}
 	private TableColumn column;
 	public void paint(Graphics graphics){
@@ -37,20 +30,14 @@ public abstract class CustomActionColumnFigure extends CustomUimActionFigure{
 	}
 	@Override
 	public void setLabelText(String string){
-		column.setText(string==null || string.length()==0?"NewAction":string);
-		column.getParent().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-		column.getParent().layout();
-		super.setLabelText(string);
-		dataTableComposite.recalculateColumns();			
+		String string2 = string == null || string.length() == 0 ? "NewAction" : string;
+		if(column.getText() == null || !column.getText().equals(string2)){
+			column.setText(string2);
+			super.setLabelText(string2);
+			dataTableComposite.markTableForRepait();
+		}
 	}
 	@Override
 	protected void createContents(){
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void markForRepaint(){
-		// TODO Auto-generated method stub
-		super.markForRepaint();
 	}
 }

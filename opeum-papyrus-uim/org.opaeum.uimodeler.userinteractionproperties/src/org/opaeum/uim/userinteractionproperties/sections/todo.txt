@@ -1,20 +1,24 @@
 UIEngine
 Editability and links in tables
+Multiselect actions
 Invoke additional property validations ( invariants)
-Implement libraries with ui's required
-Implement popupsearch with selectionbinding
 Implement requiredRole and inheritFromparent
+Support pagination in table (http://angelozerr.wordpress.com/2012/01/06/nebula_pagination/)
+Implement libraries with ui's required
 TreeConfiguration - show treeview with checkboxes - hidden,visible,hiddenclasses
 Add IgnoredFeatures to UserIntefaceEntryPoint
+Implement sourcepopulation constraints on parameters
+
 New Tasks:
 UIM:
 DEfine an RMI service that takes a bytearray in and updates userinterface resources from it
 Add RadioButtons and checkboxes lists as control kinds, include their layout in the orientation
 Add a "lastlinkedumlresource" to the modelroot to allow open editors to be reassociated with their uml models
-Add a userModified field to UserInteractionElement and do not overwrite these on sync
+Implement the semantics around the "underUserControl" field
 Introduce an action that automatically creates an operation popup from a button
 Drag and drop uml items from a tree (properties, actions) 
 Add forcedLabelWidth and sameWidth to AbstractPanel
+Synchronize uim models on save, apply the underUserControl rules
 
 Simulation:
 SimpleDataTypes like dates - introduce FormattedStringValue and use FromStringConversion strategy

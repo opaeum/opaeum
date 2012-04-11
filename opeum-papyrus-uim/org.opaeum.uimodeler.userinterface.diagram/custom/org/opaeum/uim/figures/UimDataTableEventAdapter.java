@@ -11,12 +11,15 @@ import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 
-
 public class UimDataTableEventAdapter extends AbstractEventAdapter{
 	CustomUimDataTableFigure figure;
 	public UimDataTableEventAdapter(UimDataTableEditPart editPart,CustomUimDataTableFigure figure){
 		super(editPart, figure);
-		this.figure=figure;
+		this.figure = figure;
+		figure.composite.getDisplayedContent().setData(UimFigureUtil.FIGURE, figure);
+		figure.composite.getTable().addControlListener(this);
+		figure.composite.getActionBar().addControlListener(this);
+		figure.composite.getFirstRow().addControlListener(this);
 	}
 	@Override
 	public void notifyChanged(Notification msg){
@@ -25,18 +28,27 @@ public class UimDataTableEventAdapter extends AbstractEventAdapter{
 			element.eAdapters().remove(this);
 		}else if(msg.getNotifier() instanceof UimDataTable){
 			switch(msg.getEventType()){
-			case Notification.REMOVE:
+			case Notification.ADD:
 				switch(msg.getFeatureID(UimDataTable.class)){
 				case UimPackage.UIM_DATA_TABLE__CHILDREN:
 					Table table = figure.getTable();
 					table.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+					break;
+				}
+				break;
+			case Notification.REMOVE:
+				switch(msg.getFeatureID(UimDataTable.class)){
+				case UimPackage.UIM_DATA_TABLE__CHILDREN:
+					Table table = figure.getTable();
+					figure.getTable().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+					figure.getFirstRow().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 					for(TableColumn control:table.getColumns()){
-						if(control.getData(UimFigureUtil.ELEMENT)==msg.getOldValue()){
+						if(control.getData(UimFigureUtil.ELEMENT) == msg.getOldValue()){
 							control.dispose();
 						}
 					}
 					for(Control control:figure.getFirstRow().getChildren()){
-						if(control.getData(UimFigureUtil.ELEMENT)==msg.getOldValue()){
+						if(control.getData(UimFigureUtil.ELEMENT) == msg.getOldValue()){
 							control.dispose();
 						}
 					}
@@ -44,5 +56,4 @@ public class UimDataTableEventAdapter extends AbstractEventAdapter{
 			}
 		}
 	}
-
 }

@@ -92,7 +92,8 @@ public class UimField2EditPart extends ShapeNodeEditPart{
 	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new CustomFieldColumnFigure((UimDataTableComposite) UimFigureUtil.getNearestComposite(UimField2EditPart.this.getParent()));
+		return primaryShape = new CustomFieldColumnFigure((UimDataTableComposite) UimFigureUtil.getNearestComposite(UimField2EditPart.this
+				.getParent()));
 	}
 	/**
 	 * @generated NOT
@@ -125,8 +126,8 @@ public class UimField2EditPart extends ShapeNodeEditPart{
 		NodeFigure figure = new HackedDefaultSizeNodeFigure(getPrimaryShape());
 		figure.setLayoutManager(new StackLayout());
 		figure.add(shape);
-		new UimFieldEventAdapter(this, (IUimFieldFigure) shape);
 		contentPane = setupContentPane(shape);
+		new UimFieldEventAdapter(this, (IUimFieldFigure) shape);
 		return figure;
 	}
 	/**

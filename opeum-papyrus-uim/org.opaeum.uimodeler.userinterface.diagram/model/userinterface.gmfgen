@@ -7,7 +7,7 @@
     packageNamePrefix="org.opaeum.uimodeler.userinterface.diagram"
     modelID="userinterface"
     dynamicTemplates="true"
-    templateDirectory="/org.eclipse.papyrus.def/dynamic-templates3.5/codegen"
+    templateDirectory="org.eclipse.papyrus.def/dynamic-templates3.5/codegen"
     pluginDirectory="/org.opaeum.uimodeler.userinterface.diagram/src">
   <diagram
       visualID="1000"
@@ -503,6 +503,32 @@
       </labels>
     </childNodes>
     <childNodes
+        visualID="3027"
+        editPartClassName="BuiltInLink2EditPart"
+        itemSemanticEditPolicyClassName="BuiltInLink2ItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="BuiltInLink2CanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="BuiltInLink2GraphicalNodeEditPolicy"
+        createCommandClassName="BuiltInLink2CreateCommand"
+        containers="//@diagram/@compartments.1">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+      <elementType
+          xsi:type="gmfgen:SpecializationType"
+          metamodelType="//@diagram/@childNodes.7/@elementType"/>
+      <viewmap
+          xsi:type="gmfgen:InnerClassViewmap"
+          className="BuiltInLinkColumnFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class BuiltInLinkColumnFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureBuiltInLinkColumnNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public BuiltInLinkColumnFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureBuiltInLinkColumnNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureBuiltInLinkColumnNameFigure.setText(&quot;...&quot;);&#xA;&#xA;this.add(fFigureBuiltInLinkColumnNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureBuiltInLinkColumnNameFigure() {&#xA;&#x9;&#x9;return fFigureBuiltInLinkColumnNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+      <modelFacet>
+        <metaClass
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/BuiltInLink"/>
+        <containmentMetaFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
+        <childMetaFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
+      </modelFacet>
+    </childNodes>
+    <childNodes
         visualID="3017"
         editPartClassName="GridPanel2EditPart"
         itemSemanticEditPolicyClassName="GridPanel2ItemSemanticEditPolicy"
@@ -658,7 +684,7 @@
         editPartClassName="GridPanelGridPanelChildrenCompartmentEditPart"
         itemSemanticEditPolicyClassName="GridPanelGridPanelChildrenCompartmentItemSemanticEditPolicy"
         canonicalEditPolicyClassName="GridPanelGridPanelChildrenCompartmentCanonicalEditPolicy"
-        childNodes="//@diagram/@childNodes.0 //@diagram/@childNodes.1 //@diagram/@childNodes.2 //@diagram/@childNodes.3 //@diagram/@childNodes.4 //@diagram/@childNodes.5 //@diagram/@childNodes.6 //@diagram/@childNodes.7 //@diagram/@childNodes.8 //@diagram/@childNodes.14"
+        childNodes="//@diagram/@childNodes.0 //@diagram/@childNodes.1 //@diagram/@childNodes.2 //@diagram/@childNodes.3 //@diagram/@childNodes.4 //@diagram/@childNodes.5 //@diagram/@childNodes.6 //@diagram/@childNodes.7 //@diagram/@childNodes.8 //@diagram/@childNodes.15"
         title="GridPanelChildrenCompartment"
         canCollapse="false"
         needsTitle="false"
@@ -676,7 +702,7 @@
         editPartClassName="UimDataTableDataTableColumnCompartmentEditPart"
         itemSemanticEditPolicyClassName="UimDataTableDataTableColumnCompartmentItemSemanticEditPolicy"
         canonicalEditPolicyClassName="UimDataTableDataTableColumnCompartmentCanonicalEditPolicy"
-        childNodes="//@diagram/@childNodes.9 //@diagram/@childNodes.10 //@diagram/@childNodes.11"
+        childNodes="//@diagram/@childNodes.9 //@diagram/@childNodes.10 //@diagram/@childNodes.11 //@diagram/@childNodes.14"
         title="DataTableColumnCompartment"
         canCollapse="false"
         needsTitle="false"
@@ -712,11 +738,11 @@
         editPartClassName="GridPanelGridPanelChildrenCompartment2EditPart"
         itemSemanticEditPolicyClassName="GridPanelGridPanelChildrenCompartment2ItemSemanticEditPolicy"
         canonicalEditPolicyClassName="GridPanelGridPanelChildrenCompartment2CanonicalEditPolicy"
-        childNodes="//@diagram/@childNodes.0 //@diagram/@childNodes.1 //@diagram/@childNodes.2 //@diagram/@childNodes.3 //@diagram/@childNodes.4 //@diagram/@childNodes.5 //@diagram/@childNodes.6 //@diagram/@childNodes.7 //@diagram/@childNodes.8 //@diagram/@childNodes.14"
+        childNodes="//@diagram/@childNodes.0 //@diagram/@childNodes.1 //@diagram/@childNodes.2 //@diagram/@childNodes.3 //@diagram/@childNodes.4 //@diagram/@childNodes.5 //@diagram/@childNodes.6 //@diagram/@childNodes.7 //@diagram/@childNodes.8 //@diagram/@childNodes.15"
         title="GridPanelChildrenCompartment"
         canCollapse="false"
         needsTitle="false"
-        node="//@diagram/@childNodes.14"
+        node="//@diagram/@childNodes.15"
         listLayout="false">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
@@ -756,7 +782,7 @@
             xsi:type="gmfgen:ToolEntry"
             title="GridPanel"
             description="Create new GridPanel"
-            genNodes="//@diagram/@topLevelNodes.0 //@diagram/@childNodes.14"/>
+            genNodes="//@diagram/@topLevelNodes.0 //@diagram/@childNodes.15"/>
         <entries
             xsi:type="gmfgen:ToolEntry"
             title="VerticalPanel"
@@ -795,7 +821,7 @@
             xsi:type="gmfgen:ToolEntry"
             title="BuiltInLink"
             description="Create new BuiltInLink"
-            genNodes="//@diagram/@childNodes.7"/>
+            genNodes="//@diagram/@childNodes.7 //@diagram/@childNodes.14"/>
       </groups>
     </palette>
     <preferencePages
@@ -879,47 +905,50 @@
         parent="//@diagram/@childNodes.8"
         child="//@diagram/@childNodes.13"/>
     <childReferences
+        parent="//@diagram/@childNodes.8"
+        child="//@diagram/@childNodes.14"/>
+    <childReferences
         parent="//@diagram/@topLevelNodes.0"
         child="//@diagram/@childNodes.8"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.0"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.1"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.2"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.3"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.4"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.5"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.6"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.7"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.3"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.2"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
+        parent="//@diagram/@childNodes.15"
         child="//@diagram/@childNodes.8"/>
     <childReferences
-        parent="//@diagram/@childNodes.14"
-        child="//@diagram/@childNodes.14"/>
+        parent="//@diagram/@childNodes.15"
+        child="//@diagram/@childNodes.15"/>
     <childReferences
         parent="//@diagram/@topLevelNodes.0"
-        child="//@diagram/@childNodes.14"/>
+        child="//@diagram/@childNodes.15"/>
     <childReferences
         parent="//@diagram"
         child="//@diagram/@topLevelNodes.0"/>
@@ -956,7 +985,7 @@
       extensibleViaService="true">
     <implementations
         xsi:type="gmfgen:PredefinedParser"
-        uses="//@diagram/@childNodes.4/@labels.0/@modelFacet //@diagram/@childNodes.5/@labels.0/@modelFacet //@diagram/@childNodes.6/@labels.0/@modelFacet //@diagram/@childNodes.7/@labels.0/@modelFacet //@diagram/@childNodes.13/@labels.0/@modelFacet //@diagram/@childNodes.14/@labels.0/@modelFacet //@diagram/@topLevelNodes.0/@labels.0/@modelFacet"/>
+        uses="//@diagram/@childNodes.4/@labels.0/@modelFacet //@diagram/@childNodes.5/@labels.0/@modelFacet //@diagram/@childNodes.6/@labels.0/@modelFacet //@diagram/@childNodes.7/@labels.0/@modelFacet //@diagram/@childNodes.13/@labels.0/@modelFacet //@diagram/@childNodes.15/@labels.0/@modelFacet //@diagram/@topLevelNodes.0/@labels.0/@modelFacet"/>
   </labelParsers>
   <contextMenus
       context="//@diagram">

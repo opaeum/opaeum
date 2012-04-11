@@ -271,8 +271,24 @@
             <childrenFeature
                 href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimDataTable/actionsOnMultipleSelection"/>
           </children>
+          <children
+              compartment="//@nodes.0/@ownedChild/@children.10/@ownedChild/@compartments.0">
+            <containmentFeature
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+            <childrenFeature
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+            <ownedChild>
+              <domainMetaElement
+                  href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/BuiltInLink"/>
+              <tool
+                  xsi:type="gmftool:CreationTool"
+                  href="userinterface.gmftool#//@palette/@tools.2/@tools.4"/>
+              <diagramNode
+                  href="userinterface.gmfgraph#BuiltInLinkColumn"/>
+            </ownedChild>
+          </children>
           <compartments
-              children="//@nodes.0/@ownedChild/@children.10/@ownedChild/@children.0 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.1 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.2">
+              children="//@nodes.0/@ownedChild/@children.10/@ownedChild/@children.0 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.1 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.2 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.5">
             <compartment
                 href="userinterface.gmfgraph#DataTableColumnCompartment"/>
           </compartments>

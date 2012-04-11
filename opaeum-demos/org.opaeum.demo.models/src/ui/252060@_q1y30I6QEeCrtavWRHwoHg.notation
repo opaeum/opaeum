@@ -6,27 +6,29 @@
       <children xsi:type="notation:DecorationNode" type="7001">
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_eJPT835GEeGJWskstUYw2Q"/>
+      <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_Y2Q4w4IHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_eJPT8n5GEeGJWskstUYw2Q"/>
+    <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_Y2Q4woIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
   <notation:Diagram type="abstractactionbar" name="ActionBar" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2011" fontName="Sans" fontHeight="8" lineColor="0">
       <children xsi:type="notation:DecorationNode" type="5016"/>
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3004">
-          <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_eJPT9X5GEeGJWskstUYw2Q"/>
+          <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_Y2Q4xYIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3004">
-          <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_eJPT9n5GEeGJWskstUYw2Q"/>
+          <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_Y2Q4xoIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_eJPT9H5GEeGJWskstUYw2Q"/>
+      <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_Y2Q4xIIHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="200"/>
     </children>
-    <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_eJPT8X5GEeGJWskstUYw2Q"/>
+    <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_Y2Q4wYIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
   <notation:Diagram type="userinterface" name="CreateRemove request participant" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
@@ -34,9 +36,9 @@
       <children xsi:type="notation:DecorationNode" type="7001">
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_eJPT-X5GEeGJWskstUYw2Q"/>
+      <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_Y2Q4yYIHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_eJPT-H5GEeGJWskstUYw2Q"/>
+    <element href="252060@_q1y30I6QEeCrtavWRHwoHg.uml#_Y2Q4yIIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
 </xmi:XMI>

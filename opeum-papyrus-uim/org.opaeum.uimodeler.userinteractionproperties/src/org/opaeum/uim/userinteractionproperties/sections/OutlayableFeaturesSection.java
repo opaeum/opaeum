@@ -1,5 +1,6 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -24,6 +25,11 @@ public class OutlayableFeaturesSection extends AbstractMultiFeaturePropertySecti
 		layout(preferredHeight, fillHorizontally, 120);
 		layout(fillHorizontally, fillVertically, 120);
 	}
+	@Override
+	protected void handleModelChanged(Notification msg){
+		super.handleModelChanged(msg);
+	}
+
 	@Override
 	protected Outlayable getFeatureOwner(){
 		return this.getProperty();

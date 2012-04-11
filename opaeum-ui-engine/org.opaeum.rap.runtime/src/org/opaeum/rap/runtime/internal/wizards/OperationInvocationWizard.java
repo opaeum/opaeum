@@ -2,6 +2,7 @@ package org.opaeum.rap.runtime.internal.wizards;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.wizard.Wizard;
@@ -19,15 +20,19 @@ public class OperationInvocationWizard extends Wizard{
 	private PageContainer pageContainer;
 	private EntityEditorInput input;
 	private DataBindingContext dataBindingContext;
-	public OperationInvocationWizard(IPersistentObject target,IEventHandler eventHandler,PageContainer pageContainer,EntityEditorInput input){
+	public OperationInvocationWizard(List<IPersistentObject> target,IEventHandler eventHandler,PageContainer pageContainer,
+			EntityEditorInput input){
 		this.opaeumRapSession = input.getOpaeumSession();
 		setWindowTitle("Execute "
 				+ eventHandler.getClass().getSimpleName().substring(0, eventHandler.getClass().getSimpleName().indexOf("Handler")));
-		this.target = Collections.singleton(target);
+		this.target = target;
 		this.eventHandler = eventHandler;
 		this.pageContainer = pageContainer;
 		this.input = input;
 		this.dataBindingContext = new DataBindingContext();
+	}
+	public OperationInvocationWizard(IPersistentObject target,IEventHandler eventHandler,PageContainer pageContainer,EntityEditorInput input){
+		this(Collections.singletonList(target), eventHandler, pageContainer, input);
 	}
 	@Override
 	public void addPages(){

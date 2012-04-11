@@ -2,7 +2,6 @@ package org.opaeum.uimodeler.modelexplorer;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
@@ -98,7 +97,10 @@ public class UimStartup implements IStartup{
 					OpaeumEclipseContext.setCurrentContext(result);
 				}
 				try{
-					workbenchWindow.getActivePage().showView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
+					IViewPart view = workbenchWindow.getActivePage().findView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
+					if(view == null || !workbenchWindow.getActivePage().isPartVisible(view)){
+						workbenchWindow.getActivePage().showView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
+					}
 				}catch(PartInitException e1){
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

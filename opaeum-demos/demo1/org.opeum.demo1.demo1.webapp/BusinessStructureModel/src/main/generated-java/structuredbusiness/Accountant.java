@@ -323,6 +323,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		}
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForRepresentedPerson",opaeumId=8923586012099856841l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	public PersonNode getRepresentedPerson() {
 		PersonNode result = null;
 		if ( this.person_iBusinessRole_1_representedPerson!=null ) {

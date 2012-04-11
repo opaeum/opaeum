@@ -119,7 +119,7 @@
       <viewProvider class="org.opaeum.uimodeler.userinterface.diagram.providers.UimViewProvider">
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="userinterface"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,2003,3001,3018,3003,3004,3019,3020,3021,3022,3009,3010,3023,3024,3025,3026,3017"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,2003,3001,3018,3003,3004,3019,3020,3021,3022,3009,3010,3023,3024,3025,3026,3027,3017"/>
       </viewProvider>
    </extension>
 
@@ -131,7 +131,7 @@
             <method name="getType()" value="userinterface"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,2002,2003,3001,3018,3003,3004,3019,3020,3021,3022,3009,3010,3023,3024,3025,3026,3017"/>
+            <method name="getType()" value="2001,2002,2003,3001,3018,3003,3004,3019,3020,3021,3022,3009,3010,3023,3024,3025,3026,3027,3017"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value=""/>
@@ -347,6 +347,15 @@
             <param name="semanticHint" value="3026"/>
          </specializationType>
       </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
+         <specializationType
+               id="org.opaeum.uimodeler.userinterface.diagram.BuiltInLink_3027"
+               name="%metatype.name.BuiltInLink_3027"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.opaeum.uimodeler.userinterface.diagram.BuiltInLink_3022"/>
+            <param name="semanticHint" value="3027"/>
+         </specializationType>
+      </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/panel/1.0">
          <specializationType
                id="org.opaeum.uimodeler.userinterface.diagram.GridPanel_3017"
@@ -386,6 +395,7 @@
          <elementType ref="org.opaeum.uimodeler.userinterface.diagram.OperationButton_3024"/>
          <elementType ref="org.opaeum.uimodeler.userinterface.diagram.BuiltInActionButton_3025"/>
          <elementType ref="org.opaeum.uimodeler.userinterface.diagram.OperationButton_3026"/>
+         <elementType ref="org.opaeum.uimodeler.userinterface.diagram.BuiltInLink_3027"/>
          <elementType ref="org.opaeum.uimodeler.userinterface.diagram.GridPanel_3017"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>
@@ -601,6 +611,13 @@
             label="User Interface Diagram">
       </creationCommand>      
    </extension>
+
+
+
+
+
+
+
 
 
 
@@ -912,6 +929,8 @@
 
 
 </extension>
+
+
 
 
    <!-- optionally, specify keybindings -->

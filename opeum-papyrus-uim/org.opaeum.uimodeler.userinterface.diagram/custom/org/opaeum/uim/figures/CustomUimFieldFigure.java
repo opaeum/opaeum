@@ -141,8 +141,4 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 	public void setLabelText(String string){
 		composite.getLabel().setText(string);
 	}
-	@Override
-	public void markForRepaint(){
-		
-	}
 }

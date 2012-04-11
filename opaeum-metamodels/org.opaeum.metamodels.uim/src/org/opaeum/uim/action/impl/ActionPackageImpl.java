@@ -502,6 +502,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		initEEnum(builtInLinkKindEEnum, BuiltInLinkKind.class, "BuiltInLinkKind");
 		addEEnumLiteral(builtInLinkKindEEnum, BuiltInLinkKind.AUDIT_TRAIL);
 		addEEnumLiteral(builtInLinkKindEEnum, BuiltInLinkKind.BUSINESS_INTELLIGENCE);
+		addEEnumLiteral(builtInLinkKindEEnum, BuiltInLinkKind.EDIT);
+		addEEnumLiteral(builtInLinkKindEEnum, BuiltInLinkKind.VIEW);
 	}
 
 } //ActionPackageImpl

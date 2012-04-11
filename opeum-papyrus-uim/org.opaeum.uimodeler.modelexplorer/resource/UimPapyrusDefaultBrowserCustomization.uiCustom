@@ -45,4 +45,46 @@
       </customizedFeatures>
     </references>
   </types>
+  <types metaclassName="uim.ClassUserInteractionModel">
+    <references
+        referenceName="primaryEditor">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
+    <references
+        referenceName="newObjectWizard">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.editor.AbstractEditor">
+    <references
+        referenceName="pages">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.wizard.AbstractWizard">
+    <references
+        referenceName="pages">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
+  </types>
 </uicustom:MetamodelView>

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<frm:QueryInvocationEditor xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:frm="http://opaeum.org/uimetamodel/form/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/form/1.0 http://opaeum.org/uimetamodel/1.0#//editor http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_eJVakH5GEeGJWskstUYw2Q" umlElementUid="252060@_mOhZgNcEEeCJ0dmaHEVVnw" name="calculateTimeBetween" linkedUmlResource="OpaeumBPM.library.uml">
-  <actionBar xmi:id="_eJVan35GEeGJWskstUYw2Q" name="ActionBar">
-    <children xmi:type="uact:BuiltInActionButton" xmi:id="_eJVaoH5GEeGJWskstUYw2Q" name="Execute operation" kind="executeOperation"/>
+<frm:QueryInvocationEditor xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:frm="http://opaeum.org/uimetamodel/form/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/form/1.0 http://opaeum.org/uimetamodel/1.0#//editor http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_Y2JkAIIHEeGpLKgWd7Nm5w" umlElementUid="252060@_mOhZgNcEEeCJ0dmaHEVVnw" name="calculateTimeBetween" linkedUmlResource="OpaeumBPM.library.uml">
+  <actionBar xmi:id="_Y2KLHoIHEeGpLKgWd7Nm5w" name="ActionBar">
+    <children xmi:type="uact:BuiltInActionButton" xmi:id="_Y2KLH4IHEeGpLKgWd7Nm5w" name="Execute operation" kind="executeOperation"/>
   </actionBar>
-  <pages xmi:id="_eJVakX5GEeGJWskstUYw2Q" name="Task: Calculate time between">
-    <panel xmi:type="panel:GridPanel" xmi:id="_eJVakn5GEeGJWskstUYw2Q" numberOfColumns="1">
-      <children xmi:type="uim:UimField" xmi:id="_eJVak35GEeGJWskstUYw2Q" name="From date t ime" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimDatePopup" xmi:id="_eJValH5GEeGJWskstUYw2Q"/>
-        <binding xmi:id="_eJValX5GEeGJWskstUYw2Q" umlElementUid="252060@_nlX3sNcEEeCJ0dmaHEVVnw"/>
+  <pages xmi:id="_Y2KLEIIHEeGpLKgWd7Nm5w" name="Task: Calculate time between">
+    <panel xmi:type="panel:GridPanel" xmi:id="_Y2KLEYIHEeGpLKgWd7Nm5w" numberOfColumns="1">
+      <children xmi:type="uim:UimField" xmi:id="_Y2KLEoIHEeGpLKgWd7Nm5w" name="From date t ime" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimDatePopup" xmi:id="_Y2KLE4IHEeGpLKgWd7Nm5w"/>
+        <binding xmi:id="_Y2KLFIIHEeGpLKgWd7Nm5w" umlElementUid="252060@_nlX3sNcEEeCJ0dmaHEVVnw"/>
       </children>
-      <children xmi:type="uim:UimField" xmi:id="_eJValn5GEeGJWskstUYw2Q" name="To date time" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimDatePopup" xmi:id="_eJVal35GEeGJWskstUYw2Q"/>
-        <binding xmi:id="_eJVamH5GEeGJWskstUYw2Q" umlElementUid="252060@_nm_BQNcEEeCJ0dmaHEVVnw"/>
+      <children xmi:type="uim:UimField" xmi:id="_Y2KLFYIHEeGpLKgWd7Nm5w" name="To date time" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimDatePopup" xmi:id="_Y2KLFoIHEeGpLKgWd7Nm5w"/>
+        <binding xmi:id="_Y2KLF4IHEeGpLKgWd7Nm5w" umlElementUid="252060@_nm_BQNcEEeCJ0dmaHEVVnw"/>
       </children>
-      <children xmi:type="uim:UimField" xmi:id="_eJVamX5GEeGJWskstUYw2Q" name="Business time unit" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimDropdown" xmi:id="_eJVamn5GEeGJWskstUYw2Q"/>
-        <binding xmi:id="_eJVam35GEeGJWskstUYw2Q" umlElementUid="252060@_nogrQNcEEeCJ0dmaHEVVnw"/>
+      <children xmi:type="uim:UimField" xmi:id="_Y2KLGIIHEeGpLKgWd7Nm5w" name="Business time unit" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimDropdown" xmi:id="_Y2KLGYIHEeGpLKgWd7Nm5w"/>
+        <binding xmi:id="_Y2KLGoIHEeGpLKgWd7Nm5w" umlElementUid="252060@_nogrQNcEEeCJ0dmaHEVVnw"/>
       </children>
-      <children xmi:type="uim:UimField" xmi:id="_eJVanH5GEeGJWskstUYw2Q" name="Result" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimText" xmi:id="_eJVanX5GEeGJWskstUYw2Q"/>
-        <binding xmi:id="_eJVann5GEeGJWskstUYw2Q" umlElementUid="252060@_nrLkwNcEEeCJ0dmaHEVVnw"/>
+      <children xmi:type="uim:UimField" xmi:id="_Y2KLG4IHEeGpLKgWd7Nm5w" name="Result" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimText" xmi:id="_Y2KLHIIHEeGpLKgWd7Nm5w"/>
+        <binding xmi:id="_Y2KLHYIHEeGpLKgWd7Nm5w" umlElementUid="252060@_nrLkwNcEEeCJ0dmaHEVVnw"/>
       </children>
     </panel>
   </pages>

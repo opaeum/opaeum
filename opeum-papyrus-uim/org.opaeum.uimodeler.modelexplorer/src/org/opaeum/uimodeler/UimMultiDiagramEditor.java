@@ -15,6 +15,7 @@
 package org.opaeum.uimodeler;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
 import org.eclipse.papyrus.infra.core.editor.CoreMultiDiagramEditor;
 import org.eclipse.papyrus.infra.core.resource.IModel;
 import org.eclipse.papyrus.infra.core.resource.NotFoundException;
@@ -37,7 +38,7 @@ import org.opaeum.uim.util.UmlUimLinks;
  * @author dumoulin
  * 
  */
-public class UimMultiDiagramEditor extends CoreMultiDiagramEditor {
+public class UimMultiDiagramEditor extends PapyrusMultiDiagramEditor {
 	@Override
 	public void init(IEditorSite site,IEditorInput input) throws PartInitException{
 		super.init(site, input);

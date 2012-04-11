@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.emf.commands.core.command.CompositeTransactionalCommand;
+import org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.commands.wrappers.EMFtoGMFCommandWrapper;

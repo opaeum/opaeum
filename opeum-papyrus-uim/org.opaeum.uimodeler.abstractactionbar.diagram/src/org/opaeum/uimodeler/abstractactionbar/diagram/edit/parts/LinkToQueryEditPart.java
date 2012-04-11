@@ -32,7 +32,7 @@ import org.opaeum.uimodeler.abstractactionbar.diagram.edit.policies.LinkToQueryI
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimVisualIDRegistry;
 import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
-import org.opaeum.uimodeler.common.figures.CustomLinkFigure;
+import org.opaeum.uimodeler.common.figures.CustomBuiltInLinkFigure;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
@@ -89,13 +89,13 @@ public class LinkToQueryEditPart extends ShapeNodeEditPart{
 	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new CustomLinkFigure(UimFigureUtil.getNearestComposite(getParent()));
+		return primaryShape = new CustomBuiltInLinkFigure(UimFigureUtil.getNearestComposite(getParent()));
 	}
 	/**
 	 * @generated NOT
 	 */
-	public CustomLinkFigure getPrimaryShape(){
-		return (CustomLinkFigure) primaryShape;
+	public CustomBuiltInLinkFigure getPrimaryShape(){
+		return (CustomBuiltInLinkFigure) primaryShape;
 	}
 	/**
 	 * @generated NOT

@@ -15,6 +15,7 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedProperty;
@@ -23,7 +24,7 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 @StepDependency(phase = JavaTransformationPhase.class,replaces = AttributeImplementor.class)
 public class HibernateAttributeImplementor extends AttributeImplementor{
 	@Override
-	protected OJAnnotatedOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean derived){
+	protected OJAnnotatedOperation buildGetter(INakedClassifier umlOwner, OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean derived){
 		if(isInterfaceValue(owner, map)){
 			OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 			getter.setReturnType(map.javaTypePath());
@@ -31,12 +32,12 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 			getter.initializeResultVariable("(" + map.javaType() + ")" + getReferencePrefix(owner, map) + map.fieldname()
 					+ ".getValue(persistence)");
 			INakedElement property = map.getProperty();
-			addPropertyMetaInfo(map, getter);
+			addPropertyMetaInfo(umlOwner, getter, map.getProperty() );
 
 			OJUtil.addMetaInfo(getter, property);
 			return getter;
 		}else{
-			return super.buildGetter(owner, map, derived);
+			return super.buildGetter(umlOwner, owner, map, derived);
 		}
 	}
 	@Override

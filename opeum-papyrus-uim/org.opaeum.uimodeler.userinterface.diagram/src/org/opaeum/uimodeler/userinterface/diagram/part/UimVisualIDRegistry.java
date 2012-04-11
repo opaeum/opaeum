@@ -14,6 +14,7 @@ import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLink2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
@@ -187,6 +188,9 @@ public class UimVisualIDRegistry{
 			if(ActionPackage.eINSTANCE.getOperationButton().isSuperTypeOf(domainElement.eClass())){
 				return OperationButton2EditPart.VISUAL_ID;
 			}
+			if(ActionPackage.eINSTANCE.getBuiltInLink().isSuperTypeOf(domainElement.eClass())){
+				return BuiltInLink2EditPart.VISUAL_ID;
+			}
 			break;
 		case UimDataTableTableTableActionBarCompartmentEditPart.VISUAL_ID:
 			if(ActionPackage.eINSTANCE.getBuiltInActionButton().isSuperTypeOf(domainElement.eClass())){
@@ -352,6 +356,9 @@ public class UimVisualIDRegistry{
 			if(OperationButton2EditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
+			if(BuiltInLink2EditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
 			break;
 		case UimDataTableTableTableActionBarCompartmentEditPart.VISUAL_ID:
 			if(BuiltInActionButton3EditPart.VISUAL_ID == nodeVisualID){
@@ -475,6 +482,8 @@ public class UimVisualIDRegistry{
 		root.addNode(7003, viewInfo);
 		viewInfo = new BaseViewInfo(3026, ViewInfo.Node, "OperationButton");
 		root.addNode(7003, viewInfo);
+		viewInfo = new BaseViewInfo(3027, ViewInfo.Node, "BuiltInLink");
+		root.addNode(7002, viewInfo);
 		viewInfo = new BaseViewInfo(3017, ViewInfo.Node, "GridPanel");
 		root.addNode(7005, viewInfo);
 		root.addNode(7001, viewInfo);

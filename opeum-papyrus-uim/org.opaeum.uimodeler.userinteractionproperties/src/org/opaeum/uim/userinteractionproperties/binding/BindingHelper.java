@@ -28,8 +28,8 @@ public class BindingHelper implements ITypedElementProvider{
 	}
 	public Collection<TypedElement> getTypedElements(){
 		EObject owner = getOwner();
-		UserInterface form = UmlUimLinks.getNearestForm(owner);
-		return EmfElementFinder.getTypedElementsInScope(UmlUimLinks.getCurrentUmlLinks(owner).getUmlElement(form));
+		Classifier form = UmlUimLinks.getCurrentUmlLinks(owner).getNearestClass(owner);
+		return EmfElementFinder.getTypedElementsInScope(form);
 	}
 	public String getFeatureAsString(){
 		StringBuilder sb = new StringBuilder();

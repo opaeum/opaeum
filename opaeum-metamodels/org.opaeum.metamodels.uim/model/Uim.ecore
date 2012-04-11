@@ -261,7 +261,7 @@
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="ActionKind">
-      <eLiterals name="update"/>
+      <eLiterals name="update" literal="save"/>
       <eLiterals name="delete" value="1"/>
       <eLiterals name="executeOperation" value="3"/>
       <eLiterals name="delegateTask" value="4" literal="delegateTask"/>
@@ -308,6 +308,8 @@
     <eClassifiers xsi:type="ecore:EEnum" name="BuiltInLinkKind">
       <eLiterals name="auditTrail"/>
       <eLiterals name="businessIntelligence" value="1"/>
+      <eLiterals name="edit" value="2" literal="edit"/>
+      <eLiterals name="view" value="3" literal="view"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="panel" nsURI="http://opaeum.org/uimetamodel/panel/1.0" nsPrefix="panel">

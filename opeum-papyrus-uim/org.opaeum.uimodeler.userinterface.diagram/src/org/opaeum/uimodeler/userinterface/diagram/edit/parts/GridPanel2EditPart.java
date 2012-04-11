@@ -96,7 +96,7 @@ public class GridPanel2EditPart extends ShapeNodeEditPart{
 	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new CustomGridPanelFigure(UimFigureUtil.getNearestComposite(getParent()), new Dimension(0,0));
+		return primaryShape = new CustomGridPanelFigure(UimFigureUtil.getNearestComposite(getParent()), new Dimension(0, 0));
 	}
 	/**
 	 * @generated NOT

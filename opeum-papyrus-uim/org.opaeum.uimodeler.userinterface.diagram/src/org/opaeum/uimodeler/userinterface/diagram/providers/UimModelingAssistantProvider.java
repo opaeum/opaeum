@@ -59,10 +59,11 @@ public class UimModelingAssistantProvider extends ModelingAssistantProvider{
 			return types;
 		}
 		if(editPart instanceof UimDataTableDataTableColumnCompartmentEditPart){
-			ArrayList<IElementType> types = new ArrayList<IElementType>(3);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(4);
 			types.add(UimElementTypes.UimField_3010);
 			types.add(UimElementTypes.BuiltInActionButton_3023);
 			types.add(UimElementTypes.OperationButton_3024);
+			types.add(UimElementTypes.BuiltInLink_3027);
 			return types;
 		}
 		if(editPart instanceof UimDataTableTableTableActionBarCompartmentEditPart){

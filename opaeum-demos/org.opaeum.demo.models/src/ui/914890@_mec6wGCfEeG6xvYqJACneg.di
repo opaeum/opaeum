@@ -30,22 +30,7 @@
           <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/0"/>
         </children>
         <children>
-          <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/1"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/2"/>
-        </children>
-        <children>
           <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/3"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/4"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/5"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="914890@_mec6wGCfEeG6xvYqJACneg.notation#/6"/>
         </children>
       </children>
     </windows>

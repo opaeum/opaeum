@@ -1,21 +1,64 @@
 package org.opaeum.uim.swt;
 
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.opaeum.uim.Orientation;
+import org.opaeum.uim.action.ActionKind;
+import org.opaeum.uim.action.BuiltInLinkKind;
 import org.opaeum.uim.control.ControlKind;
 
 public class UimSwtUtil{
+	public static Image getImageFor(ActionKind kind){
+		try{
+			switch(kind){
+			case ADD:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/add.ico").openStream());
+			case DELETE:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/delete.ico").openStream());
+			case REFRESH:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/refresh.ico").openStream());
+			case UPDATE:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/save.ico").openStream());
+			default:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/add.ico").openStream());
+			}
+		}catch(IOException e){
+			return new Image(Display.getCurrent(),10,10);
+		}
+	}
+	public static Image getImageFor(BuiltInLinkKind kind){
+		try{
+			switch(kind){
+			case AUDIT_TRAIL:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/audit-trail.ico").openStream());
+			case BUSINESS_INTELLIGENCE:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/business-intelligence.ico").openStream());
+			case EDIT:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/edit.ico").openStream());
+			case VIEW:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/view.ico").openStream());
+			default:
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/add.ico").openStream());
+			}
+		}catch(IOException e){
+			return new Image(Display.getCurrent(),10,10);
+		}
+	}
 	public static void populateControl(IUimFieldComposite fig,ControlKind kind,Orientation orientation){
 		if(fig.getControl() != null && !fig.getControl().isDisposed()){
 			fig.getControl().dispose();
@@ -34,7 +77,7 @@ public class UimSwtUtil{
 			fig.setControl(new DateTime((Composite) fig, SWT.BORDER));
 			break;
 		case DROPDOWN:
-			CCombo c = new CCombo((Composite) fig, SWT.BORDER|SWT.READ_ONLY);
+			CCombo c = new CCombo((Composite) fig, SWT.BORDER | SWT.READ_ONLY);
 			c.add("Item 1");
 			c.add("Item 2");
 			c.add("Item 3");
@@ -74,10 +117,11 @@ public class UimSwtUtil{
 			fig.setControl(new CSingleObjectChooser((Composite) fig, SWT.BORDER));
 			break;
 		case NUMBER_SCROLLER:
-			fig.setControl(new NumberScroller((Composite) fig, SWT.NONE | SWT.BORDER));
+			// fig.setControl(new NumberScroller((Composite) fig, SWT.NONE | SWT.BORDER));
+			fig.setControl(new Spinner((Composite) fig, SWT.NONE | SWT.BORDER));
 			break;
 		case TEXT:
-			fig.setControl(new Text((Composite) fig, SWT.NONE|SWT.BORDER));
+			fig.setControl(new Text((Composite) fig, SWT.NONE | SWT.BORDER));
 			break;
 		case TEXT_AREA:
 			fig.setControl(new Text((Composite) fig, SWT.BORDER | SWT.MULTI));
@@ -133,7 +177,7 @@ public class UimSwtUtil{
 			layout = new GridLayout(2, false);
 			fig.setLayout(layout);
 			fig.setMinimumLabelWidth(minimumLabelWidth);
-			((GridData)fig.getLabel().getLayoutData()).grabExcessHorizontalSpace=false;
+			((GridData) fig.getLabel().getLayoutData()).grabExcessHorizontalSpace = false;
 			fig.getControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		}
 		layout.marginHeight = 0;

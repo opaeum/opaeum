@@ -15,6 +15,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.TransferDropTargetListener;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.handles.MoveHandle;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.layout.FreeFormLayoutEx;
 import org.eclipse.gmf.runtime.notation.View;
@@ -29,6 +30,7 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.opaeum.uimodeler.common.figures.CustomDiagramFigure;
 import org.opaeum.uimodeler.common.figures.ISWTFigure;
+import org.opaeum.uimodeler.userinterface.diagram.edit.policies.UserInterfaceCanonicalEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.UserInterfaceItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
 
@@ -57,9 +59,8 @@ public class UserInterfaceEditPart extends PapyrusDiagramEditPart{
 		super.createDefaultEditPolicies();
 		installEditPolicy(DuplicatePasteEditPolicy.PASTE_ROLE, new DuplicatePasteEditPolicy());
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new UserInterfaceItemSemanticEditPolicy());
-		// in Papyrus diagrams are not strongly synchronised
-		// installEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CANONICAL_ROLE, new
-		// org.opaeum.uimodeler.userinterface.diagram.edit.policies.UserInterfaceCanonicalEditPolicy());
+		//in Papyrus diagrams are not strongly synchronised
+		//installEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CANONICAL_ROLE, new org.opaeum.uimodeler.userinterface.diagram.edit.policies.UserInterfaceCanonicalEditPolicy());
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.POPUPBAR_ROLE);
 	}
 	/**
@@ -96,7 +97,7 @@ public class UserInterfaceEditPart extends PapyrusDiagramEditPart{
 		if(event.getNotifier() instanceof EAnnotation){
 			EAnnotation eAnnotation = (EAnnotation) event.getNotifier();
 			if(eAnnotation.getSource() != null && eAnnotation.getSource().equals(MDTUtil.FilterViewAndLabelsSource)){
-				// modification form MOSKitt approach, canonical policies are not called
+				//modification form MOSKitt approach, canonical policies are not called
 				MDTUtil.filterDiagramViews(this.getDiagramView());
 			}
 		}
@@ -121,97 +122,97 @@ public class UserInterfaceEditPart extends PapyrusDiagramEditPart{
 		IFigure f = new CustomDiagramFigure();
 		f.setLayoutManager(new FreeFormLayoutEx());
 		f.addLayoutListener(LayoutAnimator.getDefault());
-//		
-//		getViewer().addDragSourceListener(new TransferDragSourceListener(){
-//			@Override
-//			public void dragStart(DragSourceEvent event){
-//				UserInterfaceEditPart ep = UserInterfaceEditPart.this;
-//				IFigure targetFigure = getFigure().findMouseEventTargetAt(event.x, event.y);
-//				
-//				GraphicalEditPart target = findChild(UserInterfaceEditPart.this,targetFigure);
-//			}
-//			@Override
-//			public void dragSetData(DragSourceEvent event){
-//				// TODO Auto-generated method stub
-//				System.out.println();
-//			}
-//			@Override
-//			public void dragFinished(DragSourceEvent event){
-//			}
-//			public GraphicalEditPart findChild(EditPart c2, IFigure targetFigure){
-//				List<GraphicalEditPart> children2 = c2.getChildren();
-//				GraphicalEditPart target = null;
-//				for(GraphicalEditPart c:children2){
-//					if(c.getFigure()==targetFigure){
-//						target=c;
-//						break;
-//					}else{
-//						target=findChild(c, targetFigure);
-//						if(target!=null){
-//							break;
-//						}
-//					}
-//				}
-//				return target;
-//			}
-//			@Override
-//			public Transfer getTransfer(){
-//				// TODO Auto-generated method stub
-//				return null;
-//			}
-//		});
-//		getViewer().addDropTargetListener(new org.eclipse.jface.util.TransferDropTargetListener(){
-//			@Override
-//			public void dropAccept(DropTargetEvent event){
-//				// TODO Auto-generated method stub
-//			}
-//			@Override
-//			public void drop(DropTargetEvent event){
-//				UserInterfaceEditPart ep = UserInterfaceEditPart.this;
-//				GraphicalEditPart target = findChild(event.x, event.y, ep);
-//				System.out.println(target);
-//				System.out.println(target);
-//			}
-//			public GraphicalEditPart findChild(int x,int y,GraphicalEditPart c2){
-//				List<GraphicalEditPart> children2 = c2.getChildren();
-//				GraphicalEditPart target = null;
-//				for(GraphicalEditPart c:children2){
-//					if(c.getFigure().containsPoint(x, y)){
-//						target = c;
-//						if(findChild(x, y, c) == null){
-//							break;
-//						}
-//					}
-//				}
-//				return target;
-//			}
-//			@Override
-//			public void dragOver(DropTargetEvent event){
-//				// TODO Auto-generated method stub
-//			}
-//			@Override
-//			public void dragOperationChanged(DropTargetEvent event){
-//				// TODO Auto-generated method stub
-//			}
-//			@Override
-//			public void dragLeave(DropTargetEvent event){
-//				// TODO Auto-generated method stub
-//			}
-//			@Override
-//			public void dragEnter(DropTargetEvent event){
-//				// TODO Auto-generated method stub
-//			}
-//			@Override
-//			public boolean isEnabled(DropTargetEvent event){
-//				// TODO Auto-generated method stub
-//				return true;
-//			}
-//			@Override
-//			public Transfer getTransfer(){
-//				// TODO Auto-generated method stub
-//				return null;
-//			}
-//		});
+		//		
+		//		getViewer().addDragSourceListener(new TransferDragSourceListener(){
+		//			@Override
+		//			public void dragStart(DragSourceEvent event){
+		//				UserInterfaceEditPart ep = UserInterfaceEditPart.this;
+		//				IFigure targetFigure = getFigure().findMouseEventTargetAt(event.x, event.y);
+		//				
+		//				GraphicalEditPart target = findChild(UserInterfaceEditPart.this,targetFigure);
+		//			}
+		//			@Override
+		//			public void dragSetData(DragSourceEvent event){
+		//				// TODO Auto-generated method stub
+		//				System.out.println();
+		//			}
+		//			@Override
+		//			public void dragFinished(DragSourceEvent event){
+		//			}
+		//			public GraphicalEditPart findChild(EditPart c2, IFigure targetFigure){
+		//				List<GraphicalEditPart> children2 = c2.getChildren();
+		//				GraphicalEditPart target = null;
+		//				for(GraphicalEditPart c:children2){
+		//					if(c.getFigure()==targetFigure){
+		//						target=c;
+		//						break;
+		//					}else{
+		//						target=findChild(c, targetFigure);
+		//						if(target!=null){
+		//							break;
+		//						}
+		//					}
+		//				}
+		//				return target;
+		//			}
+		//			@Override
+		//			public Transfer getTransfer(){
+		//				// TODO Auto-generated method stub
+		//				return null;
+		//			}
+		//		});
+		//		getViewer().addDropTargetListener(new org.eclipse.jface.util.TransferDropTargetListener(){
+		//			@Override
+		//			public void dropAccept(DropTargetEvent event){
+		//				// TODO Auto-generated method stub
+		//			}
+		//			@Override
+		//			public void drop(DropTargetEvent event){
+		//				UserInterfaceEditPart ep = UserInterfaceEditPart.this;
+		//				GraphicalEditPart target = findChild(event.x, event.y, ep);
+		//				System.out.println(target);
+		//				System.out.println(target);
+		//			}
+		//			public GraphicalEditPart findChild(int x,int y,GraphicalEditPart c2){
+		//				List<GraphicalEditPart> children2 = c2.getChildren();
+		//				GraphicalEditPart target = null;
+		//				for(GraphicalEditPart c:children2){
+		//					if(c.getFigure().containsPoint(x, y)){
+		//						target = c;
+		//						if(findChild(x, y, c) == null){
+		//							break;
+		//						}
+		//					}
+		//				}
+		//				return target;
+		//			}
+		//			@Override
+		//			public void dragOver(DropTargetEvent event){
+		//				// TODO Auto-generated method stub
+		//			}
+		//			@Override
+		//			public void dragOperationChanged(DropTargetEvent event){
+		//				// TODO Auto-generated method stub
+		//			}
+		//			@Override
+		//			public void dragLeave(DropTargetEvent event){
+		//				// TODO Auto-generated method stub
+		//			}
+		//			@Override
+		//			public void dragEnter(DropTargetEvent event){
+		//				// TODO Auto-generated method stub
+		//			}
+		//			@Override
+		//			public boolean isEnabled(DropTargetEvent event){
+		//				// TODO Auto-generated method stub
+		//				return true;
+		//			}
+		//			@Override
+		//			public Transfer getTransfer(){
+		//				// TODO Auto-generated method stub
+		//				return null;
+		//			}
+		//		});
 		return f;
 	}
 }

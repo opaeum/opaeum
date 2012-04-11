@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import java.util.LinkedList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -15,6 +17,7 @@ import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gmf.runtime.emf.core.GMFEditingDomainFactory;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Edge;
+import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IMemento;
@@ -23,6 +26,7 @@ import org.eclipse.ui.navigator.ICommonContentProvider;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLink2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
@@ -227,6 +231,10 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(UimDataTableTableTableActionBarCompartmentEditPart.VISUAL_ID));
 		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationButton3EditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(UimDataTableDataTableColumnCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInLink2EditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		return result.toArray();
 	}

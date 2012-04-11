@@ -27,8 +27,9 @@ public class UimFigureUtil{
 		if(shlChooseElement == null || shlChooseElement.isDisposed()){
 			shlChooseElement = new Shell(SWT.MODELESS | SWT.MIN);
 			shlChooseElement.setLayout(new StackLayout());
-			shlChooseElement.setVisible(true);
+			shlChooseElement.setVisible(false);
 			shlChooseElement.setSize(1800, 1200);
+			shlChooseElement.setLocation(0, 0);
 			if(activeShell != null){
 				activeShell.setActive();
 				shlChooseElement.addShellListener(new ShellListener(){

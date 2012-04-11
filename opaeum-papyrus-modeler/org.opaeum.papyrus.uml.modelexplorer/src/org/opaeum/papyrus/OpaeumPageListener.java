@@ -150,7 +150,7 @@ public class OpaeumPageListener implements IStartup{
 						return false;
 					}
 					public boolean isDirty(){
-						return true;
+						return false;
 					}
 					public void doSaveAs(){
 					}

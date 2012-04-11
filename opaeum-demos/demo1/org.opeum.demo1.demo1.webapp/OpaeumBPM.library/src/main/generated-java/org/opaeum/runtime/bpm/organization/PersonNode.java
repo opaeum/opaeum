@@ -469,6 +469,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForBusinessActor",opaeumId=5667532828519993302l,opposite="representedPerson",uuid="252060@_X4_MgEtyEeGElKTCe2jfDw")
 	public Set<IBusinessActor> getBusinessActor() {
 		Set<IBusinessActor> result = new HashSet<IBusinessActor>();
 		for ( PersonFullfillsActorRole cur : this.getPersonFullfillsActorRole_businessActor() ) {
@@ -477,6 +478,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3322670798188881229l,opposite="representedPerson",uuid="252060@_3lakUFYuEeGj5_I7bIwNoA")
 	public Set<IBusinessRole> getBusinessRole() {
 		Set<IBusinessRole> result = new HashSet<IBusinessRole>();
 		for ( Person_iBusinessRole_1 cur : this.getPerson_iBusinessRole_1_businessRole() ) {
@@ -644,7 +646,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public List<IBusinessActor> getSourcePopulationForBusinessActor() {
-		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect1()));
+		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect2()));
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4565578190639246320l,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
@@ -692,7 +694,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public boolean isUniqueInCollaboration() {
-		boolean result = forAll2();
+		boolean result = forAll1();
 		
 		return result;
 	}
@@ -1277,7 +1279,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	/** Implements ->collect( c : IBusinessCollaboration | c.businessActor )
 	 */
-	private Collection<IBusinessActor> collect1() {
+	private Collection<IBusinessActor> collect2() {
 		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
 		for ( IBusinessCollaboration c : this.getCollaboration().getBusinessCollaboration() ) {
 			Set<IBusinessActor> bodyExpResult = c.getBusinessActor();
@@ -1288,7 +1290,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	/** Implements ->forAll( p : PersonNode | (p.username = self.username) implies p = self )
 	 */
-	private boolean forAll2() {
+	private boolean forAll1() {
 		for ( PersonNode p : this.getCollaboration().getPerson() ) {
 			if ( !(p.getUsername().equals(this.getUsername()) ? p.equals(this) : true) ) {
 				return false;

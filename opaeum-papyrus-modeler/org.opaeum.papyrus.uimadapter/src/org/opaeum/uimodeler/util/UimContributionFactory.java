@@ -109,7 +109,6 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 		}
 	}
 	private static boolean hasConfigFile(IStructuredSelection selection2){
-		System.out.println("UimContributionFactory.hasConfigFile()");
 		if(selection2.getFirstElement() instanceof IContainer){
 			IContainer firstElement = (IContainer) selection2.getFirstElement();
 			if(firstElement != null){

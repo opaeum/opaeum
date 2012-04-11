@@ -32,6 +32,7 @@ import org.opaeum.uimodeler.abstractactionbar.diagram.edit.policies.BuiltInActio
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimVisualIDRegistry;
 import org.opaeum.uimodeler.common.figures.ActionButtonEventAdapter;
+import org.opaeum.uimodeler.common.figures.BuiltinActionButtonEventAdapter;
 import org.opaeum.uimodeler.common.figures.CustomBuiltInActionFigure;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
@@ -167,7 +168,7 @@ public class BuiltInActionButtonEditPart extends ShapeNodeEditPart{
 		figure.setLayoutManager(new StackLayout());
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
-		new ActionButtonEventAdapter(this, getPrimaryShape());
+		new BuiltinActionButtonEventAdapter(this, getPrimaryShape());
 		return figure;
 	}
 	/**

@@ -214,6 +214,8 @@
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//action/BuiltInLinkKind">
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/BuiltInLinkKind/auditTrail"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/BuiltInLinkKind/businessIntelligence"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/BuiltInLinkKind/edit"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/BuiltInLinkKind/view"/>
       </genEnums>
       <genClasses ecoreClass="Uim.ecore#//action/BuiltInActionButton">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//action/BuiltInActionButton/kind"/>

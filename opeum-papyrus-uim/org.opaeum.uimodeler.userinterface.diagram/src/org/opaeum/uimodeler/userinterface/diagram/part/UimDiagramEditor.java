@@ -5,8 +5,14 @@ import java.util.EventObject;
 import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gef.GraphicalViewer;
@@ -23,11 +29,18 @@ import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.actions.ActionIds;
 import org.eclipse.gmf.runtime.diagram.ui.internal.parts.PaletteToolTransferDragSourceListener;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDiagramDocument;
+import org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDocument;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDocumentProvider;
+import org.eclipse.gmf.runtime.diagram.ui.resources.editor.parts.DiagramDocumentEditor;
 import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.Window;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.papyrus.infra.core.editor.IMultiDiagramEditor;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.infra.core.services.ServicesRegistry;
@@ -43,11 +56,18 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorMatchingStrategy;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.navigator.resources.ProjectExplorer;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IShowInTargetList;
 import org.eclipse.ui.part.ShowInContext;
 import org.opaeum.uimodeler.userinterface.diagram.navigator.UimNavigatorItem;
@@ -132,6 +152,7 @@ public class UimDiagramEditor extends UmlGmfDiagramEditor implements IProviderCh
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class type){
 		if(type == IShowInTargetList.class){
 			return new IShowInTargetList(){

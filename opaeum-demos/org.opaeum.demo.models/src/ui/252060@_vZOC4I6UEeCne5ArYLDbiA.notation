@@ -6,35 +6,39 @@
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKBH5GEeGJWskstUYw2Q"/>
+          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MARIIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKB35GEeGJWskstUYw2Q"/>
+          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MAR4IHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKA35GEeGJWskstUYw2Q"/>
+      <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MAQ4IHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKAn5GEeGJWskstUYw2Q"/>
+    <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MAQoIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
   <notation:Diagram type="abstractactionbar" name="ActionBar" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2011" fontName="Sans" fontHeight="8" lineColor="0">
       <children xsi:type="notation:DecorationNode" type="5016"/>
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3004">
-          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKC35GEeGJWskstUYw2Q"/>
+          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MAS4IHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3004">
-          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKDH5GEeGJWskstUYw2Q"/>
+          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MATIIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKCn5GEeGJWskstUYw2Q"/>
+      <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MASoIHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="200"/>
     </children>
-    <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKAX5GEeGJWskstUYw2Q"/>
+    <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MAQYIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
   <notation:Diagram type="userinterface" name="CreateParticipation in task" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
@@ -42,17 +46,19 @@
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKEH5GEeGJWskstUYw2Q"/>
+          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MAUIIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKE35GEeGJWskstUYw2Q"/>
+          <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MnUIIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKD35GEeGJWskstUYw2Q"/>
+      <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MAT4IHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_eJGKDn5GEeGJWskstUYw2Q"/>
+    <element href="252060@_vZOC4I6UEeCne5ArYLDbiA.uml#_Y2MAToIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
 </xmi:XMI>

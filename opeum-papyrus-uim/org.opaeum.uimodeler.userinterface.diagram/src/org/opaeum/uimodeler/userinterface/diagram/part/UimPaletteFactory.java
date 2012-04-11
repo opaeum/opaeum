@@ -1,10 +1,16 @@
 package org.opaeum.uimodeler.userinterface.diagram.part;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.gef.Tool;
+import org.eclipse.gef.palette.PaletteContainer;
+import org.eclipse.gef.palette.PaletteDrawer;
+import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gmf.runtime.diagram.ui.services.palette.PaletteFactory;
+import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.papyrus.uml.diagram.common.service.AspectUnspecifiedTypeCreationTool;
 import org.opaeum.uimodeler.userinterface.diagram.providers.UimElementTypes;
@@ -195,8 +201,9 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	 * @generated
 	 */
 	private Tool createBuiltInLink5CreationTool(){
-		List<IElementType> types = new ArrayList<IElementType>(1);
+		List<IElementType> types = new ArrayList<IElementType>(2);
 		types.add(UimElementTypes.BuiltInLink_3022);
+		types.add(UimElementTypes.BuiltInLink_3027);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}

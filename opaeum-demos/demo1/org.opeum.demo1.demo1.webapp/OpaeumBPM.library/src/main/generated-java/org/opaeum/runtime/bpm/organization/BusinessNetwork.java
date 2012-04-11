@@ -324,6 +324,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return false;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3543861783554997017l,opposite="businessNetwork",uuid="252060@_YJETMFYjEeGJUqEGX7bKSg")
 	public Set<IBusinessCollaboration> getBusinessCollaboration() {
 		Set<IBusinessCollaboration> result = new HashSet<IBusinessCollaboration>();
 		for ( BusinessNetworkFacilatatesCollaboration cur : this.getBusinessNetworkFacilatatesCollaboration_businessCollaboration() ) {
@@ -437,10 +438,10 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void markDeleted() {
-		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
+		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
 			child.markDeleted();
 		}
-		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
+		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
 			child.markDeleted();
 		}
 		for ( OrganizationNode child : new ArrayList<OrganizationNode>(getOrganization()) ) {

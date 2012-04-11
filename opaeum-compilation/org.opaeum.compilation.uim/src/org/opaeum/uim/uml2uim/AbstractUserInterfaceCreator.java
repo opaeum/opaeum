@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
@@ -37,6 +38,8 @@ import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.BuiltInLink;
+import org.opaeum.uim.action.BuiltInLinkKind;
 import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.FieldBinding;
@@ -176,6 +179,11 @@ public abstract class AbstractUserInterfaceCreator{
 		table.setBinding(binding);
 		binding.setUmlElementUid(EmfWorkspace.getId(e));
 		Classifier type = (Classifier) e.getType();
+		BuiltInLink edit = ActionFactory.eINSTANCE.createBuiltInLink();
+		table.getChildren().add(edit);
+		edit.setKind(BuiltInLinkKind.EDIT);
+		edit.setName("Edit");
+		edit.setPreferredWidth(20);
 		Collection<Property> attrs = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(type);
 		for(Property property:attrs){
 			boolean isCreateParameter = e instanceof Parameter && ((Parameter) e).getEffect() == ParameterEffectKind.CREATE_LITERAL;
@@ -184,10 +192,24 @@ public abstract class AbstractUserInterfaceCreator{
 				addUserField(table, 0, property);
 			}
 		}
-		BuiltInActionButton action = ActionFactory.eINSTANCE.createBuiltInActionButton();
-		table.getActionsOnMultipleSelection().add(action);
-		action.setKind(ActionKind.DELETE);
-		action.setName("Delete");
+		BuiltInActionButton deleteInRow = ActionFactory.eINSTANCE.createBuiltInActionButton();
+		table.getChildren().add(deleteInRow);
+		deleteInRow.setKind(ActionKind.DELETE);
+		deleteInRow.setName("Delete");
+		for(Operation operation:type.getOperations()){
+			if(!operation.isQuery() && operation.getReturnResult()==null){
+				OperationButton action = ActionFactory.eINSTANCE.createOperationButton();
+				table.getChildren().add(action);
+				action.setUmlElementUid(EmfWorkspace.getId(operation));
+				action.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
+				action.setPopup(ActionFactory.eINSTANCE.createOperationPopup());
+				addFormPanel(action.getPopup(), action.getName(), operation.getOwnedParameters());
+			}
+		}
+		BuiltInActionButton deleteOnActionBar = ActionFactory.eINSTANCE.createBuiltInActionButton();
+		table.getActionsOnMultipleSelection().add(deleteOnActionBar);
+		deleteOnActionBar.setKind(ActionKind.DELETE);
+		deleteOnActionBar.setName("Delete");
 		BuiltInActionButton action2 = ActionFactory.eINSTANCE.createBuiltInActionButton();
 		table.getActionsOnMultipleSelection().add(action2);
 		action2.setKind(ActionKind.ADD);

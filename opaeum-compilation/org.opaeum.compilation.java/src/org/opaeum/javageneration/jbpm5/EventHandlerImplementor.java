@@ -285,7 +285,8 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				OJAnnotatedOperation getter = new OJAnnotatedOperation(m.getter(), m.javaTypePath());
 				getter.getBody().addToStatements("return this." + m.fieldname());
 				handler.addToOperations(getter);
-				AttributeImplementor.addPropertyMetaInfo(m, getter);
+				// TODO move thisS
+				AttributeImplementor.addPropertyMetaInfo(o.getOwner(), getter, m.getProperty());
 				OJAnnotatedOperation setter = new OJAnnotatedOperation(m.setter());
 				setter.addParam(m.fieldname(), m.javaTypePath());
 				setter.getBody().addToStatements("this." + m.fieldname() + "=" + m.fieldname());

@@ -41,8 +41,9 @@ import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForEle
 import org.eclipse.swt.graphics.Color;
 import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
 import org.opaeum.uimodeler.common.figures.ActionButtonEventAdapter;
-import org.opaeum.uimodeler.common.figures.CustomLinkFigure;
+import org.opaeum.uimodeler.common.figures.CustomBuiltInLinkFigure;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
+import org.opaeum.uimodeler.common.figures.BuiltInLinkEventAdapter;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.BuiltInLinkItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
@@ -101,13 +102,13 @@ public class BuiltInLinkEditPart extends ShapeNodeEditPart{
 	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new CustomLinkFigure(UimFigureUtil.getNearestComposite(getParent()));
+		return primaryShape = new CustomBuiltInLinkFigure(UimFigureUtil.getNearestComposite(getParent()));
 	}
 	/**
 	 * @generated NOT
 	 */
-	public CustomLinkFigure getPrimaryShape(){
-		return (CustomLinkFigure) primaryShape;
+	public CustomBuiltInLinkFigure getPrimaryShape(){
+		return (CustomBuiltInLinkFigure) primaryShape;
 	}
 	/**
 	 * @generated
@@ -171,7 +172,7 @@ public class BuiltInLinkEditPart extends ShapeNodeEditPart{
 	 * Body of this method does not depend on settings in generation model
 	 * so you may safely remove <i>generated</i> tag and modify it.
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected NodeFigure createNodeFigure(){
 		IFigure shape = createNodeShape();
@@ -179,7 +180,7 @@ public class BuiltInLinkEditPart extends ShapeNodeEditPart{
 		figure.setLayoutManager(new StackLayout());
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
-		new AbstractEventAdapter(this, getPrimaryShape());
+		new BuiltInLinkEventAdapter(this, getPrimaryShape());
 		return figure;
 	}
 	/**

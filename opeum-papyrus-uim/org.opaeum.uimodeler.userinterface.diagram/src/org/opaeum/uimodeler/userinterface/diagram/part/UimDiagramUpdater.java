@@ -15,6 +15,7 @@ import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLink2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
@@ -169,6 +170,10 @@ public class UimDiagramUpdater{
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
+			if(visualID == BuiltInLink2EditPart.VISUAL_ID){
+				result.add(new UimNodeDescriptor(childElement, visualID));
+				continue;
+			}
 		}
 		return result;
 	}
@@ -299,6 +304,8 @@ public class UimDiagramUpdater{
 			return getBuiltInActionButton_3025ContainedLinks(view);
 		case OperationButton3EditPart.VISUAL_ID:
 			return getOperationButton_3026ContainedLinks(view);
+		case BuiltInLink2EditPart.VISUAL_ID:
+			return getBuiltInLink_3027ContainedLinks(view);
 		case GridPanel2EditPart.VISUAL_ID:
 			return getGridPanel_3017ContainedLinks(view);
 		}
@@ -343,6 +350,8 @@ public class UimDiagramUpdater{
 			return getBuiltInActionButton_3025IncomingLinks(view);
 		case OperationButton3EditPart.VISUAL_ID:
 			return getOperationButton_3026IncomingLinks(view);
+		case BuiltInLink2EditPart.VISUAL_ID:
+			return getBuiltInLink_3027IncomingLinks(view);
 		case GridPanel2EditPart.VISUAL_ID:
 			return getGridPanel_3017IncomingLinks(view);
 		}
@@ -387,6 +396,8 @@ public class UimDiagramUpdater{
 			return getBuiltInActionButton_3025OutgoingLinks(view);
 		case OperationButton3EditPart.VISUAL_ID:
 			return getOperationButton_3026OutgoingLinks(view);
+		case BuiltInLink2EditPart.VISUAL_ID:
+			return getBuiltInLink_3027OutgoingLinks(view);
 		case GridPanel2EditPart.VISUAL_ID:
 			return getGridPanel_3017OutgoingLinks(view);
 		}
@@ -503,6 +514,12 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
+	public static List<UimLinkDescriptor> getBuiltInLink_3027ContainedLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
 	public static List<UimLinkDescriptor> getGridPanel_3017ContainedLinks(View view){
 		return Collections.emptyList();
 	}
@@ -611,6 +628,12 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
+	public static List<UimLinkDescriptor> getBuiltInLink_3027IncomingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
 	public static List<UimLinkDescriptor> getGridPanel_3017IncomingLinks(View view){
 		return Collections.emptyList();
 	}
@@ -714,6 +737,12 @@ public class UimDiagramUpdater{
 	 * @generated
 	 */
 	public static List<UimLinkDescriptor> getOperationButton_3026OutgoingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getBuiltInLink_3027OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**

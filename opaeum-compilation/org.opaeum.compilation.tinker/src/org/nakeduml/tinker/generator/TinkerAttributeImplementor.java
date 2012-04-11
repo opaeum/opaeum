@@ -153,13 +153,13 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	}
 
 	@Override
-	protected OJAnnotatedOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean derived) {
+	protected OJAnnotatedOperation buildGetter(INakedClassifier umlOwner, OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean derived) {
 		owner.addToImports(TinkerGenerationUtil.vertexPathName);
 		INakedProperty prop = map.getProperty();
 		OJAnnotatedOperation getter;
 		if (!derived) {
 			if (map.isOne()) {
-				getter = super.buildGetter(owner, map, derived);
+				getter = super.buildGetter(umlOwner,owner, map, derived);
 				if ((prop.getBaseType() instanceof INakedEntity)
 						|| (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly()))) {
 					buildTinkerGetterForOne(owner, map, getter);
@@ -180,11 +180,11 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 				} else if (!map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
 					getter = buildBagGetter(owner, map, derived);
 				} else {
-					getter = super.buildGetter(owner, map, derived);
+					getter = super.buildGetter(umlOwner,owner, map, derived);
 				}
 			}
 		} else {
-			getter = super.buildGetter(owner, map, derived);
+			getter = super.buildGetter(umlOwner,owner, map, derived);
 		}
 		return getter;
 	}

@@ -9,5 +9,4 @@ public interface ISWTFigure extends IFigure{
 
 	void setLabelText(String string);
 	
-	void markForRepaint();
 }

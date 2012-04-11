@@ -12,6 +12,7 @@ import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class JavaTypedElement{
 	long opaeumId;
@@ -60,7 +61,7 @@ public class JavaTypedElement{
 			this.opaeumId = annotation.opaeumId();
 			this.uuid = annotation.uuid();
 			this.opposite = null;// ???
-			this.lookupMethod=annotation.lookupMethod();
+			this.lookupMethod = annotation.lookupMethod();
 			try{
 				this.strategyFactory = annotation.strategyFactory().newInstance();
 			}catch(InstantiationException e){
@@ -145,25 +146,42 @@ public class JavaTypedElement{
 		}
 	}
 	public Object invokeLookupMethod(IPersistentObject target){
-		if(lookupMethod == null){
-			return null;
-		}else{
-			try{
+		try{
+			if(lookupMethod == null||lookupMethod.length()==0){
+				Method method = IntrospectionUtil.getOriginalClass(target).getMethod(readMethod.getName());
+				PropertyMetaInfo annotation = method.getAnnotation(PropertyMetaInfo.class);
+				if(annotation != null && annotation.lookupMethod().length() > 0){
+					return target.getClass().getMethod(annotation.lookupMethod()).invoke(target);
+				}
+				return null;
+			}else{
 				Method lookupMethod = target.getClass().getMethod(this.lookupMethod);
 				return lookupMethod.invoke(target);
-			}catch(SecurityException e1){
-			}catch(NoSuchMethodException e1){
-			}catch(InvocationTargetException e){
-				throw new RuntimeException(e.getTargetException());
-			}catch(Exception e){
 			}
-			return null;
+		}catch(SecurityException e1){
+		}catch(NoSuchMethodException e1){
+		}catch(InvocationTargetException e){
+			throw new RuntimeException(e.getTargetException());
+		}catch(Exception e){
 		}
+		return null;
 	}
 	public boolean isMany(){
 		return Collection.class.isAssignableFrom(readMethod.getReturnType());
 	}
 	public Class<?> getType(){
 		return readMethod.getReturnType();
+	}
+	public void invokeSetter(Object target,Object value){
+		try{
+			writeMethod.invoke(target, value);
+		}catch(IllegalArgumentException e){
+			throw new RuntimeException(e);
+		}catch(IllegalAccessException e){
+			throw new RuntimeException(e);
+		}catch(InvocationTargetException e){
+			throw new RuntimeException(e.getTargetException());
+		}
+		
 	}
 }

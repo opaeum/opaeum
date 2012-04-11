@@ -6,22 +6,25 @@
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUtX5GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22usoIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUuH5GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22utYIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7sH5GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22uuIIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUqH5GEeGJWskstUYw2Q"/>
+      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22uo4IHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUp35GEeGJWskstUYw2Q"/>
+    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22uooIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
   <notation:Diagram type="userinterface" name="Component" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
@@ -29,49 +32,61 @@
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3009" fontName="Sans" fontHeight="8" lineColor="0">
           <children xsi:type="notation:DecorationNode" type="7002">
-            <children xsi:type="notation:Shape" type="3010">
-              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUrX5GEeGJWskstUYw2Q"/>
+            <children xsi:type="notation:Shape" type="3027">
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22uqIIHEeGpLKgWd7Nm5w"/>
+              <layoutConstraint xsi:type="notation:Bounds"/>
             </children>
             <children xsi:type="notation:Shape" type="3010">
-              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUsH5GEeGJWskstUYw2Q"/>
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22uqYIHEeGpLKgWd7Nm5w"/>
+              <layoutConstraint xsi:type="notation:Bounds"/>
+            </children>
+            <children xsi:type="notation:Shape" type="3010">
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22urIIHEeGpLKgWd7Nm5w"/>
+              <layoutConstraint xsi:type="notation:Bounds"/>
+            </children>
+            <children xsi:type="notation:Shape" type="3023">
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22ur4IHEeGpLKgWd7Nm5w"/>
+              <layoutConstraint xsi:type="notation:Bounds"/>
             </children>
             <layoutConstraint xsi:type="notation:Bounds"/>
           </children>
           <children xsi:type="notation:DecorationNode" type="7003">
             <children xsi:type="notation:Shape" type="3025">
-              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUs35GEeGJWskstUYw2Q"/>
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22usIIHEeGpLKgWd7Nm5w"/>
             </children>
             <children xsi:type="notation:Shape" type="3025">
-              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUtH5GEeGJWskstUYw2Q"/>
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22usYIHEeGpLKgWd7Nm5w"/>
             </children>
             <layoutConstraint xsi:type="notation:Bounds"/>
           </children>
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUq35GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22upoIHEeGpLKgWd7Nm5w"/>
           <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUqn5GEeGJWskstUYw2Q"/>
+      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22upYIHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUqX5GEeGJWskstUYw2Q"/>
+    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22upIIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
   <notation:Diagram type="abstractactionbar" name="ActionBar" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2011" fontName="Sans" fontHeight="8" lineColor="0">
       <children xsi:type="notation:DecorationNode" type="5016"/>
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3004">
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7tH5GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22uvIIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3004">
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7tX5GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22uvYIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7s35GEeGJWskstUYw2Q"/>
+      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22uu4IHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="200"/>
     </children>
-    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJzUpn5GEeGJWskstUYw2Q"/>
+    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y22uoYIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
   <notation:Diagram type="userinterface" name="CreateDish washer model" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
@@ -79,22 +94,25 @@
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7xX5GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VwIIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7yH5GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23Vw4IHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7y35GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VxoIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7uH5GEeGJWskstUYw2Q"/>
+      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VsYIHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7t35GEeGJWskstUYw2Q"/>
+    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VsIIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
   <notation:Diagram type="userinterface" name="Component" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
@@ -102,31 +120,41 @@
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3009" fontName="Sans" fontHeight="8" lineColor="0">
           <children xsi:type="notation:DecorationNode" type="7002">
-            <children xsi:type="notation:Shape" type="3010">
-              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7vX5GEeGJWskstUYw2Q"/>
+            <children xsi:type="notation:Shape" type="3027">
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VtoIHEeGpLKgWd7Nm5w"/>
+              <layoutConstraint xsi:type="notation:Bounds"/>
             </children>
             <children xsi:type="notation:Shape" type="3010">
-              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7wH5GEeGJWskstUYw2Q"/>
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23Vt4IHEeGpLKgWd7Nm5w"/>
+              <layoutConstraint xsi:type="notation:Bounds"/>
+            </children>
+            <children xsi:type="notation:Shape" type="3010">
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VuoIHEeGpLKgWd7Nm5w"/>
+              <layoutConstraint xsi:type="notation:Bounds"/>
+            </children>
+            <children xsi:type="notation:Shape" type="3023">
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VvYIHEeGpLKgWd7Nm5w"/>
+              <layoutConstraint xsi:type="notation:Bounds"/>
             </children>
             <layoutConstraint xsi:type="notation:Bounds"/>
           </children>
           <children xsi:type="notation:DecorationNode" type="7003">
             <children xsi:type="notation:Shape" type="3025">
-              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7w35GEeGJWskstUYw2Q"/>
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VvoIHEeGpLKgWd7Nm5w"/>
             </children>
             <children xsi:type="notation:Shape" type="3025">
-              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7xH5GEeGJWskstUYw2Q"/>
+              <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23Vv4IHEeGpLKgWd7Nm5w"/>
             </children>
             <layoutConstraint xsi:type="notation:Bounds"/>
           </children>
-          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7u35GEeGJWskstUYw2Q"/>
+          <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VtIIHEeGpLKgWd7Nm5w"/>
           <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7un5GEeGJWskstUYw2Q"/>
+      <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23Vs4IHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_eJz7uX5GEeGJWskstUYw2Q"/>
+    <element href="914890@_nhV7IGCfEeG6xvYqJACneg.uml#_Y23VsoIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
 </xmi:XMI>

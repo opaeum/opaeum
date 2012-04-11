@@ -6,31 +6,34 @@
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_eJqKs35GEeGJWskstUYw2Q"/>
+          <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_Y25x8IIHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3001">
           <children xsi:type="notation:DecorationNode" type="5001"/>
-          <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_eJqKtn5GEeGJWskstUYw2Q"/>
+          <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_Y25x84IHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_eJqKsn5GEeGJWskstUYw2Q"/>
+      <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_Y25K9oIHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_eJqKsX5GEeGJWskstUYw2Q"/>
+    <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_Y25K9YIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
   <notation:Diagram type="abstractactionbar" name="ActionBar" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2011" fontName="Sans" fontHeight="8" lineColor="0">
       <children xsi:type="notation:DecorationNode" type="5016"/>
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3004">
-          <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_eJqxwH5GEeGJWskstUYw2Q"/>
+          <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_Y25x94IHEeGpLKgWd7Nm5w"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_eJqKuX5GEeGJWskstUYw2Q"/>
+      <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_Y25x9oIHEeGpLKgWd7Nm5w"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="200"/>
     </children>
-    <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_eJqKsH5GEeGJWskstUYw2Q"/>
+    <element href="9f50af7e_a244_4962_b89f_c0b2dcce18c8@_ghKKMM5VEeC1yrA33E3a4g.uml#_Y25K9IIHEeGpLKgWd7Nm5w"/>
   </notation:Diagram>
 </xmi:XMI>

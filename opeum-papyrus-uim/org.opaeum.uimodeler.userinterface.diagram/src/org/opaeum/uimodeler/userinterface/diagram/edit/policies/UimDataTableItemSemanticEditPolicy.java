@@ -17,6 +17,7 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.commands.wrappers.EMFtoGMFCommandWrapper;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLink2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
@@ -80,6 +81,11 @@ public class UimDataTableItemSemanticEditPolicy extends UimBaseItemSemanticEditP
 						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
 						break;
 					case OperationButton2EditPart.VISUAL_ID:
+						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
+						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
+						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
+						break;
+					case BuiltInLink2EditPart.VISUAL_ID:
 						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
 						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
 						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));

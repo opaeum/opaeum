@@ -19,6 +19,7 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
 import org.eclipse.swt.widgets.Composite;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
+import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanelGridPanelChildrenCompartmentCanonicalEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanelGridPanelChildrenCompartmentItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.Messages;
 
@@ -54,7 +55,7 @@ public class GridPanelGridPanelChildrenCompartmentEditPart extends ShapeCompartm
 			}
 		};
 		scf.getContentPane().setLayoutManager(getLayoutManager());
-		    scf.getContentPane().addLayoutListener(LayoutAnimator.getDefault());
+		scf.getContentPane().addLayoutListener(LayoutAnimator.getDefault());
 		ResizableCompartmentFigure result = (ResizableCompartmentFigure) scf;
 		result.setTitleVisibility(false);
 		result.setBackgroundColor(org.eclipse.draw2d.ColorConstants.blue);

@@ -46,29 +46,28 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	protected int getThreadPoolSize(){
 		return 12;
 	}
-	public static void addPropertyMetaInfo(NakedStructuralFeatureMap map,OJAnnotatedOperation element){
-		// TODO move thisS
+	public static void addPropertyMetaInfo(INakedClassifier owner,OJAnnotatedOperation element,INakedProperty property){
 		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyMetaInfo"));
-		ap.putAttribute("isComposite", map.getProperty().isComposite());
-		if(map.getProperty() instanceof EmulatingElement){
-			EmulatingElement ee = (EmulatingElement) map.getProperty();
+		ap.putAttribute("isComposite", property.isComposite());
+		if(property instanceof EmulatingElement){
+			EmulatingElement ee = (EmulatingElement) property;
 			ap.putAttribute("uuid", ee.getOriginalElement().getId());
 		}else{
-			ap.putAttribute("uuid", map.getProperty().getId());
+			ap.putAttribute("uuid", property.getId());
 		}
-		ap.putAttribute("opaeumId", map.getProperty().getMappingInfo().getOpaeumId());
-		if(map.getProperty().getDocumentation() != null){
-			ap.putAttribute("shortDescripion", map.getProperty().getDocumentation());
+		ap.putAttribute("opaeumId", property.getMappingInfo().getOpaeumId());
+		if(property.getDocumentation() != null){
+			ap.putAttribute("shortDescripion", property.getDocumentation());
 		}
-		if(map.getProperty().getOtherEnd() != null){
-			ap.putAttribute("opposite", map.getProperty().getOtherEnd().getName());
+		if(property.getOtherEnd() != null){
+			ap.putAttribute("opposite", property.getOtherEnd().getName());
 		}
 		OJAnnotationAttributeValue constraints = new OJAnnotationAttributeValue("constraints");
 		ap.putAttribute(constraints);
-		for(INakedConstraint c:map.getProperty().getOwner().getOwnedRules()){
-			boolean isLookupConstraint = c.getConstrainedElements().contains(map.getProperty());
-			if(!isLookupConstraint && map.getProperty() instanceof EmulatingElement){
-				isLookupConstraint=c.getConstrainedElements().contains(((EmulatingElement) map.getProperty()).getOriginalElement());
+		for(INakedConstraint c:owner.getOwnedRules()){
+			boolean isLookupConstraint = c.getConstrainedElements().contains(property);
+			if(!isLookupConstraint && property instanceof EmulatingElement){
+				isLookupConstraint = c.getConstrainedElements().contains(((EmulatingElement) property).getOriginalElement());
 			}
 			if(c.getSpecification().isValidOclValue() && isLookupConstraint){
 				if(c.getSpecification().getOclValue().getExpression().getExpressionType().isCollectionKind()){
@@ -83,9 +82,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				}
 			}
 		}
-		// if(ap.findAttribute("lookupMethod") == null){
-		// ap.putAttribute("lookupMethod", ((OJOperation) element).getName() + "SourcePopulation");
-		// }
 		element.addAnnotationIfNew(ap);
 	}
 	@Override
@@ -145,7 +141,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
 				buildSetter(umlOwner, owner, map);
 				buildField(owner, map).setTransient(true);
-				OJOperation getter = buildGetter(owner, map, false);
+				OJOperation getter = buildGetter(umlOwner, owner, map, false);
 				getter.setBody(new OJBlock());
 				OJIfStatement ifNull = new OJIfStatement(OJAnnotatedOperation.RESULT + "==null", OJAnnotatedOperation.RESULT + "="
 						+ map.fieldname() + "=(" + map.javaBaseType() + ")" + org.opaeum.runtime.environment.Environment.class.getName()
@@ -154,14 +150,14 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				owner.addToImports(map.javaBaseTypePath());
 			}else if(p.isDerived()){
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
-				OJAnnotatedOperation getter = buildGetter(owner, map, true);
+				OJAnnotatedOperation getter = buildGetter(umlOwner, owner, map, true);
 				applyStereotypesAsAnnotations((p), getter);
 			}else{
 				implementAttributeFully(umlOwner, map);
 			}
 		}
 	}
-	protected OJAnnotatedOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean derived){
+	protected OJAnnotatedOperation buildGetter(INakedClassifier umlOwner,OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean derived){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
@@ -183,7 +179,8 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		getter.setStatic(map.isStatic());
 		INakedElement property = map.getProperty();
 		OJUtil.addMetaInfo(getter, property);
-		addPropertyMetaInfo(map, getter);
+		// TODO move thisS
+		addPropertyMetaInfo(umlOwner, getter, map.getProperty());
 		return getter;
 	}
 	@Override
@@ -191,7 +188,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		NakedStructuralFeatureMap map = aMap.getMap();
 		OJAnnotatedClass owner = findJavaClass(c);
 		if(map.getProperty().isDerived()){
-			buildGetter(owner, aMap);
+			buildGetter(c,owner, aMap);
 		}else{
 			if(map.isMany()){
 				// These are all the same as for normal attributes
@@ -207,7 +204,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			// Here are the deviations from normal attributes
 			buildInternalAdder(owner, aMap);
 			buildInternalRemover(owner, aMap);
-			buildGetter(owner, aMap);
+			buildGetter(c,owner, aMap);
 			buildGetterFor(owner, aMap);
 		}
 	}
@@ -280,9 +277,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		owner.addToOperations(internalRemover);
 	}
-	protected void buildGetter(OJAnnotatedClass owner,AssociationClassEndMap aMap){
+	protected void buildGetter(INakedClassifier umlOwner,OJAnnotatedClass owner,AssociationClassEndMap aMap){
 		NakedStructuralFeatureMap map = aMap.getMap();
-		OJOperation getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
+		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
 			OJAnnotatedField result = new OJAnnotatedField("result", map.javaTypePath());
 			getter.setStatic(map.isStatic());
@@ -307,6 +304,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 			getter.getBody().addToStatements("return result");
 		}
+		addPropertyMetaInfo(umlOwner, getter, map.getProperty());
 		owner.addToOperations(getter);
 	}
 	protected void implementAttributeFully(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
@@ -337,7 +335,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}else{
 			buildSetter(umlOwner, owner, map);
 		}
-		OJAnnotatedOperation getter = buildGetter(owner, map, false);
+		OJAnnotatedOperation getter = buildGetter(umlOwner, owner, map, false);
 		if(field != null){
 			applyStereotypesAsAnnotations((p), field);
 			INakedClassifier baseType = p.getNakedBaseType();

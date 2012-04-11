@@ -21,6 +21,7 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
 import org.eclipse.swt.widgets.Composite;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
+import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanelGridPanelChildrenCompartment2CanonicalEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanelGridPanelChildrenCompartment2ItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.Messages;
 
@@ -58,16 +59,16 @@ public class GridPanelGridPanelChildrenCompartment2EditPart extends ShapeCompart
 			protected void layout(){
 				super.layout();
 				Rectangle bnds = super.getBounds().getCopy();
-//				bnds.x+=1;
-//				bnds.y+=1;
-//				bnds.width-=16;
-//				bnds.height-=16;
+				//				bnds.x+=1;
+				//				bnds.y+=1;
+				//				bnds.width-=16;
+				//				bnds.height-=16;
 				scrollPane.setBounds(bnds);
 			}
 		};
 		comp.setData(UimFigureUtil.FIGURE, scf);
 		scf.getContentPane().setLayoutManager(getLayoutManager());
-		    scf.getContentPane().addLayoutListener(LayoutAnimator.getDefault());
+		scf.getContentPane().addLayoutListener(LayoutAnimator.getDefault());
 		ResizableCompartmentFigure result = (ResizableCompartmentFigure) scf;
 		result.setTitleVisibility(false);
 		result.setBackgroundColor(org.eclipse.draw2d.ColorConstants.blue);

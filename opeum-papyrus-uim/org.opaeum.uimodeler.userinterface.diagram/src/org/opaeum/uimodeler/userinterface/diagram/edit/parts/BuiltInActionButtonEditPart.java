@@ -27,6 +27,7 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHel
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
 import org.opaeum.uimodeler.common.figures.ActionButtonEventAdapter;
+import org.opaeum.uimodeler.common.figures.BuiltinActionButtonEventAdapter;
 import org.opaeum.uimodeler.common.figures.CustomBuiltInActionFigure;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
@@ -121,7 +122,7 @@ public class BuiltInActionButtonEditPart extends ShapeNodeEditPart{
 		figure.setLayoutManager(new StackLayout());
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
-		new ActionButtonEventAdapter(this, getPrimaryShape());
+		new BuiltinActionButtonEventAdapter(this, getPrimaryShape());
 		return figure;
 	}
 	/**

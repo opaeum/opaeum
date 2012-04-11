@@ -26,7 +26,7 @@ public enum ActionKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	UPDATE(0, "update", "update"),
+	UPDATE(0, "update", "save"),
 
 	/**
 	 * The '<em><b>Delete</b></em>' literal object.
@@ -131,7 +131,7 @@ public enum ActionKind implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UPDATE
-	 * @model name="update"
+	 * @model name="update" literal="save"
 	 * @generated
 	 * @ordered
 	 */

@@ -218,6 +218,19 @@
       <accessors
           figure="//@figures.0/@descriptors.15/@actualFigure/@children.0"/>
     </descriptors>
+    <descriptors
+        name="BuiltInLinkColumnFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="BuiltInLinkColumnFigure">
+        <children
+            xsi:type="gmfgraph:Label"
+            name="BuiltInLinkColumnNameFigure"
+            text="..."/>
+      </actualFigure>
+      <accessors
+          figure="//@figures.0/@descriptors.16/@actualFigure/@children.0"/>
+    </descriptors>
   </figures>
   <nodes
       name="UimField"
@@ -267,6 +280,9 @@
   <nodes
       name="OperationButtonColumn"
       figure="OperationButtonColumnFigure"/>
+  <nodes
+      name="BuiltInLinkColumn"
+      figure="BuiltInLinkColumnFigure"/>
   <compartments
       name="GridPanelChildrenCompartment"
       figure="GridPanelFigure"/>
@@ -329,4 +345,8 @@
   <labels
       name="OperationButtonColumnName"
       figure="OperationButtonColumnFigure"/>
+  <labels
+      name="BuiltInLinkColumnName"
+      figure="BuiltInLinkColumnFigure"
+      accessor="//@figures.0/@descriptors.16/@accessors.0"/>
 </gmfgraph:Canvas>

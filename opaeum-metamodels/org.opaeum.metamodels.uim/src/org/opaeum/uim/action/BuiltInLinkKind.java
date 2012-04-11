@@ -36,7 +36,23 @@ public enum BuiltInLinkKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	BUSINESS_INTELLIGENCE(1, "businessIntelligence", "businessIntelligence");
+	BUSINESS_INTELLIGENCE(1, "businessIntelligence", "businessIntelligence"), /**
+	 * The '<em><b>Edit</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #EDIT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	EDIT(2, "edit", "edit"), /**
+	 * The '<em><b>View</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #VIEW_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	VIEW(3, "view", "view");
 
 	/**
 	 * The '<em><b>Audit Trail</b></em>' literal value.
@@ -69,6 +85,36 @@ public enum BuiltInLinkKind implements Enumerator {
 	public static final int BUSINESS_INTELLIGENCE_VALUE = 1;
 
 	/**
+	 * The '<em><b>Edit</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Edit</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #EDIT
+	 * @model name="edit"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int EDIT_VALUE = 2;
+
+	/**
+	 * The '<em><b>View</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>View</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #VIEW
+	 * @model name="view"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int VIEW_VALUE = 3;
+
+	/**
 	 * An array of all the '<em><b>Built In Link Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -78,6 +124,8 @@ public enum BuiltInLinkKind implements Enumerator {
 		new BuiltInLinkKind[] {
 			AUDIT_TRAIL,
 			BUSINESS_INTELLIGENCE,
+			EDIT,
+			VIEW,
 		};
 
 	/**
@@ -130,6 +178,8 @@ public enum BuiltInLinkKind implements Enumerator {
 		switch (value) {
 			case AUDIT_TRAIL_VALUE: return AUDIT_TRAIL;
 			case BUSINESS_INTELLIGENCE_VALUE: return BUSINESS_INTELLIGENCE;
+			case EDIT_VALUE: return EDIT;
+			case VIEW_VALUE: return VIEW;
 		}
 		return null;
 	}

@@ -21,6 +21,7 @@ import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLink2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
@@ -132,6 +133,10 @@ public class UimElementTypes{
 	 * @generated
 	 */
 	public static final IElementType OperationButton_3026 = getElementType("org.opaeum.uimodeler.userinterface.diagram.OperationButton_3026"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType BuiltInLink_3027 = getElementType("org.opaeum.uimodeler.userinterface.diagram.BuiltInLink_3027"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -252,6 +257,7 @@ public class UimElementTypes{
 			elements.put(OperationButton_3024, ActionPackage.eINSTANCE.getOperationButton());
 			elements.put(BuiltInActionButton_3025, ActionPackage.eINSTANCE.getBuiltInActionButton());
 			elements.put(OperationButton_3026, ActionPackage.eINSTANCE.getOperationButton());
+			elements.put(BuiltInLink_3027, ActionPackage.eINSTANCE.getBuiltInLink());
 			elements.put(GridPanel_3017, PanelPackage.eINSTANCE.getGridPanel());
 		}
 		return (ENamedElement) elements.get(type);
@@ -286,6 +292,7 @@ public class UimElementTypes{
 			KNOWN_ELEMENT_TYPES.add(OperationButton_3024);
 			KNOWN_ELEMENT_TYPES.add(BuiltInActionButton_3025);
 			KNOWN_ELEMENT_TYPES.add(OperationButton_3026);
+			KNOWN_ELEMENT_TYPES.add(BuiltInLink_3027);
 			KNOWN_ELEMENT_TYPES.add(GridPanel_3017);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
@@ -331,6 +338,8 @@ public class UimElementTypes{
 			return BuiltInActionButton_3025;
 		case OperationButton3EditPart.VISUAL_ID:
 			return OperationButton_3026;
+		case BuiltInLink2EditPart.VISUAL_ID:
+			return BuiltInLink_3027;
 		case GridPanel2EditPart.VISUAL_ID:
 			return GridPanel_3017;
 		}

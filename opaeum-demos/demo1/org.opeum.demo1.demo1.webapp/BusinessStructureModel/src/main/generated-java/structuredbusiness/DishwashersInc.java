@@ -672,6 +672,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForRepresentedOrganization",opaeumId=8314504260854280851l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public OrganizationNode getRepresentedOrganization() {
 		OrganizationNode result = null;
 		if ( this.organization_iBusinessComponent_1_representedOrganization!=null ) {

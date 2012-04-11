@@ -1,6 +1,7 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;
@@ -14,7 +15,11 @@ public class BuiltInLinkKindSection extends AbstractEnumerationPropertySection{
 		return ActionPackage.eINSTANCE.getBuiltInLink_Kind();
 	}
 	protected String[] getEnumerationFeatureValues(){
-		return new String[]{BuiltInLinkKind.AUDIT_TRAIL.getName(),BuiltInLinkKind.BUSINESS_INTELLIGENCE.getName()};
+		if(getLink().eContainer() instanceof UimDataTable){
+			return new String[]{BuiltInLinkKind.AUDIT_TRAIL.getName(),BuiltInLinkKind.BUSINESS_INTELLIGENCE.getName(), BuiltInLinkKind.EDIT.getName(), BuiltInLinkKind.VIEW.getName()};
+		}else{
+			return new String[]{BuiltInLinkKind.AUDIT_TRAIL.getName(),BuiltInLinkKind.BUSINESS_INTELLIGENCE.getName()};
+		}
 	}
 	protected String getFeatureAsText(){
 		return getLink().getKind().getName();

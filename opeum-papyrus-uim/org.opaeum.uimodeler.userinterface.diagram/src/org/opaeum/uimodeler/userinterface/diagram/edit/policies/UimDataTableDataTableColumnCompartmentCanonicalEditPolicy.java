@@ -22,6 +22,7 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLink2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramUpdater;
@@ -73,8 +74,14 @@ public class UimDataTableDataTableColumnCompartmentCanonicalEditPolicy extends C
 	 */
 	private boolean isMyDiagramElement(View view){
 		int visualID = UimVisualIDRegistry.getVisualID(view);
-		return visualID == UimField2EditPart.VISUAL_ID || visualID == BuiltInActionButton2EditPart.VISUAL_ID
-				|| visualID == OperationButton2EditPart.VISUAL_ID;
+		switch(visualID){
+		case UimField2EditPart.VISUAL_ID:
+		case BuiltInActionButton2EditPart.VISUAL_ID:
+		case OperationButton2EditPart.VISUAL_ID:
+		case BuiltInLink2EditPart.VISUAL_ID:
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * @generated
