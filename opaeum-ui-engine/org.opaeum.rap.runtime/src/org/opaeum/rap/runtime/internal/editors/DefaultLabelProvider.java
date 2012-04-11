@@ -9,24 +9,12 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.internal.editors;
 
-import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.uim.UimField;
 
-public final class DefaultColumnLabelProvider extends ColumnLabelProvider{
-	public final UimField uimField;
-	String prefix = "";
-	String suffix = "";
-	private BindingUtil util;
-	public DefaultColumnLabelProvider(UimField uimField,String prefix,String suffix,BindingUtil util){
-		this.uimField = uimField;
-		this.prefix = prefix;
-		this.suffix = suffix;
-		this.util = util;
-	}
+public class DefaultLabelProvider extends LabelProvider{
 	@Override
-	public String getText(Object element){
-		Object value = util.invoke(element, uimField.getBinding());
+	public String getText(Object value){
 		String result = "";
 		if(value instanceof IPersistentObject){
 			result = ((IPersistentObject) value).getName();
@@ -34,9 +22,7 @@ public final class DefaultColumnLabelProvider extends ColumnLabelProvider{
 			result = ((Enum) value).name();
 		}else if(value != null){
 			result = value.toString();
-		}else{
-			return "";
 		}
-		return prefix + result + suffix;
+		return result;
 	}
 }

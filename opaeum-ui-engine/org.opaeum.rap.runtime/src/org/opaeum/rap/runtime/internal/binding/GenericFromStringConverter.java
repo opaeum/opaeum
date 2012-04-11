@@ -9,6 +9,8 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.internal.binding;
 
+import java.text.ParseException;
+
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 
@@ -30,6 +32,10 @@ public class GenericFromStringConverter implements IConverter{
 		return toType;
 	}
 	public Object convert(Object fromObject){
-		return delegate.fromString((String) fromObject);
+		try{
+			return delegate.fromString((String) fromObject);
+		}catch(ParseException e){
+			throw new RuntimeException(e);
+		}
 	}
 }

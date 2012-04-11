@@ -59,6 +59,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.organization.IOrganizationNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
@@ -564,7 +565,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2129484770117698232l,uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2129484770117698232l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
 	public Date getInitiationDate() {
 		Date result = this.initiationDate;
@@ -596,7 +597,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2403097927264790462l,uuid="914890@_8-HO8HorEeGBZ7vhZCNgsg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2403097927264790462l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_8-HO8HorEeGBZ7vhZCNgsg")
 	@NumlMetaInfo(uuid="914890@_8-HO8HorEeGBZ7vhZCNgsg")
 	public String getName() {
 		String result = this.name;
@@ -697,7 +698,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return new ArrayList<OrganizationNode>(Stdlib.collectionAsSet(this.getRoot().getBusinessNetwork().getOrganization()));
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=656426330587139118l,uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=656426330587139118l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
 	public String getSupportEMailAddress() {
 		String result = this.supportEMailAddress;
@@ -705,7 +706,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=77118842450650400l,uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=77118842450650400l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
 	public String getSupportNumber() {
 		String result = this.supportNumber;
@@ -720,7 +721,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8454956352695908190l,uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8454956352695908190l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
 	public Integer getVatNumber() {
 		Integer result = this.vatNumber;

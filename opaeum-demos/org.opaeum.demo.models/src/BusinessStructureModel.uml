@@ -159,6 +159,18 @@
         <eAnnotations xmi:id="_hZ3AMHphEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_JMxWcIPrEeGccYWaoIFIyQ" name="yearsInPosition">
+        <eAnnotations xmi:id="_JNKYAIPrEeGccYWaoIFIyQ" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_M_kSoIPrEeGccYWaoIFIyQ" name="contactNumber">
+        <eAnnotations xmi:id="_M_nV8IPrEeGccYWaoIFIyQ" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_S-ZOMHr7EeGX8L_MMRBizg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_ROTj8IPrEeGccYWaoIFIyQ" name="hourlyRate">
+        <eAnnotations xmi:id="_ROWAMIPrEeGccYWaoIFIyQ" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
       <interfaceRealization xmi:id="_u_BHkWQWEeGbL9nlXe9lTQ" name="isAIBusinessRole" client="_u7lZEGQWEeGbL9nlXe9lTQ">
         <eAnnotations xmi:id="_vBQjQGQWEeGbL9nlXe9lTQ" source="http://www.opaeum.org"/>
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
@@ -255,6 +267,10 @@
         <eAnnotations xmi:id="_weKd0H47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
         <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_RJ07IIPAEeGrOe1sSLX2zA" name="isOpen">
+        <eAnnotations xmi:id="_RKLgcIPAEeGrOe1sSLX2zA" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedAttribute>
       <ownedOperation xmi:id="_2Wwo4H47EeGarqqEaoJFHg" name="dispatch">
         <eAnnotations xmi:id="_2WyeEH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
         <ownedParameter xmi:id="_5a6WYH47EeGarqqEaoJFHg" name="accountant" type="_mec6wGCfEeG6xvYqJACneg">
@@ -318,4 +334,7 @@
   <OpaeumStandardProfile:Attribute xmi:id="_YLpi8HsLEeGBGZr9IpIa3A" base_Property="_VSJmQHsLEeGBGZr9IpIa3A"/>
   <OpaeumStandardProfile:Attribute xmi:id="_tl7FYH47EeGarqqEaoJFHg" base_Property="_sQarAH47EeGarqqEaoJFHg"/>
   <OpaeumStandardProfile:Entity xmi:id="_1GCA0H47EeGarqqEaoJFHg" base_Class="_gTMrEH47EeGarqqEaoJFHg"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_TwmJEIPAEeGrOe1sSLX2zA" base_Property="_RJ07IIPAEeGrOe1sSLX2zA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_PaDYEIPrEeGccYWaoIFIyQ" base_Property="_M_kSoIPrEeGccYWaoIFIyQ"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_UOA2UIPrEeGccYWaoIFIyQ" base_Property="_ROTj8IPrEeGccYWaoIFIyQ"/>
 </xmi:XMI>

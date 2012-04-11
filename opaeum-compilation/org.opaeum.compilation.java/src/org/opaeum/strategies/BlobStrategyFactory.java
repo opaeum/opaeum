@@ -62,5 +62,9 @@ public class BlobStrategyFactory extends AbstractStrategyFactory {
 	public boolean appliesTo(INakedSimpleType st){
 		return st.getName().equals("BinaryLargeObject");
 	}
+	@Override
+	public String getRuntimeStrategyFactory(){
+		return "org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory";
+	}
 
 }

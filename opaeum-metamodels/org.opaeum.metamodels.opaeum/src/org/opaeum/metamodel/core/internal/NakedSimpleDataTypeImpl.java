@@ -25,6 +25,10 @@ public abstract class NakedSimpleDataTypeImpl extends NakedClassifierImpl implem
 		public boolean appliesTo(INakedSimpleType st){
 			return false;
 		}
+		@Override
+		public String getRuntimeStrategyFactory(){
+			return "org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory";
+		}
 	}
 	private static final long serialVersionUID = 4359784104365005415L;
 	private AbstractStrategyFactory strategyFactory = new NoStrategyFactory();

@@ -28,6 +28,7 @@ public class JavaTypedElement{
 	private Method readMethod;
 	private String lookupMethod;
 	private Method writeMethod;
+	private PropertyDescriptor propertyDescriptor;
 	// TODO extract method and move to new class
 	public JavaTypedElement(Method getter){
 		super();
@@ -147,7 +148,7 @@ public class JavaTypedElement{
 	}
 	public Object invokeLookupMethod(IPersistentObject target){
 		try{
-			if(lookupMethod == null||lookupMethod.length()==0){
+			if(lookupMethod == null || lookupMethod.length() == 0){
 				Method method = IntrospectionUtil.getOriginalClass(target).getMethod(readMethod.getName());
 				PropertyMetaInfo annotation = method.getAnnotation(PropertyMetaInfo.class);
 				if(annotation != null && annotation.lookupMethod().length() > 0){
@@ -182,6 +183,11 @@ public class JavaTypedElement{
 		}catch(InvocationTargetException e){
 			throw new RuntimeException(e.getTargetException());
 		}
-		
+	}
+	public PropertyDescriptor getPropertyDescriptor(){
+		if(propertyDescriptor == null){
+			propertyDescriptor = IntrospectionUtil.getProperty(this.name, readMethod.getDeclaringClass());
+		}
+		return propertyDescriptor;
 	}
 }

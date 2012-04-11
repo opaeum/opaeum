@@ -49,6 +49,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -184,7 +185,7 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, IC
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInPerson() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonPhoneNumber.uniqueInPerson");
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonPhoneNumber.person");
 		}
 		return failedInvariants;
 	}
@@ -217,7 +218,7 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, IC
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2490948071546069620l,uuid="252060@_fjrTsHr7EeGX8L_MMRBizg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2490948071546069620l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_fjrTsHr7EeGX8L_MMRBizg")
 	@NumlMetaInfo(uuid="252060@_fjrTsHr7EeGX8L_MMRBizg")
 	public String getPhoneNumber() {
 		String result = this.phoneNumber;

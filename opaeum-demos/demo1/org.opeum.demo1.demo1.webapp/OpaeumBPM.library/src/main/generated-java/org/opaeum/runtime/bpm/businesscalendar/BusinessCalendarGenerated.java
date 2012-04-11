@@ -46,6 +46,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -344,7 +345,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return false;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4593486266796409453l,uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4593486266796409453l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
 	public Integer getBusinessDaysPerMonth() {
 		Integer result = this.businessDaysPerMonth;
@@ -352,7 +353,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=782414597865687081l,uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=782414597865687081l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerDay() {
 		Double result = this.businessHoursPerDay;
@@ -360,7 +361,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3032867667035280017l,uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3032867667035280017l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerWeek() {
 		Double result = this.businessHoursPerWeek;

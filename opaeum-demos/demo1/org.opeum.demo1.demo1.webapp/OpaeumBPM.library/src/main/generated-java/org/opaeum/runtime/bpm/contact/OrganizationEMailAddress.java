@@ -46,6 +46,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -177,7 +178,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5531057527551508520l,uuid="252060@_jaw6AHr7EeGX8L_MMRBizg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5531057527551508520l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_jaw6AHr7EeGX8L_MMRBizg")
 	@NumlMetaInfo(uuid="252060@_jaw6AHr7EeGX8L_MMRBizg")
 	public String getEmailAddress() {
 		String result = this.emailAddress;
@@ -188,7 +189,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInOrganization() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.contact.OrganizationEMailAddress.uniqueInOrganization");
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.OrganizationEMailAddress.organization");
 		}
 		return failedInvariants;
 	}

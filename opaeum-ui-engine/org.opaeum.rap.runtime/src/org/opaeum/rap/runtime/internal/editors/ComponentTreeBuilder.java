@@ -9,11 +9,13 @@ import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.core.databinding.observable.AbstractObservable;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.databinding.fieldassist.ControlDecorationSupport;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.AbstractListViewer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -36,6 +38,7 @@ import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.List;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
+import org.opaeum.rap.runtime.editingsupport.GenericConverter;
 import org.opaeum.rap.runtime.internal.actions.OpenEditorAction;
 import org.opaeum.rap.runtime.internal.binding.GenericFromStringConverter;
 import org.opaeum.rap.runtime.internal.binding.GenericToStringConverter;
@@ -82,7 +85,7 @@ public class ComponentTreeBuilder{
 		this.validator = application.getValidator();
 		this.objectBeingUpdated = objectBeingUpdated;
 		this.selectedObject = selectedObject;
-		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap());
+		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap(),application.getValidator());
 	}
 	// Constructor for class editors
 	public ComponentTreeBuilder(EntityEditorInput input){
@@ -171,8 +174,11 @@ public class ComponentTreeBuilder{
 		case TEXT_AREA:
 			observeControl = populateTextStrategies(uimFieldComposite, typedElement, targetToModel, modelToTarget);
 			break;
-		case NUMBER_SCROLLER:
 		case CHECK_BOX:
+			observeValue = new OpaeumBeanObservableValue(objectBeingUpdated, uimField, bindingUtil);
+			observeControl = SWTObservables.observeSelection(uimFieldComposite.getControl());
+			break;
+		case NUMBER_SCROLLER:
 		case DATE_POPUP:
 		case DATE_SCROLLER:
 		case DATE_TIME_POPUP:
@@ -190,10 +196,15 @@ public class ComponentTreeBuilder{
 			if(value instanceof IPersistentObject){
 				label.setText(((IPersistentObject) value).getName());
 			}else if(value instanceof Enum){
-				label.setText(((Entity) value).name());
+				label.setText(((Enum) value).name());
 			}else if(value != null){
-				// TODO invoke strategy for formatting
-				label.setText(value.toString());
+				if(typedElement.getStrategyFactory().hasStrategy(ToStringConverter.class)){
+					label.setText(typedElement.getStrategyFactory().getStrategy(ToStringConverter.class).toString(value));
+				}else{
+					label.setText(GenericConverter.getInstance().toString(value));
+				}
+			}else{
+				label.setText("");
 			}
 			break;
 		case LINK:
@@ -210,6 +221,7 @@ public class ComponentTreeBuilder{
 				public void mouseDoubleClick(MouseEvent e){
 				}
 			});
+			
 			break;
 		case POPUP_SEARCH:
 			observeControl = observePopupSearch(uimFieldComposite, uimField, typedElement);
@@ -234,14 +246,13 @@ public class ComponentTreeBuilder{
 			ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.LEFT);
 		}
 	}
-	private ISWTObservableValue observeListbox(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement){
+	private IObservableValue observeListbox(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement){
 		AbstractListViewer cb = new ListViewer((List) uimFieldComposite.getControl());
 		return observeListViewer(uimFieldComposite, uimField, typedElement, cb);
 	}
-	private ISWTObservableValue observeListViewer(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement,
+	private IObservableValue observeListViewer(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement,
 			AbstractListViewer cb){
-		ISWTObservableValue observeText;
-		observeText = SWTObservables.observeSelection(uimFieldComposite.getControl());
+		IObservableValue observeText = ViewersObservables.observeSingleSelection(cb);
 		cb.setLabelProvider(new LabelProvider(){
 			@Override
 			public String getText(Object element){

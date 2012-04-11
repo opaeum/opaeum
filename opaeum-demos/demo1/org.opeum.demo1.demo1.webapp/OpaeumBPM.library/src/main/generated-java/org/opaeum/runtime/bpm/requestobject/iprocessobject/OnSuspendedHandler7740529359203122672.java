@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.requestobject.IProcessObject;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
 import org.opaeum.runtime.event.ICallEventHandler;
@@ -53,7 +54,7 @@ public class OnSuspendedHandler7740529359203122672 implements ICallEventHandler 
 		return "OpaeumLibraryForBPM::requestobject::IProcessObject::onSuspended";
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3795156862167986388l,uuid="252060@_xCSOZ0uBEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3795156862167986388l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_xCSOZ0uBEeGElKTCe2jfDw")
 	public String getSuspendedBy() {
 		return this.suspendedBy;
 	}

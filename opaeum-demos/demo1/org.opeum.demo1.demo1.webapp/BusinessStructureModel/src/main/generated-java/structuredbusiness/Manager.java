@@ -27,12 +27,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.constraints.Digits;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.Length;
 import org.opaeum.annotation.BusinessRole;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
@@ -53,6 +55,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
@@ -75,6 +78,10 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 public class Manager implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessRole, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Length(groups={},max=15,message="Phone number must consist of between  9 and 15 characters",min=8,payload={})
+	@Digits(fraction=0,groups={},integer=15,message="",payload={})
+	@Column(name="contact_number")
+	private String contactNumber;
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -83,6 +90,8 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="dishwashers_inc_id",nullable=true)
 	private DishwashersInc dishwashersInc;
+	@Column(name="hourly_rate")
+	private Double hourlyRate;
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
@@ -109,6 +118,8 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 3586662115628447123l;
 	private String uid;
+	@Column(name="years_in_position")
+	private Integer yearsInPosition;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
@@ -162,6 +173,15 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("name")));
 		}
+		if ( xml.getAttribute("yearsInPosition").length()>0 ) {
+			setYearsInPosition(StructuredbusinessFormatter.getInstance().parseInteger(xml.getAttribute("yearsInPosition")));
+		}
+		if ( xml.getAttribute("contactNumber").length()>0 ) {
+			setContactNumber(StructuredbusinessFormatter.getInstance().parsePhoneNumber(xml.getAttribute("contactNumber")));
+		}
+		if ( xml.getAttribute("hourlyRate").length()>0 ) {
+			setHourlyRate(StructuredbusinessFormatter.getInstance().parseReal(xml.getAttribute("hourlyRate")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -193,10 +213,16 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void copyShallowState(Manager from, Manager to) {
 		to.setName(from.getName());
+		to.setYearsInPosition(from.getYearsInPosition());
+		to.setContactNumber(from.getContactNumber());
+		to.setHourlyRate(from.getHourlyRate());
 	}
 	
 	public void copyState(Manager from, Manager to) {
 		to.setName(from.getName());
+		to.setYearsInPosition(from.getYearsInPosition());
+		to.setContactNumber(from.getContactNumber());
+		to.setHourlyRate(from.getHourlyRate());
 	}
 	
 	public void createComponents() {
@@ -219,6 +245,14 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.cancelledEvents;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2919533358671176131l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_M_kSoIPrEeGccYWaoIFIyQ")
+	@NumlMetaInfo(uuid="914890@_M_kSoIPrEeGccYWaoIFIyQ")
+	public String getContactNumber() {
+		String result = this.contactNumber;
+		
+		return result;
+	}
+	
 	public Date getDeletedOn() {
 		return this.deletedOn;
 	}
@@ -231,6 +265,14 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4619353406591108579l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_ROTj8IPrEeGccYWaoIFIyQ")
+	@NumlMetaInfo(uuid="914890@_ROTj8IPrEeGccYWaoIFIyQ")
+	public Double getHourlyRate() {
+		Double result = this.hourlyRate;
+		
+		return result;
+	}
+	
 	public Long getId() {
 		return this.id;
 	}
@@ -238,7 +280,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests() {
-		Collection<AbstractRequest> result = collect9();
+		Collection<AbstractRequest> result = collect11();
 		
 		return result;
 	}
@@ -254,12 +296,12 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests() {
-		Collection<AbstractRequest> result = collect4();
+		Collection<AbstractRequest> result = collect7();
 		
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1221154963085114366l,uuid="914890@_hU8D8HphEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1221154963085114366l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_hU8D8HphEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_hU8D8HphEeGlh5y8zQdYBA")
 	public String getName() {
 		String result = this.name;
@@ -278,7 +320,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests() {
-		Collection<TaskRequest> result = collect7();
+		Collection<TaskRequest> result = collect3();
 		
 		return result;
 	}
@@ -298,7 +340,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests() {
-		Collection<ParticipationInRequest> result = collect6();
+		Collection<ParticipationInRequest> result = collect9();
 		
 		return result;
 	}
@@ -306,7 +348,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks() {
-		Collection<ParticipationInTask> result = collect11();
+		Collection<ParticipationInTask> result = collect5();
 		
 		return result;
 	}
@@ -345,6 +387,14 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 			uid=UUID.randomUUID().toString();
 		}
 		return this.uid;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1631645898744506437l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_JMxWcIPrEeGccYWaoIFIyQ")
+	@NumlMetaInfo(uuid="914890@_JMxWcIPrEeGccYWaoIFIyQ")
+	public Integer getYearsInPosition() {
+		Integer result = this.yearsInPosition;
+		
+		return result;
 	}
 	
 	public int hashCode() {
@@ -427,6 +477,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		this.cancelledEvents=cancelledEvents;
 	}
 	
+	public void setContactNumber(String contactNumber) {
+		propertyChangeSupport.firePropertyChange("contactNumber",getContactNumber(),contactNumber);
+		this.z_internalAddToContactNumber(contactNumber);
+	}
+	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
 	}
@@ -443,6 +498,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		} else {
 			markDeleted();
 		}
+	}
+	
+	public void setHourlyRate(Double hourlyRate) {
+		propertyChangeSupport.firePropertyChange("hourlyRate",getHourlyRate(),hourlyRate);
+		this.z_internalAddToHourlyRate(hourlyRate);
 	}
 	
 	public void setId(Long id) {
@@ -517,6 +577,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		this.uid=newUid;
 	}
 	
+	public void setYearsInPosition(Integer yearsInPosition) {
+		propertyChangeSupport.firePropertyChange("yearsInPosition",getYearsInPosition(),yearsInPosition);
+		this.z_internalAddToYearsInPosition(yearsInPosition);
+	}
+	
 	public String toXmlReferenceString() {
 		return "<Manager uid=\""+getUid() + "\"/>";
 	}
@@ -530,6 +595,15 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( getName()!=null ) {
 			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
 		}
+		if ( getYearsInPosition()!=null ) {
+			sb.append("yearsInPosition=\""+ StructuredbusinessFormatter.getInstance().formatInteger(getYearsInPosition())+"\" ");
+		}
+		if ( getContactNumber()!=null ) {
+			sb.append("contactNumber=\""+ StructuredbusinessFormatter.getInstance().formatPhoneNumber(getContactNumber())+"\" ");
+		}
+		if ( getHourlyRate()!=null ) {
+			sb.append("hourlyRate=\""+ StructuredbusinessFormatter.getInstance().formatReal(getHourlyRate())+"\" ");
+		}
 		sb.append(">");
 		if ( getPerson_iBusinessRole_1_representedPerson()==null ) {
 			sb.append("\n<person_iBusinessRole_1_representedPerson/>");
@@ -542,8 +616,16 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return sb.toString();
 	}
 	
+	public void z_internalAddToContactNumber(String val) {
+		this.contactNumber=val;
+	}
+	
 	public void z_internalAddToDishwashersInc(DishwashersInc val) {
 		this.dishwashersInc=val;
+	}
+	
+	public void z_internalAddToHourlyRate(Double val) {
+		this.hourlyRate=val;
 	}
 	
 	public void z_internalAddToName(String val) {
@@ -564,10 +646,28 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		newOne.getRepresentedPerson().z_internalAddToPerson_iBusinessRole_1_businessRole(newOne);
 	}
 	
+	public void z_internalAddToYearsInPosition(Integer val) {
+		this.yearsInPosition=val;
+	}
+	
+	public void z_internalRemoveFromContactNumber(String val) {
+		if ( getContactNumber()!=null && val!=null && val.equals(getContactNumber()) ) {
+			this.contactNumber=null;
+			this.contactNumber=null;
+		}
+	}
+	
 	public void z_internalRemoveFromDishwashersInc(DishwashersInc val) {
 		if ( getDishwashersInc()!=null && val!=null && val.equals(getDishwashersInc()) ) {
 			this.dishwashersInc=null;
 			this.dishwashersInc=null;
+		}
+	}
+	
+	public void z_internalRemoveFromHourlyRate(Double val) {
+		if ( getHourlyRate()!=null && val!=null && val.equals(getHourlyRate()) ) {
+			this.hourlyRate=null;
+			this.hourlyRate=null;
 		}
 	}
 	
@@ -595,12 +695,19 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		}
 	}
 	
-	/** Implements ->collect( i_Participation : Participation | i_Participation.oclAsType(ParticipationInTask) )
+	public void z_internalRemoveFromYearsInPosition(Integer val) {
+		if ( getYearsInPosition()!=null && val!=null && val.equals(getYearsInPosition()) ) {
+			this.yearsInPosition=null;
+			this.yearsInPosition=null;
+		}
+	}
+	
+	/** Implements ->collect( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.request )
 	 */
-	private Collection<ParticipationInTask> collect11() {
-		Collection<ParticipationInTask> result = new ArrayList<ParticipationInTask>();
-		for ( Participation i_Participation : select10() ) {
-			ParticipationInTask bodyExpResult = ((ParticipationInTask) i_Participation);
+	private Collection<AbstractRequest> collect11() {
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
+		for ( ParticipationInRequest i_ParticipationInRequest : select10() ) {
+			AbstractRequest bodyExpResult = i_ParticipationInRequest.getRequest();
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
@@ -617,31 +724,9 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	/** Implements ->collect( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.request )
-	 */
-	private Collection<AbstractRequest> collect4() {
-		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : select3() ) {
-			AbstractRequest bodyExpResult = i_ParticipationInRequest.getRequest();
-			if ( bodyExpResult != null ) result.add( bodyExpResult );
-		}
-		return result;
-	}
-	
-	/** Implements ->collect( i_Participation : Participation | i_Participation.oclAsType(ParticipationInRequest) )
-	 */
-	private Collection<ParticipationInRequest> collect6() {
-		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( Participation i_Participation : select5() ) {
-			ParticipationInRequest bodyExpResult = ((ParticipationInRequest) i_Participation);
-			if ( bodyExpResult != null ) result.add( bodyExpResult );
-		}
-		return result;
-	}
-	
 	/** Implements ->collect( i_ParticipationInTask : ParticipationInTask | i_ParticipationInTask.taskRequest )
 	 */
-	private Collection<TaskRequest> collect7() {
+	private Collection<TaskRequest> collect3() {
 		Collection<TaskRequest> result = new ArrayList<TaskRequest>();
 		for ( ParticipationInTask i_ParticipationInTask : this.getParticipationsInTasks() ) {
 			TaskRequest bodyExpResult = i_ParticipationInTask.getTaskRequest();
@@ -650,12 +735,34 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
+	/** Implements ->collect( i_Participation : Participation | i_Participation.oclAsType(ParticipationInTask) )
+	 */
+	private Collection<ParticipationInTask> collect5() {
+		Collection<ParticipationInTask> result = new ArrayList<ParticipationInTask>();
+		for ( Participation i_Participation : select4() ) {
+			ParticipationInTask bodyExpResult = ((ParticipationInTask) i_Participation);
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
 	/** Implements ->collect( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.request )
 	 */
-	private Collection<AbstractRequest> collect9() {
+	private Collection<AbstractRequest> collect7() {
 		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : select8() ) {
+		for ( ParticipationInRequest i_ParticipationInRequest : select6() ) {
 			AbstractRequest bodyExpResult = i_ParticipationInRequest.getRequest();
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements ->collect( i_Participation : Participation | i_Participation.oclAsType(ParticipationInRequest) )
+	 */
+	private Collection<ParticipationInRequest> collect9() {
+		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
+		for ( Participation i_Participation : select8() ) {
+			ParticipationInRequest bodyExpResult = ((ParticipationInRequest) i_Participation);
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
@@ -673,9 +780,21 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
+	/** Implements ->select( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.kind = RequestParticipationKind::initiator )
+	 */
+	private Collection<ParticipationInRequest> select10() {
+		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
+		for ( ParticipationInRequest i_ParticipationInRequest : this.getParticipationsInRequests() ) {
+			if ( (i_ParticipationInRequest.getKind().equals( RequestParticipationKind.INITIATOR)) ) {
+				result.add( i_ParticipationInRequest );
+			}
+		}
+		return result;
+	}
+	
 	/** Implements ->select( i_Participation : Participation | i_Participation.oclIsKindOf(ParticipationInTask) )
 	 */
-	private Set<Participation> select10() {
+	private Set<Participation> select4() {
 		Set<Participation> result = new HashSet<Participation>();
 		for ( Participation i_Participation : this.getParticipation() ) {
 			if ( (i_Participation instanceof ParticipationInTask) ) {
@@ -687,7 +806,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	/** Implements ->select( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.kind = RequestParticipationKind::businessOwner )
 	 */
-	private Collection<ParticipationInRequest> select3() {
+	private Collection<ParticipationInRequest> select6() {
 		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
 		for ( ParticipationInRequest i_ParticipationInRequest : this.getParticipationsInRequests() ) {
 			if ( (i_ParticipationInRequest.getKind().equals( RequestParticipationKind.BUSINESSOWNER)) ) {
@@ -699,23 +818,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	/** Implements ->select( i_Participation : Participation | i_Participation.oclIsKindOf(ParticipationInRequest) )
 	 */
-	private Set<Participation> select5() {
+	private Set<Participation> select8() {
 		Set<Participation> result = new HashSet<Participation>();
 		for ( Participation i_Participation : this.getParticipation() ) {
 			if ( (i_Participation instanceof ParticipationInRequest) ) {
 				result.add( i_Participation );
-			}
-		}
-		return result;
-	}
-	
-	/** Implements ->select( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.kind = RequestParticipationKind::initiator )
-	 */
-	private Collection<ParticipationInRequest> select8() {
-		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : this.getParticipationsInRequests() ) {
-			if ( (i_ParticipationInRequest.getKind().equals( RequestParticipationKind.INITIATOR)) ) {
-				result.add( i_ParticipationInRequest );
 			}
 		}
 		return result;

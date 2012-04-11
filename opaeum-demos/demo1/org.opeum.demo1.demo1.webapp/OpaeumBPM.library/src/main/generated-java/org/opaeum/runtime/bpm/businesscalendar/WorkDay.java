@@ -44,6 +44,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -257,7 +258,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, IConstrained
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInBusinessCalendar() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.businesscalendar.WorkDay.uniqueInBusinessCalendar");
+			failedInvariants.add("org.opaeum.runtime.bpm.businesscalendar.WorkDay.businessCalendar");
 		}
 		return failedInvariants;
 	}
@@ -274,7 +275,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, IConstrained
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4204288269954036939l,uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4204288269954036939l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
 	@NumlMetaInfo(uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
 	public Integer getMinutesPerDay() {
 		Integer result = (this.getEndTime().getMinuteOfDay() - this.getStartTime().getMinuteOfDay());

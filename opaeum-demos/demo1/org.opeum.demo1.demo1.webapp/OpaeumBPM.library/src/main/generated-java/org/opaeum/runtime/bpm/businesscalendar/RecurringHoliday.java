@@ -42,6 +42,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -178,7 +179,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2528290867262960345l,uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2528290867262960345l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
 	public Integer getDay() {
 		Integer result = this.day;
@@ -202,7 +203,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6018749174316171601l,uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6018749174316171601l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
 	public String getName() {
 		String result = this.name;

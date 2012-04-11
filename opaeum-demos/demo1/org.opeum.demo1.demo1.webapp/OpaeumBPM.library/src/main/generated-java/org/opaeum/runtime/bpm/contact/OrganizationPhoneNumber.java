@@ -47,6 +47,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -182,12 +183,12 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInOrganization() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber.uniqueInOrganization");
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber.organization");
 		}
 		return failedInvariants;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7229033838421414396l,uuid="252060@_ls8YAHr7EeGX8L_MMRBizg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7229033838421414396l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_ls8YAHr7EeGX8L_MMRBizg")
 	@NumlMetaInfo(uuid="252060@_ls8YAHr7EeGX8L_MMRBizg")
 	public String getHponeNumber() {
 		String result = this.hponeNumber;

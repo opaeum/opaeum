@@ -1,4 +1,4 @@
-package org.opaeum.rap.runtime.internal.editors;
+package org.opaeum.rap.runtime.editingsupport;
 
 import java.util.Date;
 import java.util.Calendar;

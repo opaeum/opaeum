@@ -62,5 +62,9 @@ public class TextStrategyFactory extends AbstractStrategyFactory {
 	public boolean appliesTo(INakedSimpleType st){
 		return st.getName().equals("Text");
 	}
+	@Override
+	public String getRuntimeStrategyFactory(){
+		return "org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory";
+	}
 
 }

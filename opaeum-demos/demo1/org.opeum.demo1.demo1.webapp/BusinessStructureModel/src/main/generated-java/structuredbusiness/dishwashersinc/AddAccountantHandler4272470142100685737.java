@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
 import org.opaeum.runtime.event.ICallEventHandler;
@@ -62,7 +63,7 @@ public class AddAccountantHandler4272470142100685737 implements ICallEventHandle
 		return this.manager;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1698496834697340522l,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1698496834697340522l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ")
 	public String getName() {
 		return this.name;
 	}
@@ -81,7 +82,7 @@ public class AddAccountantHandler4272470142100685737 implements ICallEventHandle
 		}
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7742455353317600026l,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7742455353317600026l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ")
 	public Boolean isChartered() {
 		return this.isChartered;
 	}

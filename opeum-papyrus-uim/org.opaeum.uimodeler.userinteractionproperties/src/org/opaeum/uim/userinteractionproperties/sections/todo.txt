@@ -1,9 +1,8 @@
 UIEngine
-Editability and links in tables
-Multiselect actions
-Invoke additional property validations ( invariants)
 Implement requiredRole and inheritFromparent
 Support pagination in table (http://angelozerr.wordpress.com/2012/01/06/nebula_pagination/)
+Invoke additional property validations ( invariants)
+Display validation messages from cell editors somewhere
 Implement libraries with ui's required
 TreeConfiguration - show treeview with checkboxes - hidden,visible,hiddenclasses
 Add IgnoredFeatures to UserIntefaceEntryPoint

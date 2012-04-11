@@ -37,6 +37,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -190,7 +191,7 @@ public class DishWasherComponent implements IPersistentObject, IEventGenerator, 
 		return getDishWasher();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4779184346657477803l,uuid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4779184346657477803l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ")
 	@NumlMetaInfo(uuid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ")
 	public String getPartNumber() {
 		String result = this.partNumber;
@@ -198,7 +199,7 @@ public class DishWasherComponent implements IPersistentObject, IEventGenerator, 
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1800320774890339505l,uuid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1800320774890339505l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ")
 	@NumlMetaInfo(uuid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ")
 	public Double getPrice() {
 		Double result = this.price;

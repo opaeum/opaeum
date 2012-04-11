@@ -89,5 +89,9 @@ public class DateTimeStrategyFactory extends AbstractStrategyFactory {
 	public boolean appliesTo(INakedSimpleType st){
 		return st.getName().equals("DateTime");
 	}
+	@Override
+	public String getRuntimeStrategyFactory(){
+		return "org.opaeum.runtime.strategy.DateTimeStrategyFactory";
+	}
 
 }

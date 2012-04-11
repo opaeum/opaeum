@@ -140,7 +140,7 @@ public class MultiUserRoleAllocationMatrix extends Composite{
 	public boolean setFocus(){
 		return super.setFocus();
 	}
-	private final class CheckBoxColumnLabelProvider extends ColumnLabelProvider{
+	public static class CheckBoxColumnLabelProvider extends ColumnLabelProvider{
 		private static final long serialVersionUID = -6548836880309834081L;
 		private final int index;
 		private CheckBoxColumnLabelProvider(int index){

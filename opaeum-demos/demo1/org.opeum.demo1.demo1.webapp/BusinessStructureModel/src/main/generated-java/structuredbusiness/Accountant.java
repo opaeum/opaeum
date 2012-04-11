@@ -53,6 +53,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
@@ -343,7 +344,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3599544849415905494l,uuid="914890@_hHSCcHphEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3599544849415905494l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_hHSCcHphEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_hHSCcHphEeGlh5y8zQdYBA")
 	public String get__name() {
 		String result = this.__name;

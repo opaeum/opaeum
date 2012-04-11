@@ -3,25 +3,18 @@ package org.opaeum.rap.runtime.internal.editors;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
 import javax.validation.Validator;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
-import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.rwt.RWT;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -29,14 +22,21 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableColumn;
-import org.omg.CORBA.DATA_CONVERSION;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
+import org.opaeum.rap.runtime.editingsupport.ActivatingEditingSupport;
+import org.opaeum.rap.runtime.editingsupport.BuiltInLinkEditingSupport;
+import org.opaeum.rap.runtime.editingsupport.CheckboxEditingSupport;
+import org.opaeum.rap.runtime.editingsupport.DateTimeEditingSupport;
+import org.opaeum.rap.runtime.editingsupport.DefaultColumnLabelProvider;
+import org.opaeum.rap.runtime.editingsupport.DropdownEditingSupport;
+import org.opaeum.rap.runtime.editingsupport.PopupSearchEditingSupport;
+import org.opaeum.rap.runtime.editingsupport.TextEditingSupport;
+import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.actions.OpenEditorAction;
 import org.opaeum.rap.runtime.internal.wizards.OperationInvocationWizard;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.event.IEventHandler;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimDataTable;
@@ -48,12 +48,12 @@ import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;
 import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.action.UimAction;
-import org.opaeum.uim.control.UimLookup;
 import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.swt.TableAndActionBarComposite;
 import org.opaeum.uim.swt.UimActivator;
 import org.opaeum.uim.swt.UimSwtUtil;
 
+@SuppressWarnings("serial")
 public final class DataTableBuilder{
 	private OpaeumRapSession session;
 	private IOpaeumApplication application;
@@ -69,7 +69,7 @@ public final class DataTableBuilder{
 		this.validator = application.getValidator();
 		this.objectBeingUpdated = input.getPersistentObject();
 		this.selectedObject = input.getPersistentObject();
-		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap());
+		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap(), application.getValidator());
 	}
 	public DataTableBuilder(IPersistentObject selectedObject,Object handler,OpaeumRapSession session){
 		this.session = session;
@@ -77,7 +77,7 @@ public final class DataTableBuilder{
 		this.validator = application.getValidator();
 		this.objectBeingUpdated = handler;
 		this.selectedObject = selectedObject;
-		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap());
+		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap(), application.getValidator());
 	}
 	void buildDataTable(final Composite body,UimComponent comp){
 		TableAndActionBarComposite table = new TableAndActionBarComposite(body, SWT.BORDER);
@@ -247,40 +247,12 @@ public final class DataTableBuilder{
 		return viewerColumn;
 	}
 	private void addFieldColumn(final CheckboxTableViewer tableViewer,final TableViewerColumn viewerColumn,final UimField uimField){
+		final BindingUtil bindingUtil = this.bindingUtil;
+		final EntityEditorInput input = this.input;
 		switch(uimField.getControlKind()){
 		case TEXT:
 			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
-			viewerColumn.setEditingSupport(new EditingSupport(tableViewer){
-				@Override
-				protected void setValue(Object element,Object value){
-					Object target = bindingUtil.resolveTarget(element, uimField.getBinding());
-					if(target != null){
-						JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
-						typedElement.invokeSetter(target, value);
-						tableViewer.refresh(element);
-						if(input != null){
-							input.setDirty(true);
-						}
-					}
-				}
-				@Override
-				protected Object getValue(Object element){
-					return bindingUtil.invoke(element, uimField.getBinding());
-				}
-				@Override
-				protected CellEditor getCellEditor(final Object element){
-					return new TextCellEditor(tableViewer.getTable()){
-						@Override
-						protected void editOccured(ModifyEvent e){
-							super.editOccured(e);
-						}
-					};
-				}
-				@Override
-				protected boolean canEdit(Object element){
-					return true;
-				}
-			});
+			viewerColumn.setEditingSupport(new TextEditingSupport(tableViewer, input, bindingUtil, uimField));
 			break;
 		case LINK:
 			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "<span style=\"cursor:pointer\">", "</span>", bindingUtil));
@@ -298,107 +270,31 @@ public final class DataTableBuilder{
 		case DATE_SCROLLER:
 		case DATE_TIME_POPUP:
 			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
-			viewerColumn.setEditingSupport(new EditingSupport(tableViewer){
-
-				@Override
-				protected CellEditor getCellEditor(Object element){
-					int style = SWT.None;
-					switch (uimField.getControlKind()){
-					case DATE_POPUP:
-						style=SWT.DATE|SWT.CALENDAR|SWT.DROP_DOWN ;
-						break;
-					case DATE_SCROLLER:
-						style=SWT.DATE|SWT.CALENDAR;
-						break;
-					case DATE_TIME_POPUP:
-						style=SWT.DATE|SWT.TIME|SWT.CALENDAR|SWT.DROP_DOWN ;
-						break;
-					}
-					return new DateCellEditor(tableViewer.getTable(), style);
-				}
-
-				@Override
-				protected boolean canEdit(Object element){
-					return true;
-				}
-
-				@Override
-				protected Object getValue(Object element){
-					return bindingUtil.invoke(element, uimField.getBinding());
-				}
-
-				@Override
-				protected void setValue(Object element,Object value){
-					Object target = bindingUtil.resolveTarget(element, uimField.getBinding());
-					if(target != null){
-						JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
-						typedElement.invokeSetter(target, value);
-						tableViewer.refresh(element);
-						if(input != null){
-							input.setDirty(true);
-						}
-					}
-				}});
+			viewerColumn.setEditingSupport(new DateTimeEditingSupport(tableViewer, uimField, bindingUtil, input));
 			break;
 		case DROPDOWN:
 			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
-			viewerColumn.setEditingSupport(new EditingSupport(tableViewer){
+			viewerColumn.setEditingSupport(new DropdownEditingSupport(tableViewer, uimField, bindingUtil, input));
+			break;
+		case POPUP_SEARCH:
+			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
+			viewerColumn.setEditingSupport(new PopupSearchEditingSupport(tableViewer, input, bindingUtil, uimField));
+			break;
+		case CHECK_BOX:
+			viewerColumn.setLabelProvider(new ColumnLabelProvider(){
+				public String getText(Object element){
+					return null;
+				}
 				@Override
-				protected void setValue(Object element,Object value){
-					Object target = bindingUtil.resolveTarget(element, uimField.getBinding());
-					if(target != null){
-						JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
-						typedElement.invokeSetter(target, value);
-						tableViewer.refresh(element);
-						if(input != null){
-							input.setDirty(true);
-						}
+				public Image getImage(Object element){
+					Boolean boolean1 = (Boolean) bindingUtil.invoke(element, uimField.getBinding());
+					if(Boolean.TRUE.equals(boolean1)){
+						return Activator.getDefault().getImage("checked.gif");
 					}
-				}
-				@Override
-				protected Object getValue(Object element){
-					return bindingUtil.invoke(element, uimField.getBinding());
-				}
-				@Override
-				protected CellEditor getCellEditor(final Object element){
-					JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
-					ComboBoxViewerCellEditor result = new ComboBoxViewerCellEditor(tableViewer.getTable());
-					result.setLabelProvider(new LabelProvider(){
-						@Override
-						public String getText(Object value){
-							String result = "";
-							if(value instanceof IPersistentObject){
-								result = ((IPersistentObject) value).getName();
-							}else if(value instanceof Enum){
-								result = ((Enum) value).name();
-							}else if(value != null){
-								result = value.toString();
-							}
-							return result;
-						}
-					});
-					result.setContentProvider(new ArrayContentProvider());
-					if(typedElement.getBaseType().isEnum()){
-						result.setInput(typedElement.getBaseType().getEnumConstants());
-					}else if(typedElement.getBaseType().isAnnotationPresent(Entity.class)){
-						UimLookup lookup = (UimLookup) uimField.getControl();
-						if(lookup.getLookupSource() == null){
-							if(typedElement.isReadOnly()){
-								result.setInput(bindingUtil.invoke(element, uimField.getBinding()));
-							}else{
-								result.setInput(typedElement.invokeLookupMethod((IPersistentObject) element));
-							}
-						}else{
-							result.setInput(bindingUtil.invoke(element, lookup.getLookupSource()));
-						}
-					}
-					return result;
-				}
-				@Override
-				protected boolean canEdit(Object element){
-					return true;
+					return Activator.getDefault().getImage("unchecked.gif");
 				}
 			});
+			viewerColumn.setEditingSupport(new CheckboxEditingSupport(tableViewer, uimField, input, bindingUtil));
 			break;
 		default:
 			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));

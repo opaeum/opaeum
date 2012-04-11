@@ -51,9 +51,11 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -461,7 +463,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return false;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7236993358477623696l,uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7236993358477623696l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
 	public String getAuthenticationToken() {
 		String result = this.authenticationToken;
@@ -522,12 +524,12 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInCollaboration() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.organization.PersonNode.uniqueInCollaboration");
+			failedInvariants.add("org.opaeum.runtime.bpm.organization.PersonNode.collaboration");
 		}
 		return failedInvariants;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4316964747083058398l,uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4316964747083058398l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
 	public String getFirstName() {
 		String result = this.firstName;
@@ -535,7 +537,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2959327275138211382l,uuid="252060@_oRHdEEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2959327275138211382l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_oRHdEEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_oRHdEEtoEeGd4cpyhpib9Q")
 	public String getFullName() {
 		String result = (this.getFirstName().concat((" "))).concat(this.getSurname());
@@ -637,7 +639,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6339644735992273166l,uuid="252060@_U9amkHaQEeGv4aLPxieKNg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6339644735992273166l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_U9amkHaQEeGv4aLPxieKNg")
 	@NumlMetaInfo(uuid="252060@_U9amkHaQEeGv4aLPxieKNg")
 	public String getRefreshToken() {
 		String result = this.refreshToken;
@@ -646,10 +648,10 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public List<IBusinessActor> getSourcePopulationForBusinessActor() {
-		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect2()));
+		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect1()));
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4565578190639246320l,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4565578190639246320l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	public String getSurname() {
 		String result = this.surname;
@@ -657,7 +659,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3343613060723219152l,uuid="252060@_WDO_IHaQEeGv4aLPxieKNg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3343613060723219152l,strategyFactory=DateTimeStrategyFactory.class,uuid="252060@_WDO_IHaQEeGv4aLPxieKNg")
 	@NumlMetaInfo(uuid="252060@_WDO_IHaQEeGv4aLPxieKNg")
 	public Date getTokenExpiryDateTime() {
 		Date result = this.tokenExpiryDateTime;
@@ -672,7 +674,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6611446670906621554l,uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6611446670906621554l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
 	public String getUsername() {
 		String result = this.username;
@@ -694,7 +696,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public boolean isUniqueInCollaboration() {
-		boolean result = forAll1();
+		boolean result = forAll2();
 		
 		return result;
 	}
@@ -1279,7 +1281,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	/** Implements ->collect( c : IBusinessCollaboration | c.businessActor )
 	 */
-	private Collection<IBusinessActor> collect2() {
+	private Collection<IBusinessActor> collect1() {
 		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
 		for ( IBusinessCollaboration c : this.getCollaboration().getBusinessCollaboration() ) {
 			Set<IBusinessActor> bodyExpResult = c.getBusinessActor();
@@ -1290,7 +1292,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	/** Implements ->forAll( p : PersonNode | (p.username = self.username) implies p = self )
 	 */
-	private boolean forAll1() {
+	private boolean forAll2() {
 		for ( PersonNode p : this.getCollaboration().getPerson() ) {
 			if ( !(p.getUsername().equals(this.getUsername()) ? p.equals(this) : true) ) {
 				return false;

@@ -41,6 +41,7 @@ import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -163,7 +164,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3694564450390573092l,uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3694564450390573092l,strategyFactory=DateTimeStrategyFactory.class,uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
 	public Date getFromDate() {
 		Date result = this.fromDate;
@@ -199,7 +200,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7751222380771627172l,uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7751222380771627172l,strategyFactory=DateTimeStrategyFactory.class,uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
 	public Date getToDate() {
 		Date result = this.toDate;

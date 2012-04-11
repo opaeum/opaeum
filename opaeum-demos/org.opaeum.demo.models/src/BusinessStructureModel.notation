@@ -188,6 +188,18 @@
         <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_hU8D8HphEeGlh5y8zQdYBA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_hVA8cXphEeGlh5y8zQdYBA"/>
       </children>
+      <children xmi:type="notation:Shape" xmi:id="_JNiygIPrEeGccYWaoIFIyQ" type="3012" fontName="Sans" fontHeight="8" lineColor="0">
+        <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_JMxWcIPrEeGccYWaoIFIyQ"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_JNjZkIPrEeGccYWaoIFIyQ"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_M_uDoIPrEeGccYWaoIFIyQ" type="3012" fontName="Sans" fontHeight="8" lineColor="0">
+        <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_M_kSoIPrEeGccYWaoIFIyQ"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_M_uDoYPrEeGccYWaoIFIyQ"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_ROdU8IPrEeGccYWaoIFIyQ" type="3012" fontName="Sans" fontHeight="8" lineColor="0">
+        <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_ROTj8IPrEeGccYWaoIFIyQ"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ROdU8YPrEeGccYWaoIFIyQ"/>
+      </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_xdx9AnHgEeGus4aKic9sIg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_xdx9A3HgEeGus4aKic9sIg"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_xdx9BHHgEeGus4aKic9sIg"/>
@@ -303,6 +315,10 @@
       <children xmi:type="notation:Shape" xmi:id="_weOvQH47EeGarqqEaoJFHg" type="3012" fontName="Sans" fontHeight="8" lineColor="0">
         <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_weIooH47EeGarqqEaoJFHg"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_weOvQX47EeGarqqEaoJFHg"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_RK4EAIPAEeGrOe1sSLX2zA" type="3012" fontName="Sans" fontHeight="8" lineColor="0">
+        <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_RJ07IIPAEeGrOe1sSLX2zA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_RK4EAYPAEeGrOe1sSLX2zA"/>
       </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_gTxS0X47EeGarqqEaoJFHg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_gTxS0n47EeGarqqEaoJFHg"/>

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.requestobject.IProcessObject;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
 import org.opaeum.runtime.event.ICallEventHandler;
@@ -53,7 +54,7 @@ public class OnResumedHandler3575040635504978288 implements ICallEventHandler {
 		return "OpaeumLibraryForBPM::requestobject::IProcessObject::onResumed";
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7960645585866130772l,uuid="252060@_xd0650uBEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7960645585866130772l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_xd0650uBEeGElKTCe2jfDw")
 	public String getResumedBy() {
 		return this.resumedBy;
 	}

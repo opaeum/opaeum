@@ -9,15 +9,20 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.internal.editors;
 
+import javax.validation.Validator;
+
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.event.IEventHandler;
+import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.UimBinding;
 
 public class BindingUtil{
-	public BindingUtil(JavaMetaInfoMap metaInfoMap){
+	private Validator validator;
+	public BindingUtil(JavaMetaInfoMap metaInfoMap,Validator validator){
 		this.javaMetaInfo = metaInfoMap;
+		this.validator = validator;
 	}
 	JavaMetaInfoMap javaMetaInfo;
 	public IEventHandler getEventHandler(String umlElementUid){
@@ -74,5 +79,15 @@ public class BindingUtil{
 			sb.append(javaMetaInfo.getTypedElement(next.getUmlElementUid()).getName());
 			appendExpression(sb, next.getNext());
 		}
+	}
+	public void invokeSetter(Object element,FieldBinding binding,Object value){
+		Object target = resolveTarget(element, binding);
+		if(target != null){
+			JavaTypedElement typedElement = getTypedElement(binding.getLastPropertyUuid());
+			typedElement.invokeSetter(target, value);
+		}
+	}
+	public Validator getValidator(){
+		return validator;
 	}
 }

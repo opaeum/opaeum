@@ -1,5 +1,6 @@
 package org.opaeum.runtime.environment;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,9 @@ public class SimpleTypeRuntimeStrategyFactory{
 		return type;
 	}
 	public String getTypeUuid(){
+		if(typeUuid == null){
+			this.typeUuid = Environment.getInstance().getMetaInfoMap().getUuidFor(type);
+		}
 		return typeUuid;
 	}
 	private String typeUuid;
@@ -22,12 +26,17 @@ public class SimpleTypeRuntimeStrategyFactory{
 		for(Class<? extends ISimpleTypeRuntimeStrategy> cls:classes){
 			addStrategy(cls);
 			this.type = type;
-			this.typeUuid = Environment.getInstance().getMetaInfoMap().getUuidFor(type);
 		}
 	}
 	@SuppressWarnings("unchecked")
 	public <T extends ISimpleTypeRuntimeStrategy>T getStrategy(Class<T> typeSystem){
-		return (T) strategies.get(typeSystem);
+		Collection<ISimpleTypeRuntimeStrategy> values = strategies.values();
+		for(ISimpleTypeRuntimeStrategy s:values){
+			if(typeSystem.isInstance(s)){
+				return (T) s;
+			}
+		}
+		return null;
 	}
 	private void addStrategy(Class<? extends ISimpleTypeRuntimeStrategy> strategy){
 		try{

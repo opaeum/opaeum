@@ -31,6 +31,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -133,7 +134,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		to.setDayOfWeek(from.getDayOfWeek());
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=9055417578278384593l,uuid="252060@_pCvIQASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=9055417578278384593l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_pCvIQASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_pCvIQASQEeGb9qsDxKJdSA")
 	public String getDayOfMonth() {
 		String result = this.dayOfMonth;
@@ -141,7 +142,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=708173574190646295l,uuid="252060@_sJLUwASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=708173574190646295l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_sJLUwASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_sJLUwASQEeGb9qsDxKJdSA")
 	public String getDayOfWeek() {
 		String result = this.dayOfWeek;
@@ -153,7 +154,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=220906512785518639l,uuid="252060@_nh_HMASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=220906512785518639l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_nh_HMASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_nh_HMASQEeGb9qsDxKJdSA")
 	public String getHours() {
 		String result = this.hours;
@@ -165,7 +166,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5291683613794914355l,uuid="252060@_m6UqQASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5291683613794914355l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_m6UqQASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_m6UqQASQEeGb9qsDxKJdSA")
 	public String getMinutes() {
 		String result = this.minutes;
@@ -173,7 +174,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7632703191246202423l,uuid="252060@_qpRBMASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7632703191246202423l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_qpRBMASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_qpRBMASQEeGb9qsDxKJdSA")
 	public String getMonth() {
 		String result = this.month;

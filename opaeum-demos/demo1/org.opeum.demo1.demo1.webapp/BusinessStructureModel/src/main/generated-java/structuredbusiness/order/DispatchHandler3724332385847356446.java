@@ -6,10 +6,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
 import org.opaeum.runtime.event.ICallEventHandler;
 import org.opaeum.runtime.persistence.AbstractPersistence;
+import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
 
 import structuredbusiness.Accountant;
 import structuredbusiness.Order;
@@ -46,7 +48,7 @@ public class DispatchHandler3724332385847356446 implements ICallEventHandler {
 		return this.accountant;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2088720645100870365l,uuid="914890@_5eWr8H47EeGarqqEaoJFHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2088720645100870365l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_5eWr8H47EeGarqqEaoJFHg")
 	public Boolean getComplete() {
 		return this.complete;
 	}
@@ -55,7 +57,7 @@ public class DispatchHandler3724332385847356446 implements ICallEventHandler {
 		return 5;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=9216221382068427107l,uuid="914890@_5cxXkH47EeGarqqEaoJFHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=9216221382068427107l,strategyFactory=DateTimeStrategyFactory.class,uuid="914890@_5cxXkH47EeGarqqEaoJFHg")
 	public Date getDate() {
 		return this.date;
 	}

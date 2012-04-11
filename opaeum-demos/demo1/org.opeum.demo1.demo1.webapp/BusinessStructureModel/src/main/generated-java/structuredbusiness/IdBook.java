@@ -41,6 +41,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -186,7 +187,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1406233976933179724l,uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1406233976933179724l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
 	public Date getDateOfBirth() {
 		Date result = this.dateOfBirth;
@@ -214,7 +215,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8379936838922333184l,uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8379936838922333184l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
 	public String getFullNames() {
 		String result = this.fullNames;
@@ -226,7 +227,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3895930087602592634l,uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3895930087602592634l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
 	public String getIdNumber() {
 		String result = this.idNumber;

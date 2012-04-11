@@ -37,6 +37,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -163,7 +164,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=803417683337410610l,uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=803417683337410610l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
 	public String getComplexName() {
 		String result = this.complexName;
@@ -195,7 +196,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return null;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=9050182878831642158l,uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=9050182878831642158l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
 	public String getProperty1() {
 		String result = this.property1;
@@ -203,7 +204,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6661262784939673274l,uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6661262784939673274l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
 	public String getStreetName() {
 		String result = this.streetName;
@@ -211,7 +212,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7701164517031304452l,uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7701164517031304452l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
 	public String getStreetNumber() {
 		String result = this.streetNumber;
@@ -226,7 +227,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=922468094468620152l,uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=922468094468620152l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
 	public String getUnitNumber() {
 		String result = this.unitNumber;

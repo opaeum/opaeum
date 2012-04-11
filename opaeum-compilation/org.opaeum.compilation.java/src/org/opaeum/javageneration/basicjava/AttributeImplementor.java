@@ -49,6 +49,12 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	public static void addPropertyMetaInfo(INakedClassifier owner,OJAnnotatedOperation element,INakedProperty property){
 		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyMetaInfo"));
 		ap.putAttribute("isComposite", property.isComposite());
+		if(property.getBaseType() instanceof INakedSimpleType){
+			INakedSimpleType st = (INakedSimpleType) property.getBaseType();
+			if(st.getStrategyFactory()!=null && st.getStrategyFactory().getRuntimeStrategyFactory()!=null){
+				ap.putAttribute("strategyFactory",new OJPathName(st.getStrategyFactory().getRuntimeStrategyFactory()));
+			}
+		}
 		if(property instanceof EmulatingElement){
 			EmulatingElement ee = (EmulatingElement) property;
 			ap.putAttribute("uuid", ee.getOriginalElement().getId());

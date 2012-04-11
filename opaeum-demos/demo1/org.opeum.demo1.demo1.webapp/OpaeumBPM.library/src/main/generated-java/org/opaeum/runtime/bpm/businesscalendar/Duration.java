@@ -33,8 +33,10 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -127,7 +129,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6322466500479470605l,uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6322466500479470605l,strategyFactory=DateTimeStrategyFactory.class,uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
 	public Date getFromDate() {
 		Date result = this.fromDate;
@@ -147,7 +149,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6914589408308567071l,uuid="252060@_twyWUASREeGb9qsDxKJdSA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6914589408308567071l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_twyWUASREeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_twyWUASREeGb9qsDxKJdSA")
 	public Double getQuantity() {
 		Double result = this.quantity;

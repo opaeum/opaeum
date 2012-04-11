@@ -40,6 +40,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -241,7 +242,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8027636478953627954l,uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8027636478953627954l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
 	public String getName() {
 		String result = this.name;
@@ -261,7 +262,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return getDishwashersInc();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6341938639454514848l,uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6341938639454514848l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
 	public String getPartNumber() {
 		String result = this.partNumber;

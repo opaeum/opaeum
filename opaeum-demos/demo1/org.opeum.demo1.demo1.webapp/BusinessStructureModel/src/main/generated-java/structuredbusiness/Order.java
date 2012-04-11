@@ -39,8 +39,10 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -79,6 +81,8 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
+	@Column(name="is_open")
+	private Boolean isOpen;
 	static private Set<Order> mockedAllInstances;
 	@Column(name="my_special_description")
 	private String mySpecialDescription;
@@ -138,6 +142,9 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		if ( xml.getAttribute("dueDate").length()>0 ) {
 			setDueDate(StructuredbusinessFormatter.getInstance().parseDateTime(xml.getAttribute("dueDate")));
 		}
+		if ( xml.getAttribute("isOpen").length()>0 ) {
+			setOpen(StructuredbusinessFormatter.getInstance().parseBoolean(xml.getAttribute("isOpen")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -155,12 +162,14 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		to.set__orderDate(from.get__orderDate());
 		to.setMySpecialDescription(from.getMySpecialDescription());
 		to.setDueDate(from.getDueDate());
+		to.setOpen(from.isOpen());
 	}
 	
 	public void copyState(Order from, Order to) {
 		to.set__orderDate(from.get__orderDate());
 		to.setMySpecialDescription(from.getMySpecialDescription());
 		to.setDueDate(from.getDueDate());
+		to.setOpen(from.isOpen());
 	}
 	
 	public void createComponents() {
@@ -205,7 +214,7 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5688197628287701802l,uuid="914890@_weIooH47EeGarqqEaoJFHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5688197628287701802l,strategyFactory=DateTimeStrategyFactory.class,uuid="914890@_weIooH47EeGarqqEaoJFHg")
 	@NumlMetaInfo(uuid="914890@_weIooH47EeGarqqEaoJFHg")
 	public Date getDueDate() {
 		Date result = this.dueDate;
@@ -217,7 +226,7 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4763224184902676354l,uuid="914890@_uIu3gH47EeGarqqEaoJFHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4763224184902676354l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_uIu3gH47EeGarqqEaoJFHg")
 	@NumlMetaInfo(uuid="914890@_uIu3gH47EeGarqqEaoJFHg")
 	public String getMySpecialDescription() {
 		String result = this.mySpecialDescription;
@@ -256,7 +265,7 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1580127939218001944l,uuid="914890@_sQarAH47EeGarqqEaoJFHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1580127939218001944l,strategyFactory=DateTimeStrategyFactory.class,uuid="914890@_sQarAH47EeGarqqEaoJFHg")
 	@NumlMetaInfo(uuid="914890@_sQarAH47EeGarqqEaoJFHg")
 	public Date get__orderDate() {
 		Date result = this.__orderDate;
@@ -271,6 +280,14 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	public void init(CompositionNode owner) {
 		this.z_internalAddToDishwashersInc((DishwashersInc)owner);
 		createComponents();
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=926059964823945853l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_RJ07IIPAEeGrOe1sSLX2zA")
+	@NumlMetaInfo(uuid="914890@_RJ07IIPAEeGrOe1sSLX2zA")
+	public Boolean isOpen() {
+		Boolean result = this.isOpen;
+		
+		return result;
 	}
 	
 	public Order makeCopy() {
@@ -368,6 +385,11 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		this.objectVersion=objectVersion;
 	}
 	
+	public void setOpen(Boolean isOpen) {
+		propertyChangeSupport.firePropertyChange("isOpen",isOpen(),isOpen);
+		this.z_internalAddToIsOpen(isOpen);
+	}
+	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
 	}
@@ -400,6 +422,9 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		if ( getDueDate()!=null ) {
 			sb.append("dueDate=\""+ StructuredbusinessFormatter.getInstance().formatDateTime(getDueDate())+"\" ");
 		}
+		if ( isOpen()!=null ) {
+			sb.append("isOpen=\""+ StructuredbusinessFormatter.getInstance().formatBoolean(isOpen())+"\" ");
+		}
 		sb.append(">");
 		if ( getDishWasherModel()==null ) {
 			sb.append("\n<dishWasherModel/>");
@@ -422,6 +447,10 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	
 	public void z_internalAddToDueDate(Date val) {
 		this.dueDate=val;
+	}
+	
+	public void z_internalAddToIsOpen(Boolean val) {
+		this.isOpen=val;
 	}
 	
 	public void z_internalAddToMySpecialDescription(String val) {
@@ -450,6 +479,13 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		if ( getDueDate()!=null && val!=null && val.equals(getDueDate()) ) {
 			this.dueDate=null;
 			this.dueDate=null;
+		}
+	}
+	
+	public void z_internalRemoveFromIsOpen(Boolean val) {
+		if ( isOpen()!=null && val!=null && val.equals(isOpen()) ) {
+			this.isOpen=null;
+			this.isOpen=null;
 		}
 	}
 	

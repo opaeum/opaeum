@@ -33,6 +33,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -124,7 +125,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6786898535260920075l,uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6786898535260920075l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
 	public Integer getHours() {
 		Integer result = this.hours;
@@ -136,7 +137,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3808798176605930566l,uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3808798176605930566l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	@NumlMetaInfo(uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	public Integer getMinuteOfDay() {
 		Integer result = (this.getHours() * 60) + this.getMinutes();
@@ -144,7 +145,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5836556839916014923l,uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5836556839916014923l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
 	public Integer getMinutes() {
 		Integer result = this.minutes;
