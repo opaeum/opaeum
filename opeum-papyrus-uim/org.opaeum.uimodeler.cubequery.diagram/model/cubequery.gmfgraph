@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmfgraph:Canvas
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition"
+    name="CubeQueryCanvas">
+  <figures
+      name="CubeQueryFigureGallery">
+    <descriptors
+        name="ColumnAxisEntryFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="ColumnAxisEntryFigure"/>
+    </descriptors>
+    <descriptors
+        name="RowAxisEntryFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="RowAxisEntryFigure"/>
+    </descriptors>
+  </figures>
+  <nodes
+      name="RowAxisEntry"
+      figure="RowAxisEntryFigure"/>
+  <nodes
+      name="ColumnAxisEntry"
+      figure="ColumnAxisEntryFigure"/>
+</gmfgraph:Canvas>

@@ -557,8 +557,12 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7064478324996090491l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_EjZvcIRrEeGh1KS-l3XAqQ")
+	@NumlMetaInfo(uuid="252060@_EjZvcIRrEeGh1KS-l3XAqQ")
 	public String getName() {
-		return "PersonNode["+getId()+"]";
+		String result = this.getFullName();
+		
+		return result;
 	}
 	
 	public int getObjectVersion() {

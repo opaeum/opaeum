@@ -74,8 +74,9 @@ public class UimPerspectiveItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(PerspectivePackage.Literals.UIM_PERSPECTIVE__VIEW_ALLOCATIONS);
 			childrenFeatures.add(PerspectivePackage.Literals.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION);
+			childrenFeatures.add(PerspectivePackage.Literals.UIM_PERSPECTIVE__EDITOR_CONFIGURATION);
+			childrenFeatures.add(PerspectivePackage.Literals.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION);
 		}
 		return childrenFeatures;
 	}
@@ -127,8 +128,9 @@ public class UimPerspectiveItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(UimPerspective.class)) {
-			case PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS:
 			case PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION:
+			case PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION:
+			case PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -148,13 +150,18 @@ public class UimPerspectiveItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(PerspectivePackage.Literals.UIM_PERSPECTIVE__VIEW_ALLOCATIONS,
-				 PerspectiveFactory.eINSTANCE.createViewAllocation()));
+				(PerspectivePackage.Literals.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION,
+				 PerspectiveFactory.eINSTANCE.createExplorerConfiguration()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(PerspectivePackage.Literals.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION,
-				 PerspectiveFactory.eINSTANCE.createExplorerConfiguration()));
+				(PerspectivePackage.Literals.UIM_PERSPECTIVE__EDITOR_CONFIGURATION,
+				 PerspectiveFactory.eINSTANCE.createEditorConfiguration()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(PerspectivePackage.Literals.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION,
+				 PerspectiveFactory.eINSTANCE.createPropertiesConfiguration()));
 	}
 
 	/**

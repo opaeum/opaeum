@@ -11,6 +11,7 @@ package org.opaeum.rap.runtime.internal.editors;
 
 import javax.validation.Validator;
 
+import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.event.IEventHandler;
@@ -89,5 +90,12 @@ public class BindingUtil{
 	}
 	public Validator getValidator(){
 		return validator;
+	}
+	public void invokeAdder(Object objectBeingUpdated,IPersistentObject ni, UimBinding binding){
+		Object target = resolveTarget(objectBeingUpdated, binding);
+		if(target != null){
+			JavaTypedElement typedElement = getTypedElement(binding.getLastPropertyUuid());
+			typedElement.invokeAdder(target, ni);
+		}
 	}
 }

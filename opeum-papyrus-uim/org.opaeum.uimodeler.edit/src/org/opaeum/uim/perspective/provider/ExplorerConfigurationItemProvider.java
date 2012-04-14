@@ -30,7 +30,7 @@ import org.opaeum.uim.provider.UimEditPlugin;
  * @generated
  */
 public class ExplorerConfigurationItemProvider
-	extends ItemProviderAdapter
+	extends ViewAllocationItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -75,7 +75,6 @@ public class ExplorerConfigurationItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES);
-			childrenFeatures.add(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES);
 		}
 		return childrenFeatures;
 	}
@@ -112,7 +111,11 @@ public class ExplorerConfigurationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_ExplorerConfiguration_type");
+		Integer labelValue = ((ExplorerConfiguration)object).getWidth();
+		String label = labelValue == null ? null : labelValue.toString();
+		return label == null || label.length() == 0 ?
+			getString("_UI_ExplorerConfiguration_type") :
+			getString("_UI_ExplorerConfiguration_type") + " " + label;
 	}
 
 	/**
@@ -128,7 +131,6 @@ public class ExplorerConfigurationItemProvider
 
 		switch (notification.getFeatureID(ExplorerConfiguration.class)) {
 			case PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES:
-			case PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -150,22 +152,6 @@ public class ExplorerConfigurationItemProvider
 			(createChildParameter
 				(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES,
 				 PerspectiveFactory.eINSTANCE.createExplorerClassConfiguration()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES,
-				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConfiguration()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return UimEditPlugin.INSTANCE;
 	}
 
 }

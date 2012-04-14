@@ -4,15 +4,22 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
@@ -46,12 +53,12 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmfElementFinder{
-
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
 		List<TypedElement> result = new ArrayList<TypedElement>(getPropertiesInScope(c));
 		if(c instanceof Behavior){
@@ -62,6 +69,73 @@ public class EmfElementFinder{
 			}
 		}
 		return result;
+	}
+	public static boolean isMeasure(Property p){
+		for(Stereotype s:p.getAppliedStereotypes()){
+			if(s.getFeature("roleInCube") != null){
+				EStructuralFeature f = s.getDefinition().getEStructuralFeature("roleInCube");
+				EEnumLiteral l = (EEnumLiteral) p.getStereotypeApplication(s).eGet(f);
+				if(l.getName().equals("MEASURE")){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public static boolean isDimension(Property p){
+		if(p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
+			return true;
+		}
+		for(Stereotype s:p.getAppliedStereotypes()){
+			if(s.getFeature("roleInCube") != null){
+				EStructuralFeature f = s.getDefinition().getEStructuralFeature("roleInCube");
+				EEnumLiteral l = (EEnumLiteral) p.getStereotypeApplication(s).eGet(f);
+				if(l.getName().equals("DIMENSION")){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public static Collection<Class> getCubes(Class dimension){
+		HashSet<Class> result = new HashSet<Class>();
+		addPotentialCubes(dimension, result);
+		Iterator<Class> iterator = result.iterator();
+		while(iterator.hasNext()){
+			Class class1 = (Class) iterator.next();
+			if(!isFact(class1)){
+				iterator.remove();
+			}
+		}
+		return result;
+	}
+	private static boolean isFact(Class class1){
+		List<Property> propertiesInScope = getPropertiesInScope(class1);
+		for(Property property:propertiesInScope){
+			if(isMeasure(property)){
+				return true;
+			}
+		}
+		return false;
+	}
+	private static void addPotentialCubes(Class dimension,Set<Class> result){
+		ECrossReferenceAdapter a = ECrossReferenceAdapter.getCrossReferenceAdapter(dimension);
+		if(a == null){
+		}else{
+			for(Setting setting:a.getInverseReferences(dimension)){
+				if(setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getTypedElement_Type())){
+					TypedElement te = (TypedElement) setting.getEObject();
+					if(te instanceof Property){
+						Property p = (Property) te;
+						if(isDimension(p)){
+							Class potentialCube = (Class) getContainer(p);
+							result.add(potentialCube);
+							addPotentialCubes(potentialCube, result);
+						}
+					}
+				}
+			}
+		}
 	}
 	public static Classifier getNearestClassifier(Element e){
 		if(e instanceof Classifier){

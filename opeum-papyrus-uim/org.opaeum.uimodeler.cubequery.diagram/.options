@@ -1,0 +1,7 @@
+# Tracing options for the org.opaeum.uimodeler.cubequery.diagram plug-in
+
+# Common issues
+org.opaeum.uimodeler.cubequery.diagram/debug=false
+
+# Visual IDs
+org.opaeum.uimodeler.cubequery.diagram/debug/visualID=false

@@ -19,7 +19,9 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.ClassUserInteractionModel;
+import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.cube.CubeFactory;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.wizard.WizardFactory;
 
@@ -146,6 +148,7 @@ public class ClassUserInteractionModelItemProvider
 			childrenFeatures.add(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR);
 			childrenFeatures.add(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS);
 			childrenFeatures.add(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD);
+			childrenFeatures.add(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES);
 		}
 		return childrenFeatures;
 	}
@@ -208,6 +211,7 @@ public class ClassUserInteractionModelItemProvider
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR:
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS:
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD:
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -239,6 +243,11 @@ public class ClassUserInteractionModelItemProvider
 			(createChildParameter
 				(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD,
 				 WizardFactory.eINSTANCE.createNewObjectWizard()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES,
+				 CubeFactory.eINSTANCE.createCubeQuery()));
 	}
 
 	/**

@@ -1,7 +1,23 @@
+Cube
+UIM
+In UIM, model a cube query/report metamodel (use uuids not names), Query,VisibilityConstraint, rowAxis, columnAxis, measureAxis, 
+Drag and drop axisEntries onto the row or column axis compartments
+Display available dimensions and levels in a tree and allow the user to select one
+CubeQueryCubeSection - lookup a classifier in future it could be operations and actions too
+AxisEntryDimensionBinding section = display dimension in selected cube
+AxisEntryLevelProperty section = display property with dimension
+
+Runtime:
+Build up Mondrian queries using the uim model
+Add filter items on axis for the current selected object where a dimension appear on which the current object features
+Consider introducing filters for axis entries with security contraints
+
+
+
 UIEngine
-Implement requiredRole and inheritFromparent
-Support pagination in table (http://angelozerr.wordpress.com/2012/01/06/nebula_pagination/)
 Invoke additional property validations ( invariants)
+Implement radiogroups
+Don't display associationclass properties
 Display validation messages from cell editors somewhere
 Implement libraries with ui's required
 TreeConfiguration - show treeview with checkboxes - hidden,visible,hiddenclasses
@@ -11,17 +27,18 @@ Implement sourcepopulation constraints on parameters
 New Tasks:
 UIM:
 DEfine an RMI service that takes a bytearray in and updates userinterface resources from it
-Add RadioButtons and checkboxes lists as control kinds, include their layout in the orientation
+Add RadioButtons and checkbox lists as control kinds, include their layout in the orientation
 Add a "lastlinkedumlresource" to the modelroot to allow open editors to be reassociated with their uml models
 Implement the semantics around the "underUserControl" field
 Introduce an action that automatically creates an operation popup from a button
 Drag and drop uml items from a tree (properties, actions) 
 Add forcedLabelWidth and sameWidth to AbstractPanel
 Synchronize uim models on save, apply the underUserControl rules
+Apply security to add actions on treeview
 
 Simulation:
 SimpleDataTypes like dates - introduce FormattedStringValue and use FromStringConversion strategy
-Implement propertySheetProvider that displays a property sheet  per simulation model in the original model
+Implement propertySheetProvider that displays a property sheet tab per simulation model in the original model
 Task durations distributions
 Calculate resource availability on a 15 minute basis
 Allow a specific simulation model to be associated with the current model and display the relevant simulation settings in the property section of simulated elements

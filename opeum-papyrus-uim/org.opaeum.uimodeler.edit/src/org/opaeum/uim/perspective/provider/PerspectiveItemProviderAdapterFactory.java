@@ -93,29 +93,6 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ViewAllocation} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ViewAllocationItemProvider viewAllocationItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ViewAllocation}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createViewAllocationAdapter() {
-		if (viewAllocationItemProvider == null) {
-			viewAllocationItemProvider = new ViewAllocationItemProvider(this);
-		}
-
-		return viewAllocationItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerConfiguration} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -182,6 +159,52 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 		}
 
 		return explorerPropertyConfigurationItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.EditorConfiguration} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EditorConfigurationItemProvider editorConfigurationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.EditorConfiguration}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEditorConfigurationAdapter() {
+		if (editorConfigurationItemProvider == null) {
+			editorConfigurationItemProvider = new EditorConfigurationItemProvider(this);
+		}
+
+		return editorConfigurationItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.PropertiesConfiguration} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PropertiesConfigurationItemProvider propertiesConfigurationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.PropertiesConfiguration}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPropertiesConfigurationAdapter() {
+		if (propertiesConfigurationItemProvider == null) {
+			propertiesConfigurationItemProvider = new PropertiesConfigurationItemProvider(this);
+		}
+
+		return propertiesConfigurationItemProvider;
 	}
 
 	/**
@@ -284,10 +307,11 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 	 */
 	public void dispose() {
 		if (uimPerspectiveItemProvider != null) uimPerspectiveItemProvider.dispose();
-		if (viewAllocationItemProvider != null) viewAllocationItemProvider.dispose();
 		if (explorerConfigurationItemProvider != null) explorerConfigurationItemProvider.dispose();
 		if (explorerClassConfigurationItemProvider != null) explorerClassConfigurationItemProvider.dispose();
 		if (explorerPropertyConfigurationItemProvider != null) explorerPropertyConfigurationItemProvider.dispose();
+		if (editorConfigurationItemProvider != null) editorConfigurationItemProvider.dispose();
+		if (propertiesConfigurationItemProvider != null) propertiesConfigurationItemProvider.dispose();
 	}
 
 }

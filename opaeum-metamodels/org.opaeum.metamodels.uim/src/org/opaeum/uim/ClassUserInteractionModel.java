@@ -3,6 +3,7 @@
 package org.opaeum.uim;
 
 import org.eclipse.emf.common.util.EList;
+import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.editor.ClassEditor;
 import org.opaeum.uim.wizard.NewObjectWizard;
 
@@ -17,6 +18,7 @@ import org.opaeum.uim.wizard.NewObjectWizard;
  *   <li>{@link org.opaeum.uim.ClassUserInteractionModel#getPrimaryEditor <em>Primary Editor</em>}</li>
  *   <li>{@link org.opaeum.uim.ClassUserInteractionModel#getSecondaryEditors <em>Secondary Editors</em>}</li>
  *   <li>{@link org.opaeum.uim.ClassUserInteractionModel#getNewObjectWizard <em>New Object Wizard</em>}</li>
+ *   <li>{@link org.opaeum.uim.ClassUserInteractionModel#getCubeQueries <em>Cube Queries</em>}</li>
  * </ul>
  * </p>
  *
@@ -92,5 +94,21 @@ public interface ClassUserInteractionModel extends UmlReference, UserInteraction
 	 * @generated
 	 */
 	void setNewObjectWizard(NewObjectWizard value);
+
+	/**
+	 * Returns the value of the '<em><b>Cube Queries</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.cube.CubeQuery}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Cube Queries</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Cube Queries</em>' containment reference list.
+	 * @see org.opaeum.uim.UimPackage#getClassUserInteractionModel_CubeQueries()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<CubeQuery> getCubeQueries();
 
 } // ClassUserInteractionModel

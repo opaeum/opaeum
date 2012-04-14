@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.rap.ui.forms,
  org.eclipse.uml2.uml,
  org.opaeum.rap.dependencies,
  org.opaeum.metamodels.uim,
- org.eclipse.core.databinding.property;bundle-version="1.4.0"
+ org.eclipse.core.databinding.property,
+ org.eclipse.nebula.widgets.pagination
 Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
  javax.servlet.http;version="[2.3.0,4.0.0)"
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator
@@ -160,8 +161,6 @@ Export-Package: com.google.api.client.auth,
  org.codehaus.jackson.sym,
  org.codehaus.jackson.type,
  org.codehaus.jackson.util,
- org.eclipse.rap.rms.data,
- org.eclipse.rap.rms.internal.data,
  org.opaeum.rap.login,
  org.opaeum.rap.runtime,
  org.opaeum.rap.runtime.internal,

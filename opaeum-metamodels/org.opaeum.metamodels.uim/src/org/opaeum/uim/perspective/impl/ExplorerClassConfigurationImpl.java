@@ -2,20 +2,25 @@
  */
 package org.opaeum.uim.perspective.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.opaeum.uim.impl.UmlReferenceImpl;
 
 import org.opaeum.uim.perspective.ExplorerClassConfiguration;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
+import org.opaeum.uim.perspective.ExplorerPropertyConfiguration;
 import org.opaeum.uim.perspective.PerspectivePackage;
 
 /**
@@ -27,6 +32,7 @@ import org.opaeum.uim.perspective.PerspectivePackage;
  * <ul>
  *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerClassConfigurationImpl#getExplorerConfiguration <em>Explorer Configuration</em>}</li>
  *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerClassConfigurationImpl#getIsVisible <em>Is Visible</em>}</li>
+ *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerClassConfigurationImpl#getConfiguredProperties <em>Configured Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,6 +58,16 @@ public class ExplorerClassConfigurationImpl extends UmlReferenceImpl implements 
 	 * @ordered
 	 */
 	protected Boolean isVisible = IS_VISIBLE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getConfiguredProperties() <em>Configured Properties</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConfiguredProperties()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ExplorerPropertyConfiguration> configuredProperties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -139,6 +155,18 @@ public class ExplorerClassConfigurationImpl extends UmlReferenceImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ExplorerPropertyConfiguration> getConfiguredProperties() {
+		if (configuredProperties == null) {
+			configuredProperties = new EObjectContainmentEList<ExplorerPropertyConfiguration>(ExplorerPropertyConfiguration.class, this, PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__CONFIGURED_PROPERTIES);
+		}
+		return configuredProperties;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -160,6 +188,8 @@ public class ExplorerClassConfigurationImpl extends UmlReferenceImpl implements 
 		switch (featureID) {
 			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__EXPLORER_CONFIGURATION:
 				return basicSetExplorerConfiguration(null, msgs);
+			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__CONFIGURED_PROPERTIES:
+				return ((InternalEList<?>)getConfiguredProperties()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -190,6 +220,8 @@ public class ExplorerClassConfigurationImpl extends UmlReferenceImpl implements 
 				return getExplorerConfiguration();
 			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE:
 				return getIsVisible();
+			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__CONFIGURED_PROPERTIES:
+				return getConfiguredProperties();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -199,6 +231,7 @@ public class ExplorerClassConfigurationImpl extends UmlReferenceImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -207,6 +240,10 @@ public class ExplorerClassConfigurationImpl extends UmlReferenceImpl implements 
 				return;
 			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE:
 				setIsVisible((Boolean)newValue);
+				return;
+			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__CONFIGURED_PROPERTIES:
+				getConfiguredProperties().clear();
+				getConfiguredProperties().addAll((Collection<? extends ExplorerPropertyConfiguration>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -226,6 +263,9 @@ public class ExplorerClassConfigurationImpl extends UmlReferenceImpl implements 
 			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE:
 				setIsVisible(IS_VISIBLE_EDEFAULT);
 				return;
+			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__CONFIGURED_PROPERTIES:
+				getConfiguredProperties().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -242,6 +282,8 @@ public class ExplorerClassConfigurationImpl extends UmlReferenceImpl implements 
 				return getExplorerConfiguration() != null;
 			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE:
 				return IS_VISIBLE_EDEFAULT == null ? isVisible != null : !IS_VISIBLE_EDEFAULT.equals(isVisible);
+			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__CONFIGURED_PROPERTIES:
+				return configuredProperties != null && !configuredProperties.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

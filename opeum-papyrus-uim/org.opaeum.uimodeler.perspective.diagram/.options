@@ -1,0 +1,7 @@
+# Tracing options for the org.opaeum.uimodeler.perspective.diagram plug-in
+
+# Common issues
+org.opaeum.uimodeler.perspective.diagram/debug=false
+
+# Visual IDs
+org.opaeum.uimodeler.perspective.diagram/debug/visualID=false

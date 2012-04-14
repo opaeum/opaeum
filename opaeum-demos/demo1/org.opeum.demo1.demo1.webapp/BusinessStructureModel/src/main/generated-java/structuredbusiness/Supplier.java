@@ -452,7 +452,6 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 			this.getOrganization().z_internalRemoveFromBusinessActor(this);
 		}
 		if ( organization!=null ) {
-			organization.z_internalAddToBusinessActor(this);
 			this.z_internalAddToOrganization(organization);
 		}
 	}
@@ -537,7 +536,6 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 			this.getRepresentedPerson().z_internalRemoveFromBusinessActor(this);
 		}
 		if ( representedPerson!=null ) {
-			representedPerson.z_internalAddToBusinessActor(this);
 			this.z_internalAddToRepresentedPerson(representedPerson);
 		}
 	}

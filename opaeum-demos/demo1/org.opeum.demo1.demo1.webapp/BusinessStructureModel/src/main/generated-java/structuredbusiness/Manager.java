@@ -568,7 +568,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 			this.getRepresentedPerson().z_internalRemoveFromBusinessRole(this);
 		}
 		if ( representedPerson!=null ) {
-			representedPerson.z_internalAddToBusinessRole(this);
 			this.z_internalAddToRepresentedPerson(representedPerson);
 		}
 	}

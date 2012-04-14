@@ -37,6 +37,8 @@ import org.opaeum.uim.control.UimText;
 import org.opaeum.uim.control.UimTextArea;
 import org.opaeum.uim.control.UimToggleButton;
 import org.opaeum.uim.control.UimTreeView;
+import org.opaeum.uim.cube.CubePackage;
+import org.opaeum.uim.cube.impl.CubePackageImpl;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
@@ -245,6 +247,7 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
 		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
 		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
+		CubePackageImpl theCubePackage = (CubePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) instanceof CubePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) : CubePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theControlPackage.createPackageContents();
@@ -256,6 +259,7 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 		thePanelPackage.createPackageContents();
 		theWizardPackage.createPackageContents();
 		thePerspectivePackage.createPackageContents();
+		theCubePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theControlPackage.initializePackageContents();
@@ -267,6 +271,7 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 		thePanelPackage.initializePackageContents();
 		theWizardPackage.initializePackageContents();
 		thePerspectivePackage.initializePackageContents();
+		theCubePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theControlPackage.freeze();

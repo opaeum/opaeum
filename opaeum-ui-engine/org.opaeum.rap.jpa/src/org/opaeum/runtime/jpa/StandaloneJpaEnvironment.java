@@ -114,7 +114,8 @@ public class StandaloneJpaEnvironment extends Environment{
 		}
 	}
 	public ConversationalPersistence createConversationalPersistence(){
-			return new StandaloneJpaConversationalPersistence(openHibernateSession());
+			EntityManager em = openHibernateSession();
+			return new StandaloneJpaConversationalPersistence(em);
 	}
 	private EntityManager getEntityManager(){
 		if(this.entityManager == null){
@@ -130,7 +131,12 @@ public class StandaloneJpaEnvironment extends Environment{
 		return txPersistence;
 	}
 	private EntityManager openHibernateSession(){
-		return getEntityManagerFactory().createEntityManager();
+		EntityManager em = getEntityManagerFactory().createEntityManager();
+		if(em.getDelegate() instanceof Session){
+			((Session)em.getDelegate()).enableFilter("noDeletedObjects");
+		}
+
+		return em;
 	}
 	public CmtPersistence getCmtPersistence(){
 		if(cmtPersistence == null){

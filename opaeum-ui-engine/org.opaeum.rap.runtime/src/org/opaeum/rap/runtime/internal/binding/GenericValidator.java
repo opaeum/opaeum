@@ -20,6 +20,7 @@ import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.opaeum.annotation.PropertyConstraint;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaTypedElement;
@@ -43,6 +44,13 @@ public class GenericValidator implements IValidator{
 		Set<? extends ConstraintViolation<?>> vs = validator.validateValue(parentClass, typedElement.getName(), value);
 		for(ConstraintViolation<?> v:vs){
 			statusList.add(new Status(IStatus.ERROR, Activator.ID, v.getMessage()));
+		}
+		PropertyConstraint[] constraints = typedElement.getConstraints();
+		for(PropertyConstraint propertyConstraint:constraints){
+			Set<? extends ConstraintViolation<?>> vs2 = validator.validateValue(parentClass, propertyConstraint.name(), value);
+			for(ConstraintViolation<?> v:vs2){
+				statusList.add(new Status(IStatus.ERROR, Activator.ID, v.getMessage()));
+			}
 		}
 		if(afterConvertValidator != null){
 			ValidationResult vr = afterConvertValidator.validate(value);

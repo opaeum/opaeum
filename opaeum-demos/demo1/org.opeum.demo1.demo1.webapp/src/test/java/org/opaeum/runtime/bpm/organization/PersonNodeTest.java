@@ -17,4 +17,10 @@ public class PersonNodeTest implements PersonNodeTestContract {
 		Assert.assertEquals("Ampie Barnard", p.getFullName());
 	}
 
+	@Override
+	public void testnameInitialValue(){
+		// TODO Auto-generated method stub
+		
+	}
+
 }

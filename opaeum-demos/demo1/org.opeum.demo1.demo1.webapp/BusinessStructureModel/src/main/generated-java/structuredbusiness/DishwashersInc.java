@@ -1046,7 +1046,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 			this.getRepresentedOrganization().z_internalRemoveFromBusinessComponent(this);
 		}
 		if ( representedOrganization!=null ) {
-			representedOrganization.z_internalAddToBusinessComponent(this);
 			this.z_internalAddToRepresentedOrganization(representedOrganization);
 		}
 	}

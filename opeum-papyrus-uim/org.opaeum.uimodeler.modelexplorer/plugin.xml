@@ -100,6 +100,9 @@
 	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateOperationPopupPageCommandHandler" 
 		description="Creates a new Operation Popup Page" id="org.opaeum.uimodeler.modelexplorer.handler.CreateOperationPopupPageCommandHandler" name="Create a new OperationPopupPage">
 	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateCubeQueryCommandHandler" 
+		description="Creates a new Cube Query" id="org.opaeum.uimodeler.modelexplorer.handler.CreateCubeQueryCommandHandler" name="Create a new Cube Query">
+	</command>
 </extension>
 
 	
@@ -135,6 +138,10 @@
 		</command>
 		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateOperationPopupPageCommandHandler" 
 			icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new OperationPopupPage" style="push" tooltip="Create a new OperationPopupPage">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateCubeQueryCommandHandler" 
+			icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new CubeQuery" style="push" tooltip="Create a new CubeQuery">
 			<visibleWhen checkEnabled="true"/>
 		</command>
 	</menuContribution>

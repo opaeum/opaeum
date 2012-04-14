@@ -9,7 +9,6 @@ import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeansObservables;
-import org.eclipse.core.databinding.observable.AbstractObservable;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.databinding.fieldassist.ControlDecorationSupport;
@@ -45,6 +44,7 @@ import org.opaeum.rap.runtime.internal.binding.GenericToStringConverter;
 import org.opaeum.rap.runtime.internal.binding.GenericValidator;
 import org.opaeum.rap.runtime.internal.wizards.OperationInvocationWizard;
 import org.opaeum.rap.runtime.widgets.CSingleObjectChooser;
+import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.JavaTypedElement;
@@ -74,6 +74,7 @@ public class ComponentTreeBuilder{
 	private OpaeumRapSession session;
 	private EntityEditorInput input;
 	DataTableBuilder dataTableBuilder;
+	private SecurityUtil securityUtil;
 	// Constructor for operation invocation wizards where there is no editor input
 	public ComponentTreeBuilder(IPersistentObject selectedObject,Object handler,OpaeumRapSession session){
 		init(selectedObject, handler, session);
@@ -85,7 +86,8 @@ public class ComponentTreeBuilder{
 		this.validator = application.getValidator();
 		this.objectBeingUpdated = objectBeingUpdated;
 		this.selectedObject = selectedObject;
-		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap(),application.getValidator());
+		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap(), application.getValidator());
+		this.securityUtil = new SecurityUtil(selectedObject, session);
 	}
 	// Constructor for class editors
 	public ComponentTreeBuilder(EntityEditorInput input){
@@ -127,6 +129,15 @@ public class ComponentTreeBuilder{
 				});
 				break;
 			case DELETE:
+				button.addSelectionListener(new SelectionListener(){
+					public void widgetSelected(SelectionEvent e){
+						((CompositionNode) input.getPersistentObject()).markDeleted();
+						input.getPersistence().flush();
+						input.setDirty(false);
+					}
+					public void widgetDefaultSelected(SelectionEvent e){
+					}
+				});
 				break;
 			case EXECUTE_OPERATION:
 				break;
@@ -196,7 +207,7 @@ public class ComponentTreeBuilder{
 			if(value instanceof IPersistentObject){
 				label.setText(((IPersistentObject) value).getName());
 			}else if(value instanceof Enum){
-				label.setText(((Enum) value).name());
+				label.setText(((Enum<?>) value).name());
 			}else if(value != null){
 				if(typedElement.getStrategyFactory().hasStrategy(ToStringConverter.class)){
 					label.setText(typedElement.getStrategyFactory().getStrategy(ToStringConverter.class).toString(value));
@@ -221,7 +232,6 @@ public class ComponentTreeBuilder{
 				public void mouseDoubleClick(MouseEvent e){
 				}
 			});
-			
 			break;
 		case POPUP_SEARCH:
 			observeControl = observePopupSearch(uimFieldComposite, uimField, typedElement);
@@ -245,6 +255,8 @@ public class ComponentTreeBuilder{
 			Binding bindValue = bc.bindValue(observeControl, observeValue, targetToModel, modelToTarget);
 			ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.LEFT);
 		}
+		uimFieldComposite.setEnabled(securityUtil.calculateEditability(uimField));
+		uimFieldComposite.setVisible(securityUtil.calculateVisibility(uimField));
 	}
 	private IObservableValue observeListbox(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement){
 		AbstractListViewer cb = new ListViewer((List) uimFieldComposite.getControl());

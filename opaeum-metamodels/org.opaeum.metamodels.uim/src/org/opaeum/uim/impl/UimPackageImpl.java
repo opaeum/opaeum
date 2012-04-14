@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.opaeum.uim.AbstractActionBar;
+import org.opaeum.uim.ClassCubeQuery;
 import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.DetailComponent;
 import org.opaeum.uim.MasterComponent;
@@ -38,6 +39,8 @@ import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.impl.ControlPackageImpl;
+import org.opaeum.uim.cube.CubePackage;
+import org.opaeum.uim.cube.impl.CubePackageImpl;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.panel.PanelPackage;
@@ -245,6 +248,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
 		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
 		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
+		CubePackageImpl theCubePackage = (CubePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) instanceof CubePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) : CubePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theUimPackage.createPackageContents();
@@ -256,6 +260,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		thePanelPackage.createPackageContents();
 		theWizardPackage.createPackageContents();
 		thePerspectivePackage.createPackageContents();
+		theCubePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theUimPackage.initializePackageContents();
@@ -267,6 +272,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		thePanelPackage.initializePackageContents();
 		theWizardPackage.initializePackageContents();
 		thePerspectivePackage.initializePackageContents();
+		theCubePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theUimPackage.freeze();
@@ -615,6 +621,15 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getClassUserInteractionModel_CubeQueries() {
+		return (EReference)classUserInteractionModelEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getResponsibilityUserInteractionModel() {
 		return responsibilityUserInteractionModelEClass;
 	}
@@ -760,6 +775,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR);
 		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS);
 		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD);
+		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES);
 
 		responsibilityUserInteractionModelEClass = createEClass(RESPONSIBILITY_USER_INTERACTION_MODEL);
 		createEReference(responsibilityUserInteractionModelEClass, RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD);
@@ -808,6 +824,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		PanelPackage thePanelPackage = (PanelPackage)EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI);
 		WizardPackage theWizardPackage = (WizardPackage)EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI);
 		PerspectivePackage thePerspectivePackage = (PerspectivePackage)EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI);
+		CubePackage theCubePackage = (CubePackage)EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Add subpackages
@@ -819,6 +836,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		getESubpackages().add(thePanelPackage);
 		getESubpackages().add(theWizardPackage);
 		getESubpackages().add(thePerspectivePackage);
+		getESubpackages().add(theCubePackage);
 
 		// Create type parameters
 
@@ -905,6 +923,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		initEReference(getClassUserInteractionModel_PrimaryEditor(), theEditorPackage.getClassEditor(), null, "primaryEditor", null, 1, 1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassUserInteractionModel_SecondaryEditors(), theEditorPackage.getClassEditor(), null, "secondaryEditors", null, 0, -1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassUserInteractionModel_NewObjectWizard(), theWizardPackage.getNewObjectWizard(), null, "newObjectWizard", null, 1, 1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassUserInteractionModel_CubeQueries(), theCubePackage.getCubeQuery(), null, "cubeQueries", null, 0, -1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(responsibilityUserInteractionModelEClass, ResponsibilityUserInteractionModel.class, "ResponsibilityUserInteractionModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResponsibilityUserInteractionModel_InvocationWizard(), theWizardPackage.getInvokeResponsibilityWizard(), null, "invocationWizard", null, 1, 1, ResponsibilityUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

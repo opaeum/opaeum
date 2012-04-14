@@ -5,13 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.rap.rms.data.ModelEvent;
-import org.eclipse.swt.widgets.Display;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.organization.IBusinessRoleBase;

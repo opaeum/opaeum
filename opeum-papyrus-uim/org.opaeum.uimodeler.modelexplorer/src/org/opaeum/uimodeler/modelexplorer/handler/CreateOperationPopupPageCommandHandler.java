@@ -2,21 +2,21 @@ package org.opaeum.uimodeler.modelexplorer.handler;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.opaeum.uim.action.ActionFactory;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.OperationPopupPage;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.EditorPage;
 
 public class CreateOperationPopupPageCommandHandler extends CreateCommandHandler{
-
 	@Override
 	protected EReference getFeature(){
-		// TODO Auto-generated method stub
-		return EditorPackage.eINSTANCE.getAbstractEditor_Pages();
+		return ActionPackage.eINSTANCE.getOperationPopup_Pages();
 	}
-
 	@Override
 	protected EObject getNewObject(){
-		EditorPage p = EditorFactory.eINSTANCE.createEditorPage();
+		OperationPopupPage p = ActionFactory.eINSTANCE.createOperationPopupPage();
 		p.setName("NewPage");
 		return p;
 	}

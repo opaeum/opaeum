@@ -147,6 +147,7 @@ import org.opaeum.uim.binding.provider.BindingItemProviderAdapterFactory;
 
 import org.opaeum.uim.constraint.provider.ConstraintItemProviderAdapterFactory;
 
+import org.opaeum.uim.cube.provider.CubeItemProviderAdapterFactory;
 import org.opaeum.uim.editor.provider.EditorItemProviderAdapterFactory;
 
 import org.opaeum.uim.panel.provider.PanelItemProviderAdapterFactory;
@@ -624,6 +625,7 @@ public class ControlEditor
 		adapterFactory.addAdapterFactory(new PanelItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new WizardItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new PerspectiveItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new CubeItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 

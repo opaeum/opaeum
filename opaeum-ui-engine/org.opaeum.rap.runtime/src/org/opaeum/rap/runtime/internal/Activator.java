@@ -20,19 +20,10 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IRegistryChangeEvent;
 import org.eclipse.core.runtime.IRegistryChangeListener;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.rap.rms.data.DataModelRegistry;
-import org.eclipse.rap.rms.data.IDataModel;
-import org.eclipse.rap.rms.data.IPrincipal;
-import org.eclipse.rap.rms.data.IProject;
-import org.eclipse.rap.rms.data.ITask;
-import org.eclipse.rap.rms.data.ThrowableManager;
-import org.eclipse.rap.rms.data.ThrowableManager.IThrowableHandler;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.graphics.Image;
@@ -43,7 +34,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 public class Activator extends AbstractUIPlugin implements IRegistryChangeListener{
-	public static final String ID="org.opaeum.rap.runtime";
+	public static final String ID = "org.opaeum.rap.runtime";
 	private static final String IMAGE_REGISTRY = Activator.class.getName() + "#ImageRegistry";
 	public static final String IMG_FORM_BG = "formBg"; //$NON-NLS-1$
 	public static final String IMG_FORM_HEAD_OVERVIEW = "formHeadOverView"; //$NON-NLS-1$
@@ -74,64 +65,16 @@ public class Activator extends AbstractUIPlugin implements IRegistryChangeListen
 			"Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 	private static Activator plugin;
-	private Map<String, IOpaeumApplication> applications=new HashMap<String, IOpaeumApplication>();
+	private Map<String,IOpaeumApplication> applications = new HashMap<String,IOpaeumApplication>();
 	public Map<String,IOpaeumApplication> getApplications(){
 		return applications;
 	}
 	public void start(final BundleContext context) throws Exception{
 		super.start(context);
 		plugin = this;
-		ThrowableManager.setThrowableHandler(new IThrowableHandler(){
-			public void handle(final Throwable throwable){
-				String id = "org.opaeum.rap.runtime"; //$NON-NLS-1$
-				String msg = throwable.getMessage();
-				Status status = new Status(IStatus.ERROR, id, msg, throwable);
-				plugin.getLog().log(status);
-			}
-		});
-		try{
-		initDataModel();}catch(Exception e){}
 		IExtensionRegistry r = Platform.getExtensionRegistry();
 		IConfigurationElement[] configurationElementsFor = r.getConfigurationElementsFor("org.opaeum.rap.runtime", "opaeumRAPApplication");
 		registerExtensions(configurationElementsFor);
-
-	}
-	private void initDataModel(){
-		DataModelRegistry.register(DataModelRegistry.DEFAULT_MODEL_TYPE);
-		IDataModel factory = DataModelRegistry.getFactory();
-		for(int i = 0;i < 4;i++){
-			factory.newEmployee("Lastname_" + i, "Firstname_" + i); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		for(int i = 0;i < 10;i++){
-			IPrincipal principal = factory.newPrincipal("Principal " + i); //$NON-NLS-1$
-			principal.setCity("City " + i); //$NON-NLS-1$
-			principal.setCountry(COUNTRIES[i]);
-			principal.setLastName("Lastname" + i); //$NON-NLS-1$
-			principal.setFirstName("Firstname" + i); //$NON-NLS-1$
-			principal.setEMail("contact" + i + "@company.com"); //$NON-NLS-1$ //$NON-NLS-2$
-			principal.setStreet("street " + i); //$NON-NLS-1$
-			principal.setPostCode("4711"); //$NON-NLS-1$
-			for(int k = 0;k < 3;k++){
-				IProject project = principal.newProject("Project " + k); //$NON-NLS-1$
-				Calendar calendar = createCalendar();
-				calendar.add(Calendar.DATE, 20);
-				project.setEndDate(cut(calendar.getTime()));
-				calendar.add(Calendar.DATE, -40);
-				project.setStartDate(cut(calendar.getTime()));
-				project.setDescription("This is the description of Project" + k);
-				int employeeSize = factory.getEmployees().size();
-				for(int j = 0;j < employeeSize;j++){
-					project.newAssignment(factory.getEmployees().get(j));
-				}
-				for(int j = 0;j < 10;j++){
-					ITask task = project.newTask("task " + j); //$NON-NLS-1$
-					task.setDescription("This is the description of Task" + j);
-					task.setStartDate(cut(calendar.getTime()));
-					calendar.add(Calendar.DATE, 4);
-					task.setEndDate(cut(calendar.getTime()));
-				}
-			}
-		}
 	}
 	private Date cut(final Date time){
 		Date result = time;

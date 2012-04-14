@@ -508,7 +508,6 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 			this.getRepresentedPerson().z_internalRemoveFromBusinessRole(this);
 		}
 		if ( representedPerson!=null ) {
-			representedPerson.z_internalAddToBusinessRole(this);
 			this.z_internalAddToRepresentedPerson(representedPerson);
 		}
 	}

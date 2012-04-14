@@ -126,6 +126,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	}
 	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap map){
 		INakedProperty f = map.getProperty();
+
 		if(isPersistent(owner) && !f.isDerived() && !map.isStatic()){
 			if(map.isOne()){
 				mapXToOne(owner, map);
@@ -140,9 +141,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					oneToMany.removeAttribute("mappedBy");
 					JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
 					OJAnnotationValue where = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Where"));
-					where.putAttribute("clause", f.getOtherEnd().getMappingInfo().getPersistentName()
-							+ "_type="
-							+  "'" + (config.shouldBeCm1Compatible() ?ojOwner.getPathName().toString() : owner.getMappingInfo().getIdInModel()+ "'" ));
+					where.putAttribute("clause",
+							f.getOtherEnd().getMappingInfo().getPersistentName() + "_type=" + "'"
+									+ (config.shouldBeCm1Compatible() ? ojOwner.getPathName().toString() : owner.getMappingInfo().getIdInModel() + "'"));
 					field.addAnnotationIfNew(where);
 				}
 				if(f.isOrdered()){
@@ -228,13 +229,25 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 			if(map.isOneToOne() && f.getOtherEnd() != null && f.getOtherEnd().isNavigable()
 					&& f.getOtherEnd().getNakedBaseType() instanceof INakedInterface){
-				// NB! for CM both sides need to be non-inverse
-				JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
-				OJAnnotationValue oneToOne = field.findAnnotation(new OJPathName("javax.persistence.OneToOne"));
-				if(oneToOne == null){
-					field.findAnnotation(new OJPathName("javax.persistence.ManyToOne")).removeAttribute("mappedBy");
+				if(config.shouldBeCm1Compatible() || true){// TODO
+					// NB! for CM both sides need to be non-inverse
+					JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
+					OJAnnotationValue oneToOne = field.findAnnotation(new OJPathName("javax.persistence.OneToOne"));
+					if(oneToOne == null){
+						field.findAnnotation(new OJPathName("javax.persistence.ManyToOne")).removeAttribute("mappedBy");
+					}else{
+						oneToOne.removeAttribute("mappedBy");
+					}
 				}else{
-					oneToOne.removeAttribute("mappedBy");
+					//TODO this code only works on *ToMany
+					OJAnnotationValue oneToMany = field.findAnnotation(new OJPathName(OneToMany.class.getName()));
+					oneToMany.removeAttribute("mappedBy");
+					JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
+					OJAnnotationValue where = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Where"));
+					where.putAttribute("clause",
+							f.getOtherEnd().getMappingInfo().getPersistentName() + "_type=" + "'"
+									+ (config.shouldBeCm1Compatible() ? ojOwner.getPathName().toString() : owner.getMappingInfo().getIdInModel() + "'"));
+					field.addAnnotationIfNew(where);
 				}
 			}
 			if(!(f.getBaseType() instanceof INakedInterface)){

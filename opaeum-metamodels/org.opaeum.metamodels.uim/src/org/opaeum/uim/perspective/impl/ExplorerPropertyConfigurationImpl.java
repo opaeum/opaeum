@@ -25,7 +25,6 @@ import org.opaeum.uim.perspective.PerspectivePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerPropertyConfigurationImpl#getExplorerConfiguration <em>Explorer Configuration</em>}</li>
  *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerPropertyConfigurationImpl#getIsVisible <em>Is Visible</em>}</li>
  * </ul>
  * </p>
@@ -77,47 +76,6 @@ public class ExplorerPropertyConfigurationImpl extends UmlReferenceImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExplorerConfiguration getExplorerConfiguration() {
-		if (eContainerFeatureID() != PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION) return null;
-		return (ExplorerConfiguration)eContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetExplorerConfiguration(ExplorerConfiguration newExplorerConfiguration, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newExplorerConfiguration, PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION, msgs);
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExplorerConfiguration(ExplorerConfiguration newExplorerConfiguration) {
-		if (newExplorerConfiguration != eInternalContainer() || (eContainerFeatureID() != PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION && newExplorerConfiguration != null)) {
-			if (EcoreUtil.isAncestor(this, newExplorerConfiguration))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newExplorerConfiguration != null)
-				msgs = ((InternalEObject)newExplorerConfiguration).eInverseAdd(this, PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES, ExplorerConfiguration.class, msgs);
-			msgs = basicSetExplorerConfiguration(newExplorerConfiguration, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION, newExplorerConfiguration, newExplorerConfiguration));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Boolean getIsVisible() {
 		return isVisible;
 	}
@@ -140,54 +98,8 @@ public class ExplorerPropertyConfigurationImpl extends UmlReferenceImpl implemen
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetExplorerConfiguration((ExplorerConfiguration)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION:
-				return basicSetExplorerConfiguration(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION:
-				return eInternalContainer().eInverseRemove(this, PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES, ExplorerConfiguration.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION:
-				return getExplorerConfiguration();
 			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE:
 				return getIsVisible();
 		}
@@ -202,9 +114,6 @@ public class ExplorerPropertyConfigurationImpl extends UmlReferenceImpl implemen
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION:
-				setExplorerConfiguration((ExplorerConfiguration)newValue);
-				return;
 			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE:
 				setIsVisible((Boolean)newValue);
 				return;
@@ -220,9 +129,6 @@ public class ExplorerPropertyConfigurationImpl extends UmlReferenceImpl implemen
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION:
-				setExplorerConfiguration((ExplorerConfiguration)null);
-				return;
 			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE:
 				setIsVisible(IS_VISIBLE_EDEFAULT);
 				return;
@@ -238,8 +144,6 @@ public class ExplorerPropertyConfigurationImpl extends UmlReferenceImpl implemen
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION:
-				return getExplorerConfiguration() != null;
 			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE:
 				return IS_VISIBLE_EDEFAULT == null ? isVisible != null : !IS_VISIBLE_EDEFAULT.equals(isVisible);
 		}

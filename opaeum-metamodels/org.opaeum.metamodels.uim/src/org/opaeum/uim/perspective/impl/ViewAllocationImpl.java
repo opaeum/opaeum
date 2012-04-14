@@ -24,15 +24,13 @@ import org.opaeum.uim.perspective.ViewKind;
  * <ul>
  *   <li>{@link org.opaeum.uim.perspective.impl.ViewAllocationImpl#getWidth <em>Width</em>}</li>
  *   <li>{@link org.opaeum.uim.perspective.impl.ViewAllocationImpl#getHeight <em>Height</em>}</li>
- *   <li>{@link org.opaeum.uim.perspective.impl.ViewAllocationImpl#getPerspective <em>Perspective</em>}</li>
- *   <li>{@link org.opaeum.uim.perspective.impl.ViewAllocationImpl#getViewKind <em>View Kind</em>}</li>
  *   <li>{@link org.opaeum.uim.perspective.impl.ViewAllocationImpl#getPosition <em>Position</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
+public abstract class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
 	/**
 	 * The default value of the '{@link #getWidth() <em>Width</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -72,26 +70,6 @@ public class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
 	 * @ordered
 	 */
 	protected Integer height = HEIGHT_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getViewKind() <em>View Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getViewKind()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final ViewKind VIEW_KIND_EDEFAULT = ViewKind.EXPLORER;
-
-	/**
-	 * The cached value of the '{@link #getViewKind() <em>View Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getViewKind()
-	 * @generated
-	 * @ordered
-	 */
-	protected ViewKind viewKind = VIEW_KIND_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
@@ -179,68 +157,6 @@ public class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimPerspective getPerspective() {
-		if (eContainerFeatureID() != PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE) return null;
-		return (UimPerspective)eContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetPerspective(UimPerspective newPerspective, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newPerspective, PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE, msgs);
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPerspective(UimPerspective newPerspective) {
-		if (newPerspective != eInternalContainer() || (eContainerFeatureID() != PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE && newPerspective != null)) {
-			if (EcoreUtil.isAncestor(this, newPerspective))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newPerspective != null)
-				msgs = ((InternalEObject)newPerspective).eInverseAdd(this, PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS, UimPerspective.class, msgs);
-			msgs = basicSetPerspective(newPerspective, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE, newPerspective, newPerspective));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ViewKind getViewKind() {
-		return viewKind;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setViewKind(ViewKind newViewKind) {
-		ViewKind oldViewKind = viewKind;
-		viewKind = newViewKind == null ? VIEW_KIND_EDEFAULT : newViewKind;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerspectivePackage.VIEW_ALLOCATION__VIEW_KIND, oldViewKind, viewKind));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public PositionInPerspective getPosition() {
 		return position;
 	}
@@ -263,60 +179,12 @@ public class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetPerspective((UimPerspective)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE:
-				return basicSetPerspective(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE:
-				return eInternalContainer().eInverseRemove(this, PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS, UimPerspective.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PerspectivePackage.VIEW_ALLOCATION__WIDTH:
 				return getWidth();
 			case PerspectivePackage.VIEW_ALLOCATION__HEIGHT:
 				return getHeight();
-			case PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE:
-				return getPerspective();
-			case PerspectivePackage.VIEW_ALLOCATION__VIEW_KIND:
-				return getViewKind();
 			case PerspectivePackage.VIEW_ALLOCATION__POSITION:
 				return getPosition();
 		}
@@ -336,12 +204,6 @@ public class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
 				return;
 			case PerspectivePackage.VIEW_ALLOCATION__HEIGHT:
 				setHeight((Integer)newValue);
-				return;
-			case PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE:
-				setPerspective((UimPerspective)newValue);
-				return;
-			case PerspectivePackage.VIEW_ALLOCATION__VIEW_KIND:
-				setViewKind((ViewKind)newValue);
 				return;
 			case PerspectivePackage.VIEW_ALLOCATION__POSITION:
 				setPosition((PositionInPerspective)newValue);
@@ -364,12 +226,6 @@ public class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
 			case PerspectivePackage.VIEW_ALLOCATION__HEIGHT:
 				setHeight(HEIGHT_EDEFAULT);
 				return;
-			case PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE:
-				setPerspective((UimPerspective)null);
-				return;
-			case PerspectivePackage.VIEW_ALLOCATION__VIEW_KIND:
-				setViewKind(VIEW_KIND_EDEFAULT);
-				return;
 			case PerspectivePackage.VIEW_ALLOCATION__POSITION:
 				setPosition(POSITION_EDEFAULT);
 				return;
@@ -389,10 +245,6 @@ public class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
 				return WIDTH_EDEFAULT == null ? width != null : !WIDTH_EDEFAULT.equals(width);
 			case PerspectivePackage.VIEW_ALLOCATION__HEIGHT:
 				return HEIGHT_EDEFAULT == null ? height != null : !HEIGHT_EDEFAULT.equals(height);
-			case PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE:
-				return getPerspective() != null;
-			case PerspectivePackage.VIEW_ALLOCATION__VIEW_KIND:
-				return viewKind != VIEW_KIND_EDEFAULT;
 			case PerspectivePackage.VIEW_ALLOCATION__POSITION:
 				return position != POSITION_EDEFAULT;
 		}
@@ -413,8 +265,6 @@ public class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
 		result.append(width);
 		result.append(", height: ");
 		result.append(height);
-		result.append(", viewKind: ");
-		result.append(viewKind);
 		result.append(", position: ");
 		result.append(position);
 		result.append(')');

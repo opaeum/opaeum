@@ -13,10 +13,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.rap.rms.data.DataModelRegistry;
-import org.eclipse.rap.rms.data.IDataModel;
-import org.eclipse.rap.rms.data.IPrincipal;
-import org.eclipse.rap.rms.data.IProject;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
@@ -47,18 +43,15 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-import org.eclipse.ui.internal.PerspectiveSwitcher;
 import org.eclipse.ui.part.ViewPart;
 import org.opaeum.annotation.BusinessActor;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.BusinessRole;
-import org.opaeum.rap.login.LoginView;
 import org.opaeum.rap.runtime.Constants;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
-import org.opaeum.rap.runtime.internal.actions.NewAction;
 import org.opaeum.rap.runtime.internal.actions.OpenEditorAction;
 import org.opaeum.rap.runtime.internal.startup.RMSPerspective;
 import org.opaeum.rap.wizards.contacts.SelectionForContact;
@@ -75,8 +68,6 @@ import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
 import com.google.api.client.auth.oauth2.draft10.AccessTokenResponse;
-import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource;
-import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.extensions.Email;
 import com.google.gdata.data.extensions.PhoneNumber;
@@ -140,20 +131,6 @@ public class Intro extends ViewPart{
 				IWorkbenchPage page = getSite().getPage();
 				workbench.showPerspective(id, page.getWorkbenchWindow());
 				if(openEditor){
-					IDataModel model = DataModelRegistry.getFactory();
-					Iterator<IPrincipal> principals = model.getPrincipals().iterator();
-					boolean editorOpen = false;
-					while(!editorOpen && principals.hasNext()){
-						IPrincipal principal = principals.next();
-						editorOpen = OpenEditorAction.openEditor(principal, false,opaeumRapSession);
-						if(!editorOpen){
-							Iterator<IProject> projects = principal.getProjects().iterator();
-							while(!editorOpen && projects.hasNext()){
-								IProject project = projects.next();
-								editorOpen = OpenEditorAction.openEditor(project, false,opaeumRapSession);
-							}
-						}
-					}
 				}
 				if(action != null){
 					action.run();
@@ -250,10 +227,7 @@ public class Intro extends ViewPart{
 		createActionSections(form, left);
 	}
 	private void createActionSections(final ScrolledForm form,final Composite left){
-		IDataModel model = DataModelRegistry.getFactory();
-		final IPrincipal principal = model.getPrincipals().get(0);
-		IProject project = principal.getProjects().get(0);
-		ISelection selection = new StructuredSelection(project);
+		ISelection selection = new StructuredSelection();
 		createImageLabelSection(form, left, RMSMessages.get().Intro_SelectionTitle, RMSMessages.get().Intro_SelectionDesc,
 				Activator.IMG_INTRO_NAVIGATOR, RMSMessages.get().Intro_SelectionContent, new SwitchPerspective(selection, false, null), true);
 		createImageLabelSection(form, left, RMSMessages.get().Intro_EditorTitle, RMSMessages.get().Intro_EditorDesc,

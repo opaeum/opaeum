@@ -24,6 +24,19 @@ public class UimFieldComposite extends Composite implements IUimFieldComposite{
 		GridData labelData = new GridData(GridData.CENTER, GridData.FILL, false, false);
 		getLabel().setLayoutData(labelData);
 	}
+	public void setEnabled(boolean value){
+		super.setEnabled(value);
+		Control[] children = getChildren();
+		setEnabled(value, children);
+	}
+	private void setEnabled(boolean value,Control[] children){
+		for(Control control:children){
+			control.setEnabled(value);
+			if(control instanceof Composite){
+				setEnabled(value,((Composite) control).getChildren());
+			}
+		}
+	}
 	@Override
 	public Control getControl(){
 		return control;

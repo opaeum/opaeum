@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 
 import org.opaeum.annotation.ParameterMetaInfo;
+import org.opaeum.annotation.PropertyConstraint;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IPersistentObject;
@@ -29,6 +30,8 @@ public class JavaTypedElement{
 	private String lookupMethod;
 	private Method writeMethod;
 	private PropertyDescriptor propertyDescriptor;
+	private Method addMethod;
+	private PropertyConstraint[] constraints;
 	// TODO extract method and move to new class
 	public JavaTypedElement(Method getter){
 		super();
@@ -55,6 +58,11 @@ public class JavaTypedElement{
 		}catch(SecurityException e1){
 		}catch(NoSuchMethodException e1){
 		}
+		try{
+			this.addMethod = readMethod.getDeclaringClass().getMethod("addTo" + NameConverter.capitalize(name), readMethod.getReturnType());
+		}catch(SecurityException e1){
+		}catch(NoSuchMethodException e1){
+		}
 		Class<PropertyMetaInfo> annotationClass = PropertyMetaInfo.class;
 		PropertyMetaInfo annotation = readMethod.getAnnotation(annotationClass);
 		if(annotation != null){
@@ -72,6 +80,7 @@ public class JavaTypedElement{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			setConstraints(annotation.constraints());
 			this.shortDescription = annotation.shortDescription();
 		}
 		this.type = readMethod.getReturnType();
@@ -189,5 +198,22 @@ public class JavaTypedElement{
 			propertyDescriptor = IntrospectionUtil.getProperty(this.name, readMethod.getDeclaringClass());
 		}
 		return propertyDescriptor;
+	}
+	public void invokeAdder(Object target,IPersistentObject ni){
+		try{
+			addMethod.invoke(target, ni);
+		}catch(IllegalArgumentException e){
+			throw new RuntimeException(e);
+		}catch(IllegalAccessException e){
+			throw new RuntimeException(e);
+		}catch(InvocationTargetException e){
+			throw new RuntimeException(e.getTargetException());
+		}
+	}
+	public PropertyConstraint[] getConstraints(){
+		return constraints;
+	}
+	public void setConstraints(PropertyConstraint[] constraints){
+		this.constraints = constraints;
 	}
 }

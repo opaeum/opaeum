@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+gmf_dashboard/domainGenerationModel=platform\:/resource/org.opaeum.metamodels.uim/model/Uim.genmodel
+gmf_dashboard/domainModel=platform\:/resource/org.opaeum.metamodels.uim/model/Uim.ecore
+gmf_dashboard/generationModel=platform\:/resource/org.opaeum.uimodeler.cubequery.diagram/model/cubequery.gmfgen
+gmf_dashboard/graphicalDefinitionModel=platform\:/resource/org.opaeum.uimodeler.cubequery.diagram/model/cubequery.gmfgraph
+gmf_dashboard/mappingModel=platform\:/resource/org.opaeum.uimodeler.cubequery.diagram/model/cubequery.gmfmap
+gmf_dashboard/toolingDefinitionModel=platform\:/resource/org.opaeum.uimodeler.cubequery.diagram/model/cubequery.gmftool

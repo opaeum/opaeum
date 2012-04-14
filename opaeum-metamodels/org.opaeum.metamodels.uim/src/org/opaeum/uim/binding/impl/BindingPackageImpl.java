@@ -21,6 +21,8 @@ import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.impl.ControlPackageImpl;
+import org.opaeum.uim.cube.CubePackage;
+import org.opaeum.uim.cube.impl.CubePackageImpl;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
@@ -131,6 +133,7 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
 		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
 		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
+		CubePackageImpl theCubePackage = (CubePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) instanceof CubePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) : CubePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBindingPackage.createPackageContents();
@@ -142,6 +145,7 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 		thePanelPackage.createPackageContents();
 		theWizardPackage.createPackageContents();
 		thePerspectivePackage.createPackageContents();
+		theCubePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theBindingPackage.initializePackageContents();
@@ -153,6 +157,7 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 		thePanelPackage.initializePackageContents();
 		theWizardPackage.initializePackageContents();
 		thePerspectivePackage.initializePackageContents();
+		theCubePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theBindingPackage.freeze();

@@ -93,6 +93,14 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 				return createExplorerPropertyConfigurationAdapter();
 			}
 			@Override
+			public Adapter caseEditorConfiguration(EditorConfiguration object) {
+				return createEditorConfigurationAdapter();
+			}
+			@Override
+			public Adapter casePropertiesConfiguration(PropertiesConfiguration object) {
+				return createPropertiesConfigurationAdapter();
+			}
+			@Override
 			public Adapter caseUmlReference(UmlReference object) {
 				return createUmlReferenceAdapter();
 			}
@@ -183,6 +191,34 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createExplorerPropertyConfigurationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.EditorConfiguration <em>Editor Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.perspective.EditorConfiguration
+	 * @generated
+	 */
+	public Adapter createEditorConfigurationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.PropertiesConfiguration <em>Properties Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.perspective.PropertiesConfiguration
+	 * @generated
+	 */
+	public Adapter createPropertiesConfigurationAdapter() {
 		return null;
 	}
 

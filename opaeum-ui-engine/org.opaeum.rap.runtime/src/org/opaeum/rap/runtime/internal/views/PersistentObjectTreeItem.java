@@ -20,7 +20,7 @@ public class PersistentObjectTreeItem{
 	}
 	@Override
 	public boolean equals(Object obj){
-		if(obj instanceof PersistentObjectTreeItem){
+		if(obj instanceof PersistentObjectTreeItem && ((PersistentObjectTreeItem) obj).entity!=null){
 			return ((PersistentObjectTreeItem) obj).entity.equals(entity);
 		}
 		return false;

@@ -31,15 +31,6 @@ public interface PerspectiveFactory extends EFactory {
 	UimPerspective createUimPerspective();
 
 	/**
-	 * Returns a new object of class '<em>View Allocation</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>View Allocation</em>'.
-	 * @generated
-	 */
-	ViewAllocation createViewAllocation();
-
-	/**
 	 * Returns a new object of class '<em>Explorer Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -65,6 +56,24 @@ public interface PerspectiveFactory extends EFactory {
 	 * @generated
 	 */
 	ExplorerPropertyConfiguration createExplorerPropertyConfiguration();
+
+	/**
+	 * Returns a new object of class '<em>Editor Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Editor Configuration</em>'.
+	 * @generated
+	 */
+	EditorConfiguration createEditorConfiguration();
+
+	/**
+	 * Returns a new object of class '<em>Properties Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Properties Configuration</em>'.
+	 * @generated
+	 */
+	PropertiesConfiguration createPropertiesConfiguration();
 
 	/**
 	 * Returns the package supported by this factory.

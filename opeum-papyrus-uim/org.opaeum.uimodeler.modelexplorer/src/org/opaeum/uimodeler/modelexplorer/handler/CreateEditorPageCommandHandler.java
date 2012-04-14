@@ -5,15 +5,19 @@ import org.eclipse.emf.ecore.EReference;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.OperationPopupPage;
+import org.opaeum.uim.editor.EditorFactory;
+import org.opaeum.uim.editor.EditorPackage;
+import org.opaeum.uim.editor.EditorPage;
 
 public class CreateEditorPageCommandHandler extends CreateCommandHandler{
 	@Override
 	protected EReference getFeature(){
-		return ActionPackage.eINSTANCE.getOperationPopup_Pages();
+		return EditorPackage.eINSTANCE.getAbstractEditor_Pages();
 	}
+
 	@Override
 	protected EObject getNewObject(){
-		OperationPopupPage p = ActionFactory.eINSTANCE.createOperationPopupPage();
+		EditorPage p = EditorFactory.eINSTANCE.createEditorPage();
 		p.setName("NewPage");
 		return p;
 	}

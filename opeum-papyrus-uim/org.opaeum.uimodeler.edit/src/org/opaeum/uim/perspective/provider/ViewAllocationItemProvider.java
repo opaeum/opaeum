@@ -60,7 +60,6 @@ public class ViewAllocationItemProvider
 
 			addWidthPropertyDescriptor(object);
 			addHeightPropertyDescriptor(object);
-			addViewKindPropertyDescriptor(object);
 			addPositionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -102,28 +101,6 @@ public class ViewAllocationItemProvider
 				 getString("_UI_ViewAllocation_height_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_ViewAllocation_height_feature", "_UI_ViewAllocation_type"),
 				 PerspectivePackage.Literals.VIEW_ALLOCATION__HEIGHT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the View Kind feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addViewKindPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_ViewAllocation_viewKind_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ViewAllocation_viewKind_feature", "_UI_ViewAllocation_type"),
-				 PerspectivePackage.Literals.VIEW_ALLOCATION__VIEW_KIND,
 				 true,
 				 false,
 				 false,
@@ -194,7 +171,6 @@ public class ViewAllocationItemProvider
 		switch (notification.getFeatureID(ViewAllocation.class)) {
 			case PerspectivePackage.VIEW_ALLOCATION__WIDTH:
 			case PerspectivePackage.VIEW_ALLOCATION__HEIGHT:
-			case PerspectivePackage.VIEW_ALLOCATION__VIEW_KIND:
 			case PerspectivePackage.VIEW_ALLOCATION__POSITION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

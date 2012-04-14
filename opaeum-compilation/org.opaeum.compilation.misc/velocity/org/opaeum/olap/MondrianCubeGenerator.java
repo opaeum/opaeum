@@ -22,6 +22,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -287,6 +288,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 				addTimeLevel(levels, "Year", "TimeYears");
 				addTimeLevel(levels, "Quarter", "TimeQuarters");
 				addTimeLevel(levels, "MonthOfYear", "TimeMonths");
+				break;
 			case DAY:
 				addTimeLevel(levels, "Year", "TimeYears");
 				addTimeLevel(levels, "Quarter", "TimeQuarters");

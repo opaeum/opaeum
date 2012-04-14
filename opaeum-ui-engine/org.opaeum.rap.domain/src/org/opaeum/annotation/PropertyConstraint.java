@@ -11,5 +11,5 @@ import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 @Target({ElementType.TYPE,ElementType.METHOD,ElementType.FIELD})
 public @interface PropertyConstraint{
 	String message() default "";
-	String method() default "";
+	String name() default "";
 }

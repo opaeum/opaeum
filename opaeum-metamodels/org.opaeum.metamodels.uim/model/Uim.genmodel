@@ -63,6 +63,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ClassUserInteractionModel/primaryEditor"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ClassUserInteractionModel/secondaryEditors"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ClassUserInteractionModel/newObjectWizard"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ClassUserInteractionModel/cubeQueries"/>
     </genClasses>
     <genClasses ecoreClass="Uim.ecore#//ResponsibilityUserInteractionModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ResponsibilityUserInteractionModel/invocationWizard"/>
@@ -267,12 +268,6 @@
     </nestedGenPackages>
     <nestedGenPackages prefix="Perspective" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//perspective">
-      <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//perspective/ViewKind">
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//perspective/ViewKind/explorer"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//perspective/ViewKind/editor"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//perspective/ViewKind/inbox"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//perspective/ViewKind/outbox"/>
-      </genEnums>
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//perspective/PositionInPerspective">
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//perspective/PositionInPerspective/left"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//perspective/PositionInPerspective/right"/>
@@ -288,29 +283,43 @@
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//perspective/PositionInPerspective/bottomLeft"/>
       </genEnums>
       <genClasses ecoreClass="Uim.ecore#//perspective/UimPerspective">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/UimPerspective/viewAllocations"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/UimPerspective/explorerConfiguration"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/UimPerspective/editorConfiguration"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/UimPerspective/propertiesConfiguration"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//perspective/ViewAllocation">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ViewAllocation/width"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ViewAllocation/height"/>
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ViewAllocation/perspective"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ViewAllocation/viewKind"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ViewAllocation/position"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerConfiguration">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/perspective"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/configuredClasses"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/configuredProperties"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerClassConfiguration">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerClassConfiguration/explorerConfiguration"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ExplorerClassConfiguration/isVisible"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerClassConfiguration/configuredProperties"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerPropertyConfiguration">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerPropertyConfiguration/explorerConfiguration"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ExplorerPropertyConfiguration/isVisible"/>
       </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//perspective/EditorConfiguration"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/PropertiesConfiguration"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Cube" basePackage="org.opaeum.uim" resource="XML" disposableProviderFactory="true"
+        ecorePackage="Uim.ecore#//cube">
+      <genClasses ecoreClass="Uim.ecore#//cube/CubeQuery">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/CubeQuery/columnAxis"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/CubeQuery/rowAxis"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//cube/AxisEntry">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/AxisEntry/dimensionBinding"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/AxisEntry/levelProperty"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//cube/DimensionBinding"/>
+      <genClasses ecoreClass="Uim.ecore#//cube/LevelProperty"/>
+      <genClasses ecoreClass="Uim.ecore#//cube/RowAxisEntry"/>
+      <genClasses ecoreClass="Uim.ecore#//cube/ColumnAxisEntry"/>
     </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

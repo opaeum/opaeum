@@ -16,6 +16,8 @@ import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.impl.ControlPackageImpl;
+import org.opaeum.uim.cube.CubePackage;
+import org.opaeum.uim.cube.impl.CubePackageImpl;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
@@ -123,6 +125,7 @@ public class WizardPackageImpl extends EPackageImpl implements WizardPackage {
 		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
 		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
 		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
+		CubePackageImpl theCubePackage = (CubePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) instanceof CubePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) : CubePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theWizardPackage.createPackageContents();
@@ -134,6 +137,7 @@ public class WizardPackageImpl extends EPackageImpl implements WizardPackage {
 		theActionPackage.createPackageContents();
 		thePanelPackage.createPackageContents();
 		thePerspectivePackage.createPackageContents();
+		theCubePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theWizardPackage.initializePackageContents();
@@ -145,6 +149,7 @@ public class WizardPackageImpl extends EPackageImpl implements WizardPackage {
 		theActionPackage.initializePackageContents();
 		thePanelPackage.initializePackageContents();
 		thePerspectivePackage.initializePackageContents();
+		theCubePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theWizardPackage.freeze();

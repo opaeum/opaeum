@@ -24,6 +24,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -49,7 +50,8 @@ import org.w3c.dom.NodeList;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="organization_i_business_component_1")
+@Table(name="organization_i_business_component_1",uniqueConstraints=
+	@UniqueConstraint(columnNames={"represented_organization_id","deleted_on"}))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="Organization_iBusinessComponent_1")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")

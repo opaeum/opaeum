@@ -2,6 +2,7 @@
  */
 package org.opaeum.uim.perspective;
 
+import org.eclipse.emf.common.util.EList;
 import org.opaeum.uim.UmlReference;
 
 /**
@@ -14,6 +15,7 @@ import org.opaeum.uim.UmlReference;
  * <ul>
  *   <li>{@link org.opaeum.uim.perspective.ExplorerClassConfiguration#getExplorerConfiguration <em>Explorer Configuration</em>}</li>
  *   <li>{@link org.opaeum.uim.perspective.ExplorerClassConfiguration#getIsVisible <em>Is Visible</em>}</li>
+ *   <li>{@link org.opaeum.uim.perspective.ExplorerClassConfiguration#getConfiguredProperties <em>Configured Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -75,5 +77,21 @@ public interface ExplorerClassConfiguration extends UmlReference {
 	 * @generated
 	 */
 	void setIsVisible(Boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Configured Properties</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Configured Properties</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Configured Properties</em>' containment reference list.
+	 * @see org.opaeum.uim.perspective.PerspectivePackage#getExplorerClassConfiguration_ConfiguredProperties()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ExplorerPropertyConfiguration> getConfiguredProperties();
 
 } // ExplorerClassConfiguration

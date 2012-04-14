@@ -1,5 +1,7 @@
 package org.opaeum.rap.runtime.internal.views;
 
+import java.util.Date;
+
 import javassist.Modifier;
 
 import org.eclipse.jface.action.Action;
@@ -15,7 +17,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.rap.rms.data.IDataModel;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.service.IServiceStore;
 import org.eclipse.swt.SWT;
@@ -36,6 +37,7 @@ import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.actions.NewAction;
 import org.opaeum.rap.runtime.internal.actions.OpenEditorAction;
 import org.opaeum.runtime.domain.CompositionNode;
+import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.organization.IPersonNode;
@@ -86,11 +88,11 @@ public class Navigator extends ViewPart{
 							ti = provider.getTreeItemFor((IPersistentObject) cn.getOwningObject());
 							if(ti != null){
 								// Newly created
-								opaeumSession.getPersistence().refresh(ti.getEntity());//NB!! Get entity from THIS session
+								opaeumSession.getPersistence().refresh(ti.getEntity());// NB!! Get entity from THIS session
 								viewer.refresh(ti);
 							}
 						}else{
-							opaeumSession.getPersistence().refresh(ti.getEntity());//NB!! Get entity from THIS session
+							opaeumSession.getPersistence().refresh(ti.getEntity());// NB!! Get entity from THIS session
 							ISelection selection = new StructuredSelection(ti);
 							viewer.setSelection(selection, true);
 						}
@@ -105,9 +107,14 @@ public class Navigator extends ViewPart{
 					if(entity != null){
 						PersistentObjectTreeItem ti = provider.getTreeItemFor(entity);
 						if(ti != null){
-							opaeumSession.getPersistence().refresh(ti.getEntity());//NB!! Get entity from THIS session
-							viewer.refresh(ti);
-							
+							if(((HibernateEntity) ti.getEntity()).getDeletedOn().before(new Date(System.currentTimeMillis() + 1))){
+								CompositionNode owningObject = ((CompositionNode) ti.getEntity()).getOwningObject();
+								opaeumSession.getPersistence().refresh((IPersistentObject)owningObject);// NB!! Get entity from THIS session
+								viewer.refresh(ti.getParent());
+							}else{
+								opaeumSession.getPersistence().refresh(ti.getEntity());// NB!! Get entity from THIS session
+								viewer.refresh(ti);
+							}
 						}
 					}
 				}

@@ -2,6 +2,7 @@ package org.opaeum.rap.runtime.internal.editors;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.UUID;
 
@@ -10,7 +11,6 @@ import org.eclipse.core.databinding.ValidationStatusProvider;
 import org.eclipse.core.databinding.observable.value.AbstractObservableValue;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -63,6 +63,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.internal.Activator;
+import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.uim.ClassUserInteractionModel;
@@ -96,12 +97,9 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 	
 	protected void createHeaderContents(final IManagedForm headerForm){
 		final FormToolkit toolkit = headerForm.getToolkit();
-		Section section = toolkit.createSection(headerForm.getForm().getForm().getHead(), Section.EXPANDED);
-		headerForm.getForm().setHeadClient(section);
-		section.setText("Actions");
-		section.setLayout(new FillLayout());
-		Composite headerClient = new Composite(section, SWT.NONE);
-		section.setClient(headerClient);
+		Composite headerClient = toolkit.createComposite(headerForm.getForm().getForm().getHead(), SWT.NONE);
+		headerForm.getForm().setHeadClient(headerClient);
+		headerClient.setLayout(new FillLayout());
 		EObject rootUimObject = getRootUimObject();
 		final DataBindingContext bc = getEditorInput().getDataBindingContext();
 		if(rootUimObject instanceof ClassUserInteractionModel){
@@ -114,7 +112,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 			for(UimComponent uimComponent:children){
 				builder.addComponent(headerClient, uimComponent, bc);
 			}
-			section.getParent().layout();
+			headerClient.getParent().layout();
 		}
 		toolkit.getHyperlinkGroup().setHyperlinkUnderlineMode(HyperlinkSettings.UNDERLINE_HOVER);
 		toolkit.decorateFormHeading(headerForm.getForm().getForm());
@@ -300,9 +298,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 	}
 	@Override
 	public void doSave(final IProgressMonitor monitor){
-		for(int i = 0;i < editorPages.length;i++){
-			editorPages[i].doSave(monitor);
-		}
+		getEditorInput().setDirty(false);
 		getEditorInput().getPersistence().flush();
 	}
 	@Override
@@ -348,12 +344,16 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 								return ((IPersistentObject) object).getId().toString();
 							}else if(id.equals("Name")){
 								return ((IPersistentObject) object).getName() + "Name";
+							}else if(id.equals("Version")){
+								return ((IPersistentObject) object).getObjectVersion() + "";
+							}else if(id.equals("UUID")){
+								return ((IPersistentObject) object).getUid() + "";
 							}else{
 								return "";
 							}
 						}
 						public IPropertyDescriptor[] getPropertyDescriptors(){
-							return new IPropertyDescriptor[]{new PropertyDescriptor("ID", "ID"),new PropertyDescriptor("Name", "Name")};
+							return new IPropertyDescriptor[]{new PropertyDescriptor("ID", "ID"),new PropertyDescriptor("Name", "Name"),new PropertyDescriptor("Version", "Version"),new PropertyDescriptor("UUID", "UUID")};
 						}
 						public Object getEditableValue(){
 							return null;
@@ -384,5 +384,8 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 	}
 	public void dirtyChanged(boolean dirty){
 		firePropertyChange(IEditorPart.PROP_DIRTY); 
+		if(!dirty && ((HibernateEntity) getEditorInput().getPersistentObject()).getDeletedOn().before(new Date(System.currentTimeMillis()+1))){
+			close(false);
+		}
 	}
 }

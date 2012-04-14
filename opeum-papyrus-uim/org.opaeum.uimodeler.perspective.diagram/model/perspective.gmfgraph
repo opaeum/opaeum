@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmfgraph:Canvas
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition"
+    name="PerspectiveCanvas">
+  <figures
+      name="PerspectiveGallery">
+    <descriptors
+        name="EditorConfigurationFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="EditorConfigurationFigure"/>
+    </descriptors>
+    <descriptors
+        name="PropertiesConfigurationFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="PropertiesConfigurationFigure"/>
+    </descriptors>
+    <descriptors
+        name="ExplorerConfigurationFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="EditorConfigurationFigure"/>
+    </descriptors>
+  </figures>
+  <nodes
+      name="ExplorerConfiguration"
+      figure="ExplorerConfigurationFigure"/>
+  <nodes
+      name="PropertiesConfiguration"
+      figure="PropertiesConfigurationFigure"/>
+  <nodes
+      name="EditorConfiguration"
+      figure="EditorConfigurationFigure"/>
+</gmfgraph:Canvas>

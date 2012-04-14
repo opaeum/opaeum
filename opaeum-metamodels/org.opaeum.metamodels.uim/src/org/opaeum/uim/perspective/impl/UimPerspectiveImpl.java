@@ -11,10 +11,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.opaeum.uim.perspective.EditorConfiguration;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
 import org.opaeum.uim.perspective.PerspectivePackage;
+import org.opaeum.uim.perspective.PropertiesConfiguration;
 import org.opaeum.uim.perspective.UimPerspective;
 import org.opaeum.uim.perspective.ViewAllocation;
 
@@ -25,24 +27,15 @@ import org.opaeum.uim.perspective.ViewAllocation;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opaeum.uim.perspective.impl.UimPerspectiveImpl#getViewAllocations <em>View Allocations</em>}</li>
  *   <li>{@link org.opaeum.uim.perspective.impl.UimPerspectiveImpl#getExplorerConfiguration <em>Explorer Configuration</em>}</li>
+ *   <li>{@link org.opaeum.uim.perspective.impl.UimPerspectiveImpl#getEditorConfiguration <em>Editor Configuration</em>}</li>
+ *   <li>{@link org.opaeum.uim.perspective.impl.UimPerspectiveImpl#getPropertiesConfiguration <em>Properties Configuration</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
-	/**
-	 * The cached value of the '{@link #getViewAllocations() <em>View Allocations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getViewAllocations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<ViewAllocation> viewAllocations;
-
 	/**
 	 * The cached value of the '{@link #getExplorerConfiguration() <em>Explorer Configuration</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -52,6 +45,26 @@ public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
 	 * @ordered
 	 */
 	protected ExplorerConfiguration explorerConfiguration;
+
+	/**
+	 * The cached value of the '{@link #getEditorConfiguration() <em>Editor Configuration</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEditorConfiguration()
+	 * @generated
+	 * @ordered
+	 */
+	protected EditorConfiguration editorConfiguration;
+
+	/**
+	 * The cached value of the '{@link #getPropertiesConfiguration() <em>Properties Configuration</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPropertiesConfiguration()
+	 * @generated
+	 * @ordered
+	 */
+	protected PropertiesConfiguration propertiesConfiguration;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -70,18 +83,6 @@ public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
 	@Override
 	protected EClass eStaticClass() {
 		return PerspectivePackage.Literals.UIM_PERSPECTIVE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<ViewAllocation> getViewAllocations() {
-		if (viewAllocations == null) {
-			viewAllocations = new EObjectContainmentWithInverseEList<ViewAllocation>(ViewAllocation.class, this, PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS, PerspectivePackage.VIEW_ALLOCATION__PERSPECTIVE);
-		}
-		return viewAllocations;
 	}
 
 	/**
@@ -117,9 +118,9 @@ public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
 		if (newExplorerConfiguration != explorerConfiguration) {
 			NotificationChain msgs = null;
 			if (explorerConfiguration != null)
-				msgs = ((InternalEObject)explorerConfiguration).eInverseRemove(this, PerspectivePackage.EXPLORER_CONFIGURATION__PERSPECTIVE, ExplorerConfiguration.class, msgs);
+				msgs = ((InternalEObject)explorerConfiguration).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION, null, msgs);
 			if (newExplorerConfiguration != null)
-				msgs = ((InternalEObject)newExplorerConfiguration).eInverseAdd(this, PerspectivePackage.EXPLORER_CONFIGURATION__PERSPECTIVE, ExplorerConfiguration.class, msgs);
+				msgs = ((InternalEObject)newExplorerConfiguration).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION, null, msgs);
 			msgs = basicSetExplorerConfiguration(newExplorerConfiguration, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -132,18 +133,85 @@ public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getViewAllocations()).basicAdd(otherEnd, msgs);
-			case PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION:
-				if (explorerConfiguration != null)
-					msgs = ((InternalEObject)explorerConfiguration).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION, null, msgs);
-				return basicSetExplorerConfiguration((ExplorerConfiguration)otherEnd, msgs);
+	public EditorConfiguration getEditorConfiguration() {
+		return editorConfiguration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEditorConfiguration(EditorConfiguration newEditorConfiguration, NotificationChain msgs) {
+		EditorConfiguration oldEditorConfiguration = editorConfiguration;
+		editorConfiguration = newEditorConfiguration;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION, oldEditorConfiguration, newEditorConfiguration);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEditorConfiguration(EditorConfiguration newEditorConfiguration) {
+		if (newEditorConfiguration != editorConfiguration) {
+			NotificationChain msgs = null;
+			if (editorConfiguration != null)
+				msgs = ((InternalEObject)editorConfiguration).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION, null, msgs);
+			if (newEditorConfiguration != null)
+				msgs = ((InternalEObject)newEditorConfiguration).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION, null, msgs);
+			msgs = basicSetEditorConfiguration(newEditorConfiguration, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION, newEditorConfiguration, newEditorConfiguration));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PropertiesConfiguration getPropertiesConfiguration() {
+		return propertiesConfiguration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetPropertiesConfiguration(PropertiesConfiguration newPropertiesConfiguration, NotificationChain msgs) {
+		PropertiesConfiguration oldPropertiesConfiguration = propertiesConfiguration;
+		propertiesConfiguration = newPropertiesConfiguration;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION, oldPropertiesConfiguration, newPropertiesConfiguration);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPropertiesConfiguration(PropertiesConfiguration newPropertiesConfiguration) {
+		if (newPropertiesConfiguration != propertiesConfiguration) {
+			NotificationChain msgs = null;
+			if (propertiesConfiguration != null)
+				msgs = ((InternalEObject)propertiesConfiguration).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION, null, msgs);
+			if (newPropertiesConfiguration != null)
+				msgs = ((InternalEObject)newPropertiesConfiguration).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION, null, msgs);
+			msgs = basicSetPropertiesConfiguration(newPropertiesConfiguration, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION, newPropertiesConfiguration, newPropertiesConfiguration));
 	}
 
 	/**
@@ -154,10 +222,12 @@ public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS:
-				return ((InternalEList<?>)getViewAllocations()).basicRemove(otherEnd, msgs);
 			case PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION:
 				return basicSetExplorerConfiguration(null, msgs);
+			case PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION:
+				return basicSetEditorConfiguration(null, msgs);
+			case PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION:
+				return basicSetPropertiesConfiguration(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -170,10 +240,12 @@ public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS:
-				return getViewAllocations();
 			case PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION:
 				return getExplorerConfiguration();
+			case PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION:
+				return getEditorConfiguration();
+			case PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION:
+				return getPropertiesConfiguration();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -187,12 +259,14 @@ public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS:
-				getViewAllocations().clear();
-				getViewAllocations().addAll((Collection<? extends ViewAllocation>)newValue);
-				return;
 			case PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION:
 				setExplorerConfiguration((ExplorerConfiguration)newValue);
+				return;
+			case PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION:
+				setEditorConfiguration((EditorConfiguration)newValue);
+				return;
+			case PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION:
+				setPropertiesConfiguration((PropertiesConfiguration)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -206,11 +280,14 @@ public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS:
-				getViewAllocations().clear();
-				return;
 			case PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION:
 				setExplorerConfiguration((ExplorerConfiguration)null);
+				return;
+			case PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION:
+				setEditorConfiguration((EditorConfiguration)null);
+				return;
+			case PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION:
+				setPropertiesConfiguration((PropertiesConfiguration)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -224,10 +301,12 @@ public class UimPerspectiveImpl extends EObjectImpl implements UimPerspective {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PerspectivePackage.UIM_PERSPECTIVE__VIEW_ALLOCATIONS:
-				return viewAllocations != null && !viewAllocations.isEmpty();
 			case PerspectivePackage.UIM_PERSPECTIVE__EXPLORER_CONFIGURATION:
 				return explorerConfiguration != null;
+			case PerspectivePackage.UIM_PERSPECTIVE__EDITOR_CONFIGURATION:
+				return editorConfiguration != null;
+			case PerspectivePackage.UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION:
+				return propertiesConfiguration != null;
 		}
 		return super.eIsSet(featureID);
 	}

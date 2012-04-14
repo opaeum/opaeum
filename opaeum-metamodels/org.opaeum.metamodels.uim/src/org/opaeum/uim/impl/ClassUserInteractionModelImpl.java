@@ -12,10 +12,12 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.opaeum.uim.ClassCubeQuery;
 import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UimRootElement;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.editor.ClassEditor;
 import org.opaeum.uim.wizard.NewObjectWizard;
 
@@ -32,6 +34,7 @@ import org.opaeum.uim.wizard.NewObjectWizard;
  *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#getPrimaryEditor <em>Primary Editor</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#getSecondaryEditors <em>Secondary Editors</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#getNewObjectWizard <em>New Object Wizard</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.ClassUserInteractionModelImpl#getCubeQueries <em>Cube Queries</em>}</li>
  * </ul>
  * </p>
  *
@@ -127,6 +130,16 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 	 * @ordered
 	 */
 	protected NewObjectWizard newObjectWizard;
+
+	/**
+	 * The cached value of the '{@link #getCubeQueries() <em>Cube Queries</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCubeQueries()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<CubeQuery> cubeQueries;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -313,6 +326,18 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<CubeQuery> getCubeQueries() {
+		if (cubeQueries == null) {
+			cubeQueries = new EObjectContainmentEList<CubeQuery>(CubeQuery.class, this, UimPackage.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES);
+		}
+		return cubeQueries;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -322,6 +347,8 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 				return ((InternalEList<?>)getSecondaryEditors()).basicRemove(otherEnd, msgs);
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD:
 				return basicSetNewObjectWizard(null, msgs);
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES:
+				return ((InternalEList<?>)getCubeQueries()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -346,6 +373,8 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 				return getSecondaryEditors();
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD:
 				return getNewObjectWizard();
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES:
+				return getCubeQueries();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -378,6 +407,10 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD:
 				setNewObjectWizard((NewObjectWizard)newValue);
 				return;
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES:
+				getCubeQueries().clear();
+				getCubeQueries().addAll((Collection<? extends CubeQuery>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -408,6 +441,9 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD:
 				setNewObjectWizard((NewObjectWizard)null);
 				return;
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES:
+				getCubeQueries().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -432,6 +468,8 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 				return secondaryEditors != null && !secondaryEditors.isEmpty();
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD:
 				return newObjectWizard != null;
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES:
+				return cubeQueries != null && !cubeQueries.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

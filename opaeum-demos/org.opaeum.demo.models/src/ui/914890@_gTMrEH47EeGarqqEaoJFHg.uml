@@ -73,4 +73,8 @@
       </panel>
     </pages>
   </newObjectWizard>
+  <cubeQueries xmi:id="_hOeekIXxEeGcGNFVBSk2sQ" name="NewCubeQuery">
+    <columnAxis xmi:id="__X6oQIX6EeGm361G8-BE8g"/>
+    <rowAxis xmi:id="_-8lXIIX6EeGm361G8-BE8g"/>
+  </cubeQueries>
 </uim:ClassUserInteractionModel>

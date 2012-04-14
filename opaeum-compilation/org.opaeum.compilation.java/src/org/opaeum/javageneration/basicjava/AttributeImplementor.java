@@ -51,8 +51,8 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		ap.putAttribute("isComposite", property.isComposite());
 		if(property.getBaseType() instanceof INakedSimpleType){
 			INakedSimpleType st = (INakedSimpleType) property.getBaseType();
-			if(st.getStrategyFactory()!=null && st.getStrategyFactory().getRuntimeStrategyFactory()!=null){
-				ap.putAttribute("strategyFactory",new OJPathName(st.getStrategyFactory().getRuntimeStrategyFactory()));
+			if(st.getStrategyFactory() != null && st.getStrategyFactory().getRuntimeStrategyFactory() != null){
+				ap.putAttribute("strategyFactory", new OJPathName(st.getStrategyFactory().getRuntimeStrategyFactory()));
 			}
 		}
 		if(property instanceof EmulatingElement){
@@ -194,7 +194,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		NakedStructuralFeatureMap map = aMap.getMap();
 		OJAnnotatedClass owner = findJavaClass(c);
 		if(map.getProperty().isDerived()){
-			buildGetter(c,owner, aMap);
+			buildGetter(c, owner, aMap);
 		}else{
 			if(map.isMany()){
 				// These are all the same as for normal attributes
@@ -210,7 +210,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			// Here are the deviations from normal attributes
 			buildInternalAdder(owner, aMap);
 			buildInternalRemover(owner, aMap);
-			buildGetter(c,owner, aMap);
+			buildGetter(c, owner, aMap);
 			buildGetterFor(owner, aMap);
 		}
 	}
@@ -638,7 +638,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					OJIfStatement ifParamNotNull = new OJIfStatement();
 					ifParamNotNull.setName(AttributeImplementor.IF_PARAM_NOT_NULL);
 					ifParamNotNull.setCondition(map.fieldname() + "!=null");
-					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + args);
+					if(prop.getAssociation() == null || !prop.getAssociation().isClass()){
+						//Association classes cause both ends to be maintained from the one side. 
+						ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + args);
+					}
 					ifParamNotNull.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
 					setter.getBody().addToStatements(ifParamNotNull);
 				}else if(map.isMany()){

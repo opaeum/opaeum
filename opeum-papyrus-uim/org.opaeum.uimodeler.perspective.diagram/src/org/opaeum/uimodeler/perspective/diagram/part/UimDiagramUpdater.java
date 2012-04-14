@@ -1,0 +1,167 @@
+package org.opaeum.uimodeler.perspective.diagram.part;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.eclipse.gmf.runtime.notation.View;
+import org.opaeum.uim.perspective.EditorConfiguration;
+import org.opaeum.uim.perspective.ExplorerConfiguration;
+import org.opaeum.uim.perspective.PropertiesConfiguration;
+import org.opaeum.uim.perspective.UimPerspective;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.EditorConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.ExplorerConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PropertiesConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
+
+/**
+ * @generated
+ */
+public class UimDiagramUpdater{
+	/**
+	 * @generated
+	 */
+	public static List<UimNodeDescriptor> getSemanticChildren(View view){
+		switch(UimVisualIDRegistry.getVisualID(view)){
+		case UimPerspectiveEditPart.VISUAL_ID:
+			return getUimPerspective_1000SemanticChildren(view);
+		}
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimNodeDescriptor> getUimPerspective_1000SemanticChildren(View view){
+		if(!view.isSetElement()){
+			return Collections.EMPTY_LIST;
+		}
+		UimPerspective modelElement = (UimPerspective) view.getElement();
+		LinkedList<UimNodeDescriptor> result = new LinkedList<UimNodeDescriptor>();
+		{
+			EditorConfiguration childElement = modelElement.getEditorConfiguration();
+			int visualID = UimVisualIDRegistry.getNodeVisualID(view, childElement);
+			if(visualID == EditorConfigurationEditPart.VISUAL_ID){
+				result.add(new UimNodeDescriptor(childElement, visualID));
+			}
+		}
+		{
+			PropertiesConfiguration childElement = modelElement.getPropertiesConfiguration();
+			int visualID = UimVisualIDRegistry.getNodeVisualID(view, childElement);
+			if(visualID == PropertiesConfigurationEditPart.VISUAL_ID){
+				result.add(new UimNodeDescriptor(childElement, visualID));
+			}
+		}
+		{
+			ExplorerConfiguration childElement = modelElement.getExplorerConfiguration();
+			int visualID = UimVisualIDRegistry.getNodeVisualID(view, childElement);
+			if(visualID == ExplorerConfigurationEditPart.VISUAL_ID){
+				result.add(new UimNodeDescriptor(childElement, visualID));
+			}
+		}
+		return result;
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getContainedLinks(View view){
+		switch(UimVisualIDRegistry.getVisualID(view)){
+		case UimPerspectiveEditPart.VISUAL_ID:
+			return getUimPerspective_1000ContainedLinks(view);
+		case EditorConfigurationEditPart.VISUAL_ID:
+			return getEditorConfiguration_2001ContainedLinks(view);
+		case PropertiesConfigurationEditPart.VISUAL_ID:
+			return getPropertiesConfiguration_2002ContainedLinks(view);
+		case ExplorerConfigurationEditPart.VISUAL_ID:
+			return getExplorerConfiguration_2003ContainedLinks(view);
+		}
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getIncomingLinks(View view){
+		switch(UimVisualIDRegistry.getVisualID(view)){
+		case EditorConfigurationEditPart.VISUAL_ID:
+			return getEditorConfiguration_2001IncomingLinks(view);
+		case PropertiesConfigurationEditPart.VISUAL_ID:
+			return getPropertiesConfiguration_2002IncomingLinks(view);
+		case ExplorerConfigurationEditPart.VISUAL_ID:
+			return getExplorerConfiguration_2003IncomingLinks(view);
+		}
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getOutgoingLinks(View view){
+		switch(UimVisualIDRegistry.getVisualID(view)){
+		case EditorConfigurationEditPart.VISUAL_ID:
+			return getEditorConfiguration_2001OutgoingLinks(view);
+		case PropertiesConfigurationEditPart.VISUAL_ID:
+			return getPropertiesConfiguration_2002OutgoingLinks(view);
+		case ExplorerConfigurationEditPart.VISUAL_ID:
+			return getExplorerConfiguration_2003OutgoingLinks(view);
+		}
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getUimPerspective_1000ContainedLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getEditorConfiguration_2001ContainedLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getPropertiesConfiguration_2002ContainedLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getExplorerConfiguration_2003ContainedLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getEditorConfiguration_2001IncomingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getPropertiesConfiguration_2002IncomingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getExplorerConfiguration_2003IncomingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getEditorConfiguration_2001OutgoingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getPropertiesConfiguration_2002OutgoingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getExplorerConfiguration_2003OutgoingLinks(View view){
+		return Collections.emptyList();
+	}
+}

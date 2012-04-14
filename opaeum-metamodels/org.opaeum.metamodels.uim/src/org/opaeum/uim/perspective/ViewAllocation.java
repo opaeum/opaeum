@@ -14,14 +14,12 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.opaeum.uim.perspective.ViewAllocation#getWidth <em>Width</em>}</li>
  *   <li>{@link org.opaeum.uim.perspective.ViewAllocation#getHeight <em>Height</em>}</li>
- *   <li>{@link org.opaeum.uim.perspective.ViewAllocation#getPerspective <em>Perspective</em>}</li>
- *   <li>{@link org.opaeum.uim.perspective.ViewAllocation#getViewKind <em>View Kind</em>}</li>
  *   <li>{@link org.opaeum.uim.perspective.ViewAllocation#getPosition <em>Position</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.opaeum.uim.perspective.PerspectivePackage#getViewAllocation()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface ViewAllocation extends EObject {
@@ -76,63 +74,6 @@ public interface ViewAllocation extends EObject {
 	 * @generated
 	 */
 	void setHeight(Integer value);
-
-	/**
-	 * Returns the value of the '<em><b>Perspective</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.perspective.UimPerspective#getViewAllocations <em>View Allocations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Perspective</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Perspective</em>' container reference.
-	 * @see #setPerspective(UimPerspective)
-	 * @see org.opaeum.uim.perspective.PerspectivePackage#getViewAllocation_Perspective()
-	 * @see org.opaeum.uim.perspective.UimPerspective#getViewAllocations
-	 * @model opposite="viewAllocations" required="true" transient="false"
-	 * @generated
-	 */
-	UimPerspective getPerspective();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.perspective.ViewAllocation#getPerspective <em>Perspective</em>}' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Perspective</em>' container reference.
-	 * @see #getPerspective()
-	 * @generated
-	 */
-	void setPerspective(UimPerspective value);
-
-	/**
-	 * Returns the value of the '<em><b>View Kind</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.opaeum.uim.perspective.ViewKind}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>View Kind</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>View Kind</em>' attribute.
-	 * @see org.opaeum.uim.perspective.ViewKind
-	 * @see #setViewKind(ViewKind)
-	 * @see org.opaeum.uim.perspective.PerspectivePackage#getViewAllocation_ViewKind()
-	 * @model
-	 * @generated
-	 */
-	ViewKind getViewKind();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.perspective.ViewAllocation#getViewKind <em>View Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>View Kind</em>' attribute.
-	 * @see org.opaeum.uim.perspective.ViewKind
-	 * @see #getViewKind()
-	 * @generated
-	 */
-	void setViewKind(ViewKind value);
 
 	/**
 	 * Returns the value of the '<em><b>Position</b></em>' attribute.

@@ -105,6 +105,7 @@ public class PerspectiveSwitch<T> {
 			case PerspectivePackage.EXPLORER_CONFIGURATION: {
 				ExplorerConfiguration explorerConfiguration = (ExplorerConfiguration)theEObject;
 				T result = caseExplorerConfiguration(explorerConfiguration);
+				if (result == null) result = caseViewAllocation(explorerConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -119,6 +120,20 @@ public class PerspectiveSwitch<T> {
 				ExplorerPropertyConfiguration explorerPropertyConfiguration = (ExplorerPropertyConfiguration)theEObject;
 				T result = caseExplorerPropertyConfiguration(explorerPropertyConfiguration);
 				if (result == null) result = caseUmlReference(explorerPropertyConfiguration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerspectivePackage.EDITOR_CONFIGURATION: {
+				EditorConfiguration editorConfiguration = (EditorConfiguration)theEObject;
+				T result = caseEditorConfiguration(editorConfiguration);
+				if (result == null) result = caseViewAllocation(editorConfiguration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerspectivePackage.PROPERTIES_CONFIGURATION: {
+				PropertiesConfiguration propertiesConfiguration = (PropertiesConfiguration)theEObject;
+				T result = casePropertiesConfiguration(propertiesConfiguration);
+				if (result == null) result = caseViewAllocation(propertiesConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -198,6 +213,36 @@ public class PerspectiveSwitch<T> {
 	 * @generated
 	 */
 	public T caseExplorerPropertyConfiguration(ExplorerPropertyConfiguration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Editor Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Editor Configuration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEditorConfiguration(EditorConfiguration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Properties Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Properties Configuration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePropertiesConfiguration(PropertiesConfiguration object) {
 		return null;
 	}
 

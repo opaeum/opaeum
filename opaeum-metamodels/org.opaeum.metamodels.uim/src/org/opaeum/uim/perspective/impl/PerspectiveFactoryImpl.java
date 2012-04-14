@@ -65,10 +65,11 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case PerspectivePackage.UIM_PERSPECTIVE: return createUimPerspective();
-			case PerspectivePackage.VIEW_ALLOCATION: return createViewAllocation();
 			case PerspectivePackage.EXPLORER_CONFIGURATION: return createExplorerConfiguration();
 			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION: return createExplorerClassConfiguration();
 			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION: return createExplorerPropertyConfiguration();
+			case PerspectivePackage.EDITOR_CONFIGURATION: return createEditorConfiguration();
+			case PerspectivePackage.PROPERTIES_CONFIGURATION: return createPropertiesConfiguration();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -82,8 +83,6 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case PerspectivePackage.VIEW_KIND:
-				return createViewKindFromString(eDataType, initialValue);
 			case PerspectivePackage.POSITION_IN_PERSPECTIVE:
 				return createPositionInPerspectiveFromString(eDataType, initialValue);
 			default:
@@ -99,8 +98,6 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case PerspectivePackage.VIEW_KIND:
-				return convertViewKindToString(eDataType, instanceValue);
 			case PerspectivePackage.POSITION_IN_PERSPECTIVE:
 				return convertPositionInPerspectiveToString(eDataType, instanceValue);
 			default:
@@ -116,16 +113,6 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	public UimPerspective createUimPerspective() {
 		UimPerspectiveImpl uimPerspective = new UimPerspectiveImpl();
 		return uimPerspective;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ViewAllocation createViewAllocation() {
-		ViewAllocationImpl viewAllocation = new ViewAllocationImpl();
-		return viewAllocation;
 	}
 
 	/**
@@ -163,10 +150,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ViewKind createViewKindFromString(EDataType eDataType, String initialValue) {
-		ViewKind result = ViewKind.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
+	public EditorConfiguration createEditorConfiguration() {
+		EditorConfigurationImpl editorConfiguration = new EditorConfigurationImpl();
+		return editorConfiguration;
 	}
 
 	/**
@@ -174,8 +160,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertViewKindToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
+	public PropertiesConfiguration createPropertiesConfiguration() {
+		PropertiesConfigurationImpl propertiesConfiguration = new PropertiesConfigurationImpl();
+		return propertiesConfiguration;
 	}
 
 	/**

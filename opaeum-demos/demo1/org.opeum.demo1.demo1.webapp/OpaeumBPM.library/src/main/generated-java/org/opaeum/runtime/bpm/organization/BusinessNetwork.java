@@ -438,10 +438,10 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void markDeleted() {
-		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
+		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
 			child.markDeleted();
 		}
-		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
+		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
 			child.markDeleted();
 		}
 		for ( OrganizationNode child : new ArrayList<OrganizationNode>(getOrganization()) ) {

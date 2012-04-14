@@ -25,7 +25,9 @@ import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.uml2.uml.Operation;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.editor.AbstractEditor;
+import org.opaeum.uim.perspective.UimPerspective;
 import org.opaeum.uml2uim.OpenUserInterfaceAction;
 import org.opaeum.uml2uim.RegenerateRecursivelyAction;
 import org.opaeum.uml2uim.SynchronizeAction;
@@ -56,7 +58,7 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 					if(s.getSelection() instanceof IStructuredSelection){
 						IStructuredSelection ss = (IStructuredSelection) s.getSelection();
 						if(hasConfigFile(ss) || eobject instanceof UserInterface || eobject instanceof AbstractEditor
-								|| eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation
+								|| eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation || eobject instanceof CubeQuery || eobject instanceof UimPerspective
 								|| eobject instanceof org.eclipse.uml2.uml.Package || eobject instanceof EmfWorkspace){
 							// TODO add SingleScreenTasks
 							return EvaluationResult.TRUE;
@@ -72,6 +74,34 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 						CommandContributionItemParameter parameter = new CommandContributionItemParameter(PlatformUI.getWorkbench()
 								.getActiveWorkbenchWindow(), "org.opaeum.uimodeler.util.CreateUserInterfaceDiagramCommand",
 								"org.opaeum.uimodeler.util.CreateUserInterfaceDiagramCommand", null, WorkbenchImages
+										.getImageDescriptor(IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR), WorkbenchImages
+										.getImageDescriptor(IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR_DISABLED), null, null, null, null,
+								CommandContributionItem.STYLE_CHECK, null, false);
+						return new IContributionItem[]{new CommandContributionItem(parameter)};
+					}
+				});
+			}
+			if(eobject instanceof CubeQuery){
+				menuManager.add(new CompoundContributionItem(){
+					@Override
+					protected IContributionItem[] getContributionItems(){
+						CommandContributionItemParameter parameter = new CommandContributionItemParameter(PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow(), "org.opaeum.uimodeler.cubequery.diagram.CreateCubeQueryDiagramCommand",
+								"org.opaeum.uimodeler.cubequery.diagram.CreateCubeQueryDiagramCommand", null, WorkbenchImages
+										.getImageDescriptor(IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR), WorkbenchImages
+										.getImageDescriptor(IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR_DISABLED), null, null, null, null,
+								CommandContributionItem.STYLE_CHECK, null, false);
+						return new IContributionItem[]{new CommandContributionItem(parameter)};
+					}
+				});
+			}
+			if(eobject instanceof UimPerspective){
+				menuManager.add(new CompoundContributionItem(){
+					@Override
+					protected IContributionItem[] getContributionItems(){
+						CommandContributionItemParameter parameter = new CommandContributionItemParameter(PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow(), "org.opaeum.uimodeler.perspective.diagram.CreatePerspectiveDiagramCommand",
+								"org.opaeum.uimodeler.perspective.diagram.CreatePerspectiveDiagramCommand", null, WorkbenchImages
 										.getImageDescriptor(IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR), WorkbenchImages
 										.getImageDescriptor(IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR_DISABLED), null, null, null, null,
 								CommandContributionItem.STYLE_CHECK, null, false);

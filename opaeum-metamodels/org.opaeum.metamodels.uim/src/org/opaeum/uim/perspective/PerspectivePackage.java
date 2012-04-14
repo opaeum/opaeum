@@ -68,22 +68,31 @@ public interface PerspectivePackage extends EPackage {
 	int UIM_PERSPECTIVE = 0;
 
 	/**
-	 * The feature id for the '<em><b>View Allocations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_PERSPECTIVE__VIEW_ALLOCATIONS = 0;
-
-	/**
 	 * The feature id for the '<em><b>Explorer Configuration</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_PERSPECTIVE__EXPLORER_CONFIGURATION = 1;
+	int UIM_PERSPECTIVE__EXPLORER_CONFIGURATION = 0;
+
+	/**
+	 * The feature id for the '<em><b>Editor Configuration</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_PERSPECTIVE__EDITOR_CONFIGURATION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Properties Configuration</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION = 2;
 
 	/**
 	 * The number of structural features of the '<em>Uim Perspective</em>' class.
@@ -92,7 +101,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_PERSPECTIVE_FEATURE_COUNT = 2;
+	int UIM_PERSPECTIVE_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ViewAllocationImpl <em>View Allocation</em>}' class.
@@ -123,31 +132,13 @@ public interface PerspectivePackage extends EPackage {
 	int VIEW_ALLOCATION__HEIGHT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Perspective</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VIEW_ALLOCATION__PERSPECTIVE = 2;
-
-	/**
-	 * The feature id for the '<em><b>View Kind</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VIEW_ALLOCATION__VIEW_KIND = 3;
-
-	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_ALLOCATION__POSITION = 4;
+	int VIEW_ALLOCATION__POSITION = 2;
 
 	/**
 	 * The number of structural features of the '<em>View Allocation</em>' class.
@@ -156,7 +147,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_ALLOCATION_FEATURE_COUNT = 5;
+	int VIEW_ALLOCATION_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl <em>Explorer Configuration</em>}' class.
@@ -169,13 +160,31 @@ public interface PerspectivePackage extends EPackage {
 	int EXPLORER_CONFIGURATION = 2;
 
 	/**
-	 * The feature id for the '<em><b>Perspective</b></em>' container reference.
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__PERSPECTIVE = 0;
+	int EXPLORER_CONFIGURATION__WIDTH = VIEW_ALLOCATION__WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CONFIGURATION__HEIGHT = VIEW_ALLOCATION__HEIGHT;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CONFIGURATION__POSITION = VIEW_ALLOCATION__POSITION;
 
 	/**
 	 * The feature id for the '<em><b>Configured Classes</b></em>' containment reference list.
@@ -184,16 +193,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__CONFIGURED_CLASSES = 1;
-
-	/**
-	 * The feature id for the '<em><b>Configured Properties</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES = 2;
+	int EXPLORER_CONFIGURATION__CONFIGURED_CLASSES = VIEW_ALLOCATION_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Explorer Configuration</em>' class.
@@ -202,7 +202,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION_FEATURE_COUNT = 3;
+	int EXPLORER_CONFIGURATION_FEATURE_COUNT = VIEW_ALLOCATION_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerClassConfigurationImpl <em>Explorer Class Configuration</em>}' class.
@@ -242,13 +242,22 @@ public interface PerspectivePackage extends EPackage {
 	int EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Configured Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONFIGURATION__CONFIGURED_PROPERTIES = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Explorer Class Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONFIGURATION_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
+	int EXPLORER_CLASS_CONFIGURATION_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerPropertyConfigurationImpl <em>Explorer Property Configuration</em>}' class.
@@ -270,22 +279,13 @@ public interface PerspectivePackage extends EPackage {
 	int EXPLORER_PROPERTY_CONFIGURATION__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
 
 	/**
-	 * The feature id for the '<em><b>Explorer Configuration</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Is Visible</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
+	int EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Explorer Property Configuration</em>' class.
@@ -294,17 +294,99 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONFIGURATION_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
+	int EXPLORER_PROPERTY_CONFIGURATION_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.ViewKind <em>View Kind</em>}' enum.
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.EditorConfigurationImpl <em>Editor Configuration</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.ViewKind
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getViewKind()
+	 * @see org.opaeum.uim.perspective.impl.EditorConfigurationImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getEditorConfiguration()
 	 * @generated
 	 */
-	int VIEW_KIND = 5;
+	int EDITOR_CONFIGURATION = 5;
+
+	/**
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_CONFIGURATION__WIDTH = VIEW_ALLOCATION__WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_CONFIGURATION__HEIGHT = VIEW_ALLOCATION__HEIGHT;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_CONFIGURATION__POSITION = VIEW_ALLOCATION__POSITION;
+
+	/**
+	 * The number of structural features of the '<em>Editor Configuration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_CONFIGURATION_FEATURE_COUNT = VIEW_ALLOCATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.PropertiesConfigurationImpl <em>Properties Configuration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.perspective.impl.PropertiesConfigurationImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getPropertiesConfiguration()
+	 * @generated
+	 */
+	int PROPERTIES_CONFIGURATION = 6;
+
+	/**
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_CONFIGURATION__WIDTH = VIEW_ALLOCATION__WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_CONFIGURATION__HEIGHT = VIEW_ALLOCATION__HEIGHT;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_CONFIGURATION__POSITION = VIEW_ALLOCATION__POSITION;
+
+	/**
+	 * The number of structural features of the '<em>Properties Configuration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_CONFIGURATION_FEATURE_COUNT = VIEW_ALLOCATION_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.PositionInPerspective <em>Position In Perspective</em>}' enum.
@@ -314,7 +396,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getPositionInPerspective()
 	 * @generated
 	 */
-	int POSITION_IN_PERSPECTIVE = 6;
+	int POSITION_IN_PERSPECTIVE = 7;
 
 
 	/**
@@ -328,17 +410,6 @@ public interface PerspectivePackage extends EPackage {
 	EClass getUimPerspective();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.UimPerspective#getViewAllocations <em>View Allocations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>View Allocations</em>'.
-	 * @see org.opaeum.uim.perspective.UimPerspective#getViewAllocations()
-	 * @see #getUimPerspective()
-	 * @generated
-	 */
-	EReference getUimPerspective_ViewAllocations();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.UimPerspective#getExplorerConfiguration <em>Explorer Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -348,6 +419,28 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getUimPerspective_ExplorerConfiguration();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.UimPerspective#getEditorConfiguration <em>Editor Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Editor Configuration</em>'.
+	 * @see org.opaeum.uim.perspective.UimPerspective#getEditorConfiguration()
+	 * @see #getUimPerspective()
+	 * @generated
+	 */
+	EReference getUimPerspective_EditorConfiguration();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.UimPerspective#getPropertiesConfiguration <em>Properties Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Properties Configuration</em>'.
+	 * @see org.opaeum.uim.perspective.UimPerspective#getPropertiesConfiguration()
+	 * @see #getUimPerspective()
+	 * @generated
+	 */
+	EReference getUimPerspective_PropertiesConfiguration();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ViewAllocation <em>View Allocation</em>}'.
@@ -382,28 +475,6 @@ public interface PerspectivePackage extends EPackage {
 	EAttribute getViewAllocation_Height();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ViewAllocation#getPerspective <em>Perspective</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Perspective</em>'.
-	 * @see org.opaeum.uim.perspective.ViewAllocation#getPerspective()
-	 * @see #getViewAllocation()
-	 * @generated
-	 */
-	EReference getViewAllocation_Perspective();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.uim.perspective.ViewAllocation#getViewKind <em>View Kind</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>View Kind</em>'.
-	 * @see org.opaeum.uim.perspective.ViewAllocation#getViewKind()
-	 * @see #getViewAllocation()
-	 * @generated
-	 */
-	EAttribute getViewAllocation_ViewKind();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.opaeum.uim.perspective.ViewAllocation#getPosition <em>Position</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -425,17 +496,6 @@ public interface PerspectivePackage extends EPackage {
 	EClass getExplorerConfiguration();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getPerspective <em>Perspective</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Perspective</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getPerspective()
-	 * @see #getExplorerConfiguration()
-	 * @generated
-	 */
-	EReference getExplorerConfiguration_Perspective();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getConfiguredClasses <em>Configured Classes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -445,17 +505,6 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getExplorerConfiguration_ConfiguredClasses();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getConfiguredProperties <em>Configured Properties</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Configured Properties</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getConfiguredProperties()
-	 * @see #getExplorerConfiguration()
-	 * @generated
-	 */
-	EReference getExplorerConfiguration_ConfiguredProperties();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerClassConfiguration <em>Explorer Class Configuration</em>}'.
@@ -490,6 +539,17 @@ public interface PerspectivePackage extends EPackage {
 	EAttribute getExplorerClassConfiguration_IsVisible();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerClassConfiguration#getConfiguredProperties <em>Configured Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Configured Properties</em>'.
+	 * @see org.opaeum.uim.perspective.ExplorerClassConfiguration#getConfiguredProperties()
+	 * @see #getExplorerClassConfiguration()
+	 * @generated
+	 */
+	EReference getExplorerClassConfiguration_ConfiguredProperties();
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration <em>Explorer Property Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -498,17 +558,6 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getExplorerPropertyConfiguration();
-
-	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration#getExplorerConfiguration <em>Explorer Configuration</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Explorer Configuration</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerPropertyConfiguration#getExplorerConfiguration()
-	 * @see #getExplorerPropertyConfiguration()
-	 * @generated
-	 */
-	EReference getExplorerPropertyConfiguration_ExplorerConfiguration();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration#getIsVisible <em>Is Visible</em>}'.
@@ -522,14 +571,24 @@ public interface PerspectivePackage extends EPackage {
 	EAttribute getExplorerPropertyConfiguration_IsVisible();
 
 	/**
-	 * Returns the meta object for enum '{@link org.opaeum.uim.perspective.ViewKind <em>View Kind</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.EditorConfiguration <em>Editor Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>View Kind</em>'.
-	 * @see org.opaeum.uim.perspective.ViewKind
+	 * @return the meta object for class '<em>Editor Configuration</em>'.
+	 * @see org.opaeum.uim.perspective.EditorConfiguration
 	 * @generated
 	 */
-	EEnum getViewKind();
+	EClass getEditorConfiguration();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.PropertiesConfiguration <em>Properties Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Properties Configuration</em>'.
+	 * @see org.opaeum.uim.perspective.PropertiesConfiguration
+	 * @generated
+	 */
+	EClass getPropertiesConfiguration();
 
 	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.perspective.PositionInPerspective <em>Position In Perspective</em>}'.
@@ -574,20 +633,28 @@ public interface PerspectivePackage extends EPackage {
 		EClass UIM_PERSPECTIVE = eINSTANCE.getUimPerspective();
 
 		/**
-		 * The meta object literal for the '<em><b>View Allocations</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference UIM_PERSPECTIVE__VIEW_ALLOCATIONS = eINSTANCE.getUimPerspective_ViewAllocations();
-
-		/**
 		 * The meta object literal for the '<em><b>Explorer Configuration</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference UIM_PERSPECTIVE__EXPLORER_CONFIGURATION = eINSTANCE.getUimPerspective_ExplorerConfiguration();
+
+		/**
+		 * The meta object literal for the '<em><b>Editor Configuration</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UIM_PERSPECTIVE__EDITOR_CONFIGURATION = eINSTANCE.getUimPerspective_EditorConfiguration();
+
+		/**
+		 * The meta object literal for the '<em><b>Properties Configuration</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION = eINSTANCE.getUimPerspective_PropertiesConfiguration();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ViewAllocationImpl <em>View Allocation</em>}' class.
@@ -616,22 +683,6 @@ public interface PerspectivePackage extends EPackage {
 		EAttribute VIEW_ALLOCATION__HEIGHT = eINSTANCE.getViewAllocation_Height();
 
 		/**
-		 * The meta object literal for the '<em><b>Perspective</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference VIEW_ALLOCATION__PERSPECTIVE = eINSTANCE.getViewAllocation_Perspective();
-
-		/**
-		 * The meta object literal for the '<em><b>View Kind</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VIEW_ALLOCATION__VIEW_KIND = eINSTANCE.getViewAllocation_ViewKind();
-
-		/**
 		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -650,28 +701,12 @@ public interface PerspectivePackage extends EPackage {
 		EClass EXPLORER_CONFIGURATION = eINSTANCE.getExplorerConfiguration();
 
 		/**
-		 * The meta object literal for the '<em><b>Perspective</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPLORER_CONFIGURATION__PERSPECTIVE = eINSTANCE.getExplorerConfiguration_Perspective();
-
-		/**
 		 * The meta object literal for the '<em><b>Configured Classes</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference EXPLORER_CONFIGURATION__CONFIGURED_CLASSES = eINSTANCE.getExplorerConfiguration_ConfiguredClasses();
-
-		/**
-		 * The meta object literal for the '<em><b>Configured Properties</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES = eINSTANCE.getExplorerConfiguration_ConfiguredProperties();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerClassConfigurationImpl <em>Explorer Class Configuration</em>}' class.
@@ -700,6 +735,14 @@ public interface PerspectivePackage extends EPackage {
 		EAttribute EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE = eINSTANCE.getExplorerClassConfiguration_IsVisible();
 
 		/**
+		 * The meta object literal for the '<em><b>Configured Properties</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPLORER_CLASS_CONFIGURATION__CONFIGURED_PROPERTIES = eINSTANCE.getExplorerClassConfiguration_ConfiguredProperties();
+
+		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerPropertyConfigurationImpl <em>Explorer Property Configuration</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -710,14 +753,6 @@ public interface PerspectivePackage extends EPackage {
 		EClass EXPLORER_PROPERTY_CONFIGURATION = eINSTANCE.getExplorerPropertyConfiguration();
 
 		/**
-		 * The meta object literal for the '<em><b>Explorer Configuration</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION = eINSTANCE.getExplorerPropertyConfiguration_ExplorerConfiguration();
-
-		/**
 		 * The meta object literal for the '<em><b>Is Visible</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -726,14 +761,24 @@ public interface PerspectivePackage extends EPackage {
 		EAttribute EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE = eINSTANCE.getExplorerPropertyConfiguration_IsVisible();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.ViewKind <em>View Kind</em>}' enum.
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.EditorConfigurationImpl <em>Editor Configuration</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.ViewKind
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getViewKind()
+		 * @see org.opaeum.uim.perspective.impl.EditorConfigurationImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getEditorConfiguration()
 		 * @generated
 		 */
-		EEnum VIEW_KIND = eINSTANCE.getViewKind();
+		EClass EDITOR_CONFIGURATION = eINSTANCE.getEditorConfiguration();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.PropertiesConfigurationImpl <em>Properties Configuration</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.perspective.impl.PropertiesConfigurationImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getPropertiesConfiguration()
+		 * @generated
+		 */
+		EClass PROPERTIES_CONFIGURATION = eINSTANCE.getPropertiesConfiguration();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.perspective.PositionInPerspective <em>Position In Perspective</em>}' enum.

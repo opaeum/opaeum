@@ -682,6 +682,15 @@
           <eAnnotations xmi:id="_WDVFwHaQEeGv4aLPxieKNg" source="http://www.opaeum.org"/>
           <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_EjZvcIRrEeGh1KS-l3XAqQ" name="name" isReadOnly="true" isDerived="true">
+          <eAnnotations xmi:id="_EjjgcIRrEeGh1KS-l3XAqQ" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_G6Xm0IRrEeGh1KS-l3XAqQ" name="nameDefault Value">
+            <eAnnotations xmi:id="_G_xrQIRrEeGh1KS-l3XAqQ" source="http://www.opaeum.org"/>
+            <language>OCL</language>
+            <body>fullName</body>
+          </defaultValue>
+        </ownedAttribute>
         <interfaceRealization xmi:id="_-KmUIF13EeGKRdKItFLDfg" name="InterfaceRealization1" client="_k23OoEtmEeGd4cpyhpib9Q" supplier="_7c1tYF13EeGKRdKItFLDfg" contract="_7c1tYF13EeGKRdKItFLDfg">
           <eAnnotations xmi:id="_Jc3vwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </interfaceRealization>
@@ -2243,7 +2252,7 @@
   <OpaeumStandardProfile:Attribute xmi:id="_PXUucEtnEeGd4cpyhpib9Q" base_Property="_OorfwEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Entity xmi:id="_nC7LoEtoEeGd4cpyhpib9Q" base_Class="_pZdQEEtmEeGd4cpyhpib9Q" nameProperty="_OorfwEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Attribute xmi:id="_pbxSUEtoEeGd4cpyhpib9Q" base_Property="_oRHdEEtoEeGd4cpyhpib9Q"/>
-  <OpaeumStandardProfile:Entity xmi:id="_vEfOUEtoEeGd4cpyhpib9Q" base_Class="_k23OoEtmEeGd4cpyhpib9Q" nameProperty="_oRHdEEtoEeGd4cpyhpib9Q"/>
+  <OpaeumStandardProfile:Entity xmi:id="_vEfOUEtoEeGd4cpyhpib9Q" base_Class="_k23OoEtmEeGd4cpyhpib9Q" nameProperty="_EjZvcIRrEeGh1KS-l3XAqQ"/>
   <OpaeumStandardProfile:Attribute xmi:id="_6YJWEEt3EeGElKTCe2jfDw" base_Property="_RZHMwEt3EeGElKTCe2jfDw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_7SNxoEt3EeGElKTCe2jfDw" base_Property="_TCe-UEt3EeGElKTCe2jfDw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_C3oq4Et4EeGElKTCe2jfDw" base_Property="_Bih5IEt4EeGElKTCe2jfDw"/>
@@ -2299,4 +2308,5 @@
   <HibernateValidation:Email xmi:id="_ArVmMHr-EeGLG4a8Ss1xJw" base_DataType="_SvHAkHrxEeGgA7LmG6YzjA" base_PrimitiveType="_SvHAkHrxEeGgA7LmG6YzjA" message="Invalid e-mail address format"/>
   <JavaxValidation:Digits xmi:id="_KnxaIHr-EeGLG4a8Ss1xJw" integer="15" base_DataType="_S-ZOMHr7EeGX8L_MMRBizg" base_PrimitiveType="_S-ZOMHr7EeGX8L_MMRBizg"/>
   <HibernateValidation:Length xmi:id="_KovqgHr-EeGLG4a8Ss1xJw" base_DataType="_S-ZOMHr7EeGX8L_MMRBizg" base_PrimitiveType="_S-ZOMHr7EeGX8L_MMRBizg" max="15" message="Phone number must consist of between  9 and 15 characters" min="8"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_GfbXQIRrEeGh1KS-l3XAqQ" base_Property="_EjZvcIRrEeGh1KS-l3XAqQ"/>
 </xmi:XMI>
