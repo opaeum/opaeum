@@ -127,11 +127,24 @@ public class TinkerGenerationUtil {
 		}
 	}
 
+	//TODO remove this method, call one with inVerse param
 	public static String getEdgeName(NakedStructuralFeatureMap map) {
 		if (map.getProperty().getAssociation() != null) {
 			return map.getProperty().getAssociation().getName();
 		} else {
 			return tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName());
+		}
+	}
+
+	public static String getEdgeName(NakedStructuralFeatureMap map, boolean inVerse) {
+		if (map.getProperty().getAssociation() != null) {
+			return map.getProperty().getAssociation().getName();
+		} else {
+			if (!inVerse) {
+				return tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName());
+			} else {
+				return tinkeriseUmlName(map.getProperty().getOtherEnd().getMappingInfo().getQualifiedUmlName());
+			}
 		}
 	}
 
@@ -213,4 +226,62 @@ public class TinkerGenerationUtil {
 	public static void addOverrideAnnotation(OJAnnotatedOperation oper) {
 		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));		
 	}
+
+	public static OJPathName convertToMutable(OJPathName javaTypePath) {
+		if (javaTypePath.getLast().equals("String")) {
+			return new OJPathName("java.lang.StringBuilder");
+		} else if (javaTypePath.getLast().equals("Integer")) {
+			return new OJPathName("org.apache.commons.lang.mutable.MutableInteger");
+		} else if (javaTypePath.getLast().equals("Boolean")) {
+			return new OJPathName("org.apache.commons.lang.mutable.MutableBoolean");
+		} else if (javaTypePath.getLast().equals("Float")) {
+			return new OJPathName("org.apache.commons.lang.mutable.MutableFloat");
+		} else {
+			throw new IllegalStateException("Not supported, " + javaTypePath.getLast());
+		}
+	}
+	
+	public static String validateMutableCondition(NakedStructuralFeatureMap map) {
+		if (map.javaBaseTypePath().getLast().equals("String")) {
+			return map.fieldname() + ".length() > 0";
+		} else if (map.javaBaseTypePath().getLast().equals("Integer")) {
+			return map.fieldname() + "intValue != 0";
+		} else if (map.javaBaseTypePath().getLast().equals("Boolean")) {
+			return map.fieldname() + "booleanValue";
+		} else if (map.javaBaseTypePath().getLast().equals("Float")) {
+			return map.fieldname() + "floatValue != 0";
+		} else {
+			throw new IllegalStateException("Not supported, " + map.javaBaseTypePath().getLast());
+		}
+	}
+
+	public static String setMutable(NakedStructuralFeatureMap map) {
+		if (map.javaBaseTypePath().getLast().equals("String")) {
+			return "append";
+		} else if (map.javaBaseTypePath().getLast().equals("Integer")) {
+			return "setValue";
+		} else if (map.javaBaseTypePath().getLast().equals("Boolean")) {
+			return "setValue";
+		} else if (map.javaBaseTypePath().getLast().equals("Float")) {
+			return "setValue";
+		} else {
+			throw new IllegalStateException("Not supported, " + map.javaBaseTypePath().getLast());
+		}
+	}
+	
+	public static String clearMutable(NakedStructuralFeatureMap map) {
+		if (map.javaBaseTypePath().getLast().equals("String")) {
+			return "setLength(0)";
+		} else if (map.javaBaseTypePath().getLast().equals("Integer")) {
+			return "setValue(0)";
+		} else if (map.javaBaseTypePath().getLast().equals("Boolean")) {
+			return "setValue(false)";
+		} else if (map.javaBaseTypePath().getLast().equals("Float")) {
+			return "setValue(0)";
+		} else {
+			throw new IllegalStateException("Not supported, " + map.javaBaseTypePath().getLast());
+		}
+	}
+	
+
 }

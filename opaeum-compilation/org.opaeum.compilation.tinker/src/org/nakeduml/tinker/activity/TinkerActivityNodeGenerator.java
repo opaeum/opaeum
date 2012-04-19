@@ -18,6 +18,7 @@ import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -32,10 +33,17 @@ import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.actions.INakedAcceptCallAction;
 import org.opaeum.metamodel.actions.INakedAcceptEventAction;
+import org.opaeum.metamodel.actions.INakedAddStructuralFeatureValueAction;
+import org.opaeum.metamodel.actions.INakedAddVariableValueAction;
+import org.opaeum.metamodel.actions.INakedCreateObjectAction;
 import org.opaeum.metamodel.actions.INakedOclAction;
 import org.opaeum.metamodel.actions.INakedOpaqueAction;
+import org.opaeum.metamodel.actions.INakedReadVariableAction;
 import org.opaeum.metamodel.actions.INakedReplyAction;
 import org.opaeum.metamodel.actions.INakedSendSignalAction;
+import org.opaeum.metamodel.actions.INakedStructuralFeatureAction;
+import org.opaeum.metamodel.actions.INakedVariableAction;
+import org.opaeum.metamodel.actions.INakedWriteStructuralFeatureAction;
 import org.opaeum.metamodel.activities.ControlNodeType;
 import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
@@ -199,6 +207,83 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		implementUpperBound(activityParameterNodeClass, oa);
 		implementGetActivity(activityParameterNodeClass, oa);
 		super.createTextPath(activityParameterNodeClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+	}
+
+	@VisitBefore(matchSubclasses = true, match = { INakedAddStructuralFeatureValueAction.class })
+	public void visitAddStructuralFeatureValueAction(INakedAddStructuralFeatureValueAction oa) {
+		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
+		OJPackage pack = findOrCreatePackage(path);
+		OJAnnotatedClass actionClass = new OJAnnotatedClass(NameConverter.capitalize(oa.getName()));
+		actionClass.setMyPackage(pack);
+		actionClass.setSuperclass(TinkerBehaviorUtil.tinkerAddStructuralFeatureValueAction.getCopy());
+		actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
+		addActionOperations(actionClass, oa);
+		addInitVertexToDefaultConstructor(actionClass, oa);
+		addContextObjectField(actionClass, oa.getActivity().getContext());
+		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
+		implementGenerics(actionClass, oa);
+		implementStructuralFeatureAction(actionClass, oa);
+		implementWriteStructuralFeatureAction(actionClass, oa);
+		implementAddStructuralFeatureValueAction(actionClass, oa);
+		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+	}
+
+	@VisitBefore(matchSubclasses = true, match = { INakedCreateObjectAction.class })
+	public void visitCreateObjectAction(INakedCreateObjectAction oa) {
+		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
+		OJPackage pack = findOrCreatePackage(path);
+		OJAnnotatedClass actionClass = new OJAnnotatedClass(NameConverter.capitalize(oa.getName()));
+		actionClass.setMyPackage(pack);
+		actionClass.setSuperclass(TinkerBehaviorUtil.tinkerCreateObjectAction.getCopy());
+		actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
+		addActionOperations(actionClass, oa);
+		addInitVertexToDefaultConstructor(actionClass, oa);
+		addContextObjectField(actionClass, oa.getActivity().getContext());
+		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
+		implementGenerics(actionClass, oa);
+		implementCreateObject(actionClass, oa);
+		implementGetResult(actionClass, oa.getResult());
+		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+	}
+
+	@VisitBefore(matchSubclasses = true, match = { INakedReadVariableAction.class })
+	public void visitReadVariableAction(INakedReadVariableAction oa) {
+		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
+		OJPackage pack = findOrCreatePackage(path);
+		OJAnnotatedClass actionClass = new OJAnnotatedClass(NameConverter.capitalize(oa.getName()));
+		actionClass.setMyPackage(pack);
+		actionClass.setSuperclass(TinkerBehaviorUtil.tinkerReadVariableAction.getCopy());
+		actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
+		addActionOperations(actionClass, oa);
+		addInitVertexToDefaultConstructor(actionClass, oa);
+		addContextObjectField(actionClass, oa.getActivity().getContext());
+		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
+
+		implementGetVariable(actionClass, oa);
+		implementGenerics(actionClass, oa);
+
+		implementGetResult(actionClass, oa.getResult());
+		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+	}
+
+	@VisitBefore(matchSubclasses = true, match = { INakedAddVariableValueAction.class })
+	public void visitAddVariableValueAction(INakedAddVariableValueAction oa) {
+		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
+		OJPackage pack = findOrCreatePackage(path);
+		OJAnnotatedClass actionClass = new OJAnnotatedClass(NameConverter.capitalize(oa.getName()));
+		actionClass.setMyPackage(pack);
+		actionClass.setSuperclass(TinkerBehaviorUtil.tinkerAddVariableValueAction.getCopy());
+		actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
+		addActionOperations(actionClass, oa);
+		addInitVertexToDefaultConstructor(actionClass, oa);
+		addContextObjectField(actionClass, oa.getActivity().getContext());
+		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
+		implementGenerics(actionClass, oa);
+		implementWriteVariable(actionClass, oa);
+		implementGetValue(actionClass, oa.getValue());
+		implementGetVariable(actionClass, oa);
+		// implementGetResult(actionClass, oa.getResult());
+		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
 	@VisitBefore(matchSubclasses = true, match = { INakedOpaqueAction.class })
@@ -965,7 +1050,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		for (INakedInputPin inputPin : inputPins) {
 
 			ConcreteEmulatedClassifier pinClassifier = new ConcreteEmulatedClassifier(inputPin.getNameSpace(), inputPin);
-			NakedStructuralFeatureMap pinMap = new NakedStructuralFeatureMap(new PinBridge(pinClassifier, inputPin, false));
+			NakedStructuralFeatureMap pinMap = new NakedStructuralFeatureMap(new PinBridge(pinClassifier, inputPin));
 
 			if (a instanceof INakedReplyAction && !inputPin.equals(((INakedReplyAction) a).getReturnInfo())) {
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(a.getActivity(), inputPin, false));
@@ -1025,8 +1110,9 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 
 	private void implementGetActivity(OJClass actionClass, INakedActivityNode oa) {
 		OJAnnotatedOperation getActivity = new OJAnnotatedOperation("getActivity");
-		getActivity.setReturnType(TinkerBehaviorUtil.tinkerAbstractActivityPathName);
+		TinkerGenerationUtil.addOverrideAnnotation(getActivity);
 		NakedClassifierMap map = OJUtil.buildClassifierMap(oa.getActivity());
+		getActivity.setReturnType(map.javaTypePath());
 		actionClass.addToImports(map.javaTypePath());
 		getActivity.getBody().addToStatements(
 				"return new " + map.javaTypePath().getLast() + "(this.vertex.getInEdges(\"" + NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(oa).getLast())
@@ -1478,6 +1564,10 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		activityClass.removeFromOperations(internalRemoverToRemove);
 		activityClass.removeFromOperations(getter);
 		activityClass.removeFromOperations(setter);
+
+		OJAnnotatedOperation clearCache = (OJAnnotatedOperation) activityClass.findOperation("clearCache", Collections.emptyList());
+		clearCache.getBody().removeFromStatements(clearCache.getBody().findStatement(map.fieldname()));
+
 	}
 
 	private void addBlockingQueue(OJAnnotatedClass actionClass, INakedReplyAction oa) {
@@ -1541,6 +1631,93 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 
 		getReturnInformationInputPin.getBody().addToStatements("return " + TinkerBehaviorUtil.edgeGetter(outFlow) + "()." + map.getter() + "()");
 		outputPinClass.addToOperations(getReturnInformationInputPin);
+	}
+
+	private void implementStructuralFeatureAction(OJAnnotatedClass actionClass, INakedStructuralFeatureAction oa) {
+		OJAnnotatedOperation getObject = new OJAnnotatedOperation("getObject");
+		TinkerGenerationUtil.addOverrideAnnotation(getObject);
+		getObject.setReturnType(TinkerBehaviorUtil.activityNodePathName(oa.getObject()));
+		getObject.getBody().addToStatements("return this." + TinkerBehaviorUtil.inputPinGetter(oa.getObject()) + "()");
+		actionClass.addToOperations(getObject);
+	}
+
+	private void implementWriteStructuralFeatureAction(OJAnnotatedClass actionClass, INakedWriteStructuralFeatureAction oa) {
+		implementGetValue(actionClass, oa.getValue());
+
+		implementGetResult(actionClass, oa.getResult());
+
+	}
+
+	private void implementAddStructuralFeatureValueAction(OJAnnotatedClass actionClass, INakedAddStructuralFeatureValueAction oa) {
+		OJAnnotatedOperation writeStructuralFeature = new OJAnnotatedOperation("writeStructuralFeature");
+		TinkerGenerationUtil.addOverrideAnnotation(writeStructuralFeature);
+		NakedStructuralFeatureMap mapObject = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getObject(), true);
+		writeStructuralFeature.addParam("o", mapObject.javaBaseTypePath());
+		NakedStructuralFeatureMap mapValue = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getValue(), true);
+		writeStructuralFeature.addParam("v", mapValue.javaBaseTypePath());
+		writeStructuralFeature.getBody().addToStatements("o." + OJUtil.buildStructuralFeatureMap(oa.getFeature()).setter() + "(v)");
+		actionClass.addToOperations(writeStructuralFeature);
+	}
+
+	private void implementGenerics(OJAnnotatedClass actionClass, INakedVariableAction oa) {
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getVariable());
+		actionClass.getSuperclass().addToGenerics(map.javaBaseTypePath());
+	}
+
+	private void implementGenerics(OJAnnotatedClass actionClass, INakedAddStructuralFeatureValueAction oa) {
+		NakedStructuralFeatureMap mapObject = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getObject(), true);
+		NakedStructuralFeatureMap mapFeature = OJUtil.buildStructuralFeatureMap(oa.getFeature());
+		actionClass.getSuperclass().addToGenerics(mapFeature.javaBaseTypePath());
+		actionClass.getSuperclass().addToGenerics(mapObject.javaBaseTypePath());
+	}
+
+	private void implementGenerics(OJAnnotatedClass actionClass, INakedCreateObjectAction oa) {
+		NakedClassifierMap map = OJUtil.buildClassifierMap(oa.getClassifier());
+		actionClass.addToImports(map.javaTypePath());
+		actionClass.getSuperclass().addToGenerics(map.javaTypePath());
+	}
+
+	private void implementCreateObject(OJAnnotatedClass actionClass, INakedCreateObjectAction oa) {
+		NakedClassifierMap map = OJUtil.buildClassifierMap(oa.getClassifier());
+		OJAnnotatedOperation createObject = new OJAnnotatedOperation("createObject");
+		TinkerGenerationUtil.addOverrideAnnotation(createObject);
+		createObject.setReturnType(map.javaTypePath());
+		createObject.getBody().addToStatements("return new " + map.javaTypePath().getLast() + "(true)");
+		actionClass.addToOperations(createObject);
+	}
+
+	private void implementGetResult(OJAnnotatedClass actionClass, INakedOutputPin oa) {
+		OJAnnotatedOperation getResult = new OJAnnotatedOperation("getResult");
+		TinkerGenerationUtil.addOverrideAnnotation(getResult);
+		getResult.setReturnType(TinkerBehaviorUtil.activityNodePathName(oa));
+		getResult.getBody().addToStatements("return this." + TinkerBehaviorUtil.outputPinGetterName(oa) + "()");
+		actionClass.addToOperations(getResult);
+	}
+
+	private void implementWriteVariable(OJAnnotatedClass actionClass, INakedAddVariableValueAction oa) {
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getVariable());
+		OJAnnotatedOperation writeVariable = new OJAnnotatedOperation("writeVariable");
+		TinkerGenerationUtil.addOverrideAnnotation(writeVariable);
+		actionClass.addToOperations(writeVariable);
+		writeVariable.addToParameters(new OJParameter("v", map.javaBaseTypePath()));
+		writeVariable.getBody().addToStatements("this.getActivity()." + map.setter() + "(v)");
+	}
+
+	private void implementGetValue(OJAnnotatedClass actionClass, INakedInputPin value) {
+		OJAnnotatedOperation getValue = new OJAnnotatedOperation("getValue");
+		TinkerGenerationUtil.addOverrideAnnotation(getValue);
+		getValue.setReturnType(TinkerBehaviorUtil.activityNodePathName(value));
+		getValue.getBody().addToStatements("return this." + TinkerBehaviorUtil.inputPinGetter(value) + "()");
+		actionClass.addToOperations(getValue);
+	}
+
+	private void implementGetVariable(OJAnnotatedClass actionClass, INakedVariableAction oa) {
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getVariable());
+		OJAnnotatedOperation getVariable = new OJAnnotatedOperation("getVariable");
+		TinkerGenerationUtil.addOverrideAnnotation(getVariable);
+		getVariable.setReturnType(map.javaBaseTypePath());
+		getVariable.getBody().addToStatements("return this.getActivity()." + map.getter() + "()");
+		actionClass.addToOperations(getVariable);
 	}
 
 }

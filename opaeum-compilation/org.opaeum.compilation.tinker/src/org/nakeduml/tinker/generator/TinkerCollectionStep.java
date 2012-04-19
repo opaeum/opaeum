@@ -60,6 +60,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 	}
 
 	public void visitProperty(OJAnnotatedClass ojClass, NakedStructuralFeatureMap map) {
+		boolean inverse = map.getProperty().isInverse();
 		for (OJConstructor constructor : ojClass.getConstructors()) {
 			if (constructor.getParameters().isEmpty()) {
 				// Skip default constructor
@@ -99,7 +100,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 
 			OJSimpleStatement initCollection;
 			OJSimpleStatement ojSimpleStatement = initCollection = new OJSimpleStatement(map.umlName() + " = new " + collectionPathName.getCollectionTypeName() + "(this, \""
-					+ TinkerGenerationUtil.getEdgeName(map) + "\"");
+					+ TinkerGenerationUtil.getEdgeName(map, inverse) + "\"");
 			if (map.getProperty().getQualifiers().isEmpty() && map.getProperty().isOrdered()) {
 				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", getUid()");
 			} else if (!map.getProperty().getQualifiers().isEmpty()) {

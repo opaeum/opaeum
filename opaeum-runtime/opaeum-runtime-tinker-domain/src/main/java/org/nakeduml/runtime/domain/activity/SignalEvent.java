@@ -44,5 +44,11 @@ public class SignalEvent extends Event {
 		edge.setProperty("outClass", signal.getClass().getName());
 		edge.setProperty("inClass", IntrospectionUtil.getOriginalClass(this.getClass()).getName());
 	}
+
+	@Override
+	public void clearCache() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

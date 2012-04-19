@@ -57,6 +57,8 @@ public class TinkerEventGenerator extends TinkerImplementNodeStep {
 		TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
 		tinkerAttributeImplementor.setJavaModel(this.javaModel);
 		ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(event.getNameSpace(), event);
+		//TODO clearCache is done incorrectly, need to clear emulated properties
+		addClearCache(callEventClass, concreteEmulatedClassifier);
 		if (event instanceof INakedCallEvent) {
 			addImplementIEvent(callEventClass, event);
 			INakedCallEvent callEvent = (INakedCallEvent) event;
@@ -75,10 +77,11 @@ public class TinkerEventGenerator extends TinkerImplementNodeStep {
 				OJUtil.unlock();
 				INakedSignalEvent signalEvent = (INakedSignalEvent) event;
 				INakedSignal signal = signalEvent.getSignal();
-				TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new NonInverseArtificialProperty(NameConverter.decapitalize(signal.getName()), signal, false));
+				TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new NonInverseArtificialProperty(NameConverter.decapitalize(signal
+						.getName()), signal, false));
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
 				tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
-				addImplementISignalEvent(callEventClass, (INakedSignalEvent)event, map);
+				addImplementISignalEvent(callEventClass, (INakedSignalEvent) event, map);
 			} finally {
 				OJUtil.lock();
 			}

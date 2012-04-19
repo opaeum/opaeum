@@ -14,4 +14,10 @@ public class CallEvent extends Event {
 		super(vertex);
 	}
 
+	@Override
+	public void clearCache() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

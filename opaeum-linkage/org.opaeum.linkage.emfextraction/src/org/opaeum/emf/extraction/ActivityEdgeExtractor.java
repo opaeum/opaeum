@@ -34,7 +34,7 @@ import org.opaeum.metamodel.core.internal.NakedElementImpl;
 		AcceptEventActionExtractor.class
 },after = {
 		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class,
-		AcceptEventActionExtractor.class
+		AcceptEventActionExtractor.class, StructuralFeatureActionExtractor.class
 })
 public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	@Override

@@ -51,4 +51,10 @@ public class PrimitiveWrapper extends BaseTinker {
 		return -1;
 	}
 
+	@Override
+	public void clearCache() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

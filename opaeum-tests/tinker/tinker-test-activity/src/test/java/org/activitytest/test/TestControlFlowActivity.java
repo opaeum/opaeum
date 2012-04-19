@@ -44,7 +44,7 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 		db.startTransaction();
-		Assert.assertFalse(sendEmailActivityProcess.execute());
+		sendEmailActivityProcess.execute();
 		db.stopTransaction(Conclusion.SUCCESS);
 		Set<ActivityNode<? extends Token, ? extends Token>> completedNodes = sendEmailActivityProcess.getCompletedNodes();
 		Assert.assertEquals(1, completedNodes.size());
@@ -59,9 +59,9 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		Assert.assertEquals(22, countVertices());
 
 		db.startTransaction();
-		Assert.assertFalse(sendEmailActivityProcess.execute());
-		Assert.assertFalse(sendEmailActivityProcess.execute());
-		Assert.assertFalse(sendEmailActivityProcess.execute());
+		sendEmailActivityProcess.execute();
+		sendEmailActivityProcess.execute();
+		sendEmailActivityProcess.execute();
 		db.stopTransaction(Conclusion.SUCCESS);
 		
 		Assert.assertEquals(21, countVertices());
@@ -71,15 +71,15 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		Assert.assertEquals(1, sendEmail.getNodeStat().getExecuteCount());
 		
 		db.startTransaction();
-		Assert.assertFalse(sendEmailActivityProcess.execute());
-		Assert.assertFalse(sendEmailActivityProcess.execute());
-		Assert.assertFalse(sendEmailActivityProcess.execute());
-		Assert.assertFalse(sendEmailActivityProcess.execute());
+		sendEmailActivityProcess.execute();
+		sendEmailActivityProcess.execute();
+		sendEmailActivityProcess.execute();
+		sendEmailActivityProcess.execute();
 		db.stopTransaction(Conclusion.SUCCESS);
 		Assert.assertEquals(25, countVertices());
 
 		db.startTransaction();
-		Assert.assertFalse(sendEmailActivityProcess.execute());
+		sendEmailActivityProcess.execute();
 		db.stopTransaction(Conclusion.SUCCESS);
 
 		Assert.assertEquals(20, countVertices());

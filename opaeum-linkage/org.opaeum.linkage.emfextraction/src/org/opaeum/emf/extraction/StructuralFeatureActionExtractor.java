@@ -29,6 +29,7 @@ public class StructuralFeatureActionExtractor extends AbstractActionExtractor{
 		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
 		nakedAction.setValue((INakedInputPin) initializePin(emfActivity, emfAction.getValue()));
 		nakedAction.setReplaceAll(emfAction.isReplaceAll());
+		nakedAction.setResult((INakedOutputPin) initializePin(emfActivity, emfAction.getResult()));
 	}
 	@VisitBefore
 	public void visitClearStructuralFeatureValueAction(ClearStructuralFeatureAction emfAction,NakedClearStructuralFeatureActionImpl nakedAction){

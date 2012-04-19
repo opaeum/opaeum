@@ -45,4 +45,25 @@ public abstract class OpaqueAction<R> extends Action {
 
 	protected abstract OutputPin<R> getResultPin();
 
+	/*
+	 * This will only be called if the lower multiplicity is reachedAll up to
+	 * upper multiplicity is consumed
+	 */
+	protected void transferObjectTokensToAction() {
+		super.transferObjectTokensToAction();
+		for (InputPin<?> inputPin : this.getInputPins()) {
+			int tokensTransferedCount = 0;
+			if (inputPin instanceof ValuePin<?>) {
+				addToInputPinVariable(inputPin, ((ValuePin<?>)inputPin).getValue());
+			} else {
+				for (ObjectToken<?> token : inputPin.getInTokens()) {
+					if (++tokensTransferedCount <= inputPin.getUpperMultiplicity()) {
+						token.removeEdgeFromActivityNode();
+						addToInputPinVariable(inputPin, token.getObject());
+						token.remove();
+					}
+				}
+			}
+		}
+	}
 }

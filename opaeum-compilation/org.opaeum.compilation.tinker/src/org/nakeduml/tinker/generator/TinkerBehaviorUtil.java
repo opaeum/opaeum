@@ -19,7 +19,9 @@ import org.opaeum.name.NameConverter;
 
 public class TinkerBehaviorUtil {
 	
-	
+	public static final OJPathName tinkerAddVariableValueAction = new OJPathName("org.nakeduml.runtime.domain.activity.AddVariableValueAction");
+	public static final OJPathName tinkerReadVariableAction = new OJPathName("org.nakeduml.runtime.domain.activity.ReadVariableAction");
+	public static final OJPathName tinkerCreateObjectAction = new OJPathName("org.nakeduml.runtime.domain.activity.CreateObjectAction");
 	public static final OJPathName tinkerOperationBlockingQueue = new OJPathName("org.nakeduml.runtime.domain.TinkerOperationBlockingQueue");
 	public static final OJPathName tinkerIEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.IEvent");
 	public static final OJPathName tinkerEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Event");
@@ -37,6 +39,7 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerOutActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.OutActivityParameterNode");
 	public static final OJPathName tinkerActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Action");
 	public static final OJPathName tinkerOpaqueActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OpaqueAction");
+	public static final OJPathName tinkerAddStructuralFeatureValueAction = new OJPathName("org.nakeduml.runtime.domain.activity.AddStructuralFeatureValueAction");
 	public static final OJPathName tinkerReplyActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ReplyAction");
 	public static final OJPathName tinkerJoinNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.JoinNode");
 	public static final OJPathName tinkerJoinNodeControlTokenPathName = new OJPathName("org.nakeduml.runtime.domain.activity.JoinNodeControlToken");

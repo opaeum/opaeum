@@ -3,10 +3,10 @@ package org.nakeduml.tinker.activity;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
+import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
-import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJParameter;
@@ -24,9 +24,12 @@ import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
@@ -44,14 +47,18 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 		ownerClass.addToOperations(operation);
 
 		for (INakedParameter param : oper.getOwnedParameters()) {
-//			if (param.getDirection() == ParameterDirectionKind.IN || param.getDirection() == ParameterDirectionKind.INOUT) {
+			if (!param.isReturn()) {
 				OJParameter p = new OJParameter();
 				NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
 				p.setName(pMap.fieldname());
-				p.setType(pMap.javaTypePath());
+				if (param.getNakedBaseType() instanceof INakedSimpleType && (param.getDirection() == ParameterDirectionKind.OUT || param.getDirection() == ParameterDirectionKind.INOUT)) {
+					p.setType(TinkerGenerationUtil.convertToMutable(pMap.javaTypePath()));
+				} else {
+					p.setType(pMap.javaTypePath());
+				}
 				operation.addToParameters(p);
 				operation.getOwner().addToImports(pMap.javaTypePath());
-//			}
+			}
 		}
 
 		if (!oper.getMethods().isEmpty()) {
@@ -60,14 +67,14 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 			addInvokeAcceptCallAction(oper, operation);
 			addInvokeAcceptCallActionSync(ownerClass, oper);
 		}
-		
+
 		removeClassForOperationIfExist(oper);
 
 	}
 
 	private void removeClassForOperationIfExist(INakedOperation oper) {
 		OJClass c = findJavaClass(oper.getMessageStructure());
-		if (c!=null) {
+		if (c != null) {
 			super.deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, c.getPathName());
 		}
 	}
@@ -85,7 +92,8 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 			throw new IllegalStateException("A call without a method must have a corresponding event in the owning package");
 		}
 		INakedAcceptCallAction callAction = TinkerBehaviorUtil.findCallActionForEventAndClassifier(event, (INakedBehavioredClassifier) oper.getOwner());
-		OJAnnotatedOperation invokeAcceptCallAction = new OJAnnotatedOperation("invoke" + NameConverter.capitalize(callAction.getActivity().getName() + NameConverter.capitalize(callAction.getName())));
+		OJAnnotatedOperation invokeAcceptCallAction = new OJAnnotatedOperation("invoke"
+				+ NameConverter.capitalize(callAction.getActivity().getName() + NameConverter.capitalize(callAction.getName())));
 		OJParameter eventParam = new OJParameter("event", TinkerBehaviorUtil.tinkerIEventPathName);
 		eventParam.setFinal(true);
 		invokeAcceptCallAction.addToParameters(eventParam);
@@ -160,9 +168,11 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 
 		// operation.getBody().addToStatements("addToEventPool(event)");
 		if (oper.getReturnParameter() != null) {
-			operation.getBody().addToStatements("return invoke" + NameConverter.capitalize(callAction.getActivity().getName()) + NameConverter.capitalize(callAction.getName()) + "(event)");
+			operation.getBody().addToStatements(
+					"return invoke" + NameConverter.capitalize(callAction.getActivity().getName()) + NameConverter.capitalize(callAction.getName()) + "(event)");
 		} else {
-			operation.getBody().addToStatements("invoke" + NameConverter.capitalize(callAction.getActivity().getName()) + NameConverter.capitalize(callAction.getName()) + "(event)");
+			operation.getBody().addToStatements(
+					"invoke" + NameConverter.capitalize(callAction.getActivity().getName()) + NameConverter.capitalize(callAction.getName()) + "(event)");
 		}
 
 	}
@@ -170,6 +180,40 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 	private void addMethodForOperation(INakedOperation oper, INakedClassifier owner, OJAnnotatedOperation operation) {
 		for (INakedBehavior method : oper.getMethods()) {
 			OJPathName activityPathName = OJUtil.classifierPathname(method);
+
+			// Add validation for out parameters, may not have a vertex
+			for (INakedParameter param : oper.getOwnedParameters()) {
+				if (param.getDirection() == ParameterDirectionKind.OUT && !param.isReturn()) {
+					NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
+					
+					if (param.getNakedBaseType() instanceof INakedSimpleType) {
+						OJIfStatement ifHasVertex = new OJIfStatement(TinkerGenerationUtil.validateMutableCondition(pMap));
+						ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " may not have a value!\")");
+						operation.getBody().addToStatements(ifHasVertex);
+					} else {
+						OJIfStatement ifHasVertex = new OJIfStatement(pMap.fieldname() + ".getVertex() != null");
+						ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " may not have a vertex!\")");
+						operation.getBody().addToStatements(ifHasVertex);
+					}
+
+					
+				}
+			}
+			// Add validation for in & inout parameters, must have a vertex
+			for (INakedParameter param : oper.getOwnedParameters()) {
+				if (param.getDirection() == ParameterDirectionKind.INOUT || param.getDirection() == ParameterDirectionKind.IN) {
+					NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
+					INakedProperty prop = pMap.getProperty();
+					if (!(prop.getBaseType() instanceof INakedSimpleType || prop.getBaseType() instanceof INakedEnumeration)) {
+						OJIfStatement ifHasVertex = new OJIfStatement(pMap.fieldname() + ".getVertex() == null");
+						ifHasVertex.addToThenPart("throw new IllegalStateException(\" " + (param.getDirection() == ParameterDirectionKind.INOUT ? "INOUT" : "IN") + " parameter, "
+								+ param.getName() + " must have a vertex!\")");
+						operation.getBody().addToStatements(ifHasVertex);
+					}
+					
+				}
+			}
+
 			operation.getBody()
 					.addToStatements(activityPathName.getLast() + " " + NameConverter.decapitalize(method.getName()) + " = new " + activityPathName.getLast() + "(this)");
 
@@ -178,18 +222,40 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 			}
 			String executeParams = "";
 			boolean first = true;
+			for (INakedParameter param : oper.getOwnedParameters()) {
+				if (!param.isReturn()) {
+					NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
+					if (!first) {
+						executeParams += ", ";
+					}
+					first = false;
+					executeParams += pMap.fieldname();
+				}
+			}
+
+			if (oper.getReturnParameter() != null && oper.getReturnParameter().isReturn()) {
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oper.getOwner(), oper.getReturnParameter());
+				operation.getBody().addToStatements(
+						map.javaBaseTypePath().getLast() + " result = " + NameConverter.decapitalize(method.getName()) + ".execute(" + executeParams + ")");
+			} else {
+				operation.getBody().addToStatements(NameConverter.decapitalize(method.getName()) + ".execute(" + executeParams + ")");
+			}
+
 			for (INakedParameter param : oper.getArgumentParameters()) {
 				NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
-				if (!first) {
-					executeParams += ", ";
-					first = false;
+				if (!(pMap.getProperty().getBaseType() instanceof INakedSimpleType)) {
+					operation.getBody().addToStatements(pMap.fieldname() + ".clearCache()");
 				}
-				executeParams += pMap.fieldname();
 			}
-			operation.getBody().addToStatements(NameConverter.decapitalize(method.getName()) + ".execute(" + executeParams + ")");
-			OJIfStatement ifFinished = new OJIfStatement(NameConverter.decapitalize(method.getName()) + ".isFinished()");
-			ifFinished.addToThenPart(NameConverter.decapitalize(method.getName()) + ".markDeleted()");
-			operation.getBody().addToStatements(ifFinished);
+
+			//TODO this complicates testing for now
+//			OJIfStatement ifFinished = new OJIfStatement(NameConverter.decapitalize(method.getName()) + ".isFinished()");
+//			ifFinished.addToThenPart(NameConverter.decapitalize(method.getName()) + ".markDeleted()");
+//			operation.getBody().addToStatements(ifFinished);
+
+			if (oper.getReturnParameter() != null && oper.getReturnParameter().isReturn()) {
+				operation.getBody().addToStatements("return result");
+			}
 		}
 	}
 

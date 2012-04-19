@@ -11,7 +11,6 @@ import org.nakeduml.tinker.activity.TinkerActivityGenerator;
 import org.nakeduml.tinker.activity.TinkerOperationGenerator;
 import org.nakeduml.tinker.activity.nullify.TinkerActivityEventConsumptionImplementor;
 import org.nakeduml.tinker.activity.nullify.TinkerActivityProcessImplementor;
-import org.nakeduml.tinker.activity.nullify.TinkerSpecificationImplementor;
 import org.nakeduml.tinker.emf.extraction.TinkerFeatureExtractor;
 import org.nakeduml.tinker.emf.extraction.TinkerNameSpaceExtractor;
 import org.nakeduml.tinker.generator.TinkerBehavioredClassifierGenerator;
@@ -94,7 +93,6 @@ public class GenerateTinkerTestSignals {
 		steps.add(TinkerComponentInitializer.class);
 		steps.add(TinkerActivityGenerator.class);
 		steps.add(TinkerActivityEventConsumptionImplementor.class);
-		steps.add(TinkerSpecificationImplementor.class);
 		steps.add(TinkerActivityProcessImplementor.class);
 		steps.add(TinkerOperationAnnotator.class);
 		steps.add(TinkerBehavioredClassifierGenerator.class);

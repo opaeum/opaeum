@@ -36,7 +36,7 @@ public class ObjectToken<O> extends Token {
 
 	protected void removeEdgeToObject() {
 		O object = getObject();
-		Edge edge = this.vertex.getOutEdges(TOKEN + "toObject").iterator().next(); 
+		Edge edge = this.vertex.getOutEdges(TOKEN + "toObject").iterator().next();
 		if (object instanceof TinkerNode) {
 			GraphDb.getDb().removeEdge(edge);
 		} else if (object.getClass().isEnum()) {
@@ -67,14 +67,14 @@ public class ObjectToken<O> extends Token {
 		}
 		return node;
 	}
-	
+
 	private Class<?> getClassToInstantiate(Edge edge) {
 		try {
 			return Class.forName((String) edge.getProperty("inClass"));
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
-	}	
+	}
 
 	@Override
 	protected void addEdgeToActivityNode(ActivityNode<? extends Token, ? extends Token> node) {

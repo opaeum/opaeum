@@ -38,7 +38,9 @@ import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.activities.INakedValuePin;
+import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.name.NameConverter;
 
@@ -62,7 +64,8 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 
 			implementGetInitialNode(activityClass, initNodes);
 
-			execute.getBody().addToStatements("return false");
+			completeExecute(a, execute);
+
 			implementIsFinished(activityClass, a);
 
 			activityClass.addToImports(new OJPathName("java.util.Arrays"));
@@ -71,6 +74,56 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 			// if (a.getSpecification()!=null) {
 			// addFinalNode(instantiatedClasses, activityClass, a);
 			// }
+		}
+	}
+
+	private void completeExecute(INakedActivity a, OJAnnotatedOperation execute) {
+
+		for (INakedParameter param : a.getOwnedParameters()) {
+			if ((param.getDirection() == ParameterDirectionKind.OUT || param.getDirection() == ParameterDirectionKind.INOUT) && !param.isReturn()) {
+				if (param.getNakedMultiplicity().isOne()) {
+					List<INakedParameterNode> outAndInOutParamNodes = getOutAndInOutParameterNodes(a);
+					for (INakedParameterNode iNakedParameterNode : outAndInOutParamNodes) {
+						if (iNakedParameterNode.getParameter().equals(param)) {
+							NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(a.getSpecification().getOwner(), iNakedParameterNode.getParameter());
+
+							if (param.getNakedBaseType() instanceof INakedSimpleType) {
+								execute.getBody().addToStatements(
+										"_" + map.fieldname() + "."+TinkerGenerationUtil.clearMutable(map));
+
+								execute.getBody().addToStatements(
+										"_" + map.fieldname() + "."+TinkerGenerationUtil.setMutable(map)+"(" + TinkerBehaviorUtil.activityNodeGetter(iNakedParameterNode)
+												+ "().getReturnParameterValues().get(0))");
+
+							} else {
+								execute.getBody().addToStatements(
+										"_" + map.fieldname() + ".setVertex(" + TinkerBehaviorUtil.activityNodeGetter(iNakedParameterNode)
+												+ "().getReturnParameterValues().get(0).getVertex())");
+							}
+							continue;
+						}
+					}
+				} else {
+					List<INakedParameterNode> outParamNodes = getOutParameterNodes(a);
+					for (INakedParameterNode iNakedParameterNode : outParamNodes) {
+						if (iNakedParameterNode.getParameter().equals(param)) {
+							// TODO
+							execute.getBody().addToStatements(TinkerBehaviorUtil.activityNodeGetter(iNakedParameterNode) + "().getReturnParameterValues()");
+							continue;
+						}
+					}
+
+				}
+			}
+		}
+
+		if (a.getReturnParameter() != null && a.getReturnParameter().isReturn()) {
+			INakedParameterNode returnParameterNode = getReturnParameterNodes(a);
+			if (a.getReturnParameter().getNakedMultiplicity().isOne()) {
+				execute.getBody().addToStatements("return " + TinkerBehaviorUtil.activityNodeGetter(returnParameterNode) + "().getReturnParameterValues().get(0)");
+			} else {
+				execute.getBody().addToStatements("return " + TinkerBehaviorUtil.activityNodeGetter(returnParameterNode) + "().getReturnParameterValues()");
+			}
 		}
 	}
 
@@ -86,7 +139,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 
 	private void addOutParameters(List<String> instantiatedClasses, OJAnnotatedClass activityClass, INakedActivity a) {
 		OJOperation init = activityClass.findOperation("init", Arrays.asList(TinkerGenerationUtil.compositionNodePathName));
-		List<INakedParameterNode> outParameters = getOutParameterNodes(a);
+		List<INakedParameterNode> outParameters = getOutAndInOutParameterNodes(a);
 		for (INakedParameterNode outNakedParameterNode : outParameters) {
 			addGetterToNode(activityClass, outNakedParameterNode);
 			addEdgeToInitNode(instantiatedClasses, outNakedParameterNode, init.getBody());
@@ -121,7 +174,9 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		List<INakedActivityNode> result = new ArrayList<INakedActivityNode>();
 		Collection<INakedActivityNode> nodes = a.getActivityNodes();
 		for (INakedActivityNode node : nodes) {
-			if (node instanceof INakedParameterNode || node instanceof INakedAcceptEventAction
+			if ((node instanceof INakedParameterNode && (((INakedParameterNode) node).getParameter().getDirection() == ParameterDirectionKind.IN || ((INakedParameterNode) node)
+					.getParameter().getDirection() == ParameterDirectionKind.INOUT))
+					|| node instanceof INakedAcceptEventAction
 					|| (node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isInitialNode())) {
 				if (node.getIncoming().isEmpty()) {
 					result.add(node);
@@ -132,7 +187,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		return result;
 	}
 
-	private List<INakedParameterNode> getOutParameterNodes(INakedActivity a) {
+	private List<INakedParameterNode> getOutAndInOutParameterNodes(INakedActivity a) {
 		List<INakedParameterNode> result = new ArrayList<INakedParameterNode>();
 		Collection<INakedActivityNode> nodes = a.getActivityNodes();
 		for (INakedActivityNode node : nodes) {
@@ -144,6 +199,33 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 			}
 		}
 		return result;
+	}
+
+	private List<INakedParameterNode> getOutParameterNodes(INakedActivity a) {
+		List<INakedParameterNode> result = new ArrayList<INakedParameterNode>();
+		Collection<INakedActivityNode> nodes = a.getActivityNodes();
+		for (INakedActivityNode node : nodes) {
+			if (node instanceof INakedParameterNode && node.getOutgoing().isEmpty()) {
+				INakedParameterNode parameterNode = (INakedParameterNode) node;
+				if (parameterNode.getParameter().getDirection() == ParameterDirectionKind.OUT) {
+					result.add(parameterNode);
+				}
+			}
+		}
+		return result;
+	}
+
+	private INakedParameterNode getReturnParameterNodes(INakedActivity a) {
+		Collection<INakedActivityNode> nodes = a.getActivityNodes();
+		for (INakedActivityNode node : nodes) {
+			if (node instanceof INakedParameterNode && node.getOutgoing().isEmpty()) {
+				INakedParameterNode parameterNode = (INakedParameterNode) node;
+				if (parameterNode.getParameter().isReturn()) {
+					return parameterNode;
+				}
+			}
+		}
+		return null;
 	}
 
 	private List<INakedActivityNode> getFinalNodes(INakedActivity a) {
@@ -161,7 +243,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 	private void visitNodes(INakedActivityNode node, OJAnnotatedOperation execute, List<INakedAction> actions, List<String> instantiatedClasses) {
 		INakedActivity activity = node.getActivity();
 		OJAnnotatedClass activityClass = findJavaClass(activity);
-//		addGetterToNode(activityClass, node);
+		// addGetterToNode(activityClass, node);
 		OJOperation init = activityClass.findOperation("init", Arrays.asList(TinkerGenerationUtil.compositionNodePathName));
 		createActivityGraph(activityClass, init.getBody(), node, actions, instantiatedClasses);
 		// addEdgeToInitNode(instantiatedClasses, node, init.getBody());
@@ -204,6 +286,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 				if (node.getActivity().getSpecification() == null) {
 					expression += map.getter() + "().iterator()))";
 				} else {
+					expression += "_";
 					expression += map.fieldname() + ".iterator()))";
 				}
 				statement1.setExpression(expression);
@@ -215,7 +298,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 				} else {
 					statement1.setExpression(NameConverter.decapitalize(NameConverter.decapitalize(node.getName()) + ".setStarts(new "
 							+ TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType())
-							+ ">(\"" + node.getName() + "\", Arrays.asList(" + map.fieldname() + ").iterator()))"));
+							+ ">(\"" + node.getName() + "\", Arrays.asList(_" + map.fieldname() + ").iterator()))"));
 				}
 			}
 			activityClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName);
@@ -356,9 +439,9 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 	private void instantiateNode(List<String> instantiatedClasses, OJAnnotatedClass activityClass, INakedActivityNode node, OJBlock block) {
 		if (!instantiatedClasses.contains(TinkerBehaviorUtil.activityNodePathName(node).toJavaString())) {
 			instantiatedClasses.add(TinkerBehaviorUtil.activityNodePathName(node).toJavaString());
-			
+
 			addGetterToNode(activityClass, node);
-			
+
 			if (node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isInitialNode()
 					|| (node instanceof INakedAcceptEventAction && node.getIncoming().isEmpty())) {
 				OJSimpleStatement instantiateNode = new OJSimpleStatement();
@@ -392,16 +475,28 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 
 	private OJAnnotatedOperation addExecute(INakedActivity a, OJClass activityClass) {
 		OJAnnotatedOperation execute = new OJAnnotatedOperation("execute");
-		execute.setReturnType(new OJPathName("boolean"));
+		if (a.getReturnParameter() != null && a.getReturnParameter().isReturn()) {
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(a, a.getReturnParameter());
+			execute.setReturnType(map.javaBaseTypePath());
+		}
 		activityClass.addToOperations(execute);
 		if (a.getSpecification() != null) {
-			for (INakedParameter param : a.getArgumentParameters()) {
-				OJParameter p = new OJParameter();
-				NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(a, param);
-				p.setName(pMap.fieldname());
-				p.setType(pMap.javaTypePath());
-				execute.addToParameters(p);
-				execute.getOwner().addToImports(pMap.javaTypePath());
+			for (INakedParameter param : a.getOwnedParameters()) {
+				if (!param.isReturn()) {
+					OJParameter p = new OJParameter();
+					NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(a, param);
+					p.setName("_" + pMap.fieldname());
+
+					if (param.getNakedBaseType() instanceof INakedSimpleType
+							&& (param.getDirection() == ParameterDirectionKind.OUT || param.getDirection() == ParameterDirectionKind.INOUT)) {
+						p.setType(TinkerGenerationUtil.convertToMutable(pMap.javaTypePath()));
+					} else {
+						p.setType(pMap.javaTypePath());
+					}
+
+					execute.addToParameters(p);
+					execute.getOwner().addToImports(pMap.javaTypePath());
+				}
 			}
 		}
 		return execute;

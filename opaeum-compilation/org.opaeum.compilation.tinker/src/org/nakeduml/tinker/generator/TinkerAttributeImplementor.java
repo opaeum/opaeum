@@ -1,7 +1,9 @@
 package org.nakeduml.tinker.generator;
 
 import java.util.Arrays;
+import java.util.Collections;
 
+import org.nakeduml.tinker.activity.TinkerEventGenerator;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.generation.features.ExtendedCompositionSemantics;
 import org.opaeum.java.metamodel.OJBlock;
@@ -20,6 +22,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.basicjava.Java6ModelGenerator;
 import org.opaeum.javageneration.composition.ComponentInitializer;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -288,7 +291,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
 				buildTinkerToOneRemover(umlOwner, map, otherMap, owner, buildBasicRemover(owner, map));
 			} else {
-				builTinkerManyRemover(owner, map);
+				buildTinkerManyRemover(owner, map);
 			}
 		} else {
 			addSimpleInternalRemoverBody(umlOwner, map, owner, buildBasicRemover(owner, map));
@@ -317,14 +320,14 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 				}
 				buildTinkerToOneAdder(umlOwner, map, otherMap, owner, buildBasicAdder(owner, map));
 			} else {
-				builTinkerManyAdder(owner, map);
+				buildTinkerManyAdder(owner, map);
 			}
 		} else {
 			addSimpleInternalAdderBody(umlOwner, map, owner, buildBasicAdder(owner, map));
 		}
 	}
 
-	private void builTinkerManyAdder(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
+	private void buildTinkerManyAdder(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
 		// super.buildInternalAdder(owner, map);
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
@@ -342,7 +345,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		}
 	}
 
-	private void builTinkerManyRemover(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
+	private void buildTinkerManyRemover(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
 		super.buildInternalRemover(owner, map);
 		OJOperation remover = owner.findOperation(map.internalRemover(), Arrays.asList(map.javaBaseTypePath()));
 		OJSimpleStatement s = (OJSimpleStatement) remover.getBody().findStatementRecursive(AttributeImplementor.MANY_INTERNAL_REMOVE_FROM_COLLECTION);
@@ -482,7 +485,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		isComposite = map.getProperty().isInverse();
 		INakedClassifier otherClassifier;
 		String otherClassName;
-		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map);
+		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map, isComposite);
 		otherClassifier = (INakedClassifier) map.getProperty().getBaseType();
 		otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
 		OJBlock block = new OJBlock();
@@ -571,5 +574,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		getter.getBody().addToStatements("return " + EMBEDDED_MANY_RESULT);
 		owner.addToImports(new OJPathName("java.util.Arrays"));
 	}
+
+
 
 }

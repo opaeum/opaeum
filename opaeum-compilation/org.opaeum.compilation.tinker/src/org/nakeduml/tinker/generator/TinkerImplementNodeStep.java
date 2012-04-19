@@ -1,6 +1,7 @@
 package org.nakeduml.tinker.generator;
 
 import java.util.Collections;
+import java.util.Set;
 
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
@@ -10,6 +11,7 @@ import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
@@ -24,10 +26,12 @@ import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
-@StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerAttributeImplementor.class, PersistentNameGenerator.class, HashcodeBuilder.class }, after = {HashcodeBuilder.class, ToXmlStringBuilder.class, ExtendedCompositionSemantics.class, PersistentNameGenerator.class, CompositionNodeImplementor.class})
+@StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerAttributeImplementor.class, PersistentNameGenerator.class, HashcodeBuilder.class }, after = {
+		HashcodeBuilder.class, ToXmlStringBuilder.class, ExtendedCompositionSemantics.class, PersistentNameGenerator.class, CompositionNodeImplementor.class })
 public class TinkerImplementNodeStep extends StereotypeAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
@@ -39,6 +43,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			ojClass.addToImports(TinkerGenerationUtil.introspectionUtilPathName);
 			implementIsRoot(ojClass, false);
 			addPersistentConstructor(ojClass);
+			addClearCache(ojClass, c);
 			if (c.getGeneralizations().isEmpty()) {
 				persistUid(ojClass);
 				extendsBaseSoftDelete(ojClass, c);
@@ -49,6 +54,14 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 				addSuperWithPersistenceToDefaultConstructor(ojClass);
 			}
 			addContructorWithVertex(ojClass, c);
+		}
+	}
+
+	@VisitAfter(matchSubclasses = true)
+	public void visitInterface(INakedInterface c) {
+		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {
+			OJAnnotatedInterface ojClass = (OJAnnotatedInterface) findJavaClass(c);
+			implementTinkerCompositionNode(ojClass);
 		}
 	}
 
@@ -62,6 +75,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			implementTinkerCompositionNode(ojClass);
 			implementIsRoot(ojClass, c.getEndToComposite() == null);
 			addPersistentConstructor(ojClass);
+			addClearCache(ojClass, c);
 			if (c.getGeneralizations().isEmpty()) {
 				persistUid(ojClass);
 				extendsBaseSoftDelete(ojClass, c);
@@ -72,18 +86,18 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			} else {
 				addSuperWithPersistenceToDefaultConstructor(ojClass);
 			}
-			
+
 			if (c.getEndToComposite() != null && !(c instanceof INakedInterface)) {
 				addInitVertexToConstructorWithOwningObject(ojClass, c);
 			} else {
 				if (!c.getIsAbstract() && !hasSuperwithCompositeParent(c)) {
 					attachCompositeRootToDbRoot(ojClass);
 				}
-			}	
+			}
 			addContructorWithVertex(ojClass, c);
 		}
 	}
-	
+
 	protected void persistUid(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getUid = (OJAnnotatedOperation) ojClass.findOperation("getUid", Collections.emptyList());
 		getUid.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
@@ -95,7 +109,12 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		ifStatement.addToThenPart("this.vertex.setProperty(\"uid\", uid)");
 		getUid.getBody().addToStatements(ifStatement);
 		getUid.getBody().addToStatements("return uid");
-	}	
+	}
+
+	private void implementTinkerCompositionNode(OJAnnotatedInterface ojInterface) {
+		ojInterface.removeFromSuperInterfaces(TinkerGenerationUtil.compositionNodePathName);
+		ojInterface.addToSuperInterfaces(TinkerGenerationUtil.tinkerCompositionNodePathName);
+	}
 
 	private void implementTinkerCompositionNode(OJAnnotatedClass ojClass) {
 		ojClass.removeFromImplementedInterfaces(TinkerGenerationUtil.compositionNodePathName);
@@ -133,22 +152,22 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		isRoot.getBody().addToStatements("return " + b);
 		ojClass.addToOperations(isRoot);
 	}
-	
+
 	protected void extendsBaseSoftDelete(OJAnnotatedClass ojClass, INakedClassifier c) {
-		if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior()!=null) {
+		if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior() != null) {
 			ojClass.setSuperclass(TinkerGenerationUtil.BASE_BEHAVIORED_CLASSIFIER);
 		} else {
 			ojClass.setSuperclass(TinkerGenerationUtil.BASE_AUDIT_SOFT_DELETE_TINKER);
 		}
 	}
-	
+
 	protected void addPersistentConstructor(OJAnnotatedClass ojClass) {
 		OJConstructor persistentConstructor = new OJConstructor();
 		persistentConstructor.setName(TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_NAME);
 		persistentConstructor.addParam(TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_PARAM_NAME, new OJPathName("java.lang.Boolean"));
 		ojClass.addToConstructors(persistentConstructor);
 	}
-	
+
 	protected void initialiseVertexInPersistentConstructor(OJAnnotatedClass ojClass, INakedClassifier c) {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
 		constructor.getBody().addToStatements("this.vertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"" + TinkerGenerationUtil.getClassMetaId(ojClass) + "\")");
@@ -158,10 +177,12 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		constructor.getBody().addToStatements("defaultCreate()");
 		ojClass.addToImports(TinkerGenerationUtil.transactionThreadEntityVar);
 	}
+
 	private void addSuperWithPersistenceToDefaultConstructor(OJAnnotatedClass ojClass) {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
-		constructor.getBody().getStatements().add(0, new OJSimpleStatement("super( "+TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_PARAM_NAME+" )"));
+		constructor.getBody().getStatements().add(0, new OJSimpleStatement("super( " + TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_PARAM_NAME + " )"));
 	}
+
 	private void addInitVertexToConstructorWithOwningObject(OJAnnotatedClass ojClass, ICompositionParticipant c) {
 		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
 		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
@@ -169,8 +190,8 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			constructor.getBody().getStatements()
 					.add(0, new OJSimpleStatement("this.vertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"" + TinkerGenerationUtil.getClassMetaId(ojClass) + "\")"));
 			constructor.getBody().getStatements().add(1, new OJSimpleStatement("createComponents()"));
-			if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior()!=null) {
-				//After init, before addToOwningObject
+			if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior() != null) {
+				// After init, before addToOwningObject
 				constructor.getBody().addToStatements(3, new OJSimpleStatement("attachToRoot()"));
 			}
 			constructor.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
@@ -180,6 +201,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			constructor.getBody().getStatements().add(0, new OJSimpleStatement("super(true)"));
 		}
 	}
+
 	private boolean hasSuperwithCompositeParent(ICompositionParticipant c) {
 		if (c.getEndToComposite() != null) {
 			return true;
@@ -191,18 +213,18 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			}
 		}
 	}
-	
+
 	private void attachCompositeRootToDbRoot(OJAnnotatedClass ojClass) {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
 		constructor.getBody().addToStatements(
 				"Edge edge = " + TinkerGenerationUtil.graphDbAccess + ".addEdge(null, " + TinkerGenerationUtil.graphDbAccess + ".getRoot(), this.vertex, \"root\")");
-		constructor.getBody().addToStatements("edge.setProperty(\"inClass\", "+TinkerGenerationUtil.TINKER_GET_CLASSNAME+")");
+		constructor.getBody().addToStatements("edge.setProperty(\"inClass\", " + TinkerGenerationUtil.TINKER_GET_CLASSNAME + ")");
 	}
 
 	private void addCreateComponentsToDefaultConstructor(OJAnnotatedClass ojClass, INakedClassifier c) {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
 		constructor.getBody().addToStatements("createComponents()");
-		if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior()!=null) {
+		if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior() != null) {
 			constructor.getBody().addToStatements("attachToRoot()");
 		}
 	}
@@ -218,4 +240,30 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		ojClass.addToConstructors(constructor);
 	}
 
+	protected OJAnnotatedOperation addClearCache(OJAnnotatedClass ojClass, INakedClassifier c) {
+		OJAnnotatedOperation clearCache = new OJAnnotatedOperation("clearCache");
+		TinkerGenerationUtil.addOverrideAnnotation(clearCache);
+		if (!c.getGeneralizations().isEmpty()) {
+			clearCache.getBody().addToStatements("super.clearCache()");
+		}
+		ojClass.addToOperations(clearCache);
+
+		Set<INakedProperty> directlyImplementedAttributes = c.getDirectlyImplementedAttributes();
+		for (INakedProperty p : directlyImplementedAttributes) {
+			if (!(p.isDerived() || p.isDerivedUnion())) {
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
+				if (map.isOne()) {
+					OJSimpleStatement statement = new OJSimpleStatement("this." + map.fieldname() + " = null");
+					statement.setName(map.fieldname());
+					clearCache.getBody().addToStatements(statement);
+				} else {
+					OJSimpleStatement statement = new OJSimpleStatement("this." + map.fieldname() + ".clear()");
+					statement.setName(map.fieldname());
+					clearCache.getBody().addToStatements(statement);
+				}
+			}
+		}
+
+		return clearCache;
+	}
 }
