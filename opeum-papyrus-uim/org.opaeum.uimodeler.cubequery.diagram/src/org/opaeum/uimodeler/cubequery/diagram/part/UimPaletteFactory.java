@@ -24,6 +24,10 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	/**
 	 * @generated
 	 */
+	private final static String CREATEMEASURE3CREATIONTOOL = "createMeasure3CreationTool"; //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
 	public UimPaletteFactory(){
 	}
 	/**
@@ -35,6 +39,9 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 		}
 		if(toolId.equals(CREATECOLUMNAXISENTRY2CREATIONTOOL)){
 			return createColumnAxisEntry2CreationTool();
+		}
+		if(toolId.equals(CREATEMEASURE3CREATIONTOOL)){
+			return createMeasure3CreationTool();
 		}
 		// default return: null
 		return null;
@@ -61,6 +68,15 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	private Tool createColumnAxisEntry2CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(UimElementTypes.ColumnAxisEntry_2001);
+		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
+		return tool;
+	}
+	/**
+	 * @generated
+	 */
+	private Tool createMeasure3CreationTool(){
+		List<IElementType> types = new ArrayList<IElementType>(1);
+		types.add(UimElementTypes.MeasureProperty_2003);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}

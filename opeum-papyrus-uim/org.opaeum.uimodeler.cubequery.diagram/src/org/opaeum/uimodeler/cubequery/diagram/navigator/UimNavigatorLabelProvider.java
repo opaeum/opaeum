@@ -13,8 +13,10 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonLabelProvider;
 import org.opaeum.uim.cube.CubeQuery;
+import org.opaeum.uim.cube.MeasureProperty;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.ColumnAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.CubeQueryEditPart;
+import org.opaeum.uimodeler.cubequery.diagram.edit.parts.MeasurePropertyEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimCubeQueryDiagramEditorPlugin;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimVisualIDRegistry;
@@ -72,6 +74,8 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return getImage("Navigator?TopLevelNode?http://opaeum.org/uimetamodel/cube/1.0?ColumnAxisEntry", UimElementTypes.ColumnAxisEntry_2001); //$NON-NLS-1$
 		case RowAxisEntryEditPart.VISUAL_ID:
 			return getImage("Navigator?TopLevelNode?http://opaeum.org/uimetamodel/cube/1.0?RowAxisEntry", UimElementTypes.RowAxisEntry_2002); //$NON-NLS-1$
+		case MeasurePropertyEditPart.VISUAL_ID:
+			return getImage("Navigator?TopLevelNode?http://opaeum.org/uimetamodel/cube/1.0?MeasureProperty", UimElementTypes.MeasureProperty_2003); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}
@@ -122,6 +126,8 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return getColumnAxisEntry_2001Text(view);
 		case RowAxisEntryEditPart.VISUAL_ID:
 			return getRowAxisEntry_2002Text(view);
+		case MeasurePropertyEditPart.VISUAL_ID:
+			return getMeasureProperty_2003Text(view);
 		}
 		return getUnknownElementText(view);
 	}
@@ -148,6 +154,18 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	 */
 	private String getRowAxisEntry_2002Text(View view){
 		return ""; //$NON-NLS-1$
+	}
+	/**
+	 * @generated
+	 */
+	private String getMeasureProperty_2003Text(View view){
+		MeasureProperty domainModelElement = (MeasureProperty) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getUmlElementUid();
+		}else{
+			UimCubeQueryDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2003); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
 	}
 	/**
 	 * @generated

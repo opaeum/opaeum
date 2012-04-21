@@ -280,7 +280,7 @@ public abstract class AbstractUserInterfaceCreator{
 			uf.setPreferredHeight(25);
 			uf.setOrientation(Orientation.HORIZONTAL);
 		}
-		if(container.getChildren().size() > 6){
+		if(container.getChildren().size() > 6 && container instanceof GridPanel){
 			((GridPanel) container).setNumberOfColumns(2);
 		}
 	}

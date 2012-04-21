@@ -1,5 +1,7 @@
 package org.opaeum.uimodeler.cubequery.diagram.edit.parts;
 
+
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
@@ -18,7 +20,7 @@ public class CubeQueryEditPart extends PapyrusDiagramEditPart{
 	/**
 	 * @generated
 	 */
-	public final static String MODEL_ID = "Uim"; //$NON-NLS-1$
+	public final static String MODEL_ID = "cubequery"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -36,8 +38,9 @@ public class CubeQueryEditPart extends PapyrusDiagramEditPart{
 		super.createDefaultEditPolicies();
 		installEditPolicy(DuplicatePasteEditPolicy.PASTE_ROLE, new DuplicatePasteEditPolicy());
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new CubeQueryItemSemanticEditPolicy());
-		//in Papyrus diagrams are not strongly synchronised
-		//installEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CANONICAL_ROLE, new org.opaeum.uimodeler.cubequery.diagram.edit.policies.CubeQueryCanonicalEditPolicy());
+		// in Papyrus diagrams are not strongly synchronised
+		// installEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CANONICAL_ROLE, new
+		// org.opaeum.uimodeler.cubequery.diagram.edit.policies.CubeQueryCanonicalEditPolicy());
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.POPUPBAR_ROLE);
 	}
 	/**
@@ -48,10 +51,16 @@ public class CubeQueryEditPart extends PapyrusDiagramEditPart{
 		if(event.getNotifier() instanceof EAnnotation){
 			EAnnotation eAnnotation = (EAnnotation) event.getNotifier();
 			if(eAnnotation.getSource() != null && eAnnotation.getSource().equals(MDTUtil.FilterViewAndLabelsSource)){
-				//modification form MOSKitt approach, canonical policies are not called
+				// modification form MOSKitt approach, canonical policies are not called
 				MDTUtil.filterDiagramViews(this.getDiagramView());
 			}
 		}
+	}
+	@Override
+	protected IFigure createFigure(){
+		final IFigure result = super.createFigure();
+		result.setLayoutManager(new CubeLayout(result));
+		return result;
 	}
 	/**
 	 * @generated

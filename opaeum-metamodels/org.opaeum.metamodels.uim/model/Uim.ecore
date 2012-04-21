@@ -397,16 +397,40 @@
           eType="#//cube/ColumnAxisEntry" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="rowAxis" upperBound="-1"
           eType="#//cube/RowAxisEntry" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="measures" upperBound="-1"
+          eType="#//cube/MeasureProperty" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AxisEntry">
       <eStructuralFeatures xsi:type="ecore:EReference" name="dimensionBinding" eType="#//cube/DimensionBinding"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="levelProperty" eType="#//cube/LevelProperty"
-          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="levelProperty" upperBound="-1"
+          eType="#//cube/LevelProperty" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="DimensionBinding" eSuperTypes="#//binding/UimBinding"/>
-    <eClassifiers xsi:type="ecore:EClass" name="LevelProperty" eSuperTypes="#//UmlReference"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DimensionBinding" eSuperTypes="#//binding/UimBinding">
+      <eOperations name="toString" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eOperations name="equals" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean">
+        <eParameters name="o" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eOperations>
+      <eOperations name="hashCode" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LevelProperty" eSuperTypes="#//UmlReference">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="RowAxisEntry" eSuperTypes="#//cube/AxisEntry"/>
     <eClassifiers xsi:type="ecore:EClass" name="ColumnAxisEntry" eSuperTypes="#//cube/AxisEntry"/>
+    <eClassifiers xsi:type="ecore:EEnum" name="AggregationFormula">
+      <eLiterals name="SUM"/>
+      <eLiterals name="AVERAGE" value="1"/>
+      <eLiterals name="COUNT" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MeasureProperty" eSuperTypes="#//UmlReference">
+      <eOperations name="equals" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean">
+        <eParameters name="o" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+      </eOperations>
+      <eOperations name="hashCode" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+      <eOperations name="toString" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="aggregationFormula" eType="#//cube/AggregationFormula"
+          defaultValueLiteral="null"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

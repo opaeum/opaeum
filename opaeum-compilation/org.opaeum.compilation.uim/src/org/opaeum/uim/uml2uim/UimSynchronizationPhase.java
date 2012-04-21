@@ -18,7 +18,6 @@ import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 
 @PhaseDependency(before = {
-	ModelCopyPhase.class
 })
 public class UimSynchronizationPhase implements TransformationPhase<AbstractUimSynchronizer,Element>{
 	@InputModel

@@ -2,7 +2,9 @@
  */
 package org.opaeum.uim.cube;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -123,13 +125,22 @@ public interface CubePackage extends EPackage {
 	int CUBE_QUERY__ROW_AXIS = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Measures</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY__MEASURES = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Query</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 4;
+	int CUBE_QUERY_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.cube.impl.AxisEntryImpl <em>Axis Entry</em>}' class.
@@ -151,7 +162,7 @@ public interface CubePackage extends EPackage {
 	int AXIS_ENTRY__DIMENSION_BINDING = 0;
 
 	/**
-	 * The feature id for the '<em><b>Level Property</b></em>' containment reference.
+	 * The feature id for the '<em><b>Level Property</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -225,13 +236,22 @@ public interface CubePackage extends EPackage {
 	int LEVEL_PROPERTY__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEVEL_PROPERTY__NAME = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Level Property</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LEVEL_PROPERTY_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
+	int LEVEL_PROPERTY_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
 
 
 	/**
@@ -254,7 +274,7 @@ public interface CubePackage extends EPackage {
 	int ROW_AXIS_ENTRY__DIMENSION_BINDING = AXIS_ENTRY__DIMENSION_BINDING;
 
 	/**
-	 * The feature id for the '<em><b>Level Property</b></em>' containment reference.
+	 * The feature id for the '<em><b>Level Property</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -291,7 +311,7 @@ public interface CubePackage extends EPackage {
 	int COLUMN_AXIS_ENTRY__DIMENSION_BINDING = AXIS_ENTRY__DIMENSION_BINDING;
 
 	/**
-	 * The feature id for the '<em><b>Level Property</b></em>' containment reference.
+	 * The feature id for the '<em><b>Level Property</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -307,6 +327,54 @@ public interface CubePackage extends EPackage {
 	 * @ordered
 	 */
 	int COLUMN_AXIS_ENTRY_FEATURE_COUNT = AXIS_ENTRY_FEATURE_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.cube.impl.MeasurePropertyImpl <em>Measure Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.cube.impl.MeasurePropertyImpl
+	 * @see org.opaeum.uim.cube.impl.CubePackageImpl#getMeasureProperty()
+	 * @generated
+	 */
+	int MEASURE_PROPERTY = 6;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEASURE_PROPERTY__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Aggregation Formula</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEASURE_PROPERTY__AGGREGATION_FORMULA = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Measure Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEASURE_PROPERTY_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.cube.AggregationFormula <em>Aggregation Formula</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.cube.AggregationFormula
+	 * @see org.opaeum.uim.cube.impl.CubePackageImpl#getAggregationFormula()
+	 * @generated
+	 */
+	int AGGREGATION_FORMULA = 7;
 
 
 	/**
@@ -342,6 +410,17 @@ public interface CubePackage extends EPackage {
 	EReference getCubeQuery_RowAxis();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.cube.CubeQuery#getMeasures <em>Measures</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Measures</em>'.
+	 * @see org.opaeum.uim.cube.CubeQuery#getMeasures()
+	 * @see #getCubeQuery()
+	 * @generated
+	 */
+	EReference getCubeQuery_Measures();
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.cube.AxisEntry <em>Axis Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -363,10 +442,10 @@ public interface CubePackage extends EPackage {
 	EReference getAxisEntry_DimensionBinding();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.cube.AxisEntry#getLevelProperty <em>Level Property</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.cube.AxisEntry#getLevelProperty <em>Level Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Level Property</em>'.
+	 * @return the meta object for the containment reference list '<em>Level Property</em>'.
 	 * @see org.opaeum.uim.cube.AxisEntry#getLevelProperty()
 	 * @see #getAxisEntry()
 	 * @generated
@@ -394,6 +473,17 @@ public interface CubePackage extends EPackage {
 	EClass getLevelProperty();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.cube.LevelProperty#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.opaeum.uim.cube.LevelProperty#getName()
+	 * @see #getLevelProperty()
+	 * @generated
+	 */
+	EAttribute getLevelProperty_Name();
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.cube.RowAxisEntry <em>Row Axis Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -412,6 +502,37 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getColumnAxisEntry();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.cube.MeasureProperty <em>Measure Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Measure Property</em>'.
+	 * @see org.opaeum.uim.cube.MeasureProperty
+	 * @generated
+	 */
+	EClass getMeasureProperty();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.cube.MeasureProperty#getAggregationFormula <em>Aggregation Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Aggregation Formula</em>'.
+	 * @see org.opaeum.uim.cube.MeasureProperty#getAggregationFormula()
+	 * @see #getMeasureProperty()
+	 * @generated
+	 */
+	EAttribute getMeasureProperty_AggregationFormula();
+
+	/**
+	 * Returns the meta object for enum '{@link org.opaeum.uim.cube.AggregationFormula <em>Aggregation Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Aggregation Formula</em>'.
+	 * @see org.opaeum.uim.cube.AggregationFormula
+	 * @generated
+	 */
+	EEnum getAggregationFormula();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -462,6 +583,14 @@ public interface CubePackage extends EPackage {
 		EReference CUBE_QUERY__ROW_AXIS = eINSTANCE.getCubeQuery_RowAxis();
 
 		/**
+		 * The meta object literal for the '<em><b>Measures</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CUBE_QUERY__MEASURES = eINSTANCE.getCubeQuery_Measures();
+
+		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.cube.impl.AxisEntryImpl <em>Axis Entry</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -480,7 +609,7 @@ public interface CubePackage extends EPackage {
 		EReference AXIS_ENTRY__DIMENSION_BINDING = eINSTANCE.getAxisEntry_DimensionBinding();
 
 		/**
-		 * The meta object literal for the '<em><b>Level Property</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Level Property</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -508,6 +637,14 @@ public interface CubePackage extends EPackage {
 		EClass LEVEL_PROPERTY = eINSTANCE.getLevelProperty();
 
 		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEVEL_PROPERTY__NAME = eINSTANCE.getLevelProperty_Name();
+
+		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.cube.impl.RowAxisEntryImpl <em>Row Axis Entry</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -526,6 +663,34 @@ public interface CubePackage extends EPackage {
 		 * @generated
 		 */
 		EClass COLUMN_AXIS_ENTRY = eINSTANCE.getColumnAxisEntry();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.cube.impl.MeasurePropertyImpl <em>Measure Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.cube.impl.MeasurePropertyImpl
+		 * @see org.opaeum.uim.cube.impl.CubePackageImpl#getMeasureProperty()
+		 * @generated
+		 */
+		EClass MEASURE_PROPERTY = eINSTANCE.getMeasureProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Aggregation Formula</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MEASURE_PROPERTY__AGGREGATION_FORMULA = eINSTANCE.getMeasureProperty_AggregationFormula();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.cube.AggregationFormula <em>Aggregation Formula</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.cube.AggregationFormula
+		 * @see org.opaeum.uim.cube.impl.CubePackageImpl#getAggregationFormula()
+		 * @generated
+		 */
+		EEnum AGGREGATION_FORMULA = eINSTANCE.getAggregationFormula();
 
 	}
 

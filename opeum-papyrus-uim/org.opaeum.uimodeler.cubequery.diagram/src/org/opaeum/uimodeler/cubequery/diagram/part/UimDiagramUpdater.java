@@ -8,9 +8,11 @@ import java.util.List;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.cube.ColumnAxisEntry;
 import org.opaeum.uim.cube.CubeQuery;
+import org.opaeum.uim.cube.MeasureProperty;
 import org.opaeum.uim.cube.RowAxisEntry;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.ColumnAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.CubeQueryEditPart;
+import org.opaeum.uimodeler.cubequery.diagram.edit.parts.MeasurePropertyEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart;
 
 /**
@@ -52,6 +54,14 @@ public class UimDiagramUpdater{
 				continue;
 			}
 		}
+		for(Iterator<?> it = modelElement.getMeasures().iterator();it.hasNext();){
+			MeasureProperty childElement = (MeasureProperty) it.next();
+			int visualID = UimVisualIDRegistry.getNodeVisualID(view, childElement);
+			if(visualID == MeasurePropertyEditPart.VISUAL_ID){
+				result.add(new UimNodeDescriptor(childElement, visualID));
+				continue;
+			}
+		}
 		return result;
 	}
 	/**
@@ -65,6 +75,8 @@ public class UimDiagramUpdater{
 			return getColumnAxisEntry_2001ContainedLinks(view);
 		case RowAxisEntryEditPart.VISUAL_ID:
 			return getRowAxisEntry_2002ContainedLinks(view);
+		case MeasurePropertyEditPart.VISUAL_ID:
+			return getMeasureProperty_2003ContainedLinks(view);
 		}
 		return Collections.emptyList();
 	}
@@ -77,6 +89,8 @@ public class UimDiagramUpdater{
 			return getColumnAxisEntry_2001IncomingLinks(view);
 		case RowAxisEntryEditPart.VISUAL_ID:
 			return getRowAxisEntry_2002IncomingLinks(view);
+		case MeasurePropertyEditPart.VISUAL_ID:
+			return getMeasureProperty_2003IncomingLinks(view);
 		}
 		return Collections.emptyList();
 	}
@@ -89,6 +103,8 @@ public class UimDiagramUpdater{
 			return getColumnAxisEntry_2001OutgoingLinks(view);
 		case RowAxisEntryEditPart.VISUAL_ID:
 			return getRowAxisEntry_2002OutgoingLinks(view);
+		case MeasurePropertyEditPart.VISUAL_ID:
+			return getMeasureProperty_2003OutgoingLinks(view);
 		}
 		return Collections.emptyList();
 	}
@@ -113,6 +129,12 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
+	public static List<UimLinkDescriptor> getMeasureProperty_2003ContainedLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
 	public static List<UimLinkDescriptor> getColumnAxisEntry_2001IncomingLinks(View view){
 		return Collections.emptyList();
 	}
@@ -125,6 +147,12 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
+	public static List<UimLinkDescriptor> getMeasureProperty_2003IncomingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
 	public static List<UimLinkDescriptor> getColumnAxisEntry_2001OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
@@ -132,6 +160,12 @@ public class UimDiagramUpdater{
 	 * @generated
 	 */
 	public static List<UimLinkDescriptor> getRowAxisEntry_2002OutgoingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getMeasureProperty_2003OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 }

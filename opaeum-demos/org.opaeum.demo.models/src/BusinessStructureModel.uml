@@ -271,6 +271,10 @@
         <eAnnotations xmi:id="_RKLgcIPAEeGrOe1sSLX2zA" source="http://www.opaeum.org"/>
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_XkwR4IfLEeGqJejbH5CW6A" name="totalAmount">
+        <eAnnotations xmi:id="_Xk0jUIfLEeGqJejbH5CW6A" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
       <ownedOperation xmi:id="_2Wwo4H47EeGarqqEaoJFHg" name="dispatch">
         <eAnnotations xmi:id="_2WyeEH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
         <ownedParameter xmi:id="_5a6WYH47EeGarqqEaoJFHg" name="accountant" type="_mec6wGCfEeG6xvYqJACneg">
@@ -286,7 +290,7 @@
         </ownedParameter>
       </ownedOperation>
     </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_jKqncH47EeGarqqEaoJFHg" name="order_dishWasherModel_1" memberEnd="_jKqncX47EeGarqqEaoJFHg _jKoLMH47EeGarqqEaoJFHg">
+    <packagedElement xmi:type="uml:Association" xmi:id="_jKqncH47EeGarqqEaoJFHg" name="order_dishWasherModel_1" memberEnd="_jKqncX47EeGarqqEaoJFHg _jKoLMH47EeGarqqEaoJFHg" navigableOwnedEnd="_jKqncX47EeGarqqEaoJFHg">
       <eAnnotations xmi:id="_jKr1kH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
       <ownedEnd xmi:id="_jKqncX47EeGarqqEaoJFHg" name="order" type="_gTMrEH47EeGarqqEaoJFHg" association="_jKqncH47EeGarqqEaoJFHg">
         <eAnnotations xmi:id="_jP8JAH47EeGarqqEaoJFHg" source="http://www.opaeum.org"/>
@@ -337,4 +341,8 @@
   <OpaeumStandardProfile:Attribute xmi:id="_TwmJEIPAEeGrOe1sSLX2zA" base_Property="_RJ07IIPAEeGrOe1sSLX2zA"/>
   <OpaeumStandardProfile:Attribute xmi:id="_PaDYEIPrEeGccYWaoIFIyQ" base_Property="_M_kSoIPrEeGccYWaoIFIyQ"/>
   <OpaeumStandardProfile:Attribute xmi:id="_UOA2UIPrEeGccYWaoIFIyQ" base_Property="_ROTj8IPrEeGccYWaoIFIyQ"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_ao9CsIfLEeGqJejbH5CW6A" roleInCube="MEASURE" base_Property="_XkwR4IfLEeGqJejbH5CW6A">
+    <aggregationFormulas>SUM</aggregationFormulas>
+  </OpaeumStandardProfile:Attribute>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_Ps-I8IhdEeGi9dP5pU9RKA" roleInCube="DIMENSION" base_Property="_jKoLMH47EeGarqqEaoJFHg"/>
 </xmi:XMI>

@@ -47,6 +47,10 @@ public class TableAndActionBarComposite extends Composite{
 				this.viewer = checkboxTableViewer = new SortablePageableCheckboxTableViewer(table, this);
 				return table;
 			}
+			@Override
+			protected int getTableStyle(){
+				return SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CHECK;
+			}
 		});
 		getPageableTable().setPageLoader(checkboxTableViewer);
 		getPageableTable().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));

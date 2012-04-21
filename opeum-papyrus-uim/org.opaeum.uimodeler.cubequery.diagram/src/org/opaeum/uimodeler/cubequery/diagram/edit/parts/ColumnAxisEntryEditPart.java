@@ -1,9 +1,18 @@
 package org.opaeum.uimodeler.cubequery.diagram.edit.parts;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -25,6 +34,15 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceCon
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.uml2.uml.NamedElement;
+import org.opaeum.uim.cube.AxisEntry;
+import org.opaeum.uim.cube.ColumnAxisEntry;
+import org.opaeum.uim.cube.CubePackage;
+import org.opaeum.uim.cube.LevelProperty;
+import org.opaeum.uim.cube.RowAxisEntry;
+import org.opaeum.uim.util.UmlUimLinks;
+import org.opaeum.uimodeler.cubequery.diagram.ColumnAxisFigure;
+import org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart.RowAxisEntryFigure;
 import org.opaeum.uimodeler.cubequery.diagram.edit.policies.ColumnAxisEntryItemSemanticEditPolicy;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimCubeQueryDiagramEditorPlugin;
 
@@ -82,10 +100,10 @@ public class ColumnAxisEntryEditPart extends ShapeNodeEditPart{
 		return lep;
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new RectangleFigure();
+		return primaryShape = new ColumnAxisEntryFigure();
 	}
 	/**
 	 * @generated
@@ -94,7 +112,7 @@ public class ColumnAxisEntryEditPart extends ShapeNodeEditPart{
 		return (RectangleFigure) primaryShape;
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected NodeFigure createNodePlate(){
 		String prefElementId = "ColumnAxisEntry";
@@ -103,14 +121,13 @@ public class ColumnAxisEntryEditPart extends ShapeNodeEditPart{
 				PreferenceConstantHelper.WIDTH);
 		String preferenceConstantHeight = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,
 				PreferenceConstantHelper.HEIGHT);
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(store.getInt(preferenceConstantWitdh), store.getInt(preferenceConstantHeight));
+		DefaultSizeNodeFigure result = new ColumnAxisFigure(store.getInt(preferenceConstantWitdh), store.getInt(preferenceConstantHeight));
 		return result;
 	}
 	/**
 	 * Creates figure for this edit part.
 	 * 
-	 * Body of this method does not depend on settings in generation model
-	 * so you may safely remove <i>generated</i> tag and modify it.
+	 * Body of this method does not depend on settings in generation model so you may safely remove <i>generated</i> tag and modify it.
 	 * 
 	 * @generated
 	 */
@@ -123,9 +140,10 @@ public class ColumnAxisEntryEditPart extends ShapeNodeEditPart{
 		return figure;
 	}
 	/**
-	 * Default implementation treats passed figure as content pane.
-	 * Respects layout one may have set for generated figure.
-	 * @param nodeShape instance of generated figure class
+	 * Default implementation treats passed figure as content pane. Respects layout one may have set for generated figure.
+	 * 
+	 * @param nodeShape
+	 *          instance of generated figure class
 	 * @generated
 	 */
 	protected IFigure setupContentPane(IFigure nodeShape){
@@ -165,6 +183,41 @@ public class ColumnAxisEntryEditPart extends ShapeNodeEditPart{
 		}
 	}
 	/**
+	 * @generated NOT
+	 */
+	public class ColumnAxisEntryFigure extends RectangleFigure{
+		private int exp;
+		private List<String> labels = new ArrayList<String>();
+		public void setExp(int startExp){
+			this.exp = startExp;
+		}
+		@Override
+		public void paint(Graphics graphics){
+			super.paint(graphics);
+			List<String> labels2 = labels;
+			if(labels2.isEmpty()){
+				labels2 = Arrays.asList("No Level Selected");
+			}
+			for(int k = 0;k < labels2.size();k++){
+				String label = labels2.get(k);
+				double pow = Math.pow(2, exp+k);
+				for(int i = 0;i < pow;i++){
+					int blockWidth = (int) (getSize().width/ (pow));
+					int blockHeight = (int) (getSize().height/ labels2.size());
+					Point p = new Point(getLocation().x + (i * blockWidth), getLocation().y + (blockHeight*k));
+					graphics.drawText(label, p);
+					graphics.drawRectangle(p.x, p.y, blockWidth,blockHeight);
+				}
+			}
+		}
+		public List<String> getLabels(){
+			return labels;
+		}
+		public void setLabels(List<String> labels){
+			this.labels = labels;
+		}
+	}
+	/**
 	 * @generated
 	 */
 	@Override
@@ -196,5 +249,27 @@ public class ColumnAxisEntryEditPart extends ShapeNodeEditPart{
 			result = getStructuralFeatureValue(feature);
 		}
 		return result;
+	}
+	@Override
+	protected void handleNotificationEvent(Notification notification){
+		super.handleNotificationEvent(notification);
+		if(notification.getNotifier() instanceof ColumnAxisEntry){
+			refreshVisuals();
+			getPrimaryShape().getParent().repaint();
+		}
+	}
+	@Override
+	protected void refreshVisuals(){
+		super.refreshVisuals();
+		((ColumnAxisEntryFigure) getPrimaryShape()).getLabels().clear();
+		ColumnAxisEntry e = (ColumnAxisEntry) getAdapter(EObject.class);
+		for(LevelProperty lp:e.getLevelProperty()){
+			String name = lp.getName();
+			if(name==null){
+				NamedElement umlElement = (NamedElement) UmlUimLinks.getCurrentUmlLinks(lp).getUmlElement(lp);
+				name=umlElement.getName();
+			}
+			((ColumnAxisEntryFigure) getPrimaryShape()).getLabels().add(name);
+		}
 	}
 }

@@ -134,6 +134,13 @@ public class CubeSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case CubePackage.MEASURE_PROPERTY: {
+				MeasureProperty measureProperty = (MeasureProperty)theEObject;
+				T result = caseMeasureProperty(measureProperty);
+				if (result == null) result = caseUmlReference(measureProperty);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -225,6 +232,21 @@ public class CubeSwitch<T> {
 	 * @generated
 	 */
 	public T caseColumnAxisEntry(ColumnAxisEntry object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Measure Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Measure Property</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMeasureProperty(MeasureProperty object) {
 		return null;
 	}
 

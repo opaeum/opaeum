@@ -28,6 +28,7 @@ import org.opaeum.uim.cube.AxisEntry;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.CubeQuery;
 
+import org.opaeum.uim.cube.MeasureProperty;
 import org.opaeum.uim.cube.RowAxisEntry;
 import org.opaeum.uim.impl.UserInteractionElementImpl;
 
@@ -42,6 +43,7 @@ import org.opaeum.uim.impl.UserInteractionElementImpl;
  *   <li>{@link org.opaeum.uim.cube.impl.CubeQueryImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.opaeum.uim.cube.impl.CubeQueryImpl#getColumnAxis <em>Column Axis</em>}</li>
  *   <li>{@link org.opaeum.uim.cube.impl.CubeQueryImpl#getRowAxis <em>Row Axis</em>}</li>
+ *   <li>{@link org.opaeum.uim.cube.impl.CubeQueryImpl#getMeasures <em>Measures</em>}</li>
  * </ul>
  * </p>
  *
@@ -97,6 +99,16 @@ public class CubeQueryImpl extends UserInteractionElementImpl implements CubeQue
 	 * @ordered
 	 */
 	protected EList<RowAxisEntry> rowAxis;
+
+	/**
+	 * The cached value of the '{@link #getMeasures() <em>Measures</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMeasures()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<MeasureProperty> measures;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -210,6 +222,18 @@ public class CubeQueryImpl extends UserInteractionElementImpl implements CubeQue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<MeasureProperty> getMeasures() {
+		if (measures == null) {
+			measures = new EObjectContainmentEList<MeasureProperty>(MeasureProperty.class, this, CubePackage.CUBE_QUERY__MEASURES);
+		}
+		return measures;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -219,6 +243,8 @@ public class CubeQueryImpl extends UserInteractionElementImpl implements CubeQue
 				return ((InternalEList<?>)getColumnAxis()).basicRemove(otherEnd, msgs);
 			case CubePackage.CUBE_QUERY__ROW_AXIS:
 				return ((InternalEList<?>)getRowAxis()).basicRemove(otherEnd, msgs);
+			case CubePackage.CUBE_QUERY__MEASURES:
+				return ((InternalEList<?>)getMeasures()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -239,6 +265,8 @@ public class CubeQueryImpl extends UserInteractionElementImpl implements CubeQue
 				return getColumnAxis();
 			case CubePackage.CUBE_QUERY__ROW_AXIS:
 				return getRowAxis();
+			case CubePackage.CUBE_QUERY__MEASURES:
+				return getMeasures();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -266,6 +294,10 @@ public class CubeQueryImpl extends UserInteractionElementImpl implements CubeQue
 				getRowAxis().clear();
 				getRowAxis().addAll((Collection<? extends RowAxisEntry>)newValue);
 				return;
+			case CubePackage.CUBE_QUERY__MEASURES:
+				getMeasures().clear();
+				getMeasures().addAll((Collection<? extends MeasureProperty>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -290,6 +322,9 @@ public class CubeQueryImpl extends UserInteractionElementImpl implements CubeQue
 			case CubePackage.CUBE_QUERY__ROW_AXIS:
 				getRowAxis().clear();
 				return;
+			case CubePackage.CUBE_QUERY__MEASURES:
+				getMeasures().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -310,6 +345,8 @@ public class CubeQueryImpl extends UserInteractionElementImpl implements CubeQue
 				return columnAxis != null && !columnAxis.isEmpty();
 			case CubePackage.CUBE_QUERY__ROW_AXIS:
 				return rowAxis != null && !rowAxis.isEmpty();
+			case CubePackage.CUBE_QUERY__MEASURES:
+				return measures != null && !measures.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

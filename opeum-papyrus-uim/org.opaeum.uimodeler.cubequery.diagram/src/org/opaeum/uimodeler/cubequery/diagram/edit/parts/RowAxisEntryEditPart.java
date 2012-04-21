@@ -1,9 +1,19 @@
 package org.opaeum.uimodeler.cubequery.diagram.edit.parts;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -25,8 +35,15 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceCon
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.opaeum.uim.cube.LevelProperty;
+import org.opaeum.uim.cube.RowAxisEntry;
+import org.opaeum.uim.util.UmlUimLinks;
+import org.opaeum.uimodeler.cubequery.diagram.RowAxisFigure;
 import org.opaeum.uimodeler.cubequery.diagram.edit.policies.RowAxisEntryItemSemanticEditPolicy;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimCubeQueryDiagramEditorPlugin;
+import org.opaeum.uimodeler.cubequery.diagram.part.UimUriEditorInputTester;
 
 /**
  * @generated
@@ -82,10 +99,10 @@ public class RowAxisEntryEditPart extends ShapeNodeEditPart{
 		return lep;
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new RectangleFigure();
+		return primaryShape = new RowAxisEntryFigure();
 	}
 	/**
 	 * @generated
@@ -94,7 +111,7 @@ public class RowAxisEntryEditPart extends ShapeNodeEditPart{
 		return (RectangleFigure) primaryShape;
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected NodeFigure createNodePlate(){
 		String prefElementId = "RowAxisEntry";
@@ -103,7 +120,7 @@ public class RowAxisEntryEditPart extends ShapeNodeEditPart{
 				PreferenceConstantHelper.WIDTH);
 		String preferenceConstantHeight = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,
 				PreferenceConstantHelper.HEIGHT);
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(store.getInt(preferenceConstantWitdh), store.getInt(preferenceConstantHeight));
+		DefaultSizeNodeFigure result = new RowAxisFigure(store.getInt(preferenceConstantWitdh), store.getInt(preferenceConstantHeight));
 		return result;
 	}
 	/**
@@ -165,6 +182,41 @@ public class RowAxisEntryEditPart extends ShapeNodeEditPart{
 		}
 	}
 	/**
+	 * @generated NOT
+	 */
+	public class RowAxisEntryFigure extends RectangleFigure{
+		private int exp;
+		private List<String> labels = new ArrayList<String>();
+		public void setExp(int startExp){
+			this.exp = startExp;
+		}
+		@Override
+		public void paint(Graphics graphics){
+			super.paint(graphics);
+			List<String> labels2 = labels;
+			if(labels2.isEmpty()){
+				labels2 = Arrays.asList("No Level Selected");
+			}
+			for(int k = 0;k < labels2.size();k++){
+				String label = labels2.get(k);
+				double pow = Math.pow(2, exp+k);
+				for(int i = 0;i < pow;i++){
+					int blockHeight = (int) (getSize().height/ pow);
+					int blockWidth = (int) (getSize().width/ labels2.size());
+					Point p = new Point(getLocation().x +(blockWidth*k), getLocation().y+(i * blockHeight));
+					graphics.drawText(label, p);
+					graphics.drawRectangle(p.x, p.y, getSize().width/labels2.size(), blockHeight);
+				}
+			}
+		}
+		public List<String> getLabels(){
+			return labels;
+		}
+		public void setLabels(List<String> labels){
+			this.labels = labels;
+		}
+	}
+	/**
 	 * @generated
 	 */
 	@Override
@@ -196,5 +248,27 @@ public class RowAxisEntryEditPart extends ShapeNodeEditPart{
 			result = getStructuralFeatureValue(feature);
 		}
 		return result;
+	}
+	@Override
+	protected void handleNotificationEvent(Notification notification){
+		super.handleNotificationEvent(notification);
+		if(notification.getNotifier() instanceof RowAxisEntry){
+			refreshVisuals();
+		}
+		
+	}
+	@Override
+	protected void refreshVisuals(){
+		super.refreshVisuals();
+		((RowAxisEntryFigure) getPrimaryShape()).getLabels().clear();
+		RowAxisEntry e = (RowAxisEntry) getAdapter(EObject.class);
+		for(LevelProperty lp:e.getLevelProperty()){
+			String name = lp.getName();
+			if(name==null){
+				NamedElement umlElement = (NamedElement) UmlUimLinks.getCurrentUmlLinks(lp).getUmlElement(lp);
+				name=umlElement.getName();
+			}
+			((RowAxisEntryFigure) getPrimaryShape()).getLabels().add(name);
+		}
 	}
 }

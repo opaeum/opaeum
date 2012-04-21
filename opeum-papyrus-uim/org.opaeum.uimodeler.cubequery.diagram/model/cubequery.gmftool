@@ -23,5 +23,13 @@
       <largeIcon
           xsi:type="gmftool:DefaultImage"/>
     </tools>
+    <tools
+        xsi:type="gmftool:CreationTool"
+        title="Measure">
+      <smallIcon
+          xsi:type="gmftool:DefaultImage"/>
+      <largeIcon
+          xsi:type="gmftool:DefaultImage"/>
+    </tools>
   </palette>
 </gmftool:ToolRegistry>

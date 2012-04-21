@@ -210,6 +210,29 @@ public class CubeItemProviderAdapterFactory extends CubeAdapterFactory implement
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.cube.MeasureProperty} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MeasurePropertyItemProvider measurePropertyItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.cube.MeasureProperty}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMeasurePropertyAdapter() {
+		if (measurePropertyItemProvider == null) {
+			measurePropertyItemProvider = new MeasurePropertyItemProvider(this);
+		}
+
+		return measurePropertyItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -314,6 +337,7 @@ public class CubeItemProviderAdapterFactory extends CubeAdapterFactory implement
 		if (levelPropertyItemProvider != null) levelPropertyItemProvider.dispose();
 		if (rowAxisEntryItemProvider != null) rowAxisEntryItemProvider.dispose();
 		if (columnAxisEntryItemProvider != null) columnAxisEntryItemProvider.dispose();
+		if (measurePropertyItemProvider != null) measurePropertyItemProvider.dispose();
 	}
 
 }

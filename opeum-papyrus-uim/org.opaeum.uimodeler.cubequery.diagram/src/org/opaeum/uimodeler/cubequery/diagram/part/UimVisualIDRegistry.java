@@ -11,6 +11,7 @@ import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.ColumnAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.CubeQueryEditPart;
+import org.opaeum.uimodeler.cubequery.diagram.edit.parts.MeasurePropertyEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart;
 
 /**
@@ -112,6 +113,9 @@ public class UimVisualIDRegistry{
 			if(CubePackage.eINSTANCE.getRowAxisEntry().isSuperTypeOf(domainElement.eClass())){
 				return RowAxisEntryEditPart.VISUAL_ID;
 			}
+			if(CubePackage.eINSTANCE.getMeasureProperty().isSuperTypeOf(domainElement.eClass())){
+				return MeasurePropertyEditPart.VISUAL_ID;
+			}
 			break;
 		}
 		return -1;
@@ -140,6 +144,9 @@ public class UimVisualIDRegistry{
 				return true;
 			}
 			if(RowAxisEntryEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			if(MeasurePropertyEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
@@ -185,6 +192,8 @@ public class UimVisualIDRegistry{
 		viewInfo = new BaseViewInfo(2001, ViewInfo.Node, "ColumnAxisEntry");
 		root.addNode(1000, viewInfo);
 		viewInfo = new BaseViewInfo(2002, ViewInfo.Node, "RowAxisEntry");
+		root.addNode(1000, viewInfo);
+		viewInfo = new BaseViewInfo(2003, ViewInfo.Node, "MeasureProperty");
 		root.addNode(1000, viewInfo);
 		return root;
 	}

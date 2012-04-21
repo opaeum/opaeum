@@ -1,12 +1,26 @@
 package org.opaeum.topcased.uml.editor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import nl.klasse.octopus.model.IStructuralFeature;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
@@ -67,6 +81,42 @@ public class OpaeumNavigator extends UMLNavigator{
 	public OpaeumNavigator(Composite parent,Modeler editor,IPageSite pageSite){
 		super(parent, editor, pageSite);
 	}
+	public void setSelection(ISelection s){
+		getTreeViewer().setSelection(s, true);
+		Object e = ((IStructuredSelection) s).getFirstElement();
+		if(!(e instanceof Element || e == null)){
+			List<EObject> path = new ArrayList<EObject>();
+			EObject eObject = (EObject) e;
+			while(!(eObject instanceof DynamicEObjectImpl)){
+				path.add(0,eObject);
+				eObject = eObject.eContainer();
+			}
+			for(EStructuralFeature eStructuralFeature:eObject.eClass().getEAllStructuralFeatures()){
+				if(eStructuralFeature.getName().startsWith("base_")){
+					Object f = eObject.eGet(eStructuralFeature);
+					getTreeViewer().setSelection(new StructuredSelection(f));
+					getTreeViewer().setExpandedState(f, true);
+					TreeItem[] treePath = getTreeViewer().getTree().getSelection();
+					TreeItem treeItem = treePath[treePath.length-1];
+					getTreeViewer().getTree().showItem(treeItem);
+					treeItem.setExpanded(true);
+					outer:for(EObject eObject2:path){
+						for(TreeItem child:treeItem.getItems()){
+							if(child.getData().equals(eObject2)){
+								treeItem=child;
+								getTreeViewer().setExpandedState(eObject2, true);
+								treeItem.setExpanded(true);
+								getTreeViewer().getTree().update();
+								continue outer;
+							}
+						}
+					}
+					getTreeViewer().getTree(). select(treeItem);
+					getTreeViewer().getTree().showItem(treeItem);
+				}
+			}
+		}
+	}
 	@Override
 	protected void createSingleSelectionMenu(IMenuManager manager,Object selection){
 		super.createSingleSelectionMenu(manager, selection);
@@ -97,8 +147,8 @@ public class OpaeumNavigator extends UMLNavigator{
 							}
 						}
 					}else if(selection instanceof StructuredActivityNode){
-						Activity a  = (Activity) EmfElementFinder.getNearestClassifier((Element) selection);
-						if(StereotypesHelper.hasStereotype( a, StereotypeNames.BUSINES_PROCESS)){
+						Activity a = (Activity) EmfElementFinder.getNearestClassifier((Element) selection);
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.BUSINES_PROCESS)){
 							ActionContributionItem aci = (ActionContributionItem) addAction;
 							if(!aci.getAction().getText().equals("Structured Business Process Node Diagram")){
 								mm.remove(addAction);

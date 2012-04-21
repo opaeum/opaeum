@@ -14,6 +14,7 @@ import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gmf.runtime.common.ui.util.PartListenerAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -28,6 +29,7 @@ import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.feature.OpaeumConfig;
 import org.topcased.modeler.editor.Modeler;
+import org.topcased.modeler.editor.outline.DiagramsOutlinePage;
 import org.topcased.modeler.editor.outline.ModelNavigator;
 import org.topcased.modeler.preferences.ModelerPreferenceConstants;
 import org.topcased.modeler.uml.editor.outline.UMLOutlinePage;
@@ -71,6 +73,9 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 			history.push(e);
 		}
 	}
+	public void gotoEObjects(List<EObject> eobjects,boolean reveal){
+		super.gotoEObjects(eobjects, reveal);
+	}
 	public EObject popSelection(){
 		if(history.size() > 1){
 			history.pop();
@@ -96,7 +101,7 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 			monitor.beginTask("Saving UML Models", 1000);
 			super.doSave(new SubProgressMonitor(monitor, 500));
 			if(getCurrentContext() != null){
-				getCurrentContext().onSave(new SubProgressMonitor(monitor, 500),getUmlFile((IFileEditorInput) getEditorInput()));
+				getCurrentContext().onSave(new SubProgressMonitor(monitor, 500), getUmlFile((IFileEditorInput) getEditorInput()));
 			}
 		}finally{
 			monitor.done();
@@ -115,9 +120,11 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 	@Override
 	protected IContentOutlinePage createOutlinePage(){
 		return new UMLOutlinePage(this){
+			private OpaeumNavigator opaeumNavigator;
 			@Override
 			protected ModelNavigator createNavigator(Composite parent,Modeler editor,IPageSite pageSite){
-				return new OpaeumNavigator(parent, editor, pageSite);
+				opaeumNavigator = new OpaeumNavigator(parent, editor, pageSite);
+				return opaeumNavigator;
 			}
 			@Override
 			public Object getAdapter(@SuppressWarnings("rawtypes")
@@ -127,6 +134,10 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 			}
 			public void dispose(){
 				super.dispose();
+			}
+			public void setSelection(ISelection selection){
+				super.setSelection(selection);
+				opaeumNavigator.setSelection(selection);
 			}
 		};
 	}
@@ -142,6 +153,7 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 		super.refreshOutline();
 		IFileEditorInput f = getFileEditorInput(getEditorInput());
 		OpaeumEclipseContext.setCurrentContext(getContext(f));
+		OpaeumEclipseContext.getCurrentContext().setCurrentEditContext(getEditingDomain(), f.getFile(), this);
 	}
 	private OpaeumEclipseContext getContext(final IFileEditorInput fe){
 		IContainer umlDir = fe.getFile().getParent();

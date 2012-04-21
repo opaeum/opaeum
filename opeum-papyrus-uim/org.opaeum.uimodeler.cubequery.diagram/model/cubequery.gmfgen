@@ -5,6 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:gmfgen="http://www.eclipse.org/gmf/2009/GenModel"
     packageNamePrefix="org.opaeum.uimodeler.cubequery.diagram"
+    modelID="cubequery"
     dynamicTemplates="true"
     templateDirectory="/org.eclipse.papyrus.def/dynamic-templates3.5/codegen"
     pluginDirectory="/org.opaeum.uimodeler.cubequery.diagram/src">
@@ -73,6 +74,30 @@
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/cube/CubeQuery/rowAxis"/>
       </modelFacet>
     </topLevelNodes>
+    <topLevelNodes
+        visualID="2003"
+        editPartClassName="MeasurePropertyEditPart"
+        itemSemanticEditPolicyClassName="MeasurePropertyItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="MeasurePropertyCanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="MeasurePropertyGraphicalNodeEditPolicy"
+        createCommandClassName="MeasurePropertyCreateCommand">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+      <elementType
+          xsi:type="gmfgen:MetamodelType"
+          editHelperClassName="MeasurePropertyEditHelper"/>
+      <viewmap
+          xsi:type="gmfgen:FigureViewmap"
+          figureQualifiedClassName="org.eclipse.draw2d.RectangleFigure"/>
+      <modelFacet>
+        <metaClass
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/cube/MeasureProperty"/>
+        <containmentMetaFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/cube/CubeQuery/measures"/>
+        <childMetaFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/cube/CubeQuery/measures"/>
+      </modelFacet>
+    </topLevelNodes>
     <palette>
       <groups
           title="Default"
@@ -86,6 +111,10 @@
             title="ColumnAxisEntry"
             description=""
             genNodes="//@diagram/@topLevelNodes.0"/>
+        <entries
+            xsi:type="gmfgen:ToolEntry"
+            title="Measure"
+            genNodes="//@diagram/@topLevelNodes.2"/>
       </groups>
     </palette>
     <preferencePages
@@ -130,6 +159,9 @@
     <childReferences
         parent="//@diagram"
         child="//@diagram/@topLevelNodes.1"/>
+    <childReferences
+        parent="//@diagram"
+        child="//@diagram/@topLevelNodes.2"/>
   </navigator>
   <diagramUpdater/>
   <propertySheet>

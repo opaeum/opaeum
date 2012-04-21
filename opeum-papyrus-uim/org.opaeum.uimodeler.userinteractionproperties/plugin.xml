@@ -66,6 +66,13 @@
 				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldLabelWidthSection">
 			</propertySection>
 			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.CubeQueryCubeSourceSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementIsUnderUserControlSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.CubeQueryFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.CubeQueryCubeSourceSection">
+			</propertySection>
+			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection"
 				tab="org.opaeum.uim.userinteractionproperties.basic"
@@ -159,6 +166,34 @@
 				tab="org.opaeum.uim.userinteractionproperties.control"
 				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFormFieldFilter"
 				class="org.opaeum.uim.userinteractionproperties.uimcontrol.ControlFeaturesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.AxisEntryDimensionBindingSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementIsUnderUserControlSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.AxisEntryFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.AxisEntryDimensionBindingSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.AxisEntryLevelPropertiesSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.AxisEntryDimensionBindingSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.AxisEntryFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.AxisEntryLevelPropertiesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyPropertySection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.AxisEntryDimensionBindingSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.MeasurePropertyFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyPropertySection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyAggregationFormulaSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyPropertySection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.MeasurePropertyFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyAggregationFormulaSection">
 			</propertySection>
 		</propertySections>
 	</extension>

@@ -99,6 +99,10 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 				return createColumnAxisEntryAdapter();
 			}
 			@Override
+			public Adapter caseMeasureProperty(MeasureProperty object) {
+				return createMeasurePropertyAdapter();
+			}
+			@Override
 			public Adapter caseUserInteractionElement(UserInteractionElement object) {
 				return createUserInteractionElementAdapter();
 			}
@@ -215,6 +219,20 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createColumnAxisEntryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.cube.MeasureProperty <em>Measure Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.cube.MeasureProperty
+	 * @generated
+	 */
+	public Adapter createMeasurePropertyAdapter() {
 		return null;
 	}
 

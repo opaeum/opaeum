@@ -2,6 +2,8 @@
  */
 package org.opaeum.uim.cube;
 
+import org.eclipse.emf.common.util.EList;
+import org.opaeum.uim.UserInteractionElement;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -49,29 +51,19 @@ public interface AxisEntry extends EObject {
 	void setDimensionBinding(DimensionBinding value);
 
 	/**
-	 * Returns the value of the '<em><b>Level Property</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Level Property</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.cube.LevelProperty}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Level Property</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Level Property</em>' containment reference.
-	 * @see #setLevelProperty(LevelProperty)
+	 * @return the value of the '<em>Level Property</em>' containment reference list.
 	 * @see org.opaeum.uim.cube.CubePackage#getAxisEntry_LevelProperty()
 	 * @model containment="true"
 	 * @generated
 	 */
-	LevelProperty getLevelProperty();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.cube.AxisEntry#getLevelProperty <em>Level Property</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Level Property</em>' containment reference.
-	 * @see #getLevelProperty()
-	 * @generated
-	 */
-	void setLevelProperty(LevelProperty value);
+	EList<LevelProperty> getLevelProperty();
 
 } // AxisEntry

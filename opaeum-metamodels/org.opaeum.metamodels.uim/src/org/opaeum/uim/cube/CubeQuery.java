@@ -19,6 +19,7 @@ import org.opaeum.uim.constraint.ConstrainedObject;
  * <ul>
  *   <li>{@link org.opaeum.uim.cube.CubeQuery#getColumnAxis <em>Column Axis</em>}</li>
  *   <li>{@link org.opaeum.uim.cube.CubeQuery#getRowAxis <em>Row Axis</em>}</li>
+ *   <li>{@link org.opaeum.uim.cube.CubeQuery#getMeasures <em>Measures</em>}</li>
  * </ul>
  * </p>
  *
@@ -58,5 +59,21 @@ public interface CubeQuery extends UserInteractionElement, ConstrainedObject, Um
 	 * @generated
 	 */
 	EList<RowAxisEntry> getRowAxis();
+
+	/**
+	 * Returns the value of the '<em><b>Measures</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.cube.MeasureProperty}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Measures</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Measures</em>' containment reference list.
+	 * @see org.opaeum.uim.cube.CubePackage#getCubeQuery_Measures()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<MeasureProperty> getMeasures();
 
 } // CubeQuery

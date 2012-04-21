@@ -8,6 +8,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.DuplicateElementsRequest;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.papyrus.uml.diagram.common.commands.DuplicateNamedElementCommand;
 import org.opaeum.uimodeler.cubequery.diagram.edit.commands.ColumnAxisEntryCreateCommand;
+import org.opaeum.uimodeler.cubequery.diagram.edit.commands.MeasurePropertyCreateCommand;
 import org.opaeum.uimodeler.cubequery.diagram.edit.commands.RowAxisEntryCreateCommand;
 import org.opaeum.uimodeler.cubequery.diagram.providers.UimElementTypes;
 
@@ -30,6 +31,9 @@ public class CubeQueryItemSemanticEditPolicy extends UimBaseItemSemanticEditPoli
 		}
 		if(UimElementTypes.RowAxisEntry_2002 == req.getElementType()){
 			return getGEFWrapper(new RowAxisEntryCreateCommand(req));
+		}
+		if(UimElementTypes.MeasureProperty_2003 == req.getElementType()){
+			return getGEFWrapper(new MeasurePropertyCreateCommand(req));
 		}
 		return super.getCreateCommand(req);
 	}

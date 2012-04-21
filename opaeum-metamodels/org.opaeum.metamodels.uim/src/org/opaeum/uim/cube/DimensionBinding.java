@@ -15,4 +15,28 @@ import org.opaeum.uim.binding.UimBinding;
  * @generated
  */
 public interface DimensionBinding extends UimBinding {
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	String toString();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	int hashCode();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean equals(Object o);
 } // DimensionBinding

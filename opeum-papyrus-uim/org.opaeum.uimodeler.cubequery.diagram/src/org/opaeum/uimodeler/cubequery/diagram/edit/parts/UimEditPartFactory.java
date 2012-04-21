@@ -33,6 +33,8 @@ public class UimEditPartFactory implements EditPartFactory{
 				return new ColumnAxisEntryEditPart(view);
 			case RowAxisEntryEditPart.VISUAL_ID:
 				return new RowAxisEntryEditPart(view);
+			case MeasurePropertyEditPart.VISUAL_ID:
+				return new MeasurePropertyEditPart(view);
 			}
 		}
 		return createUnrecognizedEditPart(context, model);

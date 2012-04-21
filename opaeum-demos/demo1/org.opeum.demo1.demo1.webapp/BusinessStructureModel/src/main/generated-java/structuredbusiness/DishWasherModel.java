@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -82,6 +83,10 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(fetch=javax.persistence.FetchType.LAZY,mappedBy="dishWasherModel",targetEntity=Order.class)
+	private Set<Order> order = new HashSet<Order>();
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Column(name="part_number")
@@ -116,6 +121,12 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
+	public void addAllToOrder(Set<Order> order) {
+		for ( Order o : order ) {
+			addToOrder(o);
+		}
+	}
+	
 	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
@@ -125,6 +136,14 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 			component.z_internalRemoveFromDishWasher(component.getDishWasher());
 			component.z_internalAddToDishWasher(this);
 			z_internalAddToComponent(component);
+		}
+	}
+	
+	public void addToOrder(Order order) {
+		if ( order!=null ) {
+			order.z_internalRemoveFromDishWasherModel(order.getDishWasherModel());
+			order.z_internalAddToDishWasherModel(this);
+			z_internalAddToOrder(order);
 		}
 	}
 	
@@ -181,6 +200,10 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void clearComponent() {
 		removeAllFromComponent(getComponent());
+	}
+	
+	public void clearOrder() {
+		removeAllFromOrder(getOrder());
 	}
 	
 	public void copyShallowState(DishWasherModel from, DishWasherModel to) {
@@ -254,6 +277,14 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.objectVersion;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForOrder",opaeumId=4329998626631571742l,opposite="dishWasherModel",uuid="914890@_jKqncX47EeGarqqEaoJFHg")
+	@NumlMetaInfo(uuid="914890@_jKqncX47EeGarqqEaoJFHg")
+	public Set<Order> getOrder() {
+		Set<Order> result = this.order;
+		
+		return result;
+	}
+	
 	public Set<OutgoingEvent> getOutgoingEvents() {
 		return this.outgoingEvents;
 	}
@@ -268,6 +299,10 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		String result = this.partNumber;
 		
 		return result;
+	}
+	
+	public List<Order> getSourcePopulationForOrder() {
+		return new ArrayList<Order>(Stdlib.collectionAsSet(this.getDishwashersInc().getOrder()));
 	}
 	
 	public String getUid() {
@@ -346,10 +381,24 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
+	public void removeAllFromOrder(Set<Order> order) {
+		Set<Order> tmp = new HashSet<Order>(order);
+		for ( Order o : tmp ) {
+			removeFromOrder(o);
+		}
+	}
+	
 	public void removeFromComponent(DishWasherComponent component) {
 		if ( component!=null ) {
 			component.z_internalRemoveFromDishWasher(this);
 			z_internalRemoveFromComponent(component);
+		}
+	}
+	
+	public void removeFromOrder(Order order) {
+		if ( order!=null ) {
+			order.z_internalRemoveFromDishWasherModel(this);
+			z_internalRemoveFromOrder(order);
 		}
 	}
 	
@@ -400,6 +449,12 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void setObjectVersion(int objectVersion) {
 		this.objectVersion=objectVersion;
+	}
+	
+	public void setOrder(Set<Order> order) {
+		propertyChangeSupport.firePropertyChange("order",getOrder(),order);
+		this.clearOrder();
+		this.addAllToOrder(order);
 	}
 	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
@@ -461,6 +516,10 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		this.name=val;
 	}
 	
+	public void z_internalAddToOrder(Order val) {
+		this.order.add(val);
+	}
+	
 	public void z_internalAddToPartNumber(String val) {
 		this.partNumber=val;
 	}
@@ -485,6 +544,10 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 			this.name=null;
 			this.name=null;
 		}
+	}
+	
+	public void z_internalRemoveFromOrder(Order val) {
+		this.order.remove(val);
 	}
 	
 	public void z_internalRemoveFromPartNumber(String val) {

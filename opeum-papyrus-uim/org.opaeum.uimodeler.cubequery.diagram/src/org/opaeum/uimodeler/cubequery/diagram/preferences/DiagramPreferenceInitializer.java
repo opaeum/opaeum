@@ -13,6 +13,7 @@ public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer{
 	 */
 	public void initializeDefaultPreferences(){
 		IPreferenceStore store = getPreferenceStore();
+		MeasurePropertyPreferencePage.initDefaults(store);
 		RowAxisEntryPreferencePage.initDefaults(store);
 		ColumnAxisEntryPreferencePage.initDefaults(store);
 	}

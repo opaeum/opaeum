@@ -68,6 +68,7 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
+	@Index(columnNames="dish_washer_model_id",name="idx_order_dish_washer_model_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="dish_washer_model_id",nullable=true)
 	private DishWasherModel dishWasherModel;
@@ -96,6 +97,8 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 2247787225748188966l;
+	@Column(name="total_amount")
+	private Double totalAmount;
 	private String uid;
 
 	/** This constructor is intended for easy initialization in unit tests
@@ -145,6 +148,9 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		if ( xml.getAttribute("isOpen").length()>0 ) {
 			setOpen(StructuredbusinessFormatter.getInstance().parseBoolean(xml.getAttribute("isOpen")));
 		}
+		if ( xml.getAttribute("totalAmount").length()>0 ) {
+			setTotalAmount(StructuredbusinessFormatter.getInstance().parseReal(xml.getAttribute("totalAmount")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -163,6 +169,7 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		to.setMySpecialDescription(from.getMySpecialDescription());
 		to.setDueDate(from.getDueDate());
 		to.setOpen(from.isOpen());
+		to.setTotalAmount(from.getTotalAmount());
 	}
 	
 	public void copyState(Order from, Order to) {
@@ -170,6 +177,7 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		to.setMySpecialDescription(from.getMySpecialDescription());
 		to.setDueDate(from.getDueDate());
 		to.setOpen(from.isOpen());
+		to.setTotalAmount(from.getTotalAmount());
 	}
 	
 	public void createComponents() {
@@ -258,6 +266,14 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		return new ArrayList<Accountant>(Stdlib.collectionAsSet(this.getDishwashersInc().getAccountant()));
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6251688088968115205l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_XkwR4IfLEeGqJejbH5CW6A")
+	@NumlMetaInfo(uuid="914890@_XkwR4IfLEeGqJejbH5CW6A")
+	public Double getTotalAmount() {
+		Double result = this.totalAmount;
+		
+		return result;
+	}
+	
 	public String getUid() {
 		if ( this.uid==null || this.uid.trim().length()==0 ) {
 			uid=UUID.randomUUID().toString();
@@ -304,6 +320,9 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	}
 	
 	public void markDeleted() {
+		if ( getDishWasherModel()!=null ) {
+			getDishWasherModel().z_internalRemoveFromOrder(this);
+		}
 		if ( getDishwashersInc()!=null ) {
 			getDishwashersInc().z_internalRemoveFromOrder(this);
 		}
@@ -350,7 +369,13 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	
 	public void setDishWasherModel(DishWasherModel dishWasherModel) {
 		propertyChangeSupport.firePropertyChange("dishWasherModel",getDishWasherModel(),dishWasherModel);
-		this.z_internalAddToDishWasherModel(dishWasherModel);
+		if ( this.getDishWasherModel()!=null ) {
+			this.getDishWasherModel().z_internalRemoveFromOrder(this);
+		}
+		if ( dishWasherModel!=null ) {
+			dishWasherModel.z_internalAddToOrder(this);
+			this.z_internalAddToDishWasherModel(dishWasherModel);
+		}
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
@@ -394,6 +419,11 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		this.outgoingEvents=outgoingEvents;
 	}
 	
+	public void setTotalAmount(Double totalAmount) {
+		propertyChangeSupport.firePropertyChange("totalAmount",getTotalAmount(),totalAmount);
+		this.z_internalAddToTotalAmount(totalAmount);
+	}
+	
 	public void setUid(String newUid) {
 		this.uid=newUid;
 	}
@@ -425,6 +455,9 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		if ( isOpen()!=null ) {
 			sb.append("isOpen=\""+ StructuredbusinessFormatter.getInstance().formatBoolean(isOpen())+"\" ");
 		}
+		if ( getTotalAmount()!=null ) {
+			sb.append("totalAmount=\""+ StructuredbusinessFormatter.getInstance().formatReal(getTotalAmount())+"\" ");
+		}
 		sb.append(">");
 		if ( getDishWasherModel()==null ) {
 			sb.append("\n<dishWasherModel/>");
@@ -455,6 +488,10 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 	
 	public void z_internalAddToMySpecialDescription(String val) {
 		this.mySpecialDescription=val;
+	}
+	
+	public void z_internalAddToTotalAmount(Double val) {
+		this.totalAmount=val;
 	}
 	
 	public void z_internalAddTo__orderDate(Date val) {
@@ -493,6 +530,13 @@ public class Order implements IPersistentObject, IEventGenerator, HibernateEntit
 		if ( getMySpecialDescription()!=null && val!=null && val.equals(getMySpecialDescription()) ) {
 			this.mySpecialDescription=null;
 			this.mySpecialDescription=null;
+		}
+	}
+	
+	public void z_internalRemoveFromTotalAmount(Double val) {
+		if ( getTotalAmount()!=null && val!=null && val.equals(getTotalAmount()) ) {
+			this.totalAmount=null;
+			this.totalAmount=null;
 		}
 	}
 	

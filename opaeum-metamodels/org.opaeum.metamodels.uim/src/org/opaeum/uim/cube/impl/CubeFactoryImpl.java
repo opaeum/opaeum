@@ -3,6 +3,7 @@
 package org.opaeum.uim.cube.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -62,8 +63,39 @@ public class CubeFactoryImpl extends EFactoryImpl implements CubeFactory {
 			case CubePackage.LEVEL_PROPERTY: return createLevelProperty();
 			case CubePackage.ROW_AXIS_ENTRY: return createRowAxisEntry();
 			case CubePackage.COLUMN_AXIS_ENTRY: return createColumnAxisEntry();
+			case CubePackage.MEASURE_PROPERTY: return createMeasureProperty();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case CubePackage.AGGREGATION_FORMULA:
+				return createAggregationFormulaFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case CubePackage.AGGREGATION_FORMULA:
+				return convertAggregationFormulaToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -125,6 +157,36 @@ public class CubeFactoryImpl extends EFactoryImpl implements CubeFactory {
 	public ColumnAxisEntry createColumnAxisEntry() {
 		ColumnAxisEntryImpl columnAxisEntry = new ColumnAxisEntryImpl();
 		return columnAxisEntry;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MeasureProperty createMeasureProperty() {
+		MeasurePropertyImpl measureProperty = new MeasurePropertyImpl();
+		return measureProperty;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AggregationFormula createAggregationFormulaFromString(EDataType eDataType, String initialValue) {
+		AggregationFormula result = AggregationFormula.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAggregationFormulaToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

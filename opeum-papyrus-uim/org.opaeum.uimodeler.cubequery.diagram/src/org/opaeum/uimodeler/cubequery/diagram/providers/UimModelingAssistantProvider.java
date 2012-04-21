@@ -34,9 +34,10 @@ public class UimModelingAssistantProvider extends ModelingAssistantProvider{
 	public List getTypesForPopupBar(IAdaptable host){
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host.getAdapter(IGraphicalEditPart.class);
 		if(editPart instanceof CubeQueryEditPart){
-			ArrayList<IElementType> types = new ArrayList<IElementType>(2);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(3);
 			types.add(UimElementTypes.ColumnAxisEntry_2001);
 			types.add(UimElementTypes.RowAxisEntry_2002);
+			types.add(UimElementTypes.MeasureProperty_2003);
 			return types;
 		}
 		return Collections.EMPTY_LIST;

@@ -72,7 +72,7 @@ public class EmfElementFinder{
 	}
 	public static boolean isMeasure(Property p){
 		for(Stereotype s:p.getAppliedStereotypes()){
-			if(s.getFeature("roleInCube") != null){
+			if(s.getDefinition().getEStructuralFeature("roleInCube") != null){
 				EStructuralFeature f = s.getDefinition().getEStructuralFeature("roleInCube");
 				EEnumLiteral l = (EEnumLiteral) p.getStereotypeApplication(s).eGet(f);
 				if(l.getName().equals("MEASURE")){
@@ -87,7 +87,7 @@ public class EmfElementFinder{
 			return true;
 		}
 		for(Stereotype s:p.getAppliedStereotypes()){
-			if(s.getFeature("roleInCube") != null){
+			if(s.getDefinition().getEStructuralFeature("roleInCube") != null){
 				EStructuralFeature f = s.getDefinition().getEStructuralFeature("roleInCube");
 				EEnumLiteral l = (EEnumLiteral) p.getStereotypeApplication(s).eGet(f);
 				if(l.getName().equals("DIMENSION")){

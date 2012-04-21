@@ -22,6 +22,7 @@ import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.ColumnAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.CubeQueryEditPart;
+import org.opaeum.uimodeler.cubequery.diagram.edit.parts.MeasurePropertyEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimVisualIDRegistry;
 
@@ -118,6 +119,8 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 				UimVisualIDRegistry.getType(ColumnAxisEntryEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view), UimVisualIDRegistry.getType(RowAxisEntryEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view), UimVisualIDRegistry.getType(MeasurePropertyEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		return result.toArray();
 	}

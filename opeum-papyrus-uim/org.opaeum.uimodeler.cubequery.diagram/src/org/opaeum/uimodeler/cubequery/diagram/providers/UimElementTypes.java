@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Image;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.ColumnAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.CubeQueryEditPart;
+import org.opaeum.uimodeler.cubequery.diagram.edit.parts.MeasurePropertyEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimCubeQueryDiagramEditorPlugin;
 
@@ -54,6 +55,10 @@ public class UimElementTypes{
 	 * @generated
 	 */
 	public static final IElementType RowAxisEntry_2002 = getElementType("org.opaeum.uimodeler.cubequery.diagram.RowAxisEntry_2002"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType MeasureProperty_2003 = getElementType("org.opaeum.uimodeler.cubequery.diagram.MeasureProperty_2003"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -156,6 +161,7 @@ public class UimElementTypes{
 			elements.put(CubeQuery_1000, CubePackage.eINSTANCE.getCubeQuery());
 			elements.put(ColumnAxisEntry_2001, CubePackage.eINSTANCE.getColumnAxisEntry());
 			elements.put(RowAxisEntry_2002, CubePackage.eINSTANCE.getRowAxisEntry());
+			elements.put(MeasureProperty_2003, CubePackage.eINSTANCE.getMeasureProperty());
 		}
 		return (ENamedElement) elements.get(type);
 	}
@@ -174,6 +180,7 @@ public class UimElementTypes{
 			KNOWN_ELEMENT_TYPES.add(CubeQuery_1000);
 			KNOWN_ELEMENT_TYPES.add(ColumnAxisEntry_2001);
 			KNOWN_ELEMENT_TYPES.add(RowAxisEntry_2002);
+			KNOWN_ELEMENT_TYPES.add(MeasureProperty_2003);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
 	}
@@ -188,6 +195,8 @@ public class UimElementTypes{
 			return ColumnAxisEntry_2001;
 		case RowAxisEntryEditPart.VISUAL_ID:
 			return RowAxisEntry_2002;
+		case MeasurePropertyEditPart.VISUAL_ID:
+			return MeasureProperty_2003;
 		}
 		return null;
 	}

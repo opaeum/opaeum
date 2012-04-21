@@ -38,6 +38,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.ColumnAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.CubeQueryEditPart;
+import org.opaeum.uimodeler.cubequery.diagram.edit.parts.MeasurePropertyEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimVisualIDRegistry;
 
@@ -142,6 +143,7 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 				switch(visualID){
 				case ColumnAxisEntryEditPart.VISUAL_ID:
 				case RowAxisEntryEditPart.VISUAL_ID:
+				case MeasurePropertyEditPart.VISUAL_ID:
 					if(domainElement == null || visualID != UimVisualIDRegistry.getNodeVisualID(op.getContainerView(), domainElement)){
 						return false; // visual id in semantic hint should match visual id for domain element
 					}
@@ -151,7 +153,8 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 				}
 			}
 		}
-		return ColumnAxisEntryEditPart.VISUAL_ID == visualID || RowAxisEntryEditPart.VISUAL_ID == visualID;
+		return ColumnAxisEntryEditPart.VISUAL_ID == visualID || RowAxisEntryEditPart.VISUAL_ID == visualID
+				|| MeasurePropertyEditPart.VISUAL_ID == visualID;
 	}
 	/**
 	 * @generated
@@ -200,6 +203,8 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 			return createColumnAxisEntry_2001(domainElement, containerView, index, persisted, preferencesHint);
 		case RowAxisEntryEditPart.VISUAL_ID:
 			return createRowAxisEntry_2002(domainElement, containerView, index, persisted, preferencesHint);
+		case MeasurePropertyEditPart.VISUAL_ID:
+			return createMeasureProperty_2003(domainElement, containerView, index, persisted, preferencesHint);
 		}
 		// can't happen, provided #provides(CreateNodeViewOperation) is correct
 		return null;
@@ -249,6 +254,24 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "RowAxisEntry");
 		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "RowAxisEntry");
 		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "RowAxisEntry");
+		return node;
+	}
+	/**
+	 * @generated
+	 */
+	public Node createMeasureProperty_2003(EObject domainElement,View containerView,int index,boolean persisted,
+			PreferencesHint preferencesHint){
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(UimVisualIDRegistry.getType(MeasurePropertyEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		stampShortcut(containerView, node);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "MeasureProperty");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "MeasureProperty");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "MeasureProperty");
 		return node;
 	}
 	/**

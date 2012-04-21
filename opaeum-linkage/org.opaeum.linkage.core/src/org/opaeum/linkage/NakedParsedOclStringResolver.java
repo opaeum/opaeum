@@ -530,7 +530,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 					}else if(!(expectedType instanceof StdlibCollectionType) && (expressionType instanceof StdlibCollectionType && ignoreMultiplicity)){
 						expressionType = ((StdlibCollectionType) expressionType).getElementType();
 					}
-					if(expectedType instanceof INakedPrimitiveType){
+					if(expectedType instanceof INakedPrimitiveType && ((INakedPrimitiveType) expectedType).getOclType()!=null){
 						expectedType = ((INakedPrimitiveType) expectedType).getOclType();
 					}
 					if(!expressionType.conformsTo(expectedType)){

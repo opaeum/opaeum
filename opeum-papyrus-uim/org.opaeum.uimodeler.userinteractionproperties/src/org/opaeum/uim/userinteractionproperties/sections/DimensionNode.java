@@ -1,7 +1,12 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
-import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.uim.binding.BindingFactory;
+import org.opaeum.uim.binding.PropertyRef;
+import org.opaeum.uim.cube.CubeFactory;
+import org.opaeum.uim.cube.DimensionBinding;
 
 public class DimensionNode{
 	private Property property;
@@ -32,21 +37,34 @@ public class DimensionNode{
 		}
 		return result;
 	}
+	public PropertyRef toPropertyRef(){
+		PropertyRef result = BindingFactory.eINSTANCE.createPropertyRef();
+		result.setUmlElementUid(EmfWorkspace.getId(property));
+		return result;
+	}
+	public DimensionBinding toDimensionBinding(){
+		if(master == null){
+			DimensionBinding binding = CubeFactory.eINSTANCE.createDimensionBinding();
+			binding.setUmlElementUid(EmfWorkspace.getId(property));
+			return binding;
+		}else{
+			DimensionBinding binding = master.toDimensionBinding();
+			binding.setNext(toPropertyRef());
+			return binding;
+		}
+	}
 	@Override
 	public String toString(){
 		return getName();
-	}
-	private DimensionNode getDetail(){
-		return detail;
 	}
 	Property getProperty(){
 		return property;
 	}
 	public String getName(){
 		if(master == null){
-			return property.getType().getName();
+			return property.getName() + ":" + property.getType().getName();
 		}else{
-			return property.getType().getName() + "->" + master.getName();
+			return property.getName() + "." + master.getName();
 		}
 	}
 }

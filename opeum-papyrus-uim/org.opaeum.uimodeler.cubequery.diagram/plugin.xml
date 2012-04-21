@@ -52,6 +52,16 @@
        path=""
        small_icon="">
  	</entry>
+	<entry
+       defineOnly="true"
+       description=""
+       id="createMeasure3CreationTool"
+       kind="tool"
+       label="Measure"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
 
 			</contribution>
 		</paletteProvider>	
@@ -93,6 +103,10 @@
           id="createColumnAxisEntry2CreationTool"
           path="/createDefault1Group">
     </predefinedEntry>
+ 	<predefinedEntry
+          id="createMeasure3CreationTool"
+          path="/createDefault1Group">
+    </predefinedEntry>
 
 
 			</contribution>
@@ -104,8 +118,8 @@
    <extension point="org.eclipse.ui.preferencePages" id="prefpages">
       <?gmfgen generated="true"?>
       <page
-            id="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
-            name="Uim Diagram"
+            id="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.cubequery"
+            name="cubequery Diagram"
             category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams"
             class="org.opaeum.uimodeler.cubequery.diagram.preferences.DiagramGeneralPreferencePage">
       </page>
@@ -115,14 +129,14 @@
       <page
             id="org.opaeum.uimodeler.cubequery.diagram.preferences.DiagramPrintingPreferencePage"
             name="%prefpage.org.opaeum.metamodels.uim.diagram.printing"
-            category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
+            category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.cubequery"
             class="org.opaeum.uimodeler.cubequery.diagram.preferences.DiagramPrintingPreferencePage">
       </page>
 
       <page
             id="org.opaeum.uimodeler.cubequery.diagram.preferences.DiagramRulersAndGridPreferencePage"
             name="%prefpage.org.opaeum.metamodels.uim.diagram.rulersAndGrid"
-            category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
+            category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.cubequery"
             class="org.opaeum.uimodeler.cubequery.diagram.preferences.DiagramRulersAndGridPreferencePage">
       </page>
 
@@ -198,14 +212,21 @@
 
 		
 	<?gmfgen generated="true"?>
-	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.cubequery"
+			class="org.opaeum.uimodeler.cubequery.diagram.preferences.MeasurePropertyPreferencePage"
+            id="org.opaeum.uimodeler.cubequery.diagram.preferences.MeasurePropertyPreferencePage"
+            name="MeasureProperty Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.cubequery"
 			class="org.opaeum.uimodeler.cubequery.diagram.preferences.RowAxisEntryPreferencePage"
             id="org.opaeum.uimodeler.cubequery.diagram.preferences.RowAxisEntryPreferencePage"
             name="RowAxisEntry Node" />
 	
 		
 	<?gmfgen generated="true"?>
-	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.cubequery"
 			class="org.opaeum.uimodeler.cubequery.diagram.preferences.ColumnAxisEntryPreferencePage"
             id="org.opaeum.uimodeler.cubequery.diagram.preferences.ColumnAxisEntryPreferencePage"
             name="ColumnAxisEntry Node" />
@@ -224,8 +245,8 @@
       <?gmfgen generated="true"?>
       <viewProvider class="org.opaeum.uimodeler.cubequery.diagram.providers.UimViewProvider">
          <Priority name="Lowest"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Uim"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="cubequery"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,2003"/>
       </viewProvider>
    </extension>
 
@@ -234,10 +255,10 @@
       <editpartProvider class="org.opaeum.uimodeler.cubequery.diagram.providers.UimEditPartProvider">
          <Priority name="Lowest"/>
          <object class="org.eclipse.gmf.runtime.notation.Diagram" id="generated-diagram">
-            <method name="getType()" value="Uim"/>
+            <method name="getType()" value="cubequery"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,2002"/>
+            <method name="getType()" value="2001,2002,2003"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value=""/>
@@ -259,7 +280,8 @@
          <object class="org.opaeum.uimodeler.cubequery.diagram.edit.parts.CubeQueryEditPart" id="CubeQuery_1000"/>
          <object class="org.opaeum.uimodeler.cubequery.diagram.edit.parts.ColumnAxisEntryEditPart" id="ColumnAxisEntry_2001"/>
          <object class="org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart" id="RowAxisEntry_2002"/>
-         <context elements="CubeQuery_1000,ColumnAxisEntry_2001,RowAxisEntry_2002"/>
+         <object class="org.opaeum.uimodeler.cubequery.diagram.edit.parts.MeasurePropertyEditPart" id="MeasureProperty_2003"/>
+         <context elements="CubeQuery_1000,ColumnAxisEntry_2001,RowAxisEntry_2002,MeasureProperty_2003"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -302,6 +324,16 @@
             <param name="semanticHint" value="2002"/>
          </metamodelType>
       </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/cube/1.0">
+         <metamodelType
+               id="org.opaeum.uimodeler.cubequery.diagram.MeasureProperty_2003"
+               name="%metatype.name.MeasureProperty_2003"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="MeasureProperty"
+               edithelper="org.opaeum.uimodeler.cubequery.diagram.edit.helpers.MeasurePropertyEditHelper">
+            <param name="semanticHint" value="2003"/>
+         </metamodelType>
+      </metamodel>
    </extension>
 
    <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings" id="element-types-bindings">
@@ -317,6 +349,7 @@
          <elementType ref="org.opaeum.uimodeler.cubequery.diagram.CubeQuery_1000"/>
          <elementType ref="org.opaeum.uimodeler.cubequery.diagram.ColumnAxisEntry_2001"/>
          <elementType ref="org.opaeum.uimodeler.cubequery.diagram.RowAxisEntry_2002"/>
+         <elementType ref="org.opaeum.uimodeler.cubequery.diagram.MeasureProperty_2003"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>
    </extension>
@@ -523,4 +556,5 @@
             label="Cube Query Diagram">
       </creationCommand>      
    </extension>
+
 </plugin>

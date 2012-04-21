@@ -95,6 +95,9 @@
         <children>
           <emfPageIdentifier href="../profiles/HibernateValidation.profile.notation#_TpyqsHryEeGgA7LmG6YzjA"/>
         </children>
+        <children>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_rkQZYFZLEeGj5_I7bIwNoA"/>
+        </children>
       </children>
     </windows>
   </sashModel>

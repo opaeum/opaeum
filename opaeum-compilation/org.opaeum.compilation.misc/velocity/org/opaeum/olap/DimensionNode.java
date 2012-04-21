@@ -36,17 +36,15 @@ public class DimensionNode{
 	public String toString(){
 		return fromClass.getName() + "->" + property.getName();
 	}
-	private DimensionNode getDetail(){
-		return detail;
-	}
 	INakedProperty getProperty(){
 		return property;
 	}
+	//NB!!! Needs to be synchronized with org.opaeum.uim.userinteractionproperties.sections.DimensionNode.getName()
 	public String getName(){
 		if(master == null){
-			return property.getBaseType().getName();
+			return property.getName() + ":" + property.getType().getName();
 		}else{
-			return property.getBaseType().getName() + "->" + master.getName();
+			return property.getName() + "." + master.getName();
 		}
 	}
 }

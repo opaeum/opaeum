@@ -27,6 +27,7 @@ import org.opaeum.uim.cube.CubeFactory;
 import org.opaeum.uim.cube.CubePackage;
 
 import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.provider.UserInteractionElementItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.cube.AxisEntry} object.

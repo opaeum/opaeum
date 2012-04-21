@@ -2,19 +2,24 @@
  */
 package org.opaeum.uim.cube.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.opaeum.uim.cube.AxisEntry;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.DimensionBinding;
 import org.opaeum.uim.cube.LevelProperty;
+import org.opaeum.uim.impl.UserInteractionElementImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,14 +47,14 @@ public class AxisEntryImpl extends EObjectImpl implements AxisEntry {
 	protected DimensionBinding dimensionBinding;
 
 	/**
-	 * The cached value of the '{@link #getLevelProperty() <em>Level Property</em>}' containment reference.
+	 * The cached value of the '{@link #getLevelProperty() <em>Level Property</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getLevelProperty()
 	 * @generated
 	 * @ordered
 	 */
-	protected LevelProperty levelProperty;
+	protected EList<LevelProperty> levelProperty;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -118,42 +123,11 @@ public class AxisEntryImpl extends EObjectImpl implements AxisEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LevelProperty getLevelProperty() {
+	public EList<LevelProperty> getLevelProperty() {
+		if (levelProperty == null) {
+			levelProperty = new EObjectContainmentEList<LevelProperty>(LevelProperty.class, this, CubePackage.AXIS_ENTRY__LEVEL_PROPERTY);
+		}
 		return levelProperty;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetLevelProperty(LevelProperty newLevelProperty, NotificationChain msgs) {
-		LevelProperty oldLevelProperty = levelProperty;
-		levelProperty = newLevelProperty;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CubePackage.AXIS_ENTRY__LEVEL_PROPERTY, oldLevelProperty, newLevelProperty);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLevelProperty(LevelProperty newLevelProperty) {
-		if (newLevelProperty != levelProperty) {
-			NotificationChain msgs = null;
-			if (levelProperty != null)
-				msgs = ((InternalEObject)levelProperty).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CubePackage.AXIS_ENTRY__LEVEL_PROPERTY, null, msgs);
-			if (newLevelProperty != null)
-				msgs = ((InternalEObject)newLevelProperty).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CubePackage.AXIS_ENTRY__LEVEL_PROPERTY, null, msgs);
-			msgs = basicSetLevelProperty(newLevelProperty, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CubePackage.AXIS_ENTRY__LEVEL_PROPERTY, newLevelProperty, newLevelProperty));
 	}
 
 	/**
@@ -167,7 +141,7 @@ public class AxisEntryImpl extends EObjectImpl implements AxisEntry {
 			case CubePackage.AXIS_ENTRY__DIMENSION_BINDING:
 				return basicSetDimensionBinding(null, msgs);
 			case CubePackage.AXIS_ENTRY__LEVEL_PROPERTY:
-				return basicSetLevelProperty(null, msgs);
+				return ((InternalEList<?>)getLevelProperty()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -193,6 +167,7 @@ public class AxisEntryImpl extends EObjectImpl implements AxisEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -200,7 +175,8 @@ public class AxisEntryImpl extends EObjectImpl implements AxisEntry {
 				setDimensionBinding((DimensionBinding)newValue);
 				return;
 			case CubePackage.AXIS_ENTRY__LEVEL_PROPERTY:
-				setLevelProperty((LevelProperty)newValue);
+				getLevelProperty().clear();
+				getLevelProperty().addAll((Collection<? extends LevelProperty>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -218,7 +194,7 @@ public class AxisEntryImpl extends EObjectImpl implements AxisEntry {
 				setDimensionBinding((DimensionBinding)null);
 				return;
 			case CubePackage.AXIS_ENTRY__LEVEL_PROPERTY:
-				setLevelProperty((LevelProperty)null);
+				getLevelProperty().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -235,7 +211,7 @@ public class AxisEntryImpl extends EObjectImpl implements AxisEntry {
 			case CubePackage.AXIS_ENTRY__DIMENSION_BINDING:
 				return dimensionBinding != null;
 			case CubePackage.AXIS_ENTRY__LEVEL_PROPERTY:
-				return levelProperty != null;
+				return levelProperty != null && !levelProperty.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

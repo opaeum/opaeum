@@ -111,6 +111,7 @@ public class CubeQueryItemProvider
 			childrenFeatures.add(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY);
 			childrenFeatures.add(CubePackage.Literals.CUBE_QUERY__COLUMN_AXIS);
 			childrenFeatures.add(CubePackage.Literals.CUBE_QUERY__ROW_AXIS);
+			childrenFeatures.add(CubePackage.Literals.CUBE_QUERY__MEASURES);
 		}
 		return childrenFeatures;
 	}
@@ -171,6 +172,7 @@ public class CubeQueryItemProvider
 			case CubePackage.CUBE_QUERY__VISIBILITY:
 			case CubePackage.CUBE_QUERY__COLUMN_AXIS:
 			case CubePackage.CUBE_QUERY__ROW_AXIS:
+			case CubePackage.CUBE_QUERY__MEASURES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -202,6 +204,11 @@ public class CubeQueryItemProvider
 			(createChildParameter
 				(CubePackage.Literals.CUBE_QUERY__ROW_AXIS,
 				 CubeFactory.eINSTANCE.createRowAxisEntry()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(CubePackage.Literals.CUBE_QUERY__MEASURES,
+				 CubeFactory.eINSTANCE.createMeasureProperty()));
 	}
 
 	/**

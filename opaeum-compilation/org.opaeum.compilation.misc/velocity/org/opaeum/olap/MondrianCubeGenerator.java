@@ -49,6 +49,7 @@ import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class MondrianCubeGenerator extends AbstractStructureVisitor{
@@ -97,6 +98,14 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		if(umlOwner instanceof ICompositionParticipant){
 			ICompositionParticipant cp = (ICompositionParticipant) umlOwner;
 			if(cp.isFact()){
+				NodeList elementsByTagName = doc.getElementsByTagName("Cube");
+				for(int i = 0; i < elementsByTagName.getLength(); i ++){
+					Element found = (Element) elementsByTagName.item(i);
+					if(found.getAttribute("name").equals(umlOwner.getName())){
+						schema.removeChild(found);
+						break;
+					}
+				}
 				Element cube = doc.createElement("Cube");
 				cube.setAttribute("name", umlOwner.getName());
 				schema.appendChild(cube);
@@ -112,6 +121,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 				addDimensions(cp, cube);
 				addMeasures(cp, cube);
 				addCalculatedMeasures(cp, cube);
+				afterWorkspace(workspace);
 			}
 		}
 	}

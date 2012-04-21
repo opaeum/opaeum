@@ -35,6 +35,21 @@
           href="cubequery.gmfgraph#RowAxisEntry"/>
     </ownedChild>
   </nodes>
+  <nodes>
+    <containmentFeature
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//cube/CubeQuery/measures"/>
+    <childrenFeature
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//cube/CubeQuery/measures"/>
+    <ownedChild>
+      <domainMetaElement
+          href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//cube/MeasureProperty"/>
+      <tool
+          xsi:type="gmftool:CreationTool"
+          href="cubequery.gmftool#//@palette/@tools.2"/>
+      <diagramNode
+          href="cubequery.gmfgraph#Measure"/>
+    </ownedChild>
+  </nodes>
   <diagram>
     <diagramCanvas
         href="cubequery.gmfgraph#CubeQueryCanvas"/>

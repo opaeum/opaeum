@@ -308,18 +308,33 @@
     </nestedGenPackages>
     <nestedGenPackages prefix="Cube" basePackage="org.opaeum.uim" resource="XML" disposableProviderFactory="true"
         ecorePackage="Uim.ecore#//cube">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//cube/AggregationFormula">
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//cube/AggregationFormula/SUM"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//cube/AggregationFormula/AVERAGE"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//cube/AggregationFormula/COUNT"/>
+      </genEnums>
       <genClasses ecoreClass="Uim.ecore#//cube/CubeQuery">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/CubeQuery/columnAxis"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/CubeQuery/rowAxis"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/CubeQuery/measures"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//cube/AxisEntry">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/AxisEntry/dimensionBinding"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/AxisEntry/levelProperty"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//cube/DimensionBinding"/>
+      <genClasses ecoreClass="Uim.ecore#//cube/DimensionBinding">
+        <genOperations ecoreOperation="Uim.ecore#//cube/DimensionBinding/toString"/>
+        <genOperations ecoreOperation="Uim.ecore#//cube/DimensionBinding/hashCode"/>
+        <genOperations ecoreOperation="Uim.ecore#//cube/DimensionBinding/equals">
+          <genParameters ecoreParameter="Uim.ecore#//cube/DimensionBinding/equals/o"/>
+        </genOperations>
+      </genClasses>
       <genClasses ecoreClass="Uim.ecore#//cube/LevelProperty"/>
       <genClasses ecoreClass="Uim.ecore#//cube/RowAxisEntry"/>
       <genClasses ecoreClass="Uim.ecore#//cube/ColumnAxisEntry"/>
+      <genClasses ecoreClass="Uim.ecore#//cube/MeasureProperty">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//cube/MeasureProperty/aggregationFormula"/>
+      </genClasses>
     </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

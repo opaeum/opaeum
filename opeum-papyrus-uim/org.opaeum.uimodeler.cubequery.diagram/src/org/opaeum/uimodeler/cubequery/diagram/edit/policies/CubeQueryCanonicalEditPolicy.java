@@ -24,6 +24,7 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.ColumnAxisEntryEditPart;
+import org.opaeum.uimodeler.cubequery.diagram.edit.parts.MeasurePropertyEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimDiagramUpdater;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimNodeDescriptor;
@@ -56,6 +57,7 @@ public class CubeQueryCanonicalEditPolicy extends CanonicalEditPolicy{
 			myFeaturesToSynchronize = new HashSet<EStructuralFeature>();
 			myFeaturesToSynchronize.add(CubePackage.eINSTANCE.getCubeQuery_ColumnAxis());
 			myFeaturesToSynchronize.add(CubePackage.eINSTANCE.getCubeQuery_RowAxis());
+			myFeaturesToSynchronize.add(CubePackage.eINSTANCE.getCubeQuery_Measures());
 		}
 		return myFeaturesToSynchronize;
 	}
@@ -83,7 +85,8 @@ public class CubeQueryCanonicalEditPolicy extends CanonicalEditPolicy{
 	 */
 	private boolean isMyDiagramElement(View view){
 		int visualID = UimVisualIDRegistry.getVisualID(view);
-		return visualID == ColumnAxisEntryEditPart.VISUAL_ID || visualID == RowAxisEntryEditPart.VISUAL_ID;
+		return visualID == ColumnAxisEntryEditPart.VISUAL_ID || visualID == RowAxisEntryEditPart.VISUAL_ID
+				|| visualID == MeasurePropertyEditPart.VISUAL_ID;
 	}
 	/**
 	 * @generated

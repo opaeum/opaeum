@@ -39,6 +39,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
+import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.opaeum.metamodel.core.internal.TagNames;
 
 public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultiplicityElementPropertySection{
@@ -224,10 +225,10 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	@SuppressWarnings("rawtypes")
 	protected void setRole(String name){
 		if(propertyStereotype != null){
-			if(!getTypedElement().isStereotypeApplied(propertyStereotype)){
-				getTypedElement().applyStereotype(propertyStereotype);
-			}
 			EditingDomain ed = getEditingDomain();
+			if(!getTypedElement().isStereotypeApplied(propertyStereotype)){
+				ed.getCommandStack().execute(new ApplyStereotypeCommand(getTypedElement(), propertyStereotype));
+			}
 			EObject sa = getTypedElement().getStereotypeApplication(propertyStereotype);
 			EStructuralFeature feat = propertyStereotype.getDefinition().getEStructuralFeature("roleInCube");
 			ed.getCommandStack().execute(SetCommand.create(ed, sa, feat, roleEnumeration.getEEnumLiteral(name)));

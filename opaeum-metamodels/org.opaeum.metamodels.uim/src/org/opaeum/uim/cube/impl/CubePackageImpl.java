@@ -2,7 +2,10 @@
  */
 package org.opaeum.uim.cube.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -27,6 +30,7 @@ import org.opaeum.uim.control.ControlPackage;
 
 import org.opaeum.uim.control.impl.ControlPackageImpl;
 
+import org.opaeum.uim.cube.AggregationFormula;
 import org.opaeum.uim.cube.AxisEntry;
 import org.opaeum.uim.cube.ColumnAxisEntry;
 import org.opaeum.uim.cube.CubeFactory;
@@ -35,6 +39,7 @@ import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.cube.DimensionBinding;
 import org.opaeum.uim.cube.LevelProperty;
 
+import org.opaeum.uim.cube.MeasureProperty;
 import org.opaeum.uim.cube.RowAxisEntry;
 import org.opaeum.uim.editor.EditorPackage;
 
@@ -102,6 +107,20 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 	 * @generated
 	 */
 	private EClass columnAxisEntryEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass measurePropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum aggregationFormulaEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -228,6 +247,15 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getCubeQuery_Measures() {
+		return (EReference)cubeQueryEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAxisEntry() {
 		return axisEntryEClass;
 	}
@@ -273,6 +301,15 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLevelProperty_Name() {
+		return (EAttribute)levelPropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRowAxisEntry() {
 		return rowAxisEntryEClass;
 	}
@@ -284,6 +321,33 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 	 */
 	public EClass getColumnAxisEntry() {
 		return columnAxisEntryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMeasureProperty() {
+		return measurePropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMeasureProperty_AggregationFormula() {
+		return (EAttribute)measurePropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getAggregationFormula() {
+		return aggregationFormulaEEnum;
 	}
 
 	/**
@@ -317,6 +381,7 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		cubeQueryEClass = createEClass(CUBE_QUERY);
 		createEReference(cubeQueryEClass, CUBE_QUERY__COLUMN_AXIS);
 		createEReference(cubeQueryEClass, CUBE_QUERY__ROW_AXIS);
+		createEReference(cubeQueryEClass, CUBE_QUERY__MEASURES);
 
 		axisEntryEClass = createEClass(AXIS_ENTRY);
 		createEReference(axisEntryEClass, AXIS_ENTRY__DIMENSION_BINDING);
@@ -325,10 +390,17 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		dimensionBindingEClass = createEClass(DIMENSION_BINDING);
 
 		levelPropertyEClass = createEClass(LEVEL_PROPERTY);
+		createEAttribute(levelPropertyEClass, LEVEL_PROPERTY__NAME);
 
 		rowAxisEntryEClass = createEClass(ROW_AXIS_ENTRY);
 
 		columnAxisEntryEClass = createEClass(COLUMN_AXIS_ENTRY);
+
+		measurePropertyEClass = createEClass(MEASURE_PROPERTY);
+		createEAttribute(measurePropertyEClass, MEASURE_PROPERTY__AGGREGATION_FORMULA);
+
+		// Create enums
+		aggregationFormulaEEnum = createEEnum(AGGREGATION_FORMULA);
 	}
 
 	/**
@@ -358,6 +430,7 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
 		ConstraintPackage theConstraintPackage = (ConstraintPackage)EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI);
 		BindingPackage theBindingPackage = (BindingPackage)EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -371,23 +444,49 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		levelPropertyEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 		rowAxisEntryEClass.getESuperTypes().add(this.getAxisEntry());
 		columnAxisEntryEClass.getESuperTypes().add(this.getAxisEntry());
+		measurePropertyEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(cubeQueryEClass, CubeQuery.class, "CubeQuery", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCubeQuery_ColumnAxis(), this.getColumnAxisEntry(), null, "columnAxis", null, 0, -1, CubeQuery.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCubeQuery_RowAxis(), this.getRowAxisEntry(), null, "rowAxis", null, 0, -1, CubeQuery.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCubeQuery_Measures(), this.getMeasureProperty(), null, "measures", null, 0, -1, CubeQuery.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(axisEntryEClass, AxisEntry.class, "AxisEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAxisEntry_DimensionBinding(), this.getDimensionBinding(), null, "dimensionBinding", null, 0, 1, AxisEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAxisEntry_LevelProperty(), this.getLevelProperty(), null, "levelProperty", null, 0, 1, AxisEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAxisEntry_LevelProperty(), this.getLevelProperty(), null, "levelProperty", null, 0, -1, AxisEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dimensionBindingEClass, DimensionBinding.class, "DimensionBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		addEOperation(dimensionBindingEClass, theEcorePackage.getEString(), "toString", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		EOperation op = addEOperation(dimensionBindingEClass, theEcorePackage.getEBoolean(), "equals", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEJavaObject(), "o", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(dimensionBindingEClass, theEcorePackage.getEInt(), "hashCode", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(levelPropertyEClass, LevelProperty.class, "LevelProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLevelProperty_Name(), ecorePackage.getEString(), "name", null, 0, 1, LevelProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rowAxisEntryEClass, RowAxisEntry.class, "RowAxisEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(columnAxisEntryEClass, ColumnAxisEntry.class, "ColumnAxisEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(measurePropertyEClass, MeasureProperty.class, "MeasureProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMeasureProperty_AggregationFormula(), this.getAggregationFormula(), "aggregationFormula", "null", 0, 1, MeasureProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = addEOperation(measurePropertyEClass, theEcorePackage.getEBoolean(), "equals", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEJavaObject(), "o", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(measurePropertyEClass, theEcorePackage.getEInt(), "hashCode", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(measurePropertyEClass, theEcorePackage.getEString(), "toString", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(aggregationFormulaEEnum, AggregationFormula.class, "AggregationFormula");
+		addEEnumLiteral(aggregationFormulaEEnum, AggregationFormula.SUM);
+		addEEnumLiteral(aggregationFormulaEEnum, AggregationFormula.AVERAGE);
+		addEEnumLiteral(aggregationFormulaEEnum, AggregationFormula.COUNT);
 	}
 
 } //CubePackageImpl

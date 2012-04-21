@@ -216,6 +216,10 @@ public class Messages extends NLS{
 	/**
 	 * @generated
 	 */
+	public static String createMeasure3CreationTool_title;
+	/**
+	 * @generated
+	 */
 	public static String CommandName_OpenDiagram;
 	/**
 	 * @generated

@@ -37,7 +37,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_vUwbA3HgEeGus4aKic9sIg"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vUwbBHHgEeGus4aKic9sIg"/>
     </children>
-    <children xmi:type="notation:BasicCompartment" xmi:id="_vUwbBXHgEeGus4aKic9sIg" type="7003">
+    <children xmi:type="notation:BasicCompartment" xmi:id="_vUwbBXHgEeGus4aKic9sIg" type="7003" collapsed="true">
       <styles xmi:type="notation:TitleStyle" xmi:id="_vUwbBnHgEeGus4aKic9sIg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_vUwbB3HgEeGus4aKic9sIg"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_vUwbCHHgEeGus4aKic9sIg"/>
@@ -319,6 +319,10 @@
       <children xmi:type="notation:Shape" xmi:id="_RK4EAIPAEeGrOe1sSLX2zA" type="3012" fontName="Sans" fontHeight="8" lineColor="0">
         <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_RJ07IIPAEeGrOe1sSLX2zA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_RK4EAYPAEeGrOe1sSLX2zA"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_Xk6p8IfLEeGqJejbH5CW6A" type="3012" fontName="Sans" fontHeight="8" lineColor="0">
+        <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_XkwR4IfLEeGqJejbH5CW6A"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_Xk6p8YfLEeGqJejbH5CW6A"/>
       </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_gTxS0X47EeGarqqEaoJFHg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_gTxS0n47EeGarqqEaoJFHg"/>

@@ -5,8 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition"
     name="CubeQueryCanvas">
-  <figures
-      name="CubeQueryFigureGallery">
+  <figures name="CubeQueryFigureGallery">
     <descriptors
         name="ColumnAxisEntryFigure">
       <actualFigure
@@ -19,11 +18,17 @@
           xsi:type="gmfgraph:Rectangle"
           name="RowAxisEntryFigure"/>
     </descriptors>
+    <descriptors
+        name="MeasureFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="MeasureFigure"/>
+    </descriptors>
   </figures>
-  <nodes
-      name="RowAxisEntry"
+  <nodes name="RowAxisEntry"
       figure="RowAxisEntryFigure"/>
-  <nodes
-      name="ColumnAxisEntry"
+  <nodes name="ColumnAxisEntry"
       figure="ColumnAxisEntryFigure"/>
+  <nodes name="Measure"
+      figure="MeasureFigure"/>
 </gmfgraph:Canvas>
