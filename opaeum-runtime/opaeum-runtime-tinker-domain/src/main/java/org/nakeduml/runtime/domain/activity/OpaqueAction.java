@@ -46,7 +46,7 @@ public abstract class OpaqueAction<R> extends Action {
 	protected abstract OutputPin<R> getResultPin();
 
 	/*
-	 * This will only be called if the lower multiplicity is reachedAll up to
+	 * This will only be called if the lower multiplicity is reached, all up to
 	 * upper multiplicity is consumed
 	 */
 	protected void transferObjectTokensToAction() {

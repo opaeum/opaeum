@@ -130,15 +130,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		super.createTextPath(valuePinClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
-	private void addGetValue(OJAnnotatedClass inputPinClass, INakedValuePin oa) {
-		OJAnnotatedOperation getValue = new OJAnnotatedOperation("getValue");
-		TinkerGenerationUtil.addOverrideAnnotation(getValue);
-		getValue.setReturnType(OJUtil.classifierPathname(oa.getNakedBaseType()));
-		String expressValue = ValueSpecificationUtil.expressValue(getValue, oa.getValue(), oa.getAction().getContext(), oa.getType());
-		getValue.getBody().addToStatements("return " + expressValue);
-		inputPinClass.addToOperations(getValue);
-	}
-
 	@VisitBefore(matchSubclasses = false, match = { INakedOutputPin.class })
 	public void visitOutputPins(INakedOutputPin oa) {
 		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
@@ -1544,26 +1535,44 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 	private void removeOutputPinfromActivityClass(INakedOutputPin oa) {
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa, true);
 		OJAnnotatedClass activityClass = findJavaClass(oa.getActivity());
+		OJOperation clearToRemove = null;
+		OJOperation adderAllToRemove = null;
+		OJOperation removeAllToRemove = null;
 		OJField fieldToRemove = null;
+		OJOperation adderToRemove = null;
+		OJOperation removerToRemove = null;
 		OJOperation internalAdderToRemove = null;
 		OJOperation internalRemoverToRemove = null;
 		OJOperation getter = null;
 		OJOperation setter = null;
+		OJOperation manySetter = null;
 		for (OJField field : activityClass.getFields()) {
 			if (field.getName().equals(map.fieldname())) {
 				fieldToRemove = field;
+				clearToRemove = activityClass.findOperation(map.clearer(), Collections.emptyList());
+				removeAllToRemove = activityClass.findOperation(map.removeAll(), Arrays.asList(map.javaTypePath()));
+				adderAllToRemove = activityClass.findOperation(map.allAdder(), Arrays.asList(map.javaTypePath()));
+				adderToRemove = activityClass.findOperation(map.adder(), Arrays.asList(map.javaBaseTypePath()));
+				removerToRemove = activityClass.findOperation(map.remover(), Arrays.asList(map.javaBaseTypePath()));
 				internalAdderToRemove = activityClass.findOperation(map.internalAdder(), Arrays.asList(map.javaBaseTypePath()));
 				internalRemoverToRemove = activityClass.findOperation(map.internalRemover(), Arrays.asList(map.javaBaseTypePath()));
 				getter = activityClass.findOperation(map.getter(), Collections.emptyList());
 				setter = activityClass.findOperation(map.setter(), Arrays.asList(map.javaBaseTypePath()));
+				manySetter = activityClass.findOperation(map.setter(), Arrays.asList(map.javaTypePath()));
 				break;
 			}
 		}
+		activityClass.removeFromOperations(removeAllToRemove);
+		activityClass.removeFromOperations(clearToRemove);
 		activityClass.removeFromFields(fieldToRemove);
+		activityClass.removeFromOperations(adderToRemove);
+		activityClass.removeFromOperations(adderAllToRemove);
+		activityClass.removeFromOperations(removerToRemove);
 		activityClass.removeFromOperations(internalAdderToRemove);
 		activityClass.removeFromOperations(internalRemoverToRemove);
 		activityClass.removeFromOperations(getter);
 		activityClass.removeFromOperations(setter);
+		activityClass.removeFromOperations(manySetter);
 
 		OJAnnotatedOperation clearCache = (OJAnnotatedOperation) activityClass.findOperation("clearCache", Collections.emptyList());
 		clearCache.getBody().removeFromStatements(clearCache.getBody().findStatement(map.fieldname()));
@@ -1655,7 +1664,15 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		writeStructuralFeature.addParam("o", mapObject.javaBaseTypePath());
 		NakedStructuralFeatureMap mapValue = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getValue(), true);
 		writeStructuralFeature.addParam("v", mapValue.javaBaseTypePath());
-		writeStructuralFeature.getBody().addToStatements("o." + OJUtil.buildStructuralFeatureMap(oa.getFeature()).setter() + "(v)");
+		
+		NakedStructuralFeatureMap mapFeature = OJUtil.buildStructuralFeatureMap(oa.getFeature());
+		
+		if (mapFeature.isOne()) {
+			writeStructuralFeature.getBody().addToStatements("o." + mapFeature.setter() + "(v)");
+		} else {
+			//TODO take insertAt into account is ordered
+			writeStructuralFeature.getBody().addToStatements("o." + mapFeature.adder() + "(v)");
+		}
 		actionClass.addToOperations(writeStructuralFeature);
 	}
 
@@ -1718,6 +1735,15 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		getVariable.setReturnType(map.javaBaseTypePath());
 		getVariable.getBody().addToStatements("return this.getActivity()." + map.getter() + "()");
 		actionClass.addToOperations(getVariable);
+	}
+
+	private void addGetValue(OJAnnotatedClass inputPinClass, INakedValuePin oa) {
+		OJAnnotatedOperation getValue = new OJAnnotatedOperation("getValue");
+		TinkerGenerationUtil.addOverrideAnnotation(getValue);
+		getValue.setReturnType(OJUtil.classifierPathname(oa.getNakedBaseType()));
+		String expressValue = ValueSpecificationUtil.expressValue(getValue, oa.getValue(), oa.getAction().getContext(), oa.getType());
+		getValue.getBody().addToStatements("return " + expressValue);
+		inputPinClass.addToOperations(getValue);
 	}
 
 }

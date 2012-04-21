@@ -107,8 +107,10 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 					List<INakedParameterNode> outParamNodes = getOutParameterNodes(a);
 					for (INakedParameterNode iNakedParameterNode : outParamNodes) {
 						if (iNakedParameterNode.getParameter().equals(param)) {
-							// TODO
-							execute.getBody().addToStatements(TinkerBehaviorUtil.activityNodeGetter(iNakedParameterNode) + "().getReturnParameterValues()");
+							//TODO Simple types
+							NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(a.getSpecification().getOwner(), iNakedParameterNode.getParameter());
+							execute.getBody().addToStatements("_" + map.fieldname() + ".clear()");
+							execute.getBody().addToStatements("_" + map.fieldname() + ".addAll(" + TinkerBehaviorUtil.activityNodeGetter(iNakedParameterNode) + "().getReturnParameterValues())");
 							continue;
 						}
 					}
@@ -487,8 +489,8 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 					NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(a, param);
 					p.setName("_" + pMap.fieldname());
 
-					if (param.getNakedBaseType() instanceof INakedSimpleType
-							&& (param.getDirection() == ParameterDirectionKind.OUT || param.getDirection() == ParameterDirectionKind.INOUT)) {
+					if (pMap.isOne() && (param.getNakedBaseType() instanceof INakedSimpleType
+							&& (param.getDirection() == ParameterDirectionKind.OUT || param.getDirection() == ParameterDirectionKind.INOUT))) {
 						p.setType(TinkerGenerationUtil.convertToMutable(pMap.javaTypePath()));
 					} else {
 						p.setType(pMap.javaTypePath());

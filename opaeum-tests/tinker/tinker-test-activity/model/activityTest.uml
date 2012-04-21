@@ -906,6 +906,58 @@
           <weight xmi:type="uml:LiteralInteger" xmi:id="_CjPQsolcEeGDyPn2Ye2CQA" value="1"/>
         </edge>
       </ownedBehavior>
+      <ownedBehavior xmi:type="uml:Activity" xmi:id="_vELQEIpEEeGPTOyTuNGRSw" name="ActivityTestParametersInAndOutMultiplicityMany" specification="_mKFwUIpMEeGPTOyTuNGRSw">
+        <ownedParameter xmi:id="_FecoQIpGEeGPTOyTuNGRSw" name="addressOutParam" type="_n6KUYF-aEeGDnrcNgbl2_Q" direction="out">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_I9zEAIpGEeGPTOyTuNGRSw" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_IrzVEIpGEeGPTOyTuNGRSw" value="1"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="__hYaoIpKEeGPTOyTuNGRSw" name="customerParameterIn" type="_FjiWsMHfEeCrS5OU_q1LFw"/>
+        <ownedParameter xmi:id="_-Khf8IpLEeGPTOyTuNGRSw" name="customerAdditionalAddress" type="_n6KUYF-aEeGDnrcNgbl2_Q"/>
+        <node xmi:type="uml:ActivityParameterNode" xmi:id="_LQyaUIpGEeGPTOyTuNGRSw" name="customerCurrentAddressOut" incoming="_PsSboIpOEeGPTOyTuNGRSw" type="_n6KUYF-aEeGDnrcNgbl2_Q" parameter="_FecoQIpGEeGPTOyTuNGRSw">
+          <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_LQyaUYpGEeGPTOyTuNGRSw" value="*"/>
+        </node>
+        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_4xFS4IpHEeGPTOyTuNGRSw" name="AddStructuralFeatureValueAction1" structuralFeature="_xLWL4F-aEeGDnrcNgbl2_Q">
+          <object xmi:id="_SkmUQIpIEeGPTOyTuNGRSw" name="customerObjectInputPin1" incoming="_GwsrkIpMEeGPTOyTuNGRSw" type="_FjiWsMHfEeCrS5OU_q1LFw"/>
+          <value xmi:id="_Ly9BUIpIEeGPTOyTuNGRSw" name="additionalAddressValueInputPin" incoming="_GZDnoIpMEeGPTOyTuNGRSw" type="_n6KUYF-aEeGDnrcNgbl2_Q"/>
+          <result xmi:id="_XV2cwIpIEeGPTOyTuNGRSw" name="ResultOutputPin1" outgoing="_G-mksIpMEeGPTOyTuNGRSw" type="_FjiWsMHfEeCrS5OU_q1LFw"/>
+          <insertAt xmi:type="uml:ValuePin" xmi:id="_XkVA0IpMEeGPTOyTuNGRSw" name="insertAddressAtValuePin1">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_dP74wIpMEeGPTOyTuNGRSw" name="OpaqueExpression1">
+              <body>0</body>
+            </value>
+          </insertAt>
+        </node>
+        <node xmi:type="uml:ActivityParameterNode" xmi:id="_EvihkIpLEeGPTOyTuNGRSw" name="customerParameterIn" outgoing="_GwsrkIpMEeGPTOyTuNGRSw" type="_FjiWsMHfEeCrS5OU_q1LFw" parameter="__hYaoIpKEeGPTOyTuNGRSw">
+          <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EvihkYpLEeGPTOyTuNGRSw" value="*"/>
+        </node>
+        <node xmi:type="uml:ActivityParameterNode" xmi:id="_EvuSUIpMEeGPTOyTuNGRSw" name="customerAdditionalAddress" outgoing="_GZDnoIpMEeGPTOyTuNGRSw" type="_n6KUYF-aEeGDnrcNgbl2_Q" parameter="_-Khf8IpLEeGPTOyTuNGRSw">
+          <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EvuSUYpMEeGPTOyTuNGRSw" value="*"/>
+        </node>
+        <node xmi:type="uml:OpaqueAction" xmi:id="_HEF2wIpOEeGPTOyTuNGRSw" name="OpaqueAction1">
+          <inputValue xmi:id="_JG4N4IpOEeGPTOyTuNGRSw" name="customer" incoming="_G-mksIpMEeGPTOyTuNGRSw" type="_FjiWsMHfEeCrS5OU_q1LFw"/>
+          <outputValue xmi:id="_NDud8IpOEeGPTOyTuNGRSw" name="address" outgoing="_PsSboIpOEeGPTOyTuNGRSw" type="_n6KUYF-aEeGDnrcNgbl2_Q">
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NDud8YpOEeGPTOyTuNGRSw" value="*"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_O2A68IpOEeGPTOyTuNGRSw" value="*"/>
+          </outputValue>
+          <body>customer.address</body>
+        </node>
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_GZDnoIpMEeGPTOyTuNGRSw" name="ObjectFlow1" source="_EvuSUIpMEeGPTOyTuNGRSw" target="_Ly9BUIpIEeGPTOyTuNGRSw">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_GZDnoYpMEeGPTOyTuNGRSw" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_GZDnoopMEeGPTOyTuNGRSw" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_GwsrkIpMEeGPTOyTuNGRSw" name="ObjectFlow2" source="_EvihkIpLEeGPTOyTuNGRSw" target="_SkmUQIpIEeGPTOyTuNGRSw">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_GwsrkYpMEeGPTOyTuNGRSw" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_GwsrkopMEeGPTOyTuNGRSw" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_G-mksIpMEeGPTOyTuNGRSw" name="ObjectFlow3" source="_XV2cwIpIEeGPTOyTuNGRSw" target="_JG4N4IpOEeGPTOyTuNGRSw">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_G-mksYpMEeGPTOyTuNGRSw" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_G-mksopMEeGPTOyTuNGRSw" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_PsSboIpOEeGPTOyTuNGRSw" name="ObjectFlow4" source="_NDud8IpOEeGPTOyTuNGRSw" target="_LQyaUIpGEeGPTOyTuNGRSw">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_PsSboYpOEeGPTOyTuNGRSw" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_PsSboopOEeGPTOyTuNGRSw" value="1"/>
+        </edge>
+      </ownedBehavior>
       <ownedOperation xmi:id="_61bOEF-mEeGDnrcNgbl2_Q" name="sendAddressAsSignalTest" method="_Bgj8QF-aEeGDnrcNgbl2_Q"/>
       <ownedOperation xmi:id="_UppOQGBQEeG_eaXy4G2_8g" name="testActivity1Operation" method="_m6Hc0F8PEeGM6eee6RfH9g">
         <ownedParameter xmi:id="_Wkua4GBQEeG_eaXy4G2_8g" name="param1">
@@ -957,6 +1009,13 @@
         <ownedParameter xmi:id="_a0fOEIlcEeGDyPn2Ye2CQA" name="paramOutString" direction="out">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_mKFwUIpMEeGPTOyTuNGRSw" name="testActivityParametersInAndOutMultiplicityMany" method="_vELQEIpEEeGPTOyTuNGRSw">
+        <ownedParameter xmi:id="_tJwRIIpMEeGPTOyTuNGRSw" name="addressOutParam" type="_n6KUYF-aEeGDnrcNgbl2_Q" direction="out">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yIKE0IpMEeGPTOyTuNGRSw" value="*"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_0IlrgIpMEeGPTOyTuNGRSw" name="customerParamIn" type="_FjiWsMHfEeCrS5OU_q1LFw"/>
+        <ownedParameter xmi:id="_2fkxAIpMEeGPTOyTuNGRSw" name="customerAdditionalAddress" type="_n6KUYF-aEeGDnrcNgbl2_Q"/>
       </ownedOperation>
       <ownedReception xmi:id="_Xz9A0F_REeGUZPtbxwWnGg" name="AddressSignalReception1" method="_R8Lk4F_AEeGsPb_pxphNGw" signal="_EE4dsF-bEeGDnrcNgbl2_Q"/>
     </packagedElement>

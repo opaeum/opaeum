@@ -1,5 +1,8 @@
 package org.activitytest.test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.activitytest.Address;
 import org.activitytest.AddressType;
 import org.activitytest.Customer;
@@ -170,5 +173,43 @@ public class TestActivityReturnParameters extends BaseLocalDbTest {
 		Assert.assertEquals("paramInString", paramInOutString.toString());
 		Assert.assertEquals("paramInString", paramOutString.toString());
 		Assert.assertEquals("paramInString", result);
+	}
+	
+	@Test
+	public void testParametersMultiplicityMany() {
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+		db.startTransaction();
+		Root root = new Root(true);
+		root.setName("THEROOT");
+		Customer customer = new Customer(root);
+		customer.setName("customer1");
+		Address a = new Address(customer);
+		a.setName("address1");
+
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(20, countVertices());
+		
+		db.startTransaction();
+		Address additionalAddress = new Address(true);
+		additionalAddress.setName("add");
+		Set<Address> outAddress = new HashSet<Address>();
+		customer.testActivityParametersInAndOutMultiplicityMany(customer, additionalAddress, outAddress);
+		db.stopTransaction(Conclusion.SUCCESS);
+		
+		Assert.assertEquals(2, outAddress.size());
+		boolean foundAddress1 = false;
+		boolean foundAddressAdd = false;
+		for (Address address : outAddress) {
+			if (address.getName().equals("add")) {
+				foundAddressAdd = true;
+			}
+			if (address.getName().equals("address1")) {
+				foundAddress1 = true;
+			}
+		}
+		Assert.assertTrue(foundAddress1);
+		Assert.assertTrue(foundAddressAdd);
 	}		
+	
 }

@@ -127,7 +127,7 @@ public class TinkerGenerationUtil {
 		}
 	}
 
-	//TODO remove this method, call one with inVerse param
+	// TODO remove this method, call one with inVerse param
 	public static String getEdgeName(NakedStructuralFeatureMap map) {
 		if (map.getProperty().getAssociation() != null) {
 			return map.getProperty().getAssociation().getName();
@@ -212,19 +212,19 @@ public class TinkerGenerationUtil {
 	public static String addSetterForSimpleType(NakedStructuralFeatureMap map) {
 		return addSetterForSimpleType(map, false);
 	}
-	
+
 	public static String addSetterForSimpleType(NakedStructuralFeatureMap map, boolean audit) {
 		if (map.getProperty().getBaseType() instanceof INakedEnumeration) {
-			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
-					+ "\", val!=null?val.name():null)";
+			return "this." + (audit ? "auditVertex" : "vertex") + ".setProperty(\""
+					+ TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", val!=null?val.name():null)";
 		} else {
-			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", val==null?\""
-					+ TINKER_DB_NULL + "\":val)";
+			return "this." + (audit ? "auditVertex" : "vertex") + ".setProperty(\""
+					+ TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", val==null?\"" + TINKER_DB_NULL + "\":val)";
 		}
 	}
 
 	public static void addOverrideAnnotation(OJAnnotatedOperation oper) {
-		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));		
+		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 	}
 
 	public static OJPathName convertToMutable(OJPathName javaTypePath) {
@@ -240,18 +240,22 @@ public class TinkerGenerationUtil {
 			throw new IllegalStateException("Not supported, " + javaTypePath.getLast());
 		}
 	}
-	
+
 	public static String validateMutableCondition(NakedStructuralFeatureMap map) {
-		if (map.javaBaseTypePath().getLast().equals("String")) {
-			return map.fieldname() + ".length() > 0";
-		} else if (map.javaBaseTypePath().getLast().equals("Integer")) {
-			return map.fieldname() + "intValue != 0";
-		} else if (map.javaBaseTypePath().getLast().equals("Boolean")) {
-			return map.fieldname() + "booleanValue";
-		} else if (map.javaBaseTypePath().getLast().equals("Float")) {
-			return map.fieldname() + "floatValue != 0";
+		if (map.isOne()) {
+			if (map.javaBaseTypePath().getLast().equals("String")) {
+				return map.fieldname() + ".length() > 0";
+			} else if (map.javaBaseTypePath().getLast().equals("Integer")) {
+				return map.fieldname() + "intValue != 0";
+			} else if (map.javaBaseTypePath().getLast().equals("Boolean")) {
+				return map.fieldname() + "booleanValue";
+			} else if (map.javaBaseTypePath().getLast().equals("Float")) {
+				return map.fieldname() + "floatValue != 0";
+			} else {
+				throw new IllegalStateException("Not supported, " + map.javaBaseTypePath().getLast());
+			}
 		} else {
-			throw new IllegalStateException("Not supported, " + map.javaBaseTypePath().getLast());
+			return "!" + map.fieldname() + ".isEmpty()";
 		}
 	}
 
@@ -268,7 +272,7 @@ public class TinkerGenerationUtil {
 			throw new IllegalStateException("Not supported, " + map.javaBaseTypePath().getLast());
 		}
 	}
-	
+
 	public static String clearMutable(NakedStructuralFeatureMap map) {
 		if (map.javaBaseTypePath().getLast().equals("String")) {
 			return "setLength(0)";
@@ -282,6 +286,5 @@ public class TinkerGenerationUtil {
 			throw new IllegalStateException("Not supported, " + map.javaBaseTypePath().getLast());
 		}
 	}
-	
 
 }

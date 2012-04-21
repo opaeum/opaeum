@@ -24,6 +24,7 @@ public abstract class AcceptCallAction extends AcceptEventAction {
 	@Override
 	protected void transferObjectTokensToAction() {
 		super.transferObjectTokensToAction();
-		getReturnInformationOutputPin().addOutgoingToken(new ObjectToken<Object>(getReturnInformationOutputPin().getName(), "not used except for flow control"));
+		getReturnInformationOutputPin().addOutgoingToken(new SingleObjectToken<Object>(getReturnInformationOutputPin().getName(), "not used except for flow control"));
 	}
+	
 }

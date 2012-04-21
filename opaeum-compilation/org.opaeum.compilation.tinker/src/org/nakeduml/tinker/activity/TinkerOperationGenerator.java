@@ -51,7 +51,8 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 				OJParameter p = new OJParameter();
 				NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
 				p.setName(pMap.fieldname());
-				if (param.getNakedBaseType() instanceof INakedSimpleType && (param.getDirection() == ParameterDirectionKind.OUT || param.getDirection() == ParameterDirectionKind.INOUT)) {
+				if (pMap.isOne() && (param.getNakedBaseType() instanceof INakedSimpleType
+						&& (param.getDirection() == ParameterDirectionKind.OUT || param.getDirection() == ParameterDirectionKind.INOUT))) {
 					p.setType(TinkerGenerationUtil.convertToMutable(pMap.javaTypePath()));
 				} else {
 					p.setType(pMap.javaTypePath());
@@ -185,18 +186,23 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 			for (INakedParameter param : oper.getOwnedParameters()) {
 				if (param.getDirection() == ParameterDirectionKind.OUT && !param.isReturn()) {
 					NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
-					
+
 					if (param.getNakedBaseType() instanceof INakedSimpleType) {
 						OJIfStatement ifHasVertex = new OJIfStatement(TinkerGenerationUtil.validateMutableCondition(pMap));
 						ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " may not have a value!\")");
 						operation.getBody().addToStatements(ifHasVertex);
 					} else {
-						OJIfStatement ifHasVertex = new OJIfStatement(pMap.fieldname() + ".getVertex() != null");
-						ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " may not have a vertex!\")");
-						operation.getBody().addToStatements(ifHasVertex);
+						if (pMap.isOne()) {
+							OJIfStatement ifHasVertex = new OJIfStatement(pMap.fieldname() + ".getVertex() != null");
+							ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " may not have a vertex!\")");
+							operation.getBody().addToStatements(ifHasVertex);
+						} else {
+							OJIfStatement ifHasVertex = new OJIfStatement("!" + pMap.fieldname() + ".isEmpty()");
+							ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " may not have a vertex!\")");
+							operation.getBody().addToStatements(ifHasVertex);
+						}
 					}
 
-					
 				}
 			}
 			// Add validation for in & inout parameters, must have a vertex
@@ -210,7 +216,7 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 								+ param.getName() + " must have a vertex!\")");
 						operation.getBody().addToStatements(ifHasVertex);
 					}
-					
+
 				}
 			}
 
@@ -248,10 +254,13 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 				}
 			}
 
-			//TODO this complicates testing for now
-//			OJIfStatement ifFinished = new OJIfStatement(NameConverter.decapitalize(method.getName()) + ".isFinished()");
-//			ifFinished.addToThenPart(NameConverter.decapitalize(method.getName()) + ".markDeleted()");
-//			operation.getBody().addToStatements(ifFinished);
+			// TODO this complicates testing for now
+			// OJIfStatement ifFinished = new
+			// OJIfStatement(NameConverter.decapitalize(method.getName()) +
+			// ".isFinished()");
+			// ifFinished.addToThenPart(NameConverter.decapitalize(method.getName())
+			// + ".markDeleted()");
+			// operation.getBody().addToStatements(ifFinished);
 
 			if (oper.getReturnParameter() != null && oper.getReturnParameter().isReturn()) {
 				operation.getBody().addToStatements("return result");

@@ -47,12 +47,26 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>, ObjectT
 		for (ObjectFlowKnown<O> flow : getInFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
-				result.add(new ObjectToken<O>(edge.getInVertex()));
+				try {
+					result.add(contructToken(edge));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return result;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	private ObjectToken<O> contructToken(Edge edge) {
+		try {
+			Class<?> c = Class.forName((String) edge.getProperty("tokenClass"));
+			return (ObjectToken<O>) c.getConstructor(Vertex.class).newInstance(edge.getInVertex());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	@Override
 	public List<ObjectToken<O>> getInTokens(String inFlowName) {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
@@ -61,7 +75,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>, ObjectT
 				if (flow instanceof ObjectFlowKnown) {
 					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 					for (Edge edge : iter) {
-						result.add(new ObjectToken<O>(edge.getInVertex()));
+						result.add(contructToken(edge));
 					}
 				} else {
 					throw new IllegalStateException("wtf");
@@ -83,7 +97,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>, ObjectT
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
 		Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + getName());
 		for (Edge edge : iter) {
-			result.add(new ObjectToken<O>(edge.getInVertex()));
+			result.add(contructToken(edge));
 		}
 		return result;
 	}
@@ -95,7 +109,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>, ObjectT
 			if (flow.getName().equals(outFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
-					result.add(new ObjectToken<O>(edge.getInVertex()));
+					result.add(contructToken(edge));
 				}
 			}
 		}
@@ -118,11 +132,11 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>, ObjectT
 			logger.finest(String.format("Inputpin %s has reached its upper", getName()));
 		}
 	}
-	
+
 	protected <T> List<ObjectFlowKnown<T>> convertToKnownObjectFlows(List<ObjectFlowUnknown> asList) {
 		List<ObjectFlowKnown<T>> result = new ArrayList<ObjectFlowKnown<T>>();
 		for (ObjectFlowUnknown objectFlowUnknown : asList) {
-			result.add(objectFlowUnknown.<T>convertToKnownObjectFlow());
+			result.add(objectFlowUnknown.<T> convertToKnownObjectFlow());
 		}
 		return result;
 	}
