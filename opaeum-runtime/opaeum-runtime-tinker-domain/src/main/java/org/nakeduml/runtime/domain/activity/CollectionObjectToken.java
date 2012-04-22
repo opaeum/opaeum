@@ -31,6 +31,11 @@ public class CollectionObjectToken<O> extends ObjectToken<O> {
 	public Collection<O> getCollection() {
 		return this.collection;
 	}
+	
+	@Override
+	public Object getObject() {
+		return this.collection;
+	}
 
 	@Override
 	public CollectionObjectToken<O> duplicate(String flowName) {

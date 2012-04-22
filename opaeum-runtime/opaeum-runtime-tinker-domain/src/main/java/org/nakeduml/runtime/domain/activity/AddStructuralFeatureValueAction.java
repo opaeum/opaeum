@@ -24,7 +24,7 @@ public abstract class AddStructuralFeatureValueAction<V, O> extends WriteStructu
 		O object = getObject().getInTokens().iterator().next().getObject();
 		V value = getValue().getInTokens().iterator().next().getObject();
 		writeStructuralFeature(object, value);
-		getResult().addIncomingToken(new ObjectToken<O>(getResult().getName(), object));
+		getResult().addIncomingToken(new SingleObjectToken<O>(getResult().getName(), object));
 	}
 
 }

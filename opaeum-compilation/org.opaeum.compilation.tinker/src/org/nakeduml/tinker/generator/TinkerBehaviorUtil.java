@@ -19,6 +19,8 @@ import org.opaeum.name.NameConverter;
 
 public class TinkerBehaviorUtil {
 	
+	public static final OJPathName tinkerSingleObjectToken = new OJPathName("org.nakeduml.runtime.domain.activity.SingleObjectToken");
+	public static final OJPathName tinkerCollectionObjectToken = new OJPathName("org.nakeduml.runtime.domain.activity.CollectionObjectToken");
 	public static final OJPathName tinkerAddVariableValueAction = new OJPathName("org.nakeduml.runtime.domain.activity.AddVariableValueAction");
 	public static final OJPathName tinkerReadVariableAction = new OJPathName("org.nakeduml.runtime.domain.activity.ReadVariableAction");
 	public static final OJPathName tinkerCreateObjectAction = new OJPathName("org.nakeduml.runtime.domain.activity.CreateObjectAction");
@@ -30,12 +32,28 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerCallEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.CallEvent");
 	public static final OJPathName tinkerAbstractActivityPathName = new OJPathName("org.nakeduml.runtime.domain.activity.AbstractActivity");
 	public static final OJPathName tinkerActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.ActivityParameterNode");
+
+	public static final OJPathName tinkerOneInActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.OneInActivityParameterNode");
+	public static final OJPathName tinkerManyInActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.ManyInActivityParameterNode");
+
 	public static final OJPathName tinkerInActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.InActivityParameterNode");
 	public static final OJPathName tinkerValuePinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ValuePin");
+
+	public static final OJPathName tinkerOneInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OneInputPin");
+	public static final OJPathName tinkerManyInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ManyInputPin");
+
 	public static final OJPathName tinkerInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.InputPin");
 	public static final OJPathName tinkerReturnInformationInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ReturnInformationInputPin");
 	public static final OJPathName tinkerReturnInformationOutputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ReturnInformationOutputPin");
+
+	public static final OJPathName tinkerOneOutputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OneOutputPin");
+	public static final OJPathName tinkerManyOutputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ManyOutputPin");
+
 	public static final OJPathName tinkerOutputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OutputPin");
+
+	public static final OJPathName tinkerOneOutActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.OneOutActivityParameterNode");
+	public static final OJPathName tinkerManyOutActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.ManyOutActivityParameterNode");
+
 	public static final OJPathName tinkerOutActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.OutActivityParameterNode");
 	public static final OJPathName tinkerActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Action");
 	public static final OJPathName tinkerOpaqueActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OpaqueAction");
@@ -65,6 +83,10 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerActivityNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.ActivityNode");
 	public static final OJPathName tinkerActivityEdgePathName = new OJPathName("org.nakeduml.runtime.domain.activity.ActivityEdge");
 	public static final OJPathName tinkerControlFlowPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ControlFlow");
+
+	public static final OJPathName tinkerOneObjectFlowKnownPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OneObjectFlowKnown");
+	public static final OJPathName tinkerManyObjectFlowKnownPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ManyObjectFlowKnown");
+
 	public static final OJPathName tinkerObjectFlowKnownPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ObjectFlowKnown");
 	public static final OJPathName tinkerObjectFlowUnknownPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ObjectFlowUnknown");
 	public static final OJPathName tinkerActivityEdgePathNameWithToken = new OJPathName("org.nakeduml.runtime.domain.activity.ActivityEdge<? extends Token>");

@@ -1,5 +1,6 @@
 package org.nakeduml.runtime.domain.activity;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 public class ObjectTokenInterator<T> implements Iterator<ObjectToken<T>> {
@@ -18,9 +19,15 @@ public class ObjectTokenInterator<T> implements Iterator<ObjectToken<T>> {
 		return this.iterator.hasNext();
 	}
 
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public ObjectToken<T> next() {
-		return new ObjectToken<T>(name, this.iterator.next());
+		T o = this.iterator.next();
+		if (o instanceof  Collection) {
+			return new CollectionObjectToken<T>(name, (Collection<T>) o);
+		} else {
+			return new SingleObjectToken<T>(name, o);
+		}
 	}
 
 	@Override

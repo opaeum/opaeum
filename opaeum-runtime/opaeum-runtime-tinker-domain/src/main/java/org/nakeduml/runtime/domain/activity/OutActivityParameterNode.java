@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class OutActivityParameterNode<O> extends ActivityParameterNode<O> {
+public abstract class OutActivityParameterNode<O, IN extends ObjectToken<O>, OUT extends ObjectToken<O>> extends ActivityParameterNode<O, IN, OUT> {
 
 	public OutActivityParameterNode() {
 		super();
@@ -21,10 +21,10 @@ public abstract class OutActivityParameterNode<O> extends ActivityParameterNode<
 	}
 
 	@Override
-	protected List<ObjectFlowKnown<O>> getOutFlows() {
+	protected List<? extends ObjectFlowKnown<O, OUT>> getOutFlows() {
 		return Collections.emptyList();
 	}
-
+	
 	@Override
 	protected Boolean executeNode() {
 		List<Boolean> flowResult = new ArrayList<Boolean>();
@@ -45,11 +45,5 @@ public abstract class OutActivityParameterNode<O> extends ActivityParameterNode<
 		return result;
 	}
 
-	public List<O> getReturnParameterValues() {
-		List<O> result = new ArrayList<O>();
-		for (ObjectToken<O> token : getInTokens()) {
-			result.add(token.getObject());
-		}
-		return result;
-	}
+	public abstract List<O> getReturnParameterValues();
 }

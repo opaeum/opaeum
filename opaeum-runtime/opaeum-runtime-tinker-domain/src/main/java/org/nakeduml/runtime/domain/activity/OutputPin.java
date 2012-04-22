@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class OutputPin<O> extends ObjectNode<O> {
+public abstract class OutputPin<O, OUT extends ObjectToken<O>> extends ObjectNode<O, OUT, OUT> {
 
 	public OutputPin() {
 		super();
@@ -21,10 +21,6 @@ public abstract class OutputPin<O> extends ObjectNode<O> {
 		super(vertex);
 	}
 
-	protected abstract int getLowerMultiplicity();
-
-	protected abstract int getUpperMultiplicity();
-
 	protected abstract Action getAction();
 
 	@Override
@@ -35,7 +31,7 @@ public abstract class OutputPin<O> extends ObjectNode<O> {
 			return false;
 		}
 	}
-	
+
 	@Override
 	protected Boolean executeNode() {
 		List<Boolean> flowResult = new ArrayList<Boolean>();
@@ -47,16 +43,17 @@ public abstract class OutputPin<O> extends ObjectNode<O> {
 
 		this.nodeStat.increment();
 
-		for (ObjectToken<O> objectToken : getOutTokens()) {
+		for (OUT objectToken : getOutTokens()) {
 			// For each out flow add a token
-			for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
-				ObjectToken<O> duplicate = objectToken.duplicate(flow.getName());
+			for (ActivityEdge<OUT> flow : getOutFlows()) {
+				@SuppressWarnings("unchecked")
+				OUT duplicate = (OUT) objectToken.duplicate(flow.getName());
 				addOutgoingToken(duplicate);
 			}
 			objectToken.remove();
 		}
 		// Continue each out flow with its tokens
-		for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
+		for (ActivityEdge<OUT> flow : getOutFlows()) {
 			flow.setStarts(getOutTokens(flow.getName()));
 			flowResult.add(flow.processNextStart());
 		}
@@ -72,21 +69,8 @@ public abstract class OutputPin<O> extends ObjectNode<O> {
 		return result;
 	}
 
-	protected boolean isLowerMultiplicityReached() {
-		return getOutTokens().size() >= getLowerMultiplicity();
-	}
-
-	protected boolean isUpperMultiplicityReached() {
-		return getOutTokens().size() >= getUpperMultiplicity();
-	}
-
 	@Override
-	protected boolean mayContinue() {
-		return isLowerMultiplicityReached();
-	}
-	
-	@Override
-	protected List<ObjectFlowKnown<O>> getInFlows() {
+	protected List<? extends ObjectFlowKnown<O,OUT>> getInFlows() {
 		return Collections.emptyList();
 	}
 

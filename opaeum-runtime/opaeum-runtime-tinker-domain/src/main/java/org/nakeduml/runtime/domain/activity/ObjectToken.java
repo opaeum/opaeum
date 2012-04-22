@@ -25,9 +25,8 @@ public abstract class ObjectToken<O> extends Token {
 		edge.setProperty("tokenClass", getClass().getName());
 	}
 
-	@SuppressWarnings("unchecked")
-	public abstract ObjectToken<O> duplicate(String flowName);
-
 	public abstract void remove();
+	
+	public abstract Object getObject();
 
 }

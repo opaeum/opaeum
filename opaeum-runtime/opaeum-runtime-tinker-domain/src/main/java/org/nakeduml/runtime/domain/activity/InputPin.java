@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class InputPin<O> extends ObjectNode<O> {
+public abstract class InputPin<O, IN extends ObjectToken<O>> extends ObjectNode<O, IN, IN> {
 
 	public InputPin() {
 		super();
@@ -19,10 +19,6 @@ public abstract class InputPin<O> extends ObjectNode<O> {
 		super(vertex);
 	}
 
-	protected abstract int getLowerMultiplicity();
-
-	protected abstract int getUpperMultiplicity();
-
 	protected abstract Action getAction();
 
 	protected Boolean executeNode() {
@@ -34,22 +30,8 @@ public abstract class InputPin<O> extends ObjectNode<O> {
 		}
 	}
 
-	protected boolean isLowerMultiplicityReached() {
-		return getInTokens().size() >= getLowerMultiplicity();
-	}
-
-	protected boolean isUpperMultiplicityReached() {
-		return getInTokens().size() >= getUpperMultiplicity();
-	}
-
-	// TODO think about upper
 	@Override
-	protected boolean mayContinue() {
-		return isLowerMultiplicityReached();
-	}
-	
-	@Override
-	protected List<ObjectFlowKnown<O>> getOutFlows() {
+	protected List<? extends ObjectFlowKnown<O, IN>> getOutFlows() {
 		return Collections.emptyList();
 	}
 	

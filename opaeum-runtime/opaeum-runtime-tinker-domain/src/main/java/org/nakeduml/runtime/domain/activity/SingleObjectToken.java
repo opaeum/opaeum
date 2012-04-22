@@ -50,6 +50,7 @@ public class SingleObjectToken<O> extends ObjectToken<O> {
 		}
 	}
 
+	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public O getObject() {
 		Edge edge = this.vertex.getOutEdges(TOKEN + "toObject").iterator().next();

@@ -165,7 +165,7 @@
         <ownedParameter xmi:id="_x769YF8PEeGM6eee6RfH9g" name="testParameter1">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sba2MGCkEeGJ1rh0zdOmlQ" value="*"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_spXyoGCkEeGJ1rh0zdOmlQ"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_spXyoGCkEeGJ1rh0zdOmlQ" value="1"/>
         </ownedParameter>
         <node xmi:type="uml:InitialNode" xmi:id="_uBPQgF8PEeGM6eee6RfH9g" name="InitialNode1" outgoing="_YGok8F8QEeGM6eee6RfH9g"/>
         <node xmi:type="uml:ActivityParameterNode" xmi:id="_x8ch0F8PEeGM6eee6RfH9g" name="testParameterNode1" outgoing="_aLh04F8QEeGM6eee6RfH9g" parameter="_x769YF8PEeGM6eee6RfH9g">
@@ -176,13 +176,13 @@
           <inputValue xmi:id="_ZCXNYF8QEeGM6eee6RfH9g" name="inputPin1" incoming="_aLh04F8QEeGM6eee6RfH9g">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
             <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ZCXNYV8QEeGM6eee6RfH9g" value="*"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_tZ4aoGL2EeGEUvEV3Q-pbA" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_tZ4aoGL2EeGEUvEV3Q-pbA" value="*"/>
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tMNLAGL2EeGEUvEV3Q-pbA" value="1"/>
           </inputValue>
           <outputValue xmi:id="_bzXVYF8QEeGM6eee6RfH9g" name="outputPin1" outgoing="_eK-tAF8QEeGM6eee6RfH9g">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
             <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_bzXVYV8QEeGM6eee6RfH9g" value="*"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xbKlIGCNEeGqrvC92GVDWQ" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xbKlIGCNEeGqrvC92GVDWQ" value="*"/>
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xqASYGCNEeGqrvC92GVDWQ" value="1"/>
           </outputValue>
           <body>inputPin1</body>

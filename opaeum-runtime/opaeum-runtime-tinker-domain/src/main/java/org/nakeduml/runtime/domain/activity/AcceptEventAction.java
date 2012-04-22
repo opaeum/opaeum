@@ -42,8 +42,8 @@ public abstract class AcceptEventAction extends AbstractTriggeredAction {
 	}
 
 	@Override
-	protected List<? extends OutputPin<?>> getOutputPins() {
-		return Collections.<OutputPin<?>> emptyList();
+	protected List<? extends OutputPin<?,?>> getOutputPins() {
+		return Collections.<OutputPin<?,?>> emptyList();
 	}	
 	
 }

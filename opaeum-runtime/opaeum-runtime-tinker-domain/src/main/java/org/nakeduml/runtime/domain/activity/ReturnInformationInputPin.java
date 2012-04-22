@@ -2,7 +2,7 @@ package org.nakeduml.runtime.domain.activity;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ReturnInformationInputPin<O> extends InputPin<O> {
+public abstract class ReturnInformationInputPin<O,OUT extends ObjectToken<O>> extends InputPin<O,OUT> {
 
 	public ReturnInformationInputPin() {
 		super();

@@ -24,7 +24,7 @@ public abstract class ReplyAction<R> extends Action {
 	}
 
 	@Override
-	protected abstract List<? extends OutputPin<?>> getOutputPins();
+	protected abstract List<? extends OutputPin<?,?>> getOutputPins();
 	
 	public R getReply(){
 		return null;

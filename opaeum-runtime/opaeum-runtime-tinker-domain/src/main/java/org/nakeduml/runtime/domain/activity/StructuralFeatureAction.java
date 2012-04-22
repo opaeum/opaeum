@@ -17,6 +17,6 @@ public abstract class StructuralFeatureAction<O> extends Action {
 		super(vertex);
 	}
 	
-	public abstract InputPin<O> getObject();
+	public abstract InputPin<O, SingleObjectToken<O>> getObject();
 	
 }

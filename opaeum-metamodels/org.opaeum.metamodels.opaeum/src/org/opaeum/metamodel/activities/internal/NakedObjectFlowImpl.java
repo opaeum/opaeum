@@ -8,7 +8,6 @@ import org.opaeum.metamodel.activities.ControlNodeType;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedControlNode;
-import org.opaeum.metamodel.activities.INakedDecisionNode;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedInputPin;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
@@ -16,6 +15,7 @@ import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedMultiplicity;
 
 public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INakedObjectFlow {
 	private static final long serialVersionUID = 6481759202136150887L;
@@ -128,6 +128,42 @@ public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INaked
 	}
 
 	@Override
+	public INakedMultiplicity getTinkerOriginatingMultiplicity() {
+		ArrayList<INakedMultiplicity> objectNodeList = new ArrayList<INakedMultiplicity>();
+		getOriginatingObjectNodeInternal(objectNodeList);
+		return objectNodeList.get(0);
+	}
+
+	void getOriginatingObjectNodeInternal(List<INakedMultiplicity> objectNodeLists) {
+		INakedActivityNode source = getSource();
+		if (source instanceof INakedObjectNode && objectNodeLists.isEmpty()) {
+			objectNodeLists.add(((INakedObjectNode) source).getNakedMultiplicity());
+		} else if (source instanceof INakedObjectNode && !objectNodeLists.isEmpty()) {
+
+			if (!objectNodeLists.get(0).equals(((INakedObjectNode) source).getNakedMultiplicity()) && ((INakedObjectNode) source).getNakedMultiplicity().isMany()) {
+				objectNodeLists.clear();
+				objectNodeLists.add(((INakedObjectNode) source).getNakedMultiplicity());
+			}
+
+		} else if (source instanceof INakedControlNode) {
+			INakedControlNode targetControlNode = (INakedControlNode) source;
+			if (targetControlNode.getControlNodeType().isMergeNode() || targetControlNode.getControlNodeType().isJoinNode()) {
+
+				for (INakedActivityEdge incoming : targetControlNode.getIncoming()) {
+					if (incoming instanceof INakedObjectFlow) {
+						((NakedObjectFlowImpl) incoming).getOriginatingObjectNodeInternal(objectNodeLists);
+					}
+				}
+
+			} else if (targetControlNode.getControlNodeType().isDecisionNode() || targetControlNode.getControlNodeType().isForkNode()) {
+				((NakedObjectFlowImpl) targetControlNode.getIncoming().iterator().next()).getOriginatingObjectNodeInternal(objectNodeLists);
+			} else {
+				throw new IllegalStateException("wtf");
+			}
+		}
+	}
+
+	@Override
 	public INakedClassifier getOriginatingObjectNodeClassifier() {
 		ArrayList<INakedClassifier> classifierList = new ArrayList<INakedClassifier>();
 		Exitter exitter = new Exitter(false);
@@ -154,14 +190,14 @@ public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INaked
 
 					for (INakedActivityEdge incoming : targetControlNode.getIncoming()) {
 						if (incoming instanceof INakedObjectFlow) {
-							((NakedObjectFlowImpl)incoming).getOriginatingObjectNodeClassifierInternal(classifier, exitter);
+							((NakedObjectFlowImpl) incoming).getOriginatingObjectNodeClassifierInternal(classifier, exitter);
 						} else {
 							exitter.shouldExit = true;
 						}
 					}
 
-				} else  if (targetControlNode.getControlNodeType().isDecisionNode() || targetControlNode.getControlNodeType().isForkNode()) {
-					((NakedObjectFlowImpl)targetControlNode.getIncoming().iterator().next()).getOriginatingObjectNodeClassifierInternal(classifier, exitter);
+				} else if (targetControlNode.getControlNodeType().isDecisionNode() || targetControlNode.getControlNodeType().isForkNode()) {
+					((NakedObjectFlowImpl) targetControlNode.getIncoming().iterator().next()).getOriginatingObjectNodeClassifierInternal(classifier, exitter);
 				} else {
 					throw new IllegalStateException("wtf");
 				}

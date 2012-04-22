@@ -16,7 +16,7 @@ public abstract class WriteVariableAction<V> extends VariableAction<V> {
 		super(vertex);
 	}
 	
-	public abstract InputPin<V> getValue();
+	public abstract OneInputPin<V> getValue();
 	protected abstract void writeVariable(V v);
 	
 	@Override

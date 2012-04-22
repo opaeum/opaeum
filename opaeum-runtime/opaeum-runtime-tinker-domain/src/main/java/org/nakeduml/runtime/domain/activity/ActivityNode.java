@@ -39,7 +39,7 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 	protected abstract boolean mayContinue();
 	protected abstract boolean mayAcceptToken();
 	protected abstract Boolean executeNode();
-	protected abstract List<? extends ActivityEdge<?>> getInFlows();
+	protected abstract List<? extends ActivityEdge<? extends IN>> getInFlows();
 	protected abstract List<? extends ActivityEdge<OUT>> getOutFlows();
 	public abstract List<? extends Token> getInTokens();
 	public abstract List<?> getInTokens(String inFlowName);

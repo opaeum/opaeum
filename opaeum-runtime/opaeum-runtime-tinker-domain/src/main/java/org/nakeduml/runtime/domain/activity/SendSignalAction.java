@@ -1,6 +1,6 @@
 package org.nakeduml.runtime.domain.activity;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier;
@@ -51,8 +51,8 @@ public abstract class SendSignalAction extends InvocationAction {
 	protected abstract ISignal constructSignal();
 	
 	@Override
-	protected List<? extends OutputPin<?>> getOutputPins() {
-		return Arrays.asList();
+	protected List<? extends OutputPin<?,?>> getOutputPins() {
+		return Collections.emptyList();
 	}
 	
 	protected void transferObjectTokensToAction() {

@@ -21,7 +21,7 @@ public abstract class FinalNode extends GenericControlNode {
 	public FinalNode(boolean persist, String name) {
 		super(persist, name);
 	}
-
+	
 	@Override
 	protected List<ActivityEdge<Token>> getOutFlows() {
 		return Collections.<ActivityEdge<Token>>emptyList();

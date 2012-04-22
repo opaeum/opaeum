@@ -27,11 +27,11 @@ public abstract class Action extends ExecutableNode {
 
 	protected abstract boolean hasPreConditionPassed();
 
-	protected abstract List<? extends InputPin<?>> getInputPins();
+	protected abstract List<? extends InputPin<?,?>> getInputPins();
 
-	protected abstract List<? extends OutputPin<?>> getOutputPins();
+	protected abstract List<? extends OutputPin<?,?>> getOutputPins();
 
-	protected abstract void addToInputPinVariable(InputPin<?> inputPin, Object object);
+	protected abstract void addToInputPinVariable(InputPin<?,?> inputPin, Object object);
 
 	protected abstract List<? extends Object> getInputPinVariables();
 
@@ -72,7 +72,7 @@ public abstract class Action extends ExecutableNode {
 			flowResult.add(flow.processNextStart());
 		}
 
-		for (OutputPin<?> outputPin : getOutputPins()) {
+		for (OutputPin<?,?> outputPin : getOutputPins()) {
 			// The output pins starts must be set in concrete actions
 			outputPin.copyTokensToStart();
 			flowResult.add(outputPin.processNextStart());
@@ -99,7 +99,7 @@ public abstract class Action extends ExecutableNode {
 	}
 
 	protected boolean isInputPinsSatisfied() {
-		for (InputPin<?> inputPin : this.getInputPins()) {
+		for (InputPin<?,?> inputPin : this.getInputPins()) {
 			if (!(inputPin instanceof ValuePin) && !inputPin.mayContinue()) {
 				return false;
 			}
@@ -190,7 +190,7 @@ public abstract class Action extends ExecutableNode {
 		StringBuilder sb = new StringBuilder(super.toString());
 		sb.append("\n");
 		sb.append("InputPins:");
-		for (InputPin<?> o : getInputPins()) {
+		for (InputPin<?,?> o : getInputPins()) {
 			sb.append("		");
 			sb.append(o.toString());
 			sb.append("\n");
@@ -202,7 +202,7 @@ public abstract class Action extends ExecutableNode {
 			sb.append("\n");
 		}
 		sb.append("\nOutputPin:");
-		for (OutputPin<?> outputPin : getOutputPins()) {
+		for (OutputPin<?,?> outputPin : getOutputPins()) {
 			sb.append("		");
 			sb.append(outputPin.toString());
 			sb.append("\n");

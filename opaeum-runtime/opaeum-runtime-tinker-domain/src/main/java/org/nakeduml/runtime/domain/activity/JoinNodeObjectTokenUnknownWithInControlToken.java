@@ -6,7 +6,7 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class JoinNodeObjectTokenUnknownWithInControlToken extends JoinNode<Token, ObjectToken<?>> {
+public abstract class JoinNodeObjectTokenUnknownWithInControlToken<OUT extends ObjectToken<?>> extends JoinNode<Token, OUT> {
 
 	public JoinNodeObjectTokenUnknownWithInControlToken() {
 		super();
@@ -21,17 +21,17 @@ public abstract class JoinNodeObjectTokenUnknownWithInControlToken extends JoinN
 	}
 
 	@Override
-	protected abstract ObjectFlowUnknown getOutFlow();
+	protected abstract ObjectFlowUnknown<OUT> getOutFlow();
 
 	@Override
-	protected List<ObjectFlowUnknown> getOutFlows() {
-		List<ObjectFlowUnknown> result = new ArrayList<ObjectFlowUnknown>();
+	protected List<ObjectFlowUnknown<OUT>> getOutFlows() {
+		List<ObjectFlowUnknown<OUT>> result = new ArrayList<ObjectFlowUnknown<OUT>>();
 		result.add(getOutFlow());
 		return result;
 	}
 
 	@Override
-	protected abstract List<ActivityEdge<? extends Token>> getInFlows();
+	protected abstract List<ActivityEdge<Token>> getInFlows();
 
 	/*
 	 * (non-Javadoc)
@@ -39,71 +39,25 @@ public abstract class JoinNodeObjectTokenUnknownWithInControlToken extends JoinN
 	 * 
 	 * Consume control tokens, only object token continue.
 	 */
+	//TODO
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Token> getInTokens() {
+		if (true) {
+			throw new IllegalStateException("Checka this out");
+			//Not sure about this consuming, consume elsewhere
+		}		
 		List<Token> result = new ArrayList<Token>();
 		for (ActivityEdge<? extends Token> flow : getInFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				Token token;
 				if (!(flow instanceof ControlFlow)) {
-					token = new ObjectToken(edge.getInVertex());
+					token = contructOutToken(edge);
 					result.add(token);
 				} else {
 					token = new ControlToken(edge.getInVertex());
 					token.remove();
-				}
-			}
-		}
-		return result;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public List<Token> getInTokens(String inFlowName) {
-		List<Token> result = new ArrayList<Token>();
-		for (ActivityEdge<? extends Token> flow : getInFlows()) {
-			if (flow.getName().equals(inFlowName)) {
-				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-				for (Edge edge : iter) {
-					Token token;
-					if (flow instanceof ControlFlow) {
-						token = new ControlToken(edge.getInVertex());
-					} else {
-						token = new ObjectToken(edge.getInVertex());
-					}
-					result.add(token);
-				}
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public List<ObjectToken<?>> getOutTokens() {
-		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getOutFlows()) {
-			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-			for (Edge edge : iter) {
-				@SuppressWarnings("rawtypes")
-				ObjectToken<?> e = new ObjectToken(edge.getInVertex());
-				result.add(e);
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public List<ObjectToken<?>> getOutTokens(String outFlowName) {
-		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getOutFlows()) {
-			if (flow.getName().equals(outFlowName)) {
-				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-				for (Edge edge : iter) {
-					@SuppressWarnings("rawtypes")
-					ObjectToken<?> e = new ObjectToken(edge.getInVertex());
-					result.add(e);
 				}
 			}
 		}

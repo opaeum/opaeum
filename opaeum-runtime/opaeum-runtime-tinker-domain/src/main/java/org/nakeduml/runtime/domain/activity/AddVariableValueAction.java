@@ -15,5 +15,4 @@ public abstract class AddVariableValueAction<V> extends WriteVariableAction<V> {
 		super(vertex);
 	}
 
-
 }

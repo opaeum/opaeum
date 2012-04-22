@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ActivityParameterNode<O> extends ObjectNode<O> {
+public abstract class ActivityParameterNode<O, IN extends ObjectToken<O>, OUT extends ObjectToken<O>> extends ObjectNode<O,IN,OUT> {
 
 	public ActivityParameterNode() {
 		super();
@@ -23,7 +23,7 @@ public abstract class ActivityParameterNode<O> extends ObjectNode<O> {
 	protected boolean mayContinue() {
 		return true;
 	}
-
+	
 	@Override
 	protected Boolean executeNode() {
 		List<Boolean> flowResult = new ArrayList<Boolean>();
@@ -33,16 +33,17 @@ public abstract class ActivityParameterNode<O> extends ObjectNode<O> {
 
 		this.nodeStat.increment();
 
-		for (ObjectToken<O> objectToken : getInTokens()) {
+		for (IN objectToken : getInTokens()) {
 			// For each out flow add a token
-			for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
-				ObjectToken<O> duplicate = objectToken.duplicate(flow.getName());
+			for (ObjectFlowKnown<O, OUT> flow : getOutFlows()) {
+				@SuppressWarnings("unchecked")
+				OUT duplicate = (OUT) objectToken.duplicate(flow.getName());
 				addOutgoingToken(duplicate);
 			}
 			objectToken.remove();
 		}
 		// Continue each out flow with its tokens
-		for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
+		for (ObjectFlowKnown<O,OUT> flow : getOutFlows()) {
 			flow.setStarts(getOutTokens(flow.getName()));
 			flowResult.add(flow.processNextStart());
 		}

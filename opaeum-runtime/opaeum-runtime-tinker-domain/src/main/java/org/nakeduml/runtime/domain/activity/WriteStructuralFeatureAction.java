@@ -17,7 +17,7 @@ public abstract class WriteStructuralFeatureAction<V, O> extends StructuralFeatu
 		super(vertex);
 	}
 	
-	public abstract InputPin<V> getValue();
-	public abstract OutputPin<O> getResult();
+	public abstract InputPin<V, SingleObjectToken<V>> getValue();
+	public abstract OutputPin<O, SingleObjectToken<O>> getResult();
 
 }

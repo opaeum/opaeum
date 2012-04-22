@@ -123,11 +123,11 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 			}
 		}
 		if (currentNode instanceof Action) {
-			for (OutputPin<?> outputPin : ((Action) currentNode).getOutputPins()) {
+			for (OutputPin<?,?> outputPin : ((Action) currentNode).getOutputPins()) {
 				walkActivity(result, visited, outputPin, name);
 			}
 		} else if (currentNode instanceof InputPin) {
-			InputPin<?> inputPin = (InputPin<?>) currentNode;
+			InputPin<?,?> inputPin = (InputPin<?,?>) currentNode;
 			walkActivity(result, visited, inputPin.getAction(), name);
 		}
 	}
