@@ -4,6 +4,7 @@ import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedMultiplicity;
 public class NakedControlNodeImpl extends NakedActivityNodeImpl implements INakedControlNode {
 	private static final long serialVersionUID = -4774558296787039182L;
 	private ControlNodeType controlNodeType;
@@ -63,6 +64,21 @@ public class NakedControlNodeImpl extends NakedActivityNodeImpl implements INake
 		}
 		return result;
 	}
+	@Override
+	public INakedMultiplicity getTinkerOriginatingMultiplicity() {
+		INakedMultiplicity result = null;
+		for (INakedActivityEdge incoming : getIncoming()) {
+			if (incoming instanceof INakedObjectFlow) {
+				INakedObjectFlow objectFlow = (INakedObjectFlow)incoming;
+				result = objectFlow.getTinkerOriginatingMultiplicity();
+				if (result.isMany()) {
+					return result;
+				}
+			}
+		}
+		return result;
+	}
+	
 	@Override
 	public boolean hasIncomingObjectFlow() {
 		for (INakedActivityEdge incoming : getIncoming()) {

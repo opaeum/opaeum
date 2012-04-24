@@ -22,6 +22,6 @@ public abstract class OneJoinNodeObjectTokenUnknownWithInControlToken extends Jo
 	protected abstract OneObjectFlowUnknown getOutFlow();
 
 	@Override
-	protected abstract List<ActivityEdge<Token>> getInFlows();
+	protected abstract List<? extends ActivityEdge<? extends Token>> getInFlows();
 
 }

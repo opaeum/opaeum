@@ -31,7 +31,7 @@ public abstract class JoinNodeObjectTokenUnknownWithInControlToken<OUT extends O
 	}
 
 	@Override
-	protected abstract List<ActivityEdge<Token>> getInFlows();
+	protected abstract List<? extends ActivityEdge<? extends Token>> getInFlows();
 
 	/*
 	 * (non-Javadoc)

@@ -20,7 +20,7 @@ public abstract class JoinNode<IN extends Token, OUT extends Token> extends Cont
 	}
 
 	@Override
-	protected abstract List<? extends ActivityEdge<IN>> getInFlows();
+	protected abstract List<? extends ActivityEdge<? extends IN>> getInFlows();
 
 	protected abstract ActivityEdge<OUT> getOutFlow();
 

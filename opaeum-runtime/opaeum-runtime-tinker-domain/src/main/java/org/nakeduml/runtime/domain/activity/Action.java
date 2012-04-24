@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
+import org.nakeduml.runtime.domain.activity.interf.IInputPin;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -27,11 +28,9 @@ public abstract class Action extends ExecutableNode {
 
 	protected abstract boolean hasPreConditionPassed();
 
-	protected abstract List<? extends InputPin<?,?>> getInputPins();
+	protected abstract List<? extends IInputPin<?,?>> getInputPins();
 
 	protected abstract List<? extends OutputPin<?,?>> getOutputPins();
-
-	protected abstract void addToInputPinVariable(InputPin<?,?> inputPin, Object object);
 
 	protected abstract List<? extends Object> getInputPinVariables();
 

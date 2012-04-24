@@ -3,9 +3,11 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.Collections;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.activity.interf.IInputPin;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class InputPin<O, IN extends ObjectToken<O>> extends ObjectNode<O, IN, IN> {
+public abstract class InputPin<O, IN extends ObjectToken<O>> extends ObjectNode<O, IN, IN> implements IInputPin<O, IN> {
 
 	public InputPin() {
 		super();

@@ -124,14 +124,6 @@ public abstract class ObjectNode<O,IN extends ObjectToken<O>,OUT extends ObjectT
 	protected abstract List<? extends ObjectFlowKnown<O,IN>> getInFlows();
 	@Override
 	protected abstract List<? extends ObjectFlowKnown<O,OUT>> getOutFlows();
-//	@Override
-//	public abstract List<IN> getInTokens();
-//	@Override
-//	public abstract List<IN> getInTokens(String inFlowName);
-//	@Override
-//	public abstract List<OUT> getOutTokens();
-//	@Override
-//	public abstract List<OUT> getOutTokens(String outFlowName);
 
 	@SuppressWarnings("unchecked")
 	protected IN constructInToken(Edge edge) {
@@ -159,10 +151,9 @@ public abstract class ObjectNode<O,IN extends ObjectToken<O>,OUT extends ObjectT
 		token.addEdgeToActivityNode(this);
 	}
 
-	protected void addIncomingToken(ObjectTokenInterator<O> iter) {
+	protected void addIncomingToken(ObjectTokenInterator<O, IN> iter) {
 		// mayAcceptToken validates upper
 		while (iter.hasNext() && mayAcceptToken()) {
-			@SuppressWarnings("unchecked")
 			IN objectToken = (IN) iter.next();
 			addIncomingToken(objectToken);
 		}

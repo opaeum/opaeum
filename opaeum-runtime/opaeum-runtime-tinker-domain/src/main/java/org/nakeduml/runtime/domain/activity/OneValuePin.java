@@ -1,15 +1,19 @@
 package org.nakeduml.runtime.domain.activity;
 
-import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
 
-public abstract class ValuePin<O, OUT extends ObjectToken<O>> extends InputPin<O, OUT> {
+public abstract class OneValuePin<O> extends ValuePin<O, SingleObjectToken<O>> {
 
-	public ValuePin() {
+	public OneValuePin() {
 		super();
 	}
 
-	protected abstract BaseTinkerSoftDelete getContextObject();
+	protected abstract O getValue();
 
+	@Override
+	protected int countNumberOfElementsOnTokens() {
+		return getInTokens().size();
+	}	
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

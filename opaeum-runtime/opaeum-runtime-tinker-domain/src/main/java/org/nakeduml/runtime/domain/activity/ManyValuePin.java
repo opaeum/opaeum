@@ -1,38 +1,19 @@
 package org.nakeduml.runtime.domain.activity;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.nakeduml.runtime.domain.activity.interf.IManyInputPin;
 
-import com.tinkerpop.blueprints.pgm.Vertex;
+public abstract class ManyValuePin<O> extends ValuePin<O, CollectionObjectToken<O>> implements IManyInputPin<O> {
 
-public abstract class ManyInputPin<O> extends InputPin<O, CollectionObjectToken<O>> {
-
-	public ManyInputPin() {
+	public ManyValuePin() {
 		super();
 	}
 
-	public ManyInputPin(boolean persist, String name) {
-		super(persist, name);
-	}
-
-	public ManyInputPin(Vertex vertex) {
-		super(vertex);
-	}
-	
-	@Override
-	protected List<ManyObjectFlowKnown<O>> getInFlows() {
-		return Collections.emptyList();
-	}
-
-	@Override
-	protected abstract List<ManyObjectFlowKnown<O>> getOutFlows();	
-
 	@Override
 	public abstract Collection<O> getValue();
-	
+
 	@Override
 	protected int countNumberOfElementsOnTokens() {
 		int size = 0;
@@ -41,6 +22,14 @@ public abstract class ManyInputPin<O> extends InputPin<O, CollectionObjectToken<
 			size += collectionObjectToken.getCollection().size();
 		}
 		return size;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\nValuePin //TODO");
+		// sb.append(this.nodeStat.toString());
+		return sb.toString();
 	}
 
 }
