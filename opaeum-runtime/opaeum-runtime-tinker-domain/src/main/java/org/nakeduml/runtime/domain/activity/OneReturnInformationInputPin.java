@@ -17,7 +17,7 @@ public abstract class OneReturnInformationInputPin<O> extends ReturnInformationI
 	}
 
 	@Override
-	public abstract ReplyAction<?> getAction();
+	public abstract ReplyAction getAction();
 	
 	@Override
 	protected int countNumberOfElementsOnTokens() {

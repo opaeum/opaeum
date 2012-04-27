@@ -7,6 +7,7 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJTryStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
@@ -140,10 +141,16 @@ public class TinkerGenerationUtil {
 		if (map.getProperty().getAssociation() != null) {
 			return map.getProperty().getAssociation().getName();
 		} else {
+			//Not that the properties swap around between inverse and !inverse.
+			//This is to ensure that the edge on both sides has the same name.
 			if (!inVerse) {
-				return tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName());
+				if (map.getProperty().getOtherEnd()!=null) {
+					return tinkeriseUmlName(map.getProperty().getOtherEnd().getMappingInfo().getQualifiedUmlName() + "__" + map.getProperty().getMappingInfo().getQualifiedUmlName());
+				} else {
+					return tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName());
+				}
 			} else {
-				return tinkeriseUmlName(map.getProperty().getOtherEnd().getMappingInfo().getQualifiedUmlName());
+				return tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName() + "__" + map.getProperty().getOtherEnd().getMappingInfo().getQualifiedUmlName());
 			}
 		}
 	}
@@ -286,5 +293,70 @@ public class TinkerGenerationUtil {
 			throw new IllegalStateException("Not supported, " + map.javaBaseTypePath().getLast());
 		}
 	}
+
+	public static OJPathName getDefaultTinkerCollection(NakedStructuralFeatureMap map) {
+		OJPathName collectionPathName;
+		if (map.getProperty().isOrdered() && map.getProperty().isUnique()) {
+			if (map.getProperty().hasQualifiers()) {
+				collectionPathName = TinkerGenerationUtil.tinkerQualifiedOrderedSetImpl.getCopy();
+			} else {
+				collectionPathName = TinkerGenerationUtil.tinkerOrderedSetImpl.getCopy();
+			}
+		} else if (map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
+			if (map.getProperty().hasQualifiers()) {
+				collectionPathName = TinkerGenerationUtil.tinkerQualifiedSequenceImpl.getCopy();
+			} else {
+				collectionPathName = TinkerGenerationUtil.tinkerSequenceImpl.getCopy();
+			}
+		} else if (!map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
+			if (map.getProperty().hasQualifiers()) {
+				collectionPathName = TinkerGenerationUtil.tinkerQualifiedBagImpl.getCopy();
+			} else {
+				collectionPathName = TinkerGenerationUtil.tinkerBagImpl.getCopy();
+			}
+		} else if (!map.getProperty().isOrdered() && map.getProperty().isUnique()) {
+			if (map.getProperty().hasQualifiers()) {
+				collectionPathName = TinkerGenerationUtil.tinkerQualifiedSetImpl.getCopy();
+			} else {
+				collectionPathName = TinkerGenerationUtil.tinkerSetImpl.getCopy();
+			}
+		} else {
+			throw new RuntimeException("wtf");
+		}
+		collectionPathName.addToElementTypes(map.javaBaseTypePath());
+		return collectionPathName;
+	}
+
+	public static OJSimpleStatement getDefaultTinkerCollectionInitalisation(NakedStructuralFeatureMap map) {
+		OJSimpleStatement s = getDefaultTinkerCollectionInitalisation(map, TinkerGenerationUtil.getDefaultTinkerCollection(map));
+		return s;
+	}
+	
+	public static OJSimpleStatement getDefaultTinkerCollectionInitalisation(NakedStructuralFeatureMap map, OJPathName collectionPathName) {
+		OJSimpleStatement ojSimpleStatement = new OJSimpleStatement(" new " + collectionPathName.getCollectionTypeName() + "(this, \""
+				+ TinkerGenerationUtil.getEdgeName(map, map.getProperty().isInverse()) + "\"");
+		if (map.getProperty().getQualifiers().isEmpty() && map.getProperty().isOrdered()) {
+			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", getUid()");
+		} else if (!map.getProperty().getQualifiers().isEmpty()) {
+			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", getUid()");
+		}
+		// Specify inverse boolean
+		if (map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null || !map.getProperty().getOtherEnd().isNavigable()) {
+			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", true");
+		} else {
+			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", false");
+		}
+		// Specify manyToMany boolean
+		if (!map.isManyToMany() || map.getProperty().getOtherEnd() == null || !map.getProperty().getOtherEnd().isNavigable()) {
+			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", false");
+		} else {
+			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", true");
+		}
+		// Specify composite boolean
+		ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", " + map.getProperty().isComposite());
+		ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ")");
+		return ojSimpleStatement;
+	}
+
 
 }

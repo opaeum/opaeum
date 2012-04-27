@@ -34,7 +34,6 @@ public abstract class AbstractTriggeredAction extends Action {
 	
 	@Override
 	protected void transferObjectTokensToAction() {
-		super.transferObjectTokensToAction();
 		copyEventToOutputPin(this.event);
 		removeEvent(this.event);
 	}	

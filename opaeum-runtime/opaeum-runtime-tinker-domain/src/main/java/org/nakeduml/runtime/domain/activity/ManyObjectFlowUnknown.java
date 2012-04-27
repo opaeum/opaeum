@@ -14,7 +14,7 @@ public abstract class ManyObjectFlowUnknown extends ObjectFlowUnknown<Collection
 	
 	@Override
 	protected boolean evaluateGuardConditions(CollectionObjectToken<?> token) {
-		return evaluateGuardConditions(token.getCollection());	
+		return evaluateGuardConditions(token.getElements());	
 	}
 
 	public <O> ManyObjectFlowKnown<O> convertToKnownObjectFlow() {

@@ -7,7 +7,7 @@ import org.nakeduml.runtime.domain.activity.interf.IInputPin;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class InputPin<O, IN extends ObjectToken<O>> extends ObjectNode<O, IN, IN> implements IInputPin<O, IN> {
+public abstract class InputPin<O, IN extends ObjectToken<O>> extends Pin<O, IN, IN> implements IInputPin<O, IN> {
 
 	public InputPin() {
 		super();

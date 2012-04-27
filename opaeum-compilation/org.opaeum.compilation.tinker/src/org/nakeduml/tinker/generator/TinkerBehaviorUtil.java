@@ -51,6 +51,9 @@ public class TinkerBehaviorUtil {
 
 	public static final OJPathName tinkerValuePinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ValuePin");
 
+	public static final OJPathName tinkerIInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.interf.IInputPin");
+	public static final OJPathName tinkerIOneInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.interf.IOneInputPin");
+	public static final OJPathName tinkerIManyInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.interf.IManyInputPin");
 	public static final OJPathName tinkerOneInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OneInputPin");
 	public static final OJPathName tinkerManyInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ManyInputPin");
 
@@ -76,6 +79,10 @@ public class TinkerBehaviorUtil {
 
 	public static final OJPathName tinkerOutActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.OutActivityParameterNode");
 	public static final OJPathName tinkerActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Action");
+
+	public static final OJPathName tinkerManyOpaqueActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ManyOpaqueAction");
+	public static final OJPathName tinkerOneOpaqueActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OneOpaqueAction");
+
 	public static final OJPathName tinkerOpaqueActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OpaqueAction");
 	public static final OJPathName tinkerAddStructuralFeatureValueAction = new OJPathName("org.nakeduml.runtime.domain.activity.AddStructuralFeatureValueAction");
 	public static final OJPathName tinkerReplyActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ReplyAction");
@@ -178,6 +185,8 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerAcceptCallAction = new OJPathName("org.nakeduml.runtime.domain.activity.AcceptCallAction");
 	public static final OJPathName tinkerSendSignalAction = new OJPathName("org.nakeduml.runtime.domain.activity.SendSignalAction");
 	public static final OJPathName tinkerSignalPathName = new OJPathName("org.opaeum.runtime.domain.ISignal");
+	public static final OJPathName tinkerSingleObjectTokenInteratorPathName = new OJPathName("org.nakeduml.runtime.domain.activity.SingleObjectTokenInterator");
+	public static final OJPathName tinkerCollectionObjectTokenInteratorPathName = new OJPathName("org.nakeduml.runtime.domain.activity.CollectionObjectTokenInterator");
 	public static final OJPathName tinkerObjectTokenInteratorPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ObjectTokenInterator");
 	
 	

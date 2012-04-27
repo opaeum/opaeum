@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.activity.interf.IOutActivityParameterNode;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class OutActivityParameterNode<O, IN extends ObjectToken<O>, OUT extends ObjectToken<O>> extends ActivityParameterNode<O, IN, OUT> {
+public abstract class OutActivityParameterNode<O, IN extends ObjectToken<O>> extends ActivityParameterNode<O, IN> implements IOutActivityParameterNode<O, IN> {
 
 	public OutActivityParameterNode() {
 		super();
@@ -21,7 +23,7 @@ public abstract class OutActivityParameterNode<O, IN extends ObjectToken<O>, OUT
 	}
 
 	@Override
-	protected List<? extends ObjectFlowKnown<O, OUT>> getOutFlows() {
+	protected List<? extends ObjectFlowKnown<O, IN>> getOutFlows() {
 		return Collections.emptyList();
 	}
 	

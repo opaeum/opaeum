@@ -2,15 +2,13 @@ package org.nakeduml.runtime.domain.activity;
 
 import java.util.Iterator;
 
-public class SingleObjectTokenInterator<T> implements Iterator<SingleObjectToken<T>> {
+public class SingleObjectTokenInterator<T> extends ObjectTokenInterator<T, SingleObjectToken<T>> {
 
 	private Iterator<T> iterator;
-	private String name;
 	
 	public SingleObjectTokenInterator(String name, Iterator<T> iterator) {
-		super();
+		super(name);
 		this.iterator = iterator;
-		this.name = name;
 	}
 
 	@Override
@@ -20,7 +18,7 @@ public class SingleObjectTokenInterator<T> implements Iterator<SingleObjectToken
 
 	@Override
 	public SingleObjectToken<T> next() {
-		return new SingleObjectToken<T>(name, this.iterator.next());
+		return new SingleObjectToken<T>(this.name, this.iterator.next());
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package org.nakeduml.runtime.domain.activity.interf;
 
-public interface IActivityNode extends ITypedElement {
+import org.nakeduml.runtime.domain.activity.Token;
 
+public interface IActivityNode<IN extends Token, OUT extends Token> {
+	boolean mayContinue();
 }

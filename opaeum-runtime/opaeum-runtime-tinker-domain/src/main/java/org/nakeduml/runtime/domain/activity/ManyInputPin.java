@@ -1,6 +1,5 @@
 package org.nakeduml.runtime.domain.activity;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import org.nakeduml.runtime.domain.activity.interf.IManyInputPin;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ManyInputPin<O> extends InputPin<O, CollectionObjectToken<O>> {
+public abstract class ManyInputPin<O> extends InputPin<O, CollectionObjectToken<O>> implements IManyInputPin<O> {
 
 	public ManyInputPin() {
 		super();
@@ -31,14 +30,11 @@ public abstract class ManyInputPin<O> extends InputPin<O, CollectionObjectToken<
 	protected abstract List<ManyObjectFlowKnown<O>> getOutFlows();	
 
 	@Override
-	public abstract Collection<O> getValue();
-	
-	@Override
 	protected int countNumberOfElementsOnTokens() {
 		int size = 0;
 		List<CollectionObjectToken<O>> tokens = getInTokens();
 		for (CollectionObjectToken<O> collectionObjectToken : tokens) {
-			size += collectionObjectToken.getCollection().size();
+			size += collectionObjectToken.getElements().size();
 		}
 		return size;
 	}

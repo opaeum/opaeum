@@ -29,7 +29,7 @@ public abstract class ControlNode<IN extends Token, OUT extends Token> extends A
 	}
 	
 	@Override
-	protected boolean mayContinue() {
+	public boolean mayContinue() {
 		return doAllIncomingFlowsHaveTokens();
 	}	
 	

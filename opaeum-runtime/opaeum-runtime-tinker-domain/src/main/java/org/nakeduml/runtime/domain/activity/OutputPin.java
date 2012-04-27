@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.nakeduml.runtime.domain.activity.interf.IOutputPin;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class OutputPin<O, OUT extends ObjectToken<O>> extends ObjectNode<O, OUT, OUT> {
+public abstract class OutputPin<O, OUT extends ObjectToken<O>> extends Pin<O, OUT, OUT> implements IOutputPin<O, OUT> {
 
 	public OutputPin() {
 		super();
@@ -70,7 +72,7 @@ public abstract class OutputPin<O, OUT extends ObjectToken<O>> extends ObjectNod
 	}
 
 	@Override
-	protected List<? extends ObjectFlowKnown<O,OUT>> getInFlows() {
+	protected List<? extends ObjectFlowKnown<O, OUT>> getInFlows() {
 		return Collections.emptyList();
 	}
 

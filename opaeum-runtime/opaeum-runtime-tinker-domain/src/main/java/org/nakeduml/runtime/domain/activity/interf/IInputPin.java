@@ -1,5 +1,7 @@
 package org.nakeduml.runtime.domain.activity.interf;
 
-public interface IInputPin extends IPin {
+import org.nakeduml.runtime.domain.activity.ObjectToken;
+
+public interface IInputPin<O,IN extends ObjectToken<O>> extends IPin<O,IN,IN> {
 
 }

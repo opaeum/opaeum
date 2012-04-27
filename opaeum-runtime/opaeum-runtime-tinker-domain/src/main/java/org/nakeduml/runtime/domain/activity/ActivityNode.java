@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
+import org.nakeduml.runtime.domain.activity.interf.IActivityNode;
 import org.nakeduml.tinker.runtime.GraphDb;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
@@ -13,7 +14,7 @@ import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import com.tinkerpop.pipes.AbstractPipe;
 
-public abstract class ActivityNode<IN extends Token, OUT extends Token> extends AbstractPipe<IN, Boolean> {
+public abstract class ActivityNode<IN extends Token, OUT extends Token> extends AbstractPipe<IN, Boolean> implements IActivityNode<IN, OUT> {
 
 	protected Vertex vertex;
 	protected NodeStat nodeStat;
@@ -36,7 +37,8 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 		this.vertex.setProperty("name", name);
 	}
 	
-	protected abstract boolean mayContinue();
+	@Override
+	public abstract boolean mayContinue();
 	protected abstract boolean mayAcceptToken();
 	protected abstract Boolean executeNode();
 	protected abstract List<? extends ActivityEdge<? extends IN>> getInFlows();
@@ -87,6 +89,7 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 	
 	public void addOutgoingToken(OUT token) {
 		Edge edge = GraphDb.getDb().addEdge(null, this.vertex, token.getVertex(), Token.TOKEN + token.getEdgeName());
+		edge.setProperty("tokenClass", token.getClass().getName());
 		edge.setProperty("outClass", IntrospectionUtil.getOriginalClass(this.getClass()).getName());
 	}
 

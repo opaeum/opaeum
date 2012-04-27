@@ -3,9 +3,11 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.Collections;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.activity.interf.IManyOutputPin;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ManyOutputPin<O> extends OutputPin<O, CollectionObjectToken<O>> {
+public abstract class ManyOutputPin<O> extends OutputPin<O, CollectionObjectToken<O>> implements IManyOutputPin<O> {
 
 	public ManyOutputPin() {
 		super();
@@ -30,9 +32,9 @@ public abstract class ManyOutputPin<O> extends OutputPin<O, CollectionObjectToke
 	@Override
 	protected int countNumberOfElementsOnTokens() {
 		int size = 0;
-		List<CollectionObjectToken<O>> tokens = getInTokens();
+		List<CollectionObjectToken<O>> tokens = getOutTokens();
 		for (CollectionObjectToken<O> collectionObjectToken : tokens) {
-			size += collectionObjectToken.getCollection().size();
+			size += collectionObjectToken.getElements().size();
 		}
 		return size;
 	}	

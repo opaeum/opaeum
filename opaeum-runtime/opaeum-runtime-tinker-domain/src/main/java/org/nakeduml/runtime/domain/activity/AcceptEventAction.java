@@ -1,7 +1,6 @@
 package org.nakeduml.runtime.domain.activity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -41,9 +40,4 @@ public abstract class AcceptEventAction extends AbstractTriggeredAction {
 		return result;
 	}
 
-	@Override
-	protected List<? extends OutputPin<?,?>> getOutputPins() {
-		return Collections.<OutputPin<?,?>> emptyList();
-	}	
-	
 }

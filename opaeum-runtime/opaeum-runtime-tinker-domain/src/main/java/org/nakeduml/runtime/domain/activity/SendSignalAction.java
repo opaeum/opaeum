@@ -56,7 +56,6 @@ public abstract class SendSignalAction extends InvocationAction {
 	}
 	
 	protected void transferObjectTokensToAction() {
-		super.transferObjectTokensToAction();
 		//Now take
 		
 		

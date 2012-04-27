@@ -283,27 +283,28 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 			nodePathName.addToGenerics(OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType()));
 			if (((INakedParameterNode) node).getNakedMultiplicity().isMany()) {
 				String expression = NameConverter.decapitalize(NameConverter.decapitalize(node.getName()) + ".setStarts(new "
-						+ TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType()) + ">(\""
+						+ TinkerBehaviorUtil.tinkerCollectionObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType()) + ">(\""
 						+ node.getName() + "\",");
+				activityClass.addToImports(TinkerBehaviorUtil.tinkerCollectionObjectTokenInteratorPathName);
 				if (node.getActivity().getSpecification() == null) {
-					expression += map.getter() + "().iterator()))";
+					expression += map.getter() + "()))";
 				} else {
 					expression += "_";
-					expression += map.fieldname() + ".iterator()))";
+					expression += map.fieldname() + "))";
 				}
 				statement1.setExpression(expression);
 			} else {
 				if (node.getActivity().getSpecification() == null) {
 					statement1.setExpression(NameConverter.decapitalize(NameConverter.decapitalize(node.getName()) + ".setStarts(new "
-							+ TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType())
+							+ TinkerBehaviorUtil.tinkerSingleObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType())
 							+ ">(\"" + node.getName() + "\", Arrays.asList(" + map.getter() + "()).iterator()))"));
 				} else {
 					statement1.setExpression(NameConverter.decapitalize(NameConverter.decapitalize(node.getName()) + ".setStarts(new "
-							+ TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType())
+							+ TinkerBehaviorUtil.tinkerSingleObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType())
 							+ ">(\"" + node.getName() + "\", Arrays.asList(_" + map.fieldname() + ").iterator()))"));
 				}
+				activityClass.addToImports(TinkerBehaviorUtil.tinkerSingleObjectTokenInteratorPathName);
 			}
-			activityClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName);
 		} else {
 			nodePathName = TinkerBehaviorUtil.tinkerControlTokenPathName.getCopy();
 			statement1.setExpression(NameConverter.decapitalize(NameConverter.decapitalize(node.getName()) + ".setStarts(new SingleIterator<"

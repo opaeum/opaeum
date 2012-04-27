@@ -3,9 +3,11 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.activity.interf.IActivityParameterNode;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ActivityParameterNode<O, IN extends ObjectToken<O>, OUT extends ObjectToken<O>> extends ObjectNode<O,IN,OUT> {
+public abstract class ActivityParameterNode<O,OUT extends ObjectToken<O>> extends ObjectNode<O,OUT,OUT> implements IActivityParameterNode<O,OUT> {
 
 	public ActivityParameterNode() {
 		super();
@@ -20,7 +22,7 @@ public abstract class ActivityParameterNode<O, IN extends ObjectToken<O>, OUT ex
 	}
 
 	@Override
-	protected boolean mayContinue() {
+	public boolean mayContinue() {
 		return true;
 	}
 	
@@ -33,11 +35,10 @@ public abstract class ActivityParameterNode<O, IN extends ObjectToken<O>, OUT ex
 
 		this.nodeStat.increment();
 
-		for (IN objectToken : getInTokens()) {
+		for (OUT objectToken : getInTokens()) {
 			// For each out flow add a token
 			for (ObjectFlowKnown<O, OUT> flow : getOutFlows()) {
-				@SuppressWarnings("unchecked")
-				OUT duplicate = (OUT) objectToken.duplicate(flow.getName());
+				OUT duplicate = objectToken.duplicate(flow.getName());
 				addOutgoingToken(duplicate);
 			}
 			objectToken.remove();
@@ -59,4 +60,5 @@ public abstract class ActivityParameterNode<O, IN extends ObjectToken<O>, OUT ex
 		return result;
 	}
 
+	
 }

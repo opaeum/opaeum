@@ -17,7 +17,7 @@ import com.tinkerpop.pipes.util.SingleIterator;
 public class TestActivityTestControlAndObjectFlow extends BaseLocalDbTest {
 
 	@Test
-	public void testUpper() {
+	public void testJoinAndMerge() {
 		db.startTransaction();
 		Root root = new Root(true);
 		root.setName("THEROOT");

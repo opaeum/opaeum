@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.activity.interf.IOneOutActivityParameterNode;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class OneOutActivityParameterNode<O> extends OutActivityParameterNode<O,SingleObjectToken<O>, SingleObjectToken<O>> {
+public abstract class OneOutActivityParameterNode<O> extends OutActivityParameterNode<O,SingleObjectToken<O>> implements IOneOutActivityParameterNode<O> {
 
 	public OneOutActivityParameterNode() {
 		super();
@@ -37,9 +39,9 @@ public abstract class OneOutActivityParameterNode<O> extends OutActivityParamete
 		return result;
 	}
 
-	@Override
-	protected int countNumberOfElementsOnTokens() {
-		return getInTokens().size();
-	}	
+//	@Override
+//	protected int countNumberOfElementsOnTokens() {
+//		return getInTokens().size();
+//	}	
 
 }

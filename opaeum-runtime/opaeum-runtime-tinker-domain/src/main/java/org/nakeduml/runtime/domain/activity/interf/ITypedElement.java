@@ -1,5 +1,5 @@
 package org.nakeduml.runtime.domain.activity.interf;
 
-public interface ITypedElement {
+public interface ITypedElement<O> {
 
 }

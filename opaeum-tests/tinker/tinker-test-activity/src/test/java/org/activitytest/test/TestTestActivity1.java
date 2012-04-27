@@ -36,16 +36,17 @@ public class TestTestActivity1 extends BaseLocalDbTest {
 		customer.testActivity1Operation(new HashSet<String>(Arrays.asList("halo1","halo2")));
 		db.stopTransaction(Conclusion.SUCCESS);
 
-		//21 + 6 nodes + 1 activity + 2 (4vertices) object tokens
-		Assert.assertEquals(32, countVertices());
+		//21 + 6 nodes + 1 activity + 1 (3 vertices) object tokens
+		Assert.assertEquals(31, countVertices());
 
 		//Test activity did not finished and is saved
 		Assert.assertEquals(1, customer.getActivity1().size());
 		
 		Activity1 testActivity1 = customer.getActivity1().get(0);
 		
-		Assert.assertEquals(1, testActivity1.getNodeForName("inputPin1").getInTokens().size());
+		Assert.assertEquals(0, testActivity1.getNodeForName("inputPin1").getInTokens().size());
 		Assert.assertEquals(0, testActivity1.getNodeForName("outputPin1").getOutTokens().size());
+		//ObjectFLow2 has weight of 2, so token can not proceed
 		Assert.assertEquals(1, testActivity1.getNodeForName("outputPin1").getOutTokens("ObjectFlow2").size());
 		
 	}

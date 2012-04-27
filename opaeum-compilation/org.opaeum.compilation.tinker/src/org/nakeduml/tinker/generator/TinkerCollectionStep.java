@@ -32,7 +32,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 					TypedElementPropertyBridge propertyBridge = new TypedElementPropertyBridge(c, p);
 					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(propertyBridge);
 					if (!map.getProperty().isDerived() && map.isMany()) {
-						visitProperty(findJavaClass(c), map);
+						visitManyProperty(findJavaClass(c), map);
 					}
 				}
 			}
@@ -51,7 +51,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 					} else {
 						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
 						if (!map.getProperty().isDerived() && map.isMany()) {
-							visitProperty(findJavaClass(c), map);
+							visitManyProperty(findJavaClass(c), map);
 						}
 					}
 				}
@@ -59,70 +59,19 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 		}
 	}
 
-	public void visitProperty(OJAnnotatedClass ojClass, NakedStructuralFeatureMap map) {
-		boolean inverse = map.getProperty().isInverse();
+	public void visitManyProperty(OJAnnotatedClass ojClass, NakedStructuralFeatureMap map) {
 		for (OJConstructor constructor : ojClass.getConstructors()) {
 			if (constructor.getParameters().isEmpty()) {
 				// Skip default constructor
 				continue;
 			}
-			OJPathName collectionPathName;
-			if (map.getProperty().isOrdered() && map.getProperty().isUnique()) {
-				if (map.getProperty().hasQualifiers()) {
-					collectionPathName = TinkerGenerationUtil.tinkerQualifiedOrderedSetImpl.getCopy();
-				} else {
-					collectionPathName = TinkerGenerationUtil.tinkerOrderedSetImpl.getCopy();
-				}
-			} else if (map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
-				if (map.getProperty().hasQualifiers()) {
-					collectionPathName = TinkerGenerationUtil.tinkerQualifiedSequenceImpl.getCopy();
-				} else {
-					collectionPathName = TinkerGenerationUtil.tinkerSequenceImpl.getCopy();
-				}
-			} else if (!map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
-				if (map.getProperty().hasQualifiers()) {
-					collectionPathName = TinkerGenerationUtil.tinkerQualifiedBagImpl.getCopy();
-				} else {
-					collectionPathName = TinkerGenerationUtil.tinkerBagImpl.getCopy();
-				}
-			} else if (!map.getProperty().isOrdered() && map.getProperty().isUnique()) {
-				if (map.getProperty().hasQualifiers()) {
-					collectionPathName = TinkerGenerationUtil.tinkerQualifiedSetImpl.getCopy();
-				} else {
-					collectionPathName = TinkerGenerationUtil.tinkerSetImpl.getCopy();
-				}
-			} else {
-				throw new RuntimeException("wtf");
-			}
+			OJPathName collectionPathName = TinkerGenerationUtil.getDefaultTinkerCollection(map);
 
 			ojClass.addToImports(collectionPathName);
-			collectionPathName.addToElementTypes(map.javaBaseTypePath());
 
-			OJSimpleStatement initCollection;
-			OJSimpleStatement ojSimpleStatement = initCollection = new OJSimpleStatement(map.umlName() + " = new " + collectionPathName.getCollectionTypeName() + "(this, \""
-					+ TinkerGenerationUtil.getEdgeName(map, inverse) + "\"");
-			if (map.getProperty().getQualifiers().isEmpty() && map.getProperty().isOrdered()) {
-				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", getUid()");
-			} else if (!map.getProperty().getQualifiers().isEmpty()) {
-				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", getUid()");
-			}
-			// Specify inverse boolean
-			if (map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null || !map.getProperty().getOtherEnd().isNavigable()) {
-				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", true");
-			} else {
-				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", false");
-			}
-			// Specify manyToMany boolean
-			if (!map.isManyToMany() || map.getProperty().getOtherEnd() == null || !map.getProperty().getOtherEnd().isNavigable()) {
-				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", false");
-			} else {
-				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", true");
-			}
-			// Specify composite boolean
-			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", " + map.getProperty().isComposite());
-			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ")");
-			constructor.getBody().addToStatements(initCollection);
+			OJSimpleStatement ojSimpleStatement = new OJSimpleStatement(map.umlName() + " = ");
+			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + TinkerGenerationUtil.getDefaultTinkerCollectionInitalisation(map, collectionPathName).getExpression());
+			constructor.getBody().addToStatements(ojSimpleStatement);
 		}
 	}
-
 }

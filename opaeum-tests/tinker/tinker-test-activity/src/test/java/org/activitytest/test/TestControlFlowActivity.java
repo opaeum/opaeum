@@ -56,6 +56,7 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		Assert.assertNotNull(sendEmail);
 		Assert.assertEquals(NodeStatus.INACTIVE, sendEmail.getNodeStatus());
 		Assert.assertEquals(0, sendEmail.getNodeStat().getExecuteCount());
+		Assert.assertEquals(2, initialNode1.getOutTokens().size());
 		Assert.assertEquals(22, countVertices());
 
 		db.startTransaction();

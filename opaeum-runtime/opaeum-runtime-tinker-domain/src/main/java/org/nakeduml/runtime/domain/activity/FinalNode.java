@@ -28,14 +28,14 @@ public abstract class FinalNode extends GenericControlNode {
 	}
 	
 	@Override
-	protected boolean mayContinue() {
+	public boolean mayContinue() {
 		return true;
 	}
 
 	@Override
 	protected Boolean executeNode() {
 		Boolean result = super.executeNode();
-		TinkerActivityFinalNodeBlockingQueue.INSTANCE.complete(getActivity().getUid());
+//		TinkerActivityFinalNodeBlockingQueue.INSTANCE.complete(getActivity().getUid());
 		return result;
 	}	
 

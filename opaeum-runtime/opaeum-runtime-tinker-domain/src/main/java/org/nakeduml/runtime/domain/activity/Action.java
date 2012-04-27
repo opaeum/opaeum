@@ -29,13 +29,17 @@ public abstract class Action extends ExecutableNode {
 	protected abstract boolean hasPreConditionPassed();
 
 	protected abstract List<? extends IInputPin<?,?>> getInputPins();
-
+	
 	protected abstract List<? extends OutputPin<?,?>> getOutputPins();
 
 	protected abstract List<? extends Object> getInputPinVariables();
 
+	protected void transferObjectTokensToAction() {
+		//For now this copies the tokens to variables in OpaqueAction and ReplyAction
+	}
+	
 	@Override
-	protected boolean mayContinue() {
+	public boolean mayContinue() {
 		return doAllIncomingFlowsHaveTokens() && hasPreConditionPassed() && hasPostConditionPassed() && isTriggered() && isInputPinsSatisfied();
 	}
 
@@ -94,11 +98,8 @@ public abstract class Action extends ExecutableNode {
 		return result;
 	}
 
-	protected void transferObjectTokensToAction() {
-	}
-
 	protected boolean isInputPinsSatisfied() {
-		for (InputPin<?,?> inputPin : this.getInputPins()) {
+		for (IInputPin<?,?> inputPin : this.getInputPins()) {
 			if (!(inputPin instanceof ValuePin) && !inputPin.mayContinue()) {
 				return false;
 			}
@@ -189,7 +190,7 @@ public abstract class Action extends ExecutableNode {
 		StringBuilder sb = new StringBuilder(super.toString());
 		sb.append("\n");
 		sb.append("InputPins:");
-		for (InputPin<?,?> o : getInputPins()) {
+		for (IInputPin<?,?> o : getInputPins()) {
 			sb.append("		");
 			sb.append(o.toString());
 			sb.append("\n");

@@ -39,14 +39,8 @@ public abstract class JoinNodeObjectTokenUnknownWithInControlToken<OUT extends O
 	 * 
 	 * Consume control tokens, only object token continue.
 	 */
-	//TODO
-	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Token> getInTokens() {
-		if (true) {
-			throw new IllegalStateException("Checka this out");
-			//Not sure about this consuming, consume elsewhere
-		}		
 		List<Token> result = new ArrayList<Token>();
 		for (ActivityEdge<? extends Token> flow : getInFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());

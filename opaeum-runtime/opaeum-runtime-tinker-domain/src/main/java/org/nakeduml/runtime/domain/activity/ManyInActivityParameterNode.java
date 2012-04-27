@@ -3,9 +3,11 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.Collections;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.activity.interf.IManyInActivityParameterNode;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ManyInActivityParameterNode<O> extends InActivityParameterNode<O,CollectionObjectToken<O>, CollectionObjectToken<O>> {
+public abstract class ManyInActivityParameterNode<O> extends InActivityParameterNode<O,CollectionObjectToken<O>> implements IManyInActivityParameterNode<O> {
 
 	public ManyInActivityParameterNode() {
 		super();
@@ -26,15 +28,5 @@ public abstract class ManyInActivityParameterNode<O> extends InActivityParameter
 
 	@Override
 	protected abstract List<ManyObjectFlowKnown<O>> getOutFlows();
-	
-	@Override
-	protected int countNumberOfElementsOnTokens() {
-		int size = 0;
-		List<CollectionObjectToken<O>> tokens = getInTokens();
-		for (CollectionObjectToken<O> collectionObjectToken : tokens) {
-			size += collectionObjectToken.getCollection().size();
-		}
-		return size;
-	}
 
 }

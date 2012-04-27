@@ -1,4 +1,7 @@
 package org.nakeduml.runtime.domain.activity.interf;
 
-public interface IManyInputPin extends IInputPin {
+import org.nakeduml.runtime.domain.activity.CollectionObjectToken;
+
+public interface IManyInputPin<O> extends IInputPin<O, CollectionObjectToken<O>>, IManyPin<O> {
+	
 }

@@ -18,7 +18,7 @@ public abstract class AcceptCallAction extends AcceptEventAction {
 
 	protected abstract <R, OUT extends ObjectToken<R>> ReturnInformationOutputPin<R, OUT> getReturnInformationOutputPin();
 
-	public abstract ReplyAction<?> getReplyAction();
+	public abstract ReplyAction getReplyAction();
 
 	@Override
 	protected void transferObjectTokensToAction() {

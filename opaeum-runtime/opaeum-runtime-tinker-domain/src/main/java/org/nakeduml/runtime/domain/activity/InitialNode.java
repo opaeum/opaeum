@@ -33,7 +33,7 @@ public abstract class InitialNode extends ControlNode<ControlToken, ControlToken
 	}
 
 	@Override
-	protected boolean mayContinue() {
+	public boolean mayContinue() {
 		return true;
 	}
 	

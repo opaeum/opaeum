@@ -257,7 +257,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 					statement.setName(map.fieldname());
 					clearCache.getBody().addToStatements(statement);
 				} else {
-					OJSimpleStatement statement = new OJSimpleStatement("this." + map.fieldname() + ".clear()");
+					OJSimpleStatement statement = new OJSimpleStatement("this." + map.fieldname() + " = " + TinkerGenerationUtil.getDefaultTinkerCollectionInitalisation(map).getExpression());
 					statement.setName(map.fieldname());
 					clearCache.getBody().addToStatements(statement);
 				}

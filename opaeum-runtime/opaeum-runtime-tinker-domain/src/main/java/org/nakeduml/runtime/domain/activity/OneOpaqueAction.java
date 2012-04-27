@@ -28,27 +28,7 @@ public abstract class OneOpaqueAction<R> extends OpaqueAction<R, SingleObjectTok
 
 	protected abstract R getBodyExpression();
 
+	@Override
 	protected abstract OneOutputPin<R> getResultPin();
-
-	/*
-	 * This will only be called if the lower multiplicity is reached, all up to
-	 * upper multiplicity is consumed
-	 */
-	protected void transferObjectTokensToAction() {
-		super.transferObjectTokensToAction();
-		for (InputPin<?,?> inputPin : this.getInputPins()) {
-			int tokensTransferedCount = 0;
-			if (inputPin instanceof OneValuePin) {
-				addToInputPinVariable(inputPin, ((OneValuePin<R>)inputPin).getValue());
-			} else {
-				for (ObjectToken<?> token : inputPin.getInTokens()) {
-					if (++tokensTransferedCount <= inputPin.getUpperMultiplicity()) {
-						token.removeEdgeFromActivityNode();
-						addToInputPinVariable(inputPin, token.getObject());
-						token.remove();
-					}
-				}
-			}
-		}
-	}
+	
 }

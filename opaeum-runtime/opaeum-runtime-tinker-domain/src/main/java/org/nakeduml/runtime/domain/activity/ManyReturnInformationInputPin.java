@@ -19,14 +19,14 @@ public abstract class ManyReturnInformationInputPin<O> extends ReturnInformation
 	}
 
 	@Override
-	public abstract ReplyAction<?> getAction();
+	public abstract ReplyAction getAction();
 	
 	@Override
 	protected int countNumberOfElementsOnTokens() {
 		int size = 0;
 		List<CollectionObjectToken<O>> tokens = getInTokens();
 		for (CollectionObjectToken<O> collectionObjectToken : tokens) {
-			size += collectionObjectToken.getCollection().size();
+			size += collectionObjectToken.getElements().size();
 		}
 		return size;
 	}	

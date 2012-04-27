@@ -17,6 +17,6 @@ public abstract class ReturnInformationInputPin<O,OUT extends ObjectToken<O>> ex
 	}
 
 	@Override
-	public abstract ReplyAction<?> getAction();
+	public abstract ReplyAction getAction();
 	
 }

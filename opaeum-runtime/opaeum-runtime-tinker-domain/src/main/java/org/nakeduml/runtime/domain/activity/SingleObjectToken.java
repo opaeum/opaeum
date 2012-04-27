@@ -1,5 +1,8 @@
 package org.nakeduml.runtime.domain.activity;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.runtime.domain.TinkerNode;
 import org.nakeduml.tinker.runtime.GraphDb;
@@ -81,9 +84,10 @@ public class SingleObjectToken<O> extends ObjectToken<O> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public ObjectToken<O> duplicate(String flowName) {
-		ObjectToken<O> objectToken = new SingleObjectToken<O>(flowName, getObject());
+	public SingleObjectToken<O> duplicate(String flowName) {
+		SingleObjectToken<O> objectToken = new SingleObjectToken<O>(flowName, getObject());
 		return objectToken;
 	}
 
@@ -92,7 +96,19 @@ public class SingleObjectToken<O> extends ObjectToken<O> {
 		removeEdgeToObject();
 		GraphDb.getDb().removeVertex(getVertex());
 	}
-
+	
+	//TODO think about null token and object tokens that are control tokens
+	@Override
+	public int getNumberOfElements() {
+		return 1;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<O> getElements() {
+		return Arrays.<O>asList(getObject());
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

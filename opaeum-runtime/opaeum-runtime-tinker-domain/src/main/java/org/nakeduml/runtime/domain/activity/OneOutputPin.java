@@ -29,7 +29,7 @@ public abstract class OneOutputPin<O> extends OutputPin<O, SingleObjectToken<O>>
 	
 	@Override
 	protected int countNumberOfElementsOnTokens() {
-		return getInTokens().size();
+		return getOutTokens().size();
 	}	
 
 }
