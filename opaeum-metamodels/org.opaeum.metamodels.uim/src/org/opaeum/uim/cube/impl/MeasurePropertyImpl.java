@@ -80,11 +80,10 @@ public class MeasurePropertyImpl extends UmlReferenceImpl implements MeasureProp
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public void setAggregationFormula(AggregationFormula newAggregationFormula) {
 		AggregationFormula oldAggregationFormula = aggregationFormula;
-		aggregationFormula = newAggregationFormula == null ? AGGREGATION_FORMULA_EDEFAULT : newAggregationFormula;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, CubePackage.MEASURE_PROPERTY__AGGREGATION_FORMULA, oldAggregationFormula, aggregationFormula));
 	}
@@ -92,23 +91,19 @@ public class MeasurePropertyImpl extends UmlReferenceImpl implements MeasureProp
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean equals(Object o) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return toString().equals(o.toString());
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public int hashCode() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return toString().hashCode();
 	}
 
 	/**
@@ -172,13 +167,11 @@ public class MeasurePropertyImpl extends UmlReferenceImpl implements MeasureProp
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String toString() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return getUmlElementUid() + getAggregationFormula();
 	}
 
 } //MeasurePropertyImpl

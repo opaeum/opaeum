@@ -30,7 +30,7 @@
 		<module>org.opaeum.metamodels.ocl</module>
 		<module>org.opaeum.metamodels.opaeum</module>
 		<module>org.opaeum.metamodels.text</module>
-		<module>org.opaeum.metamodels.uim</module>
+		<module>org.opaeum.metamodels.simulation</module>
 	</modules>
 	<build>
 		<plugins>

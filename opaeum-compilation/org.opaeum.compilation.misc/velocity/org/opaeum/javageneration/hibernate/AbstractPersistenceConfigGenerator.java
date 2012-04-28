@@ -77,19 +77,12 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 			INakedElementOwner owner){
 		SortedProperties properties = new SortedProperties();
 		HashMap<String,Object> vars = buildVars(models, isAdaptorEnvironment, owner);
-		if(isAdaptorEnvironment){
-			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
-			properties.setProperty(Environment.DBMS, "POSTGRESQL");
-			properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, JavaMetaInfoMapGenerator.javaMetaInfoMapPath(owner).toJavaString());
-			properties.setProperty("opaeum.jdbc.connection.url", "jdbc:hsqldb:mem:" + owner.getName() + "DB");
-		}else{
-			properties.setProperty(Environment.DBMS, "HSQL");
-			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
-			properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, JavaMetaInfoMapGenerator.javaMetaInfoMapPath(owner).toJavaString());
-			// properties.setProperty(Environment.JDBC_CONNECTION_URL, "jdbc:hsqldb:mem:"+owner.getName()+"DB");
-			properties.setProperty("opaeum.jdbc.connection.url", "jdbc:hsqldb:mem:" + owner.getName() + "DB");
-		}
+		properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
+		properties.setProperty(Environment.DBMS, config.getDbms());
+		properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, JavaMetaInfoMapGenerator.javaMetaInfoMapPath(owner).toJavaString());
+		properties.setProperty(Environment.JDBC_CONNECTION_URL, config.getJdbcConnectionUrl());
 		properties.setProperty(Environment.DB_USER, config.getDbUser());
+		properties.setProperty(Environment.DB_USER, config.getDbPassword());
 		properties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? getAdaptorEnvironmentImplementation()
 				: getDomainEnvironmentImplementation());
 		properties.setProperty(Environment.HIBERNATE_CONFIG_NAME, getConfigName(owner));

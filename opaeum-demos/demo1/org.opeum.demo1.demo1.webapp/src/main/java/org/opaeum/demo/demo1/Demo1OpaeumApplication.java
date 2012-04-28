@@ -1,6 +1,7 @@
 package org.opaeum.demo.demo1;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -143,5 +144,9 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 	public static void main(String[] args){
 		JavaTypedElement typedElement = new Demo1JavaMetaInfoMap().getTypedElement("914890@_MwHicHvJEeGIOPhylek76A");
 		System.out.println(typedElement.getDeclaringClass());
+	}
+	@Override
+	public URL getCubeUrl(){
+		return getClass().getClassLoader().getResource("cube.xml");
 	}
 }

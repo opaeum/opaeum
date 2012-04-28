@@ -141,6 +141,14 @@ public class CubeSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case CubePackage.CUBE_QUERY_EDITOR: {
+				CubeQueryEditor cubeQueryEditor = (CubeQueryEditor)theEObject;
+				T result = caseCubeQueryEditor(cubeQueryEditor);
+				if (result == null) result = caseUserInteractionElement(cubeQueryEditor);
+				if (result == null) result = caseUmlReference(cubeQueryEditor);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -247,6 +255,21 @@ public class CubeSwitch<T> {
 	 * @generated
 	 */
 	public T caseMeasureProperty(MeasureProperty object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Query Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Query Editor</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCubeQueryEditor(CubeQueryEditor object) {
 		return null;
 	}
 

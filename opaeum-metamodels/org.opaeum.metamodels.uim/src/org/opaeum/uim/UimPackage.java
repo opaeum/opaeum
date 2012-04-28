@@ -928,13 +928,13 @@ public interface UimPackage extends EPackage {
 	int CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD = UML_REFERENCE_FEATURE_COUNT + 5;
 
 	/**
-	 * The feature id for the '<em><b>Cube Queries</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Cube Query Editor</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES = UML_REFERENCE_FEATURE_COUNT + 6;
+	int CLASS_USER_INTERACTION_MODEL__CUBE_QUERY_EDITOR = UML_REFERENCE_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Class User Interaction Model</em>' class.
@@ -1534,15 +1534,15 @@ public interface UimPackage extends EPackage {
 	EReference getClassUserInteractionModel_NewObjectWizard();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.ClassUserInteractionModel#getCubeQueries <em>Cube Queries</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.ClassUserInteractionModel#getCubeQueryEditor <em>Cube Query Editor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Cube Queries</em>'.
-	 * @see org.opaeum.uim.ClassUserInteractionModel#getCubeQueries()
+	 * @return the meta object for the containment reference '<em>Cube Query Editor</em>'.
+	 * @see org.opaeum.uim.ClassUserInteractionModel#getCubeQueryEditor()
 	 * @see #getClassUserInteractionModel()
 	 * @generated
 	 */
-	EReference getClassUserInteractionModel_CubeQueries();
+	EReference getClassUserInteractionModel_CubeQueryEditor();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.ResponsibilityUserInteractionModel <em>Responsibility User Interaction Model</em>}'.
@@ -1974,12 +1974,12 @@ public interface UimPackage extends EPackage {
 		EReference CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD = eINSTANCE.getClassUserInteractionModel_NewObjectWizard();
 
 		/**
-		 * The meta object literal for the '<em><b>Cube Queries</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Cube Query Editor</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES = eINSTANCE.getClassUserInteractionModel_CubeQueries();
+		EReference CLASS_USER_INTERACTION_MODEL__CUBE_QUERY_EDITOR = eINSTANCE.getClassUserInteractionModel_CubeQueryEditor();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.impl.ResponsibilityUserInteractionModelImpl <em>Responsibility User Interaction Model</em>}' class.

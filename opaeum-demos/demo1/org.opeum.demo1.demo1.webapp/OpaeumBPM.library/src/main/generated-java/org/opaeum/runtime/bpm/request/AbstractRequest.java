@@ -47,6 +47,7 @@ import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -66,6 +67,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@AuditMe
 @NumlMetaInfo(uuid="252060@_6MA8UI2-EeCrtavWRHwoHg")
 @Proxy(lazy=false)
 @Filter(name="noDeletedObjects")

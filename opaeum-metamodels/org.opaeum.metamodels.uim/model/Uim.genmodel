@@ -63,7 +63,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ClassUserInteractionModel/primaryEditor"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ClassUserInteractionModel/secondaryEditors"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ClassUserInteractionModel/newObjectWizard"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ClassUserInteractionModel/cubeQueries"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ClassUserInteractionModel/cubeQueryEditor"/>
     </genClasses>
     <genClasses ecoreClass="Uim.ecore#//ResponsibilityUserInteractionModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ResponsibilityUserInteractionModel/invocationWizard"/>
@@ -324,16 +324,26 @@
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//cube/DimensionBinding">
         <genOperations ecoreOperation="Uim.ecore#//cube/DimensionBinding/toString"/>
-        <genOperations ecoreOperation="Uim.ecore#//cube/DimensionBinding/hashCode"/>
         <genOperations ecoreOperation="Uim.ecore#//cube/DimensionBinding/equals">
           <genParameters ecoreParameter="Uim.ecore#//cube/DimensionBinding/equals/o"/>
         </genOperations>
+        <genOperations ecoreOperation="Uim.ecore#//cube/DimensionBinding/hashCode"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//cube/LevelProperty"/>
+      <genClasses ecoreClass="Uim.ecore#//cube/LevelProperty">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//cube/LevelProperty/name"/>
+      </genClasses>
       <genClasses ecoreClass="Uim.ecore#//cube/RowAxisEntry"/>
       <genClasses ecoreClass="Uim.ecore#//cube/ColumnAxisEntry"/>
       <genClasses ecoreClass="Uim.ecore#//cube/MeasureProperty">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//cube/MeasureProperty/aggregationFormula"/>
+        <genOperations ecoreOperation="Uim.ecore#//cube/MeasureProperty/equals">
+          <genParameters ecoreParameter="Uim.ecore#//cube/MeasureProperty/equals/o"/>
+        </genOperations>
+        <genOperations ecoreOperation="Uim.ecore#//cube/MeasureProperty/hashCode"/>
+        <genOperations ecoreOperation="Uim.ecore#//cube/MeasureProperty/toString"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//cube/CubeQueryEditor">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//cube/CubeQueryEditor/queries"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>

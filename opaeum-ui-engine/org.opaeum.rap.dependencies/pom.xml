@@ -15,6 +15,23 @@
 			<name>JBOSS</name>
 			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
 		</repository>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>pentaho</id>
+			<name>Pentaho</name>
+			<url>http://repository.pentaho.org/artifactory/</url>
+		</repository>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>pentaho3rd</id>
+			<name>Pentaho3rd</name>
+			<url>http://repository.pentaho.org/artifactory/third-party/</url>
+		</repository>
+
 	</repositories>
 
 	<dependencies>
@@ -29,14 +46,14 @@
 			<version>4.2.0.Final</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.api.client</groupId>
-			<artifactId>google-api-data-contacts-v3</artifactId>
-			<version>1.0.10-alpha</version>
-		</dependency>
-		<dependency>
 			<groupId>com.google.oauth-client</groupId>
 			<artifactId>google-oauth-client</artifactId>
-			<version>1.7.0-beta</version>
+			<version>1.8.0-beta</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.8.0-beta</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jbpm</groupId>
@@ -57,6 +74,52 @@
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.0-801.jdbc4</version>
+		</dependency>
+		<dependency>
+			<groupId>pentaho</groupId>
+			<artifactId>mondrian</artifactId>
+			<version>3.4.0.14937</version>
+			<exclusions>
+				<exclusion>
+					<groupId>dom4j</groupId>
+					<artifactId>dom4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>jsp-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.olap4j</groupId>
+			<artifactId>olap4j</artifactId>
+			<version>1.0.1.500</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	<build>

@@ -32,6 +32,7 @@ import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.organization.BusinessNetworkFacilatatesCollaboration;
 import org.opaeum.runtime.bpm.organization.IBusiness;
@@ -54,6 +55,7 @@ import org.w3c.dom.NodeList;
 import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
+@AuditMe
 @NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)

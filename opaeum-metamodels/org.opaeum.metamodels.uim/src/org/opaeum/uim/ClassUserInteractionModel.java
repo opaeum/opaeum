@@ -3,6 +3,7 @@
 package org.opaeum.uim;
 
 import org.eclipse.emf.common.util.EList;
+import org.opaeum.uim.cube.CubeQueryEditor;
 import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.editor.ClassEditor;
 import org.opaeum.uim.wizard.NewObjectWizard;
@@ -18,7 +19,7 @@ import org.opaeum.uim.wizard.NewObjectWizard;
  *   <li>{@link org.opaeum.uim.ClassUserInteractionModel#getPrimaryEditor <em>Primary Editor</em>}</li>
  *   <li>{@link org.opaeum.uim.ClassUserInteractionModel#getSecondaryEditors <em>Secondary Editors</em>}</li>
  *   <li>{@link org.opaeum.uim.ClassUserInteractionModel#getNewObjectWizard <em>New Object Wizard</em>}</li>
- *   <li>{@link org.opaeum.uim.ClassUserInteractionModel#getCubeQueries <em>Cube Queries</em>}</li>
+ *   <li>{@link org.opaeum.uim.ClassUserInteractionModel#getCubeQueryEditor <em>Cube Query Editor</em>}</li>
  * </ul>
  * </p>
  *
@@ -96,19 +97,29 @@ public interface ClassUserInteractionModel extends UmlReference, UserInteraction
 	void setNewObjectWizard(NewObjectWizard value);
 
 	/**
-	 * Returns the value of the '<em><b>Cube Queries</b></em>' containment reference list.
-	 * The list contents are of type {@link org.opaeum.uim.cube.CubeQuery}.
+	 * Returns the value of the '<em><b>Cube Query Editor</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Cube Queries</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Cube Query Editor</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Cube Queries</em>' containment reference list.
-	 * @see org.opaeum.uim.UimPackage#getClassUserInteractionModel_CubeQueries()
+	 * @return the value of the '<em>Cube Query Editor</em>' containment reference.
+	 * @see #setCubeQueryEditor(CubeQueryEditor)
+	 * @see org.opaeum.uim.UimPackage#getClassUserInteractionModel_CubeQueryEditor()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<CubeQuery> getCubeQueries();
+	CubeQueryEditor getCubeQueryEditor();
+
+	/**
+	 * Sets the value of the '{@link org.opaeum.uim.ClassUserInteractionModel#getCubeQueryEditor <em>Cube Query Editor</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Cube Query Editor</em>' containment reference.
+	 * @see #getCubeQueryEditor()
+	 * @generated
+	 */
+	void setCubeQueryEditor(CubeQueryEditor value);
 
 } // ClassUserInteractionModel

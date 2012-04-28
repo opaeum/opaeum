@@ -103,6 +103,10 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 				return createMeasurePropertyAdapter();
 			}
 			@Override
+			public Adapter caseCubeQueryEditor(CubeQueryEditor object) {
+				return createCubeQueryEditorAdapter();
+			}
+			@Override
 			public Adapter caseUserInteractionElement(UserInteractionElement object) {
 				return createUserInteractionElementAdapter();
 			}
@@ -233,6 +237,20 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMeasurePropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.cube.CubeQueryEditor <em>Query Editor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.cube.CubeQueryEditor
+	 * @generated
+	 */
+	public Adapter createCubeQueryEditorAdapter() {
 		return null;
 	}
 

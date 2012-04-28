@@ -87,7 +87,7 @@ public class OpaeumNavigator extends UMLNavigator{
 		if(!(e instanceof Element || e == null)){
 			List<EObject> path = new ArrayList<EObject>();
 			EObject eObject = (EObject) e;
-			while(!(eObject instanceof DynamicEObjectImpl)){
+			while(!(eObject instanceof DynamicEObjectImpl || eObject.eContainer()==null)){
 				path.add(0,eObject);
 				eObject = eObject.eContainer();
 			}

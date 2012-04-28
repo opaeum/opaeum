@@ -30,6 +30,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -50,6 +51,7 @@ import org.w3c.dom.NodeList;
 
 import structuredbusiness.Structuredbusiness;
 
+@AuditMe
 @NumlMetaInfo(uuid="252060@_NRu9QFYjEeGJUqEGX7bKSg")
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
@@ -438,19 +440,19 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void markDeleted() {
-		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
+		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
 			child.markDeleted();
 		}
-		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
+		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
 			child.markDeleted();
 		}
 		for ( OrganizationNode child : new ArrayList<OrganizationNode>(getOrganization()) ) {
 			child.markDeleted();
 		}
-		for ( Structuredbusiness child : new ArrayList<Structuredbusiness>(getStructuredbusiness()) ) {
+		for ( BusinessNetworkFacilatatesCollaboration child : new ArrayList<BusinessNetworkFacilatatesCollaboration>(getBusinessNetworkFacilatatesCollaboration_businessCollaboration()) ) {
 			child.markDeleted();
 		}
-		for ( BusinessNetworkFacilatatesCollaboration child : new ArrayList<BusinessNetworkFacilatatesCollaboration>(getBusinessNetworkFacilatatesCollaboration_businessCollaboration()) ) {
+		for ( Structuredbusiness child : new ArrayList<Structuredbusiness>(getStructuredbusiness()) ) {
 			child.markDeleted();
 		}
 		setDeletedOn(new Date());
@@ -485,16 +487,6 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("structuredbusiness") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("729829469926896176")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						((Structuredbusiness)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessNetworkFacilatatesCollaboration_businessCollaboration") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2189163074731335617")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -502,6 +494,16 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						addToBusinessNetworkFacilatatesCollaboration_businessCollaboration((BusinessNetworkFacilatatesCollaboration)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("structuredbusiness") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("729829469926896176")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((Structuredbusiness)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -647,16 +649,16 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 			sb.append("\n" + organization.toXmlString());
 		}
 		sb.append("\n</organization>");
-		sb.append("\n<structuredbusiness propertyId=\"729829469926896176\">");
-		for ( Structuredbusiness structuredbusiness : getStructuredbusiness() ) {
-			sb.append("\n" + structuredbusiness.toXmlString());
-		}
-		sb.append("\n</structuredbusiness>");
 		sb.append("\n<businessNetworkFacilatatesCollaboration_businessCollaboration propertyId=\"2189163074731335617\">");
 		for ( BusinessNetworkFacilatatesCollaboration businessNetworkFacilatatesCollaboration_businessCollaboration : getBusinessNetworkFacilatatesCollaboration_businessCollaboration() ) {
 			sb.append("\n" + businessNetworkFacilatatesCollaboration_businessCollaboration.toXmlReferenceString());
 		}
 		sb.append("\n</businessNetworkFacilatatesCollaboration_businessCollaboration>");
+		sb.append("\n<structuredbusiness propertyId=\"729829469926896176\">");
+		for ( Structuredbusiness structuredbusiness : getStructuredbusiness() ) {
+			sb.append("\n" + structuredbusiness.toXmlString());
+		}
+		sb.append("\n</structuredbusiness>");
 		sb.append("\n</BusinessNetwork>");
 		return sb.toString();
 	}

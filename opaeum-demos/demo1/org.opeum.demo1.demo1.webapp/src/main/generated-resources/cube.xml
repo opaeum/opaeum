@@ -1,0 +1,22 @@
+<Schema name="demo1">
+<Cube name="Order">
+<Table name="order"/>
+<Dimension foreignKey="dishwashers_inc_id" name="dishwashersInc:DishwashersInc">
+<Hierarchy allMemberName="All Dishwashers incs" hasAll="true" primaryKey="id" primaryKeyTable="dishwashers_inc">
+<Table name="dishwashers_inc"/>
+<Level column="id" name="DishwashersInc" nameColumn="name" table="dishwashers_inc"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="dish_washer_model_id" name="dishWasherModel.dishwashersInc:DishwashersInc">
+<Hierarchy allMemberName="All Dish washer models" hasAll="true" primaryKey="id" primaryKeyTable="dish_washer_model">
+<Join leftKey="dishwashers_inc_id" rightAlias="dishwashers_inc" rightKey="id">
+<Table name="dish_washer_model"/>
+<Table name="dishwashers_inc"/>
+</Join>
+<Level column="id" name="DishwashersInc" nameColumn="name" table="dishwashers_inc"/>
+<Level column="id" name="DishWasherModel" nameColumn="name" table="dish_washer_model"/>
+</Hierarchy>
+</Dimension>
+<Measure aggregator="sum" column="total_amount" formatString="Standard" name="SumOfTotalAmount"/>
+</Cube>
+</Schema>

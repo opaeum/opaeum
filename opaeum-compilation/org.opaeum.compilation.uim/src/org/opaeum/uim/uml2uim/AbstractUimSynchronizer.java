@@ -61,7 +61,7 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 		formUri = formUri.appendFileExtension(extenstion);
 		Resource resource = null;
 		try{
-			resource = uimRst.getResource(formUri, false);
+			resource = uimRst.getResource(formUri, true);
 			resource.load(new HashMap<Object,Object>());
 		}catch(Exception e){
 			try{

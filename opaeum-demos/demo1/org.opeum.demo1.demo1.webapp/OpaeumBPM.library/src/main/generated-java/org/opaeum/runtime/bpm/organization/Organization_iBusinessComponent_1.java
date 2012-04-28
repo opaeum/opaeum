@@ -32,6 +32,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -46,6 +47,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@AuditMe
 @NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA")
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)

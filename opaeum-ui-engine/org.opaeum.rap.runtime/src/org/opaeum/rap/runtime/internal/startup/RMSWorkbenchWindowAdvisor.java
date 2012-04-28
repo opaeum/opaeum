@@ -1,6 +1,8 @@
 // Created on 10.09.2007
 package org.opaeum.rap.runtime.internal.startup;
 
+import java.io.IOException;
+
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
@@ -28,19 +30,26 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.opaeum.rap.login.LoginPerspectiveFactory;
 import org.opaeum.rap.login.LoginView;
+import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
+import org.opaeum.runtime.organization.IPersonNode;
 
+import com.google.api.client.auth.oauth2.TokenErrorResponse;
+import com.google.api.client.auth.oauth2.draft10.AccessTokenRequest.GrantType;
 import com.google.api.client.auth.oauth2.draft10.AccessTokenResponse;
-import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource;
-import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessTokenRequest.GoogleAuthorizationCodeGrant;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleRefreshTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.gdata.client.contacts.ContactsService;
+import com.google.gdata.client.Query;
 
+@SuppressWarnings("restriction")
 public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{
 	private static final HttpTransport TRANSPORT = new NetHttpTransport();
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
@@ -65,9 +74,32 @@ public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{
 		Rectangle bounds = Display.getDefault().getBounds();
 		configurer.setInitialSize(new Point(bounds.width, bounds.height));
 		String code = RWT.getRequest().getParameter("code");
-		if(RWT.getRequest().getSession(true).getAttribute("authToken") == null && code != null){
-			requestRefreshToken(code);
+		IOpaeumApplication application = getApplication();
+		String email = application.getEnvironment().getProperty("opaeum.default.user");
+		if(email != null){
+			final IPersonNode person = application.findOrCreatePersonByEMailAddress(email);
+			RWT.getRequest().getSession(true).setAttribute(OpaeumRapSession.class.getName(), new OpaeumRapSession(getApplication(), person));
+			String refreshToken = person.getRefreshToken();
+			if(false){
+				//Activate when testing google functionality
+				//TODO move elsewhere perhaps and do lazily
+				GoogleRefreshTokenRequest grant = new GoogleRefreshTokenRequest(TRANSPORT, JSON_FACTORY, refreshToken, LoginView.CLIENT_ID,
+						OpaeumRapSession.CLIENT_SECRET);
+				GoogleTokenResponse access;
+				try{
+					access = grant.execute();
+					person.setAuthenticationToken(access.getAccessToken());
+				}catch(IOException e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}else if(RWT.getRequest().getSession(true).getAttribute(OpaeumRapSession.class.getName()) == null && code != null){
+			requestTokens(code);
 		}
+	}
+	private IOpaeumApplication getApplication(){
+		return Activator.getDefault().getApplications().values().iterator().next();
 	}
 	@Override
 	public void postWindowOpen(){
@@ -96,7 +128,8 @@ public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{
 			}
 		});
 		String code = RWT.getRequest().getParameter("code");
-		if(RWT.getRequest().getSession(true).getAttribute("authToken") == null && code == null){
+		if(RWT.getRequest().getSession(true).getAttribute("accessToken") == null && code == null
+				&& getApplication().getEnvironment().getProperty("opaeum.default.user") == null){
 			// close opened perspective
 			IPerspectiveDescriptor pers = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getPerspective();
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closePerspective(pers, false, false);
@@ -110,14 +143,20 @@ public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{
 			getWindowConfigurer().setShowFastViewBars(false);
 		}
 	}
-	private void requestRefreshToken(String code){
+	private void requestTokens(String code){
 		System.out.println("LoginView.requestRefreshToken()");
 		try{
-			GoogleAuthorizationCodeGrant authRequest = new GoogleAuthorizationCodeGrant(TRANSPORT, JSON_FACTORY, LoginView.CLIENT_ID, OpaeumRapSession.CLIENT_SECRET, code, LoginView.CALLBACK_URL);
-			authRequest.useBasicAuthorization = false;
-			AccessTokenResponse authResponse = authRequest.execute();
-			RWT.getRequest().getSession(true).setAttribute("authResponse", authResponse);
-		}catch(Exception e){
+			GoogleAuthorizationCodeTokenRequest authRequest = new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY,
+					LoginView.CLIENT_ID, OpaeumRapSession.CLIENT_SECRET, code, LoginView.CALLBACK_URL);
+			GoogleTokenResponse authResponse = authRequest.execute();
+			OpaeumRapSession os = new OpaeumRapSession(getApplication(), authResponse.getAccessToken(), authResponse.getRefreshToken(),
+					authResponse.getExpiresInSeconds());
+			os.associatePerson();
+			RWT.getRequest().getSession(true).setAttribute(OpaeumRapSession.class.getName(), os);
+		}catch(HttpResponseException e){
+			System.out.println(e.getMessage());
+		}catch(IOException e){
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

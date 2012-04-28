@@ -28,35 +28,36 @@ public class EditorCreator extends AbstractUserInterfaceCreator{
 	protected Page addPage(PageContainer pc){
 		if(pc instanceof AbstractEditor){
 			EditorPage page = EditorFactory.eINSTANCE.createEditorPage();
-			((AbstractEditor)pc).getPages().add(page);
+			((AbstractEditor) pc).getPages().add(page);
 			return page;
 		}else{
-			OperationPopup popup=(OperationPopup) pc;
+			OperationPopup popup = (OperationPopup) pc;
 			OperationPopupPage page = ActionFactory.eINSTANCE.createOperationPopupPage();
 			popup.getPages().add(page);
 			return page;
 		}
 	}
-	public void addButtonBar(Collection<Operation> operations, ActionKind...updateCurrentEntity){
-		EditorActionBar panel = EditorFactory.eINSTANCE.createEditorActionBar();
-		formPanel.setActionBar(panel);
-		panel.setName("ActionBar");
-		for(ActionKind actionKind:updateCurrentEntity){
-			BuiltInActionButton bia = ActionFactory.eINSTANCE.createBuiltInActionButton();
-			bia.setKind(actionKind);
-			bia.setName(NameConverter.separateWords(NameConverter.capitalize(actionKind.getName())));
-			panel.getChildren().add(bia);
-		}
-		for(Operation operation:operations){
-			if(!operation.isQuery() && operation.getReturnResult()==null){
-				OperationButton button = ActionFactory.eINSTANCE.createOperationButton();
-				button.setUmlElementUid(EmfWorkspace.getId(operation));
-				button.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
-				panel.getChildren().add(button);
-				OperationPopup popup = ActionFactory.eINSTANCE.createOperationPopup();
-				button.setPopup(popup);
-				addFormPanel(button.getPopup(), button.getName(), operation.getOwnedParameters());
-				
+	public void addButtonBar(Collection<Operation> operations,ActionKind...updateCurrentEntity){
+		if(formPanel.getActionBar() == null || !formPanel.getActionBar().isUnderUserControl()){
+			EditorActionBar panel = EditorFactory.eINSTANCE.createEditorActionBar();
+			formPanel.setActionBar(panel);
+			panel.setName("ActionBar");
+			for(ActionKind actionKind:updateCurrentEntity){
+				BuiltInActionButton bia = ActionFactory.eINSTANCE.createBuiltInActionButton();
+				bia.setKind(actionKind);
+				bia.setName(NameConverter.separateWords(NameConverter.capitalize(actionKind.getName())));
+				panel.getChildren().add(bia);
+			}
+			for(Operation operation:operations){
+				if(!operation.isQuery() && operation.getReturnResult() == null){
+					OperationButton button = ActionFactory.eINSTANCE.createOperationButton();
+					button.setUmlElementUid(EmfWorkspace.getId(operation));
+					button.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
+					panel.getChildren().add(button);
+					OperationPopup popup = ActionFactory.eINSTANCE.createOperationPopup();
+					button.setPopup(popup);
+					addFormPanel(operation, button.getPopup(), button.getName(), operation.getOwnedParameters());
+				}
 			}
 		}
 	}

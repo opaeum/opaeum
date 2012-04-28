@@ -73,6 +73,7 @@
 		<module>opaeum-linkage</module>
 		<module>opaeum-metamodels</module>
 		<module>opaeum-modeler</module>
+		<!--module>opaeum-simulation</module-->
 		<!--module>opaeum-runtime</module-->
 		<!--module>opaeum-tests/jbpmtestintegration/jbpmtestintegration-generator</module -->
 	</modules>

@@ -233,6 +233,29 @@ public class CubeItemProviderAdapterFactory extends CubeAdapterFactory implement
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.cube.CubeQueryEditor} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected CubeQueryEditorItemProvider cubeQueryEditorItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.cube.CubeQueryEditor}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createCubeQueryEditorAdapter() {
+		if (cubeQueryEditorItemProvider == null) {
+			cubeQueryEditorItemProvider = new CubeQueryEditorItemProvider(this);
+		}
+
+		return cubeQueryEditorItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -338,6 +361,7 @@ public class CubeItemProviderAdapterFactory extends CubeAdapterFactory implement
 		if (rowAxisEntryItemProvider != null) rowAxisEntryItemProvider.dispose();
 		if (columnAxisEntryItemProvider != null) columnAxisEntryItemProvider.dispose();
 		if (measurePropertyItemProvider != null) measurePropertyItemProvider.dispose();
+		if (cubeQueryEditorItemProvider != null) cubeQueryEditorItemProvider.dispose();
 	}
 
 }

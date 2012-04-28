@@ -43,10 +43,10 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		ActionTaskEditor editor = (ActionTaskEditor) getResourceRoot(resourceUri, "uml", EditorFactory.eINSTANCE.createActionTaskEditor());
 		editor.setLinkedUmlResource(a.eResource().getURI().lastSegment());
 		editor.setUmlElementUid(resourceUri);
-		if(editor.getName() == null || editor.getName().length()==0){
+		if(editor.getName() == null || editor.getName().length() == 0){
 			editor.setName(NameConverter.separateWords(NameConverter.capitalize(a.getName())) + " Editor");
 		}
-		if(regenerate || editor.getPages().isEmpty() || !editor.isUnderUserControl()){
+		if((regenerate || editor.getPages().isEmpty()) && !editor.isUnderUserControl()){
 			editor.getPages().clear();
 			editor.setUmlElementUid(EmfWorkspace.getId(a));
 			editor.setName(a.getName());
@@ -54,7 +54,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			EditorCreator fc = new EditorCreator(workspace, editor);
 			ArrayList<TypedElement> pins = new ArrayList<TypedElement>(a.getInputs());
 			pins.addAll(a.getOutputs());
-			fc.addFormPanel(fc.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(a.getName()), pins);
+			fc.addFormPanel(a, fc.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(a.getName()), pins);
 			fc.addButtonBar(Collections.<Operation>emptySet(), ActionKind.CLAIM_TASK, ActionKind.DELEGATE_TASK, ActionKind.FORWARD_TASK,
 					ActionKind.SUSPEND_TASK);
 		}
@@ -74,25 +74,29 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 				UimFactory.eINSTANCE.createClassUserInteractionModel());
 		model.setUmlElementUid(resourceUri);
 		model.setLinkedUmlResource(c.eResource().getURI().lastSegment());
-		if(model.getName() == null || model.getName().length()==0){
+		if(model.getName() == null || model.getName().length() == 0){
 			model.setName(NameConverter.separateWords(NameConverter.capitalize(c.getName())) + " User Interface Model");
 		}
-		if(model.getPrimaryEditor() == null || regenerate || !model.isUnderUserControl()){
+		if((model.getPrimaryEditor() == null || regenerate) && (!model.isUnderUserControl())){
 			model.setPrimaryEditor(EditorFactory.eINSTANCE.createClassEditor());
-			model.getPrimaryEditor().setName("Edit" + c.getName());
+			model.getPrimaryEditor().setName("Edit " + c.getName());
 			model.getPrimaryEditor().setUmlElementUid(resourceUri);
+		}
+		if(model.getPrimaryEditor() != null && !model.isUnderUserControl()){
 			EditorCreator ec = new EditorCreator(workspace, model.getPrimaryEditor());
 			Collection<Property> allAttributes = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(c);
-			ec.addFormPanel(ec.getUserInterfaceEntryPoint(), "Edit " + NameConverter.separateWords(c.getName()), allAttributes);
+			ec.addFormPanel(c, ec.getUserInterfaceEntryPoint(), "Edit " + NameConverter.separateWords(c.getName()), allAttributes);
 			ec.addButtonBar(c.getAllOperations(), actionKinds);
 		}
-		if(model.getNewObjectWizard() == null || regenerate){
+		if((model.getNewObjectWizard() == null || regenerate) && (!model.isUnderUserControl())){
 			model.setNewObjectWizard(WizardFactory.eINSTANCE.createNewObjectWizard());
-			model.getNewObjectWizard().setName("Create" + c.getName());
+			model.getNewObjectWizard().setName("Create " + c.getName());
 			model.getNewObjectWizard().setUmlElementUid(resourceUri);
+		}
+		if(model.getNewObjectWizard() != null && !model.isUnderUserControl()){
 			WizardCreator wc = new WizardCreator(workspace, model.getNewObjectWizard());
 			Collection<Property> allAttributes = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(c);
-			wc.addFormPanel(wc.getUserInterfaceEntryPoint(), "Create" + NameConverter.separateWords(c.getName()), allAttributes);
+			wc.addFormPanel(c, wc.getUserInterfaceEntryPoint(), "Create" + NameConverter.separateWords(c.getName()), allAttributes);
 		}
 	}
 	@VisitBefore(matchSubclasses = false)
@@ -103,38 +107,38 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 					UimPackage.eINSTANCE.getResponsibilityUserInteractionModel());
 			model.setUmlElementUid(resourceUri);
 			model.setLinkedUmlResource(o.eResource().getURI().lastSegment());
-			if(model.getName() == null || model.getName().length()==0){
+			if(model.getName() == null || model.getName().length() == 0){
 				model.setName(NameConverter.separateWords(NameConverter.capitalize(o.getName())) + " User Interface Model");
 			}
-			if(regenerate || model.getTaskEditor() == null || !model.getTaskEditor().isUnderUserControl()){
+			if((regenerate || model.getTaskEditor() == null) && !model.getTaskEditor().isUnderUserControl()){
 				model.setTaskEditor(EditorFactory.eINSTANCE.createResponsibilityTaskEditor());
 				model.getTaskEditor().setName(o.getName());
 				model.getTaskEditor().setUmlElementUid(resourceUri);
 				EditorCreator ec = new EditorCreator(workspace, model.getTaskEditor());
-				ec.addFormPanel(ec.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+				ec.addFormPanel(o, ec.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 				ec.addButtonBar(Collections.<Operation>emptySet(), ActionKind.COMPLETE_TASK, ActionKind.SUSPEND_TASK);
 			}
-			if(regenerate || model.getInvocationWizard() == null || !model.getInvocationWizard().isUnderUserControl()){
+			if((regenerate || model.getInvocationWizard() == null) && !model.getInvocationWizard().isUnderUserControl()){
 				model.setInvocationWizard(WizardFactory.eINSTANCE.createInvokeResponsibilityWizard());
 				model.getInvocationWizard().setName("Request" + o.getName());
 				model.getInvocationWizard().setUmlElementUid(resourceUri);
 				WizardCreator wc = new WizardCreator(workspace, model.getInvocationWizard());
-				wc.addFormPanel(wc.getUserInterfaceEntryPoint(), NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+				wc.addFormPanel(o, wc.getUserInterfaceEntryPoint(), NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 			}
 		}else if(o.isQuery() && o.getReturnResult() != null){
 			QueryInvocationEditor editor = (QueryInvocationEditor) getResourceRoot(resourceUri, "uml",
 					EditorFactory.eINSTANCE.createQueryInvocationEditor());
 			editor.setUmlElementUid(resourceUri);
 			editor.setLinkedUmlResource(o.eResource().getURI().lastSegment());
-			if(editor.getName() == null||editor.getName().length()==0){
+			if(editor.getName() == null || editor.getName().length() == 0){
 				editor.setName(NameConverter.separateWords(NameConverter.capitalize(o.getName())) + " Query");
 			}
-			if(regenerate || editor.getPages().isEmpty() || !editor.isUnderUserControl()){
+			if((regenerate || editor.getPages().isEmpty()) && !editor.isUnderUserControl()){
 				editor.getPages().clear();
 				editor.setName(o.getName());
 				editor.setUmlElementUid(resourceUri);
 				EditorCreator ec = new EditorCreator(workspace, editor);
-				ec.addFormPanel(ec.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+				ec.addFormPanel(o, ec.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 				ec.addButtonBar(Collections.<Operation>emptySet(), ActionKind.EXECUTE_OPERATION);
 			}
 		}

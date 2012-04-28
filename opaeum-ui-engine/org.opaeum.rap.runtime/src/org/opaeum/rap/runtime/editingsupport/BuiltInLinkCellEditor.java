@@ -31,7 +31,7 @@ public class BuiltInLinkCellEditor extends CellEditor{
 		switch(kind){
 		case EDIT:
 		case VIEW:
-			OpenEditorAction.openEditor(element, true, session);
+			OpenEditorAction.openEntityEditor(element, true, session);
 			break;
 		}
 	}

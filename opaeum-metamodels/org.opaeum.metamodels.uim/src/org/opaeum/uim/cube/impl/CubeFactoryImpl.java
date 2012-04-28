@@ -64,6 +64,7 @@ public class CubeFactoryImpl extends EFactoryImpl implements CubeFactory {
 			case CubePackage.ROW_AXIS_ENTRY: return createRowAxisEntry();
 			case CubePackage.COLUMN_AXIS_ENTRY: return createColumnAxisEntry();
 			case CubePackage.MEASURE_PROPERTY: return createMeasureProperty();
+			case CubePackage.CUBE_QUERY_EDITOR: return createCubeQueryEditor();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -167,6 +168,16 @@ public class CubeFactoryImpl extends EFactoryImpl implements CubeFactory {
 	public MeasureProperty createMeasureProperty() {
 		MeasurePropertyImpl measureProperty = new MeasurePropertyImpl();
 		return measureProperty;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CubeQueryEditor createCubeQueryEditor() {
+		CubeQueryEditorImpl cubeQueryEditor = new CubeQueryEditorImpl();
+		return cubeQueryEditor;
 	}
 
 	/**

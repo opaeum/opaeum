@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.persistence.Transient;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
@@ -19,6 +20,7 @@ import org.w3c.dom.NodeList;
 
 import structuredbusiness.util.StructuredbusinessFormatter;
 
+@AuditMe
 @NumlMetaInfo(uuid="914890@_o9aQgGCfEeG6xvYqJACneg")
 public class ProductAnnouncement implements ISignal, Serializable {
 	@Transient

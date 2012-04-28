@@ -21,6 +21,7 @@ import org.opaeum.rap.runtime.Constants;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
+import org.opaeum.rap.runtime.internal.editors.CubeEditor;
 import org.opaeum.rap.runtime.internal.editors.EntityEditorInput;
 import org.opaeum.rap.runtime.internal.views.PersistentObjectTreeItem;
 import org.opaeum.runtime.domain.IPersistentObject;
@@ -36,9 +37,16 @@ public class OpenEditorAction extends SelectionProviderAction{
 	public void run(){
 		IStructuredSelection structuredSelection = getStructuredSelection();
 		Object firstElement = structuredSelection.getFirstElement();
-		openEditor(firstElement, true, opaeumSession);
+		openEntityEditor(firstElement, true, opaeumSession);
 	}
-	public static boolean openEditor(final Object entity,final boolean showMessa,OpaeumRapSession opaeumSession){
+	public static boolean openEntityEditor(final Object entity,final boolean showMessa,OpaeumRapSession opaeumSession){
+		String editorId = Constants.ENTITY_EDITOR_ID;
+		return openEditor(entity, opaeumSession, editorId);
+	}
+	public static boolean openCubeEditor(final Object entity,final boolean showMessa,OpaeumRapSession opaeumSession){
+		return openEditor(entity, opaeumSession, CubeEditor.class.getName());
+	}
+	private static boolean openEditor(final Object entity,OpaeumRapSession opaeumSession,String editorId){
 		boolean result = false;
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -51,15 +59,15 @@ public class OpenEditorAction extends SelectionProviderAction{
 				po = (IPersistentObject) entity;
 			}
 			Image image = Activator.getDefault().getImage(Activator.IMG_PROJECT);
-			IEditorInput input = new EntityEditorInput(po,
-					"Edit " + IntrospectionUtil.getOriginalClass(po).getSimpleName() + ": " + po.getName(), ImageDescriptor.createFromImage(image),
-					opaeumSession);
+			IEditorInput input = new EntityEditorInput(po, IntrospectionUtil.getOriginalClass(po).getSimpleName() + ": " + po.getName(),
+					ImageDescriptor.createFromImage(image), opaeumSession);
 			IEditorReference[] refs = activePage.getEditorReferences();
 			IWorkbenchPart found = null;
 			for(int i = 0;i < refs.length;i++){
 				try{
-					if(((EntityEditorInput) refs[i].getEditorInput()).getPersistentObject().equals(po)){
-						found=refs[i].getEditor(true);
+					if(refs[i].getEditor(true).getClass().getName().equals(editorId)
+							&& ((EntityEditorInput) refs[i].getEditorInput()).getPersistentObject().equals(po)){
+						found = refs[i].getEditor(true);
 						break;
 					}
 				}catch(PartInitException e){
@@ -67,12 +75,12 @@ public class OpenEditorAction extends SelectionProviderAction{
 					e.printStackTrace();
 				}
 			}
-			if(found!=null){
+			if(found != null){
 				activePage.activate(found);
 			}else{
 				if(canOpen(entity, activePage, true)){
 					try{
-						activePage.openEditor(input, Constants.ENTITY_EDITOR_ID, true);
+						activePage.openEditor(input, editorId, true);
 						result = true;
 					}catch(final PartInitException pie){
 						Shell shell = window.getShell();

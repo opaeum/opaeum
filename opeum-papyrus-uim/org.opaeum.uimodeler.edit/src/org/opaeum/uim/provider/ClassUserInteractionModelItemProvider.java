@@ -148,7 +148,7 @@ public class ClassUserInteractionModelItemProvider
 			childrenFeatures.add(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR);
 			childrenFeatures.add(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS);
 			childrenFeatures.add(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD);
-			childrenFeatures.add(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES);
+			childrenFeatures.add(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__CUBE_QUERY_EDITOR);
 		}
 		return childrenFeatures;
 	}
@@ -211,7 +211,7 @@ public class ClassUserInteractionModelItemProvider
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR:
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS:
 			case UimPackage.CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD:
-			case UimPackage.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES:
+			case UimPackage.CLASS_USER_INTERACTION_MODEL__CUBE_QUERY_EDITOR:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -246,8 +246,8 @@ public class ClassUserInteractionModelItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES,
-				 CubeFactory.eINSTANCE.createCubeQuery()));
+				(UimPackage.Literals.CLASS_USER_INTERACTION_MODEL__CUBE_QUERY_EDITOR,
+				 CubeFactory.eINSTANCE.createCubeQueryEditor()));
 	}
 
 	/**

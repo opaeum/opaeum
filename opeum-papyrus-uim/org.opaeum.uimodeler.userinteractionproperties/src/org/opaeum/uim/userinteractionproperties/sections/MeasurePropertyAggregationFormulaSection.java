@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -62,18 +63,28 @@ public class MeasurePropertyAggregationFormulaSection extends AbstractChooserPro
 	protected Object getFeatureValue(){
 		return getMeasureProperty().getAggregationFormula();
 	}
+	@Override
+	protected void handleModelChanged(Notification msg){
+		// TODO Auto-generated method stub
+		super.handleModelChanged(msg);
+		if(msg.getNotifier()==getEObject()){
+			refresh();
+		}
+	}
 	protected Object[] getComboFeatureValues(){
 		Collection<Object> results = new ArrayList<Object>();
 		results.add("");
 		Property p = (Property) UmlUimLinks.getCurrentUmlLinks(getEObject()).getUmlElement(getMeasureProperty());
-		for(EObject eo:p.getStereotypeApplications()){
-			EStructuralFeature sf = eo.eClass().getEStructuralFeature("aggregationFormulas");
-			if(sf != null){
-				Collection<? extends EEnumLiteral> avFormulas = (Collection<? extends EEnumLiteral>) eo.eGet(sf);
-				for(EEnumLiteral l:avFormulas){
-					results.add(AggregationFormula.getByName(l.getName()));
+		if(p != null){
+			for(EObject eo:p.getStereotypeApplications()){
+				EStructuralFeature sf = eo.eClass().getEStructuralFeature("aggregationFormulas");
+				if(sf != null){
+					Collection<? extends EEnumLiteral> avFormulas = (Collection<? extends EEnumLiteral>) eo.eGet(sf);
+					for(EEnumLiteral l:avFormulas){
+						results.add(AggregationFormula.getByName(l.getName()));
+					}
+					break;
 				}
-				break;
 			}
 		}
 		return results.toArray();

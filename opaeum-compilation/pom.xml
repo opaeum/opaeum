@@ -20,8 +20,8 @@
 		<module>org.opaeum.compilation.ocltojava</module>
 		<module>org.opaeum.compilation.runtimedependencies</module>
 		<module>org.opaeum.compilation.source.feature</module>
-		<module>org.opaeum.compilation.tinker</module>
-		<module>org.opaeum.compilation.uim</module>
+		<!--module>org.opaeum.compilation.tinker</module-->
+		<!--module>org.opaeum.compilation.uim</module-->
 	</modules>
 	<repositories>
 		<repository>

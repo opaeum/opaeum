@@ -35,6 +35,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -56,6 +57,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@AuditMe
 @NumlMetaInfo(uuid="252060@_3E_9kEtnEeGd4cpyhpib9Q")
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
@@ -185,7 +187,7 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, IC
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInPerson() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonPhoneNumber.person");
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonPhoneNumber.uniqueInPerson");
 		}
 		return failedInvariants;
 	}

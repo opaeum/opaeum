@@ -621,7 +621,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClassUserInteractionModel_CubeQueries() {
+	public EReference getClassUserInteractionModel_CubeQueryEditor() {
 		return (EReference)classUserInteractionModelEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -775,7 +775,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR);
 		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS);
 		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD);
-		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__CUBE_QUERIES);
+		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__CUBE_QUERY_EDITOR);
 
 		responsibilityUserInteractionModelEClass = createEClass(RESPONSIBILITY_USER_INTERACTION_MODEL);
 		createEReference(responsibilityUserInteractionModelEClass, RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD);
@@ -859,6 +859,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		userInterfaceEntryPointEClass.getESuperTypes().add(this.getPageContainer());
 		pageEClass.getESuperTypes().add(this.getUserInterface());
 		pageEClass.getESuperTypes().add(theConstraintPackage.getEditableConstrainedObject());
+		pageEClass.getESuperTypes().add(this.getUmlReference());
 		userInterfaceEClass.getESuperTypes().add(this.getUserInteractionElement());
 		userInterfaceEClass.getESuperTypes().add(this.getUmlReference());
 		panelClassEClass.getESuperTypes().add(this.getUmlReference());
@@ -923,7 +924,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		initEReference(getClassUserInteractionModel_PrimaryEditor(), theEditorPackage.getClassEditor(), null, "primaryEditor", null, 1, 1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassUserInteractionModel_SecondaryEditors(), theEditorPackage.getClassEditor(), null, "secondaryEditors", null, 0, -1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassUserInteractionModel_NewObjectWizard(), theWizardPackage.getNewObjectWizard(), null, "newObjectWizard", null, 1, 1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getClassUserInteractionModel_CubeQueries(), theCubePackage.getCubeQuery(), null, "cubeQueries", null, 0, -1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassUserInteractionModel_CubeQueryEditor(), theCubePackage.getCubeQueryEditor(), null, "cubeQueryEditor", null, 0, 1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(responsibilityUserInteractionModelEClass, ResponsibilityUserInteractionModel.class, "ResponsibilityUserInteractionModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResponsibilityUserInteractionModel_InvocationWizard(), theWizardPackage.getInvokeResponsibilityWizard(), null, "invocationWizard", null, 1, 1, ResponsibilityUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

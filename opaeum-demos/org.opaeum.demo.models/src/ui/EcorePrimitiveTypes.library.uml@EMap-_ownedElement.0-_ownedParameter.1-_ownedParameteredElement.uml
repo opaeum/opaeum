@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_WaxywIuUEeGaRvqkMvqkdg" umlElementUid="EcorePrimitiveTypes.library.uml@EMap-_ownedElement.0-_ownedParameter.1-_ownedParameteredElement" name="V User Interface Model" linkedUmlResource="EcorePrimitiveTypes.library.uml">
+  <primaryEditor xmi:id="_WaxywYuUEeGaRvqkMvqkdg" umlElementUid="EcorePrimitiveTypes.library.uml@EMap-_ownedElement.0-_ownedParameter.1-_ownedParameteredElement" name="Edit V"><actionBar xmi:id="_WaxyxIuUEeGaRvqkMvqkdg" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_WaxyxYuUEeGaRvqkMvqkdg" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_WaxyxouUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_WaxywouUEeGaRvqkMvqkdg" name="Edit V" umlElementUid="EcorePrimitiveTypes.library.uml@EMap-_ownedElement.0-_ownedParameter.1-_ownedParameteredElement">
+      <panel xmi:type="panel:GridPanel" xmi:id="_Waxyw4uUEeGaRvqkMvqkdg" numberOfColumns="1"/>
+    </pages></primaryEditor>
+  <newObjectWizard xmi:id="_Waxyx4uUEeGaRvqkMvqkdg" name="Create V" umlElementUid="EcorePrimitiveTypes.library.uml@EMap-_ownedElement.0-_ownedParameter.1-_ownedParameteredElement">
+    <pages xmi:id="_WaxyyIuUEeGaRvqkMvqkdg" name="CreateV" umlElementUid="EcorePrimitiveTypes.library.uml@EMap-_ownedElement.0-_ownedParameter.1-_ownedParameteredElement">
+      <panel xmi:type="panel:GridPanel" xmi:id="_WaxyyYuUEeGaRvqkMvqkdg" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</uim:ClassUserInteractionModel>

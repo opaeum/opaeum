@@ -1,5 +1,6 @@
 package org.opaeum.runtime.jpa;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -21,7 +22,7 @@ public abstract class AbstractJpaPersistence implements AbstractPersistence{
 		return getEntityManager().getReference(t, id);
 	}
 	@Override
-	public <T>T find(Class<T> t,Long id){
+	public <T>T find(Class<T> t,Serializable id){
 		return getEntityManager().find(t, id);
 	}
 	@Override

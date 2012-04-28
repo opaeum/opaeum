@@ -3,13 +3,10 @@ package org.opaeum.rap.runtime;
 import java.net.URL;
 import java.util.Date;
 
-import org.opaeum.rap.login.LoginView;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
-import com.google.api.client.auth.oauth2.draft10.AccessTokenResponse;
-import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -24,17 +21,25 @@ public class OpaeumRapSession{
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private IOpaeumApplication application;
 	private IPersonNode person;
-	AccessTokenResponse accessTokenResponse;
 	private ContactsService contactsService;
 	public static final String CLIENT_SECRET = "yRf8aLQhkqvCtINCDoCklgTM";
 	private long expiryDate;
 	private ConversationalPersistence sessionPersistence;
-	public OpaeumRapSession(IOpaeumApplication application,AccessTokenResponse accessToken){
-		super();
-		expiryDate=(accessToken.expiresIn*1000 - 60)+System.currentTimeMillis();
-		this.application = application;
-		this.accessTokenResponse = accessToken;
+	private MondrianSession mondrianSession;
+	private String accessToken;
+	private String refreshToken;
+	public OpaeumRapSession(IOpaeumApplication application2,String accessToken2,String refreshToken2, long expiryDate){
+		this.application = application2;
+		this.accessToken= accessToken2;
+		this.refreshToken=refreshToken2;
 		sessionPersistence= application.getEnvironment().createConversationalPersistence();
+	}
+	public OpaeumRapSession(IOpaeumApplication application2,IPersonNode person){
+		this.application = application2;
+		this.accessToken= person.getAuthenticationToken();
+		this.refreshToken=person.getRefreshToken();
+		sessionPersistence= application.getEnvironment().createConversationalPersistence();
+		this.person=sessionPersistence.find(IntrospectionUtil.getOriginalClass(person), person.getId());
 	}
 	public ConversationalPersistence getPersistence(){
 		return sessionPersistence;
@@ -50,8 +55,8 @@ public class OpaeumRapSession{
 			Person author = resultFeed.getAuthors().iterator().next();
 			person=application.findOrCreatePersonByEMailAddress(author.getEmail());
 			person=sessionPersistence.getReference(IntrospectionUtil.getOriginalClass(person), person.getId());
-			person.setAuthenticationToken(accessTokenResponse.accessToken);
-			person.setRefreshToken(accessTokenResponse.refreshToken);
+			person.setAuthenticationToken(accessToken);
+			person.setRefreshToken(refreshToken);
 			person.setTokenExpiryDateTime(new Date(expiryDate));
 			sessionPersistence.flush();
 		}catch(Exception e){
@@ -60,25 +65,18 @@ public class OpaeumRapSession{
 	}
 	public ContactsService getContactsService(){
 		if(contactsService == null){
-			//TODO figure out when to refresh the accessToken
-			GoogleAccessProtectedResource access = new GoogleAccessProtectedResource(accessTokenResponse.accessToken, TRANSPORT, JSON_FACTORY,
-					LoginView.CLIENT_ID, CLIENT_SECRET, accessTokenResponse.refreshToken){
-				@Override
-				protected void onAccessToken(String accessToken){
-					super.onAccessToken(accessToken);
-				}
-			};
-//			try{
-//				access.refreshToken();
-//			}catch(IOException e){
-//				e.printStackTrace();
-//			}
 			contactsService = new ContactsService("asf");
-			contactsService.setHeader("Authorization", "Bearer " + accessTokenResponse.accessToken);
+			contactsService.setHeader("Authorization", "Bearer " + accessToken);
 		}
 		return this.contactsService;
 	}
 	public IPersonNode getPersonNode(){
 		return person;
+	}
+	public MondrianSession getMondrianSession(){
+		if(this.mondrianSession==null){
+			mondrianSession=new MondrianSession(application.getCubeUrl());
+		}
+		return mondrianSession;
 	}
 }

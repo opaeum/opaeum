@@ -67,6 +67,14 @@
             id="org.opaeum.rap.runtime.internal.editors.EntityEditor"
             name="Entity Editor">
       </editor>
+      <editor
+            class="org.opaeum.rap.runtime.internal.editors.CubeEditor"
+            contributorClass="org.opaeum.rap.runtime.internal.editors.EntityEditorContributor"
+            extensions="mpf"
+            icon="icons/rms_persp.gif"
+            id="org.opaeum.rap.runtime.internal.editors.CubeEditor"
+            name="Cube Editor">
+      </editor>
    </extension>
    <extension
          point="org.eclipse.core.runtime.adapters">

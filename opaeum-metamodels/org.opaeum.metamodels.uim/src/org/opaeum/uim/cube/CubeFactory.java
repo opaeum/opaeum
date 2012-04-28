@@ -85,6 +85,15 @@ public interface CubeFactory extends EFactory {
 	MeasureProperty createMeasureProperty();
 
 	/**
+	 * Returns a new object of class '<em>Query Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Query Editor</em>'.
+	 * @generated
+	 */
+	CubeQueryEditor createCubeQueryEditor();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

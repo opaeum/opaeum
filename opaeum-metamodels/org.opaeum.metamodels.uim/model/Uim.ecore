@@ -59,7 +59,7 @@
     <eLiterals name="horizontal"/>
     <eLiterals name="vertical" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Page" abstract="true" eSuperTypes="#//UserInterface #//constraint/EditableConstrainedObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Page" abstract="true" eSuperTypes="#//UserInterface #//constraint/EditableConstrainedObject #//UmlReference"/>
   <eClassifiers xsi:type="ecore:EClass" name="UserInterface" eSuperTypes="#//UserInteractionElement #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="panel" lowerBound="1" eType="#//panel/AbstractPanel"
         containment="true"/>
@@ -76,8 +76,8 @@
         eType="#//editor/ClassEditor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="newObjectWizard" lowerBound="1"
         eType="#//wizard/NewObjectWizard" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="cubeQueries" upperBound="-1"
-        eType="#//cube/CubeQuery" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cubeQueryEditor" eType="#//cube/CubeQueryEditor"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResponsibilityUserInteractionModel"
       eSuperTypes="#//UserInteractionElement #//UmlReference #//UimRootElement">
@@ -431,6 +431,10 @@
       <eOperations name="toString" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="aggregationFormula" eType="#//cube/AggregationFormula"
           defaultValueLiteral="null"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CubeQueryEditor" eSuperTypes="#//UserInteractionElement #//UmlReference">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="queries" upperBound="-1"
+          eType="#//cube/CubeQuery" containment="true"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

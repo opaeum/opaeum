@@ -27,9 +27,13 @@ public class OrganizationImplementor extends AbstractStructureVisitor{
 	}
 	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+		//TODO find another place for this
+		OJAnnotatedClass c = findJavaClass(umlOwner);
+		if(c != null){
+			c.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.opaeum.audit.AuditMe")));
+		}
 		if(umlOwner instanceof INakedBusinessComponent){
 			INakedBusinessComponent bc = (INakedBusinessComponent) umlOwner;
-			OJAnnotatedClass c = findJavaClass(bc);
 			OJAnnotationValue an = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.BusinessComponent"));
 			c.addAnnotationIfNew(an);
 			OJAnnotationAttributeValue br = new OJAnnotationAttributeValue("businessRoles");
@@ -46,7 +50,6 @@ public class OrganizationImplementor extends AbstractStructureVisitor{
 				an.putAttribute("adminRole", OJUtil.classifierPathname(bc.getAdminRole()));
 			}
 		}
-		OJAnnotatedClass c = findJavaClass(umlOwner);
 		if(umlOwner instanceof INakedActor){
 			OJAnnotatedOperation setRepresentedPerson = new OJAnnotatedOperation("setRepresentedPerson");
 			c.addToOperations(setRepresentedPerson);

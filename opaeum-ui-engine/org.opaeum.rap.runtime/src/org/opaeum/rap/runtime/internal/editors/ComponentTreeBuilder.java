@@ -35,6 +35,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
+import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.editingsupport.GenericConverter;
@@ -55,6 +58,7 @@ import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.control.UimLookup;
 import org.opaeum.uim.panel.GridPanel;
@@ -162,6 +166,25 @@ public class ComponentTreeBuilder{
 				public void widgetDefaultSelected(SelectionEvent e){
 				}
 			});
+		}else if(comp instanceof BuiltInLink){
+			BuiltInLink link = (BuiltInLink) comp;
+			switch(link.getKind()){
+			case AUDIT_TRAIL:
+				break;
+			case BUSINESS_INTELLIGENCE:
+				Hyperlink hl = new Hyperlink(body, SWT.NONE);
+				hl.setText(link.getName());
+				hl.addHyperlinkListener(new IHyperlinkListener(){
+					public void linkExited(HyperlinkEvent e){
+					}
+					public void linkEntered(HyperlinkEvent e){
+					}
+					public void linkActivated(HyperlinkEvent e){
+						OpenEditorAction.openCubeEditor(objectBeingUpdated, false, input.getOpaeumSession());
+					}
+				});
+				break;
+			}
 		}
 	}
 	private void addUimFieldComposite(Composite body,UimComponent comp,DataBindingContext bc){
@@ -225,7 +248,7 @@ public class ComponentTreeBuilder{
 			firstLink.setText(linked.getName());
 			firstLink.addMouseListener(new MouseListener(){
 				public void mouseUp(MouseEvent e){
-					OpenEditorAction.openEditor(linked, true, session);
+					OpenEditorAction.openEntityEditor(linked, true, session);
 				}
 				public void mouseDown(MouseEvent e){
 				}

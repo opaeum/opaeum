@@ -36,6 +36,7 @@ import org.hibernate.annotations.Where;
 import org.opaeum.annotation.BusinessRole;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.organization.Person_iBusinessRole_1;
@@ -64,6 +65,7 @@ import org.w3c.dom.NodeList;
 import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
+@AuditMe
 @NumlMetaInfo(uuid="914890@_mec6wGCfEeG6xvYqJACneg")
 @BusinessRole
 @Filter(name="noDeletedObjects")

@@ -44,7 +44,7 @@ public class CubeQueryCubeSourceSection extends OpaeumChooserPropertySection{
 	}
 	protected Object[] getComboFeatureValues(){
 		Collection<Element> results = new ArrayList<Element>();
-		ClassUserInteractionModel cuim = (ClassUserInteractionModel)getCubeQuery().eContainer();
+		ClassUserInteractionModel cuim = (ClassUserInteractionModel)getCubeQuery().eContainer().eContainer();
 		Class clzz = (Class) UmlUimLinks.getCurrentUmlLinks(getEObject()).getUmlElement(cuim);
 		results.addAll(EmfElementFinder.getCubes(clzz));
 		return results.toArray();

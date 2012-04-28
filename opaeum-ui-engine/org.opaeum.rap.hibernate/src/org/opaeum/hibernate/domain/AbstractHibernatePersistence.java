@@ -1,5 +1,6 @@
 package org.opaeum.hibernate.domain;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import org.hibernate.Session;
@@ -24,7 +25,7 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 		return (T) session.load(t, id);
 	}
 	@Override
-	public <T>T find(Class<T> t,Long id){
+	public <T>T find(Class<T> t,Serializable id){
 		return (T) session.get(t, id);
 	}
 	@Override

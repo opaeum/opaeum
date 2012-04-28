@@ -61,6 +61,7 @@ public class EventDispatcher extends DefaultFlushEventListener implements PostLo
 				declaredField.setAccessible(true);
 				declaredField.set(event.getEntity(), getPersistence(event.getSession()));
 			}
+		}catch(NoSuchFieldException e){
 		}catch(RuntimeException re){
 			throw re;
 		}catch(Exception e){
@@ -125,9 +126,7 @@ public class EventDispatcher extends DefaultFlushEventListener implements PostLo
 		}
 	}
 	protected void scheduleEvents(Set<EventOccurrence> allEventOccurrences){
-		for(EventOccurrence eo:allEventOccurrences){
-			Environment.getInstance().getEventService().scheduleEvent(eo);
-		}
+		Environment.getInstance().getEventService().scheduleEvents(allEventOccurrences);
 	}
 	protected Set<EventOccurrence> saveEvents(FlushEvent event,final EventSource source,Set<IEventGenerator> eventGenerators){
 		Set<EventOccurrence> allEventOccurrences = new HashSet<EventOccurrence>();

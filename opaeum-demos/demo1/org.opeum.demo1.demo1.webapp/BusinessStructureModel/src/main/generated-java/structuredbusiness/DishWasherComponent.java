@@ -29,6 +29,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -47,6 +48,7 @@ import org.w3c.dom.NodeList;
 import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
+@AuditMe
 @NumlMetaInfo(uuid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ")
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)

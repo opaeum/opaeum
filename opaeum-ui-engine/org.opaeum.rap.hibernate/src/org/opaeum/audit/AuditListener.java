@@ -38,8 +38,8 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 			int[] d = persister.findDirty(event.getState(), event.getOldState(), entity, session);
 			if(d != null && d.length > 0){
 				Number n = (Number) Versioning.getVersion(event.getState(), persister);
-				getWorkUnitForSession(session)
-						.logPropertyChanges(event.getOldState(), event.getState(), d, (IPersistentObject) entity, persister.getPropertyNames(), n.intValue());
+				getWorkUnitForSession(session).logPropertyChanges(event.getOldState(), event.getState(), d, (IPersistentObject) entity,
+						persister.getPropertyNames(), n.intValue());
 			}
 		}
 	}
@@ -51,7 +51,8 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 		EventSource session = event.getSession();
 		if(entity instanceof IPersistentObject && IntrospectionUtil.getOriginalClass(entity).isAnnotationPresent(AuditMe.class)){
 			Number n = (Number) Versioning.getVersion(event.getState(), persister);
-			getWorkUnitForSession(session).logInsertedProperties(event.getState(), persister.getPropertyNames(), (IPersistentObject) entity, n.intValue());
+			getWorkUnitForSession(session).logInsertedProperties(event.getState(), persister.getPropertyNames(), (IPersistentObject) entity,
+					n.intValue());
 		}
 	}
 	private AuditWorkUnit getWorkUnitForSession(EventSource session){
@@ -66,13 +67,15 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 	public void onFlush(FlushEvent event) throws HibernateException{
 		super.onFlush(event);
 		final EventSource source = event.getSession();
-		entries.remove(source);
+		AuditWorkUnit auditWorkUnit = entries.get(source);
+		if(auditWorkUnit != null){
+			auditWorkUnit.flush();
+			entries.remove(source);
+		}
 	}
 	@Override
 	public void onPostLoad(PostLoadEvent event){
 		super.onPostLoad(event);
-		// NB!!! Don't touch this code - copied from hibernate
-		// log.debug( "calling onLoad()" );
 		if(event.getEntity() instanceof AuditEntry){
 			AuditEntry ae = (AuditEntry) event.getEntity();
 			ae.setOriginal((IPersistentObject) event.getSession().load(ae.getOriginalClass(), ae.getOriginalId()));
@@ -84,7 +87,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 	@Override
 	public void integrate(Configuration configuration,SessionFactoryImplementor sessionFactory,SessionFactoryServiceRegistry serviceRegistry){
 		System.out.println();
-		//TODO ensure that this is registered as a PostLoadListener
+		// TODO ensure that this is registered as a PostLoadListener
 	}
 	@Override
 	public void integrate(MetadataImplementor metadata,SessionFactoryImplementor sessionFactory,SessionFactoryServiceRegistry serviceRegistry){

@@ -22,7 +22,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -34,12 +33,14 @@ import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedPrimitiveType;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSlot;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
+import org.opaeum.metamodel.core.internal.emulated.NakedBusinessCollaboration;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.TimeUnit;
@@ -81,6 +82,8 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			DOMSource source = new DOMSource(doc);
 			trans.transform(source, result);
 			TextFile textFile = createTextPath(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, Arrays.asList(w.getName() + ".xml"));
+			textFile.setTextSource(new CharArrayTextSource(sw.toString().toCharArray()));
+			textFile = createTextPath(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, Arrays.asList("cube.xml"));
 			textFile.setTextSource(new CharArrayTextSource(sw.toString().toCharArray()));
 		}catch(TransformerConfigurationException e){
 			e.printStackTrace();
@@ -318,7 +321,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			// TODO set formatter
 		}else if(toClass instanceof ICompositionParticipant){
 			Element result = doc.createElement("Level");
-			result.setAttribute("name", toClass.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs());
+			result.setAttribute("name", toClass.getName());
 			result.setAttribute("table", toClass.getMappingInfo().getPersistentName().getAsIs());
 			result.setAttribute("column", getIdColumn(toClass));
 			// result.setAttribute("uniqueMembers", "true");
@@ -329,7 +332,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			levels.add(result);
 		}else if(toClass instanceof INakedEnumeration){
 			Element result = doc.createElement("Level");
-			result.setAttribute("name", property.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs());
+			result.setAttribute("name", toClass.getName());
 			result.setAttribute("column", property.getMappingInfo().getPersistentName().getAsIs());
 			result.setAttribute("table", property.getOwner().getMappingInfo().getPersistentName().getAsIs());
 			levels.add(result);
@@ -393,7 +396,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 	private boolean addDimensions(ICompositionParticipant cp,DimensionNode detail,Set<DimensionNode> leaves){
 		boolean hasParent = false;
 		for(INakedProperty p:cp.getEffectiveAttributes()){
-			if(p.isDimension()){
+			if(p.isDimension() && !(p.getNakedBaseType() instanceof NakedBusinessCollaboration || p.getNakedBaseType() instanceof INakedInterface)){
 				hasParent = true;
 				DimensionNode master = new DimensionNode(cp, p);
 				if(detail != null){

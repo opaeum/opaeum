@@ -40,6 +40,7 @@ import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.bpm.organization.IBusiness;
 import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.IBusinessComponent;
@@ -70,6 +71,7 @@ import org.w3c.dom.NodeList;
 import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
+@AuditMe
 @NumlMetaInfo(uuid="914890@_CQTWAGOeEeGwMNo027LgxA")
 @BusinessComponent(businessRoles={Manager.class,Accountant.class},isRoot=true)
 @Filter(name="noDeletedObjects")

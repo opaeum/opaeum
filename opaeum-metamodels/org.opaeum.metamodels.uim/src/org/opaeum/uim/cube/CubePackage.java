@@ -367,6 +367,61 @@ public interface CubePackage extends EPackage {
 	int MEASURE_PROPERTY_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.opaeum.uim.cube.impl.CubeQueryEditorImpl <em>Query Editor</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.cube.impl.CubeQueryEditorImpl
+	 * @see org.opaeum.uim.cube.impl.CubePackageImpl#getCubeQueryEditor()
+	 * @generated
+	 */
+	int CUBE_QUERY_EDITOR = 7;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY_EDITOR__NAME = UimPackage.USER_INTERACTION_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY_EDITOR__UNDER_USER_CONTROL = UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY_EDITOR__UML_ELEMENT_UID = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Queries</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY_EDITOR__QUERIES = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Query Editor</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY_EDITOR_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link org.opaeum.uim.cube.AggregationFormula <em>Aggregation Formula</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -374,7 +429,7 @@ public interface CubePackage extends EPackage {
 	 * @see org.opaeum.uim.cube.impl.CubePackageImpl#getAggregationFormula()
 	 * @generated
 	 */
-	int AGGREGATION_FORMULA = 7;
+	int AGGREGATION_FORMULA = 8;
 
 
 	/**
@@ -523,6 +578,27 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMeasureProperty_AggregationFormula();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.cube.CubeQueryEditor <em>Query Editor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Query Editor</em>'.
+	 * @see org.opaeum.uim.cube.CubeQueryEditor
+	 * @generated
+	 */
+	EClass getCubeQueryEditor();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.cube.CubeQueryEditor#getQueries <em>Queries</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Queries</em>'.
+	 * @see org.opaeum.uim.cube.CubeQueryEditor#getQueries()
+	 * @see #getCubeQueryEditor()
+	 * @generated
+	 */
+	EReference getCubeQueryEditor_Queries();
 
 	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.cube.AggregationFormula <em>Aggregation Formula</em>}'.
@@ -681,6 +757,24 @@ public interface CubePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MEASURE_PROPERTY__AGGREGATION_FORMULA = eINSTANCE.getMeasureProperty_AggregationFormula();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.cube.impl.CubeQueryEditorImpl <em>Query Editor</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.cube.impl.CubeQueryEditorImpl
+		 * @see org.opaeum.uim.cube.impl.CubePackageImpl#getCubeQueryEditor()
+		 * @generated
+		 */
+		EClass CUBE_QUERY_EDITOR = eINSTANCE.getCubeQueryEditor();
+
+		/**
+		 * The meta object literal for the '<em><b>Queries</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CUBE_QUERY_EDITOR__QUERIES = eINSTANCE.getCubeQueryEditor_Queries();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.cube.AggregationFormula <em>Aggregation Formula</em>}' enum.

@@ -39,7 +39,7 @@ public class NewAction extends Action{
 		Wizard wizard = new NewEntityWizard(child, opaeumSession);
 		WizardDialog dlg = new WizardDialog(display.getActiveShell(), wizard);
 		if(dlg.open() == Window.OK){
-			OpenEditorAction.openEditor(child, true, opaeumSession);
+			OpenEditorAction.openEntityEditor(child, true, opaeumSession);
 		}
 	}
 }

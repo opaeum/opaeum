@@ -18,6 +18,7 @@ import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.ProjectNameStrategy;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.runtime.environment.VersionNumber;
+import org.opaeum.runtime.persistence.DatabaseManagementSystem;
 import org.opaeum.util.SortedProperties;
 
 public class OpaeumConfig{
@@ -43,6 +44,9 @@ public class OpaeumConfig{
 	private static final String WORKSPACE_NAME = "opaeum.workspace.name";
 	private static final String ADDITIONAL_PERSISTENT_CLASSES = "opaeum.additional.persistent.classes";
 	private static final String AUTO_SYNC = "opaeum.eclipse.autosync";
+	private static final String DBMS = "opaeum.dbms";
+	private static final String JDBC_CONNECTION_URL = "opaeum.jdbc.connection.url";
+	private static final String DB_PASSWORD = "opaeum.database.password";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -236,7 +240,7 @@ public class OpaeumConfig{
 		return this.props.getProperty(SCM_TOOL);
 	}
 	public String getDbUser(){
-		return this.props.getProperty(DB_USER);
+		return this.props.getProperty(DB_USER, "postgres");
 	}
 	public void setMavenGroupId(String string){
 		this.props.setProperty(MAVEN_GROUPID, string);
@@ -375,5 +379,14 @@ public class OpaeumConfig{
 	public OpaeumConfig getCopy(){
 		OpaeumConfig result = new OpaeumConfig(getConfigFile());
 		return result;
+	}
+	public String getDbms(){
+		return props.getProperty(DBMS,DatabaseManagementSystem.POSTGRESQL.name());
+	}
+	public String getJdbcConnectionUrl(){
+		return props.getProperty(JDBC_CONNECTION_URL,"jdbc:postgresql://localhost:5433/"+getWorkspaceIdentifier());
+	}
+	public String getDbPassword(){
+		return props.getProperty(DB_PASSWORD,"postgres");
 	}
 }

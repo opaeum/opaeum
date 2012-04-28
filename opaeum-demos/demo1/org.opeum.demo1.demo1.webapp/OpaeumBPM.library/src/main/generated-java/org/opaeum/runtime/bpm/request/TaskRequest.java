@@ -43,6 +43,7 @@ import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.Participant;
@@ -79,6 +80,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@AuditMe
 @NumlMetaInfo(uuid="252060@_zFmsEIoVEeCLqpffVZYAlw")
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
@@ -855,6 +857,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public void init(ProcessContext context) {
+		super.init(context);
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
 	}

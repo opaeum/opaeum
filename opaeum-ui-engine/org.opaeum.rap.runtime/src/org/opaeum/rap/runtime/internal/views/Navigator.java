@@ -67,7 +67,7 @@ public class Navigator extends ViewPart{
 	public void createPartControl(final Composite parent){
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
-		this.opaeumSession = (OpaeumRapSession) RWT.getRequest().getSession(true).getAttribute("opaeumSession");
+		this.opaeumSession = (OpaeumRapSession) RWT.getRequest().getSession(true).getAttribute(OpaeumRapSession.class.getName());
 		this.provider = new NavigatorContentProvider(opaeumSession);
 		viewer.setContentProvider(provider);
 		viewer.setLabelProvider(new ViewLabelProvider());

@@ -36,6 +36,7 @@ import org.opaeum.uim.cube.ColumnAxisEntry;
 import org.opaeum.uim.cube.CubeFactory;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.CubeQuery;
+import org.opaeum.uim.cube.CubeQueryEditor;
 import org.opaeum.uim.cube.DimensionBinding;
 import org.opaeum.uim.cube.LevelProperty;
 
@@ -114,6 +115,13 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 	 * @generated
 	 */
 	private EClass measurePropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cubeQueryEditorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -346,6 +354,24 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCubeQueryEditor() {
+		return cubeQueryEditorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCubeQueryEditor_Queries() {
+		return (EReference)cubeQueryEditorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getAggregationFormula() {
 		return aggregationFormulaEEnum;
 	}
@@ -399,6 +425,9 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		measurePropertyEClass = createEClass(MEASURE_PROPERTY);
 		createEAttribute(measurePropertyEClass, MEASURE_PROPERTY__AGGREGATION_FORMULA);
 
+		cubeQueryEditorEClass = createEClass(CUBE_QUERY_EDITOR);
+		createEReference(cubeQueryEditorEClass, CUBE_QUERY_EDITOR__QUERIES);
+
 		// Create enums
 		aggregationFormulaEEnum = createEEnum(AGGREGATION_FORMULA);
 	}
@@ -445,6 +474,8 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		rowAxisEntryEClass.getESuperTypes().add(this.getAxisEntry());
 		columnAxisEntryEClass.getESuperTypes().add(this.getAxisEntry());
 		measurePropertyEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		cubeQueryEditorEClass.getESuperTypes().add(theUimPackage.getUserInteractionElement());
+		cubeQueryEditorEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(cubeQueryEClass, CubeQuery.class, "CubeQuery", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -481,6 +512,9 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		addEOperation(measurePropertyEClass, theEcorePackage.getEInt(), "hashCode", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(measurePropertyEClass, theEcorePackage.getEString(), "toString", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(cubeQueryEditorEClass, CubeQueryEditor.class, "CubeQueryEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCubeQueryEditor_Queries(), this.getCubeQuery(), null, "queries", null, 0, -1, CubeQueryEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(aggregationFormulaEEnum, AggregationFormula.class, "AggregationFormula");

@@ -14,5 +14,5 @@ import org.opaeum.uim.constraint.EditableConstrainedObject;
  * @model abstract="true"
  * @generated
  */
-public interface Page extends UserInterface, EditableConstrainedObject {
+public interface Page extends UserInterface, EditableConstrainedObject, UmlReference {
 } // Page

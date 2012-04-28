@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_Y2Q4wIIHEeGpLKgWd7Nm5w" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg" name="Remove request participant User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_Y2Q4wYIHEeGpLKgWd7Nm5w" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg" name="EditremoveRequestParticipant"><actionBar xmi:id="_Y2Q4xIIHEeGpLKgWd7Nm5w" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_Y2Q4xYIHEeGpLKgWd7Nm5w" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_Y2Q4xoIHEeGpLKgWd7Nm5w" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_Y2Q4woIHEeGpLKgWd7Nm5w" name="Edit Remove request participant">
-      <panel xmi:type="panel:GridPanel" xmi:id="_Y2Q4w4IHEeGpLKgWd7Nm5w" numberOfColumns="1"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_WcOkQ4uUEeGaRvqkMvqkdg" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg" name="Remove request participant User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_WcOkRIuUEeGaRvqkMvqkdg" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg" name="Edit removeRequestParticipant"><actionBar xmi:id="_WcPLUIuUEeGaRvqkMvqkdg" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_WcPLUYuUEeGaRvqkMvqkdg" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_WcPLUouUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_WcOkRYuUEeGaRvqkMvqkdg" name="Edit Remove request participant" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_WcOkRouUEeGaRvqkMvqkdg" numberOfColumns="1"/>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_Y2Q4x4IHEeGpLKgWd7Nm5w" name="CreateremoveRequestParticipant" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg">
-    <pages xmi:id="_Y2Q4yIIHEeGpLKgWd7Nm5w" name="CreateRemove request participant">
-      <panel xmi:type="panel:GridPanel" xmi:id="_Y2Q4yYIHEeGpLKgWd7Nm5w" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_WcPLU4uUEeGaRvqkMvqkdg" name="Create removeRequestParticipant" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg">
+    <pages xmi:id="_WcPLVIuUEeGaRvqkMvqkdg" name="CreateRemove request participant" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_WcPLVYuUEeGaRvqkMvqkdg" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </uim:ClassUserInteractionModel>

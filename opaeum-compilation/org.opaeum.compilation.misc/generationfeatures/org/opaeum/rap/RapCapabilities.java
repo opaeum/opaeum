@@ -11,9 +11,11 @@ import org.opaeum.javageneration.jbpm5.ProcessStepResolverImplementor;
 import org.opaeum.javageneration.organization.OrganizationImplementor;
 import org.opaeum.javageneration.rap.RapAttributeImplementor;
 import org.opaeum.linkage.QualifierLogicCalculator;
+import org.opaeum.olap.MondrianCubeGenerator;
 
 @StepDependency(phase = BootstrapGenerationPhase.class,requires = {RapProjectBuilder.class,EnumResolverImplementor.class,
-		ProcessStepResolverImplementor.class, RapAttributeImplementor.class,FactoryMethodCreator.class,OrganizationImplementor.class,QualifierLogicCalculator.class})
+		ProcessStepResolverImplementor.class,RapAttributeImplementor.class,FactoryMethodCreator.class,OrganizationImplementor.class,
+		QualifierLogicCalculator.class,MondrianCubeGenerator.class})
 public class RapCapabilities extends AbstractBootstrapStep implements ITransformationStep{
 	public RapCapabilities(){
 	}

@@ -5,6 +5,8 @@ import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -176,7 +178,7 @@ public class HibernateEnvironment extends Environment{
 		IEventHandler handler = getMetaInfoMap().getEventHandler(s.getUid());
 		EventOccurrence occurrence = new EventOccurrence(target, handler);
 		getCmtPersistence().persist(occurrence);
-		getEventService().scheduleEvent(occurrence);
+		getEventService().scheduleEvents(Collections.singleton(occurrence));
 	}
 	@Override
 	public UmtPersistence newUmtPersistence(){

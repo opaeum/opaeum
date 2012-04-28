@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_Y2mQAIIHEeGpLKgWd7Nm5w" umlElementUid="252060@_Nn1XcGIIEeGzlJ4_CwngCw" name="Add to business collaboration User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_Y2m3AIIHEeGpLKgWd7Nm5w" umlElementUid="252060@_Nn1XcGIIEeGzlJ4_CwngCw" name="EditaddToBusinessCollaboration"><actionBar xmi:id="_Y2m3A4IHEeGpLKgWd7Nm5w" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_Y2m3BIIHEeGpLKgWd7Nm5w" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_Y2m3BYIHEeGpLKgWd7Nm5w" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_Y2m3AYIHEeGpLKgWd7Nm5w" name="Edit Add to business collaboration">
-      <panel xmi:type="panel:GridPanel" xmi:id="_Y2m3AoIHEeGpLKgWd7Nm5w" numberOfColumns="1"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_WbT-S4uUEeGaRvqkMvqkdg" umlElementUid="252060@_Nn1XcGIIEeGzlJ4_CwngCw" name="Add to business collaboration User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_WbT-TIuUEeGaRvqkMvqkdg" umlElementUid="252060@_Nn1XcGIIEeGzlJ4_CwngCw" name="Edit addToBusinessCollaboration"><actionBar xmi:id="_WbUlUouUEeGaRvqkMvqkdg" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_WbUlU4uUEeGaRvqkMvqkdg" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_WbUlVIuUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_WbUlUIuUEeGaRvqkMvqkdg" name="Edit Add to business collaboration" umlElementUid="252060@_Nn1XcGIIEeGzlJ4_CwngCw">
+      <panel xmi:type="panel:GridPanel" xmi:id="_WbUlUYuUEeGaRvqkMvqkdg" numberOfColumns="1"/>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_Y2m3BoIHEeGpLKgWd7Nm5w" name="CreateaddToBusinessCollaboration" umlElementUid="252060@_Nn1XcGIIEeGzlJ4_CwngCw">
-    <pages xmi:id="_Y2m3B4IHEeGpLKgWd7Nm5w" name="CreateAdd to business collaboration">
-      <panel xmi:type="panel:GridPanel" xmi:id="_Y2m3CIIHEeGpLKgWd7Nm5w" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_WbUlVYuUEeGaRvqkMvqkdg" name="Create addToBusinessCollaboration" umlElementUid="252060@_Nn1XcGIIEeGzlJ4_CwngCw">
+    <pages xmi:id="_WbUlVouUEeGaRvqkMvqkdg" name="CreateAdd to business collaboration" umlElementUid="252060@_Nn1XcGIIEeGzlJ4_CwngCw">
+      <panel xmi:type="panel:GridPanel" xmi:id="_WbUlV4uUEeGaRvqkMvqkdg" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </uim:ClassUserInteractionModel>

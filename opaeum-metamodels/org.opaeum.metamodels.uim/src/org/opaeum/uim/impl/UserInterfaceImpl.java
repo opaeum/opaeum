@@ -67,29 +67,20 @@ public class UserInterfaceImpl extends UserInteractionElementImpl implements Use
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	public String getUmlElementUid(){
-		if(eContainer() instanceof UmlReference){
-			return ((UmlReference) eContainer()).getUmlElementUid();
-		}
 		return umlElementUid;
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	public void setUmlElementUid(String newUmlElementUid){
-		if(eContainer() instanceof UmlReference){
-			((UmlReference) eContainer()).setUmlElementUid(newUmlElementUid);
-		}else{
-			String oldUmlElementUid = umlElementUid;
-			umlElementUid = newUmlElementUid;
-			if(eNotificationRequired())
-				eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERFACE__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
-		}
+		String oldUmlElementUid = umlElementUid;
+		umlElementUid = newUmlElementUid;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERFACE__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->

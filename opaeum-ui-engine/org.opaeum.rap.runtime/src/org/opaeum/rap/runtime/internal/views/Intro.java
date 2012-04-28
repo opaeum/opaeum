@@ -67,7 +67,6 @@ import org.opaeum.runtime.organization.IBusinessNetwork;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
-import com.google.api.client.auth.oauth2.draft10.AccessTokenResponse;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.extensions.Email;
 import com.google.gdata.data.extensions.PhoneNumber;
@@ -78,12 +77,9 @@ public class Intro extends ViewPart{
 	private OpaeumRapSession opaeumRapSession;
 	public void setFocus(){
 		Display display = Display.getCurrent();
-		AccessTokenResponse accessToken = (AccessTokenResponse) RWT.getRequest().getSession(true).getAttribute("authResponse");
-		if(accessToken != null){
-			opaeumRapSession = new OpaeumRapSession(getApplication(), accessToken);
-			opaeumRapSession.associatePerson();
-			RWT.getRequest().getSession(true).setAttribute("opaeumSession", opaeumRapSession);
-			IBusinessCollaborationBase bc = getApplication().getRootBusinessCollaboration();
+		OpaeumRapSession ors= (OpaeumRapSession) RWT.getRequest().getSession(true).getAttribute(OpaeumRapSession.class.getName());
+		if(ors != null){
+			IBusinessCollaborationBase bc = ors.getApplication().getRootBusinessCollaboration();
 			// TODO Make a bit more sophisticated maybe introduced an
 			// initiliazed flag
 			if(bc == null){

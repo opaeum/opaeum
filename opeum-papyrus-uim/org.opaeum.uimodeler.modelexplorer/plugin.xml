@@ -103,6 +103,9 @@
 	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateCubeQueryCommandHandler" 
 		description="Creates a new Cube Query" id="org.opaeum.uimodeler.modelexplorer.handler.CreateCubeQueryCommandHandler" name="Create a new Cube Query">
 	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateCubeQueryEditorCommandHandler" 
+		description="Creates a new Cube Query Editor" id="org.opaeum.uimodeler.modelexplorer.handler.CreateCubeQueryEditorCommandHandler" name="Create a new Cube Query Editor">
+	</command>
 </extension>
 
 	
@@ -142,6 +145,10 @@
 		</command>
 		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateCubeQueryCommandHandler" 
 			icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new CubeQuery" style="push" tooltip="Create a new CubeQuery">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateCubeQueryEditorCommandHandler" 
+			icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new CubeQueryEditor" style="push" tooltip="Create a new CubeQueryEditor">
 			<visibleWhen checkEnabled="true"/>
 		</command>
 	</menuContribution>

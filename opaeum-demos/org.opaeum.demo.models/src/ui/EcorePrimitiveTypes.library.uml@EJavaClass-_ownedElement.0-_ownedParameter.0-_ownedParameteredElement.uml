@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_WarsIIuUEeGaRvqkMvqkdg" umlElementUid="EcorePrimitiveTypes.library.uml@EJavaClass-_ownedElement.0-_ownedParameter.0-_ownedParameteredElement" name="T User Interface Model" linkedUmlResource="EcorePrimitiveTypes.library.uml">
+  <primaryEditor xmi:id="_WarsIYuUEeGaRvqkMvqkdg" umlElementUid="EcorePrimitiveTypes.library.uml@EJavaClass-_ownedElement.0-_ownedParameter.0-_ownedParameteredElement" name="Edit T"><actionBar xmi:id="_WauvcYuUEeGaRvqkMvqkdg" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_WauvcouUEeGaRvqkMvqkdg" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_Wauvc4uUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_WauIYIuUEeGaRvqkMvqkdg" name="Edit T" umlElementUid="EcorePrimitiveTypes.library.uml@EJavaClass-_ownedElement.0-_ownedParameter.0-_ownedParameteredElement">
+      <panel xmi:type="panel:GridPanel" xmi:id="_WauvcIuUEeGaRvqkMvqkdg" numberOfColumns="1"/>
+    </pages></primaryEditor>
+  <newObjectWizard xmi:id="_WauvdIuUEeGaRvqkMvqkdg" name="Create T" umlElementUid="EcorePrimitiveTypes.library.uml@EJavaClass-_ownedElement.0-_ownedParameter.0-_ownedParameteredElement">
+    <pages xmi:id="_Wav9kIuUEeGaRvqkMvqkdg" name="CreateT" umlElementUid="EcorePrimitiveTypes.library.uml@EJavaClass-_ownedElement.0-_ownedParameter.0-_ownedParameteredElement">
+      <panel xmi:type="panel:GridPanel" xmi:id="_Wav9kYuUEeGaRvqkMvqkdg" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</uim:ClassUserInteractionModel>

@@ -48,6 +48,8 @@ public class LoginView extends ViewPart{
 		};
 		link.addHyperlinkListener(hyperlinkListener);
 		GoogleAuthorizationRequestUrl builder = new GoogleAuthorizationRequestUrl(CLIENT_ID, CALLBACK_URL, SCOPE);
+		builder.put("approval_prompt", "force");
+		builder.put("access_type", "offline");
 		String authorizeUrl = builder.build();
 		link.setHref(authorizeUrl);
 

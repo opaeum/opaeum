@@ -1,5 +1,6 @@
 package org.opaeum.runtime.jpa;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import org.opaeum.runtime.domain.IPersistentObject;
@@ -47,7 +48,7 @@ public abstract class AbstractJpaUmtPersistence extends AbstractJpaPersistence i
 		return super.getReference(t, id);
 	}
 	@Override
-	public <T> T find(Class<T> t, Long id) {
+	public <T> T find(Class<T> t, Serializable id) {
 		checkTransaction();
 		return super.find(t, id);
 	}

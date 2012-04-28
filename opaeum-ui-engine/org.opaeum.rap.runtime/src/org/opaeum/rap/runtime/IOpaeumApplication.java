@@ -1,5 +1,7 @@
 package org.opaeum.rap.runtime;
 
+import java.net.URL;
+
 import javax.validation.Validator;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -17,4 +19,5 @@ public interface IOpaeumApplication{
 	String getIdentifier();
 	IPersonNode findOrCreatePersonByEMailAddress(String id);
 	Validator getValidator();
+	URL getCubeUrl();
 }

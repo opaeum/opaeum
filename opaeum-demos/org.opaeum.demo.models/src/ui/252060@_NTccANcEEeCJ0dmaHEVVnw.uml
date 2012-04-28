@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<frm:QueryInvocationEditor xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:frm="http://opaeum.org/uimetamodel/form/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/form/1.0 http://opaeum.org/uimetamodel/1.0#//editor http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_Y2KyLYIHEeGpLKgWd7Nm5w" umlElementUid="252060@_NTccANcEEeCJ0dmaHEVVnw" name="addTimeTo" linkedUmlResource="OpaeumBPM.library.uml">
-  <actionBar xmi:id="_Y2KyPIIHEeGpLKgWd7Nm5w" name="ActionBar">
-    <children xmi:type="uact:BuiltInActionButton" xmi:id="_Y2KyPYIHEeGpLKgWd7Nm5w" name="Execute operation" kind="executeOperation"/>
+<frm:QueryInvocationEditor xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:frm="http://opaeum.org/uimetamodel/form/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/form/1.0 http://opaeum.org/uimetamodel/1.0#//editor http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_WbmSIIuUEeGaRvqkMvqkdg" umlElementUid="252060@_NTccANcEEeCJ0dmaHEVVnw" name="addTimeTo" linkedUmlResource="OpaeumBPM.library.uml">
+  <actionBar xmi:id="_Wbm5OYuUEeGaRvqkMvqkdg" name="ActionBar">
+    <children xmi:type="uact:BuiltInActionButton" xmi:id="_Wbm5OouUEeGaRvqkMvqkdg" name="Execute operation" kind="executeOperation"/>
   </actionBar>
-  <pages xmi:id="_Y2KyLoIHEeGpLKgWd7Nm5w" name="Task: Add time to">
-    <panel xmi:type="panel:GridPanel" xmi:id="_Y2KyL4IHEeGpLKgWd7Nm5w" numberOfColumns="1">
-      <children xmi:type="uim:UimField" xmi:id="_Y2KyMIIHEeGpLKgWd7Nm5w" name="From date time" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimDatePopup" xmi:id="_Y2KyMYIHEeGpLKgWd7Nm5w"/>
-        <binding xmi:id="_Y2KyMoIHEeGpLKgWd7Nm5w" umlElementUid="252060@_OJSe4NcEEeCJ0dmaHEVVnw"/>
+  <pages xmi:id="_WbmSIYuUEeGaRvqkMvqkdg" name="Task: Add time to" umlElementUid="252060@_NTccANcEEeCJ0dmaHEVVnw">
+    <panel xmi:type="panel:GridPanel" xmi:id="_WbmSIouUEeGaRvqkMvqkdg" numberOfColumns="1">
+      <children xmi:type="uim:UimField" xmi:id="_WbmSI4uUEeGaRvqkMvqkdg" name="From date time" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimDatePopup" xmi:id="_WbmSJIuUEeGaRvqkMvqkdg"/>
+        <binding xmi:id="_WbmSJYuUEeGaRvqkMvqkdg" umlElementUid="252060@_OJSe4NcEEeCJ0dmaHEVVnw"/>
       </children>
-      <children xmi:type="uim:UimField" xmi:id="_Y2KyM4IHEeGpLKgWd7Nm5w" name="Time unit" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimDropdown" xmi:id="_Y2KyNIIHEeGpLKgWd7Nm5w"/>
-        <binding xmi:id="_Y2KyNYIHEeGpLKgWd7Nm5w" umlElementUid="252060@_QPwcINcEEeCJ0dmaHEVVnw"/>
+      <children xmi:type="uim:UimField" xmi:id="_Wbm5MIuUEeGaRvqkMvqkdg" name="Time unit" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimDropdown" xmi:id="_Wbm5MYuUEeGaRvqkMvqkdg"/>
+        <binding xmi:id="_Wbm5MouUEeGaRvqkMvqkdg" umlElementUid="252060@_QPwcINcEEeCJ0dmaHEVVnw"/>
       </children>
-      <children xmi:type="uim:UimField" xmi:id="_Y2KyNoIHEeGpLKgWd7Nm5w" name="Number of units" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimText" xmi:id="_Y2KyN4IHEeGpLKgWd7Nm5w"/>
-        <binding xmi:id="_Y2KyOIIHEeGpLKgWd7Nm5w" umlElementUid="252060@_WfbDYNcEEeCJ0dmaHEVVnw"/>
+      <children xmi:type="uim:UimField" xmi:id="_Wbm5M4uUEeGaRvqkMvqkdg" name="Number of units" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimText" xmi:id="_Wbm5NIuUEeGaRvqkMvqkdg"/>
+        <binding xmi:id="_Wbm5NYuUEeGaRvqkMvqkdg" umlElementUid="252060@_WfbDYNcEEeCJ0dmaHEVVnw"/>
       </children>
-      <children xmi:type="uim:UimField" xmi:id="_Y2KyOYIHEeGpLKgWd7Nm5w" name="Result" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-        <control xmi:type="ctl:UimDatePopup" xmi:id="_Y2KyOoIHEeGpLKgWd7Nm5w"/>
-        <binding xmi:id="_Y2KyO4IHEeGpLKgWd7Nm5w" umlElementUid="252060@_ZaBMQNcEEeCJ0dmaHEVVnw"/>
+      <children xmi:type="uim:UimField" xmi:id="_Wbm5NouUEeGaRvqkMvqkdg" name="Result" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <control xmi:type="ctl:UimDatePopup" xmi:id="_Wbm5N4uUEeGaRvqkMvqkdg"/>
+        <binding xmi:id="_Wbm5OIuUEeGaRvqkMvqkdg" umlElementUid="252060@_ZaBMQNcEEeCJ0dmaHEVVnw"/>
       </children>
     </panel>
   </pages>

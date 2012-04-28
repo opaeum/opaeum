@@ -37,15 +37,4 @@ public class OperationPopupPageImpl extends PageImpl implements OperationPopupPa
 		return ActionPackage.Literals.OPERATION_POPUP_PAGE;
 	}
 
-	@Override
-	public String getUmlElementUid(){
-		return ((OperationPopup)eContainer()).getUmlElementUid();
-	}
-
-	@Override
-	public void setUmlElementUid(String newUmlElementUid){
-		((OperationPopup)eContainer()).setUmlElementUid(newUmlElementUid);
-		super.setUmlElementUid(newUmlElementUid);
-	}
-
 } //OperationPopupPageImpl

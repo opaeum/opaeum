@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -69,13 +70,14 @@ public class StandaloneJpaEnvironment extends Environment{
 		schemas.remove("");
 		try{
 			loadDriver("org.hsqldb.jdbcDriver");
-			loadDriver("org.postgres.Driver");
+			loadDriver("org.postgresql.Driver");
 			loadDriver("oracle.jdbc.driver.OracleDriver");
 			loadDriver("com.ibm.db2.jcc.DB2Driver");
 			loadDriver("org.gjt.mm.mysql.Driver");
 			// TODO etc
-			Connection connection = DriverManager.getConnection(super.getProperty(JDBC_CONNECTION_URL), Environment.getInstance()
-					.getProperty(Environment.DB_USER, "sa"), Environment.getInstance().getProperty(Environment.DB_PASSWORD, ""));
+			Connection connection = DriverManager.getConnection(super.getProperty(JDBC_CONNECTION_URL),
+					Environment.getInstance().getProperty(Environment.DB_USER, "sa"),
+					Environment.getInstance().getProperty(Environment.DB_PASSWORD, ""));
 			Statement st = connection.createStatement();
 			for(String string:schemas){
 				try{
@@ -94,6 +96,7 @@ public class StandaloneJpaEnvironment extends Environment{
 		try{
 			Class.forName(driver);
 		}catch(ClassNotFoundException e1){
+			// e1.printStackTrace();
 		}
 	}
 	@SuppressWarnings("unchecked")
@@ -114,8 +117,8 @@ public class StandaloneJpaEnvironment extends Environment{
 		}
 	}
 	public ConversationalPersistence createConversationalPersistence(){
-			EntityManager em = openHibernateSession();
-			return new StandaloneJpaConversationalPersistence(em);
+		EntityManager em = openHibernateSession();
+		return new StandaloneJpaConversationalPersistence(em);
 	}
 	private EntityManager getEntityManager(){
 		if(this.entityManager == null){
@@ -133,9 +136,8 @@ public class StandaloneJpaEnvironment extends Environment{
 	private EntityManager openHibernateSession(){
 		EntityManager em = getEntityManagerFactory().createEntityManager();
 		if(em.getDelegate() instanceof Session){
-			((Session)em.getDelegate()).enableFilter("noDeletedObjects");
+			((Session) em.getDelegate()).enableFilter("noDeletedObjects");
 		}
-
 		return em;
 	}
 	public CmtPersistence getCmtPersistence(){
@@ -168,7 +170,7 @@ public class StandaloneJpaEnvironment extends Environment{
 		IEventHandler handler = getMetaInfoMap().getEventHandler(s.getUid());
 		EventOccurrence occurrence = new EventOccurrence(target, handler);
 		getCmtPersistence().persist(occurrence);
-		getEventService().scheduleEvent(occurrence);
+		getEventService().scheduleEvents(Collections.singleton(occurrence));
 	}
 	private StatefulKnowledgeSession getKnowledgeSession(){
 		if(this.knowledgeSession == null){

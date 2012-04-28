@@ -81,6 +81,7 @@ public class DiagramCreator{
 		if(pageContainer instanceof AbstractEditor){
 			AbstractEditor e = (AbstractEditor) pageContainer;
 			EditorActionBar actionBar = e.getActionBar();
+			
 			Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
 			diagram.setElement(e);
 			diagram.setType(AbstractEditorEditPart.MODEL_ID);

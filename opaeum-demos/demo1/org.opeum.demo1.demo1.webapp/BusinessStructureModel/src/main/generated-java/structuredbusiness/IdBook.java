@@ -31,6 +31,7 @@ import org.hibernate.annotations.Type;
 import org.opaeum.annotation.BusinessDocument;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.bpm.document.IBusinessDocument;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -51,6 +52,7 @@ import org.w3c.dom.NodeList;
 import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
+@AuditMe
 @NumlMetaInfo(uuid="914890@_oiVeEGCfEeG6xvYqJACneg")
 @BusinessDocument(documentType=org.opaeum.runtime.domain.DocumentType.SPREADSHEET)
 @Filter(name="noDeletedObjects")

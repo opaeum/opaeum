@@ -11,6 +11,7 @@ import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.infra.core.utils.ServiceUtilsForActionHandlers;
@@ -36,16 +37,21 @@ public abstract class CreateCommandHandler extends AbstractCommandHandler{
 		if(provider == null){
 			return UnexecutableCommand.INSTANCE;
 		}
-	  TransactionalEditingDomain domain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
-		Command emfCommand = AddCommand.create(domain, getSelectedElement(), getFeature(), getNewObject());
-		return emfCommand;
+		TransactionalEditingDomain domain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
+		if(getFeature().isMany()){
+			Command emfCommand = AddCommand.create(domain, getSelectedElement(), getFeature(), getNewObject());
+			return emfCommand;
+		}else{
+			Command emfCommand = SetCommand.create(domain, getSelectedElement(), getFeature(), getNewObject());
+			return emfCommand;
+		}
 	}
 	protected Command getCommand(){
-			try{
-				createCommand = buildCommand();
-			}catch(ServiceException e){
-				e.printStackTrace();
-			}
+		try{
+			createCommand = buildCommand();
+		}catch(ServiceException e){
+			e.printStackTrace();
+		}
 		return createCommand;
 	}
 	@Override

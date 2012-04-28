@@ -302,7 +302,7 @@ public final class DataTableBuilder{
 				public void onClick(Object element){
 					Object invoke = bindingUtil.invoke(element, uimField.getBinding());
 					if(invoke != null){
-						OpenEditorAction.openEditor(invoke, true, session);
+						OpenEditorAction.openEntityEditor(invoke, true, session);
 					}
 				}
 			});

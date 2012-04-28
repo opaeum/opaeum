@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<perspective:UimPerspective xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:perspective="http://opaeum.org/uimetamodel/perspective/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/perspective/1.0 http://opaeum.org/uimetamodel/1.0#//perspective" xmi:id="_Y25K9IIHEeGpLKgWd7Nm5w" name="Perspective">
-  <explorerConfiguration xmi:id="_idJ6YIYAEeGncrbVK-dClQ"/>
-  <editorConfiguration xmi:id="_g-6awIYAEeGncrbVK-dClQ"/>
-  <propertiesConfiguration xmi:id="_hwN74IYAEeGncrbVK-dClQ"/>
-</perspective:UimPerspective>
