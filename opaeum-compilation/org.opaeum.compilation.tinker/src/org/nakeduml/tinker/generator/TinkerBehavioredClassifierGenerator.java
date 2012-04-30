@@ -36,7 +36,7 @@ public class TinkerBehavioredClassifierGenerator extends StereotypeAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitBehavioredClassifier(INakedBehavioredClassifier c) {
-		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType) && c.getClassifierBehavior() != null) {
+		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType) && !c.getOwnedBehaviors().isEmpty()) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			implementReceiveSignal(ojClass, c);
 			implementReception(ojClass, c);
@@ -50,7 +50,8 @@ public class TinkerBehavioredClassifierGenerator extends StereotypeAnnotator {
 		OJField result = new OJField();
 		result.setName("result");
 		result.setType(new OJPathName("java.util.List"));
-		result.getType().addToGenerics(TinkerBehaviorUtil.tinkerAbstractActivityPathName);
+		result.getType().addToGenerics(TinkerBehaviorUtil.tinkerAbstractActivityPathName.getCopy());
+		ojClass.addToImports(TinkerBehaviorUtil.tinkerAbstractActivityPathName.getCopy());
 		getAllActivities.setReturnType(result.getType());
 		result.setInitExp("new ArrayList<"+TinkerBehaviorUtil.tinkerAbstractActivityPathName.getLast()+">()");
 		getAllActivities.getBody().addToLocals(result);
@@ -92,12 +93,12 @@ public class TinkerBehavioredClassifierGenerator extends StereotypeAnnotator {
 			INakedBehavior method = reception.getMethods().iterator().next();
 			if (method == c.getClassifierBehavior()) {
 				tryS.getTryPart().addToStatements(
-						"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
+						"Set<" + TinkerBehaviorUtil.tinkerIActivityNodePathName.getLast()
 								+ "<? extends Token, ? extends Token>> nodesToTrigger = getClassifierBehavior().getEnabledNodesWithMatchingTrigger(event)");
 			} else {
 				tryS.getTryPart().addToStatements(OJUtil.classifierPathname(method).getLast() + " m = new " + OJUtil.classifierPathname(method).getLast() + "(" + "this)");
 				tryS.getTryPart().addToStatements(
-						"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
+						"Set<" + TinkerBehaviorUtil.tinkerIActivityNodePathName.getLast()
 								+ "<? extends Token, ? extends Token>> nodesToTrigger = m.getEnabledNodesWithMatchingTrigger(event)");
 			}
 
@@ -113,7 +114,7 @@ public class TinkerBehavioredClassifierGenerator extends StereotypeAnnotator {
 			ifNodesToTrigger.addToThenPart("acceptEventAction.setStarts(new SingleIterator<" + tokenType + ">(new " + tokenType + "(acceptEventAction.getName())))");
 			ifNodesToTrigger.addToThenPart("acceptEventAction.next()");
 			tryS.getTryPart().addToStatements(ifNodesToTrigger);
-			ojClass.addToImports(TinkerBehaviorUtil.tinkerActivityNodePathName);
+			ojClass.addToImports(TinkerBehaviorUtil.tinkerIActivityNodePathName);
 			ojClass.addToImports(new OJPathName("java.util.Set"));
 			ojClass.addToImports(TinkerBehaviorUtil.tinkerSingleIteratorPathName);
 			ojClass.addToImports(TinkerBehaviorUtil.tinkerTokenPathName);

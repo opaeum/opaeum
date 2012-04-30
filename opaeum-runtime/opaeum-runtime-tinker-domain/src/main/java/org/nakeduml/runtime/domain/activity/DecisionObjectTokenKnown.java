@@ -23,13 +23,13 @@ public abstract class DecisionObjectTokenKnown<O,IN extends ObjectToken<O>> exte
 	protected abstract ObjectFlowKnown<O,IN> getInFlow();
 
 	@Override
-	protected List<ObjectFlowKnown<O,IN>> getInFlows() {
+	public List<ObjectFlowKnown<O,IN>> getIncoming() {
 		List<ObjectFlowKnown<O,IN>> result = new ArrayList<ObjectFlowKnown<O,IN>>();
 		result.add(getInFlow());
 		return result;
 	}
 	
 	@Override
-	protected abstract List<? extends ObjectFlowKnown<O,IN>> getOutFlows();
+	public abstract List<? extends ObjectFlowKnown<O,IN>> getOutgoing();
 
 }

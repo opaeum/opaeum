@@ -15,12 +15,6 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
 
-/**
- * This class is need to emulate attibutes in namespaces where other typed elements should also function appear as attributes to Octopus
- * 
- * @author abarnard
- * 
- */
 public class EdgeBridge extends AbstractEmulatedProperty implements INakedProperty{
 	/**
 	 * 

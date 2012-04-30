@@ -22,6 +22,6 @@ public abstract class MergeNodeObjectTokenKnown<O,IN extends ObjectToken<O>,OUT 
 	protected abstract ObjectFlowKnown<O,OUT> getOutFlow();
 
 	@Override
-	protected abstract List<? extends ObjectFlowKnown<O,IN>> getInFlows();
+	public abstract List<? extends ObjectFlowKnown<O,IN>> getIncoming();
 
 }

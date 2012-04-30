@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.nakeduml.runtime.domain.activity.interf.IActivityEdge;
 import org.nakeduml.tinker.runtime.GraphDb;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.pipes.AbstractPipe;
 
-public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Boolean> {
+public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Boolean> implements IActivityEdge<T> {
 
 	protected Edge edge;
 	private List<T> tokens = new ArrayList<T>();
@@ -41,9 +42,11 @@ public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Bool
 		}
 	}
 
-	protected abstract <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getTarget();
+	@Override
+	public abstract <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getTarget();
 
-	protected abstract <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getSource();
+	@Override
+	public abstract <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getSource();
 
 	public abstract String getName();
 

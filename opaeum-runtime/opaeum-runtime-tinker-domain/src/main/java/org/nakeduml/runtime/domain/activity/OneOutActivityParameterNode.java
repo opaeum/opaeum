@@ -23,10 +23,10 @@ public abstract class OneOutActivityParameterNode<O> extends OutActivityParamete
 	}
 
 	@Override
-	protected abstract List<OneObjectFlowKnown<O>> getInFlows();
+	public abstract List<OneObjectFlowKnown<O>> getIncoming();
 
 	@Override
-	protected List<OneObjectFlowKnown<O>> getOutFlows() {
+	public List<OneObjectFlowKnown<O>> getOutgoing() {
 		return Collections.emptyList();
 	}	
 	

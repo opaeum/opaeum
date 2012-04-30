@@ -1,23 +1,16 @@
 package org.nakeduml.runtime.domain.activity;
 
+import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
+import org.nakeduml.runtime.domain.activity.interf.IEvent;
+import org.nakeduml.runtime.domain.activity.interf.ITrigger;
 
-public class Trigger {
+public abstract class Trigger extends BaseTinkerSoftDelete implements ITrigger {
 
-	private String name;
-	private String eventName;
+	private static final long serialVersionUID = 5709531503304555463L;
 
-	public Trigger(String name, String eventName) {
-		super();
-		this.name = name;
-		this.eventName = eventName;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getEventName() {
-		return eventName;
+	@Override
+	public boolean accepts(IEvent event) {
+		return event.getClass().isAssignableFrom(getEvent().getClass());
 	}
 
 }

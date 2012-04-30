@@ -23,7 +23,7 @@ public abstract class OutActivityParameterNode<O, IN extends ObjectToken<O>> ext
 	}
 
 	@Override
-	protected List<? extends ObjectFlowKnown<O, IN>> getOutFlows() {
+	public List<? extends ObjectFlowKnown<O, IN>> getOutgoing() {
 		return Collections.emptyList();
 	}
 	

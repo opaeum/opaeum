@@ -111,7 +111,7 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 		invokeAcceptCallAction.getBody().addToStatements(TinkerBehaviorUtil.tinkerAbstractActivityPathName.getLast() + " m = getFirstActivityForCallEvent(event)");
 		ownerClass.addToImports(TinkerBehaviorUtil.tinkerAbstractActivityPathName);
 		invokeAcceptCallAction.getBody().addToStatements(
-				"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
+				"Set<" + TinkerBehaviorUtil.tinkerIActivityNodePathName.getLast()
 						+ "<? extends Token, ? extends Token>> nodesToTrigger = m.getEnabledNodesWithMatchingTrigger(event)");
 
 		OJIfStatement ifNodesToTrigger = new OJIfStatement("!nodesToTrigger.isEmpty()");

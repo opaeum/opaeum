@@ -1,15 +1,19 @@
 package org.nakeduml.tinker.activity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
+import org.nakeduml.tinker.generator.TinkerAttributeImplementor;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
+import org.nakeduml.tinker.javageneration.composition.TinkerComponentInitializer;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
@@ -35,6 +39,7 @@ import org.opaeum.metamodel.actions.INakedAcceptCallAction;
 import org.opaeum.metamodel.actions.INakedAcceptEventAction;
 import org.opaeum.metamodel.actions.INakedAddStructuralFeatureValueAction;
 import org.opaeum.metamodel.actions.INakedAddVariableValueAction;
+import org.opaeum.metamodel.actions.INakedCallOperationAction;
 import org.opaeum.metamodel.actions.INakedCreateObjectAction;
 import org.opaeum.metamodel.actions.INakedOclAction;
 import org.opaeum.metamodel.actions.INakedOpaqueAction;
@@ -132,7 +137,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		addGetInFlows(valuePinClass, oa);
 		addOutControlFlowGetters(valuePinClass, oa);
 		addInControlFlowGetters(valuePinClass, oa);
-		addGetContextObject(valuePinClass, oa.getActivity().getContext());
 		implementGetActivity(valuePinClass, oa);
 
 		addContextObjectField(valuePinClass, oa.getActivity().getContext());
@@ -222,7 +226,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		activityParameterNodeClass.setSuperclass(superClass);
 
 		addConstructorWithVertex(activityParameterNodeClass, oa.getActivity().getContext());
-		addGetContextObject(activityParameterNodeClass, oa.getActivity().getContext());
 		addInitVertexToDefaultConstructor(activityParameterNodeClass, oa);
 		addContextObjectField(activityParameterNodeClass, oa.getActivity().getContext());
 		addContextObjectToDefaultConstructor(activityParameterNodeClass, oa.getActivity().getContext());
@@ -247,6 +250,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		implementStructuralFeatureAction(actionClass, oa);
 		implementWriteStructuralFeatureAction(actionClass, oa);
 		implementAddStructuralFeatureValueAction(actionClass, oa);
+		addGetContextObject(actionClass, oa.getActivity().getContext());
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -265,6 +269,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		implementGenerics(actionClass, oa);
 		implementCreateObject(actionClass, oa);
 		implementGetResult(actionClass, oa.getResult());
+		addGetContextObject(actionClass, oa.getActivity().getContext());
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -289,6 +294,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		implementGenerics(actionClass, oa);
 
 		implementGetResult(actionClass, oa.getResult());
+		addGetContextObject(actionClass, oa.getActivity().getContext());
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -312,7 +318,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		implementWriteVariable(actionClass, oa);
 		implementGetValue(actionClass, oa.getValue());
 		implementReadVariable(actionClass, oa);
-		// implementGetResult(actionClass, oa.getResult());
+		addGetContextObject(actionClass, oa.getActivity().getContext());
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -323,12 +329,12 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		OJAnnotatedClass actionClass = new OJAnnotatedClass(NameConverter.capitalize(oa.getName()));
 		actionClass.setMyPackage(pack);
 		// Calc one or many
-		if (oa.getReturnPin()!=null && oa.getReturnPin().getNakedMultiplicity().isMany()) {
+		if (oa.getReturnPin() != null && oa.getReturnPin().getNakedMultiplicity().isMany()) {
 			actionClass.setSuperclass(TinkerBehaviorUtil.tinkerManyOpaqueActionPathName.getCopy());
-		} else if (oa.getReturnPin()!=null && oa.getReturnPin().getNakedMultiplicity().isOne()) {
+		} else if (oa.getReturnPin() != null && oa.getReturnPin().getNakedMultiplicity().isOne()) {
 			actionClass.setSuperclass(TinkerBehaviorUtil.tinkerOneOpaqueActionPathName.getCopy());
 		} else {
-			//Nada
+			// Nada
 			actionClass.setSuperclass(TinkerBehaviorUtil.tinkerOpaqueActionPathName.getCopy());
 		}
 		actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
@@ -336,9 +342,27 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		addInitVertexToDefaultConstructor(actionClass, oa);
 		addContextObjectField(actionClass, oa.getActivity().getContext());
 		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
-		if (oa.getReturnPin()!=null) {
+		if (oa.getReturnPin() != null) {
 			addGetBodyExpression(actionClass, oa);
 		}
+		addGetContextObject(actionClass, oa.getActivity().getContext());
+		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+	}
+
+	@VisitBefore(matchSubclasses = true, match = { INakedCallOperationAction.class })
+	public void visitCallOperationAction(INakedCallOperationAction oa) {
+		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
+		OJPackage pack = findOrCreatePackage(path);
+		OJAnnotatedClass actionClass = new OJAnnotatedClass(NameConverter.capitalize(oa.getName()));
+		actionClass.setMyPackage(pack);
+		actionClass.setSuperclass(TinkerBehaviorUtil.tinkerCallOperationActionPathName.getCopy());
+		actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
+		addActionOperations(actionClass, oa);
+		addInitVertexToDefaultConstructor(actionClass, oa);
+		addContextObjectField(actionClass, oa.getActivity().getContext());
+		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
+		addGetContextObject(actionClass, oa.getActivity().getContext());
+		addCallOperationActionGetTarget(actionClass, oa);
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -355,11 +379,12 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		addContextObjectField(actionClass, oa.getActivity().getContext());
 		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
 		// addBlockingQueue(actionClass, oa);
-//		if (!oa.getReplyValues().isEmpty()) {
-//			addGetReply(actionClass, oa);
-//		} else {
-//			System.out.println();
-//		}
+		// if (!oa.getReplyValues().isEmpty()) {
+		// addGetReply(actionClass, oa);
+		// } else {
+		// System.out.println();
+		// }
+		addGetContextObject(actionClass, oa.getActivity().getContext());
 		putReplyInBlockingQueue(actionClass, oa);
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
@@ -380,6 +405,8 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		OJConstructor constructor1 = actionClass.findConstructor(OJUtil.classifierPathname(oa.getActivity().getContext()));
 		addTriggersInConstructor(constructor1, actionClass, oa);
 		addCopyEventToOutputPin(actionClass, oa);
+		addGetContextObject(actionClass, oa.getActivity().getContext());
+		implementGetTriggers(actionClass, oa);
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -402,6 +429,8 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		addGetReturnInformationOutputPin(actionClass, oa);
 		addGetReplyAction(actionClass, oa);
 		removeAcceptCallActionFromActivityClass(actionClass, oa);
+		addGetContextObject(actionClass, oa.getActivity().getContext());
+		implementGetTriggers(actionClass, oa);
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -465,8 +494,10 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		addInitVertexToDefaultConstructor(actionClass, oa);
 		addContextObjectField(actionClass, oa.getActivity().getContext());
 		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
-		addConstructSignal(actionClass, oa);
+		implementGetSignal(actionClass, oa);
 		addResolveTarget(actionClass, oa);
+		addGetContextObject(actionClass, oa.getActivity().getContext());
+		implementGetTarget(actionClass, oa);
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -612,7 +643,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		}
 		addContextObjectField(controlNodeClass, controlNode.getActivity().getContext());
 		addContextObjectToDefaultConstructor(controlNodeClass, controlNode.getActivity().getContext());
-		addGetContextObject(controlNodeClass, controlNode.getActivity().getContext());
 		implementGetActivity(controlNodeClass, controlNode);
 	}
 
@@ -638,14 +668,22 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		OJAnnotatedOperation resolveTarget = new OJAnnotatedOperation("resolveTarget");
 		resolveTarget.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		resolveTarget.setReturnType(TinkerBehaviorUtil.tinkerBaseTinkerBehavioredClassifier);
+		// TODO this will only work for ValuePin, do regular inputpin. value
+		// sits on the token or maybe copied to action variable
+		resolveTarget.getBody().addToStatements("return getTarget().getValue()");
 		actionClass.addToOperations(resolveTarget);
-		INakedValuePin targetValuePin = (INakedValuePin) oa.getTarget();
-		resolveTarget.getBody().addToStatements(
-				"return " + ValueSpecificationUtil.expressValue(resolveTarget, targetValuePin.getValue(), oa.getContext(), targetValuePin.getType()));
 	}
 
-	private void addConstructSignal(OJAnnotatedClass actionClass, INakedSendSignalAction oa) {
-		OJAnnotatedOperation constructSignal = new OJAnnotatedOperation("constructSignal");
+	private void implementGetTarget(OJAnnotatedClass actionClass, INakedSendSignalAction oa) {
+		OJAnnotatedOperation getTarget = new OJAnnotatedOperation("getTarget");
+		getTarget.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		getTarget.setReturnType(TinkerBehaviorUtil.activityNodePathName(oa.getTarget()));
+		getTarget.getBody().addToStatements("return " + TinkerBehaviorUtil.inputPinGetter(oa.getTarget()) + "()");
+		actionClass.addToOperations(getTarget);
+	}
+
+	private void implementGetSignal(OJAnnotatedClass actionClass, INakedSendSignalAction oa) {
+		OJAnnotatedOperation constructSignal = new OJAnnotatedOperation("getSignal");
 		constructSignal.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		constructSignal.setReturnType(TinkerBehaviorUtil.tinkerSignalPathName);
 		INakedSignal signal = oa.getSignal();
@@ -675,17 +713,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			}
 		}
 		constructSignal.getBody().addToStatements("return " + signalField.getName());
-	}
-
-	private void addTriggersInConstructor(OJConstructor constructor, OJClass actionClass, INakedAcceptEventAction oa) {
-		Collection<INakedTrigger> triggers = oa.getTriggers();
-		for (INakedTrigger trigger : triggers) {
-			if (trigger.getEvent() instanceof INakedMessageEvent) {
-				INakedMessageEvent signalEvent = (INakedMessageEvent) trigger.getEvent();
-				constructor.getBody().addToStatements("addToTriggers(\"" + trigger.getName() + "\",\"" + signalEvent.getName() + "\")");
-				// actionClass.addToImports(OJUtil.classifierPathname(signalEvent.getSignal()));
-			}
-		}
 	}
 
 	private OJAnnotatedClass createInitialNodeClass(INakedControlNode controlNode) {
@@ -786,6 +813,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 
 	private void addContextObjectField(OJAnnotatedClass actionClass, INakedBehavioredClassifier context) {
 		OJField contextObjectField = new OJField();
+		OJUtil.unlock();
 		contextObjectField.setType(OJUtil.classifierPathname(context));
 		contextObjectField.setName("contextObject");
 		actionClass.addToFields(contextObjectField);
@@ -874,7 +902,10 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 	private void addSource(OJAnnotatedClass controlFlowEdge, INakedActivityEdge edge) {
 
 		ConcreteEmulatedClassifier sourceClassifier = new ConcreteEmulatedClassifier(edge.getSource().getNameSpace(), edge.getSource());
+		OJUtil.unlock();
 		NakedStructuralFeatureMap sourceMap = new NakedStructuralFeatureMap(new ActivityNodeBridge(sourceClassifier, edge.getSource()));
+		OJUtil.lock();
+
 		OJAnnotatedField sourceField = new OJAnnotatedField(sourceMap.fieldname(), TinkerBehaviorUtil.activityNodePathName(edge.getSource()));
 		controlFlowEdge.addToFields(sourceField);
 
@@ -912,7 +943,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		getSource.setReturnType(returnType);
 
 		getSource.getBody().addToStatements("return " + TinkerBehaviorUtil.actionSourceGetter(edge) + "()");
-		getSource.setVisibility(OJVisibilityKind.PROTECTED);
 		getSource.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		controlFlowEdge.addToOperations(getSource);
 	}
@@ -926,7 +956,10 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 
 	private void addTarget(OJAnnotatedClass controlFlowEdge, INakedActivityEdge edge) {
 		ConcreteEmulatedClassifier targetClassifier = new ConcreteEmulatedClassifier(edge.getTarget().getNameSpace(), edge.getTarget());
+		OJUtil.unlock();
 		NakedStructuralFeatureMap targetMap = new NakedStructuralFeatureMap(new ActivityNodeBridge(targetClassifier, edge.getTarget()));
+		OJUtil.lock();
+
 		OJAnnotatedField targetField = new OJAnnotatedField(targetMap.fieldname(), TinkerBehaviorUtil.activityNodePathName(edge.getTarget()));
 		controlFlowEdge.addToFields(targetField);
 
@@ -959,7 +992,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		OJPathName returnType = TinkerBehaviorUtil.activityNodePathName(edge.getTarget());
 		getTarget.setReturnType(returnType);
 		getTarget.getBody().addToStatements("return " + TinkerBehaviorUtil.actionTargetGetter(edge) + "()");
-		getTarget.setVisibility(OJVisibilityKind.PROTECTED);
 		getTarget.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		controlFlowEdge.addToOperations(getTarget);
 	}
@@ -1010,7 +1042,9 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		addHasPreConditionPassed(actionClass);
 		addActivityNodeOperations(actionClass, oa);
 		if (oa instanceof INakedAction) {
-			addInputPinGetters(actionClass, (INakedAction) oa);
+			if (!(oa instanceof INakedAcceptEventAction)) {
+				addInputPinGetters(actionClass, (INakedAction) oa);
+			}
 			addOutputPinGetters(actionClass, (INakedAction) oa);
 			if (oa instanceof INakedOpaqueAction || oa instanceof INakedReplyAction) {
 				addAddToInputPinVariable(actionClass, (INakedAction) oa);
@@ -1064,7 +1098,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		OJAnnotatedOperation addToInputPinVariable = new OJAnnotatedOperation("addToInputPinVariable");
 		TinkerGenerationUtil.addOverrideAnnotation(addToInputPinVariable);
 
-		if (oa instanceof INakedOclAction && ((INakedOclAction) oa).getReturnPin()!=null) {
+		if (oa instanceof INakedOclAction && ((INakedOclAction) oa).getReturnPin() != null) {
 			addToInputPinVariable.addParam("inputPin", TinkerBehaviorUtil.tinkerIInputPinPathName.getCopy().addToGenerics(new OJPathName("?")).addToGenerics(new OJPathName("?")));
 			addToInputPinVariable.addParam("elements", new OJPathName("Collection<?>"));
 		} else {
@@ -1081,9 +1115,10 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			OJIfStatement ifInputPinIsType = new OJIfStatement("inputPin instanceof " + TinkerBehaviorUtil.activityNodePathName(inputPin).getLast());
 			addToInputPinVariable.getBody().addToStatements(ifInputPinIsType);
 			if (map.isOne()) {
-				ifInputPinIsType.addToThenPart(map.setter() + "(("+map.javaBaseTypePath().getLast()+")(!elements.isEmpty() ? elements.iterator().next() : null))");
+				ifInputPinIsType.addToThenPart(map.setter() + "((" + map.javaBaseTypePath().getLast() + ")(!elements.isEmpty() ? elements.iterator().next() : null))");
 			} else {
-				ifInputPinIsType.addToThenPart(map.allAdder() + "(new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseTypePath().getLast() + ">((Collection<"+map.javaBaseTypePath().getLast()+">)elements))");
+				ifInputPinIsType.addToThenPart(map.allAdder() + "(new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseTypePath().getLast() + ">((Collection<"
+						+ map.javaBaseTypePath().getLast() + ">)elements))");
 			}
 		}
 
@@ -1159,7 +1194,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			}
 		} else {
 
-			OJAnnotatedOperation getOutputPins = new OJAnnotatedOperation("getOutputPins");
+			OJAnnotatedOperation getOutputPins = new OJAnnotatedOperation("getOutput");
 			TinkerGenerationUtil.addOverrideAnnotation(getOutputPins);
 			OJPathName returnType = new OJPathName("java.util.List");
 			returnType.addToElementTypes(new OJPathName("? extends OutputPin<?, ?>"));
@@ -1185,9 +1220,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			ConcreteEmulatedClassifier pinClassifier = new ConcreteEmulatedClassifier(inputPin.getNameSpace(), inputPin);
 			NakedStructuralFeatureMap pinMap = new NakedStructuralFeatureMap(new PinBridge(pinClassifier, inputPin));
 
-			if ((a instanceof INakedSendSignalAction && ((INakedSendSignalAction) a).getTarget() == inputPin)) {
-				continue;
-			}
 			hasInputPins = true;
 
 			OJAnnotatedField inputPinField = new OJAnnotatedField(pinMap.fieldname(), TinkerBehaviorUtil.activityNodePathName(inputPin));
@@ -1210,25 +1242,11 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			getInputPin.getBody().addToStatements("return this." + pinMap.fieldname());
 			actionClass.addToOperations(getInputPin);
 		}
-		OJAnnotatedOperation getInputPins = new OJAnnotatedOperation("getInputPins");
+		OJAnnotatedOperation getInputPins = new OJAnnotatedOperation("getInput");
 		TinkerGenerationUtil.addOverrideAnnotation(getInputPins);
 		OJPathName returnType = new OJPathName("java.util.List");
-		OJPathName inputPinPath = null;
 
-//		if (a instanceof INakedOclAction && ((INakedOclAction) a).getReturnPin() != null && ((INakedOclAction) a).getReturnPin().getNakedMultiplicity().isOne()) {
-//			inputPinPath = TinkerBehaviorUtil.tinkerOneInputPinPathName.getCopy();
-//			inputPinPath.addToGenerics(OJUtil.classifierPathname(((INakedOclAction) a).getReturnPin().getNakedBaseType()));
-//			returnType.addToElementTypes(new OJPathName("? extends " + inputPinPath.getLast()));
-//			actionClass.addToImports(TinkerBehaviorUtil.tinkerOneInputPinPathName);
-//		} else if (a instanceof INakedOclAction && ((INakedOclAction) a).getReturnPin() != null && ((INakedOclAction) a).getReturnPin().getNakedMultiplicity().isMany()) {
-//			inputPinPath = TinkerBehaviorUtil.tinkerManyInputPinPathName.getCopy();
-//			inputPinPath.addToGenerics(OJUtil.classifierPathname(((INakedOclAction) a).getReturnPin().getNakedBaseType()));
-//			returnType.addToElementTypes(new OJPathName("? extends " + inputPinPath.getLast()));
-//			actionClass.addToImports(TinkerBehaviorUtil.tinkerManyInputPinPathName);
-//		} else {
-			inputPinPath = TinkerBehaviorUtil.tinkerInputPinPathName.getCopy();
-			returnType.addToElementTypes(new OJPathName("? extends InputPin<?, ?>"));
-//		}
+		returnType.addToElementTypes(new OJPathName("? extends InputPin<?, ?>"));
 		actionClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenPathName);
 		getInputPins.setReturnType(returnType);
 		String statement = sb.toString();
@@ -1247,7 +1265,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		addOutControlFlowGetters(actionClass, oa);
 		addInControlFlowGetters(actionClass, oa);
 		addConstructorWithVertex(actionClass, oa.getActivity().getContext());
-		addGetContextObject(actionClass, oa.getActivity().getContext());
 		implementGetActivity(actionClass, oa);
 	}
 
@@ -1264,11 +1281,17 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 	}
 
 	private void addGetContextObject(OJClass actionClass, INakedBehavioredClassifier context) {
+		OJAnnotatedOperation getContext = new OJAnnotatedOperation("getContext");
+		getContext.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		getContext.setReturnType(OJUtil.classifierPathname(context));
+		getContext.getBody().addToStatements("return this.contextObject");
+		actionClass.addToOperations(getContext);
+
 		OJAnnotatedOperation getContextObject = new OJAnnotatedOperation("getContextObject");
-		getContextObject.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		getContextObject.setReturnType(OJUtil.classifierPathname(context));
-		getContextObject.getBody().addToStatements("return this.contextObject");
+		getContextObject.getBody().addToStatements("return this.getContext()");
 		actionClass.addToOperations(getContextObject);
+
 	}
 
 	private void addGetInFlow(OJClass actionClass, INakedActivityNode oa) {
@@ -1343,6 +1366,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 
 	private void buildOutgoingControlFlowGetter(OJClass actionClass, INakedActivityEdge edge) {
 		ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(edge.getSource().getNameSpace(), edge.getSource());
+		OJUtil.unlock();
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new EdgeBridge(concreteEmulatedClassifier, edge));
 
 		OJAnnotatedOperation flowGetter = new OJAnnotatedOperation(map.getter());
@@ -1372,7 +1396,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 	}
 
 	private void addGetInFlows(OJClass actionClass, INakedActivityNode oa) {
-		OJAnnotatedOperation getInControlFlows = new OJAnnotatedOperation("getInFlows");
+		OJAnnotatedOperation getInControlFlows = new OJAnnotatedOperation("getIncoming");
 		TinkerGenerationUtil.addOverrideAnnotation(getInControlFlows);
 		OJPathName returnType = new OJPathName("java.util.List");
 		OJPathName returnPathName;
@@ -1477,7 +1501,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 	}
 
 	private void addGetOutFlows(OJClass actionClass, INakedActivityNode oa) {
-		OJAnnotatedOperation getOutControlFlows = new OJAnnotatedOperation("getOutFlows");
+		OJAnnotatedOperation getOutControlFlows = new OJAnnotatedOperation("getOutgoing");
 		TinkerGenerationUtil.addOverrideAnnotation(getOutControlFlows);
 
 		OJPathName returnType = new OJPathName("java.util.List");
@@ -1598,7 +1622,9 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 
 	private void implementGetAction(OJAnnotatedClass inputPinClass, INakedPin pin) {
 		ConcreteEmulatedClassifier actionClassifier = new ConcreteEmulatedClassifier(pin.getNameSpace(), pin.getAction());
+		OJUtil.unlock();
 		NakedStructuralFeatureMap actionMap = new NakedStructuralFeatureMap(new ActionBridge(actionClassifier, pin.getAction()));
+		OJUtil.lock();
 
 		OJAnnotatedField actionField = new OJAnnotatedField(actionMap.fieldname(), TinkerBehaviorUtil.activityNodePathName(pin.getAction()));
 		inputPinClass.addToFields(actionField);
@@ -1644,7 +1670,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 	private void implementCopyTokensToStart(OJAnnotatedClass outputPinClass) {
 		OJAnnotatedOperation copyTokensToStart = new OJAnnotatedOperation("copyTokensToStart");
 		TinkerGenerationUtil.addOverrideAnnotation(copyTokensToStart);
-		copyTokensToStart.setVisibility(OJVisibilityKind.PROTECTED);
 		copyTokensToStart.getBody().addToStatements("setStarts(getOutTokens())");
 		outputPinClass.addToOperations(copyTokensToStart);
 	}
@@ -1950,6 +1975,81 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		String expressValue = ValueSpecificationUtil.expressValue(getValue, oa.getValue(), oa.getAction().getContext(), oa.getType());
 		getValue.getBody().addToStatements("return " + expressValue);
 		inputPinClass.addToOperations(getValue);
+	}
+
+	private void addCallOperationActionGetTarget(OJAnnotatedClass actionClass, INakedCallOperationAction oa) {
+		OJAnnotatedOperation getTarget = new OJAnnotatedOperation("getTarget");
+		TinkerGenerationUtil.addOverrideAnnotation(getTarget);
+		INakedInputPin target = oa.getTarget();
+		getTarget.setReturnType(TinkerBehaviorUtil.activityNodePathName(oa.getTarget()));
+		getTarget.getBody().addToStatements("return " + TinkerBehaviorUtil.inputPinGetter(target) + "()");
+		actionClass.addToOperations(getTarget);
+	}
+
+	private void implementGetTriggers(OJAnnotatedClass actionClass, INakedAcceptEventAction oa) {
+		TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
+		tinkerAttributeImplementor.setJavaModel(this.javaModel);
+		ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(oa.getNameSpace(), oa);
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("return Arrays.asList(");
+		boolean first = true;
+		List<INakedProperty> p = new ArrayList<INakedProperty>();
+		for (INakedTrigger trigger : oa.getTriggers()) {
+			TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new TriggerBridge(concreteEmulatedClassifier, trigger));
+			bridge.setComposite(true);
+			bridge.isComposite();
+			p.add(bridge);
+			try {
+				OJUtil.unlock();
+				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
+				tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
+				sb.append(map.getter());
+				sb.append("()");
+				if (!first) {
+					sb.append(", ");
+				}
+				first = false;
+			} finally {
+				OJUtil.lock();
+			}
+		}
+		OJAnnotatedOperation getTrigger = new OJAnnotatedOperation("getTrigger");
+		TinkerGenerationUtil.addOverrideAnnotation(getTrigger);
+		getTrigger.setReturnType(new OJPathName("List").addToGenerics(new OJPathName("? extends " + TinkerBehaviorUtil.tinkerITriggerPathName.getCopy().getLast())));
+		actionClass.addToImports(new OJPathName("java.util.List"));
+		actionClass.addToImports(TinkerBehaviorUtil.tinkerITriggerPathName.getCopy());
+		getTrigger.getBody().addToStatements(sb.toString().substring(0, sb.length()) + ")");
+		actionClass.addToOperations(getTrigger);
+
+		// Add to createComponent to constructor
+		TinkerComponentInitializer tinkerComponentInitializer = new TinkerComponentInitializer();
+		tinkerComponentInitializer.setJavaModel(this.javaModel);
+		tinkerComponentInitializer.visitActivityNode(actionClass, oa, p);
+
+	}
+
+	private void addTriggersInConstructor(OJConstructor constructor, OJClass actionClass, INakedAcceptEventAction oa) {
+		Collection<INakedTrigger> triggers = oa.getTriggers();
+		ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(oa.getNameSpace(), oa);
+		for (INakedTrigger trigger : triggers) {
+			if (trigger.getEvent() instanceof INakedMessageEvent) {
+				INakedMessageEvent signalEvent = (INakedMessageEvent) trigger.getEvent();
+				// actionClass.addToImports(OJUtil.classifierPathname(signalEvent.getSignal()));
+
+				TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new TriggerBridge(concreteEmulatedClassifier, trigger));
+				bridge.setComposite(true);
+				bridge.isComposite();
+				try {
+					OJUtil.unlock();
+					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
+					constructor.getBody().addToStatements(map.setter() + "(new " + map.javaBaseTypePath().getLast() + "(true))");
+				} finally {
+					OJUtil.lock();
+				}
+
+			}
+		}
 	}
 
 }

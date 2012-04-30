@@ -172,6 +172,7 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 	public void setAssociation(INakedAssociation impl){
 	}
 	public void setComposite(boolean b){
+		this.isComposite = b;
 	}
 	public void setDerived(boolean b){
 	}

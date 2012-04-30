@@ -23,6 +23,6 @@ public abstract class OneMergeNodeObjectTokenKnownWithInControlToken<O> extends 
 	protected abstract OneObjectFlowKnown<O> getOutFlow();
 	
 	@Override
-	protected abstract List<? extends ActivityEdge<Token>> getInFlows();
+	public abstract List<? extends ActivityEdge<Token>> getIncoming();
 
 }

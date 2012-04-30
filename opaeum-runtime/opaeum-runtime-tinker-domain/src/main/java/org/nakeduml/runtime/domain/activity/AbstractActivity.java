@@ -7,6 +7,11 @@ import java.util.Set;
 import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.runtime.domain.TinkerNode;
+import org.nakeduml.runtime.domain.activity.interf.IActivityEdge;
+import org.nakeduml.runtime.domain.activity.interf.IActivityNode;
+import org.nakeduml.runtime.domain.activity.interf.IEvent;
+import org.nakeduml.runtime.domain.activity.interf.IInputPin;
+import org.nakeduml.runtime.domain.activity.interf.IOutputPin;
 import org.nakeduml.tinker.runtime.GraphDb;
 
 import com.tinkerpop.blueprints.pgm.Edge;
@@ -22,28 +27,28 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 //
 //	protected abstract List<? extends ActivityParameterNode<?>> getOutgoingParameters();
 
-	public Set<ActivityNode<? extends Token, ? extends Token>> getEnabledNodesWithMatchingTrigger(IEvent event) {
-		Set<ActivityNode<? extends Token, ? extends Token>> result = new HashSet<ActivityNode<? extends Token, ? extends Token>>();
-		Set<ActivityNode<? extends Token, ? extends Token>> visited = new HashSet<ActivityNode<? extends Token, ? extends Token>>();
-		for (ActivityNode<? extends Token, ? extends Token> initNode : getInitialNodes()) {
+	public Set<IActivityNode<? extends Token, ? extends Token>> getEnabledNodesWithMatchingTrigger(IEvent event) {
+		Set<IActivityNode<? extends Token, ? extends Token>> result = new HashSet<IActivityNode<? extends Token, ? extends Token>>();
+		Set<IActivityNode<? extends Token, ? extends Token>> visited = new HashSet<IActivityNode<? extends Token, ? extends Token>>();
+		for (IActivityNode<? extends Token, ? extends Token> initNode : getInitialNodes()) {
 			walkActivity(result, visited, initNode, event);
 		}
 		return result;
 	}
 
-	public Set<ActivityNode<? extends Token, ? extends Token>> getNodesForStatus(NodeStatus... nodeStatuses) {
-		Set<ActivityNode<? extends Token, ? extends Token>> result = new HashSet<ActivityNode<? extends Token, ? extends Token>>();
-		Set<ActivityNode<? extends Token, ? extends Token>> visited = new HashSet<ActivityNode<? extends Token, ? extends Token>>();
+	public Set<IActivityNode<? extends Token, ? extends Token>> getNodesForStatus(NodeStatus... nodeStatuses) {
+		Set<IActivityNode<? extends Token, ? extends Token>> result = new HashSet<IActivityNode<? extends Token, ? extends Token>>();
+		Set<IActivityNode<? extends Token, ? extends Token>> visited = new HashSet<IActivityNode<? extends Token, ? extends Token>>();
 		for (ActivityNode<? extends Token, ? extends Token> initNode : getInitialNodes()) {
 			walkActivity(result, visited, initNode, nodeStatuses);
 		}
 		return result;
 	}
 
-	public ActivityNode<? extends Token, ? extends Token> getNodeForName(String name) {
-		Set<ActivityNode<? extends Token, ? extends Token>> result = new HashSet<ActivityNode<? extends Token, ? extends Token>>();
-		Set<ActivityNode<? extends Token, ? extends Token>> visited = new HashSet<ActivityNode<? extends Token, ? extends Token>>();
-		for (ActivityNode<? extends Token, ? extends Token> initNode : getInitialNodes()) {
+	public IActivityNode<? extends Token, ? extends Token> getNodeForName(String name) {
+		Set<IActivityNode<? extends Token, ? extends Token>> result = new HashSet<IActivityNode<? extends Token, ? extends Token>>();
+		Set<IActivityNode<? extends Token, ? extends Token>> visited = new HashSet<IActivityNode<? extends Token, ? extends Token>>();
+		for (IActivityNode<? extends Token, ? extends Token> initNode : getInitialNodes()) {
 			walkActivity(result, visited, initNode, name);
 			if (!result.isEmpty()) {
 				break;
@@ -56,30 +61,30 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 		}
 	}
 
-	public Set<ActivityNode<? extends Token, ? extends Token>> getActiveNodes() {
+	public Set<IActivityNode<? extends Token, ? extends Token>> getActiveNodes() {
 		return getNodesForStatus(NodeStatus.ACTIVE);
 	}
 
-	public Set<ActivityNode<? extends Token, ? extends Token>> getEnabledNodes() {
+	public Set<IActivityNode<? extends Token, ? extends Token>> getEnabledNodes() {
 		return getNodesForStatus(NodeStatus.ENABLED);
 	}
 
-	public Set<ActivityNode<? extends Token, ? extends Token>> getInactiveNodes() {
+	public Set<IActivityNode<? extends Token, ? extends Token>> getInactiveNodes() {
 		return getNodesForStatus(NodeStatus.INACTIVE);
 	}
 
-	public Set<ActivityNode<? extends Token, ? extends Token>> getCompletedNodes() {
+	public Set<IActivityNode<? extends Token, ? extends Token>> getCompletedNodes() {
 		return getNodesForStatus(NodeStatus.COMPLETE);
 	}
 
-	private void walkActivity(Set<ActivityNode<? extends Token, ? extends Token>> result, Set<ActivityNode<? extends Token, ? extends Token>> visited,
-			ActivityNode<? extends Token, ? extends Token> currentNode, IEvent event) {
+	private void walkActivity(Set<IActivityNode<? extends Token, ? extends Token>> result, Set<IActivityNode<? extends Token, ? extends Token>> visited,
+			IActivityNode<? extends Token, ? extends Token> currentNode, IEvent event) {
 		if (currentNode.isEnabled() && currentNode instanceof AcceptEventAction && ((AcceptEventAction) currentNode).containsTriggerForEvent(event)) {
 			result.add(currentNode);
 		}
-		List<? extends ActivityEdge<? extends Token>> outgoing = currentNode.getOutFlows();
-		for (ActivityEdge<? extends Token> outFlow : outgoing) {
-			ActivityNode<? extends Token, ? extends Token> target = outFlow.getTarget();
+		List<? extends IActivityEdge<? extends Token>> outgoing = currentNode.getOutgoing();
+		for (IActivityEdge<? extends Token> outFlow : outgoing) {
+			IActivityNode<? extends Token, ? extends Token> target = outFlow.getTarget();
 			if (!visited.contains(target)) {
 				walkActivity(result, visited, target, event);
 			} else {
@@ -88,17 +93,17 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 		}
 	}
 
-	private void walkActivity(Set<ActivityNode<? extends Token, ? extends Token>> result, Set<ActivityNode<? extends Token, ? extends Token>> visited,
-			ActivityNode<? extends Token, ? extends Token> currentNode, NodeStatus... nodeStatuses) {
+	private void walkActivity(Set<IActivityNode<? extends Token, ? extends Token>> result, Set<IActivityNode<? extends Token, ? extends Token>> visited,
+			IActivityNode<? extends Token, ? extends Token> currentNode, NodeStatus... nodeStatuses) {
 		for (NodeStatus nodeStatus : nodeStatuses) {
 			if (currentNode.getNodeStatus() == nodeStatus) {
 				result.add(currentNode);
 				break;
 			}
 		}
-		List<? extends ActivityEdge<? extends Token>> outgoing = currentNode.getOutFlows();
-		for (ActivityEdge<? extends Token> outFlow : outgoing) {
-			ActivityNode<? extends Token, ? extends Token> target = outFlow.getTarget();
+		List<? extends IActivityEdge<? extends Token>> outgoing = currentNode.getOutgoing();
+		for (IActivityEdge<? extends Token> outFlow : outgoing) {
+			IActivityNode<? extends Token, ? extends Token> target = outFlow.getTarget();
 			if (!visited.contains(target)) {
 				walkActivity(result, visited, target, nodeStatuses);
 			} else {
@@ -107,15 +112,15 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 		}
 	}
 
-	private void walkActivity(Set<ActivityNode<? extends Token, ? extends Token>> result, Set<ActivityNode<? extends Token, ? extends Token>> visited,
-			ActivityNode<? extends Token, ? extends Token> currentNode, String name) {
+	private void walkActivity(Set<IActivityNode<? extends Token, ? extends Token>> result, Set<IActivityNode<? extends Token, ? extends Token>> visited,
+			IActivityNode<? extends Token, ? extends Token> currentNode, String name) {
 		if (currentNode.getName().equals(name)) {
 			result.add(currentNode);
 			return;
 		}
-		List<? extends ActivityEdge<? extends Token>> outgoing = currentNode.getOutFlows();
-		for (ActivityEdge<? extends Token> outFlow : outgoing) {
-			ActivityNode<? extends Token, ? extends Token> target = outFlow.getTarget();
+		List<? extends IActivityEdge<? extends Token>> outgoing = currentNode.getOutgoing();
+		for (IActivityEdge<? extends Token> outFlow : outgoing) {
+			IActivityNode<? extends Token, ? extends Token> target = outFlow.getTarget();
 			if (!visited.contains(target)) {
 				walkActivity(result, visited, target, name);
 			} else {
@@ -123,11 +128,11 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 			}
 		}
 		if (currentNode instanceof Action) {
-			for (OutputPin<?,?> outputPin : ((Action) currentNode).getOutputPins()) {
+			for (IOutputPin<?,?> outputPin : ((Action) currentNode).getOutput()) {
 				walkActivity(result, visited, outputPin, name);
 			}
 		} else if (currentNode instanceof InputPin) {
-			InputPin<?,?> inputPin = (InputPin<?,?>) currentNode;
+			IInputPin<?,?> inputPin = (IInputPin<?,?>) currentNode;
 			walkActivity(result, visited, inputPin.getAction(), name);
 		}
 	}

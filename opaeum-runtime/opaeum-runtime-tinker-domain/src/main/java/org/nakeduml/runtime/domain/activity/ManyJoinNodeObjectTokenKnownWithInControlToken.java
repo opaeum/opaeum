@@ -25,6 +25,6 @@ public abstract class ManyJoinNodeObjectTokenKnownWithInControlToken<O> extends 
 	protected abstract ManyObjectFlowKnown<O> getOutFlow();
 
 	@Override
-	protected abstract List<ActivityEdge<Token>> getInFlows();
+	public abstract List<ActivityEdge<Token>> getIncoming();
 
 }

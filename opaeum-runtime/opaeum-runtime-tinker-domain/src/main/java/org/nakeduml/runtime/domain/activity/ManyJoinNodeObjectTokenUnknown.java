@@ -22,6 +22,6 @@ public abstract class ManyJoinNodeObjectTokenUnknown extends JoinNodeObjectToken
 	protected abstract ManyObjectFlowUnknown getOutFlow();
 
 	@Override
-	protected abstract List<ManyObjectFlowUnknown> getInFlows();
+	public abstract List<ManyObjectFlowUnknown> getIncoming();
 	
 }

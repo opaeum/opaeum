@@ -22,6 +22,6 @@ public abstract class ManyMergeNodeObjectTokenKnown<O> extends MergeNodeObjectTo
 	protected abstract ManyObjectFlowKnown<O> getOutFlow();
 
 	@Override
-	protected abstract List<? extends ManyObjectFlowKnown<O>> getInFlows();
+	public abstract List<? extends ManyObjectFlowKnown<O>> getIncoming();
 
 }

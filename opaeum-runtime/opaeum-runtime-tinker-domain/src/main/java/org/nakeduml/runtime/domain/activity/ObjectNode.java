@@ -41,7 +41,7 @@ public abstract class ObjectNode<O, IN extends ObjectToken<O>, OUT extends Objec
 	@Override
 	public List<IN> getInTokens() {
 		List<IN> result = new ArrayList<IN>();
-		for (ObjectFlowKnown<O, IN> flow : getInFlows()) {
+		for (ObjectFlowKnown<O, IN> flow : getIncoming()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				try {
@@ -57,7 +57,7 @@ public abstract class ObjectNode<O, IN extends ObjectToken<O>, OUT extends Objec
 	@Override
 	public List<IN> getInTokens(String inFlowName) {
 		List<IN> result = new ArrayList<IN>();
-		for (ObjectFlowKnown<O, IN> flow : getInFlows()) {
+		for (ObjectFlowKnown<O, IN> flow : getIncoming()) {
 			if (inFlowName.equals(flow.getName())) {
 				if (flow instanceof ObjectFlowKnown) {
 					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
@@ -92,7 +92,7 @@ public abstract class ObjectNode<O, IN extends ObjectToken<O>, OUT extends Objec
 	@Override
 	public List<OUT> getOutTokens(String outFlowName) {
 		List<OUT> result = new ArrayList<OUT>();
-		for (ObjectFlowKnown<O, OUT> flow : getOutFlows()) {
+		for (ObjectFlowKnown<O, OUT> flow : getOutgoing()) {
 			if (flow.getName().equals(outFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
@@ -104,10 +104,10 @@ public abstract class ObjectNode<O, IN extends ObjectToken<O>, OUT extends Objec
 	}
 
 	@Override
-	protected abstract List<? extends ObjectFlowKnown<O, IN>> getInFlows();
+	public abstract List<? extends ObjectFlowKnown<O, IN>> getIncoming();
 
 	@Override
-	protected abstract List<? extends ObjectFlowKnown<O, OUT>> getOutFlows();
+	public abstract List<? extends ObjectFlowKnown<O, OUT>> getOutgoing();
 
 	@SuppressWarnings("unchecked")
 	protected IN constructInToken(Edge edge) {
@@ -152,7 +152,7 @@ public abstract class ObjectNode<O, IN extends ObjectToken<O>, OUT extends Objec
 		sb.append("\n");
 		sb.append(getClass().getSimpleName());
 		sb.append(" has the following in tokens,");
-		for (ObjectFlowKnown<?, ?> flow : getInFlows()) {
+		for (ObjectFlowKnown<?, ?> flow : getIncoming()) {
 			for (IN t : getInTokens(flow.getName())) {
 				sb.append("\nFlow = ");
 				sb.append(flow.getName());
@@ -161,7 +161,7 @@ public abstract class ObjectNode<O, IN extends ObjectToken<O>, OUT extends Objec
 			}
 		}
 		sb.append("\nAnd the following out tokens,");
-		for (ObjectFlowKnown<O, OUT> flow : getOutFlows()) {
+		for (ObjectFlowKnown<O, OUT> flow : getOutgoing()) {
 			for (ObjectToken<O> t : getOutTokens(flow.getName())) {
 				sb.append("\nFlow = ");
 				sb.append(flow.getName());

@@ -23,10 +23,10 @@ public abstract class OutputPin<O, OUT extends ObjectToken<O>> extends Pin<O, OU
 		super(vertex);
 	}
 
-	protected abstract Action getAction();
+	public abstract Action getAction();
 
 	@Override
-	protected Boolean processNextStart() throws NoSuchElementException {
+	public Boolean processNextStart() throws NoSuchElementException {
 		if (mayContinue()) {
 			return executeNode();
 		} else {
@@ -47,7 +47,7 @@ public abstract class OutputPin<O, OUT extends ObjectToken<O>> extends Pin<O, OU
 
 		for (OUT objectToken : getOutTokens()) {
 			// For each out flow add a token
-			for (ActivityEdge<OUT> flow : getOutFlows()) {
+			for (ActivityEdge<OUT> flow : getOutgoing()) {
 				@SuppressWarnings("unchecked")
 				OUT duplicate = (OUT) objectToken.duplicate(flow.getName());
 				addOutgoingToken(duplicate);
@@ -55,7 +55,7 @@ public abstract class OutputPin<O, OUT extends ObjectToken<O>> extends Pin<O, OU
 			objectToken.remove();
 		}
 		// Continue each out flow with its tokens
-		for (ActivityEdge<OUT> flow : getOutFlows()) {
+		for (ActivityEdge<OUT> flow : getOutgoing()) {
 			flow.setStarts(getOutTokens(flow.getName()));
 			flowResult.add(flow.processNextStart());
 		}
@@ -72,9 +72,10 @@ public abstract class OutputPin<O, OUT extends ObjectToken<O>> extends Pin<O, OU
 	}
 
 	@Override
-	protected List<? extends ObjectFlowKnown<O, OUT>> getInFlows() {
+	public List<? extends ObjectFlowKnown<O, OUT>> getIncoming() {
 		return Collections.emptyList();
 	}
 
-	protected abstract void copyTokensToStart();
+	@Override
+	public abstract void copyTokensToStart();
 }

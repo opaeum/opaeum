@@ -21,7 +21,8 @@ public abstract class InputPin<O, IN extends ObjectToken<O>> extends Pin<O, IN, 
 		super(vertex);
 	}
 
-	protected abstract Action getAction();
+	@Override
+	public abstract Action getAction();
 
 	protected Boolean executeNode() {
 		Action action = this.getAction();
@@ -33,7 +34,7 @@ public abstract class InputPin<O, IN extends ObjectToken<O>> extends Pin<O, IN, 
 	}
 
 	@Override
-	protected List<? extends ObjectFlowKnown<O, IN>> getOutFlows() {
+	public List<? extends ObjectFlowKnown<O, IN>> getOutgoing() {
 		return Collections.emptyList();
 	}
 	

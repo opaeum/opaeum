@@ -5,8 +5,6 @@ import java.util.Collections;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.components.INakedConnectorEnd;
@@ -18,12 +16,6 @@ import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
 import org.opaeum.name.NameConverter;
 
-/**
- * This class is need to emulate attibutes in namespaces where other typed elements should also function appear as attributes to Octopus
- * 
- * @author abarnard
- * 
- */
 public class PinBridge extends AbstractEmulatedProperty implements INakedProperty{
 	/**
 	 * 

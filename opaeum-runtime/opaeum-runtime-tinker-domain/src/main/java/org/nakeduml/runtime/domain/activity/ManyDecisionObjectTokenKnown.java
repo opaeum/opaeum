@@ -22,6 +22,6 @@ public abstract class ManyDecisionObjectTokenKnown<O> extends DecisionObjectToke
 	protected abstract ManyObjectFlowKnown<O> getInFlow();
 
 	@Override
-	protected abstract List<? extends ManyObjectFlowKnown<O>> getOutFlows();
+	public abstract List<? extends ManyObjectFlowKnown<O>> getOutgoing();
 
 }

@@ -131,7 +131,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractAuditJavaProd
 		createAuditVertexWithAuditEdge.setVisibility(OJVisibilityKind.PRIVATE);
 		ojClass.addToImports(TinkerGenerationUtil.graphDbPathName);
 		createAuditVertexWithAuditEdge.getBody().addToStatements(
-				"this.auditVertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"" + TinkerGenerationUtil.getClassMetaId(ojClass) + "Audit\")");
+				"this.auditVertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex()");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("TransactionThreadVar.putAuditVertexFalse(getClass().getName() + getUid(), this.auditVertex)");
 		createAuditVertexWithAuditEdge.getBody().addToStatements(
 				"this.auditVertex.setProperty(\"transactionNo\", " + TinkerGenerationUtil.graphDbAccess + ".getTransactionCount())");

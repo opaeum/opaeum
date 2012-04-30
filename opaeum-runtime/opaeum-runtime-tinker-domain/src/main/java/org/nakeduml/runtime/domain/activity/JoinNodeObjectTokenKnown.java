@@ -23,10 +23,10 @@ public abstract class JoinNodeObjectTokenKnown<O, T extends ObjectToken<O>> exte
 	protected abstract ObjectFlowKnown<O, T> getOutFlow();
 
 	@Override
-	protected abstract List<? extends ObjectFlowKnown<O, T>> getInFlows();
+	public abstract List<? extends ObjectFlowKnown<O, T>> getIncoming();
 
 	@Override
-	protected List<ObjectFlowKnown<O, T>> getOutFlows() {
+	public List<ObjectFlowKnown<O, T>> getOutgoing() {
 		List<ObjectFlowKnown<O, T>> result = new ArrayList<ObjectFlowKnown<O, T>>();
 		result.add(getOutFlow());
 		return result;

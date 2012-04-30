@@ -1,8 +1,10 @@
 package org.nakeduml.runtime.domain.activity;
 
+import org.nakeduml.runtime.domain.activity.interf.IAcceptCallAction;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class AcceptCallAction extends AcceptEventAction {
+public abstract class AcceptCallAction extends AcceptEventAction implements IAcceptCallAction {
 
 	public AcceptCallAction() {
 		super();

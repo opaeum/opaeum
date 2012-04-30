@@ -22,10 +22,10 @@ public abstract class ManyOutputPin<O> extends OutputPin<O, CollectionObjectToke
 	}
 	
 	@Override
-	protected abstract List<ManyObjectFlowKnown<O>> getInFlows();
+	public abstract List<ManyObjectFlowKnown<O>> getIncoming();
 
 	@Override
-	protected List<ManyObjectFlowKnown<O>> getOutFlows() {
+	public List<ManyObjectFlowKnown<O>> getOutgoing() {
 		return Collections.emptyList();
 	}
 	

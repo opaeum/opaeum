@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
+import org.nakeduml.runtime.domain.activity.interf.IActivityEdge;
 import org.nakeduml.runtime.domain.activity.interf.IActivityNode;
 import org.nakeduml.tinker.runtime.GraphDb;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -41,13 +42,18 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 	public abstract boolean mayContinue();
 	protected abstract boolean mayAcceptToken();
 	protected abstract Boolean executeNode();
-	protected abstract List<? extends ActivityEdge<? extends IN>> getInFlows();
-	protected abstract List<? extends ActivityEdge<OUT>> getOutFlows();
+	@Override
+	public abstract List<? extends IActivityEdge<? extends IN>> getIncoming();
+	@Override
+	public abstract List<? extends IActivityEdge<OUT>> getOutgoing();
+	@Override
 	public abstract List<? extends Token> getInTokens();
+	@Override
 	public abstract List<?> getInTokens(String inFlowName);
+	@Override
 	public abstract List<?> getOutTokens();
+	@Override
 	public abstract List<?> getOutTokens(String outFlowName);
-	protected abstract BaseTinkerSoftDelete getContextObject();
 	
 	protected abstract AbstractActivity getActivity();
 
@@ -60,7 +66,7 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 	}
 
 	@Override
-	protected Boolean processNextStart() throws NoSuchElementException {
+	public Boolean processNextStart() throws NoSuchElementException {
 		// Persist incoming control tokens
 		while (mayAcceptToken() && this.starts.hasNext()) {
 			IN token = this.starts.next();
@@ -94,7 +100,7 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 	}
 
 	protected boolean doAllIncomingFlowsHaveTokens() {
-		for (ActivityEdge<?> flow : getInFlows()) {
+		for (IActivityEdge<?> flow : getIncoming()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			if (iter.iterator().hasNext()) {
 				continue;
@@ -109,6 +115,7 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 		return nodeStat;
 	}
 
+	@Override
 	public String getName() {
 		return (String) this.vertex.getProperty("name");
 	}

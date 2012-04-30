@@ -23,6 +23,6 @@ public abstract class ManyJoinNodeObjectTokenUnknownWithInControlToken extends J
 
 
 	@Override
-	protected abstract List<ActivityEdge<Token>> getInFlows();
+	public abstract List<ActivityEdge<Token>> getIncoming();
 
 }

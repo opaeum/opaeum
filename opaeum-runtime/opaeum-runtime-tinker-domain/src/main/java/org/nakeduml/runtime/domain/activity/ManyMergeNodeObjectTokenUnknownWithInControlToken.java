@@ -23,6 +23,6 @@ public abstract class ManyMergeNodeObjectTokenUnknownWithInControlToken extends 
 	protected abstract ManyObjectFlowUnknown getOutFlow();
 	
 	@Override
-	protected abstract List<? extends ActivityEdge<Token>> getInFlows();
+	public abstract List<? extends ActivityEdge<Token>> getIncoming();
 
 }

@@ -6,13 +6,15 @@ import java.util.List;
 import org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier;
 import org.nakeduml.runtime.domain.IClassifierSignalEvent;
 import org.nakeduml.runtime.domain.TinkerClassifierBehaviorExecutorService;
+import org.nakeduml.runtime.domain.activity.interf.IOutputPin;
+import org.nakeduml.runtime.domain.activity.interf.ISendSignalAction;
 import org.nakeduml.tinker.runtime.GraphDb;
 import org.opaeum.runtime.domain.ISignal;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class SendSignalAction extends InvocationAction {
+public abstract class SendSignalAction extends InvocationAction implements ISendSignalAction {
 
 	public SendSignalAction() {
 		super();
@@ -34,7 +36,7 @@ public abstract class SendSignalAction extends InvocationAction {
 			public Boolean call() throws Exception {
 				GraphDb.getDb().startTransaction();
 				try {
-					resolveTarget().receiveSignal(constructSignal());
+					resolveTarget().receiveSignal(getSignal());
 					GraphDb.getDb().stopTransaction(Conclusion.SUCCESS);
 				} catch (Exception e) {
 					GraphDb.getDb().stopTransaction(Conclusion.FAILURE);
@@ -48,10 +50,11 @@ public abstract class SendSignalAction extends InvocationAction {
 
 	protected abstract BaseTinkerBehavioredClassifier resolveTarget();
 
-	protected abstract ISignal constructSignal();
+	@Override
+	public abstract ISignal getSignal();
 	
 	@Override
-	protected List<? extends OutputPin<?,?>> getOutputPins() {
+	public List<? extends IOutputPin<?,?>> getOutput() {
 		return Collections.emptyList();
 	}
 	

@@ -27,7 +27,7 @@ public abstract class JoinNodeObjectTokenKnownWithInControlToken<O, OUT extends 
 	protected abstract ObjectFlowKnown<O,OUT> getOutFlow();
 
 	@Override
-	protected abstract List<ActivityEdge<Token>> getInFlows();
+	public abstract List<ActivityEdge<Token>> getIncoming();
 
 	//TODO
 	/*
@@ -43,7 +43,7 @@ public abstract class JoinNodeObjectTokenKnownWithInControlToken<O, OUT extends 
 			//Not sure about this consuming, consume elsewhere
 		}
 		List<Token> result = new ArrayList<Token>();
-		for (ActivityEdge<? extends Token> flow : getInFlows()) {
+		for (ActivityEdge<? extends Token> flow : getIncoming()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				Token token;

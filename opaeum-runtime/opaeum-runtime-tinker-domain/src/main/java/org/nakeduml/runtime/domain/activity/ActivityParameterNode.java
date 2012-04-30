@@ -37,14 +37,14 @@ public abstract class ActivityParameterNode<O,OUT extends ObjectToken<O>> extend
 
 		for (OUT objectToken : getInTokens()) {
 			// For each out flow add a token
-			for (ObjectFlowKnown<O, OUT> flow : getOutFlows()) {
+			for (ObjectFlowKnown<O, OUT> flow : getOutgoing()) {
 				OUT duplicate = objectToken.duplicate(flow.getName());
 				addOutgoingToken(duplicate);
 			}
 			objectToken.remove();
 		}
 		// Continue each out flow with its tokens
-		for (ObjectFlowKnown<O,OUT> flow : getOutFlows()) {
+		for (ObjectFlowKnown<O,OUT> flow : getOutgoing()) {
 			flow.setStarts(getOutTokens(flow.getName()));
 			flowResult.add(flow.processNextStart());
 		}

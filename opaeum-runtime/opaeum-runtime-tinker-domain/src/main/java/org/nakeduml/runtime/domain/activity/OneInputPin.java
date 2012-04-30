@@ -22,12 +22,12 @@ public abstract class OneInputPin<O> extends InputPin<O, SingleObjectToken<O>> i
 	}
 
 	@Override
-	protected List<OneObjectFlowKnown<O>> getInFlows() {
+	public List<OneObjectFlowKnown<O>> getIncoming() {
 		return Collections.emptyList();
 	}
 
 	@Override
-	protected abstract List<OneObjectFlowKnown<O>> getOutFlows();
+	public abstract List<OneObjectFlowKnown<O>> getOutgoing();
 	
 	@Override
 	protected int countNumberOfElementsOnTokens() {

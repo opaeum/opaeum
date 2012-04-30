@@ -25,12 +25,12 @@ public abstract class DecisionNode<IN  extends Token> extends ControlNode<IN, IN
 	}
 
 	@Override
-	protected abstract List<? extends ActivityEdge<IN>> getOutFlows();
+	public abstract List<? extends ActivityEdge<IN>> getOutgoing();
 
 	protected abstract ActivityEdge<IN> getInFlow();
 
 	@Override
-	protected List<? extends ActivityEdge<IN>> getInFlows() {
+	public List<? extends ActivityEdge<IN>> getIncoming() {
 		List<ActivityEdge<IN>> result = new ArrayList<ActivityEdge<IN>>();
 		result.add(getInFlow());
 		return result;
@@ -50,7 +50,7 @@ public abstract class DecisionNode<IN  extends Token> extends ControlNode<IN, IN
 		boolean oneOutgoingFlowGuardSucceeded = false;
 		for (IN token : getInTokens()) {
 			// For each out flow add a token
-			for (ActivityEdge<IN> flow : getOutFlows()) {
+			for (ActivityEdge<IN> flow : getOutgoing()) {
 				if (flow.evaluateGuardConditions(token)) {
 					oneOutgoingFlowGuardSucceeded = true;
 					IN duplicate = token.duplicate(flow.getName());

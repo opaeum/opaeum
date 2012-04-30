@@ -23,10 +23,10 @@ public abstract class ManyOutActivityParameterNode<O> extends OutActivityParamet
 	}
 	
 	@Override
-	protected abstract List<ManyObjectFlowKnown<O>> getInFlows();
+	public abstract List<ManyObjectFlowKnown<O>> getIncoming();
 
 	@Override
-	protected List<ManyObjectFlowKnown<O>> getOutFlows() {
+	public List<ManyObjectFlowKnown<O>> getOutgoing() {
 		return Collections.emptyList();
 	}
 

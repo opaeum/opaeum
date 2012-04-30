@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IModelElement;
 
+import org.nakeduml.tinker.activity.ConcreteEmulatedClassifier;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -12,6 +13,7 @@ import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
@@ -21,6 +23,7 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
 import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedEntity;
@@ -33,6 +36,17 @@ import org.opaeum.metamodel.core.INakedStructuredDataType;
 @StepDependency(phase = JavaTransformationPhase.class, requires = { CompositionEmulator.class, CompositionNodeImplementor.class }, after = { CompositionNodeImplementor.class }, replaces = ComponentInitializer.class)
 public class TinkerComponentInitializer extends ComponentInitializer {
 
+	public void setJavaModel(OJWorkspace javaModel) {
+		this.javaModel = javaModel;
+	}
+
+	public void visitActivityNode(OJAnnotatedClass ojClass, INakedActivityNode node, List<? extends INakedProperty> ownedProperties) {
+		OJOperation createComponents = new OJAnnotatedOperation("createComponents");
+		createComponents.setBody(new OJBlock());
+		initChildren(null, ownedProperties, createComponents);
+		ojClass.addToOperations(createComponents);
+	}
+	
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassifier(ICompositionParticipant entity) {
 		if (OJUtil.hasOJClass(entity) && !(entity instanceof INakedInterface)) {
@@ -59,7 +73,7 @@ public class TinkerComponentInitializer extends ComponentInitializer {
 			if (a instanceof INakedProperty) {
 				INakedProperty np = (INakedProperty) a;
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(np);
-				if (!np.isDerived() && (np.getNakedBaseType() instanceof INakedEntity || np.getNakedBaseType() instanceof INakedStructuredDataType || np.getNakedBaseType() instanceof INakedActivity)) {
+				if (!np.isDerived() && (np.getNakedBaseType() instanceof INakedEntity || np.getNakedBaseType() instanceof INakedStructuredDataType || np.getNakedBaseType() instanceof INakedActivity || np.getNakedBaseType() instanceof ConcreteEmulatedClassifier)) {
 					INakedClassifier type = np.getNakedBaseType();
 					if (np.hasQualifiers() && np.getNakedMultiplicity().getLower() == 1 && np.getQualifiers().size() == 1
 							&& (np.getQualifiers().get(0)).getNakedBaseType() instanceof INakedEnumeration) {
@@ -78,7 +92,7 @@ public class TinkerComponentInitializer extends ComponentInitializer {
 											+ en.getMappingInfo().getQualifiedJavaName() + "." + l.getMappingInfo().getJavaName().getUpperCase() + ")");
 						}
 						createComponents.getBody().addToStatements(ifEmpty);
-						if (np.getNakedBaseType() instanceof ICompositionParticipant) {
+						if (np.getNakedBaseType() instanceof ICompositionParticipant && init != null) {
 							OJForStatement whileIter = new OJForStatement("c", map.javaBaseTypePath(), map.getter() + "()");
 							whileIter.setBody(new OJBlock());
 							whileIter.getBody().addToStatements("c.init(this)");
@@ -88,7 +102,7 @@ public class TinkerComponentInitializer extends ComponentInitializer {
 						OJIfStatement ifNull = new OJIfStatement("get" + np.getMappingInfo().getJavaName().getCapped() + "()==null", "set"
 								+ np.getMappingInfo().getJavaName().getCapped() + "(new " + type.getMappingInfo().getJavaName() + "(true))");
 						createComponents.getBody().addToStatements(ifNull);
-						if (np.getNakedBaseType() instanceof ICompositionParticipant) {
+						if (np.getNakedBaseType() instanceof ICompositionParticipant  && init != null) {
 							init.getBody().addToStatements("get" + np.getMappingInfo().getJavaName().getCapped() + "().init(this)");
 						}
 					}

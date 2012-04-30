@@ -22,6 +22,6 @@ public abstract class OneDecisionObjectTokenKnown<O> extends DecisionObjectToken
 	protected abstract OneObjectFlowKnown<O> getInFlow();
 
 	@Override
-	protected abstract List<? extends OneObjectFlowKnown<O>> getOutFlows();
+	public abstract List<? extends OneObjectFlowKnown<O>> getOutgoing();
 
 }

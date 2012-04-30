@@ -277,6 +277,8 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		OJPathName nodePathName;
 		if (node instanceof INakedParameterNode) {
 			INakedParameterNode parameterNode = (INakedParameterNode) node;
+			OJUtil.unlock();
+
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(node.getActivity(), parameterNode.getParameter()));
 
 			nodePathName = TinkerBehaviorUtil.tinkerObjectTokenPathName.getCopy();

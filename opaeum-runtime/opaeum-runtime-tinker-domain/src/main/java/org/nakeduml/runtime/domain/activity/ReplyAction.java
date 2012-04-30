@@ -33,7 +33,7 @@ public abstract class ReplyAction extends Action {
 	 * upper multiplicity is consumed
 	 */
 	protected void transferObjectTokensToAction() {
-		for (IInputPin<?,?> inputPin : this.getInputPins()) {
+		for (IInputPin<?,?> inputPin : this.getInput()) {
 			int elementsTransferedCount = 0;
 			for (ObjectToken<?> token : inputPin.getInTokens()) {
 				if (elementsTransferedCount < inputPin.getUpperMultiplicity()) {

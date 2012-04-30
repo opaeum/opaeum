@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.nakeduml.runtime.domain.activity.interf.IInputPin;
+import org.nakeduml.runtime.domain.activity.interf.IOutputPin;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
@@ -26,7 +27,7 @@ public abstract class OpaqueAction<R, OUT extends ObjectToken<R>> extends Action
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected List<? extends OutputPin<R,OUT>> getOutputPins() {
+	public List<? extends IOutputPin<R,OUT>> getOutput() {
 		OutputPin<R,OUT> resultPin = getResultPin();
 		if (resultPin != null) {
 			return Arrays.<OutputPin<R,OUT>> asList(resultPin);
@@ -36,7 +37,7 @@ public abstract class OpaqueAction<R, OUT extends ObjectToken<R>> extends Action
 	}
 	
 	@Override
-	protected abstract List<? extends IInputPin<?,?>> getInputPins();
+	public abstract List<? extends IInputPin<?,?>> getInput();
 	
 	protected abstract OutputPin<R,OUT> getResultPin();
 
@@ -47,7 +48,7 @@ public abstract class OpaqueAction<R, OUT extends ObjectToken<R>> extends Action
 	 * upper multiplicity is consumed
 	 */
 	protected void transferObjectTokensToAction() {
-		for (IInputPin<?,?> inputPin : this.getInputPins()) {
+		for (IInputPin<?,?> inputPin : this.getInput()) {
 			int elementsTransferedCount = 0;
 			for (ObjectToken<?> token : inputPin.getInTokens()) {
 				if (elementsTransferedCount < inputPin.getUpperMultiplicity()) {

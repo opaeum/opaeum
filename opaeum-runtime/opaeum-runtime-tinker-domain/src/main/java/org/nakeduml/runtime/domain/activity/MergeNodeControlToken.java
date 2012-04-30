@@ -21,13 +21,13 @@ public abstract class MergeNodeControlToken extends MergeNode<ControlToken, Cont
 	}
 	
 	@Override
-	protected abstract List<ControlFlow> getInFlows();
+	public abstract List<ControlFlow> getIncoming();
 
 	@Override
 	protected abstract ControlFlow getOutFlow();
 	
 	@Override
-	protected List<ControlFlow> getOutFlows() {
+	public List<ControlFlow> getOutgoing() {
 		List<ControlFlow> result = new ArrayList<ControlFlow>();
 		result.add(getOutFlow());
 		return result;
@@ -36,7 +36,7 @@ public abstract class MergeNodeControlToken extends MergeNode<ControlToken, Cont
 	@Override
 	public List<ControlToken> getInTokens() {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ControlFlow flow : getInFlows()) {
+		for (ControlFlow flow : getIncoming()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				result.add(new ControlToken(edge.getInVertex()));
@@ -48,7 +48,7 @@ public abstract class MergeNodeControlToken extends MergeNode<ControlToken, Cont
 	@Override
 	public List<ControlToken> getInTokens(String inFlowName) {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ControlFlow flow : getInFlows()) {
+		for (ControlFlow flow : getIncoming()) {
 			if (flow.getName().equals(inFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
@@ -62,7 +62,7 @@ public abstract class MergeNodeControlToken extends MergeNode<ControlToken, Cont
 	@Override
 	public List<ControlToken> getOutTokens() {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ControlFlow flow : getOutFlows()) {
+		for (ControlFlow flow : getOutgoing()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				result.add(new ControlToken(edge.getInVertex()));
@@ -74,7 +74,7 @@ public abstract class MergeNodeControlToken extends MergeNode<ControlToken, Cont
 	@Override
 	public List<ControlToken> getOutTokens(String outFlowName) {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ControlFlow flow : getOutFlows()) {
+		for (ControlFlow flow : getOutgoing()) {
 			if (flow.getName().equals(outFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {

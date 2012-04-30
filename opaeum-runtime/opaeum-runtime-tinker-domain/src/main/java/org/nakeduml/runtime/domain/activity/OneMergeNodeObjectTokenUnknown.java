@@ -23,6 +23,6 @@ public abstract class OneMergeNodeObjectTokenUnknown extends MergeNodeObjectToke
 	protected abstract OneObjectFlowUnknown getOutFlow();
 
 	@Override
-	protected abstract List<? extends OneObjectFlowUnknown> getInFlows();
+	public abstract List<? extends OneObjectFlowUnknown> getIncoming();
 
 }

@@ -22,7 +22,7 @@ public abstract class ForkNode<IN extends Token> extends ControlNode<IN,IN> {
 	protected abstract ActivityEdge<IN> getInFlow();
 
 	@Override
-	protected List<ActivityEdge<IN>> getInFlows() {
+	public List<ActivityEdge<IN>> getIncoming() {
 		List<ActivityEdge<IN>> result = new ArrayList<ActivityEdge<IN>>();
 		result.add(getInFlow());
 		return result;

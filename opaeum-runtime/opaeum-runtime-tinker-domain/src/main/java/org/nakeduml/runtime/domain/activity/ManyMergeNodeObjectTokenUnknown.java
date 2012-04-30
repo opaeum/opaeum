@@ -23,6 +23,6 @@ public abstract class ManyMergeNodeObjectTokenUnknown extends MergeNodeObjectTok
 	protected abstract ManyObjectFlowUnknown getOutFlow();
 
 	@Override
-	protected abstract List<? extends ManyObjectFlowUnknown> getInFlows();
+	public abstract List<? extends ManyObjectFlowUnknown> getIncoming();
 
 }

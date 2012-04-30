@@ -24,12 +24,12 @@ public abstract class OneObjectFlowUnknown extends ObjectFlowUnknown<SingleObjec
 			}
 
 			@Override
-			protected <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getTarget() {
+			public <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getTarget() {
 				return OneObjectFlowUnknown.this.getTarget();
 			}
 
 			@Override
-			protected <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getSource() {
+			public <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getSource() {
 				return OneObjectFlowUnknown.this.getSource();
 			}
 

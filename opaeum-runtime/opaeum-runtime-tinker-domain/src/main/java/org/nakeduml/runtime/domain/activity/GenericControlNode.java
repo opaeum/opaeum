@@ -2,6 +2,8 @@ package org.nakeduml.runtime.domain.activity;
 
 import java.util.List;
 
+import org.nakeduml.runtime.domain.activity.interf.IActivityEdge;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class GenericControlNode extends ControlNode<Token, Token> {
@@ -19,6 +21,6 @@ public abstract class GenericControlNode extends ControlNode<Token, Token> {
 	}
 	
 	@Override
-	protected abstract List<? extends ActivityEdge<? extends Token>> getInFlows();
+	public abstract List<? extends IActivityEdge<? extends Token>> getIncoming();
 
 }

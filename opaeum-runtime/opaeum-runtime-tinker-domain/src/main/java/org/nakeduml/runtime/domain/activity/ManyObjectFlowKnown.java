@@ -31,12 +31,12 @@ public abstract class ManyObjectFlowKnown<O> extends ObjectFlowKnown<O, Collecti
 			}
 
 			@Override
-			protected <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getTarget() {
+			public <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getTarget() {
 				return ManyObjectFlowKnown.this.getTarget();
 			}
 
 			@Override
-			protected <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getSource() {
+			public <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getSource() {
 				return ManyObjectFlowKnown.this.getSource();
 			}
 

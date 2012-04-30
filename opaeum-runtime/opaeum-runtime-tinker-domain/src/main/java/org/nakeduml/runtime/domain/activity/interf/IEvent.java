@@ -1,4 +1,4 @@
-package org.nakeduml.runtime.domain.activity;
+package org.nakeduml.runtime.domain.activity.interf;
 
 public interface IEvent {
 

@@ -24,14 +24,14 @@ public abstract class JoinNodeObjectTokenUnknownWithInControlToken<OUT extends O
 	protected abstract ObjectFlowUnknown<OUT> getOutFlow();
 
 	@Override
-	protected List<ObjectFlowUnknown<OUT>> getOutFlows() {
+	public List<ObjectFlowUnknown<OUT>> getOutgoing() {
 		List<ObjectFlowUnknown<OUT>> result = new ArrayList<ObjectFlowUnknown<OUT>>();
 		result.add(getOutFlow());
 		return result;
 	}
 
 	@Override
-	protected abstract List<? extends ActivityEdge<? extends Token>> getInFlows();
+	public abstract List<? extends ActivityEdge<? extends Token>> getIncoming();
 
 	/*
 	 * (non-Javadoc)
@@ -42,7 +42,7 @@ public abstract class JoinNodeObjectTokenUnknownWithInControlToken<OUT extends O
 	@Override
 	public List<Token> getInTokens() {
 		List<Token> result = new ArrayList<Token>();
-		for (ActivityEdge<? extends Token> flow : getInFlows()) {
+		for (ActivityEdge<? extends Token> flow : getIncoming()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				Token token;

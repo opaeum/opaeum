@@ -15,7 +15,7 @@ public abstract class OneValuePin<O> extends ValuePin<O, SingleObjectToken<O>> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SingleObjectToken<O>> getInTokens() {
-		return Arrays.<SingleObjectToken<O>>asList(new SingleObjectToken<O>("TODO", getValue()));
+		return Arrays.<SingleObjectToken<O>>asList(new SingleObjectToken<O>(getName(), getValue()));
 	}
 	
 	@Override

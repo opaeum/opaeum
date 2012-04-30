@@ -23,10 +23,10 @@ public abstract class JoinNodeObjectTokenUnknown<IN extends ObjectToken<?>> exte
 	protected abstract ObjectFlowUnknown<IN> getOutFlow();
 
 	@Override
-	protected abstract List<? extends ObjectFlowUnknown<IN>> getInFlows();
+	public abstract List<? extends ObjectFlowUnknown<IN>> getIncoming();
 
 	@Override
-	protected List<ObjectFlowUnknown<IN>> getOutFlows() {
+	public List<ObjectFlowUnknown<IN>> getOutgoing() {
 		List<ObjectFlowUnknown<IN>> result = new ArrayList<ObjectFlowUnknown<IN>>();
 		result.add(getOutFlow());
 		return result;

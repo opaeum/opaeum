@@ -18,7 +18,7 @@ public abstract class ManyValuePin<O> extends ValuePin<O, CollectionObjectToken<
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CollectionObjectToken<O>> getInTokens() {
-		return Arrays.<CollectionObjectToken<O>>asList(new CollectionObjectToken<O>("TODO", getValue()));
+		return Arrays.<CollectionObjectToken<O>>asList(new CollectionObjectToken<O>(getName(), getValue()));
 	}
 	
 

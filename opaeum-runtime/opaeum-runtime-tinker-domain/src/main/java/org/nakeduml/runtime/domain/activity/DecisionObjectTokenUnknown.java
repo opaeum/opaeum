@@ -23,10 +23,10 @@ public abstract class DecisionObjectTokenUnknown<IN extends ObjectToken<?>> exte
 	protected abstract ObjectFlowUnknown<IN> getInFlow();
 
 	@Override
-	protected abstract List<? extends ObjectFlowUnknown<IN>> getOutFlows();
+	public abstract List<? extends ObjectFlowUnknown<IN>> getOutgoing();
 
 	@Override
-	protected List<ObjectFlowUnknown<IN>> getInFlows() {
+	public List<ObjectFlowUnknown<IN>> getIncoming() {
 		List<ObjectFlowUnknown<IN>> result = new ArrayList<ObjectFlowUnknown<IN>>();
 		result.add(getInFlow());
 		return result;

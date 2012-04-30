@@ -25,7 +25,7 @@ public abstract class MergeNode<IN extends Token, OUT extends Token> extends Con
 	protected abstract ActivityEdge<OUT> getOutFlow();
 
 	@Override
-	protected List<? extends ActivityEdge<OUT>> getOutFlows() {
+	public List<? extends ActivityEdge<OUT>> getOutgoing() {
 		List<ActivityEdge<OUT>> result = new ArrayList<ActivityEdge<OUT>>();
 		result.add(getOutFlow());
 		return result;

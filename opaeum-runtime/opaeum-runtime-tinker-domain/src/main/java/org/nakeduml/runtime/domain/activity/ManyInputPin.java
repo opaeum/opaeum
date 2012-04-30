@@ -22,12 +22,12 @@ public abstract class ManyInputPin<O> extends InputPin<O, CollectionObjectToken<
 	}
 	
 	@Override
-	protected List<ManyObjectFlowKnown<O>> getInFlows() {
+	public List<ManyObjectFlowKnown<O>> getIncoming() {
 		return Collections.emptyList();
 	}
 
 	@Override
-	protected abstract List<ManyObjectFlowKnown<O>> getOutFlows();	
+	public abstract List<ManyObjectFlowKnown<O>> getOutgoing();	
 
 	@Override
 	protected int countNumberOfElementsOnTokens() {

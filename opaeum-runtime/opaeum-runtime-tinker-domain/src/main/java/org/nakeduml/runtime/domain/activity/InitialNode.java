@@ -28,7 +28,7 @@ public abstract class InitialNode extends ControlNode<ControlToken, ControlToken
 	}
 	
 	@Override
-	protected List<? extends ActivityEdge<ControlToken>> getInFlows() {
+	public List<? extends ActivityEdge<ControlToken>> getIncoming() {
 		return Collections.<ActivityEdge<ControlToken>>emptyList();
 	}
 
@@ -55,7 +55,7 @@ public abstract class InitialNode extends ControlNode<ControlToken, ControlToken
 	@Override
 	public List<ControlToken> getOutTokens() {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ActivityEdge<ControlToken> flow : getOutFlows()) {
+		for (ActivityEdge<ControlToken> flow : getOutgoing()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				result.add(new ControlToken(edge.getInVertex()));
@@ -67,7 +67,7 @@ public abstract class InitialNode extends ControlNode<ControlToken, ControlToken
 	@Override
 	public List<ControlToken> getOutTokens(String outFlowName) {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ActivityEdge<ControlToken> flow : getOutFlows()) {
+		for (ActivityEdge<ControlToken> flow : getOutgoing()) {
 			if (flow.getName().equals(outFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {

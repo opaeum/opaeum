@@ -47,7 +47,7 @@ public class TinkerEventGenerator extends TinkerImplementNodeStep {
 		implementIsRoot(callEventClass, false);
 		addPersistentConstructor(callEventClass);
 		persistUid(callEventClass);
-		extendsBaseSoftDelete(callEventClass, null);
+		extendsTrigger(callEventClass, null);
 		addGetObjectVersion(callEventClass);
 		addGetSetId(callEventClass);
 		initialiseVertexInPersistentConstructor(callEventClass, null);
@@ -60,10 +60,13 @@ public class TinkerEventGenerator extends TinkerImplementNodeStep {
 		//TODO clearCache is done incorrectly, need to clear emulated properties
 		addClearCache(callEventClass, concreteEmulatedClassifier);
 		if (event instanceof INakedCallEvent) {
-			addImplementIEvent(callEventClass, event);
+			addImplementICallEvent(callEventClass, event);
 			INakedCallEvent callEvent = (INakedCallEvent) event;
 			try {
 				OJUtil.unlock();
+				if (callEvent.getOperation()==null) {
+					throw new IllegalStateException("CallEvent " + callEvent.getName() + " has no operation defined!");
+				}
 				for (INakedParameter p : callEvent.getOperation().getArgumentParameters()) {
 					TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, p);
 					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
@@ -106,8 +109,8 @@ public class TinkerEventGenerator extends TinkerImplementNodeStep {
 		callEventClass.addToOperations(getSignal);
 	}
 
-	private void addImplementIEvent(OJAnnotatedClass ojClass, INakedMessageEvent c) {
-		ojClass.addToImplementedInterfaces(TinkerBehaviorUtil.tinkerIEventPathName);
+	private void addImplementICallEvent(OJAnnotatedClass ojClass, INakedMessageEvent c) {
+		ojClass.addToImplementedInterfaces(TinkerBehaviorUtil.tinkerICallEventPathName);
 		OJAnnotatedOperation getEventName = new OJAnnotatedOperation("getEventName", new OJPathName("java.lang.String"));
 		getEventName.getBody().addToStatements("return \"" + c.getName() + "\"");
 		ojClass.addToOperations(getEventName);
@@ -120,7 +123,7 @@ public class TinkerEventGenerator extends TinkerImplementNodeStep {
 		super.persistUid(ojClass);
 	}
 
-	protected void extendsBaseSoftDelete(OJAnnotatedClass ojClass, INakedClassifier c) {
+	protected void extendsTrigger(OJAnnotatedClass ojClass, INakedClassifier c) {
 		ojClass.setSuperclass(TinkerGenerationUtil.BASE_AUDIT_SOFT_DELETE_TINKER);
 	}
 

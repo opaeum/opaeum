@@ -46,7 +46,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			addClearCache(ojClass, c);
 			if (c.getGeneralizations().isEmpty()) {
 				persistUid(ojClass);
-				extendsBaseSoftDelete(ojClass, c);
+				extendsTrigger(ojClass, c);
 				addGetObjectVersion(ojClass);
 				addGetSetId(ojClass);
 				initialiseVertexInPersistentConstructor(ojClass, c);
@@ -78,7 +78,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			addClearCache(ojClass, c);
 			if (c.getGeneralizations().isEmpty()) {
 				persistUid(ojClass);
-				extendsBaseSoftDelete(ojClass, c);
+				extendsTrigger(ojClass, c);
 				addGetObjectVersion(ojClass);
 				addGetSetId(ojClass);
 				initialiseVertexInPersistentConstructor(ojClass, c);
@@ -153,8 +153,8 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		ojClass.addToOperations(isRoot);
 	}
 
-	protected void extendsBaseSoftDelete(OJAnnotatedClass ojClass, INakedClassifier c) {
-		if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior() != null) {
+	protected void extendsTrigger(OJAnnotatedClass ojClass, INakedClassifier c) {
+		if (c instanceof INakedBehavioredClassifier && (((INakedBehavioredClassifier) c).getClassifierBehavior() != null || !((INakedBehavioredClassifier) c).getOwnedBehaviors().isEmpty())) {
 			ojClass.setSuperclass(TinkerGenerationUtil.BASE_BEHAVIORED_CLASSIFIER);
 		} else {
 			ojClass.setSuperclass(TinkerGenerationUtil.BASE_AUDIT_SOFT_DELETE_TINKER);
@@ -170,7 +170,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 
 	protected void initialiseVertexInPersistentConstructor(OJAnnotatedClass ojClass, INakedClassifier c) {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
-		constructor.getBody().addToStatements("this.vertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"" + TinkerGenerationUtil.getClassMetaId(ojClass) + "\")");
+		constructor.getBody().addToStatements("this.vertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"dribble\")");
 		if (c instanceof ICompositionParticipant) {
 			constructor.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
 		}
@@ -188,7 +188,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
 		if (c.getGeneralizations().isEmpty()) {
 			constructor.getBody().getStatements()
-					.add(0, new OJSimpleStatement("this.vertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"" + TinkerGenerationUtil.getClassMetaId(ojClass) + "\")"));
+					.add(0, new OJSimpleStatement("this.vertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"dribble\")"));
 			constructor.getBody().getStatements().add(1, new OJSimpleStatement("createComponents()"));
 			if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior() != null) {
 				// After init, before addToOwningObject

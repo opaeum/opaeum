@@ -22,6 +22,6 @@ public abstract class OneJoinNodeObjectTokenKnown<O> extends JoinNodeObjectToken
 	protected abstract OneObjectFlowKnown<O> getOutFlow();
 
 	@Override
-	protected abstract List<OneObjectFlowKnown<O>> getInFlows();
+	public abstract List<OneObjectFlowKnown<O>> getIncoming();
 
 }

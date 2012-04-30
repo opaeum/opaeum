@@ -22,11 +22,11 @@ public abstract class ManyInActivityParameterNode<O> extends InActivityParameter
 	}
 
 	@Override
-	protected List<ManyObjectFlowKnown<O>> getInFlows() {
+	public List<ManyObjectFlowKnown<O>> getIncoming() {
 		return Collections.emptyList();
 	}
 
 	@Override
-	protected abstract List<ManyObjectFlowKnown<O>> getOutFlows();
+	public abstract List<ManyObjectFlowKnown<O>> getOutgoing();
 
 }

@@ -22,6 +22,6 @@ public abstract class OneDecisionObjectTokenUnknown extends DecisionObjectTokenU
 	protected abstract OneObjectFlowUnknown getInFlow();
 
 	@Override
-	protected abstract List<? extends OneObjectFlowUnknown> getOutFlows();
+	public abstract List<? extends OneObjectFlowUnknown> getOutgoing();
 
 }

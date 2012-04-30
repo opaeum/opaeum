@@ -33,10 +33,13 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerReadVariableAction = new OJPathName("org.nakeduml.runtime.domain.activity.ReadVariableAction");
 	public static final OJPathName tinkerCreateObjectAction = new OJPathName("org.nakeduml.runtime.domain.activity.CreateObjectAction");
 	public static final OJPathName tinkerOperationBlockingQueue = new OJPathName("org.nakeduml.runtime.domain.TinkerOperationBlockingQueue");
-	public static final OJPathName tinkerIEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.IEvent");
+	public static final OJPathName tinkerTriggerPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Trigger");
+	public static final OJPathName tinkerITriggerPathName = new OJPathName("org.nakeduml.runtime.domain.activity.interf.ITrigger");
+	public static final OJPathName tinkerICallEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.interf.ICallEvent");
+	public static final OJPathName tinkerIEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.interf.IEvent");
 	public static final OJPathName tinkerEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Event");
 	public static final OJPathName tinkerSignalEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.SignalEvent");
-	public static final OJPathName tinkerISignalEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ISignalEvent");
+	public static final OJPathName tinkerISignalEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.interf.ISignalEvent");
 	public static final OJPathName tinkerCallEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.CallEvent");
 	public static final OJPathName tinkerAbstractActivityPathName = new OJPathName("org.nakeduml.runtime.domain.activity.AbstractActivity");
 	public static final OJPathName tinkerActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.ActivityParameterNode");
@@ -79,6 +82,8 @@ public class TinkerBehaviorUtil {
 
 	public static final OJPathName tinkerOutActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.OutActivityParameterNode");
 	public static final OJPathName tinkerActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Action");
+
+	public static final OJPathName tinkerCallOperationActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.CallOperationAction");
 
 	public static final OJPathName tinkerManyOpaqueActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ManyOpaqueAction");
 	public static final OJPathName tinkerOneOpaqueActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OneOpaqueAction");
@@ -155,6 +160,7 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerManyMergeNodeObjectTokenUnknownPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ManyMergeNodeObjectTokenUnknown");
 
 	public static final OJPathName tinkerMergeNodeObjectTokenUnknownPathName = new OJPathName("org.nakeduml.runtime.domain.activity.MergeNodeObjectTokenUnknown");
+	public static final OJPathName tinkerIActivityNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.interf.IActivityNode");
 	public static final OJPathName tinkerActivityNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.ActivityNode");
 	public static final OJPathName tinkerActivityEdgePathName = new OJPathName("org.nakeduml.runtime.domain.activity.ActivityEdge");
 	public static final OJPathName tinkerControlFlowPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ControlFlow");
@@ -236,7 +242,9 @@ public class TinkerBehaviorUtil {
 		return NameConverter.capitalize(inputPin.getName());
 	}
 	public static OJPathName activityEdgePathName(INakedActivityEdge edge) {
+		OJUtil.unlock();
 		OJPathName path = OJUtil.packagePathname(edge.getNameSpace());
+		OJUtil.lock();
 		String packageName = path.toJavaString();
 		return new OJPathName(packageName + "." + edgePathName((INakedActivityEdge)edge));
 	}
@@ -248,6 +256,10 @@ public class TinkerBehaviorUtil {
 	}
 	public static String eventName(INakedMessageEvent callEvent) {
 		return NameConverter.capitalize(callEvent.getName());
+	}
+
+	public static String triggerName(INakedTrigger trigger) {
+		return NameConverter.capitalize(trigger.getName());
 	}
 
 	public static INakedAcceptCallAction findCallActionForEventAndClassifier(INakedCallEvent callEvent, INakedBehavioredClassifier behavioredClassifier) {
