@@ -157,15 +157,15 @@ public class OJUtil{
 		javaKeyWords.add("return");
 	}
 	public static void lock(){
-		structuralFeatureMaps=Collections.unmodifiableMap(structuralFeatureMaps);
-		locallyUniqueFeatureMaps=Collections.unmodifiableMap(locallyUniqueFeatureMaps);
-		actionFeatureMaps=Collections.unmodifiableMap(actionFeatureMaps);
-		packagePaths=Collections.unmodifiableMap(packagePaths);
-		classifierPaths=Collections.unmodifiableMap(classifierPaths);
-		classifierMaps=Collections.unmodifiableMap(classifierMaps);
-		operationMaps=Collections.unmodifiableMap(operationMaps);
-		signalMaps=Collections.unmodifiableMap(signalMaps);
-		statePathnames=Collections.unmodifiableMap(statePathnames);
+//		structuralFeatureMaps=Collections.unmodifiableMap(structuralFeatureMaps);
+//		locallyUniqueFeatureMaps=Collections.unmodifiableMap(locallyUniqueFeatureMaps);
+//		actionFeatureMaps=Collections.unmodifiableMap(actionFeatureMaps);
+//		packagePaths=Collections.unmodifiableMap(packagePaths);
+//		classifierPaths=Collections.unmodifiableMap(classifierPaths);
+//		classifierMaps=Collections.unmodifiableMap(classifierMaps);
+//		operationMaps=Collections.unmodifiableMap(operationMaps);
+//		signalMaps=Collections.unmodifiableMap(signalMaps);
+//		statePathnames=Collections.unmodifiableMap(statePathnames);
 	}
 	public static void unlock(){
 		structuralFeatureMaps=new HashMap<INakedTypedElement, NakedStructuralFeatureMap>(structuralFeatureMaps);
