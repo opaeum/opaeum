@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.opaeum.runtime.jpa.StandaloneJpaEnvironment;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
-import structuredbusiness.Accountant;
+import structuredbusiness.Manager;
 import structuredbusiness.Structuredbusiness;
 
 public class InterfaceAssociationTest{
@@ -36,7 +36,7 @@ public class InterfaceAssociationTest{
 		ConversationalPersistence p = StandaloneJpaEnvironment.getInstance().createConversationalPersistence();
 		PersonNode pn = new PersonNode();
 		p.persist(pn);
-		Accountant ac = new Accountant();
+		Manager ac = new Manager();
 		p.persist(ac);
 		ac.setRepresentedPerson(pn);
 		ac.setRepresentedPerson(pn);
@@ -47,7 +47,7 @@ public class InterfaceAssociationTest{
 		p = StandaloneJpaEnvironment.getInstance().createConversationalPersistence();
 		pn=p.getReference(PersonNode.class, pn.getId());
 		Assert.assertEquals(1, pn.getPerson_iBusinessRole_1_businessRole().size());
-		ac=p.getReference(Accountant.class, ac.getId());
+		ac=p.getReference(Manager.class, ac.getId());
 		Assert.assertTrue(pn.getBusinessRole().contains(ac));
 		
 	}

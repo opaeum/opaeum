@@ -110,7 +110,6 @@ public class TransformationProcess{
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
 			Steps steps = new Steps();
-			System.out.println();
 			Class<? extends TransformationPhase<? extends ITransformationStep,?>> class1 = (Class) phase.getClass();
 			steps.initializeFromClasses(getStepsForPhase(class1, actualClasses));
 			List<ITransformationStep> executionUnits = steps.getExecutionUnits();

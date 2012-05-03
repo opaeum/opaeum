@@ -26,7 +26,6 @@ public class MondrianSession{
 			while((size = openStream.read(b)) > 0){
 				sb.append(new String(b).substring(0, size));
 			}
-			;
 			this.fileName = sb.toString();
 		}catch(IOException e){
 			// TODO Auto-generated catch block

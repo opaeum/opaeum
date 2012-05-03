@@ -2,6 +2,7 @@ package org.opaeum.runtime.strategy;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
@@ -28,7 +29,11 @@ public class DateStrategyFactory extends SimpleTypeRuntimeStrategyFactory{
 	public static class StringToDateConversionStrategy implements FromStringConverter{
 		@Override
 		public Date fromString(String val) throws ParseException{
+			try{
 				return getFormat().parse(val);
+			}catch(ParseException e){
+				return new SimpleDateFormat("yyyy-MM-dd").parse(val);
+			}
 		}
 	}
 	public DateStrategyFactory(){

@@ -7,7 +7,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
@@ -24,7 +23,7 @@ public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
 		final OpaeumEclipseContext currentContext = OpaeumEclipseContext.findOrCreateContextFor(folder);
-		new Job("Recompiling model directory"){
+		new Job("Generating simulation model"){
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
 				try{
@@ -49,20 +48,10 @@ public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 		monitor.subTask("Saving Open Models");
 		final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(folder);
 		monitor.worked(5);
-		final EmfWorkspace[] result=new EmfWorkspace[1];
-		monitor.subTask("Loading Opaeum Metadata");
-		ctx.executeAndWait(new AbstractCommand(){
-			@Override
-			public void execute(){
-				result[0]=ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
-			}
-			@Override
-			public void redo(){
-			}
-		});
+		EmfWorkspace r = ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
 		INakedModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
 		PersistentNameGenerator png = new PersistentNameGenerator();
 		png.startVisiting(nakedWorkspace);
-		return result[0];
+		return r;
 	}
 }

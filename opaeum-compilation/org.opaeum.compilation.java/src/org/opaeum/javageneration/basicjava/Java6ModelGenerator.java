@@ -70,6 +70,10 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
 		visitClass(umlOwner);
 	}
+	protected boolean ignoreDeletedElements(){
+		return false;
+	}
+
 	@SuppressWarnings({
 			"unchecked","rawtypes"
 	})

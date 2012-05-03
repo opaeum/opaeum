@@ -14,6 +14,8 @@ import org.eclipse.uml2.uml.DeployedArtifact;
 import org.eclipse.uml2.uml.DeploymentTarget;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.LiteralSpecification;
+import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.PackageableElement;
@@ -142,6 +144,14 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 				return createWeightedInstanceValueAdapter();
 			}
 			@Override
+			public Adapter caseWeightedSimpleTypeValue(WeightedSimpleTypeValue object) {
+				return createWeightedSimpleTypeValueAdapter();
+			}
+			@Override
+			public Adapter caseLiteralSimpleType(LiteralSimpleType object) {
+				return createLiteralSimpleTypeAdapter();
+			}
+			@Override
 			public Adapter caseEModelElement(EModelElement object) {
 				return createEModelElementAdapter();
 			}
@@ -196,6 +206,14 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseInstanceSpecification(InstanceSpecification object) {
 				return createInstanceSpecificationAdapter();
+			}
+			@Override
+			public Adapter caseLiteralSpecification(LiteralSpecification object) {
+				return createLiteralSpecificationAdapter();
+			}
+			@Override
+			public Adapter caseLiteralString(LiteralString object) {
+				return createLiteralStringAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -428,6 +446,34 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue <em>Weighted Simple Type Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue
+	 * @generated
+	 */
+	public Adapter createWeightedSimpleTypeValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.LiteralSimpleType <em>Literal Simple Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.metamodels.simulation.simulation.LiteralSimpleType
+	 * @generated
+	 */
+	public Adapter createLiteralSimpleTypeAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.ecore.EModelElement <em>EModel Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -620,6 +666,34 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createInstanceSpecificationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.uml2.uml.LiteralSpecification <em>Literal Specification</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.uml2.uml.LiteralSpecification
+	 * @generated
+	 */
+	public Adapter createLiteralSpecificationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.uml2.uml.LiteralString <em>Literal String</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.uml2.uml.LiteralString
+	 * @generated
+	 */
+	public Adapter createLiteralStringAdapter() {
 		return null;
 	}
 

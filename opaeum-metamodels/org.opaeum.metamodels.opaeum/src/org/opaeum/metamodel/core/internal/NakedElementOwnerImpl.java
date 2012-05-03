@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.opaeum.feature.MappingInfo;
@@ -45,17 +44,19 @@ public abstract class NakedElementOwnerImpl implements INakedElementOwner{
 			element.setOwnerElement(this);
 		}
 	}
-	public void removeOwnedElement(INakedElement element,boolean recursively){
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = new HashSet<INakedElement>();
 		if(element != null){
+			result.add(element);
 			ownedElements.remove(element.getId());
 			if(recursively){
 				for(INakedElement child:new ArrayList<INakedElement>(element.getOwnedElements())){
-					element.removeOwnedElement(child, recursively);
+					result.addAll(element.removeOwnedElement(child, recursively));
 					child.markForDeletion();
 				}
 			}
-			element.setOwnerElement(null);
 		}
+		return result;
 	}
 	public Collection<INakedElement> getAllDescendants(){
 		Set<INakedElement> result = new HashSet<INakedElement>();

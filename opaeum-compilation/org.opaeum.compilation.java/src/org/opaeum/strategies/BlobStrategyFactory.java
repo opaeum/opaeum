@@ -7,7 +7,7 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opaeum.javageneration.TestValueStrategy;
+import org.opaeum.javageneration.TestModelValueStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
 import org.opaeum.metamodel.core.INakedProperty;
@@ -42,16 +42,13 @@ public class BlobStrategyFactory extends AbstractStrategyFactory {
 			return "This is an extremely LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG blob";
 		}
 	}
-	public static class MyTestValueStrategy implements TestValueStrategy{
+	public static class MyTestValueStrategy implements TestModelValueStrategy{
 
 		@Override
-		public String getDefaultValue() {
-			return "\"This is an extremely LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG blob\".getBytes()";
+		public String getDefaultStringValue(int count) {
+			return "This is an extremely LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG blob";
 		}
 
-		@Override
-		public void transformClass(OJAnnotatedClass owner, OJBlock block) {
-		}
 		
 	}
 	@SuppressWarnings("unchecked")

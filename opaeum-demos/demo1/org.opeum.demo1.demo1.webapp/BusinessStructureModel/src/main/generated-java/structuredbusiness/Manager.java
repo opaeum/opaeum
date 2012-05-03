@@ -91,7 +91,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@Index(columnNames="dishwashers_inc_id",name="idx_manager_dishwashers_inc_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="dishwashers_inc_id",nullable=true)
-	private DishwashersInc dishwashersInc;
+	private ApplianceDoctor dishwashersInc;
 	@Column(name="hourly_rate")
 	private Double hourlyRate;
 	@Id
@@ -121,13 +121,13 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	static final private long serialVersionUID = 3586662115628447123l;
 	private String uid;
 	@Column(name="years_in_position")
-	private Integer yearsInPosition;
+	private String yearsInPosition;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
 	 * @param owningObject 
 	 */
-	public Manager(DishwashersInc owningObject) {
+	public Manager(ApplianceDoctor owningObject) {
 		init(owningObject);
 		addToOwningObject();
 	}
@@ -176,7 +176,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 			setName(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("name")));
 		}
 		if ( xml.getAttribute("yearsInPosition").length()>0 ) {
-			setYearsInPosition(StructuredbusinessFormatter.getInstance().parseInteger(xml.getAttribute("yearsInPosition")));
+			setYearsInPosition(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("yearsInPosition")));
 		}
 		if ( xml.getAttribute("contactNumber").length()>0 ) {
 			setContactNumber(StructuredbusinessFormatter.getInstance().parsePhoneNumber(xml.getAttribute("contactNumber")));
@@ -261,8 +261,8 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=325738725014330933l,opposite="manager",uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
-	public DishwashersInc getDishwashersInc() {
-		DishwashersInc result = this.dishwashersInc;
+	public ApplianceDoctor getDishwashersInc() {
+		ApplianceDoctor result = this.dishwashersInc;
 		
 		return result;
 	}
@@ -393,8 +393,8 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1631645898744506437l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_JMxWcIPrEeGccYWaoIFIyQ")
 	@NumlMetaInfo(uuid="914890@_JMxWcIPrEeGccYWaoIFIyQ")
-	public Integer getYearsInPosition() {
-		Integer result = this.yearsInPosition;
+	public String getYearsInPosition() {
+		String result = this.yearsInPosition;
 		
 		return result;
 	}
@@ -404,7 +404,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void init(CompositionNode owner) {
-		this.z_internalAddToDishwashersInc((DishwashersInc)owner);
+		this.z_internalAddToDishwashersInc((ApplianceDoctor)owner);
 		createComponents();
 	}
 	
@@ -488,7 +488,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		this.deletedOn=deletedOn;
 	}
 	
-	public void setDishwashersInc(DishwashersInc dishwashersInc) {
+	public void setDishwashersInc(ApplianceDoctor dishwashersInc) {
 		propertyChangeSupport.firePropertyChange("dishwashersInc",getDishwashersInc(),dishwashersInc);
 		if ( this.getDishwashersInc()!=null ) {
 			this.getDishwashersInc().z_internalRemoveFromManager(this);
@@ -578,7 +578,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		this.uid=newUid;
 	}
 	
-	public void setYearsInPosition(Integer yearsInPosition) {
+	public void setYearsInPosition(String yearsInPosition) {
 		propertyChangeSupport.firePropertyChange("yearsInPosition",getYearsInPosition(),yearsInPosition);
 		this.z_internalAddToYearsInPosition(yearsInPosition);
 	}
@@ -597,7 +597,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
 		}
 		if ( getYearsInPosition()!=null ) {
-			sb.append("yearsInPosition=\""+ StructuredbusinessFormatter.getInstance().formatInteger(getYearsInPosition())+"\" ");
+			sb.append("yearsInPosition=\""+ StructuredbusinessFormatter.getInstance().formatString(getYearsInPosition())+"\" ");
 		}
 		if ( getContactNumber()!=null ) {
 			sb.append("contactNumber=\""+ StructuredbusinessFormatter.getInstance().formatPhoneNumber(getContactNumber())+"\" ");
@@ -621,7 +621,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		this.contactNumber=val;
 	}
 	
-	public void z_internalAddToDishwashersInc(DishwashersInc val) {
+	public void z_internalAddToDishwashersInc(ApplianceDoctor val) {
 		this.dishwashersInc=val;
 	}
 	
@@ -647,7 +647,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		newOne.getRepresentedPerson().z_internalAddToPerson_iBusinessRole_1_businessRole(newOne);
 	}
 	
-	public void z_internalAddToYearsInPosition(Integer val) {
+	public void z_internalAddToYearsInPosition(String val) {
 		this.yearsInPosition=val;
 	}
 	
@@ -658,7 +658,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		}
 	}
 	
-	public void z_internalRemoveFromDishwashersInc(DishwashersInc val) {
+	public void z_internalRemoveFromDishwashersInc(ApplianceDoctor val) {
 		if ( getDishwashersInc()!=null && val!=null && val.equals(getDishwashersInc()) ) {
 			this.dishwashersInc=null;
 			this.dishwashersInc=null;
@@ -696,7 +696,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		}
 	}
 	
-	public void z_internalRemoveFromYearsInPosition(Integer val) {
+	public void z_internalRemoveFromYearsInPosition(String val) {
 		if ( getYearsInPosition()!=null && val!=null && val.equals(getYearsInPosition()) ) {
 			this.yearsInPosition=null;
 			this.yearsInPosition=null;

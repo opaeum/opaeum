@@ -19,6 +19,7 @@ import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.PersonNode;
+import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.JavaTypedElement;
@@ -58,11 +59,31 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 		return validator;
 	}
 	private IBusinessNetwork findOrCreateBusinessNetwork(){
-		Collection<BusinessNetwork> readAll = getApplicationPersistence().readAll(BusinessNetwork.class);
+		ConversationalPersistence persistence = getApplicationPersistence();
+		Collection<BusinessNetwork> readAll = persistence.readAll(BusinessNetwork.class);
+		for(Class<?> clss:getEnvironment().getMetaInfoMap().getAllClasses()){
+			if(clss.isEnum()){
+				try{
+					Class<?> eec = clss.getClassLoader().loadClass(clss.getName() + "Entity");
+					Object[] enumConstants = clss.getEnumConstants();
+					for(Object object:enumConstants){
+						if(object instanceof IEnum){
+							if(persistence.find(eec, ((IEnum) object).getUuid()) == null){
+								Object newInstance = eec.getConstructor(clss).newInstance(object);
+								persistence.persist(newInstance);
+							}
+						}
+					}
+				}catch(Exception e){
+					System.out.println(e);
+				}
+			}
+			persistence.flush();
+		}
 		if(readAll.isEmpty()){
 			BusinessNetwork bn = new BusinessNetwork();
-			getApplicationPersistence().persist(bn);
-			getApplicationPersistence().flush();
+			persistence.persist(bn);
+			persistence.flush();
 			return bn;
 		}else{
 			return readAll.iterator().next();

@@ -12,6 +12,8 @@ import org.eclipse.uml2.uml.DeployedArtifact;
 import org.eclipse.uml2.uml.DeploymentTarget;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.LiteralSpecification;
+import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.PackageableElement;
@@ -288,6 +290,35 @@ public class SimulationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case SimulationPackage.WEIGHTED_SIMPLE_TYPE_VALUE: {
+				WeightedSimpleTypeValue weightedSimpleTypeValue = (WeightedSimpleTypeValue)theEObject;
+				T result = caseWeightedSimpleTypeValue(weightedSimpleTypeValue);
+				if (result == null) result = caseSimulatedValue(weightedSimpleTypeValue);
+				if (result == null) result = caseValueSpecification(weightedSimpleTypeValue);
+				if (result == null) result = casePackageableElement(weightedSimpleTypeValue);
+				if (result == null) result = caseTypedElement(weightedSimpleTypeValue);
+				if (result == null) result = caseNamedElement(weightedSimpleTypeValue);
+				if (result == null) result = caseParameterableElement(weightedSimpleTypeValue);
+				if (result == null) result = caseElement(weightedSimpleTypeValue);
+				if (result == null) result = caseEModelElement(weightedSimpleTypeValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SimulationPackage.LITERAL_SIMPLE_TYPE: {
+				LiteralSimpleType literalSimpleType = (LiteralSimpleType)theEObject;
+				T result = caseLiteralSimpleType(literalSimpleType);
+				if (result == null) result = caseLiteralString(literalSimpleType);
+				if (result == null) result = caseLiteralSpecification(literalSimpleType);
+				if (result == null) result = caseValueSpecification(literalSimpleType);
+				if (result == null) result = casePackageableElement(literalSimpleType);
+				if (result == null) result = caseTypedElement(literalSimpleType);
+				if (result == null) result = caseNamedElement(literalSimpleType);
+				if (result == null) result = caseParameterableElement(literalSimpleType);
+				if (result == null) result = caseElement(literalSimpleType);
+				if (result == null) result = caseEModelElement(literalSimpleType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -518,6 +549,36 @@ public class SimulationSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Weighted Simple Type Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Weighted Simple Type Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseWeightedSimpleTypeValue(WeightedSimpleTypeValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Literal Simple Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Literal Simple Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLiteralSimpleType(LiteralSimpleType object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>EModel Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -724,6 +785,36 @@ public class SimulationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseInstanceSpecification(InstanceSpecification object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Literal Specification</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Literal Specification</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLiteralSpecification(LiteralSpecification object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Literal String</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Literal String</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLiteralString(LiteralString object) {
 		return null;
 	}
 

@@ -157,6 +157,24 @@ public interface SimulationFactory extends EFactory {
 	WeightedInstanceValue createWeightedInstanceValue();
 
 	/**
+	 * Returns a new object of class '<em>Weighted Simple Type Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Weighted Simple Type Value</em>'.
+	 * @generated
+	 */
+	WeightedSimpleTypeValue createWeightedSimpleTypeValue();
+
+	/**
+	 * Returns a new object of class '<em>Literal Simple Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Literal Simple Type</em>'.
+	 * @generated
+	 */
+	LiteralSimpleType createLiteralSimpleType();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

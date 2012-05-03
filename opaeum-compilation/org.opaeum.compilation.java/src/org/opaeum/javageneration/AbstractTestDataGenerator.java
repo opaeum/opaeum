@@ -58,8 +58,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		if (f.getNakedBaseType() instanceof INakedSimpleType) {
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
 			test.addToImports(new OJPathName((baseType).getMappingInfo().getQualifiedJavaName()));
-			if (baseType.hasStrategy(TestValueStrategy.class)) {
-				baseType.getStrategy(TestValueStrategy.class).transformClass(test, block);
+			if (baseType.hasStrategy(TestModelValueStrategy.class)) {
 			}
 		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
 			OJAnnotatedClass javaType = findJavaClass(f.getNakedBaseType());
@@ -99,8 +98,8 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		double value = Math.random() * 123456;
 		if (f.getNakedBaseType() instanceof INakedSimpleType) {
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
-			if (baseType.hasStrategy(TestValueStrategy.class)) {
-				return baseType.getStrategy(TestValueStrategy.class).getDefaultValue();
+			if (baseType.hasStrategy(TestModelValueStrategy.class)) {
+				return baseType.getStrategy(TestModelValueStrategy.class).getDefaultStringValue(12341);
 			} else if (workspace.getOpaeumLibrary().getDateType() != null && f.getNakedBaseType().conformsTo(workspace.getOpaeumLibrary().getDateType())) {
 				String javaDate = baseType.getMappingInfo().getQualifiedJavaName();
 				if (javaDate.equals("java.util.Date")) {

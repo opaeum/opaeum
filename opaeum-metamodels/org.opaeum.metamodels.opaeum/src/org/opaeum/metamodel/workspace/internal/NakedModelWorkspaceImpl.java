@@ -158,12 +158,14 @@ public class NakedModelWorkspaceImpl extends NakedElementOwnerImpl implements IN
 		return children;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element,boolean recursively){
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		this.children.remove(element);
 		this.generatingRootObjects.remove(element);
 		this.primaryRootObjects.remove(element);
 		super.removeOwnedElement(element, recursively);
 		removeModelElement(element);
+		return result;
 	}
 	@Override
 	public List<INakedRootObject> getGeneratingModelsOrProfiles(){

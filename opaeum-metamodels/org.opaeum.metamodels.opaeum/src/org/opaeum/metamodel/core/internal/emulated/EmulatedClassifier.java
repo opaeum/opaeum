@@ -417,11 +417,17 @@ public abstract class EmulatedClassifier extends EmulatingElement implements INa
 		}
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
-		if(element instanceof AbstractEmulatedProperty){
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
+		if(element instanceof AbstractEmulatedProperty && attributes.contains(element)){
 			attributes.remove(element);
+			AbstractEmulatedProperty p = (AbstractEmulatedProperty) element;
+			if(p.getOtherEnd()!=null){
+				result.add(p.getNakedBaseType());
+				result.addAll(p.getNakedBaseType().removeOwnedElement(p.getOtherEnd(), recursively));
+			}
 		}
+		return result;
 	}
 	public void setEndToComposite(INakedProperty artificialProperty){
 		this.endToComposite = artificialProperty;

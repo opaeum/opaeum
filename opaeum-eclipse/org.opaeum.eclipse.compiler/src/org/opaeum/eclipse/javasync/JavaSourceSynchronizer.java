@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -29,6 +30,7 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.EclipseProjectGenerationStep;
+import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.javageneration.JavaTransformationPhase;
@@ -48,13 +50,13 @@ import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 public final class JavaSourceSynchronizer implements OpaeumEclipseContextListener{
 	private final IWorkspaceRoot workspace;
-	//TODO remove this dependency on the context
+	// TODO remove this dependency on the context
 	OpaeumEclipseContext context;
 	EclipseProjectGenerationStep eclipseGenerator = new EclipseProjectGenerationStep();
 	private TransformationProcess process;
 	private IJavaModel javaWorkspace;
 	private Set<INakedElement> nakedUmlChanges = new HashSet<INakedElement>();
-	private NamespaceRenameRequests namespaceRenameRequests=new NamespaceRenameRequests();
+	private NamespaceRenameRequests namespaceRenameRequests = new NamespaceRenameRequests();
 	public JavaSourceSynchronizer(OpaeumEclipseContext ne,TransformationProcess process){
 		this.process = process;
 		ne.addContextListener(this);
@@ -159,26 +161,54 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 				process.replaceModel(new TextWorkspace());
 				PersistentNameGenerator png = new PersistentNameGenerator();
 				for(INakedElement ne:clss){
-					if(ne.getRootObject().getMappingInfo().getPersistentName()==null){
-						png.visitRecursively(ne.getRootObject());
+					if(!ne.isMarkedForDeletion()){
+						if(ne.getRootObject()==null){
+							System.out.println();
+						}
+						MappingInfo mappingInfo = ne.getRootObject().getMappingInfo();
+						if(mappingInfo.getPersistentName() == null){
+							png.visitRecursively(ne.getRootObject());
+						}
+						while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null
+								|| ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
+							ne = (INakedElement) ne.getOwnerElement();
+						}
+						png.visitRecursively(ne);
 					}
-					while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null || ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
-						ne = (INakedElement) ne.getOwnerElement();
-					}
-					png.visitRecursively(ne);
 				}
-				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));
+				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(
+						monitor, 400));
 				if(hasNewJavaSourceFolders(workspace, process.findModel(TextWorkspace.class))){
 					process.executePhase(PomGenerationPhase.class, false, new ProgressMonitorTransformationLog(monitor, 100));
 					new JavaProjectGenerator(process.getConfig(), process, workspace).schedule();
 				}
+				int fileCount = 0;
 				for(Object object:processElements){
 					if(object instanceof TextOutputNode){
-						TextOutputNode txt = (TextOutputNode) object;
-						monitor.subTask("Emitting " + txt.getName());
-						eclipseGenerator.visitUpFirst(txt);
+						if(((TextOutputNode) object).shouldDelete()){
+							eclipseGenerator.visitUpFirst((TextOutputNode) object);
+						}else{
+							fileCount++;
+						}
 					}
 					monitor.worked(500 / processElements.size());
+				}
+				if(fileCount < 4){
+					for(Object object:processElements){
+						if(object instanceof TextOutputNode){
+							TextOutputNode txt = (TextOutputNode) object;
+							monitor.subTask("Emitting " + txt.getName());
+							eclipseGenerator.visitUpFirst(txt);
+						}
+						monitor.worked(500 / processElements.size());
+					}
+				}else{
+					try{
+						JavaProjectGenerator.writeTextFilesAndRefresh(monitor, process, context, false);
+					}catch(CoreException e){
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}finally{

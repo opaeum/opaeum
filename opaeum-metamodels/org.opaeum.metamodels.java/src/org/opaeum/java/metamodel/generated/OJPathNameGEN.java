@@ -125,6 +125,10 @@ abstract public class OJPathNameGEN extends OJElement {
 	 * @param element 
 	 */
 	public void addToNames(String element) {
+		if(element.equals("IBusinessRoleBase")){
+			System.out.println();
+		}
+
 		f_names.add(element);
 	}
 	

@@ -3,7 +3,6 @@ package org.opaeum.eclipse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -11,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
@@ -28,7 +26,6 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
-import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -46,10 +43,7 @@ import org.opaeum.feature.TransformationProcess;
 import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
 import org.opaeum.linkage.AbstractModelElementLinker;
 import org.opaeum.linkage.LinkagePhase;
-import org.opaeum.linkage.QualifierLogicCalculator;
-import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 import org.opaeum.validation.ValidationPhase;
@@ -277,8 +271,8 @@ public final class EmfToOpaeumSynchronizer{
 				uriFragment.append(DETACHED_EOBJECT_TO_ID_MAP.get(ne));
 			}
 		};
-		final String id = currentEmfWorkspace.getResourceId(eResource) + "@" + uriFragment.toString();
-		StereotypesHelper.getNumlAnnotation(ne).getDetails().put("opaeumId", id);
+		final String id = EmfWorkspace.getResourceId(eResource) + "@" + uriFragment.toString();
+		StereotypesHelper.findOrCreateNumlAnnotation(ne).getDetails().put("opaeumId", id);
 		for(Element element:EmfElementFinder.getCorrectOwnedElements(ne)){
 			storeTempId(element, eResource);
 		}

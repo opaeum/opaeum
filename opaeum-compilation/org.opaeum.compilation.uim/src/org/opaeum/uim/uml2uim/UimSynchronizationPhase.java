@@ -42,14 +42,13 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		for(Element element:elements){
-			ResourceSet resourceSet = new ResourceSetImpl();
 			// TODO when to load contents?
 			for(AbstractUimSynchronizer s:features){
-				s.init(workspace, resourceSet, false);
+				s.init(workspace, uimResourceSet, false);
 				s.visitUpThenDown((Element) element);
 			}
 			try{
-				save(workspace.getDirectoryUri(), resourceSet);
+				save(workspace.getDirectoryUri(), uimResourceSet);
 			}catch(IOException e){
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -59,14 +58,13 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	}
 	@Override
 	public void execute(TransformationContext context){
-		ResourceSet resourceSet = new ResourceSetImpl();
 		for(AbstractUimSynchronizer s:features){
 			if(!context.getLog().isCanceled()){
 				s.startVisiting(workspace);
 			}
 		}
 		try{
-			save(workspace.getDirectoryUri(), resourceSet);
+			save(workspace.getDirectoryUri(), uimResourceSet);
 		}catch(IOException e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,10 +73,10 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	@Override
 	public void initialize(OpaeumConfig config,List<AbstractUimSynchronizer> features){
 		this.config = config;
-		this.uimResourceSet = new ResourceSetImpl();
 		this.features = features;
 	}
 	public void initializeSteps(){
+		this.uimResourceSet=new ResourceSetImpl();
 		for(AbstractUimSynchronizer s:this.features){
 			s.init(workspace, uimResourceSet, false);
 		}

@@ -16,8 +16,5 @@
     <transformationStep
           className="org.opaeum.uim.uml2uim.FormSynchronizer">
     </transformationStep>
-    <transformationStep
-          className="org.opaeum.uim.uml2uim.ModelCopyStep">
-    </transformationStep>
  </extension>
 </plugin>

@@ -89,6 +89,10 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 		monitor.subTask("Loading Opaeum Metadata");
 		ctx.executeAndWait(new AbstractCommand(){
 			@Override
+			public boolean canExecute(){
+				return true;
+			}
+			@Override
 			public void execute(){
 				ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
 			}

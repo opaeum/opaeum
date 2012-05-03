@@ -98,10 +98,10 @@ public abstract class UimBindingImpl extends UmlReferenceImpl implements UimBind
 		}
 	}
 	public String getLastPropertyUuid(PropertyRef next2){
-		if(next.getNext() == null){
+		if(next2.getNext() == null){
 			return next2.getUmlElementUid();
 		}else{
-			return getLastPropertyUuid(next2);
+			return getLastPropertyUuid(next2.getNext());
 		}
 	}
 	/**

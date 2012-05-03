@@ -19,6 +19,7 @@ public class JavaNameRegenerator extends AbstractJavaNameGenerator{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void updateJavaName(INakedElement nakedElement){
+
 		nakedElement.getMappingInfo().setJavaName(generateJavaName(nakedElement));
 		nakedElement.getMappingInfo().setQualifiedJavaName(generateQualifiedJavaName(nakedElement));
 		if(nakedElement.getMappingInfo().requiresJavaRename()){

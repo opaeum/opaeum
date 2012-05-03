@@ -44,7 +44,8 @@ public class ValueSpecificationUtil{
 		}
 		return expressLiterals(valueSpec, ojOwner, null);
 	}
-	public static String expressValue(OJOperation operationContext,INakedValueSpecification valueSpec,INakedClassifier owner,IClassifier expectedType){
+	public static String expressValue(OJOperation operationContext,INakedValueSpecification valueSpec,INakedClassifier owner,
+			IClassifier expectedType){
 		if(valueSpec == null){
 			if(expectedType == null){
 				return "could not determine type of implicit object";
@@ -132,7 +133,8 @@ public class ValueSpecificationUtil{
 		}else if(valueSpec.getValue() instanceof INakedInstanceSpecification){
 			INakedInstanceSpecification spec = (INakedInstanceSpecification) valueSpec.getValue();
 			NakedClassifierMap map = OJUtil.buildClassifierMap(spec.getClassifier());
-			final OJAnnotatedOperation getInstance = new OJAnnotatedOperation("get" + spec.getName() + spec.getMappingInfo().getOpaeumId(), map.javaTypePath());
+			final OJAnnotatedOperation getInstance = new OJAnnotatedOperation("get" + spec.getName() + spec.getMappingInfo().getOpaeumId(),
+					map.javaTypePath());
 			ojOwner.addToOperations(getInstance);
 			final OJAnnotatedField result = new OJAnnotatedField("result", map.javaTypePath());
 			getInstance.getBody().addToLocals(result);
@@ -222,15 +224,26 @@ public class ValueSpecificationUtil{
 		}else{
 			StringBuilder sb = new StringBuilder(mapper.javaDefaultValue());
 			sb.deleteCharAt(sb.length() - 1);
-			sb.append("java.util.Arrays.asList(");
+			StringBuffer valueExpressions = new StringBuffer();
 			for(INakedValueSpecification v:values){
-				sb.append(expressValue(myClass, v, feat.getType(), true));
-				sb.append(",");
+				String expressValue = expressValue(myClass, v, feat.getType(), true);
+				if(expressValue != null){
+					valueExpressions.append(expressValue);
+					valueExpressions.append(",");
+				}
 			}
-			if(sb.charAt(sb.length() - 1) == ','){
-				sb.deleteCharAt(sb.length() - 1);
+			if(valueExpressions.length()>0 &&  valueExpressions.charAt(valueExpressions.length() - 1) == ','){
+				valueExpressions.deleteCharAt(valueExpressions.length() - 1);
 			}
-			sb.append("))");
+			if(valueExpressions.length()>0){
+				sb.append("java.util.Arrays.asList(");
+				sb.append(valueExpressions);
+				sb.append("))");
+			}else{
+				sb.append(valueExpressions);
+				sb.append(")");
+				
+			}
 			init = sb.toString();
 		}
 		return init;

@@ -2,6 +2,7 @@ package org.opaeum.uim.userinteractionproperties.sections;
 
 import java.awt.Desktop.Action;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
@@ -86,6 +87,7 @@ public class AxisEntryLevelPropertiesSection extends AbstractTabbedPropertySecti
 				availableProperties.add((Property) UmlUimLinks.getCurrentUmlLinks(dimensionBinding).getUmlElement(next));
 				next = next.getNext();
 			}
+			Collections.reverse(availableProperties);
 			for(final Property property:availableProperties){
 				final Button btn = getWidgetFactory().createButton(checkBoxComposite, property.getName() + ":" + property.getType().getName(),
 						SWT.CHECK);
@@ -122,6 +124,16 @@ public class AxisEntryLevelPropertiesSection extends AbstractTabbedPropertySecti
 								break;
 							}
 							i++;
+						}
+						if(i==availableProperties.size()){
+							//Now check for lower entries
+							for(LevelProperty levelProperty:lps){
+								Element availableProperty = UmlUimLinks.getCurrentUmlLinks(levelProperty).getUmlElement(levelProperty);
+								if(availableProperties.indexOf(availableProperty) == indexInAvailableProperties-1){
+									break;
+								}
+								i++;
+							}
 						}
 						return i;
 					}

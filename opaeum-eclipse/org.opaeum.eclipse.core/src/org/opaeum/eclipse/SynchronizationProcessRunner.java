@@ -35,7 +35,8 @@ public final class SynchronizationProcessRunner extends Job{
 			// TODO pass the OpenUmlFile along and get the EditingDomain there - double check with Topcased
 			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 			EditingDomain editingDomain = currentContext.getEditingDomain();
-			editingDomain.getCommandStack().execute(new AbstractCommand(){
+			// editingDomain.getCommandStack().execute(
+			new AbstractCommand(){
 				@Override
 				public boolean canExecute(){
 					return true;
@@ -63,7 +64,7 @@ public final class SynchronizationProcessRunner extends Job{
 				public void redo(){
 					// TODO Auto-generated method stub
 				}
-			});
+			}.execute();
 			return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Opaeum Metadata Synchronized Successfully");
 		}catch(Exception e){
 			e.printStackTrace();

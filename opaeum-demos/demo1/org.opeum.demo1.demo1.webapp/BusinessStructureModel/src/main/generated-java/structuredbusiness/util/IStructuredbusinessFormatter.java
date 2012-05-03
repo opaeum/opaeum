@@ -13,7 +13,11 @@ public interface IStructuredbusinessFormatter {
 	
 	public String formatDayOfMonth(Integer value);
 	
+	public String formatDollar(Double value);
+	
 	public String formatEMailAddress(String value);
+	
+	public String formatEuro(Double value);
 	
 	public String formatHourOfDay(Integer value);
 	
@@ -23,13 +27,21 @@ public interface IStructuredbusinessFormatter {
 	
 	public String formatPhoneNumber(String value);
 	
+	public String formatRand(Double value);
+	
 	public String formatReal(Double value);
+	
+	public String formatSecondOfMinute(Integer value);
 	
 	public String formatString(String value);
 	
 	public String formatText(String value);
 	
 	public String formatUnlimitedNatural(Integer value);
+	
+	public String formatWeekOfYear(Integer value);
+	
+	public String formatYear(Integer value);
 	
 	public byte[] parseBinaryLargeObject(String value);
 	
@@ -41,7 +53,11 @@ public interface IStructuredbusinessFormatter {
 	
 	public Integer parseDayOfMonth(String value);
 	
+	public Double parseDollar(String value);
+	
 	public String parseEMailAddress(String value);
+	
+	public Double parseEuro(String value);
 	
 	public Integer parseHourOfDay(String value);
 	
@@ -51,12 +67,20 @@ public interface IStructuredbusinessFormatter {
 	
 	public String parsePhoneNumber(String value);
 	
+	public Double parseRand(String value);
+	
 	public Double parseReal(String value);
+	
+	public Integer parseSecondOfMinute(String value);
 	
 	public String parseString(String value);
 	
 	public String parseText(String value);
 	
 	public Integer parseUnlimitedNatural(String value);
+	
+	public Integer parseWeekOfYear(String value);
+	
+	public Integer parseYear(String value);
 
 }

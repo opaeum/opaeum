@@ -71,12 +71,9 @@ import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.statemachines.INakedTransition;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
-@StepDependency(phase = LinkagePhase.class,after = {
-		EnumerationValuesAttributeAdder.class,PinLinker.class,MappedTypeLinker.class,SourcePopulationResolver.class,ReferenceResolver.class,TypeResolver.class,
-		ProcessIdentifier.class
-},requires = {
-		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,EnumerationValuesAttributeAdder.class
-})
+@StepDependency(phase = LinkagePhase.class,after = {EnumerationValuesAttributeAdder.class,PinLinker.class,MappedTypeLinker.class,
+		SourcePopulationResolver.class,ReferenceResolver.class,TypeResolver.class,ProcessIdentifier.class},requires = {MappedTypeLinker.class,
+		PinLinker.class,ReferenceResolver.class,TypeResolver.class,EnumerationValuesAttributeAdder.class})
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	@Override
 	protected int getThreadPoolSize(){
@@ -113,7 +110,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 					env = environmentFactory.createInstanceValueEnvironment((INakedValueSpecification) slot.getOwningInstance().getOwnerElement());
 				}
 				INakedProperty property = slot.getDefiningFeature();
-				s.setValue(replaceSingleParsedOclString(string, context, property.getType(), env));
+				if(slot.getDefiningFeature() != null){
+					s.setValue(replaceSingleParsedOclString(string, context, property.getType(), env));
+				}
 			}
 		}
 	}
@@ -141,7 +140,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			}
 			edge.getGuard().setValue(replaceSingleParsedOclString(string, context, booleanType, env));
 			maybeAddAffectedImplementations(owningBehavior);
-			if(!owningBehavior.isProcess() && owningBehavior.getContext()!=null){
+			if(!owningBehavior.isProcess() && owningBehavior.getContext() != null){
 				maybeAddAffectedImplementations(owningBehavior.getContext());
 			}
 		}
@@ -163,7 +162,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			Environment env = environmentFactory.createOpaqueBehaviorEnvironment(ob);
 			ob.setBodyExpression(replaceSingleParsedOclString(bodyExpression, ob, returnType, env));
 			maybeAddAffectedImplementations(ob);
-			if(!ob.isProcess() && ob.getContext()!=null){
+			if(!ob.isProcess() && ob.getContext() != null){
 				maybeAddAffectedImplementations(ob.getContext());
 			}
 		}
@@ -179,13 +178,18 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			iv.setValue(replaceSingleParsedOclString(oclValue, c, attr.getType(), env));
 			IOclContext oc = iv.getOclValue();
 			if(iv.isValidOclValue()){
-				if(oc.getExpression().getExpressionType().isCollectionKind()){
+				IClassifier expressionType = oc.getExpression().getExpressionType();
+				if(expressionType == null){
+				}
+				if(expressionType.isCollectionKind()){
 					if(attr.getMultiplicity().isSingleObject() && attr.getQualifiers().isEmpty()){
-						getErrorMap().putError(iv, CoreValidationRule.OCL, "Expression returns multiple values, but the defining property only supports a single value");
+						getErrorMap().putError(iv, CoreValidationRule.OCL,
+								"Expression returns multiple values, but the defining property only supports a single value");
 					}
 				}else{
 					if(attr.getMultiplicity().getUpper() > 1 || !attr.getQualifiers().isEmpty()){
-						getErrorMap().putError(iv, CoreValidationRule.OCL, "Expression returns a single value, but the defining property expects multiple values");
+						getErrorMap().putError(iv, CoreValidationRule.OCL,
+								"Expression returns a single value, but the defining property expects multiple values");
 					}
 				}
 			}
@@ -344,7 +348,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				}
 				ParsedOclString expression = (ParsedOclString) oa.getBodyExpression();
 				expression.setContext(ctx, oa);
-				IClassifier type = oa.getReturnPin() == null ? getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName) : oa.getReturnPin().getType();
+				IClassifier type = oa.getReturnPin() == null ? getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName) : oa.getReturnPin()
+						.getType();
 				IOclContext newExpression = replaceSingleParsedOclString(expression, ctx, type, inside);
 				oa.setBodyExpression(newExpression);
 				if(newExpression instanceof OclContextImpl && oa.getReturnPin() != null){
@@ -365,10 +370,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			replaceParsedOclConstraints(ctx, a.getPostConditions(), inside);
 		}
 		maybeAddAffectedImplementations(activity);
-		if(!activity.isProcess() && activity.getContext()!=null){
+		if(!activity.isProcess() && activity.getContext() != null){
 			maybeAddAffectedImplementations(activity.getContext());
 		}
-
 	}
 	private void popuateDefinedResponsibility(INakedClassifier owner,Environment outside,INakedDefinedResponsibility e){
 		INakedResponsibilityDefinition taskDefinition = e.getTaskDefinition();
@@ -402,12 +406,11 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			pin.setType(getOclLibrary().lookupStandardType(IOclLibrary.StringTypeName));
 			pin.setMultiplicity(new NakedMultiplicityImpl(0, 1));
 		}
-		INakedActivity activity=pin.getActivity();
+		INakedActivity activity = pin.getActivity();
 		maybeAddAffectedImplementations(activity);
-		if(!activity.isProcess() && activity.getContext()!=null){
+		if(!activity.isProcess() && activity.getContext() != null){
 			maybeAddAffectedImplementations(activity.getContext());
 		}
-		
 	}
 	private void overridePinType(INakedValuePin pin){
 		IClassifier type = null;
@@ -443,8 +446,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			}
 			pin.setType(getOclLibrary().lookupCollectionType(collectionType.getMetaType(), pin.getNakedBaseType()));
 			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), Integer.MAX_VALUE));
-			pin.setIsOrdered(collectionType.getMetaType() == CollectionMetaType.SEQUENCE || collectionType.getMetaType() == CollectionMetaType.ORDEREDSET);
-			pin.setIsUnique(collectionType.getMetaType() == CollectionMetaType.SET || collectionType.getMetaType() == CollectionMetaType.ORDEREDSET);
+			pin.setIsOrdered(collectionType.getMetaType() == CollectionMetaType.SEQUENCE
+					|| collectionType.getMetaType() == CollectionMetaType.ORDEREDSET);
+			pin.setIsUnique(collectionType.getMetaType() == CollectionMetaType.SET
+					|| collectionType.getMetaType() == CollectionMetaType.ORDEREDSET);
 		}else if(type instanceof StdlibPrimitiveType){
 			StdlibPrimitiveType standardType = (StdlibPrimitiveType) type;
 			pin.setBaseType(getLibrary().lookupStandardType(standardType));
@@ -457,8 +462,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	private static String replaceSelfWith(String from,String matchWord){
 		String string = " " + from + " ";
 		String seperators = "([\\s\\)=\\(\\.])";
-		String replaceAll = string.replaceAll(seperators + "(self)" + seperators, "$1" + matchWord + "$3").replaceAll(seperators + "(self)" + seperators,
-				"$1" + matchWord + "$3");
+		String replaceAll = string.replaceAll(seperators + "(self)" + seperators, "$1" + matchWord + "$3").replaceAll(
+				seperators + "(self)" + seperators, "$1" + matchWord + "$3");
 		return replaceAll;
 	}
 	private void resolvePinOcl(INakedValuePin pin){
@@ -490,7 +495,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	protected IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env){
 		return replaceSingleParsedOclString(holder, c, expectedType, env, false);
 	}
-	private IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env,boolean ignoreMultiplicity){
+	private IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env,
+			boolean ignoreMultiplicity){
 		if(holder.getExpressionString() == null){
 			this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL,
 					EmfValidationUtil.OCL_EXPRESSION_REQUIRED);
@@ -527,15 +533,19 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 							// null, accept single expected type
 							expressionType = ((StdlibCollectionType) expressionType).getElementType();
 						}
-					}else if(!(expectedType instanceof StdlibCollectionType) && (expressionType instanceof StdlibCollectionType && ignoreMultiplicity)){
+					}else if(!(expectedType instanceof StdlibCollectionType)
+							&& (expressionType instanceof StdlibCollectionType && ignoreMultiplicity)){
 						expressionType = ((StdlibCollectionType) expressionType).getElementType();
 					}
-					if(expectedType instanceof INakedPrimitiveType && ((INakedPrimitiveType) expectedType).getOclType()!=null){
+					if(expectedType instanceof INakedPrimitiveType && ((INakedPrimitiveType) expectedType).getOclType() != null){
 						expectedType = ((INakedPrimitiveType) expectedType).getOclType();
 					}
 					if(!expressionType.conformsTo(expectedType)){
-						this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL,
-								"Return value of type " + expectedType==null?"null":expectedType.getName() + " expected, but the expression returns a value of type " + expressionType.getName());
+						this.getErrorMap().putError(
+								(INakedElement) holder.getOwningModelElement().getModelElement(),
+								CoreValidationRule.OCL,
+								"Return value of type " + expectedType == null ? "null" : expectedType.getName()
+										+ " expected, but the expression returns a value of type " + expressionType.getName());
 					}
 				}
 				return newC;
@@ -564,7 +574,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		Integer column = e.getError().getColumnNumber();
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, column);
 		System.out.println(ne.getMappingInfo().getQualifiedUmlName());
-//		e.printStackTrace();
+		// e.printStackTrace();
 	}
 	private void putError(ParsedOclString holder,Throwable e){
 		INakedElement ne = (INakedElement) holder.getOwningModelElement().getModelElement();
@@ -578,7 +588,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		IOclContext result = null;
 		OclUsageType type = holder.getType();
 		if(ast != null){
-			OclContextImpl replacement = new OclContextImpl(new String(holder.getName()), type, (ModelElementReferenceImpl) holder.getContext(), ast);
+			OclContextImpl replacement = new OclContextImpl(new String(holder.getName()), type, (ModelElementReferenceImpl) holder.getContext(),
+					ast);
 			replacement.setExpressionByUser(holder.getExpressionString());
 			replacement.setLineAndColumn(holder.getLine(), holder.getColumn());
 			replacement.setFilename(holder.getFilename());
@@ -601,7 +612,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	}
 	private void putErrors(ParsedOclString holder,List<IOclError> localErrors){
 		for(IOclError oe:localErrors){
-			this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, oe.getErrorMessage());
+			this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL,
+					oe.getErrorMessage());
 		}
 	}
 }

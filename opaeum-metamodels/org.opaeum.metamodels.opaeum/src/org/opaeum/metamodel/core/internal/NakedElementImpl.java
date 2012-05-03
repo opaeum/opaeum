@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -27,7 +28,6 @@ import org.opaeum.metamodel.workspace.INakedModelWorkspace;
  */
 public abstract class NakedElementImpl extends NakedElementOwnerImpl implements Serializable,INakedElement{
 	protected List<INakedComment> comments = new ArrayList<INakedComment>();
-
 	@Override
 	public void addOwnedElement(INakedElement element){
 		if(element instanceof INakedComment){
@@ -36,7 +36,8 @@ public abstract class NakedElementImpl extends NakedElementOwnerImpl implements 
 		super.addOwnedElement(element);
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element,boolean recursively){
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedComment){
 			comments.remove(element);
 		}else if(element instanceof INakedInstanceSpecification){
@@ -45,14 +46,14 @@ public abstract class NakedElementImpl extends NakedElementOwnerImpl implements 
 				stereotypes.remove(sa.getName());
 			}
 		}
-		super.removeOwnedElement(element, recursively);
+		return result;
 	}
 	private boolean markedForDeletion;
 	String uuid;
 	private static final long serialVersionUID = -825314743586339864L;
 	/**
-	 * A The ID of this originalElement's namespace as supplied by the modelling tool of choice The Modelelement class will resolve the
-	 * links itself. This should make it easier to populate the Modelelement from various sources
+	 * A The ID of this originalElement's namespace as supplied by the modelling tool of choice The Modelelement class will resolve the links
+	 * itself. This should make it easier to populate the Modelelement from various sources
 	 */
 	protected String id;
 	Map<String,INakedInstanceSpecification> stereotypes = new HashMap<String,INakedInstanceSpecification>();
@@ -152,7 +153,7 @@ public abstract class NakedElementImpl extends NakedElementOwnerImpl implements 
 	}
 	public void addStereotype(INakedInstanceSpecification stereotype){
 		this.ownedElements.remove(stereotype.getId());
-		this.ownedElements.put(stereotype.getId(),stereotype);
+		this.ownedElements.put(stereotype.getId(), stereotype);
 		stereotype.setOwnerElement(this);
 		this.stereotypes.put(stereotype.getName(), stereotype);
 	}
@@ -202,6 +203,9 @@ public abstract class NakedElementImpl extends NakedElementOwnerImpl implements 
 	@Override
 	public void markForDeletion(){
 		this.markedForDeletion = true;
+		for(INakedElement e:getOwnedElements()){
+			e.markForDeletion();
+		}
 	}
 	public INakedRootObject getRootObject(){
 		if(getOwnerElement() instanceof INakedElement){

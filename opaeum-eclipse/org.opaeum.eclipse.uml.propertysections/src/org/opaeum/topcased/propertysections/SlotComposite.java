@@ -15,6 +15,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.Enumeration;
@@ -29,6 +30,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.linkage.PropertyUtil;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 import org.opaeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
@@ -72,11 +74,11 @@ public class SlotComposite extends Composite{
 			control.dispose();
 		}
 		if(slot.getDefiningFeature() != null){
-			if(EmfPropertyUtil.isMany(slot.getDefiningFeature()) && slot.getOwner() instanceof EnumerationLiteral
+			if(slot.getOwner() instanceof EnumerationLiteral
 					&& slot.getDefiningFeature().getType() instanceof Enumeration){
 				final EList<EnumerationLiteral> ownedLiterals = ((Enumeration) slot.getDefiningFeature().getType()).getOwnedLiterals();
 				for(final EnumerationLiteral enumerationLiteral:ownedLiterals){
-					final Button btn = toolkit.createButton(this, enumerationLiteral.getName(), SWT.CHECK);
+					final Button btn = toolkit.createButton(this, enumerationLiteral.getName(), EmfPropertyUtil.isMany(slot.getDefiningFeature())? SWT.CHECK: SWT.RADIO);
 					for(ValueSpecification vs:slot.getValues()){
 						if(vs instanceof InstanceValue && ((InstanceValue) vs).getInstance() instanceof EnumerationLiteral
 								&& enumerationLiteral.equals(((InstanceValue) vs).getInstance())){
@@ -87,6 +89,10 @@ public class SlotComposite extends Composite{
 						@Override
 						public void widgetSelected(SelectionEvent e){
 							if(btn.getSelection()){
+								if(EmfPropertyUtil.isMany(slot.getDefiningFeature())){
+									editingDomain.getCommandStack().execute(
+											RemoveCommand.create(editingDomain, slot, UMLPackage.eINSTANCE.getSlot_Value(), slot.getValues()));
+								}
 								final InstanceValue iv = UMLFactory.eINSTANCE.createInstanceValue();
 								iv.setInstance(enumerationLiteral);
 								editingDomain.getCommandStack().execute(AddCommand.create(editingDomain, slot, UMLPackage.eINSTANCE.getSlot_Value(), iv));

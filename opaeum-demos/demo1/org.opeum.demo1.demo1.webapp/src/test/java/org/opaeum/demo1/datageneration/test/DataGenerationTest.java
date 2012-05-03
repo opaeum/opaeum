@@ -1,9 +1,5 @@
 package org.opaeum.demo1.datageneration.test;
 
-import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.ejb.Ejb3Configuration;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hsqldb.lib.FileUtil;
 import org.junit.Test;
 import org.opeum.demo1.util.Demo1DataGenerator;

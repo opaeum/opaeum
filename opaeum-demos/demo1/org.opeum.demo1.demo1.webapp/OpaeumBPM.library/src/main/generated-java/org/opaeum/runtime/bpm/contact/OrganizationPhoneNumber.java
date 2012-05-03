@@ -185,7 +185,7 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInOrganization() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber.uniqueInOrganization");
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber.organization");
 		}
 		return failedInvariants;
 	}
@@ -255,8 +255,8 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	}
 	
 	public boolean isUniqueInOrganization() {
-		boolean result = forAll1();
-		
+		boolean result = false;
+		result = forAll1();
 		return result;
 	}
 	

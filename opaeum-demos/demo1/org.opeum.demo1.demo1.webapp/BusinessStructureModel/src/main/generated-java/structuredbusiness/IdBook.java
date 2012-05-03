@@ -17,8 +17,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
@@ -26,7 +24,6 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.BusinessDocument;
 import org.opaeum.annotation.NumlMetaInfo;
@@ -71,10 +68,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Index(columnNames="dishwashers_inc_id",name="idx_id_book_dishwashers_inc_id")
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="dishwashers_inc_id",nullable=true)
-	private DishwashersInc dishwashersInc;
 	@Type(type="org.opaeum.runtime.domain.DocumentTypeResolver")
 	@Column(name="document_type",nullable=true)
 	private DocumentType documentType;
@@ -98,15 +91,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	static final private long serialVersionUID = 7267980829799356539l;
 	private String uid;
 
-	/** This constructor is intended for easy initialization in unit tests
-	 * 
-	 * @param owningObject 
-	 */
-	public IdBook(DishwashersInc owningObject) {
-		init(owningObject);
-		addToOwningObject();
-	}
-	
 	/** Default constructor for IdBook
 	 */
 	public IdBook() {
@@ -119,7 +103,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getDishwashersInc().z_internalAddToIdBook((IdBook)this);
 	}
 	
 	static public Set<? extends IdBook> allInstances() {
@@ -201,14 +184,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3496196660294374553l,opposite="idBook",uuid="914890@_0EgusXHgEeGus4aKic9sIg")
-	@NumlMetaInfo(uuid="914890@_0EgusXHgEeGus4aKic9sIg")
-	public DishwashersInc getDishwashersInc() {
-		DishwashersInc result = this.dishwashersInc;
-		
-		return result;
-	}
-	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=759998593327277107l,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	@NumlMetaInfo(uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	public DocumentType getDocumentType() {
@@ -250,7 +225,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public CompositionNode getOwningObject() {
-		return getDishwashersInc();
+		return null;
 	}
 	
 	public String getUid() {
@@ -265,7 +240,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void init(CompositionNode owner) {
-		this.z_internalAddToDishwashersInc((DishwashersInc)owner);
 		createComponents();
 	}
 	
@@ -284,9 +258,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void markDeleted() {
-		if ( getDishwashersInc()!=null ) {
-			getDishwashersInc().z_internalRemoveFromIdBook(this);
-		}
 		setDeletedOn(new Date());
 	}
 	
@@ -322,20 +293,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
-	}
-	
-	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		propertyChangeSupport.firePropertyChange("dishwashersInc",getDishwashersInc(),dishwashersInc);
-		if ( this.getDishwashersInc()!=null ) {
-			this.getDishwashersInc().z_internalRemoveFromIdBook(this);
-		}
-		if ( dishwashersInc!=null ) {
-			dishwashersInc.z_internalAddToIdBook(this);
-			this.z_internalAddToDishwashersInc(dishwashersInc);
-			setDeletedOn(Stdlib.FUTURE);
-		} else {
-			markDeleted();
-		}
 	}
 	
 	public void setDocumentType(DocumentType documentType) {
@@ -400,10 +357,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.dateOfBirth=val;
 	}
 	
-	public void z_internalAddToDishwashersInc(DishwashersInc val) {
-		this.dishwashersInc=val;
-	}
-	
 	public void z_internalAddToDocumentType(DocumentType val) {
 		this.documentType=val;
 	}
@@ -420,13 +373,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( getDateOfBirth()!=null && val!=null && val.equals(getDateOfBirth()) ) {
 			this.dateOfBirth=null;
 			this.dateOfBirth=null;
-		}
-	}
-	
-	public void z_internalRemoveFromDishwashersInc(DishwashersInc val) {
-		if ( getDishwashersInc()!=null && val!=null && val.equals(getDishwashersInc()) ) {
-			this.dishwashersInc=null;
-			this.dishwashersInc=null;
 		}
 	}
 	

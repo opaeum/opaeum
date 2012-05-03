@@ -22,7 +22,6 @@ public class CreateAbstractActionBarDiagramCommand extends AbstractPapyrusGmfCre
 	}
 	@Override
 	protected String getDiagramNotationID(){
-		System.out.println("CreateAbstractActionBarDiagramCommand.getDiagramNotationID()");
 		return AbstractEditorEditPart.MODEL_ID;
 	}
 	@Override

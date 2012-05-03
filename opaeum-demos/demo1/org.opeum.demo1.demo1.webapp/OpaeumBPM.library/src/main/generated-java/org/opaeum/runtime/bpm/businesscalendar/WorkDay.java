@@ -260,7 +260,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, IConstrained
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInBusinessCalendar() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.businesscalendar.WorkDay.uniqueInBusinessCalendar");
+			failedInvariants.add("org.opaeum.runtime.bpm.businesscalendar.WorkDay.businessCalendar");
 		}
 		return failedInvariants;
 	}
@@ -330,8 +330,8 @@ public class WorkDay implements IPersistentObject, IEventGenerator, IConstrained
 	}
 	
 	public boolean isUniqueInBusinessCalendar() {
-		boolean result = forAll1();
-		
+		boolean result = false;
+		result = forAll1();
 		return result;
 	}
 	

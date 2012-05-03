@@ -22,6 +22,7 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -63,6 +64,20 @@ import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 																																																			 */
 },before = {})
 public class HibernateAnnotator extends AbstractStructureVisitor{
+	@VisitBefore(matchSubclasses = true)
+	public void visitEnumeration(INakedEnumeration e){
+		// TODO do something similar for interfaces, even without
+		if(e.getCodeGenerationStrategy().isAll()){
+			OJPackage pkg = findOrCreatePackage(OJUtil.packagePathname(e.getNameSpace()));
+			OJAnnotatedClass clss = (OJAnnotatedClass) pkg.findClass(new OJPathName(e.getName() + "Entity"));
+			for(INakedProperty p:e.getOwnedAttributes()){
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
+				if(map.isOne()){
+					mapXToOne(e, map, clss);
+				}
+			}
+		}
+	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitInterface(INakedInterface cl){
 		if(!cl.hasStereotype(StereotypeNames.HELPER) && OJUtil.hasOJClass(cl)){
@@ -126,7 +141,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	}
 	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap map){
 		INakedProperty f = map.getProperty();
-
 		if(isPersistent(owner) && !f.isDerived() && !map.isStatic()){
 			if(map.isOne()){
 				mapXToOne(owner, map);
@@ -183,6 +197,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	}
 	private void mapXToOne(INakedClassifier owner,NakedStructuralFeatureMap map){
 		OJAnnotatedClass ojOwner = findJavaClass(owner);
+		mapXToOne(owner, map, ojOwner);
+	}
+	public void mapXToOne(INakedClassifier owner,NakedStructuralFeatureMap map,OJAnnotatedClass ojOwner){
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 		if(field != null){
 			// may have been removed by custom transformation
@@ -239,7 +256,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 						oneToOne.removeAttribute("mappedBy");
 					}
 				}else{
-					//TODO this code only works on *ToMany
+					// TODO this code only works on *ToMany
 					OJAnnotationValue oneToMany = field.findAnnotation(new OJPathName(OneToMany.class.getName()));
 					oneToMany.removeAttribute("mappedBy");
 					JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);

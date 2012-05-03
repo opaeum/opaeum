@@ -23,7 +23,7 @@ public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorksp
 		Collection<Element> elements = EmfElementFinder.getCorrectOwnedElements(root);
 		if(!(root instanceof EmfWorkspace) && root.getEAnnotation(StereotypeNames.NUML_ANNOTATION) != null){
 			@SuppressWarnings("rawtypes")
-			List contents = StereotypesHelper.getNumlAnnotation(root).getContents();
+			List contents = root.getEAnnotation(StereotypeNames.NUML_ANNOTATION).getContents();
 			elements.addAll((Collection<? extends Element>) contents);
 		}
 		try{

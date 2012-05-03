@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.uml2.types.TypesPackage;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.metamodels.simulation.simulation.ActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
@@ -24,10 +25,12 @@ import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 import org.opaeum.metamodels.simulation.simulation.SimulationStrategy;
 import org.opaeum.metamodels.simulation.simulation.UniformDistribution;
+import org.opaeum.metamodels.simulation.simulation.LiteralSimpleType;
 import org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue;
 
 /**
  * <!-- begin-user-doc -->
@@ -146,6 +149,20 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass weightedSimpleTypeValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass literalSimpleTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum simulationStrategyEEnum = null;
 
 	/**
@@ -196,6 +213,7 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 
 		// Initialize simple dependencies
 		EcorePackage.eINSTANCE.eClass();
+		TypesPackage.eINSTANCE.eClass();
 		UMLPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
@@ -533,6 +551,69 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getWeightedSimpleTypeValue() {
+		return weightedSimpleTypeValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWeightedSimpleTypeValue_StringValue() {
+		return (EAttribute)weightedSimpleTypeValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWeightedSimpleTypeValue_Weight() {
+		return (EAttribute)weightedSimpleTypeValueEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWeightedSimpleTypeValue_RuntimeStrategyFactory() {
+		return (EAttribute)weightedSimpleTypeValueEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getLiteralSimpleType() {
+		return literalSimpleTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLiteralSimpleType_StringValue() {
+		return (EAttribute)literalSimpleTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLiteralSimpleType_RuntimeStrategyFactory() {
+		return (EAttribute)literalSimpleTypeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSimulationStrategy() {
 		return simulationStrategyEEnum;
 	}
@@ -615,6 +696,15 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		createEAttribute(weightedInstanceValueEClass, WEIGHTED_INSTANCE_VALUE__WEIGHT);
 		createEReference(weightedInstanceValueEClass, WEIGHTED_INSTANCE_VALUE__INSTANCE);
 
+		weightedSimpleTypeValueEClass = createEClass(WEIGHTED_SIMPLE_TYPE_VALUE);
+		createEAttribute(weightedSimpleTypeValueEClass, WEIGHTED_SIMPLE_TYPE_VALUE__STRING_VALUE);
+		createEAttribute(weightedSimpleTypeValueEClass, WEIGHTED_SIMPLE_TYPE_VALUE__WEIGHT);
+		createEAttribute(weightedSimpleTypeValueEClass, WEIGHTED_SIMPLE_TYPE_VALUE__RUNTIME_STRATEGY_FACTORY);
+
+		literalSimpleTypeEClass = createEClass(LITERAL_SIMPLE_TYPE);
+		createEAttribute(literalSimpleTypeEClass, LITERAL_SIMPLE_TYPE__STRING_VALUE);
+		createEAttribute(literalSimpleTypeEClass, LITERAL_SIMPLE_TYPE__RUNTIME_STRATEGY_FACTORY);
+
 		// Create enums
 		simulationStrategyEEnum = createEEnum(SIMULATION_STRATEGY);
 	}
@@ -666,6 +756,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		instanceSimulationEClass.getESuperTypes().add(theUMLPackage.getInstanceSpecification());
 		actualInstanceEClass.getESuperTypes().add(theUMLPackage.getInstanceSpecification());
 		weightedInstanceValueEClass.getESuperTypes().add(this.getSimulatedValue());
+		weightedSimpleTypeValueEClass.getESuperTypes().add(this.getSimulatedValue());
+		literalSimpleTypeEClass.getESuperTypes().add(theUMLPackage.getLiteralString());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(simulatedValueEClass, SimulatedValue.class, "SimulatedValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -717,6 +809,15 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		initEClass(weightedInstanceValueEClass, WeightedInstanceValue.class, "WeightedInstanceValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWeightedInstanceValue_Weight(), theEcorePackage.getEDoubleObject(), "weight", null, 0, 1, WeightedInstanceValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWeightedInstanceValue_Instance(), theUMLPackage.getInstanceSpecification(), null, "instance", null, 0, 1, WeightedInstanceValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(weightedSimpleTypeValueEClass, WeightedSimpleTypeValue.class, "WeightedSimpleTypeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getWeightedSimpleTypeValue_StringValue(), theEcorePackage.getEString(), "stringValue", null, 0, 1, WeightedSimpleTypeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWeightedSimpleTypeValue_Weight(), ecorePackage.getEDoubleObject(), "weight", null, 0, 1, WeightedSimpleTypeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWeightedSimpleTypeValue_RuntimeStrategyFactory(), theEcorePackage.getEString(), "runtimeStrategyFactory", null, 0, 1, WeightedSimpleTypeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(literalSimpleTypeEClass, LiteralSimpleType.class, "LiteralSimpleType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLiteralSimpleType_StringValue(), theEcorePackage.getEString(), "stringValue", null, 0, 1, LiteralSimpleType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLiteralSimpleType_RuntimeStrategyFactory(), theEcorePackage.getEString(), "runtimeStrategyFactory", null, 0, 1, LiteralSimpleType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(simulationStrategyEEnum, SimulationStrategy.class, "SimulationStrategy");

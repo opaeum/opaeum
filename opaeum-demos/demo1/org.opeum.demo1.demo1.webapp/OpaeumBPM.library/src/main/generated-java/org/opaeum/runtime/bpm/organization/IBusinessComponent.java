@@ -10,10 +10,11 @@ import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.organization.IBusinessComponentBase;
 import org.w3c.dom.Element;
 
 @NumlMetaInfo(uuid="252060@_uVek8IoVEeCLqpffVZYAlw")
-public interface IBusinessComponent extends Participant, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+public interface IBusinessComponent extends IBusinessComponentBase, Participant, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5756915452752219728l,opposite="businessComponent",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA")

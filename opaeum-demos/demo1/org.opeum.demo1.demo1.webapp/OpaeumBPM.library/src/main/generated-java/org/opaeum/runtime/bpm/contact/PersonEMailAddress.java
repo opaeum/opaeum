@@ -193,7 +193,7 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, I
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInPerson() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonEMailAddress.uniqueInPerson");
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonEMailAddress.person");
 		}
 		return failedInvariants;
 	}
@@ -255,8 +255,8 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, I
 	}
 	
 	public boolean isUniqueInPerson() {
-		boolean result = forAll1();
-		
+		boolean result = false;
+		result = forAll1();
 		return result;
 	}
 	

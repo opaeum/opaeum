@@ -63,8 +63,8 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 			}
 		}
 	}
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result= super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedAssociation){
 			INakedAssociation b = (INakedAssociation) element;
 			this.nestedAssociations.remove(b);
@@ -84,6 +84,7 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 				g.getGeneral().removeSubClass(cls);
 			}
 		}
+		return result;
 	}
 	public Collection<INakedClassifier> getNestedClassifiers(){
 		return nestedClassifiers;

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
@@ -31,6 +32,7 @@ import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opaeum.metamodel.core.internal.NakedInstanceSpecificationImpl;
 import org.opaeum.metamodel.core.internal.NakedSlotImpl;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.profiles.INakedStereotype;
 
 /**
@@ -77,7 +79,10 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	}
 	private void addKeywords(INakedElement nakedPeer,Element e){
 		addKeywords(nakedPeer, e.getKeywords());
-		addKeywords(nakedPeer, StereotypesHelper.getNumlAnnotation(e).getDetails().keySet());
+		EAnnotation eAnnotation = e.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+		if(eAnnotation != null){
+			addKeywords(nakedPeer, eAnnotation.getDetails().keySet());
+		}
 	}
 	public void addKeywords(INakedElement nakedPeer,Collection<String> keywords){
 		for(String s:keywords){

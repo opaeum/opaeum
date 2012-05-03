@@ -11,11 +11,10 @@ import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.infra.core.utils.ServiceUtilsForActionHandlers;
-import org.eclipse.papyrus.infra.services.edit.service.ElementEditServiceUtils;
-import org.eclipse.papyrus.infra.services.edit.service.IElementEditService;
 import org.eclipse.papyrus.views.modelexplorer.ICommandContext;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerPageBookView;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerView;
@@ -32,16 +31,21 @@ public abstract class EmfCreateCommandHandler extends AbstractCommandHandler{
 		}
 		EObject container = commandContext.getContainer();
 		EReference reference = commandContext.getReference();
-	  TransactionalEditingDomain domain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
-		Command emfCommand = AddCommand.create(domain, container, getFeature(), getNewObject());
+		TransactionalEditingDomain domain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
+		Command emfCommand;
+		if(getFeature().isMany()){
+			emfCommand = AddCommand.create(domain, container, reference==null?getFeature():reference, getNewObject());
+		}else{
+			emfCommand = SetCommand.create(domain, container, reference==null?getFeature():reference, getNewObject());
+		}
 		return emfCommand;
 	}
 	protected Command getCommand(){
-			try{
-				createCommand = buildCommand();
-			}catch(ServiceException e){
-				e.printStackTrace();
-			}
+		try{
+			createCommand = buildCommand();
+		}catch(ServiceException e){
+			e.printStackTrace();
+		}
 		return createCommand;
 	}
 	@Override

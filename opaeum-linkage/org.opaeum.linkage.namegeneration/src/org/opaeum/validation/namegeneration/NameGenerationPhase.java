@@ -2,6 +2,7 @@ package org.opaeum.validation.namegeneration;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.OpaeumConfig;
@@ -27,8 +28,13 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
-		for(INakedElement element:LinkagePhase.filterChildrenOut(elements)){
+		Set<INakedElement> parents = LinkagePhase.filterChildrenOut(elements);
+		for(INakedElement element:parents){
+			if(element instanceof INakedRootObject){
+				((INakedRootObject) element).setStatus(RootObjectStatus.LINKED);
+			}
 			for(AbstractNameGenerator ng:nameGenerators){
+				
 				ng.visitRecursively((INakedElementOwner) element);
 			}
 		}

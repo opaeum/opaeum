@@ -156,8 +156,8 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		return this.regions;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedRegion){
 			this.regions.remove(element);
 		}
@@ -167,6 +167,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		if(element instanceof INakedTimeObservation){
 			this.timeObservations.remove(element);
 		}
+		return result;
 	}
 	public INakedRegion getTopMostRegionContaining(INakedState state){
 		return RegionOwnerUtil.getTopmostRegionContaining(this, state);

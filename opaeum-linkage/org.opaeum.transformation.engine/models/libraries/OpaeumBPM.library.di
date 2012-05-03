@@ -81,22 +81,7 @@
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_8Ju9UF-gEeGSPaWW9iQb9Q"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_Abxv8FPdEeGqgJxtJrI3sQ"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_uMlM4FPiEeGhgtp358IFlA"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_XA8fcFYhEeGJUqEGX7bKSg"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="../profiles/HibernateValidation.profile.notation#_TpyqsHryEeGgA7LmG6YzjA"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_rkQZYFZLEeGj5_I7bIwNoA"/>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_rTRsMFPcEeGqgJxtJrI3sQ"/>
         </children>
       </children>
     </windows>

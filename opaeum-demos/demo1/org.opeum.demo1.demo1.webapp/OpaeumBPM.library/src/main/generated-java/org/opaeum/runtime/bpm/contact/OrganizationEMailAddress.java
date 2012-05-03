@@ -191,7 +191,7 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInOrganization() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.contact.OrganizationEMailAddress.uniqueInOrganization");
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.OrganizationEMailAddress.organization");
 		}
 		return failedInvariants;
 	}
@@ -253,8 +253,8 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 	}
 	
 	public boolean isUniqueInOrganization() {
-		boolean result = forAll1();
-		
+		boolean result = false;
+		result = forAll1();
 		return result;
 	}
 	

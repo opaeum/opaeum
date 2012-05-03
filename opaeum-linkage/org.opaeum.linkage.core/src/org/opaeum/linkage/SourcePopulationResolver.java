@@ -61,8 +61,12 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 	private void buildSourcePopulationConstraint(ICompositionParticipant owner,INakedProperty p,String name){
 		INakedConstraint constr = null;
 		boolean isComposition = p.isComposite() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite());
+		constr = getSourcePopulationConstraint(p, owner);
 		if(!isComposition && shouldResolve(p, owner) && !p.isDerived() && !p.isReadOnly()){
-			constr = getSourcePopulationConstraint(p, owner);
+			if(constr!=null && constr.getName().equals("SourcePopulationFor" + NameConverter.capitalize(p.getName()))){
+				owner.removeOwnedElement(constr, true);
+				constr=null;
+			}
 			if(constr == null){
 				if(owner.hasStereotype(HIERARCHY)){
 					// Find concrete owners of root of hierarchy
@@ -84,6 +88,8 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 					super.addAffectedElement(p.getOwner());
 				}
 			}
+		}else if(constr!=null){
+			owner.removeOwnedElement(constr, true);
 		}
 	}
 	private void ensureSetsAndRemoveUsedOneToOnes(INakedProperty p,INakedConstraint constr){

@@ -41,11 +41,11 @@ public abstract class ClassifierNamePropertySection extends AbstractTabbedProper
 	}
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
+
 		super.setInput(part, selection);
 		ApplyOpaeumStandardProfileCommand command = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), getClassifier().getModel());
 		getEditingDomain().getCommandStack().execute(command);
 		this.stereotype = command.getProfile().getOwnedStereotype(getStereotypeName());
-		getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(getClassifier(), stereotype));
 		properties.clear();
 		for(Property property:getClassifier().getAllAttributes()){
 			if(property.getType() != null && EmfClassifierUtil.comformsToLibraryType(property.getType(), "String")){
@@ -95,8 +95,9 @@ public abstract class ClassifierNamePropertySection extends AbstractTabbedProper
 			public void widgetSelected(SelectionEvent e){
 				Property property = properties.get(combo.getSelectionIndex());
 				if(!getClassifier().isStereotypeApplied(stereotype)){
-					getClassifier().applyStereotype(stereotype);
+					getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(getClassifier(), stereotype));
 				}
+				
 				Command cmd = SetCommand.create(getEditingDomain(), getClassifier().getStereotypeApplication(stereotype), stereotype
 						.getDefinition().getEStructuralFeature("nameProperty"), property);
 				getEditingDomain().getCommandStack().execute(cmd);

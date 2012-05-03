@@ -167,4 +167,88 @@ public class AbstractFormatter{
 	public String parsePhoneNumber(String value){
 		return value;
 	}
+
+
+	public String formatDollar(Double value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public String formatEuro(Double value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public String formatRand(Double value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public String formatSecondOfMinute(Integer value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public String formatWeekOfYear(Integer value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public String formatYear(Integer value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public Double parseDollar(String value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public Double parseEuro(String value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public Double parseRand(String value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public Integer parseSecondOfMinute(String value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public Integer parseWeekOfYear(String value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public Integer parseYear(String value){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -1,5 +1,6 @@
 package org.opaeum.simulation.actions;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -35,11 +36,13 @@ import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.metamodel.usecases.INakedActor;
 import org.opaeum.metamodels.simulation.simulation.ActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
+import org.opaeum.metamodels.simulation.simulation.LiteralSimpleType;
 import org.opaeum.metamodels.simulation.simulation.NumericValueDistribution;
 import org.opaeum.metamodels.simulation.simulation.SimulatingSlot;
 import org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -65,7 +68,9 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 				dataGenerator.addToImports("org.opaeum.simulation.SimulationMetaData");
 				buildCreator(nc, dataGenerator, is);
 				OJAnnotatedOperation populator = new OJAnnotatedOperation("populateReferences");
+				populator.addToThrows(ParseException.class.getName());
 				dataGenerator.addToOperations(populator);
+				populator.getOwner().addToImports(ParseException.class.getName());
 				if(nc instanceof INakedStructuredDataType){
 					populator.addParam("in", new OJPathName(Object.class.getName()));
 				}else{
@@ -184,6 +189,15 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 			}else if(vs instanceof LiteralInteger){
 				LiteralInteger b = (LiteralInteger) vs;
 				addGivenValue(creator, map, (Object) b.integerValue());
+			}else if(vs instanceof LiteralSimpleType){
+				LiteralSimpleType b = (LiteralSimpleType) vs;
+				OJPathName strat = new OJPathName(b.getRuntimeStrategyFactory());
+				creator.getOwner().addToImports(strat);
+				creator.getOwner().addToImports(map.javaBaseTypePath());
+				creator.getOwner().addToImports(ParseException.class.getName());
+				creator.addToThrows(ParseException.class.getName());
+				addGivenValue(creator, map, "(" + map.javaBaseType() + ")new " + strat.getLast()
+						+ "().getStrategy(org.opaeum.runtime.strategy.FromStringConverter.class).fromString(\"" + b.getStringValue() + "\")");
 			}else if(vs instanceof LiteralString){
 				LiteralString b = (LiteralString) vs;
 				addGivenValue(creator, map, "\"" + b.stringValue() + "\"");
@@ -196,7 +210,8 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 					creator.getOwner().addToImports(pn);
 					addGivenValue(creator, map, pn.getLast() + "." + lit.getName().toUpperCase());
 				}
-			}else if((vs instanceof WeightedBooleanValue || vs instanceof WeightedEnumLiteralValue || vs instanceof WeightedStringValue || vs instanceof NumericValueDistribution)
+			}else if((vs instanceof WeightedBooleanValue || vs instanceof WeightedEnumLiteralValue || vs instanceof WeightedStringValue
+					|| vs instanceof NumericValueDistribution || vs instanceof WeightedSimpleTypeValue)
 					&& !hasDoneSimulatedValue){
 				// Only execute this code once for all distributions
 				hasDoneSimulatedValue = true;
@@ -227,10 +242,11 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 		return whileSize;
 	}
 	private OJAnnotatedOperation initializeCreator(INakedClassifier nc,OJAnnotatedClass dataGenerator,InstanceSpecification is){
-		String name ="createNewObject";
+		String name = "createNewObject";
 		OJPathName pn1 = OJUtil.classifierPathname(nc);
 		OJAnnotatedOperation creator = new OJAnnotatedOperation(name);
 		dataGenerator.addToOperations(creator);
+		creator.addToThrows(ParseException.class.getName());
 		creator.setReturnType(pn1);
 		if(nc instanceof ICompositionParticipant){
 			creator.addParam("parent", new OJPathName(CompositionNode.class.getName()));
@@ -247,7 +263,6 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 				INSTANCE.setFinal(true);
 				INSTANCE.setVisibility(OJVisibilityKind.PUBLIC);
 				INSTANCE.setInitExp("new " + dataGenerator.getName() + "()");
-				
 			}else{
 				creator.initializeResultVariable("new " + pn1.getLast() + "()");
 			}

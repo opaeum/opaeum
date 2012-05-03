@@ -37,7 +37,7 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 	}
 	@Override
 	public boolean isDimension(){
-		return super.isDimension() || (getOtherEnd() != null && getOtherEnd().isComposite());
+		return super.isDimension() || (getOtherEnd() != null && getOtherEnd().isComposite()) && getQualifiers().isEmpty();
 	}
 	public boolean isStatic(){
 		return hasClassScope();

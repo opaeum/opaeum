@@ -2,7 +2,6 @@
 	@TypeDef(name="BusinessTimeUnitResolver",typeClass=BusinessTimeUnitResolver.class),
 	@TypeDef(name="DocumentTypeResolver",typeClass=DocumentTypeResolver.class),
 	@TypeDef(name="TaskDelegationResolver",typeClass=TaskDelegationResolver.class),
-	@TypeDef(name="MonthResolver",typeClass=MonthResolver.class),
 	@TypeDef(name="WorkDayKindResolver",typeClass=WorkDayKindResolver.class),
 	@TypeDef(name="OrganizationEMailAddressTypeResolver",typeClass=OrganizationEMailAddressTypeResolver.class),
 	@TypeDef(name="OrganizationPhoneNumberTypeResolver",typeClass=OrganizationPhoneNumberTypeResolver.class),
@@ -10,6 +9,11 @@
 	@TypeDef(name="PersonPhoneNumberTypeResolver",typeClass=PersonPhoneNumberTypeResolver.class),
 	@TypeDef(name="RequestParticipationKindResolver",typeClass=RequestParticipationKindResolver.class),
 	@TypeDef(name="TaskParticipationKindResolver",typeClass=TaskParticipationKindResolver.class),
+	@TypeDef(name="DayOfWeekResolver",typeClass=DayOfWeekResolver.class),
+	@TypeDef(name="MonthResolver",typeClass=MonthResolver.class),
+	@TypeDef(name="ApplianceTypeResolver",typeClass=ApplianceTypeResolver.class),
+	@TypeDef(name="CityResolver",typeClass=CityResolver.class),
+	@TypeDef(name="ProvinceResolver",typeClass=ProvinceResolver.class),
 	@TypeDef(name="VendorResolver",typeClass=VendorResolver.class),
 	@TypeDef(name="AbstractRequestStateResolver",typeClass=AbstractRequestStateResolver.class),
 	@TypeDef(name="ProcessRequestStateResolver",typeClass=ProcessRequestStateResolver.class),
@@ -29,7 +33,7 @@
 		@MetaValue(targetEntity=IdBook.class,value="7267980829799356539"),name="IBusinessDocument"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="INotification"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
-		@MetaValue(targetEntity=DishwashersInc.class,value="8415961198448241003"),name="IBusiness"),
+		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003"),name="IBusiness"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Supplier.class,value="6592718997733823438"),
 		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="IBusinessActor"),
@@ -37,20 +41,26 @@
 		@MetaValue(targetEntity=Supplier.class,value="6592718997733823438"),
 		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="IBusinessActorBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
-		@MetaValue(targetEntity=DishwashersInc.class,value="8415961198448241003"),name="IBusinessBase"),
+		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003"),name="IBusinessBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=Structuredbusiness.class,value="7737100568581358598"),name="IBusinessCollaboration"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=Structuredbusiness.class,value="7737100568581358598"),name="IBusinessCollaborationBase"),
-	@AnyMetaDef(idType="long",metaType="integer",metaValues=
-		@MetaValue(targetEntity=DishwashersInc.class,value="8415961198448241003"),name="IBusinessComponent"),
+	@AnyMetaDef(idType="long",metaType="integer",metaValues={
+		@MetaValue(targetEntity=Branch.class,value="128937784137359716"),
+		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003")},name="IBusinessComponent"),
+	@AnyMetaDef(idType="long",metaType="integer",metaValues={
+		@MetaValue(targetEntity=Branch.class,value="128937784137359716"),
+		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003")},name="IBusinessComponentBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=BusinessNetwork.class,value="2395627898464121473"),name="IBusinessNetwork"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
-		@MetaValue(targetEntity=Accountant.class,value="3718403143352034683"),
+		@MetaValue(targetEntity=CustomerAssistant.class,value="8190330448809072926"),
+		@MetaValue(targetEntity=Technician.class,value="8797403277162081281"),
 		@MetaValue(targetEntity=Manager.class,value="3586662115628447123")},name="IBusinessRole"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
-		@MetaValue(targetEntity=Accountant.class,value="3718403143352034683"),
+		@MetaValue(targetEntity=CustomerAssistant.class,value="8190330448809072926"),
+		@MetaValue(targetEntity=Technician.class,value="8797403277162081281"),
 		@MetaValue(targetEntity=Manager.class,value="3586662115628447123")},name="IBusinessRoleBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IBusinessService"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
@@ -59,8 +69,10 @@
 		@MetaValue(targetEntity=PersonNode.class,value="3517707551286497542"),name="IPersonNode"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Supplier.class,value="6592718997733823438"),
-		@MetaValue(targetEntity=DishwashersInc.class,value="8415961198448241003"),
-		@MetaValue(targetEntity=Accountant.class,value="3718403143352034683"),
+		@MetaValue(targetEntity=Branch.class,value="128937784137359716"),
+		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003"),
+		@MetaValue(targetEntity=CustomerAssistant.class,value="8190330448809072926"),
+		@MetaValue(targetEntity=Technician.class,value="8797403277162081281"),
 		@MetaValue(targetEntity=Manager.class,value="3586662115628447123"),
 		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="Participant"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IProcessObject"),
@@ -74,24 +86,28 @@
 package org.opeum.demo1.util;
 import org.opaeum.runtime.contact.PersonEMailAddressTypeResolver;
 import structuredbusiness.IdBook;
+import structuredbusiness.Branch;
 import org.hibernate.annotations.FilterDef;
 import org.opaeum.runtime.bpm.request.TaskRequestStateResolver;
 import org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeResolver;
 import org.hibernate.annotations.MetaValue;
 import org.hibernate.annotations.AnyMetaDef;
+import structuredbusiness.Technician;
 import org.opaeum.runtime.bpm.contact.PersonEMailAddress;
 import structuredbusiness.Online_Customer;
 import structuredbusiness.Structuredbusiness;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
-import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.contact.PhysicalAddress;
+import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import structuredbusiness.Manager;
+import structuredbusiness.ProvinceResolver;
 import org.opaeum.runtime.bpm.request.TaskParticipationKindResolver;
 import org.opaeum.runtime.bpm.request.ProcessRequestStateResolver;
 import org.hibernate.annotations.AnyMetaDefs;
 import org.opaeum.runtime.bpm.request.RequestParticipationKindResolver;
 import org.hibernate.annotations.TypeDef;
+import structuredbusiness.CustomerAssistant;
 import org.opaeum.runtime.bpm.contact.OrganizationPhoneNumberTypeResolver;
 import javax.persistence.NamedQuery;
 import org.opaeum.runtime.domain.DocumentTypeResolver;
@@ -99,13 +115,15 @@ import org.opaeum.runtime.domain.BusinessTimeUnitResolver;
 import org.opaeum.runtime.bpm.contact.PersonPhoneNumber;
 import org.opaeum.runtime.domain.TaskDelegationResolver;
 import org.hibernate.annotations.TypeDefs;
+import org.opaeum.runtime.bpm.opaeumsimpletypes.DayOfWeekResolver;
 import org.opaeum.runtime.bpm.contact.PostalAddress;
 import org.opaeum.runtime.bpm.request.AbstractRequestStateResolver;
-import structuredbusiness.DishwashersInc;
 import org.opaeum.runtime.contact.PersonPhoneNumberTypeResolver;
+import structuredbusiness.ApplianceTypeResolver;
 import org.opaeum.runtime.bpm.businesscalendar.WorkDayKindResolver;
 import structuredbusiness.Supplier;
-import org.opaeum.runtime.bpm.businesscalendar.MonthResolver;
+import org.opaeum.runtime.bpm.opaeumsimpletypes.MonthResolver;
+import structuredbusiness.ApplianceDoctor;
 import structuredbusiness.VendorResolver;
 import javax.persistence.NamedQueries;
-import structuredbusiness.Accountant;
+import structuredbusiness.CityResolver;

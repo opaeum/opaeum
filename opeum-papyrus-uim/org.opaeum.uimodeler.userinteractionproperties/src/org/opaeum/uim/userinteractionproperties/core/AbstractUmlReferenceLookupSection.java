@@ -56,11 +56,9 @@ public abstract class AbstractUmlReferenceLookupSection extends AbstractReferenc
 		}
 		@Override
 		public void addElement(Object newElement){
-			System.out.println(newElement);
 		}
 		@Override
 		public void removeElement(Object element){
-			System.out.println(element);
 		}
 		@Override
 		public void updateElement(Object newValue){

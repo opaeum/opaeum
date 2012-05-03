@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.ProfileApplication;
@@ -65,7 +66,7 @@ public class StereotypesHelper{
 		}
 		return false;
 	}
-	public static EAnnotation getNumlAnnotation(Element v){
+	public static EAnnotation findOrCreateNumlAnnotation(Element v){
 		for(EAnnotation eAnnotation:v.getEAnnotations()){
 			if(eAnnotation.getSource() != null && eAnnotation.getSource().equals(StereotypeNames.NUML_ANNOTATION)){
 				return eAnnotation;
@@ -98,5 +99,8 @@ public class StereotypesHelper{
 		}else{
 			return eObject.eClass().getEStructuralFeature(string2);
 		}
+	}
+	public static EAnnotation getNumlAnnotation(Element action){
+		return action.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
 	}
 }

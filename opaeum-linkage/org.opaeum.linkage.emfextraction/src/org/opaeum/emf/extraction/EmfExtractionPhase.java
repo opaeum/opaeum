@@ -11,6 +11,7 @@ import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Generalization;
@@ -216,7 +217,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		return e instanceof Action || e instanceof ControlNode || e instanceof State || e instanceof Pseudostate || e instanceof StructuredActivityNode
 				|| e instanceof Region || e instanceof Operation || (e instanceof Property && ((Property) e).getAssociation() == null) || e instanceof Classifier
 				|| e instanceof Transition || e instanceof ActivityEdge || e instanceof Package || e instanceof Association || e instanceof Generalization
-				|| e instanceof InterfaceRealization || e instanceof Reception;
+				|| e instanceof InterfaceRealization || e instanceof Reception || e instanceof Constraint; 
 	}
 	@Override
 	public void release(){

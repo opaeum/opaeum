@@ -46,8 +46,8 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	public Collection<INakedActivityNode> getActivityNodes(){
 		return children;
 	}
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedActivityNode){
 			children.remove((INakedActivityNode) element);
 		}
@@ -57,10 +57,14 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 		if(element instanceof INakedActivityEdge){
 			INakedActivityEdge e = (INakedActivityEdge) element;
 			if(recursively){
+				e.getSource().getOutgoing().remove(e);
+				e.getTarget().getIncoming().remove(e);
+				result.add(e.getSource());
+				result.add(e.getTarget());
 				e.setSource(null);
 				e.setTarget(null);
 			}
-			this.activityEdges.remove(e);
+			this.activityEdges.remove((INakedActivityEdge) element);
 		}
 		if(element instanceof INakedDurationObservation){
 			this.durationObservations.remove(element);
@@ -74,6 +78,7 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 		if(element instanceof INakedOutputPin){
 			output.remove((INakedOutputPin) element);
 		}
+		return result;
 	}
 	@Override
 	public void addOwnedElement(INakedElement element){

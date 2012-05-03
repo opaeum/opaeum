@@ -182,6 +182,16 @@ public class InstanceSimulationItemProvider
 			(createChildParameter
 				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
 				 SimulationFactory.eINSTANCE.createWeightedInstanceValue()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
+				 SimulationFactory.eINSTANCE.createWeightedSimpleTypeValue()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
+				 SimulationFactory.eINSTANCE.createLiteralSimpleType()));
 	}
 
 	/**

@@ -2,89 +2,59 @@
 <di:SashWindowsMngr xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.eclipse.org/papyrus/0.7.0/sashdi">
   <pageList>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DV78IuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/0"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DWjFIuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/1"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DWjLIuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/2"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DWjRouUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/3"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DWjYouUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/4"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXKHYuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/5"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXKLIuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/6"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXKTYuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/7"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXKaIuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/8"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXKfIuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/9"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXxOYuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/10"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXxVIuUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/11"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXxYouUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/12"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXxd4uUEeGaRvqkMvqkdg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/13"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXxj4uUEeGaRvqkMvqkdg"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DYYRYuUEeGaRvqkMvqkdg"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DYYYYuUEeGaRvqkMvqkdg"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DYYd4uUEeGaRvqkMvqkdg"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DYYhouUEeGaRvqkMvqkdg"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DY_SYuUEeGaRvqkMvqkdg"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DY_ZIuUEeGaRvqkMvqkdg"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DY_eIuUEeGaRvqkMvqkdg"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DY_k4uUEeGaRvqkMvqkdg"/>
-    </availablePage>
-    <availablePage>
-      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_Ju1M4JEsEeGLba-M17zsmg"/>
+      <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/14"/>
     </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
-          <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DV78IuUEeGaRvqkMvqkdg"/>
+          <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/0"/>
         </children>
         <children>
-          <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_2DXxVIuUEeGaRvqkMvqkdg"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#_Ju1M4JEsEeGLba-M17zsmg"/>
+          <emfPageIdentifier href="914890@_CQTWAGOeEeGwMNo027LgxA.notation#/7"/>
         </children>
       </children>
     </windows>

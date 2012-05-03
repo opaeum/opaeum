@@ -1859,6 +1859,15 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
+	int SIMULATION_MODEL__URI = UMLPackage.PACKAGE__URI;
+
+	/**
+	 * The feature id for the '<em><b>URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
 
 	/**
 	 * The feature id for the '<em><b>Nested Package</b></em>' reference list.
@@ -1877,6 +1886,15 @@ public interface SimulationPackage extends EPackage {
 	 * @ordered
 	 */
 	int SIMULATION_MODEL__NESTING_PACKAGE = UMLPackage.PACKAGE__NESTING_PACKAGE;
+
+	/**
+	 * The feature id for the '<em><b>Owned Stereotype</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNED_STEREOTYPE = UMLPackage.PACKAGE__OWNED_STEREOTYPE;
 
 	/**
 	 * The feature id for the '<em><b>Owned Stereotype</b></em>' reference list.
@@ -2430,6 +2448,332 @@ public interface SimulationPackage extends EPackage {
 	int WEIGHTED_INSTANCE_VALUE_FEATURE_COUNT = SIMULATED_VALUE_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedSimpleTypeValueImpl <em>Weighted Simple Type Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedSimpleTypeValueImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedSimpleTypeValue()
+	 * @generated
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE = 15;
+
+	/**
+	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__EANNOTATIONS = SIMULATED_VALUE__EANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__OWNED_COMMENT = SIMULATED_VALUE__OWNED_COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__OWNED_ELEMENT = SIMULATED_VALUE__OWNED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__OWNER = SIMULATED_VALUE__OWNER;
+
+	/**
+	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__CLIENT_DEPENDENCY = SIMULATED_VALUE__CLIENT_DEPENDENCY;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__NAME = SIMULATED_VALUE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__NAME_EXPRESSION = SIMULATED_VALUE__NAME_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Namespace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__NAMESPACE = SIMULATED_VALUE__NAMESPACE;
+
+	/**
+	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__QUALIFIED_NAME = SIMULATED_VALUE__QUALIFIED_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__VISIBILITY = SIMULATED_VALUE__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__OWNING_TEMPLATE_PARAMETER = SIMULATED_VALUE__OWNING_TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__TEMPLATE_PARAMETER = SIMULATED_VALUE__TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__TYPE = SIMULATED_VALUE__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>String Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__STRING_VALUE = SIMULATED_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Weight</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__WEIGHT = SIMULATED_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Runtime Strategy Factory</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE__RUNTIME_STRATEGY_FACTORY = SIMULATED_VALUE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Weighted Simple Type Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_SIMPLE_TYPE_VALUE_FEATURE_COUNT = SIMULATED_VALUE_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.LiteralSimpleTypeImpl <em>Literal Simple Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.LiteralSimpleTypeImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getLiteralSimpleType()
+	 * @generated
+	 */
+	int LITERAL_SIMPLE_TYPE = 16;
+
+	/**
+	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__EANNOTATIONS = UMLPackage.LITERAL_STRING__EANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__OWNED_COMMENT = UMLPackage.LITERAL_STRING__OWNED_COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__OWNED_ELEMENT = UMLPackage.LITERAL_STRING__OWNED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__OWNER = UMLPackage.LITERAL_STRING__OWNER;
+
+	/**
+	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__CLIENT_DEPENDENCY = UMLPackage.LITERAL_STRING__CLIENT_DEPENDENCY;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__NAME = UMLPackage.LITERAL_STRING__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__NAME_EXPRESSION = UMLPackage.LITERAL_STRING__NAME_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Namespace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__NAMESPACE = UMLPackage.LITERAL_STRING__NAMESPACE;
+
+	/**
+	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__QUALIFIED_NAME = UMLPackage.LITERAL_STRING__QUALIFIED_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__VISIBILITY = UMLPackage.LITERAL_STRING__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__OWNING_TEMPLATE_PARAMETER = UMLPackage.LITERAL_STRING__OWNING_TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__TEMPLATE_PARAMETER = UMLPackage.LITERAL_STRING__TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__TYPE = UMLPackage.LITERAL_STRING__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__VALUE = UMLPackage.LITERAL_STRING__VALUE;
+
+	/**
+	 * The feature id for the '<em><b>String Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__STRING_VALUE = UMLPackage.LITERAL_STRING_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Runtime Strategy Factory</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE__RUNTIME_STRATEGY_FACTORY = UMLPackage.LITERAL_STRING_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Literal Simple Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LITERAL_SIMPLE_TYPE_FEATURE_COUNT = UMLPackage.LITERAL_STRING_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.SimulationStrategy <em>Strategy</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2437,7 +2781,7 @@ public interface SimulationPackage extends EPackage {
 	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulationStrategy()
 	 * @generated
 	 */
-	int SIMULATION_STRATEGY = 15;
+	int SIMULATION_STRATEGY = 17;
 
 
 	/**
@@ -2811,6 +3155,81 @@ public interface SimulationPackage extends EPackage {
 	EReference getWeightedInstanceValue_Instance();
 
 	/**
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue <em>Weighted Simple Type Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Weighted Simple Type Value</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue
+	 * @generated
+	 */
+	EClass getWeightedSimpleTypeValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue#getStringValue <em>String Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>String Value</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue#getStringValue()
+	 * @see #getWeightedSimpleTypeValue()
+	 * @generated
+	 */
+	EAttribute getWeightedSimpleTypeValue_StringValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue#getWeight <em>Weight</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Weight</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue#getWeight()
+	 * @see #getWeightedSimpleTypeValue()
+	 * @generated
+	 */
+	EAttribute getWeightedSimpleTypeValue_Weight();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue#getRuntimeStrategyFactory <em>Runtime Strategy Factory</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Runtime Strategy Factory</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue#getRuntimeStrategyFactory()
+	 * @see #getWeightedSimpleTypeValue()
+	 * @generated
+	 */
+	EAttribute getWeightedSimpleTypeValue_RuntimeStrategyFactory();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.LiteralSimpleType <em>Literal Simple Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Literal Simple Type</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.LiteralSimpleType
+	 * @generated
+	 */
+	EClass getLiteralSimpleType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.LiteralSimpleType#getStringValue <em>String Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>String Value</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.LiteralSimpleType#getStringValue()
+	 * @see #getLiteralSimpleType()
+	 * @generated
+	 */
+	EAttribute getLiteralSimpleType_StringValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.LiteralSimpleType#getRuntimeStrategyFactory <em>Runtime Strategy Factory</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Runtime Strategy Factory</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.LiteralSimpleType#getRuntimeStrategyFactory()
+	 * @see #getLiteralSimpleType()
+	 * @generated
+	 */
+	EAttribute getLiteralSimpleType_RuntimeStrategyFactory();
+
+	/**
 	 * Returns the meta object for enum '{@link org.opaeum.metamodels.simulation.simulation.SimulationStrategy <em>Strategy</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3151,6 +3570,66 @@ public interface SimulationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference WEIGHTED_INSTANCE_VALUE__INSTANCE = eINSTANCE.getWeightedInstanceValue_Instance();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedSimpleTypeValueImpl <em>Weighted Simple Type Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedSimpleTypeValueImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedSimpleTypeValue()
+		 * @generated
+		 */
+		EClass WEIGHTED_SIMPLE_TYPE_VALUE = eINSTANCE.getWeightedSimpleTypeValue();
+
+		/**
+		 * The meta object literal for the '<em><b>String Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WEIGHTED_SIMPLE_TYPE_VALUE__STRING_VALUE = eINSTANCE.getWeightedSimpleTypeValue_StringValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Weight</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WEIGHTED_SIMPLE_TYPE_VALUE__WEIGHT = eINSTANCE.getWeightedSimpleTypeValue_Weight();
+
+		/**
+		 * The meta object literal for the '<em><b>Runtime Strategy Factory</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WEIGHTED_SIMPLE_TYPE_VALUE__RUNTIME_STRATEGY_FACTORY = eINSTANCE.getWeightedSimpleTypeValue_RuntimeStrategyFactory();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.LiteralSimpleTypeImpl <em>Literal Simple Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.LiteralSimpleTypeImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getLiteralSimpleType()
+		 * @generated
+		 */
+		EClass LITERAL_SIMPLE_TYPE = eINSTANCE.getLiteralSimpleType();
+
+		/**
+		 * The meta object literal for the '<em><b>String Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LITERAL_SIMPLE_TYPE__STRING_VALUE = eINSTANCE.getLiteralSimpleType_StringValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Runtime Strategy Factory</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LITERAL_SIMPLE_TYPE__RUNTIME_STRATEGY_FACTORY = eINSTANCE.getLiteralSimpleType_RuntimeStrategyFactory();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.SimulationStrategy <em>Strategy</em>}' enum.

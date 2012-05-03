@@ -30,6 +30,10 @@ public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySec
 		this.slotsGroup.setLayout(new GridLayout(2, false));
 	}
 	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+	@Override
 	public void refresh(){
 		super.refresh();
 		InstanceSpecification is = getInstanceSpecification();
@@ -70,6 +74,7 @@ public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySec
 			}
 			slotsGroup.pack();
 			slotsGroup.getParent().layout();
+			slotsGroup.layout();
 		}
 	}
 	protected InstanceSpecification getInstanceSpecification(){

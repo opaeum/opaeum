@@ -75,6 +75,7 @@ public class ConstraintGenerator {
 			OJIfStatement ifBroken = new OJIfStatement();
 			if (post.getSpecification().isValidOclValue()) {
 				IOclContext oclValue = post.getSpecification().getOclValue();
+				ValueSpecificationUtil.addExtendedKeywords(operation, oclValue);
 				String expr = expressionCreator.makeExpression(oclValue.getExpression(), operation.isStatic(), parameters);
 				ifBroken.setCondition("!" + expr);
 				String qname = element.getPathName() + "::" + post.getName();

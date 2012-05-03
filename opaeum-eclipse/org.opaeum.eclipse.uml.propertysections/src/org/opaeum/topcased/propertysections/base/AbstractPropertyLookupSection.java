@@ -15,10 +15,14 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferenceLoo
 		super();
 	}
 	protected EObject getFeatureOwner(){
-		return getProperty();
+		try{
+			return getProperty();
+		}catch(Exception e){
+			return null;
+		}
 	}
-	protected boolean isMultiplicityCompatible(Property thisProperty, Property potentialProperty){
-		return potentialProperty.getUpper()==1?thisProperty.getUpper()==1:true;
+	protected boolean isMultiplicityCompatible(Property thisProperty,Property potentialProperty){
+		return potentialProperty.getUpper() == 1 ? thisProperty.getUpper() == 1 : true;
 	}
 	@Override
 	public boolean shouldUseExtraSpace(){
@@ -39,9 +43,9 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferenceLoo
 			Iterator<EObject> iter = choiceOfValues.iterator();
 			while(iter.hasNext()){
 				Property rsp = (Property) iter.next();
-				boolean typeConforms = rsp.getType() != null && EmfClassifierUtil.conformsTo((Classifier) p.getType(), (Classifier)rsp.getType());
-				boolean multiplicityConforms=isMultiplicityCompatible(p, rsp);
-				boolean staticConforms=rsp.isStatic()==p.isStatic();
+				boolean typeConforms = rsp.getType() != null && EmfClassifierUtil.conformsTo((Classifier) p.getType(), (Classifier) rsp.getType());
+				boolean multiplicityConforms = isMultiplicityCompatible(p, rsp);
+				boolean staticConforms = rsp.isStatic() == p.isStatic();
 				if(rsp == p || !(typeConforms && multiplicityConforms && staticConforms)){
 					iter.remove();
 				}
@@ -49,5 +53,4 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferenceLoo
 		}
 		return choiceOfValues;
 	}
-
 }

@@ -53,7 +53,7 @@ public class GenerateSimulationCodeAction extends AbstractOpaeumAction{
 				@Override
 				protected IStatus run(final IProgressMonitor monitor){
 					try{
-						throw new UnsupportedOperationException();
+						 throw new UnsupportedOperationException();
 //						monitor.beginTask("Loading All Models", 1000);
 //						TransformationProcess p = prepareDirectoryForTransformation(contextFolder, monitor);
 //						monitor.subTask("Generating Simulation Model");
@@ -79,7 +79,10 @@ public class GenerateSimulationCodeAction extends AbstractOpaeumAction{
 //								IPath srcPath = javaProject.getPath().append(sourceFolder.getRelativePath());
 //								IClasspathEntry srcEntry = JavaCore.newSourceEntry(srcPath, null);
 //								newEntries[entries.length] = JavaCore.newSourceEntry(srcEntry.getPath());
-//								javaProject.setRawClasspath(newEntries, null);
+//								try{
+//									javaProject.setRawClasspath(newEntries, null);
+//								}catch(JavaModelException e){
+//								}
 //							}
 //						}
 //						return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");

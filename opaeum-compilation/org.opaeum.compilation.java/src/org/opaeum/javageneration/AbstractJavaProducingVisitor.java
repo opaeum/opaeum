@@ -130,7 +130,9 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		if(o instanceof INakedModelWorkspace){
 			setWorkspaceUtilPackage();
 		}else{
-			setRootObjectUtilPackage(((INakedElement) o).getRootObject());
+			INakedElement nakedElement = (INakedElement) o;
+			INakedRootObject rootObject = nakedElement.getRootObject();
+			setRootObjectUtilPackage(rootObject);
 		}
 		super.visitOnly(o);
 		UtilityCreator.setUtilPackage(null);

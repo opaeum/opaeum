@@ -32,9 +32,6 @@ public class UtilityCreator{
 	 * @return
 	 */
 	public static OJPathName getUtilPathName(){
-		if(utilPath.get()==null){
-			System.out.println();
-		}
 		return utilPath.get().getCopy();
 	}
 	/**

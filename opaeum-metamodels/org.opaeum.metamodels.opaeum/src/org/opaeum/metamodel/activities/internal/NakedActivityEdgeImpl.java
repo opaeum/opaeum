@@ -40,13 +40,14 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 		}
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element == guardExpression){
 			guardExpression = null;
 		}else if(element == weight){
 			weight = null;
 		}
+		return result;
 	};
 	public boolean isElse(){
 		return isElse || (guardExpression != null && guardExpression.getValue() == INakedActivityEdge.ELSE);

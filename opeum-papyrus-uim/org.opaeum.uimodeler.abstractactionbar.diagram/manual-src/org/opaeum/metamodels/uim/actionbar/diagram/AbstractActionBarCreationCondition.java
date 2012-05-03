@@ -7,10 +7,6 @@ import org.opaeum.uim.editor.AbstractEditor;
 
 public class AbstractActionBarCreationCondition extends PerspectiveContextDependence{
 	public boolean create(EObject selectedElement){
-		System.out.println("AbstractActionBarCreationCondition.create()");
-//		if(super.create(selectedElement)){
-//			return selectedElement instanceof AbstractEditor;
-//		}
 		return true;
 	}
 }

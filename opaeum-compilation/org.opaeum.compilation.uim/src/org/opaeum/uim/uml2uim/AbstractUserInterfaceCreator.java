@@ -97,7 +97,6 @@ public abstract class AbstractUserInterfaceCreator{
 	}
 	public void addFormPanel(Element owner,PageContainer container,String title,Collection<? extends TypedElement> typedElements){
 		UserInteractionElement e = findRepresentingElement(owner, container);
-		System.out.println(e);
 		Page page = null;
 		if(e instanceof Page && !e.isUnderUserControl()){
 			page = (Page) e;

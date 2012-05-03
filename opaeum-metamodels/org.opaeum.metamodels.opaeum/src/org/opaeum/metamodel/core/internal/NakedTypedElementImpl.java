@@ -17,7 +17,7 @@ public class NakedTypedElementImpl extends NakedMultiplicityElement implements I
 		return isMeasure;
 	}
 	public boolean isDimension(){
-		return isDimension;
+		return isDimension && getMultiplicity().isSingleObject();
 	}
 	@Override
 	public void addStereotype(INakedInstanceSpecification stereotype){
@@ -51,9 +51,6 @@ public class NakedTypedElementImpl extends NakedMultiplicityElement implements I
 	}
 
 	public void setType(IClassifier type) {
-		if(type==null){
-			System.out.println();
-		}
 		this.type = type;
 	}
 

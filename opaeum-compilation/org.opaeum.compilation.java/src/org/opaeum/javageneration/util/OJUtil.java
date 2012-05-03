@@ -70,6 +70,10 @@ import org.opaeum.validation.namegeneration.AbstractJavaNameGenerator;
 public class OJUtil{
 	private static class ImmutablePathName extends OJPathName{
 		private ImmutablePathName(String name){
+			if(name.contains("org.opaeum.runtime.bpm.organization.IBusinessComponent")){
+				System.out.println();
+			}
+
 			StringTokenizer st = new StringTokenizer(name, ".");
 			while(st.hasMoreTokens()){
 				this.getNames().add(st.nextToken());
@@ -243,6 +247,7 @@ public class OJUtil{
 	 * @return
 	 */
 	public static OJPathName classifierPathname(INakedClassifier classifier){
+		System.out.println();
 		OJPathName result = classifierPaths.get(classifier);
 		if(result == null){
 			classifierPaths.put(classifier, result = new ImmutablePathName(AbstractJavaNameGenerator.classifierPathname(classifier)));

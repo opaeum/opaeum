@@ -79,7 +79,8 @@ public class OpaeumEclipseContext{
 			monitor.beginTask("Loading Opaeum  Metadata", 1000);
 			monitor.subTask("Resolving Emf Resources");
 			final Package model = findRootObjectInFile(file, domain.getResourceSet());
-			domain.getCommandStack().execute(new AbstractCommand(){
+			// domain.getCommandStack().execute(
+			new AbstractCommand(){
 				@Override
 				public boolean canExecute(){
 					return true;
@@ -122,7 +123,7 @@ public class OpaeumEclipseContext{
 				@Override
 				public void redo(){
 				}
-			});
+			}.execute();
 			return status;
 		}
 	}
@@ -288,31 +289,19 @@ public class OpaeumEclipseContext{
 		try{
 			getEmfToOpaeumSynchronizer().suspend();
 			monitor.beginTask("Loading EMF resources", 300);
-			EmfWorkspace dew = getCurrentEmfWorkspace();
-			if(dew == null){
-				if(openUmlFiles.size() > 0){
-					// Poach a workspace from one of the open editors
-					OpenUmlFile next = openUmlFiles.values().iterator().next();
-					dew = next.getEmfWorkspace();
-				}else{
-					// No open editors - create a temp EmfWorkspace
-					ResourceSet rst;
-					rst = new ResourceSetImpl();
-					URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
-					OpaeumConfig cfg = getEmfToOpaeumSynchronizer().getConfig();
-					dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
-					dew.setUriToFileConverter(new EclipseUriToFileConverter());
-					dew.setName(cfg.getWorkspaceName());
-				}
-			}
+			ResourceSet rst;
+			rst = new ResourceSetImpl();
+			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
+			OpaeumConfig cfg = getEmfToOpaeumSynchronizer().getConfig();
+			EmfWorkspace dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
+			dew.setUriToFileConverter(new EclipseUriToFileConverter());
+			dew.setName(cfg.getWorkspaceName());
 			for(IResource r:umlDirectory.members()){
 				monitor.subTask("Loading " + r.getName());
 				if(r instanceof IFile && r.getFileExtension().equals("uml")){
-					if(!isNakedRootObjectLoaded((IFile) r)){
-						final Resource resource = dew.getResourceSet().getResource(
-								URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
-						EcoreUtil.resolveAll(resource);
-					}
+					final Resource resource = dew.getResourceSet().getResource(
+							URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
+					EcoreUtil.resolveAll(resource);
 				}
 				monitor.worked(100 / umlDirectory.members().length);
 			}
@@ -377,6 +366,9 @@ public class OpaeumEclipseContext{
 	}
 	public boolean isLoading(){
 		return this.isLoading;
+	}
+	public boolean isLoadingFile(IFile file){
+		return this.resourceSetsStartedButNotLoaded.contains(file);
 	}
 	public EditingDomain getEditingDomain(){
 		if(currentOpenFile != null && openUmlFiles.get(currentOpenFile) != null){

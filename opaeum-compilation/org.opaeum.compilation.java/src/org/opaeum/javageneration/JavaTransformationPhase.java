@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+import nl.klasse.octopus.model.IAttribute;
 
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
@@ -20,10 +21,16 @@ import org.opaeum.linkage.LinkagePhase;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedInterfaceRealization;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
@@ -31,11 +38,7 @@ import org.opaeum.validation.ValidationPhase;
 import org.opaeum.validation.namegeneration.NameGenerationPhase;
 import org.opaeum.visitor.TextFileGeneratingVisitor;
 
-@PhaseDependency(after = {
-		LinkagePhase.class,NameGenerationPhase.class,ValidationPhase.class
-},before = {
-
-})
+@PhaseDependency(after = {LinkagePhase.class,NameGenerationPhase.class,ValidationPhase.class},before = {})
 public class JavaTransformationPhase implements TransformationPhase<JavaTransformationStep,INakedElement>,IntegrationPhase{
 	private static JavaTransformationPhase INSTANCE = new JavaTransformationPhase();
 	@InputModel
@@ -86,17 +89,44 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		Set<INakedElement> result = new HashSet<INakedElement>();
 		for(INakedElement object:elements){
 			INakedElement ne = (INakedElement) object;
-			while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null || ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
-				ne = (INakedElement) ne.getOwnerElement();
+			if(ne instanceof INakedProperty && ((INakedProperty) ne).getAssociation() != null){
+				INakedAssociation ass = (INakedAssociation) ((INakedProperty) ne).getAssociation();
+				addAssociation(result, ass);
+			}else if(ne instanceof INakedAssociation){
+				addAssociation(result, (INakedAssociation) ne);
+			}else if(ne instanceof INakedGeneralization){
+				addProcessibleElementsRecursively(result, ((INakedGeneralization) ne).getSpecific());
+			}else if(ne instanceof INakedInterfaceRealization){
+				addProcessibleElementsRecursively(result, ((INakedInterfaceRealization) ne).getImplementingClassifier());
 			}
-			if(ne != null){
-				result.add(ne);
-				if(ne instanceof INakedBehavior && ((INakedBehavior) ne).getContext() != null){
-					result.add(((INakedBehavior) ne).getContext());
-				}
+			addProcessibleElementsRecursively(result, ne);
+		}
+		result.remove(null);// Just in case the null element was added
+		return result;
+	}
+	private void addAssociation(Set<INakedElement> result,INakedAssociation ass){
+		if(ass.isClass()){
+			addProcessibleElementsRecursively(result, ass);
+		}
+		for(INakedProperty p:ass.getOwnedAttributes()){
+			addProcessibleElementsRecursively(result, p);
+		}
+	}
+	private void addProcessibleElementsRecursively(Set<INakedElement> result,INakedElement ne){
+		if(ne != null){
+			INakedElement processibleElement = getProcessibleElement(ne);
+			result.add(processibleElement);
+			if(ne.getOwnerElement() instanceof INakedElement){
+				addProcessibleElementsRecursively(result, (INakedElement) ne.getOwnerElement());
 			}
 		}
-		return result;
+	}
+	private INakedElement getProcessibleElement(INakedElement ne){
+		while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null
+				|| ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
+			ne = (INakedElement) ne.getOwnerElement();
+		}
+		return ne;
 	}
 	@Override
 	public void execute(TransformationContext context){
@@ -139,9 +169,9 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	}
 	@Override
 	public void release(){
-		this.textWorkspace=null;
-		this.javaModel=null;
-		this.modelWorkspace=null;
+		this.textWorkspace = null;
+		this.javaModel = null;
+		this.modelWorkspace = null;
 		for(JavaTransformationStep j:this.features){
 			j.release();
 		}

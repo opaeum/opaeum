@@ -5,10 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.opaeum.runtime.organization.IBusinessComponent;
+import org.opaeum.runtime.organization.IBusinessComponentBase;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface BusinessRole{
-	Class<? extends IBusinessComponent> businessComponent() default IBusinessComponent.class;
+	Class<? extends IBusinessComponentBase> businessComponent() default IBusinessComponentBase.class;
 }

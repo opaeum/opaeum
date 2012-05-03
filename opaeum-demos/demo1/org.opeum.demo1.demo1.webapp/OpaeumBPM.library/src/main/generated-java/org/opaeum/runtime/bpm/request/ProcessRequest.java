@@ -358,7 +358,6 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	}
 	
 	public void init(ProcessContext context) {
-		super.init(context);
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
 	}

@@ -54,7 +54,7 @@ import org.w3c.dom.NodeList;
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
 @Table(name="business_network_facilatates_collaboration",uniqueConstraints=
-	@UniqueConstraint(columnNames={"business_network_id","deleted_on"}))
+	@UniqueConstraint(columnNames={"business_collaboration","business_collaboration_type","deleted_on"}))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="BusinessNetworkFacilatatesCollaboration")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")

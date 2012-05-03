@@ -30,6 +30,7 @@ import org.opaeum.metamodels.simulation.simulation.UniformDistribution;
 import org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
 
 public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
@@ -43,6 +44,7 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 		OJAnnotatedOperation main = new OJAnnotatedOperation("main");
 		main.addParam("args", new OJPathName("String[]"));
 		main.setStatic(true);
+		main.addToThrows(new OJPathName("java.text.ParseException"));
 		clss.addToOperations(main);
 		TreeIterator<EObject> eAllContents = simulationModel.eAllContents();
 		int i = 0;
@@ -52,6 +54,9 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 			if(eObject instanceof SimulatingSlot){
 				if(i % 200 == 0){
 					registerABunch = new OJAnnotatedOperation("register" + i / 200);
+					OJPathName pe = new OJPathName("java.text.ParseException");
+					registerABunch.addToThrows(pe);
+					clss.addToImports(pe);
 					clss.addToOperations(registerABunch);
 					registerABunch.setStatic(true);
 					main.getBody().addToStatements(registerABunch.getName() + "()");
@@ -105,7 +110,14 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 			registerNumberValueDistribution(main, slot, slot.getSizeDistribution(), "registerPropertySizeGenerator");
 		}
 		for(ValueSpecification vs:slot.getValues()){
-			if(vs instanceof WeightedBooleanValue){
+			if(vs instanceof WeightedSimpleTypeValue){
+				WeightedSimpleTypeValue wsv = (WeightedSimpleTypeValue) vs;
+				OJPathName strat = new OJPathName(wsv.getRuntimeStrategyFactory());
+				clss.addToImports(strat);
+				main.getBody().addToStatements(
+						buildRegistration(slot, pn,
+								"new " + strat + "().getStrategy(org.opaeum.runtime.strategy.FromStringConverter.class).fromString(\"" + wsv.getStringValue() + "\")", wsv.getWeight()));
+			}else if(vs instanceof WeightedBooleanValue){
 				WeightedBooleanValue wbv = (WeightedBooleanValue) vs;
 				main.getBody().addToStatements(buildRegistration(slot, pn, wbv.isValue(), wbv.getWeight()));
 			}else if(vs instanceof WeightedEnumLiteralValue){

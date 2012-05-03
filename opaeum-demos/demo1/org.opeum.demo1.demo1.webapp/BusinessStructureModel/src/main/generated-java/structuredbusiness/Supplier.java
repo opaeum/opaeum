@@ -383,16 +383,6 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_organization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4147448129438915430")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						setOrganizationFullfillsActorRole_organization((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("personFullfillsActorRole_representedPerson") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("9023075862366939329")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -400,6 +390,16 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						setPersonFullfillsActorRole_representedPerson((PersonFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_organization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4147448129438915430")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setOrganizationFullfillsActorRole_organization((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
 					}
 				}
 			}
@@ -571,19 +571,19 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		sb.append("className=\"structuredbusiness.Supplier\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
-		if ( getOrganizationFullfillsActorRole_organization()==null ) {
-			sb.append("\n<organizationFullfillsActorRole_organization/>");
-		} else {
-			sb.append("\n<organizationFullfillsActorRole_organization propertyId=\"4147448129438915430\">");
-			sb.append("\n" + getOrganizationFullfillsActorRole_organization().toXmlReferenceString());
-			sb.append("\n</organizationFullfillsActorRole_organization>");
-		}
 		if ( getPersonFullfillsActorRole_representedPerson()==null ) {
 			sb.append("\n<personFullfillsActorRole_representedPerson/>");
 		} else {
 			sb.append("\n<personFullfillsActorRole_representedPerson propertyId=\"9023075862366939329\">");
 			sb.append("\n" + getPersonFullfillsActorRole_representedPerson().toXmlReferenceString());
 			sb.append("\n</personFullfillsActorRole_representedPerson>");
+		}
+		if ( getOrganizationFullfillsActorRole_organization()==null ) {
+			sb.append("\n<organizationFullfillsActorRole_organization/>");
+		} else {
+			sb.append("\n<organizationFullfillsActorRole_organization propertyId=\"4147448129438915430\">");
+			sb.append("\n" + getOrganizationFullfillsActorRole_organization().toXmlReferenceString());
+			sb.append("\n</organizationFullfillsActorRole_organization>");
 		}
 		sb.append("\n</Supplier>");
 		return sb.toString();

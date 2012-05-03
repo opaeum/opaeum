@@ -34,9 +34,6 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 	private Collection<INakedProperty> subsettedProperties;
 	public AbstractEmulatedProperty(INakedClassifier owner,INakedElement element){
 		super(element);
-		if(owner==null||element==null){
-			System.out.println();
-		}
 		this.id = owner.getId() + element.getId();
 		this.owner = owner;
 		this.mappingInfo = element.getMappingInfo().getCopy();

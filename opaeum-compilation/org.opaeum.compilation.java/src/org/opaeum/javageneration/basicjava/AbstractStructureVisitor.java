@@ -45,6 +45,9 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	public AbstractStructureVisitor(){
 		super();
 	}
+	protected boolean ignoreDeletedElements(){
+		return true;
+	}
 	protected abstract void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap);
 	protected abstract void visitComplexStructure(INakedComplexStructure umlOwner);
 	@VisitBefore(matchSubclasses = true,match = {
@@ -52,7 +55,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			INakedBehavior.class,INakedActor.class,NakedBusinessCollaboration.class
 	})
 	public void visitFeaturesOf(INakedClassifier c){
-		if(OJUtil.hasOJClass(c)){
+		if(OJUtil.hasOJClass(c) || (c.isMarkedForDeletion() && !ignoreDeletedElements())){
 			if(c instanceof INakedComplexStructure){
 				visitComplexStructure((INakedComplexStructure) c);
 				if(c instanceof INakedBehavior){
@@ -85,14 +88,17 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 					if(OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){
 						visitAssociationClassProperty(c, new AssociationClassEndMap(p));
 					}else{
-						visitProperty(c, OJUtil.buildStructuralFeatureMap(p));
+						NakedStructuralFeatureMap buildStructuralFeatureMap = OJUtil.buildStructuralFeatureMap(p);
+						visitProperty(c, buildStructuralFeatureMap);
 					}
 				}
 			}
+			
 			for(INakedOperation o:c.getDirectlyImplementedOperations()){
 				visitOperation(o);
 			}
 		}
+		 
 	}
 	protected void visitObservations(INakedClassifier umlOwner,INakedObservantElement a){
 		Collection<INakedTimeObservation> timeObservations = a.getTimeObservations();
@@ -146,17 +152,19 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	private void visitOutputPins(INakedAction a){
 		Collection<INakedOutputPin> nodes = a.getOutput();
 		for(INakedOutputPin node:nodes){
-			visitProperty(a.getNearestStructuredElementAsClassifier(), OJUtil.buildStructuralFeatureMap(a.getNearestStructuredElementAsClassifier(), node, true));
+			visitProperty(a.getNearestStructuredElementAsClassifier(),
+					OJUtil.buildStructuralFeatureMap(a.getNearestStructuredElementAsClassifier(), node, true));
 		}
 	}
 	private void visitExpansionNodes(INakedExpansionRegion region){
 		for(INakedExpansionNode node:region.getOutputElement()){
 			// NB output expansion nodes sit on the parent container
-			visitProperty(region.getNearestStructuredElementAsClassifier(), OJUtil.buildStructuralFeatureMap(region.getNearestStructuredElementAsClassifier(), node,true));
+			visitProperty(region.getNearestStructuredElementAsClassifier(),
+					OJUtil.buildStructuralFeatureMap(region.getNearestStructuredElementAsClassifier(), node, true));
 		}
 		for(INakedExpansionNode node:region.getInputElement()){
 			// NB input expansion nodes sit on the expansion region class
-			visitProperty(region.getMessageStructure(), OJUtil.buildStructuralFeatureMap(region.getMessageStructure(), node,false));
+			visitProperty(region.getMessageStructure(), OJUtil.buildStructuralFeatureMap(region.getMessageStructure(), node, false));
 		}
 	}
 	private void visitOperation(INakedOperation o){
@@ -186,5 +194,4 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	protected final boolean isMap(INakedProperty property){
 		return property.getQualifiers().size() > 0 && (property.getName().equals("updateChangeLog") || !config.shouldBeCm1Compatible());
 	}
-
 }

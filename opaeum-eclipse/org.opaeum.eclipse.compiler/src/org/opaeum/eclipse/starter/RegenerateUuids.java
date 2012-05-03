@@ -29,7 +29,6 @@ import org.opaeum.eclipse.OpaeumElementLinker.EmfUmlElementLinker;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.extraction.EmfElementVisitor;
-import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.load.EmfWorkspaceLoader;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
@@ -103,16 +102,6 @@ public class RegenerateUuids extends AbstractOpaeumAction{
 						e.getEAnnotations().remove(a);
 					}
 				}
-			}
-//			 populateAnnotation(e, keywords);
-		}
-		private void populateAnnotation(Element o,Set<String> keywords){
-			// FIrst generate the ID appropriately
-			currentEmfWorkspace.getId(o);
-			// Now the annotation already exists
-			EAnnotation ann = StereotypesHelper.getNumlAnnotation(o);
-			for(String string:keywords){
-				ann.getDetails().put(string, "");
 			}
 		}
 		@Override

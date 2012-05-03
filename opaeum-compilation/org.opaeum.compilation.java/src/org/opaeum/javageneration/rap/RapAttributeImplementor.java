@@ -23,10 +23,12 @@ public class RapAttributeImplementor extends HibernateAttributeImplementor{
 	@Override
 	protected OJOperation buildSetter(INakedClassifier umlOwner,OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation setter = super.buildSetter(umlOwner, owner, map);
-		setter.getBody().addToStatements(
-				0,
-				new OJSimpleStatement("propertyChangeSupport.firePropertyChange(\"" + map.umlName() + "\"," + map.getter() + "(),"
-						+ map.fieldname() + ")"));
+		if(owner.findField("propertyChangeSupport") != null){
+			setter.getBody().addToStatements(
+					0,
+					new OJSimpleStatement("propertyChangeSupport.firePropertyChange(\"" + map.umlName() + "\"," + map.getter() + "(),"
+							+ map.fieldname() + ")"));
+		}
 		return setter;
 	}
 	@Override

@@ -40,6 +40,7 @@ import org.opaeum.metamodel.bpm.internal.NakedDeadlineImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 import org.opaeum.metamodel.core.INakedMultiplicityElement;
 import org.opaeum.metamodel.core.INakedPackageableElement;
@@ -104,17 +105,22 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			}
 		}else if(ne != null){
 			// TODO not optimal. Gets called for every extractor
-			if((owner == null || getId(owner) == null || o.eResource() == null) && ne.getOwnerElement() != null){
+			INakedElementOwner ownerElement = ne.getOwnerElement();
+			if((owner == null || getId(owner) == null || o.eResource() == null) && ownerElement != null){
 				// do deletion
-				nakedWorkspace.removeModelElement(ne);
-				ne.getOwnerElement().removeOwnedElement(ne, true);
 				ne.markForDeletion();
+				nakedWorkspace.removeModelElement(ne);
+				addAffectedElement(ne);
+				for(INakedElement de:ownerElement.removeOwnedElement(ne, true)){
+					addAffectedElement(de);
+					nakedWorkspace.removeModelElement(de);
+				}
 			}else{
 				// do reparenting
 				INakedElement nakedOwner = getNakedPeer(owner);
 				if(nakedOwner != null){
-					if(ne.getOwnerElement() != null && !(nakedOwner.equals(ne.getOwnerElement()))){
-						ne.getOwnerElement().removeOwnedElement(ne, false);
+					if(ownerElement != null && !(nakedOwner.equals(ownerElement))){
+						ownerElement.removeOwnedElement(ne, false);
 					}
 					if(!nakedOwner.getOwnedElements().contains(ne)){
 						nakedOwner.addOwnedElement(ne);

@@ -18,13 +18,16 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.BehaviorUtil;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.core.CodeGenerationStrategy;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComplexStructure;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.profiles.INakedProfile;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.rap.RapCapabilities;
 import org.opaeum.runtime.environment.Environment;
@@ -34,13 +37,12 @@ import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.util.SortedProperties;
 import org.opaeum.velocity.AbstractTextProducingVisitor;
 
-public abstract class AbstractPersistenceConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep,IntegrationCodeGenerator{
+public abstract class AbstractPersistenceConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep,
+		IntegrationCodeGenerator{
 	public AbstractPersistenceConfigGenerator(){
 		super();
 	}
-	@SuppressWarnings({
-			"unchecked","rawtypes"
-	})
+	@SuppressWarnings({"unchecked","rawtypes"})
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace){
 		if(shouldProcessWorkspace()){
@@ -73,8 +75,8 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 	protected abstract String getTemplateName();
 	protected abstract String getDomainEnvironmentImplementation();
 	protected abstract String getAdaptorEnvironmentImplementation();
-	private void generateConfigAndEnvironment(Collection<INakedRootObject> models,TextSourceFolderIdentifier outputRootId,boolean isAdaptorEnvironment,
-			INakedElementOwner owner){
+	private void generateConfigAndEnvironment(Collection<INakedRootObject> models,TextSourceFolderIdentifier outputRootId,
+			boolean isAdaptorEnvironment,INakedElementOwner owner){
 		SortedProperties properties = new SortedProperties();
 		HashMap<String,Object> vars = buildVars(models, isAdaptorEnvironment, owner);
 		properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
@@ -82,7 +84,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, JavaMetaInfoMapGenerator.javaMetaInfoMapPath(owner).toJavaString());
 		properties.setProperty(Environment.JDBC_CONNECTION_URL, config.getJdbcConnectionUrl());
 		properties.setProperty(Environment.DB_USER, config.getDbUser());
-		properties.setProperty(Environment.DB_USER, config.getDbPassword());
+		properties.setProperty(Environment.DB_PASSWORD, config.getDbPassword());
 		properties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? getAdaptorEnvironmentImplementation()
 				: getDomainEnvironmentImplementation());
 		properties.setProperty(Environment.HIBERNATE_CONFIG_NAME, getConfigName(owner));
@@ -102,16 +104,21 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 			persistentClasses.add(new OJPathName(string));
 		}
 		if(!config.getSourceFolderStrategy().isSingleProjectStrategy() || transformationContext.isFeatureSelected(RapCapabilities.class)){
-			//CLasses across multiple jars need to be registered explicitly 
-			for(INakedElement e:workspace.getAllElements()){
+			// CLasses across multiple jars need to be registered explicitly
+			Collection<INakedElement> allElements = workspace.getAllElements();
+			for(INakedElement e:allElements){
 				if(e instanceof INakedComplexStructure && ((INakedComplexStructure) e).isPersistent() && isGeneratingElement(e)){
 					persistentClasses.add(OJUtil.classifierPathname((INakedClassifier) e));
 				}else if(e instanceof INakedOperation && ((INakedOperation) e).isLongRunning() && isGeneratingElement(e)){
 					persistentClasses.add(OJUtil.classifierPathname(((INakedOperation) e).getMessageStructure()));
+				}else if(e instanceof INakedEnumeration && isGeneratingElement(e)
+						&& ((INakedClassifier) e).getCodeGenerationStrategy() == CodeGenerationStrategy.ALL
+						&& !(e.getRootObject() instanceof INakedProfile)){
+					persistentClasses.add(new OJPathName(e.getMappingInfo().getQualifiedJavaName() + "Entity"));
 				}else if(e instanceof INakedEmbeddedTask && isGeneratingElement(e)){
 					persistentClasses.add(OJUtil.classifierPathname(((INakedEmbeddedTask) e).getMessageStructure()));
-				}else if(e instanceof INakedStructuredActivityNode && BehaviorUtil.hasExecutionInstance(((INakedStructuredActivityNode) e).getActivity())
-						&& isGeneratingElement(e)){
+				}else if(e instanceof INakedStructuredActivityNode
+						&& BehaviorUtil.hasExecutionInstance(((INakedStructuredActivityNode) e).getActivity()) && isGeneratingElement(e)){
 					persistentClasses.add(OJUtil.classifierPathname(((INakedStructuredActivityNode) e).getMessageStructure()));
 				}
 			}
@@ -124,9 +131,12 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		super.initialize(config, textWorkspace, workspace);
 		// TODO Auto-generated method stub
-		
 	}
 	private boolean isGeneratingElement(INakedElement e){
-		return workspace.getGeneratingModelsOrProfiles().contains(e.getRootObject());
+		if(shouldProcessWorkspace()){
+			return workspace.getRootObjects().contains(e.getRootObject());
+		}else{
+			return workspace.getGeneratingModelsOrProfiles().contains(e.getRootObject());
+		}
 	}
 }

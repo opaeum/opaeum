@@ -33,6 +33,7 @@ import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
+import org.opaeum.runtime.bpm.opaeumsimpletypes.Month;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -78,7 +79,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
 	static private Set<RecurringHoliday> mockedAllInstances;
-	@Type(type="org.opaeum.runtime.bpm.businesscalendar.MonthResolver")
+	@Type(type="org.opaeum.runtime.bpm.opaeumsimpletypes.MonthResolver")
 	@Column(name="month",nullable=true)
 	private Month month;
 	@Column(name="name")

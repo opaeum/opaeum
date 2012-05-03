@@ -3,7 +3,7 @@
  <extension
        point="org.eclipse.ui.startup">
     <startup
-          class="org.opaeum.papyrus.OpaeumPageListener"></startup>
+          class="org.opaeum.papyrus.OpaeumStartup"></startup>
  </extension>
     <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
       <browserCustomization file="resource/UMLPapyrusDefaultBrowserCustomization.uiCustom" loadByDefault="true"/>
@@ -71,6 +71,10 @@
 
 <!-- Creation command declarations -->
 <extension point="org.eclipse.ui.commands">
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.InstanceSimulationtHandler" description="Create a new Instance Simulation" id="org.eclipse.papyrus.uml.modelexplorer.InstanceSimulationCreateCommand" name="Create a new Instance Simulation">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.PropertySizeNormalDistributionHandler" description="Create a new NormalSizeDistribution" id="org.eclipse.papyrus.uml.modelexplorer.PropertySizeNormalDistributionCommand" name="Create a new NormalSizeDistribution">
+	</command>
 	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.SimulatedSlotHandler" description="Create a new Simulated Slot" id="org.eclipse.papyrus.uml.modelexplorer.SimulatedSlotCreateCommand" name="Create a new Simulated Slot">
 	</command>
 	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.BooleanValueSimulationHandler" description="Create a new Boolean Value Simulation" id="org.eclipse.papyrus.uml.modelexplorer.BooleanValueSimulationCreateCommand" name="Create a new Boolean Value Simulation">
@@ -893,6 +897,12 @@
 
 	<menuContribution locationURI="popup:org.eclipse.papyrus.views.modelexplorer.popupmenu.createchild" allPopups="false">
 
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.PropertySizeNormalDistributionCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/ValueSpecification.gif" label="Create a new Normal Distribution for Property Size" style="push" tooltip="Create a new Normal Distribution for Property Size">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.InstanceSimulationCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/InstanceSpecification.gif" label="Create a new Instance Simulation" style="push" tooltip="Create a new Instance Simulation">
+			<visibleWhen checkEnabled="true"/>
+		</command>
 		<command commandId="org.eclipse.papyrus.uml.modelexplorer.SimulatedSlotCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Slot.gif" label="Create a new SimulatedSlot" style="push" tooltip="Create a new SimulatedSlot">
 			<visibleWhen checkEnabled="true"/>
 		</command>

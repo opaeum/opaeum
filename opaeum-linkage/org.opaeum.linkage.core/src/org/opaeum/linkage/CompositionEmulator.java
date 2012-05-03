@@ -36,6 +36,7 @@ import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.NakedAssociationImpl;
 import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
 import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
+import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
 import org.opaeum.metamodel.core.internal.emulated.NakedBusinessCollaboration;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import org.opaeum.metamodel.usecases.INakedActor;
@@ -90,83 +91,102 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			c.reorderSequences();
 		}
 	}
+	@Override
+	protected boolean ignoreDeletedElements(){
+		return false;
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParticipant(ICompositionParticipant cp){
-		// TODO maybe find a better place for this
-		cp.reorderSequences();
-		if(cp instanceof INakedAssociation){
-			// do nothing
-		}else{
-			cp.removeObsoleteArtificialProperties();
-			INakedProperty endToComposite = cp.getEndToComposite();
-			if(endToComposite == null && !cp.getIsAbstract()){
-				// In case of composite structures, the composition may not have
-				// been modeled as an association but as a part
-				INakedProperty endFromComposite = null;
-				if(cp.getNestingClassifier() != null){
-					for(INakedProperty p:(List<? extends INakedProperty>) cp.getNestingClassifier().getEffectiveAttributes()){
-						if(p.isComposite() && p.getNakedBaseType() == cp){
-							endFromComposite = p;
+		if(cp.isMarkedForDeletion()){
+	}else{
+			// TODO maybe find a better place for this
+			cp.reorderSequences();
+			if(cp instanceof INakedAssociation){
+				// do nothing
+			}else{
+				cp.removeObsoleteArtificialProperties();
+				INakedProperty endToComposite = cp.getEndToComposite();
+				if(endToComposite == null && !cp.getIsAbstract()){
+					// In case of composite structures, the composition may not have
+					// been modeled as an association but as a part
+					INakedProperty endFromComposite = null;
+					if(cp.getNestingClassifier() != null){
+						for(INakedProperty p:(List<? extends INakedProperty>) cp.getNestingClassifier().getEffectiveAttributes()){
+							if(p.isComposite() && p.getNakedBaseType() == cp){
+								endFromComposite = p;
+							}
 						}
 					}
-				}
-				if(cp instanceof INakedBehavior){
-					INakedBehavior b = (INakedBehavior) cp;
-					if(b.isProcess() && getLibrary().getProcessObject() != null && !b.getInterfaces().contains(getLibrary().getProcessObject())
-							&& !b.conformsTo(getLibrary().getAbstractRequest())){
-						b.addOwnedElement(new NakedInterfaceRealizationImpl(getLibrary().getProcessObject()));
-					}
-					if(b.getContext() != null && BehaviorUtil.hasExecutionInstance(b)){
+					if(cp instanceof INakedBehavior){
+						INakedBehavior b = (INakedBehavior) cp;
+						if(b.isProcess() && getLibrary().getProcessObject() != null && !b.getInterfaces().contains(getLibrary().getProcessObject())
+								&& !b.conformsTo(getLibrary().getAbstractRequest())){
+							b.addOwnedElement(new NakedInterfaceRealizationImpl(getLibrary().getProcessObject()));
+						}
+						if(b.getContext() != null && BehaviorUtil.hasExecutionInstance(b)){
+							if(endFromComposite != null){
+								NonInverseArtificialProperty inverseArtificialProperty = new NonInverseArtificialProperty(endFromComposite, "contextObject");
+								addAffectedElement(inverseArtificialProperty);
+								cp.setEndToComposite(inverseArtificialProperty);
+							}else{
+								InverseArtificialProperty inverseArtificialProperty = new InverseArtificialProperty(b.getContext(), (INakedBehavior) cp);
+								b.getContext().addOwnedElement(inverseArtificialProperty);
+								b.addOwnedElement(inverseArtificialProperty.getOtherEnd());
+								b.setEndToComposite(inverseArtificialProperty.getOtherEnd());
+								addAffectedElement(inverseArtificialProperty);
+								addAffectedElement(inverseArtificialProperty.getOtherEnd());
+							}
+						}
+					}else if(cp.getNestingClassifier() != null){
 						if(endFromComposite != null){
-							NonInverseArtificialProperty inverseArtificialProperty = new NonInverseArtificialProperty(endFromComposite, "contextObject");
+							NonInverseArtificialProperty inverseArtificialProperty = new NonInverseArtificialProperty(endFromComposite, "ownerObject");
 							addAffectedElement(inverseArtificialProperty);
 							cp.setEndToComposite(inverseArtificialProperty);
 						}else{
-							InverseArtificialProperty inverseArtificialProperty = new InverseArtificialProperty(b.getContext(), (INakedBehavior) cp);
-							b.getContext().addOwnedElement(inverseArtificialProperty);
-							b.addOwnedElement(inverseArtificialProperty.getOtherEnd());
-							b.setEndToComposite(inverseArtificialProperty.getOtherEnd());
+							InverseArtificialProperty inverseArtificialProperty = new InverseArtificialProperty(cp.getNestingClassifier(), cp);
+							cp.getNestingClassifier().addOwnedElement(inverseArtificialProperty);
+							cp.setEndToComposite(inverseArtificialProperty.getOtherEnd());
 							addAffectedElement(inverseArtificialProperty);
 							addAffectedElement(inverseArtificialProperty.getOtherEnd());
 						}
 					}
-				}else if(cp.getNestingClassifier() != null){
-					if(endFromComposite != null){
-						NonInverseArtificialProperty inverseArtificialProperty = new NonInverseArtificialProperty(endFromComposite, "ownerObject");
-						addAffectedElement(inverseArtificialProperty);
-						cp.setEndToComposite(inverseArtificialProperty);
-					}else{
-						InverseArtificialProperty inverseArtificialProperty = new InverseArtificialProperty(cp.getNestingClassifier(), cp);
-						cp.getNestingClassifier().addOwnedElement(inverseArtificialProperty);
-						cp.setEndToComposite(inverseArtificialProperty.getOtherEnd());
-						addAffectedElement(inverseArtificialProperty);
-						addAffectedElement(inverseArtificialProperty.getOtherEnd());
+					if(cp.getEndToComposite() != null){
+						addAffectedElement(cp);
+						if(cp.getEndToComposite().getNakedBaseType() != null){
+							// Is null when being deleted
+							addAffectedElement(cp.getEndToComposite().getNakedBaseType());
+						}
 					}
-				}
-				if(cp.getEndToComposite() != null){
-					addAffectedElement(cp);
+				}else if(cp.getEndToComposite() != null){
+					cp.removeObsoleteArtificialProperties();
 					if(cp.getEndToComposite().getNakedBaseType() != null){
 						// Is null when being deleted
-						addAffectedElement(cp.getEndToComposite().getNakedBaseType());
+						cp.getEndToComposite().getNakedBaseType().removeObsoleteArtificialProperties();
 					}
 				}
-			}else if(cp.getEndToComposite() != null){
-				cp.removeObsoleteArtificialProperties();
-				if(cp.getEndToComposite().getNakedBaseType() != null){
-					// Is null when being deleted
-					cp.getEndToComposite().getNakedBaseType().removeObsoleteArtificialProperties();
-				}
 			}
-		}
-		if((cp instanceof INakedActor || cp instanceof INakedBusinessComponent) && !cp.getIsAbstract()){
-			if(cp.getEndToComposite() == null || cp.getEndToComposite().getBaseType().equals(getLibrary().getBusinessCollaboration())){
-				// Need to realize that abstract association to the real BUsinessCollabroation
-				// TODO rethink this - maybe just always create an application root
-				/* The problem is that during modelling the need for an artificial root may arise and then disappear again */
-				if(workspace.getApplicationRoot() == null){
-					rootClasses.add(cp);
-				}else{
-					addCompositionToApplicationRoot(workspace.getApplicationRoot(), cp);
+			if((cp instanceof INakedActor || cp instanceof INakedBusinessComponent) && !cp.getIsAbstract()){
+				if(cp.getEndToComposite() == null || cp.getEndToComposite().getBaseType().equals(getLibrary().getBusinessCollaboration())){
+					// Need to realize that abstract association to the real BUsinessCollabroation
+					// TODO rethink this - maybe just always create an application root
+					/* The problem is that during modelling the need for an artificial root may arise and then disappear again */
+					if(workspace.getApplicationRoot() == null){
+						rootClasses.add(cp);
+					}else{
+						addCompositionToApplicationRoot(workspace.getApplicationRoot(), cp);
+					}
+				}else if(cp.getEndToComposite() instanceof AbstractEmulatedProperty
+						&& cp.getEndToComposite().getNakedBaseType() instanceof NakedBusinessCollaboration){
+					INakedProperty artificialEndToComposite = cp.getEndToComposite();
+					for(INakedProperty p:cp.getEffectiveAttributes()){
+						if(p != artificialEndToComposite && p.getOtherEnd() != null && p.getOtherEnd().isComposite()
+								&& !p.getBaseType().equals(getLibrary().getBusinessCollaboration())){
+							addAffectedElement(artificialEndToComposite.getNakedBaseType());
+							artificialEndToComposite.getNakedBaseType().removeOwnedElement(artificialEndToComposite.getOtherEnd(), true);
+							cp.removeOwnedElement(artificialEndToComposite, true);
+							cp.setEndToComposite(p);
+						}
+					}
 				}
 			}
 		}
@@ -318,6 +338,8 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			INakedProperty collaborationEnd = (INakedProperty) getLibrary().getBusinessActor().findAssociationEnd("businessCollaboration");
 			toRoot.getSubsettedProperties().add(collaborationEnd);
 		}
+		addAffectedElement(toRoot);
+		addAffectedElement(toChildren);
 	}
 	private NakedAssociationImpl buildCompositionFrom(INakedClassifier root,ICompositionParticipant p,String compositeName){
 		NakedAssociationImpl assoc = new NakedAssociationImpl();

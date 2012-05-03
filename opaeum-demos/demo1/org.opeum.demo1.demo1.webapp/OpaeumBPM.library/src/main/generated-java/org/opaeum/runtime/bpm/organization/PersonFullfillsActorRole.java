@@ -53,7 +53,7 @@ import org.w3c.dom.NodeList;
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
 @Table(name="person_fullfills_actor_role",uniqueConstraints=
-	@UniqueConstraint(columnNames={"represented_person_id","deleted_on"}))
+	@UniqueConstraint(columnNames={"business_actor","business_actor_type","deleted_on"}))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="PersonFullfillsActorRole")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")

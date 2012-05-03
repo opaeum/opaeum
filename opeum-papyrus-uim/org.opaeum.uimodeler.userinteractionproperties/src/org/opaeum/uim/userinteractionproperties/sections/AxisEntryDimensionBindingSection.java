@@ -14,6 +14,8 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.uim.cube.AxisEntry;
@@ -41,7 +43,7 @@ public class AxisEntryDimensionBindingSection extends AbstractChooserPropertySec
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
 	}
-	private boolean addDimensions(Class cp,DimensionNode detail,Set<DimensionNode> leaves){
+	private boolean addDimensions(Classifier cp,DimensionNode detail,Set<DimensionNode> leaves){
 		boolean hasParent = false;
 		List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(cp);
 		for(Property p:propertiesInScope){
@@ -53,14 +55,11 @@ public class AxisEntryDimensionBindingSection extends AbstractChooserPropertySec
 					master.detail = detail;
 				}
 				boolean masterHasMaster = false;
-				if(p.getType() instanceof Class){
-					masterHasMaster = addDimensions((Class) p.getType(), master, leaves);
+				if(p.getType() instanceof Class || p.getType() instanceof Enumeration){
+					masterHasMaster = addDimensions((Classifier) p.getType(), master, leaves);
 				}
 				if(!masterHasMaster){
 					leaves.add(master.linkToInnermostDetail());
-					if(detail != null){
-						System.out.println("Master=" + detail.master + " Detail=" + detail);
-					}
 				}
 			}
 		}
@@ -96,8 +95,12 @@ public class AxisEntryDimensionBindingSection extends AbstractChooserPropertySec
 				addDimensions(clazz, null, input);
 			}
 			for(DimensionNode dimensionNode:input){
-				if(!(isInUse(dimensionNode, c.getColumnAxis()) || isInUse(dimensionNode, c.getRowAxis())))
-					nodes.put(dimensionNode.toDimensionBinding(), dimensionNode);
+				if(!(isInUse(dimensionNode, c.getColumnAxis()) || isInUse(dimensionNode, c.getRowAxis()))){
+					DimensionBinding dimensionBinding = dimensionNode.linkToInnermostDetail().toDimensionBinding();
+					System.out.println(dimensionBinding.toString());
+					System.out.println(dimensionNode.toString());
+					nodes.put(dimensionBinding, dimensionNode);
+				}
 			}
 		}
 		ArrayList<Object> result = new ArrayList<Object>(nodes.keySet());

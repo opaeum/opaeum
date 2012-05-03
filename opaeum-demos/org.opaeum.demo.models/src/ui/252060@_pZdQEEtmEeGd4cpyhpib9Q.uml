@@ -1,154 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_WbPFwIuUEeGaRvqkMvqkdg" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q" name="Organization node User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_WbPFwYuUEeGaRvqkMvqkdg" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q" name="Edit OrganizationNode"><actionBar xmi:id="_WbQ6-ouUEeGaRvqkMvqkdg" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_WbQ6-4uUEeGaRvqkMvqkdg" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_WbQ6_IuUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_WbPFwouUEeGaRvqkMvqkdg" name="Edit Organization node" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_WbPFw4uUEeGaRvqkMvqkdg" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_WbPFxIuUEeGaRvqkMvqkdg" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_WbPFxYuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbPs0IuUEeGaRvqkMvqkdg" umlElementUid="252060@_OorfwEtnEeGd4cpyhpib9Q"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_X7zQUJT6EeG_oLv6jKpgkw" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q" name="Organization node User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_X7zQUZT6EeG_oLv6jKpgkw" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q" name="Edit OrganizationNode"><actionBar xmi:id="_xhHWS5T9EeGaNaT6nrkuVQ" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xhHWTJT9EeGaNaT6nrkuVQ" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xhHWTZT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_X7zQUpT6EeG_oLv6jKpgkw" name="Edit Organization node" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_X7zQU5T6EeG_oLv6jKpgkw" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_X7zQVJT6EeG_oLv6jKpgkw" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_xhGIIJT9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhGIIZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_OorfwEtnEeGd4cpyhpib9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_WbQT6YuUEeGaRvqkMvqkdg" name="Business component" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_WbQT6ouUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbQT64uUEeGaRvqkMvqkdg" umlElementUid="252060@_vf2LYFYuEeGj5_I7bIwNoA"/>
+        <children xmi:type="uim:UimField" xmi:id="_X7z3ZZT6EeG_oLv6jKpgkw" name="Business component" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_xhGvQ5T9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhGvRJT9EeGaNaT6nrkuVQ" umlElementUid="252060@_vf2LYFYuEeGj5_I7bIwNoA"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_WbQ694uUEeGaRvqkMvqkdg" name="Business actor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_WbQ6-IuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbQ6-YuUEeGaRvqkMvqkdg" umlElementUid="252060@_WjvQ0UtyEeGElKTCe2jfDw"/>
-        </children>
-      </panel>
-    </pages><pages xmi:id="_WbPs0YuUEeGaRvqkMvqkdg" name="Phone number" umlElementUid="252060@_HF7DgEtoEeGd4cpyhpib9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_WbPs0ouUEeGaRvqkMvqkdg">
-        <children xmi:type="uim:UimDataTable" xmi:id="_WbPs04uUEeGaRvqkMvqkdg" fillHorizontally="true" fillVertically="true">
-          <children xmi:type="uact:BuiltInLink" xmi:id="_WbPs1YuUEeGaRvqkMvqkdg" name="Edit" preferredWidth="30" kind="edit"/>
-          <children xmi:type="uim:UimField" xmi:id="_WbPs1ouUEeGaRvqkMvqkdg" name="Hpone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
-            <control xmi:type="ctl:UimText" xmi:id="_WbPs14uUEeGaRvqkMvqkdg"/>
-            <binding xmi:id="_WbPs2IuUEeGaRvqkMvqkdg" umlElementUid="252060@_ls8YAHr7EeGX8L_MMRBizg"/>
-          </children>
-          <children xmi:type="uim:UimField" xmi:id="_WbPs2YuUEeGaRvqkMvqkdg" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
-            <control xmi:type="ctl:UimDropdown" xmi:id="_WbPs2ouUEeGaRvqkMvqkdg"/>
-            <binding xmi:id="_WbPs24uUEeGaRvqkMvqkdg" umlElementUid="252060@_1i74dEtoEeGd4cpyhpib9Q"/>
-          </children>
-          <children xmi:type="uact:BuiltInActionButton" xmi:id="_WbPs3IuUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
-          <binding xmi:id="_WbPs1IuUEeGaRvqkMvqkdg" umlElementUid="252060@_HF7DgEtoEeGd4cpyhpib9Q"/>
-          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_WbPs3YuUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
-          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_WbPs3ouUEeGaRvqkMvqkdg" name="Add" kind="add"/>
+        <children xmi:type="uim:UimField" xmi:id="_X7z3d5T6EeG_oLv6jKpgkw" name="Business actor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_xhHWSZT9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhHWSpT9EeGaNaT6nrkuVQ" umlElementUid="252060@_WjvQ0UtyEeGElKTCe2jfDw"/>
         </children>
       </panel>
-    </pages><pages xmi:id="_WbPs34uUEeGaRvqkMvqkdg" name="E mail address" umlElementUid="252060@_JF99wEtqEeGd4cpyhpib9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_WbPs4IuUEeGaRvqkMvqkdg">
-        <children xmi:type="uim:UimDataTable" xmi:id="_WbPs4YuUEeGaRvqkMvqkdg" fillHorizontally="true" fillVertically="true">
-          <children xmi:type="uact:BuiltInLink" xmi:id="_WbPs44uUEeGaRvqkMvqkdg" name="Edit" preferredWidth="30" kind="edit"/>
-          <children xmi:type="uim:UimField" xmi:id="_WbQT4IuUEeGaRvqkMvqkdg" name="Email address" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
-            <control xmi:type="ctl:UimText" xmi:id="_WbQT4YuUEeGaRvqkMvqkdg"/>
-            <binding xmi:id="_WbQT4ouUEeGaRvqkMvqkdg" umlElementUid="252060@_jaw6AHr7EeGX8L_MMRBizg"/>
+    </pages><pages xmi:id="_X7zQV5T6EeG_oLv6jKpgkw" name="Phone number" umlElementUid="252060@_HF7DgEtoEeGd4cpyhpib9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_X7zQWJT6EeG_oLv6jKpgkw">
+        <children xmi:type="uim:UimDataTable" xmi:id="_X7zQWZT6EeG_oLv6jKpgkw" fillHorizontally="true" fillVertically="true">
+          <children xmi:type="uact:BuiltInLink" xmi:id="_xhGIIpT9EeGaNaT6nrkuVQ" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xmi:type="uim:UimField" xmi:id="_xhGvMJT9EeGaNaT6nrkuVQ" name="Hpone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimText" xmi:id="_xhGvMZT9EeGaNaT6nrkuVQ"/>
+            <binding xmi:id="_xhGvMpT9EeGaNaT6nrkuVQ" umlElementUid="252060@_ls8YAHr7EeGX8L_MMRBizg"/>
           </children>
-          <children xmi:type="uim:UimField" xmi:id="_WbQT44uUEeGaRvqkMvqkdg" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
-            <control xmi:type="ctl:UimDropdown" xmi:id="_WbQT5IuUEeGaRvqkMvqkdg"/>
-            <binding xmi:id="_WbQT5YuUEeGaRvqkMvqkdg" umlElementUid="252060@_Ju-ehEtqEeGd4cpyhpib9Q"/>
+          <children xmi:type="uim:UimField" xmi:id="_xhGvM5T9EeGaNaT6nrkuVQ" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimDropdown" xmi:id="_xhGvNJT9EeGaNaT6nrkuVQ"/>
+            <binding xmi:id="_xhGvNZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_1i74dEtoEeGd4cpyhpib9Q"/>
           </children>
-          <children xmi:type="uact:BuiltInActionButton" xmi:id="_WbQT5ouUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
-          <binding xmi:id="_WbPs4ouUEeGaRvqkMvqkdg" umlElementUid="252060@_JF99wEtqEeGd4cpyhpib9Q"/>
-          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_WbQT54uUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
-          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_WbQT6IuUEeGaRvqkMvqkdg" name="Add" kind="add"/>
+          <children xmi:type="uact:BuiltInActionButton" xmi:id="_xhGvNpT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+          <binding xmi:id="_X7zQWpT6EeG_oLv6jKpgkw" umlElementUid="252060@_HF7DgEtoEeGd4cpyhpib9Q"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_xhGvN5T9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_xhGvOJT9EeGaNaT6nrkuVQ" name="Add" kind="add"/>
         </children>
       </panel>
-    </pages><pages xmi:id="_WbQT7IuUEeGaRvqkMvqkdg" name="Business calendar" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
-      <panel xmi:type="panel:GridPanel" xmi:id="_WbQT7ouUEeGaRvqkMvqkdg" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_WbQT74uUEeGaRvqkMvqkdg" name="Business hours per week" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_WbQT8IuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbQT8YuUEeGaRvqkMvqkdg" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
-            <next xmi:id="_WbQT8ouUEeGaRvqkMvqkdg" umlElementUid="252060@_QLpNoNcDEeCJ0dmaHEVVnw"/>
+    </pages><pages xmi:id="_X7zQZZT6EeG_oLv6jKpgkw" name="E mail address" umlElementUid="252060@_JF99wEtqEeGd4cpyhpib9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_X7zQZpT6EeG_oLv6jKpgkw">
+        <children xmi:type="uim:UimDataTable" xmi:id="_X7zQZ5T6EeG_oLv6jKpgkw" fillHorizontally="true" fillVertically="true">
+          <children xmi:type="uact:BuiltInLink" xmi:id="_xhGvOZT9EeGaNaT6nrkuVQ" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xmi:type="uim:UimField" xmi:id="_xhGvOpT9EeGaNaT6nrkuVQ" name="Email address" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimText" xmi:id="_xhGvO5T9EeGaNaT6nrkuVQ"/>
+            <binding xmi:id="_xhGvPJT9EeGaNaT6nrkuVQ" umlElementUid="252060@_jaw6AHr7EeGX8L_MMRBizg"/>
+          </children>
+          <children xmi:type="uim:UimField" xmi:id="_xhGvPZT9EeGaNaT6nrkuVQ" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimDropdown" xmi:id="_xhGvPpT9EeGaNaT6nrkuVQ"/>
+            <binding xmi:id="_xhGvP5T9EeGaNaT6nrkuVQ" umlElementUid="252060@_Ju-ehEtqEeGd4cpyhpib9Q"/>
+          </children>
+          <children xmi:type="uact:BuiltInActionButton" xmi:id="_xhGvQJT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+          <binding xmi:id="_X7zQaJT6EeG_oLv6jKpgkw" umlElementUid="252060@_JF99wEtqEeGd4cpyhpib9Q"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_xhGvQZT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_xhGvQpT9EeGaNaT6nrkuVQ" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages><pages xmi:id="_X7z3aJT6EeG_oLv6jKpgkw" name="Business calendar" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
+      <panel xmi:type="panel:GridPanel" xmi:id="_X7z3apT6EeG_oLv6jKpgkw" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_X7z3a5T6EeG_oLv6jKpgkw" name="Business hours per week" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_xhHWQJT9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhHWQZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
+            <next xmi:id="_xhHWQpT9EeGaNaT6nrkuVQ" umlElementUid="252060@_QLpNoNcDEeCJ0dmaHEVVnw"/>
           </binding>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_WbQT84uUEeGaRvqkMvqkdg" name="Business days per month" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimNumberScroller" xmi:id="_WbQ68IuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbQ68YuUEeGaRvqkMvqkdg" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
-            <next xmi:id="_WbQ68ouUEeGaRvqkMvqkdg" umlElementUid="252060@_szTxoNcDEeCJ0dmaHEVVnw"/>
+        <children xmi:type="uim:UimField" xmi:id="_X7z3b5T6EeG_oLv6jKpgkw" name="Business days per month" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimNumberScroller" xmi:id="_xhHWQ5T9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhHWRJT9EeGaNaT6nrkuVQ" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
+            <next xmi:id="_xhHWRZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_szTxoNcDEeCJ0dmaHEVVnw"/>
           </binding>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_WbQ684uUEeGaRvqkMvqkdg" name="Business hours per day" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_WbQ69IuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbQ69YuUEeGaRvqkMvqkdg" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
-            <next xmi:id="_WbQ69ouUEeGaRvqkMvqkdg" umlElementUid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw"/>
+        <children xmi:type="uim:UimField" xmi:id="_X7z3c5T6EeG_oLv6jKpgkw" name="Business hours per day" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_xhHWRpT9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhHWR5T9EeGaNaT6nrkuVQ" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
+            <next xmi:id="_xhHWSJT9EeGaNaT6nrkuVQ" umlElementUid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw"/>
           </binding>
         </children>
       </panel>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_WbQ6_YuUEeGaRvqkMvqkdg" name="Create OrganizationNode" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
-    <pages xmi:id="_WbQ6_ouUEeGaRvqkMvqkdg" name="CreateOrganization node" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_WbQ6_4uUEeGaRvqkMvqkdg" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_WbQ7AIuUEeGaRvqkMvqkdg" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_WbQ7AYuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbQ7AouUEeGaRvqkMvqkdg" umlElementUid="252060@_OorfwEtnEeGd4cpyhpib9Q"/>
+  <newObjectWizard xmi:id="_X7z3fZT6EeG_oLv6jKpgkw" name="Create OrganizationNode" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+    <pages xmi:id="_X7z3fpT6EeG_oLv6jKpgkw" name="CreateOrganization node" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_X7z3f5T6EeG_oLv6jKpgkw" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_X7z3gJT6EeG_oLv6jKpgkw" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_xhHWTpT9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhHWT5T9EeGaNaT6nrkuVQ" umlElementUid="252060@_OorfwEtnEeGd4cpyhpib9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_WbRiF4uUEeGaRvqkMvqkdg" name="Business component" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_WbRiGIuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbRiGYuUEeGaRvqkMvqkdg" umlElementUid="252060@_vf2LYFYuEeGj5_I7bIwNoA"/>
+        <children xmi:type="uim:UimField" xmi:id="_X70eh5T6EeG_oLv6jKpgkw" name="Business component" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_xhH9WpT9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhH9W5T9EeGaNaT6nrkuVQ" umlElementUid="252060@_vf2LYFYuEeGj5_I7bIwNoA"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_WbSJGIuUEeGaRvqkMvqkdg" name="Business actor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_WbSJGYuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbSJGouUEeGaRvqkMvqkdg" umlElementUid="252060@_WjvQ0UtyEeGElKTCe2jfDw"/>
-        </children>
-      </panel>
-    </pages>
-    <pages xmi:id="_WbQ7A4uUEeGaRvqkMvqkdg" name="Phone number" umlElementUid="252060@_HF7DgEtoEeGd4cpyhpib9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_WbQ7BIuUEeGaRvqkMvqkdg">
-        <children xmi:type="uim:UimDataTable" xmi:id="_WbQ7BYuUEeGaRvqkMvqkdg" fillHorizontally="true" fillVertically="true">
-          <children xmi:type="uact:BuiltInLink" xmi:id="_WbQ7B4uUEeGaRvqkMvqkdg" name="Edit" preferredWidth="30" kind="edit"/>
-          <children xmi:type="uim:UimField" xmi:id="_WbRiAIuUEeGaRvqkMvqkdg" name="Hpone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
-            <control xmi:type="ctl:UimText" xmi:id="_WbRiAYuUEeGaRvqkMvqkdg"/>
-            <binding xmi:id="_WbRiAouUEeGaRvqkMvqkdg" umlElementUid="252060@_ls8YAHr7EeGX8L_MMRBizg"/>
-          </children>
-          <children xmi:type="uim:UimField" xmi:id="_WbRiA4uUEeGaRvqkMvqkdg" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
-            <control xmi:type="ctl:UimDropdown" xmi:id="_WbRiBIuUEeGaRvqkMvqkdg"/>
-            <binding xmi:id="_WbRiBYuUEeGaRvqkMvqkdg" umlElementUid="252060@_1i74dEtoEeGd4cpyhpib9Q"/>
-          </children>
-          <children xmi:type="uact:BuiltInActionButton" xmi:id="_WbRiBouUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
-          <binding xmi:id="_WbQ7BouUEeGaRvqkMvqkdg" umlElementUid="252060@_HF7DgEtoEeGd4cpyhpib9Q"/>
-          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_WbRiB4uUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
-          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_WbRiCIuUEeGaRvqkMvqkdg" name="Add" kind="add"/>
+        <children xmi:type="uim:UimField" xmi:id="_X70emZT6EeG_oLv6jKpgkw" name="Business actor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_xhH9ZZT9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhH9ZpT9EeGaNaT6nrkuVQ" umlElementUid="252060@_WjvQ0UtyEeGElKTCe2jfDw"/>
         </children>
       </panel>
     </pages>
-    <pages xmi:id="_WbRiCYuUEeGaRvqkMvqkdg" name="E mail address" umlElementUid="252060@_JF99wEtqEeGd4cpyhpib9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_WbRiCouUEeGaRvqkMvqkdg">
-        <children xmi:type="uim:UimDataTable" xmi:id="_WbRiC4uUEeGaRvqkMvqkdg" fillHorizontally="true" fillVertically="true">
-          <children xmi:type="uact:BuiltInLink" xmi:id="_WbRiDYuUEeGaRvqkMvqkdg" name="Edit" preferredWidth="30" kind="edit"/>
-          <children xmi:type="uim:UimField" xmi:id="_WbRiDouUEeGaRvqkMvqkdg" name="Email address" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
-            <control xmi:type="ctl:UimText" xmi:id="_WbRiD4uUEeGaRvqkMvqkdg"/>
-            <binding xmi:id="_WbRiEIuUEeGaRvqkMvqkdg" umlElementUid="252060@_jaw6AHr7EeGX8L_MMRBizg"/>
+    <pages xmi:id="_X7z3g5T6EeG_oLv6jKpgkw" name="Phone number" umlElementUid="252060@_HF7DgEtoEeGd4cpyhpib9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_X7z3hJT6EeG_oLv6jKpgkw">
+        <children xmi:type="uim:UimDataTable" xmi:id="_X7z3hZT6EeG_oLv6jKpgkw" fillHorizontally="true" fillVertically="true">
+          <children xmi:type="uact:BuiltInLink" xmi:id="_xhHWUJT9EeGaNaT6nrkuVQ" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xmi:type="uim:UimField" xmi:id="_xhHWUZT9EeGaNaT6nrkuVQ" name="Hpone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimText" xmi:id="_xhHWUpT9EeGaNaT6nrkuVQ"/>
+            <binding xmi:id="_xhHWU5T9EeGaNaT6nrkuVQ" umlElementUid="252060@_ls8YAHr7EeGX8L_MMRBizg"/>
           </children>
-          <children xmi:type="uim:UimField" xmi:id="_WbRiEYuUEeGaRvqkMvqkdg" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
-            <control xmi:type="ctl:UimDropdown" xmi:id="_WbRiEouUEeGaRvqkMvqkdg"/>
-            <binding xmi:id="_WbRiE4uUEeGaRvqkMvqkdg" umlElementUid="252060@_Ju-ehEtqEeGd4cpyhpib9Q"/>
+          <children xmi:type="uim:UimField" xmi:id="_xhHWVJT9EeGaNaT6nrkuVQ" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimDropdown" xmi:id="_xhHWVZT9EeGaNaT6nrkuVQ"/>
+            <binding xmi:id="_xhHWVpT9EeGaNaT6nrkuVQ" umlElementUid="252060@_1i74dEtoEeGd4cpyhpib9Q"/>
           </children>
-          <children xmi:type="uact:BuiltInActionButton" xmi:id="_WbRiFIuUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
-          <binding xmi:id="_WbRiDIuUEeGaRvqkMvqkdg" umlElementUid="252060@_JF99wEtqEeGd4cpyhpib9Q"/>
-          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_WbRiFYuUEeGaRvqkMvqkdg" name="Delete" kind="delete"/>
-          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_WbRiFouUEeGaRvqkMvqkdg" name="Add" kind="add"/>
+          <children xmi:type="uact:BuiltInActionButton" xmi:id="_xhHWV5T9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+          <binding xmi:id="_X7z3hpT6EeG_oLv6jKpgkw" umlElementUid="252060@_HF7DgEtoEeGd4cpyhpib9Q"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_xhHWWJT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_xhHWWZT9EeGaNaT6nrkuVQ" name="Add" kind="add"/>
         </children>
       </panel>
     </pages>
-    <pages xmi:id="_WbRiGouUEeGaRvqkMvqkdg" name="Business calendar" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
-      <panel xmi:type="panel:GridPanel" xmi:id="_WbRiHIuUEeGaRvqkMvqkdg" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_WbRiHYuUEeGaRvqkMvqkdg" name="Business hours per week" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_WbRiHouUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbRiH4uUEeGaRvqkMvqkdg" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
-            <next xmi:id="_WbRiIIuUEeGaRvqkMvqkdg" umlElementUid="252060@_QLpNoNcDEeCJ0dmaHEVVnw"/>
+    <pages xmi:id="_X70eeZT6EeG_oLv6jKpgkw" name="E mail address" umlElementUid="252060@_JF99wEtqEeGd4cpyhpib9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_X70eepT6EeG_oLv6jKpgkw">
+        <children xmi:type="uim:UimDataTable" xmi:id="_X70ee5T6EeG_oLv6jKpgkw" fillHorizontally="true" fillVertically="true">
+          <children xmi:type="uact:BuiltInLink" xmi:id="_xhH9UJT9EeGaNaT6nrkuVQ" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xmi:type="uim:UimField" xmi:id="_xhH9UZT9EeGaNaT6nrkuVQ" name="Email address" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimText" xmi:id="_xhH9UpT9EeGaNaT6nrkuVQ"/>
+            <binding xmi:id="_xhH9U5T9EeGaNaT6nrkuVQ" umlElementUid="252060@_jaw6AHr7EeGX8L_MMRBizg"/>
+          </children>
+          <children xmi:type="uim:UimField" xmi:id="_xhH9VJT9EeGaNaT6nrkuVQ" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimDropdown" xmi:id="_xhH9VZT9EeGaNaT6nrkuVQ"/>
+            <binding xmi:id="_xhH9VpT9EeGaNaT6nrkuVQ" umlElementUid="252060@_Ju-ehEtqEeGd4cpyhpib9Q"/>
+          </children>
+          <children xmi:type="uact:BuiltInActionButton" xmi:id="_xhH9V5T9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+          <binding xmi:id="_X70efJT6EeG_oLv6jKpgkw" umlElementUid="252060@_JF99wEtqEeGd4cpyhpib9Q"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_xhH9WJT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_xhH9WZT9EeGaNaT6nrkuVQ" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_X70eipT6EeG_oLv6jKpgkw" name="Business calendar" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
+      <panel xmi:type="panel:GridPanel" xmi:id="_X70ejJT6EeG_oLv6jKpgkw" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_X70ejZT6EeG_oLv6jKpgkw" name="Business hours per week" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_xhH9XJT9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhH9XZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
+            <next xmi:id="_xhH9XpT9EeGaNaT6nrkuVQ" umlElementUid="252060@_QLpNoNcDEeCJ0dmaHEVVnw"/>
           </binding>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_WbSJEIuUEeGaRvqkMvqkdg" name="Business days per month" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimNumberScroller" xmi:id="_WbSJEYuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbSJEouUEeGaRvqkMvqkdg" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
-            <next xmi:id="_WbSJE4uUEeGaRvqkMvqkdg" umlElementUid="252060@_szTxoNcDEeCJ0dmaHEVVnw"/>
+        <children xmi:type="uim:UimField" xmi:id="_X70ekZT6EeG_oLv6jKpgkw" name="Business days per month" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimNumberScroller" xmi:id="_xhH9X5T9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhH9YJT9EeGaNaT6nrkuVQ" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
+            <next xmi:id="_xhH9YZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_szTxoNcDEeCJ0dmaHEVVnw"/>
           </binding>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_WbSJFIuUEeGaRvqkMvqkdg" name="Business hours per day" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_WbSJFYuUEeGaRvqkMvqkdg"/>
-          <binding xmi:id="_WbSJFouUEeGaRvqkMvqkdg" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
-            <next xmi:id="_WbSJF4uUEeGaRvqkMvqkdg" umlElementUid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw"/>
+        <children xmi:type="uim:UimField" xmi:id="_X70elZT6EeG_oLv6jKpgkw" name="Business hours per day" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_xhH9YpT9EeGaNaT6nrkuVQ"/>
+          <binding xmi:id="_xhH9Y5T9EeGaNaT6nrkuVQ" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA">
+            <next xmi:id="_xhH9ZJT9EeGaNaT6nrkuVQ" umlElementUid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw"/>
           </binding>
         </children>
       </panel>

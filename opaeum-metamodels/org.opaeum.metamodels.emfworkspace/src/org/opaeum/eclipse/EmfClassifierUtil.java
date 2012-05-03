@@ -22,7 +22,7 @@ public class EmfClassifierUtil{
 	}
 
 	public static boolean comformsToLibraryType(Type type,String string){
-		if(type.getName().equalsIgnoreCase(string)){
+		if(type.getName()!=null && type.getName().equalsIgnoreCase(string)){
 			return true;
 		}else if(type instanceof Classifier){
 			for(Classifier g:((Classifier) type).getGenerals()){

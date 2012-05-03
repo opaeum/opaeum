@@ -417,6 +417,52 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected WeightedSimpleTypeValueItemProvider weightedSimpleTypeValueItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createWeightedSimpleTypeValueAdapter() {
+		if (weightedSimpleTypeValueItemProvider == null) {
+			weightedSimpleTypeValueItemProvider = new WeightedSimpleTypeValueItemProvider(this);
+		}
+
+		return weightedSimpleTypeValueItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.LiteralSimpleType} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected LiteralSimpleTypeItemProvider literalSimpleTypeItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.LiteralSimpleType}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createLiteralSimpleTypeAdapter() {
+		if (literalSimpleTypeItemProvider == null) {
+			literalSimpleTypeItemProvider = new LiteralSimpleTypeItemProvider(this);
+		}
+
+		return literalSimpleTypeItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -530,6 +576,8 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 		if (instanceSimulationItemProvider != null) instanceSimulationItemProvider.dispose();
 		if (actualInstanceItemProvider != null) actualInstanceItemProvider.dispose();
 		if (weightedInstanceValueItemProvider != null) weightedInstanceValueItemProvider.dispose();
+		if (weightedSimpleTypeValueItemProvider != null) weightedSimpleTypeValueItemProvider.dispose();
+		if (literalSimpleTypeItemProvider != null) literalSimpleTypeItemProvider.dispose();
 	}
 
 }

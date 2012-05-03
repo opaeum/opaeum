@@ -3,6 +3,7 @@ package org.opaeum.metamodel.core.internal.emulated;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -120,10 +121,13 @@ public abstract class EmulatingElement implements INakedElement{
 			getOwnedElementMap().put(element.getId(), element);
 		}
 	}
-	public void removeOwnedElement(INakedElement element,boolean recursively){
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = new HashSet<INakedElement>();
+		result.add(element);
 		if(element != null){
 			getOwnedElementMap().remove(element.getId());
 		}
+		return result;
 	}
 	@Override
 	public boolean isStoreMappingInfo(){

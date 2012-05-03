@@ -48,9 +48,9 @@ public class DimensionBindingImpl extends UimBindingImpl implements DimensionBin
 		if(getLastPropertyUuid()==null){
 			return "";
 		}else {
-			StringBuilder sb  = new StringBuilder(getLastPropertyUuid());
+			StringBuilder sb  = new StringBuilder(getUmlElementUid());
 			PropertyRef pr = getNext();
-			if(pr!=null && pr.getUmlElementUid()!=null){
+			while(pr!=null && pr.getUmlElementUid()!=null){
 				sb.append(pr.getUmlElementUid());
 				pr=pr.getNext();
 			}

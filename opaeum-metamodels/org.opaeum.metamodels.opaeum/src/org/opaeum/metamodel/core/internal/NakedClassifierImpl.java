@@ -158,9 +158,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	public List<INakedProperty> getEffectiveAttributes(){
 		List<INakedProperty> results = new ArrayList<INakedProperty>();
 		for(INakedGeneralization s:getNakedGeneralizations()){
-			if(s.getGeneral()==null){
-				System.out.println();
-			}
 			List<? extends INakedProperty> superAttributes = s.getGeneral().getEffectiveAttributes();
 			addEffectiveAttributes(results, superAttributes);
 		}
@@ -404,6 +401,9 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	}
 	@Override
 	public void addStereotype(INakedInstanceSpecification stereotype){
+		if(getName().equals("IBusinessComponent")){
+			System.out.println();
+		}
 		super.addStereotype(stereotype);
 		if(stereotype.hasValueForFeature(TagNames.MAPPED_IMPLEMENTATION_TYPE)){
 			this.mappedImplementationType = stereotype.getFirstValueFor(TagNames.MAPPED_IMPLEMENTATION_TYPE).stringValue();
@@ -440,14 +440,19 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return false;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
-		if(element instanceof INakedProperty){
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result=super.removeOwnedElement(element, recursively);
+		if(ownedAttributes.contains(element)){
 			INakedProperty p = (INakedProperty) element;
 			this.ownedAttributes.remove(p);
 			if(p == endToComposite){
 				endToComposite = null;
 			}
+			if(p.getOtherEnd() != null && recursively){
+				result.add(p.getNakedBaseType());
+				p.getNakedBaseType().removeOwnedElement(p.getOtherEnd(), true);
+			}
+
 		}else if(element instanceof INakedOperation){
 			INakedOperation oper = (INakedOperation) element;
 			this.ownedOperations.remove(oper);
@@ -462,6 +467,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			this.generalisations.remove(generalization);
 			generalization.getGeneral().removeSubClass(this);
 		}
+		return result;
 	}
 	@Override
 	public void addOwnedElement(INakedElement element){
@@ -498,7 +504,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return this.generalisations.isEmpty() ? null : this.generalisations.get(0).getGeneral();
 	}
 	public boolean hasSupertype(){
-		return this.generalisations.size() == 1;
+		return getSupertype()!=null;
 	}
 	public void removeSubClass(INakedClassifier specific){
 		this.subClasses.remove(specific);

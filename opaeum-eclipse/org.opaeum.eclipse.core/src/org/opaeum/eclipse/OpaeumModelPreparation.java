@@ -26,7 +26,7 @@ public class OpaeumModelPreparation implements WorkspaceLoadListener{
 					boolean dirty = false;
 					if(model instanceof Model || model instanceof Profile){
 						if(!EmfWorkspace.isReadOnly(model.eResource())){
-							EMap<String,String> d = StereotypesHelper.getNumlAnnotation(model).getDetails();
+							EMap<String,String> d = StereotypesHelper.findOrCreateNumlAnnotation(model).getDetails();
 							if(d.get("uuid") == null || d.get("uuid").trim().length() == 0){
 								d.put("uuid", Math.round(Math.random() * 1000000) + "");
 								dirty = true;

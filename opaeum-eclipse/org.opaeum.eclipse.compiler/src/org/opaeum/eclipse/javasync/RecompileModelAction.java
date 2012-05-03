@@ -1,6 +1,7 @@
 package org.opaeum.eclipse.javasync;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
@@ -28,6 +29,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
@@ -70,12 +72,19 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 								p.removeModel(OJWorkspace.class);
 								p.removeModel(TextWorkspace.class);
 								OpaeumConfig cfg = currentContext.getConfig();
+								Collection<SourceFolderDefinition> values = cfg.getSourceFolderDefinitions().values();
+								for(SourceFolderDefinition sfd:values){
+									if(cfg.getSourceFolderStrategy().isSingleProjectStrategy()){
+										if(!sfd.prefixModelIdentifierToSourceFolder()){
+											sfd.dontCleanDirectories();
+										}
+									}
+								}
 								PersistentNameGenerator png = new PersistentNameGenerator();
 								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
 								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60),false);
 								//TODO add features to SourceFolderStrategy to determine if this should be true, ie shouldCleanDirectoriesWhenGeneratingSingleModel
-								boolean shouldCleanDirectories=!cfg.getSourceFolderStrategy().isSingleProjectStrategy()||true; 
-								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext,shouldCleanDirectories);
+								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext,true);
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 								eos.setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());

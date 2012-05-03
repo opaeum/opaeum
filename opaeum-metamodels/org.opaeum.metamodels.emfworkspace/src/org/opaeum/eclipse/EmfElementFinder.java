@@ -83,6 +83,9 @@ public class EmfElementFinder{
 		return false;
 	}
 	public static boolean isDimension(Property p){
+		if(p.isMultivalued() || p.getQualifiers().size()>0){
+			return false;
+		}
 		if(p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
 			return true;
 		}
@@ -109,7 +112,7 @@ public class EmfElementFinder{
 		}
 		return result;
 	}
-	private static boolean isFact(Class class1){
+	public static boolean isFact(Class class1){
 		List<Property> propertiesInScope = getPropertiesInScope(class1);
 		for(Property property:propertiesInScope){
 			if(isMeasure(property)){

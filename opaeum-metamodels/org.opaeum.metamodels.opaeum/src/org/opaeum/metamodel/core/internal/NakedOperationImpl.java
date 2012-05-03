@@ -117,8 +117,8 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 			}
 		}
 	}
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedConstraint && ((INakedConstraint) element).getSpecification() != null){
 			INakedConstraint cnstr = (INakedConstraint) element;
 			preConditions.remove(cnstr);
@@ -127,6 +127,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 				bodyCondition = null;
 			}
 		}
+		return result;
 	}
 	public INakedParameter getReturnParameter(){
 		return this.returnParameter;

@@ -1,5 +1,7 @@
 package org.opaeum.olap;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,9 +21,10 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
-import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -47,25 +50,42 @@ import org.opaeum.runtime.domain.TimeUnit;
 import org.opaeum.textmetamodel.CharArrayTextSource;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
+import org.opaeum.textmetamodel.TextWorkspace;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class MondrianCubeGenerator extends AbstractStructureVisitor{
 	private Document doc;
 	private Element schema;
-	@VisitBefore
-	public void beforeWorkspace(INakedModelWorkspace w){
+	@Override
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+		// TODO Auto-generated method stub
+		super.initialize(pac, config, textWorkspace, workspace);
 		try{
-			this.doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-			this.schema = doc.createElement("Schema");
-			this.schema.setAttribute("name", workspace.getName());
-			doc.appendChild(schema);
+			TextFile textFile = createTextPath(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, Arrays.asList("cube.xml"));
+			File f = new File(config.getOutputRoot(), textFile.getWorkspaceRelativePath());
+			if(f.exists()){
+				this.doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
+				this.schema = doc.getDocumentElement();
+			}else{
+				this.doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+				this.schema = doc.createElement("Schema");
+				this.schema.setAttribute("name", workspace.getName());
+				doc.appendChild(schema);
+			}
 		}catch(DOMException e){
 			e.printStackTrace();
 		}catch(ParserConfigurationException e){
+			e.printStackTrace();
+		}catch(SAXException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(IOException e){
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -102,7 +122,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			ICompositionParticipant cp = (ICompositionParticipant) umlOwner;
 			if(cp.isFact()){
 				NodeList elementsByTagName = doc.getElementsByTagName("Cube");
-				for(int i = 0; i < elementsByTagName.getLength(); i ++){
+				for(int i = 0;i < elementsByTagName.getLength();i++){
 					Element found = (Element) elementsByTagName.item(i);
 					if(found.getAttribute("name").equals(umlOwner.getName())){
 						schema.removeChild(found);
@@ -124,9 +144,9 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 				addDimensions(cp, cube);
 				addMeasures(cp, cube);
 				addCalculatedMeasures(cp, cube);
-				afterWorkspace(workspace);
 			}
 		}
+		afterWorkspace(workspace);
 	}
 	protected void addCalculatedMeasures(ICompositionParticipant cp,Element cube){
 		for(INakedProperty p:cp.getEffectiveAttributes()){
@@ -186,7 +206,8 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 							INakedEnumerationLiteral l = (org.opaeum.metamodel.core.INakedEnumerationLiteral) v.getValue();
 							Element measure = doc.createElement("Measure");
 							measures.add(measure);
-							measure.setAttribute("name", NameConverter.capitalize(l.getName().toLowerCase()) + "Of" + NameConverter.capitalize(p.getName()));
+							measure.setAttribute("name",
+									NameConverter.capitalize(l.getName().toLowerCase()) + "Of" + NameConverter.capitalize(p.getName()));
 							measure.setAttribute("column", p.getMappingInfo().getPersistentName().getAsIs());
 							if(l.getName().equalsIgnoreCase("average")){
 								measure.setAttribute("aggregator", "avg");
@@ -226,19 +247,29 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			dimension.appendChild(hierarchy);
 			hierarchy.setAttribute("hasAll", "true");
 			hierarchy.setAttribute("allMemberName", "All "
-					+ dimensionNode.linkToInnermostDetail().getProperty().getNakedBaseType().getMappingInfo().getJavaName().getPlural().getSeparateWords().getAsIs());
-			if(dimensionNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant){
+					+ dimensionNode.linkToInnermostDetail().getProperty().getNakedBaseType().getMappingInfo().getJavaName().getPlural()
+							.getSeparateWords().getAsIs());
+			if(dimensionNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant
+					|| dimensionNode.getProperty().getNakedBaseType() instanceof INakedEnumeration){
 				hierarchy.setAttribute("primaryKey", getIdColumn(dimensionNode.getProperty().getNakedBaseType()));
-				hierarchy.setAttribute("primaryKeyTable", dimensionNode.getProperty().getNakedBaseType().getMappingInfo().getPersistentName().getAsIs());
+				hierarchy.setAttribute("primaryKeyTable", dimensionNode.getProperty().getNakedBaseType().getMappingInfo().getPersistentName()
+						.getAsIs());
 			}
 			dimension.setAttribute("foreignKey", dimensionNode.getProperty().getMappingInfo().getPersistentName().getAsIs());
 			dimension.setAttribute("name", dimensionNode.getName());
 			List<Element> theLevels = null;
-			if(dimensionNode.master == null || !(dimensionNode.master.getProperty().getNakedBaseType() instanceof ICompositionParticipant)){
+			if(dimensionNode.master == null
+					|| !(dimensionNode.master.getProperty().getNakedBaseType() instanceof ICompositionParticipant || dimensionNode.master
+							.getProperty().getNakedBaseType() instanceof INakedEnumeration)){
 				// Single table scenario
 				List<Element> theLevels1 = new ArrayList<Element>();
-				if(dimensionNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant){
-					appendTable(hierarchy, (ICompositionParticipant) dimensionNode.getProperty().getNakedBaseType());
+				if(dimensionNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant
+						|| dimensionNode.getProperty().getNakedBaseType() instanceof INakedEnumeration){
+					appendTable(hierarchy, dimensionNode.getProperty().getNakedBaseType());
+				}else if(isDateType(dimensionNode.getProperty().getNakedBaseType())){
+					Element table = doc.createElement("Table");
+					hierarchy.appendChild(table);
+					table.setAttribute("name", "date_time_entry");
 				}
 				addLevels(dimensionNode.getProperty(), theLevels1);
 				if(dimensionNode.master != null){
@@ -265,13 +296,14 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		DimensionNode curNode = leaf.master;
 		Element prevParent = hierarchy;
 		while(curNode != null){
-			if(curNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant){
+			if(curNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant
+					|| curNode.getProperty().getNakedBaseType() instanceof INakedEnumeration){
 				Element join = appendJoin(curNode.getProperty(), curNode.getProperty().getNakedBaseType(), prevParent);
 				appendTable(join, curNode.getFromClass());
 				addLevels(curNode.detail.getProperty(), levels);
 				if(curNode.master == null){
 					// Scenario where path ends in a foreignKey
-					appendTable(join, (ICompositionParticipant) curNode.getProperty().getNakedBaseType());
+					appendTable(join, curNode.getProperty().getNakedBaseType());
 					addLevels(curNode.getProperty(), levels);
 				}
 				prevParent = join;
@@ -286,7 +318,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 		// // TODO if property belongs to a general class, introduce extra join to general class
 		// // TODO join with date_type table
-		Collections.reverse(levels);//Will be in a detail-to-master order - reverse
+		Collections.reverse(levels);// Will be in a detail-to-master order - reverse
 		return levels;
 	}
 	protected List<Element> addSingleTable(DimensionNode dimensionNode,Element hierarchy){
@@ -334,7 +366,8 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			Element result = doc.createElement("Level");
 			result.setAttribute("name", toClass.getName());
 			result.setAttribute("column", property.getMappingInfo().getPersistentName().getAsIs());
-			result.setAttribute("table", property.getOwner().getMappingInfo().getPersistentName().getAsIs());
+			result.setAttribute("table", property.getNakedBaseType().getMappingInfo().getPersistentName().getAsIs());
+			result.setAttribute("nameColumn", "name");
 			levels.add(result);
 			// TODO set formatter
 		}else{
@@ -349,7 +382,11 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		Element result = doc.createElement("Level");
 		result.setAttribute("name", name);
 		result.setAttribute("column", NameConverter.toUnderscoreStyle(name).toLowerCase());
-		result.setAttribute("table", "dim_date");
+		if(config.shouldBeCm1Compatible()){
+			result.setAttribute("table", "dim_date");
+		}else{
+			result.setAttribute("table", "date_time_entry");
+		}
 		if(levelType != null){
 			result.setAttribute("levelType", levelType);
 		}
@@ -384,7 +421,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 		return idName;
 	}
-	protected void appendTable(Element curJoin,ICompositionParticipant fromClass){
+	protected void appendTable(Element curJoin,INakedClassifier fromClass){
 		Element table = doc.createElement("Table");
 		curJoin.appendChild(table);
 		table.setAttribute("name", fromClass.getMappingInfo().getPersistentName().getAsIs());
@@ -393,10 +430,11 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			table.setAttribute("schema", curSchemaName2);
 		}
 	}
-	private boolean addDimensions(ICompositionParticipant cp,DimensionNode detail,Set<DimensionNode> leaves){
+	private boolean addDimensions(INakedClassifier cp,DimensionNode detail,Set<DimensionNode> leaves){
 		boolean hasParent = false;
 		for(INakedProperty p:cp.getEffectiveAttributes()){
-			if(p.isDimension() && !(p.getNakedBaseType() instanceof NakedBusinessCollaboration || p.getNakedBaseType() instanceof INakedInterface)){
+			if(p.isDimension()
+					&& !(p.getNakedBaseType() instanceof NakedBusinessCollaboration || p.getNakedBaseType() instanceof INakedInterface)){
 				hasParent = true;
 				DimensionNode master = new DimensionNode(cp, p);
 				if(detail != null){
@@ -404,14 +442,19 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 					master.detail = detail;
 				}
 				boolean masterHasMaster = false;
-				if(p.getNakedBaseType() instanceof ICompositionParticipant){
-					masterHasMaster = addDimensions((ICompositionParticipant) p.getNakedBaseType(), master, leaves);
+				if(p.getNakedBaseType() instanceof ICompositionParticipant || p.getNakedBaseType() instanceof INakedEnumeration){
+					masterHasMaster = addDimensions(p.getNakedBaseType(), master, leaves);
+				}
+				// System.out.println(cp.getName());
+				// System.out.println(p.getName());
+				// System.out.println(master.getName());
+				// System.out.println(leaves.size());
+				if(master.hasRecursion()){
+					throw new IllegalStateException("The property path " + master.linkToInnermostDetail().getName()
+							+ " is a recursive dimension path");
 				}
 				if(!masterHasMaster){
 					leaves.add(master.linkToInnermostDetail());
-					if(detail != null){
-						System.out.println("Master=" + detail.master + " Detail=" + detail);
-					}
 				}
 			}
 		}

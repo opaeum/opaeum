@@ -1,6 +1,7 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.binding.BindingFactory;
@@ -10,16 +11,16 @@ import org.opaeum.uim.cube.DimensionBinding;
 
 public class DimensionNode{
 	private Property property;
-	private Class fromClass;
+	private Classifier fromClass;
 	DimensionNode detail;
 	DimensionNode master;
-	public DimensionNode(Class fromClass,Property p){
+	public DimensionNode(Classifier fromClass,Property p){
 		this.property = p;
 		this.fromClass = fromClass;
 	}
 	public DimensionNode(){
 	}
-	public Class getFromClass(){
+	public Classifier getFromClass(){
 		return fromClass;
 	}
 	public DimensionNode linkToInnermostDetail(){
@@ -40,18 +41,21 @@ public class DimensionNode{
 	public PropertyRef toPropertyRef(){
 		PropertyRef result = BindingFactory.eINSTANCE.createPropertyRef();
 		result.setUmlElementUid(EmfWorkspace.getId(property));
-		return result;
+		if(master!= null){
+			PropertyRef propertyRef = master.toPropertyRef();
+			result.setNext(propertyRef);
+			return result;
+		}else{
+			return result;
+		}
 	}
 	public DimensionBinding toDimensionBinding(){
-		if(master == null){
-			DimensionBinding binding = CubeFactory.eINSTANCE.createDimensionBinding();
-			binding.setUmlElementUid(EmfWorkspace.getId(property));
-			return binding;
-		}else{
-			DimensionBinding binding = master.toDimensionBinding();
-			binding.setNext(toPropertyRef());
-			return binding;
+		DimensionBinding binding = CubeFactory.eINSTANCE.createDimensionBinding();
+		binding.setUmlElementUid(EmfWorkspace.getId(property));
+		if(master!=null){
+			binding.setNext(master.toPropertyRef());
 		}
+		return binding;
 	}
 	@Override
 	public String toString(){

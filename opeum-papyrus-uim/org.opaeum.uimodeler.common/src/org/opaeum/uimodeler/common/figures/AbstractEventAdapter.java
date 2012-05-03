@@ -193,8 +193,6 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 						e.printStackTrace();
 					}
 				}
-				System.out.println(layoutData.widthHint + "," + layoutData.heightHint);
-				System.out.println(source.getBounds());
 				updatingSize = false;
 			}
 		}
@@ -258,9 +256,6 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		List<GraphicalEditPart> children = editPart.getParent().getChildren();
 		for(GraphicalEditPart editPart:children){
 			Point touchPoint = new Point(me.x - 1, me.y + 1);
-			if(editPart.getFigure().getBounds().contains(touchPoint)){
-				System.out.println(editPart.getFigure());
-			}
 		}
 	}
 	@Override

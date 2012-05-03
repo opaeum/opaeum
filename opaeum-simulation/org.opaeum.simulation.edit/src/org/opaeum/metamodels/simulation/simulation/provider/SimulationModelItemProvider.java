@@ -197,6 +197,16 @@ public class SimulationModelItemProvider
 			(createChildParameter
 				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
 				 SimulationFactory.eINSTANCE.createWeightedInstanceValue()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
+				 SimulationFactory.eINSTANCE.createWeightedSimpleTypeValue()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
+				 SimulationFactory.eINSTANCE.createLiteralSimpleType()));
 	}
 
 	/**
@@ -215,6 +225,7 @@ public class SimulationModelItemProvider
 			childFeature == UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT ||
 			childFeature == UMLPackage.Literals.NAMESPACE__OWNED_RULE ||
 			childFeature == UMLPackage.Literals.PACKAGE__NESTED_PACKAGE ||
+			childFeature == UMLPackage.Literals.PACKAGE__OWNED_STEREOTYPE ||
 			childFeature == UMLPackage.Literals.PACKAGE__OWNED_TYPE;
 
 		if (qualify) {

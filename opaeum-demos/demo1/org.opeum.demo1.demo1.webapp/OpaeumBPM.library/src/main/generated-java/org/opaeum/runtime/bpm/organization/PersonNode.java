@@ -526,7 +526,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInCollaboration() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.organization.PersonNode.uniqueInCollaboration");
+			failedInvariants.add("org.opaeum.runtime.bpm.organization.PersonNode.collaboration");
 		}
 		return failedInvariants;
 	}
@@ -654,7 +654,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public List<IBusinessActor> getSourcePopulationForBusinessActor() {
-		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect1()));
+		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect2()));
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4565578190639246320l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
@@ -702,8 +702,8 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public boolean isUniqueInCollaboration() {
-		boolean result = forAll2();
-		
+		boolean result = false;
+		result = forAll1();
 		return result;
 	}
 	
@@ -1287,7 +1287,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	/** Implements ->collect( c : IBusinessCollaboration | c.businessActor )
 	 */
-	private Collection<IBusinessActor> collect1() {
+	private Collection<IBusinessActor> collect2() {
 		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
 		for ( IBusinessCollaboration c : this.getCollaboration().getBusinessCollaboration() ) {
 			Set<IBusinessActor> bodyExpResult = c.getBusinessActor();
@@ -1298,7 +1298,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	/** Implements ->forAll( p : PersonNode | (p.username = self.username) implies p = self )
 	 */
-	private boolean forAll2() {
+	private boolean forAll1() {
 		for ( PersonNode p : this.getCollaboration().getPerson() ) {
 			if ( !(p.getUsername().equals(this.getUsername()) ? p.equals(this) : true) ) {
 				return false;

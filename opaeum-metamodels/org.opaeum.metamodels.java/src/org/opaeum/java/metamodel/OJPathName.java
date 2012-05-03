@@ -156,9 +156,6 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 		List<OJPathName> elementTypes = getElementTypes();
 		for(OJPathName elementType:elementTypes){
 			OJPathName elementTypeCopy = elementType.getDeepCopy();
-			if(elementType.getLast().contains("extends")){
-				System.out.println();
-			}
 			result.addToElementTypes(elementTypeCopy);
 		}
 		return result;

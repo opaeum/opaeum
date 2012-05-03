@@ -23,7 +23,7 @@ import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.organization.IBusinessActorBase;
 import org.opaeum.runtime.organization.IBusinessCollaborationBase;
-import org.opaeum.runtime.organization.IBusinessComponent;
+import org.opaeum.runtime.organization.IBusinessComponentBase;
 import org.opaeum.runtime.organization.IBusinessNetwork;
 import org.opaeum.runtime.organization.IBusinessRoleBase;
 import org.opaeum.runtime.organization.IPersonNode;
@@ -39,10 +39,10 @@ import com.google.gdata.data.extensions.PhoneNumber;
 public class UserRoleAllocationWizardData{
 	ContactsService service;
 	IBusinessCollaborationBase businessCollaboration;
-	private Map<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponent>> multiUserRoleComponentMap = new TreeMap<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponent>>(getClassNameComparator());
-	private Map<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponent>> singleUserRoleComponentMap = new TreeMap<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponent>>(getClassNameComparator());
+	private Map<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponentBase>> multiUserRoleComponentMap = new TreeMap<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponentBase>>(getClassNameComparator());
+	private Map<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponentBase>> singleUserRoleComponentMap = new TreeMap<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponentBase>>(getClassNameComparator());
 	private Collection<IBusinessActorBase> businessActors = new HashSet<IBusinessActorBase>();
-	private Map<Class<? extends IBusinessComponent>,IBusinessComponent> businessComponentMap = new HashMap<Class<? extends IBusinessComponent>,IBusinessComponent>();
+	private Map<Class<? extends IBusinessComponentBase>,IBusinessComponentBase> businessComponentMap = new HashMap<Class<? extends IBusinessComponentBase>,IBusinessComponentBase>();
 	private IBusinessNetwork businessNetwork;
 	private Map<String,IPersonNode> people = new HashMap<String,IPersonNode>();
 	private IOpaeumApplication application;
@@ -66,12 +66,12 @@ public class UserRoleAllocationWizardData{
 								Class<?> type = (Class<?>) ((ParameterizedType) pd.getReadMethod().getGenericReturnType()).getActualTypeArguments()[0];
 								if(IBusinessRoleBase.class.isAssignableFrom(type)){
 									Class<? extends IBusinessRoleBase> brClass = (Class<? extends IBusinessRoleBase>) type;
-									multiUserRoleComponentMap.put(brClass, (Class<? extends IBusinessComponent>) bc);
+									multiUserRoleComponentMap.put(brClass, (Class<? extends IBusinessComponentBase>) bc);
 								}
 							}else{
 								if(IBusinessRoleBase.class.isAssignableFrom(pd.getReadMethod().getReturnType())){
 									Class<? extends IBusinessRoleBase> brClass = (Class<? extends IBusinessRoleBase>) pd.getReadMethod().getReturnType();
-									singleUserRoleComponentMap.put(brClass, (Class<? extends IBusinessComponent>) bc);
+									singleUserRoleComponentMap.put(brClass, (Class<? extends IBusinessComponentBase>) bc);
 								}
 							}
 						}
@@ -82,11 +82,11 @@ public class UserRoleAllocationWizardData{
 	}
 	protected void instantiateBusinessRole(IPersonNode person,Class<?> c) throws InstantiationException,IllegalAccessException{
 		IBusinessRoleBase ba = (IBusinessRoleBase) c.newInstance();
-		Class<? extends IBusinessComponent> bcClass = multiUserRoleComponentMap.get(c);
+		Class<? extends IBusinessComponentBase> bcClass = multiUserRoleComponentMap.get(c);
 		if(bcClass==null){
 			bcClass=singleUserRoleComponentMap.get(c);
 		}
-		IBusinessComponent owner = businessComponentMap.get(bcClass);
+		IBusinessComponentBase owner = businessComponentMap.get(bcClass);
 		if(owner == null){
 			owner = bcClass.newInstance();
 			owner.init(businessCollaboration);
@@ -185,16 +185,16 @@ public class UserRoleAllocationWizardData{
 	protected boolean isMany(PropertyDescriptor pd){
 		return pd.getReadMethod() != null && Collection.class.isAssignableFrom(pd.getReadMethod().getReturnType());
 	}
-	public Map<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponent>> getMultiUserRoleComponentMap(){
+	public Map<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponentBase>> getMultiUserRoleComponentMap(){
 		return multiUserRoleComponentMap;
 	}
-	public Map<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponent>> getSingleUserRoleComponentMap(){
+	public Map<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponentBase>> getSingleUserRoleComponentMap(){
 		return singleUserRoleComponentMap;
 	}
 	public Collection<IBusinessActorBase> getBusinessActors(){
 		return businessActors;
 	}
-	public Map<Class<? extends IBusinessComponent>,IBusinessComponent> getBusinessComponentMap(){
+	public Map<Class<? extends IBusinessComponentBase>,IBusinessComponentBase> getBusinessComponentMap(){
 		return businessComponentMap;
 	}
 	public void flush(){
@@ -202,7 +202,7 @@ public class UserRoleAllocationWizardData{
 		for(IPersonNode p:people.values()){
 			p.addToOwningObject();
 		}
-		for(IBusinessComponent b:this.businessComponentMap.values()){
+		for(IBusinessComponentBase b:this.businessComponentMap.values()){
 			b.addToOwningObject();
 		}
 		for(IBusinessActorBase a:this.businessActors){

@@ -14,12 +14,10 @@ public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
 		putMethod(org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar.class,"252060@_dXLYsASTEeGb9qsDxKJdSA",460894547451043801l);
 		putMethod(org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar.class,"252060@_mOhZgNcEEeCJ0dmaHEVVnw",1668962487164386505l);
 		putClass(org.opaeum.runtime.bpm.businesscalendar.CronExpression.class,"252060@_hqpgYASQEeGb9qsDxKJdSA");
-		putClass(java.util.Date.class,"252060@_qJQboNcCEeCJ0dmaHEVVnw");
 		putClass(java.lang.Integer.class,"252060@_FvE9kNcCEeCJ0dmaHEVVnw");
 		putClass(org.opaeum.runtime.bpm.businesscalendar.Duration.class,"252060@_mkwNcASREeGb9qsDxKJdSA");
 		putClass(java.lang.Integer.class,"252060@_bb59wNb_EeCJ0dmaHEVVnw");
 		putClass(java.lang.Integer.class,"252060@_cIJYsNb_EeCJ0dmaHEVVnw");
-		putClass(org.opaeum.runtime.bpm.businesscalendar.Month.class,"252060@_VSZhgNcCEeCJ0dmaHEVVnw");
 		putClass(org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday.class,"252060@_5rW3kNcCEeCJ0dmaHEVVnw");
 		putClass(org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday.class,"252060@_TFKVQNb_EeCJ0dmaHEVVnw");
 		putClass(org.opaeum.runtime.bpm.businesscalendar.TimeOfDay.class,"252060@_UjTHMNb_EeCJ0dmaHEVVnw");
@@ -54,6 +52,7 @@ public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(org.opaeum.runtime.bpm.organization.IBusinessCollaboration.class,"252060@_zGMYgEvREeGmqIr8YsFD4g");
 		putClass(org.opaeum.runtime.organization.IBusinessCollaborationBase.class,"252060@_NsvpEGG6EeGY4pS7YATNzA");
 		putClass(org.opaeum.runtime.bpm.organization.IBusinessComponent.class,"252060@_uVek8IoVEeCLqpffVZYAlw");
+		putClass(org.opaeum.runtime.organization.IBusinessComponentBase.class,"252060@_rXku4JK9EeGnpuq6_ber_Q");
 		putClass(org.opaeum.runtime.organization.IBusinessNetwork.class,"252060@_6e-W8F13EeGKRdKItFLDfg");
 		putClass(org.opaeum.runtime.bpm.organization.IBusinessRole.class,"252060@_tH0fAIoVEeCLqpffVZYAlw");
 		putClass(org.opaeum.runtime.organization.IBusinessRoleBase.class,"252060@_cPyg8GQZEeGbL9nlXe9lTQ");

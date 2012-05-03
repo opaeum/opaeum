@@ -57,11 +57,12 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 		return this.regions;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element, boolean recursively){
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element, boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedRegion){
 			this.regions.remove(element);
 		}
+		return result;
 	}
 	@Override
 	public void addOwnedElement(INakedElement element){

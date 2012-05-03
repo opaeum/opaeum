@@ -187,7 +187,7 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, IC
 	public Set<String> getFailedInvariants() {
 		Set<String> failedInvariants = new HashSet<String>();
 		if ( !isUniqueInPerson() ) {
-			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonPhoneNumber.uniqueInPerson");
+			failedInvariants.add("org.opaeum.runtime.bpm.contact.PersonPhoneNumber.person");
 		}
 		return failedInvariants;
 	}
@@ -257,8 +257,8 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, IC
 	}
 	
 	public boolean isUniqueInPerson() {
-		boolean result = forAll1();
-		
+		boolean result = false;
+		result = forAll1();
 		return result;
 	}
 	

@@ -142,11 +142,12 @@ public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements
 		}
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedConstraint){
 			this.postConditions.remove(element);
 			this.preConditions.remove(element);
 		}
+		return result;
 	}
 }

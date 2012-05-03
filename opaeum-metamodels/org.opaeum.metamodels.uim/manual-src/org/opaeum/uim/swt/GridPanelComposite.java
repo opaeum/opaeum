@@ -46,6 +46,5 @@ public class GridPanelComposite extends Composite{
 	}
 	@Override
 	public void setLayout(Layout layout){
-		System.out.println();
 	}
 }

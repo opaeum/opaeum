@@ -125,6 +125,19 @@
 				tab="org.opaeum.eclipse.opaeumTab">
 			</propertySection>
 			<propertySection
+				id="org.opaeum.topcased.propertysections.SlotFeatureSection"
+				filter="org.opaeum.topcased.propertysections.filters.SlotFilter"
+				class="org.opaeum.topcased.propertysections.SlotFeatureSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.InstanceSpecificationClassifierSection"
+				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				filter="org.opaeum.topcased.propertysections.filters.InstanceSpecificationNoEnumerationLiteralFilter"
+				class="org.opaeum.topcased.propertysections.InstanceSpecificationClassifierSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
 				id="org.opaeum.topcased.propertysections.TypedElementTypeSection"
 				class="org.opaeum.topcased.propertysections.TypedElementTypeSection"
 				filter="org.opaeum.topcased.propertysections.filters.TypedElementFilter"

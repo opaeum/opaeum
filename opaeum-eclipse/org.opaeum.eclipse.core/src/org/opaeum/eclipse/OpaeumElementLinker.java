@@ -23,7 +23,6 @@ import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
-import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.AddStructuralFeatureValueAction;
 import org.eclipse.uml2.uml.AddVariableValueAction;
 import org.eclipse.uml2.uml.Association;
@@ -54,7 +53,6 @@ import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.InteractionConstraint;
-import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.IntervalConstraint;
 import org.eclipse.uml2.uml.InvocationAction;
@@ -91,6 +89,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
@@ -104,21 +103,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 		@Override
 		public EObject caseElement(Element object){
-			if(object instanceof Classifier && notification.getNewValue() instanceof DynamicEObjectImpl){
-				implementInterfacesIfNecessary((Namespace) object.getOwner(), object);
-				if(object instanceof NamedElement){
-					NamedElement ne = (NamedElement) object;
-					String name = ne.getName();
-					if(name != null){
-						if(name.contains(ne.eClass().getName()) && Character.isDigit(name.charAt(name.length() - 1))){
-							String keyWord = getSignificantKeyWord(ne);
-							if(keyWord != null){
-								setUniqueName(keyWord, ne);
-							}
-						}
-					}
-				}
-			}
 			return super.caseElement(object);
 		}
 		@Override
@@ -256,7 +240,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			InstanceValue oe = UMLFactory.eINSTANCE.createInstanceValue();
 			oe.setName(ownerName + "Specification");
 			InstanceSpecification is = UMLFactory.eINSTANCE.createInstanceSpecification();
-			StereotypesHelper.getNumlAnnotation(oe).getContents().add(is);
+			StereotypesHelper.findOrCreateNumlAnnotation(oe).getContents().add(is);
 			oe.setInstance(is);
 			return oe;
 		}
@@ -276,8 +260,8 @@ public class OpaeumElementLinker extends EContentAdapter{
 					break;
 				case Notification.REMOVE:
 					p = (Property) notification.getOldValue();
-					if(p.getOtherEnd().getType() != null){
-						//NB!! could be deleting
+					if(p.getOtherEnd() != null && p.getOtherEnd().getType() != null){
+						// NB!! could be deleting
 						synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
 						if(p.getOtherEnd().getType() instanceof Signal){
 							// remove individually to ensure existing value pins stay in tact
@@ -298,18 +282,8 @@ public class OpaeumElementLinker extends EContentAdapter{
 					EReference feat = ne.eContainmentFeature();
 					if(ne instanceof Pin && ne.getName() != null){
 						if(ne.getName().contains(ne.eClass().getName()) && !ne.getName().equals(feat.getName())){
-							if(feat.isMany()){
-								setUniqueName(feat.getName(), ne);
-							}else{
+							if(!feat.isMany()){
 								ne.setName(feat.getName());
-							}
-						}
-					}else{
-						String newValue = notification.getNewStringValue();
-						if(newValue.contains(ne.eClass().getName()) && Character.isDigit(newValue.charAt(newValue.length() - 1))){
-							String keyWord = getSignificantKeyWord(ne);
-							if(keyWord != null){
-								setUniqueName(keyWord, ne);
 							}
 						}
 					}
@@ -321,26 +295,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 				break;
 			}
 			return null;
-		}
-		private String getSignificantKeyWord(NamedElement ne){
-			Set<Entry<String,String>> entrySet = StereotypesHelper.getNumlAnnotation(ne).getDetails().entrySet();
-			String keyWord = null;
-			for(Entry<String,String> entry:entrySet){
-				if(entry.getValue() == null || entry.getValue().trim().length() == 0 && !ne.eClass().getName().equals(entry.getKey())){
-					// Keyword
-					keyWord = entry.getKey();
-					break;
-				}
-			}
-			if(keyWord == null){
-				for(Stereotype s:ne.getAppliedStereotypes()){
-					if(!s.getName().equals(ne.eClass().getName()) && !s.getName().equals("Entity")){
-						keyWord = s.getName();
-						break;
-					}
-				}
-			}
-			return keyWord;
 		}
 		private void updateRelatedPowerTypeInstances(Classifier c){
 			for(Generalization generalization:c.getGeneralizations()){
@@ -483,7 +437,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 					if(newValue.getDirection() == null){
 						newValue.setDirection(ParameterDirectionKind.IN_LITERAL);
 					}
-					for(EObject e:StereotypesHelper.getNumlAnnotation(behavior).getReferences()){
+					for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(behavior).getReferences()){
 						if(e instanceof CallBehaviorAction){
 							synchronizeParameters(behavior.getOwnedParameters(), (CallAction) e);
 						}
@@ -502,7 +456,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}else if(notification.getNewValue() == null && notification.getOldValue() != null){
 					oper = (Operation) notification.getOldValue();
 					for(Parameter parameter:oper.getOwnedParameters()){
-						EList<EObject> references = StereotypesHelper.getNumlAnnotation(parameter).getReferences();
+						EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(parameter).getReferences();
 						references.removeAll(behavior.getOwnedParameters());
 					}
 				}
@@ -514,7 +468,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			EList<Parameter> operParams = oper.getOwnedParameters();
 			for(int i = 0;i < operParams.size();i++){
 				Parameter p = operParams.get(i);
-				EList<EObject> references = StereotypesHelper.getNumlAnnotation(p).getReferences();
+				EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(p).getReferences();
 				if(behavior.getOwnedParameters().size() > i){
 					Parameter bp = behavior.getOwnedParameters().get(i);
 					bp.setName(p.getName());
@@ -542,6 +496,16 @@ public class OpaeumElementLinker extends EContentAdapter{
 			case Notification.ADD:
 				doGeneralInitialization(p, notification.getNewValue());
 				break;
+			case Notification.REMOVE:
+				if(notification.getOldValue() instanceof Association){
+					// Bug in Papyrus leaves dangling properties
+					Association a = (Association) notification.getOldValue();
+					for(Property property:new ArrayList<Property>(a.getMemberEnds())){
+						EList<Property> r = (EList<Property>) property.getOwner().eGet(property.eContainmentFeature());
+						// r.remove(property);
+					}
+				}
+				break;
 			}
 			return null;
 		}
@@ -550,10 +514,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 			switch(notification.getEventType()){
 			case Notification.ADD:
 				doGeneralInitialization(p, notification.getNewValue());
-				if(notification.getNewValue() instanceof Element){
-					implementAppropriateInterface((Element) notification.getNewValue(), StereotypeNames.BUSINESS_COMPONENT,
-							StereotypeNames.PKG_ORGANIZATION);
-				}
 				break;
 			}
 			return null;
@@ -569,7 +529,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 					}
 				}
 			}
-			implementInterfacesIfNecessary(p, newValue);
 			if(newValue instanceof TimeEvent){
 				applyRelativeTimeEventStereotype((TimeEvent) newValue, p);
 				TimeEvent te = (TimeEvent) newValue;
@@ -591,34 +550,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 					oe.getLanguages().add("OCL");
 					oe.getBodies().add(EmfValidationUtil.OCL_EXPRESSION_REQUIRED);
 				}
-			}
-		}
-		private void implementInterfacesIfNecessary(Namespace p,Object newValue){
-			if(newValue instanceof Signal){
-				applyStereotypeIfNecessary(p, (Element) newValue, StereotypeNames.NOTIFICATION, StereotypeNames.OPAEUM_BPM_PROFILE);
-				implementAppropriateInterface((Element) newValue, StereotypeNames.NOTIFICATION, StereotypeNames.PKG_DOCUMENT);
-			}
-			if(newValue instanceof Class){
-				Class c = (Class) newValue;
-				if(c.eClass().equals(UMLPackage.eINSTANCE.getClass_())){
-					applyStereotypeIfNecessary(p, (Element) newValue, StereotypeNames.BUSINESS_ROLE, StereotypeNames.OPAEUM_BPM_PROFILE);
-					implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS_ROLE, StereotypeNames.PKG_ORGANIZATION);
-					implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS_DOCUMENT, StereotypeNames.PKG_DOCUMENT);
-				}
-			}
-			if(newValue instanceof Interface){
-				Interface intf = (Interface) newValue;
-				applyStereotypeIfNecessary(p, intf, StereotypeNames.BUSINESS_SERVICE, StereotypeNames.OPAEUM_BPM_PROFILE);
-				implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS_SERVICE, StereotypeNames.PKG_ORGANIZATION);
-				applyStereotypeIfNecessary(p, intf, StereotypeNames.HELPER, StereotypeNames.OPAEUM_STANDARD_PROFILE_PAPYRUS);
-			}
-			if(newValue instanceof Component){
-				applyStereotypeIfNecessary(p, (Element) newValue, StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.OPAEUM_BPM_PROFILE);
-				implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.PKG_ORGANIZATION);
-				implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS, StereotypeNames.PKG_ORGANIZATION);
-			}
-			if(newValue instanceof Actor){
-				implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS_ACTOR, StereotypeNames.PKG_ORGANIZATION);
 			}
 		}
 		public EObject caseSlot(Slot v){
@@ -676,7 +607,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 		private void synchronizeSignalPins(Signal s){
 			clearReferencesOfType(EmfParameterUtil.getArguments(s), Pin.class);
-			EList<EObject> origReferences = StereotypesHelper.getNumlAnnotation(s).getReferences();
+			EList<EObject> origReferences = StereotypesHelper.findOrCreateNumlAnnotation(s).getReferences();
 			List<EObject> references = new ArrayList<EObject>(origReferences);
 			for(EObject r:references){
 				if(r instanceof SendSignalAction){
@@ -699,7 +630,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 		private void clearReferencesOfType(List<? extends TypedElement> args,java.lang.Class<? extends TypedElement> cls){
 			for(TypedElement property:args){
-				Iterator<EObject> iterator = StereotypesHelper.getNumlAnnotation(property).getReferences().iterator();
+				Iterator<EObject> iterator = StereotypesHelper.findOrCreateNumlAnnotation(property).getReferences().iterator();
 				while(iterator.hasNext()){
 					EObject eObject = (EObject) iterator.next();
 					if(cls.isInstance(eObject)){
@@ -748,10 +679,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 				break;
 			case UMLPackage.CLASS__OWNED_ATTRIBUTE:
 				if(notification.getEventType() == Notification.ADD){
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.MEASURE,
-							StereotypeNames.OPAEUM_BPM_PROFILE);
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.DIMENSION,
-							StereotypeNames.OPAEUM_BPM_PROFILE);
 					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.PARTICIPANT_REFERENCE,
 							StereotypeNames.OPAEUM_BPM_PROFILE);
 					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE_CONTAINMENT,
@@ -769,7 +696,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				switch(notification.getEventType()){
 				case Notification.ADD:
 					EnumerationLiteral literal = (EnumerationLiteral) notification.getNewValue();
-					StereotypesHelper.getNumlAnnotation(en).getReferences().add(literal);
+					StereotypesHelper.findOrCreateNumlAnnotation(en).getReferences().add(literal);
 					synchronizeSlots(en, literal);
 					break;
 				case Notification.ADD_MANY:
@@ -802,7 +729,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 		private void linkGenerals(Classifier en,InstanceSpecification instanceSpecification){
 			for(Classifier classifier:en.getGenerals()){
-				EList<EObject> origRef = StereotypesHelper.getNumlAnnotation(classifier).getReferences();
+				EList<EObject> origRef = StereotypesHelper.findOrCreateNumlAnnotation(classifier).getReferences();
 				if(!origRef.contains(instanceSpecification)){
 					origRef.add(instanceSpecification);
 				}
@@ -847,7 +774,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		private void synchronizeOperationPins(Operation oper){
 			clearReferencesOfType(oper.getOwnedParameters(), Pin.class);
 			EList<Parameter> ownedParameters = oper.getOwnedParameters();
-			for(EObject e:StereotypesHelper.getNumlAnnotation(oper).getReferences()){
+			for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(oper).getReferences()){
 				if(e instanceof Trigger && e.eContainer() instanceof AcceptEventAction){
 					synchronizeResults(ownedParameters, (AcceptEventAction) e.eContainer());
 				}else if(e instanceof CallAction){
@@ -863,7 +790,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			switch(notification.getFeatureID(Parameter.class)){
 			case UMLPackage.PARAMETER__DIRECTION:
 				ParameterDirectionKind newDirection = (ParameterDirectionKind) notification.getNewValue();
-				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
+				for(EObject eObject:StereotypesHelper.findOrCreateNumlAnnotation(p).getReferences()){
 					if(eObject instanceof Parameter){
 						((Parameter) eObject).setDirection(newDirection);
 					}
@@ -871,7 +798,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				Element owner = (Element) p.eContainer();
 				EList<Parameter> parms = owner instanceof Behavior ? ((Behavior) owner).getOwnedParameters() : ((Operation) owner)
 						.getOwnedParameters();
-				for(EObject eObject:StereotypesHelper.getNumlAnnotation(owner).getReferences()){
+				for(EObject eObject:StereotypesHelper.findOrCreateNumlAnnotation(owner).getReferences()){
 					if(eObject instanceof CallAction){
 						synchronizeParameters(parms, (CallAction) eObject);
 					}else if(eObject instanceof Trigger && eObject.eContainer() instanceof AcceptEventAction){
@@ -881,7 +808,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}
 				break;
 			case UMLPackage.PARAMETER__IS_EXCEPTION:
-				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
+				for(EObject eObject:StereotypesHelper.findOrCreateNumlAnnotation(p).getReferences()){
 					if(eObject instanceof Parameter){
 						boolean newBooleanValue = notification.getNewBooleanValue();
 						((Parameter) eObject).setIsException(newBooleanValue);
@@ -956,7 +883,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 								pin.setName(t.getName());
 								pin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 								aea.getResults().add(pin);
-								StereotypesHelper.getNumlAnnotation(t).getReferences().add(pin);
+								StereotypesHelper.findOrCreateNumlAnnotation(t).getReferences().add(pin);
 							}
 							i++;
 						}
@@ -969,7 +896,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 							if(origin instanceof Signal){
 								addSignalActionReferences(trigger, (Signal) origin);
 							}else{
-								StereotypesHelper.getNumlAnnotation(origin).getReferences().add(trigger);
+								StereotypesHelper.findOrCreateNumlAnnotation(origin).getReferences().add(trigger);
 							}
 							AcceptEventAction a = (AcceptEventAction) trigger.getOwner();
 							synchronizeResults(EmfParameterUtil.getArguments(origin), a);
@@ -1015,7 +942,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			return null;
 		}
 		private void addSignalActionReferences(Element a,Signal curSignal){
-			EList<EObject> references = StereotypesHelper.getNumlAnnotation(curSignal).getReferences();
+			EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(curSignal).getReferences();
 			if(!references.contains(a)){
 				references.add(a);
 			}
@@ -1054,7 +981,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		public EObject caseTypedElement(TypedElement te){
 			switch(notification.getFeatureID(Property.class)){
 			case UMLPackage.NAMED_ELEMENT__NAME:
-				for(EObject e:StereotypesHelper.getNumlAnnotation(te).getReferences()){
+				for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(te).getReferences()){
 					if(e instanceof Pin){
 						((Pin) e).setName(te.getName());
 					}else if(e instanceof Parameter){
@@ -1063,7 +990,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}
 				break;
 			case UMLPackage.TYPED_ELEMENT__TYPE:
-				for(EObject e:StereotypesHelper.getNumlAnnotation(te).getReferences()){
+				for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(te).getReferences()){
 					if(e instanceof Pin){
 						Pin pin = (Pin) e;
 						pin.setType(te.getType());
@@ -1087,7 +1014,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 						if(!p.isNavigable()){
 							p.setIsNavigable(true);
 						}
-						if(p.getOtherEnd()!=null && !p.getOtherEnd().isNavigable() && p.getOtherEnd().getType() instanceof Class){
+						if(p.getOtherEnd() != null && !p.getOtherEnd().isNavigable() && p.getOtherEnd().getType() instanceof Class){
 							p.getOtherEnd().setIsNavigable(true);
 						}
 					}
@@ -1095,8 +1022,13 @@ public class OpaeumElementLinker extends EContentAdapter{
 				break;
 			case UMLPackage.PROPERTY__IS_DERIVED:
 			case UMLPackage.PROPERTY__IS_DERIVED_UNION:
+			case UMLPackage.PROPERTY__UPPER:
+			case UMLPackage.PROPERTY__UPPER_VALUE:
+			case UMLPackage.PROPERTY___UPPER_BOUND:
 				Classifier context = (Classifier) (p.getOtherEnd() != null ? p.getOtherEnd().getType() : p.getOwner());
-				synchronizeSlotsOnReferringInstances(context);
+				if(context != null){
+					synchronizeSlotsOnReferringInstances(context);
+				}
 				break;
 			}
 			return null;
@@ -1122,7 +1054,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			}
 		}
 		private void removeReferencingPins(TypedElement oldProp){
-			for(EObject e:StereotypesHelper.getNumlAnnotation(oldProp).getReferences()){
+			for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(oldProp).getReferences()){
 				if(e.eContainer() instanceof InvocationAction){
 					InvocationAction ia = (InvocationAction) e.eContainer();
 					if(e instanceof InputPin){
@@ -1141,7 +1073,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 		private void setArgument(TypedElement p,InvocationAction a,boolean insertAtIndex){
 			int idx = EmfParameterUtil.calculateIndex(p, EmfParameterUtil.ARGUMENT);
-			EList<EObject> references = StereotypesHelper.getNumlAnnotation(p).getReferences();
+			EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(p).getReferences();
 			if(a.getArguments().size() <= idx || insertAtIndex){
 				ValuePin pin = UMLFactory.eINSTANCE.createValuePin();
 				pin.setName(p.getName());
@@ -1178,12 +1110,12 @@ public class OpaeumElementLinker extends EContentAdapter{
 				removeFromReferences((Element) notification.getOldValue(), notifier);
 			}
 			if(notification.getNewValue() != null){
-				StereotypesHelper.getNumlAnnotation((Element) notification.getNewValue()).getReferences().add((EObject) notifier);
+				StereotypesHelper.findOrCreateNumlAnnotation((Element) notification.getNewValue()).getReferences().add((EObject) notifier);
 			}
 		}
 		private void removeFromReferences(Element targetElement,Object interestedElement){
 			if(targetElement != null){
-				EList<EObject> references = StereotypesHelper.getNumlAnnotation(targetElement).getReferences();
+				EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(targetElement).getReferences();
 				ArrayList<EObject> arrayList = new ArrayList<EObject>(references);
 				for(EObject eObject:arrayList){
 					if(eObject == interestedElement){
@@ -1203,11 +1135,28 @@ public class OpaeumElementLinker extends EContentAdapter{
 			if(found == null){
 				found = UMLFactory.eINSTANCE.createSlot();
 				found.setDefiningFeature(a);
-				OpaqueExpression oclExpression = UMLFactory.eINSTANCE.createOpaqueExpression();
-				oclExpression.getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
-				oclExpression.getLanguages().add("ocl");
-				found.getValues().add(oclExpression);
 				is.getSlots().add(found);
+				if(is instanceof EnumerationLiteral && a.getType() instanceof Enumeration){
+				}else{
+					OpaqueExpression oclExpression = UMLFactory.eINSTANCE.createOpaqueExpression();
+					oclExpression.getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
+					oclExpression.getLanguages().add("ocl");
+					found.getValues().add(oclExpression);
+				}
+			}else if(is instanceof EnumerationLiteral && a.getType() instanceof Enumeration){
+				if(found.getOwningInstance() instanceof EnumerationLiteral){
+					for(ValueSpecification vs:new ArrayList<ValueSpecification>(found.getValues())){
+						if(vs instanceof OpaqueExpression){
+							OpaqueExpression oe = (OpaqueExpression) vs;
+							if(oe.getBodies().isEmpty() || oe.getBodies().get(0).equals(EmfValidationUtil.TYPE_EXPRESSION_HERE)){
+								// Most likely changed to a many
+								found.getValues().remove(vs);
+							}
+						}
+					}
+				}else if(found.getOwningInstance().eContainer() instanceof ValuePin){
+					// TODO decide what to do here
+				}
 			}
 		}
 	}
@@ -1244,7 +1193,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 	}
 	public static void setOutputpin(TypedElement newValue,EList<OutputPin> results,boolean insertAtIndex){
 		int idx = EmfParameterUtil.calculateIndex(newValue, EmfParameterUtil.RESULT);
-		EList<EObject> references = StereotypesHelper.getNumlAnnotation(newValue).getReferences();
+		EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(newValue).getReferences();
 		if(results.size() <= idx || insertAtIndex){
 			OutputPin pin = UMLFactory.eINSTANCE.createOutputPin();
 			pin.setName(newValue.getName());
@@ -1266,85 +1215,9 @@ public class OpaeumElementLinker extends EContentAdapter{
 		if(StereotypesHelper.hasKeyword(ass, stereotypeName)){
 			Profile pr = ProfileApplier.applyProfile(parent.getModel(), profileName);
 			Stereotype st = pr.getOwnedStereotype(stereotypeName);
-			if(!(ass instanceof Pin) && ass instanceof NamedElement && parent instanceof Namespace){
-				setUniqueName(stereotypeName, (NamedElement) ass);
-			}
 			if(st != null && !ass.isStereotypeApplied(st)){
 				StereotypesHelper.applyStereotype(ass, st);
 			}
-			implementAppropriateInterface(ass, stereotypeName, "organization");
-		}
-	}
-	private static void implementAppropriateInterface(Element ass,String stereotypeName,String name){
-		if(ass instanceof Classifier){
-			Classifier specific = (Classifier) ass;
-			if(StereotypesHelper.hasStereotype(specific, stereotypeName)){
-				Model lib = LibraryImporter.importLibraryIfNecessary(specific.getModel(), StereotypeNames.OPAEUM_BPM_LIBRARY);
-				Package pkg = lib.getNestedPackage(name);
-				Classifier general = (Classifier) pkg.getOwnedType("I" + stereotypeName);
-				if(general != null){
-					if(general instanceof Interface){
-						if(specific instanceof BehavioredClassifier){
-							maybeRealizeInterface((BehavioredClassifier) specific, (Interface) general);
-						}else if(specific instanceof Interface){
-							maybeGeneralize(specific, general);
-						}
-					}else{
-						maybeGeneralize(specific, general);
-					}
-				}
-			}
-		}
-	}
-	protected static void setUniqueName(String stereotypeName,NamedElement ne){
-		int lastNumber = 0;
-		List<NamedElement> members = new ArrayList<NamedElement>();
-		if(ne.getNamespace() == null){
-			if(ne.getOwner() != null)
-				for(Element element:ne.getOwner().getOwnedElements()){
-					if(element instanceof NamedElement){
-						members.add((NamedElement) element);
-					}
-				}
-			else{
-			}
-		}else{
-			members.addAll(ne.getNamespace().getMembers());
-		}
-		for(NamedElement namedElement:members){
-			if(namedElement != ne && namedElement.getName() != null && namedElement.getName().contains(stereotypeName)){
-				String number = namedElement.getName().substring(stereotypeName.length());
-				try{
-					int currentNumber = Integer.parseInt(number);
-					if(currentNumber > lastNumber){
-						lastNumber = currentNumber;
-					}
-				}catch(Exception e){
-				}
-			}
-		}
-		ne.setName(stereotypeName + (lastNumber + 1));
-	}
-	private static void maybeGeneralize(Classifier specific,Classifier general){
-		boolean found = false;
-		for(Generalization g:specific.getGeneralizations()){
-			if(g.getGeneral() == general){
-				found = true;
-			}
-		}
-		if(found == false){
-			specific.createGeneralization(general);
-		}
-	}
-	private static void maybeRealizeInterface(BehavioredClassifier behavioredClassifier,Interface general2){
-		boolean found = false;
-		for(InterfaceRealization g:behavioredClassifier.getInterfaceRealizations()){
-			if(g.getContract() == general2){
-				found = true;
-			}
-		}
-		if(found == false){
-			behavioredClassifier.createInterfaceRealization("isA" + general2.getName(), general2);
 		}
 	}
 }

@@ -163,30 +163,37 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	 * @return
 	 */
 	public static String packagePathname(INakedNameSpace p){
-		Set<String> keywords = new HashSet<String>();
-		keywords.add("public");
-		keywords.add("static");
-		keywords.add("final");
-		keywords.add("class");
-		keywords.add("void");
-		keywords.add("return");
-		if(p instanceof INakedPackage){
-			INakedPackage np = (INakedPackage) p;
-			if(np.getMappedImplementationPackage() != null && np.getMappedImplementationPackage().trim().length() > 1){
-				return np.getMappedImplementationPackage();
-			}else if(np.isRootPackage() || p instanceof INakedModel || p instanceof INakedProfile || p.getParent() == null){
-				return np.getName().toLowerCase();
-			}
+		if(p==null){
+			System.out.println();
 		}
-		StringBuilder path = new StringBuilder();
-		addParentsToPath(p, path);
-		String lowerCase = p.getName().toLowerCase();
-		if(keywords.contains(lowerCase)){
-			path.append(lowerCase + "_");
+		if(p.isMarkedForDeletion()){
+			return p.getMappingInfo().getQualifiedJavaName();
 		}else{
-			path.append(lowerCase);
+			Set<String> keywords = new HashSet<String>();
+			keywords.add("public");
+			keywords.add("static");
+			keywords.add("final");
+			keywords.add("class");
+			keywords.add("void");
+			keywords.add("return");
+			if(p instanceof INakedPackage){
+				INakedPackage np = (INakedPackage) p;
+				if(np.getMappedImplementationPackage() != null && np.getMappedImplementationPackage().trim().length() > 1){
+					return np.getMappedImplementationPackage();
+				}else if(np.isRootPackage() || p instanceof INakedModel || p instanceof INakedProfile || p.getParent() == null){
+					return np.getName().toLowerCase();
+				}
+			}
+			StringBuilder path = new StringBuilder();
+			addParentsToPath(p, path);
+			String lowerCase = p.getName().toLowerCase();
+			if(keywords.contains(lowerCase)){
+				path.append(lowerCase + "_");
+			}else{
+				path.append(lowerCase);
+			}
+			return path.toString();
 		}
-		return path.toString();
 	}
 	/**
 	 * A Opaeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
@@ -198,15 +205,14 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	public static String classifierPathname(INakedClassifier classifier){
 		if(classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null){
 			return classifier.getMappedImplementationType();
+		}else if(classifier.isMarkedForDeletion()){
+			return classifier.getMappingInfo().getQualifiedJavaName();
 		}else{
 			String path = packagePathname(classifier.getNameSpace());
 			return path + "." + NameConverter.capitalize(classifier.getName());
 		}
 	}
 	private static void addParentsToPath(INakedNameSpace c,StringBuilder path){
-		if(c==null){
-			System.out.println();
-		}
 		INakedNameSpace parent = c.getParent();
 		if(parent != null){
 			if(parent instanceof INakedPackage && ((INakedPackage) parent).getMappedImplementationPackage() != null

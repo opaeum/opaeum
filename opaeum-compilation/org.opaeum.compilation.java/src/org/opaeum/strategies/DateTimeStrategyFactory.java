@@ -12,74 +12,59 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
-import org.opaeum.javageneration.TestValueStrategy;
+import org.opaeum.javageneration.TestModelValueStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.strategies.DateStrategyFactory.DateTestModelValueStrategy;
 
-public class DateTimeStrategyFactory extends AbstractStrategyFactory {
-	public static class MyJpaStrategy implements JpaStrategy {
-
+public class DateTimeStrategyFactory extends AbstractStrategyFactory{
+	public static class MyJpaStrategy implements JpaStrategy{
 		@Override
-		public void annotate(OJAnnotatedField f, INakedProperty p) {
+		public void annotate(OJAnnotatedField f,INakedProperty p){
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName(Temporal.class.getName()));
 			temporal.addEnumValue(new OJEnumValue(new OJPathName(TemporalType.class.getName()), "TIMESTAMP"));
 			f.putAnnotation(temporal);
 		}
-
 	}
-
-	public static class MyConfigurableDataStrategy implements ConfigurableDataStrategy {
-
+	public static class MyConfigurableDataStrategy implements ConfigurableDataStrategy{
 		@Override
-		public String getDefaultStringValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p) {
+		public String getDefaultStringValue(OJAnnotatedClass owner,OJBlock block,INakedProperty p){
 			return getDefaultStringValue();
 		}
-
 		@Override
-		public String parseConfiguredValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p, String configuredValue) {
-			addSimpleDateFormat(owner,block);
+		public String parseConfiguredValue(OJAnnotatedClass owner,OJBlock block,INakedProperty p,String configuredValue){
+			addSimpleDateFormat(owner, block);
 			return "dateTimeFormat.parse(" + configuredValue + ")";
 		}
-
 		@Override
-		public String getDefaultStringValue() {
+		public String getDefaultStringValue(){
 			return "2002-10-10";
 		}
-
 	}
-	public static class MyTestValueStrategy implements TestValueStrategy{
-
+	public static class MyTestValueStrategy extends DateTestModelValueStrategy{
 		@Override
-		public String getDefaultValue() {
-			return "dateTimeFormat.parse(\"2010-01-31\")";
+		public String getDefaultStringValue(int seed){
+			return super.getDefaultStringValue(seed) + " " + (seed % 24) + ":" + ((seed * 24) % 60) + ":30";
 		}
-
-		@Override
-		public void transformClass(OJAnnotatedClass owner, OJBlock block) {
-			addSimpleDateFormat(owner,block);
-		}
-		
 	}
-
 	@SuppressWarnings("unchecked")
-	public DateTimeStrategyFactory() {
-		super(MyJpaStrategy.class,MyConfigurableDataStrategy.class,MyTestValueStrategy.class);
+	public DateTimeStrategyFactory(){
+		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, MyTestValueStrategy.class);
 	}
-	private static void addSimpleDateFormat(OJAnnotatedClass owner, OJBlock block) {
+	private static void addSimpleDateFormat(OJAnnotatedClass owner,OJBlock block){
 		owner.addToImports("java.text.SimpleDateFormat");
-
 		List<OJField> locals = block.getLocals();
 		boolean hasField = false;
-		for (OJField f : locals) {
-			if (f.getName().equals("dateTimeFormat")) {
+		for(OJField f:locals){
+			if(f.getName().equals("dateTimeFormat")){
 				hasField = true;
 				break;
 			}
 		}
-		if (!hasField) {
+		if(!hasField){
 			OJAnnotatedField dateTimeFormat = new OJAnnotatedField("dateTimeFormat", new OJPathName("java.text.SimpleDateFormat"));
 			dateTimeFormat.setInitExp("new SimpleDateFormat(\"yyyy-MM-dd\")");
 			block.addToLocals(dateTimeFormat);
@@ -93,5 +78,4 @@ public class DateTimeStrategyFactory extends AbstractStrategyFactory {
 	public String getRuntimeStrategyFactory(){
 		return "org.opaeum.runtime.strategy.DateTimeStrategyFactory";
 	}
-
 }

@@ -580,10 +580,10 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		if ( getBusinessCalendar()!=null ) {
 			getBusinessCalendar().markDeleted();
 		}
-		for ( OrganizationFullfillsActorRole child : new ArrayList<OrganizationFullfillsActorRole>(getOrganizationFullfillsActorRole_businessActor()) ) {
+		for ( Organization_iBusinessComponent_1 child : new ArrayList<Organization_iBusinessComponent_1>(getOrganization_iBusinessComponent_1_businessComponent()) ) {
 			child.markDeleted();
 		}
-		for ( Organization_iBusinessComponent_1 child : new ArrayList<Organization_iBusinessComponent_1>(getOrganization_iBusinessComponent_1_businessComponent()) ) {
+		for ( OrganizationFullfillsActorRole child : new ArrayList<OrganizationFullfillsActorRole>(getOrganizationFullfillsActorRole_businessActor()) ) {
 			child.markDeleted();
 		}
 		setDeletedOn(new Date());
@@ -628,16 +628,6 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_businessActor") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5544220265950373323")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organization_iBusinessComponent_1_businessComponent") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6254493747225779734")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -645,6 +635,16 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						addToOrganization_iBusinessComponent_1_businessComponent((Organization_iBusinessComponent_1)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_businessActor") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5544220265950373323")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -855,16 +855,16 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 			sb.append("\n" + getBusinessCalendar().toXmlString());
 			sb.append("\n</businessCalendar>");
 		}
-		sb.append("\n<organizationFullfillsActorRole_businessActor propertyId=\"5544220265950373323\">");
-		for ( OrganizationFullfillsActorRole organizationFullfillsActorRole_businessActor : getOrganizationFullfillsActorRole_businessActor() ) {
-			sb.append("\n" + organizationFullfillsActorRole_businessActor.toXmlString());
-		}
-		sb.append("\n</organizationFullfillsActorRole_businessActor>");
 		sb.append("\n<organization_iBusinessComponent_1_businessComponent propertyId=\"6254493747225779734\">");
 		for ( Organization_iBusinessComponent_1 organization_iBusinessComponent_1_businessComponent : getOrganization_iBusinessComponent_1_businessComponent() ) {
 			sb.append("\n" + organization_iBusinessComponent_1_businessComponent.toXmlReferenceString());
 		}
 		sb.append("\n</organization_iBusinessComponent_1_businessComponent>");
+		sb.append("\n<organizationFullfillsActorRole_businessActor propertyId=\"5544220265950373323\">");
+		for ( OrganizationFullfillsActorRole organizationFullfillsActorRole_businessActor : getOrganizationFullfillsActorRole_businessActor() ) {
+			sb.append("\n" + organizationFullfillsActorRole_businessActor.toXmlString());
+		}
+		sb.append("\n</organizationFullfillsActorRole_businessActor>");
 		sb.append("\n</OrganizationNode>");
 		return sb.toString();
 	}

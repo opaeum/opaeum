@@ -1,5 +1,7 @@
 package org.opaeum.textmetamodel;
 
+import java.io.File;
+
 public class TextFile extends TextOutputNode{
 	private TextSource textSource;
 	private char[] content;
@@ -11,6 +13,17 @@ public class TextFile extends TextOutputNode{
 	}
 	public void setDependsOnVersion(boolean b){
 		isVersionDependent = b;
+	}
+	public String getWorkspaceRelativePath(){
+		String string = getOutputRoot().getParent().getName() + File.separator + getOutputRoot().getRelativePath() + File.separator + getSourceFolderRelativePath();
+		return string; 
+	}
+	private String getSourceFolderRelativePath(){
+		if(getParent() instanceof SourceFolder){
+			return getName();
+		}else{
+			return ((TextDirectory) getParent()).getRelativePath() + File.separator + getName();
+		}
 	}
 	/**
 	 * No content constructor, so delete the file
@@ -56,6 +69,9 @@ public class TextFile extends TextOutputNode{
 	}
 	@Override
 	public boolean hasContent(){
+		if(textSource==null){
+			System.out.println();
+		}
 		return !shouldDelete() && textSource.hasContent();
 	}
 	public void appendVersion(String version){

@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import nl.klasse.octopus.model.IAttribute;
@@ -129,20 +128,22 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			this.durationObservations.add((INakedDurationObservation) element);
 		}
 	}
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedActivityPartition){
 			this.partitions.remove((INakedActivityPartition) element);
 		}
 		if(element instanceof INakedActivityNode){
 			this.activityNodes.remove((INakedActivityNode) element);
 		}
-		if(element instanceof INakedActivityEdge){
+		if(element instanceof INakedActivityEdge && recursively){
 			INakedActivityEdge e = (INakedActivityEdge) element;
-			if(recursively){
-				e.setSource(null);
-				e.setTarget(null);
-			}
+			e.getSource().getOutgoing().remove(e);
+			e.getTarget().getIncoming().remove(e);
+			result.add(e.getSource());
+			result.add(e.getTarget());
+			e.setSource(null);
+			e.setTarget(null);
 			this.activityEdges.remove((INakedActivityEdge) element);
 		}
 		if(element instanceof INakedDurationObservation){
@@ -154,6 +155,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 		if(element instanceof INakedActivityVariable){
 			this.variables.remove((INakedActivityVariable) element);
 		}
+		return result;
 	}
 	@Override
 	protected List<IAttribute> getAllAttributesForOcl(boolean classScope){
@@ -185,9 +187,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	public Set<INakedActivityNode> getActivityNodes(){
 		return this.activityNodes;
 	}
-	@SuppressWarnings({
-			"unchecked","rawtypes"
-	})
+	@SuppressWarnings({"unchecked","rawtypes"})
 	protected <T>Set<T> getEvents(boolean messageEvents){
 		Set<T> results = new HashSet<T>();
 		for(INakedActivityNode node:getActivityNodesRecursively()){

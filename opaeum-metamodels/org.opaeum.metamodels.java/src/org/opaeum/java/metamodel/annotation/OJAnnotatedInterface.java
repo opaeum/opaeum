@@ -23,6 +23,7 @@ public class OJAnnotatedInterface extends OJAnnotatedClass {
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());
+		System.out.println();
 		classInfo.append("\n");
 		addJavaDocComment(classInfo);
 		if (getAnnotations().size() > 0) {

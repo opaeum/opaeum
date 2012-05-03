@@ -249,6 +249,16 @@ public class SimulatingSlotItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
+				(UMLPackage.Literals.SLOT__VALUE,
+				 SimulationFactory.eINSTANCE.createWeightedSimpleTypeValue()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UMLPackage.Literals.SLOT__VALUE,
+				 SimulationFactory.eINSTANCE.createLiteralSimpleType()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(SimulationPackage.Literals.SIMULATING_SLOT__SIZE_DISTRIBUTION,
 				 SimulationFactory.eINSTANCE.createNumericValueDistribution()));
 

@@ -57,7 +57,6 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 		super.setInput(part, selection);
 		if(getTypedElement().getModel() != null){
 			ApplyOpaeumStandardProfileCommand cmd = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), getTypedElement().getModel());
-			getEditingDomain().getCommandStack().execute(cmd);
 			Profile profile = cmd.getProfile();
 			Stereotype propertyStereotype = findStereotype(profile);
 			this.propertyStereotype = propertyStereotype;
@@ -147,8 +146,9 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	protected void prepareForMeasure(){
 		check.setText("Is Measure");
 		if(getTypedElement().isStereotypeApplied(propertyStereotype)){
+			EEnumLiteral dimension = roleEnumeration.getEEnumLiteral("MEASURE");
 			EnumerationLiteral value = (EnumerationLiteral) getTypedElement().getValue(propertyStereotype, TagNames.ROLE_IN_CUBE);
-			check.setSelection(roleEnumeration.getEEnumLiteral("MEASURE").getName().equals(value.getName()));
+			check.setSelection(dimension.getName().equals(value.getName()));
 		}
 		check.setEnabled(true);
 		displayFormulas();
@@ -204,7 +204,7 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "String")
 					|| EmfClassifierUtil.comformsToLibraryType(p.getType(), "Boolean");
 		}else if(p.getType() instanceof DataType){
-			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "DateTime");
+			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "DateTime") || EmfClassifierUtil.comformsToLibraryType(p.getType(), "Date");
 		}else{
 			return false;
 		}
@@ -226,6 +226,10 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	protected void setRole(String name){
 		if(propertyStereotype != null){
 			EditingDomain ed = getEditingDomain();
+			ApplyOpaeumStandardProfileCommand cmd = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), getTypedElement().getModel());
+			if(!getTypedElement().getModel().isProfileApplied(cmd.getProfile())){
+				getEditingDomain().getCommandStack().execute(cmd);
+			}
 			if(!getTypedElement().isStereotypeApplied(propertyStereotype)){
 				ed.getCommandStack().execute(new ApplyStereotypeCommand(getTypedElement(), propertyStereotype));
 			}
@@ -245,7 +249,8 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 			}else if(name.equals("MEASURE")){
 				for(Button button:formulaChecks){
 					button.setEnabled(true);
-					((List) getTypedElement().getValue(propertyStereotype, "aggregationFormulas")).clear();
+					EStructuralFeature aggForm= propertyStereotype.getDefinition().getEStructuralFeature("aggregationFormulas");
+					ed.getCommandStack().execute(RemoveCommand.create(ed, sa, aggForm, sa.eGet(aggForm)));
 				}
 			}
 		}
@@ -263,7 +268,9 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 			c.setLayoutData(fd);
 			final List<EObject> value;
 			if(getTypedElement().isStereotypeApplied(propertyStereotype)){
-				value = (List<EObject>) getTypedElement().getValue(propertyStereotype, "aggregationFormulas");
+				EObject sa = getTypedElement().getStereotypeApplication(propertyStereotype);
+				EStructuralFeature feat = propertyStereotype.getDefinition().getEStructuralFeature("aggregationFormulas");
+				value = (List<EObject>) sa.eGet(feat);
 			}else{
 				value = new ArrayList<EObject>();
 			}
@@ -271,7 +278,11 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 				@Override
 				public void widgetSelected(SelectionEvent e){
 					EditingDomain ed = getEditingDomain();
+					if(!getTypedElement().isStereotypeApplied(propertyStereotype)){
+						ed.getCommandStack().execute(new ApplyStereotypeCommand(getTypedElement(), propertyStereotype));
+					}
 					EObject sa = getTypedElement().getStereotypeApplication(propertyStereotype);
+					
 					EStructuralFeature feat = propertyStereotype.getDefinition().getEStructuralFeature("aggregationFormulas");
 					if(c.getSelection()){
 						ed.getCommandStack().execute(AddCommand.create(ed, sa, feat, l));

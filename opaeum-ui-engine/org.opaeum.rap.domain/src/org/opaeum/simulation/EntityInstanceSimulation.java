@@ -1,5 +1,6 @@
 package org.opaeum.simulation;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.apache.commons.math3.distribution.UniformIntegerDistribution;
@@ -9,17 +10,23 @@ public abstract class EntityInstanceSimulation extends AbstractBucket{
 	List<CompositionNode> values;
 	private UniformIntegerDistribution distribution;
 	public CompositionNode generateInstance(CompositionNode parent){
-		CompositionNode result = createNewObject(parent);
-		values.add(result);
-		// Remember, multiple instances of this class will be created per property where it is referenced from. it will either be references
-		// from
-		// a composition context OR a reference contextF
-		count++;
-		this.distribution = null;
+		CompositionNode result = null;
+		try{
+			result = createNewObject(parent);
+			values.add(result);
+			// Remember, multiple instances of this class will be created per property where it is referenced from. it will either be references
+			// from
+			// a composition context OR a reference contextF
+			count++;
+			this.distribution = null;
+		}catch(ParseException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return result;
 	}
-	protected abstract CompositionNode createNewObject(CompositionNode parent);
-	protected abstract void populateReferences(CompositionNode compositionNode);
+	protected abstract CompositionNode createNewObject(CompositionNode parent) throws ParseException;
+	protected abstract void populateReferences(CompositionNode compositionNode) throws ParseException;
 	public CompositionNode getNextReference(){
 		count++;
 		if(getValues().size() == 1){
@@ -42,7 +49,12 @@ public abstract class EntityInstanceSimulation extends AbstractBucket{
 	public void populateReferences(){
 		List<CompositionNode> list = values;
 		for(CompositionNode compositionNode:list){
-			populateReferences(compositionNode);
+			try{
+				populateReferences(compositionNode);
+			}catch(ParseException e){
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

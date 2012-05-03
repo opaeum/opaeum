@@ -1,7 +1,5 @@
 package org.opaeum.javageneration.persistence;
 
-import java.util.Collection;
-
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
@@ -76,8 +74,11 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 		field.addAnnotationIfNew(toOne);
 	}
 	protected final void mapXToOne(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
-		INakedProperty f = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
+		mapXToOne(map, owner);
+	}
+	public void mapXToOne(NakedStructuralFeatureMap map,OJAnnotatedClass owner){
+		INakedProperty f = map.getProperty();
 		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
 		if(field != null){
 			// Field might have been replaced by a name-value type map

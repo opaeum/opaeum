@@ -72,6 +72,8 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 			case SimulationPackage.INSTANCE_SIMULATION: return createInstanceSimulation();
 			case SimulationPackage.ACTUAL_INSTANCE: return createActualInstance();
 			case SimulationPackage.WEIGHTED_INSTANCE_VALUE: return createWeightedInstanceValue();
+			case SimulationPackage.WEIGHTED_SIMPLE_TYPE_VALUE: return createWeightedSimpleTypeValue();
+			case SimulationPackage.LITERAL_SIMPLE_TYPE: return createLiteralSimpleType();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -255,6 +257,26 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	public WeightedInstanceValue createWeightedInstanceValue() {
 		WeightedInstanceValueImpl weightedInstanceValue = new WeightedInstanceValueImpl();
 		return weightedInstanceValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public WeightedSimpleTypeValue createWeightedSimpleTypeValue() {
+		WeightedSimpleTypeValueImpl weightedSimpleTypeValue = new WeightedSimpleTypeValueImpl();
+		return weightedSimpleTypeValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LiteralSimpleType createLiteralSimpleType() {
+		LiteralSimpleTypeImpl literalSimpleType = new LiteralSimpleTypeImpl();
+		return literalSimpleType;
 	}
 
 	/**

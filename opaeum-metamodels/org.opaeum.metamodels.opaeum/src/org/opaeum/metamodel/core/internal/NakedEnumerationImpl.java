@@ -1,6 +1,7 @@
 package org.opaeum.metamodel.core.internal;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -27,11 +28,12 @@ public class NakedEnumerationImpl extends NakedClassifierImpl implements INakedE
 		}
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element, boolean recursively) {
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedEnumerationLiteral){
 			this.literals.remove((INakedEnumerationLiteral) element);
 		}
+		return result;
 	}
 	@Override
 	protected boolean isNamedMember(INakedElement e){

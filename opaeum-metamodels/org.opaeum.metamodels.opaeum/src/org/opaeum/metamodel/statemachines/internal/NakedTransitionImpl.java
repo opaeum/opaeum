@@ -46,8 +46,8 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 		}
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		super.removeOwnedElement(element, recursively);
+	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(element == effect){
 			effect = null;
 		}else if(element == guard){
@@ -55,6 +55,7 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 		}else if(element instanceof INakedTrigger){
 			triggers.remove(element);
 		}
+		return result;
 	}
 	public INakedState getMainSource(){
 		if(getKind().isLocal() || getKind().isInternal()){
