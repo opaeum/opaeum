@@ -6,10 +6,20 @@ import java.util.List;
 
 import org.nakeduml.runtime.domain.activity.interf.IManyValuePin;
 
+import com.tinkerpop.blueprints.pgm.Vertex;
+
 public abstract class ManyValuePin<O> extends ValuePin<O, CollectionObjectToken<O>> implements IManyValuePin<O> {
 
 	public ManyValuePin() {
 		super();
+	}
+
+	public ManyValuePin(boolean persist, String name) {
+		super(persist, name);
+	}
+
+	public ManyValuePin(Vertex vertex) {
+		super(vertex);
 	}
 
 	@Override

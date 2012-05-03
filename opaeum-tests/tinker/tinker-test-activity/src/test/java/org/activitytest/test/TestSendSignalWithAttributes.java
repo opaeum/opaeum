@@ -47,8 +47,8 @@ public class TestSendSignalWithAttributes extends BaseLocalDbTest  {
 		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
 
 		//Comment out deletion of activity for these test to pass!!!!!!!!!!!!!!!!!!!!
-		//+ 3 for TestSendSignalActivity Actions + 1 for Activity + 5 for TestReceiveSignalActivity Actions + 1 for Activity -1 as activity gets deleted
-		Assert.assertEquals(31, countVertices());
+		//+ 5 for TestSendSignalActivity Actions/Pins + 1 for Activity + 6 for TestReceiveSignalActivity Actions/Pin/Trigger + 1 for Activity 
+		Assert.assertEquals(34, countVertices());
 
 		Assert.assertEquals(1, customer.getSendSignalWithAttributesActivity().size());
 		Assert.assertEquals(1, customer.getReceiveSignalWithAttributesActivity().size());

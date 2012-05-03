@@ -2,6 +2,7 @@ package org.nakeduml.tinker.activity;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
+import org.nakeduml.tinker.activity.generator.TinkerActivityNodeExGenerator;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
@@ -34,7 +35,7 @@ import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
-@StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerActivityNodeGenerator.class }, after = { TinkerActivityNodeGenerator.class })
+@StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerActivityNodeExGenerator.class }, after = { TinkerActivityNodeExGenerator.class })
 public class TinkerOperationGenerator extends StereotypeAnnotator {
 
 	@VisitBefore(matchSubclasses = true, match = { INakedOperation.class })

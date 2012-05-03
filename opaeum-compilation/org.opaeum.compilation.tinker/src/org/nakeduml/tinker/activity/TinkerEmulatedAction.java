@@ -8,7 +8,7 @@ public class TinkerEmulatedAction extends EmulatedClassifier {
 
 	private static final long serialVersionUID = 7840023317319322749L;
 
-	protected TinkerEmulatedAction(INakedNameSpace owner, INakedElement element) {
+	public TinkerEmulatedAction(INakedNameSpace owner, INakedElement element) {
 		super(owner, element);
 	}
 

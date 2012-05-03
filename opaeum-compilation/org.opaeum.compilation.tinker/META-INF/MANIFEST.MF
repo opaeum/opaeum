@@ -22,6 +22,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
 Export-Package: org.nakeduml.tinker.activity,
+ org.nakeduml.tinker.activity.generator,
  org.nakeduml.tinker.activity.nullify,
  org.nakeduml.tinker.audit,
  org.nakeduml.tinker.emf.extraction,

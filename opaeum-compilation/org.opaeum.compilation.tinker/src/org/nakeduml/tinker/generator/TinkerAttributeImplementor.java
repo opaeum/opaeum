@@ -35,6 +35,7 @@ import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class, replaces = AttributeImplementor.class, after = { TinkerImplementNodeStep.class, ExtendedCompositionSemantics.class,
 		ComponentInitializer.class })
@@ -426,7 +427,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 			}
 			createPolymorphicToOneRelationship(umlOwner, map, setter);
 		}
-		setter.getBody().addToStatements(map.umlName() + " = val");
+		setter.getBody().addToStatements(NameConverter.decapitalize(map.umlName()) + " = val");
 	}
 
 	public void buildTinkerToOneRemover(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation remover) {

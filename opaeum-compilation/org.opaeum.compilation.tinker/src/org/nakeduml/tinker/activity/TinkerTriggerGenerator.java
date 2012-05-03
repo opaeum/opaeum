@@ -81,6 +81,12 @@ public class TinkerTriggerGenerator extends TinkerImplementNodeStep {
 		getEventName.getBody().addToStatements("return " + map.getter() + "()");
 		ojClass.addToOperations(getEventName);
 		ojClass.addToImports(TinkerBehaviorUtil.tinkerITriggerPathName.getCopy());
+
+		OJAnnotatedOperation getEventClass = new OJAnnotatedOperation("getEventClass", new OJPathName("Class<? extends " + TinkerBehaviorUtil.tinkerIEventPathName.getLast() + ">"));
+		TinkerGenerationUtil.addOverrideAnnotation(getEventClass);
+		getEventClass.getBody().addToStatements("return " + map.javaBaseTypePath().getLast() + ".class");
+		ojClass.addToOperations(getEventClass);
+
 	}
 
 	protected void persistUid(OJAnnotatedClass ojClass) {

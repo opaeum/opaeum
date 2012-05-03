@@ -7,6 +7,7 @@ import java.util.List;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
+import org.nakeduml.tinker.activity.generator.TinkerActivityNodeExGenerator;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
@@ -44,7 +45,7 @@ import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.name.NameConverter;
 
-@StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerImplementNodeStep.class, TinkerActivityNodeGenerator.class }, after = { TinkerImplementNodeStep.class })
+@StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerImplementNodeStep.class, TinkerActivityNodeExGenerator.class }, after = { TinkerImplementNodeStep.class })
 public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 
 	@VisitBefore(matchSubclasses = true, match = { INakedActivity.class })

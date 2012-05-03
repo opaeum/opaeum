@@ -87,31 +87,38 @@ public class GenerateTinkerTestActivity {
 		steps.add(StereotypeApplicationExtractor.class);
 		steps.add(ExtendedCompositionSemantics.class);
 		steps.add(JavaMetaInfoMapGenerator.class);
+		
 		steps.add(TinkerImplementNodeStep.class);
-		steps.add(TinkerNameSpaceExtractor.class);
 		steps.add(TinkerCollectionStep.class);
-		steps.add(TinkerFeatureExtractor.class);
-		steps.add(TinkerNakedParsedOclStringResolver.class);
-		steps.add(TinkerQualifierLogicCalculator.class);
-		steps.add(TinkerQualifierResolver.class);
 		steps.add(TinkerQualifierGenerator.class);
-		steps.add(TinkerCompositionNodeImplementor.class);
-		steps.add(TinkerComponentInitializer.class);
-		steps.add(TinkerActivityGenerator.class);
+		
+		//Opaeum overriden, not used
 		steps.add(TinkerActivityEventConsumptionImplementor.class);
 		steps.add(TinkerSpecificationImplementor.class);
 		steps.add(TinkerActivityProcessImplementor.class);
 		steps.add(TinkerOperationAnnotator.class);
-		steps.add(TinkerBehavioredClassifierGenerator.class);
-		steps.add(TinkerCompositionEmulator.class);
 		steps.add(TinkerSimpleActivityMethodImplementor.class);
-		steps.add(TinkerUmlNameRegenerator.class);
-		steps.add(TinkerOperationGenerator.class);
-		steps.add(TinkerTriggerExtractor.class);
-		steps.add(TinkerEventGenerator.class);
 		steps.add(TinkerJava6ModelGenerator.class);
+		steps.add(TinkerQualifierLogicCalculator.class);
+		steps.add(TinkerQualifierResolver.class);
+
+		//Change some stuff
+		steps.add(TinkerNakedParsedOclStringResolver.class);
+		steps.add(TinkerCompositionEmulator.class);
+		steps.add(TinkerUmlNameRegenerator.class);
 		steps.add(TinkerProcessIdentifier.class);
+		steps.add(TinkerNameSpaceExtractor.class);
+		steps.add(TinkerFeatureExtractor.class);
+		steps.add(TinkerComponentInitializer.class);
+		steps.add(TinkerCompositionNodeImplementor.class);
+		
+		steps.add(TinkerActivityGenerator.class);
 		steps.add(TinkerTriggerGenerator.class);
+		steps.add(TinkerTriggerExtractor.class);
+		steps.add(TinkerBehavioredClassifierGenerator.class);
+		steps.add(TinkerOperationGenerator.class);
+		steps.add(TinkerEventGenerator.class);
+		
 		steps.addAll(LinkagePhase.getAllSteps());
 		return steps;
 	}

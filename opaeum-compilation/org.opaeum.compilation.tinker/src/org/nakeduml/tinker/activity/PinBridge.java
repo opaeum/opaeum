@@ -27,7 +27,7 @@ public class PinBridge extends AbstractEmulatedProperty implements INakedPropert
 	public PinBridge(INakedClassifier owner,INakedPin pin){
 		super(owner, pin);
 		this.pin = pin;
-		ensureLocallyUniqueName=true;
+		ensureLocallyUniqueName=false;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class PinBridge extends AbstractEmulatedProperty implements INakedPropert
 		return this.ensureLocallyUniqueName;
 	}
 	public INakedClassifier getNakedBaseType(){
-		ConcreteEmulatedClassifier jippo = new ConcreteEmulatedClassifier(this.pin.getNameSpace(), this.pin);
+		ConcretePinEmulatedClassifier jippo = new ConcretePinEmulatedClassifier(this.pin.getNameSpace(), this.pin);
 		return jippo;
 	}
 	public boolean isOrdered(){
@@ -51,7 +51,7 @@ public class PinBridge extends AbstractEmulatedProperty implements INakedPropert
 		return null;
 	}
 	public IClassifier getType(){
-		ConcreteEmulatedClassifier jippo = new ConcreteEmulatedClassifier(this.pin.getNameSpace(), this.pin);
+		ConcretePinEmulatedClassifier jippo = new ConcretePinEmulatedClassifier(this.pin.getNameSpace(), this.pin);
 		return jippo;
 	}
 	@Override

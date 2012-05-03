@@ -10,7 +10,7 @@ public abstract class Trigger extends BaseTinkerSoftDelete implements ITrigger {
 
 	@Override
 	public boolean accepts(IEvent event) {
-		return event.getClass().isAssignableFrom(getEvent().getClass());
+		return event.getClass().isAssignableFrom(getEventClass());
 	}
 
 }

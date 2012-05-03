@@ -236,7 +236,7 @@ public class TinkerBehaviorUtil {
 		return "get" + activityNodePathName(inputPin).getLast() + "InputPin";
 	}
 	public static String pinPathName(INakedPin inputPin) {
-		return NameConverter.capitalize(inputPin.getAction().getName()) + NameConverter.capitalize(inputPin.getName());
+		return NameConverter.decapitalize(inputPin.getAction().getName()) + "." + NameConverter.capitalize(inputPin.getName());
 	}
 	public static String parameterNodePathName(INakedParameterNode inputPin) {
 		return NameConverter.capitalize(inputPin.getName());
