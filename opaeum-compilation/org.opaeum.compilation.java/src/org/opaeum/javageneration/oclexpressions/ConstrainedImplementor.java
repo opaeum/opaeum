@@ -1,6 +1,8 @@
 package org.opaeum.javageneration.oclexpressions;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
@@ -15,7 +17,6 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.NakedParsedOclStringResolver;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.runtime.domain.IConstrained;
 import org.opaeum.runtime.domain.IInvariantError;
@@ -46,15 +47,14 @@ public class ConstrainedImplementor extends AbstractJavaProducingVisitor{
 		}
 	}
 	private boolean hasInvariants(INakedClassifier nc){
-		boolean result = false;
 		for(INakedConstraint c:nc.getOwnedRules()){
-			if(c.getSpecification().isValidOclValue()
-					&& c.getSpecification().getOclValue().getExpression().getExpressionType().isCollectionKind()){
-				return false;
-			}else{
-				result = true;
+			if(c.getSpecification().isValidOclValue()){
+				IClassifier b = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
+				if(c.getSpecification().getOclValue().getExpression().getExpressionType().conformsTo(b)){
+					return true;
+				}
 			}
 		}
-		return result;
+		return false;
 	}
 }

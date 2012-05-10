@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_X78aQZT6EeG_oLv6jKpgkw" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw" name="Recurring holiday User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_X78aQpT6EeG_oLv6jKpgkw" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw" name="Edit RecurringHoliday"><actionBar xmi:id="_xf1j5pT9EeGaNaT6nrkuVQ" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xf1j55T9EeGaNaT6nrkuVQ" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xf1j6JT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+  <primaryEditor xmi:id="_X78aQpT6EeG_oLv6jKpgkw" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw" name="Edit RecurringHoliday"><actionBar xmi:id="_QIjCRJWxEeGF5JliyOlmJg" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QIjCRZWxEeGF5JliyOlmJg" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QIjCRpWxEeGF5JliyOlmJg" name="Delete" kind="delete"/>
     </actionBar><pages xmi:id="_X78aQ5T6EeG_oLv6jKpgkw" name="Edit Recurring holiday" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw">
       <panel xmi:type="panel:GridPanel" xmi:id="_X78aRJT6EeG_oLv6jKpgkw" numberOfColumns="1">
         <children xmi:type="uim:UimField" xmi:id="_X78aRZT6EeG_oLv6jKpgkw" name="Day" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_xf1j4JT9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xf1j4ZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_DtECgNcCEeCJ0dmaHEVVnw"/>
+          <control xmi:type="ctl:UimText" xmi:id="_QIibMJWxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QIibMZWxEeGF5JliyOlmJg" umlElementUid="252060@_DtECgNcCEeCJ0dmaHEVVnw"/>
         </children>
         <children xmi:type="uim:UimField" xmi:id="_X78aSJT6EeG_oLv6jKpgkw" name="Month" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_xf1j4pT9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xf1j45T9EeGaNaT6nrkuVQ" umlElementUid="252060@_EgnmYNcCEeCJ0dmaHEVVnw"/>
+          <control xmi:type="ctl:UimDropdown" xmi:id="_QIjCQJWxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QIjCQZWxEeGF5JliyOlmJg" umlElementUid="252060@_EgnmYNcCEeCJ0dmaHEVVnw"/>
         </children>
         <children xmi:type="uim:UimField" xmi:id="_X78aS5T6EeG_oLv6jKpgkw" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_xf1j5JT9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xf1j5ZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_8kV24NcCEeCJ0dmaHEVVnw"/>
+          <control xmi:type="ctl:UimText" xmi:id="_QIjCQpWxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QIjCQ5WxEeGF5JliyOlmJg" umlElementUid="252060@_8kV24NcCEeCJ0dmaHEVVnw"/>
         </children>
       </panel>
     </pages></primaryEditor>
@@ -23,16 +23,16 @@
     <pages xmi:id="_X78aUpT6EeG_oLv6jKpgkw" name="CreateRecurring holiday" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw">
       <panel xmi:type="panel:GridPanel" xmi:id="_X78aU5T6EeG_oLv6jKpgkw" numberOfColumns="1">
         <children xmi:type="uim:UimField" xmi:id="_X78aVJT6EeG_oLv6jKpgkw" name="Day" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_xf2K8JT9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xf2K8ZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_DtECgNcCEeCJ0dmaHEVVnw"/>
+          <control xmi:type="ctl:UimText" xmi:id="_QIjCR5WxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QIjCSJWxEeGF5JliyOlmJg" umlElementUid="252060@_DtECgNcCEeCJ0dmaHEVVnw"/>
         </children>
         <children xmi:type="uim:UimField" xmi:id="_X78aV5T6EeG_oLv6jKpgkw" name="Month" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_xf2K8pT9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xf2K85T9EeGaNaT6nrkuVQ" umlElementUid="252060@_EgnmYNcCEeCJ0dmaHEVVnw"/>
+          <control xmi:type="ctl:UimDropdown" xmi:id="_QIjCSZWxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QIjCSpWxEeGF5JliyOlmJg" umlElementUid="252060@_EgnmYNcCEeCJ0dmaHEVVnw"/>
         </children>
         <children xmi:type="uim:UimField" xmi:id="_X78aWpT6EeG_oLv6jKpgkw" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_xf2K9JT9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xf2K9ZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_8kV24NcCEeCJ0dmaHEVVnw"/>
+          <control xmi:type="ctl:UimText" xmi:id="_QIjCS5WxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QIjCTJWxEeGF5JliyOlmJg" umlElementUid="252060@_8kV24NcCEeCJ0dmaHEVVnw"/>
         </children>
       </panel>
     </pages>

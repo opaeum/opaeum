@@ -3,7 +3,6 @@ package org.opaeum.javageneration.hibernate;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;

@@ -204,7 +204,8 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "String")
 					|| EmfClassifierUtil.comformsToLibraryType(p.getType(), "Boolean");
 		}else if(p.getType() instanceof DataType){
-			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "DateTime") || EmfClassifierUtil.comformsToLibraryType(p.getType(), "Date");
+			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "DateTime")
+					|| EmfClassifierUtil.comformsToLibraryType(p.getType(), "Date");
 		}else{
 			return false;
 		}
@@ -225,32 +226,36 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	@SuppressWarnings("rawtypes")
 	protected void setRole(String name){
 		if(propertyStereotype != null){
-			EditingDomain ed = getEditingDomain();
-			ApplyOpaeumStandardProfileCommand cmd = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), getTypedElement().getModel());
-			if(!getTypedElement().getModel().isProfileApplied(cmd.getProfile())){
-				getEditingDomain().getCommandStack().execute(cmd);
-			}
-			if(!getTypedElement().isStereotypeApplied(propertyStereotype)){
-				ed.getCommandStack().execute(new ApplyStereotypeCommand(getTypedElement(), propertyStereotype));
-			}
-			EObject sa = getTypedElement().getStereotypeApplication(propertyStereotype);
-			EStructuralFeature feat = propertyStereotype.getDefinition().getEStructuralFeature("roleInCube");
-			ed.getCommandStack().execute(SetCommand.create(ed, sa, feat, roleEnumeration.getEEnumLiteral(name)));
-			// getEditingDomain().getCommandStack().execute(
-			// SetCommand.create(getEditingDomain(), getTypedElement().getStereotypeApplication(propertyStereotype),
-			// propertyStereotype.getDefinition()
-			// .getEStructuralFeature("roleInCube"), roleEnumeration.getOwnedLiteral(name)));
-			if(name.equals("NONE")){
-				for(Button button:formulaChecks){
-					button.setEnabled(false);
-					button.setSelection(false);
+			List<EObject> eObjectList = getEObjectList();
+			for(EObject eObject:eObjectList){
+				EditingDomain ed = getEditingDomain();
+				TypedElement te = (TypedElement) eObject;
+				ApplyOpaeumStandardProfileCommand cmd = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), te.getModel());
+				if(!te.getModel().isProfileApplied(cmd.getProfile())){
+					getEditingDomain().getCommandStack().execute(cmd);
 				}
-				((List) getTypedElement().getValue(propertyStereotype, "aggregationFormulas")).clear();
-			}else if(name.equals("MEASURE")){
-				for(Button button:formulaChecks){
-					button.setEnabled(true);
-					EStructuralFeature aggForm= propertyStereotype.getDefinition().getEStructuralFeature("aggregationFormulas");
-					ed.getCommandStack().execute(RemoveCommand.create(ed, sa, aggForm, sa.eGet(aggForm)));
+				if(!te.isStereotypeApplied(propertyStereotype)){
+					ed.getCommandStack().execute(new ApplyStereotypeCommand(te, propertyStereotype));
+				}
+				EObject sa = te.getStereotypeApplication(propertyStereotype);
+				EStructuralFeature feat = propertyStereotype.getDefinition().getEStructuralFeature("roleInCube");
+				ed.getCommandStack().execute(SetCommand.create(ed, sa, feat, roleEnumeration.getEEnumLiteral(name)));
+				// getEditingDomain().getCommandStack().execute(
+				// SetCommand.create(getEditingDomain(), getTypedElement().getStereotypeApplication(propertyStereotype),
+				// propertyStereotype.getDefinition()
+				// .getEStructuralFeature("roleInCube"), roleEnumeration.getOwnedLiteral(name)));
+				if(name.equals("NONE")){
+					for(Button button:formulaChecks){
+						button.setEnabled(false);
+						button.setSelection(false);
+					}
+					((List) te.getValue(propertyStereotype, "aggregationFormulas")).clear();
+				}else if(name.equals("MEASURE")){
+					for(Button button:formulaChecks){
+						button.setEnabled(true);
+						EStructuralFeature aggForm = propertyStereotype.getDefinition().getEStructuralFeature("aggregationFormulas");
+						ed.getCommandStack().execute(RemoveCommand.create(ed, sa, aggForm, sa.eGet(aggForm)));
+					}
 				}
 			}
 		}
@@ -278,16 +283,19 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 				@Override
 				public void widgetSelected(SelectionEvent e){
 					EditingDomain ed = getEditingDomain();
-					if(!getTypedElement().isStereotypeApplied(propertyStereotype)){
-						ed.getCommandStack().execute(new ApplyStereotypeCommand(getTypedElement(), propertyStereotype));
-					}
-					EObject sa = getTypedElement().getStereotypeApplication(propertyStereotype);
-					
-					EStructuralFeature feat = propertyStereotype.getDefinition().getEStructuralFeature("aggregationFormulas");
-					if(c.getSelection()){
-						ed.getCommandStack().execute(AddCommand.create(ed, sa, feat, l));
-					}else{
-						ed.getCommandStack().execute(RemoveCommand.create(ed, sa, feat, l));
+					List<EObject> eObjectList = getEObjectList();
+					for(EObject eObject:eObjectList){
+						TypedElement te = (TypedElement) eObject;
+						if(!te.isStereotypeApplied(propertyStereotype)){
+							ed.getCommandStack().execute(new ApplyStereotypeCommand(te, propertyStereotype));
+						}
+						EObject sa = te.getStereotypeApplication(propertyStereotype);
+						EStructuralFeature feat = propertyStereotype.getDefinition().getEStructuralFeature("aggregationFormulas");
+						if(c.getSelection()){
+							ed.getCommandStack().execute(AddCommand.create(ed, sa, feat, l));
+						}else{
+							ed.getCommandStack().execute(RemoveCommand.create(ed, sa, feat, l));
+						}
 					}
 				}
 				@Override

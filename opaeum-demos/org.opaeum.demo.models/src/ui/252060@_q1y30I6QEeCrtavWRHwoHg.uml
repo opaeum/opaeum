@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_X8AruJT6EeG_oLv6jKpgkw" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg" name="Remove request participant User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_X8AruZT6EeG_oLv6jKpgkw" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg" name="Edit removeRequestParticipant"><actionBar xmi:id="_xgcn4JT9EeGaNaT6nrkuVQ" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xgcn4ZT9EeGaNaT6nrkuVQ" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xgcn4pT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+  <primaryEditor xmi:id="_X8AruZT6EeG_oLv6jKpgkw" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg" name="Edit removeRequestParticipant"><actionBar xmi:id="_QI8q4JWxEeGF5JliyOlmJg" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QI8q4ZWxEeGF5JliyOlmJg" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QI8q4pWxEeGF5JliyOlmJg" name="Delete" kind="delete"/>
     </actionBar><pages xmi:id="_X8ArupT6EeG_oLv6jKpgkw" name="Edit Remove request participant" umlElementUid="252060@_q1y30I6QEeCrtavWRHwoHg">
       <panel xmi:type="panel:GridPanel" xmi:id="_X8Aru5T6EeG_oLv6jKpgkw" numberOfColumns="1"/>
     </pages></primaryEditor>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_X8Cg45T6EeG_oLv6jKpgkw" umlElementUid="252060@_vZOC4I6UEeCne5ArYLDbiA" name="Participation in task User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_X8Cg5JT6EeG_oLv6jKpgkw" umlElementUid="252060@_vZOC4I6UEeCne5ArYLDbiA" name="Edit ParticipationInTask"><actionBar xmi:id="_xghgYpT9EeGaNaT6nrkuVQ" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xghgY5T9EeGaNaT6nrkuVQ" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xghgZJT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+  <primaryEditor xmi:id="_X8Cg5JT6EeG_oLv6jKpgkw" umlElementUid="252060@_vZOC4I6UEeCne5ArYLDbiA" name="Edit ParticipationInTask"><actionBar xmi:id="_QItaVJWxEeGF5JliyOlmJg" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QItaVZWxEeGF5JliyOlmJg" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QItaVpWxEeGF5JliyOlmJg" name="Delete" kind="delete"/>
     </actionBar><pages xmi:id="_X8Cg5ZT6EeG_oLv6jKpgkw" name="Edit Participation in task" umlElementUid="252060@_vZOC4I6UEeCne5ArYLDbiA">
       <panel xmi:type="panel:GridPanel" xmi:id="_X8Cg5pT6EeG_oLv6jKpgkw" numberOfColumns="1">
         <children xmi:type="uim:UimField" xmi:id="_X8Cg55T6EeG_oLv6jKpgkw" name="Kind" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_xgg5UJT9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xgg5UZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_2tlBVI6UEeCne5ArYLDbiA"/>
+          <control xmi:type="ctl:UimDropdown" xmi:id="_QItaUJWxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QItaUZWxEeGF5JliyOlmJg" umlElementUid="252060@_2tlBVI6UEeCne5ArYLDbiA"/>
         </children>
         <children xmi:type="uim:UimField" xmi:id="_X8Cg6pT6EeG_oLv6jKpgkw" name="Participant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_xghgYJT9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xghgYZT9EeGaNaT6nrkuVQ" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
+          <control xmi:type="ctl:UimDropdown" xmi:id="_QItaUpWxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QItaU5WxEeGF5JliyOlmJg" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
         </children>
       </panel>
     </pages></primaryEditor>
@@ -19,12 +19,12 @@
     <pages xmi:id="_X8Cg8ZT6EeG_oLv6jKpgkw" name="CreateParticipation in task" umlElementUid="252060@_vZOC4I6UEeCne5ArYLDbiA">
       <panel xmi:type="panel:GridPanel" xmi:id="_X8Cg8pT6EeG_oLv6jKpgkw" numberOfColumns="1">
         <children xmi:type="uim:UimField" xmi:id="_X8Cg85T6EeG_oLv6jKpgkw" name="Kind" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_xghgZZT9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xghgZpT9EeGaNaT6nrkuVQ" umlElementUid="252060@_2tlBVI6UEeCne5ArYLDbiA"/>
+          <control xmi:type="ctl:UimDropdown" xmi:id="_QItaV5WxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QItaWJWxEeGF5JliyOlmJg" umlElementUid="252060@_2tlBVI6UEeCne5ArYLDbiA"/>
         </children>
         <children xmi:type="uim:UimField" xmi:id="_X8Cg9pT6EeG_oLv6jKpgkw" name="Participant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_xghgZ5T9EeGaNaT6nrkuVQ"/>
-          <binding xmi:id="_xghgaJT9EeGaNaT6nrkuVQ" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
+          <control xmi:type="ctl:UimDropdown" xmi:id="_QItaWZWxEeGF5JliyOlmJg"/>
+          <binding xmi:id="_QItaWpWxEeGF5JliyOlmJg" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
         </children>
       </panel>
     </pages>

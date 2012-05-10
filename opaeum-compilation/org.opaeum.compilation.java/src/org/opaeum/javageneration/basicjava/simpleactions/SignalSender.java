@@ -3,10 +3,8 @@ package org.opaeum.javageneration.basicjava.simpleactions;
 import java.util.Iterator;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.opaeum.java.metamodel.OJBlock;
-import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;

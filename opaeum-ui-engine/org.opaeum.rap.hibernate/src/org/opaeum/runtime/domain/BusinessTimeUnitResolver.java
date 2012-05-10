@@ -1,6 +1,5 @@
 package org.opaeum.runtime.domain;
 
-
 import org.opaeum.hibernate.domain.AbstractEnumResolver;
 import org.opaeum.runtime.domain.EnumResolver;
 import org.opaeum.runtime.domain.IEnum;

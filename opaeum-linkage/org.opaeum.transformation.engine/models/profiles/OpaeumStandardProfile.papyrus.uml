@@ -172,6 +172,9 @@
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_XzFbCmH0EeG9Du3sLzHVMg" name="persistentName" ordered="false" upperBound="-1">
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
         </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_XzFbCmH0EeG9Du3sLzHVMg" name="isPrimaryKeyProperty" ordered="false" upperBound="-1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+        </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_XzFbDGH0EeG9Du3sLzHVMg" name="base_Property" ordered="false" lowerBound="1">
           <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
         </eStructuralFeatures>

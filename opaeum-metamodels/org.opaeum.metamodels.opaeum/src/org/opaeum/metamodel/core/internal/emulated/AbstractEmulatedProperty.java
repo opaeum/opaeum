@@ -133,7 +133,7 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 		return otherEnd;
 	}
 	public int getOwnedAttributeIndex(){
-		return Math.abs(id.hashCode());//High but consistent
+		return Math.abs(id.hashCode());// High but consistent
 	}
 	public String[] getQualifierNames(){
 		return new String[0];
@@ -145,8 +145,8 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 		return Collections.emptyList();
 	}
 	public Collection<INakedProperty> getSubsettedProperties(){
-		if(this.subsettedProperties==null){
-			this.subsettedProperties=new ArrayList<INakedProperty>();
+		if(this.subsettedProperties == null){
+			this.subsettedProperties = new ArrayList<INakedProperty>();
 		}
 		return this.subsettedProperties;
 	}
@@ -227,10 +227,13 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 	}
 	@Override
 	public boolean isDimension(){
-		return getOtherEnd()!=null && getOtherEnd().isComposite();
+		return getOtherEnd() != null && getOtherEnd().isComposite();
 	}
 	public boolean isMeasure(){
 		return false;
 	}
-
+	@Override
+	public boolean isPrimaryKeyProperty(){
+		return false;
+	}
 }

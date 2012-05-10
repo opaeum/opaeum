@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
-import nl.klasse.octopus.model.IAttribute;
 
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
@@ -19,7 +18,6 @@ import org.opaeum.java.metamodel.generated.OJElementGEN;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.LinkagePhase;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedEvent;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -28,9 +26,7 @@ import org.opaeum.metamodel.core.INakedGeneralization;
 import org.opaeum.metamodel.core.INakedInterfaceRealization;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedPackage;
-import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;

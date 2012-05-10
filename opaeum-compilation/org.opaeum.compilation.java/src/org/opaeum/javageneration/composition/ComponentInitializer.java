@@ -2,10 +2,7 @@ package org.opaeum.javageneration.composition;
 
 import java.util.List;
 
-import nl.klasse.octopus.model.IModelElement;
-
 import org.opaeum.feature.StepDependency;
-import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;

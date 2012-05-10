@@ -32,6 +32,11 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 		}
 	}
 	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+
+	@Override
 	protected void addListener(){
 		super.addListener();
 		if(safeGetProperty() != null){

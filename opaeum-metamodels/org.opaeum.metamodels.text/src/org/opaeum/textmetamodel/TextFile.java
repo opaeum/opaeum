@@ -69,9 +69,6 @@ public class TextFile extends TextOutputNode{
 	}
 	@Override
 	public boolean hasContent(){
-		if(textSource==null){
-			System.out.println();
-		}
 		return !shouldDelete() && textSource.hasContent();
 	}
 	public void appendVersion(String version){

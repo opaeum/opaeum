@@ -61,7 +61,8 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		}
 		this.figure = figure;
 		figure.getWidget().addControlListener(this);
-		this.element = (UserInteractionElement) this.editPart.getAdapter(EObject.class);
+		Object eObject = this.editPart.getAdapter(EObject.class);
+		this.element = (UserInteractionElement) eObject;
 		element.eAdapters().add(this);
 		this.figure.addFigureListener(this);
 		this.figure.getParent().addFigureListener(this);

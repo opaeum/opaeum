@@ -2255,7 +2255,6 @@
   <OpaeumStandardProfile:Entity xmi:id="_Ljo70GHsEeGz6amjGW5wRQ" base_Class="_anU2QF-jEeGSPaWW9iQb9Q"/>
   <OpaeumStandardProfile:Interface xmi:id="_TOrU4GHsEeGz6amjGW5wRQ" mappedImplementationType="org.opaeum.runtime.contact.IPersonPostalAddress" base_Interface="_IRdZYGHsEeGz6amjGW5wRQ"/>
   <OpaeumStandardProfile:Enumeration xmi:id="_s6X9YGH0EeG9Du3sLzHVMg" mappedImplementationType="org.opaeum.runtime.contact.PersonEMailAddressType" base_Enumeration="_YLfSwEtnEeGd4cpyhpib9Q"/>
-  <OpaeumStandardProfile:Enumeration xmi:id="_u8e_EGH0EeG9Du3sLzHVMg" mappedImplementationType="org.opaeum.runtime.contact.PersonPhoneNumberType" base_Enumeration="_Z-VwcEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Entity xmi:id="_OTp7oGIIEeGzlJ4_CwngCw" base_Class="_Nn1XcGIIEeGzlJ4_CwngCw"/>
   <OpaeumStandardProfile:Interface xmi:id="_hO7UcGQZEeGbL9nlXe9lTQ" mappedImplementationType="org.opaeum.runtime.organization.IBusinessRoleBase" base_Interface="_cPyg8GQZEeGbL9nlXe9lTQ"/>
   <OpaeumStandardProfile:Entity xmi:id="_ozd1EHRNEeG1_5E5y7GYlw" base_Class="_Jn9QcNb-EeCJ0dmaHEVVnw"/>
@@ -2274,4 +2273,5 @@
   <HibernateValidation:Length xmi:id="_KovqgHr-EeGLG4a8Ss1xJw" base_DataType="_S-ZOMHr7EeGX8L_MMRBizg" base_PrimitiveType="_S-ZOMHr7EeGX8L_MMRBizg" max="15" message="Phone number must consist of between  9 and 15 characters" min="8"/>
   <OpaeumStandardProfile:Attribute xmi:id="_GfbXQIRrEeGh1KS-l3XAqQ" base_Property="_EjZvcIRrEeGh1KS-l3XAqQ"/>
   <OpaeumStandardProfile:Interface xmi:id="_uSOiIJK9EeGnpuq6_ber_Q" mappedImplementationType="org.opaeum.runtime.organization.IBusinessComponentBase" base_Interface="_rXku4JK9EeGnpuq6_ber_Q"/>
+  <OpaeumStandardProfile:Enumeration xmi:id="_BE6B8JXHEeGFOLqzWVsCRQ" mappedImplementationType="org.opaeum.runtime.contact.PersonPhoneNumberType" base_Enumeration="_Z-VwcEtnEeGd4cpyhpib9Q"/>
 </xmi:XMI>

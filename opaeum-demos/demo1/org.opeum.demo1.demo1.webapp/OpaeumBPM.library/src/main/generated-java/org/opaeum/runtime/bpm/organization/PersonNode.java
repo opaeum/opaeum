@@ -47,6 +47,7 @@ import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.domain.IConstrained;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -72,7 +73,7 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="PersonNode")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerator, IConstrained, HibernateEntity, CompositionNode, Serializable {
 	@Column(name="authentication_token")
 	private String authenticationToken;
 	@Transient

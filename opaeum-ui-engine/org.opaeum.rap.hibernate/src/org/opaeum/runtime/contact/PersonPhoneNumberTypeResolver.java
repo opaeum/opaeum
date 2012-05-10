@@ -1,7 +1,6 @@
 package org.opaeum.runtime.contact;
 
 import org.opaeum.hibernate.domain.AbstractEnumResolver;
-import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.EnumResolver;
 import org.opaeum.runtime.domain.IEnum;
 
@@ -32,7 +31,7 @@ public class PersonPhoneNumberTypeResolver extends AbstractEnumResolver implemen
 	}
 	
 	public Class<?> returnedClass() {
-		return PersonPhoneNumberType.class;
+		return org.opaeum.runtime.contact.PersonPhoneNumberType.class;
 	}
 	
 	public long toOpaeumId(IEnum en) {

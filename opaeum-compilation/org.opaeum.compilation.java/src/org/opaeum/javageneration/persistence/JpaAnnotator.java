@@ -1,10 +1,8 @@
 package org.opaeum.javageneration.persistence;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.GenerationType;
-
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -13,6 +11,7 @@ import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
@@ -29,7 +28,6 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.name.NameWrapper;
@@ -139,6 +137,36 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()){
 				JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
 				JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
+				if(complexType instanceof INakedEntity){
+					Collection<INakedProperty> primaryKeyProperties = ((INakedEntity) complexType).getPrimaryKeyProperties();
+					if(primaryKeyProperties.size() == 1){
+						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(primaryKeyProperties.iterator().next());
+						OJAnnotatedField field = (OJAnnotatedField) ojClass.findField(map.fieldname());
+						field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Id")));
+						if(map.getProperty().getNakedBaseType().conformsTo(getLibrary().getIntegerType())){
+							OJAnnotatedOperation getId = new OJAnnotatedOperation("getId", new OJPathName("Long"));
+							ojClass.addToOperations(getId);
+							getId.initializeResultVariable(field.getName() + ".longValue()");
+							OJAnnotatedOperation setId = new OJAnnotatedOperation("setId");
+							setId.addParam("i", new OJPathName("Long"));
+							ojClass.addToOperations(setId);
+						}
+						
+					}else if(primaryKeyProperties.size() > 1){
+						OJAnnotatedClass cls = new OJAnnotatedClass(ojClass.getName() + "Id");
+						ojClass.getMyPackage().addToClasses(cls);
+						createTextPath(cls, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+						cls.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Embeddable")));
+						cls.addToImplementedInterfaces(new OJPathName("java.io.Serializable"));
+						for(INakedProperty p:primaryKeyProperties){
+							NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
+							OJUtil.addPersistentProperty(cls, map.umlName(), map.javaTypePath(), true);
+							mapXToOne(map, cls);
+						}
+						OJUtil.addPersistentProperty(ojClass, "id", cls.getPathName(), true).addAnnotationIfNew(
+								new OJAnnotationValue(new OJPathName("javax.persistence.EmbeddedId")));
+					}
+				}
 			}else{
 				OJAnnotationValue discriminatorValue = new OJAnnotationValue(new OJPathName("javax.persistence.DiscriminatorValue"),
 						persistentName.getAsIs());

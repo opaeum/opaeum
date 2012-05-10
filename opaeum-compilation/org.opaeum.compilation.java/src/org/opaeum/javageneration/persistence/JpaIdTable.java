@@ -17,20 +17,20 @@ public class JpaIdTable implements JpaIdStrategy {
 		idField.putAnnotation(id);
 		OJAnnotationValue generatedValue = new OJAnnotationValue(new OJPathName("javax.persistence.GeneratedValue"));
 		generatedValue.putAttribute(new OJAnnotationAttributeValue("strategy", new OJEnumValue(new OJPathName("javax.persistence.GenerationType"), "TABLE")));
-//		generatedValue.putAttribute(new OJAnnotationAttributeValue("generator", "id_generator"));
+		generatedValue.putAttribute(new OJAnnotationAttributeValue("generator", "id_generator"));
 		idField.putAnnotation(generatedValue);
 	}
 
 	@Override
 	public void annotate(OJAnnotatedClass javaRoot, INakedComplexStructure complexType) {
-//		OJAnnotationValue generator = new OJAnnotationValue(new OJPathName("javax.persistence.TableGenerator"));
-//		generator.putAttribute(new OJAnnotationAttributeValue("name", "id_generator"));
-//		generator.putAttribute(new OJAnnotationAttributeValue("table", "hi_value"));
-//		generator.putAttribute(new OJAnnotationAttributeValue("pkColumnName", "type"));
-//		String tableName = complexType.getMappingInfo().getPersistentName().getAsIs();
-//		generator.putAttribute(new OJAnnotationAttributeValue("pkColumnValue", tableName));
-//		generator.putAttribute(new OJAnnotationAttributeValue("allocationSize", new Integer(20)));
-//		javaRoot.putAnnotation(generator);
+		OJAnnotationValue generator = new OJAnnotationValue(new OJPathName("javax.persistence.TableGenerator"));
+		generator.putAttribute(new OJAnnotationAttributeValue("name", "id_generator"));
+		generator.putAttribute(new OJAnnotationAttributeValue("table", "hi_value"));
+		generator.putAttribute(new OJAnnotationAttributeValue("pkColumnName", "type"));
+		String tableName = complexType.getMappingInfo().getPersistentName().getAsIs();
+		generator.putAttribute(new OJAnnotationAttributeValue("pkColumnValue", tableName));
+		generator.putAttribute(new OJAnnotationAttributeValue("allocationSize", new Integer(20)));
+		javaRoot.putAnnotation(generator);
 	}
 
 }

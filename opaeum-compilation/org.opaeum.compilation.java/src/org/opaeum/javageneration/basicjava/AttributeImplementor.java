@@ -145,9 +145,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
-		if(map.umlName().equals("participation")){
-			System.out.println();
-		}
 		INakedProperty p = map.getProperty();
 		if(!OJUtil.isBuiltIn(p)){
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){

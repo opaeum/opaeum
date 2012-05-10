@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_X8IngJT6EeG_oLv6jKpgkw" umlElementUid="252060@_e0G_YK0gEeCwWeEjtrrMeQ" name="Forward User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_X8IngZT6EeG_oLv6jKpgkw" umlElementUid="252060@_e0G_YK0gEeCwWeEjtrrMeQ" name="Edit forward"><actionBar xmi:id="_xgz0QJT9EeGaNaT6nrkuVQ" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xgz0QZT9EeGaNaT6nrkuVQ" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_xgz0QpT9EeGaNaT6nrkuVQ" name="Delete" kind="delete"/>
+  <primaryEditor xmi:id="_X8IngZT6EeG_oLv6jKpgkw" umlElementUid="252060@_e0G_YK0gEeCwWeEjtrrMeQ" name="Edit forward"><actionBar xmi:id="_QJfdcJWxEeGF5JliyOlmJg" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QJfdcZWxEeGF5JliyOlmJg" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QJfdcpWxEeGF5JliyOlmJg" name="Delete" kind="delete"/>
     </actionBar><pages xmi:id="_X8IngpT6EeG_oLv6jKpgkw" name="Edit Forward" umlElementUid="252060@_e0G_YK0gEeCwWeEjtrrMeQ">
       <panel xmi:type="panel:GridPanel" xmi:id="_X8Ing5T6EeG_oLv6jKpgkw" numberOfColumns="1"/>
     </pages></primaryEditor>

@@ -70,10 +70,11 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 				OJAnnotatedOperation getUid = new OJAnnotatedOperation("getUid", new OJPathName("String"));
 				getUid.initializeResultVariable("getUuid()");
 				myClass.addToOperations(getUid);
+				OJUtil.addField(myClass, constr, "opaeumId", new OJPathName("long"));
 
 				for(IEnumLiteral el:c.getLiterals()){
 					INakedEnumerationLiteral nl = (INakedEnumerationLiteral) el;
-					OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()), "uuid", "\"" + nl.getMappingInfo().getIdInModel() + "\"");
+					OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()), "uuid", "\"" + nl.getMappingInfo().getIdInModel() + "\"," +  nl.getMappingInfo().getOpaeumId() + "l");
 				}
 				if(!constr.getParameters().isEmpty()){
 					myClass.addToConstructors(constr);

@@ -73,18 +73,4 @@ from the Opaeum Metamodel to the various implementation platforms.
          install-size="0"
          version="0.0.0"/>
 
-   <plugin
-         id="org.opaeum.compilation.tinker"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.compilation.uim"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 </feature>

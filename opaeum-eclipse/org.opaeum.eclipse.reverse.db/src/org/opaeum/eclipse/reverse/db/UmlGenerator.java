@@ -112,6 +112,9 @@ public class UmlGenerator{
 					List<String> s = (List<String>) toOne.getValue(factory.getAssociationEndStereotype(), "persistentName");
 					for(Column column:members){
 						s.add(column.getName());
+						if(column.isPartOfPrimaryKey()){
+							toOne.setValue(factory.getAssociationEndStereotype(), "isPrimaryKey", Boolean.TRUE);
+						}
 					}
 				}
 			}

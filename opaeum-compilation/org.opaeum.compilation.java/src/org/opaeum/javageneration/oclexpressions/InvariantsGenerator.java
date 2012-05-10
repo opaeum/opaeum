@@ -20,7 +20,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.NakedParsedOclStringResolver;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
@@ -30,8 +29,6 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedGeneralization;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedInterfaceRealization;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedTypedElement;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class,NakedParsedOclStringResolver.class,

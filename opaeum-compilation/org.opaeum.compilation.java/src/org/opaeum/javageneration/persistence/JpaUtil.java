@@ -60,7 +60,8 @@ public class JpaUtil{
 		return null;
 	}
 	private static boolean isSchema(INakedNameSpace ns){
-		return(ns instanceof INakedPackage && ((INakedPackage) ns).isSchema()) || (ns instanceof INakedComponent && ((INakedComponent) ns).isSchema());
+		return (ns instanceof INakedPackage && ((INakedPackage) ns).isSchema())
+				|| (ns instanceof INakedComponent && ((INakedComponent) ns).isSchema());
 	}
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config,INakedNameSpace ns){
 		OJAnnotationValue table = new OJAnnotationValue(new OJPathName("javax.persistence.Table"));
@@ -74,7 +75,7 @@ public class JpaUtil{
 			table.putAttribute(new OJAnnotationAttributeValue("name", getValidSqlName(tableName)));
 			if(schema != null){
 				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + schema + BACKTICK));
-			}else if(config.getDefaultSchema()!=null){
+			}else if(config.getDefaultSchema() != null){
 				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + config.getDefaultSchema() + BACKTICK));
 			}
 		}else{
@@ -129,9 +130,14 @@ public class JpaUtil{
 		a.putAttribute(new OJAnnotationAttributeValue("cascade", new OJEnumValue(new OJPathName("javax.persistence.CascadeType"), "ALL")));
 	}
 	public static void addAndAnnotatedIdAndVersion(JpaIdStrategy jpaIdStrategy,OJAnnotatedClass ojClass,INakedComplexStructure complexType){
-		OJUtil.addPersistentProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
-		JpaUtil.annotateId(jpaIdStrategy, complexType, ojClass);
+		OJUtil.addPersistentProperty(ojClass, "objectVersion", new OJPathName("int"), true);
 		JpaUtil.annotateVersion(ojClass);
+		if((complexType instanceof INakedEntity && !((INakedEntity) complexType).getPrimaryKeyProperties().isEmpty())){
+			return;
+		}else{
+			OJUtil.addPersistentProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
+			JpaUtil.annotateId(jpaIdStrategy, complexType, ojClass);
+		}
 	}
 	private static void annotateId(JpaIdStrategy jpaIdStrategy,INakedComplexStructure complexType,OJAnnotatedClass javaRoot){
 		OJAnnotatedField idField = (OJAnnotatedField) javaRoot.findField("id");
@@ -139,7 +145,6 @@ public class JpaUtil{
 		jpaIdStrategy.annotate(javaRoot, complexType);
 	}
 	private static void annotateVersion(OJAnnotatedClass javaRoot){
-		OJUtil.addPersistentProperty(javaRoot, "objectVersion", new OJPathName("int"), true);
 		OJAnnotatedField versionField = (OJAnnotatedField) javaRoot.findField("objectVersion");
 		OJAnnotationValue version = new OJAnnotationValue(new OJPathName("javax.persistence.Version"));
 		versionField.putAnnotation(version);
@@ -275,6 +280,4 @@ public class JpaUtil{
 		}
 		return sb.toString();
 	}
-
-
 }

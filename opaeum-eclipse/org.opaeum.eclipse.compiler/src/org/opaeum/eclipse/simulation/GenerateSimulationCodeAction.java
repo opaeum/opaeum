@@ -1,29 +1,18 @@
 package org.opaeum.eclipse.simulation;
 
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
-import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
@@ -36,24 +25,23 @@ public class GenerateSimulationCodeAction extends AbstractOpaeumAction{
 	}
 	@Override
 	public void run(){
-		Object firstElement = selection.getFirstElement();
-		final SimulationModel model;
-		if(firstElement instanceof SimulationModel){
-			model = (SimulationModel) firstElement;
-		}else if(firstElement instanceof IAdaptable){
-			model = (SimulationModel) ((IAdaptable) firstElement).getAdapter(EObject.class);
-		}else{
-			model = null;
-		}
-		if(model != null){
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(model.eResource().getURI().toPlatformString(true)));
-			final IContainer contextFolder = file.getParent().getParent();
-			final OpaeumEclipseContext currentContext = OpaeumEclipseContext.findOrCreateContextFor(contextFolder);
-			new Job("Generating Simulation Code"){
-				@Override
-				protected IStatus run(final IProgressMonitor monitor){
-					try{
-						 throw new UnsupportedOperationException();
+//		Object firstElement = selection.getFirstElement();
+//		final SimulationModel model;
+//		if(firstElement instanceof SimulationModel){
+//			model = (SimulationModel) firstElement;
+//		}else if(firstElement instanceof IAdaptable){
+//			model = (SimulationModel) ((IAdaptable) firstElement).getAdapter(EObject.class);
+//		}else{
+//			model = null;
+//		}
+//		if(model != null){
+//			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(model.eResource().getURI().toPlatformString(true)));
+//			final IContainer contextFolder = file.getParent().getParent();
+//			final OpaeumEclipseContext currentContext = OpaeumEclipseContext.findOrCreateContextFor(contextFolder);
+//			new Job("Generating Simulation Code"){
+//				@Override
+//				protected IStatus run(final IProgressMonitor monitor){
+//					try{
 //						monitor.beginTask("Loading All Models", 1000);
 //						TransformationProcess p = prepareDirectoryForTransformation(contextFolder, monitor);
 //						monitor.subTask("Generating Simulation Model");
@@ -86,16 +74,16 @@ public class GenerateSimulationCodeAction extends AbstractOpaeumAction{
 //							}
 //						}
 //						return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");
-					}catch(Exception e){
-						e.printStackTrace();
-						return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
-					}finally{
-						monitor.done();
-						MemoryUtil.printMemoryUsage();
-					}
-				}
-			}.schedule();
-		}
+//					}catch(Exception e){
+//						e.printStackTrace();
+//						return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
+//					}finally{
+//						monitor.done();
+//						MemoryUtil.printMemoryUsage();
+//					}
+//				}
+//			}.schedule();
+//		}
 	}
 	protected TransformationProcess prepareDirectoryForTransformation(final IContainer folder,final IProgressMonitor monitor)
 			throws CoreException{

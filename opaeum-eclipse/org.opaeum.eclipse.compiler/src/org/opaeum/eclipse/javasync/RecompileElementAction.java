@@ -92,6 +92,7 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 								OpaeumConfig cfg = currentContext.getConfig();
 								PersistentNameGenerator png = new PersistentNameGenerator();
 								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
+								png.visitRecursively(ne.getRootObject());
 								Collection<INakedElement> allDescendants = ne.getAllDescendants();
 								allDescendants.add(ne);
 								Collection<?> processElements = p.processElements(allDescendants, JavaTransformationPhase.class,

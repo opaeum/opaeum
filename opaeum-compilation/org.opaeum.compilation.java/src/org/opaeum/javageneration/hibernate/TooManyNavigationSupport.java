@@ -1,7 +1,6 @@
 package org.opaeum.javageneration.hibernate;
 
 import java.util.Collection;
-import java.util.Set;
 
 import nl.klasse.octopus.model.IClassifier;
 

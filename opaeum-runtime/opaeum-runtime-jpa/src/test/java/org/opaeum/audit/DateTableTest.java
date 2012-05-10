@@ -17,7 +17,6 @@ public class DateTableTest{
 	@Test
 	public void testIt() throws Exception{
 		Class.forName(jdbcDriver.class.getName());
-		System.out.println();
 		Dialect d = new HSQLDialect();
 		Connection con = DriverManager.getConnection("jdbc:hsqldb:mem:DB");
 		con.prepareStatement("CREATE TABLE date_type(" + //

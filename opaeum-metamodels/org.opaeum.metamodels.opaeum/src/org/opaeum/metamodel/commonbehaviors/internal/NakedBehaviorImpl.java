@@ -133,7 +133,7 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 			if(oc.getType().equals(OclUsageType.PRE)){
 				preConditions.remove(cnstr);
 				preConditions.add(cnstr);
-			}else{
+			}else if(oc.getType().equals(OclUsageType.POST)){
 				preConditions.remove(cnstr);
 				preConditions.add(cnstr);
 			}

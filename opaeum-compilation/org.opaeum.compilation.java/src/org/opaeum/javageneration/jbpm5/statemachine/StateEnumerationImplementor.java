@@ -8,6 +8,7 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
@@ -37,7 +38,10 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 	public void visitClass(INakedStateMachine c){
 
 		boolean hasStateComposition = hasStateComposition(c);
-		buildOJEnum(c, hasStateComposition);
+		OJEnum e = buildOJEnum(c, hasStateComposition);
+		OJAnnotatedOperation getOpaeumId = new OJAnnotatedOperation("getOpaeumId",new OJPathName("long"));
+		e.addToOperations(getOpaeumId);
+		getOpaeumId.initializeResultVariable("getId()");
 		Collection<INakedRegion> regions = c.getRegions();
 		regions(regions);
 	}

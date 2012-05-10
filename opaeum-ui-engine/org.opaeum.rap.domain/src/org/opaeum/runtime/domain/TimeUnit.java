@@ -59,4 +59,9 @@ public enum TimeUnit implements Serializable,IEnum{
 	public String getUuid(){
 		return null;
 	}
+	@Override
+	public long getOpaeumId(){
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

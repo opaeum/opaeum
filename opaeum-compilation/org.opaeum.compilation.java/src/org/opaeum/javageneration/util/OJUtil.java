@@ -28,11 +28,9 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
-import org.opaeum.java.metamodel.generated.OJElementGEN;
 import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -48,7 +46,6 @@ import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.compositestructures.INakedCollaboration;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedConstraint;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedEnumerationLiteral;
@@ -56,12 +53,10 @@ import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.IParameterOwner;
-import org.opaeum.metamodel.core.internal.EndToAssociationClass;
 import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.metamodel.profiles.INakedStereotype;
-import org.opaeum.metamodel.usecases.INakedActor;
 import org.opaeum.metamodel.usecases.INakedUseCase;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.name.NameConverter;
@@ -70,10 +65,6 @@ import org.opaeum.validation.namegeneration.AbstractJavaNameGenerator;
 public class OJUtil{
 	private static class ImmutablePathName extends OJPathName{
 		private ImmutablePathName(String name){
-			if(name.contains("org.opaeum.runtime.bpm.organization.IBusinessComponent")){
-				System.out.println();
-			}
-
 			StringTokenizer st = new StringTokenizer(name, ".");
 			while(st.hasMoreTokens()){
 				this.getNames().add(st.nextToken());
@@ -247,7 +238,6 @@ public class OJUtil{
 	 * @return
 	 */
 	public static OJPathName classifierPathname(INakedClassifier classifier){
-		System.out.println();
 		OJPathName result = classifierPaths.get(classifier);
 		if(result == null){
 			classifierPaths.put(classifier, result = new ImmutablePathName(AbstractJavaNameGenerator.classifierPathname(classifier)));

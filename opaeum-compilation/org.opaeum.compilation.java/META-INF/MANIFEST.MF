@@ -3,18 +3,20 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Opaeum Java Generator
 Bundle-SymbolicName: org.opaeum.compilation.java
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.opaeum.metamodels.opaeum,
+Require-Bundle: org.opaeum.compilation.runtimedependencies,
+ org.opaeum.metamodels.opaeum,
  org.opaeum.metamodels.java,
  org.opaeum.metamodels.ocl,
  org.opaeum.metamodels.text,
  org.opaeum.linkage.core,
  org.opaeum.linkage.namegeneration,
  org.opaeum.compilation.ocltojava,
- org.opaeum.compilation.runtimedependencies,
  org.opaeum.linkage.validation,
  org.opaeum.transformation.engine
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/hibernate-core-4.0.1.Final.jar,
+ lib/hibernate-jpa-2.0-api-1.0.1.Final.jar
 Export-Package: org.opaeum.javageneration,
  org.opaeum.javageneration.accesscontrol,
  org.opaeum.javageneration.basicjava,

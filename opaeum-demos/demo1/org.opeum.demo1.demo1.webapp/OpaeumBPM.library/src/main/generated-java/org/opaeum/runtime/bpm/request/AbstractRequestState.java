@@ -34,6 +34,12 @@ public enum AbstractRequestState implements IProcessStep {
 		return this.id;
 	}
 	
+	public long getOpaeumId() {
+		long result = getId();
+		
+		return result;
+	}
+	
 	public IProcessStep getParentState() {
 		return this.parentState;
 	}

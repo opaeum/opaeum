@@ -33,7 +33,7 @@ public class MondrianSession{
 		}
 	}
 	public OlapConnection getConnection(){
-		if(this.connection == null){
+		if(this.connection == null || true){
 			this.connection = getOlapConnection();
 		}
 		return this.connection;

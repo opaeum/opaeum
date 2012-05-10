@@ -43,6 +43,8 @@ import org.opaeum.feature.TransformationProcess;
 import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
 import org.opaeum.linkage.AbstractModelElementLinker;
 import org.opaeum.linkage.LinkagePhase;
+import org.opaeum.linkage.QualifierLogicCalculator;
+import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
@@ -181,9 +183,11 @@ public final class EmfToOpaeumSynchronizer{
 		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(
 				Arrays.asList(StereotypeApplicationExtractor.class));
 		Set<Class<? extends AbstractModelElementLinker>> allSteps = LinkagePhase.getAllSteps();
-		// TODO ignore linkage steps as they will be included from Javatransformations
-//		allSteps.remove(SourcePopulationResolver.class);
-//		allSteps.remove(QualifierLogicCalculator.class);
+		if(cfg.shouldBeCm1Compatible()){
+			// TODO ignore linkage steps as they will be included from Javatransformations
+			allSteps.remove(SourcePopulationResolver.class);
+			allSteps.remove(QualifierLogicCalculator.class);
+		}
 		result.addAll(allSteps);
 		result.addAll(ValidationPhase.getAllValidationSteps());
 		result.add(JavaNameRegenerator.class);

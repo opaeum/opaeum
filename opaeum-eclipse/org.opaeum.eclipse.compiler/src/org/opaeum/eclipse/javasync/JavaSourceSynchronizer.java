@@ -162,9 +162,6 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 				PersistentNameGenerator png = new PersistentNameGenerator();
 				for(INakedElement ne:clss){
 					if(!ne.isMarkedForDeletion()){
-						if(ne.getRootObject()==null){
-							System.out.println();
-						}
 						MappingInfo mappingInfo = ne.getRootObject().getMappingInfo();
 						if(mappingInfo.getPersistentName() == null){
 							png.visitRecursively(ne.getRootObject());

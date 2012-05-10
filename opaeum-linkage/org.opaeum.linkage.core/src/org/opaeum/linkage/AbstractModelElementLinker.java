@@ -2,6 +2,7 @@ package org.opaeum.linkage;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -42,6 +43,9 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		affectedElements.add(a);
 	}
 	Collection<INakedElement> getAffectedElements(){
+		if(affectedElements==null){
+			return Collections.emptySet();
+		}
 		return this.affectedElements;
 	}
 	public void setCurrentRootObject(INakedRootObject a){

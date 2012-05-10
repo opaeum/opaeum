@@ -51,7 +51,6 @@ import org.opaeum.metamodel.statemachines.INakedRegion;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.statemachines.INakedTransition;
-//import org.opaeum.runtime.domain.IProcessObject;
 import org.opaeum.runtime.domain.IProcessObject;
 import org.opaeum.runtime.domain.IProcessStep;
 

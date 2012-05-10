@@ -1,6 +1,8 @@
 package org.opaeum.metamodel.core.internal;
 
+import java.awt.image.RescaleOp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.opaeum.metamodel.commonbehaviors.internal.NakedBehavioredClassifierImpl;
@@ -39,7 +41,8 @@ public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements IN
 			// have multiplicity of 0..1 or 1..1
 			boolean bothEndsSingleObjects = attribute.getNakedMultiplicity().isSingleObject() && attribute.getOtherEnd() != null
 					&& attribute.getOtherEnd().getNakedMultiplicity().isSingleObject();
-			if(bothEndsSingleObjects && (!attribute.isInverse() || attribute.getOtherEnd().getQualifierNames().length > 0) && !attribute.isDerived()){
+			if(bothEndsSingleObjects && (!attribute.isInverse() || attribute.getOtherEnd().getQualifierNames().length > 0)
+					&& !attribute.isDerived()){
 				list.add(attribute);
 			}
 		}
@@ -55,19 +58,28 @@ public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements IN
 	}
 	@Override
 	public INakedProperty getPrimaryKeyProperty(){
-		if(primaryKeyProperty==null){
+		if(primaryKeyProperty == null){
 			List<INakedProperty> effectiveAttributes = getEffectiveAttributes();
 			for(INakedProperty element:effectiveAttributes){
 				if(element.getStereotype(StereotypeNames.ATTRIBUTE) != null){
 					INakedInstanceSpecification st = element.getStereotype(StereotypeNames.ATTRIBUTE);
 					if(st.hasValueForFeature(TagNames.IS_PRIMARY_KEY) && st.getFirstValueFor(TagNames.IS_PRIMARY_KEY).booleanValue()){
-						primaryKeyProperty=(INakedProperty) element;
+						primaryKeyProperty = (INakedProperty) element;
 					}
 				}
-				
 			}
-
 		}
 		return primaryKeyProperty;
+	}
+	@Override
+	public Collection<INakedProperty> getPrimaryKeyProperties(){
+		Collection<INakedProperty> result = new ArrayList<INakedProperty>();
+		List<INakedProperty> effectiveAttributes = getEffectiveAttributes();
+		for(INakedProperty element:effectiveAttributes){
+			if(element.isPrimaryKeyProperty()){
+				result.add(element);
+			}
+		}
+		return result;
 	}
 }

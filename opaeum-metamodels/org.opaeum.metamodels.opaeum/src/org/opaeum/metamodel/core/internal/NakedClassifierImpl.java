@@ -25,6 +25,7 @@ import nl.klasse.octopus.model.IInterface;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.IState;
 import nl.klasse.octopus.model.IStructuralFeature;
+import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.stdlib.IOclLibrary;
@@ -88,20 +89,21 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	}
 	@Override
 	public void removeObsoleteArtificialProperties(){
-		Collection<AbstractEmulatedProperty > aps = new HashSet<AbstractEmulatedProperty >();
+		Collection<AbstractEmulatedProperty> aps = new HashSet<AbstractEmulatedProperty>();
 		ArrayList<INakedProperty> oas = new ArrayList<INakedProperty>(ownedAttributes);
 		for(INakedProperty p:oas){
-			if(p instanceof AbstractEmulatedProperty  && p.getOtherEnd() != null){
-				aps.add((AbstractEmulatedProperty ) p);
+			if(p instanceof AbstractEmulatedProperty && p.getOtherEnd() != null){
+				aps.add((AbstractEmulatedProperty) p);
 			}
 		}
-		for(AbstractEmulatedProperty  ap:aps){
+		for(AbstractEmulatedProperty ap:aps){
 			for(INakedProperty p:oas){
-				if(!(p instanceof AbstractEmulatedProperty )){
+				if(!(p instanceof AbstractEmulatedProperty)){
 					// TODO has some limitations - think about Contexts when a behavior is given a specification
 					boolean compositionSame = p.isComposite() == ap.isComposite() && p.getOtherEnd() != null
 							&& p.getOtherEnd().isComposite() == ap.getOtherEnd().isComposite();
-					if(compositionSame && p.getMultiplicity().getUpper() == ap.getMultiplicity().getUpper() && p.getBaseType().equals(ap.getBaseType())){
+					if(compositionSame && p.getMultiplicity().getUpper() == ap.getMultiplicity().getUpper()
+							&& p.getBaseType().equals(ap.getBaseType())){
 						removeOwnedElement(ap, true);
 						if(ap == endToComposite){
 							endToComposite = p;
@@ -166,7 +168,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			addEffectiveAttributes(results, interfaceAttributes);
 		}
 		addEffectiveAttributes(results, ownedAttributes);
-		//Put artificial properties last
+		// Put artificial properties last
 		List<INakedProperty> artificialProperties = new ArrayList<INakedProperty>();
 		Iterator<INakedProperty> iterator = results.iterator();
 		while(iterator.hasNext()){
@@ -240,9 +242,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	/**
 	 * Used primairly in for Octopus to resolve different types of attributes
 	 */
-	@SuppressWarnings({
-			"unchecked","rawtypes"
-	})
+	@SuppressWarnings({"unchecked","rawtypes"})
 	protected List getAttributes(boolean associationEnds,boolean classScope,boolean ownedOnly){
 		List results = new ArrayList();
 		List<IStructuralFeature> source = new ArrayList<IStructuralFeature>(ownedOnly ? getOwnedAttributes() : getEffectiveAttributes());
@@ -401,9 +401,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	}
 	@Override
 	public void addStereotype(INakedInstanceSpecification stereotype){
-		if(getName().equals("IBusinessComponent")){
-			System.out.println();
-		}
 		super.addStereotype(stereotype);
 		if(stereotype.hasValueForFeature(TagNames.MAPPED_IMPLEMENTATION_TYPE)){
 			this.mappedImplementationType = stereotype.getFirstValueFor(TagNames.MAPPED_IMPLEMENTATION_TYPE).stringValue();
@@ -414,13 +411,13 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			this.codeGenerationStrategy = Enum.valueOf(CodeGenerationStrategy.class, s);
 		}
 		if(stereotype.hasValueForFeature(TagNames.NAME_PROPERTY)){
-			this.nameProperty  = (INakedProperty) stereotype.getFirstValueFor(TagNames.NAME_PROPERTY).getValue();
+			this.nameProperty = (INakedProperty) stereotype.getFirstValueFor(TagNames.NAME_PROPERTY).getValue();
 		}
 	}
 	@Override
 	public INakedProperty getNameProperty(){
-		if(this.nameProperty==null){
-			this.nameProperty=findEffectiveAttribute("name");
+		if(this.nameProperty == null){
+			this.nameProperty = findEffectiveAttribute("name");
 		}
 		return this.nameProperty;
 	}
@@ -441,7 +438,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	}
 	@Override
 	public Collection<INakedElement> removeOwnedElement(INakedElement element,boolean recursively){
-		Collection<INakedElement> result=super.removeOwnedElement(element, recursively);
+		Collection<INakedElement> result = super.removeOwnedElement(element, recursively);
 		if(ownedAttributes.contains(element)){
 			INakedProperty p = (INakedProperty) element;
 			this.ownedAttributes.remove(p);
@@ -452,7 +449,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 				result.add(p.getNakedBaseType());
 				p.getNakedBaseType().removeOwnedElement(p.getOtherEnd(), true);
 			}
-
 		}else if(element instanceof INakedOperation){
 			INakedOperation oper = (INakedOperation) element;
 			this.ownedOperations.remove(oper);
@@ -487,8 +483,12 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}else if(element instanceof INakedComment){
 			comments.add((INakedComment) element);
 		}else if(element instanceof INakedConstraint){
-			ownedRules.remove((INakedConstraint) element);
-			ownedRules.add((INakedConstraint) element);
+			INakedConstraint c = (INakedConstraint) element;
+			IOclContext oc = c.getSpecification().getOclValue();
+			if(oc.getType().equals(OclUsageType.INV)){
+				ownedRules.remove(c);
+				ownedRules.add(c);
+			}
 		}else if(element instanceof INakedGeneralization){
 			INakedGeneralization generalization = (INakedGeneralization) element;
 			this.generalisations.add(generalization);
@@ -504,7 +504,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return this.generalisations.isEmpty() ? null : this.generalisations.get(0).getGeneral();
 	}
 	public boolean hasSupertype(){
-		return getSupertype()!=null;
+		return getSupertype() != null;
 	}
 	public void removeSubClass(INakedClassifier specific){
 		this.subClasses.remove(specific);

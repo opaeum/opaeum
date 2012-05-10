@@ -1,6 +1,7 @@
 package org.opaeum.eclipse.context;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -143,7 +144,7 @@ public class OpaeumEclipseContext{
 	private LoadEditingDomainJob currentJob;
 	private EObjectSelectorUI eObjectSelectorUI;
 	private TransactionalEditingDomain directoryEditingDomain;
-	private EmfWorkspace directoryEmfWorkspace;
+	private EmfWorkspace dew;
 	public OpaeumEclipseContext(OpaeumConfig cfg,IContainer umlDirectory,boolean newlyCreated){
 		super();
 		isOpen = true;
@@ -163,7 +164,7 @@ public class OpaeumEclipseContext{
 		return newlyCreated;
 	}
 	public void reinitialize(){
-		this.directoryEmfWorkspace = null;
+		this.dew = null;
 		this.directoryEditingDomain = null;
 		resourceSetsStartedButNotLoaded.clear();
 		umlElementCache.reinitializeProcess();
@@ -203,6 +204,9 @@ public class OpaeumEclipseContext{
 		return true;
 	}
 	private void newDomainLoaded(final EditingDomain domain,final IFile file,final Package model,EmfWorkspace emfWorkspace){
+		if(dew != null){
+			dew.getResourceSet().getResource(URI.createPlatformResourceURI((file).getFullPath().toString(), true), true);
+		}
 		OpenUmlFile openUmlFile = new OpenUmlFile(emfWorkspace, domain, model, file);
 		openUmlFiles.put(file, openUmlFile);
 		resourceSetsStartedButNotLoaded.remove(file);
@@ -235,7 +239,22 @@ public class OpaeumEclipseContext{
 				l.onSave(new SubProgressMonitor(monitor, 100));
 			}
 			getUmlDirectory().refreshLocal(1, null);
+			if(dew != null){
+				List<Resource> resources = new ArrayList<Resource>( dew.getResourceSet().getResources());
+				for(Resource resource:resources){
+					String lastSegment = resource.getURI().lastSegment();
+					String lastSegment2 = f.getLocation().lastSegment();
+					if(lastSegment .equals(lastSegment2)){
+						resource.unload();
+						resource.load(null);
+						EcoreUtil.resolveAll(resource);
+					}
+				}
+			}
 		}catch(CoreException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
 			monitor.done();
@@ -275,8 +294,8 @@ public class OpaeumEclipseContext{
 	}
 	public EmfWorkspace getCurrentEmfWorkspace(){
 		if(currentOpenFile == null || !openUmlFiles.containsKey(currentOpenFile) || openUmlFiles.isEmpty()){
-			if(directoryEmfWorkspace != null){
-				return directoryEmfWorkspace;
+			if(dew != null){
+				return dew;
 			}else{
 				return null;
 			}
@@ -293,17 +312,19 @@ public class OpaeumEclipseContext{
 			rst = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
 			OpaeumConfig cfg = getEmfToOpaeumSynchronizer().getConfig();
-			EmfWorkspace dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
-			dew.setUriToFileConverter(new EclipseUriToFileConverter());
-			dew.setName(cfg.getWorkspaceName());
-			for(IResource r:umlDirectory.members()){
-				monitor.subTask("Loading " + r.getName());
-				if(r instanceof IFile && r.getFileExtension().equals("uml")){
-					final Resource resource = dew.getResourceSet().getResource(
-							URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
-					EcoreUtil.resolveAll(resource);
+			if(dew == null){
+				dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
+				dew.setUriToFileConverter(new EclipseUriToFileConverter());
+				dew.setName(cfg.getWorkspaceName());
+				for(IResource r:umlDirectory.members()){
+					monitor.subTask("Loading " + r.getName());
+					if(r instanceof IFile && r.getFileExtension().equals("uml")){
+						final Resource resource = dew.getResourceSet().getResource(
+								URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
+						EcoreUtil.resolveAll(resource);
+					}
+					monitor.worked(100 / umlDirectory.members().length);
 				}
-				monitor.worked(100 / umlDirectory.members().length);
 			}
 			dew.guessGeneratingModelsAndProfiles(URI.createPlatformResourceURI(umlDirectory.getFullPath().toString(), true));
 			// Will only process elements as per their RootObjectStatus
@@ -327,7 +348,7 @@ public class OpaeumEclipseContext{
 			}
 			getEmfToOpaeumSynchronizer().resume();
 			errorMarker.maybeSchedule();
-			return directoryEmfWorkspace = dew;
+			return dew;
 		}catch(CoreException e){
 			throw new RuntimeException(e);
 		}finally{

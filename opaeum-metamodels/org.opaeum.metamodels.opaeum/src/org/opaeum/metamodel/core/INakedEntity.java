@@ -1,5 +1,6 @@
 package org.opaeum.metamodel.core;
 
+import java.util.Collection;
 import java.util.List;
 
 import nl.klasse.octopus.model.IClass;
@@ -17,5 +18,6 @@ public interface INakedEntity extends IClass, INakedBehavioredClassifier, INaked
 	 */
 	List<INakedProperty> getUniquenessConstraints();
 	INakedProperty getPrimaryKeyProperty();
+	Collection<INakedProperty> getPrimaryKeyProperties();
 
 }

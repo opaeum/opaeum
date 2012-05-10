@@ -1,7 +1,5 @@
 package org.opaeum.javageneration.maps;
 
-import java.security.acl.Owner;
-
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
 

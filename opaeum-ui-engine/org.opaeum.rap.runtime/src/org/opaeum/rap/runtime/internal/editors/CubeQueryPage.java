@@ -43,6 +43,7 @@ import org.olap4j.query.QueryAxis;
 import org.olap4j.query.QueryDimension;
 import org.opaeum.name.NameConverter;
 import org.opaeum.rap.runtime.MondrianSession;
+import org.opaeum.rap.runtime.cubetree.CubeTreeComposite;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.uim.binding.PropertyRef;

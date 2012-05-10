@@ -85,6 +85,9 @@ public abstract class JavaMetaInfoMap{
 	}
 	@SuppressWarnings("unchecked")
 	protected void putClass(Class<? extends Object> c,String uuid){
+		JavaTypedElementContainer jtec = new JavaTypedElementContainer(c);
+		typedElementContainers.put(uuid, jtec);
+		putTypedElements(jtec);
 		if(ISignal.class.isAssignableFrom(c)){
 			Class<? extends IEventHandler> handler=null;
 			try{
@@ -94,9 +97,6 @@ public abstract class JavaMetaInfoMap{
 			}
 			putEventHandler(handler, uuid);
 		}else if(IPersistentObject.class.isAssignableFrom(c)){
-			JavaTypedElementContainer jtec = new JavaTypedElementContainer(c);
-			typedElementContainers.put(uuid, jtec);
-			putTypedElements(jtec);
 		}else if(IEnum.class.isAssignableFrom(c)){
 			addSecondaryClass(EnumResolver.class, c, "Resolver", true);
 		}

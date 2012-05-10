@@ -29,7 +29,8 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 		return f instanceof INakedProperty && (f).getOtherEnd() != null && (f).getOtherEnd().isOrdered();
 	}
 	protected final void mapXToOneSimpleType(INakedProperty f,OJAnnotatedClass owner,OJAnnotatedField field){
-		if(this.workspace.getOpaeumLibrary().getDateType() != null && f.getNakedBaseType().conformsTo(this.workspace.getOpaeumLibrary().getDateType())){
+		if(this.workspace.getOpaeumLibrary().getDateType() != null
+				&& f.getNakedBaseType().conformsTo(this.workspace.getOpaeumLibrary().getDateType())){
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"));
 			temporal.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.TemporalType"), "DATE"));
 			field.addAnnotationIfNew(temporal);
@@ -98,6 +99,16 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 					OJAnnotationValue qColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
 					qf.putAnnotation(qColumn);
 					qColumn.putAttribute("name", JpaUtil.generateIndexColumnName(qualifiedMap, "key"));
+				}
+			}
+			if(f.isPrimaryKeyProperty() && !owner.getName().endsWith("Id")){
+				OJAnnotationValue col= field.findAnnotation(new OJPathName("javax.persistence.Column"));
+				if(col==null){
+					col=field.findAnnotation(new OJPathName("javax.persistence.JoinColumn"));
+				}
+				if(col!=null){
+					col.putAttribute("insertable", false);
+					col.putAttribute("updatable", false);
 				}
 			}
 		}

@@ -12,7 +12,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.hibernate.HibernateAttributeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.metamodel.core.INakedClassifier;

@@ -11,7 +11,7 @@ import org.opaeum.runtime.domain.IEnum;
 @MappedSuperclass()
 public class AbstractPersistentEnum implements Serializable{
 	@Id
-	String id;
+	Long id;
 	@Basic
 	String name;
 	protected AbstractPersistentEnum(){
@@ -19,7 +19,7 @@ public class AbstractPersistentEnum implements Serializable{
 	}
 	protected AbstractPersistentEnum(Enum<?> e){
 		name=e.name();
-		id=((IEnum)e).getUuid();
+		id=((IEnum)e).getOpaeumId();
 	}
 	
 }

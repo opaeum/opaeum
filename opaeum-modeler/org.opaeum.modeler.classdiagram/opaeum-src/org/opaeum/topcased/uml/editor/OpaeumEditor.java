@@ -22,6 +22,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
@@ -41,7 +43,12 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 		public void partClosed(IWorkbenchPart part){
 			try{
 				if(getCurrentContext() != null){
-					getCurrentContext().onClose(umlFile);
+					if(part instanceof EditorPart){
+						IEditorInput editorInput = ((EditorPart) part).getEditorInput();
+						if(editorInput instanceof FileEditorInput){
+							getCurrentContext().onClose(getUmlFile((IFileEditorInput) editorInput));
+						}
+					}
 				}
 			}catch(Exception e){
 				e.printStackTrace();

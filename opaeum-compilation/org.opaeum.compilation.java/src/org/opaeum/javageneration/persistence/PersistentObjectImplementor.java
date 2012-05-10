@@ -57,19 +57,23 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 				ojClassifier.addToImports(ABSTRACT_ENTITY);
 			}
 		}else if(ojClassifier instanceof OJClass){
-			OJClass ojClass = (OJClass) ojClassifier;
-			if(isPersistent(c)){
-				OJAnnotatedField persistence = new OJAnnotatedField("persistence", new OJPathName(AbstractPersistence.class.getName()));
-				persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
-				ojClass.addToFields(persistence);
-				INakedComplexStructure entity = (INakedComplexStructure) c;
-				ojClass.addToImports(ABSTRACT_ENTITY);
-				if(entity.findAttribute("name") == null){
-					addGetName(entity, ojClass);
-				}
-				ojClass.addToImplementedInterfaces(ABSTRACT_ENTITY);
-				if(entity instanceof INakedEntity){
-					addDiscriminatorInitialization((INakedEntity) entity, ojClass);
+			if(c instanceof INakedEntity && ((INakedEntity) c).getPrimaryKeyProperties().size() > 0){
+				return;
+			}else{
+				OJClass ojClass = (OJClass) ojClassifier;
+				if(isPersistent(c)){
+					OJAnnotatedField persistence = new OJAnnotatedField("persistence", new OJPathName(AbstractPersistence.class.getName()));
+					persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
+					ojClass.addToFields(persistence);
+					INakedComplexStructure entity = (INakedComplexStructure) c;
+					ojClass.addToImports(ABSTRACT_ENTITY);
+					if(entity.findAttribute("name") == null){
+						addGetName(entity, ojClass);
+					}
+					ojClass.addToImplementedInterfaces(ABSTRACT_ENTITY);
+					if(entity instanceof INakedEntity){
+						addDiscriminatorInitialization((INakedEntity) entity, ojClass);
+					}
 				}
 			}
 		}

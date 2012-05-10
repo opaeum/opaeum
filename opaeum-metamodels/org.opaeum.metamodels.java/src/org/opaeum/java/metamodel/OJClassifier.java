@@ -194,7 +194,6 @@ public class OJClassifier extends OJClassifierGEN{
 		while(it.hasNext()){
 			OJPathName path = (OJPathName) it.next();
 			if(this.getMyPackage().getPathName().equals(path.getHead())){
-				System.out.println();
 				// do nothing, imported element is in same package
 			}else{
 				if(!path.getFirst().equals(prevPackageName)){

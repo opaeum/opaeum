@@ -4,9 +4,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ManyToOne;
-
 import nl.klasse.octopus.model.IOperation;
 
 import org.opaeum.feature.StepDependency;

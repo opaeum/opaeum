@@ -10,22 +10,29 @@ import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.IEnum;
 
 @NumlMetaInfo(uuid="914890@_HSme4JKIEeGFkOm2e1MJNQ")public enum City implements IEnum, Serializable {
-	JOHANNESBURG(Province.GAUTENG,"914890@_Ib1X0JKIEeGFkOm2e1MJNQ"),
-	CAPETOWN(Province.WESTERNCAPE,"914890@_UXveQJKKEeGFkOm2e1MJNQ"),
-	PRETORIA(Province.GAUTENG,"914890@_40zbwJKLEeGVguC2OnqOLw"),
-	DURBAN(Province.KWAZULUNATAL,"914890@_AR5fcJKMEeGVguC2OnqOLw");
+	JOHANNESBURG(Province.GAUTENG,"914890@_Ib1X0JKIEeGFkOm2e1MJNQ",370895807509634180l),
+	CAPETOWN(Province.WESTERNCAPE,"914890@_UXveQJKKEeGFkOm2e1MJNQ",6617031855133737322l),
+	PRETORIA(Province.GAUTENG,"914890@_40zbwJKLEeGVguC2OnqOLw",9013938801218636412l),
+	DURBAN(Province.KWAZULUNATAL,"914890@_AR5fcJKMEeGVguC2OnqOLw",9203863868638345078l);
+	private long opaeumId;
 	private Province province;
 	private String uuid;
 	/** Constructor for City
 	 * 
 	 * @param province 
 	 * @param uuid 
+	 * @param opaeumId 
 	 */
-	private City(Province province, String uuid) {
+	private City(Province province, String uuid, long opaeumId) {
 		this.setProvince(province);
 		this.uuid=uuid;
+		this.opaeumId=opaeumId;
 	}
 
+	public long getOpaeumId() {
+		return this.opaeumId;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4452015602518132608l,opposite="city",uuid="914890@_DmOEBJKZEeGVguC2OnqOLw")
 	@NumlMetaInfo(uuid="914890@_DmOEBJKZEeGVguC2OnqOLw")
 	public Province getProvince() {

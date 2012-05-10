@@ -1,9 +1,6 @@
 package org.opaeum.javageneration.hibernate;
 
-import java.util.List;
-
 import org.opaeum.feature.StepDependency;
-import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibilityKind;
@@ -18,7 +15,6 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 @StepDependency(phase = JavaTransformationPhase.class,replaces = AttributeImplementor.class)

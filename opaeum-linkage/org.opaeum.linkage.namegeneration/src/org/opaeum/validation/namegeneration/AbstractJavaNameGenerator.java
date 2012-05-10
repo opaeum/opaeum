@@ -163,9 +163,6 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	 * @return
 	 */
 	public static String packagePathname(INakedNameSpace p){
-		if(p==null){
-			System.out.println();
-		}
 		if(p.isMarkedForDeletion()){
 			return p.getMappingInfo().getQualifiedJavaName();
 		}else{

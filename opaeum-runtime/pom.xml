@@ -157,7 +157,6 @@
 		<module>opaeum-runtime-domain</module>
 		<module>opaeum-test-adaptor</module> 
 		<module>opaeum-test-tinker</module> 
-		<module>opaeum-runtime-bpm-hibernate</module> 
 		<module>opaeum-runtime-hibernate</module> 
 		<module>opaeum-runtime-jpa</module> 
 		<module>opaeum-runtime-cdi-hibernate</module> 

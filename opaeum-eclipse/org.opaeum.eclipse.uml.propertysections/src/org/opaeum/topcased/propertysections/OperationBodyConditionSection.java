@@ -20,6 +20,10 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 		return getOperation();
 	}
 	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+	@Override
 	protected OpaqueExpression beforeOclChanged(String text){
 		if(OclBodyComposite.containsExpression(text) && getOperation().getBodyCondition() == null){
 			createBodyCondition();

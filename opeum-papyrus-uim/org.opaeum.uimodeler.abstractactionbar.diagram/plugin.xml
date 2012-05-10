@@ -449,7 +449,7 @@
 		commandId="org.opaeum.metamodels.uim.actionbar.diagram.CreateAbstractActionBarDiagramCommand">
 		<activeWhen>
 			<with variable="activeEditorId">
-				<equals value="org.eclipse.papyrus.infra.core.papyrusEditor"/>
+				<equals value="org.opaeum.uimodeler.OpaeumMultiDiagramEditor"/>
 			</with>
 		</activeWhen>
 	</handler>

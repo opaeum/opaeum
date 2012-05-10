@@ -9,17 +9,24 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.domain.IEnum;
 
 @NumlMetaInfo(uuid="252060@_YLfSwEtnEeGd4cpyhpib9Q")public enum PersonEMailAddressType implements IEnum, Serializable {
-	WORK("252060@_b0CGwEtnEeGd4cpyhpib9Q"),
-	HOME("252060@_clbHcEtnEeGd4cpyhpib9Q");
+	WORK("252060@_b0CGwEtnEeGd4cpyhpib9Q",2569478031111177750l),
+	HOME("252060@_clbHcEtnEeGd4cpyhpib9Q",6316649075823617580l);
+	private long opaeumId;
 	private String uuid;
 	/** Constructor for PersonEMailAddressType
 	 * 
 	 * @param uuid 
+	 * @param opaeumId 
 	 */
-	private PersonEMailAddressType(String uuid) {
+	private PersonEMailAddressType(String uuid, long opaeumId) {
 		this.uuid=uuid;
+		this.opaeumId=opaeumId;
 	}
 
+	public long getOpaeumId() {
+		return this.opaeumId;
+	}
+	
 	public String getUid() {
 		String result = getUuid();
 		

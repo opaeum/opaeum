@@ -200,4 +200,20 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 		}
 		return propertiesQualified;
 	}
+	@Override
+	public boolean isPrimaryKeyProperty(){
+		if(getStereotype(StereotypeNames.ATTRIBUTE) != null){
+			INakedInstanceSpecification st = getStereotype(StereotypeNames.ATTRIBUTE);
+			if(st.hasValueForFeature(TagNames.IS_PRIMARY_KEY) && st.getFirstValueFor(TagNames.IS_PRIMARY_KEY).booleanValue()){
+				return true;
+			}
+		}
+		if(getStereotype(StereotypeNames.ASSOCIATION_END) != null){
+			INakedInstanceSpecification st = getStereotype(StereotypeNames.ASSOCIATION_END);
+			if(st.hasValueForFeature(TagNames.IS_PRIMARY_KEY) && st.getFirstValueFor(TagNames.IS_PRIMARY_KEY).booleanValue()){
+				return true;
+			}
+		}
+		return false;
+	}
 }

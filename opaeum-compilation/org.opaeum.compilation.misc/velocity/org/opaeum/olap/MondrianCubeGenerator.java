@@ -66,7 +66,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		// TODO Auto-generated method stub
 		super.initialize(pac, config, textWorkspace, workspace);
 		try{
-			TextFile textFile = createTextPath(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, Arrays.asList("cube.xml"));
+			TextFile textFile = createTextPath(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, Arrays.asList("cube.xml"));
 			File f = new File(config.getOutputRoot(), textFile.getWorkspaceRelativePath());
 			if(f.exists()){
 				this.doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
@@ -101,9 +101,9 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			StreamResult result = new StreamResult(sw);
 			DOMSource source = new DOMSource(doc);
 			trans.transform(source, result);
-			TextFile textFile = createTextPath(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, Arrays.asList(w.getName() + ".xml"));
+			TextFile textFile = createTextPath(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, Arrays.asList(w.getName() + ".xml"));
 			textFile.setTextSource(new CharArrayTextSource(sw.toString().toCharArray()));
-			textFile = createTextPath(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, Arrays.asList("cube.xml"));
+			textFile = createTextPath(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, Arrays.asList("cube.xml"));
 			textFile.setTextSource(new CharArrayTextSource(sw.toString().toCharArray()));
 		}catch(TransformerConfigurationException e){
 			e.printStackTrace();
@@ -365,7 +365,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}else if(toClass instanceof INakedEnumeration){
 			Element result = doc.createElement("Level");
 			result.setAttribute("name", toClass.getName());
-			result.setAttribute("column", property.getMappingInfo().getPersistentName().getAsIs());
+			result.setAttribute("column", "id");
 			result.setAttribute("table", property.getNakedBaseType().getMappingInfo().getPersistentName().getAsIs());
 			result.setAttribute("nameColumn", "name");
 			levels.add(result);

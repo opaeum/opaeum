@@ -32,7 +32,6 @@ import org.opaeum.eclipse.versioning.GenerateMigrationProjectAction;
 import org.opaeum.eclipse.versioning.VersionAction;
 import org.opaeum.emf.extraction.EmfExtractionPhase;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 
 public class DynamicOpaeumMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;
@@ -80,7 +79,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 		}else{
 			firstElement = getElementFrom();
 			boolean isJavaActive = JavaTransformationProcessManager.getCurrentTransformationProcess() != null;
-			if(firstElement instanceof SimulationModel){
+			if(firstElement.getClass().getSimpleName().equals("SimulationModelImpl")){
 				actions.add(new ActionContributionItem(new GenerateSimulationCodeAction(selection)));
 			}else if(isJavaActive){
 				if(firstElement instanceof Model){

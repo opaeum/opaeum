@@ -68,7 +68,7 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 					Object[] enumConstants = clss.getEnumConstants();
 					for(Object object:enumConstants){
 						if(object instanceof IEnum){
-							if(persistence.find(eec, ((IEnum) object).getUuid()) == null){
+							if(persistence.find(eec, ((IEnum) object).getOpaeumId()) == null){
 								Object newInstance = eec.getConstructor(clss).newInstance(object);
 								persistence.persist(newInstance);
 							}
