@@ -1,8 +1,9 @@
 package org.opaeum.rap.runtime.cubetree;
 
-import org.olap4j.metadata.Level;
 
 public class ColumnHeaderRow{
-	Level level;
-	
+	int level;
+	public boolean shouldDisplay(CubeColumnNode node){
+		return node.getLevel()==level;
+	}
 }

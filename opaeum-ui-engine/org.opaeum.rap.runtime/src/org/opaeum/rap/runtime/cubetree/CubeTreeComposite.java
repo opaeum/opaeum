@@ -98,7 +98,7 @@ public class CubeTreeComposite extends Composite{
 			}
 			public Object[] getChildren(Object parentElement){
 				try{
-					((AbstractCubeNode) parentElement).expand();
+					((AbstractCubeNode) parentElement).populate();
 					return ((AbstractCubeNode) parentElement).getChildren().toArray();
 				}catch(SQLException e){
 					return null;
