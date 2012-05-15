@@ -6,11 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -23,6 +22,7 @@ import org.olap4j.OlapException;
 import org.olap4j.Position;
 import org.olap4j.layout.RectangularCellSetFormatter;
 import org.olap4j.metadata.Cube;
+import org.olap4j.metadata.Dimension;
 import org.olap4j.metadata.Level;
 import org.olap4j.metadata.Member;
 import org.olap4j.query.Query;
@@ -82,29 +82,7 @@ public class CubeTreeComposite extends Composite{
 		this.treeViewer = new TreeViewer(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		this.treeViewer.getTree().setLinesVisible(true);
 		this.treeViewer.getTree().setHeaderVisible(true);
-		this.treeViewer.setContentProvider(new ITreeContentProvider(){
-			public void inputChanged(Viewer viewer,Object oldInput,Object newInput){
-			}
-			public void dispose(){
-			}
-			public boolean hasChildren(Object element){
-				return true;
-			}
-			public Object getParent(Object element){
-				return ((AbstractCubeNode) element).parent;
-			}
-			public Object[] getElements(Object inputElement){
-				return rows.toArray();
-			}
-			public Object[] getChildren(Object parentElement){
-				try{
-					((AbstractCubeNode) parentElement).populate();
-					return ((AbstractCubeNode) parentElement).getChildren().toArray();
-				}catch(SQLException e){
-					return null;
-				}
-			}
-		});
+		this.treeViewer.setContentProvider(new CubeTreeContentProvider(rows));
 		query.validate();
 		CellSet execute = query.execute();
 		RectangularCellSetFormatter formatter = new RectangularCellSetFormatter(false);
@@ -118,7 +96,11 @@ public class CubeTreeComposite extends Composite{
 		firstColumn.setLabelProvider(new ColumnLabelProvider(){
 			@Override
 			public String getText(Object element){
-				return ((AbstractCubeNode) element).member.getName();
+				if(element instanceof CubeRowNode){
+					return ((CubeRowNode) element).member.getName();
+				}else{
+					return "";
+				}
 			}
 			public Image getImage(final Object element){
 				return Activator.getDefault().getImageRegistry().get(Activator.IMG_PROJECT);
@@ -133,35 +115,30 @@ public class CubeTreeComposite extends Composite{
 			List<Member> members = p.getMembers();
 			for(final Member member:members){
 				if(member.getDimension().getName().equals(toDimensionName(firstColumnDimension.getDimensionBinding()))){
-					column.setLabelProvider(new ColumnLabelProvider(){
-						@Override
-						public String getText(Object element){
-							return ((AbstractCubeNode) element).findRowTreeNode(member).value + "";
-						}
-					});
+					column.setLabelProvider(new CubeCellLabelProvider());
 					break;
 				}
 			}
 		}
-		for(Position rowPosition:rowAxis.getPositions()){
-			AbstractCubeNode row = new AbstractCubeNode();
-			rows.add(row);
-			row.member = rowPosition.getMembers().get(0);
-			row.cube = cube;
-			for(Position p:columnAxis.getPositions()){
-				CubeColumnNode tree = new CubeColumnNode();
-				tree.row = row;
-				for(Member member:p.getMembers()){
-					if(member.getDimension().getName().equals("Measures")){
-						tree.measure = member;
-					}else{
-						tree.member = member;
-					}
-					tree.value = cellSet.getCell(p, rowPosition).getFormattedValue();
-					row.rootTrees.add(tree);
-				}
-			}
-		}
+//		for(Position rowPosition:rowAxis.getPositions()){
+//			AbstractCubeNode row = new AbstractCubeNode();
+//			rows.add(row);
+//			row.member = rowPosition.getMembers().get(0);
+//			row.cube = cube;
+//			for(Position p:columnAxis.getPositions()){
+//				CubeColumnNode tree = new CubeColumnNode();
+//				tree.row = row;
+//				for(Member member:p.getMembers()){
+//					if(member.getDimension().getName().equals("Measures")){
+//						tree.measure = member;
+//					}else{
+//						tree.member = member;
+//					}
+//					tree.value = cellSet.getCell(p, rowPosition).getFormattedValue();
+//					row.rootTrees.add(tree);
+//				}
+//			}
+//		}
 		treeViewer.getTree().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		treeViewer.setInput(rows);
 		treeViewer.getTree().layout();
@@ -197,18 +174,30 @@ public class CubeTreeComposite extends Composite{
 		JavaTypedElement te = metaInfo.getTypedElement(dimensionBinding.getUmlElementUid());
 		String name = te.getName();
 		if(dimensionBinding.getNext() != null){
-			return name +"." + toDimensionName(dimensionBinding.getNext());
+			return name + "." + toDimensionName(dimensionBinding.getNext());
 		}else{
-			return name + ":" +te.getBaseType().getSimpleName();
+			return name + ":" + te.getBaseType().getSimpleName();
 		}
 	}
 	private String toDimensionName(PropertyRef ref){
 		JavaTypedElement typedElement = metaInfo.getTypedElement(ref.getUmlElementUid());
 		String name = typedElement.getName();
 		if(ref.getNext() != null){
-			return name +"." + toDimensionName(ref.getNext());
+			return name + "." + toDimensionName(ref.getNext());
 		}else{
-			return name + ":" +typedElement.getBaseType().getSimpleName();
+			return name + ":" + typedElement.getBaseType().getSimpleName();
 		}
+	}
+	private TreeCube buildTreeCube(Cube cube, CubeQuery q){
+		TreeCube result = new TreeCube(cube);
+		EList<RowAxisEntry> rowAxis = q.getRowAxis();
+		LevelHolder rowLevelHolder;
+		for(RowAxisEntry rowAxisEntry:rowAxis){
+			Dimension dimension = cube.getDimensions().get(toDimensionName(rowAxisEntry.getDimensionBinding()));
+			for(LevelProperty levelProperty2:rowAxisEntry.getLevelProperty()){
+				dimension.getHierarchies().get(0).getLevels().get( toLevelName(levelProperty2));
+			}
+		}
+		return result;
 	}
 }

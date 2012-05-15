@@ -18,6 +18,9 @@ public class TreeCube{
 	List<CubeColumnNode> columnRoots = new ArrayList<CubeColumnNode>();
 	List<CubeRowNode> rowRoots = new ArrayList<CubeRowNode>();
 	Cube cube;
+	public TreeCube(Cube cube2){
+		this.cube=cube2;
+	}
 	public void populateExpandedRows(List<CubeRowNode> expandedRows) throws SQLException{
 		populate(columnRoots, expandedRows);
 		for(CubeColumnNode cubeRowNode:columnRoots){

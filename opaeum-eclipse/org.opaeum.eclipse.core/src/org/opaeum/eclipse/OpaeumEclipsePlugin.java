@@ -59,7 +59,7 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		r.addRegistryChangeListener(this);
 	}
 	public static void logError(String message,Throwable t){
-		getDefault().getLog().log(new Status(IStatus.ERROR, getPluginId(), message, t));
+		getDefault().getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message, t));
 	}
 	public static OpaeumEclipsePlugin getDefault(){
 		return plugin;
@@ -125,9 +125,10 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 				Class<? extends Object> clz = ce.createExecutableExtension("className").getClass();
 				classes.add(clz);
 				OpaeumConfig.registerClass(clz);
+				getDefault().getLog().log(new Status(IStatus.INFO, PLUGIN_ID, clz.getName() + " registered with Opaeum"));
 			}
 		}catch(CoreException e){
-			e.printStackTrace();
+			logError(e.getMessage(), e);
 		}
 	}
 	public Set<Class<? extends ITransformationStep>> getTransformationSteps(){

@@ -7,8 +7,10 @@ import java.util.Map;
 
 import org.olap4j.Axis.Standard;
 import org.olap4j.CellSet;
+import org.olap4j.OlapException;
 import org.olap4j.Position;
 import org.olap4j.metadata.Member;
+import org.olap4j.metadata.NamedList;
 
 public class CubeRowNode extends AbstractCubeNode{
 	public Map<CubeColumnNode,TreeCubeCell> cells = new HashMap<CubeColumnNode,TreeCubeCell>();
@@ -18,18 +20,15 @@ public class CubeRowNode extends AbstractCubeNode{
 	}
 	public List<CubeRowNode> getChildren(){
 		if(children == null){
-			try{
-				children = new ArrayList<CubeRowNode>();
-				for(Member childMember:member.getChildMembers()){
-					children.add(new CubeRowNode(cube, this, childMember));
-				}
-			}catch(Exception e){
-				throw new RuntimeException(e);
-			}
+			children = new ArrayList<CubeRowNode>();
+			populateChildren();
 		}
 		return children;
 	}
-	public void addCell(CubeColumnNode column, CellSet cellSet){
+	protected void addChild(Member childMember){
+		children.add(new CubeRowNode(cube, this, childMember));
+	}
+	public void addCell(CubeColumnNode column,CellSet cellSet){
 		Position rowPosition = getPosition(cellSet.getAxes().get(Standard.ROWS.axisOrdinal()));
 		Position columnPosition = column.getPosition(cellSet.getAxes().get(Standard.ROWS.axisOrdinal()));
 		cells.put(column, new TreeCubeCell(cellSet, rowPosition, columnPosition));

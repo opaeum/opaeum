@@ -13,32 +13,30 @@ public class CubeColumnNode extends AbstractCubeNode{
 		super(cube, parent, member);
 	}
 	public int getLevel(){
-		if(parent==null){
+		if(parent == null){
 			return 1;
 		}else{
-			return 1+((CubeColumnNode) parent).getLevel();
+			return 1 + ((CubeColumnNode) parent).getLevel();
 		}
 	}
 	public void expand(){
 		if(!expanded){
 			expanded = true;
 		}
-		if(children == null){
-			try{
-				children = new ArrayList<CubeColumnNode>();
-				for(Member childMember:member.getChildMembers()){
-					children.add(new CubeColumnNode(cube, this, childMember));
-				}
-			}catch(Exception e){
-				throw new RuntimeException(e);
-			}
-		}
 	}
 	public List<CubeColumnNode> getChildren(){
 		if(expanded){
+			if(children == null){
+				children = new ArrayList<CubeColumnNode>();
+				populateChildren();
+			}
 			return children;
 		}else{
 			return Collections.emptyList();
 		}
+	}
+	@Override
+	protected void addChild(Member childMember){
+		children.add(new CubeColumnNode(cube, this, childMember));
 	}
 }
