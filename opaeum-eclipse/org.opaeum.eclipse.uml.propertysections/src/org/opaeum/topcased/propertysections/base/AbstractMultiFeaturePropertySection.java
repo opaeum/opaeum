@@ -49,9 +49,12 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 			this.control.addFocusListener(this);
 		}
 		public void textChanged(Control control){
+			updateIntegerValue();
+		}
+		private void updateIntegerValue() {
 			feature = myFeature;
 			try{
-				String text = ((Text) control).getText();
+				String text =  control.getText();
 				int parseInt;
 				if(text.contains("*")){
 					parseInt = -1;
@@ -70,6 +73,7 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 		}
 		@Override
 		public void focusLost(FocusEvent e){
+			updateIntegerValue();
 		}
 	}
 	public abstract void refresh();
