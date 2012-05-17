@@ -9,18 +9,18 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.cubetree;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+@SuppressWarnings("unchecked")
 public class CubeTreeContentProvider implements ITreeContentProvider{
-	private final List<AbstractCubeNode> rows;
-	public CubeTreeContentProvider(List<AbstractCubeNode> rows){
-		this.rows = rows;
+	private List<CubeRowNode> rows;
+	public CubeTreeContentProvider(){
 	}
 	public void inputChanged(Viewer viewer,Object oldInput,Object newInput){
+		this.rows=(List<CubeRowNode>) newInput;
 	}
 	public void dispose(){
 	}
@@ -34,12 +34,13 @@ public class CubeTreeContentProvider implements ITreeContentProvider{
 		return null;
 	}
 	public Object[] getElements(Object inputElement){
+		this.rows = (List<CubeRowNode>) inputElement;
 		return rows.toArray();
 	}
 	public Object[] getChildren(Object parentElement){
 		if(parentElement instanceof CubeRowNode){
 			try{
-				return ((CubeRowNode) parentElement).getChildren().toArray();
+				return ((CubeRowNode) parentElement).maybeLoadChildren().toArray();
 			}catch(Exception e){
 				return new Object[0];
 			}

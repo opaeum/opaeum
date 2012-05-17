@@ -4,39 +4,44 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.olap4j.metadata.Measure;
 import org.olap4j.metadata.Member;
 
 public class CubeColumnNode extends AbstractCubeNode{
-	protected boolean expanded;
 	private List<CubeColumnNode> children;
-	public CubeColumnNode(TreeCube cube,AbstractCubeNode parent,Member member){
-		super(cube, parent, member);
+	private List<Measure> measures;
+	public CubeColumnNode(LevelHolder level,Member member,CubeFilter filter,List<Measure> measures){
+		super(level, member, filter);
+		this.measures = measures;
 	}
-	public int getLevel(){
-		if(parent == null){
-			return 1;
-		}else{
-			return 1 + ((CubeColumnNode) parent).getLevel();
-		}
-	}
-	public void expand(){
-		if(!expanded){
-			expanded = true;
-		}
-	}
-	public List<CubeColumnNode> getChildren(){
-		if(expanded){
-			if(children == null){
-				children = new ArrayList<CubeColumnNode>();
-				populateChildren();
-			}
-			return children;
-		}else{
-			return Collections.emptyList();
-		}
+	private CubeColumnNode(AbstractCubeNode parent,Member member){
+		super(parent, member);
 	}
 	@Override
 	protected void addChild(Member childMember){
-		children.add(new CubeColumnNode(cube, this, childMember));
+		children.add(new CubeColumnNode(this, childMember));
+	}
+	public List<Measure> getMeasures(){
+		return parent == null ? measures : ((CubeColumnNode) parent).getMeasures();
+	}
+	
+	public int getLevel(){
+		if(parent == null){
+			return 0;
+		}
+		return 1 + ((CubeColumnNode) parent).getLevel();
+	}
+	public List<CubeColumnNode> getExpandedChildren(){
+		if(expanded){
+			return maybeLoadChildren();
+		}
+		return Collections.emptyList();
+	}
+	private List<CubeColumnNode> maybeLoadChildren(){
+		if(children == null){
+			children = new ArrayList<CubeColumnNode>();
+			populateChildren();
+		}
+		return children;
 	}
 }
