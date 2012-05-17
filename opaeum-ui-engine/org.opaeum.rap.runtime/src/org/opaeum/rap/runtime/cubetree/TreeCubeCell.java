@@ -15,6 +15,6 @@ public class TreeCubeCell{
 		this.columnposition = columnposition;
 	}
 	public Cell getCell(){
-		return cellSet.getCell(rowPosition,columnposition);
+		return cellSet.getCell(columnposition,rowPosition);
 	}
 }

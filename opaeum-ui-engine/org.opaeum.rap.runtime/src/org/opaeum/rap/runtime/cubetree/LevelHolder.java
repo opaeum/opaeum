@@ -10,22 +10,18 @@ public class LevelHolder{
 		this.level = level;
 	}
 	public boolean areChildrenNewDimension(){
-		return next!=null && !next.level.getDimension().equals(level.getDimension());
+		return next != null && !next.level.getDimension().equals(level.getDimension());
 	}
-
 	public Level getLevel(){
 		return level;
 	}
-
-	public void setLevel(Level level){
-		this.level = level;
-	}
-
 	public LevelHolder getNext(){
 		return next;
 	}
-
 	public void setNext(LevelHolder next){
 		this.next = next;
+	}
+	public String toString(){
+		return level.getUniqueName();
 	}
 }

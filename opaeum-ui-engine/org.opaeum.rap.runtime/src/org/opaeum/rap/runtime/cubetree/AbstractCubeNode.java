@@ -1,6 +1,5 @@
 package org.opaeum.rap.runtime.cubetree;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import org.olap4j.CellSetAxis;
@@ -13,26 +12,37 @@ import org.olap4j.query.QueryAxis;
 import org.olap4j.query.QueryDimension;
 
 public abstract class AbstractCubeNode{
-	public TreeCube cube;
+	protected boolean expanded;
 	public Member member;
 	public AbstractCubeNode parent;
 	public LevelHolder levelHolder;
-	public AbstractCubeNode(TreeCube cube,LevelHolder level,Member member){
+	private CubeFilter filter;
+	public AbstractCubeNode(LevelHolder level,Member member,CubeFilter filter){
 		this.levelHolder = level;
-		this.cube = cube;
 		this.member = member;
+		this.filter = filter;
 	}
-	public AbstractCubeNode(TreeCube cube,AbstractCubeNode parent,Member member){
+	public AbstractCubeNode(AbstractCubeNode parent,Member member){
 		super();
 		levelHolder = parent.levelHolder.getNext();
-		this.cube = cube;
 		this.member = member;
 		this.parent = parent;
+	}
+	public CubeFilter getFilter(){
+		return parent == null ? filter : parent.getFilter();
+	}
+	public void expand(){
+		expanded = true;
+	}
+	public void collapse(){
+		expanded = false;
 	}
 	protected abstract void addChild(Member childMember);
 	protected void populateChildren(){
 		try{
-			if(levelHolder.areChildrenNewDimension()){
+			if(levelHolder.getNext() == null){
+				// Don't populate any children - end of tree
+			}else if(levelHolder.areChildrenNewDimension()){
 				for(Member childMember:levelHolder.getNext().getLevel().getMembers()){
 					addChild(childMember);
 				}
@@ -45,19 +55,23 @@ public abstract class AbstractCubeNode{
 	}
 	protected void addChildren(NamedList<? extends Member> childMembers) throws OlapException{
 		for(Member childMember:childMembers){
-			if(levelHolder.getNext().getLevel().equals(childMember.getLevel())){
-				addChild(childMember);
-			}else{
-				addChildren(childMember.getChildMembers());
+			if(getFilter().compliesToFilter(childMember)){
+				if(levelHolder.getNext().getLevel().equals(childMember.getLevel())){
+					addChild(childMember);
+				}else{
+					addChildren(childMember.getChildMembers());
+				}
 			}
 		}
 	}
-	public void include(Query q,QueryAxis axis,Set<Member> includedMembers){
+	public void includeInQuery(Query q,QueryAxis axis,Set<Member> includedMembers){
+		// Includes this and all its parents that are on a new dimension in the query
 		Member currentMember = member;
 		AbstractCubeNode node = this;
+		boolean newDimension = true;
 		while(node != null){
-			if(!includedMembers.contains(currentMember)){
-				QueryDimension dim = q.getDimension(member.getDimension().getName());
+			if(newDimension && !includedMembers.contains(currentMember)){
+				QueryDimension dim = q.getDimension(currentMember.getDimension().getName());
 				if(!axis.getDimensions().contains(dim)){
 					axis.addDimension(dim);
 				}
@@ -65,12 +79,16 @@ public abstract class AbstractCubeNode{
 				includedMembers.add(currentMember);
 			}
 			if(node.parent != null && !node.member.getDimension().equals(node.parent.member.getDimension())){
+				// Not in same dimension so add the currentMember and its dimension
 				currentMember = node.parent.member;
+				newDimension = true;
+			}else{
+				newDimension = false;
 			}
 			node = node.parent;
 		}
 	}
-	public Position getPosition(CellSetAxis a){
+	public Position getPosition(CellSetAxis a,Member measure){
 		// Get the position for which every member is represented by this node or its ancestors
 		outer:for(Position position:a.getPositions()){
 			for(Member member:position.getMembers()){
@@ -78,7 +96,10 @@ public abstract class AbstractCubeNode{
 					continue outer;
 				}
 			}
-			return position;
+			
+			if(measure == null || position.getMembers().contains(measure)){
+				return position;
+			}
 		}
 		throw new IllegalArgumentException("Member " + member.getName() + " does not feature on the give axis");
 	}
