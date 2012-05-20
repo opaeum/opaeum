@@ -5,6 +5,7 @@ import java.util.Set;
 import org.olap4j.CellSetAxis;
 import org.olap4j.OlapException;
 import org.olap4j.Position;
+import org.olap4j.metadata.Measure;
 import org.olap4j.metadata.Member;
 import org.olap4j.metadata.NamedList;
 import org.olap4j.query.Query;
@@ -91,8 +92,10 @@ public abstract class AbstractCubeNode{
 	public Position getPosition(CellSetAxis a,Member measure){
 		// Get the position for which every member is represented by this node or its ancestors
 		outer:for(Position position:a.getPositions()){
+			
 			for(Member member:position.getMembers()){
-				if(!representsMember(member)){
+				System.out.println(member.getName());
+				if(!(representsMember(member)|| member instanceof Measure)){
 					continue outer;
 				}
 			}
