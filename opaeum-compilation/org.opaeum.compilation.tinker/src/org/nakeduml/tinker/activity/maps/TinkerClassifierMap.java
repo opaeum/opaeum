@@ -1,4 +1,4 @@
-package org.nakeduml.tinker.activity;
+package org.nakeduml.tinker.activity.maps;
 
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IModelElement;

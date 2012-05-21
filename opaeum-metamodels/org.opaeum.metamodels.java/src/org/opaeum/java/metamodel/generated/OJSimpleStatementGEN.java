@@ -60,6 +60,10 @@ abstract public class OJSimpleStatementGEN extends OJStatement {
 		}
 	}
 	
+	public void addToExpression(String s) {
+		setExpression(getExpression() + s);
+	}
+	
 	/** Checks all invariants of this object and returns a list of messages about broken invariants
 	 */
 	public List<InvariantError> checkAllInvariants() {

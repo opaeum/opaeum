@@ -2,7 +2,7 @@ package org.nakeduml.tinker.generator;
 
 import java.util.Collection;
 
-import org.nakeduml.tinker.activity.ConcreteEmulatedClassifier;
+import org.nakeduml.tinker.activity.maps.ConcreteEmulatedClassifier;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJAnnonymousInnerClass;
@@ -43,7 +43,7 @@ public class TinkerBehavioredClassifierGenerator extends StereotypeAnnotator {
 			implementGetAllActivities(ojClass, c);
 		}
 	}
-	
+
 	private void implementGetAllActivities(OJAnnotatedClass ojClass, INakedBehavioredClassifier c) {
 		OJAnnotatedOperation getAllActivities = new OJAnnotatedOperation("getAllActivities");
 		TinkerGenerationUtil.addOverrideAnnotation(getAllActivities);
@@ -53,23 +53,25 @@ public class TinkerBehavioredClassifierGenerator extends StereotypeAnnotator {
 		result.getType().addToGenerics(TinkerBehaviorUtil.tinkerAbstractActivityPathName.getCopy());
 		ojClass.addToImports(TinkerBehaviorUtil.tinkerAbstractActivityPathName.getCopy());
 		getAllActivities.setReturnType(result.getType());
-		result.setInitExp("new ArrayList<"+TinkerBehaviorUtil.tinkerAbstractActivityPathName.getLast()+">()");
+		result.setInitExp("new ArrayList<" + TinkerBehaviorUtil.tinkerAbstractActivityPathName.getLast() + ">()");
 		getAllActivities.getBody().addToLocals(result);
-		
+
 		for (INakedProperty p : c.getOwnedAttributes()) {
 			if (p.getBaseType() instanceof INakedBehavior) {
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
 				if (p.getBaseType().equals(c.getClassifierBehavior())) {
-					getAllActivities.getBody().addToStatements("result.add(this." + map.fieldname() + ")");
+					OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + " != null");
+					ifNotNull.addToThenPart("result.add(this." + map.fieldname() + ")");
+					getAllActivities.getBody().addToStatements(ifNotNull);
 				} else {
 					getAllActivities.getBody().addToStatements("result.addAll(this." + map.fieldname() + ")");
 				}
 			}
 		}
-		
+
 		getAllActivities.getBody().addToStatements("return result");
 		ojClass.addToOperations(getAllActivities);
-	}	
+	}
 
 	private void implementReception(OJAnnotatedClass ojClass, INakedBehavioredClassifier c) {
 		Collection<INakedReception> receptions = c.getOwnedReceptions();
@@ -90,27 +92,33 @@ public class TinkerBehavioredClassifierGenerator extends StereotypeAnnotator {
 			OJTryStatement tryS = new OJTryStatement();
 			tryS.getTryPart().addToStatements("removeFromEventPool(event)");
 
-			INakedBehavior method = reception.getMethods().iterator().next();
-			if (method == c.getClassifierBehavior()) {
-				tryS.getTryPart().addToStatements(
-						"Set<" + TinkerBehaviorUtil.tinkerIActivityNodePathName.getLast()
-								+ "<? extends Token, ? extends Token>> nodesToTrigger = getClassifierBehavior().getEnabledNodesWithMatchingTrigger(event)");
+			if (reception.getMethods().iterator().hasNext()) {
+				INakedBehavior method = reception.getMethods().iterator().next();
+				if (method == c.getClassifierBehavior()) {
+					tryS.getTryPart().addToStatements(
+							"Set<" + TinkerBehaviorUtil.tinkerIActivityNodePathName.getLast()
+									+ "<? extends Token, ? extends Token>> nodesToTrigger = getClassifierBehavior().getEnabledNodesWithMatchingTrigger(event)");
+				} else {
+					tryS.getTryPart().addToStatements(OJUtil.classifierPathname(method).getLast() + " m = new " + OJUtil.classifierPathname(method).getLast() + "(" + "this)");
+					tryS.getTryPart().addToStatements(
+							"Set<" + TinkerBehaviorUtil.tinkerIActivityNodePathName.getLast()
+									+ "<? extends Token, ? extends Token>> nodesToTrigger = m.getEnabledNodesWithMatchingTrigger(event)");
+				}
 			} else {
-				tryS.getTryPart().addToStatements(OJUtil.classifierPathname(method).getLast() + " m = new " + OJUtil.classifierPathname(method).getLast() + "(" + "this)");
+				tryS.getTryPart().addToStatements("AbstractActivity m = (this).getFirstActivityForEvent(event)");
 				tryS.getTryPart().addToStatements(
 						"Set<" + TinkerBehaviorUtil.tinkerIActivityNodePathName.getLast()
 								+ "<? extends Token, ? extends Token>> nodesToTrigger = m.getEnabledNodesWithMatchingTrigger(event)");
 			}
-
 			OJIfStatement ifNodesToTrigger = new OJIfStatement("!nodesToTrigger.isEmpty()");
 			ojClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
 			String tokenType = "ControlToken";
 			ifNodesToTrigger.addToThenPart(TinkerBehaviorUtil.tinkerAcceptEventAction.getLast() + " acceptEventAction = (" + TinkerBehaviorUtil.tinkerAcceptEventAction.getLast()
 					+ ")nodesToTrigger.iterator().next()");
 			ojClass.addToImports(TinkerBehaviorUtil.tinkerAcceptEventAction);
-			if (!reception.getSignal().getOwnedAttributes().isEmpty()) {
-				ifNodesToTrigger.addToThenPart("acceptEventAction.setTrigger(event)");
-			}
+//			if (!reception.getSignal().getOwnedAttributes().isEmpty()) {
+				ifNodesToTrigger.addToThenPart("acceptEventAction.trigger(event)");
+//			}
 			ifNodesToTrigger.addToThenPart("acceptEventAction.setStarts(new SingleIterator<" + tokenType + ">(new " + tokenType + "(acceptEventAction.getName())))");
 			ifNodesToTrigger.addToThenPart("acceptEventAction.next()");
 			tryS.getTryPart().addToStatements(ifNodesToTrigger);
@@ -149,7 +157,7 @@ public class TinkerBehavioredClassifierGenerator extends StereotypeAnnotator {
 			INakedSignalEvent event = null;
 			INakedNameSpace x = c.getParent();
 			for (INakedElement e : x.getOwnedElements()) {
-				if (e instanceof INakedSignalEvent) {
+				if (e instanceof INakedSignalEvent && ((INakedSignalEvent) e).getSignal()==signal) {
 					event = (INakedSignalEvent) e;
 					break;
 				}

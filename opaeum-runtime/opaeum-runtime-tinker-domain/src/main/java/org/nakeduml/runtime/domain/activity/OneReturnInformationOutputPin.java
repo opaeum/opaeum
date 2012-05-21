@@ -20,6 +20,6 @@ public abstract class OneReturnInformationOutputPin<O> extends ReturnInformation
 	
 	@Override
 	protected int countNumberOfElementsOnTokens() {
-		return getInTokens().size();
+		return getOutTokens().size();
 	}
 }

@@ -30,12 +30,10 @@ public class TestActivityTestControlAndObjectFlow extends BaseLocalDbTest {
 		Assert.assertEquals(20, countVertices());
 		db.startTransaction();
 		ActivityTestControlAndObjectFlow activityTestControlAndObjectFlow = new ActivityTestControlAndObjectFlow(customer);
-		activityTestControlAndObjectFlow.setParameter1(customer);
-		activityTestControlAndObjectFlow.setParameter2(homeAddress);
-		activityTestControlAndObjectFlow.execute();
+		activityTestControlAndObjectFlow.execute(customer, homeAddress);
 		db.stopTransaction(Conclusion.SUCCESS);
-		//20 + 1 for activity + 17 for nodes + 1 object token stuck at join node.
-		Assert.assertEquals(39, countVertices());
+		//20 + 1 for activity + 18 for nodes + 2 object token stuck at join node.
+		Assert.assertEquals(41, countVertices());
 		Assert.assertEquals(1, activityTestControlAndObjectFlow.getNodeForName("JoinNode1").getInTokens().size());
 		
 		db.startTransaction();
@@ -44,8 +42,8 @@ public class TestActivityTestControlAndObjectFlow extends BaseLocalDbTest {
 		initialNode1.setStarts(new SingleIterator<ControlToken>(new ControlToken("InitialNode1")));
 		initialNode1.next();
 		db.stopTransaction(Conclusion.SUCCESS);
-		//20 + 1 for activity + 17 for nodes.
-		Assert.assertEquals(38, countVertices());
+		//20 + 1 for activity + 18 for nodes.
+		Assert.assertEquals(39, countVertices());
 		Assert.assertEquals(0, activityTestControlAndObjectFlow.getNodeForName("JoinNode1").getInTokens().size());
 	}
 }

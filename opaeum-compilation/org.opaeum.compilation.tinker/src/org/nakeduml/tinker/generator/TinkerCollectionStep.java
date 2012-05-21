@@ -8,6 +8,7 @@ import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
@@ -23,6 +24,10 @@ import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerImplementNodeStep.class }, after = { TinkerImplementNodeStep.class })
 public class TinkerCollectionStep extends StereotypeAnnotator {
 
+	public void setJavaModel(OJWorkspace javaModel) {
+		this.javaModel = javaModel;
+	}
+	
 	@VisitAfter(matchSubclasses = true)
 	public void visitProperty(INakedActivity c) {
 		if (OJUtil.hasOJClass(c)) {
@@ -69,7 +74,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 
 			ojClass.addToImports(collectionPathName);
 
-			OJSimpleStatement ojSimpleStatement = new OJSimpleStatement(map.umlName() + " = ");
+			OJSimpleStatement ojSimpleStatement = new OJSimpleStatement(map.fieldname() + " = ");
 			ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + TinkerGenerationUtil.getDefaultTinkerCollectionInitalisation(map, collectionPathName).getExpression());
 			constructor.getBody().addToStatements(ojSimpleStatement);
 		}

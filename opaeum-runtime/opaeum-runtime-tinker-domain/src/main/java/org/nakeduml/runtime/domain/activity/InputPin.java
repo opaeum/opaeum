@@ -9,6 +9,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class InputPin<O, IN extends ObjectToken<O>> extends Pin<O, IN, IN> implements IInputPin<O, IN> {
 
+	private static final long serialVersionUID = 8784471211488847951L;
+
 	public InputPin() {
 		super();
 	}

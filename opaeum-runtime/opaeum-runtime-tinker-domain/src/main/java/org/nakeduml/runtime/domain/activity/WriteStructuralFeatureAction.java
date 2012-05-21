@@ -5,6 +5,7 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class WriteStructuralFeatureAction<V, O> extends StructuralFeatureAction<O> {
 
+	private static final long serialVersionUID = 1270124661628360416L;
 	public WriteStructuralFeatureAction() {
 		super();
 	}
@@ -17,7 +18,7 @@ public abstract class WriteStructuralFeatureAction<V, O> extends StructuralFeatu
 		super(vertex);
 	}
 	
-	public abstract InputPin<V, SingleObjectToken<V>> getValue();
+	public abstract V getValue();
 	public abstract OutputPin<O, SingleObjectToken<O>> getResult();
 
 }

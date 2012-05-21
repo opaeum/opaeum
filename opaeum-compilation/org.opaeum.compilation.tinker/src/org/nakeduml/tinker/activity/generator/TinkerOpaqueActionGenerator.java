@@ -31,6 +31,8 @@ public class TinkerOpaqueActionGenerator extends AbstractTinkerActivityNodeGener
 		} else {
 			// Nada
 			actionClass.setSuperclass(TinkerBehaviorUtil.tinkerOpaqueActionPathName.getCopy());
+			//Implements execute
+			implementDefaultExecute(actionClass);
 		}
 		actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
 		if (oa.getReturnPin() != null) {
@@ -40,6 +42,14 @@ public class TinkerOpaqueActionGenerator extends AbstractTinkerActivityNodeGener
 		if (((INakedOclAction) oa).getReturnPin() != null) {
 			addReturnPinGenericType(actionClass, (INakedOclAction) oa);
 		}
+	}
+
+	private void implementDefaultExecute(OJAnnotatedClass actionClass) {
+		OJAnnotatedOperation execute = new OJAnnotatedOperation("execute");
+		TinkerGenerationUtil.addOverrideAnnotation(execute);
+		execute.setReturnType(new OJPathName("boolean"));
+		execute.getBody().addToStatements("return true");
+		actionClass.addToOperations(execute);
 	}
 
 	private void addGetBodyExpression(OJAnnotatedClass actionClass, INakedOclAction oa) {

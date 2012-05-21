@@ -4,6 +4,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class OneReadVariableAction<V> extends ReadVariableAction<V> {
 
+	private static final long serialVersionUID = 5401761478489898373L;
+
 	public OneReadVariableAction() {
 	}
 
@@ -20,9 +22,9 @@ public abstract class OneReadVariableAction<V> extends ReadVariableAction<V> {
 	protected abstract V getVariable();
 	
 	@Override
-	protected void execute() {
-		super.execute();
+	protected boolean execute() {
 		getResult().addIncomingToken(new SingleObjectToken<V>(getResult().getName(), getVariable()));
+		return true;
 	}
 
 }

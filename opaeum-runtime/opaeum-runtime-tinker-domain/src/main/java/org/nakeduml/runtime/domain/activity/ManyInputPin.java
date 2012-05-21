@@ -9,6 +9,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class ManyInputPin<O> extends InputPin<O, CollectionObjectToken<O>> implements IManyInputPin<O> {
 
+	private static final long serialVersionUID = 7759820295342656988L;
+
 	public ManyInputPin() {
 		super();
 	}

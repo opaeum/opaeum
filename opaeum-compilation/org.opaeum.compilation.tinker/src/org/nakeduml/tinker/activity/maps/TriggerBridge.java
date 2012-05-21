@@ -1,4 +1,4 @@
-package org.nakeduml.tinker.activity;
+package org.nakeduml.tinker.activity.maps;
 
 import java.util.Collection;
 import java.util.Collections;

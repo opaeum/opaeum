@@ -6,26 +6,42 @@ import java.util.Set;
 
 import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
-import org.nakeduml.runtime.domain.TinkerNode;
 import org.nakeduml.runtime.domain.activity.interf.IActivityEdge;
 import org.nakeduml.runtime.domain.activity.interf.IActivityNode;
 import org.nakeduml.runtime.domain.activity.interf.IEvent;
 import org.nakeduml.runtime.domain.activity.interf.IInputPin;
 import org.nakeduml.runtime.domain.activity.interf.IOutputPin;
 import org.nakeduml.tinker.runtime.GraphDb;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class AbstractActivity extends BaseTinkerSoftDelete {
+public abstract class AbstractActivity extends BaseTinkerSoftDelete implements TinkerCompositionNode {
 
 	private static final long serialVersionUID = 7647066355373095288L;
 
+	public void setCallAction(CallAction callAction) {
+		Edge edge = GraphDb.getDb().addEdge(null, this.vertex, callAction.getVertex(),"callAction");
+		edge.setProperty("inClass", callAction.getClass().getName());
+		edge.setProperty("outClass", IntrospectionUtil.getOriginalClass(this.getClass()).getName());
+	}
+	
+	public CallAction getCallAction() {
+		Iterable<Edge> iter1 = this.vertex.getOutEdges("callAction");
+		if ( iter1.iterator().hasNext() ) {
+			Edge edge = iter1.iterator().next();
+			try {
+				Class<?> c = Class.forName((String) edge.getProperty("inClass"));
+				return (CallAction) c.getConstructor(Vertex.class).newInstance(edge.getInVertex());
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return null;
+	}
+	
 	protected abstract List<? extends ActivityNode<?, ?>> getInitialNodes();
-
-//	protected abstract List<? extends ActivityParameterNode<?>> getIncomingParameters();
-//
-//	protected abstract List<? extends ActivityParameterNode<?>> getOutgoingParameters();
 
 	public Set<IActivityNode<? extends Token, ? extends Token>> getEnabledNodesWithMatchingTrigger(IEvent event) {
 		Set<IActivityNode<? extends Token, ? extends Token>> result = new HashSet<IActivityNode<? extends Token, ? extends Token>>();
@@ -134,52 +150,6 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 		} else if (currentNode instanceof InputPin) {
 			IInputPin<?,?> inputPin = (IInputPin<?,?>) currentNode;
 			walkActivity(result, visited, inputPin.getAction(), name);
-		}
-	}
-
-	protected <T> void addEdgeToObject(T object, String parameterName) {
-		Vertex v;
-		if (object instanceof TinkerNode) {
-			TinkerNode node = (TinkerNode) object;
-			v = node.getVertex();
-		} else if (object.getClass().isEnum()) {
-			v = GraphDb.getDb().addVertex(null);
-			v.setProperty("value", ((Enum<?>) object).name());
-		} else {
-			v = GraphDb.getDb().addVertex(null);
-			v.setProperty("value", object);
-		}
-		Edge edge = GraphDb.getDb().addEdge(null, this.vertex, v, parameterName);
-		edge.setProperty("inClass", object.getClass().getName());
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T> T getObject(String parameter) {
-		Edge edge = this.vertex.getOutEdges(parameter).iterator().next();
-		Class<?> c = getClassToInstantiate(edge);
-		Vertex v = edge.getInVertex();
-		T node = null;
-		try {
-			if (c.isEnum()) {
-				Object value = v.getProperty("value");
-				node = (T) Enum.valueOf((Class<? extends Enum>) c, (String) value);
-			} else if (TinkerCompositionNode.class.isAssignableFrom(c)) {
-				node = (T) c.getConstructor(Vertex.class).newInstance(v);
-			} else {
-				Object value = v.getProperty("value");
-				node = (T) value;
-			}
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
-		return node;
-	}
-
-	private Class<?> getClassToInstantiate(Edge edge) {
-		try {
-			return Class.forName((String) edge.getProperty("inClass"));
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
 		}
 	}
 

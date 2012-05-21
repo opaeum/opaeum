@@ -1,18 +1,24 @@
 package org.nakeduml.runtime.domain.activity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier;
 import org.nakeduml.runtime.domain.activity.interf.IAction;
 import org.nakeduml.runtime.domain.activity.interf.IInputPin;
 import org.nakeduml.runtime.domain.activity.interf.IOutputPin;
+import org.opaeum.runtime.domain.CompositionNode;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class Action extends ExecutableNode implements IAction {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8761613363370956543L;
 
 	public Action() {
 		super();
@@ -31,17 +37,48 @@ public abstract class Action extends ExecutableNode implements IAction {
 	protected abstract boolean hasPreConditionPassed();
 
 	@Override
-	public abstract List<? extends IInputPin<?,?>> getInput();
-	
+	public abstract List<? extends IInputPin<?, ?>> getInput();
+
 	@Override
-	public abstract List<? extends IOutputPin<?,?>> getOutput();
+	public abstract List<? extends IOutputPin<?, ?>> getOutput();
 
 	protected abstract List<? extends Object> getInputPinVariables();
 
+	protected abstract void addToInputPinVariable(IInputPin<?, ?> inputPin, Collection<?> elements);
+
+	/*
+	 * This will only be called if the lower multiplicity is reached, all up to
+	 * upper multiplicity is consumed
+	 */
 	protected void transferObjectTokensToAction() {
-		//For now this copies the tokens to variables in OpaqueAction and ReplyAction
+		for (IInputPin<?, ?> inputPin : this.getInput()) {
+			int elementsTransferedCount = 0;
+			for (ObjectToken<?> token : inputPin.getInTokens()) {
+				if (elementsTransferedCount < inputPin.getUpperMultiplicity()) {
+
+					if (elementsTransferedCount + token.getNumberOfElements() <= inputPin.getUpperMultiplicity()) {
+						// transfer all elements
+						elementsTransferedCount += token.getNumberOfElements();
+						token.removeEdgeFromActivityNode();
+						addToInputPinVariable(inputPin, token.getElements());
+						token.remove();
+					} else {
+						Collection<Object> tmp = new ArrayList<Object>();
+						for (Object element : token.getElements()) {
+							elementsTransferedCount += 1;
+							tmp.add(element);
+							if (elementsTransferedCount >= inputPin.getUpperMultiplicity()) {
+								break;
+							}
+						}
+						token.getElements().removeAll(tmp);
+						addToInputPinVariable(inputPin, tmp);
+					}
+				}
+			}
+		}
 	}
-	
+
 	@Override
 	public boolean mayContinue() {
 		return doAllIncomingFlowsHaveTokens() && hasPreConditionPassed() && hasPostConditionPassed() && isTriggered() && isInputPinsSatisfied();
@@ -53,14 +90,23 @@ public abstract class Action extends ExecutableNode implements IAction {
 			logger.finest("start executeNode");
 			logger.finest(toString());
 		}
+		preExecute();
+
+		if (execute()) {
+			// Only if the action has completed do we continue
+			return postExecute();
+		} else {
+			return false;
+		}
+
+	}
+
+	protected abstract void clearInputPinVariables();
+
+	protected Boolean postExecute() {
+		clearInputPinVariables();
+
 		List<Boolean> flowResult = new ArrayList<Boolean>();
-
-		transferObjectTokensToAction();
-
-		setNodeStatus(NodeStatus.ENABLED);
-		setNodeStatus(NodeStatus.ACTIVE);
-
-		execute();
 
 		this.nodeStat.increment();
 
@@ -79,7 +125,7 @@ public abstract class Action extends ExecutableNode implements IAction {
 			flowResult.add(flow.processNextStart());
 		}
 
-		for (IOutputPin<?,?> outputPin : getOutput()) {
+		for (IOutputPin<?, ?> outputPin : getOutput()) {
 			// The output pins starts must be set in concrete actions
 			outputPin.copyTokensToStart();
 			flowResult.add(outputPin.processNextStart());
@@ -102,8 +148,14 @@ public abstract class Action extends ExecutableNode implements IAction {
 		return result;
 	}
 
+	protected void preExecute() {
+		transferObjectTokensToAction();
+		setNodeStatus(NodeStatus.ENABLED);
+		setNodeStatus(NodeStatus.ACTIVE);
+	}
+
 	protected boolean isInputPinsSatisfied() {
-		for (IInputPin<?,?> inputPin : this.getInput()) {
+		for (IInputPin<?, ?> inputPin : this.getInput()) {
 			if (!(inputPin instanceof ValuePin) && !inputPin.mayContinue()) {
 				return false;
 			}
@@ -111,9 +163,7 @@ public abstract class Action extends ExecutableNode implements IAction {
 		return true;
 	}
 
-	protected void execute() {
-		// Empty
-	}
+	protected abstract boolean execute();
 
 	protected boolean isTriggered() {
 		return true;
@@ -184,14 +234,16 @@ public abstract class Action extends ExecutableNode implements IAction {
 	public abstract List<ControlFlow> getOutgoing();
 
 	@Override
-	public abstract BaseTinkerBehavioredClassifier getContext();
+	public CompositionNode getOwningObject() {
+		return getActivity();
+	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(super.toString());
 		sb.append("\n");
 		sb.append("InputPins:");
-		for (IInputPin<?,?> o : getInput()) {
+		for (IInputPin<?, ?> o : getInput()) {
 			sb.append("		");
 			sb.append(o.toString());
 			sb.append("\n");
@@ -203,7 +255,7 @@ public abstract class Action extends ExecutableNode implements IAction {
 			sb.append("\n");
 		}
 		sb.append("\nOutputPin:");
-		for (IOutputPin<?,?> outputPin : getOutput()) {
+		for (IOutputPin<?, ?> outputPin : getOutput()) {
 			sb.append("		");
 			sb.append(outputPin.toString());
 			sb.append("\n");

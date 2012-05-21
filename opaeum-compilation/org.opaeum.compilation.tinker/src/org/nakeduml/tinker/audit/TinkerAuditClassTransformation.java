@@ -1,6 +1,7 @@
 package org.nakeduml.tinker.audit;
 
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
+import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -62,7 +63,15 @@ public class TinkerAuditClassTransformation extends AbstractAuditJavaProducingVi
 			implementTinkerNode(ojAuditClass);
 			implementTinkerAuditNode(ojAuditClass);
 			implementIsTinkerRoot(ojAuditClass, c.getEndToComposite() == null);
+			
+			implementEmptyClearCache(ojAuditClass);
 		}
+	}
+
+	private void implementEmptyClearCache(OJAnnotatedClass ojAuditClass) {
+		OJAnnotatedOperation clearCache = new OJAnnotatedOperation("clearCache");
+		TinkerGenerationUtil.addOverrideAnnotation(clearCache);
+		ojAuditClass.addToOperations(clearCache);
 	}
 
 	private void addGetOriginalUid(OJAnnotatedClass ojAuditClass) {

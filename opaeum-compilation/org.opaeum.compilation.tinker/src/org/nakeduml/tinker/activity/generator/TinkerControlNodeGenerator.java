@@ -1,17 +1,23 @@
 package org.nakeduml.tinker.activity.generator;
 
+import java.util.Collections;
+
 import org.nakeduml.tinker.activity.TinkerActivityPhase;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = {TinkerActivityNodeGenerator.class}, after = {TinkerActivityNodeGenerator.class})
 public class TinkerControlNodeGenerator extends AbstractTinkerActivityNodeGenerator {
@@ -146,6 +152,9 @@ public class TinkerControlNodeGenerator extends AbstractTinkerActivityNodeGenera
 		default:
 			break;
 		}
+		implementGetActivity(controlNodeClass, controlNode);
+		implementGetContextObject(controlNodeClass, controlNode.getActivity().getContext());
+
 		if (tokenType.equals(TinkerBehaviorUtil.tinkerObjectTokenPathName.getLast())) {
 			controlNodeClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenPathName.getCopy());
 		} else {
@@ -190,6 +199,7 @@ public class TinkerControlNodeGenerator extends AbstractTinkerActivityNodeGenera
 		initControlNode.setSuperclass(TinkerBehaviorUtil.tinkerInitialNodePathName);
 		addDefaultConstructor(initControlNode, controlNode);
 		removeGetIncoming(initControlNode);
+		addSetStatusEnabledInContructor(initControlNode);
 		return initControlNode;
 	}
 
@@ -200,6 +210,8 @@ public class TinkerControlNodeGenerator extends AbstractTinkerActivityNodeGenera
 		if (controlNode.getIncoming().size() > 1) {
 			throw new IllegalStateException("Fork node can only have one incoming edge");
 		}
+		addGetInFlow(forkControlNode, controlNode);
+		forkControlNode.removeFromOperations(forkControlNode.findOperation("getIncoming", Collections.emptyList()));
 		forkControlNode.addToImports(forkControlNode.getSuperclass().getGenerics());
 		return forkControlNode;
 	}
@@ -213,6 +225,7 @@ public class TinkerControlNodeGenerator extends AbstractTinkerActivityNodeGenera
 		if (controlNode.getOutgoing().size() > 1) {
 			throw new IllegalStateException("Join node can only have one outgoing edge");
 		}
+		mergeControlNode.removeFromOperations(mergeControlNode.findOperation("getOutgoing", Collections.emptyList()));
 		mergeControlNode.addToImports(mergeControlNode.getSuperclass().getGenerics());
 		return mergeControlNode;
 	}
@@ -225,8 +238,24 @@ public class TinkerControlNodeGenerator extends AbstractTinkerActivityNodeGenera
 		if (controlNode.getOutgoing().size() > 1) {
 			throw new IllegalStateException("Join node can only have one outgoing edge");
 		}
+		joinControlNode.removeFromOperations(joinControlNode.findOperation("getOutgoing", Collections.emptyList()));
 		joinControlNode.addToImports(joinControlNode.getSuperclass().getGenerics());
 		return joinControlNode;
 	}
 
+	private void addGetInFlow(OJClass actionClass, INakedActivityNode oa) {
+		OJAnnotatedOperation getInFlow = new OJAnnotatedOperation("getInFlow");
+
+		INakedActivityEdge outEdge = oa.getIncoming().iterator().next();
+		OJPathName path = OJUtil.packagePathname(outEdge.getNameSpace()).getCopy();
+		path.addToNames(NameConverter.capitalize(outEdge.getName()));
+		getInFlow.setReturnType(path);
+
+		for (INakedActivityEdge edge : oa.getIncoming()) {
+			getInFlow.getBody().addToStatements("return " + TinkerBehaviorUtil.edgeGetter(edge) + "()");
+		}
+		actionClass.addToImports(new OJPathName("java.util.Arrays"));
+		actionClass.addToImports(TinkerBehaviorUtil.tinkerActivityEdgePathName);
+		actionClass.addToOperations(getInFlow);
+	}
 }

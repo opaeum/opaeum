@@ -35,5 +35,8 @@ public class TinkerActivityParameterNodeGenerator extends AbstractTinkerActivity
 		superClass.addToGenerics(OJUtil.classifierPathname(oa.getParameter().getNakedBaseType()));
 		activityParameterNodeClass.addToImports(OJUtil.classifierPathname(oa.getParameter().getNakedBaseType()));
 		activityParameterNodeClass.setSuperclass(superClass);
+		implementGetActivity(activityParameterNodeClass, oa);
+		implementGetContextObject(activityParameterNodeClass, oa.getActivity().getContext());
+
 	}
 }

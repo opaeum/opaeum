@@ -4,6 +4,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class WriteVariableAction<V> extends VariableAction<V> {
 
+	private static final long serialVersionUID = 906884741983142841L;
+
 	public WriteVariableAction() {
 		super();
 	}
@@ -16,14 +18,13 @@ public abstract class WriteVariableAction<V> extends VariableAction<V> {
 		super(vertex);
 	}
 	
-	public abstract OneInputPin<V> getValue();
+	public abstract V getValue();
 	protected abstract void writeVariable(V v);
 	
 	@Override
-	protected void execute() {
-		super.execute();
-		V value = getValue().getInTokens().iterator().next().getObject();
-		writeVariable(value);
+	protected boolean execute() {
+		writeVariable(getValue());
+		return true;
 	}	
 
 }

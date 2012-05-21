@@ -1,6 +1,8 @@
 package org.nakeduml.tinker.activity.generator;
 
 import org.nakeduml.tinker.activity.TinkerActivityPhase;
+import org.nakeduml.tinker.activity.maps.TinkerActivityNodeMapFactory;
+import org.nakeduml.tinker.activity.maps.TinkerStructuralFeatureMap;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -77,8 +79,9 @@ public class TinkerSendSignalActionGenerator extends AbstractTinkerActivityNodeG
 	private void implementGetTarget(OJAnnotatedClass actionClass, INakedSendSignalAction oa) {
 		OJAnnotatedOperation getTarget = new OJAnnotatedOperation("getTarget");
 		getTarget.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
-		getTarget.setReturnType(TinkerBehaviorUtil.activityNodePathName(oa.getTarget()));
-		getTarget.getBody().addToStatements("return " + TinkerBehaviorUtil.inputPinGetter(oa.getTarget()) + "()");
+		TinkerStructuralFeatureMap map =TinkerActivityNodeMapFactory.get(oa.getTarget());
+		getTarget.setReturnType(map.javaBaseTypePath());
+		getTarget.getBody().addToStatements("return " + map.getter() + "()");
 		actionClass.addToOperations(getTarget);
 	}
 

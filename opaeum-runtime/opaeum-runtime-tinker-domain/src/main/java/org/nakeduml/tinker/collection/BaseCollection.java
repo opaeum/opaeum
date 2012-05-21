@@ -114,7 +114,7 @@ public abstract class BaseCollection<E> implements Collection<E> {
 				GraphDb.getDb().removeVertex(v);
 			} else {
 				v = this.internalVertexMap.get(o);
-				if (o instanceof TinkerAuditableNode) {
+				if (this.owner instanceof TinkerAuditableNode) {
 					createAudit(e, v, true);
 				}
 				GraphDb.getDb().removeVertex(v);
@@ -151,7 +151,7 @@ public abstract class BaseCollection<E> implements Collection<E> {
 			createdEdge = true;
 			edge = createEdge(e, v);
 		}
-		if (createdEdge && e instanceof TinkerAuditableNode) {
+		if (createdEdge && this.owner instanceof TinkerAuditableNode) {
 			createAudit(e, v, false);
 		}
 		return edge;

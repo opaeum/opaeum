@@ -1,12 +1,11 @@
-package org.nakeduml.tinker.activity;
+package org.nakeduml.tinker.activity.maps;
 
 import java.util.Collection;
 import java.util.Collections;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
 import org.opaeum.metamodel.components.INakedConnectorEnd;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedMultiplicity;
@@ -14,24 +13,19 @@ import org.opaeum.metamodel.core.INakedMultiplicityElement;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
+import org.opaeum.name.NameConverter;
 
-/**
- * This class is need to emulate attibutes in namespaces where other typed elements should also function appear as attributes to Octopus
- * 
- * @author abarnard
- * 
- */
-public class ActivityNodeBridge extends AbstractEmulatedProperty implements INakedProperty{
+public class EventBridge extends AbstractEmulatedProperty implements INakedProperty{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 211415204864858873L;
-	protected INakedActivityNode activityNode;
+	protected INakedEvent event;
 	boolean ensureLocallyUniqueName = true;
 
-	public ActivityNodeBridge(INakedClassifier owner,INakedActivityNode activityNode){
-		super(owner, activityNode);
-		this.activityNode = activityNode;
+	public EventBridge(INakedClassifier owner,INakedEvent event){
+		super(owner, event);
+		this.event = event;
 		ensureLocallyUniqueName=false;
 	}
 
@@ -43,7 +37,7 @@ public class ActivityNodeBridge extends AbstractEmulatedProperty implements INak
 		return this.ensureLocallyUniqueName;
 	}
 	public INakedClassifier getNakedBaseType(){
-		ConcreteEmulatedClassifier jippo = new ConcreteEmulatedClassifier(this.activityNode.getNameSpace(), this.activityNode);
+		ConcreteEmulatedClassifier jippo = new ConcreteEmulatedClassifier(this.event.getNameSpace(), this.event);
 		return jippo;
 	}
 	public boolean isOrdered(){
@@ -56,12 +50,12 @@ public class ActivityNodeBridge extends AbstractEmulatedProperty implements INak
 		return null;
 	}
 	public IClassifier getType(){
-		ConcreteEmulatedClassifier jippo = new ConcreteEmulatedClassifier(this.activityNode.getNameSpace(), this.activityNode);
+		ConcreteEmulatedClassifier jippo = new ConcreteEmulatedClassifier(this.event.getNameSpace(), this.event);
 		return jippo;
 	}
 	@Override
 	public String getName(){
-		return super.getName();
+		return NameConverter.decapitalize(this.event.getName());
 	}
 	public INakedMultiplicity getNakedMultiplicity(){
 		return new NakedMultiplicityImpl(1, 1);
@@ -72,15 +66,12 @@ public class ActivityNodeBridge extends AbstractEmulatedProperty implements INak
 	}
 	@Override
 	public boolean equals(Object other){
-		if(other instanceof ActivityNodeBridge){
-			ActivityNodeBridge o = (ActivityNodeBridge) other;
+		if(other instanceof EventBridge){
+			EventBridge o = (EventBridge) other;
 			return o == this || (o.getId().equals(getId()) && o.shouldEnsureLocallyUniqueName() == shouldEnsureLocallyUniqueName());
 		}else{
 			return false;
 		}
-	}
-	public static String locallyUniqueName(INakedObjectNode pin){
-		return pin.getName() + "On" + pin.getOwnerElement().getMappingInfo().getJavaName().getCapped();
 	}
 	@Override
 	public boolean isMeasure(){

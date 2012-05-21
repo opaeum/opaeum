@@ -57,7 +57,7 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 		return id;
 	}
 	@Override
-	public final MappingInfo getMappingInfo(){
+	public MappingInfo getMappingInfo(){
 		return mappingInfo;
 	}
 	@Override

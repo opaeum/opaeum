@@ -17,6 +17,7 @@ public class TinkerVariableActionGenerator extends AbstractTinkerActivityNodeGen
 	public void visitVariableAction(INakedVariableAction oa) {
 		OJAnnotatedClass ojClass = findJavaClassForActivityNode(oa); 
 		implementReadVariable(ojClass, oa);
+		addAddToInputPinVariable(ojClass, oa);
 	}
 	
 	// TODO support multiplicity many

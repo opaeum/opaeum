@@ -59,7 +59,8 @@ public class GenerateTinkerAuditTest {
 	}
 	public void generate(String modelName) throws Exception{
 		long start = System.currentTimeMillis();
-		File modelFile = new File(workspaceRoot + "/nakeduml/opaeum-tests/opaeum-test-models/Models/tinker/" + modelName + ".uml");
+//		File modelFile = new File(workspaceRoot + "/nakeduml/opaeum-tests/opaeum-test-models/Models/tinker/" + modelName + ".uml");
+		File modelFile = new File(workspaceRoot + "/nakeduml/opaeum-tests/tinker/tinker-test/model/" + modelName + ".uml");
 		process.replaceModel(EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg));
 		process.execute(new DefaultTransformationLog());
 		System.out.println(modelName + " took " + (System.currentTimeMillis() - start) + "ms");

@@ -80,8 +80,9 @@ public class TriggerExtractor extends AbstractActionExtractor{
 			return new NakedChangeEventImpl();
 		}else if(event instanceof TimeEvent){
 			return new NakedTimeEventImpl();
+		} else {
+			throw new IllegalStateException("Event of type " + event.getClass().getSimpleName() + " is not supported");
 		}
-		return null;
 	}
 	private void init(Trigger emfTrigger,ChangeEvent ce,NakedChangeEventImpl nakedChangeEvent){
 		if(ce.getChangeExpression() instanceof OpaqueExpression){

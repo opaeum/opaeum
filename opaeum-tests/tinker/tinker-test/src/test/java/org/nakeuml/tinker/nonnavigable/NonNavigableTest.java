@@ -29,6 +29,31 @@ public class NonNavigableTest extends BaseLocalDbTest {
 		Universe testUniverse = new Universe(universe1.getVertex());
 		Assert.assertNotNull(testUniverse.getNonNavigableOne());
 	}
+	
+	@Test
+	public void testRemoveNonNavigableOne() {
+		db.startTransaction();
+		God god = new God(true);
+		god.setName("THEGOD");
+		Universe universe1 = new Universe(god);
+		universe1.setName("universe1");
+		NonNavigableOne nonNavigableOne = new NonNavigableOne(god);
+		nonNavigableOne.setName("nonNovigableOne");
+		universe1.setNonNavigableOne(nonNavigableOne);
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(6, countVertices());
+		Assert.assertEquals(7, countEdges());
+		Universe testUniverse = new Universe(universe1.getVertex());
+		Assert.assertNotNull(testUniverse.getNonNavigableOne());
+		
+		db.startTransaction();
+		universe1.setNonNavigableOne(null);
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(6, countVertices());
+		Assert.assertEquals(6, countEdges());
+		testUniverse = new Universe(universe1.getVertex());
+		Assert.assertNull(testUniverse.getNonNavigableOne());
+	}
 
 	@Test
 	public void testNonNavigableMany() {

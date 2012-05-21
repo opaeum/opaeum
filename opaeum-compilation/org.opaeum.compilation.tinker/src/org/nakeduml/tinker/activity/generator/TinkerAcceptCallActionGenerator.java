@@ -4,12 +4,13 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.nakeduml.tinker.activity.TinkerActivityPhase;
+import org.nakeduml.tinker.activity.maps.TinkerActivityNodeMapFactory;
+import org.nakeduml.tinker.activity.maps.TinkerStructuralFeatureMap;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -32,8 +33,7 @@ public class TinkerAcceptCallActionGenerator extends AbstractTinkerActivityNodeG
 	@VisitAfter(matchSubclasses = false, match = { INakedAcceptCallAction.class })
 	public void visitAcceptCallActionAfter(INakedAcceptCallAction oa) {
 		OJAnnotatedClass actionClass = findJavaClassForActivityNode(oa); 
-		OJConstructor constructor1 = actionClass.findConstructor(OJUtil.classifierPathname(oa.getActivity().getContext()));
-		addCreateComponentConstructor(constructor1, actionClass, oa);
+		addCreateComponentConstructor(actionClass.getDefaultConstructor(), actionClass, oa);
 		addCopyEventToOutputPin(actionClass, oa);
 		addGetReturnInformationOutputPin(actionClass, oa);
 		addGetReplyAction(actionClass, oa);
@@ -47,8 +47,9 @@ public class TinkerAcceptCallActionGenerator extends AbstractTinkerActivityNodeG
 		TinkerGenerationUtil.addOverrideAnnotation(getReturnInformationOutputPin);
 		for (INakedOutputPin outputPin : oa.getOutput()) {
 			if (outputPin.equals(((INakedAcceptCallAction) oa).getReturnInfo())) {
-				getReturnInformationOutputPin.setReturnType(TinkerBehaviorUtil.activityNodePathName(outputPin));
-				getReturnInformationOutputPin.getBody().addToStatements("return " + TinkerBehaviorUtil.outputPinGetterName(outputPin) + "()");
+				TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.get(outputPin);
+				getReturnInformationOutputPin.setReturnType(map.javaBaseTypePath());
+				getReturnInformationOutputPin.getBody().addToStatements("return " +map.getter() + "()");
 				break;
 			}
 		}

@@ -37,26 +37,26 @@ public class TinkerObjectNodeGenerator extends AbstractTinkerActivityNodeGenerat
 
 	@Override
 	protected OJAnnotatedClass findJavaClassForActivityNode(INakedActivityNode node){
-		if (node instanceof INakedPin) {
+//		if (node instanceof INakedPin) {
+//			OJPathName path = OJUtil.packagePathname(node.getNameSpace());
+//			OJPathName copy = path.getCopy();
+//			copy.addToNames(NameConverter.decapitalize(((INakedPin)node).getAction().getName()));
+//			copy.addToNames(TinkerBehaviorUtil.activityNodePathName(node).getLast());
+//			OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
+//			if(owner == null){
+//				owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
+//			}
+//			return owner;
+//		} else {
 			OJPathName path = OJUtil.packagePathname(node.getNameSpace());
 			OJPathName copy = path.getCopy();
-			copy.addToNames(NameConverter.decapitalize(((INakedPin)node).getAction().getName()));
 			copy.addToNames(TinkerBehaviorUtil.activityNodePathName(node).getLast());
 			OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
 			if(owner == null){
 				owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
 			}
 			return owner;
-		} else {
-			OJPathName path = OJUtil.packagePathname(node.getNameSpace());
-			OJPathName copy = path.getCopy();
-			copy.addToNames(TinkerBehaviorUtil.activityNodePathName(node).getLast());
-			OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
-			if(owner == null){
-				owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
-			}
-			return owner;
-		}
+//		}
 	}
 
 }

@@ -555,7 +555,11 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		return adder;
 	}
 	protected OJOperation buildSetter(INakedClassifier umlOwner,OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation setter = new OJAnnotatedOperation(map.setter());
+		if (true) {
+			
+		}
+		OJOperation setter = new OJAnnotatedOperation( map.setter());
+		//asd
 		setter.addParam(map.fieldname(), map.javaTypePath());
 		INakedProperty prop = map.getProperty();
 		owner.addToOperations(setter);

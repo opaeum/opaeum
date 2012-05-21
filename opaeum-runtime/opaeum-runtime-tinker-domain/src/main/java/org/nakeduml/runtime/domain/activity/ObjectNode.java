@@ -10,6 +10,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class ObjectNode<O, IN extends ObjectToken<O>, OUT extends ObjectToken<O>> extends ActivityNode<IN, OUT> implements IObjectNode<O, IN, OUT> {
 
+	private static final long serialVersionUID = 7021813212373448697L;
+
 	public ObjectNode() {
 		super();
 	}
@@ -47,7 +49,7 @@ public abstract class ObjectNode<O, IN extends ObjectToken<O>, OUT extends Objec
 				try {
 					result.add(constructInToken(edge));
 				} catch (Exception e) {
-					e.printStackTrace();
+					throw new RuntimeException(e);
 				}
 			}
 		}
@@ -130,12 +132,13 @@ public abstract class ObjectNode<O, IN extends ObjectToken<O>, OUT extends Objec
 	}
 
 	@Override
-	protected void addIncomingToken(IN token) {
+	public void addIncomingToken(IN token) {
 		token.removeEdgeFromActivityNode();
 		token.addEdgeToActivityNode(this);
 	}
 
-	protected void addIncomingToken(ObjectTokenInterator<O, IN> iter) {
+	@Override
+	public void addIncomingToken(ObjectTokenInterator<O, IN> iter) {
 		// mayAcceptToken validates upper
 		while (iter.hasNext() && mayAcceptToken()) {
 			IN objectToken = (IN) iter.next();

@@ -360,8 +360,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 			if (!embedded) {
 				classForName.setExpression("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
 				ifNotDeleted.addToThenPart(classForName);
-				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
-						+ TinkerAuditGenerationUtil.AUDIT + ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
+				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + auditMap.javaBaseTypePath().getLast() + ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
 			} else {
 				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + auditMap.javaBaseTypePath().getLast()
 						+ ")edge.getInVertex().getProperty(\"value\")");
@@ -371,8 +370,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 			if (!embedded) {
 				classForName.setExpression("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
 				ifNotDeleted.addToThenPart(classForName);
-				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
-						+ TinkerAuditGenerationUtil.AUDIT + ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
+				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + auditMap.javaBaseTypePath().getLast() + ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 			} else {
 				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + auditMap.javaBaseTypePath().getLast()
 						+ ")edge.getOutVertex().getProperty(\"value\")");

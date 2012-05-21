@@ -1,20 +1,20 @@
 package org.nakeduml.tinker.activity.generator;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
-import org.nakeduml.tinker.activity.ConcreteEmulatedClassifier;
-import org.nakeduml.tinker.activity.PinBridge;
-import org.nakeduml.tinker.activity.TinkerActivityNodeMapFactory;
 import org.nakeduml.tinker.activity.TinkerActivityPhase;
-import org.nakeduml.tinker.activity.TinkerEmulatedAction;
-import org.nakeduml.tinker.activity.TinkerStructuralFeatureMap;
+import org.nakeduml.tinker.activity.maps.ConcreteEmulatedClassifier;
+import org.nakeduml.tinker.activity.maps.TinkerActivityNodeMapFactory;
+import org.nakeduml.tinker.activity.maps.TinkerStructuralFeatureMap;
 import org.nakeduml.tinker.generator.TinkerAttributeImplementor;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
+import org.nakeduml.tinker.generator.TinkerCollectionStep;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
+import org.nakeduml.tinker.javageneration.composition.TinkerComponentInitializer;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -23,7 +23,6 @@ import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.actions.INakedOclAction;
@@ -32,8 +31,6 @@ import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedInputPin;
 import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedValuePin;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerActivityNodeGenerator.class }, after = { TinkerActivityNodeGenerator.class })
@@ -47,9 +44,31 @@ public class TinkerActionGenerator extends AbstractTinkerActivityNodeGenerator {
 		addHasPreConditionPassed(actionClass);
 		addOutputPinGetters(actionClass, oa);
 		addInputPinGetters(actionClass, oa);
-		createVariablesForInputPins(actionClass, oa);
+		addInputPinVariables(actionClass, oa);
 		addGetInputPinVariables(actionClass, oa);
-		addGetContextObject(actionClass, oa.getActivity().getContext());
+		implementGetActivity(actionClass, oa);
+		implementGetContextObject(actionClass, oa.getActivity().getContext());
+		implementClearInputPinVariables(actionClass, oa);
+		if (!oa.getInput().isEmpty() || !oa.getOutput().isEmpty()) {
+			actionClass.findConstructor(new OJPathName("java.lang.Boolean")).getBody().addToStatements("createComponents()");
+		}
+	}
+
+	private void implementClearInputPinVariables(OJAnnotatedClass actionClass, INakedAction oa) {
+		OJAnnotatedOperation clearInputPinVariables = new OJAnnotatedOperation("clearInputPinVariables");
+		TinkerGenerationUtil.addOverrideAnnotation(clearInputPinVariables);
+		actionClass.addToOperations(clearInputPinVariables);
+		
+		for (INakedInputPin inputPin : oa.getInput()) {
+			ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(oa.getNameSpace(), oa);
+			TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.getPinVariableInActionAssociationMap(concreteEmulatedClassifier, inputPin);
+			if (map.isMany()) {
+				clearInputPinVariables.getBody().addToStatements(map.clearer() + "()");
+			} else {
+				clearInputPinVariables.getBody().addToStatements(map.setter() + "(null)");
+			}
+		}
+		
 	}
 
 	private void addHasPreConditionPassed(OJClass actionClass) {
@@ -74,23 +93,33 @@ public class TinkerActionGenerator extends AbstractTinkerActivityNodeGenerator {
 
 		StringBuilder sb = new StringBuilder("return Arrays.asList(");
 		Collection<INakedOutputPin> outputPins = a.getOutput();
-		boolean hasOutputPins = false;
-		boolean first = true;
+		int count = 0;
 		for (INakedOutputPin outputPin : outputPins) {
-			hasOutputPins = true;
+			count++;
 			TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
 			tinkerAttributeImplementor.setJavaModel(this.javaModel);
 			ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(a.getNameSpace(), a);
-			TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.get(concreteEmulatedClassifier, outputPin);
+			TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.getPinToActionAssociationMap(concreteEmulatedClassifier, outputPin);
 			tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
 			sb.append(map.getter());
 			sb.append("()");
-			if (!first) {
+			if (count < outputPins.size()) {
 				sb.append(", ");
 			}
-			first = false;
-		}
 
+			// Add to createComponent to constructor
+			TinkerComponentInitializer tinkerComponentInitializer = new TinkerComponentInitializer();
+			tinkerComponentInitializer.setJavaModel(this.javaModel);
+			OJAnnotatedOperation createComponents = (OJAnnotatedOperation) actionClass.findOperation("createComponents", Collections.emptyList());
+			if (createComponents == null) {
+				createComponents = new OJAnnotatedOperation("createComponents");
+				createComponents.setBody(new OJBlock());
+				actionClass.addToOperations(createComponents);
+			}
+			tinkerComponentInitializer.initProperty(createComponents, map.getProperty());
+
+		}
+		sb.append(")");
 		if (a instanceof INakedOclAction) {
 			OJAnnotatedOperation getResultPin = new OJAnnotatedOperation("getResultPin");
 			actionClass.addToOperations(getResultPin);
@@ -110,16 +139,11 @@ public class TinkerActionGenerator extends AbstractTinkerActivityNodeGenerator {
 				TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
 				tinkerAttributeImplementor.setJavaModel(this.javaModel);
 				ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(a.getNameSpace(), a);
-				TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new PinBridge(concreteEmulatedClassifier, returnPin));
-				bridge.setComposite(true);
-				bridge.isComposite();
-				TinkerStructuralFeatureMap map = new TinkerStructuralFeatureMap(bridge);
-
+				TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.getPinToActionAssociationMap(concreteEmulatedClassifier, returnPin);
 				getResultPin.getReturnType().addToGenerics(OJUtil.classifierPathname(returnPin.getNakedBaseType()));
 				getResultPin.getBody().addToStatements("return " + map.getter() + "()");
 			}
 		} else {
-
 			OJAnnotatedOperation getOutputPins = new OJAnnotatedOperation("getOutput");
 			TinkerGenerationUtil.addOverrideAnnotation(getOutputPins);
 			OJPathName returnType = new OJPathName("java.util.List");
@@ -127,10 +151,6 @@ public class TinkerActionGenerator extends AbstractTinkerActivityNodeGenerator {
 			actionClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenPathName);
 			getOutputPins.setReturnType(returnType);
 			String statement = sb.toString();
-			if (hasOutputPins) {
-				statement = statement.substring(0, sb.toString().length() - 1);
-			}
-			statement += ")";
 			getOutputPins.getBody().addToStatements(statement);
 			actionClass.addToOperations(getOutputPins);
 			actionClass.addToImports(TinkerBehaviorUtil.tinkerOutputPinPathName);
@@ -144,35 +164,31 @@ public class TinkerActionGenerator extends AbstractTinkerActivityNodeGenerator {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("return Arrays.asList(");
-		boolean first = true;
-		List<INakedProperty> p = new ArrayList<INakedProperty>();
-
+		int count = 0;
 		for (INakedInputPin inputPin : inputPins) {
-			
+			count++;
 			TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
 			tinkerAttributeImplementor.setJavaModel(this.javaModel);
 			ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(a.getNameSpace(), a);
-			TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.get(concreteEmulatedClassifier, inputPin);
+			TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.getPinToActionAssociationMap(concreteEmulatedClassifier, inputPin);
 			tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
+			sb.append(map.getter());
+			sb.append("()");
+			if (count < inputPins.size()) {
+				sb.append(", ");
+			}
 
-			
-//			TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new PinBridge(concreteEmulatedClassifier, inputPin));
-//			bridge.setComposite(true);
-//			bridge.isComposite();
-//			p.add(bridge);
-//			try {
-//				OJUtil.unlock();
-//				TinkerStructuralFeatureMap map = new TinkerStructuralFeatureMap(bridge);
-//				tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
-				sb.append(map.getter());
-				sb.append("()");
-				if (!first) {
-					sb.append(", ");
-				}
-				first = false;
-//			} finally {
-//				OJUtil.lock();
-//			}
+			// Add to createComponent to constructor
+			TinkerComponentInitializer tinkerComponentInitializer = new TinkerComponentInitializer();
+			tinkerComponentInitializer.setJavaModel(this.javaModel);
+			OJAnnotatedOperation createComponents = (OJAnnotatedOperation) actionClass.findOperation("createComponents", Collections.emptyList());
+			if (createComponents == null) {
+				createComponents = new OJAnnotatedOperation("createComponents");
+				createComponents.setBody(new OJBlock());
+				actionClass.addToOperations(createComponents);
+			}
+			tinkerComponentInitializer.initProperty(createComponents, map.getProperty());
+
 		}
 		OJAnnotatedOperation getInputPins = new OJAnnotatedOperation("getInput");
 		TinkerGenerationUtil.addOverrideAnnotation(getInputPins);
@@ -191,20 +207,29 @@ public class TinkerActionGenerator extends AbstractTinkerActivityNodeGenerator {
 		actionClass.addToImports(TinkerBehaviorUtil.tinkerInputPinPathName);
 	}
 
-	private void createVariablesForInputPins(OJClass actionClass, INakedAction oa) {
+	private void addInputPinVariables(OJClass actionClass, INakedAction oa) {
 		for (INakedInputPin inputPin : oa.getInput()) {
-			if ((oa instanceof INakedSendSignalAction && ((INakedSendSignalAction) oa).getTarget() == inputPin)) {
-				continue;
+//			if ((oa instanceof INakedSendSignalAction && ((INakedSendSignalAction) oa).getTarget() == inputPin)) {
+//				continue;
+//			}
+
+			TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
+			tinkerAttributeImplementor.setJavaModel(this.javaModel);
+			ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(oa.getNameSpace(), oa);
+			TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.getPinVariableInActionAssociationMap(concreteEmulatedClassifier, inputPin);
+			tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
+
+			if (!map.getProperty().isDerived() && map.isMany()) {
+				TinkerCollectionStep tinkerCollectionStep = new TinkerCollectionStep();
+				tinkerCollectionStep.setJavaModel(this.javaModel);
+				tinkerCollectionStep.visitManyProperty((OJAnnotatedClass) actionClass, map);
 			}
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(oa.getActivity(), inputPin, false));
-			AttributeImplementor attributeImplementor = new AttributeImplementor();
-			attributeImplementor.setJavaModel(this.javaModel);
-			attributeImplementor.implementAttributeFully(new TinkerEmulatedAction(oa.getNameSpace(), oa), map);
 		}
 	}
 
 	private void addGetInputPinVariables(OJClass actionClass, INakedAction oa) {
 		OJAnnotatedOperation getInputPinVariables = new OJAnnotatedOperation("getInputPinVariables");
+		getInputPinVariables.setComment("This only gets called in the toString method");
 		OJPathName returnType = new OJPathName("java.util.List");
 		returnType.addToElementTypes(new OJPathName("? extends Object"));
 		getInputPinVariables.setReturnType(returnType);
@@ -217,29 +242,15 @@ public class TinkerActionGenerator extends AbstractTinkerActivityNodeGenerator {
 		getInputPinVariables.getBody().addToLocals(result);
 
 		for (INakedInputPin inputPin : oa.getInput()) {
-			if (inputPin instanceof INakedValuePin || (oa instanceof INakedSendSignalAction && ((INakedSendSignalAction) oa).getTarget() == inputPin)) {
-				continue;
-			}
+//			if (inputPin instanceof INakedValuePin || (oa instanceof INakedSendSignalAction && ((INakedSendSignalAction) oa).getTarget() == inputPin)) {
+//				continue;
+//			}
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(oa.getActivity(), inputPin, false));
 			OJIfStatement ifStatement = new OJIfStatement("this." + map.fieldname() + " != null", "result.add(this." + map.fieldname() + ")");
 			getInputPinVariables.getBody().addToStatements(ifStatement);
 		}
 		getInputPinVariables.getBody().addToStatements("return result");
 		actionClass.addToOperations(getInputPinVariables);
-	}
-
-	private void addGetContextObject(OJClass actionClass, INakedBehavioredClassifier context) {
-		OJAnnotatedOperation getContext = new OJAnnotatedOperation("getContext");
-		getContext.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
-		getContext.setReturnType(OJUtil.classifierPathname(context));
-		getContext.getBody().addToStatements("return this.contextObject");
-		actionClass.addToOperations(getContext);
-
-		OJAnnotatedOperation getContextObject = new OJAnnotatedOperation("getContextObject");
-		getContextObject.setReturnType(OJUtil.classifierPathname(context));
-		getContextObject.getBody().addToStatements("return this.getContext()");
-		actionClass.addToOperations(getContextObject);
-
 	}
 
 }

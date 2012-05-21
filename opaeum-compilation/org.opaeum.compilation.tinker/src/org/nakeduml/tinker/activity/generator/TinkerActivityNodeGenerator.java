@@ -1,8 +1,11 @@
 package org.nakeduml.tinker.activity.generator;
 
-import org.nakeduml.tinker.activity.ConcreteEmulatedClassifier;
-import org.nakeduml.tinker.activity.EdgeBridge;
 import org.nakeduml.tinker.activity.TinkerActivityPhase;
+import org.nakeduml.tinker.activity.maps.ConcreteEmulatedClassifier;
+import org.nakeduml.tinker.activity.maps.EdgeBridge;
+import org.nakeduml.tinker.activity.maps.TinkerActivityNodeMapFactory;
+import org.nakeduml.tinker.activity.maps.TinkerStructuralFeatureMap;
+import org.nakeduml.tinker.generator.TinkerAttributeImplementor;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
@@ -10,14 +13,12 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
-import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.activities.ControlNodeType;
@@ -26,10 +27,7 @@ import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedPin;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerImplementNodeStep.class }, after = { TinkerImplementNodeStep.class })
@@ -39,25 +37,14 @@ public class TinkerActivityNodeGenerator extends AbstractTinkerActivityNodeGener
 	public void visitActivityNode(INakedActivityNode node) {
 		OJPathName path = OJUtil.packagePathname(node.getNameSpace());
 		OJAnnotatedClass ojClass;
-		if (node instanceof INakedPin) {
-			OJPathName copy = path.getCopy();
-			copy.addToNames(NameConverter.decapitalize(((INakedPin)node).getAction().getName()));
-			OJPackage pack = findOrCreatePackage(copy);
-			ojClass = new OJAnnotatedClass(TinkerBehaviorUtil.activityNodePathName(node).getLast());
-			ojClass.setMyPackage(pack);
-			ojClass.addToImports(OJUtil.classifierPathname(((INakedPin)node).getNakedBaseType()));
-			
-		} else {
-			OJPackage pack = findOrCreatePackage(path);
-			ojClass = new OJAnnotatedClass(TinkerBehaviorUtil.activityNodePathName(node).getLast());
-			ojClass.setMyPackage(pack);
-			ojClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
-		}
+		OJPackage pack = findOrCreatePackage(path);
+		ojClass = new OJAnnotatedClass(TinkerBehaviorUtil.activityNodePathName(node).getLast());
+		ojClass.setMyPackage(pack);
+		ojClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
 		addActivityNodeOperations(ojClass, node);
 		addInitVertexToDefaultConstructor(ojClass, node);
-		addContextObjectField(ojClass, node.getActivity().getContext());
-		addContextObjectToDefaultConstructor(ojClass, node.getActivity().getContext());
 		super.createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+		
 	}
 	
 	private void addActivityNodeOperations(OJClass actionClass, INakedActivityNode oa) {
@@ -65,8 +52,7 @@ public class TinkerActivityNodeGenerator extends AbstractTinkerActivityNodeGener
 		addGetInFlows(actionClass, oa);
 		addOutControlFlowGetters(actionClass, oa);
 		addInControlFlowGetters(actionClass, oa);
-		addConstructorWithVertex(actionClass, oa.getActivity().getContext());
-		implementGetActivity(actionClass, oa);
+		addConstructorWithVertex(actionClass);
 	}
 
 	private void addGetOutFlows(OJClass actionClass, INakedActivityNode oa) {
@@ -257,63 +243,63 @@ public class TinkerActivityNodeGenerator extends AbstractTinkerActivityNodeGener
 		}
 	}
 
-	private OJConstructor addConstructorWithVertex(OJClass actionClass, INakedBehavioredClassifier contextObject) {
+	private OJConstructor addConstructorWithVertex(OJClass actionClass) {
 		OJConstructor constructorWithEdge = new OJConstructor();
 		constructorWithEdge.addParam("vertex", TinkerGenerationUtil.vertexPathName);
-		constructorWithEdge.addParam("contextObject", OJUtil.classifierPathname(contextObject));
 		constructorWithEdge.getBody().addToStatements("super(vertex)");
-		constructorWithEdge.getBody().addToStatements("this.contextObject = contextObject");
 		actionClass.addToConstructors(constructorWithEdge);
 		return constructorWithEdge;
 	}
 
-	private void implementGetActivity(OJClass actionClass, INakedActivityNode oa) {
-		OJAnnotatedOperation getActivity = new OJAnnotatedOperation("getActivity");
-		TinkerGenerationUtil.addOverrideAnnotation(getActivity);
-		NakedClassifierMap map = OJUtil.buildClassifierMap(oa.getActivity());
-		getActivity.setReturnType(map.javaTypePath());
-		actionClass.addToImports(map.javaTypePath());
-		getActivity.getBody().addToStatements(
-				"return new " + map.javaTypePath().getLast() + "(this.vertex.getInEdges(\"" + NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(oa).getLast())
-						+ "Edge\").iterator().next().getOutVertex())");
-		actionClass.addToOperations(getActivity);
-	}
-
 	private void buildOutgoingControlFlowGetter(OJClass actionClass, INakedActivityEdge edge) {
+		
+		ConcreteEmulatedClassifier sourceClassifier = new ConcreteEmulatedClassifier(edge.getSource().getNameSpace(), edge.getSource());
+		TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.get(sourceClassifier, edge.getTarget(), edge.getSource(), true);
+		TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
+		tinkerAttributeImplementor.setJavaModel(this.javaModel);
+		tinkerAttributeImplementor.implementAttributeFully(sourceClassifier, map);
+		
+		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map, true);
+		
 		ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(edge.getSource().getNameSpace(), edge.getSource());
-		OJUtil.unlock();
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new EdgeBridge(concreteEmulatedClassifier, edge));
-	
-		OJAnnotatedOperation flowGetter = new OJAnnotatedOperation(map.getter());
-		OJPathName edgePathname = map.javaBaseTypePath();
+		NakedStructuralFeatureMap edgeMap = new NakedStructuralFeatureMap(new EdgeBridge(concreteEmulatedClassifier, edge));
+		OJAnnotatedOperation flowGetter = new OJAnnotatedOperation(edgeMap.getter());
+		OJPathName edgePathname = edgeMap.javaBaseTypePath();
 		actionClass.addToImports(edgePathname);
 		flowGetter.setReturnType(edgePathname);
-	
-		OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaBaseTypePath());
+		OJAnnotatedField field = new OJAnnotatedField(edgeMap.fieldname(), edgeMap.javaBaseTypePath());
 		actionClass.addToFields(field);
-	
-		OJIfStatement ifNull = new OJIfStatement("this." + map.fieldname() + " == null");
-		ifNull.addToThenPart("this." + map.fieldname() + " = new " + edgePathname.getLast() + "(vertex.getOutEdges(\"" + edge.getName()
-				+ "\").iterator().next(), this.contextObject)");
+		OJIfStatement ifNull = new OJIfStatement("this." + edgeMap.fieldname() + " == null");
+		ifNull.addToThenPart("this." + edgeMap.fieldname() + " = new " + edgePathname.getLast() + "(vertex.getOutEdges(\"" + otherAssociationName
+				+ "\").iterator().next(), getContextObject())");
 		flowGetter.getBody().addToStatements(ifNull);
-		flowGetter.getBody().addToStatements("return this." + map.fieldname());
+		flowGetter.getBody().addToStatements("return this." + edgeMap.fieldname());
 		actionClass.addToOperations(flowGetter);
 	}
 
 	private void buildIncomingControlFlowGetter(OJClass actionClass, INakedActivityEdge edge) {
+		
+		ConcreteEmulatedClassifier sourceClassifier = new ConcreteEmulatedClassifier(edge.getTarget().getNameSpace(), edge.getTarget());
+		TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.get(sourceClassifier, edge.getSource(), edge.getTarget(), false);
+		TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
+		tinkerAttributeImplementor.setJavaModel(this.javaModel);
+		tinkerAttributeImplementor.implementAttributeFully(sourceClassifier, map);
+		
+		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map, false);
+
 		ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(edge.getSource().getNameSpace(), edge.getSource());
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new EdgeBridge(concreteEmulatedClassifier, edge));
-		OJAnnotatedField flowField = new OJAnnotatedField(map.fieldname(), map.javaBaseTypePath());
+		NakedStructuralFeatureMap edgeMap = new NakedStructuralFeatureMap(new EdgeBridge(concreteEmulatedClassifier, edge));
+		OJAnnotatedField flowField = new OJAnnotatedField(edgeMap.fieldname(), edgeMap.javaBaseTypePath());
 		actionClass.addToFields(flowField);
-		OJAnnotatedOperation flowGetter = new OJAnnotatedOperation(map.getter());
-		OJPathName edgePathname = map.javaBaseTypePath();
+		OJAnnotatedOperation flowGetter = new OJAnnotatedOperation(edgeMap.getter());
+		OJPathName edgePathname = edgeMap.javaBaseTypePath();
 		actionClass.addToImports(edgePathname);
 		flowGetter.setReturnType(edgePathname);
-		OJIfStatement ifNotNull = new OJIfStatement("this." + map.fieldname() + " == null");
-		ifNotNull.addToThenPart("this." + map.fieldname() + " = new " + edgePathname.getLast() + "(vertex.getInEdges(\"" + edge.getName()
-				+ "\").iterator().next(), this.contextObject)");
+		OJIfStatement ifNotNull = new OJIfStatement("this." + edgeMap.fieldname() + " == null");
+		ifNotNull.addToThenPart("this." + edgeMap.fieldname() + " = new " + edgePathname.getLast() + "(vertex.getInEdges(\"" + otherAssociationName
+				+ "\").iterator().next(), getContextObject())");
 		flowGetter.getBody().addToStatements(ifNotNull);
-		flowGetter.getBody().addToStatements("return this." + map.fieldname());
+		flowGetter.getBody().addToStatements("return this." + edgeMap.fieldname());
 		actionClass.addToOperations(flowGetter);
 	
 	}
@@ -321,20 +307,6 @@ public class TinkerActivityNodeGenerator extends AbstractTinkerActivityNodeGener
 	private void addInitVertexToDefaultConstructor(OJAnnotatedClass actionClass, INakedActivityNode controlNode) {
 		OJConstructor defaultConstructor = actionClass.getDefaultConstructor();
 		initVertexInConstructor(actionClass, controlNode, defaultConstructor);
-	}
-
-	private void addContextObjectField(OJAnnotatedClass actionClass, INakedBehavioredClassifier context) {
-		OJField contextObjectField = new OJField();
-		OJUtil.unlock();
-		contextObjectField.setType(OJUtil.classifierPathname(context));
-		contextObjectField.setName("contextObject");
-		actionClass.addToFields(contextObjectField);
-	}
-
-	private void addContextObjectToDefaultConstructor(OJAnnotatedClass actionClass, INakedBehavioredClassifier contextClassifier) {
-		OJConstructor defaultConstructor = actionClass.getDefaultConstructor();
-		defaultConstructor.addParam("contextObject", OJUtil.classifierPathname(contextClassifier));
-		defaultConstructor.getBody().addToStatements("this.contextObject = contextObject");
 	}
 
 }

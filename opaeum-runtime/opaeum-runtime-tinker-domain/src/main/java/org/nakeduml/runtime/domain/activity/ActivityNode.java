@@ -5,11 +5,13 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
+import org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier;
 import org.nakeduml.runtime.domain.activity.interf.IActivityEdge;
 import org.nakeduml.runtime.domain.activity.interf.IActivityNode;
 import org.nakeduml.tinker.runtime.GraphDb;
+import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.util.TinkerIdUtil;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -17,9 +19,11 @@ import com.tinkerpop.pipes.AbstractPipe;
 
 public abstract class ActivityNode<IN extends Token, OUT extends Token> extends AbstractPipe<IN, Boolean> implements IActivityNode<IN, OUT> {
 
+	private static final long serialVersionUID = 6087164127026017426L;
 	protected Vertex vertex;
 	protected NodeStat nodeStat;
 	protected static final Logger logger = Logger.getLogger(ActivityNode.class.getName());
+	protected boolean hasInitBeenCalled = false;
 	
 	public ActivityNode() {
 		super();
@@ -54,15 +58,12 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 	public abstract List<?> getOutTokens();
 	@Override
 	public abstract List<?> getOutTokens(String outFlowName);
-	
-	protected abstract AbstractActivity getActivity();
+	@Override
+	public abstract BaseTinkerBehavioredClassifier getContextObject();
 
+	@Override
 	public Vertex getVertex() {
 		return vertex;
-	}
-
-	protected void execute() {
-		// Do nothing
 	}
 
 	@Override
@@ -152,4 +153,62 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 		sb.append(this.nodeStat.toString());
 		return sb.toString();
 	}
+	
+
+	//CompositionNode interface
+	
+	@Override
+	public boolean hasInitBeenCalled() {
+		return this.hasInitBeenCalled;
+	}
+
+	@Override
+	public boolean isTinkerRoot() {
+		return false;
+	}
+
+	@Override
+	public void clearCache() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public Long getId() {
+		return TinkerIdUtil.getId(this.vertex);
+	}
+
+	@Override
+	public void setId(Long id) {
+		TinkerIdUtil.setId(this.vertex, id);
+	}
+
+	@Override
+	public int getObjectVersion() {
+		return TinkerIdUtil.getVersion(this.vertex);
+	}
+
+	@Override
+	public abstract CompositionNode getOwningObject();
+
+	@Override
+	public void init(CompositionNode owner) {
+		//not used
+	}
+
+	@Override
+	public void removeFromOwningObject() {
+		//Not used
+	}
+
+	@Override
+	public void addToOwningObject() {
+		//Not used
+	}
+
+	@Override
+	public void markDeleted() {
+		// TODO Auto-generated method stub
+		
+	}	
+	
 }

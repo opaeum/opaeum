@@ -1,4 +1,4 @@
-package org.nakeduml.tinker.activity;
+package org.nakeduml.tinker.activity.maps;
 
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.metamodel.core.INakedProperty;

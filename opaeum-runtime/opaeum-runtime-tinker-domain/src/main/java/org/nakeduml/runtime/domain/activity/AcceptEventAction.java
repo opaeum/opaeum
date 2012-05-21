@@ -2,13 +2,14 @@ package org.nakeduml.runtime.domain.activity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.jbpm.workflow.core.node.Trigger;
 import org.nakeduml.runtime.domain.TinkerNode;
 import org.nakeduml.runtime.domain.activity.interf.IAcceptEventAction;
 import org.nakeduml.runtime.domain.activity.interf.IEvent;
+import org.nakeduml.runtime.domain.activity.interf.IInputPin;
 import org.nakeduml.runtime.domain.activity.interf.IOutputPin;
 import org.nakeduml.runtime.domain.activity.interf.ISignalEvent;
 import org.nakeduml.runtime.domain.activity.interf.ITrigger;
@@ -20,8 +21,7 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class AcceptEventAction extends Action implements IAcceptEventAction {
 
-//	private List<Trigger> triggers = new ArrayList<Trigger>();
-	private boolean triggered = false;
+	private static final long serialVersionUID = 8562661610043434431L;
 	private IEvent event;
 
 	public AcceptEventAction() {
@@ -34,6 +34,11 @@ public abstract class AcceptEventAction extends Action implements IAcceptEventAc
 
 	public AcceptEventAction(Vertex vertex) {
 		super(vertex);
+	}
+	
+	@Override
+	public boolean execute() {
+		return true;
 	}
 	
 	@Override
@@ -60,9 +65,14 @@ public abstract class AcceptEventAction extends Action implements IAcceptEventAc
 		return Arrays.asList();
 	}
 
-	public void setTrigger(IEvent signal) {
-		this.triggered = true;
+	public void trigger(IEvent signal) {
+		this.vertex.setProperty("triggered", true);
 		this.event = signal;
+	}
+	
+	@Override
+	protected void addToInputPinVariable(IInputPin<?, ?> inputPin, Collection<?> elements) {
+		//Will not be called
 	}
 	
 	@Override
@@ -85,17 +95,15 @@ public abstract class AcceptEventAction extends Action implements IAcceptEventAc
 	
 	@Override
 	protected boolean isTriggered() {
-		return this.triggered;
+		if (this.vertex.getProperty("triggered")==null) {
+			return false;
+		} else {
+			return (Boolean) this.vertex.getProperty("triggered");
+		}
 	}
 
 	@Override
 	public abstract List<? extends ITrigger> getTrigger();
-//		return triggers;
-//	}
-	
-//	public void addToTriggers(String name, String eventName) {
-//		getTrigger().add(new Trigger(name, eventName));
-//	}
 	
 	public boolean containsTriggerForEvent(IEvent event) {
 		for (ITrigger trigger : getTrigger()) {

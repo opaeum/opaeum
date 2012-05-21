@@ -8,10 +8,7 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.actions.INakedReplyAction;
-import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedPin;
-import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerPinGenerator.class }, after = { TinkerPinGenerator.class })
 public class TinkerInputPinGenerator extends AbstractTinkerActivityNodeGenerator {
@@ -38,30 +35,5 @@ public class TinkerInputPinGenerator extends AbstractTinkerActivityNodeGenerator
 		inputPinClass.addToImports(OJUtil.classifierPathname(oa.getNakedBaseType()));
 		inputPinClass.setSuperclass(superClass);
 	}
-	
-	@Override
-	protected OJAnnotatedClass findJavaClassForActivityNode(INakedActivityNode node){
-		if (node instanceof INakedPin) {
-			OJPathName path = OJUtil.packagePathname(node.getNameSpace());
-			OJPathName copy = path.getCopy();
-			copy.addToNames(NameConverter.decapitalize(((INakedPin)node).getAction().getName()));
-			copy.addToNames(TinkerBehaviorUtil.activityNodePathName(node).getLast());
-			OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
-			if(owner == null){
-				owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
-			}
-			return owner;
-		} else {
-			OJPathName path = OJUtil.packagePathname(node.getNameSpace());
-			OJPathName copy = path.getCopy();
-			copy.addToNames(TinkerBehaviorUtil.activityNodePathName(node).getLast());
-			OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
-			if(owner == null){
-				owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
-			}
-			return owner;
-		}
-	}
-
 
 }

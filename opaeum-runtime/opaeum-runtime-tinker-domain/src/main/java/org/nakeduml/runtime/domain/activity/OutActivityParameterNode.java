@@ -10,6 +10,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class OutActivityParameterNode<O, IN extends ObjectToken<O>> extends ActivityParameterNode<O, IN> implements IOutActivityParameterNode<O, IN> {
 
+	private static final long serialVersionUID = 1874653435184494635L;
+
 	public OutActivityParameterNode() {
 		super();
 	}

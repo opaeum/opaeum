@@ -28,7 +28,7 @@ public class TestActivityTestUpperTest  extends BaseLocalDbTest {
 		Assert.assertEquals(20, countVertices());
 		
 		db.startTransaction();
-		//Add another 4 home addresses
+		//Add another 3 home addresses
 		for (int i = 0; i < 3; i++) {
 			homeAddress = new Address(customer);
 			homeAddress.setAddressType(AddressType.HOME);
@@ -40,8 +40,7 @@ public class TestActivityTestUpperTest  extends BaseLocalDbTest {
 		
 		db.startTransaction();
 		ActivityTestUpper testActivityTestUpper = new ActivityTestUpper(root);
-		testActivityTestUpper.setAddress(customer.getAddress());
-		testActivityTestUpper.execute();
+		testActivityTestUpper.execute(customer.getAddress());
 		db.stopTransaction(Conclusion.SUCCESS);
 
 		//23 + activity and its 5 nodes + 1 object token stuck on input pin as its upper multiplicity is only 2

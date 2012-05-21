@@ -1,6 +1,5 @@
 package org.nakeduml.runtime.domain.activity;
 
-import org.nakeduml.runtime.domain.activity.interf.IClassifier;
 import org.nakeduml.runtime.domain.activity.interf.IValuePin;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -18,9 +17,6 @@ public abstract class ValuePin<O, OUT extends ObjectToken<O>> extends InputPin<O
 	public ValuePin(Vertex vertex) {
 		super(vertex);
 	}
-
-	@Override
-	public abstract IClassifier getContext();
 
 	@Override
 	public String toString() {

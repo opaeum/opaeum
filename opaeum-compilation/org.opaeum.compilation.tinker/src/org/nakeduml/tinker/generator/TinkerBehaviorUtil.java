@@ -6,8 +6,6 @@ import org.opaeum.metamodel.actions.INakedAcceptCallAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
@@ -229,14 +227,14 @@ public class TinkerBehaviorUtil {
 	public static String activityNodeGetter(INakedActivityNode node) {
 		return "get" + activityNodePathName(node).getLast();
 	}
-	public static String outputPinGetterName(INakedOutputPin outputPin) {
-		return "get" + activityNodePathName(outputPin).getLast() + "OutputPin";
-	}
-	public static String inputPinGetter(INakedInputPin inputPin) {
-		return "get" + activityNodePathName(inputPin).getLast() + "InputPin";
-	}
+//	public static String outputPinGetterName(INakedOutputPin outputPin) {
+//		return "get" + activityNodePathName(outputPin).getLast() + "OutputPin";
+//	}
+//	public static String inputPinGetter(INakedInputPin inputPin) {
+//		return "get" + activityNodePathName(inputPin).getLast() + "InputPin";
+//	}
 	public static String pinPathName(INakedPin inputPin) {
-		return NameConverter.decapitalize(inputPin.getAction().getName()) + "." + NameConverter.capitalize(inputPin.getName());
+		return NameConverter.capitalize(inputPin.getAction().getName()) + NameConverter.capitalize(inputPin.getName());
 	}
 	public static String parameterNodePathName(INakedParameterNode inputPin) {
 		return NameConverter.capitalize(inputPin.getName());

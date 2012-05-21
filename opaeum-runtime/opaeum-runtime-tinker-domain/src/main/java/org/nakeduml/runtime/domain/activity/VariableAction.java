@@ -7,6 +7,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
  */
 public abstract class VariableAction<V> extends Action {
 
+	private static final long serialVersionUID = 1914040936903897750L;
+
 	public VariableAction() {
 		super();
 	}

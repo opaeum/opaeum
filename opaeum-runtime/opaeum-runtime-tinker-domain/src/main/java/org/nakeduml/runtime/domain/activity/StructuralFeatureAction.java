@@ -5,6 +5,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class StructuralFeatureAction<O> extends Action {
 
+	private static final long serialVersionUID = -3001102004461875759L;
+
 	public StructuralFeatureAction() {
 		super();
 	}
@@ -17,6 +19,6 @@ public abstract class StructuralFeatureAction<O> extends Action {
 		super(vertex);
 	}
 	
-	public abstract InputPin<O, SingleObjectToken<O>> getObject();
+	public abstract O getObject();
 	
 }

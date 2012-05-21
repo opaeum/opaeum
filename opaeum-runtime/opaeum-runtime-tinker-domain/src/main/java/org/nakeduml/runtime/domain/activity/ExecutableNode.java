@@ -6,6 +6,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class ExecutableNode extends ActivityNode<ControlToken, ControlToken> implements IExecutableNode {
 
+	private static final long serialVersionUID = 4587351057188861144L;
+
 	public ExecutableNode() {
 		super();
 	}

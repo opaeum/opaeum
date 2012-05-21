@@ -237,7 +237,12 @@ public class UmlNameRegenerator extends AbstractNameGenerator{
 		if(elem.getNameSpace() == null || (elem instanceof INakedPackage && ((INakedPackage) elem).isRootPackage())){
 			generatedName = elem.getName();
 		}else{
-			generatedName = generateQualifiedUmlName(elem.getNameSpace()) + "::" + elem.getName();
+			generatedName = generateQualifiedUmlName(elem.getNameSpace());
+			if (elem instanceof INakedPin) {
+				generatedName += "::" + ((INakedPin)elem).getAction().getName() + "::" +  elem.getName();
+			} else {
+				generatedName += "::" + elem.getName();
+			}
 		}
 		return generatedName;
 	}

@@ -7,6 +7,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class CallOperationAction extends CallAction implements ICallOperationAction {
 
+	private static final long serialVersionUID = 5673405797104866039L;
+
 	public CallOperationAction() {
 		super();
 	}
@@ -27,5 +29,5 @@ public abstract class CallOperationAction extends CallAction implements ICallOpe
 	public boolean isSynchronous() {
 		return true;
 	}
-
+	
 }

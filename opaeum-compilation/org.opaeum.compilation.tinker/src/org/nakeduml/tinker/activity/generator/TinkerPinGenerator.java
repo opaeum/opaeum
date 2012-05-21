@@ -1,21 +1,21 @@
 package org.nakeduml.tinker.activity.generator;
 
-import org.nakeduml.tinker.activity.ActionBridge;
-import org.nakeduml.tinker.activity.ConcreteEmulatedClassifier;
 import org.nakeduml.tinker.activity.TinkerActivityPhase;
-import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
+import org.nakeduml.tinker.activity.maps.ConcretePinEmulatedClassifier;
+import org.nakeduml.tinker.activity.maps.TinkerActivityNodeMapFactory;
+import org.nakeduml.tinker.activity.maps.TinkerStructuralFeatureMap;
+import org.nakeduml.tinker.generator.TinkerAttributeImplementor;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.INakedMultiplicity;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerObjectNodeGenerator.class }, after = { TinkerObjectNodeGenerator.class })
@@ -27,7 +27,16 @@ public class TinkerPinGenerator extends AbstractTinkerActivityNodeGenerator {
 		inputPinClass.addToImports(OJUtil.classifierPathname(oa.getNakedBaseType()));
 		implementGetAction(inputPinClass, oa);
 		implementMultiplicity(inputPinClass, oa);
+		implementGetContextObject(inputPinClass, oa.getActivity().getContext());
+	}
 
+	@Override
+	protected void implementGetContextObject(OJAnnotatedClass ojClass, INakedBehavioredClassifier context) {
+		OJAnnotatedOperation getContextObject = new OJAnnotatedOperation("getContextObject");
+		TinkerGenerationUtil.addOverrideAnnotation(getContextObject);
+		getContextObject.setReturnType(OJUtil.classifierPathname(context));
+		getContextObject.getBody().addToStatements("return getAction().getActivity().getContextObject()");
+		ojClass.addToOperations(getContextObject);
 	}
 
 	private void implementMultiplicity(OJAnnotatedClass inputPinClass, INakedObjectNode oa) {
@@ -47,24 +56,16 @@ public class TinkerPinGenerator extends AbstractTinkerActivityNodeGenerator {
 	}
 
 	private void implementGetAction(OJAnnotatedClass inputPinClass, INakedPin pin) {
-		ConcreteEmulatedClassifier actionClassifier = new ConcreteEmulatedClassifier(pin.getNameSpace(), pin.getAction());
-		OJUtil.unlock();
-		NakedStructuralFeatureMap actionMap = new NakedStructuralFeatureMap(new ActionBridge(actionClassifier, pin.getAction()));
-		OJUtil.lock();
-	
-		OJAnnotatedField actionField = new OJAnnotatedField(actionMap.fieldname(), TinkerBehaviorUtil.activityNodePathName(pin.getAction()));
-		inputPinClass.addToFields(actionField);
-	
+		ConcretePinEmulatedClassifier pinClassifier = new ConcretePinEmulatedClassifier(pin.getNameSpace(), pin);
+		TinkerStructuralFeatureMap map = TinkerActivityNodeMapFactory.getActionToPinAssociationMap(pinClassifier, pin);
+		TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
+		tinkerAttributeImplementor.setJavaModel(this.javaModel);
+		tinkerAttributeImplementor.implementAttributeFully(pinClassifier, map);
+		
 		OJAnnotatedOperation getAction = new OJAnnotatedOperation("getAction");
 		TinkerGenerationUtil.addOverrideAnnotation(getAction);
-		getAction.setReturnType(TinkerBehaviorUtil.activityNodePathName(pin.getAction()));
-	
-		OJIfStatement ifActionNull = new OJIfStatement("this." + actionMap.fieldname() + " == null");
-		ifActionNull.addToThenPart("this." + actionMap.fieldname() + " = new " + TinkerBehaviorUtil.activityNodePathName(pin.getAction()).getLast() + "(this.vertex.getInEdges(\""
-				+ TinkerBehaviorUtil.pinActionEdgeName(pin) + "\").iterator().next().getOutVertex(), this.contextObject)");
-	
-		getAction.getBody().addToStatements(ifActionNull);
-		getAction.getBody().addToStatements("return this." + actionMap.fieldname());
+		getAction.setReturnType(map.javaBaseTypePath());
+		getAction.getBody().addToStatements("return this." + map.getter() + "()");
 		inputPinClass.addToOperations(getAction);
 	}
 

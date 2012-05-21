@@ -18,7 +18,6 @@ public class TinkerValuePinGenerator extends AbstractTinkerActivityNodeGenerator
 	@VisitAfter(matchSubclasses = false, match = { INakedValuePin.class })
 	public void visitValuePins(INakedValuePin oa) {
 		OJAnnotatedClass valuePinClass = findJavaClassForActivityNode(oa);
-		
 		OJPathName superClass;
 		if (oa.getNakedMultiplicity().isOne()) {
 			superClass = TinkerBehaviorUtil.tinkerOneValuePinPathName.getCopy();
@@ -30,6 +29,7 @@ public class TinkerValuePinGenerator extends AbstractTinkerActivityNodeGenerator
 		valuePinClass.addToImports(OJUtil.classifierPathname(oa.getNakedBaseType()));
 
 		addGetValue(valuePinClass, oa);
+//		addGetContextObject(valuePinClass, oa.getActivity().getContext());
 	}
 
 	private void addGetValue(OJAnnotatedClass inputPinClass, INakedValuePin oa) {

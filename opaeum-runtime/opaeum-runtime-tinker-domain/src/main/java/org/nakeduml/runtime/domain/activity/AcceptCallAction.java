@@ -6,6 +6,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class AcceptCallAction extends AcceptEventAction implements IAcceptCallAction {
 
+	private static final long serialVersionUID = 3098600185311653683L;
+
 	public AcceptCallAction() {
 		super();
 	}

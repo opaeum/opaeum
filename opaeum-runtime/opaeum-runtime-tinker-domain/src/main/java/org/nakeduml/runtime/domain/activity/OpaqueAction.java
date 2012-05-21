@@ -1,8 +1,6 @@
 package org.nakeduml.runtime.domain.activity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,6 +10,8 @@ import org.nakeduml.runtime.domain.activity.interf.IOutputPin;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class OpaqueAction<R, OUT extends ObjectToken<R>> extends Action {
+
+	private static final long serialVersionUID = -518632734483685424L;
 
 	public OpaqueAction() {
 		super();
@@ -24,7 +24,7 @@ public abstract class OpaqueAction<R, OUT extends ObjectToken<R>> extends Action
 	public OpaqueAction(Vertex vertex) {
 		super(vertex);
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<? extends IOutputPin<R,OUT>> getOutput() {
@@ -40,40 +40,5 @@ public abstract class OpaqueAction<R, OUT extends ObjectToken<R>> extends Action
 	public abstract List<? extends IInputPin<?,?>> getInput();
 	
 	protected abstract OutputPin<R,OUT> getResultPin();
-
-	protected abstract void addToInputPinVariable(IInputPin<?, ?> inputPin, Collection<?> elements);
-	
-	/*
-	 * This will only be called if the lower multiplicity is reached, all up to
-	 * upper multiplicity is consumed
-	 */
-	protected void transferObjectTokensToAction() {
-		for (IInputPin<?,?> inputPin : this.getInput()) {
-			int elementsTransferedCount = 0;
-			for (ObjectToken<?> token : inputPin.getInTokens()) {
-				if (elementsTransferedCount < inputPin.getUpperMultiplicity()) {
-					
-					if (elementsTransferedCount + token.getNumberOfElements() <= inputPin.getUpperMultiplicity()) {
-						// transfer all elements
-						elementsTransferedCount += token.getNumberOfElements();
-						token.removeEdgeFromActivityNode();
-						addToInputPinVariable(inputPin, token.getElements());
-						token.remove();
-					} else {
-						Collection<Object> tmp = new ArrayList<Object>();
-						for (Object element : token.getElements()) {
-							elementsTransferedCount += 1;
-							tmp.add(element);
-							if (elementsTransferedCount >= inputPin.getUpperMultiplicity()) {
-								break;
-							}
-						}
-						token.getElements().removeAll(tmp);
-						addToInputPinVariable(inputPin, tmp);
-					}
-				}
-			}
-		}
-	}
 
 }

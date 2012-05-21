@@ -43,8 +43,6 @@ public abstract class DecisionNode<IN  extends Token> extends ControlNode<IN, IN
 		setNodeStatus(NodeStatus.ENABLED);
 		setNodeStatus(NodeStatus.ACTIVE);
 
-		execute();
-
 		this.nodeStat.increment();
 
 		boolean oneOutgoingFlowGuardSucceeded = false;
@@ -68,9 +66,7 @@ public abstract class DecisionNode<IN  extends Token> extends ControlNode<IN, IN
 			throw new IllegalStateException("Model is ill formed, one guard must succeed for a decision node.");
 		}
 
-		//TODO Start transaction
 		setNodeStatus(NodeStatus.COMPLETE);
-		//TODO End transaction
 		boolean result = true;
 		for (Boolean b : flowResult) {
 			if (!b) {

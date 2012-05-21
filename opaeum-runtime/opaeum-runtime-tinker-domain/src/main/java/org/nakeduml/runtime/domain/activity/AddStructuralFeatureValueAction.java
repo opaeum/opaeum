@@ -4,6 +4,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class AddStructuralFeatureValueAction<V, O> extends WriteStructuralFeatureAction<V, O> {
 
+	private static final long serialVersionUID = 5047776511654951152L;
+
 	public AddStructuralFeatureValueAction() {
 		super();
 	}
@@ -19,12 +21,10 @@ public abstract class AddStructuralFeatureValueAction<V, O> extends WriteStructu
 	protected abstract void writeStructuralFeature(O o, V v);
 
 	@Override
-	protected void execute() {
-		super.execute();
-		O object = getObject().getInTokens().iterator().next().getObject();
-		V value = getValue().getInTokens().iterator().next().getObject();
-		writeStructuralFeature(object, value);
-		getResult().addIncomingToken(new SingleObjectToken<O>(getResult().getName(), object));
+	protected boolean execute() {
+		writeStructuralFeature(getObject(), getValue());
+		getResult().addIncomingToken(new SingleObjectToken<O>(getResult().getName(), getObject()));
+		return true;
 	}
 
 }

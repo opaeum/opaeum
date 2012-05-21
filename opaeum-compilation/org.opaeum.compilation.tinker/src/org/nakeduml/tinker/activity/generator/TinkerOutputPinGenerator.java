@@ -3,9 +3,9 @@ package org.nakeduml.tinker.activity.generator;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.nakeduml.tinker.activity.ActivityNodeBridge;
-import org.nakeduml.tinker.activity.ConcreteEmulatedClassifier;
 import org.nakeduml.tinker.activity.TinkerActivityPhase;
+import org.nakeduml.tinker.activity.maps.ActivityNodeBridge;
+import org.nakeduml.tinker.activity.maps.ConcreteEmulatedClassifier;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
@@ -115,14 +115,10 @@ public class TinkerOutputPinGenerator extends AbstractTinkerActivityNodeGenerato
 
 	private void implementGetReturnInformationInputPin(OJAnnotatedClass outputPinClass, INakedOutputPin oa) {
 		OJAnnotatedOperation getReturnInformationInputPin = new OJAnnotatedOperation("getReturnInformationInputPin");
-		getReturnInformationInputPin.setReturnType(TinkerBehaviorUtil.activityNodePathName(oa.getOutgoing().iterator().next().getTarget()));
 		INakedActivityEdge outFlow = oa.getOutgoing().iterator().next();
 		INakedActivityNode target = outFlow.getTarget();
-
-		ConcreteEmulatedClassifier inputPinClassifier = new ConcreteEmulatedClassifier(target.getNameSpace(), target);
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new ActivityNodeBridge(inputPinClassifier, target));
-
-		getReturnInformationInputPin.getBody().addToStatements("return " + TinkerBehaviorUtil.edgeGetter(outFlow) + "()." + map.getter() + "()");
+		getReturnInformationInputPin.setReturnType(TinkerBehaviorUtil.activityNodePathName(target));
+		getReturnInformationInputPin.getBody().addToStatements("return " + TinkerBehaviorUtil.edgeGetter(outFlow) + "().getTarget()");
 		outputPinClass.addToOperations(getReturnInformationInputPin);
 	}
 

@@ -195,18 +195,19 @@ public class PinLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
 	public void linkCallAction(INakedCallAction action){
 		if(action.getCalledElement() != null){
-			List<? extends INakedParameter> argumentParameters = action.getCalledElement().getArgumentParameters();
-			if(action.getArguments().size() != argumentParameters.size()){
-				getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, action.getCalledElement().getName());
-			}else{
-				linkLists(argumentParameters, action.getArguments());
-			}
-			List<? extends INakedParameter> resultParameters = action.getCalledElement().getResultParameters();
-			if(action.getResult().size() != resultParameters.size()){
-				getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, action.getCalledElement().getName());
-			}else{
-				linkLists(resultParameters, action.getResult());
-			}
+			//TODO don't know what this does but it skops pins and parameters
+//			List<? extends INakedParameter> argumentParameters = action.getCalledElement().getArgumentParameters();
+//			if(action.getArguments().size() != argumentParameters.size()){
+//				getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, action.getCalledElement().getName());
+//			}else{
+//				linkLists(argumentParameters, action.getArguments());
+//			}
+//			List<? extends INakedParameter> resultParameters = action.getCalledElement().getResultParameters();
+//			if(action.getResult().size() != resultParameters.size()){
+//				getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, action.getCalledElement().getName());
+//			}else{
+//				linkLists(resultParameters, action.getResult());
+//			}
 		}
 	}
 }

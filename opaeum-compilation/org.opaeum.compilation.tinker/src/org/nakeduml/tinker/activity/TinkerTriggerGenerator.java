@@ -1,5 +1,7 @@
 package org.nakeduml.tinker.activity;
 
+import org.nakeduml.tinker.activity.maps.ConcreteEmulatedClassifier;
+import org.nakeduml.tinker.activity.maps.EventBridge;
 import org.nakeduml.tinker.generator.TinkerAttributeImplementor;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
@@ -52,18 +54,14 @@ public class TinkerTriggerGenerator extends TinkerImplementNodeStep {
 		TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
 		tinkerAttributeImplementor.setJavaModel(this.javaModel);
 		ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(trigger.getNameSpace(), trigger);
-		//TODO clearCache is done incorrectly, need to clear emulated properties
+		// TODO clearCache is done incorrectly, need to clear emulated
+		// properties
 		addClearCache(callEventClass, concreteEmulatedClassifier);
-		
+
 		TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new EventBridge(concreteEmulatedClassifier, trigger.getEvent()));
-		try {
-			OJUtil.unlock();
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
-			tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
-			addImplementITrigger(callEventClass, map);
-		} finally {
-			OJUtil.lock();
-		}
+		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
+		tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
+		addImplementITrigger(callEventClass, map);
 	}
 
 	@VisitAfter(matchSubclasses = true)
@@ -81,12 +79,10 @@ public class TinkerTriggerGenerator extends TinkerImplementNodeStep {
 		getEventName.getBody().addToStatements("return " + map.getter() + "()");
 		ojClass.addToOperations(getEventName);
 		ojClass.addToImports(TinkerBehaviorUtil.tinkerITriggerPathName.getCopy());
-
 		OJAnnotatedOperation getEventClass = new OJAnnotatedOperation("getEventClass", new OJPathName("Class<? extends " + TinkerBehaviorUtil.tinkerIEventPathName.getLast() + ">"));
 		TinkerGenerationUtil.addOverrideAnnotation(getEventClass);
 		getEventClass.getBody().addToStatements("return " + map.javaBaseTypePath().getLast() + ".class");
 		ojClass.addToOperations(getEventClass);
-
 	}
 
 	protected void persistUid(OJAnnotatedClass ojClass) {

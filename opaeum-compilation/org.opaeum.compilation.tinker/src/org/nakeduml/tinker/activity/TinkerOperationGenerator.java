@@ -3,10 +3,12 @@ package org.nakeduml.tinker.activity;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
 import org.nakeduml.tinker.activity.generator.TinkerActivityNodeExGenerator;
+import org.nakeduml.tinker.activity.maps.ConcreteEmulatedClassifier;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPackage;
@@ -64,7 +66,7 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 		}
 
 		if (!oper.getMethods().isEmpty()) {
-			addMethodForOperation(oper, owner, operation);
+			addMethodForOperation(oper, owner, operation.getBody());
 		} else {
 			addInvokeAcceptCallAction(oper, operation);
 			addInvokeAcceptCallActionSync(ownerClass, oper);
@@ -109,7 +111,7 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 		acceptCallActionField.setInitExp("null");
 		invokeAcceptCallAction.getBody().addToLocals(acceptCallActionField);
 
-		invokeAcceptCallAction.getBody().addToStatements(TinkerBehaviorUtil.tinkerAbstractActivityPathName.getLast() + " m = getFirstActivityForCallEvent(event)");
+		invokeAcceptCallAction.getBody().addToStatements(TinkerBehaviorUtil.tinkerAbstractActivityPathName.getLast() + " m = getFirstActivityForEvent(event)");
 		ownerClass.addToImports(TinkerBehaviorUtil.tinkerAbstractActivityPathName);
 		invokeAcceptCallAction.getBody().addToStatements(
 				"Set<" + TinkerBehaviorUtil.tinkerIActivityNodePathName.getLast()
@@ -179,7 +181,7 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 
 	}
 
-	private void addMethodForOperation(INakedOperation oper, INakedClassifier owner, OJAnnotatedOperation operation) {
+	public void addMethodForOperation(INakedOperation oper, INakedClassifier owner, OJBlock operation) {
 		for (INakedBehavior method : oper.getMethods()) {
 			OJPathName activityPathName = OJUtil.classifierPathname(method);
 
@@ -191,16 +193,16 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 					if (param.getNakedBaseType() instanceof INakedSimpleType) {
 						OJIfStatement ifHasVertex = new OJIfStatement(TinkerGenerationUtil.validateMutableCondition(pMap));
 						ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " may not have a value!\")");
-						operation.getBody().addToStatements(ifHasVertex);
+						operation.addToStatements(ifHasVertex);
 					} else {
 						if (pMap.isOne()) {
 							OJIfStatement ifHasVertex = new OJIfStatement(pMap.fieldname() + ".getVertex() != null");
 							ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " may not have a vertex!\")");
-							operation.getBody().addToStatements(ifHasVertex);
+							operation.addToStatements(ifHasVertex);
 						} else {
 							OJIfStatement ifHasVertex = new OJIfStatement("!" + pMap.fieldname() + ".isEmpty()");
-							ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " may not have a vertex!\")");
-							operation.getBody().addToStatements(ifHasVertex);
+							ifHasVertex.addToThenPart("throw new IllegalStateException(\"Out parameter, " + param.getName() + " must be an empty collection!\")");
+							operation.addToStatements(ifHasVertex);
 						}
 					}
 
@@ -215,16 +217,15 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 						OJIfStatement ifHasVertex = new OJIfStatement(pMap.fieldname() + ".getVertex() == null");
 						ifHasVertex.addToThenPart("throw new IllegalStateException(\" " + (param.getDirection() == ParameterDirectionKind.INOUT ? "INOUT" : "IN") + " parameter, "
 								+ param.getName() + " must have a vertex!\")");
-						operation.getBody().addToStatements(ifHasVertex);
+						operation.addToStatements(ifHasVertex);
 					}
 
 				}
 			}
 
-			operation.getBody()
-					.addToStatements(activityPathName.getLast() + " " + NameConverter.decapitalize(method.getName()) + " = new " + activityPathName.getLast() + "(this)");
+			operation.addToStatements(activityPathName.getLast() + " " + NameConverter.decapitalize(method.getName()) + " = new " + activityPathName.getLast() + "(this)");
 
-			if (method.getArgumentParameters().size() != oper.getArgumentParameters().size()) {
+			if (method.getOwnedParameters().size() != oper.getOwnedParameters().size()) {
 				throw new IllegalStateException("Operation parameters and behavior parameters do not match up");
 			}
 			String executeParams = "";
@@ -239,32 +240,28 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 					executeParams += pMap.fieldname();
 				}
 			}
+			
+			if (oper.getReturnParameter() != null && !oper.getReturnParameter().isReturn()) {
+				throw new IllegalStateException("A return parameter with isReturn as false does not make sense over here. For operation " + oper.getName());
+			}
 
 			if (oper.getReturnParameter() != null && oper.getReturnParameter().isReturn()) {
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oper.getOwner(), oper.getReturnParameter());
-				operation.getBody().addToStatements(
+				operation.addToStatements(
 						map.javaBaseTypePath().getLast() + " result = " + NameConverter.decapitalize(method.getName()) + ".execute(" + executeParams + ")");
 			} else {
-				operation.getBody().addToStatements(NameConverter.decapitalize(method.getName()) + ".execute(" + executeParams + ")");
+				operation.addToStatements(NameConverter.decapitalize(method.getName()) + ".execute(" + executeParams + ")");
 			}
 
 			for (INakedParameter param : oper.getArgumentParameters()) {
 				NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
 				if (!(pMap.getProperty().getBaseType() instanceof INakedSimpleType)) {
-					operation.getBody().addToStatements(pMap.fieldname() + ".clearCache()");
+					operation.addToStatements(pMap.fieldname() + ".clearCache()");
 				}
 			}
 
-			// TODO this complicates testing for now
-			// OJIfStatement ifFinished = new
-			// OJIfStatement(NameConverter.decapitalize(method.getName()) +
-			// ".isFinished()");
-			// ifFinished.addToThenPart(NameConverter.decapitalize(method.getName())
-			// + ".markDeleted()");
-			// operation.getBody().addToStatements(ifFinished);
-
 			if (oper.getReturnParameter() != null && oper.getReturnParameter().isReturn()) {
-				operation.getBody().addToStatements("return result");
+				operation.addToStatements("return result");
 			}
 		}
 	}

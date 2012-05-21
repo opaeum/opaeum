@@ -44,7 +44,7 @@ public class TestTestActivity1 extends BaseLocalDbTest {
 		
 		Activity1 testActivity1 = customer.getActivity1().get(0);
 		
-		Assert.assertEquals(0, testActivity1.getNodeForName("inputPin1").getInTokens().size());
+		Assert.assertEquals(0, testActivity1.getNodeForName("inputPin1ManyString").getInTokens().size());
 		Assert.assertEquals(0, testActivity1.getNodeForName("outputPin1").getOutTokens().size());
 		//ObjectFLow2 has weight of 2, so token can not proceed
 		Assert.assertEquals(1, testActivity1.getNodeForName("outputPin1").getOutTokens("ObjectFlow2").size());

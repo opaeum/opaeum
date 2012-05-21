@@ -1,7 +1,9 @@
 package org.nakeduml.tinker.activity.generator;
 
 import org.nakeduml.tinker.activity.TinkerActivityPhase;
-import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
+import org.nakeduml.tinker.activity.maps.ConcreteEmulatedClassifier;
+import org.nakeduml.tinker.activity.maps.TinkerActivityNodeMapFactory;
+import org.nakeduml.tinker.activity.maps.TinkerStructuralFeatureMap;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -16,13 +18,16 @@ public class TinkerStructuralFeatureActionGenerator extends AbstractTinkerActivi
 	public void visitStructuralFeatureAction(INakedStructuralFeatureAction oa) {
 		OJAnnotatedClass ojClass = findJavaClassForActivityNode(oa); 
 		implementStructuralFeatureAction(ojClass, oa);
+		addAddToInputPinVariable(ojClass, oa);
 	}
 	
 	private void implementStructuralFeatureAction(OJAnnotatedClass actionClass, INakedStructuralFeatureAction oa) {
 		OJAnnotatedOperation getObject = new OJAnnotatedOperation("getObject");
 		TinkerGenerationUtil.addOverrideAnnotation(getObject);
-		getObject.setReturnType(TinkerBehaviorUtil.activityNodePathName(oa.getObject()));
-		getObject.getBody().addToStatements("return this." + TinkerBehaviorUtil.inputPinGetter(oa.getObject()) + "()");
+		ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(oa.getNameSpace(), oa);
+		TinkerStructuralFeatureMap map =TinkerActivityNodeMapFactory.getPinVariableInActionAssociationMap(concreteEmulatedClassifier, (oa.getObject()));
+		getObject.setReturnType(map.javaBaseTypePath());
+		getObject.getBody().addToStatements("return this." + map.getter() + "()");
 		actionClass.addToOperations(getObject);
 	}
 	

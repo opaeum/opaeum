@@ -130,11 +130,12 @@ public class TinkerGenerationUtil {
 
 	// TODO remove this method, call one with inVerse param
 	public static String getEdgeName(NakedStructuralFeatureMap map) {
-		if (map.getProperty().getAssociation() != null) {
-			return map.getProperty().getAssociation().getName();
-		} else {
-			return tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName());
-		}
+//		if (map.getProperty().getAssociation() != null) {
+//			return map.getProperty().getAssociation().getName();
+//		} else {
+//			return tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName());
+//		}
+		return getEdgeName(map, map.getProperty().isInverse());
 	}
 
 	public static String getEdgeName(NakedStructuralFeatureMap map, boolean inVerse) {

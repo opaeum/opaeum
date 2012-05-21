@@ -10,6 +10,7 @@ import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
@@ -33,6 +34,10 @@ import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerAttributeImplementor.class, PersistentNameGenerator.class, HashcodeBuilder.class }, after = {
 		HashcodeBuilder.class, ToXmlStringBuilder.class, ExtendedCompositionSemantics.class, PersistentNameGenerator.class, CompositionNodeImplementor.class })
 public class TinkerImplementNodeStep extends StereotypeAnnotator {
+
+	public void setJavaModel(OJWorkspace javaModel) {
+		this.javaModel = javaModel;
+	}
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitSignal(INakedSignal c) {
@@ -76,6 +81,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			implementIsRoot(ojClass, c.getEndToComposite() == null);
 			addPersistentConstructor(ojClass);
 			addClearCache(ojClass, c);
+			addContructorWithVertex(ojClass, c);
 			if (c.getGeneralizations().isEmpty()) {
 				persistUid(ojClass);
 				extendsTrigger(ojClass, c);
@@ -83,6 +89,9 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 				addGetSetId(ojClass);
 				initialiseVertexInPersistentConstructor(ojClass, c);
 				addCreateComponentsToDefaultConstructor(ojClass, c);
+				if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior() != null) {
+					initEventPool(c, ojClass);
+				}
 			} else {
 				addSuperWithPersistenceToDefaultConstructor(ojClass);
 			}
@@ -94,8 +103,23 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 					attachCompositeRootToDbRoot(ojClass);
 				}
 			}
-			addContructorWithVertex(ojClass, c);
 		}
+	}
+
+	private void initEventPool(ICompositionParticipant c, OJAnnotatedClass ojClass) {
+		OJSimpleStatement s = new OJSimpleStatement("this.events = new TinkerSequenceImpl<IEvent>(this, \"eventPool\", \"uid\", true, false, true)");
+		
+		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
+		constructor.getBody().addToStatements("attachToRoot()");
+		constructor.getBody().addToStatements(s);
+		
+		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
+		constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
+		constructor.getBody().addToStatements(new OJSimpleStatement("attachToRoot()"));
+		constructor.getBody().addToStatements(s);
+		
+		constructor = ojClass.findConstructor(TinkerGenerationUtil.vertexPathName.getCopy());
+		constructor.getBody().addToStatements(s);
 	}
 
 	protected void persistUid(OJAnnotatedClass ojClass) {
@@ -190,10 +214,6 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			constructor.getBody().getStatements()
 					.add(0, new OJSimpleStatement("this.vertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"dribble\")"));
 			constructor.getBody().getStatements().add(1, new OJSimpleStatement("createComponents()"));
-			if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior() != null) {
-				// After init, before addToOwningObject
-				constructor.getBody().addToStatements(3, new OJSimpleStatement("attachToRoot()"));
-			}
 			constructor.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
 			constructor.getBody().addToStatements("defaultCreate()");
 			ojClass.addToImports(TinkerGenerationUtil.transactionThreadEntityVar);
@@ -224,9 +244,6 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 	private void addCreateComponentsToDefaultConstructor(OJAnnotatedClass ojClass, INakedClassifier c) {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
 		constructor.getBody().addToStatements("createComponents()");
-		if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior() != null) {
-			constructor.getBody().addToStatements("attachToRoot()");
-		}
 	}
 
 	protected void addContructorWithVertex(OJAnnotatedClass ojClass, INakedClassifier c) {
@@ -240,7 +257,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		ojClass.addToConstructors(constructor);
 	}
 
-	protected OJAnnotatedOperation addClearCache(OJAnnotatedClass ojClass, INakedClassifier c) {
+	public OJAnnotatedOperation addClearCache(OJAnnotatedClass ojClass, INakedClassifier c) {
 		OJAnnotatedOperation clearCache = new OJAnnotatedOperation("clearCache");
 		TinkerGenerationUtil.addOverrideAnnotation(clearCache);
 		if (!c.getGeneralizations().isEmpty()) {

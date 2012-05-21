@@ -10,6 +10,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class ManyOutActivityParameterNode<O> extends OutActivityParameterNode<O,CollectionObjectToken<O>> implements IManyOutActivityParameterNode<O> {
 
+	private static final long serialVersionUID = 631187214474235L;
+
 	public ManyOutActivityParameterNode() {
 		super();
 	}
@@ -30,16 +32,6 @@ public abstract class ManyOutActivityParameterNode<O> extends OutActivityParamet
 		return Collections.emptyList();
 	}
 
-//	@Override
-//	protected int countNumberOfElementsOnTokens() {
-//		int size = 0;
-//		List<CollectionObjectToken<O>> tokens = getInTokens();
-//		for (CollectionObjectToken<O> collectionObjectToken : tokens) {
-//			size += collectionObjectToken.getCollection().size();
-//		}
-//		return size;
-//	}	
-	
 	@Override
 	public List<O> getReturnParameterValues() {
 		List<O> result = new ArrayList<O>();

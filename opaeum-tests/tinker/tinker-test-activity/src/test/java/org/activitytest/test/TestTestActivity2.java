@@ -37,9 +37,7 @@ public class TestTestActivity2 extends BaseLocalDbTest {
 		Assert.assertEquals(40, countVertices());
 		
 		db.startTransaction();
-		testActivity2.setHomeAddressParam(customer.getHomeAddress());
-		testActivity2.setWorkAddressParam(customer.getWorkAddress());
-		testActivity2.execute();
+		testActivity2.execute(customer.getHomeAddress(), customer.getWorkAddress());
 		db.stopTransaction(Conclusion.SUCCESS);
 		
 		Assert.assertEquals(40, countVertices());

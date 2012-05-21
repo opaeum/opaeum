@@ -4,6 +4,8 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class ReadVariableAction<V> extends VariableAction<V> {
 
+	private static final long serialVersionUID = 6936368931697275709L;
+
 	public ReadVariableAction() {
 	}
 
@@ -14,5 +16,5 @@ public abstract class ReadVariableAction<V> extends VariableAction<V> {
 	public ReadVariableAction(Vertex vertex) {
 		super(vertex);
 	}
-
+	
 }

@@ -1,9 +1,15 @@
 package org.nakeduml.runtime.domain.activity;
 
+import java.util.Collection;
+
+import org.nakeduml.runtime.domain.activity.interf.IInputPin;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 
 public abstract class CreateObjectAction<O> extends Action {
+
+	private static final long serialVersionUID = 3366764020708078856L;
 
 	public CreateObjectAction() {
 		super();
@@ -22,10 +28,15 @@ public abstract class CreateObjectAction<O> extends Action {
 	public abstract OutputPin<O, SingleObjectToken<O>> getResult();
 
 	@Override
-	protected void execute() {
-		super.execute();
+	protected void addToInputPinVariable(IInputPin<?, ?> inputPin, Collection<?> elements) {
+		//Not used
+	}
+	
+	@Override
+	protected boolean execute() {
 		O object = createObject();
 		getResult().addIncomingToken(new SingleObjectToken<O>(getResult().getName(), object));
+		return true;
 	}
 	
 }

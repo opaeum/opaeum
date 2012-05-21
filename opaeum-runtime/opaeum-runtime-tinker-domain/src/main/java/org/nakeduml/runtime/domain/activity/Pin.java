@@ -1,6 +1,7 @@
 package org.nakeduml.runtime.domain.activity;
 
 import org.nakeduml.runtime.domain.activity.interf.IPin;
+import org.opaeum.runtime.domain.CompositionNode;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
@@ -40,5 +41,10 @@ public abstract class Pin<O,IN extends ObjectToken<O>,OUT extends ObjectToken<O>
 		int size = countNumberOfElementsOnTokens();
 		return size >= getUpperMultiplicity();
 	}
-
+	
+	@Override
+	public CompositionNode getOwningObject() {
+		return getAction();
+	}	
+	
 }

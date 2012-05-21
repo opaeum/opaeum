@@ -27,8 +27,12 @@ import org.opaeum.javageneration.composition.ComponentInitializer;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedEnumeration;
@@ -387,7 +391,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 			}
 		} else {
 			adder.getBody().addToStatements(TinkerGenerationUtil.addSetterForSimpleType(map));
-			adder.getBody().addToStatements("this." + map.umlName() + " = val");
+			adder.getBody().addToStatements("this." + map.fieldname() + " = val");
 			if (umlOwner instanceof ICompositionParticipant) {
 				addEntityToTransactionThreadEntityVar(adder);
 			}
@@ -430,17 +434,18 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		setter.getBody().addToStatements(NameConverter.decapitalize(map.umlName()) + " = val");
 	}
 
-	public void buildTinkerToOneRemover(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation remover) {
+	private void buildTinkerToOneRemover(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation remover) {
 		if (umlOwner instanceof ICompositionParticipant) {
 			addEntityToTransactionThreadEntityVar(remover);
 		}
 		// Manies gets removed in the collection
-		if (map.isOneToOne() && (!map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null)) {
+//		if (map.isOneToOne() && (!map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null)) {
+		if (map.getProperty().getOtherEnd() == null || (map.getProperty().getOtherEnd().getNakedMultiplicity().isOne() && !map.getProperty().isInverse())) {
 			// Remove the edge
 			removePolymorphicToOneRelationship(map, owner, remover);
 		}
 		String remove = getReferencePrefix(owner, map) + map.fieldname() + "=null";
-		String condition = map.getter() + "()!=null && val!=null && val.equals(" + map.getter() + "())";
+		String condition = map.getter() + "() != null && val != null && val.equals(" + map.getter() + "())";
 		OJIfStatement ifEquals = new OJIfStatement(condition, remove);
 		remover.getBody().addToStatements(ifEquals);
 	}
@@ -484,11 +489,9 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	private void buildTinkerGetterForOne(OJAnnotatedClass owner, NakedStructuralFeatureMap map, OJAnnotatedOperation getter) {
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = map.getProperty().isInverse();
-		INakedClassifier otherClassifier;
 		String otherClassName;
 		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map, isComposite);
-		otherClassifier = (INakedClassifier) map.getProperty().getBaseType();
-		otherClassName = otherClassifier.getMappingInfo().getJavaName().getCapped().getAsIs();
+		otherClassName = map.javaBaseTypePath().getLast();
 		OJBlock block = new OJBlock();
 		if (isComposite) {
 			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");
@@ -505,8 +508,6 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		OJTryStatement ojTryStatement = new OJTryStatement();
 		ojTryStatement.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
 		
-//		ojTryStatement.getTryPart().addToStatements(
-//				"Class<?> c = org.util.OrgJavaMetaInfoMap.INSTANCE.getClass(\"" + TinkerGenerationUtil.getClassMetaId(findJavaClass(otherClassifier)) + "\")");
 		if (!isComposite) {
 			ojTryStatement.getTryPart().addToStatements(
 			"Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
@@ -587,6 +588,27 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		owner.addToImports(new OJPathName("java.util.Arrays"));
 	}
 
+	protected OJAnnotatedClass findJavaClass(INakedClassifier classifier){
+		OJPathName path = OJUtil.classifierPathname(classifier);
+		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(path);
+		if(owner == null){
+			owner = (OJAnnotatedClass) this.javaModel.findClass(path);
+		}
+		return owner;
+	}
+	
+	protected OJAnnotatedClass findJavaClassForActivityNode(INakedActivityNode node) {
+		OJPathName path = OJUtil.packagePathname(node.getNameSpace());
+		OJPathName copy = path.getCopy();
+		copy.addToNames(TinkerBehaviorUtil.activityNodePathName(node).getLast());
+		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
+		if (owner == null) {
+			owner = (OJAnnotatedClass) this.javaModel.findClass(copy);
+		}
+		return owner;
+	}
 
-
+	protected void visitCallAction(INakedCallAction node){
+		//Ja ne, not needed
+	}
 }

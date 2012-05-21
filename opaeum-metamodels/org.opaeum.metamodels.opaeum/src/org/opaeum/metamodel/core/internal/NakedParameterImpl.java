@@ -29,6 +29,7 @@ public class NakedParameterImpl extends NakedTypedElementImpl implements INakedT
 	private ParameterDirectionKind direction = ParameterDirectionKind.IN;
 
 	public NakedParameterImpl() {
+		System.out.println();
 	}
 
 	public NakedParameterImpl(String name,IClassifier type){

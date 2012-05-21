@@ -28,9 +28,7 @@ public class TestActivityTestForkNodeObjectFlow extends BaseLocalDbTest {
 		
 		db.startTransaction();
 		ActivityTestForkNodeObjectFlow activityTestForkNodeObjectFlow = new ActivityTestForkNodeObjectFlow(customer);
-		activityTestForkNodeObjectFlow.setCustomerParameter(customer);
-		activityTestForkNodeObjectFlow.setAddressParameter(homeAddress);
-		activityTestForkNodeObjectFlow.execute();
+		activityTestForkNodeObjectFlow.execute(customer, homeAddress);
 		db.stopTransaction(Conclusion.SUCCESS);
 		//20 + 34 activity nodes + 1 for activity
 		Assert.assertEquals(55, countVertices());

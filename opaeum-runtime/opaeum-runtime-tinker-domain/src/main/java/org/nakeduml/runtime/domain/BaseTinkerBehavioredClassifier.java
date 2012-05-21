@@ -20,7 +20,7 @@ import com.tinkerpop.blueprints.pgm.Edge;
 public abstract class BaseTinkerBehavioredClassifier extends BaseTinkerSoftDelete implements Serializable, TinkerCompositionNode, IBehavioredClassifier {
 
 	private static final long serialVersionUID = 228929853082097254L;
-	private TinkerSequence<IEvent> events;
+	protected TinkerSequence<IEvent> events;
 
 	public BaseTinkerBehavioredClassifier() {
 		super();
@@ -30,7 +30,7 @@ public abstract class BaseTinkerBehavioredClassifier extends BaseTinkerSoftDelet
 	
 	public abstract List<AbstractActivity> getAllActivities();
 	
-	public AbstractActivity getFirstActivityForCallEvent(IEvent event) {
+	public AbstractActivity getFirstActivityForEvent(IEvent event) {
 		for (AbstractActivity activity : getAllActivities()) {
 			Set<IActivityNode<? extends Token, ? extends Token>> nodesToTrigger = activity.getEnabledNodesWithMatchingTrigger(event);
 			if (!nodesToTrigger.isEmpty()) {
@@ -43,7 +43,6 @@ public abstract class BaseTinkerBehavioredClassifier extends BaseTinkerSoftDelet
 	protected void attachToRoot() {
 		Edge edge = GraphDb.getDb().addEdge(null, GraphDb.getDb().getRoot(), this.vertex, "classifierBehavior");
 		edge.setProperty("inClass", IntrospectionUtil.getOriginalClass(this.getClass()).getName());
-		this.events = new TinkerSequenceImpl<IEvent>(this, "eventPool", "uid", true, false, true);
 	}
 
 	public List<IEvent> getEventPool() {

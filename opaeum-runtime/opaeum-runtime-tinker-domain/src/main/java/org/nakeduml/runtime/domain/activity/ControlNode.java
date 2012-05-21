@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nakeduml.runtime.domain.activity.interf.IActivityEdge;
+import org.nakeduml.runtime.domain.activity.interf.IControlNode;
+import org.opaeum.runtime.domain.CompositionNode;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ControlNode<IN extends Token, OUT extends Token> extends ActivityNode<IN, OUT> {
+public abstract class ControlNode<IN extends Token, OUT extends Token> extends ActivityNode<IN, OUT> implements IControlNode<IN, OUT> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1666151496402381543L;
 
 	public ControlNode() {
 		super();
@@ -145,8 +152,6 @@ public abstract class ControlNode<IN extends Token, OUT extends Token> extends A
 		setNodeStatus(NodeStatus.ENABLED);
 		setNodeStatus(NodeStatus.ACTIVE);
 
-		execute();
-
 		this.nodeStat.increment();
 
 		for (IN token : getInTokens()) {
@@ -174,5 +179,10 @@ public abstract class ControlNode<IN extends Token, OUT extends Token> extends A
 		}
 		return result;
 	}
-
+	
+	@Override
+	public CompositionNode getOwningObject() {
+		return getActivity();
+	}	
+	
 }

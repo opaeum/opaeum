@@ -1,5 +1,6 @@
 package org.nakeduml.tinker.activity;
 
+import org.nakeduml.tinker.activity.maps.ConcreteEmulatedClassifier;
 import org.nakeduml.tinker.generator.TinkerAttributeImplementor;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
@@ -22,7 +23,6 @@ import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedMessageEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
@@ -57,46 +57,29 @@ public class TinkerEventGenerator extends TinkerImplementNodeStep {
 		TinkerAttributeImplementor tinkerAttributeImplementor = new TinkerAttributeImplementor();
 		tinkerAttributeImplementor.setJavaModel(this.javaModel);
 		ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(event.getNameSpace(), event);
-		//TODO clearCache is done incorrectly, need to clear emulated properties
+		// TODO clearCache is done incorrectly, need to clear emulated
+		// properties
 		addClearCache(callEventClass, concreteEmulatedClassifier);
 		if (event instanceof INakedCallEvent) {
 			addImplementICallEvent(callEventClass, event);
 			INakedCallEvent callEvent = (INakedCallEvent) event;
-			try {
-				OJUtil.unlock();
-				if (callEvent.getOperation()==null) {
-					throw new IllegalStateException("CallEvent " + callEvent.getName() + " has no operation defined!");
-				}
-				for (INakedParameter p : callEvent.getOperation().getArgumentParameters()) {
-					TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, p);
-					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
-					tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
-				}
-			} finally {
-				OJUtil.lock();
+			if (callEvent.getOperation() == null) {
+				throw new IllegalStateException("CallEvent " + callEvent.getName() + " has no operation defined!");
 			}
-		} else {
-			try {
-				OJUtil.unlock();
-				INakedSignalEvent signalEvent = (INakedSignalEvent) event;
-				INakedSignal signal = signalEvent.getSignal();
-				TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new NonInverseArtificialProperty(NameConverter.decapitalize(signal
-						.getName()), signal, false));
+			for (INakedParameter p : callEvent.getOperation().getArgumentParameters()) {
+				TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, p);
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
 				tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
-				addImplementISignalEvent(callEventClass, (INakedSignalEvent) event, map);
-			} finally {
-				OJUtil.lock();
 			}
+		} else {
+			INakedSignalEvent signalEvent = (INakedSignalEvent) event;
+			INakedSignal signal = signalEvent.getSignal();
+			TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new NonInverseArtificialProperty(NameConverter.decapitalize(signal
+					.getName()), signal, false));
+			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
+			tinkerAttributeImplementor.implementAttributeFully(concreteEmulatedClassifier, map);
+			addImplementISignalEvent(callEventClass, (INakedSignalEvent) event, map);
 		}
-	}
-
-	@VisitAfter(matchSubclasses = true)
-	public void visitSignal(INakedSignal c) {
-	}
-
-	@VisitAfter(matchSubclasses = true)
-	public void visitClass(ICompositionParticipant c) {
 	}
 
 	private void addImplementISignalEvent(OJAnnotatedClass callEventClass, INakedSignalEvent event, NakedStructuralFeatureMap map) {
