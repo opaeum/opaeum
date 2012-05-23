@@ -45,10 +45,10 @@ public class TreeCube{
 		columnRoots.add(new CubeColumnNode(level, member, filter, measures));
 	}
 	public void populateExpandedRows(List<CubeRowNode> expandedRows) throws SQLException{
-		populateCubeCells(columnRoots, expandedRows);
-		for(CubeColumnNode columnNode:columnRoots){
-			populateCellsRecursivelyIntoRows(columnNode.getExpandedChildren(), expandedRows);
-		}
+		populateCellsRecursivelyIntoColumns(columnRoots, expandedRows);
+	}
+	public void populateExpandedColumns(List<CubeColumnNode> expandedColumns) throws SQLException{
+		populateCellsRecursivelyIntoRows(expandedColumns, rowRoots);
 	}
 	public List<CubeColumnNode> getAllExpandedColumns(){
 		List<CubeColumnNode> result = new ArrayList<CubeColumnNode>();
@@ -62,44 +62,60 @@ public class TreeCube{
 			addChildren(result, cubeColumnNode.getExpandedChildren());
 		}
 	}
-	public void populateExpandedColumns(List<CubeColumnNode> expandedColumns) throws SQLException{
-		// recursively go through rowNodes and populate their cells with queries crosstabing the current list of rowNodes with the given
-		// columnNodes
-		populateCellsRecursivelyIntoRows(expandedColumns, rowRoots);
-	}
-	protected void populateCellsRecursivelyIntoRows(List<CubeColumnNode> expandedColumns,List<CubeRowNode> rowNodes) throws SQLException,
+	private void populateCellsRecursivelyIntoRows(List<CubeColumnNode> expandedColumns,List<CubeRowNode> rowNodes) throws SQLException,
 			OlapException{
 		populateCubeCells(expandedColumns, rowNodes);
 		for(CubeRowNode cubeRowNode:rowNodes){
 			populateCellsRecursivelyIntoRows(expandedColumns, cubeRowNode.getExpandedChildren());
 		}
 	}
+	private void populateCellsRecursivelyIntoColumns(List<CubeColumnNode> expandedColumns,List<CubeRowNode> rowNodes) throws SQLException,
+			OlapException{
+		populateCubeCells(expandedColumns, rowNodes);
+		for(CubeColumnNode cubeColumnNode:expandedColumns){
+			populateCellsRecursivelyIntoColumns(cubeColumnNode.getExpandedChildren(), rowNodes);
+		}
+	}
 	private void populateCubeCells(List<CubeColumnNode> columnNodes,List<CubeRowNode> rowNodes) throws SQLException,OlapException{
-		// TODO optimise by checking if the cells are present or not
-		Query query = new Query("peter", cube);
-		Set<Member> includedMembers = new HashSet<Member>();
-		QueryAxis columnAxis = query.getAxis(Standard.COLUMNS);
-		boolean measuresIncluded = false;
-		QueryDimension measuresDim = query.getDimension("Measures");
-		columnAxis.addDimension(measuresDim);
-		for(CubeColumnNode member:columnNodes){
-			if(!measuresIncluded){
-				List<Measure> measures = member.getMeasures();
+		boolean needsRefresh = false;
+		outer:for(CubeRowNode cubeRowNode:rowNodes){
+			for(CubeColumnNode cubeColumnNode:columnNodes){
+				List<Measure> measures = cubeColumnNode.getMeasures();
 				for(Measure measure:measures){
-					measuresDim.include(measure);
+					if(cubeRowNode.getCell(cubeColumnNode, measure) == null){
+						needsRefresh = true;
+						break outer;
+					}
 				}
 			}
-			member.includeInQuery(query, columnAxis, includedMembers);
 		}
-		includedMembers = new HashSet<Member>();
-		QueryAxis rowAxis = query.getAxis(Standard.ROWS);
-		for(AbstractCubeNode tree:rowNodes){
-			tree.includeInQuery(query, rowAxis, includedMembers);
-		}
-		CellSet cellSet = query.execute();
-		for(CubeRowNode cubeRowNode:rowNodes){
-			for(CubeColumnNode cubeColumnNode:columnNodes){
-				cubeRowNode.addCells(cubeColumnNode, cellSet);
+		if(needsRefresh){
+			Query query = new Query("peter", cube);
+			Set<Member> includedMembers = new HashSet<Member>();
+			QueryAxis columnAxis = query.getAxis(Standard.COLUMNS);
+			boolean measuresIncluded = false;
+			QueryDimension measuresDim = query.getDimension("Measures");
+			columnAxis.addDimension(measuresDim);
+			for(CubeColumnNode member:columnNodes){
+				if(!measuresIncluded){
+					measuresIncluded = true;
+					List<Measure> measures = member.getMeasures();
+					for(Measure measure:measures){
+						measuresDim.include(measure);
+					}
+				}
+				member.includeInQuery(query, columnAxis, includedMembers);
+			}
+			includedMembers = new HashSet<Member>();
+			QueryAxis rowAxis = query.getAxis(Standard.ROWS);
+			for(AbstractCubeNode tree:rowNodes){
+				tree.includeInQuery(query, rowAxis, includedMembers);
+			}
+			CellSet cellSet = query.execute();
+			for(CubeRowNode cubeRowNode:rowNodes){
+				for(CubeColumnNode cubeColumnNode:columnNodes){
+					cubeRowNode.addCells(cubeColumnNode, cellSet);
+				}
 			}
 		}
 	}

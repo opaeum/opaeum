@@ -17,15 +17,20 @@ public abstract class ColumnHeaderEditingSupport extends EditingSupport{
 	}
 	@Override
 	protected Object getValue(Object element){
-		return null;
+		return "";
 	}
 	protected abstract void flipExpandedState(ColumnHeaderRow row);
 	@Override
 	protected CellEditor getCellEditor(final Object element){
-		new CellEditor(){
+		return new CellEditor(){
+			//Some bug in RAP causes this method to be called multiple times on one request
+			long lastActivationTime = 0;
 			@Override
 			public void activate(){
-				flipExpandedState((ColumnHeaderRow) element);
+				if(System.currentTimeMillis() - lastActivationTime > 10000){
+					lastActivationTime =System.currentTimeMillis();
+					flipExpandedState((ColumnHeaderRow) element);
+				}
 			}
 			@Override
 			protected void doSetValue(Object value){
@@ -42,7 +47,6 @@ public abstract class ColumnHeaderEditingSupport extends EditingSupport{
 				return null;
 			}
 		};
-		return null;
 	}
 	@Override
 	protected boolean canEdit(Object element){

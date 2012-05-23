@@ -360,6 +360,8 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			INakedProperty nameProperty = toClass.getNameProperty();
 			if(nameProperty != null){
 				result.setAttribute("nameColumn", nameProperty.getMappingInfo().getPersistentName().getAsIs());
+			}else{
+				result.setAttribute("nameColumn", "uuid");
 			}
 			levels.add(result);
 		}else if(toClass instanceof INakedEnumeration){

@@ -37,7 +37,7 @@ public class CubeFilter{
 	private boolean isAncestorOf(Member ancestor,Member descendant){
 		if(descendant.getParentMember() == null){
 			return false;
-		}else if(descendant.getParentMember().equals(descendant)){
+		}else if(descendant.getParentMember().equals(ancestor)){
 			return true;
 		}else{
 			return isAncestorOf(ancestor, descendant.getParentMember());

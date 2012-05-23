@@ -618,7 +618,7 @@
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_s-yfspWvEeGF5JliyOlmJg" source="QualifiedName">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_s-yfs5WvEeGF5JliyOlmJg" key="QualifiedNameDepth" value="1000"/>
       </eAnnotations>
-      <element xmi:type="cube:MeasureProperty" href="914890@_0l-NAJJNEeGW4L5IejZxpA.uml#_6aYiIJWvEeGF5JliyOlmJg"/>
+      <element xmi:type="cube:MeasureProperty" href="914890@_0l-NAJJNEeGW4L5IejZxpA.uml#_6N8f8qDkEeGdnayFsD_NVQ"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_s-x4oZWvEeGF5JliyOlmJg" x="238" y="121"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_kOXL4ZWvEeGF5JliyOlmJg"/>

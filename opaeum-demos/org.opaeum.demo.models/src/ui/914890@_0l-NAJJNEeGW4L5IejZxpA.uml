@@ -370,7 +370,7 @@
   <cubeQueryEditor xmi:id="_g-SiQJWvEeGF5JliyOlmJg" name="CubeQueryEditor">
     <queries xmi:id="_jVPykJWvEeGF5JliyOlmJg" name="NewCubeQuery" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q">
       <columnAxis xmi:id="_rOV1wJWvEeGF5JliyOlmJg">
-        <dimensionBinding xmi:id="_OIuxgZWvEeGF5JliyOlmJg" umlElementUid="914890@_QcPpgZLAEeGnpuq6_ber_Q">
+        <dimensionBinding xmi:id="_6N8f8KDkEeGdnayFsD_NVQ" umlElementUid="914890@_QcPpgZLAEeGnpuq6_ber_Q">
           <next xmi:id="_sJ6GIJWvEeGF5JliyOlmJg" umlElementUid="914890@_59AMMJKGEeGFkOm2e1MJNQ">
             <next xmi:id="_sJ6GIZWvEeGF5JliyOlmJg" umlElementUid="914890@_DmOEBJKZEeGVguC2OnqOLw"/>
           </next>
@@ -380,19 +380,17 @@
         <levelProperty xmi:id="_sbY3sJWvEeGF5JliyOlmJg" umlElementUid="914890@_QcPpgZLAEeGnpuq6_ber_Q"/>
       </columnAxis>
       <rowAxis xmi:id="_lJEgoJWvEeGF5JliyOlmJg">
-        <dimensionBinding xmi:id="_qPWd8JWvEeGF5JliyOlmJg" umlElementUid="914890@_YMgg0JLAEeGnpuq6_ber_Q">
+        <dimensionBinding xmi:id="_6N8f8aDkEeGdnayFsD_NVQ" umlElementUid="914890@_YMgg0JLAEeGnpuq6_ber_Q">
           <next xmi:id="_qPWd8ZWvEeGF5JliyOlmJg" umlElementUid="914890@_pNF-UZJPEeGW4L5IejZxpA">
             <next xmi:id="_qPWd8pWvEeGF5JliyOlmJg" umlElementUid="914890@_59AMMJKGEeGFkOm2e1MJNQ">
               <next xmi:id="_qPWd85WvEeGF5JliyOlmJg" umlElementUid="914890@_DmOEBJKZEeGVguC2OnqOLw"/>
             </next>
           </next>
         </dimensionBinding>
-        <levelProperty xmi:id="_qbcZMJWvEeGF5JliyOlmJg" umlElementUid="914890@_DmOEBJKZEeGVguC2OnqOLw"/>
-        <levelProperty xmi:id="_qfqK0JWvEeGF5JliyOlmJg" umlElementUid="914890@_59AMMJKGEeGFkOm2e1MJNQ"/>
-        <levelProperty xmi:id="_qkckMJWvEeGF5JliyOlmJg" umlElementUid="914890@_pNF-UZJPEeGW4L5IejZxpA"/>
+        <levelProperty xmi:id="_prlEYKDlEeGdnayFsD_NVQ" umlElementUid="914890@_pNF-UZJPEeGW4L5IejZxpA"/>
         <levelProperty xmi:id="_qs6jsJWvEeGF5JliyOlmJg" umlElementUid="914890@_YMgg0JLAEeGnpuq6_ber_Q"/>
       </rowAxis>
-      <measures xmi:id="_6aYiIJWvEeGF5JliyOlmJg" umlElementUid="914890@_oF8YAJQbEeGJg4MkDnRIeA"/>
+      <measures xmi:id="_6N8f8qDkEeGdnayFsD_NVQ" umlElementUid="914890@_oF8YAJQbEeGJg4MkDnRIeA"/>
     </queries>
   </cubeQueryEditor>
 </uim:ClassUserInteractionModel>
