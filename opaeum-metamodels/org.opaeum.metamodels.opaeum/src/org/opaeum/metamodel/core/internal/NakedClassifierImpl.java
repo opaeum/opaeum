@@ -445,7 +445,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			if(p == endToComposite){
 				endToComposite = null;
 			}
-			if(p.getOtherEnd() != null && recursively){
+			if(p.getOtherEnd() != null && recursively && p.getNakedBaseType()!=null){
 				result.add(p.getNakedBaseType());
 				p.getNakedBaseType().removeOwnedElement(p.getOtherEnd(), true);
 			}
