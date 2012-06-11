@@ -1,6 +1,7 @@
 package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.ExtensionEnd;
 import org.eclipse.uml2.uml.InstanceSpecification;
@@ -46,8 +47,12 @@ public class InstanceExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitBefore
 	public void visitEnumerationLiteral(EnumerationLiteral el,NakedEnumerationLiteralImpl nel){
-		nel.setClassifier((INakedClassifier) getNakedPeer(el.getEnumeration()));
-		nel.setOrdinal(el.getEnumeration().getOwnedLiterals().indexOf(el));
+		Enumeration enumeration = el.getEnumeration();
+		if(enumeration==null){
+			System.out.println();
+		}
+		nel.setClassifier((INakedClassifier) getNakedPeer(enumeration));
+		nel.setOrdinal(enumeration.getOwnedLiterals().indexOf(el));
 	}
 	@VisitBefore
 	public void visitInstanceSpecification(InstanceSpecification emfInstanceSpec,NakedInstanceSpecificationImpl nakedInstanceSpec){

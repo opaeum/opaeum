@@ -57,7 +57,7 @@ public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 	}
 	@Override
 	protected void handleModelChanged(Notification msg){
-		if(safeGetProperty() != null){
+		if(safeGetProperty() != null && !check.isDisposed()){
 			super.handleModelChanged(msg);
 			switch(msg.getFeatureID(Property.class)){
 			case UMLPackage.PROPERTY__IS_DERIVED:

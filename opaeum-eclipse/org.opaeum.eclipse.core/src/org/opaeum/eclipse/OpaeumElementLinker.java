@@ -56,6 +56,8 @@ import org.eclipse.uml2.uml.InteractionConstraint;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.IntervalConstraint;
 import org.eclipse.uml2.uml.InvocationAction;
+import org.eclipse.uml2.uml.LiteralBoolean;
+import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
@@ -1136,12 +1138,25 @@ public class OpaeumElementLinker extends EContentAdapter{
 				found = UMLFactory.eINSTANCE.createSlot();
 				found.setDefiningFeature(a);
 				is.getSlots().add(found);
-				if(is instanceof EnumerationLiteral && a.getType() instanceof Enumeration){
+				if(a.getType() instanceof Enumeration){
+					// No criterion to choose one - needs to be handled by ui
 				}else{
-					OpaqueExpression oclExpression = UMLFactory.eINSTANCE.createOpaqueExpression();
-					oclExpression.getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
-					oclExpression.getLanguages().add("ocl");
-					found.getValues().add(oclExpression);
+					ValueSpecification literal = null;
+					if(!EmfPropertyUtil.isMany(a)){
+						if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Boolean")){
+							literal = UMLFactory.eINSTANCE.createLiteralBoolean();
+						}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Integer")){
+							literal = UMLFactory.eINSTANCE.createLiteralInteger();
+						}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "String")){
+							literal = UMLFactory.eINSTANCE.createLiteralString();
+						}
+					}
+					if(literal == null){
+						literal = UMLFactory.eINSTANCE.createOpaqueExpression();
+						((OpaqueExpression) literal).getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
+						((OpaqueExpression) literal).getLanguages().add("ocl");
+					}
+					found.getValues().add(literal);
 				}
 			}else if(is instanceof EnumerationLiteral && a.getType() instanceof Enumeration){
 				if(found.getOwningInstance() instanceof EnumerationLiteral){

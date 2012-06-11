@@ -14,13 +14,6 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferenceLoo
 	public AbstractPropertyLookupSection(){
 		super();
 	}
-	protected EObject getFeatureOwner(){
-		try{
-			return getProperty();
-		}catch(Exception e){
-			return null;
-		}
-	}
 	protected boolean isMultiplicityCompatible(Property thisProperty,Property potentialProperty){
 		return potentialProperty.getUpper() == 1 ? thisProperty.getUpper() == 1 : true;
 	}

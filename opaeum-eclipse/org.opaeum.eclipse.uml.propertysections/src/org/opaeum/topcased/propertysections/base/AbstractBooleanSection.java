@@ -2,10 +2,8 @@ package org.opaeum.topcased.propertysections.base;
 
 import java.util.List;
 
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
@@ -19,34 +17,19 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Stereotype;
-import org.opaeum.eclipse.ProfileApplier;
-import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedPropertySection{
-	private Stereotype stereotype;
-	private Button check;
+public abstract class AbstractBooleanSection extends AbstractTabbedPropertySection{
+	protected Button check;
 	private Label label;
-	private EStructuralFeature feature;
-	public AbstractBooleanOnStereotypeSection(){
+	public AbstractBooleanSection(){
 		super();
 	}
 	protected abstract Boolean getDefaultValue();
 	protected abstract Element getElement(EObject eObject);
-	protected abstract String getAttributeName();
-	protected abstract String getProfileName();
-	protected abstract String getStereotypeName();
-	@Override
-	protected EStructuralFeature getFeature(){
-		return null;
-	}
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		this.stereotype = ProfileApplier.getAppliedProfile(getElement(getEObject()).getModel(), getProfileName()).getOwnedStereotype(
-				getStereotypeName());
-		this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
 	}
 	@Override
 	public void refresh(){
@@ -55,10 +38,7 @@ public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedP
 		Boolean isGreyed = Boolean.FALSE;
 		Boolean selection = null;
 		for(EObject eObject:eObjectList){
-			Boolean value = null;
-			if(getElement(eObject).isStereotypeApplied(stereotype)){
-				value = (Boolean) getElement(eObject).getValue(stereotype, getAttributeName());
-			}
+			Boolean value = (Boolean) getElement(eObject).eGet(getFeature());
 			if(value == null){
 				value = getDefaultValue();
 			}
@@ -73,6 +53,7 @@ public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedP
 			check.setGrayed(true);
 			check.setSelection(true);
 		}else{
+			check.setGrayed(false);
 			check.setSelection(selection);
 		}
 	}
@@ -103,13 +84,10 @@ public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedP
 				CompoundCommand cc = new CompoundCommand();
 				List<EObject> list = getEObjectList();
 				for(EObject eObject:list){
-					if(!getElement(eObject).isStereotypeApplied(stereotype)){
-						cc.append(new ApplyStereotypeCommand(getElement(eObject), stereotype));
-					}
-					cc.append(SetCommand.create(getEditingDomain(), getElement(eObject).getStereotypeApplication(stereotype), feature,
-							check.getSelection()));
+					cc.append(SetCommand.create(getEditingDomain(), getElement(eObject), getFeature(), check.getSelection()));
 				}
 				getEditingDomain().getCommandStack().execute(cc);
+				refresh();
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e){

@@ -200,13 +200,6 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			}else if(StereotypesHelper.hasStereotype(i, StereotypeNames.HELPER)){
 				return new NakedHelperImpl();
 			}else{
-				if(i.getName().endsWith("Helper")){// Hack because we keep on losing the stereotype?? TODO investigate
-					NakedHelperImpl h = new NakedHelperImpl();
-					h.initialize(UUID.randomUUID().toString(), StereotypeNames.HELPER, false);
-					NakedInstanceSpecificationImpl st = new NakedInstanceSpecificationImpl();
-					h.addStereotype(st);
-					return h;
-				}
 				return new NakedInterfaceImpl();
 			}
 		}else if(e instanceof Enumeration){

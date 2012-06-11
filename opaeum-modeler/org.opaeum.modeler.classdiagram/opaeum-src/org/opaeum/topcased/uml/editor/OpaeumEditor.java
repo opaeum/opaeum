@@ -160,7 +160,7 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 		super.refreshOutline();
 		IFileEditorInput f = getFileEditorInput(getEditorInput());
 		OpaeumEclipseContext.setCurrentContext(getContext(f));
-		OpaeumEclipseContext.getCurrentContext().setCurrentEditContext(getEditingDomain(), f.getFile(), this);
+		OpaeumEclipseContext.getCurrentContext().setCurrentEditContext(getEditingDomain(), getUmlFile(f), this);
 	}
 	private OpaeumEclipseContext getContext(final IFileEditorInput fe){
 		IContainer umlDir = fe.getFile().getParent();

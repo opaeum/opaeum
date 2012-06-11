@@ -1,6 +1,10 @@
 package org.opaeum.topcased.propertysections.base;
 
+import java.util.List;
+
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.text.TextViewer;
@@ -29,7 +33,7 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPr
 	public AbstractStringOnStereotypeSection(){
 		super();
 	}
-	protected abstract Element getElement();
+	protected abstract Element getElement(EObject o);
 	protected abstract String getAttributeName();
 	protected abstract String getProfileName();
 	protected abstract String getStereotypeName();
@@ -40,14 +44,14 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPr
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		this.stereotype = ProfileApplier.getProfile(getElement(), getProfileName()).getOwnedStereotype(getStereotypeName());
+		this.stereotype = ProfileApplier.getAppliedProfile(getElement(getEObject()).getModel(), getProfileName()).getOwnedStereotype(getStereotypeName());
 		this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
 	}
 	@Override
 	public void refresh(){
 		super.refresh();
-		if(getElement().isStereotypeApplied(stereotype)){
-			String value = (String) getElement().getValue(stereotype, getAttributeName());
+		if(getElement(getEObject()).isStereotypeApplied(stereotype)){
+			String value = (String) getElement(getEObject()).getValue(stereotype, getAttributeName());
 			text.setText(value == null ? "" : value);
 		}else{
 			text.setText("");
@@ -73,15 +77,17 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPr
 		super.createWidgets(composite);
 		this.label = getWidgetFactory().createLabel(composite, getLabelText());
 		this.text = new TextViewer(composite, SWT.BORDER | SWT.FLAT| SWT.SINGLE).getTextWidget();
-		new TextChangeListener(){
+		TextChangeListener textChangeListener = new TextChangeListener(){
 			@Override
 			public void textChanged(Control control){
-				if(!getElement().isStereotypeApplied(stereotype)){
-					Command cmd = new ApplyStereotypeCommand(getElement(), stereotype);
-					getEditingDomain().getCommandStack().execute(cmd);
+				CompoundCommand cc = new CompoundCommand();
+				for(EObject eObject:getEObjectList()){
+					if(!getElement(eObject).isStereotypeApplied(stereotype)){
+						getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(getElement(eObject), stereotype));
+					}
+					cc.append(SetCommand.create(getEditingDomain(), getElement(eObject).getStereotypeApplication(stereotype), feature, text.getText()));
 				}
-				Command cmd = SetCommand.create(getEditingDomain(), getElement().getStereotypeApplication(stereotype), feature, text.getText());
-				getEditingDomain().getCommandStack().execute(cmd);
+				getEditingDomain().getCommandStack().execute(cc);
 			}
 			@Override
 			public void focusOut(Control control){
@@ -90,6 +96,8 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPr
 			@Override
 			public void focusIn(Control control){
 			}
-		}.startListeningForEnter(text);
+		};
+		textChangeListener.startListeningForEnter(text);
+		textChangeListener.startListeningTo(text);
 	}
 }

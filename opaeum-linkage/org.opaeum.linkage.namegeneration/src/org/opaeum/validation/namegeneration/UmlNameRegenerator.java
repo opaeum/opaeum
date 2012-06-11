@@ -133,6 +133,9 @@ public class UmlNameRegenerator extends AbstractNameGenerator{
 			}
 		}
 		if(name == null){
+			if(mew==null || mew.getMappingInfo()==null){
+				System.out.println();
+			}
 			name = mew.getMetaClass() + mew.getMappingInfo().getOpaeumId();
 		}
 		return new SingularNameWrapper(name, null);

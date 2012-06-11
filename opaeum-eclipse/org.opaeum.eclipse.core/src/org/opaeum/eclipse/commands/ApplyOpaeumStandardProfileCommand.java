@@ -11,7 +11,7 @@ public class ApplyOpaeumStandardProfileCommand extends ApplyProfileCommand{
 	private Profile profile;
 
 	public ApplyOpaeumStandardProfileCommand(EditingDomain ed,Package umlPackage){
-		super(umlPackage, getProfile(ed, umlPackage));
+		super(umlPackage, getProfile(ed, umlPackage),false);
 		this.setProfile(getProfile(ed, umlPackage));
 	}
 

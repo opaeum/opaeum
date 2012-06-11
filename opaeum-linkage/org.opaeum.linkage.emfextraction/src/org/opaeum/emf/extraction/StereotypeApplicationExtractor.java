@@ -115,6 +115,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 		Iterator<Stereotype> stereotypes = modelElement.getAppliedStereotypes().iterator();
 		while(stereotypes.hasNext()){
 			Stereotype stereotype = (Stereotype) stereotypes.next();
+
 			INakedStereotype nakedStereotype = (INakedStereotype) getNakedPeer(stereotype);
 			if(nakedStereotype != null){
 				INakedInstanceSpecification instanceSpec = buildStereotypeApplication(modelElement, stereotype, nakedStereotype);

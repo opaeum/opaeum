@@ -802,7 +802,7 @@
 				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection">
 				<input type="org.eclipse.uml2.uml.Slot" />
 			</propertySection>
-			<propertySection id="org.opaeum.topcased.propertysections.classifier.ClassNamePropertySection" class="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
+			<propertySection id="org.opaeum.topcased.propertysections.classifier.ClassNamePropertySection" class="org.opaeum.topcased.propertysections.classifier.ClassifierIsAbstractSection"
 				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
 				<input type="org.eclipse.uml2.uml.Classifier" />
 			</propertySection>

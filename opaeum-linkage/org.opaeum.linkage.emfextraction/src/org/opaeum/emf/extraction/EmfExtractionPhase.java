@@ -63,7 +63,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		for(AbstractExtractorFromEmf v:extractors){
 			for(Element element:effectiveElementsToProcess){
 				v.visitRecursively((Element) element);
-				result.add(modelWorkspace.getModelElement(emfWorkspace.getId((Element) element)));
+				result.add(modelWorkspace.getModelElement(EmfWorkspace.getId((Element) element)));
 			}
 			Set<INakedElement> affectedElements = v.getAffectedElements();
 			result.addAll(affectedElements);

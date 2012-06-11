@@ -53,7 +53,9 @@ public class PropertyBooleanFeaturesSection extends AbstractMultiFeatureProperty
 	@Override
 	protected void handleModelChanged(Notification msg){
 		Object notifier = msg.getNotifier();
-		if(notifier.equals(getEObject()) && getFeature() != null){
+		if(isReadOnly.isDisposed()){
+			super.removeListener();
+		}else if(notifier.equals(getEObject()) && getFeature() != null){
 			refresh();
 		}
 	}
