@@ -1,5 +1,6 @@
 package org.opaeum.topcased.propertysections;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
@@ -7,8 +8,8 @@ import org.opaeum.topcased.propertysections.base.AbstractStringOnStereotypeSecti
 
 public class EnumerationMappedImplementationTypeSection extends AbstractStringOnStereotypeSection{
 	@Override
-	protected Element getElement(){
-		return (Element) getEObject();
+	protected Element getElement(EObject e){
+		return (Element) e;
 	}
 	@Override
 	protected String getAttributeName(){

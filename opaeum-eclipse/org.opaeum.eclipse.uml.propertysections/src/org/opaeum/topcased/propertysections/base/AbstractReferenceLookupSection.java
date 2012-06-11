@@ -3,27 +3,33 @@ package org.opaeum.topcased.propertysections.base;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.celleditor.FeatureEditorDialog;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.internal.sections.TableObjectManager;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
@@ -32,9 +38,44 @@ import org.topcased.tabbedproperties.sections.widgets.ReferenceViewerComposite;
 
 public abstract class AbstractReferenceLookupSection extends AbstractReferencePropertySection{
 	final class SpecialObjectManager extends TableObjectManager{
+		EStructuralFeature feature;
 		private SpecialObjectManager(EObject eObject,EStructuralFeature structuralFeature){
 			super(eObject, structuralFeature);
+			feature = structuralFeature;
 			setLabelProvider((ILabelProvider) AbstractReferenceLookupSection.this.getLabelProvider());
+		}
+		@Override
+		public void updateElement(Object newValue){
+			if(newValue == null){
+				return;
+			}
+			Command command = null;
+			CompoundCommand cpcmd = new CompoundCommand();
+			for(EObject eObject:getEObjectList()){
+				EObject inputEObject = getFeatureOwner(eObject);
+				if(inputEObject != null){
+					List<?> oldValues = (List<?>) inputEObject.eGet(feature);
+					if(newValue instanceof List<?>){
+						List<?> newElements = (List<?>) newValue;
+						// Search for deleted items
+						for(Object element:oldValues){
+							if(!newElements.contains(element)){
+								cpcmd.append(RemoveCommand.create(getEditingDomain(), inputEObject, feature, element));
+							}
+						}
+						// Search for added items
+						for(Object element:newElements){
+							if(!oldValues.contains(element)){
+								cpcmd.append(AddCommand.create(getEditingDomain(), inputEObject, feature, element));
+							}
+						}
+						command = cpcmd;
+					}else{
+						command = AddCommand.create(getEditingDomain(), inputEObject, feature, newValue, oldValues.size());
+					}
+				}
+			}
+			getEditingDomain().getCommandStack().execute(command);
 		}
 		public List<?> chooseObjectsFromDialog(){
 			List<? extends EObject> choiceOfValues = getAvailableChoices();
@@ -50,7 +91,12 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 	public AbstractReferenceLookupSection(){
 		super();
 	}
-	protected abstract EObject getFeatureOwner();
+	protected EObject getFeatureOwner(EObject e){
+		return e;
+	}
+	protected final EObject getFeatureOwner(){
+		return getFeatureOwner(getEObject());
+	}
 	protected abstract List<? extends EObject> getAvailableChoices();
 	protected void removeListener(){
 		super.removeListener();
@@ -78,7 +124,7 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 			getFeatureOwner().eAdapters().add(getModelListener());
 		}
 	}
-	protected final IBaseLabelProvider getLabelProvider(){
+	protected IBaseLabelProvider getLabelProvider(){
 		List<AdapterFactory> f = new ArrayList<AdapterFactory>();
 		f.add(new UMLItemProviderAdapterFactory());
 		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
@@ -109,7 +155,6 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 		getTable().setEditingDomain(getEditingDomain());
 	}
 	public void refresh(){
-		getTable().setInput(getFeatureOwner(), getFeature());
 		getTable().refresh();
 		getTable().getParent().getParent().getParent().layout();
 	}
@@ -123,12 +168,31 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 				updateSelection(data);
 			}
 			@Override
+			protected void createButtons(Composite parent){
+				super.createButtons(parent);
+				super.getTable().addMouseListener(new MouseListener(){
+					@Override
+					public void mouseUp(MouseEvent e){
+					}
+					@Override
+					public void mouseDown(MouseEvent e){
+					}
+					@Override
+					public void mouseDoubleClick(MouseEvent e){
+						TableItem item = getTable().getItem(new Point(e.x, e.y));
+						if(item.getData() instanceof EObject){
+							OpaeumEclipseContext.getCurrentContext().geteObjectSelectorUI().gotoEObject((EObject) item.getData());
+						}
+					}
+				});
+			}
+			@Override
 			public TableObjectManager getObjectManager(){
 				return objectManager;
 			}
 			public void setInput(EObject eObject,EStructuralFeature feature){
-				super.setInput(eObject, feature);
-				if(objectManager == null || !objectManager.getInputEObject().equals(eObject)){
+				if(objectManager == null || objectManager.getInputEObject() == null || !objectManager.getInputEObject().equals(eObject)){
+					super.setInput(eObject, feature);
 					objectManager = new SpecialObjectManager(eObject, feature);
 					objectManager.setLabelProvider((ILabelProvider) getLabelProvider());
 					getTableViewer().setInput(objectManager);
@@ -136,13 +200,12 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 			}
 			@Override
 			public void setEditingDomain(EditingDomain editingDomain){
-				super.setEditingDomain(editingDomain);
 				objectManager.setEditingDomain(editingDomain);
 			}
 		});
 		getTable().setLabelProvider(getLabelProvider());
 		if(getFeature() != null){
-			getTable().setEnabled(getFeature().isChangeable());
+			// getTable().setEnabled(getFeature().isChangeable());
 		}
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -123,13 +124,13 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 										selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), oclPin));
 								String name = actio.getText().split("\\|")[0];
 								actio2.setText(name + "|Ocl Input");
-								StereotypesHelper.getNumlAnnotation(oclPin).getDetails().put(StereotypeNames.OCL_INPUT, "");
+								createNumlAnnotation(oclPin).getDetails().put(StereotypeNames.OCL_INPUT, "");
 								actions.add(actio2);
 								ValuePin newObjectPin = UMLFactory.eINSTANCE.createValuePin();
 								CreateChildAction actio3 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(),
 										selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), newObjectPin));
 								actio3.setText(name + "|New Object Input");
-								StereotypesHelper.getNumlAnnotation(newObjectPin).getDetails().put(StereotypeNames.NEW_OBJECT_INPUT, "");
+								createNumlAnnotation(newObjectPin).getDetails().put(StereotypeNames.NEW_OBJECT_INPUT, "");
 								actions.add(actio3);
 							}
 						}else if(descriptor.getValue() instanceof InputPin && !(descriptor.getValue() instanceof ActionInputPin)){
@@ -162,20 +163,20 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 									CreateChildAction actio1 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
 											.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), fact));
 									actio1.setText("Owned Attribute|Measure");
-									StereotypesHelper.getNumlAnnotation(fact).getDetails().put(StereotypeNames.MEASURE, "");
+									createNumlAnnotation(fact).getDetails().put(StereotypeNames.MEASURE, "");
 									actions.add(actio1);
 									Property dimension = UMLFactory.eINSTANCE.createProperty();
 									CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
 											.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), dimension));
 									actio2.setText("Owned Attribute|Dimension");
-									StereotypesHelper.getNumlAnnotation(dimension).getDetails().put(StereotypeNames.DIMENSION, "");
+									createNumlAnnotation(dimension).getDetails().put(StereotypeNames.DIMENSION, "");
 									actions.add(actio2);
 								}else if(selectedObject instanceof Component
 										&& StereotypesHelper.hasStereotype((Element) selectedObject, StereotypeNames.BUSINESS_COMPONENT)){
 									if(descriptor.getValue() instanceof Port){
 										if(descriptor.getFeature().equals(UMLPackage.eINSTANCE.getEncapsulatedClassifier_OwnedPort())){
 											Port port = (Port) descriptor.getValue();
-											StereotypesHelper.getNumlAnnotation(port).getDetails().put(StereotypeNames.BUSINESS_GATEWAY, "");
+											createNumlAnnotation(port).getDetails().put(StereotypeNames.BUSINESS_GATEWAY, "");
 											actio.setText("Owned Attribute|Business Gateway");
 											actions.add(actio);
 										}
@@ -187,13 +188,13 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 											.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), participantReference));
 									actio1.setText("Owned Attribute|Participant Reference");
 									participantReference.setAggregation(AggregationKind.NONE_LITERAL);
-									StereotypesHelper.getNumlAnnotation(participantReference).getDetails().put(StereotypeNames.PARTICIPANT_REFERENCE, "");
+									createNumlAnnotation(participantReference).getDetails().put(StereotypeNames.PARTICIPANT_REFERENCE, "");
 									actions.add(actio1);
 									Property businessRoleContaiment = UMLFactory.eINSTANCE.createProperty();
 									CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
 											.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), businessRoleContaiment));
 									actio2.setText("Owned Attribute|Business Role Containment");
-									StereotypesHelper.getNumlAnnotation(businessRoleContaiment).getDetails().put(StereotypeNames.BUSINESS_ROLE_CONTAINMENT, "");
+									createNumlAnnotation(businessRoleContaiment).getDetails().put(StereotypeNames.BUSINESS_ROLE_CONTAINMENT, "");
 									actions.add(actio2);
 								}
 							}
@@ -204,7 +205,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 								CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(),
 										selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), responsibility));
 								actio2.setText("Owned Operation|Responsibility");
-								StereotypesHelper.getNumlAnnotation(responsibility).getDetails().put(StereotypeNames.RESPONSIBILITY, "");
+								createNumlAnnotation(responsibility).getDetails().put(StereotypeNames.RESPONSIBILITY, "");
 								actions.add(actio2);
 							}else if(descriptor.getValue() instanceof Activity
 									&& descriptor.getFeature().equals(UMLPackage.eINSTANCE.getBehavioredClassifier_OwnedBehavior())){
@@ -212,13 +213,13 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 								CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(),
 										selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), businessProcess));
 								actio2.setText("Owned Behavior|Business Process");
-								StereotypesHelper.getNumlAnnotation(businessProcess).getDetails().put(StereotypeNames.BUSINES_PROCESS, "");
+								createNumlAnnotation(businessProcess).getDetails().put(StereotypeNames.BUSINES_PROCESS, "");
 								actions.add(actio2);
 								Activity method = UMLFactory.eINSTANCE.createActivity();
 								CreateChildAction actio3 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(),
 										selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), method));
 								actio3.setText("Owned Behavior|Method");
-								StereotypesHelper.getNumlAnnotation(method).getDetails().put(StereotypeNames.METHOD, "");
+								createNumlAnnotation(method).getDetails().put(StereotypeNames.METHOD, "");
 								actions.add(actio3);
 							}
 						}
@@ -227,5 +228,8 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 			}
 		}
 		return actions;
+	}
+	protected EAnnotation createNumlAnnotation(Element fact){
+		return StereotypesHelper.findOrCreateNumlAnnotation(fact);
 	}
 }

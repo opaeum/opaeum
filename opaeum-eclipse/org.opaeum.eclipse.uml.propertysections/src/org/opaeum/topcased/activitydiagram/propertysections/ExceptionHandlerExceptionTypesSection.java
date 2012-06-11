@@ -24,10 +24,6 @@ public class ExceptionHandlerExceptionTypesSection extends AbstractReferenceLook
 		return getExceptionHandler().getExceptionTypes();
 	}
 	@Override
-	protected EObject getFeatureOwner(){
-		return getExceptionHandler();
-	}
-	@Override
 	protected List<? extends EObject> getAvailableChoices(){
 		List<EObject> choices = new ArrayList<EObject>();
 		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());

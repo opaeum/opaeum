@@ -130,7 +130,7 @@ public abstract class OclBodyComposite extends Composite{
 	private OCLDocument document;
 	private Control tabTo;
 	private KeyListener keyListener;
-	private ErrorHighlighter highlighter;
+	protected ErrorHighlighter highlighter;
 	public OclBodyComposite(Composite parent,FormToolkit toolkit){
 		this(parent, toolkit, SWT.BORDER);
 	}

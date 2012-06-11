@@ -11,8 +11,10 @@ import org.eclipse.uml2.uml.ProfileApplication;
 public class ApplyProfileCommand extends AbstractCommand{
 	private Package umlPackage;
 	private Collection<Profile> profiles;
-	public ApplyProfileCommand(Package umlPackage,Profile profile){
+	private boolean undoable;
+	public ApplyProfileCommand(Package umlPackage,Profile profile, boolean undoable){
 		this.umlPackage = umlPackage;
+		this.undoable=undoable;
 		this.profiles = Collections.singletonList(profile);
 	}
 	@Override
@@ -35,7 +37,7 @@ public class ApplyProfileCommand extends AbstractCommand{
 	}
 	@Override
 	public boolean canUndo(){
-		return true;
+		return undoable;
 	}
 	@Override
 	public void undo(){

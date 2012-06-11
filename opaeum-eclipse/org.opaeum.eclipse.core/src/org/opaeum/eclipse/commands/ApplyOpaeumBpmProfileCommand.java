@@ -10,7 +10,7 @@ public class ApplyOpaeumBpmProfileCommand extends ApplyProfileCommand{
 	private Profile profile;
 
 	public ApplyOpaeumBpmProfileCommand(EditingDomain ed,Package umlPackage){
-		super(umlPackage, getProfile(ed, umlPackage));
+		super(umlPackage, getProfile(ed, umlPackage),false);
 		this.setProfile(getProfile(ed, umlPackage));
 	}
 
