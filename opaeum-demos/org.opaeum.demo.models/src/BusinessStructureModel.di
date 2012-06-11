@@ -12,16 +12,16 @@
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
+          <emfPageIdentifier href="BusinessStructureModel.notation#_7aBMkJQiEeGrfptojSsLAQ"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="BusinessStructureModel.notation#_7aBMkJQiEeGrfptojSsLAQ"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="BusinessStructureModel.notation#_7aBMkJQiEeGrfptojSsLAQ"/>
+        </children>
+        <children>
           <emfPageIdentifier href="BusinessStructureModel.notation#_tClkEHHgEeGus4aKic9sIg"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="BusinessStructureModel.notation#_7aBMkJQiEeGrfptojSsLAQ"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="BusinessStructureModel.notation#_7aBMkJQiEeGrfptojSsLAQ"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="BusinessStructureModel.notation#_7aBMkJQiEeGrfptojSsLAQ"/>
         </children>
       </children>
     </windows>

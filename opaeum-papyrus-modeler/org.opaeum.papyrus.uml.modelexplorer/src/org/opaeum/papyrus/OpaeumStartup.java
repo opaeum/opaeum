@@ -122,7 +122,7 @@ public class OpaeumStartup implements IStartup{
 				}
 			}
 		});
-		new OpaeumPreferenceInitializer().initializeDefaultPreferences();
+//		new OpaeumPreferenceInitializer().initializeDefaultPreferences();
 	}
 	private IFile getUmlFile(final IFileEditorInput fe){
 		return fe.getFile().getProject().getFile(fe.getFile().getProjectRelativePath().removeFileExtension().addFileExtension("uml"));

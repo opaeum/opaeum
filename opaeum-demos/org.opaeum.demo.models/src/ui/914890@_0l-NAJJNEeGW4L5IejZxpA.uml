@@ -387,8 +387,10 @@
             </next>
           </next>
         </dimensionBinding>
+        <levelProperty xmi:id="_eo0nkKMUEeGdnayFsD_NVQ" umlElementUid="914890@_59AMMJKGEeGFkOm2e1MJNQ"/>
         <levelProperty xmi:id="_prlEYKDlEeGdnayFsD_NVQ" umlElementUid="914890@_pNF-UZJPEeGW4L5IejZxpA"/>
         <levelProperty xmi:id="_qs6jsJWvEeGF5JliyOlmJg" umlElementUid="914890@_YMgg0JLAEeGnpuq6_ber_Q"/>
+        <levelProperty xmi:id="_ei3wkKMUEeGdnayFsD_NVQ" umlElementUid="914890@_DmOEBJKZEeGVguC2OnqOLw"/>
       </rowAxis>
       <measures xmi:id="_6N8f8qDkEeGdnayFsD_NVQ" umlElementUid="914890@_oF8YAJQbEeGJg4MkDnRIeA"/>
     </queries>

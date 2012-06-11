@@ -1,6 +1,7 @@
 package org.opaeum.topcased.propertysections.property;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -8,6 +9,7 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.topcased.propertysections.base.AbstractMultiFeaturePropertySection;
@@ -28,14 +30,14 @@ public class PropertyBooleanFeaturesSection extends AbstractMultiFeatureProperty
 	@Override
 	protected void addListener(){
 		super.addListener();
-		if(getEObject() != null){
+		if(safeGetProperty() != null){
 			safeGetProperty().eAdapters().add(getModelListener());
 		}
 	}
 	@Override
 	protected void removeListener(){
 		super.removeListener();
-		if(getEObject() != null){
+		if(safeGetProperty() != null){
 			safeGetProperty().eAdapters().remove(getModelListener());
 		}
 	}
@@ -43,7 +45,10 @@ public class PropertyBooleanFeaturesSection extends AbstractMultiFeatureProperty
 		return safeGetProperty();
 	}
 	protected Property getProperty(){
-		return (Property) getEObject();
+		return (Property) getTypedElementFrom(getEObject());
+	}
+	protected TypedElement getTypedElementFrom(EObject eObject){
+		return (TypedElement) eObject;
 	}
 	@Override
 	protected void handleModelChanged(Notification msg){
@@ -91,6 +96,9 @@ public class PropertyBooleanFeaturesSection extends AbstractMultiFeatureProperty
 		return EmfElementFinder.getRootObject(safeGetProperty()) instanceof Profile;
 	}
 	public Property safeGetProperty(){
+		if(getEObject()==null){
+			return null;
+		}
 		if(getEObject() instanceof Association){
 			Association a = (Association) getEObject();
 			if(a.getMemberEnds().size() < 2){

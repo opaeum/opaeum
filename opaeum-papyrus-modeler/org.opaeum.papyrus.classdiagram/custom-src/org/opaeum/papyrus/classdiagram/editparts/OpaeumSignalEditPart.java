@@ -66,7 +66,7 @@ public final class OpaeumSignalEditPart extends SignalEditPart{
 			IPapyrusNodeNamedElementFigure l = (IPapyrusNodeNamedElementFigure) getPrimaryShape();
 			Element element = (Element) getAdapter(Element.class);
 			if(StereotypesHelper.hasStereotype(element, "Notification")){
-				imageFigure.setImagePath("images/Notification.jpg");
+				imageFigure.setImagePath("images/BusinessNotification.svg");
 				l.getTaggedLabel().setText("<<Business Notification>>");
 			}
 		}

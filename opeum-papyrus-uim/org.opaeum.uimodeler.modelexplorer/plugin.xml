@@ -8,10 +8,10 @@
             contributorClass="org.opaeum.uimodeler.OpaeumActionBarContributor"
             default="true"
             extensions="di"
-            icon="icons/papyrus/Papyrus_16x16.gif"
+            icon="icons/system-device-notifier.png"
             id="org.opaeum.uimodeler.OpaeumMultiDiagramEditor"
             matchingStrategy="org.eclipse.papyrus.editor.PapyrusMatchingStrategy"
-            name="Opaeum  Editor Core">
+            name="Opaeum  UI Editor">
       </editor>
    </extension>
 

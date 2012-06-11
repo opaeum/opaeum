@@ -1,7 +1,7 @@
 package org.opaeum.papyrus.classdiagram.editparts;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Figure;
+import java.net.URL;
+
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Notification;
@@ -9,12 +9,17 @@ import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.diagram.ui.requests.EditCommandRequestWrapper;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
+import org.eclipse.gmf.runtime.draw2d.ui.internal.mapmode.DiagramMapModeUtil;
+import org.eclipse.gmf.runtime.draw2d.ui.mapmode.MapModeUtil;
+import org.eclipse.gmf.runtime.draw2d.ui.render.RenderInfo;
+import org.eclipse.gmf.runtime.draw2d.ui.render.RenderedImage;
+import org.eclipse.gmf.runtime.draw2d.ui.render.factory.RenderedImageFactory;
+import org.eclipse.gmf.runtime.draw2d.ui.render.internal.RenderHelper;
+import org.eclipse.gmf.runtime.draw2d.ui.render.internal.RenderingListener;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
-import org.eclipse.gmf.runtime.notation.GradientStyle;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.gmf.runtime.notation.datatype.GradientData;
 import org.eclipse.papyrus.uml.diagram.clazz.edit.parts.ClassEditPart;
+import org.eclipse.papyrus.uml.diagram.clazz.part.UMLDiagramEditorPlugin;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.ClassifierFigure;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeNamedElementFigure;
 import org.eclipse.uml2.uml.Element;
@@ -30,9 +35,13 @@ public final class OpaeumClassEditPart extends ClassEditPart{
 			this.imagePath = string;
 		}
 		@Override
+		public void paint(Graphics graphics){
+			super.paint(graphics);
+	
+			ImageUtil.paintBackgroundSvgImage(graphics, this, imagePath);
+		}
+		@Override
 		protected void paintClientArea(Graphics graphics){
-			Figure f = this;
-			ImageUtil.paintBackgroundImage(graphics, f,imagePath);
 			super.paintClientArea(graphics);
 		}
 	}
@@ -43,8 +52,6 @@ public final class OpaeumClassEditPart extends ClassEditPart{
 	protected IFigure createNodeShape(){
 		this.imageFigure = new OpaeumClassifierFIgure("Business Entity");
 		primaryShape = imageFigure;
-		setGradient(new GradientData(FigureUtilities.RGBToInteger(ColorConstants.blue.getRGB()),
-				FigureUtilities.RGBToInteger(ColorConstants.black.getRGB()), GradientStyle.VERTICAL));
 		return primaryShape;
 	}
 	public Command getCommand(Request request){
@@ -72,13 +79,13 @@ public final class OpaeumClassEditPart extends ClassEditPart{
 			IPapyrusNodeNamedElementFigure l = (IPapyrusNodeNamedElementFigure) getPrimaryShape();
 			Element element = (Element) getAdapter(Element.class);
 			if(isBusinessRole(element)){
-				imageFigure.setImagePath("images/BusinessRole.jpg");
+				imageFigure.setImagePath("images/BusinessRole.svg");
 				l.getTaggedLabel().setText("<<Business Role>>");
 			}else if(StereotypesHelper.hasStereotype(element, "BusinessDocument")){
-				imageFigure.setImagePath("images/BusinessDocument.jpg");
+				imageFigure.setImagePath("images/BusinessDocument.svg");
 				l.getTaggedLabel().setText("<<Business Document>>");
 			}else{
-				imageFigure.setImagePath("images/BusinessEntity.jpg");
+				imageFigure.setImagePath("images/BusinessEntity.svg");
 				l.getTaggedLabel().setText("<<Business Entity>>");
 			}
 		}

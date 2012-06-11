@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -89,7 +90,11 @@ public class OpaeumEclipseContext{
 				@Override
 				public void execute(){
 					try{
-						EcoreUtil.resolveAll(domain.getResourceSet());
+						try{
+							EcoreUtil.resolveAll(domain.getResourceSet());
+						}catch(ConcurrentModificationException cme){
+							EcoreUtil.resolveAll(domain.getResourceSet());
+						}
 						Package model2 = findRootObjectInFile(file, domain.getResourceSet());
 						if(model2 != null && model2.eResource() != null && model2.eResource().getURI() != null){
 							monitor.subTask("Resolving Emf Resources");
@@ -240,11 +245,11 @@ public class OpaeumEclipseContext{
 			}
 			getUmlDirectory().refreshLocal(1, null);
 			if(dew != null){
-				List<Resource> resources = new ArrayList<Resource>( dew.getResourceSet().getResources());
+				List<Resource> resources = new ArrayList<Resource>(dew.getResourceSet().getResources());
 				for(Resource resource:resources){
 					String lastSegment = resource.getURI().lastSegment();
 					String lastSegment2 = f.getLocation().lastSegment();
-					if(lastSegment .equals(lastSegment2)){
+					if(lastSegment.equals(lastSegment2)){
 						resource.unload();
 						resource.load(null);
 						EcoreUtil.resolveAll(resource);

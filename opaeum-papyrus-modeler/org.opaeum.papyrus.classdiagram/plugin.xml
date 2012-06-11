@@ -13,7 +13,7 @@
    
 <extension point="org.eclipse.core.runtime.preferences">
 		<?gmfgen generated="true"?>
-		<initializer class="org.eclipse.papyrus.uml.diagram.clazz.preferences.DiagramPreferenceInitializer"/>
+		<initializer class="org.opaeum.papyrus.uml.diagram.clazz.preferences.DiagramPreferenceInitializer"/>
 	</extension>
 <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor" id="prop-contrib">
       <?gmfgen generated="true"?>
@@ -1945,10 +1945,10 @@
 				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
 	<entry
        defineOnly="true"
-       description="Create a new Business Entity"
+       description="Create a new Class"
        id="clazz.tool.class"
        kind="tool"
-       label="Business Entity"
+       label="Class"
        large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif"
        path=""
        small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif">
@@ -1960,9 +1960,9 @@
        id="clazz.tool.businesscomponent"
        kind="tool"
        label="Business Component"
-       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Component.gif"
+       large_icon="images/BusinessComponent.png"
        path=""
-       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Component.gif">
+       small_icon="images/BusinessComponent.png">
  	</entry>
 	<entry
        defineOnly="true"
@@ -1970,9 +1970,9 @@
        id="clazz.tool.notification"
        kind="tool"
        label="Business Notification"
-       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Signal.gif"
+       large_icon="images/BusinessNotification.png"
        path=""
-       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Signal.gif">
+       small_icon="images/BusinessNotification.png">
  	</entry>
 	<entry
        defineOnly="true"
@@ -1980,9 +1980,9 @@
        id="clazz.tool.businessservice"
        kind="tool"
        label="Business Service"
-       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif"
+       large_icon="images/BusinessService.png"
        path=""
-       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif">
+       small_icon="images/BusinessService.png">
  	</entry>
 	<entry
        defineOnly="true"
@@ -1990,9 +1990,9 @@
        id="clazz.tool.businessdocument"
        kind="tool"
        label="Business Document"
-       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif"
+       large_icon="images/BusinessDocument.png"
        path=""
-       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif">
+       small_icon="images/BusinessDocument.png">
  	</entry>
 	<entry
        defineOnly="true"
@@ -2000,9 +2000,9 @@
        id="clazz.tool.businessentity"
        kind="tool"
        label="Business Entity"
-       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif"
+       large_icon="images/BusinessEntity.png"
        path=""
-       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif">
+       small_icon="images/BusinessEntity.png">
  	</entry>
 	<entry
        defineOnly="true"
@@ -2010,9 +2010,9 @@
        id="clazz.tool.businessrole"
        kind="tool"
        label="Business Role"
-       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Actor.gif"
+       large_icon="images/BusinessRole.png"
        path=""
-       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Actor.gif">
+       small_icon="images/BusinessRole.png">
  	</entry>
 	<entry
        defineOnly="true"

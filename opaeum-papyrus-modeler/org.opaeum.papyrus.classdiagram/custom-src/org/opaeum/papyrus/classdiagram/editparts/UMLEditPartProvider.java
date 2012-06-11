@@ -1,12 +1,14 @@
 package org.opaeum.papyrus.classdiagram.editparts;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
@@ -16,15 +18,14 @@ import org.eclipse.gmf.runtime.notation.GradientStyle;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.datatype.GradientData;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.papyrus.uml.diagram.clazz.custom.figure.AssociationFigure;
 import org.eclipse.papyrus.uml.diagram.clazz.edit.parts.*;
 import org.eclipse.papyrus.uml.diagram.clazz.part.UMLVisualIDRegistry;
+import org.eclipse.papyrus.uml.diagram.common.figure.node.ComponentFigure;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.IMultilineEditableFigure;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeNamedElementFigure;
-import org.eclipse.papyrus.uml.diagram.common.figure.node.SignalFigure;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.uml2.uml.Element;
-import org.opaeum.emf.extraction.StereotypesHelper;
 
 public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.providers.UMLEditPartProvider{
 	public UMLEditPartProvider(){
@@ -57,6 +58,7 @@ public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.p
 					return new InstanceSpecificationNameEditPart(view);
 				case ComponentEditPart.VISUAL_ID:
 					return new ComponentEditPart(view){
+						private Figure imageFigure;
 						@Override
 						protected void refreshVisuals(){
 							setGradient(new GradientData(FigureUtilities.RGBToInteger(ColorConstants.blue.getRGB()),
@@ -67,6 +69,18 @@ public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.p
 								l.getTaggedLabel().setText("<<Business Component>>");
 							}
 						}
+						protected IFigure createNodeShape(){
+							this.imageFigure = new ComponentFigure(){
+								@Override
+								public void paint(Graphics graphics){
+									super.paint(graphics);
+									ImageUtil.paintBackgroundSvgImage(graphics, this, "images/BusinessComponent.svg");
+								}
+								
+							};
+							primaryShape = imageFigure;
+							return primaryShape;
+						}
 					};
 				case ComponentNameEditPart.VISUAL_ID:
 					return new ComponentNameEditPart(view);
@@ -75,7 +89,7 @@ public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.p
 				case SignalNameEditPart.VISUAL_ID:
 					return new SignalNameEditPart(view);
 				case InterfaceEditPart.VISUAL_ID:
-					return new InterfaceEditPart(view);
+					return new OpaeumInterfaceEditPart(view);
 				case InterfaceNameEditPart.VISUAL_ID:
 					return new InterfaceNameEditPart(view);
 				case ModelEditPartTN.VISUAL_ID:
@@ -319,7 +333,60 @@ public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.p
 				case AssociationClassRoleTargetEditPart.VISUAL_ID:
 					return new AssociationClassRoleTargetEditPart(view);
 				case AssociationEditPart.VISUAL_ID:
-					return new AssociationEditPart(view);
+					return new AssociationEditPart(view){
+						@Override
+						protected Connection createConnectionFigure(){
+							return new AssociationFigure(){
+								public RotatableDecoration getDecoration(int typeDecoration){
+									// test if this a owned decoration
+									int ownedValue = typeDecoration / owned;
+									int remain = typeDecoration % owned;
+									int compositeValue = remain / composition;
+									remain = remain % composition;
+									int aggregationValue = remain / aggregation;
+									remain = remain % aggregation;
+									int navigationValue = remain / navigable;
+									// the end association is contained by the association?
+									if(ownedValue == 1){
+										// this is composite.
+										if(compositeValue == 1){
+											if(navigationValue == 1){
+												return getOwnedNavigableCompositionDecoration();
+											}
+											return getOwnedCompositionDecoration();
+										}
+										// an aggregation?
+										else if(aggregationValue == 1){
+											if(navigationValue == 1){
+												return getOwnedNavigableAggregationDecoration();
+											}
+											return getOwnedAggregationDecoration();
+										}
+										// Is it navigable?
+										else if(navigationValue == 1){
+											return getOwnedNavigationDecoration();
+										}else{
+											return getOwnedDecoration();
+										}
+									}else{
+										// this is composite.
+										if(compositeValue == 1){
+											return getCompositionDecoration();
+										}
+										// an aggregation?
+										else if(aggregationValue == 1){
+											return getAggregationDecoration();
+										}
+										// Is it naviagable?
+										else if(navigationValue == 1){
+											return getNavigationDecoration();
+										}
+									}
+									return null;
+								}
+							};
+						}
+					};
 				case AppliedStereotypeAssociationEditPart.VISUAL_ID:
 					return new AppliedStereotypeAssociationEditPart(view);
 				case AssociationNameEditPart.VISUAL_ID:

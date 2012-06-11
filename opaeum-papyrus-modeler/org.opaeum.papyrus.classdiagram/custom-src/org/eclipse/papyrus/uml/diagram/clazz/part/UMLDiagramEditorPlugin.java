@@ -21,11 +21,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.papyrus.infra.gmfdiag.preferences.Activator;
 import org.eclipse.papyrus.uml.diagram.clazz.edit.policies.UMLBaseItemSemanticEditPolicy;
 import org.eclipse.papyrus.uml.diagram.clazz.expressions.UMLOCLFactory;
-import org.eclipse.papyrus.uml.diagram.clazz.preferences.DiagramPreferenceInitializer;
 import org.eclipse.papyrus.uml.diagram.clazz.providers.ElementInitializers;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.opaeum.papyrus.uml.diagram.clazz.preferences.DiagramPreferenceInitializer;
 import org.osgi.framework.BundleContext;
 
 /**

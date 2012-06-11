@@ -6,12 +6,23 @@ import java.util.List;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.ImageUtilities;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
+import org.eclipse.gmf.runtime.draw2d.ui.internal.mapmode.DiagramMapModeUtil;
+import org.eclipse.gmf.runtime.draw2d.ui.mapmode.MapModeUtil;
+import org.eclipse.gmf.runtime.draw2d.ui.render.RenderInfo;
+import org.eclipse.gmf.runtime.draw2d.ui.render.RenderedImage;
+import org.eclipse.gmf.runtime.draw2d.ui.render.factory.RenderedImageFactory;
+import org.eclipse.gmf.runtime.draw2d.ui.render.internal.RenderHelper;
+import org.eclipse.gmf.runtime.draw2d.ui.render.internal.RenderingListener;
+import org.eclipse.gmf.runtime.draw2d.ui.render.internal.graphics.RenderedMapModeGraphics;
 import org.eclipse.papyrus.uml.diagram.clazz.part.UMLDiagramEditorPlugin;
+import org.eclipse.papyrus.uml.diagram.common.figure.node.CompartmentFigure;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
@@ -96,8 +107,8 @@ public class ImageUtil{
 				// Pattern pt = new Pattern(Display.getCurrent(), location.x, location.y, location.x + actualImageWidth, location.y
 				// + actualImageHeight, ColorConstants.white, ColorConstants.lightGray);
 				// graphics.setBackgroundPattern(pt);
-//				img = new Image(Display.getCurrent(), createShadedImage(img, new Color(Display.getCurrent(), brightest, brightest,
-//						brightest)));
+				// img = new Image(Display.getCurrent(), createShadedImage(img, new Color(Display.getCurrent(), brightest, brightest,
+				// brightest)));
 				graphics.drawImage(img, location.scale(1d / amount));
 				graphics.setBackgroundPattern(null);
 				// pt.dispose();
@@ -105,24 +116,23 @@ public class ImageUtil{
 			}
 		}
 	}
-	public static ImageData createShadedImage(Image fromImage, Color shade) {
+	public static ImageData createShadedImage(Image fromImage,Color shade){
 		org.eclipse.swt.graphics.Rectangle r = fromImage.getBounds();
 		ImageData data = fromImage.getImageData();
 		PaletteData palette = data.palette;
-		if (!palette.isDirect) {
+		if(!palette.isDirect){
 			/* Convert the palette entries */
 			RGB[] rgbs = palette.getRGBs();
-			for (int i = 0; i < rgbs.length; i++) {
-				if (data.transparentPixel != i) {
+			for(int i = 0;i < rgbs.length;i++){
+				if(data.transparentPixel != i){
 					RGB color = rgbs[i];
 					color.red = determineShading(color.red, shade.getRed());
 					color.blue = determineShading(color.blue, shade.getBlue());
-					color.green = determineShading(color.green,
-							shade.getGreen());
+					color.green = determineShading(color.green, shade.getGreen());
 				}
 			}
 			data.palette = new PaletteData(rgbs);
-		} else {
+		}else{
 			/* Convert the pixels. */
 			int[] scanline = new int[r.width];
 			int redMask = palette.redMask;
@@ -131,28 +141,24 @@ public class ImageUtil{
 			int redShift = palette.redShift;
 			int greenShift = palette.greenShift;
 			int blueShift = palette.blueShift;
-			for (int y = 0; y < r.height; y++) {
+			for(int y = 0;y < r.height;y++){
 				data.getPixels(0, y, r.width, scanline, 0);
-				for (int x = 0; x < r.width; x++) {
+				for(int x = 0;x < r.width;x++){
 					int pixel = scanline[x];
 					int red = pixel & redMask;
 					red = (redShift < 0) ? red >>> -redShift : red << redShift;
 					int green = pixel & greenMask;
-					green = (greenShift < 0) ? green >>> -greenShift
-							: green << greenShift;
+					green = (greenShift < 0) ? green >>> -greenShift : green << greenShift;
 					int blue = pixel & blueMask;
-					blue = (blueShift < 0) ? blue >>> -blueShift
-							: blue << blueShift;
+					blue = (blueShift < 0) ? blue >>> -blueShift : blue << blueShift;
 					red = determineShading(red, shade.getRed());
 					blue = determineShading(blue, shade.getBlue());
 					green = determineShading(green, shade.getGreen());
 					red = (redShift < 0) ? red << -redShift : red >> redShift;
 					red &= redMask;
-					green = (greenShift < 0) ? green << -greenShift
-							: green >> greenShift;
+					green = (greenShift < 0) ? green << -greenShift : green >> greenShift;
 					green &= greenMask;
-					blue = (blueShift < 0) ? blue << -blueShift
-							: blue >> blueShift;
+					blue = (blueShift < 0) ? blue << -blueShift : blue >> blueShift;
 					blue &= blueMask;
 					scanline[x] = red | blue | green;
 				}
@@ -161,9 +167,43 @@ public class ImageUtil{
 		}
 		return data;
 	}
-
-	private static int determineShading(int origColor, int shadeColor) {
-		return Math.min(255,15+(origColor + shadeColor)/2);
+	private static int determineShading(int origColor,int shadeColor){
+		return Math.min(255, 15 + (origColor + shadeColor) / 2);
 	}
-
+	public static void paintBackgroundSvgImage(Graphics graphics,CompartmentFigure f,String imagePath){
+		List<Figure> children = f.getChildren();
+		int labelHeight=0;
+		for(Figure figure:children){
+			if(figure instanceof Label || figure instanceof WrappingLabel){
+				labelHeight+=(figure.getBounds().height+2);
+			}
+		}
+		RenderHelper instance = RenderHelper.getInstance(DiagramMapModeUtil.getScale(MapModeUtil.getMapMode(f)), true, false, null);
+		RenderedImage ri = RenderedImageFactory.getInstance(UMLDiagramEditorPlugin.getInstance().getBundle().getEntry(imagePath));
+		RenderInfo info = ri.getRenderInfo();
+		info.setValues(info.getWidth(), info.getHeight(), true, info.shouldAntiAlias(), info.getBackgroundColor(), info.getForegroundColor());
+		ri = ri.getNewRenderedImage(info);
+		org.eclipse.swt.graphics.Rectangle imgBounds = ri.getSWTImage().getBounds();
+		double imgAspectRatio=imgBounds.width/(double)imgBounds.height;
+		double figureAspectRatio=f.getBounds().width/(double)(f.getBounds().height-labelHeight);
+		Rectangle bnds = f.getBounds().getCopy();
+		System.out.println();
+		if(imgAspectRatio<figureAspectRatio){
+			int width = (int)(imgAspectRatio*(bnds.height-labelHeight));
+			bnds.x=bnds.x+ (bnds.width-width)/2;
+			bnds.width=width;
+		}
+		bnds.y+=labelHeight;
+		bnds.height-=labelHeight;
+		RenderedMapModeGraphics rmmg = (RenderedMapModeGraphics) graphics;
+		graphics = new ScaledGraphics(rmmg);// TO avoid RenderedMapModeGraphics.drawRenderedImage to be called
+		instance.drawRenderedImage(graphics, ri, bnds, new RenderingListener(){
+			public void paintFigureWhileRendering(Graphics g){
+				// TODO Auto-generated method stub
+			}
+			public void imageRendered(RenderedImage rndImg){
+				// TODO Auto-generated method stub
+			}
+		});
+	}
 }
