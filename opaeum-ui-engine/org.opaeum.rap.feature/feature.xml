@@ -16,6 +16,23 @@
       [Enter License Description here.]
    </license>
 
+   <requires>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.uml2.uml" version="3.2.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.uml2.uml.resources" version="3.1.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.5.0" match="compatible"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.8.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime" version="3.8.0" match="compatible"/>
+      <import plugin="org.eclipse.emf.ecore.xmi" version="2.8.0" match="compatible"/>
+      <import plugin="org.eclipse.uml2.common" version="1.7.0" match="compatible"/>
+      <import plugin="org.eclipse.uml2.types" version="1.0.0" match="compatible"/>
+      <import plugin="org.eclipse.emf.mapping.ecore2xml" version="2.7.0" match="compatible"/>
+      <import plugin="org.eclipse.uml2.uml" version="4.0.0" match="compatible"/>
+   </requires>
+
    <plugin
          id="org.opaeum.metamodels.ocl"
          download-size="0"
@@ -71,27 +88,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.opaeum.rap.domain"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.rap.hibernate"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.rap.jpa"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.opaeum.linkage.core"
          download-size="0"
          install-size="0"
@@ -106,14 +102,42 @@
          unpack="false"/>
 
    <plugin
-         id="org.opaeum.rap.runtime"
+         id="org.eclipse.emf.ecore.xmi"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rap.ui"
+         id="org.eclipse.uml2.uml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.uml2.uml.resources"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.uml2.types"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.uml2.common"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping.ecore2xml"
          download-size="0"
          install-size="0"
          version="0.0.0"

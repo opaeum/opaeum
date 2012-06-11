@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML">
+  <notation:Diagram xmi:id="_OxKCAKTaEeG48eECPCZVwg" type="UseCase" name="NewDiagram" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_OxKCAaTaEeG48eECPCZVwg"/>
+    <element xmi:type="uml:Model" href="model.uml#_OvGzkKTaEeG48eECPCZVwg"/>
+  </notation:Diagram>
+  <notation:Diagram xmi:id="_P_PnsKWIEeGXk9e39uOxnQ" type="PapyrusUMLClassDiagram" name="ClassDiagram" measurementUnit="Pixel">
+    <children xmi:type="notation:Shape" xmi:id="_F5z6oKZKEeGjuv8YovM74g" type="2005" fontName="Sans" fontHeight="8" lineColor="0">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_F51IwKZKEeGjuv8YovM74g" source="ShadowFigure">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_F51IwaZKEeGjuv8YovM74g" key="ShadowFigure_Value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_F51v0KZKEeGjuv8YovM74g" source="displayNameLabelIcon">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_F51v0aZKEeGjuv8YovM74g" key="displayNameLabelIcon_value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_F51v0qZKEeGjuv8YovM74g" source="QualifiedName">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_F52W4KZKEeGjuv8YovM74g" key="QualifiedNameDepth" value="1000"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_F52W4aZKEeGjuv8YovM74g" type="5020"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_F52W4qZKEeGjuv8YovM74g" type="7009">
+        <styles xmi:type="notation:TitleStyle" xmi:id="_F52W46ZKEeGjuv8YovM74g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_F52W5KZKEeGjuv8YovM74g"/>
+      </children>
+      <element xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_qb8akM37EdqwVrslYOdUDA"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_F5z6oaZKEeGjuv8YovM74g" x="370" y="330"/>
+    </children>
+    <children xmi:type="notation:Shape" xmi:id="_F7CpsKZKEeGjuv8YovM74g" type="2009" fontName="Sans" fontHeight="8" lineColor="0">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_F7D30KZKEeGjuv8YovM74g" source="ShadowFigure">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_F7D30aZKEeGjuv8YovM74g" key="ShadowFigure_Value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_F7D30qZKEeGjuv8YovM74g" source="displayNameLabelIcon">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_F7D306ZKEeGjuv8YovM74g" key="displayNameLabelIcon_value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_F7D31KZKEeGjuv8YovM74g" source="QualifiedName">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_F7D31aZKEeGjuv8YovM74g" key="QualifiedNameDepth" value="1000"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_F7D31qZKEeGjuv8YovM74g" type="5032"/>
+      <element xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_F7CpsaZKEeGjuv8YovM74g" x="455" y="225"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_P_PnsaWIEeGXk9e39uOxnQ"/>
+    <element xmi:type="uml:Model" href="model.uml#_OvGzkKTaEeG48eECPCZVwg"/>
+    <edges xmi:type="notation:Connector" xmi:id="_F8CvQKZKEeGjuv8YovM74g" type="4009" source="_F5z6oKZKEeGjuv8YovM74g" target="_F7CpsKZKEeGjuv8YovM74g" lineColor="0">
+      <children xmi:type="notation:DecorationNode" xmi:id="_F8EkcKZKEeGjuv8YovM74g" type="6020">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_F8EkcaZKEeGjuv8YovM74g" y="40"/>
+      </children>
+      <children xmi:type="notation:DecorationNode" xmi:id="_F8EkcqZKEeGjuv8YovM74g" type="6021">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_F8FLgKZKEeGjuv8YovM74g" y="60"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_F8CvQaZKEeGjuv8YovM74g" fontName="Sans" fontHeight="8"/>
+      <element xmi:type="uml:ElementImport" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_naI78MbwEd-qWtMD5IZMIA"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_F8CvQqZKEeGjuv8YovM74g" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+    </edges>
+  </notation:Diagram>
+</xmi:XMI>

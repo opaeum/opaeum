@@ -18,9 +18,9 @@ public class OpaeumPreferenceInitializer extends AbstractPreferenceInitializer{
 		PreferenceConverter.setDefault(store, PreferenceConstantHelper.getPapyrusEditorConstant(PreferenceConstantHelper.COLOR_FILL), new org.eclipse.swt.graphics.RGB(255, 255, 255));
 		PreferenceConverter.setDefault(store, PreferenceConstantHelper.getPapyrusEditorConstant(PreferenceConstantHelper.COLOR_LINE), new org.eclipse.swt.graphics.RGB(0, 0, 0));
 
-		store.setDefault(PreferenceConstantHelper.getElementConstant("Interface", PreferenceConstantHelper.GRADIENT_POLICY), true);
+		store.setDefault(PreferenceConstantHelper.getElementConstant("Interface Node", PreferenceConstantHelper.GRADIENT_POLICY), true);
 		GradientPreferenceConverter gradientPreferenceConverter = new GradientPreferenceConverter(new org.eclipse.swt.graphics.RGB(0, 0, 255), new org.eclipse.swt.graphics.RGB(0, 0, 0), GradientStyle.VERTICAL, 50);
-		store.setDefault(PreferenceConstantHelper.getElementConstant("Interface", PreferenceConstantHelper.COLOR_GRADIENT), gradientPreferenceConverter.getPreferenceValue());
+		store.setDefault(PreferenceConstantHelper.getElementConstant("Interface Node", PreferenceConstantHelper.COLOR_GRADIENT), gradientPreferenceConverter.getPreferenceValue());
 
 				//decoration
 		store.setDefault(PreferenceConstantHelper.getPapyrusEditorConstant(PreferenceConstantHelper.SHADOW), false);

@@ -33,8 +33,8 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity(name = "AuditEntry")
 @javax.persistence.Table(name = "audit_entry")
-@org.hibernate.annotations.Table(appliesTo = "audit_entry", indexes = { @Index(name = "audit_entry_idx", columnNames = { "original_type", "original_id",
-		"object_version" }) })
+@org.hibernate.annotations.Table(appliesTo = "audit_entry", indexes = { @Index(name = "audit_entry_idx", columnNames = {
+		"original_type", "original_id", "object_version" }) })
 public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 
 	private static final long serialVersionUID = -5996095627052884699L;
@@ -66,12 +66,14 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 	private IPersistentObject original;
 	@Enumerated(EnumType.STRING)
 	private AuditedAction action;
+
 	public AuditEntry() {
 		super();
 	}
 
 	public AuditEntry(IPersistentObject entity, int version) {
-		this.originalClass = (Class<? extends IPersistentObject>) IntrospectionUtil.getOriginalClass(entity);
+		this.originalClass = (Class<? extends IPersistentObject>) IntrospectionUtil
+				.getOriginalClass(entity);
 		this.originalType = originalClass.getName();
 		this.originalId = entity.getId();
 		this.objectVersion = version;
@@ -91,21 +93,33 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 		PropertyChange<?> pc = null;
 
 		if (isFloatingPoint(value) || isFloatingPoint(oldValue)) {
-			pc = new FloatingPointPropertyChange(name, (Number) oldValue, (Number) value);
+			pc = new FloatingPointPropertyChange(name, (Number) oldValue,
+					(Number) value);
 		} else if (isInteger(value) || isInteger(oldValue)) {
-			pc = new IntegerPropertyChange(name, (Number) oldValue, (Number) value);
+			pc = new IntegerPropertyChange(name, (Number) oldValue,
+					(Number) value);
 		} else if (isDate(value) || isDate(oldValue)) {
 			pc = new DateTimePropertyChange(name, (Date) oldValue, (Date) value);
 		} else if (isString(value) || isString(oldValue)) {
-			pc = new StringPropertyChange(name, (String) oldValue, (String) value);
+			pc = new StringPropertyChange(name, (String) oldValue,
+					(String) value);
 		} else if (isBoolean(value) || isBoolean(oldValue)) {
-			pc = new BooleanPropertyChange(name, (Boolean) oldValue, (Boolean) value);
+			pc = new BooleanPropertyChange(name, (Boolean) oldValue,
+					(Boolean) value);
 		} else if (isEntity(value) || isEntity(oldValue)) {
-			Class<?> cls = value == null ? oldValue.getClass() : value.getClass();
-			if (IntrospectionUtil.getOriginalClass(cls).isAnnotationPresent(AuditMe.class)) {
-				pc = new AuditEntryPropertyChange(name, (IPersistentObject) oldValue, (IPersistentObject) value);
+			Class<?> cls = value == null ? oldValue.getClass() : value
+					.getClass();
+			IPersistentObject newEntityValue = (IPersistentObject) value;
+			if (newEntityValue.getId() == null) {
+				// error condition - hibernate will likely fail - how was the
+				// foreign key inserted. monitor this
+			} else if (IntrospectionUtil.getOriginalClass(cls)
+					.isAnnotationPresent(AuditMe.class)) {
+				pc = new AuditEntryPropertyChange(name,
+						(IPersistentObject) oldValue, newEntityValue);
 			} else {
-				pc = new EntityPropertyChange(name, (IPersistentObject) oldValue, (IPersistentObject) value);
+				pc = new EntityPropertyChange(name,
+						(IPersistentObject) oldValue, newEntityValue);
 			}
 		} else if (value instanceof AuditEntry) {
 			// Many to one to ensure a snapshot is available

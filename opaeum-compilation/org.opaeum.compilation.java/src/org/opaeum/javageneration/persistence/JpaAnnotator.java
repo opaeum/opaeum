@@ -136,6 +136,9 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 					&& ((INakedBehavior) complexType).getSpecification() != null;
 			if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()){
 				JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
+				if(!config.shouldBeCm1Compatible()){
+					jpaIdStrategy=new Jpa2IdTable();
+				}
 				JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
 				if(complexType instanceof INakedEntity){
 					Collection<INakedProperty> primaryKeyProperties = ((INakedEntity) complexType).getPrimaryKeyProperties();

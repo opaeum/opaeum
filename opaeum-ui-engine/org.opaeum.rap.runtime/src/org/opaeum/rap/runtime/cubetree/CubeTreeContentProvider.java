@@ -25,7 +25,7 @@ public class CubeTreeContentProvider implements ITreeContentProvider{
 	public void dispose(){
 	}
 	public boolean hasChildren(Object element){
-		return true;
+		return getChildren(element).length>0;
 	}
 	public Object getParent(Object element){
 		if(element instanceof CubeRowNode){

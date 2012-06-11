@@ -1,7 +1,5 @@
 package org.opaeum.topcased.propertysections.property;
 
-import java.util.List;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -47,12 +45,12 @@ public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 		}
 		return getProperty();
 	}
-	protected Property getProperty(){
-		return (Property) getEObject();
+	protected final Property getProperty(){
+		return (Property) getTypedElementFrom(getEObject());
 	}
 	@Override
-	protected TypedElement getTypedElement(){
-		return safeGetProperty();
+	protected TypedElement getTypedElementFrom(EObject object){
+		return (TypedElement)object;
 	}
 	protected boolean isMany(){
 		return safeGetProperty().getUpper() > 1 || safeGetProperty().getUpper() == -1 || safeGetProperty().getQualifiers().size() > 0;
@@ -75,7 +73,6 @@ public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 			if(derivationFormula != null){
 				derivationFormula.getTextControl().setEnabled(false);
 			}
-			((List) getTypedElement().getValue(propertyStereotype, "aggregationFormulas")).clear();
 		}
 	}
 	@Override
@@ -90,8 +87,8 @@ public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 			lfd.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 			this.derivationFormula = new DerivationFormulaText(check.getParent(), SWT.BORDER);
 			String value = null;
-			if(propertyStereotype != null && getTypedElement().isStereotypeApplied(propertyStereotype)){
-				value = (String) getTypedElement().getValue(propertyStereotype, TagNames.DERIVATION_FORMULA);
+			if(propertyStereotype != null && getTypedElementFrom(getEObject()).isStereotypeApplied(propertyStereotype)){
+				value = (String) getTypedElementFrom(getEObject()).getValue(propertyStereotype, TagNames.DERIVATION_FORMULA);
 			}
 			value = value == null ? "" : value;
 			this.derivationFormula.getTextControl().setText(value);

@@ -69,6 +69,10 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="root",targetEntity=ApplianceDoctor.class)
 	private Set<ApplianceDoctor> applianceDoctor = new HashSet<ApplianceDoctor>();
+	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="root",targetEntity=BusinessComponent1.class)
+	private Set<BusinessComponent1> businessComponent1 = new HashSet<BusinessComponent1>();
 	@Index(columnNames="business_network_id",name="idx_structuredbusiness_business_network_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="business_network_id",nullable=true)
@@ -126,6 +130,12 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		}
 	}
 	
+	public void addAllToBusinessComponent1(Set<BusinessComponent1> businessComponent1) {
+		for ( BusinessComponent1 o : businessComponent1 ) {
+			addToBusinessComponent1(o);
+		}
+	}
+	
 	public void addAllToOnline_Customer(Set<Online_Customer> online_Customer) {
 		for ( Online_Customer o : online_Customer ) {
 			addToOnline_Customer(o);
@@ -147,6 +157,14 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 			applianceDoctor.z_internalRemoveFromRoot(applianceDoctor.getRoot());
 			applianceDoctor.z_internalAddToRoot(this);
 			z_internalAddToApplianceDoctor(applianceDoctor);
+		}
+	}
+	
+	public void addToBusinessComponent1(BusinessComponent1 businessComponent1) {
+		if ( businessComponent1!=null ) {
+			businessComponent1.z_internalRemoveFromRoot(businessComponent1.getRoot());
+			businessComponent1.z_internalAddToRoot(this);
+			z_internalAddToBusinessComponent1(businessComponent1);
 		}
 	}
 	
@@ -241,11 +259,33 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessComponent1") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5983079574207307540")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						BusinessComponent1 curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToBusinessComponent1(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
 	public void clearApplianceDoctor() {
 		removeAllFromApplianceDoctor(getApplianceDoctor());
+	}
+	
+	public void clearBusinessComponent1() {
+		removeAllFromBusinessComponent1(getBusinessComponent1());
 	}
 	
 	public void clearOnline_Customer() {
@@ -258,6 +298,12 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	
 	public ApplianceDoctor createApplianceDoctor() {
 		ApplianceDoctor newInstance= new ApplianceDoctor();
+		newInstance.init(this);
+		return newInstance;
+	}
+	
+	public BusinessComponent1 createBusinessComponent1() {
+		BusinessComponent1 newInstance= new BusinessComponent1();
 		newInstance.init(this);
 		return newInstance;
 	}
@@ -299,6 +345,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	public Set<IBusiness> getBusiness() {
 		Set<IBusiness> result = new HashSet<IBusiness>();
 		result.addAll(this.getApplianceDoctor());
+		result.addAll(this.getBusinessComponent1());
 		return result;
 	}
 	
@@ -308,6 +355,13 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		Set<IBusinessActor> result = new HashSet<IBusinessActor>();
 		result.addAll(this.getSupplier());
 		result.addAll(this.getOnline_Customer());
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5983079574207307540l,opposite="root",uuid="914890@_ZXPEIKmhEeGU9ckjWaJA9g")
+	public Set<BusinessComponent1> getBusinessComponent1() {
+		Set<BusinessComponent1> result = this.businessComponent1;
+		
 		return result;
 	}
 	
@@ -400,6 +454,9 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		for ( Online_Customer child : new ArrayList<Online_Customer>(getOnline_Customer()) ) {
 			child.markDeleted();
 		}
+		for ( BusinessComponent1 child : new ArrayList<BusinessComponent1>(getBusinessComponent1()) ) {
+			child.markDeleted();
+		}
 		setDeletedOn(new Date());
 	}
 	
@@ -442,6 +499,16 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessComponent1") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5983079574207307540")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((BusinessComponent1)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 		}
 	}
 	
@@ -449,6 +516,13 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		Set<ApplianceDoctor> tmp = new HashSet<ApplianceDoctor>(applianceDoctor);
 		for ( ApplianceDoctor o : tmp ) {
 			removeFromApplianceDoctor(o);
+		}
+	}
+	
+	public void removeAllFromBusinessComponent1(Set<BusinessComponent1> businessComponent1) {
+		Set<BusinessComponent1> tmp = new HashSet<BusinessComponent1>(businessComponent1);
+		for ( BusinessComponent1 o : tmp ) {
+			removeFromBusinessComponent1(o);
 		}
 	}
 	
@@ -470,6 +544,13 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		if ( applianceDoctor!=null ) {
 			applianceDoctor.z_internalRemoveFromRoot(this);
 			z_internalRemoveFromApplianceDoctor(applianceDoctor);
+		}
+	}
+	
+	public void removeFromBusinessComponent1(BusinessComponent1 businessComponent1) {
+		if ( businessComponent1!=null ) {
+			businessComponent1.z_internalRemoveFromRoot(this);
+			z_internalRemoveFromBusinessComponent1(businessComponent1);
 		}
 	}
 	
@@ -499,6 +580,12 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		propertyChangeSupport.firePropertyChange("applianceDoctor",getApplianceDoctor(),applianceDoctor);
 		this.clearApplianceDoctor();
 		this.addAllToApplianceDoctor(applianceDoctor);
+	}
+	
+	public void setBusinessComponent1(Set<BusinessComponent1> businessComponent1) {
+		propertyChangeSupport.firePropertyChange("businessComponent1",getBusinessComponent1(),businessComponent1);
+		this.clearBusinessComponent1();
+		this.addAllToBusinessComponent1(businessComponent1);
 	}
 	
 	public void setBusinessNetwork(BusinessNetwork businessNetwork) {
@@ -607,12 +694,21 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 			sb.append("\n" + online_Customer.toXmlString());
 		}
 		sb.append("\n</online_Customer>");
+		sb.append("\n<businessComponent1 propertyId=\"5983079574207307540\">");
+		for ( BusinessComponent1 businessComponent1 : getBusinessComponent1() ) {
+			sb.append("\n" + businessComponent1.toXmlString());
+		}
+		sb.append("\n</businessComponent1>");
 		sb.append("\n</Structuredbusiness>");
 		return sb.toString();
 	}
 	
 	public void z_internalAddToApplianceDoctor(ApplianceDoctor val) {
 		this.applianceDoctor.add(val);
+	}
+	
+	public void z_internalAddToBusinessComponent1(BusinessComponent1 val) {
+		this.businessComponent1.add(val);
 	}
 	
 	public void z_internalAddToBusinessNetwork(BusinessNetwork val) {
@@ -633,6 +729,10 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	
 	public void z_internalRemoveFromApplianceDoctor(ApplianceDoctor val) {
 		this.applianceDoctor.remove(val);
+	}
+	
+	public void z_internalRemoveFromBusinessComponent1(BusinessComponent1 val) {
+		this.businessComponent1.remove(val);
 	}
 	
 	public void z_internalRemoveFromBusinessNetwork(BusinessNetwork val) {

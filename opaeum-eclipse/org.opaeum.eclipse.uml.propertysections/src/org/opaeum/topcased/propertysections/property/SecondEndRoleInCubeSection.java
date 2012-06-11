@@ -1,10 +1,18 @@
 package org.opaeum.topcased.propertysections.property;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.TypedElement;
 
 public class SecondEndRoleInCubeSection extends PropertyRoleInCubeSection{
-	protected Property getProperty(){
-		return ((Association) getEObject()).getMemberEnds().get(1);
+	@Override
+	protected TypedElement getTypedElementFrom(EObject object){
+		Association ass = (Association) object;
+		if(ass.getMemberEnds().size() >= 2){
+			return ass.getMemberEnds().get(1);
+		}else{
+			return null;
+		}
 	}
 }

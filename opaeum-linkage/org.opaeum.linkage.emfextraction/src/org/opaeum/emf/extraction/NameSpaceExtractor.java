@@ -285,6 +285,9 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 				}
 			}
 		}
+		if(c.getName().equals("IBusinessService") && c.getPackage().getName().equals("organization")){
+			return true;
+		}
 		return representsUser;
 	}
 	@VisitBefore
