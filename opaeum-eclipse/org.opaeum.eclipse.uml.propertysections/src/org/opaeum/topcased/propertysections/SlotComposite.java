@@ -178,15 +178,16 @@ public class SlotComposite extends Composite{
 		return getChildren().length > 1 ? 1 : 0;
 	}
 	private boolean onlyContainsValuesOfType(final List<Slot> slots,Class<? extends ValueSpecification> c){
+		int count =0;
 		for(Slot slot:slots){
-			slot.getValues();
 			for(ValueSpecification vs:slot.getValues()){
+				count++;
 				if(!c.isInstance(vs)){
 					return false;
 				}
 			}
 		}
-		return true;
+		return count>0;
 	}
 	protected void createBooleanCheckbox(final List<Slot> slots){
 		Boolean booleanValue = slots.get(0).getValues().get(0).booleanValue();

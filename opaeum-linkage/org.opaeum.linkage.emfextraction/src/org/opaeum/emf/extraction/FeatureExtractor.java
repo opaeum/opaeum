@@ -23,12 +23,14 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.bpm.internal.NakedResponsibilityImpl;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedReceptionImpl;
 import org.opaeum.metamodel.components.internal.NakedPortImpl;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opaeum.metamodel.core.internal.NakedOperationImpl;
@@ -95,7 +97,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 	public void visitProperty(Property p,NakedPropertyImpl np){
 		//NB!! the navigability logic needs to sit here as it affects the containment tree
 		boolean navigable = p.isNavigable() || p.isComposite() || p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2;
-		if(p.getOtherEnd() != null){
+		if(p.getOtherEnd() != null && p.getOtherEnd().getType()!=null && p.getType()!=null){//Could be deleting
 			Property opposite = p.getOtherEnd();
 			if(opposite.isComposite()){
 				if(opposite.getType().eClass().equals(UMLPackage.eINSTANCE.getDataType())){
@@ -153,6 +155,8 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		populateMultiplicityAndBaseType(p, p.getType(), np);
 		np.setComposite(p.isComposite());
 		populateProperty(np, p);
+		addAffectedImplementingClassifiers(np);
+
 	}
 	protected void populateProperty(NakedPropertyImpl np,Property p){
 		np.setReadOnly(p.isReadOnly());
@@ -182,6 +186,15 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		for(Behavior b:emfRec.getMethods()){
 			nakedRec.addMethod((INakedBehavior) getNakedPeer(b));
 		}
+		addAffectedImplementingClassifiers(nakedRec);
+	}
+	protected void addAffectedImplementingClassifiers(NakedElementImpl nakedRec){
+		if(nakedRec.getOwnerElement() instanceof INakedInterface){
+			INakedInterface intf = (INakedInterface) nakedRec.getOwnerElement();
+			for(INakedBehavioredClassifier b:intf.getImplementingClassifiers()){
+				addAffectedElement(b);
+			}
+		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(Operation emfOper,NakedOperationImpl nakedOper){
@@ -204,6 +217,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			raisedExceptions.add((INakedClassifier) getNakedPeer(type));
 		}
 		nakedOper.setRaisedExceptions(raisedExceptions);
+		addAffectedImplementingClassifiers(nakedOper);
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParameter(Parameter emfParameter,NakedParameterImpl nakedParameter){

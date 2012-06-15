@@ -168,7 +168,7 @@ public class EnvironmentFactory{
 			return;
 		for(IClassifier c:p.getClassifiers()){
 			if(c instanceof INakedActivity && ((INakedActivity) c).getActivityKind().isSimpleSynchronousMethod()){
-			}else{
+			}else if(c.getName()!=null){
 				env.addElement(c.getName(), c, false);
 			}
 		}

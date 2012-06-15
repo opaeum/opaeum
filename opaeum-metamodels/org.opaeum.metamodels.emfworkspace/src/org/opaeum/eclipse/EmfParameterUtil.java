@@ -56,7 +56,7 @@ public class EmfParameterUtil{
 		List<Property> ownedAttributes = new ArrayList<Property>();
 		Element owner = assEnd.getOwner();
 		if(owner == assEnd.getAssociation() && assEnd.isNavigable()){
-			if(assEnd.getAssociation().getMemberEnds().size() == 2){// Filter Broken Associations a'la Topcased
+			if(assEnd.getAssociation().getMemberEnds().size() == 2 && assEnd.getOtherEnd().getType()!=null){// Filter Broken Associations a'la Topcased
 				addNonInhertiedAttributes(ownedAttributes, (Classifier) assEnd.getOtherEnd().getType());
 			}
 		}else if(owner instanceof Classifier){

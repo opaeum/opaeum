@@ -244,8 +244,7 @@ public final class EmfToOpaeumSynchronizer{
 								// new object
 								o = (EObject) notification.getNewValue();
 								scheduleSynchronization(o);
-							}
-							if(notification.getNotifier() instanceof EObject){
+							}else if(notification.getNotifier() instanceof EObject){
 								o = (EObject) notification.getNotifier();
 								scheduleSynchronization(o);
 							}

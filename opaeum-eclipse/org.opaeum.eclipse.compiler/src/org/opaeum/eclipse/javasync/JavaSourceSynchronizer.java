@@ -40,6 +40,7 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.RootObjectStatus;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.textmetamodel.SourceFolder;
@@ -47,6 +48,7 @@ import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
+import org.opaeum.validation.namegeneration.PersistentNameRegenerator;
 
 public final class JavaSourceSynchronizer implements OpaeumEclipseContextListener{
 	private final IWorkspaceRoot workspace;
@@ -159,18 +161,19 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 			if(clss.size() > 0){
 				process.replaceModel(new OJPackage());
 				process.replaceModel(new TextWorkspace());
-				PersistentNameGenerator png = new PersistentNameGenerator();
 				for(INakedElement ne:clss){
+					PersistentNameRegenerator png = new PersistentNameRegenerator();
 					if(!ne.isMarkedForDeletion()){
 						MappingInfo mappingInfo = ne.getRootObject().getMappingInfo();
 						if(mappingInfo.getPersistentName() == null){
+							ne.getRootObject().setStatus(RootObjectStatus.LINKED);
 							png.visitRecursively(ne.getRootObject());
 						}
 						while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null
 								|| ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
 							ne = (INakedElement) ne.getOwnerElement();
 						}
-						png.visitRecursively(ne);
+						png.visitUpThenDown(ne);
 					}
 				}
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(

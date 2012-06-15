@@ -7,10 +7,11 @@ import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IAttribute;
 
+import org.opaeum.metamodel.commonbehaviors.internal.NakedBehavioredClassifierImpl;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedProperty;
 
-public class NakedAssociationImpl extends NakedClassifierImpl implements INakedAssociation{
+public class NakedAssociationImpl extends NakedBehavioredClassifierImpl implements INakedAssociation{
 	private static final long serialVersionUID = 4136541106305681924L;
 	public static final String META_CLASS = "association";
 	private boolean isDerived = false;

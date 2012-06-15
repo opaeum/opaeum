@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
@@ -15,7 +13,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.uml2.uml.AcceptCallAction;
@@ -58,6 +55,7 @@ import org.eclipse.uml2.uml.IntervalConstraint;
 import org.eclipse.uml2.uml.InvocationAction;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
+import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
@@ -503,8 +501,10 @@ public class OpaeumElementLinker extends EContentAdapter{
 					// Bug in Papyrus leaves dangling properties
 					Association a = (Association) notification.getOldValue();
 					for(Property property:new ArrayList<Property>(a.getMemberEnds())){
-						EList<Property> r = (EList<Property>) property.getOwner().eGet(property.eContainmentFeature());
-						// r.remove(property);
+						if(property.getOwner() != null && property.getOwner()!=notification.getOldValue()){
+							EList<Property> r = (EList<Property>) property.getOwner().eGet(property.eContainmentFeature());
+//							r.remove(property);
+						}
 					}
 				}
 				break;
@@ -712,18 +712,21 @@ public class OpaeumElementLinker extends EContentAdapter{
 		private void synchronizeSlotsOnReferringInstances(Classifier en){
 			Collection<Setting> refs = getRefs(en);
 			for(Setting setting:refs){
-				if(setting.getEObject() instanceof InstanceSpecification){
-					InstanceSpecification eObject = (InstanceSpecification) setting.getEObject();
-					InstanceSpecification instanceSpecification = (InstanceSpecification) eObject;
+				if(setting.getEObject() instanceof EnumerationLiteral){
+					EnumerationLiteral instanceSpecification = (EnumerationLiteral) setting.getEObject();
+					linkGenerals(en, instanceSpecification);
+					synchronizeSlots(instanceSpecification.getEnumeration(), instanceSpecification);
+				}else if(setting.getEObject() instanceof InstanceSpecification){
+					InstanceSpecification instanceSpecification = (InstanceSpecification) setting.getEObject();
 					linkGenerals(en, instanceSpecification);
 					EList<Classifier> classifiers = instanceSpecification.getClassifiers();
 					if(classifiers.size() == 1 && classifiers.get(0).conformsTo(en)){
-						synchronizeSlots(classifiers.get(0), (InstanceSpecification) eObject);
+						synchronizeSlots(classifiers.get(0), instanceSpecification);
 					}
 				}
 			}
 		}
-		private Collection<Setting> getRefs(Classifier en){
+		private Collection<Setting> getRefs(Element en){
 			if(this.crossReferenceAdapter == null){
 				crossReferenceAdapter = ECrossReferenceAdapter.getCrossReferenceAdapter(en);
 			}
@@ -981,7 +984,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			return null;
 		}
 		public EObject caseTypedElement(TypedElement te){
-			switch(notification.getFeatureID(Property.class)){
+			switch(notification.getFeatureID(TypedElement.class)){
 			case UMLPackage.NAMED_ELEMENT__NAME:
 				for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(te).getReferences()){
 					if(e instanceof Pin){
@@ -1001,6 +1004,26 @@ public class OpaeumElementLinker extends EContentAdapter{
 						}
 					}else if(e instanceof Parameter){
 						((Parameter) e).setType(te.getType());
+					}
+				}
+				if(te instanceof Property && !EmfPropertyUtil.isMany(te) && te.getType() != null){
+					Collection<Setting> refs = getRefs(te);
+					for(Setting setting:refs){
+						if(setting.getEObject() instanceof Slot){
+							Slot slot = (Slot) setting.getEObject();
+							boolean isIncorrectType = false;
+							if(slot.getValues().size() == 1 && !(slot.getValues().get(0) instanceof OpaqueExpression)){
+								ValueSpecification vs = slot.getValues().get(0);
+								isIncorrectType = (EmfClassifierUtil.comformsToLibraryType(te.getType(), "Boolean") && !(vs instanceof LiteralBoolean))
+										|| EmfClassifierUtil.comformsToLibraryType(te.getType(), "Integer") && !(vs instanceof LiteralInteger)
+										|| EmfClassifierUtil.comformsToLibraryType(te.getType(), "String") && !(vs instanceof LiteralString);
+							}
+							if(isIncorrectType || slot.getValues().isEmpty()
+									|| (slot.getValues().get(0) instanceof OpaqueExpression && isUnInitialised((OpaqueExpression) slot.getValues().get(0)))){
+								slot.getValues().clear();
+								addSlotValue((Property) te, slot);
+							}
+						}
 					}
 				}
 				break;
@@ -1141,29 +1164,16 @@ public class OpaeumElementLinker extends EContentAdapter{
 				if(a.getType() instanceof Enumeration){
 					// No criterion to choose one - needs to be handled by ui
 				}else{
-					ValueSpecification literal = null;
-					if(!EmfPropertyUtil.isMany(a)){
-						if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Boolean")){
-							literal = UMLFactory.eINSTANCE.createLiteralBoolean();
-						}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Integer")){
-							literal = UMLFactory.eINSTANCE.createLiteralInteger();
-						}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "String")){
-							literal = UMLFactory.eINSTANCE.createLiteralString();
-						}
+					if(a.getType() != null){
+						addSlotValue(a, found);
 					}
-					if(literal == null){
-						literal = UMLFactory.eINSTANCE.createOpaqueExpression();
-						((OpaqueExpression) literal).getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
-						((OpaqueExpression) literal).getLanguages().add("ocl");
-					}
-					found.getValues().add(literal);
 				}
 			}else if(is instanceof EnumerationLiteral && a.getType() instanceof Enumeration){
 				if(found.getOwningInstance() instanceof EnumerationLiteral){
 					for(ValueSpecification vs:new ArrayList<ValueSpecification>(found.getValues())){
 						if(vs instanceof OpaqueExpression){
 							OpaqueExpression oe = (OpaqueExpression) vs;
-							if(oe.getBodies().isEmpty() || oe.getBodies().get(0).equals(EmfValidationUtil.TYPE_EXPRESSION_HERE)){
+							if(isUnInitialised(oe)){
 								// Most likely changed to a many
 								found.getValues().remove(vs);
 							}
@@ -1173,6 +1183,24 @@ public class OpaeumElementLinker extends EContentAdapter{
 					// TODO decide what to do here
 				}
 			}
+		}
+		protected void addSlotValue(Property a,Slot found){
+			ValueSpecification literal = null;
+			if(!EmfPropertyUtil.isMany(a)){
+				if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Boolean")){
+					literal = UMLFactory.eINSTANCE.createLiteralBoolean();
+				}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Integer")){
+					literal = UMLFactory.eINSTANCE.createLiteralInteger();
+				}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "String")){
+					literal = UMLFactory.eINSTANCE.createLiteralString();
+				}
+			}
+			if(literal == null){
+				literal = UMLFactory.eINSTANCE.createOpaqueExpression();
+				((OpaqueExpression) literal).getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
+				((OpaqueExpression) literal).getLanguages().add("ocl");
+			}
+			found.getValues().add(literal);
 		}
 	}
 	public void notifyChanged(final Notification not){
@@ -1234,5 +1262,8 @@ public class OpaeumElementLinker extends EContentAdapter{
 				StereotypesHelper.applyStereotype(ass, st);
 			}
 		}
+	}
+	private static boolean isUnInitialised(OpaqueExpression oe){
+		return oe.getBodies().isEmpty() || oe.getBodies().get(0).equals(EmfValidationUtil.TYPE_EXPRESSION_HERE);
 	}
 }

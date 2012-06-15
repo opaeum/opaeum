@@ -56,6 +56,7 @@ import org.opaeum.metamodel.bpm.internal.NakedBusinessComponentImpl;
 import org.opaeum.metamodel.bpm.internal.NakedBusinessServiceImpl;
 import org.opaeum.metamodel.bpm.internal.NakedBusinessRoleImpl;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedOpaqueBehaviorImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedSignalImpl;
 import org.opaeum.metamodel.components.internal.NakedComponentImpl;
@@ -293,6 +294,9 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore
 	public void visitInterface(Interface i,NakedInterfaceImpl ni){
 		initializeClassifier(ni, i);
+		for(INakedBehavioredClassifier b:ni.getImplementingClassifiers()){
+			addAffectedElement(b);
+		}
 	}
 	@VisitBefore
 	public void visitEnumeration(Enumeration e,NakedEnumerationImpl npt){

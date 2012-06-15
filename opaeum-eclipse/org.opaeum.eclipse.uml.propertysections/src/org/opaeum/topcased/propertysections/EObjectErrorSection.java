@@ -239,6 +239,9 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 		return lbl;
 	}
 	protected String getName(Element element){
+		if(element==null){
+			return "null";
+		}
 		return element instanceof NamedElement ? ((NamedElement) element).getName() : element.eClass().getName();
 	}
 	protected void hide(){
