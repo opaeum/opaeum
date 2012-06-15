@@ -20,14 +20,18 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 	protected void handleModelChanged(Notification msg){
 		Object notifier = msg.getNotifier();
 		if(notifier.equals(safeGetProperty())){
-			if(msg.getFeatureID(Property.class) == UMLPackage.PROPERTY__IS_DERIVED){
-				label.setText(getAppropriateLabelText());
-			}
-			if(msg.getFeatureID(Property.class) != UMLPackage.PROPERTY__DEFAULT_VALUE){
-				if(requiresDefaultValue() && !(safeGetProperty().getDefaultValue() instanceof OpaqueExpression)){
-					createOpaqueExpression();
+			if(label.isDisposed()){
+				removeListener();
+			}else{
+				if(msg.getFeatureID(Property.class) == UMLPackage.PROPERTY__IS_DERIVED){
+					label.setText(getAppropriateLabelText());
 				}
-				super.handleModelChanged(msg);
+				if(msg.getFeatureID(Property.class) != UMLPackage.PROPERTY__DEFAULT_VALUE){
+					if(requiresDefaultValue() && !(safeGetProperty().getDefaultValue() instanceof OpaqueExpression)){
+						createOpaqueExpression();
+					}
+					super.handleModelChanged(msg);
+				}
 			}
 		}
 	}
@@ -35,7 +39,6 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 	public boolean shouldUseExtraSpace(){
 		return true;
 	}
-
 	@Override
 	protected void addListener(){
 		super.addListener();
@@ -58,7 +61,8 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 		oe.setName("abc");
 		oe.getLanguages().add("OCL");
 		oe.getBodies().add(OclBodyComposite.REQUIRED_TEXT);
-		getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), safeGetProperty(), getValueSpecificationFeature(), oe));
+		getEditingDomain().getCommandStack().execute(
+				SetCommand.create(getEditingDomain(), safeGetProperty(), getValueSpecificationFeature(), oe));
 	}
 	@Override
 	protected OpaqueExpression beforeOclChanged(String text){
@@ -92,11 +96,11 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 	}
 	public Property safeGetProperty(){
 		if(getEObject() instanceof Association){
-			Association a=(Association) getEObject();
-			if(a.getMemberEnds().size()<2){
+			Association a = (Association) getEObject();
+			if(a.getMemberEnds().size() < 2){
 				return null;
 			}
-		}			
+		}
 		return getProperty(getEObject());
 	}
 	protected Property getProperty(EObject e){

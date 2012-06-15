@@ -52,6 +52,9 @@ public class JpaUtil{
 		}
 		if(isSchema(ns)){
 			if(ns instanceof INakedPackage){
+				if(ns.getMappingInfo().getPersistentName()==null){
+					System.out.println();
+				}
 				return ns.getMappingInfo().getPersistentName().getAsIs();
 			}else{
 				return ns.getTaggedValue(StereotypeNames.COMPONENT, "schemaName");
@@ -198,6 +201,9 @@ public class JpaUtil{
 			tableName = ((INakedAssociation) p.getAssociation()).getMappingInfo().getPersistentName().toString();
 		}else{
 			INakedClassifier nakedOwner = umlOwner;
+			if(f.getMappingInfo().getPersistentName()==null){
+				System.out.println();
+			}
 			tableName = nakedOwner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName().getWithoutId();
 		}
 		return tableName;

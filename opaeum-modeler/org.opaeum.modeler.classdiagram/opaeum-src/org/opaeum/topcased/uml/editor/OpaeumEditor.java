@@ -59,6 +59,14 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 		public void setFile(IFile umlFile){
 			this.umlFile = umlFile;
 		}
+		@Override
+		public void partActivated(IWorkbenchPart part){
+			setCurrentEditorContext();
+		}
+		@Override
+		public void partBroughtToTop(IWorkbenchPart part){
+			setCurrentEditorContext();
+		}
 	}
 	private Stack<EObject> history = new Stack<EObject>();
 	private MyPartListener partListener;
@@ -107,9 +115,8 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 		try{
 			monitor.beginTask("Saving UML Models", 1000);
 			super.doSave(new SubProgressMonitor(monitor, 500));
-			if(getCurrentContext() != null){
-				getCurrentContext().onSave(new SubProgressMonitor(monitor, 500), getUmlFile((IFileEditorInput) getEditorInput()));
-			}
+			OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(getUmlFile((IFileEditorInput) getEditorInput()).getParent());
+			ctx.onSave(new SubProgressMonitor(monitor, 500), getUmlFile((IFileEditorInput) getEditorInput()));
 		}finally{
 			monitor.done();
 		}
@@ -158,6 +165,9 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 	public void refreshOutline(){
 		// Called when this editor's tab has been selected
 		super.refreshOutline();
+		setCurrentEditorContext();
+	}
+	public void setCurrentEditorContext(){
 		IFileEditorInput f = getFileEditorInput(getEditorInput());
 		OpaeumEclipseContext.setCurrentContext(getContext(f));
 		OpaeumEclipseContext.getCurrentContext().setCurrentEditContext(getEditingDomain(), getUmlFile(f), this);
@@ -166,7 +176,7 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 		IContainer umlDir = fe.getFile().getParent();
 		IFile umlFile = getUmlFile(fe);
 		OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlDir);
-		if(result != null){
+		if(result != null && getEditingDomain() != null){
 			getPartListener().setFile(umlFile);
 			if(result.isSyncronizingWith(umlFile)){
 				result.setCurrentEditContext(getEditingDomain(), umlFile, this);

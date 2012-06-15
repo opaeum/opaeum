@@ -42,6 +42,7 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf{
 			impl.setContract(nakedParent);
 			impl.setIndex(child.getInterfaceRealizations().indexOf(r));
 		}
+		addAffectedElement(nakedChild);
 	}
 	@Override
 	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
@@ -85,5 +86,6 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf{
 				ptw.setRepresentedSupertype(representedSupertype);
 			}
 		}
+		addAffectedElement(nakedChild);
 	}
 }

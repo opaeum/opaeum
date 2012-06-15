@@ -72,6 +72,9 @@ public class OpaeumEclipseContext{
 		private Status status;
 		private LoadEditingDomainJob(String name,EditingDomain domain,IFile file){
 			super(name);
+			if(domain==null){
+				throw new NullPointerException();
+			}
 			this.domain = domain;
 			this.file = file;
 		}
@@ -226,7 +229,7 @@ public class OpaeumEclipseContext{
 		seteObjectSelectorUI(eObjectSelectorUI);
 		setCurrentContext(this);
 		this.currentOpenFile = file;
-		OpenUmlFile editingContext = openUmlFiles.get(rs.getResourceSet());
+		OpenUmlFile editingContext = openUmlFiles.get(file);
 		if(editingContext != null){
 			getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(editingContext.getEmfWorkspace());
 			// could still be loading

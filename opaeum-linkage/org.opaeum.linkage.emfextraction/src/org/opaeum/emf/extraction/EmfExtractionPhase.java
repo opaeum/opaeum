@@ -54,7 +54,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	private OpaeumConfig config;
 	private List<AbstractExtractorFromEmf> extractors;
 	private INakedPackage getNakedPackage(Package emfModel){
-		return (INakedPackage) modelWorkspace.getModelElement(emfWorkspace.getId(emfModel));
+		return (INakedPackage) modelWorkspace.getModelElement(EmfWorkspace.getId(emfModel));
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<EObject> elements){

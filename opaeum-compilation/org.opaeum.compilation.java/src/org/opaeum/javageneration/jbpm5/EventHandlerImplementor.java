@@ -289,6 +289,9 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		if(OJUtil.hasOJClass(o.getOwner()) && !o.isQuery()){
 			if(o.isMarkedForDeletion()){
 				String qualifiedJavaName = o.getMappingInfo().getOldQualifiedJavaName();
+				if(qualifiedJavaName==null){
+					System.out.println();
+				}
 				qualifiedJavaName = qualifiedJavaName.substring(0, qualifiedJavaName.lastIndexOf("."));
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(qualifiedJavaName.toLowerCase() + "." + getOldInvokerName(o)));
 			}else{

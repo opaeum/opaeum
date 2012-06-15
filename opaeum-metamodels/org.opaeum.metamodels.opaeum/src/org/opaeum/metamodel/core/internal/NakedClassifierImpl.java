@@ -103,7 +103,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 					boolean compositionSame = p.isComposite() == ap.isComposite() && p.getOtherEnd() != null
 							&& p.getOtherEnd().isComposite() == ap.getOtherEnd().isComposite();
 					if(compositionSame && p.getMultiplicity().getUpper() == ap.getMultiplicity().getUpper()
-							&& p.getBaseType().equals(ap.getBaseType())){
+							&& p.getBaseType()!=null && p.getBaseType().equals(ap.getBaseType())){
 						removeOwnedElement(ap, true);
 						if(ap == endToComposite){
 							endToComposite = p;

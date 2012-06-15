@@ -32,10 +32,6 @@ public final class SynchronizationProcessRunner extends Job{
 	}
 	public IStatus run(final IProgressMonitor monitor){
 		try{
-			// TODO pass the OpenUmlFile along and get the EditingDomain there - double check with Topcased
-			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
-			EditingDomain editingDomain = currentContext.getEditingDomain();
-			// editingDomain.getCommandStack().execute(
 			new AbstractCommand(){
 				@Override
 				public boolean canExecute(){

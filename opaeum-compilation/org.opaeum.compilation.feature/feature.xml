@@ -19,7 +19,6 @@ from the Opaeum Metamodel to the various implementation platforms.
    </license>
 
    <requires>
-      <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.opaeum.transformation.engine"/>
@@ -34,7 +33,7 @@ from the Opaeum Metamodel to the various implementation platforms.
       <import plugin="org.opaeum.metamodels.drools"/>
       <import plugin="org.opaeum.metamodels.emfworkspace"/>
       <import plugin="org.opaeum.linkage.emfextraction"/>
-      <import plugin="org.opaeum.metamodels.uim"/>
+      <import plugin="org.eclipse.swt"/>
       <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
       <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
    </requires>
