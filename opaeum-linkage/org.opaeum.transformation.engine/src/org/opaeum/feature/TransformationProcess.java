@@ -260,6 +260,9 @@ public class TransformationProcess{
 		}
 	}
 	public synchronized void replaceModel(Object model){
+		if(model==null){
+			System.out.println();
+		}
 		removeModel(model.getClass());
 		this.models.add(model);
 	}

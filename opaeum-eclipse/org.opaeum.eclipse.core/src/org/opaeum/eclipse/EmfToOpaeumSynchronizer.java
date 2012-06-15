@@ -207,6 +207,13 @@ public final class EmfToOpaeumSynchronizer{
 	public class OpaeumContentAdaptor extends EContentAdapter{
 		@Override
 		public void notifyChanged(final Notification notification){
+			if(notification.getNotifier() instanceof ResourceSet && notification.getNewValue() instanceof UMLResource){
+				EcoreUtil.resolveAll((UMLResource) notification.getNewValue());
+				resourcesBeingLoaded.add((UMLResource) notification.getNewValue());
+
+				System.out.println(notification.getFeatureID(ResourceSet.class));
+			}
+			System.out.println(notification.getNotifier());
 			if(!suspended && resourcesBeingLoaded.isEmpty()){
 				linker.notifyChanged(notification);
 			}
@@ -282,10 +289,11 @@ public final class EmfToOpaeumSynchronizer{
 		}
 	}
 	public void manageResourceEvent(final Notification notification){
-		if(notification.getNewValue() instanceof Package && notification.getFeatureID(UMLResource.class) == UMLResource.RESOURCE__CONTENTS){
+		int featureID = notification.getFeatureID(UMLResource.class);
+		if(notification.getNewValue() instanceof Package && featureID == UMLResource.RESOURCE__CONTENTS){
 			this.resourcesBeingLoaded.add((UMLResource) notification.getNotifier());
 			EcoreUtil.resolveAll((UMLResource) notification.getNotifier());
-		}else if(notification.getFeatureID(UMLResource.class) == UMLResource.RESOURCE__IS_LOADED && notification.getNewBooleanValue() == true){
+		}else if(featureID == UMLResource.RESOURCE__IS_LOADED && notification.getNewBooleanValue() == true){
 			// Do this synchronously
 			this.resourcesLoaded.add((UMLResource) notification.getNotifier());
 			if(resourcesLoaded.containsAll(resourcesBeingLoaded)){

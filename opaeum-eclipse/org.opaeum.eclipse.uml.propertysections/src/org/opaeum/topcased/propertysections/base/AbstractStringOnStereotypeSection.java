@@ -19,8 +19,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.eclipse.commands.ApplyProfileCommand;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
@@ -44,7 +47,14 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPr
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		this.stereotype = ProfileApplier.getAppliedProfile(getElement(getEObject()).getModel(), getProfileName()).getOwnedStereotype(getStereotypeName());
+		Element element = getElement(getEObject());
+		Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
+		if(p == null){
+			Package pkg = element.getModel() == null ? element.getNearestPackage() : element.getModel();
+			getEditingDomain().getCommandStack().execute(
+					new ApplyProfileCommand(pkg, p=ProfileApplier.getProfile(element, getProfileName()), false));
+		}
+		this.stereotype = p.getOwnedStereotype(getStereotypeName());
 		this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
 	}
 	@Override
@@ -76,7 +86,7 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPr
 	protected void createWidgets(Composite composite){
 		super.createWidgets(composite);
 		this.label = getWidgetFactory().createLabel(composite, getLabelText());
-		this.text = new TextViewer(composite, SWT.BORDER | SWT.FLAT| SWT.SINGLE).getTextWidget();
+		this.text = new TextViewer(composite, SWT.BORDER | SWT.FLAT | SWT.SINGLE).getTextWidget();
 		TextChangeListener textChangeListener = new TextChangeListener(){
 			@Override
 			public void textChanged(Control control){

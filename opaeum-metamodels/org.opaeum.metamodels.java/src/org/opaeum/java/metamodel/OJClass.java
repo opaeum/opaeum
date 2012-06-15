@@ -105,6 +105,9 @@ public class OJClass extends OJClassGEN {
 	public String toJavaString(){
 		this.calcImports();
 		StringBuilder classInfo = new StringBuilder();
+		if(getMyPackage()==null){
+			System.out.println();
+		}
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());

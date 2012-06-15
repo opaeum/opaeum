@@ -95,6 +95,9 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	public String toJavaString(){
 		calcImports();
 		StringBuilder classInfo = new StringBuilder();
+		if(getMyPackage()==null){
+			System.out.println();
+		}
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());

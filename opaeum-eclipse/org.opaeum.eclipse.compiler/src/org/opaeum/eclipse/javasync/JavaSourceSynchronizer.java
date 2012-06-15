@@ -57,6 +57,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	private IJavaModel javaWorkspace;
 	private Set<INakedElement> nakedUmlChanges = new HashSet<INakedElement>();
 	private NamespaceRenameRequests namespaceRenameRequests = new NamespaceRenameRequests();
+	private boolean synchronizing = false;
 	public JavaSourceSynchronizer(OpaeumEclipseContext ne,TransformationProcess process){
 		this.process = process;
 		ne.addContextListener(this);
@@ -68,23 +69,28 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	}
 	@Override
 	public void onSave(IProgressMonitor monit){
-		new Job("Synchronizing Java sources"){
-			public IStatus run(IProgressMonitor monitor){
-				try{
-					monitor.beginTask("Synchronizing Java sources", 1000);
-					if(context.isOpen() && context.getAutoSync()){
-						process.replaceModel(context.getCurrentEmfWorkspace());
-						renamePackages(new SubProgressMonitor(monitor, 500));
-						synchronizeClasses(new SubProgressMonitor(monitor, 500));
+		if(!synchronizing){
+			//Papyrus calls the save listener multiple times - we need to ensure that concurrent multiple instances of the job do interfere with each other
+			synchronizing = true;
+			new Job("Synchronizing Java sources"){
+				public IStatus run(IProgressMonitor monitor){
+					try{
+						monitor.beginTask("Synchronizing Java sources", 1000);
+						if(context.isOpen() && context.getAutoSync()){
+							process.replaceModel(context.getCurrentEmfWorkspace());
+							renamePackages(new SubProgressMonitor(monitor, 500));
+							synchronizeClasses(new SubProgressMonitor(monitor, 500));
+						}
+						return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Sources Synchronized");
+					}catch(Exception e){
+						return new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Sources NOT Synchronized", e);
+					}finally{
+						synchronizing=false;
+						monitor.done();
 					}
-					return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Sources Synchronized");
-				}catch(Exception e){
-					return new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Sources NOT Synchronized", e);
-				}finally{
-					monitor.done();
 				}
-			}
-		}.schedule();
+			}.schedule();
+		}
 	}
 	public static boolean hasNewJavaSourceFolders(IWorkspaceRoot workspace,TextWorkspace tws){
 		try{

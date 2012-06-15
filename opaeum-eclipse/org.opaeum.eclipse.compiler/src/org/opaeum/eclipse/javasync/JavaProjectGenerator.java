@@ -86,7 +86,10 @@ public final class JavaProjectGenerator extends Job{
 			Activator.getDefault().getLog().log(error);
 			return error;
 		}finally{
-			process.findModel(OJWorkspace.class).release();
+			OJWorkspace javaWorkspace = process.findModel(OJWorkspace.class);
+			if(javaWorkspace != null){
+				javaWorkspace.release();
+			}
 			process.removeModel(OJWorkspace.class);
 			process.removeModel(TextWorkspace.class);
 			monitor.done();
@@ -119,8 +122,8 @@ public final class JavaProjectGenerator extends Job{
 		}
 		return result;
 	}
-	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,OpaeumEclipseContext currentContext,boolean cleanDirectories)
-			throws CoreException{
+	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,OpaeumEclipseContext currentContext,
+			boolean cleanDirectories) throws CoreException{
 		try{
 			monitor.beginTask("Updating resources", 1000);
 			TextWorkspace textWorkspace = p.findModel(TextWorkspace.class);
@@ -138,8 +141,8 @@ public final class JavaProjectGenerator extends Job{
 			}
 			monitor.setTaskName("Refreshing Projects");
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			//clients expect synchronous execution
-			new JavaProjectGenerator(currentContext.getConfig(), p, root). run(new SubProgressMonitor(monitor, 500));
+			// clients expect synchronous execution
+			new JavaProjectGenerator(currentContext.getConfig(), p, root).run(new SubProgressMonitor(monitor, 500));
 		}finally{
 			monitor.done();
 		}

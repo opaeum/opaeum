@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityEdge;
@@ -13,6 +14,7 @@ import org.eclipse.uml2.uml.ControlFlow;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.ObjectFlow;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.linkage.ActivityValidationRule;
@@ -47,7 +49,13 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 				return null;
 			}
 		}else if(e instanceof ActivityEdge){
-			if(((ActivityEdge) e).getSource() == null || ((ActivityEdge) e).getTarget() == null){
+			ActivityNode source = ((ActivityEdge) e).getSource();
+			if(source.eContainer()==null){
+				Resource eResource = source.eResource();
+				Resource eResource2 = e.eResource();
+				System.out.println(EmfWorkspace.getId(e));
+			}
+			if(source == null || ((ActivityEdge) e).getTarget() == null){
 				getErrorMap().putError(getId(e), ActivityValidationRule.ACTIVITY_EDGE_BROKEN);
 				return null;
 			}else{
