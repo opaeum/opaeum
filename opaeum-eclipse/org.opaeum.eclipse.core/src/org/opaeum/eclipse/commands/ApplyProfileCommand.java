@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.ProfileApplication;
@@ -27,7 +28,8 @@ public class ApplyProfileCommand extends AbstractCommand{
 				umlPackage.applyProfile(profile);
 			}else{
 				for(ProfileApplication pa:umlPackage.getProfileApplications()){
-					if(pa.getAppliedProfile().equals(profile) && !pa.getAppliedDefinition().equals(profile.getDefinition())){
+					EPackage appliedDefinition = pa.getAppliedDefinition();
+					if(pa.getAppliedProfile().equals(profile) && !appliedDefinition.equals(profile.getDefinition())){
 						umlPackage.applyProfile(profile);
 						break;
 					}

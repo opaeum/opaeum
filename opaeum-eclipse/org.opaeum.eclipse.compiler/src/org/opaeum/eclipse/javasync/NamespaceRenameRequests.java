@@ -8,6 +8,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.opaeum.eclipse.OpaeumSynchronizationListener;
 import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedNameSpace;
@@ -53,7 +54,7 @@ public class NamespaceRenameRequests implements OpaeumSynchronizationListener, O
 		
 	}
 	@Override
-	public void onSave(IProgressMonitor monitor){
+	public void onSave(IProgressMonitor monitor, OpenUmlFile f){
 	}
 	@Override
 	public void onClose(boolean save){

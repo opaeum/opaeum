@@ -5,7 +5,7 @@ import org.opaeum.eclipse.OpaeumSynchronizationListener;
 
 public interface OpaeumEclipseContextListener extends OpaeumSynchronizationListener{
 
-	void onSave(IProgressMonitor monitor);
+	void onSave(IProgressMonitor monitor, OpenUmlFile file);
 
 	void onClose(boolean save);
 }

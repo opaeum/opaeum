@@ -50,11 +50,6 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 			}
 		}else if(e instanceof ActivityEdge){
 			ActivityNode source = ((ActivityEdge) e).getSource();
-			if(source.eContainer()==null){
-				Resource eResource = source.eResource();
-				Resource eResource2 = e.eResource();
-				System.out.println(EmfWorkspace.getId(e));
-			}
 			if(source == null || ((ActivityEdge) e).getTarget() == null){
 				getErrorMap().putError(getId(e), ActivityValidationRule.ACTIVITY_EDGE_BROKEN);
 				return null;

@@ -26,9 +26,9 @@ Require-Bundle: org.opaeum.rap.dependencies,
  org.opaeum.demo.models,
  org.opaeum.metamodels.opaeum,
  org.opaeum.metamodels.uim
+ 
 Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
  javax.servlet.http;version="[2.3.0,4.0.0)"
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

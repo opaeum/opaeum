@@ -210,10 +210,7 @@ public final class EmfToOpaeumSynchronizer{
 			if(notification.getNotifier() instanceof ResourceSet && notification.getNewValue() instanceof UMLResource){
 				EcoreUtil.resolveAll((UMLResource) notification.getNewValue());
 				resourcesBeingLoaded.add((UMLResource) notification.getNewValue());
-
-				System.out.println(notification.getFeatureID(ResourceSet.class));
 			}
-			System.out.println(notification.getNotifier());
 			if(!suspended && resourcesBeingLoaded.isEmpty()){
 				linker.notifyChanged(notification);
 			}

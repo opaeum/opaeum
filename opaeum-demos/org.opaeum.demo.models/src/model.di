@@ -15,13 +15,10 @@
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
-          <emfPageIdentifier href="model.notation#_OxKCAKTaEeG48eECPCZVwg"/>
+          <emfPageIdentifier href="model.notation#_P_PnsKWIEeGXk9e39uOxnQ"/>
         </children>
         <children>
           <emfPageIdentifier href="model.notation#_UoEbILO5EeGFNe0f-IC7hw"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="model.notation#_P_PnsKWIEeGXk9e39uOxnQ"/>
         </children>
       </children>
     </windows>

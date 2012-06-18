@@ -97,8 +97,6 @@ public class AxisEntryDimensionBindingSection extends AbstractChooserPropertySec
 			for(DimensionNode dimensionNode:input){
 				if(!(isInUse(dimensionNode, c.getColumnAxis()) || isInUse(dimensionNode, c.getRowAxis()))){
 					DimensionBinding dimensionBinding = dimensionNode.linkToInnermostDetail().toDimensionBinding();
-					System.out.println(dimensionBinding.toString());
-					System.out.println(dimensionNode.toString());
 					nodes.put(dimensionBinding, dimensionNode);
 				}
 			}

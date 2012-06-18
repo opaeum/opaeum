@@ -98,7 +98,8 @@ public class UimStartup implements IStartup{
 				}
 				try{
 					IViewPart view = workbenchWindow.getActivePage().findView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
-					if(view == null || !workbenchWindow.getActivePage().isPartVisible(view)){
+					boolean isPartVisible = workbenchWindow.getActivePage().isPartVisible(view);
+					if(view == null){
 						workbenchWindow.getActivePage().showView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
 					}
 				}catch(PartInitException e1){

@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -36,10 +37,13 @@ import org.opaeum.audit.AuditMe;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
+import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
@@ -57,7 +61,7 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="Person_iBusinessRole_1")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+public class Person_iBusinessRole_1 implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Embedded
 	@AttributeOverrides(	{
 		@AttributeOverride(column=
@@ -65,6 +69,8 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		@AttributeOverride(column=
 			@Column(name="business_role_type"),name="classIdentifier")})
 	private InterfaceValue businessRole = new InterfaceValue();
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -76,6 +82,8 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
 	@Transient
@@ -163,6 +171,10 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		return result;
 	}
 	
+	public Set<CancelledEvent> getCancelledEvents() {
+		return this.cancelledEvents;
+	}
+	
 	public Date getDeletedOn() {
 		return this.deletedOn;
 	}
@@ -177,6 +189,10 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	
 	public int getObjectVersion() {
 		return this.objectVersion;
+	}
+	
+	public Set<OutgoingEvent> getOutgoingEvents() {
+		return this.outgoingEvents;
 	}
 	
 	public CompositionNode getOwningObject() {
@@ -286,6 +302,10 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		}
 	}
 	
+	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
+		this.cancelledEvents=cancelledEvents;
+	}
+	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
 	}
@@ -296,6 +316,10 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	
 	public void setObjectVersion(int objectVersion) {
 		this.objectVersion=objectVersion;
+	}
+	
+	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
+		this.outgoingEvents=outgoingEvents;
 	}
 	
 	public void setRepresentedPerson(PersonNode representedPerson) {

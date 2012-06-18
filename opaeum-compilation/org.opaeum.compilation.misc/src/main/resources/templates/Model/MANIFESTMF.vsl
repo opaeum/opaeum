@@ -3,21 +3,29 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ${config.mavenGroupId}.${workspace.identifier}.webapp
 Bundle-SymbolicName: ${config.mavenGroupId}.${workspace.identifier}.webapp;singleton:=true
 Bundle-Version: 1.0.0
-Require-Bundle: org.eclipse.rap.rms.data,
+Require-Bundle: org.opaeum.rap.dependencies,
+ org.opaeum.rap.domain,
+ org.opaeum.rap.hibernate,
+ org.opaeum.rap.runtime,
  org.eclipse.rap.ui.forms,
  org.eclipse.core.runtime,
  org.eclipse.rap.ui.views,
+ org.opaeum.rap.jpa,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
  org.eclipse.rap.jface.databinding,
  org.eclipse.rap.rwt,
  org.eclipse.rap.jface,
  org.eclipse.rap.ui,
- org.opaeum.rap.domain,
- org.opaeum.rap.hibernate,
- org.opaeum.rap.jpa,
- org.opaeum.rap.runtime,
- org.junit;bundle-version="4.8.2"
+ org.junit,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.transformation.engine,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.uml2.uml,
+ org.opaeum.linkage.emfextraction,
+ org.opaeum.demo.models,
+ org.opaeum.metamodels.opaeum,
+ org.opaeum.metamodels.uim
  
 Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
  javax.servlet.http;version="[2.3.0,4.0.0)"

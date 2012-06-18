@@ -15,7 +15,9 @@ public abstract class OpaeumChooserPropertySection extends AbstractChooserProper
 		return labelCombo;
 	}
 	public void refresh(){
-		super.refresh();
-		decorator.refresh();
+		if(getEObject().eContainer() != null){//Hack - eclipse calls refresh even if the object was deleted
+			super.refresh();
+			decorator.refresh();
+		}
 	}
 }

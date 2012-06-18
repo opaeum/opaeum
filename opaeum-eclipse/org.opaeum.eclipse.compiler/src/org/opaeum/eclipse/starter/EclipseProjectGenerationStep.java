@@ -2,6 +2,7 @@ package org.opaeum.eclipse.starter;
 
 import java.io.ByteArrayInputStream;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -99,8 +100,13 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 	@VisitBefore()
 	public void visitTextFile(TextFile tf) throws CoreException{
 		IProject project = root.getProject(tf.getParent().getSourceFolder().getParent().getName());
-		IFolder folder = project.getFolder(tf.getParent().getRelativePath());
-		IFile file = folder.getFile(tf.getName());
+		IFile file ;
+		if(tf.getParent() instanceof SourceFolder && tf.getParent().getName().equals("")){
+			file =project.getFile(tf.getName());
+		}else{
+			IFolder folder = project.getFolder(tf.getParent().getRelativePath());
+			file = folder.getFile(tf.getName());
+		}
 		if(file.exists()){
 			if(tf.hasContent()){
 				file.setContents(getContents(tf), true, false, null);

@@ -65,8 +65,143 @@
 
 
 
+
+
+
+<Cube name="Activity">
+<Table name="activity"/>
+<Dimension foreignKey="job_id" name="job.customerAssistant.branch.dishwashersInc:ApplianceDoctor">
+<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
+<Join leftKey="customer_assistant_id" rightAlias="customer_assistant" rightKey="id">
+<Table name="job"/>
+<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
+<Table name="customer_assistant"/>
+<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
+<Table name="branch"/>
+<Table name="appliance_doctor"/>
+</Join>
+</Join>
+</Join>
+<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
+<Level column="id" name="Branch" nameColumn="name" table="branch"/>
+<Level column="id" name="CustomerAssistant" nameColumn="uuid" table="customer_assistant"/>
+<Level column="id" name="Job" nameColumn="uuid" table="job"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="technician_id" name="technician.branch.city.province:Province">
+<Hierarchy allMemberName="All Technicians" hasAll="true" primaryKey="id" primaryKeyTable="technician">
+<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
+<Table name="technician"/>
+<Join leftKey="city" rightAlias="city" rightKey="id">
+<Table name="branch"/>
+<Join leftKey="province" rightAlias="province" rightKey="id">
+<Table name="city"/>
+<Table name="province"/>
+</Join>
+</Join>
+</Join>
+<Level column="id" name="Province" nameColumn="name" table="province"/>
+<Level column="id" name="City" nameColumn="name" table="city"/>
+<Level column="id" name="Branch" nameColumn="name" table="branch"/>
+<Level column="id" name="Technician" nameColumn="uuid" table="technician"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="technician_id" name="technician.branch.dishwashersInc:ApplianceDoctor">
+<Hierarchy allMemberName="All Technicians" hasAll="true" primaryKey="id" primaryKeyTable="technician">
+<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
+<Table name="technician"/>
+<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
+<Table name="branch"/>
+<Table name="appliance_doctor"/>
+</Join>
+</Join>
+<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
+<Level column="id" name="Branch" nameColumn="name" table="branch"/>
+<Level column="id" name="Technician" nameColumn="uuid" table="technician"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="job_id" name="job.customerAssistant.branch.city.province:Province">
+<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
+<Join leftKey="customer_assistant_id" rightAlias="customer_assistant" rightKey="id">
+<Table name="job"/>
+<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
+<Table name="customer_assistant"/>
+<Join leftKey="city" rightAlias="city" rightKey="id">
+<Table name="branch"/>
+<Join leftKey="province" rightAlias="province" rightKey="id">
+<Table name="city"/>
+<Table name="province"/>
+</Join>
+</Join>
+</Join>
+</Join>
+<Level column="id" name="Province" nameColumn="name" table="province"/>
+<Level column="id" name="City" nameColumn="name" table="city"/>
+<Level column="id" name="Branch" nameColumn="name" table="branch"/>
+<Level column="id" name="CustomerAssistant" nameColumn="uuid" table="customer_assistant"/>
+<Level column="id" name="Job" nameColumn="uuid" table="job"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="job_id" name="job.branch.city.province:Province">
+<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
+<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
+<Table name="job"/>
+<Join leftKey="city" rightAlias="city" rightKey="id">
+<Table name="branch"/>
+<Join leftKey="province" rightAlias="province" rightKey="id">
+<Table name="city"/>
+<Table name="province"/>
+</Join>
+</Join>
+</Join>
+<Level column="id" name="Province" nameColumn="name" table="province"/>
+<Level column="id" name="City" nameColumn="name" table="city"/>
+<Level column="id" name="Branch" nameColumn="name" table="branch"/>
+<Level column="id" name="Job" nameColumn="uuid" table="job"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="date_of_work" name="dateOfWork:DateTime">
+<Hierarchy allMemberName="All Dates" hasAll="true">
+<Table name="date_time_entry"/>
+<Level column="year" levelType="TimeYears" name="Year" table="date_time_entry" type="Numeric"/>
+<Level column="quarter" levelType="TimeQuarters" name="Quarter" table="date_time_entry" type="Numeric"/>
+<Level column="month_of_year" levelType="TimeMonths" name="MonthOfYear" table="date_time_entry" type="Numeric"/>
+<Level column="day_of_month" levelType="TimeDays" name="DayOfMonth" table="date_time_entry" type="Numeric"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="job_id" name="job.branch.dishwashersInc:ApplianceDoctor">
+<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
+<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
+<Table name="job"/>
+<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
+<Table name="branch"/>
+<Table name="appliance_doctor"/>
+</Join>
+</Join>
+<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
+<Level column="id" name="Branch" nameColumn="name" table="branch"/>
+<Level column="id" name="Job" nameColumn="uuid" table="job"/>
+</Hierarchy>
+</Dimension>
+<Measure aggregator="sum" column="duration_in_hours" formatString="Standard" name="SumOfDurationInHours"/>
+<Measure aggregator="avg" column="duration_in_hours" formatString="Standard" name="AverageOfDurationInHours"/>
+<Measure aggregator="sum" column="cost_to_customer" formatString="Standard" name="SumOfCostToCustomer"/>
+<Measure aggregator="avg" column="cost_to_customer" formatString="Standard" name="AverageOfCostToCustomer"/>
+<Measure aggregator="sum" column="cost_to_company" formatString="Standard" name="SumOfCostToCompany"/>
+<Measure aggregator="avg" column="cost_to_company" formatString="Standard" name="AverageOfCostToCompany"/>
+</Cube>
 <Cube name="Job">
 <Table name="job"/>
+<Dimension foreignKey="branch_id" name="branch.dishwashersInc:ApplianceDoctor">
+<Hierarchy allMemberName="All Branchs" hasAll="true" primaryKey="id" primaryKeyTable="branch">
+<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
+<Table name="branch"/>
+<Table name="appliance_doctor"/>
+</Join>
+<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
+<Level column="id" name="Branch" nameColumn="name" table="branch"/>
+</Hierarchy>
+</Dimension>
 <Dimension foreignKey="customer_assistant_id" name="customerAssistant.branch.dishwashersInc:ApplianceDoctor">
 <Hierarchy allMemberName="All Customer assistants" hasAll="true" primaryKey="id" primaryKeyTable="customer_assistant">
 <Join leftKey="branch_id" rightAlias="branch" rightKey="id">
@@ -113,16 +248,6 @@
 <Level column="id" name="Branch" nameColumn="name" table="branch"/>
 </Hierarchy>
 </Dimension>
-<Dimension foreignKey="branch_id" name="branch.dishwashersInc:ApplianceDoctor">
-<Hierarchy allMemberName="All Branchs" hasAll="true" primaryKey="id" primaryKeyTable="branch">
-<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
-<Table name="branch"/>
-<Table name="appliance_doctor"/>
-</Join>
-<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
-<Level column="id" name="Branch" nameColumn="name" table="branch"/>
-</Hierarchy>
-</Dimension>
 <Measure aggregator="sum" column="total_cost" formatString="Standard" name="SumOfTotalCost"/>
 <Measure aggregator="avg" column="total_cost" formatString="Standard" name="AverageOfTotalCost"/>
 <Measure aggregator="sum" column="cost_to_company" formatString="Standard" name="SumOfCostToCompany"/>
@@ -130,185 +255,8 @@
 <Measure aggregator="avg" column="time_in_hours" formatString="Standard" name="AverageOfTimeInHours"/>
 <Measure aggregator="sum" column="time_in_hours" formatString="Standard" name="SumOfTimeInHours"/>
 </Cube>
-<Cube name="Activity">
-<Table name="activity"/>
-<Dimension foreignKey="job_id" name="job.customerAssistant.branch.city.province:Province">
-<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
-<Join leftKey="customer_assistant_id" rightAlias="customer_assistant" rightKey="id">
-<Table name="job"/>
-<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
-<Table name="customer_assistant"/>
-<Join leftKey="city" rightAlias="city" rightKey="id">
-<Table name="branch"/>
-<Join leftKey="province" rightAlias="province" rightKey="id">
-<Table name="city"/>
-<Table name="province"/>
-</Join>
-</Join>
-</Join>
-</Join>
-<Level column="id" name="Province" nameColumn="name" table="province"/>
-<Level column="id" name="City" nameColumn="name" table="city"/>
-<Level column="id" name="Branch" nameColumn="name" table="branch"/>
-<Level column="id" name="CustomerAssistant" nameColumn="uuid" table="customer_assistant"/>
-<Level column="id" name="Job" nameColumn="uuid" table="job"/>
-</Hierarchy>
-</Dimension>
-<Dimension foreignKey="technician_id" name="technician.branch.city.province:Province">
-<Hierarchy allMemberName="All Technicians" hasAll="true" primaryKey="id" primaryKeyTable="technician">
-<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
-<Table name="technician"/>
-<Join leftKey="city" rightAlias="city" rightKey="id">
-<Table name="branch"/>
-<Join leftKey="province" rightAlias="province" rightKey="id">
-<Table name="city"/>
-<Table name="province"/>
-</Join>
-</Join>
-</Join>
-<Level column="id" name="Province" nameColumn="name" table="province"/>
-<Level column="id" name="City" nameColumn="name" table="city"/>
-<Level column="id" name="Branch" nameColumn="name" table="branch"/>
-<Level column="id" name="Technician" nameColumn="uuid" table="technician"/>
-</Hierarchy>
-</Dimension>
-<Dimension foreignKey="job_id" name="job.customerAssistant.branch.dishwashersInc:ApplianceDoctor">
-<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
-<Join leftKey="customer_assistant_id" rightAlias="customer_assistant" rightKey="id">
-<Table name="job"/>
-<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
-<Table name="customer_assistant"/>
-<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
-<Table name="branch"/>
-<Table name="appliance_doctor"/>
-</Join>
-</Join>
-</Join>
-<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
-<Level column="id" name="Branch" nameColumn="name" table="branch"/>
-<Level column="id" name="CustomerAssistant" nameColumn="uuid" table="customer_assistant"/>
-<Level column="id" name="Job" nameColumn="uuid" table="job"/>
-</Hierarchy>
-</Dimension>
-<Dimension foreignKey="job_id" name="job.branch.dishwashersInc:ApplianceDoctor">
-<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
-<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
-<Table name="job"/>
-<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
-<Table name="branch"/>
-<Table name="appliance_doctor"/>
-</Join>
-</Join>
-<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
-<Level column="id" name="Branch" nameColumn="name" table="branch"/>
-<Level column="id" name="Job" nameColumn="uuid" table="job"/>
-</Hierarchy>
-</Dimension>
-<Dimension foreignKey="technician_id" name="technician.branch.dishwashersInc:ApplianceDoctor">
-<Hierarchy allMemberName="All Technicians" hasAll="true" primaryKey="id" primaryKeyTable="technician">
-<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
-<Table name="technician"/>
-<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
-<Table name="branch"/>
-<Table name="appliance_doctor"/>
-</Join>
-</Join>
-<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
-<Level column="id" name="Branch" nameColumn="name" table="branch"/>
-<Level column="id" name="Technician" nameColumn="uuid" table="technician"/>
-</Hierarchy>
-</Dimension>
-<Dimension foreignKey="job_id" name="job.branch.city.province:Province">
-<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
-<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
-<Table name="job"/>
-<Join leftKey="city" rightAlias="city" rightKey="id">
-<Table name="branch"/>
-<Join leftKey="province" rightAlias="province" rightKey="id">
-<Table name="city"/>
-<Table name="province"/>
-</Join>
-</Join>
-</Join>
-<Level column="id" name="Province" nameColumn="name" table="province"/>
-<Level column="id" name="City" nameColumn="name" table="city"/>
-<Level column="id" name="Branch" nameColumn="name" table="branch"/>
-<Level column="id" name="Job" nameColumn="uuid" table="job"/>
-</Hierarchy>
-</Dimension>
-<Dimension foreignKey="date_of_work" name="dateOfWork:DateTime">
-<Hierarchy allMemberName="All Dates" hasAll="true">
-<Table name="date_time_entry"/>
-<Level column="year" levelType="TimeYears" name="Year" table="date_time_entry" type="Numeric"/>
-<Level column="quarter" levelType="TimeQuarters" name="Quarter" table="date_time_entry" type="Numeric"/>
-<Level column="month_of_year" levelType="TimeMonths" name="MonthOfYear" table="date_time_entry" type="Numeric"/>
-<Level column="day_of_month" levelType="TimeDays" name="DayOfMonth" table="date_time_entry" type="Numeric"/>
-</Hierarchy>
-</Dimension>
-<Measure aggregator="sum" column="duration_in_hours" formatString="Standard" name="SumOfDurationInHours"/>
-<Measure aggregator="avg" column="duration_in_hours" formatString="Standard" name="AverageOfDurationInHours"/>
-<Measure aggregator="sum" column="cost_to_customer" formatString="Standard" name="SumOfCostToCustomer"/>
-<Measure aggregator="avg" column="cost_to_customer" formatString="Standard" name="AverageOfCostToCustomer"/>
-<Measure aggregator="sum" column="cost_to_company" formatString="Standard" name="SumOfCostToCompany"/>
-<Measure aggregator="avg" column="cost_to_company" formatString="Standard" name="AverageOfCostToCompany"/>
-</Cube>
 <Cube name="ApplianceComponentSale">
 <Table name="appliance_component_sale"/>
-<Dimension foreignKey="job_id" name="job.customerAssistant.branch.dishwashersInc:ApplianceDoctor">
-<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
-<Join leftKey="customer_assistant_id" rightAlias="customer_assistant" rightKey="id">
-<Table name="job"/>
-<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
-<Table name="customer_assistant"/>
-<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
-<Table name="branch"/>
-<Table name="appliance_doctor"/>
-</Join>
-</Join>
-</Join>
-<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
-<Level column="id" name="Branch" nameColumn="name" table="branch"/>
-<Level column="id" name="CustomerAssistant" nameColumn="uuid" table="customer_assistant"/>
-<Level column="id" name="Job" nameColumn="uuid" table="job"/>
-</Hierarchy>
-</Dimension>
-<Dimension foreignKey="job_id" name="job.branch.dishwashersInc:ApplianceDoctor">
-<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
-<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
-<Table name="job"/>
-<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
-<Table name="branch"/>
-<Table name="appliance_doctor"/>
-</Join>
-</Join>
-<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
-<Level column="id" name="Branch" nameColumn="name" table="branch"/>
-<Level column="id" name="Job" nameColumn="uuid" table="job"/>
-</Hierarchy>
-</Dimension>
-<Dimension foreignKey="date_of_sale" name="dateOfSale:DateTime">
-<Hierarchy allMemberName="All Dates" hasAll="true">
-<Table name="date_time_entry"/>
-<Level column="year" levelType="TimeYears" name="Year" table="date_time_entry" type="Numeric"/>
-<Level column="quarter" levelType="TimeQuarters" name="Quarter" table="date_time_entry" type="Numeric"/>
-<Level column="month_of_year" levelType="TimeMonths" name="MonthOfYear" table="date_time_entry" type="Numeric"/>
-<Level column="day_of_month" levelType="TimeDays" name="DayOfMonth" table="date_time_entry" type="Numeric"/>
-</Hierarchy>
-</Dimension>
-<Dimension foreignKey="appliance_component_id" name="applianceComponent.appliance.applianceDoctor:ApplianceDoctor">
-<Hierarchy allMemberName="All Appliance components" hasAll="true" primaryKey="id" primaryKeyTable="appliance_component">
-<Join leftKey="appliance_id" rightAlias="appliance_model" rightKey="id">
-<Table name="appliance_component"/>
-<Join leftKey="appliance_doctor_id" rightAlias="appliance_doctor" rightKey="id">
-<Table name="appliance_model"/>
-<Table name="appliance_doctor"/>
-</Join>
-</Join>
-<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
-<Level column="id" name="ApplianceModel" nameColumn="name" table="appliance_model"/>
-<Level column="id" name="ApplianceComponent" nameColumn="uuid" table="appliance_component"/>
-</Hierarchy>
-</Dimension>
 <Dimension foreignKey="job_id" name="job.branch.city.province:Province">
 <Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
 <Join leftKey="branch_id" rightAlias="branch" rightKey="id">
@@ -324,6 +272,24 @@
 <Level column="id" name="Province" nameColumn="name" table="province"/>
 <Level column="id" name="City" nameColumn="name" table="city"/>
 <Level column="id" name="Branch" nameColumn="name" table="branch"/>
+<Level column="id" name="Job" nameColumn="uuid" table="job"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="job_id" name="job.customerAssistant.branch.dishwashersInc:ApplianceDoctor">
+<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
+<Join leftKey="customer_assistant_id" rightAlias="customer_assistant" rightKey="id">
+<Table name="job"/>
+<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
+<Table name="customer_assistant"/>
+<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
+<Table name="branch"/>
+<Table name="appliance_doctor"/>
+</Join>
+</Join>
+</Join>
+<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
+<Level column="id" name="Branch" nameColumn="name" table="branch"/>
+<Level column="id" name="CustomerAssistant" nameColumn="uuid" table="customer_assistant"/>
 <Level column="id" name="Job" nameColumn="uuid" table="job"/>
 </Hierarchy>
 </Dimension>
@@ -360,6 +326,43 @@
 <Level column="id" name="City" nameColumn="name" table="city"/>
 <Level column="id" name="Branch" nameColumn="name" table="branch"/>
 <Level column="id" name="CustomerAssistant" nameColumn="uuid" table="customer_assistant"/>
+<Level column="id" name="Job" nameColumn="uuid" table="job"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="date_of_sale" name="dateOfSale:DateTime">
+<Hierarchy allMemberName="All Dates" hasAll="true">
+<Table name="date_time_entry"/>
+<Level column="year" levelType="TimeYears" name="Year" table="date_time_entry" type="Numeric"/>
+<Level column="quarter" levelType="TimeQuarters" name="Quarter" table="date_time_entry" type="Numeric"/>
+<Level column="month_of_year" levelType="TimeMonths" name="MonthOfYear" table="date_time_entry" type="Numeric"/>
+<Level column="day_of_month" levelType="TimeDays" name="DayOfMonth" table="date_time_entry" type="Numeric"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="appliance_component_id" name="applianceComponent.appliance.applianceDoctor:ApplianceDoctor">
+<Hierarchy allMemberName="All Appliance components" hasAll="true" primaryKey="id" primaryKeyTable="appliance_component">
+<Join leftKey="appliance_id" rightAlias="appliance_model" rightKey="id">
+<Table name="appliance_component"/>
+<Join leftKey="appliance_doctor_id" rightAlias="appliance_doctor" rightKey="id">
+<Table name="appliance_model"/>
+<Table name="appliance_doctor"/>
+</Join>
+</Join>
+<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
+<Level column="id" name="ApplianceModel" nameColumn="name" table="appliance_model"/>
+<Level column="id" name="ApplianceComponent" nameColumn="uuid" table="appliance_component"/>
+</Hierarchy>
+</Dimension>
+<Dimension foreignKey="job_id" name="job.branch.dishwashersInc:ApplianceDoctor">
+<Hierarchy allMemberName="All Jobs" hasAll="true" primaryKey="id" primaryKeyTable="job">
+<Join leftKey="branch_id" rightAlias="branch" rightKey="id">
+<Table name="job"/>
+<Join leftKey="dishwashers_inc_id" rightAlias="appliance_doctor" rightKey="id">
+<Table name="branch"/>
+<Table name="appliance_doctor"/>
+</Join>
+</Join>
+<Level column="id" name="ApplianceDoctor" nameColumn="name" table="appliance_doctor"/>
+<Level column="id" name="Branch" nameColumn="name" table="branch"/>
 <Level column="id" name="Job" nameColumn="uuid" table="job"/>
 </Hierarchy>
 </Dimension>

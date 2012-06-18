@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_7vHXkLkpEeGPU4u_bLx6fA" umlElementUid="model.uml@_iEtO4LkpEeGPU4u_bLx6fA" name="Class4 User Interface Model" linkedUmlResource="model.uml">
+  <primaryEditor xmi:id="_7vHXkbkpEeGPU4u_bLx6fA" umlElementUid="model.uml@_iEtO4LkpEeGPU4u_bLx6fA" name="Edit Class4"><actionBar xmi:id="_7vHXlLkpEeGPU4u_bLx6fA" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_7vHXlbkpEeGPU4u_bLx6fA" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_7vHXlrkpEeGPU4u_bLx6fA" name="Delete" kind="delete"/>
+      <children xmi:type="uact:OperationButton" xmi:id="_7vHXl7kpEeGPU4u_bLx6fA" name="Operation1" umlElementUid="model.uml@_ke1H8LkpEeGPU4u_bLx6fA">
+        <popup xmi:id="_7vHXmLkpEeGPU4u_bLx6fA">
+          <pages xmi:id="_7vHXmbkpEeGPU4u_bLx6fA" name="Operation1" umlElementUid="model.uml@_ke1H8LkpEeGPU4u_bLx6fA">
+            <panel xmi:type="panel:GridPanel" xmi:id="_7vHXmrkpEeGPU4u_bLx6fA" numberOfColumns="1"/>
+          </pages>
+        </popup>
+      </children>
+    </actionBar><pages xmi:id="_7vHXkrkpEeGPU4u_bLx6fA" name="Edit Class4" umlElementUid="model.uml@_iEtO4LkpEeGPU4u_bLx6fA">
+      <panel xmi:type="panel:GridPanel" xmi:id="_7vHXk7kpEeGPU4u_bLx6fA" numberOfColumns="1"/>
+    </pages></primaryEditor>
+  <newObjectWizard xmi:id="_7vHXm7kpEeGPU4u_bLx6fA" name="Create Class4" umlElementUid="model.uml@_iEtO4LkpEeGPU4u_bLx6fA">
+    <pages xmi:id="_7vHXnLkpEeGPU4u_bLx6fA" name="CreateClass4" umlElementUid="model.uml@_iEtO4LkpEeGPU4u_bLx6fA">
+      <panel xmi:type="panel:GridPanel" xmi:id="_7vHXnbkpEeGPU4u_bLx6fA" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</uim:ClassUserInteractionModel>

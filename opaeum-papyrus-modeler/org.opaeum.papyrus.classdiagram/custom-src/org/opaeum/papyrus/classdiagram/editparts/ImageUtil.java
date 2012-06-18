@@ -187,7 +187,6 @@ public class ImageUtil{
 		double imgAspectRatio=imgBounds.width/(double)imgBounds.height;
 		double figureAspectRatio=f.getBounds().width/(double)(f.getBounds().height-labelHeight);
 		Rectangle bnds = f.getBounds().getCopy();
-		System.out.println();
 		if(imgAspectRatio<figureAspectRatio){
 			int width = (int)(imgAspectRatio*(bnds.height-labelHeight));
 			bnds.x=bnds.x+ (bnds.width-width)/2;

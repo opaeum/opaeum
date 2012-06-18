@@ -501,9 +501,9 @@ public class OpaeumElementLinker extends EContentAdapter{
 					// Bug in Papyrus leaves dangling properties
 					Association a = (Association) notification.getOldValue();
 					for(Property property:new ArrayList<Property>(a.getMemberEnds())){
-						if(property.getOwner() != null && property.getOwner()!=notification.getOldValue()){
+						if(property.getOwner() != null && property.getOwner() != notification.getOldValue()){
 							EList<Property> r = (EList<Property>) property.getOwner().eGet(property.eContainmentFeature());
-//							r.remove(property);
+							// r.remove(property);
 						}
 					}
 				}
@@ -1204,22 +1204,25 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 	}
 	public void notifyChanged(final Notification not){
-		if(not.getNotifier() instanceof Element){
-			EmfUmlElementLinker emfUmlElementLinker = new EmfUmlElementLinker(not);
-			emfUmlElementLinker.doSwitch((Element) not.getNotifier());
-		}else if(not.getNotifier() instanceof EAnnotation){
-			switch(not.getFeatureID(EAnnotation.class)){
-			case EcorePackage.EANNOTATION__CONTENTS:
-				if(not.getNewValue() instanceof TimeEvent){
-					EAnnotation eAnnotation = (EAnnotation) not.getNotifier();
-					TimeEvent te = (TimeEvent) not.getNewValue();
-					Element eModelElement = (Element) eAnnotation.getEModelElement();
-					applyStereotypeIfNecessary(eModelElement, te, StereotypeNames.DEADLINE, StereotypeNames.OPAEUM_BPM_PROFILE);
-					applyRelativeTimeEventStereotype(te, eModelElement);
+		if(not.getEventType() == Notification.ADD || not.getEventType() == Notification.ADD_MANY || not.getEventType() == Notification.REMOVE
+				|| not.getEventType() == Notification.REMOVE_MANY || not.getEventType() == Notification.SET){
+			if(not.getNotifier() instanceof Element){
+				EmfUmlElementLinker emfUmlElementLinker = new EmfUmlElementLinker(not);
+				emfUmlElementLinker.doSwitch((Element) not.getNotifier());
+			}else if(not.getNotifier() instanceof EAnnotation){
+				switch(not.getFeatureID(EAnnotation.class)){
+				case EcorePackage.EANNOTATION__CONTENTS:
+					if(not.getNewValue() instanceof TimeEvent){
+						EAnnotation eAnnotation = (EAnnotation) not.getNotifier();
+						TimeEvent te = (TimeEvent) not.getNewValue();
+						Element eModelElement = (Element) eAnnotation.getEModelElement();
+						applyStereotypeIfNecessary(eModelElement, te, StereotypeNames.DEADLINE, StereotypeNames.OPAEUM_BPM_PROFILE);
+						applyRelativeTimeEventStereotype(te, eModelElement);
+					}
+					break;
+				default:
+					break;
 				}
-				break;
-			default:
-				break;
 			}
 		}
 	}

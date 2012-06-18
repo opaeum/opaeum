@@ -1,8 +1,10 @@
 package org.opaeum.uml2uim;
 
 import java.io.IOException;
+import java.util.HashMap;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -18,9 +20,10 @@ public class SynchronizeAction extends AbstractUimGenerationAction{
 	}
 	public static void doSynchronize(Element modelElement,EmfWorkspace workspace){
 		try{
-			ResourceSet uimResourceSet = new ResourceSetImpl();
+			ResourceSetImpl uimResourceSet = new ResourceSetImpl();
 			FormSynchronizer fs = new FormSynchronizer(workspace, uimResourceSet, false);
 			fs.visitRecursively(modelElement);
+			UimSynchronizationPhase.save(workspace.getDirectoryUri(), uimResourceSet);
 			DiagramSynchronizer ds = new DiagramSynchronizer(workspace, uimResourceSet, false);
 			ds.visitRecursively(modelElement);
 			UimSynchronizationPhase.save(workspace.getDirectoryUri(), uimResourceSet);

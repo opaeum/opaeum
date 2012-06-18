@@ -76,7 +76,6 @@ public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.p
 									super.paint(graphics);
 									ImageUtil.paintBackgroundSvgImage(graphics, this, "images/BusinessComponent.svg");
 								}
-								
 							};
 							primaryShape = imageFigure;
 							return primaryShape;
@@ -97,7 +96,7 @@ public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.p
 				case ModelNameEditPartTN.VISUAL_ID:
 					return new ModelNameEditPartTN(view);
 				case EnumerationEditPart.VISUAL_ID:
-					return new EnumerationEditPart(view);
+					return new OpaeumEnumerationEditPart(view);
 				case EnumerationNameEditPart.VISUAL_ID:
 					return new EnumerationNameEditPart(view);
 				case PackageEditPart.VISUAL_ID:

@@ -18,9 +18,6 @@ public class AbstractTextNodeVisitor extends VisitorAdapter<TextOutputNode,TextW
 	}
 	@Override
 	public Collection<? extends TextOutputNode> getChildren(TextOutputNode root){
-		if(root==null){
-			System.out.println();
-		}
 		if(root.shouldDelete()){
 			return Collections.emptySet();
 		}else if(root instanceof TextWorkspace){

@@ -11,6 +11,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
@@ -44,7 +45,8 @@ public class OperationButtonOperationSection extends OpaeumChooserPropertySectio
 		Collection<Operation> results = new ArrayList<Operation>();
 		if(getEObject() instanceof OperationButton){
 			OperationButton oa = getOperationAction();
-			results.addAll(UmlUimLinks.getCurrentUmlLinks(oa).getNearestClass(oa).getAllOperations());
+			Classifier nearestClass = UmlUimLinks.getCurrentUmlLinks(oa).getNearestClass(oa);
+			results.addAll(nearestClass.getAllOperations());
 		}
 		return getActionOperations(results);
 	}

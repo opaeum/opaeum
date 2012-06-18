@@ -18,21 +18,17 @@ public class CreateAbstractActionBarDiagramCommand extends AbstractPapyrusGmfCre
 	private String name;
 	@Override
 	protected String getDefaultDiagramName(){
-		System.out.println("CreateAbstractActionBarDiagramCommand.getDefaultDiagramName()");
 		return "Action Bar";
 	}
 	@Override
 	protected String getDiagramNotationID(){
-		System.out.println("CreateAbstractActionBarDiagramCommand.getDiagramNotationID()");
 		return AbstractEditorEditPart.MODEL_ID;
 	}
 	@Override
 	protected PreferencesHint getPreferenceHint(){
-		System.out.println("CreateAbstractActionBarDiagramCommand.getPreferenceHint()");
 		return UimDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT;
 	}
 	protected void initializeDiagram(EObject diagram){
-		System.out.println("CreateAbstractActionBarDiagramCommand.initializeDiagram()");
 		if(diagram instanceof Diagram){
 			Diagram diag = (Diagram) diagram;
 			if(editor != null){
@@ -43,7 +39,6 @@ public class CreateAbstractActionBarDiagramCommand extends AbstractPapyrusGmfCre
 		}
 	}
 	private void createView(Diagram diagram){
-		System.out.println("CreateAbstractActionBarDiagramCommand.createView()");
 		ViewService.getInstance().createView(Node.class, new EObjectAdapter(editor), diagram, null, ViewUtil.APPEND, true, getPreferenceHint());
 	}
 	/**
@@ -53,7 +48,6 @@ public class CreateAbstractActionBarDiagramCommand extends AbstractPapyrusGmfCre
 	}
 	@Override
 	protected Diagram createDiagram(Resource diagramResource,EObject owner,String name){
-		System.out.println("CreateAbstractActionBarDiagramCommand.createDiagram()");
 		Diagram diagram = null;
 		editor = (AbstractEditor) owner;
 		diagram = ViewService.createDiagram(editor, getDiagramNotationID(), getPreferenceHint());
@@ -67,18 +61,15 @@ public class CreateAbstractActionBarDiagramCommand extends AbstractPapyrusGmfCre
 		return diagram;
 	}
 	protected void setName(String newName){
-		System.out.println("CreateAbstractActionBarDiagramCommand.setName()");
 		if(newName == null || newName.equals(name)){
 			return;
 		}
 		name = newName;
 	}
 	protected String getName(){
-		System.out.println("CreateAbstractActionBarDiagramCommand.getName()");
 		return name;
 	}
 	public boolean isParentReassignable(){
-		System.out.println("CreateAbstractActionBarDiagramCommand.isParentReassignable()");
 		return false;
 	}
 }

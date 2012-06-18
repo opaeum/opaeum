@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -37,10 +38,13 @@ import org.opaeum.audit.AuditMe;
 import org.opaeum.hibernate.domain.CascadingInterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
+import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
@@ -58,7 +62,7 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="BusinessNetworkFacilatatesCollaboration")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class BusinessNetworkFacilatatesCollaboration implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+public class BusinessNetworkFacilatatesCollaboration implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Cascade(value=org.hibernate.annotations.CascadeType.ALL)
 	@Embedded
 	@AttributeOverrides(	{
@@ -71,6 +75,8 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="business_network_id",nullable=true)
 	private BusinessNetwork businessNetwork;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -82,6 +88,8 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
 	@Transient
@@ -190,6 +198,10 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		return result;
 	}
 	
+	public Set<CancelledEvent> getCancelledEvents() {
+		return this.cancelledEvents;
+	}
+	
 	public Date getDeletedOn() {
 		return this.deletedOn;
 	}
@@ -204,6 +216,10 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	
 	public int getObjectVersion() {
 		return this.objectVersion;
+	}
+	
+	public Set<OutgoingEvent> getOutgoingEvents() {
+		return this.outgoingEvents;
 	}
 	
 	public CompositionNode getOwningObject() {
@@ -316,6 +332,10 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		}
 	}
 	
+	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
+		this.cancelledEvents=cancelledEvents;
+	}
+	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
 	}
@@ -326,6 +346,10 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	
 	public void setObjectVersion(int objectVersion) {
 		this.objectVersion=objectVersion;
+	}
+	
+	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
+		this.outgoingEvents=outgoingEvents;
 	}
 	
 	public void setUid(String newUid) {

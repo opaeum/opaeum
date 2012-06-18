@@ -40,26 +40,28 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	public static boolean isJpa2 = false;
 	@VisitBefore(matchSubclasses = true)
 	public void visitEnumeration(INakedEnumeration e){
-		// TODO do something similar for interfaces, even without
-		if(e.getCodeGenerationStrategy().isAll()){
-			OJAnnotatedClass clss = new OJAnnotatedClass(e.getName() + "Entity");
-			JpaUtil.addEntity(clss);
-			JpaUtil.buildTableAnnotation(clss, e.getMappingInfo().getPersistentName().getAsIs(), config);
-			clss.setSuperclass(new OJPathName("org.opaeum.audit.AbstractPersistentEnum"));
-			findOrCreatePackage(OJUtil.packagePathname(e.getNameSpace())).addToClasses(clss);
-			clss.getDefaultConstructor();
-			createTextPath(clss, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
-			OJConstructor constr = new OJConstructor();
-			constr.addParam("e", OJUtil.classifierPathname(e));
-			constr.getBody().addToStatements("super(e)");
-			clss.addToConstructors(constr);
-			for(INakedProperty p:e.getOwnedAttributes()){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
-				if(map.isOne()){
-					constr.getBody().addToStatements("this." + map.fieldname() + "=e." + map.getter() + "()");
-					OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
-					clss.addToFields(field);
-					mapXToOne(map, clss);
+		if(!e.isMarkedForDeletion()){
+			// TODO do something similar for interfaces, even without
+			if(e.getCodeGenerationStrategy().isAll()){
+				OJAnnotatedClass clss = new OJAnnotatedClass(e.getName() + "Entity");
+				JpaUtil.addEntity(clss);
+				JpaUtil.buildTableAnnotation(clss, e.getMappingInfo().getPersistentName().getAsIs(), config);
+				clss.setSuperclass(new OJPathName("org.opaeum.audit.AbstractPersistentEnum"));
+				findOrCreatePackage(OJUtil.packagePathname(e.getNameSpace())).addToClasses(clss);
+				clss.getDefaultConstructor();
+				createTextPath(clss, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+				OJConstructor constr = new OJConstructor();
+				constr.addParam("e", OJUtil.classifierPathname(e));
+				constr.getBody().addToStatements("super(e)");
+				clss.addToConstructors(constr);
+				for(INakedProperty p:e.getOwnedAttributes()){
+					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
+					if(map.isOne()){
+						constr.getBody().addToStatements("this." + map.fieldname() + "=e." + map.getter() + "()");
+						OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
+						clss.addToFields(field);
+						mapXToOne(map, clss);
+					}
 				}
 			}
 		}
@@ -69,6 +71,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		if(isPersistent(complexType) && OJUtil.hasOJClass(complexType)){
 			buildToString(ojClass, complexType);
 			NameWrapper persistentName = complexType.getMappingInfo().getPersistentName();
+
 			OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, persistentName.getAsIs(), this.config, complexType.getNameSpace());
 			if(complexType instanceof INakedEntity){
 				OJAnnotationAttributeValue uniqueConstraints = buildUniqueConstraintAnnotations((INakedEntity) complexType);
@@ -137,7 +140,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()){
 				JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
 				if(!config.shouldBeCm1Compatible()){
-					jpaIdStrategy=new Jpa2IdTable();
+					jpaIdStrategy = new Jpa2IdTable();
 				}
 				JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
 				if(complexType instanceof INakedEntity){
@@ -154,7 +157,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 							setId.addParam("i", new OJPathName("Long"));
 							ojClass.addToOperations(setId);
 						}
-						
 					}else if(primaryKeyProperties.size() > 1){
 						OJAnnotatedClass cls = new OJAnnotatedClass(ojClass.getName() + "Id");
 						ojClass.getMyPackage().addToClasses(cls);

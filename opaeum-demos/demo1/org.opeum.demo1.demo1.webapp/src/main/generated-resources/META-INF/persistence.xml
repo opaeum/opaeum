@@ -14,8 +14,8 @@
 		<class>org.opaeum.runtime.bpm.request.ProcessRequest</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar</class>
 		<class>org.opaeum.runtime.bpm.request.TaskRequest</class>
-		<class>org.opaeum.runtime.bpm.organization.BusinessNetwork</class>
 		<class>org.opaeum.runtime.bpm.contact.PhysicalAddress</class>
+		<class>org.opaeum.runtime.bpm.organization.BusinessNetwork</class>
 		<class>org.opaeum.runtime.bpm.request.AbstractRequest</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday</class>
 		<class>org.opaeum.runtime.bpm.organization.Organization_iBusinessComponent_1</class>
@@ -43,6 +43,7 @@
 		<class>structuredbusiness.ApplianceComponentSale</class>
 		<class>org.opaeum.runtime.bpm.organization.PersonNode</class>
 		<class>structuredbusiness.Manager</class>
+		<class>model.MyBusiness</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.Duration</class>
 		<class>org.opaeum.runtime.bpm.request.ParticipationInRequest</class>
 		<class>org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeEntity</class>
@@ -50,9 +51,11 @@
 		<class>structuredbusiness.CustomerAssistant</class>
 		<class>org.opaeum.runtime.bpm.organization.Person_iBusinessRole_1</class>
 		<class>structuredbusiness.ApplianceComponent</class>
+		<class>model.Class2</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.CronExpression</class>
 		<class>structuredbusiness.ApplianceModel</class>
 		<class>org.opaeum.runtime.bpm.contact.PostalAddress</class>
+		<class>model.Class1</class>
 		<class>structuredbusiness.Job</class>
 		<class>structuredbusiness.Supplier</class>
 		<class>org.opaeum.runtime.bpm.organization.BusinessNetworkFacilatatesCollaboration</class>

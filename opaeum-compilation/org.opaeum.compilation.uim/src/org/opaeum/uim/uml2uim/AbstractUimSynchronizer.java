@@ -1,5 +1,6 @@
 package org.opaeum.uim.uml2uim;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,14 +61,8 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 		formUri = formUri.appendSegment(formId);
 		formUri = formUri.appendFileExtension(extenstion);
 		Resource resource = null;
-		try{
-			resource = uimRst.getResource(formUri, true);
-			resource.load(new HashMap<Object,Object>());
-		}catch(Exception e){
-			try{
-				resource.delete(new HashMap<Object,Object>());
-			}catch(Exception e2){
-			}
+		resource = uimRst.getResource(formUri, false);
+		if(resource == null){
 			resource = uimRst.createResource(formUri);
 		}
 		links = new UmlUimLinks(resource, workspace);

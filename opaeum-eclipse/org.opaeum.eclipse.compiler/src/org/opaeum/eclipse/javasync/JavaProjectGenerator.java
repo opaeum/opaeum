@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -19,6 +20,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
@@ -29,8 +32,13 @@ import org.opaeum.feature.TransformationProcess;
 import org.opaeum.filegeneration.TextFileDeleter;
 import org.opaeum.filegeneration.TextFileGenerator;
 import org.opaeum.java.metamodel.OJWorkspace;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.pomgeneration.PomGenerationPhase;
+import org.opaeum.rap.RapCapabilities;
+import org.opaeum.rap.RapProjectBuilder;
 import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -56,25 +64,15 @@ public final class JavaProjectGenerator extends Job{
 				eclipseGen.initialize(workspace, cfg);
 				List<SourceFolder> sourceFolders = new ArrayList<SourceFolder>();
 				List<IProject> eclipseProjects = new ArrayList<IProject>();
-				for(TextProject tp:tws.getTextProjects()){
-					eclipseProjects.add(eclipseGen.visitProject(tp));
-					for(SourceFolder sourceFolder:tp.getSourceFolders()){
-						sourceFolders.add(sourceFolder);
-					}
-					monitor.worked(20 / tws.getTextProjects().size());
-				}
+				createEclipseProjects(monitor, tws, eclipseGen, sourceFolders, eclipseProjects);
 				monitor.subTask("Writing Java sources");
-				for(SourceFolder sourceFolder:sourceFolders){
-					eclipseGen.visitSourceFolder(sourceFolder);
-					monitor.worked(20 / sourceFolders.size());
-				}
-				if(hasNewJavaSourceFolders && cfg.generateMavenPoms()){
-					PomGenerationPhase pgp = process.getPhase(PomGenerationPhase.class);
-					pgp.getParentPom().getProject().getModules().getModule().clear();
-					pgp.getParentPom().getProject().getModules().getModule().addAll(determineMavenModules());
-					pgp.outputToFile(pgp.getParentPom());
-					runMaven(cfg.getOutputRoot());
-					monitor.worked(20);
+				createEclipseFoldersForSourceFolders(monitor, eclipseGen, sourceFolders);
+				if(hasNewJavaSourceFolders){
+					if(cfg.generateMavenPoms()){
+						prepareParentPomAndRunMavenEclipseEclipse(monitor);
+					}else if(cfg.getAdditionalTransformationSteps().contains(RapCapabilities.class)){
+						generatePluginProjectArtifactsAndRefresh(monitor, tws, eclipseGen, eclipseProjects);
+					}
 				}
 				for(IProject iProject:eclipseProjects){
 					iProject.refreshLocal(IProject.DEPTH_INFINITE, monitor);
@@ -95,6 +93,58 @@ public final class JavaProjectGenerator extends Job{
 			monitor.done();
 		}
 		return new Status(IStatus.OK, Activator.PLUGIN_ID, "Java projects generated Successfully");
+	}
+	public void generatePluginProjectArtifactsAndRefresh(IProgressMonitor monitor,TextWorkspace tws,EclipseProjectGenerationStep eclipseGen,
+			List<IProject> eclipseProjects) throws JavaModelException,CoreException{
+		RapProjectBuilder rpb = new RapProjectBuilder();
+		for(IProject iProject:eclipseProjects){
+			IJavaProject jp = JavaCore.create(iProject);
+			IPackageFragmentRoot[] allPackageFragmentRoots = jp.getPackageFragmentRoots();
+			TextProject textProject = tws.findTextProject(iProject.getName());
+			for(IPackageFragmentRoot r:allPackageFragmentRoots){
+				if(!r.isArchive()){
+					String strings = r.getCorrespondingResource().getProjectRelativePath().toString();
+					textProject.findOrCreateSourceFolder(strings, false);
+				}
+			}
+		}
+		INakedModelWorkspace mws = process.findModel(INakedModelWorkspace.class);
+		rpb.initialize(cfg, tws, mws);
+		rpb.beforeWorkspace(mws);
+		Set<TextOutputNode> textFiles = rpb.getTextFiles();
+		for(TextOutputNode textOutputNode:textFiles){
+			eclipseGen.visitTextFile((TextFile) textOutputNode);
+		}
+		for(IProject iProject:eclipseProjects){
+			iProject.refreshLocal(IProject.DEPTH_INFINITE, monitor);
+		}
+	}
+	public void prepareParentPomAndRunMavenEclipseEclipse(IProgressMonitor monitor) throws JavaModelException,IOException,
+			InterruptedException{
+		PomGenerationPhase pgp = process.getPhase(PomGenerationPhase.class);
+		pgp.getParentPom().getProject().getModules().getModule().clear();
+		pgp.getParentPom().getProject().getModules().getModule().addAll(determineMavenModules());
+		pgp.outputToFile(pgp.getParentPom());
+		runMaven(cfg.getOutputRoot());
+		monitor.worked(20);
+	}
+	public void createEclipseFoldersForSourceFolders(IProgressMonitor monitor,EclipseProjectGenerationStep eclipseGen,
+			List<SourceFolder> sourceFolders) throws CoreException{
+		for(SourceFolder sourceFolder:sourceFolders){
+			eclipseGen.visitSourceFolder(sourceFolder);
+			monitor.worked(20 / sourceFolders.size());
+		}
+	}
+	public void createEclipseProjects(IProgressMonitor monitor,TextWorkspace tws,EclipseProjectGenerationStep eclipseGen,
+			List<SourceFolder> sourceFolders,List<IProject> eclipseProjects){
+		// Create Eclipse projects
+		for(TextProject tp:tws.getTextProjects()){
+			eclipseProjects.add(eclipseGen.visitProject(tp));
+			for(SourceFolder sourceFolder:tp.getSourceFolders()){
+				sourceFolders.add(sourceFolder);
+			}
+			monitor.worked(20 / tws.getTextProjects().size());
+		}
 	}
 	public static void runMaven(File outputRoot) throws JavaModelException,IOException,InterruptedException{
 		JavaCore.setClasspathVariable("M2_REPO", new Path(System.getProperty("user.home") + "/.m2/repository"), null);

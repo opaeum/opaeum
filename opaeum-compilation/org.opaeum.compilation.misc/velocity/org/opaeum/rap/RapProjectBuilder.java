@@ -1,6 +1,7 @@
 package org.opaeum.rap;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.opaeum.bootstrap.AbstractBootstrapStep;
 import org.opaeum.bootstrap.BootstrapGenerationPhase;
@@ -9,6 +10,8 @@ import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 
 @StepDependency(phase = BootstrapGenerationPhase.class)
@@ -21,10 +24,10 @@ public class RapProjectBuilder extends AbstractBootstrapStep{
 		SourceFolder sf = getSourceFolder(config.getSourceFolderDefinition(TextSourceFolderIdentifier.WEB_PROJECT_ROOT));
 		vars.put("project", sf.getParent());
 		ISourceFolderIdentifier outputRootId=TextSourceFolderIdentifier.WEB_PROJECT_ROOT;
-//		processTemplate(workspace, "templates/Model/RapProjectXml.vsl", ".project", outputRootId, vars);
-//		processTemplate(workspace, "templates/Model/MANIFESTMF.vsl", "META-INF/MANIFEST.MF", outputRootId, vars);
-//		processTemplate(workspace, "templates/Model/RapProjectClasspath.vsl", ".classpath", outputRootId, vars);
-//		processTemplate(workspace, "templates/Model/RapLaunch.vsl", workspace.getName() +".launch", outputRootId, vars);
-//		processTemplate(workspace, "templates/Model/RapBuildProperties.vsl", "build.properties", outputRootId, vars);
+		processTemplate(workspace, "templates/Model/RapProjectXml.vsl", ".project", outputRootId, vars);
+		processTemplate(workspace, "templates/Model/MANIFESTMF.vsl", "META-INF/MANIFEST.MF", outputRootId, vars);
+		processTemplate(workspace, "templates/Model/RapProjectClasspath.vsl", ".classpath", outputRootId, vars);
+		processTemplate(workspace, "templates/Model/RapLaunch.vsl", workspace.getName() +".launch", outputRootId, vars);
+		processTemplate(workspace, "templates/Model/RapBuildProperties.vsl", "build.properties", outputRootId, vars);
 	}
 }

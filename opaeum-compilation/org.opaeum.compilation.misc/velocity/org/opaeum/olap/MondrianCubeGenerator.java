@@ -447,10 +447,6 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 				if(p.getNakedBaseType() instanceof ICompositionParticipant || p.getNakedBaseType() instanceof INakedEnumeration){
 					masterHasMaster = addDimensions(p.getNakedBaseType(), master, leaves);
 				}
-				// System.out.println(cp.getName());
-				// System.out.println(p.getName());
-				// System.out.println(master.getName());
-				// System.out.println(leaves.size());
 				if(master.hasRecursion()){
 					throw new IllegalStateException("The property path " + master.linkToInnermostDetail().getName()
 							+ " is a recursive dimension path");

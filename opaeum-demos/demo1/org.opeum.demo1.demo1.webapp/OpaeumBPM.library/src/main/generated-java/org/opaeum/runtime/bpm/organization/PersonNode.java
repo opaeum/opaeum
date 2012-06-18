@@ -655,7 +655,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public List<IBusinessActor> getSourcePopulationForBusinessActor() {
-		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect2()));
+		return new ArrayList<IBusinessActor>(Stdlib.collectionAsSet(collect1()));
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4565578190639246320l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
@@ -704,7 +704,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	public boolean isUniqueInCollaboration() {
 		boolean result = false;
-		result = forAll1();
+		result = forAll2();
 		return result;
 	}
 	
@@ -1288,7 +1288,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	/** Implements ->collect( c : IBusinessCollaboration | c.businessActor )
 	 */
-	private Collection<IBusinessActor> collect2() {
+	private Collection<IBusinessActor> collect1() {
 		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
 		for ( IBusinessCollaboration c : this.getCollaboration().getBusinessCollaboration() ) {
 			Set<IBusinessActor> bodyExpResult = c.getBusinessActor();
@@ -1299,7 +1299,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	/** Implements ->forAll( p : PersonNode | (p.username = self.username) implies p = self )
 	 */
-	private boolean forAll1() {
+	private boolean forAll2() {
 		for ( PersonNode p : this.getCollaboration().getPerson() ) {
 			if ( !(p.getUsername().equals(this.getUsername()) ? p.equals(this) : true) ) {
 				return false;

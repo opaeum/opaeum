@@ -32,26 +32,30 @@
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=IdBook.class,value="7267980829799356539"),name="IBusinessDocument"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="INotification"),
-	@AnyMetaDef(idType="long",metaType="integer",metaValues=
-		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003"),name="IBusiness"),
+	@AnyMetaDef(idType="long",metaType="integer",metaValues={
+		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003"),
+		@MetaValue(targetEntity=MyBusiness.class,value="1175724151385430072")},name="IBusiness"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Supplier.class,value="6592718997733823438"),
 		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="IBusinessActor"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Supplier.class,value="6592718997733823438"),
 		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="IBusinessActorBase"),
-	@AnyMetaDef(idType="long",metaType="integer",metaValues=
-		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003"),name="IBusinessBase"),
+	@AnyMetaDef(idType="long",metaType="integer",metaValues={
+		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003"),
+		@MetaValue(targetEntity=MyBusiness.class,value="1175724151385430072")},name="IBusinessBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=Structuredbusiness.class,value="7737100568581358598"),name="IBusinessCollaboration"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=Structuredbusiness.class,value="7737100568581358598"),name="IBusinessCollaborationBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Branch.class,value="128937784137359716"),
-		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003")},name="IBusinessComponent"),
+		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003"),
+		@MetaValue(targetEntity=MyBusiness.class,value="1175724151385430072")},name="IBusinessComponent"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Branch.class,value="128937784137359716"),
-		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003")},name="IBusinessComponentBase"),
+		@MetaValue(targetEntity=ApplianceDoctor.class,value="8415961198448241003"),
+		@MetaValue(targetEntity=MyBusiness.class,value="1175724151385430072")},name="IBusinessComponentBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=BusinessNetwork.class,value="2395627898464121473"),name="IBusinessNetwork"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
@@ -74,7 +78,8 @@
 		@MetaValue(targetEntity=CustomerAssistant.class,value="8190330448809072926"),
 		@MetaValue(targetEntity=Technician.class,value="8797403277162081281"),
 		@MetaValue(targetEntity=Manager.class,value="3586662115628447123"),
-		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="Participant"),
+		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510"),
+		@MetaValue(targetEntity=MyBusiness.class,value="1175724151385430072")},name="Participant"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IProcessObject"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IRequestObject"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IResponsibilityInvocation"),
@@ -85,8 +90,8 @@
 	@NamedQuery(name="ProcessInstancesWaitingForEvent",query="select processInstanceInfo.processInstanceId from org.jbpm.persistence.processinstance.ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)"))
 package org.opeum.demo1.util;
 import org.opaeum.runtime.contact.PersonEMailAddressTypeResolver;
-import structuredbusiness.IdBook;
 import structuredbusiness.Branch;
+import structuredbusiness.IdBook;
 import org.hibernate.annotations.FilterDef;
 import org.opaeum.runtime.bpm.request.TaskRequestStateResolver;
 import org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeResolver;
@@ -100,6 +105,7 @@ import org.opaeum.runtime.bpm.organization.OrganizationNode;
 import org.opaeum.runtime.bpm.contact.PhysicalAddress;
 import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.organization.PersonNode;
+import model.MyBusiness;
 import structuredbusiness.Manager;
 import structuredbusiness.ProvinceResolver;
 import org.opaeum.runtime.bpm.request.TaskParticipationKindResolver;

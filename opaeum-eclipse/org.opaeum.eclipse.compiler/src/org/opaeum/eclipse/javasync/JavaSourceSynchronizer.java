@@ -28,6 +28,7 @@ import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.EclipseProjectGenerationStep;
 import org.opaeum.feature.MappingInfo;
@@ -47,7 +48,6 @@ import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
-import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 import org.opaeum.validation.namegeneration.PersistentNameRegenerator;
 
 public final class JavaSourceSynchronizer implements OpaeumEclipseContextListener{
@@ -70,7 +70,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 		this.context = ne;
 	}
 	@Override
-	public void onSave(IProgressMonitor monit){
+	public void onSave(IProgressMonitor monit, final OpenUmlFile f){
 		if(!synchronizing){
 			//Papyrus calls the save listener multiple times - we need to ensure that concurrent multiple instances of the job do interfere with each other
 			synchronizing = true;
@@ -79,7 +79,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 					try{
 						monitor.beginTask("Synchronizing Java sources", 1000);
 						if(context.isOpen() && context.getAutoSync()){
-							process.replaceModel(context.getCurrentEmfWorkspace());
+							process.replaceModel(f.getEmfWorkspace());
 							renamePackages(new SubProgressMonitor(monitor, 500));
 							synchronizeClasses(new SubProgressMonitor(monitor, 500));
 						}
@@ -167,47 +167,16 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 			if(clss.size() > 0){
 				process.replaceModel(new OJPackage());
 				process.replaceModel(new TextWorkspace());
-				for(INakedElement ne:clss){
-					PersistentNameRegenerator png = new PersistentNameRegenerator();
-					if(!ne.isMarkedForDeletion()){
-						MappingInfo mappingInfo = ne.getRootObject().getMappingInfo();
-						if(mappingInfo.getPersistentName() == null){
-							ne.getRootObject().setStatus(RootObjectStatus.LINKED);
-							png.visitRecursively(ne.getRootObject());
-						}
-						while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null
-								|| ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
-							ne = (INakedElement) ne.getOwnerElement();
-						}
-						png.visitUpThenDown(ne);
-					}
-				}
+				regeneratePersistentNames(clss);
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(
 						monitor, 400));
-				if(hasNewJavaSourceFolders(workspace, process.findModel(TextWorkspace.class))){
+				boolean hasNewJavaSourceFolders = hasNewJavaSourceFolders(workspace, process.findModel(TextWorkspace.class));
+				if(hasNewJavaSourceFolders && process.getConfig().generateMavenPoms()){
 					process.executePhase(PomGenerationPhase.class, false, new ProgressMonitorTransformationLog(monitor, 100));
-					new JavaProjectGenerator(process.getConfig(), process, workspace).schedule();
 				}
-				int fileCount = 0;
-				for(Object object:processElements){
-					if(object instanceof TextOutputNode){
-						if(((TextOutputNode) object).shouldDelete()){
-							eclipseGenerator.visitUpFirst((TextOutputNode) object);
-						}else{
-							fileCount++;
-						}
-					}
-					monitor.worked(500 / processElements.size());
-				}
-				if(fileCount < 4){
-					for(Object object:processElements){
-						if(object instanceof TextOutputNode){
-							TextOutputNode txt = (TextOutputNode) object;
-							monitor.subTask("Emitting " + txt.getName());
-							eclipseGenerator.visitUpFirst(txt);
-						}
-						monitor.worked(500 / processElements.size());
-					}
+				int fileCount = deleteOldFilesAndCountNewFiles(monitor, processElements);
+				if(fileCount < 4 && !hasNewJavaSourceFolders){
+					writeFilesIndividually(monitor, processElements);
 				}else{
 					try{
 						JavaProjectGenerator.writeTextFilesAndRefresh(monitor, process, context, false);
@@ -219,6 +188,47 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 			}
 		}finally{
 			monitor.done();
+		}
+	}
+	public void writeFilesIndividually(IProgressMonitor monitor,Collection<?> processElements){
+		for(Object object:processElements){
+			if(object instanceof TextOutputNode){
+				TextOutputNode txt = (TextOutputNode) object;
+				monitor.subTask("Emitting " + txt.getName());
+				eclipseGenerator.visitUpFirst(txt);
+			}
+			monitor.worked(500 / processElements.size());
+		}
+	}
+	public int deleteOldFilesAndCountNewFiles(IProgressMonitor monitor,Collection<?> processElements){
+		int fileCount = 0;
+		for(Object object:processElements){
+			if(object instanceof TextOutputNode){
+				if(((TextOutputNode) object).shouldDelete()){
+					eclipseGenerator.visitUpFirst((TextOutputNode) object);
+				}else{
+					fileCount++;
+				}
+			}
+			monitor.worked(500 / processElements.size());
+		}
+		return fileCount;
+	}
+	public void regeneratePersistentNames(Set<INakedElement> clss){
+		for(INakedElement ne:clss){
+			PersistentNameRegenerator png = new PersistentNameRegenerator();
+			if(!ne.isMarkedForDeletion()){
+				MappingInfo mappingInfo = ne.getRootObject().getMappingInfo();
+				if(mappingInfo.getPersistentName() == null){
+					ne.getRootObject().setStatus(RootObjectStatus.LINKED);
+					png.visitRecursively(ne.getRootObject());
+				}
+				while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null
+						|| ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
+					ne = (INakedElement) ne.getOwnerElement();
+				}
+				png.visitUpThenDown(ne);
+			}
 		}
 	}
 	@Override

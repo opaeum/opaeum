@@ -72,7 +72,7 @@ public class OpaeumEclipseContext{
 		private Status status;
 		private LoadEditingDomainJob(String name,EditingDomain domain,IFile file){
 			super(name);
-			if(domain==null){
+			if(domain == null){
 				throw new NullPointerException();
 			}
 			this.domain = domain;
@@ -93,10 +93,15 @@ public class OpaeumEclipseContext{
 				@Override
 				public void execute(){
 					try{
-						try{
-							EcoreUtil.resolveAll(domain.getResourceSet());
-						}catch(ConcurrentModificationException cme){
-							EcoreUtil.resolveAll(domain.getResourceSet());
+						boolean resolved = false;
+						while(!resolved){//Concurrency issues while Papyrus is opening the model
+							try{
+								EcoreUtil.resolveAll(domain.getResourceSet());
+								resolved = true;
+							}catch(ConcurrentModificationException cme){
+								Thread.sleep(1000);
+								resolved = false;
+							}
 						}
 						Package model2 = findRootObjectInFile(file, domain.getResourceSet());
 						if(model2 != null && model2.eResource() != null && model2.eResource().getURI() != null){
@@ -244,7 +249,7 @@ public class OpaeumEclipseContext{
 			monitor.beginTask("Saving UML Models", listeners.size() * 100);
 			getEmfToOpaeumSynchronizer().getConfig().getWorkspaceMappingInfo().store();
 			for(OpaeumEclipseContextListener l:listeners){
-				l.onSave(new SubProgressMonitor(monitor, 100));
+				l.onSave(new SubProgressMonitor(monitor, 100), openUmlFile);
 			}
 			getUmlDirectory().refreshLocal(1, null);
 			if(dew != null){
