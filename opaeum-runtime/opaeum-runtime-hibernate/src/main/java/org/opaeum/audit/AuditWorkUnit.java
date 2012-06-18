@@ -74,7 +74,7 @@ public class AuditWorkUnit {
 			} else {
 				this.auditEntryInsert.append(",");
 			}
-			appendAuditEntryValues(auditEntry, false);
+			appendAuditEntryValues(auditEntry);
 			auditEntriesToBeFlushed.add(auditEntry);
 			appendCustomAuditEntryInsert(auditEntry);
 			for (PropertyChange<?> change : auditEntry.getChanges().values()) {
@@ -152,7 +152,7 @@ public class AuditWorkUnit {
 				"insert into audit_entry (id,object_version,original_id,original_type,previous_version_id, audit_date_time,action) values ");
 	}
 
-	private void appendAuditEntryValues(AuditEntry auditEntry, boolean previousIsAbsent) {
+	private void appendAuditEntryValues(AuditEntry auditEntry) {
 		auditEntryInsert.append("\n('");
 		auditEntryInsert.append(auditEntry.getId());
 		auditEntryInsert.append("',");
@@ -162,7 +162,7 @@ public class AuditWorkUnit {
 		auditEntryInsert.append(",'");
 		auditEntryInsert.append(auditEntry.getOriginalType());
 		auditEntryInsert.append("',");
-		if (auditEntry.getPreviousVersionId().getObjectVersion() >= 0 && !previousIsAbsent) {
+		if (auditEntry.getPreviousVersionId().getObjectVersion() >= 1) {
 			auditEntryInsert.append("'");
 			auditEntryInsert.append(auditEntry.getPreviousVersionId().getId());
 			auditEntryInsert.append("'");
@@ -290,13 +290,13 @@ public class AuditWorkUnit {
 	}
 
 	public void logInsertedProperties(Object[] newState, String[] propertyNames, IPersistentObject entity, int version) {
-		AuditEntryFactory<?> factory = getFactory(entity);
-		AuditEntry entry = factory.createAuditEntry(entity, version);
-		entry.setAction(AuditedAction.CREATE);
-		entriesByEntityId.put(toEntityId(entity), entry);
-		for (int i = 0; i < newState.length; i++) {
-			entry.putPropertyChange(propertyNames[i], null, newState[i]);
-		}
+//		AuditEntryFactory<?> factory = getFactory(entity);
+//		AuditEntry entry = factory.createAuditEntry(entity, version);
+//		entry.setAction(AuditedAction.CREATE);
+//		entriesByEntityId.put(toEntityId(entity), entry);
+//		for (int i = 0; i < newState.length; i++) {
+//			entry.putPropertyChange(propertyNames[i], null, newState[i]);
+//		}
 	}
 
 }
