@@ -620,6 +620,27 @@
 				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
 				tab="org.opaeum.eclipse.opaeumTab">
 			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.stereotypes.ClassAuditingEnabled"
+				filter="org.opaeum.topcased.propertysections.filters.ClassFilter"
+				class="org.opaeum.topcased.propertysections.stereotypes.ClassAuditingEnabled"
+				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.classifier.ClassifierIsAbstractSection"
+				filter="org.opaeum.topcased.propertysections.filters.ClassFilter"
+				class="org.opaeum.topcased.propertysections.classifier.ClassifierIsAbstractSection"
+				afterSection="org.opaeum.topcased.propertysections.stereotypes.ClassAuditingEnabled"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.ReceptionSignalSection"
+				filter="org.opaeum.topcased.propertysections.filters.ReceptionFilter"
+				class="org.opaeum.topcased.propertysections.ReceptionSignalSection"
+				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
 		</propertySections>
 	</extension>
 </plugin>

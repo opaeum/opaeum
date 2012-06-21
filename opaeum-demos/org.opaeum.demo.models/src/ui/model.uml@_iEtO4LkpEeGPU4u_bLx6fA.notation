@@ -4,45 +4,51 @@
     <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
       <children xsi:type="notation:DecorationNode" type="5011"/>
       <children xsi:type="notation:DecorationNode" type="7001">
+        <children xsi:type="notation:Shape" type="3001">
+          <children xsi:type="notation:DecorationNode" type="5001"/>
+          <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrDZLoZEeGryOHkMHbeGQ"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
+        </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_7vHXk7kpEeGPU4u_bLx6fA"/>
+      <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrDY7oZEeGryOHkMHbeGQ"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_7vHXkrkpEeGPU4u_bLx6fA"/>
+    <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrDYroZEeGryOHkMHbeGQ"/>
   </notation:Diagram>
   <notation:Diagram type="abstractactionbar" name="ActionBar" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2011" fontName="Sans" fontHeight="8" lineColor="0">
       <children xsi:type="notation:DecorationNode" type="5016"/>
       <children xsi:type="notation:DecorationNode" type="7001">
         <children xsi:type="notation:Shape" type="3004">
-          <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_7vHXlbkpEeGPU4u_bLx6fA"/>
+          <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrqc7oZEeGryOHkMHbeGQ"/>
           <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <children xsi:type="notation:Shape" type="3004">
-          <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_7vHXlrkpEeGPU4u_bLx6fA"/>
-          <layoutConstraint xsi:type="notation:Bounds"/>
-        </children>
-        <children xsi:type="notation:Shape" type="3003">
-          <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_7vHXl7kpEeGPU4u_bLx6fA"/>
+          <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrqdLoZEeGryOHkMHbeGQ"/>
           <layoutConstraint xsi:type="notation:Bounds"/>
         </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_7vHXlLkpEeGPU4u_bLx6fA"/>
+      <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrqcroZEeGryOHkMHbeGQ"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="200"/>
     </children>
-    <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_7vHXkbkpEeGPU4u_bLx6fA"/>
+    <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrDYboZEeGryOHkMHbeGQ"/>
   </notation:Diagram>
   <notation:Diagram type="userinterface" name="CreateClass4" measurementUnit="Pixel">
     <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
       <children xsi:type="notation:DecorationNode" type="5011"/>
       <children xsi:type="notation:DecorationNode" type="7001">
+        <children xsi:type="notation:Shape" type="3001">
+          <children xsi:type="notation:DecorationNode" type="5001"/>
+          <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrqeLoZEeGryOHkMHbeGQ"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
+        </children>
         <layoutConstraint xsi:type="notation:Bounds"/>
       </children>
-      <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_7vHXnbkpEeGPU4u_bLx6fA"/>
+      <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrqd7oZEeGryOHkMHbeGQ"/>
       <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
     </children>
-    <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_7vHXnLkpEeGPU4u_bLx6fA"/>
+    <element href="model.uml@_iEtO4LkpEeGPU4u_bLx6fA.uml#_yCrqdroZEeGryOHkMHbeGQ"/>
   </notation:Diagram>
 </xmi:XMI>

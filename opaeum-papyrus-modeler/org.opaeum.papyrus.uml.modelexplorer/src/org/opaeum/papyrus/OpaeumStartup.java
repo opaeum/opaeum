@@ -1,5 +1,6 @@
 package org.opaeum.papyrus;
 
+import java.util.Arrays;
 import java.util.Stack;
 
 import org.eclipse.core.resources.IFile;
@@ -7,8 +8,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
 import org.eclipse.papyrus.infra.core.lifecycleevents.ISaveAndDirtyService;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
@@ -32,7 +33,6 @@ import org.eclipse.ui.navigator.CommonViewer;
 import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.papyrus.preferences.OpaeumPreferenceInitializer;
 
 public class OpaeumStartup implements IStartup{
 	private final class PapyrusEObjectSelectorUI implements EObjectSelectorUI{
@@ -48,7 +48,8 @@ public class OpaeumStartup implements IStartup{
 					ModelExplorerPageBookView me = (ModelExplorerPageBookView) view;
 					IViewPart viewPart = me.getActiveView();
 					if(viewPart instanceof ModelExplorerView){
-						CommonViewer treeViewer = ((ModelExplorerView) viewPart).getCommonViewer();
+						ModelExplorerView modelExplorerView = (ModelExplorerView) viewPart;
+						CommonViewer treeViewer = modelExplorerView.getCommonViewer();
 						// The common viewer is in fact a tree viewer
 						Object modelElementItem = me.findElementForEObject(treeViewer, key);
 						if(modelElementItem != null){
@@ -60,7 +61,9 @@ public class OpaeumStartup implements IStartup{
 								Object parentElement = me.findElementForEObject(treeViewer, parent);
 								treeViewer.expandToLevel(parentElement, 1);
 							}
-							treeViewer.setSelection(new TreeSelection(treePath), true);
+							modelExplorerView.revealSemanticElement(Arrays.asList(key));
+							treeViewer.setSelection(new StructuredSelection(modelElementItem), true);
+//							modelExplorerView.selectReveal(new TreeSelection(treePath));
 						}
 					}
 				}

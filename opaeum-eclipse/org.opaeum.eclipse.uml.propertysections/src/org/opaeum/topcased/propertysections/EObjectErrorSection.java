@@ -105,7 +105,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 	@Override
 	public void refresh(){
 		super.refresh();
-		if(file != null){
+		if(file != null && !group.isDisposed()){
 			Map<EObject,IMarker> markers = extractBrokenDescendants();
 			for(Control control:group.getChildren()){
 				control.dispose();
@@ -156,7 +156,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 				this.group.setLayoutData(fd);
 				group.pack();
 				group.layout();
-				getMainComposite(group).layout();
+				group.getParent().getParent().getParent().layout();
 			}
 		}
 	}
@@ -229,7 +229,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 			public void mouseDown(MouseEvent e){
 				if(OpaeumEclipseContext.getCurrentContext() != null){
 					OpaeumEclipseContext.getCurrentContext().geteObjectSelectorUI().gotoEObject(key);
-					page.selectionChanged(getActivePage().getActivePart(), new StructuredSelection(key));
+					page.selectionChanged(getActivePage().getActiveEditor(), new StructuredSelection(key));
 				}
 			}
 			@Override

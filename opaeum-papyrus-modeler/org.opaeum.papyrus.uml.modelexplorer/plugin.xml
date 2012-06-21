@@ -16,7 +16,8 @@
       <modelqueryset file="resource/PapyrusBrowserQuery.querySet"/>
    </extension>
    <extension point="org.eclipse.ui.navigator.navigatorContent">
-      <navigatorContent activeByDefault="true" contentProvider="org.eclipse.emf.facet.infra.browser.uicore.OpaeumUmlContentProvider" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id="org.eclipse.papyrus.views.modelexplorer.UMLnavigatorContent" labelProvider="org.eclipse.papyrus.views.modelexplorer.MoDiscoLabelProvider" name="UML Model Contents" priority="lower">
+      <navigatorContent activeByDefault="true" contentProvider="org.eclipse.emf.facet.infra.browser.uicore.OpaeumUmlContentProvider" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id="org.eclipse.papyrus.views.modelexplorer.UMLnavigatorContent" 
+      labelProvider="org.eclipse.papyrus.uml.modelexplorer.OpaeumLabelProvider" name="UML Model Contents" priority="lower">
          <triggerPoints>
             <or>
                <instanceof value="org.eclipse.emf.ecore.EObject">
@@ -194,7 +195,7 @@
 	</command>
 	
 	<!-- Creation command for Class -->
-	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.eclipse.papyrus.uml.modelexplorer.handler.ClassHandler" description="Create a new Class" id="org.eclipse.papyrus.uml.modelexplorer.ClassCreateCommand" name="Create a new Class">
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.ClassHandler" description="Create a new Class" id="org.eclipse.papyrus.uml.modelexplorer.ClassCreateCommand" name="Create a new Class">
 	</command>
 	
 	<!-- Creation command for ClassifierTemplateParameter -->

@@ -41,16 +41,17 @@ public class PapyrusErrorMarker extends OpaeumErrorMarker{
 	}
 	@Override
 	protected void maybeMarkFile(EObject o,BrokenRule brokenRule,String message) throws CoreException{
+		super.maybeMarkFile(o, brokenRule, message);
 		IFile file = findUmlFile(o);
 		if(file != null){
 			decorationService.addDecoration("opaeum" + markerKey(file, o, brokenRule.getRule()), o, SeverityEnum.ERROR_VALUE, message);
-			// IMarker[] mrks = file.findMarkers(EValidator.MARKER, true, IResource.DEPTH_INFINITE);
-			// if(mrks.length == 0){
-			// IMarker marker = file.createMarker(EValidator.MARKER);
-			// marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-			// marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-			// marker.setAttribute(IMarker.MESSAGE, "Opaeum validation failed. Please open file for more details");
-			// }
+//			 IMarker[] mrks = file.findMarkers(EValidator.MARKER, true, IResource.DEPTH_INFINITE);
+//			 if(mrks.length == 0){
+//			 IMarker marker = file.createMarker(EValidator.MARKER);
+//			 marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+//			 marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+//			 marker.setAttribute(IMarker.MESSAGE, "Opaeum validation failed. Please open file for more details");
+//			 }
 		}
 	}
 	public void setServiceRegistry(ServicesRegistry servicesRegistry){

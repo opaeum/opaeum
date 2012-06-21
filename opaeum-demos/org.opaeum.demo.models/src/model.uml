@@ -94,11 +94,77 @@
         </slot>
       </ownedLiteral>
     </packagedElement>
-    <packagedElement xmi:type="uml:DataType" xmi:id="_ejhnILkpEeGPU4u_bLx6fA" name="DataType1"/>
-    <packagedElement xmi:type="uml:Interface" xmi:id="_fvMwELkpEeGPU4u_bLx6fA" name="Interface1"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_iEtO4LkpEeGPU4u_bLx6fA" name="Class4">
-      <ownedOperation xmi:id="_ke1H8LkpEeGPU4u_bLx6fA" name="Operation1"/>
-      <ownedReception xmi:id="_jxs8MLkpEeGPU4u_bLx6fA" name="Reception1"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_ejhnILkpEeGPU4u_bLx6fA" name="DataType1">
+      <ownedAttribute xmi:id="_k-aHcLlLEeG-Ou4fV0X62w" name="Property1332342342">
+        <eAnnotations xmi:id="_ltkTgLlLEeG-Ou4fV0X62w" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_5SGDELlLEeG-Ou4fV0X62w" name="Attribute1">
+        <eAnnotations xmi:id="_6d4gwLlLEeG-Ou4fV0X62w" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedOperation xmi:id="_KNkFsLlMEeG-Ou4fV0X62w" name="Operation1"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_fvMwELkpEeGPU4u_bLx6fA" name="Interface12">
+      <ownedOperation xmi:id="_pl7T4LlFEeG-Ou4fV0X62w" name="Operation1" bodyCondition="_weFegLlFEeG-Ou4fV0X62w" isQuery="true">
+        <eAnnotations xmi:id="_tU5gALlFEeG-Ou4fV0X62w" source="http://www.opaeum.org"/>
+        <ownedRule xmi:id="_weFegLlFEeG-Ou4fV0X62w" name="Operation1Body">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_weGFkLlFEeG-Ou4fV0X62w" name="Operation1BodySpecification">
+            <language>OCL</language>
+            <body>1 + 2 + param1</body>
+          </specification>
+        </ownedRule>
+        <ownedParameter xmi:id="_tU3q0LlFEeG-Ou4fV0X62w" name="param0" direction="return">
+          <eAnnotations xmi:id="_tU448LlFEeG-Ou4fV0X62w" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_A2bl8LlGEeG-Ou4fV0X62w" name="param1">
+          <eAnnotations xmi:id="_A2cNALlGEeG-Ou4fV0X62w" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_iEtO4LkpEeGPU4u_bLx6fA" clientDependency="_fAeYILlFEeG-Ou4fV0X62w" name="Class4">
+      <ownedAttribute xmi:id="_heaygLlLEeG-Ou4fV0X62w" name="Attribute1">
+        <eAnnotations xmi:id="_ikitELlLEeG-Ou4fV0X62w" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedAttribute>
+      <interfaceRealization xmi:id="_fAeYILlFEeG-Ou4fV0X62w" name="InterfaceRealization1" client="_iEtO4LkpEeGPU4u_bLx6fA" supplier="_fvMwELkpEeGPU4u_bLx6fA" contract="_fvMwELkpEeGPU4u_bLx6fA"/>
+      <ownedOperation xmi:id="_ke1H8LkpEeGPU4u_bLx6fA" name="Operation12" bodyCondition="_Mu8SwLlLEeG-Ou4fV0X62w" isQuery="true" precondition="_mG1r8LlHEeG-Ou4fV0X62w">
+        <eAnnotations xmi:id="_ItIDIblLEeG-Ou4fV0X62w" source="http://www.opaeum.org"/>
+        <ownedRule xmi:id="_mG1r8LlHEeG-Ou4fV0X62w" name="newConstraint">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_mG1r8blHEeG-Ou4fV0X62w" name="newConstraint_body">
+            <language>OCL</language>
+            <body>self.Attribute1 or Attribute1 and false</body>
+          </specification>
+        </ownedRule>
+        <ownedRule xmi:id="_Mu8SwLlLEeG-Ou4fV0X62w" name="Operation12Body">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_Mu850LlLEeG-Ou4fV0X62w" name="Operation12BodySpecification">
+            <language>OCL</language>
+            <body>123+Operation12()</body>
+          </specification>
+        </ownedRule>
+        <ownedParameter xmi:id="_ItHcELlLEeG-Ou4fV0X62w" name="param0" direction="return">
+          <eAnnotations xmi:id="_ItIDILlLEeG-Ou4fV0X62w" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedReception xmi:id="_jxs8MLkpEeGPU4u_bLx6fA" name="Reception1" signal="_67TgwLlEEeG-Ou4fV0X62w"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Signal" xmi:id="_67TgwLlEEeG-Ou4fV0X62w" name="Signal1"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_F8xYMLlHEeG-Ou4fV0X62w" clientDependency="_F-1NsLlHEeG-Ou4fV0X62w" name="BusinessDocument1">
+      <interfaceRealization xmi:id="_F-1NsLlHEeG-Ou4fV0X62w" name="isAIBusinessDocument" client="_F8xYMLlHEeG-Ou4fV0X62w">
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_cOzTkF9lEeG3X_yvufTVmw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_cOzTkF9lEeG3X_yvufTVmw"/>
+      </interfaceRealization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_z86RoLlMEeG4Bcw-uZ2BZg" name="Class5">
+      <ownedAttribute xmi:id="_1o6gcLlMEeG4Bcw-uZ2BZg" name="Attribute1" type="_tWXP4LblEeGZM4YYtBhImQ">
+        <eAnnotations xmi:id="_2IsMsLlMEeG4Bcw-uZ2BZg" source="http://www.opaeum.org"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_2cjj4LlMEeG4Bcw-uZ2BZg" name="Attribute2" type="_ejhnILkpEeGPU4u_bLx6fA">
+        <eAnnotations xmi:id="_3CBocLlMEeG4Bcw-uZ2BZg" source="http://www.opaeum.org"/>
+      </ownedAttribute>
     </packagedElement>
     <profileApplication xmi:id="_NVDfELavEeGoaOQgUyDAWw">
       <eAnnotations xmi:id="_NVlDgLavEeGoaOQgUyDAWw" source="http://www.eclipse.org/uml2/2.0.0/UML">
@@ -119,7 +185,7 @@
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
-  <OpaeumStandardProfile:Model xmi:id="_Vc36wLavEeGoaOQgUyDAWw" mappedImplementationPackage="" base_Model="_OvGzkKTaEeG48eECPCZVwg" modelType="REFERENCED_LIBRARY"/>
+  <OpaeumStandardProfile:Model xmi:id="_Vc36wLavEeGoaOQgUyDAWw" mappedImplementationPackage="" base_Model="_OvGzkKTaEeG48eECPCZVwg"/>
   <OpaeumStandardProfile:Attribute xmi:id="_mbNrMLavEeGoaOQgUyDAWw" base_Property="_lMkGwLavEeGoaOQgUyDAWw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_Ek5CQLa1EeGKjIJH2lzvoQ" base_Property="_B0EgcLa1EeGKjIJH2lzvoQ"/>
   <OpaeumBPMProfile:BusinessComponent xmi:id="_Faw2ILa8EeGKjIJH2lzvoQ" base_Component="_FWdk8La8EeGKjIJH2lzvoQ"/>
@@ -130,4 +196,10 @@
   <OpaeumStandardProfile:Attribute xmi:id="_VG4pkLbkEeGZM4YYtBhImQ" base_Property="_USms8LbkEeGZM4YYtBhImQ"/>
   <OpaeumStandardProfile:Attribute xmi:id="_wLYxsLbkEeGZM4YYtBhImQ" base_Property="_usvpcLbkEeGZM4YYtBhImQ"/>
   <OpaeumStandardProfile:Attribute xmi:id="_R3I6oLblEeGZM4YYtBhImQ" base_Property="_RDlWwLblEeGZM4YYtBhImQ"/>
+  <OpaeumStandardProfile:Interface xmi:id="_jzT1ALlFEeG-Ou4fV0X62w" mappedImplementationType="" base_Interface="_fvMwELkpEeGPU4u_bLx6fA"/>
+  <OpaeumBPMProfile:BusinessDocument xmi:id="_F-zYgLlHEeG-Ou4fV0X62w" base_Class="_F8xYMLlHEeG-Ou4fV0X62w" documentType="presentation"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_iku6ULlLEeG-Ou4fV0X62w" base_Property="_heaygLlLEeG-Ou4fV0X62w"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_6d9ZQLlLEeG-Ou4fV0X62w" base_Property="_5SGDELlLEeG-Ou4fV0X62w"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_2IweILlMEeG4Bcw-uZ2BZg" base_Property="_1o6gcLlMEeG4Bcw-uZ2BZg"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_3CDdoLlMEeG4Bcw-uZ2BZg" base_Property="_2cjj4LlMEeG4Bcw-uZ2BZg"/>
 </xmi:XMI>

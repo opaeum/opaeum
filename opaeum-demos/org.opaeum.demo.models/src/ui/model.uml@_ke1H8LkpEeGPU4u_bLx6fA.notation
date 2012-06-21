@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <notation:Diagram type="userinterface" name="Task: Operation12" measurementUnit="Pixel">
+    <children xsi:type="notation:Shape" type="2001" fontName="Sans" fontHeight="8" lineColor="0">
+      <children xsi:type="notation:DecorationNode" type="5011"/>
+      <children xsi:type="notation:DecorationNode" type="7001">
+        <children xsi:type="notation:Shape" type="3001">
+          <children xsi:type="notation:DecorationNode" type="5001"/>
+          <element href="model.uml@_ke1H8LkpEeGPU4u_bLx6fA.uml#_yCrqfroZEeGryOHkMHbeGQ"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
+        </children>
+        <layoutConstraint xsi:type="notation:Bounds"/>
+      </children>
+      <element href="model.uml@_ke1H8LkpEeGPU4u_bLx6fA.uml#_yCrqfboZEeGryOHkMHbeGQ"/>
+      <layoutConstraint xsi:type="notation:Bounds" width="1028" height="768"/>
+    </children>
+    <element href="model.uml@_ke1H8LkpEeGPU4u_bLx6fA.uml#_yCrqfLoZEeGryOHkMHbeGQ"/>
+  </notation:Diagram>
+  <notation:Diagram type="abstractactionbar" name="ActionBar" measurementUnit="Pixel">
+    <children xsi:type="notation:Shape" type="2011" fontName="Sans" fontHeight="8" lineColor="0">
+      <children xsi:type="notation:DecorationNode" type="5016"/>
+      <children xsi:type="notation:DecorationNode" type="7001">
+        <children xsi:type="notation:Shape" type="3004">
+          <element href="model.uml@_ke1H8LkpEeGPU4u_bLx6fA.uml#_yCrqgroZEeGryOHkMHbeGQ"/>
+          <layoutConstraint xsi:type="notation:Bounds"/>
+        </children>
+        <layoutConstraint xsi:type="notation:Bounds"/>
+      </children>
+      <element href="model.uml@_ke1H8LkpEeGPU4u_bLx6fA.uml#_yCrqgboZEeGryOHkMHbeGQ"/>
+      <layoutConstraint xsi:type="notation:Bounds" width="1028" height="200"/>
+    </children>
+    <element href="model.uml@_ke1H8LkpEeGPU4u_bLx6fA.uml#_yCrqe7oZEeGryOHkMHbeGQ"/>
+  </notation:Diagram>
+</xmi:XMI>

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="model/src/test/generated-java"/>
+	<classpathentry kind="src" path="src/main/generated-resources"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="OpaeumBPM.library/src/main/generated-java"/>
+	<classpathentry kind="src" path="model/src/main/generated-java"/>
 	<classpathentry kind="src" path="OpaeumBPM.library/src/main/generated-resources"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="model2/src/main/generated-java"/>
-	<classpathentry kind="src" path="src/main/generated-resources"/>
-	<classpathentry kind="src" path="OpaeumBPM.library/src/test/generated-java"/>
 	<classpathentry kind="src" path="src/main/generated-java"/>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="model/src/main/generated-java"/>
 	<classpathentry kind="src" path="BusinessStructureModel/src/main/generated-java"/>
-	<classpathentry kind="src" path="OpaeumBPM.library/src/main/generated-java"/>
+	<classpathentry kind="src" path="OpaeumBPM.library/src/test/generated-java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="target/classes"/>

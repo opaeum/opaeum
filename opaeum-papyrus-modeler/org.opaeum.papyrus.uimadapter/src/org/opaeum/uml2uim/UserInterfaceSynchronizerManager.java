@@ -52,7 +52,9 @@ public class UserInterfaceSynchronizerManager implements IStartup,Runnable{
 			// Continuously associate new contexts with transformation processes
 			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 			if(currentContext != null && !currentContext.isLoading() && synchronizers.get(currentContext) == null){
-				currentContext.addContextListener(new UserInterfaceSynchronizer());
+				UserInterfaceSynchronizer uis = new UserInterfaceSynchronizer();
+				synchronizers.put(currentContext, uis);
+				currentContext.addContextListener(uis);
 			}
 		}catch(Throwable e){
 			e.printStackTrace();

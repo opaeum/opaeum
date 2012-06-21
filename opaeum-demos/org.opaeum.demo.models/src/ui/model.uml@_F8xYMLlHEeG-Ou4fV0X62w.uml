@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_DGguALlNEeG4Bcw-uZ2BZg" umlElementUid="model.uml@_F8xYMLlHEeG-Ou4fV0X62w" name="Business document1 User Interface Model" linkedUmlResource="model.uml">
+  <primaryEditor xmi:id="_DGguAblNEeG4Bcw-uZ2BZg" umlElementUid="model.uml@_F8xYMLlHEeG-Ou4fV0X62w" name="Edit BusinessDocument1"><actionBar xmi:id="_DGhVFblNEeG4Bcw-uZ2BZg" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_DGhVFrlNEeG4Bcw-uZ2BZg" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_DGh8ILlNEeG4Bcw-uZ2BZg" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_DGguArlNEeG4Bcw-uZ2BZg" name="Edit Business document1" umlElementUid="model.uml@_F8xYMLlHEeG-Ou4fV0X62w">
+      <panel xmi:type="panel:GridPanel" xmi:id="_DGguA7lNEeG4Bcw-uZ2BZg" numberOfColumns="1"/>
+    </pages><pages xmi:id="_DGhVELlNEeG4Bcw-uZ2BZg" name="I business document">
+      <panel xmi:type="panel:GridPanel" xmi:id="_DGhVEblNEeG4Bcw-uZ2BZg" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_DGhVErlNEeG4Bcw-uZ2BZg" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_DGhVE7lNEeG4Bcw-uZ2BZg"/>
+          <binding xmi:id="_DGhVFLlNEeG4Bcw-uZ2BZg" umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
+        </children>
+      </panel>
+    </pages></primaryEditor>
+  <newObjectWizard xmi:id="_DGh8IblNEeG4Bcw-uZ2BZg" name="Create BusinessDocument1" umlElementUid="model.uml@_F8xYMLlHEeG-Ou4fV0X62w">
+    <pages xmi:id="_DGh8IrlNEeG4Bcw-uZ2BZg" name="CreateBusiness document1" umlElementUid="model.uml@_F8xYMLlHEeG-Ou4fV0X62w">
+      <panel xmi:type="panel:GridPanel" xmi:id="_DGh8I7lNEeG4Bcw-uZ2BZg" numberOfColumns="1"/>
+    </pages>
+    <pages xmi:id="_DGh8JLlNEeG4Bcw-uZ2BZg" name="I business document">
+      <panel xmi:type="panel:GridPanel" xmi:id="_DGh8JblNEeG4Bcw-uZ2BZg" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_DGh8JrlNEeG4Bcw-uZ2BZg" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_DGh8J7lNEeG4Bcw-uZ2BZg"/>
+          <binding xmi:id="_DGh8KLlNEeG4Bcw-uZ2BZg" umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</uim:ClassUserInteractionModel>

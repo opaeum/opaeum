@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -20,7 +19,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,15 +31,12 @@ import model.util.Stdlib;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
-import org.opaeum.runtime.bpm.organization.IBusiness;
-import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.IBusinessComponent;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
 import org.opaeum.runtime.bpm.organization.Organization_iBusinessComponent_1;
@@ -66,8 +61,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import structuredbusiness.Structuredbusiness;
-
 @AuditMe
 @NumlMetaInfo(uuid="model.uml@_FWdk8La8EeGKjIJH2lzvoQ")
 @BusinessComponent(businessRoles={},isRoot=true)
@@ -78,7 +71,7 @@ import structuredbusiness.Structuredbusiness;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="MyBusiness")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class MyBusiness implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessComponent, IBusiness, Serializable {
+public class MyBusiness implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessComponent, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
@@ -107,22 +100,9 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 	private AbstractPersistence persistence;
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-	@Index(columnNames="root_id",name="idx_my_business_root_id")
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="root_id",nullable=true)
-	private Structuredbusiness root;
 	static final private long serialVersionUID = 1175724151385430072l;
 	private String uid;
 
-	/** This constructor is intended for easy initialization in unit tests
-	 * 
-	 * @param owningObject 
-	 */
-	public MyBusiness(Structuredbusiness owningObject) {
-		init(owningObject);
-		addToOwningObject();
-	}
-	
 	/** Default constructor for MyBusiness
 	 */
 	public MyBusiness() {
@@ -141,7 +121,6 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getRoot().z_internalAddToMyBusiness((MyBusiness)this);
 	}
 	
 	public void addToParticipation(Participation participation) {
@@ -212,16 +191,6 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 			return other==this || ((MyBusiness)other).getUid().equals(this.getUid());
 		}
 		return false;
-	}
-	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2952021989536159761l,opposite="business",uuid="252060@_Rj0oE1YkEeGJUqEGX7bKSg")
-	@NumlMetaInfo(uuid="252060@_Rj0oE1YkEeGJUqEGX7bKSg")
-	public IBusinessCollaboration getBusinessCollaboration() {
-		IBusinessCollaboration result = null;
-		if ( this.getRoot()!=null ) {
-			result=this.getRoot();
-		}
-		return result;
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -297,7 +266,7 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 	}
 	
 	public CompositionNode getOwningObject() {
-		return getRoot();
+		return null;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
@@ -324,25 +293,13 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForRepresentedOrganization",opaeumId=8314504260854280851l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8314504260854280851l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public OrganizationNode getRepresentedOrganization() {
 		OrganizationNode result = null;
 		if ( this.organization_iBusinessComponent_1_representedOrganization!=null ) {
 			result = this.organization_iBusinessComponent_1_representedOrganization.getRepresentedOrganization();
 		}
 		return result;
-	}
-	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7737100568581358598l,opposite="myBusiness",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
-	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
-	public Structuredbusiness getRoot() {
-		Structuredbusiness result = this.root;
-		
-		return result;
-	}
-	
-	public List<OrganizationNode> getSourcePopulationForRepresentedOrganization() {
-		return new ArrayList<OrganizationNode>(Stdlib.collectionAsSet(this.getRoot().getBusinessNetwork().getOrganization()));
 	}
 	
 	public String getUid() {
@@ -357,7 +314,6 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 	}
 	
 	public void init(CompositionNode owner) {
-		this.z_internalAddToRoot((Structuredbusiness)owner);
 		createComponents();
 	}
 	
@@ -377,9 +333,6 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 	public void markDeleted() {
 		if ( getRepresentedOrganization()!=null ) {
 			getRepresentedOrganization().z_internalRemoveFromBusinessComponent(this);
-		}
-		if ( getRoot()!=null ) {
-			getRoot().z_internalRemoveFromMyBusiness(this);
 		}
 		setDeletedOn(new Date());
 	}
@@ -498,20 +451,6 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 		}
 	}
 	
-	public void setRoot(Structuredbusiness root) {
-		propertyChangeSupport.firePropertyChange("root",getRoot(),root);
-		if ( this.getRoot()!=null ) {
-			this.getRoot().z_internalRemoveFromMyBusiness(this);
-		}
-		if ( root!=null ) {
-			root.z_internalAddToMyBusiness(this);
-			this.z_internalAddToRoot(root);
-			setDeletedOn(Stdlib.FUTURE);
-		} else {
-			markDeleted();
-		}
-	}
-	
 	public void setUid(String newUid) {
 		this.uid=newUid;
 	}
@@ -552,10 +491,6 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 		newOne.getRepresentedOrganization().z_internalAddToOrganization_iBusinessComponent_1_businessComponent(newOne);
 	}
 	
-	public void z_internalAddToRoot(Structuredbusiness val) {
-		this.root=val;
-	}
-	
 	public void z_internalRemoveFromOrganization_iBusinessComponent_1_representedOrganization(Organization_iBusinessComponent_1 val) {
 		if ( getOrganization_iBusinessComponent_1_representedOrganization()!=null && val!=null && val.equals(getOrganization_iBusinessComponent_1_representedOrganization()) ) {
 			this.organization_iBusinessComponent_1_representedOrganization=null;
@@ -570,13 +505,6 @@ public class MyBusiness implements IPersistentObject, IEventGenerator, Hibernate
 	public void z_internalRemoveFromRepresentedOrganization(OrganizationNode representedOrganization) {
 		if ( this.organization_iBusinessComponent_1_representedOrganization!=null ) {
 			this.organization_iBusinessComponent_1_representedOrganization.clear();
-		}
-	}
-	
-	public void z_internalRemoveFromRoot(Structuredbusiness val) {
-		if ( getRoot()!=null && val!=null && val.equals(getRoot()) ) {
-			this.root=null;
-			this.root=null;
 		}
 	}
 	
