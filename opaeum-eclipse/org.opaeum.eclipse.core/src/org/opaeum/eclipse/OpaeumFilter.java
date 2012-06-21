@@ -1,4 +1,4 @@
-package org.opaeum.topcased.uml.editor;
+package org.opaeum.eclipse;
 
 import java.util.HashSet;
 import java.util.Set;

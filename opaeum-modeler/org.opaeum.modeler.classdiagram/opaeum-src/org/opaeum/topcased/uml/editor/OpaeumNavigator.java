@@ -80,10 +80,16 @@ public class OpaeumNavigator extends UMLNavigator{
 	}
 	public OpaeumNavigator(Composite parent,Modeler editor,IPageSite pageSite){
 		super(parent, editor, pageSite);
+
+
+	}
+	@Override
+	protected boolean isEMFMenuEnabledFor(EObject selectedObject){
+		return false;
 	}
 	public void setSelection(ISelection s){
-		getTreeViewer().setSelection(s, true);
 		Object e = ((IStructuredSelection) s).getFirstElement();
+		getTreeViewer().setSelection(s, true);
 		if(!(e instanceof Element || e == null)){
 			List<EObject> path = new ArrayList<EObject>();
 			EObject eObject = (EObject) e;

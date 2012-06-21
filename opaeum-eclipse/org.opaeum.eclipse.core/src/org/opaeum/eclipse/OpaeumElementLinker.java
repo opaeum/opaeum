@@ -151,7 +151,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 					object.getSlots().clear();
 				}else{
 					Classifier newValue = (Classifier) notification.getNewValue();
-					this.synchronizeSlots(newValue, object);
+					synchronizeSlots(newValue, object);
 				}
 				break;
 			}
@@ -741,22 +741,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 				linkGenerals(classifier, instanceSpecification);
 			}
 		}
-		private void synchronizeSlots(Classifier en,InstanceSpecification newValue){
-			List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(en);
-			outer:for(Slot slot:new ArrayList<Slot>(newValue.getSlots())){
-				for(Property a:propertiesInScope){
-					if(a.equals(slot.getDefiningFeature()) && !(a.isDerived() || a.isDerivedUnion())){
-						continue outer;
-					}
-				}
-				newValue.getSlots().remove(slot);
-			}
-			for(Property a:propertiesInScope){
-				if(!(a.isDerived() || a.isDerivedUnion())){
-					ensureSlotsPresence(newValue, a);
-				}
-			}
-		}
 		public EObject caseOperation(Operation oper){
 			switch(notification.getFeatureID(Operation.class)){
 			case UMLPackage.OPERATION__OWNED_PARAMETER:
@@ -1150,123 +1134,140 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}
 			}
 		}
-		private void ensureSlotsPresence(InstanceSpecification is,Property a){
-			Slot found = null;
-			for(Slot slot:new ArrayList<Slot>(is.getSlots())){
-				if(slot.getDefiningFeature() != null && slot.getDefiningFeature().equals(a)){
-					found = slot;
-				}
-			}
-			if(found == null){
-				found = UMLFactory.eINSTANCE.createSlot();
-				found.setDefiningFeature(a);
-				is.getSlots().add(found);
-				if(a.getType() instanceof Enumeration){
-					// No criterion to choose one - needs to be handled by ui
-				}else{
-					if(a.getType() != null){
-						addSlotValue(a, found);
+		public void notifyChanged(final Notification not){
+			if(not.getEventType() == Notification.ADD || not.getEventType() == Notification.ADD_MANY || not.getEventType() == Notification.REMOVE
+					|| not.getEventType() == Notification.REMOVE_MANY || not.getEventType() == Notification.SET){
+				if(not.getNotifier() instanceof Element){
+					EmfUmlElementLinker emfUmlElementLinker = new EmfUmlElementLinker(not);
+					emfUmlElementLinker.doSwitch((Element) not.getNotifier());
+				}else if(not.getNotifier() instanceof EAnnotation){
+					switch(not.getFeatureID(EAnnotation.class)){
+					case EcorePackage.EANNOTATION__CONTENTS:
+						if(not.getNewValue() instanceof TimeEvent){
+							EAnnotation eAnnotation = (EAnnotation) not.getNotifier();
+							TimeEvent te = (TimeEvent) not.getNewValue();
+							Element eModelElement = (Element) eAnnotation.getEModelElement();
+							applyStereotypeIfNecessary(eModelElement, te, StereotypeNames.DEADLINE, StereotypeNames.OPAEUM_BPM_PROFILE);
+							applyRelativeTimeEventStereotype(te, eModelElement);
+						}
+						break;
+					default:
+						break;
 					}
 				}
-			}else if(is instanceof EnumerationLiteral && a.getType() instanceof Enumeration){
-				if(found.getOwningInstance() instanceof EnumerationLiteral){
-					for(ValueSpecification vs:new ArrayList<ValueSpecification>(found.getValues())){
-						if(vs instanceof OpaqueExpression){
-							OpaqueExpression oe = (OpaqueExpression) vs;
-							if(isUnInitialised(oe)){
-								// Most likely changed to a many
-								found.getValues().remove(vs);
-							}
+			}
+		}
+		private static void applyRelativeTimeEventStereotype(TimeEvent te,Element eModelElement){
+			if(te.isRelative()){
+				Profile pr = ProfileApplier.getAppliedProfile(eModelElement.getModel(), StereotypeNames.OPAEUM_STANDARD_PROFILE_PAPYRUS);
+				if(pr != null){
+					Stereotype st = pr.getOwnedStereotype(StereotypeNames.RELATIVE_TIME_EVENT);
+					if(!te.isStereotypeApplied(st)){
+						StereotypesHelper.applyStereotype(te, st);
+					}
+				}
+			}
+		}
+		public static void setOutputpin(TypedElement newValue,EList<OutputPin> results,boolean insertAtIndex){
+			int idx = EmfParameterUtil.calculateIndex(newValue, EmfParameterUtil.RESULT);
+			EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(newValue).getReferences();
+			if(results.size() <= idx || insertAtIndex){
+				OutputPin pin = UMLFactory.eINSTANCE.createOutputPin();
+				pin.setName(newValue.getName());
+				pin.setType(newValue.getType());
+				pin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
+				results.add(Math.min(idx, results.size()), pin);
+				references.add(pin);
+			}else{
+				OutputPin pin = results.get(idx);
+				pin.setType(newValue.getType());
+				pin.setName(newValue.getName());
+				if(!references.contains(pin)){
+					references.add(pin);
+				}
+			}
+		}
+		@Deprecated
+		private static void applyStereotypeIfNecessary(Element parent,Element ass,String stereotypeName,String profileName){
+			if(StereotypesHelper.hasKeyword(ass, stereotypeName)){
+				Profile pr = ProfileApplier.applyProfile(parent.getModel(), profileName);
+				Stereotype st = pr.getOwnedStereotype(stereotypeName);
+				if(st != null && !ass.isStereotypeApplied(st)){
+					StereotypesHelper.applyStereotype(ass, st);
+				}
+			}
+		}
+	}
+	public static void synchronizeSlots(Classifier en,InstanceSpecification newValue){
+		List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(en);
+		outer:for(Slot slot:new ArrayList<Slot>(newValue.getSlots())){
+			for(Property a:propertiesInScope){
+				if(a.equals(slot.getDefiningFeature()) && !(a.isDerived() || a.isDerivedUnion())){
+					continue outer;
+				}
+			}
+			newValue.getSlots().remove(slot);
+		}
+		for(Property a:propertiesInScope){
+			if(!(a.isDerived() || a.isDerivedUnion())){
+				ensureSlotsPresence(newValue, a);
+			}
+		}
+	}
+	public static void ensureSlotsPresence(InstanceSpecification is,Property a){
+		Slot found = null;
+		for(Slot slot:new ArrayList<Slot>(is.getSlots())){
+			if(slot.getDefiningFeature() != null && slot.getDefiningFeature().equals(a)){
+				found = slot;
+			}
+		}
+		if(found == null){
+			found = UMLFactory.eINSTANCE.createSlot();
+			found.setDefiningFeature(a);
+			is.getSlots().add(found);
+			if(a.getType() instanceof Enumeration){
+				// No criterion to choose one - needs to be handled by ui
+			}else{
+				if(a.getType() != null){
+					addSlotValue(a, found);
+				}
+			}
+		}else if(is instanceof EnumerationLiteral && a.getType() instanceof Enumeration){
+			if(found.getOwningInstance() instanceof EnumerationLiteral){
+				for(ValueSpecification vs:new ArrayList<ValueSpecification>(found.getValues())){
+					if(vs instanceof OpaqueExpression){
+						OpaqueExpression oe = (OpaqueExpression) vs;
+						if(isUnInitialised(oe)){
+							// Most likely changed to a many
+							found.getValues().remove(vs);
 						}
 					}
-				}else if(found.getOwningInstance().eContainer() instanceof ValuePin){
-					// TODO decide what to do here
 				}
-			}
-		}
-		protected void addSlotValue(Property a,Slot found){
-			ValueSpecification literal = null;
-			if(!EmfPropertyUtil.isMany(a)){
-				if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Boolean")){
-					literal = UMLFactory.eINSTANCE.createLiteralBoolean();
-				}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Integer")){
-					literal = UMLFactory.eINSTANCE.createLiteralInteger();
-				}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "String")){
-					literal = UMLFactory.eINSTANCE.createLiteralString();
-				}
-			}
-			if(literal == null){
-				literal = UMLFactory.eINSTANCE.createOpaqueExpression();
-				((OpaqueExpression) literal).getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
-				((OpaqueExpression) literal).getLanguages().add("ocl");
-			}
-			found.getValues().add(literal);
-		}
-	}
-	public void notifyChanged(final Notification not){
-		if(not.getEventType() == Notification.ADD || not.getEventType() == Notification.ADD_MANY || not.getEventType() == Notification.REMOVE
-				|| not.getEventType() == Notification.REMOVE_MANY || not.getEventType() == Notification.SET){
-			if(not.getNotifier() instanceof Element){
-				EmfUmlElementLinker emfUmlElementLinker = new EmfUmlElementLinker(not);
-				emfUmlElementLinker.doSwitch((Element) not.getNotifier());
-			}else if(not.getNotifier() instanceof EAnnotation){
-				switch(not.getFeatureID(EAnnotation.class)){
-				case EcorePackage.EANNOTATION__CONTENTS:
-					if(not.getNewValue() instanceof TimeEvent){
-						EAnnotation eAnnotation = (EAnnotation) not.getNotifier();
-						TimeEvent te = (TimeEvent) not.getNewValue();
-						Element eModelElement = (Element) eAnnotation.getEModelElement();
-						applyStereotypeIfNecessary(eModelElement, te, StereotypeNames.DEADLINE, StereotypeNames.OPAEUM_BPM_PROFILE);
-						applyRelativeTimeEventStereotype(te, eModelElement);
-					}
-					break;
-				default:
-					break;
-				}
+			}else if(found.getOwningInstance().eContainer() instanceof ValuePin){
+				// TODO decide what to do here
 			}
 		}
 	}
-	private static void applyRelativeTimeEventStereotype(TimeEvent te,Element eModelElement){
-		if(te.isRelative()){
-			Profile pr = ProfileApplier.getAppliedProfile(eModelElement.getModel(), StereotypeNames.OPAEUM_STANDARD_PROFILE_PAPYRUS);
-			if(pr != null){
-				Stereotype st = pr.getOwnedStereotype(StereotypeNames.RELATIVE_TIME_EVENT);
-				if(!te.isStereotypeApplied(st)){
-					StereotypesHelper.applyStereotype(te, st);
-				}
+	protected static void addSlotValue(Property a,Slot found){
+		ValueSpecification literal = null;
+		if(!EmfPropertyUtil.isMany(a)){
+			if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Boolean")){
+				literal = UMLFactory.eINSTANCE.createLiteralBoolean();
+			}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "Integer")){
+				literal = UMLFactory.eINSTANCE.createLiteralInteger();
+			}else if(EmfClassifierUtil.comformsToLibraryType(a.getType(), "String")){
+				literal = UMLFactory.eINSTANCE.createLiteralString();
 			}
 		}
-	}
-	public static void setOutputpin(TypedElement newValue,EList<OutputPin> results,boolean insertAtIndex){
-		int idx = EmfParameterUtil.calculateIndex(newValue, EmfParameterUtil.RESULT);
-		EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(newValue).getReferences();
-		if(results.size() <= idx || insertAtIndex){
-			OutputPin pin = UMLFactory.eINSTANCE.createOutputPin();
-			pin.setName(newValue.getName());
-			pin.setType(newValue.getType());
-			pin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
-			results.add(Math.min(idx, results.size()), pin);
-			references.add(pin);
-		}else{
-			OutputPin pin = results.get(idx);
-			pin.setType(newValue.getType());
-			pin.setName(newValue.getName());
-			if(!references.contains(pin)){
-				references.add(pin);
-			}
+		if(literal == null){
+			literal = UMLFactory.eINSTANCE.createOpaqueExpression();
+			((OpaqueExpression) literal).getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
+			((OpaqueExpression) literal).getLanguages().add("ocl");
 		}
-	}
-	@Deprecated
-	private static void applyStereotypeIfNecessary(Element parent,Element ass,String stereotypeName,String profileName){
-		if(StereotypesHelper.hasKeyword(ass, stereotypeName)){
-			Profile pr = ProfileApplier.applyProfile(parent.getModel(), profileName);
-			Stereotype st = pr.getOwnedStereotype(stereotypeName);
-			if(st != null && !ass.isStereotypeApplied(st)){
-				StereotypesHelper.applyStereotype(ass, st);
-			}
-		}
+		found.getValues().add(literal);
 	}
 	private static boolean isUnInitialised(OpaqueExpression oe){
 		return oe.getBodies().isEmpty() || oe.getBodies().get(0).equals(EmfValidationUtil.TYPE_EXPRESSION_HERE);
 	}
+
 }

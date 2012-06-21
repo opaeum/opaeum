@@ -44,12 +44,13 @@ import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
+import org.opaeum.eclipse.OpaeumFilter;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.uml.internal.customchildmenu.UMLEditorMenu;
-
+@Deprecated
 public class OpaeumEditorMenu extends UMLEditorMenu{
 	private MixedEditDomain domain;
 	private EObject selectedObject;
