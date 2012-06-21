@@ -1,6 +1,7 @@
 package org.opaeum.eclipse.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -34,13 +35,14 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 	private Collection<Stereotype> stereotypes;
 	Collection<Stereotype> applied = new HashSet<Stereotype>();
 	Collection<Profile> appliedProfile = new HashSet<Profile>();
-	public ApplyStereotypeCommand(Element element,Stereotype stereotype){
+	private boolean stereotypeIsKeyword;
+	public ApplyStereotypeCommand(Element element,boolean stereotypeIsKeyword,Stereotype...stereotype){
 		this.element = element;
-		if(stereotype != null){
-			this.stereotypes = Collections.singletonList(stereotype);
-		}else{
-			this.stereotypes = new HashSet<Stereotype>();
-		}
+		this.stereotypes = Arrays.asList(stereotype);
+		this.stereotypeIsKeyword = stereotypeIsKeyword;
+	}
+	public ApplyStereotypeCommand(Element element,Stereotype...stereotype){
+		this(element, true, stereotype);
 	}
 	@Override
 	public boolean canExecute(){
@@ -59,11 +61,10 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 					element.applyStereotype(stereotype);
 					if(!(element instanceof Pin) && element instanceof NamedElement && owner instanceof Namespace){
 						NamedElement ne = (NamedElement) element;
-						if(ne.getName().startsWith(ne.eClass().getName()) && Character.isDigit(ne.getName().charAt(ne.getName().length() - 1))){
-							String keyWord = getSignificantKeyWord(ne);
-							if(keyWord != null){
-								setUniqueName(keyWord, ne);
-							}
+						if(stereotypeIsKeyword && ne.getName().startsWith(ne.eClass().getName())
+								&& Character.isDigit(ne.getName().charAt(ne.getName().length() - 1))){
+							String keyWord = stereotype.getName();
+							setUniqueName(keyWord, ne);
 						}
 					}
 					implementInterfacesIfNecessary(element);

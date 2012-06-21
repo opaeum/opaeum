@@ -921,7 +921,7 @@
 			id="org.topcased.modeler.uml.menu.umlEditorMenu" name="UML Editor Menu" />
 		<metamodelFilter class="org.topcased.modeler.uml.editor.outline.UMLMetamodelFilter" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="UMLMetamodelFilter">
 		</metamodelFilter>
-		<filter class="org.opaeum.topcased.uml.editor.OpaeumFilter" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="org.opaeum.topcased.uml.editor.OpaeumFilter"
+		<filter class="org.opaeum.eclipse.OpaeumFilter" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="org.opaeum.topcased.uml.editor.OpaeumFilter"
 			name="Show Opaeum elements">
 		</filter>
 		<filter class="org.topcased.modeler.uml.editor.outline.HideEdgeFilter" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="org.topcased.modeler.uml.hideEdgeFilter"

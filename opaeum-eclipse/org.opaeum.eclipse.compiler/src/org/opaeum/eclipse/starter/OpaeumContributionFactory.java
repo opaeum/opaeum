@@ -17,6 +17,7 @@ import org.eclipse.ui.menus.IContributionRoot;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
+import org.opaeum.eclipse.newchild.OpaeumEditorMenu;
 import org.opaeum.emf.extraction.EmfExtractionPhase;
 
 public class OpaeumContributionFactory extends ExtensionContributionFactory{
@@ -24,8 +25,7 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 	}
 	@Override
 	public void createContributionItems(IServiceLocator serviceLocator,IContributionRoot additions){
-		org.opaeum.generation.features.PersistenceUsingJpa a=new org.opaeum.generation.features.PersistenceUsingJpa();
-
+		org.opaeum.generation.features.PersistenceUsingJpa a = new org.opaeum.generation.features.PersistenceUsingJpa();
 		MenuManager menuManager = new MenuManager("Opaeum");
 		additions.addContributionItem(menuManager, new Expression(){
 			@Override
@@ -42,7 +42,8 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 						if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
 							firstElement = ((IAdaptable) firstElement).getAdapter(EObject.class);
 						}
-						if(firstElement!=null && (firstElement.getClass().getSimpleName().equals("SimulationModelImpl") || firstElement instanceof Model)){
+						if(firstElement != null
+								&& (firstElement.getClass().getSimpleName().equals("SimulationModelImpl") || firstElement instanceof Model)){
 							return EvaluationResult.TRUE;
 						}else if(firstElement instanceof Element){
 							if(EmfExtractionPhase.canBeProcessedIndividually((EObject) firstElement)){
@@ -83,5 +84,22 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 		MenuManager importLibraryMenu = new MenuManager("Import Library");
 		additions.addContributionItem(importLibraryMenu, visibleWhen);
 		importLibraryMenu.add(new ImportLibraryMenu());
+		additions.addContributionItem(new OpaeumEditorMenu(), new Expression(){
+			@Override
+			public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
+				ISelectionService s = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
+				if(s.getSelection() instanceof IStructuredSelection){
+					IStructuredSelection selection = (IStructuredSelection) s.getSelection();
+					Object firstElement = selection.getFirstElement();
+					if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
+						firstElement = ((IAdaptable) firstElement).getAdapter(EObject.class);
+					}
+					if(firstElement instanceof EObject){
+						return EvaluationResult.TRUE;
+					}
+				}
+				return EvaluationResult.FALSE;
+			}
+		});
 	}
 }

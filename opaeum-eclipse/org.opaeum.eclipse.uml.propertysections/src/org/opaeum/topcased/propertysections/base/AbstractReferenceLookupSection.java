@@ -106,10 +106,12 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 	}
 	protected void handleModelChanged(Notification msg){
 		Object notifier = msg.getNotifier();
-		EStructuralFeature thisFeature = getFeature();
-		if(notifier.equals(getFeatureOwner()) && thisFeature != null){
+		if(notifier instanceof EObject && ((EObject) notifier).eResource() == null){
+			// deleted
+			((Notifier) notifier).eAdapters().remove(getModelListener());
+		}else if(notifier.equals(getFeatureOwner()) && getFeature() != null){
 			Object msgFeature = msg.getFeature();
-			if(msg.getFeatureID(getEObject().getClass()) == thisFeature.getFeatureID() || thisFeature.equals(msgFeature)){
+			if(msg.getFeatureID(getEObject().getClass()) == getFeature().getFeatureID() || getFeature().equals(msgFeature)){
 				if(getTable().isDisposed()){
 					((Notifier) notifier).eAdapters().remove(getModelListener());
 				}else{
@@ -204,8 +206,5 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 			}
 		});
 		getTable().setLabelProvider(getLabelProvider());
-		if(getFeature() != null){
-			// getTable().setEnabled(getFeature().isChangeable());
-		}
 	}
 }

@@ -20,12 +20,12 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.opaeum.metamodels.ocl,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.compilation.java,
- org.eclipse.emf.transaction;bundle-version="1.4.0",
- org.eclipse.uml2.uml.edit
+ org.eclipse.emf.transaction,
+ org.eclipse.emf.edit.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6 
 Export-Package: org.opaeum.eclipse,
  org.opaeum.eclipse.commands,
  org.opaeum.eclipse.context,
- org.opaeum.topcased.uml.editor
+ org.opaeum.eclipse.newchild
 Bundle-ClassPath: .

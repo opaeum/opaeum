@@ -6,6 +6,7 @@
    <extension-point id="org.opaeum.eclipse.modelLibrary" name="modelLibrary" schema="schema/modelLibrary.exsd"/>
    <extension-point id="org.opaeum.eclipse.profile" name="Profile" schema="schema/profile.exsd"/>
    <extension-point id="org.opaeum.eclipse.strategyFactory" name="StrategyFactory" schema="schema/strategyFactory.exsd"/>
+   <extension-point id="org.opaeum.eclipse.createChildAction" name="CreateChildAction" schema="schema/createChildAction.exsd"/>
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution

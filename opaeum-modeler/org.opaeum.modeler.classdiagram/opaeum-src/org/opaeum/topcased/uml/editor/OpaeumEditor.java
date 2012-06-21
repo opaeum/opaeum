@@ -27,6 +27,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.opaeum.eclipse.OpaeumFilter;
 import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.feature.OpaeumConfig;

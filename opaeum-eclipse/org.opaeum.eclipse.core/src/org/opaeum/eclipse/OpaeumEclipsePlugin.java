@@ -13,10 +13,10 @@ import org.eclipse.core.runtime.IRegistryChangeEvent;
 import org.eclipse.core.runtime.IRegistryChangeListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.opaeum.eclipse.newchild.ICreateChildAction;
 import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
@@ -32,11 +32,13 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 	public static final String MODEL_LIBRARY_EXTENSION_POINT_ID = "modelLibrary";
 	private static final String PROFILE_EXTENSION_POINT_ID = "profile";
 	private static final String STRATEGY_FACTORY_EXTENSION_POINT_ID = "strategyFactory";
+	private static final String CREATE_CHILD_ACTION = "createChildAction";
 	private static OpaeumEclipsePlugin plugin;
 	private ResourceBundle resourceBundle;
 	private Set<Class<? extends ITransformationStep>> transformationSteps = new HashSet<Class<? extends ITransformationStep>>();
 	private Set<Class<? extends ISourceFolderStrategy>> sourceFolderStrategies = new HashSet<Class<? extends ISourceFolderStrategy>>();
 	private Set<Class<? extends AbstractStrategyFactory>> strategyFactories = new HashSet<Class<? extends AbstractStrategyFactory>>();
+	private Set<ICreateChildAction> createChildActions = new HashSet<ICreateChildAction>();
 	private Set<ModelLibrary> modelLibraries = new HashSet<ModelLibrary>();
 	private Set<ModelLibrary> profiles = new HashSet<ModelLibrary>();
 	public OpaeumEclipsePlugin(){
@@ -51,12 +53,23 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		OpaeumConfig.registerClass(TextStrategyFactory.class);
 		OpaeumConfig.registerClass(BlobStrategyFactory.class);
 		IExtensionRegistry r = Platform.getExtensionRegistry();
+		addCreateChildActions(r.getConfigurationElementsFor("org.opaeum.eclipse", CREATE_CHILD_ACTION));
 		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
 		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID), sourceFolderStrategies);
 		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse",STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
 		addModelLibraries(r.getConfigurationElementsFor("org.opaeum.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID));
 		addProfiles(r.getConfigurationElementsFor("org.opaeum.eclipse", PROFILE_EXTENSION_POINT_ID));
 		r.addRegistryChangeListener(this);
+	}
+	protected void addCreateChildActions(IConfigurationElement[] configurationElementsFor){
+		for(IConfigurationElement e:configurationElementsFor){
+			try{
+				createChildActions.add((ICreateChildAction) e.createExecutableExtension("class"));
+			}catch(CoreException e1){
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 	}
 	public static void logError(String message,Throwable t){
 		getDefault().getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message, t));
@@ -95,6 +108,11 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 				addProfiles(delta.getExtension().getConfigurationElements());
 			}
 		}
+		for(IExtensionDelta ed:event.getExtensionDeltas("org.opaeum.eclipse", CREATE_CHILD_ACTION)){
+			IConfigurationElement[] configurationElements = ed.getExtension().getConfigurationElements();
+			addCreateChildActions(configurationElements);
+		}
+
 	}
 	public void registerExtensionDeltas(IExtensionDelta[] extensionDeltas,@SuppressWarnings("rawtypes") Set transformationSteps2){
 		for(IExtensionDelta delta:extensionDeltas){
@@ -142,5 +160,8 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 	}
 	public static String getId(){
 		return PLUGIN_ID;
+	}
+	public Set<ICreateChildAction> getCreateChildActions(){
+		return createChildActions;
 	}
 }
