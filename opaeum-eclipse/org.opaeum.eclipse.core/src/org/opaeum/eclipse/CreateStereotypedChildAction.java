@@ -2,6 +2,7 @@ package org.opaeum.eclipse;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -15,15 +16,15 @@ import org.opaeum.eclipse.newchild.CreateChildAndSelectAction;
 
 public class CreateStereotypedChildAction extends CreateChildAndSelectAction{
 	String[] stereotypes;
-	public CreateStereotypedChildAction(IEditorPart editorPart,ISelection selection,Object descriptor,String...stereotypes){
+	public CreateStereotypedChildAction(IEditorPart editorPart,ISelection selection,CommandParameter descriptor,String...stereotypes){
 		super(editorPart, selection, descriptor);
 		this.stereotypes = stereotypes;
 	}
-	public CreateStereotypedChildAction(IWorkbenchPart workbenchPart,ISelection selection,Object descriptor,String...stereotypes){
+	public CreateStereotypedChildAction(IWorkbenchPart workbenchPart,ISelection selection,CommandParameter descriptor,String...stereotypes){
 		super(workbenchPart, selection, descriptor);
 		this.stereotypes = stereotypes;
 	}
-	public CreateStereotypedChildAction(EditingDomain editingDomain,ISelection selection,Object descriptor,String...stereotypes){
+	public CreateStereotypedChildAction(EditingDomain editingDomain,ISelection selection,CommandParameter descriptor,String...stereotypes){
 		super(editingDomain, selection, descriptor);
 		this.stereotypes = stereotypes;
 	}

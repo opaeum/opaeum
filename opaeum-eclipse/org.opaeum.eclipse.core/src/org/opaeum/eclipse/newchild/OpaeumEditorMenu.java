@@ -25,6 +25,7 @@ import org.eclipse.jface.action.IContributionManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -85,10 +86,12 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 			this.selectedObject = (EObject) ((IAdaptable) ss.getFirstElement()).getAdapter(EObject.class);
 		}
 		if(selectedObject != null && activeWorkbenchWindow.getActivePage() != null){
+			ss=new StructuredSelection(selectedObject);
 			domain = (EditingDomain) activeWorkbenchWindow.getActivePage().getActiveEditor().getAdapter(EditingDomain.class);
 			this.descriptors = new ArrayList<CommandParameter>();
 			for(Object o:domain.getNewChildDescriptors(selectedObject, null)){
 				CommandParameter cp = (CommandParameter) o;
+				cp.setOwner(selectedObject);
 				if(OpaeumFilter.isAllowedElement((EObject) cp.getValue())){
 					this.descriptors.add(cp);
 				}
@@ -291,7 +294,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		List<IAction> createChildActions = (List<IAction>) generateCreateChildActionsGen(theDescriptors, selection);
 		Collections.<IAction>sort(createChildActions, new Comparator<IAction>(){
 			public int compare(IAction a1,IAction a2){
-				return CommonPlugin.INSTANCE.getComparator().compare(a1.getText(), a2.getText());
+				return CommonPlugin.INSTANCE.getComparator().compare(""+a1.getText(), ""+a2.getText());
 			}
 		});
 		return createChildActions;
@@ -315,7 +318,8 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		if(createActions != null){
 			for(Iterator<IAction> actions = createActions.iterator();actions.hasNext();){
 				IAction action = actions.next();
-				StringTokenizer st = new StringTokenizer(action.getText(), "|"); //$NON-NLS-1$
+				StringTokenizer st = new StringTokenizer(action.getText()+"", "|"); //$NON-NLS-1$
+				System.out.println(action.getText());
 				if(st.countTokens() == 2){
 					String text = st.nextToken().trim();
 					Collection<IAction> submenuActions = createSubmenuActions.get(text);
