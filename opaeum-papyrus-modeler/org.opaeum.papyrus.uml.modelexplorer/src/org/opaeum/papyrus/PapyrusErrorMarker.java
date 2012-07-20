@@ -44,7 +44,8 @@ public class PapyrusErrorMarker extends OpaeumErrorMarker{
 		super.maybeMarkFile(o, brokenRule, message);
 		IFile file = findUmlFile(o);
 		if(file != null){
-			decorationService.addDecoration("opaeum" + markerKey(file, o, brokenRule.getRule()), o, SeverityEnum.ERROR_VALUE, message);
+			
+//			decorationService.addDecoration("opaeum" + markerKey(file, o, brokenRule.getRule()), o, SeverityEnum.ERROR_VALUE, message);
 //			 IMarker[] mrks = file.findMarkers(EValidator.MARKER, true, IResource.DEPTH_INFINITE);
 //			 if(mrks.length == 0){
 //			 IMarker marker = file.createMarker(EValidator.MARKER);

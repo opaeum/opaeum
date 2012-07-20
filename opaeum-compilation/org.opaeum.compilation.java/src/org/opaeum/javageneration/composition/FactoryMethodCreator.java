@@ -75,7 +75,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap map){
 		INakedProperty aw = map.getProperty();
 		OJAnnotatedClass myOwner = findJavaClass(owner);
-		if(!aw.isDerived() && isPersistent(aw.getNakedBaseType()) && aw.isComposite() && !aw.getNakedBaseType().getIsAbstract()){
+		if(!aw.isDerived() && isPersistent(aw.getNakedBaseType()) && aw.isComposite() && !aw.getNakedBaseType().isAbstract()){
 			createFactoryMethod(aw, myOwner);
 		}
 	}

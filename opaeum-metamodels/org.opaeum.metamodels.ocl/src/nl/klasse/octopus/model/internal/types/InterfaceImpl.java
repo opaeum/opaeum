@@ -25,53 +25,6 @@ public class InterfaceImpl extends ClassifierImpl implements IInterface {
 		implementingClasses = new ArrayList<IClassifier>();
 	}
 	
-/***************************************************************************
- * Methods for visiting this IClassifier
- ***************************************************************************/
-
-	public void accept(IPackageVisitor vis ) {
-	  vis.interface_Before(this);
-	  if( vis.visitAttributes() ){
-		Iterator it = this.getAttributes().iterator();
-		while( it.hasNext() ){
-		  AttributeImpl att = (AttributeImpl) it.next();
-		  vis.attribute(att);
-		}
-		it = this.getClassAttributes().iterator();
-		while( it.hasNext() ){
-		  AttributeImpl att = (AttributeImpl) it.next();
-		  vis.attribute(att);
-		}
-	  }
-	  if( vis.visitOperations() ){
-		Iterator it = this.getOperations().iterator();
-		while( it.hasNext() ){
-		  OperationImpl op = (OperationImpl) it.next();
-		  vis.operation_Before(op);
-		  if( vis.visitParameters() ){
-			Iterator params = op.getParameters().iterator();
-			while( params.hasNext() ){
-			  vis.parameter((ParameterImpl) params.next());
-			}
-		  }
-		}
-	  }
-	  if( vis.visitNavigations() ){
-		Iterator it = this.getNavigations().iterator();
-		while( it.hasNext() ){
-		  AssociationEndImpl att = (AssociationEndImpl) it.next();
-		  vis.navigation(att);
-		}
-	  }
-	  if( vis.visitStates() ){
-		Iterator it = this.getStates().iterator();
-		while( it.hasNext() ){
-		  vis.state((StateImpl) it.next());
-		}
-	  }
-	  vis.interface_After(this);
-	}
-
 	/**
 	 * @param impl
 	 */

@@ -71,7 +71,7 @@ public class ExpGeneratorHelper {
 		if (elementMap.isJavaPrimitive() ) {
 			myType = elementMap.javaObjectTypePath();
 		} else {
-			myType = elementMap.javaFacadeTypePath();
+			myType = elementMap.javaTypePath();
 		}
 		return myType;
 	}
@@ -83,7 +83,7 @@ public class ExpGeneratorHelper {
 			myClass.addToImports(typeMap.javaObjectTypePath());
 			argStr = "new " + myType + "(" + argStr + ")";
 		} else {
-			myClass.addToImports(typeMap.javaFacadeTypePath());
+			myClass.addToImports(typeMap.javaTypePath());
 			argStr = StringHelpers.addBrackets(argStr);
 		}
 		return argStr;

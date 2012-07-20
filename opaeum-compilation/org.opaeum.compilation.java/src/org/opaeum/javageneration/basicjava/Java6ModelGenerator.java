@@ -137,7 +137,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			myClass.addToImports(new OJPathName("java.util.ArrayList"));// Octopus bug
 			pack.addToClasses(myClass);
 			myClass.setVisibility(classifierMap.javaVisibility());
-			myClass.setAbstract(c.getIsAbstract());
+			myClass.setAbstract(c.isAbstract());
 			myClass.setComment(c.getDocumentation());
 			INakedRootObject ro = c.getRootObject();
 			INakedRootObject rootObject = ro;

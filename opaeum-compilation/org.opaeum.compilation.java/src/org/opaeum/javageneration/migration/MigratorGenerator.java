@@ -254,7 +254,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 					populateChildren.addParam("fromOwner", classifierPathName(fromEntity.getEndToComposite().getNakedBaseType(), getToVersion()));
 				}
 				populateChildren.setAbstract(true);
-			}else if(!toEntity.getIsAbstract()){
+			}else if(!toEntity.isAbstract()){
 				OJAnnotatedOperation migrateTree = new OJAnnotatedOperation("migrateTree", classifierPathName(toEntity, getToVersion()));
 				migrator.addToOperations(migrateTree);
 				migrateTree.addParam("owner", ownerPath);
@@ -265,7 +265,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 				migrateTree.getBody().addToStatements("from=context.reloadFromObject(from)");
 				migrateTree.getBody().addToStatements("migrateTreeImpl(owner,from,result)");
 			}
-		}else if(!toEntity.getIsAbstract()){
+		}else if(!toEntity.isAbstract()){
 			OJAnnotatedOperation migrateTree = new OJAnnotatedOperation("migrateTree", classifierPathName(toEntity, getToVersion()));
 			migrator.addToOperations(migrateTree);
 			migrateTree.addParam("from", classifierPathName((INakedClassifier) fromWorkspace.getModelElement(toEntity.getId()), getFromVersion()));

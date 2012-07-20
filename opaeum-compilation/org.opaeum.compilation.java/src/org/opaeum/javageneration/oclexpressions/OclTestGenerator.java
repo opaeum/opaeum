@@ -77,9 +77,9 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 		testInterface.addToOperations(testInitialValue.getDeepCopy());
 		testInitialValue.putAnnotation(new OJAnnotationValue(new OJPathName("org.junit.Test")));
 		test.addToOperations(testInitialValue);
-		if(!entity.getIsAbstract()){
+		if(!entity.isAbstract()){
 			INakedProperty endToComposite = entity.getEndToComposite();
-			if(endToComposite != null && !endToComposite.getNakedBaseType().getIsAbstract()){
+			if(endToComposite != null && !endToComposite.getNakedBaseType().isAbstract()){
 				NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(endToComposite);
 				test.addToImports(compositeEndMap.javaBaseTypePath());
 				OJAnnotatedField compositionalOwner = new OJAnnotatedField("parent", compositeEndMap.javaBaseTypePath());

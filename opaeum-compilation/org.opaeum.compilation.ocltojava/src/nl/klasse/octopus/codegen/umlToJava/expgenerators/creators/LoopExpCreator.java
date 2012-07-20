@@ -1882,7 +1882,7 @@ body25.addToStatements( exp51 );
 		ClassifierMap nodeMap = new ClassifierMap(exp.getNodeType());
 		// the return type of the loop operation
 		resultType = nodeMap.javaFacadeType();
-		resultTypePath = nodeMap.javaFacadeTypePath();
+		resultTypePath = nodeMap.javaTypePath();
 		// the default value that will be returned if all else fails
 		resultDefault = nodeMap.javaDefaultValue();
 		// the type of the elements in source

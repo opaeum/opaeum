@@ -94,7 +94,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		test.addToOperations(getInstance);
 		OJIfStatement ifNull = new OJIfStatement();
 		ifNull.setCondition("instance==null");
-		if (c.getIsAbstract()) {
+		if (c.isAbstract()) {
 			Collection<? extends INakedClassifier> subClasses = getConcreteSubclassifiersOf(c);
 			if (subClasses.size() > 0) {
 				INakedClassifier child = subClasses.iterator().next();
@@ -126,7 +126,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		createNew.setReturnType(ojClass.getPathName());
 		test.addToOperations(createNew);
 		Collection<? extends INakedClassifier> subClasses = GeneralizationUtil.getAllSubClassifiers(c,getModelInScope());
-		if (c.getIsAbstract()) {
+		if (c.isAbstract()) {
 			if (subClasses.size() > 0) {
 				//TODO invalid
 				INakedClassifier child = subClasses.iterator().next();
@@ -186,7 +186,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 	}
 
 	protected void addTestInsert(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
-		if (!(c.getIsAbstract())) {
+		if (!(c.isAbstract())) {
 			OJAnnotatedOperation testInsert = new OJAnnotatedOperation("testInsert");
 			test.addToOperations(testInsert);
 			testInsert.addToThrows("Exception");

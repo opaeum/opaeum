@@ -124,16 +124,12 @@ public class ExpressionCreator {
 	public String makeVarDecl(IVariableDeclaration exp, boolean isStatic, List<OJParameter> params) {
 		OclExpression initExpression = exp.getInitExpression();
 		ClassifierMap mapper = new ClassifierMap(exp.getType());
-		OJPathName myType = mapper.javaFacadeTypePath();
+		OJPathName myType = mapper.javaTypePath();
 		myClass.addToImports(myType);
 		String myInitExp = mapper.javaDefaultValue();
 		// create init expression
 		if( initExpression != null ) {
 			myInitExp = makeExpression(initExpression, isStatic, params).toString();
-		}
-		// take care of facade
-		if (GenerationHelpers.hasFacade(exp.getType())) {
-			myInitExp = "(" + myType.getTypeName() + ")" + myInitExp;
 		}
 		//
 		return (myType == null ? "void" : myType.getTypeName()) + " " + ExpGeneratorHelper.javaFieldName(exp) + 

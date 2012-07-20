@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumBPMProfile="http:///schemas/OpaeumBPMProfile/1.0.0.6" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumBPMProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+  <uml:Model xmi:id="_-VLbkE8VEeGA3PFuQY5w7Q" name="structuredbusiness">
+    <eAnnotations xmi:id="_hDBBsE8YEeG-ysddVp_ifQ" source="http://www.opaeum.org">
+      <details xmi:id="_hDFTIE8YEeG-ysddVp_ifQ" key="uuid" value="914890"/>
+    </eAnnotations>
+    <packageImport xmi:id="_W6frIFxhEeGaLvytS4KS2w">
+      <eAnnotations xmi:id="_W8hrcFxhEeGaLvytS4KS2w" source="http://www.opaeum.org"/>
+      <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Class" xmi:id="_nhV7IGCfEeG6xvYqJACneg" name="ApplianceModel">
+      <eAnnotations xmi:id="_nhXJQGCfEeG6xvYqJACneg" source="http://www.opaeum.org"/>
+      <ownedAttribute xmi:id="_4_SYoHJ6EeG5aYCQXxe9BQ" name="component" type="_x_4WgHJ6EeG5aYCQXxe9BQ" aggregation="composite" association="_4_U04HJ6EeG5aYCQXxe9BQ">
+        <eAnnotations xmi:id="_5EfBsHJ6EeG5aYCQXxe9BQ" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4_SYoXJ6EeG5aYCQXxe9BQ"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4_SYonJ6EeG5aYCQXxe9BQ" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_ht9n8HphEeGlh5y8zQdYBA" name="name">
+        <eAnnotations xmi:id="_hy5yUHphEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Kid8QHpiEeGlh5y8zQdYBA" name="partNumber">
+        <eAnnotations xmi:id="_KnbUwHpiEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_7RIUYHsKEeGBGZr9IpIa3A" name="vendor" type="_z8IcwHsKEeGBGZr9IpIa3A" association="_7RKwoHsKEeGBGZr9IpIa3A">
+        <eAnnotations xmi:id="_7WRTEHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7RIUYXsKEeGBGZr9IpIa3A" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7RIUYnsKEeGBGZr9IpIa3A" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Ek7dQJLAEeGnpuq6_ber_Q" name="applianceType" type="_8mTZ0JK_EeGnpuq6_ber_Q" association="_Ek9ScJLAEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ek7dQZLAEeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ek7dQpLAEeGnpuq6_ber_Q" value="1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_oiVeEGCfEeG6xvYqJACneg" clientDependency="_oo71UGCfEeG6xvYqJACneg" name="IdBook">
+      <eAnnotations xmi:id="_oiWsMGCfEeG6xvYqJACneg" source="http://www.opaeum.org"/>
+      <ownedAttribute xmi:id="_SoyjIHpiEeGlh5y8zQdYBA" name="idNumber">
+        <eAnnotations xmi:id="_Sts4UHpiEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_U5_wwHpiEeGlh5y8zQdYBA" name="fullNames">
+        <eAnnotations xmi:id="_U-6tAHpiEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_aFhacHpiEeGlh5y8zQdYBA" name="dateOfBirth">
+        <eAnnotations xmi:id="_aKbvoHpiEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
+      </ownedAttribute>
+      <interfaceRealization xmi:id="_oo71UGCfEeG6xvYqJACneg" name="isAIBusinessDocument" client="_oiVeEGCfEeG6xvYqJACneg">
+        <eAnnotations xmi:id="_oq6LQGCfEeG6xvYqJACneg" source="http://www.opaeum.org"/>
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_cOzTkF9lEeG3X_yvufTVmw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_cOzTkF9lEeG3X_yvufTVmw"/>
+      </interfaceRealization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Signal" xmi:id="_o9aQgGCfEeG6xvYqJACneg" name="ProductAnnouncement">
+      <eAnnotations xmi:id="_o9beoGCfEeG6xvYqJACneg" source="http://www.opaeum.org"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_xQY8oGFKEeG2AvOqZt1NZQ" clientDependency="_xuw6sWFKEeG2AvOqZt1NZQ" name="Online Customer">
+      <eAnnotations xmi:id="_xd3X8GFKEeG2AvOqZt1NZQ" source="http://www.opaeum.org"/>
+      <interfaceRealization xmi:id="_xuw6sWFKEeG2AvOqZt1NZQ" name="isAIBusinessActor" client="_xQY8oGFKEeG2AvOqZt1NZQ">
+        <eAnnotations xmi:id="_xwv3sGFKEeG2AvOqZt1NZQ" source="http://www.opaeum.org"/>
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
+      </interfaceRealization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_-N6PwGK6EeGNuoaMwaBk1w" clientDependency="_-YXzUGK6EeGNuoaMwaBk1w" name="Supplier">
+      <eAnnotations xmi:id="_-RXzcGK6EeGNuoaMwaBk1w" source="http://www.opaeum.org"/>
+      <interfaceRealization xmi:id="_-YXzUGK6EeGNuoaMwaBk1w" name="isAIBusinessActor" client="_-N6PwGK6EeGNuoaMwaBk1w">
+        <eAnnotations xmi:id="_-akLsGK6EeGNuoaMwaBk1w" source="http://www.opaeum.org"/>
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
+      </interfaceRealization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_CQTWAGOeEeGwMNo027LgxA" clientDependency="_CXC3MWOeEeGwMNo027LgxA" name="ApplianceDoctor">
+      <eAnnotations xmi:id="_CSj_0GOeEeGwMNo027LgxA" source="http://www.opaeum.org"/>
+      <ownedUseCase xmi:id="_x4xyUGFKEeG2AvOqZt1NZQ" name="Order dishwasher">
+        <eAnnotations xmi:id="_x7QekGFKEeG2AvOqZt1NZQ" source="http://www.opaeum.org">
+          <details xmi:id="_VB7aQGOkEeG1qZqXREWSdQ" key="opaeumId" value="914890@null"/>
+        </eAnnotations>
+        <extensionPoint xmi:id="_8ukAwGQWEeGbL9nlXe9lTQ" name="point"/>
+      </ownedUseCase>
+      <ownedAttribute xmi:id="_0XGTgHHgEeGus4aKic9sIg" name="manager" type="_u7lZEGQWEeGbL9nlXe9lTQ" aggregation="composite" association="_0XIvwHHgEeGus4aKic9sIg">
+        <eAnnotations xmi:id="_0cJyoHHgEeGus4aKic9sIg" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0XGTgXHgEeGus4aKic9sIg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0XGTgnHgEeGus4aKic9sIg" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_8-HO8HorEeGBZ7vhZCNgsg" name="name">
+        <eAnnotations xmi:id="_9DO_gHorEeGBZ7vhZCNgsg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_kin8IHsKEeGBGZr9IpIa3A" name="supportNumber">
+        <eAnnotations xmi:id="_kixGEHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_S-ZOMHr7EeGX8L_MMRBizg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_okhEQHsKEeGBGZr9IpIa3A" name="supportEMailAddress">
+        <eAnnotations xmi:id="_oki5cHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_SvHAkHrxEeGgA7LmG6YzjA"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_rZMyYHsKEeGBGZr9IpIa3A" name="initiationDate">
+        <eAnnotations xmi:id="_rZOAgHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_VSJmQHsLEeGBGZr9IpIa3A" name="vatNumber">
+        <eAnnotations xmi:id="_VSMCgHsLEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_-IPNcJJNEeGW4L5IejZxpA" name="branch" type="_0l-NAJJNEeGW4L5IejZxpA" aggregation="composite" association="_-IRCoJJNEeGW4L5IejZxpA">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-IPNcZJNEeGW4L5IejZxpA"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-IPNcpJNEeGW4L5IejZxpA" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_wtFJEJK_EeGnpuq6_ber_Q" name="applianceModel" type="_nhV7IGCfEeG6xvYqJACneg" aggregation="composite" association="_wtIMYJK_EeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wtFJEZK_EeGnpuq6_ber_Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wtFJEpK_EeGnpuq6_ber_Q" value="*"/>
+      </ownedAttribute>
+      <interfaceRealization xmi:id="_CXC3MWOeEeGwMNo027LgxA" name="isAIBusinessComponent" client="_CQTWAGOeEeGwMNo027LgxA">
+        <eAnnotations xmi:id="_CZHTwGOeEeGwMNo027LgxA" source="http://www.opaeum.org"/>
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
+      </interfaceRealization>
+      <ownedOperation xmi:id="_FGOJ8H4bEeGW5bASaRr7SQ" name="addAccountant">
+        <eAnnotations xmi:id="_FGTpgH4bEeGW5bASaRr7SQ" source="http://www.opaeum.org"/>
+        <ownedParameter xmi:id="_HmRE0H4bEeGW5bASaRr7SQ" name="name">
+          <eAnnotations xmi:id="_HmSS8H4bEeGW5bASaRr7SQ" source="http://www.opaeum.org"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_MWWvsH4bEeGW5bASaRr7SQ" name="isChartered">
+          <eAnnotations xmi:id="_MWXWwH4bEeGW5bASaRr7SQ" source="http://www.opaeum.org"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_RA5zQH4bEeGW5bASaRr7SQ" name="manager" type="_u7lZEGQWEeGbL9nlXe9lTQ">
+          <eAnnotations xmi:id="_RA5zQX4bEeGW5bASaRr7SQ" source="http://www.opaeum.org"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_u7lZEGQWEeGbL9nlXe9lTQ" clientDependency="_u_BHkWQWEeGbL9nlXe9lTQ" name="Manager">
+      <eAnnotations xmi:id="_u7mnMGQWEeGbL9nlXe9lTQ" source="http://www.opaeum.org"/>
+      <ownedAttribute xmi:id="_hU8D8HphEeGlh5y8zQdYBA" name="name">
+        <eAnnotations xmi:id="_hZ3AMHphEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_JMxWcIPrEeGccYWaoIFIyQ" name="yearsInPosition">
+        <eAnnotations xmi:id="_JNKYAIPrEeGccYWaoIFIyQ" source="http://www.opaeum.org"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_M_kSoIPrEeGccYWaoIFIyQ" name="contactNumber">
+        <eAnnotations xmi:id="_M_nV8IPrEeGccYWaoIFIyQ" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_S-ZOMHr7EeGX8L_MMRBizg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_ROTj8IPrEeGccYWaoIFIyQ" name="hourlyRate">
+        <eAnnotations xmi:id="_ROWAMIPrEeGccYWaoIFIyQ" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+      <interfaceRealization xmi:id="_u_BHkWQWEeGbL9nlXe9lTQ" name="isAIBusinessRole" client="_u7lZEGQWEeGbL9nlXe9lTQ">
+        <eAnnotations xmi:id="_vBQjQGQWEeGbL9nlXe9lTQ" source="http://www.opaeum.org"/>
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+      </interfaceRealization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_0XIvwHHgEeGus4aKic9sIg" name="dishwashersInc_manager_1" memberEnd="_0XIvwXHgEeGus4aKic9sIg _0XGTgHHgEeGus4aKic9sIg" navigableOwnedEnd="_0XIvwXHgEeGus4aKic9sIg">
+      <eAnnotations xmi:id="_0XJ94HHgEeGus4aKic9sIg" source="http://www.opaeum.org"/>
+      <ownedEnd xmi:id="_0XIvwXHgEeGus4aKic9sIg" name="dishwashersInc" type="_CQTWAGOeEeGwMNo027LgxA" association="_0XIvwHHgEeGus4aKic9sIg">
+        <eAnnotations xmi:id="_0cKZsHHgEeGus4aKic9sIg" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0XIvwnHgEeGus4aKic9sIg" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0XIvw3HgEeGus4aKic9sIg" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_x_4WgHJ6EeG5aYCQXxe9BQ" name="ApplianceComponent">
+      <eAnnotations xmi:id="_x_9PAHJ6EeG5aYCQXxe9BQ" source="http://www.opaeum.org"/>
+      <ownedAttribute xmi:id="_Fn4Q0HJ7EeG5aYCQXxe9BQ" name="partNumber">
+        <eAnnotations xmi:id="_Fn6tEHJ7EeG5aYCQXxe9BQ" source="http://www.opaeum.org"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_HxpZsHJ7EeG5aYCQXxe9BQ" name="price">
+        <eAnnotations xmi:id="_HxrO4HJ7EeG5aYCQXxe9BQ" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_4_U04HJ6EeG5aYCQXxe9BQ" name="dishWasher_class1_1" memberEnd="_4_Vb8HJ6EeG5aYCQXxe9BQ _4_SYoHJ6EeG5aYCQXxe9BQ" navigableOwnedEnd="_4_Vb8HJ6EeG5aYCQXxe9BQ">
+      <eAnnotations xmi:id="_4_WqEHJ6EeG5aYCQXxe9BQ" source="http://www.opaeum.org"/>
+      <ownedEnd xmi:id="_4_Vb8HJ6EeG5aYCQXxe9BQ" name="appliance" type="_nhV7IGCfEeG6xvYqJACneg" association="_4_U04HJ6EeG5aYCQXxe9BQ">
+        <eAnnotations xmi:id="_5EclcHJ6EeG5aYCQXxe9BQ" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4_Vb8XJ6EeG5aYCQXxe9BQ" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4_Vb8nJ6EeG5aYCQXxe9BQ" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_z8IcwHsKEeGBGZr9IpIa3A" name="Vendor">
+      <eAnnotations xmi:id="_z8K5AHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org" references="_19w9UHsKEeGBGZr9IpIa3A _3FQw4HsKEeGBGZr9IpIa3A _4C-9YHsKEeGBGZr9IpIa3A"/>
+      <ownedLiteral xmi:id="_19w9UHsKEeGBGZr9IpIa3A" name="whirlPool">
+        <eAnnotations xmi:id="_19zZkHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+      </ownedLiteral>
+      <ownedLiteral xmi:id="_3FQw4HsKEeGBGZr9IpIa3A" name="bosch">
+        <eAnnotations xmi:id="_3FSmEHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+      </ownedLiteral>
+      <ownedLiteral xmi:id="_4C-9YHsKEeGBGZr9IpIa3A" name="kelvinator">
+        <eAnnotations xmi:id="_4DAykHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+      </ownedLiteral>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_7RKwoHsKEeGBGZr9IpIa3A" name="applianceModel_vendor_1" memberEnd="_7RKwoXsKEeGBGZr9IpIa3A _7RIUYHsKEeGBGZr9IpIa3A">
+      <eAnnotations xmi:id="_7RLXsHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+      <ownedEnd xmi:id="_7RKwoXsKEeGBGZr9IpIa3A" name="dishWasherModel" type="_nhV7IGCfEeG6xvYqJACneg" association="_7RKwoHsKEeGBGZr9IpIa3A">
+        <eAnnotations xmi:id="_7WNBoHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7RKwonsKEeGBGZr9IpIa3A"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7RKwo3sKEeGBGZr9IpIa3A" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_loLrkJHrEeGtApeO0lzlHQ" clientDependency="_WwiIkJHwEeGtApeO0lzlHQ" name="Technician">
+      <interfaceRealization xmi:id="_WwiIkJHwEeGtApeO0lzlHQ" name="isAIBusinessRole" client="_loLrkJHrEeGtApeO0lzlHQ">
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+      </interfaceRealization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_0l-NAJJNEeGW4L5IejZxpA" clientDependency="_0pW4MJJNEeGW4L5IejZxpA" name="Branch">
+      <ownedAttribute xmi:id="_pNEJIJJPEeGW4L5IejZxpA" name="customerAssistant" type="_bX-ooJJPEeGW4L5IejZxpA" aggregation="composite" association="_pNF-UJJPEeGW4L5IejZxpA">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pNEJIZJPEeGW4L5IejZxpA"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_pNEJIpJPEeGW4L5IejZxpA" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_59AMMJKGEeGFkOm2e1MJNQ" name="city" type="_HSme4JKIEeGFkOm2e1MJNQ" association="_59CocJKGEeGFkOm2e1MJNQ">
+        <eAnnotations xmi:id="_QB16YJKdEeGBMrf_wP_L7A" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_59AMMZKGEeGFkOm2e1MJNQ" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_59AMMpKGEeGFkOm2e1MJNQ" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_JaIUoJKfEeGiJMBDeZRymA" name="technician" type="_loLrkJHrEeGtApeO0lzlHQ" aggregation="composite" association="_JaKw4JKfEeGiJMBDeZRymA">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JaI7sJKfEeGiJMBDeZRymA" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JaI7sZKfEeGiJMBDeZRymA" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_QcN0UJLAEeGnpuq6_ber_Q" name="job" type="_PgzU8JLAEeGnpuq6_ber_Q" aggregation="composite" association="_QcPpgJLAEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QcObYJLAEeGnpuq6_ber_Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QcObYZLAEeGnpuq6_ber_Q" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_ea2-cJT6EeG_oLv6jKpgkw" name="name">
+        <eAnnotations xmi:id="_ebAIYJT6EeG_oLv6jKpgkw" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <interfaceRealization xmi:id="_0pW4MJJNEeGW4L5IejZxpA" name="isAIBusinessComponent" client="_0l-NAJJNEeGW4L5IejZxpA">
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
+      </interfaceRealization>
+      <ownedOperation xmi:id="_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1">
+        <ownedParameter xmi:id="_k_VZsMzBEeGKe7Qm4dvydQ" name="sdfgd"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_-IRCoJJNEeGW4L5IejZxpA" name="dishwashersInc_branch" memberEnd="_-IRCoZJNEeGW4L5IejZxpA _-IPNcJJNEeGW4L5IejZxpA" navigableOwnedEnd="_-IRCoZJNEeGW4L5IejZxpA">
+      <ownedEnd xmi:id="_-IRCoZJNEeGW4L5IejZxpA" name="dishwashersInc" type="_CQTWAGOeEeGwMNo027LgxA" association="_-IRCoJJNEeGW4L5IejZxpA">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-IRCopJNEeGW4L5IejZxpA" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-IRCo5JNEeGW4L5IejZxpA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_bX-ooJJPEeGW4L5IejZxpA" clientDependency="_bawP0JJPEeGW4L5IejZxpA" name="CustomerAssistant">
+      <interfaceRealization xmi:id="_bawP0JJPEeGW4L5IejZxpA" name="isAIBusinessRole" client="_bX-ooJJPEeGW4L5IejZxpA">
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+      </interfaceRealization>
+      <ownedOperation xmi:id="_A1hu8JKiEeGiJMBDeZRymA" name="followLead" precondition="__9ZiMJKjEeGiJMBDeZRymA">
+        <eAnnotations xmi:id="_Dz1TIJKiEeGiJMBDeZRymA" source="http://www.opaeum.org"/>
+        <ownedRule xmi:id="__9ZiMJKjEeGiJMBDeZRymA" name="newConstraint" constrainedElement="_D1Kv4JKiEeGiJMBDeZRymA">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="__9aJQJKjEeGiJMBDeZRymA" name="newConstraint_body">
+            <language>OCL</language>
+            <body>now.after(timeOfLead)=true</body>
+          </specification>
+        </ownedRule>
+        <ownedParameter xmi:id="_Dzy24JKiEeGiJMBDeZRymA" name="customer" type="_xQY8oGFKEeG2AvOqZt1NZQ">
+          <eAnnotations xmi:id="_Dzzd8JKiEeGiJMBDeZRymA" source="http://www.opaeum.org"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_D1Kv4JKiEeGiJMBDeZRymA" name="timeOfLead">
+          <eAnnotations xmi:id="_D1LW8JKiEeGiJMBDeZRymA" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_pNF-UJJPEeGW4L5IejZxpA" name="branch_customerAssistant" memberEnd="_pNF-UZJPEeGW4L5IejZxpA _pNEJIJJPEeGW4L5IejZxpA" navigableOwnedEnd="_pNF-UZJPEeGW4L5IejZxpA">
+      <ownedEnd xmi:id="_pNF-UZJPEeGW4L5IejZxpA" name="branch" type="_0l-NAJJNEeGW4L5IejZxpA" association="_pNF-UJJPEeGW4L5IejZxpA">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pNF-UpJPEeGW4L5IejZxpA" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_pNF-U5JPEeGW4L5IejZxpA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_CkljUJJWEeGFkOm2e1MJNQ" name="Province">
+      <eAnnotations xmi:id="__I-h0JKGEeGFkOm2e1MJNQ" source="http://www.opaeum.org" references="__I3NEJKGEeGFkOm2e1MJNQ _AeDeYJKHEeGFkOm2e1MJNQ _BT_A0JKHEeGFkOm2e1MJNQ _CuGOYJKHEeGFkOm2e1MJNQ"/>
+      <ownedLiteral xmi:id="__I3NEJKGEeGFkOm2e1MJNQ" name="Gauteng">
+        <slot xmi:id="__ofGUJKcEeGBMrf_wP_L7A" definingFeature="_DmOEAZKZEeGVguC2OnqOLw">
+          <value xmi:type="uml:InstanceValue" xmi:id="_AscdsJKdEeGBMrf_wP_L7A" instance="_Ib1X0JKIEeGFkOm2e1MJNQ"/>
+        </slot>
+      </ownedLiteral>
+      <ownedLiteral xmi:id="_AeDeYJKHEeGFkOm2e1MJNQ" name="WesternCape">
+        <slot xmi:id="__oftYJKcEeGBMrf_wP_L7A" definingFeature="_DmOEAZKZEeGVguC2OnqOLw">
+          <value xmi:type="uml:InstanceValue" xmi:id="_BSpiEJKdEeGBMrf_wP_L7A" instance="_UXveQJKKEeGFkOm2e1MJNQ"/>
+        </slot>
+      </ownedLiteral>
+      <ownedLiteral xmi:id="_BT_A0JKHEeGFkOm2e1MJNQ" name="KwaZuluNatal">
+        <slot xmi:id="__ogUcJKcEeGBMrf_wP_L7A" definingFeature="_DmOEAZKZEeGVguC2OnqOLw">
+          <value xmi:type="uml:InstanceValue" xmi:id="_FaIU0JKdEeGBMrf_wP_L7A" instance="_AR5fcJKMEeGVguC2OnqOLw"/>
+        </slot>
+      </ownedLiteral>
+      <ownedLiteral xmi:id="_CuGOYJKHEeGFkOm2e1MJNQ" name="Mpumalanga">
+        <slot xmi:id="__og7gJKcEeGBMrf_wP_L7A" definingFeature="_DmOEAZKZEeGVguC2OnqOLw"/>
+      </ownedLiteral>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_59CocJKGEeGFkOm2e1MJNQ" name="branch_province" memberEnd="_59CocZKGEeGFkOm2e1MJNQ _59AMMJKGEeGFkOm2e1MJNQ">
+      <ownedEnd xmi:id="_59CocZKGEeGFkOm2e1MJNQ" name="branch" type="_0l-NAJJNEeGW4L5IejZxpA" association="_59CocJKGEeGFkOm2e1MJNQ">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_59CocpKGEeGFkOm2e1MJNQ"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_59Coc5KGEeGFkOm2e1MJNQ" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_HSme4JKIEeGFkOm2e1MJNQ" name="City">
+      <eAnnotations xmi:id="_Ib2l8JKIEeGFkOm2e1MJNQ" source="http://www.opaeum.org" references="_Ib1X0JKIEeGFkOm2e1MJNQ _UXveQJKKEeGFkOm2e1MJNQ _40zbwJKLEeGVguC2OnqOLw _AR5fcJKMEeGVguC2OnqOLw"/>
+      <ownedLiteral xmi:id="_Ib1X0JKIEeGFkOm2e1MJNQ" name="Johannesburg">
+        <slot xmi:id="_4wfTwJKcEeGBMrf_wP_L7A" definingFeature="_DmOEBJKZEeGVguC2OnqOLw">
+          <value xmi:type="uml:InstanceValue" xmi:id="_5qZXQJKcEeGBMrf_wP_L7A" instance="__I3NEJKGEeGFkOm2e1MJNQ"/>
+        </slot>
+      </ownedLiteral>
+      <ownedLiteral xmi:id="_UXveQJKKEeGFkOm2e1MJNQ" name="CapeTown">
+        <slot xmi:id="_4wgh4JKcEeGBMrf_wP_L7A" definingFeature="_DmOEBJKZEeGVguC2OnqOLw">
+          <value xmi:type="uml:InstanceValue" xmi:id="_6AI9wJKcEeGBMrf_wP_L7A" instance="_AeDeYJKHEeGFkOm2e1MJNQ"/>
+        </slot>
+      </ownedLiteral>
+      <ownedLiteral xmi:id="_40zbwJKLEeGVguC2OnqOLw" name="Pretoria">
+        <slot xmi:id="_4wgh4ZKcEeGBMrf_wP_L7A" definingFeature="_DmOEBJKZEeGVguC2OnqOLw">
+          <value xmi:type="uml:InstanceValue" xmi:id="_6qBoQJKcEeGBMrf_wP_L7A" instance="__I3NEJKGEeGFkOm2e1MJNQ"/>
+        </slot>
+      </ownedLiteral>
+      <ownedLiteral xmi:id="_AR5fcJKMEeGVguC2OnqOLw" name="Durban">
+        <slot xmi:id="_4whI8JKcEeGBMrf_wP_L7A" definingFeature="_DmOEBJKZEeGVguC2OnqOLw">
+          <value xmi:type="uml:InstanceValue" xmi:id="_69Z3QJKcEeGBMrf_wP_L7A" instance="_BT_A0JKHEeGFkOm2e1MJNQ"/>
+        </slot>
+      </ownedLiteral>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_DmOEAJKZEeGVguC2OnqOLw" name="province_city" memberEnd="_DmOEBJKZEeGVguC2OnqOLw _DmOEAZKZEeGVguC2OnqOLw" navigableOwnedEnd="_DmOEBJKZEeGVguC2OnqOLw _DmOEAZKZEeGVguC2OnqOLw">
+      <ownedEnd xmi:id="_DmOEAZKZEeGVguC2OnqOLw" name="city" type="_HSme4JKIEeGFkOm2e1MJNQ" association="_DmOEAJKZEeGVguC2OnqOLw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DmOEApKZEeGVguC2OnqOLw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_DmOEA5KZEeGVguC2OnqOLw" value="*"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_DmOEBJKZEeGVguC2OnqOLw" name="province" type="_CkljUJJWEeGFkOm2e1MJNQ" association="_DmOEAJKZEeGVguC2OnqOLw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DmOEBZKZEeGVguC2OnqOLw" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_DmOEBpKZEeGVguC2OnqOLw" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_JaKw4JKfEeGiJMBDeZRymA" name="branch_technician" memberEnd="_JaKw4ZKfEeGiJMBDeZRymA _JaIUoJKfEeGiJMBDeZRymA" navigableOwnedEnd="_JaKw4ZKfEeGiJMBDeZRymA">
+      <ownedEnd xmi:id="_JaKw4ZKfEeGiJMBDeZRymA" name="branch" type="_0l-NAJJNEeGW4L5IejZxpA" association="_JaKw4JKfEeGiJMBDeZRymA">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JaKw4pKfEeGiJMBDeZRymA" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JaKw45KfEeGiJMBDeZRymA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_wtIMYJK_EeGnpuq6_ber_Q" name="applianceDoctor_applianceModel_1" memberEnd="_wtIMYZK_EeGnpuq6_ber_Q _wtFJEJK_EeGnpuq6_ber_Q" navigableOwnedEnd="_wtIMYZK_EeGnpuq6_ber_Q">
+      <ownedEnd xmi:id="_wtIMYZK_EeGnpuq6_ber_Q" name="applianceDoctor" type="_CQTWAGOeEeGwMNo027LgxA" association="_wtIMYJK_EeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wtIMYpK_EeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wtIMY5K_EeGnpuq6_ber_Q" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_8mTZ0JK_EeGnpuq6_ber_Q" name="ApplianceType">
+      <eAnnotations xmi:id="_9uVY4JK_EeGnpuq6_ber_Q" source="http://www.opaeum.org" references="_9uUx0JK_EeGnpuq6_ber_Q _-uwUEJK_EeGnpuq6_ber_Q _BBJNcJLAEeGnpuq6_ber_Q"/>
+      <ownedLiteral xmi:id="_9uUx0JK_EeGnpuq6_ber_Q" name="dishWasher"/>
+      <ownedLiteral xmi:id="_-uwUEJK_EeGnpuq6_ber_Q" name="tumbleDryer"/>
+      <ownedLiteral xmi:id="_BBJNcJLAEeGnpuq6_ber_Q" name="washingMachine"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_Ek9ScJLAEeGnpuq6_ber_Q" name="applianceModel_applianceType_1" memberEnd="_Ek9ScZLAEeGnpuq6_ber_Q _Ek7dQJLAEeGnpuq6_ber_Q">
+      <ownedEnd xmi:id="_Ek9ScZLAEeGnpuq6_ber_Q" name="applianceModel" type="_nhV7IGCfEeG6xvYqJACneg" association="_Ek9ScJLAEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ek9ScpLAEeGnpuq6_ber_Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ek9Sc5LAEeGnpuq6_ber_Q" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_PgzU8JLAEeGnpuq6_ber_Q" name="Job">
+      <ownedAttribute xmi:id="_YMgg0JLAEeGnpuq6_ber_Q" name="customerAssistant" type="_bX-ooJJPEeGW4L5IejZxpA" association="_YMhu8JLAEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YMgg0ZLAEeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YMgg0pLAEeGnpuq6_ber_Q" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_w1NfcJLBEeGnpuq6_ber_Q" name="applianceComponentSale" type="_tGMQAJLBEeGnpuq6_ber_Q" aggregation="composite" association="_w1OtkJLBEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_w1NfcZLBEeGnpuq6_ber_Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_w1NfcpLBEeGnpuq6_ber_Q" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_F6QmkJLCEeGnpuq6_ber_Q" name="activity" type="_DlV9oJLCEeGnpuq6_ber_Q" aggregation="composite" association="_F6R0sJLCEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_F6QmkZLCEeGnpuq6_ber_Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_F6QmkpLCEeGnpuq6_ber_Q" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_eQfxoJLCEeGnpuq6_ber_Q" name="foreman" type="_loLrkJHrEeGtApeO0lzlHQ" association="_eQg_wJLCEeGnpuq6_ber_Q">
+        <eAnnotations xmi:id="_imx1YJLCEeGnpuq6_ber_Q" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eQfxoZLCEeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_eQfxopLCEeGnpuq6_ber_Q" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_sd0zsJQaEeGTXL33HwWNwQ" name="totalCost">
+        <eAnnotations xmi:id="_seYNUJQaEeGTXL33HwWNwQ" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_oF8YAJQbEeGJg4MkDnRIeA" name="costToCompany">
+        <eAnnotations xmi:id="_oGJMUJQbEeGJg4MkDnRIeA" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_dbubkJQcEeGJg4MkDnRIeA" name="timeInHours">
+        <eAnnotations xmi:id="_dbz7IJQcEeGJg4MkDnRIeA" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_QcPpgJLAEeGnpuq6_ber_Q" name="branch_job_1" memberEnd="_QcPpgZLAEeGnpuq6_ber_Q _QcN0UJLAEeGnpuq6_ber_Q" navigableOwnedEnd="_QcPpgZLAEeGnpuq6_ber_Q">
+      <ownedEnd xmi:id="_QcPpgZLAEeGnpuq6_ber_Q" name="branch" type="_0l-NAJJNEeGW4L5IejZxpA" association="_QcPpgJLAEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QcPpgpLAEeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QcPpg5LAEeGnpuq6_ber_Q" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_YMhu8JLAEeGnpuq6_ber_Q" name="job_customerAssistant_1" memberEnd="_YMhu8ZLAEeGnpuq6_ber_Q _YMgg0JLAEeGnpuq6_ber_Q" navigableOwnedEnd="_YMhu8ZLAEeGnpuq6_ber_Q">
+      <ownedEnd xmi:id="_YMhu8ZLAEeGnpuq6_ber_Q" name="job" type="_PgzU8JLAEeGnpuq6_ber_Q" association="_YMhu8JLAEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YMhu8pLAEeGnpuq6_ber_Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YMhu85LAEeGnpuq6_ber_Q" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_tGMQAJLBEeGnpuq6_ber_Q" name="ApplianceComponentSale">
+      <ownedAttribute xmi:id="_xHDdYJLBEeGnpuq6_ber_Q" name="applianceComponent" type="_x_4WgHJ6EeG5aYCQXxe9BQ" association="_xHFSkJLBEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xHDdYZLBEeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xHDdYpLBEeGnpuq6_ber_Q" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_kXRuIJN8EeGzUIOTq-3iUg" name="dateOfSale">
+        <eAnnotations xmi:id="_kXS8QJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_nD2CEJN8EeGzUIOTq-3iUg" name="costToCustomer">
+        <eAnnotations xmi:id="_nD3QMJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_0sbXoJN8EeGzUIOTq-3iUg" name="costPriceOfComponent">
+        <eAnnotations xmi:id="_0sdM0JN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_w1OtkJLBEeGnpuq6_ber_Q" name="job_applianceComponentSale_1" memberEnd="_w1OtkZLBEeGnpuq6_ber_Q _w1NfcJLBEeGnpuq6_ber_Q" navigableOwnedEnd="_w1OtkZLBEeGnpuq6_ber_Q">
+      <ownedEnd xmi:id="_w1OtkZLBEeGnpuq6_ber_Q" name="job" type="_PgzU8JLAEeGnpuq6_ber_Q" association="_w1OtkJLBEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_w1OtkpLBEeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_w1Otk5LBEeGnpuq6_ber_Q" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_xHFSkJLBEeGnpuq6_ber_Q" name="applianceComponentSale_applianceComponent_1" memberEnd="_xHFSkZLBEeGnpuq6_ber_Q _xHDdYJLBEeGnpuq6_ber_Q">
+      <ownedEnd xmi:id="_xHFSkZLBEeGnpuq6_ber_Q" name="applianceComponentSale" type="_tGMQAJLBEeGnpuq6_ber_Q" association="_xHFSkJLBEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xHFSkpLBEeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xHFSk5LBEeGnpuq6_ber_Q" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_DlV9oJLCEeGnpuq6_ber_Q" name="Activity">
+      <ownedAttribute xmi:id="_ehuEgJLCEeGnpuq6_ber_Q" name="technician" type="_loLrkJHrEeGtApeO0lzlHQ" association="_ehvSoJLCEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ehuEgZLCEeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ehuEgpLCEeGnpuq6_ber_Q" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_XPTyUJN8EeGzUIOTq-3iUg" name="durationInHours">
+        <eAnnotations xmi:id="_XP190JN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_cHpaQJN8EeGzUIOTq-3iUg" name="costToCustomer">
+        <eAnnotations xmi:id="_cHrPcJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_d_KVgJN8EeGzUIOTq-3iUg" name="costToCompany">
+        <eAnnotations xmi:id="_d_MKsJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_u863IJN8EeGzUIOTq-3iUg" name="dateOfWork">
+        <eAnnotations xmi:id="_u89TYJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_F6R0sJLCEeGnpuq6_ber_Q" name="job_activity_1" memberEnd="_F6R0sZLCEeGnpuq6_ber_Q _F6QmkJLCEeGnpuq6_ber_Q" navigableOwnedEnd="_F6R0sZLCEeGnpuq6_ber_Q">
+      <ownedEnd xmi:id="_F6R0sZLCEeGnpuq6_ber_Q" name="job" type="_PgzU8JLAEeGnpuq6_ber_Q" association="_F6R0sJLCEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_F6R0spLCEeGnpuq6_ber_Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_F6R0s5LCEeGnpuq6_ber_Q" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_eQg_wJLCEeGnpuq6_ber_Q" name="job_technician_1" memberEnd="_eQg_wZLCEeGnpuq6_ber_Q _eQfxoJLCEeGnpuq6_ber_Q">
+      <ownedEnd xmi:id="_eQg_wZLCEeGnpuq6_ber_Q" name="job" type="_PgzU8JLAEeGnpuq6_ber_Q" association="_eQg_wJLCEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eQg_wpLCEeGnpuq6_ber_Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_eQg_w5LCEeGnpuq6_ber_Q" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_ehvSoJLCEeGnpuq6_ber_Q" name="activity_technician_1" memberEnd="_ehvSoZLCEeGnpuq6_ber_Q _ehuEgJLCEeGnpuq6_ber_Q">
+      <ownedEnd xmi:id="_ehvSoZLCEeGnpuq6_ber_Q" name="activity" type="_DlV9oJLCEeGnpuq6_ber_Q" association="_ehvSoJLCEeGnpuq6_ber_Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ehvSopLCEeGnpuq6_ber_Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ehvSo5LCEeGnpuq6_ber_Q" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <profileApplication xmi:id="_BMNPoHHfEeGyMMwFc1M9cQ">
+      <eAnnotations xmi:id="_BMb5IHHfEeGyMMwFc1M9cQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+    <profileApplication xmi:id="_wc8nkHHfEeGR5Y29CSTzSA">
+      <eAnnotations xmi:id="_wdNtUHHfEeGR5Y29CSTzSA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+  </uml:Model>
+  <OpaeumStandardProfile:Model xmi:id="_w6v94HHfEeGR5Y29CSTzSA" base_Model="_-VLbkE8VEeGA3PFuQY5w7Q"/>
+  <OpaeumStandardProfile:Entity xmi:id="_xtdNMHHfEeGR5Y29CSTzSA" base_Class="_oiVeEGCfEeG6xvYqJACneg"/>
+  <OpaeumStandardProfile:Entity xmi:id="_vFczsHHgEeGus4aKic9sIg" base_Class="_CQTWAGOeEeGwMNo027LgxA"/>
+  <OpaeumStandardProfile:Entity xmi:id="_x_Bo4HHgEeGus4aKic9sIg" base_Class="_u7lZEGQWEeGbL9nlXe9lTQ"/>
+  <OpaeumStandardProfile:Entity xmi:id="_ypF5kHHgEeGus4aKic9sIg" base_Class="_nhV7IGCfEeG6xvYqJACneg"/>
+  <OpaeumStandardProfile:Entity xmi:id="_yGxosHJ6EeG5aYCQXxe9BQ" base_Class="_x_4WgHJ6EeG5aYCQXxe9BQ"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_HF5uAHJ7EeG5aYCQXxe9BQ" base_Property="_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+  <OpaeumStandardProfile:Attribute xmi:id="__CsV0HorEeGBZ7vhZCNgsg" base_Property="_8-HO8HorEeGBZ7vhZCNgsg"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_j5jVwHphEeGlh5y8zQdYBA" base_Property="_ht9n8HphEeGlh5y8zQdYBA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_ebYAYHpiEeGlh5y8zQdYBA" base_Property="_aFhacHpiEeGlh5y8zQdYBA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_twLQ0HsKEeGBGZr9IpIa3A" base_Property="_rZMyYHsKEeGBGZr9IpIa3A"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_YLpi8HsLEeGBGZr9IpIa3A" base_Property="_VSJmQHsLEeGBGZr9IpIa3A"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_PaDYEIPrEeGccYWaoIFIyQ" base_Property="_M_kSoIPrEeGccYWaoIFIyQ"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_UOA2UIPrEeGccYWaoIFIyQ" base_Property="_ROTj8IPrEeGccYWaoIFIyQ"/>
+  <OpaeumBPMProfile:BusinessRole xmi:id="_7Sc-cJHREeGnROwlrLfozA" base_Class="_u7lZEGQWEeGbL9nlXe9lTQ"/>
+  <OpaeumBPMProfile:BusinessComponent xmi:id="_8gLV0JHREeGnROwlrLfozA" base_Component="_CQTWAGOeEeGwMNo027LgxA"/>
+  <OpaeumBPMProfile:BusinessDocument xmi:id="_g4VaoJHSEeGnROwlrLfozA" base_Class="_oiVeEGCfEeG6xvYqJACneg"/>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_uAarMJHSEeGnROwlrLfozA" roleInCube="DIMENSION" base_Property="_7RIUYHsKEeGBGZr9IpIa3A"/>
+  <OpaeumStandardProfile:Entity xmi:id="_lp_pcJHrEeGtApeO0lzlHQ" base_Class="_loLrkJHrEeGtApeO0lzlHQ"/>
+  <OpaeumBPMProfile:BusinessRole xmi:id="_l0JD8JHrEeGtApeO0lzlHQ" base_Class="_loLrkJHrEeGtApeO0lzlHQ"/>
+  <OpaeumBPMProfile:BusinessComponent xmi:id="_0pVqEJJNEeGW4L5IejZxpA" base_Component="_0l-NAJJNEeGW4L5IejZxpA"/>
+  <OpaeumBPMProfile:BusinessRole xmi:id="_batMgJJPEeGW4L5IejZxpA" base_Class="_bX-ooJJPEeGW4L5IejZxpA"/>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_RHU7wJKdEeGBMrf_wP_L7A" roleInCube="DIMENSION" base_Property="_59AMMJKGEeGFkOm2e1MJNQ"/>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_SvpkcJKdEeGBMrf_wP_L7A" roleInCube="DIMENSION" base_Property="_DmOEBJKZEeGVguC2OnqOLw"/>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_c41tEJLAEeGnpuq6_ber_Q" roleInCube="DIMENSION" base_Property="_YMgg0JLAEeGnpuq6_ber_Q"/>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_3wf2kJLBEeGnpuq6_ber_Q" roleInCube="DIMENSION" base_Property="_xHDdYJLBEeGnpuq6_ber_Q"/>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_HOkuIJLCEeGnpuq6_ber_Q" roleInCube="DIMENSION" base_Property="_F6QmkJLCEeGnpuq6_ber_Q"/>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_jf6c0JLCEeGnpuq6_ber_Q" roleInCube="DIMENSION" base_Property="_ehuEgJLCEeGnpuq6_ber_Q"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_morJAJN8EeGzUIOTq-3iUg" roleInCube="DIMENSION" base_Property="_kXRuIJN8EeGzUIOTq-3iUg"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_pSmYoJN8EeGzUIOTq-3iUg" roleInCube="MEASURE" base_Property="_XPTyUJN8EeGzUIOTq-3iUg">
+    <aggregationFormulas>SUM</aggregationFormulas>
+    <aggregationFormulas>AVERAGE</aggregationFormulas>
+  </OpaeumStandardProfile:Attribute>
+  <OpaeumStandardProfile:Attribute xmi:id="_zqTMQJN8EeGzUIOTq-3iUg" roleInCube="DIMENSION" base_Property="_u863IJN8EeGzUIOTq-3iUg"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_5D5HIJN8EeGzUIOTq-3iUg" roleInCube="MEASURE" base_Property="_0sbXoJN8EeGzUIOTq-3iUg">
+    <aggregationFormulas>SUM</aggregationFormulas>
+    <aggregationFormulas>AVERAGE</aggregationFormulas>
+  </OpaeumStandardProfile:Attribute>
+  <OpaeumStandardProfile:Attribute xmi:id="_VNeykJN-EeG-N7PotjH4Yw" roleInCube="MEASURE" base_Property="_d_KVgJN8EeGzUIOTq-3iUg">
+    <aggregationFormulas>SUM</aggregationFormulas>
+    <aggregationFormulas>AVERAGE</aggregationFormulas>
+  </OpaeumStandardProfile:Attribute>
+  <OpaeumStandardProfile:Attribute xmi:id="_gCFvMJN_EeGdXM6JZpUahQ" roleInCube="MEASURE" base_Property="_cHpaQJN8EeGzUIOTq-3iUg">
+    <aggregationFormulas>SUM</aggregationFormulas>
+    <aggregationFormulas>AVERAGE</aggregationFormulas>
+  </OpaeumStandardProfile:Attribute>
+  <OpaeumStandardProfile:Attribute xmi:id="_j9emsJN_EeGdXM6JZpUahQ" roleInCube="MEASURE" base_Property="_nD2CEJN8EeGzUIOTq-3iUg">
+    <aggregationFormulas>SUM</aggregationFormulas>
+    <aggregationFormulas>AVERAGE</aggregationFormulas>
+  </OpaeumStandardProfile:Attribute>
+  <OpaeumStandardProfile:Attribute xmi:id="_vGFPYJQaEeGTXL33HwWNwQ" roleInCube="MEASURE" base_Property="_sd0zsJQaEeGTXL33HwWNwQ">
+    <aggregationFormulas>SUM</aggregationFormulas>
+    <aggregationFormulas>AVERAGE</aggregationFormulas>
+  </OpaeumStandardProfile:Attribute>
+  <OpaeumStandardProfile:Attribute xmi:id="_h7UzYJQcEeGJg4MkDnRIeA" roleInCube="MEASURE" base_Property="_dbubkJQcEeGJg4MkDnRIeA">
+    <aggregationFormulas>AVERAGE</aggregationFormulas>
+    <aggregationFormulas>SUM</aggregationFormulas>
+  </OpaeumStandardProfile:Attribute>
+  <OpaeumStandardProfile:Attribute xmi:id="_mJSBkJQcEeGJg4MkDnRIeA" roleInCube="MEASURE" base_Property="_oF8YAJQbEeGJg4MkDnRIeA">
+    <aggregationFormulas>SUM</aggregationFormulas>
+    <aggregationFormulas>AVERAGE</aggregationFormulas>
+  </OpaeumStandardProfile:Attribute>
+  <OpaeumStandardProfile:Attribute xmi:id="_f6vc0JT6EeG_oLv6jKpgkw" base_Property="_ea2-cJT6EeG_oLv6jKpgkw"/>
+</xmi:XMI>

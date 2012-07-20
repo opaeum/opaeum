@@ -100,4 +100,13 @@ public class EmfStateMachineUtil {
 		}
 		return results;
 	}
+	public static StringBuffer getStatePath(State myState) {
+		StringBuffer sb = new StringBuffer();
+		if(myState.getContainer().getOwner() instanceof State){
+			sb.append(getStatePath((State) myState.getContainer().getOwner()));
+			sb.append("::");
+		}
+		sb.append(myState.getName());
+		return sb;
+	}
 }

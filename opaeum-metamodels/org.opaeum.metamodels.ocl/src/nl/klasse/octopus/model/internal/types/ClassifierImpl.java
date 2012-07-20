@@ -97,17 +97,6 @@ public class ClassifierImpl extends NameSpaceImpl implements IClassifier{
 		return attrs;
 	}
 
-	public List<IAttribute> getAllAttributes( ) {
-		List<IAttribute> result = new ArrayList<IAttribute>();
-		Iterator it = this.getGeneralizations().iterator();
-		while( it.hasNext() ){
-			IClassifier gen = (IClassifier) it.next();
-			result.addAll(gen.getAllAttributes());
-		}
-		result.addAll(attrs);
-
-		return result;
-	}
 
 	/* getters and setters for opers */
     public void addOperation( IOperation p ) {
@@ -206,17 +195,7 @@ public class ClassifierImpl extends NameSpaceImpl implements IClassifier{
 	public List<IInterface> getInterfaces() {
 		return interfaces;
 	}
-	
-	public List<IAssociationEnd> getAllNavigations( ) {
-		Set<IAssociationEnd> result = new HashSet<IAssociationEnd>();
-		result.addAll(navigations);
-		Iterator it = this.getGeneralizations().iterator();
-		while( it.hasNext() ){
-			IClassifier gen = (IClassifier) it.next();
-			result.addAll(gen.getAllNavigations());
-		}
-		return new ArrayList<IAssociationEnd>(result);
-	}
+
     
     /* getters and setters for navigations */
     public List<IAssociationEnd> getNavigations() {
@@ -426,55 +405,6 @@ public class ClassifierImpl extends NameSpaceImpl implements IClassifier{
         return getName();
     }
 
-    public String toStringVerbose() {
-        String result = "class (" + this.getClass().getName() + ") "  + getName() + StringHelpers.newLine;
-
-        result = result + "attributes" + StringHelpers.newLine;
-        Iterator iter = getAttributes().iterator();
-        while( iter.hasNext() ){
-            result = result + "    " + iter.next().toString() + StringHelpers.newLine;
-        }
-		iter = getClassAttributes().iterator();
-		while( iter.hasNext() ){
-			result = result + "    " + iter.next().toString() + StringHelpers.newLine;
-		}
-		
-		result = result + "navigations" + StringHelpers.newLine;
-		iter = getNavigations().iterator();
-		while( iter.hasNext() ){
-			result = result + "    " + iter.next().toString() + StringHelpers.newLine;
-		}
-
-        result = result + "operations" + StringHelpers.newLine;
-		iter = getOperations().iterator();
-		while( iter.hasNext() ){
-			result = result + "    " + iter.next().toString()  + StringHelpers.newLine;
-		}
-		iter = getClassOperations().iterator();
-		while( iter.hasNext() ){
-			result = result + "    " + iter.next().toString()  + StringHelpers.newLine;
-		}
-
-		result = result + "states" + StringHelpers.newLine;
-		iter = getStates().iterator();
-		while( iter.hasNext() ){
-			result = result + "    " + iter.next().toString()  + StringHelpers.newLine;
-		}
-
-		result = result + "invariants" + StringHelpers.newLine;
-		iter = getInvariants().iterator();
-		while( iter.hasNext() ){
-			result = result + "    " + iter.next().toString()  + StringHelpers.newLine;
-		}
-
-        result = result + "definitions" + StringHelpers.newLine;
-        iter = getDefinitions().iterator();
-        while( iter.hasNext() ){
-            result = result + "    " + iter.next().toString()  + StringHelpers.newLine;
-        }
-        return result;
-    }
-    
 	private boolean isPresent(String n) {
 		if ( findLocalAttribute(n) != null || findLocalAssociationEnd(n) != null) {
 			return true;
@@ -771,214 +701,8 @@ public class ClassifierImpl extends NameSpaceImpl implements IClassifier{
 	}
 
 /***************************************************************************
- * Methods for visiting this IClassifier
- ***************************************************************************/
-
-  public void accept(IPackageVisitor vis ) {
-    vis.class_Before(this);
-	if( vis.visitAttributes() ){
-	  Iterator it = this.getAttributes().iterator();
-	  while( it.hasNext() ){
-		AttributeImpl att = (AttributeImpl) it.next();
-		vis.attribute(att);
-	  }
-	  it = this.getClassAttributes().iterator();
-	  while( it.hasNext() ){
-		AttributeImpl att = (AttributeImpl) it.next();
-		vis.attribute(att);
-	  }
-	}
-	if( vis.visitNavigations() ){
-	  Iterator it = this.navigations.iterator();
-	  while( it.hasNext() ){
-		AssociationEndImpl assend = (AssociationEndImpl) it.next();
-		vis.navigation(assend);
-	  }
-	}
-    if( vis.visitOperations() ){
-      Iterator it = this.getOperations().iterator();
-      while( it.hasNext() ){
-        OperationImpl op = (OperationImpl) it.next();
-        vis.operation_Before(op);
-        if( vis.visitParameters() ){
-          Iterator params = op.getParameters().iterator();
-          while( params.hasNext() ){
-            vis.parameter((ParameterImpl) params.next());
-          }
-        }
-        vis.operation_After(op);
-      }
-      it = this.getClassOperations().iterator();
-      while( it.hasNext() ){
-        OperationImpl op = (OperationImpl) it.next();
-        vis.operation_Before(op);
-        if( vis.visitParameters() ){
-          Iterator params = op.getParameters().iterator();
-          while( params.hasNext() ){
-            vis.parameter((ParameterImpl) params.next());
-          }
-        }
-		vis.operation_After(op);
-      }
-    }
-    if( vis.visitStates() ){
-      Iterator it = this.getStates().iterator();
-      while( it.hasNext() ){
-        vis.state((StateImpl) it.next());
-      }
-    }
-	vis.class_After(this);
-  }
-  
-/***************************************************************************
  * Methods that merge another IClassifier into this one
  ***************************************************************************/  
-
-	/**
-	 * Method mergeWith merges this class with <i>merge</i>
-	 * this should be done for the other owned elements as well.
-	 * @param merge
-	 */
-	public void mergeWith(ClassifierImpl merge, List<ModelError> errors) {
-    	mergeAttributes(merge, errors);		
-    	mergeOperations(merge, errors);		
-    	mergeClassAttributes(merge, errors);		
-    	mergeClassOperations(merge, errors);		
-    	mergeNavigations(merge, errors);		
-		mergeGeneralizations(merge, errors);
-		mergeStates(merge, errors);
-    	mergeInvariants(merge, errors);		
-    	mergeDefinitions(merge, errors);		
-	}
-
-    private void mergeAttributes(ClassifierImpl merge, List<ModelError> errors){
-    	Iterator i = merge.getAttributes().iterator();
-    	while( i.hasNext() ){
-    		AttributeImpl mergeAttr  = (AttributeImpl) i.next();
-    		if( !isPresent(mergeAttr.getName())  ) {
-    		    this.addAttribute(mergeAttr);
-    		} else {
-				errors.add( new ModelError(mergeAttr.getFilename(), mergeAttr.getLine(), mergeAttr.getColumn(),
-							"Error in merging attributes of " + this.getName() + ": " 
-							+ " attribute '" + mergeAttr.getName() + "' already exists"));
-    		}	
-    	}
-    }
-    
-    private void mergeOperations(ClassifierImpl merge, List<ModelError> errors){
-    	Iterator i = merge.getOperations().iterator();
-    	while( i.hasNext() ){
-    		OperationImpl mergeOper  = (OperationImpl) i.next();
-    		OperationImpl exists = (OperationImpl) this.findLocalOperation(mergeOper.getName(), mergeOper.getParamTypes());
-    		if( exists == null ) {
-    		    this.addOperation(mergeOper);
-    		} else {
-				errors.add( new ModelError(mergeOper.getFilename(), mergeOper.getLine(), mergeOper.getColumn(),
-							"Error in merging operations of " + this.getName() + ": " 
-							+ " operation '" + exists.getSignature() + "' already exists"));
-    		}
-    	}
-    }
-
-    private void mergeClassAttributes(ClassifierImpl merge, List<ModelError> errors){
-    	Iterator i = merge.getClassAttributes().iterator();
-    	while( i.hasNext() ){
-    		AttributeImpl mergeAttr  = (AttributeImpl) i.next();
-    		AttributeImpl exists = (AttributeImpl) this.findLocalAttribute(mergeAttr.getName());
-    		if( exists == null ) {
-    		    this.addAttribute(mergeAttr);
-    		} else {
-				errors.add( new ModelError(mergeAttr.getFilename(), mergeAttr.getLine(), mergeAttr.getColumn(),
-							"Error in merging class attributes of " + this.getName() + ": " 
-							 + " class attribute '" + exists.getName() + "' already exists"));
-    		}	
-    	}
-    }
-    
-    private void mergeClassOperations(ClassifierImpl merge, List<ModelError> errors){
-    	Iterator i = merge.getClassOperations().iterator();
-    	while( i.hasNext() ){
-    		OperationImpl mergeOper  = (OperationImpl) i.next();
-    		OperationImpl exists = (OperationImpl) this.findClassOperation(mergeOper.getName(), mergeOper.getParamTypes());
-    		if( exists == null ) {
-    		    this.addOperation(mergeOper);
-    		} else {
-				errors.add( new ModelError(mergeOper.getFilename(), mergeOper.getLine(), mergeOper.getColumn(),
-							"Error in merging class operations of " + this.getName() + ": " 
-							+ " class operation '" + exists.getSignature() + "' already exists"));
-    		}	
-    	}
-    }
-    
-    private void mergeNavigations(ClassifierImpl merge, List<ModelError> errors){
-    	Iterator i = merge.getNavigations().iterator();
-    	while( i.hasNext() ){
-    		AssociationEndImpl mergeAttr  = (AssociationEndImpl) i.next();
-    		if( !isPresent(mergeAttr.getName())  ) {
-    		    this.addNavigation(mergeAttr);
-    		} else {
-				errors.add( new ModelError(mergeAttr.getFilename(), mergeAttr.getLine(), mergeAttr.getColumn(),
-							"Error in merging navigations of " + this.getName() + ": " 
-							+ " association end '" + mergeAttr.getName() + "' already exists"));
-    		}	
-    	}
-    }
-        
-    private void mergeInvariants(ClassifierImpl merge, List<ModelError> errors){
-    	Iterator i = merge.getInvariants().iterator();
-    	while( i.hasNext() ){
-    		IOclContext mergeCont  = (IOclContext) i.next();
-    		if (mergeCont instanceof OclErrContextImpl) {
-    			((OclErrContextImpl) mergeCont).setContext(this, this);	
-	   		    this.addInvariant(mergeCont);
-    		} else {
-				errors.add( new ModelError(mergeCont.getFilename(), mergeCont.getLine(), mergeCont.getColumn(),
-							"Error in merging invariants of " + this.getName() ));
-    		}	
-    	}
-    }
-       
-    private void mergeDefinitions(ClassifierImpl merge, List<ModelError> errors){
-    	Iterator i = merge.getDefinitions().iterator();
-    	while( i.hasNext() ){
-    		IOclContext mergeCont  = (IOclContext) i.next();
-    		if (mergeCont instanceof OclErrContextImpl) {
-    			((OclErrContextImpl) mergeCont).setContext(this, this);	
-	   		    this.addDefinition(mergeCont);
-    		} else {
-				errors.add( new ModelError(mergeCont.getFilename(), mergeCont.getLine(), mergeCont.getColumn(),
-							"Error in merging definitions of " + this.getName() ));
-    		}	
-    	}
-    }
-    
-	private void mergeStates(ClassifierImpl merge, List<ModelError> errors){
-		Iterator i = merge.getStates().iterator();
-		while( i.hasNext() ){
-			StateImpl mergeState  = (StateImpl) i.next();
-			if( findLocalState(mergeState.getName()) == null ) {
-				this.addState(mergeState);
-			} else {
-				errors.add( new ModelError(mergeState.getFilename(), mergeState.getLine(), mergeState.getColumn(),
-							"Error in merging states of " + this.getName() + ": " 
-							+ " state '" + mergeState.getName() + "' already exists"));
-			}				
-		}
-	}
-
-	private void mergeGeneralizations(ClassifierImpl merge, List<ModelError> errors){
-		Iterator i = merge.getGeneralizations().iterator();
-		while( i.hasNext() ){
-			IClassifier mergeSuperCls  = (IClassifier) i.next();
-			if( !this.getGeneralizations().contains(mergeSuperCls) ) {
-				this.addGeneralization(mergeSuperCls);
-			} else {
-				errors.add( new ModelError(merge.getFilename(), merge.getLine(), merge.getColumn(),
-							"Error in merging generalizations of " + this.getName() + ": " 
-							+ " superclass '" + mergeSuperCls.getName() + "' already present"));
-			}	
-		}
-	}
 
 	/**
 	 * @return
@@ -1021,7 +745,7 @@ public class ClassifierImpl extends NameSpaceImpl implements IClassifier{
 	/**
 	 * @return Returns the isAbstract.
 	 */
-	public boolean getIsAbstract() {
+	public boolean isAbstract() {
 		return isAbstract;
 	}
 

@@ -36,6 +36,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.bpm.organization.IBusinessComponent;
@@ -141,6 +142,11 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	public Branch() {
 	}
 
+	@NumlMetaInfo(uuid="914890@_dOodgMzBEeGKe7Qm4dvydQ")
+	public void Operation1(@ParameterMetaInfo(name="sdfgd",opaeumId=4983800839352232442l,uuid="914890@_k_VZsMzBEeGKe7Qm4dvydQ") String sdfgd) {
+		generateOperation1Event(sdfgd);
+	}
+	
 	public void addAllToCustomerAssistant(Set<CustomerAssistant> customerAssistant) {
 		for ( CustomerAssistant o : customerAssistant ) {
 			addToCustomerAssistant(o);
@@ -301,6 +307,11 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		removeAllFromParticipation(getParticipation());
 	}
 	
+	public boolean consumeOperation1Occurrence(@ParameterMetaInfo(name="sdfgd",opaeumId=4983800839352232442l,uuid="914890@_k_VZsMzBEeGKe7Qm4dvydQ") String sdfgd) {
+		boolean consumed = false;
+		return consumed;
+	}
+	
 	public void copyShallowState(Branch from, Branch to) {
 		to.setCity(from.getCity());
 		if ( from.getTechnician()!=null ) {
@@ -358,6 +369,9 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 			return other==this || ((Branch)other).getUid().equals(this.getUid());
 		}
 		return false;
+	}
+	
+	public void generateOperation1Event(@ParameterMetaInfo(name="sdfgd",opaeumId=4983800839352232442l,uuid="914890@_k_VZsMzBEeGKe7Qm4dvydQ") String sdfgd) {
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {

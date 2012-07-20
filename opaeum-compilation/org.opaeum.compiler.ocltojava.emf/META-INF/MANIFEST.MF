@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EmfOclToJava
+Bundle-SymbolicName: org.opaeum.compilation.ocltojava.emf
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.opaeum.compiler.ocltojava.emf.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ocl;bundle-version="3.2.0",
+ org.eclipse.ocl.common;bundle-version="1.0.0",
+ org.eclipse.ocl.uml;bundle-version="4.0.0",
+ org.opaeum.metamodels.java;bundle-version="1.0.0",
+ org.opaeum.metamodels.emfworkspace;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

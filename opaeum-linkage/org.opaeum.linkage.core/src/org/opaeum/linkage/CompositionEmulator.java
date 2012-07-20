@@ -106,7 +106,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			}else{
 				cp.removeObsoleteArtificialProperties();
 				INakedProperty endToComposite = cp.getEndToComposite();
-				if(endToComposite == null && !cp.getIsAbstract()){
+				if(endToComposite == null && !cp.isAbstract()){
 					// In case of composite structures, the composition may not have
 					// been modeled as an association but as a part
 					INakedProperty endFromComposite = null;
@@ -165,7 +165,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 					}
 				}
 			}
-			if((cp instanceof INakedActor || cp instanceof INakedBusinessComponent) && !cp.getIsAbstract()){
+			if((cp instanceof INakedActor || cp instanceof INakedBusinessComponent) && !cp.isAbstract()){
 				if(cp.getEndToComposite() == null || cp.getEndToComposite().getBaseType().equals(getLibrary().getBusinessCollaboration())){
 					// Need to realize that abstract association to the real BUsinessCollabroation
 					// TODO rethink this - maybe just always create an application root

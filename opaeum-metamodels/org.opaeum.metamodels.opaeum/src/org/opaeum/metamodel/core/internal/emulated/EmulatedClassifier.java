@@ -206,7 +206,7 @@ public abstract class EmulatedClassifier extends EmulatingElement implements INa
 		}
 		return result;
 	}
-	public boolean getIsAbstract(){
+	public boolean isAbstract(){
 		return false;
 	}
 	public List<IAssociationEnd> getNavigations(){

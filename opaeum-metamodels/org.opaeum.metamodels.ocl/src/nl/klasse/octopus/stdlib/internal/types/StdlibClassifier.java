@@ -91,16 +91,7 @@ public class StdlibClassifier implements IClassifier {
         return attrs;
     }
 
-	public List<IAttribute> getAllAttributes( ) {
-		Set<IAttribute> result = new HashSet<IAttribute>();
-		result.addAll(attrs);
-		Iterator it = this.getGeneralizations().iterator();
-		while( it.hasNext() ){
-			IClassifier gen = (IClassifier) it.next();
-			result.addAll(gen.getAllAttributes());
-		}
-		return new ArrayList<IAttribute>(result);
-	}
+
 
     public List<IAttribute> getClassAttributes( ) {
         return classAttrs;
@@ -172,23 +163,6 @@ public class StdlibClassifier implements IClassifier {
         return getName();
     }
     
-    public String toStringVerbose() {
-        String result = "class "  + getName() + StringHelpers.newLine;
-
-        result = result + "attributes" + StringHelpers.newLine;
-        Iterator iter = getAttributes().iterator();
-        while( iter.hasNext() ){
-            result = result + "    " + iter.next().toString() + StringHelpers.newLine;
-        }
-
-        result = result + "operations" + StringHelpers.newLine;
-        iter = getOperations().iterator();
-        while( iter.hasNext() ){
-            result = result + "    " + iter.next().toString()  + StringHelpers.newLine;
-        }
-
-        return result;
-    }
 
     public String getBasename() {
       return getName();
@@ -406,19 +380,6 @@ public class StdlibClassifier implements IClassifier {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see nl.klasse.octopus.model.IClassifier#getAllNavigations()
-	 */
-	public List<IAssociationEnd> getAllNavigations() {
-		Set<IAssociationEnd> result = new HashSet<IAssociationEnd>();
-		result.addAll(getNavigations());
-		Iterator it = this.getGeneralizations().iterator();
-		while( it.hasNext() ){
-			IClassifier gen = (IClassifier) it.next();
-			result.addAll(gen.getAllNavigations());
-		}
-		return new ArrayList<IAssociationEnd>(result);
-	}
 
 	/* (non-Javadoc)
 	 * @see nl.klasse.octopus.model.IClassifier#getSubClasses()
@@ -431,7 +392,7 @@ public class StdlibClassifier implements IClassifier {
 	/* (non-Javadoc)
 	 * @see nl.klasse.octopus.model.IClassifier#getIsAbstract()
 	 */
-	public boolean getIsAbstract() {
+	public boolean isAbstract() {
 		return false;
 	}
 

@@ -111,9 +111,9 @@ public class NavToAssocClassMap  {
 			result = assocEndMap.javaFacadeTypePath();
 			// now change the element type of this collection to the assoc class
 			result.removeAllFromElementTypes();
-			result.addToElementTypes(assocClassMap.javaFacadeTypePath());
+			result.addToElementTypes(assocClassMap.javaTypePath());
 		} else {
-			result = assocClassMap.javaFacadeTypePath();
+			result = assocClassMap.javaTypePath();
 		}
 		return result;
 	}
@@ -125,7 +125,7 @@ public class NavToAssocClassMap  {
 			result = assocEndMap.javaDefaultTypePath();
 			// now change the element type of this collection to the assoc class
 			result.removeAllFromElementTypes();
-			result.addToElementTypes(assocClassMap.javaFacadeTypePath());
+			result.addToElementTypes(assocClassMap.javaTypePath());
 		} else {
 			result = assocClassMap.javaTypePath();
 		}
@@ -139,7 +139,7 @@ public class NavToAssocClassMap  {
 			OJPathName path = assocEndMap.javaDefaultTypePath();
 			// now change the element type of this collection to the assoc class
 			path.removeAllFromElementTypes();
-			path.addToElementTypes(assocClassMap.javaFacadeTypePath());
+			path.addToElementTypes(assocClassMap.javaTypePath());
 			//
 			result = "new " + path.getCollectionTypeName() + "()";
 		} else {
@@ -153,7 +153,7 @@ public class NavToAssocClassMap  {
 	}
 
 	public OJPathName javaBaseFacadeTypePath() {
-		return assocClassMap.javaFacadeTypePath();
+		return assocClassMap.javaTypePath();
 	}
 
 	public String buildAssocEndName(IAssociationClass assoc, IAssociationEnd end) {

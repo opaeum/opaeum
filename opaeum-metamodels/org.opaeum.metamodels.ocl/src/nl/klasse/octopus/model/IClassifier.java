@@ -27,12 +27,6 @@ public interface IClassifier extends IPackageableElement, INameSpace {
    */
   public List<IAttribute> getAttributes  ( );
  
-  /** Return a possibly empty collection of Attributes
-   *  owned by this classifier or by its supertypes.
-   * 
-   * @return Set[IAttribute]
-   */
-  public List<IAttribute> getAllAttributes( ) ;
 
   /** Return a possibly empty collection of Operations
    *  owned by this classifier.
@@ -41,19 +35,7 @@ public interface IClassifier extends IPackageableElement, INameSpace {
    */
   public List<IOperation> getOperations  ( );
 
-  /** Return a possibly empty collection of AssociationEnds
-   *  owned by this classifier or by its supertypes.
-   * 
-   * @return Set[IAssociationEnd]
-   */
-  public List<IAssociationEnd> getAllNavigations ( );
 
-  /** Return a possibly empty collection of AssociationEnds
-   *  owned by this classifier.
-   * 
-   * @return Set[IAssociationEnd]
-   */
-  public List<IAssociationEnd> getNavigations ( );
 
   /** Return a possibly empty collection of Generalizations
    *  of this classifier.
@@ -83,19 +65,6 @@ public interface IClassifier extends IPackageableElement, INameSpace {
    */
   public List<IState> getStates  ( );
  
-  /** Return a possibly empty collection of class attributes
-   *  owned by this classifier.
-   * 
-   * @return 
-   */
-  public List<IAttribute> getClassAttributes();
-
-  /** Return a possibly empty collection of class operations
-   *  owned by this classifier.
-   * 
-   * @return 
-   */
-	public List<IOperation> getClassOperations();
 
   /** Return the attribute with the name <i>attName</i>.
    *  Return null if no such attribute exists.
@@ -198,18 +167,6 @@ public IOperation findOperation(String opName, List<IClassifier> paramTypes);
 	 */
 	public void addOclDefOperation(IOperation oper);
 
-	/**
-	 * Removes an attribute that is defined in an OCL 'def' statement.
-	 * @param attr
-	 */
-	public void removeOclDefAttribute(IAttribute attr);
-
-	/**
-	 * Removes an operation that is defined in an OCL 'def' statement.
-	 * @param oper
-	 */
-	public void removeOclDefOperation(IOperation oper);
-
 	/** Returns the type that is the common supertype of this instance and
 	 * <code>otherType</code> or <code>null</code> if none can be found.
 	 * 
@@ -221,17 +178,13 @@ public IOperation findOperation(String opName, List<IClassifier> paramTypes);
 	/**
 	 * @return Returns the isAbstract.
 	 */
-	public boolean getIsAbstract();
+	public boolean isAbstract();
 
 	/**
 	 * @param isAbstract The isAbstract to set.
 	 */
 	public void setIsAbstract(boolean isAbstract);
 
-	/**
-	 * @return Returns the stereotype.
-	 */
-	public String getStereotype();
 
 
 }

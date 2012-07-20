@@ -109,7 +109,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			if (c.getEndToComposite() != null && !(c instanceof INakedInterface)) {
 				addInitVertexToConstructorWithOwningObject(ojClass, c);
 			} else {
-				if (!c.getIsAbstract() && !hasSuperwithCompositeParent(c)) {
+				if (!c.isAbstract() && !hasSuperwithCompositeParent(c)) {
 					attachCompositeRootToDbRoot(ojClass);
 				}
 			}	

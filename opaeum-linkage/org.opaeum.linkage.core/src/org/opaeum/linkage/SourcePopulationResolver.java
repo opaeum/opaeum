@@ -73,7 +73,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 					ICompositionParticipant e = (ICompositionParticipant) owner.getEndToComposite().getNakedBaseType();
 					Collection<INakedClassifier> subClasses = hierarchicalSubClasses.get(e);
 					for(INakedClassifier iClassifier:subClasses){
-						if(!iClassifier.getIsAbstract()){
+						if(!iClassifier.isAbstract()){
 							e = (ICompositionParticipant) iClassifier;
 							constr = buildOclConstraint(p, constr, e, name);
 						}

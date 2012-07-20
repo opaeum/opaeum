@@ -52,7 +52,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractAuditJavaProd
 				if (c.getEndToComposite() != null) {
 					// addCreateEdgeToCompositeOwner(originalClass, c);
 				} else {
-					if (c.getIsAbstract()) {
+					if (c.isAbstract()) {
 						// implementAbstractAddEdgeToCompositeOwner(originalClass);
 					}
 				}

@@ -58,7 +58,7 @@ public class TinkerCompositionEmulator extends CompositionEmulator {
 		} else {
 			cp.removeObsoleteArtificialProperties();
 			INakedProperty endToComposite = cp.getEndToComposite();
-			if (endToComposite == null && !cp.getIsAbstract()) {
+			if (endToComposite == null && !cp.isAbstract()) {
 				// In case of composite structures, the composition may not have
 				// been modeled as an association but as a part
 				INakedProperty endFromComposite = null;

@@ -2,10 +2,28 @@ package org.opaeum.eclipse;
 
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Type;
 
 public class EmfClassifierUtil{
+	public static Classifier findCommonSuperType(Classifier from, Classifier to){
+		Classifier result = null;
+		if(from.conformsTo(to)){
+			result = to;
+		}else if(to.conformsTo(from)){
+			result = from;
+		}
+		if(result == null){
+			for(Generalization supr:from.getGeneralizations()){
+				result = findCommonSuperType(supr.getGeneral(), to);
+				if(result!=null){
+					break;
+				}
+			}
+		}
+		return result;
+	}
 	public static boolean conformsTo(Classifier from,Classifier to){
 		if(from.equals(to)){
 			return true;

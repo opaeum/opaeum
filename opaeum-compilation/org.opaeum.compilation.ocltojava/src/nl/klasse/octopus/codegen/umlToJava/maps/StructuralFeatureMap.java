@@ -170,7 +170,7 @@ public class StructuralFeatureMap extends PackageableElementMap {
 	}
 
 	public OJPathName javaFacadeTypePath() {
-		return featureTypeMap.javaFacadeTypePath();
+		return featureTypeMap.javaTypePath();
 	}
 	
 	public OJPathName javaDefaultTypePath() {
@@ -188,7 +188,7 @@ public class StructuralFeatureMap extends PackageableElementMap {
 
 	public OJPathName javaBaseFacadeTypePath() {
 		Check.pre("StructuralFeatureMap.javaBaseFacadeTypePath called for non-collection attribute or single-value association end", baseTypeMap != null );
-		return baseTypeMap.javaFacadeTypePath();
+		return baseTypeMap.javaTypePath();
 	}
 	
 	public OJPathName javaBaseDefaultTypePath() {

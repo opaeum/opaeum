@@ -58,7 +58,7 @@ public class TinkerAuditCreator extends AbstractJavaProducingVisitor {
 			}
 			myClass.setName(c.getName()+TinkerAuditGenerationUtil.AUDIT);
 			myClass.setVisibility(classifierMap.javaVisibility());
-			myClass.setAbstract(c.getIsAbstract());
+			myClass.setAbstract(c.isAbstract());
 			myClass.setComment(c.getDocumentation());
 			if (c.getSupertype()!=null) {
 				OJAnnotatedClass superClass = findJavaClass(c.getSupertype());

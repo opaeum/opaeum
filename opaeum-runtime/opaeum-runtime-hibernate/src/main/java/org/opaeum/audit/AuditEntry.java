@@ -110,7 +110,7 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 			Class<?> cls = value == null ? oldValue.getClass() : value
 					.getClass();
 			IPersistentObject newEntityValue = (IPersistentObject) value;
-			if (newEntityValue.getId() == null) {
+			if (newEntityValue!= null && newEntityValue.getId() == null) {
 				// error condition - hibernate will likely fail - how was the
 				// foreign key inserted. monitor this
 			} else if (IntrospectionUtil.getOriginalClass(cls)

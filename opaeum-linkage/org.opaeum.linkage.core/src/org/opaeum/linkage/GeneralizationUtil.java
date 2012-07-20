@@ -39,7 +39,7 @@ public class GeneralizationUtil{
 	}
 	private static void addConcreteSubclasses(Set<INakedClassifier> results,INakedClassifier baseType,Collection<INakedRootObject> models,boolean concreteOnly){
 		if(models.contains(baseType.getNakedRoot())){
-			if(!(baseType.getIsAbstract() && concreteOnly)){
+			if(!(baseType.isAbstract() && concreteOnly)){
 				if(baseType.getStereotype(StereotypeNames.HELPER) == null){
 					results.add(baseType);
 				}

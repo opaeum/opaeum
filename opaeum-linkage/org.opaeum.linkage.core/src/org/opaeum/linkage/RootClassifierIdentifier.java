@@ -17,7 +17,7 @@ public class RootClassifierIdentifier extends AbstractModelElementLinker{
 		// TODO look at root collaborations too
 		if(cls instanceof ICompositionParticipant){
 			ICompositionParticipant cp = (ICompositionParticipant) cls;
-			if(!cp.getIsAbstract() && cp.getEndToComposite() == null){
+			if(!cp.isAbstract() && cp.getEndToComposite() == null){
 				for(INakedProperty p:cp.getEffectiveAttributes()){
 					if(p.isComposite()){
 						workspace.addRootClassifier(cp);

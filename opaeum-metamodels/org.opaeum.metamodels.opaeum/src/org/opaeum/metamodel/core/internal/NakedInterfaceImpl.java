@@ -22,7 +22,7 @@ public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInt
 		return META_CLASS;
 	}
 	@Override
-	public boolean getIsAbstract(){
+	public boolean isAbstract(){
 		return true;
 	}
 	public void addImplementingClassifier(INakedBehavioredClassifier c){

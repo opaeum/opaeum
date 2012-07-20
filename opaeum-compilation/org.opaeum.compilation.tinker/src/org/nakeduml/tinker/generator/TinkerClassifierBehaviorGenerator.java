@@ -69,7 +69,7 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 
 			OJIfStatement ifNodesToTrigger = new OJIfStatement("!nodesToTrigger.isEmpty()");
 			String tokenType;
-			if (reception.getSignal().getAttributes().isEmpty()) {
+			if (reception.getSignal().getEffectiveAttributes().isEmpty()) {
 				ojClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
 				tokenType = "ControlToken";
 			} else {

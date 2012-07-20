@@ -25,7 +25,7 @@ public class TooManyNavigationSupport extends AbstractJavaProducingVisitor{
 		if (property.hasStereotype(StereotypeNames.NAVIGATION_TOO_MANY)) {
 			INakedClassifier c = property.getOwner();
 
-			if (c.getIsAbstract()) {
+			if (c.isAbstract()) {
 				Collection<IClassifier> subClasses = c.getSubClasses();
 				for (IClassifier subClass : subClasses) {
 					createNamedQueryAnnotation(property, (INakedClassifier)subClass);

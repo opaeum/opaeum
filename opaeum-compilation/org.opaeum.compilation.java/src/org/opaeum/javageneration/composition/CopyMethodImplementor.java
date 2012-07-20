@@ -56,7 +56,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		OJAnnotatedOperation oper = new OJAnnotatedOperation("makeShallowCopy");
 		oper.setReturnType(OJUtil.classifierPathname(classifier));
 		owner.addToOperations(oper);
-		if(classifier.getIsAbstract() || owner.isAbstract()){
+		if(classifier.isAbstract() || owner.isAbstract()){
 			// Can NEVER instantiate abstract objects
 			oper.setAbstract(true);
 		}else{
@@ -78,7 +78,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 			oper.setBody(new OJBlock());
 		}
 		oper.setReturnType(OJUtil.classifierPathname(classifier));
-		if(classifier.getIsAbstract() || owner.isAbstract()){
+		if(classifier.isAbstract() || owner.isAbstract()){
 			// Can NEVER instantiate abstract objects
 			oper.setAbstract(true);
 		}else{

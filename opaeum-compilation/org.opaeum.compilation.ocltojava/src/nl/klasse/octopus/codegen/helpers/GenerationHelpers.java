@@ -36,52 +36,10 @@ public class GenerationHelpers {
 		super();
 	}
 	
-	/** If 'in' is part of a model that contains interfaces and a class implementing each interface in 
-	 * an so-called 'internal' package, then the interface of 'in' is returned. Otherwise, the result is
-	 * 'in' itself.
-	 * 
-	 * @param in
-	 * @return
-	 */
-	static public IClassifier getFacade(IClassifier in) {
-		if ((in instanceof ClassifierImpl) && ((ClassifierImpl)in).getFacade() != null ) {
-			return ((ClassifierImpl)in).getFacade();
-		} else {
-			return in;
-		}
-	}
 
-	/** Returns true if 'in' is part of a model that contains interfaces and a class implementing each 
-	 * interface in an so-called 'internal' package.
-	 * 
-	 * @param in
-	 * @return
-	 */
-	static public boolean hasFacade(IClassifier in) {
-		if ((in instanceof ClassifierImpl) && ((ClassifierImpl)in).getFacade() != null ) {
-			return true;
-		} else {
-			if (in.isCollectionKind()) {
-				return hasFacade(((ICollectionType)in).getElementType());
-			} else {
-				return false;
-			}
-		}
-	}
+
 	
-	/** Returns true if 'in' is part of a model that contains interfaces and a class implementing each 
-	 * interface in an so-called 'internal' package, AND is 'in' is an interface that was not created by the user.
-	 * 
-	 * @param in
-	 * @return
-	 */
-	static public boolean isFacade(IInterface in) {
-		if (in instanceof InterfaceImpl) {
-			return ((InterfaceImpl)in).isFacade();
-		} else {
-			return false;
-		}
-	}
+
 	
 	/** Returns the concat of 'projectName' and 'addition',
 	 * in which both substrings start with an uppercase character.  

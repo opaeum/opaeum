@@ -40,8 +40,8 @@ public class DiscriminatorImplementor extends AbstractJavaProducingVisitor {
 	@VisitAfter(matchSubclasses=true)
 	public void buildDefaultConstructorBody(INakedEntity entity) {
 		
-		List<IAttribute> attributes = entity.getAllAttributes();
-		for (IAttribute attr : attributes) {
+		List<? extends INakedProperty> attributes = entity.getEffectiveAttributes();
+		for (INakedProperty attr : attributes) {
 			INakedProperty property = (INakedProperty)attr;
 			if (property.isDiscriminator()) {
 				OJPathName path = OJUtil.classifierPathname(entity);

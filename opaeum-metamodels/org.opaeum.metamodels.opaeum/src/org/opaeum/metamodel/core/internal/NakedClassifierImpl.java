@@ -565,7 +565,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}
 		return false;
 	}
-	public boolean getIsAbstract(){
+	public boolean isAbstract(){
 		return isAbstract;
 	}
 	public boolean isCollectionKind(){
@@ -620,7 +620,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		Set<String> inheritedConcreteOperationNames = new HashSet<String>();
 		for(INakedGeneralization g:getNakedGeneralizations()){
 			for(INakedOperation o:g.getGeneral().getEffectiveOperations()){
-				boolean mustImplement = o.isAbstract() && g.getGeneral().getIsAbstract() && !getIsAbstract();
+				boolean mustImplement = o.isAbstract() && g.getGeneral().isAbstract() && !isAbstract();
 				if(!mustImplement){
 					inheritedConcreteOperationNames.add(ParameterUtil.toIdentifyingString(o));
 				}

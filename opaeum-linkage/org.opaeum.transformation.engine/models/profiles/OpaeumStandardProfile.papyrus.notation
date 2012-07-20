@@ -99,6 +99,10 @@
           <element xmi:type="uml:Property" href="OpaeumStandardProfile.papyrus.uml#_aY7C0CFmEeGWOYQZVSMZ9g"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_OaJfIVlKEeG5W7BcEUHRDg"/>
         </children>
+        <children xmi:type="notation:Shape" xmi:id="_AzO8QMyzEeGDXIWqlm6N5w" type="3002">
+          <element xmi:type="uml:Property" href="OpaeumStandardProfile.papyrus.uml#_Ay92gMyzEeGDXIWqlm6N5w"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_AzO8QcyzEeGDXIWqlm6N5w"/>
+        </children>
         <styles xmi:type="notation:TitleStyle" xmi:id="_9kQgFFlJEeG5W7BcEUHRDg"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_9kQgFVlJEeG5W7BcEUHRDg"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_9kQgFllJEeG5W7BcEUHRDg"/>

@@ -72,7 +72,7 @@ public class MigrationRunnerGenerator extends AbstractMigrationCodeGenerator{
 			if(!(to instanceof INakedInterface)){
 				ICompositionParticipant toEntity = (ICompositionParticipant) to;
 				ICompositionParticipant fromEntity = (ICompositionParticipant) fromWorkspace.getModelElement(toEntity.getId());
-				if(fromEntity != null && !toEntity.getIsAbstract()){
+				if(fromEntity != null && !toEntity.isAbstract()){
 					OJPathName migratorPath = migratorPath(toEntity);
 					main.getBody().addToStatements("context.registerMigrator("+classifierPathName(fromEntity, getFromVersion())+".class,new "+ migratorPath + "())");
 					main.getBody().addToStatements("context.registerMigrator("+classifierPathName(toEntity, getToVersion())+".class,new "+ migratorPath + "())");

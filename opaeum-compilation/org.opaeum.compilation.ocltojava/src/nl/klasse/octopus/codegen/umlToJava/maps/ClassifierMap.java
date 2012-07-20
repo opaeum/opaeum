@@ -77,7 +77,7 @@ public class ClassifierMap extends PackageableElementMap{
 		return modelClass.getName();
 	}
 	public boolean isAbstract(){
-		return modelClass.getIsAbstract();
+		return modelClass.isAbstract();
 	}
 	public boolean isCollection(){
 		return modelClass.isCollectionKind();
@@ -92,12 +92,7 @@ public class ClassifierMap extends PackageableElementMap{
 		String javatype = javaType();
 		return javatype.equals("int") || javatype.equals("float") || javatype.equals("boolean");
 	}
-	/**
-	 * @return
-	 */
-	public boolean hasFacade(){
-		return GenerationHelpers.hasFacade(modelClass);
-	}
+
 	/* SET OF OPERATIONS THAT RETURN JAVA TYPE INFO ON THIS CLASSIFIER */
 	/**
 	 * The java path for this class
@@ -110,20 +105,7 @@ public class ClassifierMap extends PackageableElementMap{
 		}
 		return myTypePath;
 	}
-	/**
-	 * If this classifier has a facade interface, this method returns the path of the java type of that facade interface. If the classifier
-	 * does not have a facade interface, the path of the java type for the classifier is returned, i.e. this method gives the same result as
-	 * this.javaTypePath().
-	 * 
-	 * @return
-	 */
-	public OJPathName javaFacadeTypePath(){
-		if(myFacadeTypePath == null){
-			IClassifier facade = GenerationHelpers.getFacade(modelClass);
-			myFacadeTypePath = getJavaType(facade);
-		}
-		return myFacadeTypePath;
-	}
+
 	/**
 	 * The java type of the default value for this class. Note that this type may be different form the java type for this class. E.g. the
 	 * java type for the default value of an OCL sequence is <code>ArrayList</code>, whereas the java type is <code>List</code>.
@@ -173,7 +155,7 @@ public class ClassifierMap extends PackageableElementMap{
 	public OJPathName javaElementFacadeTypePath(){
 		Check.pre("ClassMap.elementFacadeTypePath called for non-collection attribute", isCollection());
 		if(elementMap != null){
-			return elementMap.javaFacadeTypePath();
+			return elementMap.javaTypePath();
 		}
 		return null;
 	}
@@ -439,7 +421,7 @@ public class ClassifierMap extends PackageableElementMap{
 			innerPath = getJavaObjectType((StdlibPrimitiveType) elemType);
 		}else{
 			ClassifierMap innerMap = newClassifierMap(elementType);
-			innerPath = innerMap.javaFacadeTypePath(); // if no facade present, this will give the same result as javaTypePath()
+			innerPath = innerMap.javaTypePath(); // if no facade present, this will give the same result as javaTypePath()
 		}
 		if(innerPath != null)
 			path.addToElementTypes(innerPath);
@@ -476,7 +458,7 @@ public class ClassifierMap extends PackageableElementMap{
 	 * @return
 	 */
 	public String javaFacadeType(){
-		return javaFacadeTypePath().getCollectionTypeName();
+		return javaTypePath().getCollectionTypeName();
 	}
 	/**
 	 * If this classifier represents a collection, this method returns the java type of the elements in the collection. E.g. the java

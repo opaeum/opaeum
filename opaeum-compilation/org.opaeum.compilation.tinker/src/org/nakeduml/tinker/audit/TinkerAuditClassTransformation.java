@@ -50,7 +50,7 @@ public class TinkerAuditClassTransformation extends AbstractAuditJavaProducingVi
 					addGetName(c, ojAuditClass);
 				}
 			}
-			if (!c.getIsAbstract()) {
+			if (!c.isAbstract()) {
 				implementGetPreviousAuditEntry(ojAuditClass);
 				implementGetNextAuditEntry(ojAuditClass);
 				implementGetNextAuditEntries(ojAuditClass);
