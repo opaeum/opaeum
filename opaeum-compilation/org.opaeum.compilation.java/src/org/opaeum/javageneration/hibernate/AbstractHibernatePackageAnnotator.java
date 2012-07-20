@@ -127,7 +127,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		OJAnnotationValue anyMetaDefs = getAnyMetaDefs(p);
 		anyMetaDefs.addAnnotationValue(metaDef);
 		metaDef.putAttribute("name", metaDefName + getMetaDefNameSuffix());
-		metaDef.putAttribute("metaType", config.shouldBeCm1Compatible() ? "string" : "integer");
+		metaDef.putAttribute("metaType", "string");
 		metaDef.putAttribute("idType", getIdType());
 		OJAnnotationAttributeValue metaValues = new OJAnnotationAttributeValue("metaValues");
 		metaDef.putAttribute(metaValues);

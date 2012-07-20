@@ -210,9 +210,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}else if(f.getNakedBaseType() instanceof INakedSimpleType){
 				// TODO use strategies
 			}else if(f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
-				if(config.shouldBeCm1Compatible()){
-					HibernateUtil.addAny(field, map);
-				}else{
+//				if(config.shouldBeCm1Compatible()){
+//					HibernateUtil.addAny(field, map);
+//				}else{
 					field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Embedded.class.getName())));
 					OJAnnotationValue overrides = new OJAnnotationValue(new OJPathName(AttributeOverrides.class.getName()));
 					OJAnnotationValue identifier = new OJAnnotationValue(new OJPathName(AttributeOverride.class.getName()));
@@ -228,7 +228,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					classIdentifier.putAttribute("column", classIdentifierColumn);
 					classIdentifierColumn.putAttribute("name", map.getProperty().getMappingInfo().getPersistentName().getAsIs() + "_type");
 					overrides.addAnnotationValue(classIdentifier);
-				}
+//				}
 				if(f.isComposite()){
 					HibernateUtil.addCascade(field, CascadeType.ALL);
 					field.removeAnnotation(new OJPathName("javax.persistence.Transient"));

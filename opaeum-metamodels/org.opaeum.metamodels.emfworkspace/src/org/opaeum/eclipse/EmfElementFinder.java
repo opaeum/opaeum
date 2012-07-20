@@ -83,7 +83,7 @@ public class EmfElementFinder{
 		return false;
 	}
 	public static boolean isDimension(Property p){
-		if(p.isMultivalued() || p.getQualifiers().size()>0){
+		if(p.isMultivalued() || p.getQualifiers().size() > 0){
 			return false;
 		}
 		if(p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
@@ -394,15 +394,21 @@ public class EmfElementFinder{
 					}
 				}
 			}
-		}catch(ArrayIndexOutOfBoundsException e){
-			// HACK weird bug in:
-			// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:332)
-			if(count < 5){
-				try{
-					Thread.sleep(2000);
-				}catch(InterruptedException e1){
+		}catch(RuntimeException e){
+			if(e instanceof ArrayIndexOutOfBoundsException || e instanceof NullPointerException){
+				// HACK weird bug in:
+				// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:332)
+				// and
+				// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:323)
+				if(count < 5){
+					try{
+						Thread.sleep(2000);
+					}catch(InterruptedException e1){
+					}
+					return getCorrectOwnedElementsAndRetryIfFailed(root, ++count);
 				}
-				return getCorrectOwnedElementsAndRetryIfFailed(root, ++count);
+			}else{
+				throw e;
 			}
 		}
 		return elements;

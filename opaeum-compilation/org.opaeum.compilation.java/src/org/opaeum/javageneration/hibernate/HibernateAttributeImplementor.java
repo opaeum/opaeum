@@ -26,7 +26,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 			getter.setReturnType(map.javaTypePath());
 			owner.addToOperations(getter);
 			getter.initializeResultVariable("(" + map.javaType() + ")" + getReferencePrefix(owner, map) + map.fieldname()
-					+ ".getValue(persistence)");
+					+ ".getValue(" +(isPersistent(umlOwner)? "persistence":"null")+")");
 			INakedElement property = map.getProperty();
 			addPropertyMetaInfo(umlOwner, getter, map.getProperty() );
 
