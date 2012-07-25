@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedInterfaceRealization;
 import org.opaeum.metamodel.bpm.INakedBusinessRole;
 import org.opaeum.metamodel.bpm.INakedBusinessService;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
 import org.opaeum.metamodel.core.internal.NakedEntityImpl;
 
 public class NakedBusinessRoleImpl extends NakedEntityImpl implements INakedBusinessRole{

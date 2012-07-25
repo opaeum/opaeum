@@ -3,20 +3,21 @@ package org.opaeum.validation;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.InterfaceRealization;
+import org.eclipse.uml2.uml.Operation;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedGeneralization;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
-import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.internal.ParameterUtil;
 
 @StepDependency(phase = ValidationPhase.class)
 public class OperationValidation extends AbstractValidator{
 	@VisitBefore(matchSubclasses = true)
-	public void visitOperation(INakedOperation o){
-		if(o.isStatic() && o.getOwner() instanceof INakedInterface){
+	public void visitOperation(Operation o){
+		if(o.isStatic() && o.getOwner() instanceof Interface){
 			getErrorMap().putError(o, OperationValidationRule.INTERFACE_OPERATION_STATIC);
 		}
 		validateRedefinitionQueryStatus(o, o.getRedefinedOperations());
@@ -27,19 +28,19 @@ public class OperationValidation extends AbstractValidator{
 		}
 	}
 
-	protected Collection<INakedOperation> findOperationsRedefinedByName(INakedOperation o){
-		Collection<INakedOperation> byName = new HashSet<INakedOperation>();
+	protected Collection<Operation> findOperationsRedefinedByName(Operation o){
+		Collection<Operation> byName = new HashSet<Operation>();
 		String identifyingString = ParameterUtil.toIdentifyingString(o);
-		for(INakedGeneralization g:o.getOwner().getNakedGeneralizations()){
-			for(INakedOperation eo:g.getGeneral().getEffectiveOperations()){
+		for(Generalization g:((Classifier) o.getOwner()).getGeneralizations()){
+			for(Operation eo:g.getGeneral().getEffectiveOperations()){
 				if(identifyingString.equals(ParameterUtil.toIdentifyingString(eo))){
 					byName.add(eo);
 				}
 			}
 		}
-		if(o.getOwner() instanceof INakedBehavioredClassifier){
-			for(INakedInterfaceRealization ir:((INakedBehavioredClassifier) o.getOwner()).getInterfaceRealizations()){
-				for(INakedOperation eo:ir.getContract().getEffectiveOperations()){
+		if(o.getOwner() instanceof BehavioredClassifier){
+			for(InterfaceRealization ir:((BehavioredClassifier) o.getOwner()).getInterfaceRealizations()){
+				for(Operation eo:ir.getContract().getEffectiveOperations()){
 					if(identifyingString.equals(ParameterUtil.toIdentifyingString(eo))){
 						byName.add(eo);
 					}
@@ -49,8 +50,8 @@ public class OperationValidation extends AbstractValidator{
 		return byName;
 	}
 
-	protected void validateRedefinitionQueryStatus(INakedOperation o,Collection<INakedOperation> redefinedOperations){
-		for(INakedOperation ro:redefinedOperations){
+	protected void validateRedefinitionQueryStatus(Operation o,Collection<Operation> redefinedOperations){
+		for(Operation ro:redefinedOperations){
 			if(o.isQuery() && !ro.isQuery()){
 				getErrorMap().putError(o, OperationValidationRule.REDEFINED_OPERATION_IS_QUERY_CORRESPOND, ro);
 			}else if(!o.isQuery() && ro.isQuery()){

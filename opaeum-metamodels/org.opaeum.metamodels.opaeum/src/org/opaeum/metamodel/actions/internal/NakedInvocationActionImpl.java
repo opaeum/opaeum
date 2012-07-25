@@ -6,13 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opaeum.metamodel.actions.INakedInvocationAction;
-import org.opaeum.metamodel.actions.ITargetElement;
-import org.opaeum.metamodel.activities.INakedInputPin;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedInvocationAction;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.ITargetElement;
 import org.opaeum.metamodel.activities.internal.NakedActionImpl;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedProperty;
 
 public abstract class NakedInvocationActionImpl extends NakedActionImpl implements INakedInvocationAction{
 	private static final long serialVersionUID = -2671425797278069465L;

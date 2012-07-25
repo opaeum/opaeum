@@ -27,12 +27,13 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.EclipseProjectGenerationStep;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.filegeneration.TextFileDeleter;
 import org.opaeum.filegeneration.TextFileGenerator;
 import org.opaeum.java.metamodel.OJWorkspace;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.rap.RapCapabilities;
 import org.opaeum.rap.RapProjectBuilder;
@@ -108,7 +109,7 @@ public final class JavaProjectGenerator extends Job{
 				}
 			}
 		}
-		INakedModelWorkspace mws = process.findModel(INakedModelWorkspace.class);
+		EmfWorkspace mws = process.findModel(EmfWorkspace.class);
 		rpb.initialize(cfg, tws, mws);
 		rpb.beforeWorkspace(mws);
 		Set<TextOutputNode> textFiles = rpb.getTextFiles();

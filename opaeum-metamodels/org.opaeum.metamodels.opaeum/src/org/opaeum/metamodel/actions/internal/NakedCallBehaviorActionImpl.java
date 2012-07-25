@@ -1,10 +1,10 @@
 package org.opaeum.metamodel.actions.internal;
 
-import org.opaeum.metamodel.actions.CallBehaviorMessageStructure;
-import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedMessageStructure;
-import org.opaeum.metamodel.core.IParameterOwner;
+import org.eclipse.uml2.uml.CallBehaviorMessageStructure;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedCallBehaviorAction;
+import org.eclipse.uml2.uml.INakedMessageStructure;
+import org.eclipse.uml2.uml.IParameterOwner;
 
 public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements INakedCallBehaviorAction{
 	private static final long serialVersionUID = -236758123440467617L;

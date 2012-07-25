@@ -1,5 +1,11 @@
 package org.opaeum.javageneration.basicjava;
 
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.InterfaceRealization;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJConstructor;
@@ -10,44 +16,38 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedGeneralization;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class},after = {Java6ModelGenerator.class})
 public class SuperTypeGenerator extends AbstractStructureVisitor{
 	@VisitBefore(matchSubclasses = true)
-	protected void visitComplexStructure(INakedComplexStructure c){
+	protected void visitComplexStructure(Classifier c){
 		if(c.getGeneralizations().size() == 1){
 			OJAnnotatedClass myClass = findJavaClass(c);
 			if(myClass != null){
-				for(INakedGeneralization g:c.getNakedGeneralizations()){
-					NakedClassifierMap map = OJUtil.buildClassifierMap(g.getGeneral());
+				for(Generalization g:c.getGeneralizations()){
+					NakedClassifierMap map = OJUtil.buildClassifierMap(g.getGeneral(),(CollectionKind)null);
 					myClass.setSuperclass(map.javaTypePath());
 					myClass.addToImports(map.javaTypePath());
 					OJConstructor constructor = myClass.getDefaultConstructor();
 					constructor.getBody().addToStatements("super()");
 				}
 			}
-		}else if(c.getNakedGeneralizations().size() > 1){
+		}else if(c.getGeneralizations().size() > 1){
 		}
-		if(OJUtil.hasOJClass(c) && c instanceof INakedBehavioredClassifier){
-			for(INakedInterfaceRealization ir:((INakedBehavioredClassifier)c).getInterfaceRealizations()){
+		if(OJUtil.hasOJClass(c) && c instanceof BehavioredClassifier){
+			for(InterfaceRealization ir:((BehavioredClassifier)c).getInterfaceRealizations()){
 				OJAnnotatedClass myClass = findJavaClass(c);
 				myClass.addToImplementedInterfaces(OJUtil.classifierPathname(ir.getContract()));
 			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitInterface(INakedInterface c){
+	public void visitInterface(Interface c){
 		if(c.getGeneralizations().isEmpty())
 			return;
 		OJAnnotatedInterface myIntf = (OJAnnotatedInterface) findJavaClass(c);
 		if(myIntf != null){
-			for(INakedGeneralization g:c.getNakedGeneralizations()){
+			for(Generalization g:c.getGeneralizations()){
 				OJPathName pathname = OJUtil.classifierPathname(g.getGeneral());
 				myIntf.getSuperInterfaces().add(pathname);
 				myIntf.addToImports(pathname);
@@ -55,7 +55,7 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
 		
 	}
 }

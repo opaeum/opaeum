@@ -3,8 +3,14 @@ package org.opaeum.jaxb;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import nl.klasse.octopus.model.IClassifier;
-
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
@@ -18,21 +24,16 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.simpleactions.EventGeneratorImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {
 	EventGeneratorImplementor.class
 })
 public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedEntity c){
-		// TODO this should be a opaeum webservice step
-		if(OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)){
+	public void visitClass(Class  c){
+		if(OJUtil.hasOJClass(c) ){
 			OJAnnotatedClass owner = findJavaClass(c);
 			addXmlRootElement(owner);
 			OJOperation outgoingEvents = owner.getUniqueOperation("getOutgoingEvents");
@@ -43,37 +44,37 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 			if(cancelledEvents != null){
 				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) cancelledEvents);
 			}
-			for(INakedProperty p:c.getDirectlyImplementedAttributes()){
-				if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
+			for(Property p:c.getDirectlyImplementedAttributes()){
+				if(StereotypesHelper.hasStereotype(p.getType(),StereotypeNames.HELPER)){
 					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-					OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<IClassifier>());
+					OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<Classifier>());
 					JaxbAnnotator.addXmlTransient(getter);
-				}else if(p.getNakedBaseType() instanceof INakedEntity && !p.isInverse()){
+				}else if(p.getType() instanceof Class && !EmfPropertyUtil.isInverse( p)){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
 					OJAnnotatedOperation o = (OJAnnotatedOperation) owner.findOperation(map.getter(), Collections.EMPTY_LIST);
 					JaxbAnnotator.addXmlTransient(o);
-				}else if(p.getNakedBaseType() instanceof INakedInterface){
+				}else if(p.getType() instanceof Interface){
 					addXmlAnyElement(owner, c, p);
 				}
 			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitBehavior(INakedBehavior behavior){
-		if(behavior.getContext() != null && BehaviorUtil.hasExecutionInstance(behavior)){
+	public void visitBehavior(Behavior behavior){
+		if(behavior.getContext() != null && EmfBehaviorUtil.hasExecutionInstance(behavior)){
 			OJAnnotatedClass ojContext = findJavaClass(behavior.getContext());
-			if(behavior.isClassifierBehavior()){
+			if(EmfBehaviorUtil.isClassifierBehavior(behavior)){
 				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.getUniqueOperation("getClassifierBehavior");
 				JaxbAnnotator.addXmlTransient(oper);
 				// OJAnnotatedOperation getCurrentState= (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getCurrentState");
 				// getCurrentState.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlTransient")));
 			}else{
-				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.getUniqueOperation("get" + behavior.getMappingInfo().getJavaName().getCapped());
+				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.getUniqueOperation("get" + NameConverter.capitalize(behavior.getName()));
 				JaxbAnnotator.addXmlTransient(oper);
 			}
 		}
 	}
-	private void addXmlAnyElement(OJAnnotatedClass clazz,INakedEntity c,INakedProperty p){
+	private void addXmlAnyElement(OJAnnotatedClass clazz,Class c,Property p){
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) clazz.findOperation(map.getter(), Collections.EMPTY_LIST);
 		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAnyElement")));

@@ -2,16 +2,16 @@ package org.opaeum.metamodel.activities.internal;
 
 import java.util.Set;
 
-import org.opaeum.metamodel.activities.ControlNodeType;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedControlNode;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedObjectFlow;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.eclipse.uml2.uml.ControlNodeType;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedActivityNode;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedControlNode;
+import org.eclipse.uml2.uml.INakedExpansionNode;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedObjectFlow;
+import org.eclipse.uml2.uml.INakedObjectNode;
+import org.eclipse.uml2.uml.INakedOutputPin;
 
 public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INakedObjectFlow{
 	private static final long serialVersionUID = 6481759202136150887L;

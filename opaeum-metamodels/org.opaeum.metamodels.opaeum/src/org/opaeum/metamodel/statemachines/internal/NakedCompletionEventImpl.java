@@ -1,9 +1,9 @@
 package org.opaeum.metamodel.statemachines.internal;
 
-import org.opaeum.metamodel.core.INakedClassifier;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedCompletionEvent;
+import org.eclipse.uml2.uml.INakedState;
 import org.opaeum.metamodel.core.internal.emulated.EmulatingElement;
-import org.opaeum.metamodel.statemachines.INakedCompletionEvent;
-import org.opaeum.metamodel.statemachines.INakedState;
 
 public class NakedCompletionEventImpl extends EmulatingElement  implements INakedCompletionEvent{
 	private static final long serialVersionUID = 8032662834865668246L;

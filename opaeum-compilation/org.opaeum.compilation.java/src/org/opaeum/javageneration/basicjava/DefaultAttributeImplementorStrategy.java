@@ -1,15 +1,15 @@
 package org.opaeum.javageneration.basicjava;
 
+import org.eclipse.uml2.uml.Classifier;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.metamodel.core.INakedClassifier;
 
 public class DefaultAttributeImplementorStrategy implements AttributeImplementorStrategy {
 
 	@Override
-	public void addSimpleSetterBody(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedClass owner, OJOperation setter) {
+	public void addSimpleSetterBody(Classifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedClass owner, OJOperation setter) {
 	}
 
 	@Override
@@ -28,12 +28,12 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 
 
 	@Override
-	public void buildManyToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
+	public void buildManyToOneSetter(Classifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
 		buildManyToOneSetter(map, otherMap, owner, setter);
 	}
 
 	@Override
-	public void buildOneToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
+	public void buildOneToOneSetter(Classifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
 		buildOneToOneSetter(map, otherMap, owner, setter);
 	}
 

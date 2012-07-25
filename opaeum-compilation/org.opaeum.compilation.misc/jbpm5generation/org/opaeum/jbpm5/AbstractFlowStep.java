@@ -2,6 +2,7 @@ package org.opaeum.jbpm5;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -35,14 +36,15 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
@@ -51,19 +53,19 @@ import org.opaeum.visitor.TextFileGeneratingVisitor;
 
 public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITransformationStep {
 	public static final String JBPM_PROCESS_EXTENSION = "rf";
-	protected Stack<Map<INakedElement, Long>> targetIdMap=new Stack<Map<INakedElement,Long>>();
-	protected Stack<Map<INakedElement, Long>> sourceIdMap=new Stack<Map<INakedElement,Long>>();
+	protected Stack<Map<Element, Long>> targetIdMap=new Stack<Map<Element,Long>>();
+	protected Stack<Map<Element, Long>> sourceIdMap=new Stack<Map<Element,Long>>();
 	protected OpaeumConfig config;
 
 
-	public void initialize(OpaeumConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
+	public void initialize(OpaeumConfig config, TextWorkspace textWorkspace, EmfWorkspace workspace) {
 		super.textWorkspace = textWorkspace;
 		super.workspace = workspace;
 		super.config = config;
 		super.textFiles=new HashSet<TextOutputNode>();
 	}
 
-	protected DocumentRoot createRoot(INakedElement behavior) {
+	protected DocumentRoot createRoot(NamedElement behavior) {
 		ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(JBPM_PROCESS_EXTENSION, new ProcessResourceFactoryImpl());
 		resourceSet.getPackageRegistry().put(ProcessPackage.eNS_URI, ProcessPackage.eINSTANCE);
@@ -75,7 +77,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		HeaderType header = ProcessFactory.eINSTANCE.createHeaderType();
 		process.getHeader().add(header);
 		String variableName = "processObject";
-		String qualifiedJavaName = behavior.getMappingInfo().getQualifiedJavaName();
+		String qualifiedJavaName = OJUtil.classifierPathname(behavior).toJavaString();
 		VariablesType variables = ProcessFactory.eINSTANCE.createVariablesType();
 		header.getVariables().add(variables);
 		createVariable(variables, variableName, qualifiedJavaName);
@@ -83,11 +85,11 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		root.getProcess().getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
 		root.getProcess().setId(Jbpm5Util.generateProcessName(behavior));
 		root.getProcess().setName(Jbpm5Util.generateProcessName(behavior));
-		root.getProcess().setPackageName(behavior.getNameSpace().getMappingInfo().getQualifiedJavaName());
+		root.getProcess().setPackageName(OJUtil.packagePathname(behavior.getNamespace()).toJavaString());
 		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getVersion().toVersionString());
 		root.getProcess().setType("RuleFlow");
-		List<String> names = OJUtil.packagePathname(behavior.getNameSpace()).getCopy().getNames();
-		names.add(behavior.getMappingInfo().getJavaName() + ".rf");
+		List<String> names = OJUtil.packagePathname(behavior.getNamespace()).getCopy().getNames();
+		names.add(behavior.getName() + ".rf");
 		TextFile textFile = createTextPath(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE,names);
 		textFile.setTextSource(new EmfTextSource(r, "process"));
 		return root;
@@ -112,10 +114,10 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		processObject.getType().add(processObjectType);
 	}
 
-	protected final void addStartNode(NodesType nodes, int i, INakedElement state) {
+	protected final void addStartNode(NodesType nodes, int i, Element state) {
 		StartType node = ProcessFactory.eINSTANCE.createStartType();
-		node.setName(state.getMappingInfo().getPersistentName().getAsIs());
-		setBounds(i, node, state.getMappingInfo().getOpaeumId());
+		node.setName(PersistentNameUtil.getPersistentName( state).getAsIs());
+		setBounds(i, node, EmfWorkspace.getOpaeumId(state));
 		nodes.getStart().add(node);
 	}
 
@@ -239,40 +241,11 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		return node1;
 	}
 
-	protected void addConstraintsToSplit(SplitType split, Collection<? extends GuardedFlow> outgoing, boolean passContext) {
-		ConstraintsType constraints = ProcessFactory.eINSTANCE.createConstraintsType();
-		split.getConstraints().add(constraints);
-		for (GuardedFlow t : outgoing) {
-			ConstraintType constraint = ProcessFactory.eINSTANCE.createConstraintType();
-			constraint.setDialect("mvel");
-			Long toNodeId = this.targetIdMap.peek().get(t.getEffectiveTarget());
-			constraint.setToNodeId(toNodeId + "");
-			if (!t.hasGuard()) {
-				constraint.setValue("return true;");
-				constraint.setPriority("3");
-			} else {
-				if (t.getGuard().isOclValue()) {
-					String param = passContext ? "context" : "";
-					constraint.setValue("return processObject." + Jbpm5Util.getGuardMethod(t) + "(" + param + ");");
-					constraint.setPriority("1");
-				} else if (t.getGuard().getValue() instanceof Boolean) {
-					constraint.setValue("return " + t.getGuard().getValue() + ";");
-					constraint.setPriority("2");
-				} else {
-					constraint.setValue("return true;");
-					constraint.setPriority("3");
-				}
-			}
-			constraint.setToType("DROOLS_DEFAULT");
-			constraint.setType("code");
-			constraints.getConstraint().add(constraint);
-		}
-	}
 
 	@Override
-	public final Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
-		if (root instanceof INakedModelWorkspace) {
-			return ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
+	public final Collection<Element> getChildren(Element root) {
+		if (root instanceof ModelWorkspace) {
+			return new ArrayList<Element>(((ModelWorkspace) root).getGeneratingModelsOrProfiles());
 		} else {
 			return root.getOwnedElements();
 		}

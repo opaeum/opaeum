@@ -6,13 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedSlot;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.metamodel.bpm.INakedDeadline;
 import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedSlot;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opaeum.runtime.domain.TaskDelegation;
 

@@ -45,9 +45,7 @@ import org.opaeum.linkage.AbstractModelElementLinker;
 import org.opaeum.linkage.LinkagePhase;
 import org.opaeum.linkage.QualifierLogicCalculator;
 import org.opaeum.linkage.SourcePopulationResolver;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.validation.ValidationPhase;
 import org.opaeum.validation.namegeneration.JavaNameRegenerator;
 
@@ -58,7 +56,7 @@ public final class EmfToOpaeumSynchronizer{
 	protected TransformationProcess transformationProcess;
 	protected OpaeumConfig cfg;
 	protected Set<EObject> emfChanges = Collections.synchronizedSet(new HashSet<EObject>());
-	protected INakedModelWorkspace nakedModelWorspace;
+	protected ModelWorkspace nakedModelWorspace;
 	protected UriToFileConverter resourceHelper;
 	protected EmfWorkspace currentEmfWorkspace;
 	long lastChange = System.currentTimeMillis();
@@ -130,17 +128,17 @@ public final class EmfToOpaeumSynchronizer{
 	}
 	public void setCurrentEmfWorkspace(EmfWorkspace e){
 		transformationProcess.replaceModel(e);
-		INakedModelWorkspace nws = getNakedWorkspace();
+		ModelWorkspace nws = getNakedWorkspace();
 		nws.clearGeneratingModelOrProfiles();
 		for(Package package1:e.getPotentialGeneratingModels()){
 			if(!package1.eIsProxy()){
-				INakedRootObject modelElement = (INakedRootObject) nws.getModelElement(e.getId(package1));
+				Package modelElement = (Package) nws.getModelElement(EmfWorkspace.getId(package1));
 				nws.addPrimaryModel(modelElement);
 			}
 		}
 		for(Package g:e.getGeneratingModelsOrProfiles()){
 			if(!g.eIsProxy()){
-				INakedRootObject modelElement = (INakedRootObject) nws.getModelElement(e.getId(g));
+				Package modelElement = (Package) nws.getModelElement(EmfWorkspace.getId(g));
 				nws.addGeneratingRootObject(modelElement);
 			}
 		}
@@ -322,7 +320,7 @@ public final class EmfToOpaeumSynchronizer{
 	public static void sheduleTask(Runnable r,long l){
 		threadPool.schedule(r, l, TimeUnit.MILLISECONDS);
 	}
-	public INakedModelWorkspace getNakedWorkspace(){
+	public ModelWorkspace getNakedWorkspace(){
 		return nakedModelWorspace;
 	}
 	public OpaeumConfig getConfig(){

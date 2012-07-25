@@ -2,6 +2,12 @@ package org.nakeduml.tinker.linkage;
 
 import java.util.List;
 
+import org.eclipse.uml2.uml.ICompositionParticipant;
+import org.eclipse.uml2.uml.INakedAssociation;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedMessageStructure;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.linkage.BehaviorUtil;
@@ -12,12 +18,6 @@ import org.opaeum.linkage.ParameterLinker;
 import org.opaeum.linkage.ProcessIdentifier;
 import org.opaeum.linkage.TypeResolver;
 import org.opaeum.metamodel.bpm.INakedResponsibility;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedMessageStructure;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;

@@ -6,8 +6,21 @@ import java.util.Date;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
-import nl.klasse.octopus.oclengine.IOclContext;
 
+import org.eclipse.uml2.uml.ChangeEvent;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.Signal;
+import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfElementUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -29,18 +42,8 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.commonbehaviors.INakedTimer;
-import org.opaeum.metamodel.commonbehaviors.INakedTriggerContainer;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.name.NameConverter;
+import org.opaeum.ocl.uml.OclContext;
 import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
@@ -55,15 +58,15 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private static final String PROPERTY_ID_SWITCH = "propertyIdSwitch";
 	@VisitBefore
-	public void visitSignal(INakedSignal s){
+	public void visitSignal(Signal s){
 		SignalMap map = OJUtil.buildSignalMap(s);
-		if(s.isMarkedForDeletion()){
+		if(EmfElementUtil.isMarkedForDeletion(s)){
 			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, oldSignalHolderName(s));
 		}else{
-			if(s.getMappingInfo().requiresJavaRename()){
+			if(OJUtil.requiresJavaRename( s)){
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, oldSignalHolderName(s));
 			}
-			List<? extends INakedTypedElement> effectiveAttributes = s.getEffectiveAttributes();
+			List<? extends TypedElement> effectiveAttributes = EmfElementFinder.getPropertiesInScope(s);
 			OJPathName handlerTypePath = map.handlerTypePath();
 			OJAnnotatedClass handler = new OJAnnotatedClass(handlerTypePath.getLast());
 			handler.getDefaultConstructor();
@@ -80,7 +83,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			OJPathName c = OJUtil.classifierPathname(s);
 			OJAnnotatedOperation marshall = buildMarshall(s, "signal", effectiveAttributes, false);
 			handler.addToOperations(marshall);
-			if(s.isNotification()){
+			if(EmfClassifierUtil.isNotification(s)){
 				marshall.getBody().addToStatements("result.add(new PropertyValue(-20l, Value.valueOf(from)))");
 				OJPathName setOfReceiver = new OJPathName("java.util.HashSet");
 				setOfReceiver.addToElementTypes(new OJPathName("org.opaeum.runtime.event.INotificationReceiver"));
@@ -93,7 +96,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				OJUtil.addTransientProperty(handler, "to", setOfReceiver, true);
 			}
 			OJAnnotatedOperation unmarshall = buildUnmarshall(s, "signal", effectiveAttributes, false);
-			if(s.isNotification()){
+			if(EmfClassifierUtil.isNotification(s)){
 				OJForStatement ps = (OJForStatement) unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
 				ps.getBody().addToStatements(
 						new OJIfStatement("p.getId()==-20l", "this.from=(INotificationReceiver)Value.valueOf(p.getValue(),persistence)"));
@@ -132,7 +135,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			ifIsEvent.getElsePart().addToStatements(
 					"((" + map.receiverContractTypePath().getLast() + ")target)." + map.receiveMethodName() + "(signal)");
 			ifIsEvent.getElsePart().addToStatements("consumed = true");
-			if(s.isNotification()){
+			if(EmfClassifierUtil.isNotification(s)){
 				handleOn
 						.getBody()
 						.addToStatements(
@@ -156,16 +159,16 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			getConsumerPoolSize.getBody().addToStatements("return " + listenerPoolSize);
 		}
 	}
-	private static OJPathName oldSignalHolderName(INakedSignal s){
-		return new OJPathName(s.getMappingInfo().getOldQualifiedJavaName() + "Handler");
+	private static OJPathName oldSignalHolderName(Signal s){
+		return new OJPathName(OJUtil.getOldClassifierPathname(s) + "Handler");
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitTriggerContainer(INakedTriggerContainer c){
-		for(INakedEvent event:c.getEventsInScopeForClassAsBehavior()){
-			if(event instanceof INakedChangeEvent){
-				visitChangeEvent((INakedChangeEvent) event);
-			}else if(event instanceof INakedTimer){
-				visitTimer((INakedTimer) event);
+	public void visitTriggerContainer(TriggerContainer c){
+		for(Event event:c.getEventsInScopeForClassAsBehavior()){
+			if(event instanceof ChangeEvent){
+				visitChangeEvent((ChangeEvent) event);
+			}else if(event instanceof Timer){
+				visitTimer((Timer) event);
 			}
 		}
 	}
@@ -173,7 +176,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	protected int getThreadPoolSize(){
 		return 1;
 	}
-	private void visitChangeEvent(INakedChangeEvent e){
+	private void visitChangeEvent(ChangeEvent e){
 		OJPathName handlerPathName = EventUtil.handlerPathName(e);
 		OJPackage pkg = findOrCreatePackage(handlerPathName.getHead());
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(handlerPathName.getLast());
@@ -182,9 +185,9 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		addNodeId(ojClass);
 		addCommonMethods(e, ojClass);
-		OJAnnotatedOperation marshall = buildMarshall(null, "this", new ArrayList<INakedTypedElement>(), true);
+		OJAnnotatedOperation marshall = buildMarshall(null, "this", new ArrayList<TypedElement>(), true);
 		ojClass.addToOperations(marshall);
-		OJAnnotatedOperation unMarshall = buildUnmarshall(null, "this", new ArrayList<INakedTypedElement>(), true);
+		OJAnnotatedOperation unMarshall = buildUnmarshall(null, "this", new ArrayList<TypedElement>(), true);
 		ojClass.addToOperations(unMarshall);
 		OJAnnotatedOperation handleOn = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
 		ojClass.addToOperations(handleOn);
@@ -205,7 +208,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		ojClass.addToImports(new OJPathName(Date.class.getName()));
 		scheduleNextOccurrence.getBody().addToStatements("return new Date(System.currentTimeMillis() + 1000*60*60*4)");// Every four hours
 	}
-	private void visitTimer(INakedTimer e){
+	private void visitTimer(Timer e){
 		OJPathName handlerPathName = EventUtil.handlerPathName(e);
 		OJPackage pkg = findOrCreatePackage(handlerPathName.getHead());
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(handlerPathName.getLast());
@@ -238,9 +241,9 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		pkg.addToClasses(ojClass);
 		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		addCommonMethods(e, ojClass);
-		OJAnnotatedOperation marshall = buildMarshall(null, "this", new ArrayList<INakedTypedElement>(), true);
+		OJAnnotatedOperation marshall = buildMarshall(null, "this", new ArrayList<TypedElement>(), true);
 		ojClass.addToOperations(marshall);
-		OJAnnotatedOperation unMarshall = buildUnmarshall(null, "this", new ArrayList<INakedTypedElement>(), true);
+		OJAnnotatedOperation unMarshall = buildUnmarshall(null, "this", new ArrayList<TypedElement>(), true);
 		ojClass.addToOperations(unMarshall);
 		OJAnnotatedOperation handleOn = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
 		ojClass.addToOperations(handleOn);
@@ -265,9 +268,9 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		ojClass.addToConstructors(constr);
 		ojClass.addToFields(new OJAnnotatedField("nodeId", new OJPathName("String")));
 	}
-	private void addCommonMethods(INakedElement e,OJAnnotatedClass ojClass){
+	private void addCommonMethods(NamedElement e,OJAnnotatedClass ojClass){
 		OJAnnotatedOperation getHandlerUuid = new OJAnnotatedOperation("getHandlerUuid", new OJPathName("String"));
-		getHandlerUuid.getBody().addToStatements("return \"" + e.getMappingInfo().getIdInModel() + "\"");
+		getHandlerUuid.getBody().addToStatements("return \"" + EmfWorkspace.getId(e) + "\"");
 		ojClass.addToOperations(getHandlerUuid);
 		OJAnnotatedOperation getFirstOccurrence = new OJAnnotatedOperation("getFirstOccurrenceScheduledFor", new OJPathName("java.util.Date"));
 		ojClass.addToFields(new OJAnnotatedField("firstOccurrenceScheduledFor", new OJPathName("java.util.Date")));
@@ -275,7 +278,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		ojClass.addToOperations(getFirstOccurrence);
 		OJAnnotatedOperation getQueueName = new OJAnnotatedOperation("getQueueName", new OJPathName("String"));
 		ojClass.addToOperations(getQueueName);
-		getQueueName.getBody().addToStatements("return \"" + e.getMappingInfo().getQualifiedUmlName() + "\"");
+		getQueueName.getBody().addToStatements("return \"" + e.getQualifiedName() + "\"");
 		ojClass.addToImports(new OJPathName("java.util.List"));
 		OJPathName propertyValuePath = new OJPathName(PropertyValue.class.getName());
 		ojClass.addToImports(propertyValuePath.getCopy());
@@ -284,18 +287,17 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		ojClass.addToImports(new OJPathName(Value.class.getName()));
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitOperation(INakedOperation o){
+	public void visitOperation(Operation o){
 		// TODO implement async handler for behaviors
-		if(OJUtil.hasOJClass(o.getOwner()) && !o.isQuery()){
-			if(o.isMarkedForDeletion()){
-				String qualifiedJavaName = o.getMappingInfo().getOldQualifiedJavaName();
-	
+		if(OJUtil.hasOJClass((Classifier) o.getOwner()) && !o.isQuery()){
+			if(EmfElementUtil.isMarkedForDeletion(o)){
+				String qualifiedJavaName = OJUtil.getOldClassifierPathname(o).toJavaString();
 				qualifiedJavaName = qualifiedJavaName.substring(0, qualifiedJavaName.lastIndexOf("."));
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(qualifiedJavaName.toLowerCase() + "." + getOldInvokerName(o)));
 			}else{
 				NakedOperationMap map = OJUtil.buildOperationMap(o);
-				if(o.getMappingInfo().requiresJavaRename()){
-					String qualifiedJavaName = o.getMappingInfo().getOldQualifiedJavaName();
+				if(OJUtil.requiresJavaRename( o)){
+					String qualifiedJavaName = OJUtil.getOldClassifierPathname(o).toJavaString();
 					qualifiedJavaName = qualifiedJavaName.substring(0, qualifiedJavaName.lastIndexOf("."));
 					deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(qualifiedJavaName.toLowerCase() + "."
 							+ getOldInvokerName(o)));
@@ -305,71 +307,74 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				handler.addToImplementedInterfaces(new OJPathName(ICallEventHandler.class.getName()));
 				findOrCreatePackage(handlerPathName.getHead()).addToClasses(handler);
 				handler.getDefaultConstructor();
-				for(INakedTypedElement p:(List<? extends INakedTypedElement>) o.getOwnedParameters()){
-					NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);
+				for(TypedElement p:(List<? extends TypedElement>) o.getOwnedParameters()){
+					NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap((Classifier) o.getOwner(), p);
 					OJAnnotatedField field = new OJAnnotatedField(m.fieldname(), m.javaTypePath());
 					handler.addToFields(field);
 					OJAnnotatedOperation getter = new OJAnnotatedOperation(m.getter(), m.javaTypePath());
 					getter.getBody().addToStatements("return this." + m.fieldname());
 					handler.addToOperations(getter);
-					AttributeImplementor.addPropertyMetaInfo(o.getPreConditions(), getter, m.getProperty());
+					AttributeImplementor.addPropertyMetaInfo(map.getPreConditions(), getter, m.getProperty(),getLibrary());
 					OJAnnotatedOperation setter = new OJAnnotatedOperation(m.setter());
 					setter.addParam(m.fieldname(), m.javaTypePath());
 					setter.getBody().addToStatements("this." + m.fieldname() + "=" + m.fieldname());
 					handler.addToOperations(setter);
 				}
 				ExpressionCreator ec = new ExpressionCreator(handler);
-				for(INakedConstraint c:o.getPreConditions()){
+				for(Constraint c:map.getPreConditions()){
 					OJAnnotatedOperation oper = new OJAnnotatedOperation(getter(c));
 					oper.setReturnType(new OJPathName("boolean"));
-					IOclContext cont = c.getSpecification().getOclValue();
-					ValueSpecificationUtil.addExtendedKeywords(oper, cont);
-					oper.initializeResultVariable("false");
-					oper.getBody().addToStatements("result = " + ec.makeExpression(cont.getExpression(), false, new ArrayList<OJParameter>()));
+					if(c.getSpecification() instanceof OpaqueExpression){
+						OpaqueExpression oe=(OpaqueExpression) c.getSpecification();
+						OclContext oclExpressionContext = getLibrary().getOclExpressionContext(oe);
+						ValueSpecificationUtil.addExtendedKeywords(oper, oclExpressionContext);
+						oper.initializeResultVariable("false");
+						oper.getBody().addToStatements("result = " + ec.makeExpression(oclExpressionContext.getExpression(), false, new ArrayList<OJParameter>()));
+					}
 					handler.addToOperations(oper);
 				}
-				List<? extends INakedParameter> args = o.getArgumentParameters();
+				List<? extends Parameter> args = map.getArgumentParameters();
 				handler.getDefaultConstructor();
 				OJConstructor argConstr = new OJConstructor();
 				handler.addToConstructors(argConstr);
 				argConstr.getBody().addToStatements("this.firstOccurrenceScheduledFor=new Date(System.currentTimeMillis()+1000)");
-				for(INakedTypedElement p:(List<? extends INakedTypedElement>) args){
-					NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);
+				for(TypedElement p:(List<? extends TypedElement>) args){
+					NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap((Classifier) o.getOwner(), p);
 					argConstr.addParam(m.fieldname(), m.javaTypePath());
 					argConstr.getBody().addToStatements(m.setter() + "(" + m.fieldname() + ")");
 				}
 				createTextPath(handler, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 				addMarshallingImports(handler);
-				OJAnnotatedOperation marshall = buildMarshall(o.getOwner(), "this", (List<? extends INakedTypedElement>) o.getOwnedParameters(),
-						false);
+				OJAnnotatedOperation marshall = buildMarshall((Classifier) o.getOwner(), "this",
+						(List<? extends TypedElement>) o.getOwnedParameters(), false);
 				handler.addToOperations(marshall);
-				OJAnnotatedOperation unmarshall = buildUnmarshall(o.getOwner(), "this",
-						(List<? extends INakedTypedElement>) o.getOwnedParameters(), false);
+				OJAnnotatedOperation unmarshall = buildUnmarshall((Classifier) o.getOwner(), "this",
+						(List<? extends TypedElement>) o.getOwnedParameters(), false);
 				handler.addToOperations(unmarshall);
 				addIsEvent(handler, argConstr, marshall, unmarshall);
 				addCommonMethods(o, handler);
 				OJAnnotatedOperation invoke = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
 				invoke.addParam("t", new OJPathName("Object"));
-				OJPathName targetPathName = OJUtil.classifierPathname(o.getOwner());
+				OJPathName targetPathName = OJUtil.classifierPathname((Classifier) o.getOwner());
 				handler.addToImports(targetPathName);
 				OJAnnotatedField target = new OJAnnotatedField("target", targetPathName);
 				invoke.getBody().addToLocals(target);
 				target.setInitExp("(" + targetPathName.getLast() + ")t");
 				handler.addToOperations(invoke);
-				OJIfStatement ifEvent = new OJIfStatement("isEvent", "return target." + map.eventConsumerMethodName() + "(" + argumentString(o)
+				OJIfStatement ifEvent = new OJIfStatement("isEvent", "return target." + map.eventConsumerMethodName() + "(" + argumentString(map)
 						+ ")");
 				invoke.getBody().addToStatements(ifEvent);
 				ifEvent.setElsePart(new OJBlock());
 				String arg1 = "";
-				if(o.isLongRunning()){
-					if(o.getArgumentParameters().size() > 0){
+				if(map.isLongRunning()){
+					if(map.getArgumentParameters().size() > 0){
 						arg1 = "null,";
 					}else{
 						arg1 = "null";
 					}
 				}
-				String call = "target." + map.javaOperName() + "(" + arg1 + argumentString(o) + ")";
-				manageInvocation(o, invoke, ifEvent.getElsePart(), call);
+				String call = "target." + map.javaOperName() + "(" + arg1 + argumentString(map) + ")";
+				manageInvocation(o, map, invoke, ifEvent.getElsePart(), call);
 				ifEvent.getElsePart().addToStatements("return true");
 				addGetConsumerPoolSize(handler, 5);
 				OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(
@@ -396,26 +401,26 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJIfStatement sc = new OJIfStatement("p.getId()==-6l", "this.isEvent=(Boolean)Value.valueOf(p.getValue(),persistence)");
 		sst.getBody().addToStatements(sc);
 	}
-	private void manageInvocation(INakedOperation o,OJAnnotatedOperation invoke,OJBlock b,String call){
-		if(BehaviorUtil.hasExecutionInstance(o)){
-			OJAnnotatedField result = new OJAnnotatedField("result", OJUtil.classifierPathname(o.getMessageStructure()));
+	private void manageInvocation(Operation oper, NakedOperationMap map,OJAnnotatedOperation invoke,OJBlock b,String call){
+		if(map.hasMessageStructure()){
+			OJAnnotatedField result = new OJAnnotatedField("result", OJUtil.classifierPathname(getLibrary().getMessageStructure( oper)));
 			result.setInitExp(call);
 			b.addToLocals(result);
-			for(INakedParameter p:(List<? extends INakedParameter>) o.getResultParameters()){
-				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);
+			for(Parameter p:(List<? extends Parameter>) map.getResultParameters()){
+				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(map.getContext(), p);
 				b.addToStatements(m.setter() + "(result." + m.getter() + "())");
 			}
-		}else if(o.getReturnParameter() != null){
-			NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), o.getReturnParameter());
+		}else if(map.getReturnParameter() != null){
+			NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(map.getContext(), map.getReturnParameter());
 			b.addToStatements(m.setter() + "(" + call + ")");
 		}else{
 			b.addToStatements(call);
 		}
 	}
-	private String argumentString(INakedOperation o){
+	private String argumentString(NakedOperationMap o){
 		StringBuilder sb = new StringBuilder();
-		for(INakedTypedElement p:(List<? extends INakedTypedElement>) o.getArgumentParameters()){
-			NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);
+		for(TypedElement p:(List<? extends TypedElement>) o.getArgumentParameters()){
+			NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap((Classifier) o.getContext(), p);
 			sb.append(m.getter());
 			sb.append("(),");
 		}
@@ -425,21 +430,21 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			return "";
 		}
 	}
-	private String getOldInvokerName(INakedOperation o){
-		return o.getMappingInfo().getOldJavaName().getCapped() + "Handler" + o.getMappingInfo().getOpaeumId();
+	private String getOldInvokerName(Operation o){
+		OJUtil.getOldClassifierPathname(o).getLast();
+		return OJUtil.getOldClassifierPathname(o).getLast() + "Handler" + EmfWorkspace.getOpaeumId(o);
 	}
 	private void addMarshallingImports(OJAnnotatedClass marshaller){
 	}
-	private OJAnnotatedOperation buildMarshall(INakedClassifier parent,String target,Collection<? extends INakedTypedElement> e,
-			boolean includeNodeId){
+	private OJAnnotatedOperation buildMarshall(Classifier parent,String target,Collection<? extends TypedElement> e,boolean includeNodeId){
 		OJPathName collectionOfPropertyValues = getCollectionOfPropertyValues();
 		OJAnnotatedOperation marshall = new OJAnnotatedOperation("marshall", collectionOfPropertyValues);
 		OJBlock blo = marshall.getBody();
 		marshall.initializeResultVariable("new ArrayList<PropertyValue>()");
-		for(INakedTypedElement p:e){
+		for(TypedElement p:e){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parent, p);
-			blo.addToStatements("result.add(new PropertyValue(" + p.getMappingInfo().getOpaeumId() + "l, Value.valueOf(" + target + "."
-					+ map.getter() + "())))");
+			blo.addToStatements("result.add(new PropertyValue(" + EmfWorkspace.getOpaeumId(p) + "l, Value.valueOf(" + target + "." + map.getter()
+					+ "())))");
 		}
 		if(includeNodeId){
 			marshall.getBody().addToStatements("result.add(new PropertyValue(-5l, Value.valueOf(nodeId)))");
@@ -452,8 +457,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		collectionOfPropertyValues.addToElementTypes(propertyValuePath);
 		return collectionOfPropertyValues;
 	}
-	private OJAnnotatedOperation buildUnmarshall(INakedClassifier parent,String target,Collection<? extends INakedTypedElement> e,
-			boolean includeNodeId){
+	private OJAnnotatedOperation buildUnmarshall(Classifier parent,String target,Collection<? extends TypedElement> e,boolean includeNodeId){
 		OJPathName collectionOfPropertyValues = getCollectionOfPropertyValues();
 		OJAnnotatedOperation unmarshall = new OJAnnotatedOperation("unmarshall");
 		unmarshall.addParam("ps", collectionOfPropertyValues);
@@ -462,10 +466,10 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		unmarshall.getBody().addToStatements(foreachProperty);
 		foreachProperty.setName(PROPERTY_ID_SWITCH);
 		OJBlock elseBlock = foreachProperty.getBody();
-		for(INakedTypedElement p:e){
+		for(TypedElement p:e){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parent, p);
 			String setValue = target + "." + map.setter() + "((" + map.javaType() + ")Value.valueOf(p.getValue(),persistence))";
-			OJIfStatement sst = new OJIfStatement("p.getId()==" + p.getMappingInfo().getOpaeumId() + "l", setValue);
+			OJIfStatement sst = new OJIfStatement("p.getId()==" + EmfWorkspace.getOpaeumId(p) + "l", setValue);
 			elseBlock.addToStatements(sst);
 			sst.setElsePart(new OJBlock());
 			elseBlock = sst.getElsePart();
@@ -476,7 +480,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		}
 		return unmarshall;
 	}
-	private String getter(INakedConstraint rule){
-		return "is" + rule.getMappingInfo().getJavaName().getCapped();
+	private String getter(Constraint rule){
+		return "is" + NameConverter.capitalize(rule.getName());
 	}
 }

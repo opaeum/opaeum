@@ -4,14 +4,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opaeum.metamodel.actions.IActionWithTargetElement;
-import org.opaeum.metamodel.actions.ITargetElement;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.eclipse.uml2.uml.IActionWithTargetElement;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.ITargetElement;
 import org.opaeum.metamodel.activities.internal.NakedActionImpl;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedProperty;
 
 public abstract class NakedStructuralFeatureActionImpl extends NakedActionImpl implements IActionWithTargetElement{
 	private static final long serialVersionUID = 3165514874679324190L;

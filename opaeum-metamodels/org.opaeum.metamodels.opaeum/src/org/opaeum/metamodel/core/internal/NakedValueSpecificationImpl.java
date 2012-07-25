@@ -4,9 +4,9 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.internal.OclContextImpl;
 
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 
 public class NakedValueSpecificationImpl extends NakedElementImpl implements INakedValueSpecification{
 	private static final long serialVersionUID = 4330871931428233762L;

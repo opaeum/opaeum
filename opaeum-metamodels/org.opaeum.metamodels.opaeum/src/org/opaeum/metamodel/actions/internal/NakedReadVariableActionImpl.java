@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-import org.opaeum.metamodel.actions.INakedReadVariableAction;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedReadVariableAction;
 
 public class NakedReadVariableActionImpl extends NakedVariableActionImpl implements INakedReadVariableAction{
 	/**

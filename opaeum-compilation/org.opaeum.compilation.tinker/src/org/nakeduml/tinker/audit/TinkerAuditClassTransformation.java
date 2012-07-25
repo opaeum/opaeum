@@ -1,5 +1,9 @@
 package org.nakeduml.tinker.audit;
 
+import org.eclipse.uml2.uml.INakedComplexStructure;
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedSimpleType;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
@@ -20,10 +24,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedSimpleType;
 
 @StepDependency(phase = TinkerAuditPhase.class, requires = { TinkerAuditSuperTypeGenerator.class }, after = { TinkerAuditSuperTypeGenerator.class })
 public class TinkerAuditClassTransformation extends AbstractAuditJavaProducingVisitor {

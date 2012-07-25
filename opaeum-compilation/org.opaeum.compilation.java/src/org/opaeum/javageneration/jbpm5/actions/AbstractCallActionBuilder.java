@@ -5,6 +5,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.CallAction;
+import org.eclipse.uml2.uml.CallOperationAction;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ExceptionHandler;
+import org.eclipse.uml2.uml.OutputPin;
+import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.Type;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
@@ -20,18 +30,11 @@ import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.actions.INakedExceptionHandler;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedMessageStructure;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
-public abstract class AbstractCallActionBuilder<T extends INakedCallAction> extends PotentialTaskActionBuilder<T>{
+public abstract class AbstractCallActionBuilder<T extends CallAction> extends PotentialTaskActionBuilder<T>{
 	private AbstractCaller<T> delegate;
+	protected NakedOperationMap calledElementMap;
 	public AbstractCallActionBuilder(OpaeumLibrary l,T node,AbstractCaller<T> behaviorCaller){
 		super(l, node);
 		this.delegate = behaviorCaller;
@@ -40,7 +43,7 @@ public abstract class AbstractCallActionBuilder<T extends INakedCallAction> exte
 	public void implementActionOn(OJAnnotatedOperation operation){
 		delegate.implementActionOn(operation, operation.getBody());
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
-		if(node.isLongRunning() && node.isSynchronous()){
+		if(calledElementMap.isLongRunning() && node.isSynchronous()){
 		}else{
 			OJTryStatement tryStatement = delegate.surroundWithCatchIfNecessary(operation, operation.getBody());
 			if(tryStatement != null){
@@ -56,68 +59,66 @@ public abstract class AbstractCallActionBuilder<T extends INakedCallAction> exte
 	private void implementCompleteMethod(OJClass activityClass){
 		activityClass.addToImports(Jbpm5Util.getNodeInstance());
 		String completeMethodName = null;
-		INakedMessageStructure message = null;
-		NakedOperationMap map = OJUtil.buildOperationMap(node.getCalledElement());
-		activityClass.addToImplementedInterfaces(map.callbackListenerPath());
-		completeMethodName = map.callbackOperName();
-		message = node.getMessageStructure();
+		activityClass.addToImplementedInterfaces(calledElementMap.callbackListenerPath());
+		completeMethodName = calledElementMap.callbackOperName();
+		Classifier message = getLibrary().getMessageStructure(node);
 		implementCallbackOnComplete(activityClass, completeMethodName, message);
 	}
 	@Override
 	public void implementCallbackMethods(OJClass owner){
-		NakedOperationMap map = OJUtil.buildOperationMap(node.getCalledElement());
 		implementCompleteMethod(owner);
-		implementExceptionPins(owner, map);
-		implementExceptionHandlers(owner, map);
-		owner.getImplementedInterfaces().add(map.callbackListenerPath());
+		implementExceptionPins(owner, calledElementMap);
+		implementExceptionHandlers(owner, calledElementMap);
+		owner.getImplementedInterfaces().add(calledElementMap.callbackListenerPath());
 	}
 	@Override
 	public boolean isLongRunning(){
-		return node.getCalledElement().isLongRunning();
+		return calledElementMap.isLongRunning();
 	}
 	private void implementExceptionPins(OJClassifier owner,NakedOperationMap map){
-		if(node.getCalledElement().getExceptionParameters().size() > 0){
-			Set<INakedParameter> exceptionParameters = new HashSet<INakedParameter>(node.getCalledElement().getExceptionParameters());
-			for(INakedOutputPin p:node.getExceptionPins()){
-				exceptionParameters.remove(p.getLinkedTypedElement());
-				OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, (INakedParameter) p.getLinkedTypedElement(), false);
-				if(p.getOutgoing().size() > 0){
+		if(map.getExceptionParameters().size() > 0){
+			Set<Parameter> exceptionParameters = new HashSet<Parameter>(map.getExceptionParameters());
+			for(OutputPin p:EmfActionUtil.getExceptionPins( node)){
+				Parameter parameter = (Parameter) EmfActionUtil.getLinkedTypedElement( p);
+				exceptionParameters.remove(parameter);
+				OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, parameter, false);
+				if(p.getOutgoings().size() > 0){
 					OJIfStatement ifAtNode = buildIfAtNode(onException);
-					INakedActivityEdge outgoing = p.getOutgoing().iterator().next();
+					ActivityEdge outgoing = p.getOutgoings().iterator().next();
 					ifAtNode.getThenPart().addToStatements("this.processDirty=true");
-					flowTo(ifAtNode.getThenPart(), outgoing.getEffectiveTarget());
+					flowTo(ifAtNode.getThenPart(), EmfActivityUtil.getEffectiveTarget(outgoing));
 				}
 			}
-			for(INakedParameter ex:exceptionParameters){
+			for(Parameter ex:exceptionParameters){
 				OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, ex, false);
-				NakedStructuralFeatureMap exceptionMap = OJUtil.buildStructuralFeatureMap(node.getCalledElement().getContext(), ex);
+				NakedStructuralFeatureMap exceptionMap = OJUtil.buildStructuralFeatureMap(map.getContext(), ex);
 				OJIfStatement ifAtNode = buildIfAtNode(onException);
 				ifAtNode.getThenPart().addToStatements("propagateException(failedProcess." + exceptionMap.getter() + "())");
 			}
 		}
 	}
-	protected Collection<INakedClassifier> getRaisedExceptions(){
-		Collection<INakedClassifier> exceptionParameters = node.getCalledElement() instanceof INakedOperation ? ((INakedOperation) node.getCalledElement())
-				.getRaisedExceptions() : new HashSet<INakedClassifier>();
+	protected Collection<Type> getRaisedExceptions(){
+		Collection<Type> exceptionParameters = node instanceof CallOperationAction ? ((CallOperationAction) node).getOperation()
+				.getRaisedExceptions() : new HashSet<Type>();
 		return exceptionParameters;
 	}
 	private void implementExceptionPins(OJAnnotatedOperation operation,OJTryStatement tryStatement){
-		List<INakedOutputPin> exceptionPins = node.getExceptionPins();
-		for(INakedOutputPin e:exceptionPins){
-			OJPathName pathName = OJUtil.classifierPathname(e.getNakedBaseType());
+		List<OutputPin> exceptionPins = EmfActionUtil.getExceptionPins( node);
+		for(OutputPin e:exceptionPins){
+			OJPathName pathName = OJUtil.classifierPathname((Classifier) e.getType());
 			operation.getOwner().addToImports(pathName);
 			OJIfStatement statement = new OJIfStatement();
-			statement.setCondition("e.isParameter(\"" + e.getLinkedTypedElement().getName() + "\")");
+			statement.setCondition("e.isParameter(\"" + EmfActionUtil.getLinkedTypedElement( e).getName() + "\")");
 			tryStatement.getCatchPart().addToStatements(statement);
-			if(e.getOutgoing().size() > 0){
-				INakedActivityEdge outgoing = e.getOutgoing().iterator().next();
-				flowTo(statement.getThenPart(), outgoing.getEffectiveTarget());
+			if(e.getOutgoings().size() > 0){
+				ActivityEdge outgoing = e.getOutgoings().iterator().next();
+				flowTo(statement.getThenPart(), EmfActivityUtil.getEffectiveTarget(outgoing));
 			}
 			tryStatement.getCatchPart().addToStatements(statement);
 		}
 	}
 	private void implementExceptionHandlers(OJAnnotatedOperation operation,OJTryStatement tryStatement){
-		for(INakedExceptionHandler e:node.getHandlers()){
+		for(ExceptionHandler e:node.getHandlers()){
 			OJBlock catchPart = tryStatement.getCatchPart();
 			implementHandler(operation, e, catchPart, "e.getValue()");
 			catchPart.addToStatements("propagateException(exception)");

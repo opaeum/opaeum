@@ -1,8 +1,8 @@
 package org.opaeum.metamodel.core.internal;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedInterfaceRealization;
 
 public class NakedInterfaceRealizationImpl extends NakedElementImpl implements INakedInterfaceRealization{
 	private static final long serialVersionUID = 7528018002930390436L;

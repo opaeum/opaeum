@@ -2,6 +2,10 @@ package org.nakeduml.tinker.activity;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedParameter;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -13,10 +17,6 @@ import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerActivityNodeGenerator.class }, after = { TinkerActivityNodeGenerator.class })

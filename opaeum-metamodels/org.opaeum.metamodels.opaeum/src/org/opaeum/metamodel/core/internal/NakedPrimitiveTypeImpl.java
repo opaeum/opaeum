@@ -2,7 +2,7 @@ package org.opaeum.metamodel.core.internal;
 
 import nl.klasse.octopus.model.IPrimitiveType;
 
-import org.opaeum.metamodel.core.INakedPrimitiveType;
+import org.eclipse.uml2.uml.INakedPrimitiveType;
 
 public class NakedPrimitiveTypeImpl extends NakedSimpleDataTypeImpl implements INakedPrimitiveType{
 	private static final long serialVersionUID = -286943525142230375L;

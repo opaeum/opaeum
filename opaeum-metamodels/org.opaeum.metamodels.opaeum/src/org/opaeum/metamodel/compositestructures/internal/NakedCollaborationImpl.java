@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.compositestructures.internal;
 
-import org.opaeum.metamodel.compositestructures.INakedCollaboration;
+import org.eclipse.uml2.uml.INakedCollaboration;
 import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
 
 public class NakedCollaborationImpl extends NakedClassifierImpl implements INakedCollaboration{

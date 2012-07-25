@@ -11,12 +11,19 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
-import org.opaeum.feature.MappingInfo;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Type;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfElementUtil;
+import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
@@ -25,16 +32,9 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
+import org.opaeum.javageneration.jbpm5.EventUtil;
+import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
@@ -49,43 +49,44 @@ import org.opaeum.visitor.TextFileGeneratingVisitor;
 public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor implements JavaTransformationStep{
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
 	protected OJWorkspace javaModel;
-	public <T extends INakedElement>Set<T> getElementsOfType(Class<T> type,Collection<? extends INakedRootObject> roots){
+	protected ValueSpecificationUtil valueSpecificationUtil;
+	protected EventUtil eventUtil;
+
+	public <T extends NamedElement>Set<T> getElementsOfType(Class<T> type,Collection<? extends Package> roots){
 		SortedSet<T> result = new TreeSet<T>(new Comparator<T>(){
 			@Override
 			public int compare(T o1,T o2){
-				MappingInfo mappingInfo = o1.getMappingInfo();
-				MappingInfo mappingInfo2 = o2.getMappingInfo();
-				String qualifiedUmlName = mappingInfo.getQualifiedUmlName();
-				String qualifiedUmlName2 = mappingInfo2.getQualifiedUmlName();
-				return qualifiedUmlName.compareTo(qualifiedUmlName2);
+				return o1.getQualifiedName().compareTo(o2.getQualifiedName());
 			}
 		});
-		for(INakedRootObject r:roots){
+		for(Package r:roots){
 			result.addAll(r.getDirectlyAccessibleElementOfType(type));
 		}
 		final Iterator<T> iterator = result.iterator();
 		while(iterator.hasNext()){
 			T t = (T) iterator.next();
-			if(t.isMarkedForDeletion()){
+			if(EmfElementUtil.isMarkedForDeletion(t)){
 				iterator.remove();
 			}
 		}
 		return result;
 	}
 	@Override
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace){
 		textFiles = new HashSet<TextOutputNode>();
 		this.javaModel = pac;
 		this.config = config;
 		this.textWorkspace = textWorkspace;
 		this.workspace = workspace;
+		this.eventUtil=new EventUtil(workspace.getOpaeumLibrary());
+		this.valueSpecificationUtil=new ValueSpecificationUtil(workspace.getOpaeumLibrary());
 	}
 	public OpaeumLibrary getLibrary(){
 		return workspace.getOpaeumLibrary();
 	}
 	@Override
-	public void visitRecursively(INakedElementOwner o){
-		if(o instanceof INakedModelWorkspace){
+	public void visitRecursively(Element o){
+		if(o instanceof EmfWorkspace){
 			OJPackage util = setWorkspaceUtilPackage();
 			visitBeforeMethods(o);
 			visitChildren(o);
@@ -94,23 +95,21 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			visitAfterMethods(o);
 			// Free memory
 			UtilityCreator.setUtilPackage(null);
-		}else if(o instanceof INakedRootObject){
-			INakedRootObject pkg = (INakedRootObject) o;
+		}else if(EmfPackageUtil.isRootObject(o )){
+			Package pkg = (Package) o;
 			setRootObjectUtilPackage(pkg);
 			this.setCurrentRootObject(pkg);
 			visitBeforeMethods(o);
 			visitChildren(o);
 			setRootObjectUtilPackage(pkg);
 			visitAfterMethods(o);
-			if(o instanceof INakedRootObject){
 				setCurrentRootObject(null);// NB!! needs to be cleared from every thread
-			}
 			UtilityCreator.setUtilPackage(null);
 		}else{
 			super.visitRecursively(o);
 		}
 	}
-	protected void setRootObjectUtilPackage(INakedRootObject pkg){
+	protected void setRootObjectUtilPackage(Package pkg){
 		if(javaModel != null){
 			OJPathName utilPath = calculateUtilPath(pkg);
 			UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
@@ -126,18 +125,18 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		return util;
 	}
 	@Override
-	public void visitOnly(INakedElementOwner o){
-		if(o instanceof INakedModelWorkspace){
+	public void visitOnly(Element o){
+		if(o instanceof EmfWorkspace){
 			setWorkspaceUtilPackage();
 		}else{
-			INakedElement nakedElement = (INakedElement) o;
-			INakedRootObject rootObject = nakedElement.getRootObject();
+			Element nakedElement = (Element) o;
+			Package rootObject = EmfElementFinder.getRootObject(nakedElement);
 			setRootObjectUtilPackage(rootObject);
 		}
 		super.visitOnly(o);
 		UtilityCreator.setUtilPackage(null);
 	}
-	protected OJPathName calculateUtilPath(INakedRootObject pkg){
+	protected OJPathName calculateUtilPath(Package pkg){
 		String qualifiedJavaName = OJUtil.packagePathname(pkg).toJavaString();
 		OJPathName utilPath = new OJPathName(qualifiedJavaName + ".util");
 		return utilPath;
@@ -158,7 +157,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	protected final OJPackage findOrCreatePackage(OJPathName packageName){
 		return this.javaModel.findOrCreatePackage(packageName);
 	}
-	protected OJAnnotatedClass findJavaClass(INakedClassifier classifier){
+	protected OJAnnotatedClass findJavaClass(Classifier classifier){
 		OJPathName path = OJUtil.classifierPathname(classifier);
 		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(path);
 		if(owner == null){
@@ -189,46 +188,30 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			pkg.setParent(null);
 		}
 	}
-	public static boolean isPersistent(INakedClassifier c){
+	public static boolean isPersistent(Type type){
 		// what about interfaces implemented by persistent classifiers??????
 		// They can be persisted in Hibernate but not JPA
 		// Interfaces are so different from normal persisten classifiers that
 		// they have to be treated separately and explicitly
-		if(c instanceof INakedComplexStructure){
-			return ((INakedComplexStructure) c).isPersistent();
+		if(type instanceof ComplexStructure){
+			return ((ComplexStructure) type).isPersistent();
 		}else{
 			return false;
 		}
 	}
-	protected static List<OJPathName> toOJPathNames(List<?> l){
-		List<OJPathName> result = new ArrayList<OJPathName>();
-		Iterator<?> iter = l.iterator();
-		while(iter.hasNext()){
-			Object o = iter.next();
-			ClassifierMap map = null;
-			if(o instanceof INakedMultiplicityElement){
-				map = OJUtil.buildClassifierMap(((INakedTypedElement) o).getType());
-			}else if(o instanceof INakedClassifier){
-				map = OJUtil.buildClassifierMap((INakedClassifier) o);
-			}else{
-				map = new ClassifierMap((IClassifier) o);
-			}
-			result.add(map.javaTypePath());
-		}
-		return result;
-	}
+
 	@Override
-	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
-		if(root instanceof INakedModelWorkspace){
-			List<INakedRootObject> generatingModelsOrProfiles = ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
-			return generatingModelsOrProfiles;
+	public Collection<Element> getChildren(Element root){
+		if(root instanceof EmfWorkspace){
+			return new ArrayList<Element>( ((EmfWorkspace) root).getGeneratingModelsOrProfiles());
 		}else{
 			return super.getChildren(root);
 		}
 	}
-	public static boolean isInSingleTableInheritance(INakedClassifier c){
-		INakedClassifier superType = c.getSupertype();
-		if(superType != null && superType.hasStereotype(SINGLE_TABLE_INHERITANCE)){
+	public static boolean isInSingleTableInheritance(Classifier c){
+		
+		Classifier superType = c.getGenerals().size()==1? c.getGenerals().get(0):null;
+		if(superType != null && StereotypesHelper.hasStereotype(superType,SINGLE_TABLE_INHERITANCE)){
 			return true;
 		}else{
 			if(superType == null){
@@ -237,12 +220,9 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			return isInSingleTableInheritance(superType);
 		}
 	}
-	protected final IOclEngine getOclEngine(){
-		return workspace.getOclEngine();
-	}
 	@Override
-	protected boolean shouldVisitChildren(INakedElementOwner o){
-		return o instanceof INakedNameSpace;
+	protected boolean shouldVisitChildren(Element o){
+		return o instanceof Namespace;
 	}
 	@Override
 	protected int getThreadPoolSize(){

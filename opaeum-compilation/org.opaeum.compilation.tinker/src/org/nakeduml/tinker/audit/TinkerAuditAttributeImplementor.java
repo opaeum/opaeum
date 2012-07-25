@@ -4,6 +4,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedEnumeration;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedStructuredDataType;
 import org.nakeduml.tinker.generator.TinkerAttributeImplementor;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
@@ -23,12 +29,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 

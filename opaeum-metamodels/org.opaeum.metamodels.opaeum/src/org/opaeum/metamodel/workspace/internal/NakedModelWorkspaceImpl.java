@@ -12,20 +12,20 @@ import java.util.TreeSet;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 
+import org.eclipse.uml2.uml.DefaultOpaeumComparator;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedModel;
+import org.eclipse.uml2.uml.INakedRootObject;
 import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.WorkspaceMappingInfo;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.internal.NakedElementOwnerImpl;
-import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
-public class NakedModelWorkspaceImpl extends NakedElementOwnerImpl implements INakedModelWorkspace{
+public class NakedModelWorkspaceImpl extends NakedElementOwnerImpl implements ModelWorkspace{
 	public static final String META_CLASS = "nakedWorkspace";
 	private OpaeumLibrary builtInTypes;
 	private Map<String,INakedElement> allElementsByModelId = new HashMap<String,INakedElement>();

@@ -20,13 +20,13 @@ import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class GeneratorGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	@VisitBefore
-	public void visitWorkspace(INakedModelWorkspace workspace){
+	public void visitWorkspace(ModelWorkspace workspace){
 		OJPackage pkg = findOrCreatePackage(new OJPathName(config.getMavenGroupId() + ".generator"));
 		buildGeneratorClass(pkg);
 	}

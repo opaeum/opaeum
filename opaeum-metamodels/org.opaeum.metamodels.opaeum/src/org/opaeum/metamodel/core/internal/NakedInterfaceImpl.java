@@ -3,11 +3,11 @@ package org.opaeum.metamodel.core.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.commonbehaviors.INakedReception;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInterface;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedReception;
+import org.eclipse.uml2.uml.INakedSignal;
 
 public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInterface{
 	private Collection<INakedBehavioredClassifier> implementingClassifiers = new ArrayList<INakedBehavioredClassifier>();

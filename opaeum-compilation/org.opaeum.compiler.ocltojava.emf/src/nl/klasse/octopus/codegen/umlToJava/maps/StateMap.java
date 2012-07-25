@@ -3,13 +3,14 @@ package nl.klasse.octopus.codegen.umlToJava.maps;
 import nl.klasse.tools.common.StringHelpers;
 
 import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.Vertex;
 import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.java.metamodel.OJPathName;
 
 public class StateMap extends PackageableElementMap {
-	private State myState = null;
+	private Vertex myState = null;
 
-	public StateMap(State s) {
+	public StateMap(Vertex s) {
 		super(s);
 		myState = s;
 	}

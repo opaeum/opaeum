@@ -1,23 +1,24 @@
 package org.opaeum.javageneration.maps;
 
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.CallBehaviorAction;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.actions.IActionWithTargetElement;
-import org.opaeum.metamodel.actions.IActionWithTargetPin;
-import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.name.NameConverter;
 
 public class ActionMap extends ActivityNodeMap{
-	public INakedAction getAction(){
+	public Action getAction(){
 		return action;
 	}
-	private INakedAction action;
+	private Action action;
 	NakedStructuralFeatureMap targetMap;
-	public ActionMap(INakedAction action){
+	public ActionMap(Action action){
 		super(action);
 		this.action = action;
 	}
@@ -25,11 +26,11 @@ public class ActionMap extends ActivityNodeMap{
 		return super.doActionMethod();
 	}
 	public String getCancelEventsMethod(){
-		return "cancelEventsFor" + action.getMappingInfo().getJavaName();
+		return "cancelEventsFor" + action.getName();
 	}
 	public boolean targetIsImplicitObject(){
 		if(action instanceof IActionWithTargetElement){
-			if(action.getInPartition() != null){
+			if(action.getInPartitions().size()==1){
 				return false;
 			}else if(action instanceof IActionWithTargetPin){
 				IActionWithTargetPin a = (IActionWithTargetPin) action;
@@ -43,10 +44,10 @@ public class ActionMap extends ActivityNodeMap{
 	public NakedStructuralFeatureMap targetMap(){
 		if(targetMap == null){
 			if(action instanceof IActionWithTargetElement){
-				if(action.getInPartition() != null && action.getInPartition().getRepresents() instanceof INakedProperty){
-					targetMap = OJUtil.buildStructuralFeatureMap((INakedProperty) action.getInPartition().getRepresents());
+				if(action.getInPartitions().size()==1 && action.getInPartitions().get(0).getRepresents() instanceof Property){
+					targetMap = OJUtil.buildStructuralFeatureMap((Property) action.getInPartitions().get(0).getRepresents());
 				}else if(action instanceof IActionWithTargetPin && ((IActionWithTargetPin) action).getTarget() != null){
-					targetMap = OJUtil.buildStructuralFeatureMap(action.getActivity(), ((IActionWithTargetPin) action).getTarget());
+					targetMap = OJUtil.buildStructuralFeatureMap(getContainingActivity(), ((IActionWithTargetPin) action).getTarget());
 				}
 			}
 		}
@@ -56,29 +57,32 @@ public class ActionMap extends ActivityNodeMap{
 		if(targetIsImplicitObject()){
 			return implicitObject();
 		}else{
-			return "tgt" + action.getMappingInfo().getJavaName().getCapped();
+			return "tgt" + NameConverter.capitalize(action.getName());
 		}
 	}
-	private INakedClassifier getExpectedTargetType(){
+	private Classifier getExpectedTargetType(){
 		if(action instanceof IActionWithTargetPin){
 			return ((IActionWithTargetPin) action).getExpectedTargetType();
-		}else if(action instanceof INakedCallBehaviorAction){
-			return ((INakedCallBehaviorAction) action).getBehavior().getContext();
+		}else if(action instanceof CallBehaviorAction){
+			return ((CallBehaviorAction) action).getBehavior().getContext();
 		}else{
 			return null;
 		}
 	}
 	private String implicitObject(){
 		if(getExpectedTargetType() != null){
-			if(BehaviorUtil.hasExecutionInstance(action.getActivity())){
-				if(action.getActivity().getContext() != null && action.getActivity().getContext().conformsTo(getExpectedTargetType())){
+			if(EmfBehaviorUtil.hasExecutionInstance(getContainingActivity())){
+				if(getContainingActivity().getContext() != null && getContainingActivity().getContext().conformsTo(getExpectedTargetType())){
 					return "getContextObject()";
-				}else if(action.getOwnerElement() instanceof INakedStructuredActivityNode){
+				}else if(action.getOwner() instanceof StructuredActivityNode){
 					return "getContainingActivity()";
 				}
 			}
 		}
 		return "this";
+	}
+	private Activity getContainingActivity(){
+		return EmfActivityUtil.getContainingActivity(action);
 	}
 	void setAction(IActionWithTargetElement action){
 		this.action = action;

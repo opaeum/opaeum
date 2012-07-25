@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.core.internal;
 
-import org.opaeum.metamodel.core.INakedValueType;
+import org.eclipse.uml2.uml.INakedValueType;
 
 /**
  * Martin Fowler's "valueType" concept. It is a simple data type, i.e. it is not structured and can therefor not structurally be broken down

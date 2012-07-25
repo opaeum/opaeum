@@ -2,11 +2,11 @@ package org.opaeum.metamodel.core.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedSlot;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedSlot;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 public class NakedInstanceSpecificationImpl extends NakedPackageableElementImpl implements INakedInstanceSpecification {
 
 	private static final long serialVersionUID = 4321923923124197567L;

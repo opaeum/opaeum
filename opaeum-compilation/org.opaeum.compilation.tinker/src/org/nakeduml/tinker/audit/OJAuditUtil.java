@@ -1,8 +1,8 @@
 package org.nakeduml.tinker.audit;
 
+import org.eclipse.uml2.uml.INakedClassifier;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
 
 public class OJAuditUtil {
 

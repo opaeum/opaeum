@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.activities.internal;
 
-import org.opaeum.metamodel.activities.INakedInputPin;
+import org.eclipse.uml2.uml.INakedInputPin;
 
 public class NakedInputPinImpl extends NakedPinImpl implements INakedInputPin {
 	private static final long serialVersionUID = 8677054720437056501L;

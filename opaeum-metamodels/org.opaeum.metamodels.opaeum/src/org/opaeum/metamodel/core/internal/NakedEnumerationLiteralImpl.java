@@ -2,8 +2,8 @@ package org.opaeum.metamodel.core.internal;
 import nl.klasse.octopus.model.IEnumLiteral;
 import nl.klasse.octopus.model.IEnumerationType;
 
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedEnumerationLiteral;
 public class NakedEnumerationLiteralImpl extends NakedInstanceSpecificationImpl implements IEnumLiteral, INakedElement,
 		INakedEnumerationLiteral {
 	private static final long serialVersionUID = 6454193211164627516L;

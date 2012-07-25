@@ -3,22 +3,21 @@ package org.opaeum.olap;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Property;
 
 public class DimensionNode{
-	private INakedProperty property;
-	private INakedClassifier fromClass;
+	private Property property;
+	private Classifier fromClass;
 	DimensionNode detail;
 	DimensionNode master;
-	public DimensionNode(INakedClassifier fromClass,INakedProperty p){
+	public DimensionNode(Classifier fromClass,Property p){
 		this.property = p;
 		this.fromClass = fromClass;
 	}
 	public DimensionNode(){
 	}
-	public INakedClassifier getFromClass(){
+	public Classifier getFromClass(){
 		return fromClass;
 	}
 	public DimensionNode linkToInnermostDetail(){
@@ -40,7 +39,7 @@ public class DimensionNode{
 	public String toString(){
 		return fromClass.getName() + "->" + property.getName();
 	}
-	INakedProperty getProperty(){
+	Property getProperty(){
 		return property;
 	}
 	//NB!!! Needs to be synchronized with org.opaeum.uim.userinteractionproperties.sections.DimensionNode.getName()
@@ -52,14 +51,14 @@ public class DimensionNode{
 		}
 	}
 	public boolean hasRecursion(){
-		Set<INakedProperty> props = new HashSet<INakedProperty>();
+		Set<Property> props = new HashSet<Property>();
 		if(occursIn(props)){
 			return true;
 		}else{
 			return false;
 		}
 	}
-	private boolean occursIn(Set<INakedProperty> props){
+	private boolean occursIn(Set<Property> props){
 		if(props.contains(property)){
 			return true;
 		}else if(detail!=null){

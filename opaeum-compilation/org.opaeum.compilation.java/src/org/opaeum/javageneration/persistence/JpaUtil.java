@@ -4,7 +4,17 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Property;
 import org.hibernate.annotations.Filter;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -15,18 +25,8 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.components.INakedComponent;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedPackage;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
-
 public class JpaUtil{
 	public static final String BACKTICK = "";
 	private static Set<String> RESERVED_NAMES = new HashSet<String>();
@@ -46,30 +46,33 @@ public class JpaUtil{
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config){
 		return buildTableAnnotation(owner, tableName, config, null);
 	}
-	public static String getNearestSchema(INakedNameSpace ns){
+	public static String getNearestSchema(Namespace ns){
 		while(!(isSchema(ns) || ns == null)){
-			ns = ns.getNameSpace();
+			ns = ns.getNamespace();
 		}
 		if(isSchema(ns)){
-			if(ns instanceof INakedPackage){
-				return ns.getMappingInfo().getPersistentName().getAsIs();
+			if(ns instanceof Package){
+				return PersistentNameUtil.getPersistentName(ns).getAsIs();
 			}else{
-				return ns.getTaggedValue(StereotypeNames.COMPONENT, "schemaName");
+				return (String) ns.getValue(StereotypesHelper.getStereotype(ns, StereotypeNames.COMPONENT), "schemaName");
 			}
 		}
 		return null;
 	}
-	private static boolean isSchema(INakedNameSpace ns){
-		return (ns instanceof INakedPackage && ((INakedPackage) ns).isSchema())
-				|| (ns instanceof INakedComponent && ((INakedComponent) ns).isSchema());
+	private static boolean isSchema(Namespace ns){
+		if(ns instanceof Package){
+			return EmfPackageUtil.isSchema((Package) ns); 
+		}else {
+			return EmfClassifierUtil.isSchema((Classifier) ns);
+		}
 	}
-	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config,INakedNameSpace ns){
+	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config,Namespace ns){
 		OJAnnotationValue table = new OJAnnotationValue(new OJPathName("javax.persistence.Table"));
 		buildTableAndSchema(tableName, config, ns, table);
 		owner.addAnnotationIfNew(table);
 		return table;
 	}
-	private static void buildTableAndSchema(String tableName,OpaeumConfig config,INakedNameSpace ns,OJAnnotationValue table){
+	private static void buildTableAndSchema(String tableName,OpaeumConfig config,Namespace ns,OJAnnotationValue table){
 		if(config.needsSchema()){
 			String schema = getNearestSchema(ns);
 			table.putAttribute(new OJAnnotationAttributeValue("name", getValidSqlName(tableName)));
@@ -129,17 +132,17 @@ public class JpaUtil{
 	public static void cascadeAll(OJAnnotationValue a){
 		a.putAttribute(new OJAnnotationAttributeValue("cascade", new OJEnumValue(new OJPathName("javax.persistence.CascadeType"), "ALL")));
 	}
-	public static void addAndAnnotatedIdAndVersion(JpaIdStrategy jpaIdStrategy,OJAnnotatedClass ojClass,INakedComplexStructure complexType){
+	public static void addAndAnnotatedIdAndVersion(JpaIdStrategy jpaIdStrategy,OJAnnotatedClass ojClass,Classifier complexType){
 		OJUtil.addPersistentProperty(ojClass, "objectVersion", new OJPathName("int"), true);
 		JpaUtil.annotateVersion(ojClass);
-		if((complexType instanceof INakedEntity && !((INakedEntity) complexType).getPrimaryKeyProperties().isEmpty())){
+		if((complexType instanceof Class && !((Class) complexType).getPrimaryKeyProperties().isEmpty())){
 			return;
 		}else{
 			OJUtil.addPersistentProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
 			JpaUtil.annotateId(jpaIdStrategy, complexType, ojClass);
 		}
 	}
-	private static void annotateId(JpaIdStrategy jpaIdStrategy,INakedComplexStructure complexType,OJAnnotatedClass javaRoot){
+	private static void annotateId(JpaIdStrategy jpaIdStrategy,Classifier complexType,OJAnnotatedClass javaRoot){
 		OJAnnotatedField idField = (OJAnnotatedField) javaRoot.findField("id");
 		jpaIdStrategy.annotate(idField);
 		jpaIdStrategy.annotate(javaRoot, complexType);
@@ -152,25 +155,25 @@ public class JpaUtil{
 		column.putAttribute(new OJAnnotationAttributeValue("name", "object_version"));
 		versionField.putAnnotation(column);
 	}
-	public static void addEntity(OJAnnotatedClass ojClass){
-		OJAnnotationValue entity = new OJAnnotationValue(new OJPathName("javax.persistence.Entity"));
+	public static void addClass(OJAnnotatedClass ojClass){
+		OJAnnotationValue entity = new OJAnnotationValue(new OJPathName("javax.persistence.Class"));
 		entity.putAttribute(new OJAnnotationAttributeValue("name", ojClass.getName()));
 		ojClass.addAnnotationIfNew(entity);
 	}
-	public static void addJoinTable(INakedClassifier umlOwner,NakedStructuralFeatureMap map,OJAnnotatedField field,OpaeumConfig config){
+	public static void addJoinTable(Classifier umlOwner,NakedStructuralFeatureMap map,OJAnnotatedField field,OpaeumConfig config){
 		// ManyToMany or non-navigable XToMany
-		INakedProperty f = map.getProperty();
+		Property f = map.getProperty();
 		String tableName = calculateTableName(umlOwner, f);
 		String keyToParentTable = calculateKeyToOwnerTable(f);
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
 		buildTableAndSchema(tableName, config, umlOwner, joinTable);
 		OJAnnotationValue otherJoinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("name", f.getMappingInfo().getPersistentName().getAsIs()));
+		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("name", PersistentNameUtil.getPersistentName( f).getAsIs()));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("inverseJoinColumns", otherJoinColumn));
 		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
 		joinColumn.putAttribute(new OJAnnotationAttributeValue("name", keyToParentTable));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("joinColumns", joinColumn));
-		if(map.isOneToMany() && !(map.getProperty().getBaseType() instanceof INakedInterface)){
+		if(map.isOneToMany() && !(map.getProperty().getType() instanceof Interface)){
 			// NB!!! unique==true messes the manyToAny mapping up
 			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("unique", Boolean.TRUE));
 			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
@@ -178,37 +181,37 @@ public class JpaUtil{
 		}
 		field.addAnnotationIfNew(joinTable);
 	}
-	static String calculateKeyToOwnerTable(INakedProperty f){
+	static String calculateKeyToOwnerTable(Property f){
 		String keyToParentTable = null;
-		if(f instanceof INakedProperty && f.getOtherEnd() != null){
-			INakedProperty p = f;
-			keyToParentTable = p.getOtherEnd().getMappingInfo().getPersistentName().getAsIs();
+		if(f instanceof Property && f.getOtherEnd() != null){
+			Property p = f;
+			keyToParentTable = PersistentNameUtil.getPersistentName(p.getOtherEnd()).getAsIs();
 		}else{
-			INakedClassifier nakedOwner = f.getOwner();
-			keyToParentTable = nakedOwner.getMappingInfo().getPersistentName().toString() + "_id";
+			Classifier nakedOwner = (Classifier) f.getOwner();
+			keyToParentTable = PersistentNameUtil.getPersistentName(nakedOwner).toString() + "_id";
 		}
 		return keyToParentTable;
 	}
-	static String calculateTableName(INakedClassifier umlOwner,INakedProperty f){
+	static String calculateTableName(Classifier umlOwner,Property f){
 		String tableName = null;
-		if(f instanceof INakedProperty && (f).getAssociation() != null && !(f.getOwner() instanceof INakedInterface)){
+		if(f instanceof Property && (f).getAssociation() != null && !(f.getOwner() instanceof Interface)){
 			// For interfaces, create an association table per realization of
 			// the association.
-			INakedProperty p = f;
-			tableName = ((INakedAssociation) p.getAssociation()).getMappingInfo().getPersistentName().toString();
+			Property p = f;
+			tableName = PersistentNameUtil.getPersistentName( p.getAssociation()).toString();
 		}else{
-			INakedClassifier nakedOwner = umlOwner;
-			tableName = nakedOwner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName().getWithoutId();
+			Classifier nakedOwner = umlOwner;
+			tableName = PersistentNameUtil.getPersistentName(nakedOwner) + "_" + PersistentNameUtil.getPersistentName( f).getWithoutId();
 		}
 		return tableName;
 	}
-	public static void addNamedQueryForUniquenessConstraints(OJAnnotatedClass ojClass,INakedEntity entity){
-		for(INakedProperty p:entity.getUniquenessConstraints()){
+	public static void addNamedQueryForUniquenessConstraints(OJAnnotatedClass ojClass,Class entity){
+		for(Property p:entity.getUniquenessConstraints()){
 			if(!p.getOtherEnd().getQualifiers().isEmpty()){
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-				String queryString = "from " + entity.getMappingInfo().getJavaName() + " a where a." + map.fieldname() + " = :" + map.fieldname();
-				String queryName = "Query" + entity.getMappingInfo().getJavaName() + "With";
-				for(INakedProperty q:p.getOtherEnd().getQualifiers()){
+				String queryString = "from " + entity.getName() + " a where a." + map.fieldname() + " = :" + map.fieldname();
+				String queryName = "Query" + entity.getName() + "With";
+				for(Property q:p.getOtherEnd().getQualifiers()){
 					NakedStructuralFeatureMap qualifiedMap = new NakedStructuralFeatureMap(q);
 					queryString += " and a." + qualifiedMap.fieldname() + " = :" + qualifiedMap.fieldname();
 					queryName += NameConverter.capitalize(qualifiedMap.fieldname());
@@ -249,15 +252,15 @@ public class JpaUtil{
 		String columnName;
 		if(map.isManyToMany()){
 			// simple column name - no requirement for uniqueness
-			columnName = prefix + "_in_" + map.getProperty().getMappingInfo().getPersistentName().getWithoutId();
+			columnName = prefix + "_in_" + PersistentNameUtil.getPersistentName( map.getProperty()).getWithoutId();
 		}else{
 			columnName = prefix + "_in_";
-			String withoutId = map.getProperty().getMappingInfo().getPersistentName().getWithoutId().getAsIs();
+			String withoutId = PersistentNameUtil.getPersistentName(map.getProperty()).getWithoutId().getAsIs();
 			// complex column name - has to be unique across all usages of the
 			// entity
 			columnName += shortenName(withoutId, 8);
 			columnName += "_on_";
-			columnName += shortenName(map.getProperty().getOwner().getMappingInfo().getPersistentName().getAsIs(), 8);
+			columnName += shortenName(PersistentNameUtil.getPersistentName(map.getProperty().getOwner()).getAsIs(), 8);
 		}
 		return columnName;
 	}

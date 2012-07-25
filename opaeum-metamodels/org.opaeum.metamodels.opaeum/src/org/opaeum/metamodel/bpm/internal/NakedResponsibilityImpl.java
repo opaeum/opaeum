@@ -1,8 +1,8 @@
 package org.opaeum.metamodel.bpm.internal;
 
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
 import org.opaeum.metamodel.bpm.INakedResponsibility;
 import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.internal.NakedOperationImpl;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 

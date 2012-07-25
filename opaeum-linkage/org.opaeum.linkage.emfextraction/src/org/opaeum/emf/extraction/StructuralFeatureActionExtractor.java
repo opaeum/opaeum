@@ -3,6 +3,9 @@ package org.opaeum.emf.extraction;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.AddStructuralFeatureValueAction;
 import org.eclipse.uml2.uml.ClearStructuralFeatureAction;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
 import org.eclipse.uml2.uml.RemoveStructuralFeatureValueAction;
 import org.opaeum.feature.StepDependency;
@@ -11,9 +14,6 @@ import org.opaeum.metamodel.actions.internal.NakedAddStructuralFeatureValueActio
 import org.opaeum.metamodel.actions.internal.NakedClearStructuralFeatureActionImpl;
 import org.opaeum.metamodel.actions.internal.NakedReadStructuralFeatureActionImpl;
 import org.opaeum.metamodel.actions.internal.NakedRemoveStructuralFeatureValueActionImpl;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
 		FeatureExtractor.class,ActivityStructureExtractor.class

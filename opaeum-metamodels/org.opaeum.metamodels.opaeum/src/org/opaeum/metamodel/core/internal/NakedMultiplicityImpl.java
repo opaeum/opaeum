@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 import nl.klasse.octopus.model.IMultiplicityKind;
 
-import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedMultiplicity;
 public class NakedMultiplicityImpl  implements Serializable, INakedMultiplicity {
 	private static final long serialVersionUID = -6607665956639495962L;
 	private int lowerbound = 0;	

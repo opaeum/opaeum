@@ -6,19 +6,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedRootObject;
+import org.eclipse.uml2.uml.RootObjectStatus;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.PhaseDependency;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.RootObjectStatus;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.BrokenRule;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.visitor.NakedElementOwnerVisitor;
 
 @PhaseDependency()
@@ -35,7 +35,7 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	}
 	private OpaeumConfig config;
 	@InputModel
-	private INakedModelWorkspace modelWorkspace;
+	private ModelWorkspace modelWorkspace;
 	private List<AbstractModelElementLinker> linkers;
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){

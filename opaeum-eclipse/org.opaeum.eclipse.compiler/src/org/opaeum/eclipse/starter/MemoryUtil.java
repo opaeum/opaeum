@@ -7,7 +7,6 @@ import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.generated.OJClassGEN;
 import org.opaeum.java.metamodel.generated.OJElementGEN;
-import org.opaeum.metamodel.core.internal.NakedElementOwnerImpl;
 import org.opaeum.textmetamodel.TextOutputNode;
 
 public class MemoryUtil{
@@ -37,9 +36,7 @@ public class MemoryUtil{
 					for(OJPathName p:OJClassGEN.pns){
 						System.out.println(p);
 					}
-					for(Entry<Class<?>,Long> entry:NakedElementOwnerImpl.counts.entrySet()){
-						System.out.println(entry.getKey().getName() + "=" + entry.getValue());
-					}
+	
 				}
 			}, 0);
 		}

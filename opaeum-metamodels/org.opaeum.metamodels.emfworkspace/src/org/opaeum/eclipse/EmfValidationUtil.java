@@ -1,10 +1,9 @@
 package org.opaeum.eclipse;
 
-import org.opaeum.metamodel.validation.BrokenRule;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.opaeum.metamodel.validation.BrokenRule;
 
 public class EmfValidationUtil{
 	public static String replaceArguments(EObject object,BrokenRule brokenRule,String messagePattern){

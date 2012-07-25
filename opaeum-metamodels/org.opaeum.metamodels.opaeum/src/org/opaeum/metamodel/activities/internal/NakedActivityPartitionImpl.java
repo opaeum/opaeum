@@ -2,12 +2,12 @@ package org.opaeum.metamodel.activities.internal;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opaeum.metamodel.activities.INakedActivityPartition;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.INakedActivityPartition;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityElement;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 

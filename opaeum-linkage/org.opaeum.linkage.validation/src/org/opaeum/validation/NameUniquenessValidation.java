@@ -3,87 +3,89 @@ package org.opaeum.validation;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.TypedElement;
+import org.eclipse.uml2.uml.Variable;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.linkage.CoreValidationRule;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedActivityVariable;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.core.PreAndPostConstrained;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
 
 @StepDependency(phase = ValidationPhase.class)
 public class NameUniquenessValidation extends AbstractValidator{
 	// TODO parameters
 	@VisitBefore(matchSubclasses = true)
-	public void visitClassifier(INakedClassifier nc){
+	public void visitClassifier(Classifier nc){
 		ensureUniqueness(nc, "ownedRules", nc.getOwnedRules());
-		if(!(nc instanceof INakedAssociation)){
-			ensureUniqueness(nc, "ownedAttributes", nc.getOwnedAttributes());
+		if(!(nc instanceof Association)){
+			ensureUniqueness(nc, "ownedAttributes", nc.getAttributes());
 		}
-		if(nc instanceof INakedBehavioredClassifier){
-			ensureUniqueness(nc, "ownedBehaviors", ((INakedBehavioredClassifier) nc).getOwnedBehaviors());
+		if(nc instanceof BehavioredClassifier){
+			ensureUniqueness(nc, "ownedBehaviors", ((BehavioredClassifier) nc).getOwnedBehaviors());
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitPreAndPostConstraint(PreAndPostConstrained nc){
-		Collection<INakedElement> o = new ArrayList<INakedElement>(nc.getPreConditions());
+		Collection<Element> o = new ArrayList<Element>(nc.getPreConditions());
 		o.addAll(nc.getPostConditions());
 		ensureUniqueness(nc, "preconditions and postconditions", o);
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitAction(INakedAction nc){
-		Collection<INakedElement> o = new ArrayList<INakedElement>(nc.getInput());
-		o.addAll(nc.getOutput());
+	public void visitAction(Action nc){
+		Collection<NamedElement> o = new ArrayList<NamedElement>(nc.getInputs());
+		o.addAll(nc.getOutputs());
 		ensureUniqueness(nc, "all input and output pins", o);
-		for(INakedElement element:o){
-			checkUniquenessInContext(nc, (INakedTypedElement) element);
+		for(Element element:o){
+			checkUniquenessInContext(nc, (TypedElement) element);
 		}
 	}
-	protected void checkUniquenessInContext(INakedElement ownerElement,INakedTypedElement pin){
-		if(ownerElement instanceof INakedActivityNode){
-			if(ownerElement instanceof INakedStructuredActivityNode){
-				INakedStructuredActivityNode san = (INakedStructuredActivityNode) ownerElement;
+	protected void checkUniquenessInContext(Element ownerElement,TypedElement pin){
+		if(ownerElement instanceof ActivityNode){
+			if(ownerElement instanceof StructuredActivityNode){
+				StructuredActivityNode san = (StructuredActivityNode) ownerElement;
 				checkForNameClash(pin, san.getVariables());
 			}
-			checkUniquenessInContext((INakedElement) ownerElement.getOwnerElement(), pin);
-		}else if(ownerElement instanceof INakedActivity){
-			INakedActivity a = (INakedActivity) ownerElement;
+			checkUniquenessInContext((Element) EmfElementFinder.getContainer(ownerElement), pin);
+		}else if(ownerElement instanceof Activity){
+			Activity a = (Activity) ownerElement;
 			checkForNameClash(pin, a.getVariables());
 		}
 	}
-	protected void checkForNameClash(INakedTypedElement pin,Collection<INakedActivityVariable> variables){
-		for(INakedActivityVariable var:variables){
+	protected void checkForNameClash(TypedElement pin,Collection<Variable> variables){
+		for(Variable var:variables){
 			if(var.getName().equals(pin.getName())){
 				getErrorMap().putError(pin, CoreValidationRule.VARIABLE_NAME_CLASH, var.getName());
 			}
 		}
 	}
 	@VisitBefore(matchSubclasses=true)
-	public void visitActivity(INakedActivity a){
-		ensureUniqueness(a, "activity nodes", a.getActivityNodes());
+	public void visitActivity(Activity a){
+		ensureUniqueness(a, "activity nodes", a.getOwnedNodes());
 	}
 	@VisitBefore(matchSubclasses=true)
-	public void visitStructuredActivityNode(INakedStructuredActivityNode a){
-		ensureUniqueness(a, "activity nodes", a.getActivityNodes());
+	public void visitStructuredActivityNode(StructuredActivityNode a){
+		ensureUniqueness(a, "activity nodes", a.getContainedNodes());
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitStateMachine(INakedStateMachine nc){
-		ensureUniqueness(nc, "all states recursively", nc.getAllStates());
+	public void visitStateMachine(StateMachine nc){
+		ensureUniqueness(nc, "all states recursively", EmfStateMachineUtil.getAllStates( nc));
 	}
-	private void ensureUniqueness(INakedElement context,String feature,Collection<? extends INakedElement> ownedRules){
-		for(INakedElement c1:ownedRules){
+	private void ensureUniqueness(NamedElement context,String feature,Collection<? extends NamedElement> ownedRules){
+		for(NamedElement c1:ownedRules){
 			if(c1.getName() == null || c1.getName().trim().length() == 1){
 				getErrorMap().putError(c1, CoreValidationRule.NAME_REQIURED, c1.getMetaClass(), c1.getName());
 			}else{
-				for(INakedElement c2:ownedRules){
+				for(NamedElement c2:ownedRules){
 					if(c1.getName().equals(c2.getName()) && c1 != c2){
 						getErrorMap().putError(c1, CoreValidationRule.NAME_UNIQUENESS, feature, context.getName());
 						break;

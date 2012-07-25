@@ -1,5 +1,7 @@
 package nl.klasse.octopus.codegen.umlToJava.maps;
 
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.VisibilityKind;
 import org.opaeum.java.metamodel.OJVisibilityKind;
@@ -18,4 +20,24 @@ public class PackageableElementMap {
 		if (e.getVisibility() == VisibilityKind.PROTECTED_LITERAL) return OJVisibilityKind.PROTECTED;
 		return OJVisibilityKind.PUBLIC;
 	}	
+	public static CollectionKind getCollectionKind(MultiplicityElement exp) {
+		if (exp.getUpper() == -1
+				|| exp.getUpper() > 1) {
+			if (exp.isOrdered()) {
+				if (exp.isUnique()) {
+					return CollectionKind.ORDERED_SET_LITERAL;
+				} else {
+					return CollectionKind.SEQUENCE_LITERAL;
+				}
+			} else {
+				if (exp.isUnique()) {
+					return CollectionKind.SET_LITERAL;
+				} else {
+					return CollectionKind.BAG_LITERAL;
+				}
+
+			}
+		}
+		return null;
+	}
 }

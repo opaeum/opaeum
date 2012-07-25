@@ -6,17 +6,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedAcceptEventAction;
+import org.eclipse.uml2.uml.INakedChangeEvent;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedEvent;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedTimeEvent;
+import org.eclipse.uml2.uml.INakedTrigger;
+import org.eclipse.uml2.uml.INakedTypedElement;
 import org.opaeum.metamodel.activities.internal.NakedActionImpl;
-import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedTypedElement;
 
 public class NakedAcceptEventActionImpl extends NakedActionImpl implements INakedAcceptEventAction{
 	private static final long serialVersionUID = -4255852720379805141L;

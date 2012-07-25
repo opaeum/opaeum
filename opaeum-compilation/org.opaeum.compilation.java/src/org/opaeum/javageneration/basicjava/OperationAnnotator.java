@@ -8,8 +8,29 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import nl.klasse.octopus.model.IClassifier;
-
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.Reception;
+import org.eclipse.uml2.uml.Signal;
+import org.eclipse.uml2.uml.SignalEvent;
+import org.eclipse.uml2.uml.Type;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementUtil;
+import org.opaeum.emf.workspace.DefaultOpaeumComparator;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJOperation;
@@ -34,119 +55,103 @@ import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedReception;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeImplementor.class,SuperTypeGenerator.class},after = {
 		AttributeImplementor.class,SuperTypeGenerator.class})
 public class OperationAnnotator extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true)
-	public void visitBehaviors(INakedBehavior o){
+	public void visitBehaviors(Behavior o){
 		if(o.getContext() == null){
 			processBehavior(o);
 		}
 	}
-	private void processBehavior(INakedBehavior o){
-		if(OJUtil.hasOJClass(o.getContext()) && !o.isClassifierBehavior() && o.getOwnerElement() instanceof INakedClassifier){
+	private void processBehavior(Behavior o){
+		if(OJUtil.hasOJClass(o.getContext()) && !EmfBehaviorUtil.isClassifierBehavior( o) && o.getOwner() instanceof Classifier){
 			// DO not do effects, state actions or classifier behavior - will be
 			// invoked elsewhere
 			if(o.getSpecification() == null || !o.getName().equals(o.getSpecification().getName())
-					|| !o.getContext().equals(o.getSpecification().getContext())){
+					|| !o.getContext().equals(o.getSpecification().getOwner())){
 				// if the specification has a different name to to behavior or the specificatoin is in a
 				// superclass/interface,
 				// we need to create a matching OJOperation
 				OJAnnotatedOperation oper = createOperation(o.getContext(), o, findJavaClass(o.getContext()));
-				if(BehaviorUtil.hasExecutionInstance(o)){
-					NakedClassifierMap cmap = OJUtil.buildClassifierMap(o);
+				if(EmfBehaviorUtil.hasExecutionInstance(o)){
+					NakedClassifierMap cmap = OJUtil.buildClassifierMap(o,(CollectionKind)null);
 					oper.setReturnType(cmap.javaTypePath());
 				}
 			}
 		}
-		if(o.isProcess() && o.getSpecification() == null){
+		if( EmfBehaviorUtil.isProcess( o) && o.getSpecification() == null){
 			createCallbackListener(o, o);
 		}
-		if(o instanceof INakedActivity){
-			INakedActivity a = (INakedActivity) o;
-			for(INakedActivityNode n:a.getActivityNodesRecursively()){
-				if(n instanceof INakedEmbeddedTask){
-					visitClass(((INakedEmbeddedTask) n).getMessageStructure());
+		if(o instanceof Activity){
+			Activity a = (Activity) o;
+			for(ActivityNode n:EmfActivityUtil.getActivityNodesRecursively( a)){
+				if(EmfActionUtil.isEmbeddedTask(n)){
+					visitClass(getLibrary().getMessageStructure((Action) n));
 				}
 			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitClass(INakedClassifier c){
+	public void visitClass(Classifier c){
 		if(OJUtil.hasOJClass(c)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
-			Set<INakedOperation> directlyImplementedOperations = c.getDirectlyImplementedOperations();
-			for(INakedOperation o:directlyImplementedOperations){
+			Set<Operation> directlyImplementedOperations = c.getDirectlyImplementedOperations();
+			for(Operation o:directlyImplementedOperations){
 				if(o.getOwner() == c){
-					if(BehaviorUtil.hasExecutionInstance(o)){
-						OJAnnotatedOperation getter = (OJAnnotatedOperation) findJavaClass(o.getMessageStructure()).getUniqueOperation("getSelf");
+					if(EmfBehaviorUtil.hasExecutionInstance(o)){
+						OJAnnotatedOperation getter = (OJAnnotatedOperation) findJavaClass(getLibrary().getMessageStructure( o)).getUniqueOperation("getSelf");
 						getter.setVisibility(OJVisibilityKind.PRIVATE);
 						getter.initializeResultVariable("getContextObject()");
-						visitClass(o.getMessageStructure());// why???
+						visitClass(getLibrary().getMessageStructure( o));// why???
 					}
-					createCallbackListener(o, o.getMessageStructure());
+					createCallbackListener(o, getLibrary().getMessageStructure(o));
 				}
 				NakedOperationMap operationMap = OJUtil.buildOperationMap(o);
-				OJAnnotatedOperation oper1 = findOrCreateOperation(c, ojClass, operationMap, o.isLongRunning());
+				OJAnnotatedOperation oper1 = findOrCreateOperation(c, ojClass, operationMap, operationMap.isLongRunning());
 				applyStereotypesAsAnnotations((o), oper1);
 				if(!o.isQuery()){
 					findOrCreateCallEventConsumer(c, ojClass, operationMap);
 					findOrCreateEventGenerator(c, ojClass, operationMap);
 				}
 			}
-			if(c instanceof INakedBehavioredClassifier){
-				INakedBehavioredClassifier nbc = (INakedBehavioredClassifier) c;
-				SortedSet<INakedSignal> signals = new TreeSet<INakedSignal>(new DefaultOpaeumComparator());
-				for(INakedReception o:nbc.getDirectlyImplementedReceptions()){
+			if(c instanceof BehavioredClassifier){
+				BehavioredClassifier nbc = (BehavioredClassifier) c;
+				SortedSet<Signal> signals = new TreeSet<Signal>(new DefaultOpaeumComparator());
+				for(Reception o:nbc.getDirectlyImplementedReceptions()){
 					signals.add(o.getSignal());
 				}
-				for(INakedEvent e:nbc.getEventsInScopeForClassAsContext()){
-					if(e instanceof INakedSignalEvent){
-						signals.add(((INakedSignalEvent) e).getSignal());
+				for(Event e:nbc.getEventsInScopeForClassAsContext()){
+					if(e instanceof SignalEvent){
+						signals.add(((SignalEvent) e).getSignal());
 					}
 				}
-				for(INakedSignal s:signals){
+				for(Signal s:signals){
 					SignalMap map = OJUtil.buildSignalMap(s);
 					ojClass.addToImplementedInterfaces(map.receiverContractTypePath());
 					findOrCreateJavaReception(ojClass, map);
 					findOrCreateSignalEventConsumer(nbc, ojClass, map);
 					findOrCreateEventGenerator(nbc, ojClass, map);
 				}
-				for(INakedBehavior b:nbc.getOwnedBehaviors()){
+				for(Behavior b:nbc.getOwnedBehaviors()){
 					processBehavior(b);
 				}
 			}
 		}
 	}
-	public static OJAnnotatedOperation findOrCreateEventGenerator(INakedClassifier c,OJAnnotatedClass ojClass,NakedOperationMap operationMap){
+	public static OJAnnotatedOperation findOrCreateEventGenerator(Classifier c,OJAnnotatedClass ojClass,NakedOperationMap operationMap){
 		OJAnnotatedOperation eventGenerator = (OJAnnotatedOperation) ojClass.findOperation(operationMap.eventGeratorMethodName(),
 				operationMap.javaParamTypePaths());
 		if(eventGenerator == null){
 			eventGenerator = new OJAnnotatedOperation(operationMap.eventGeratorMethodName());
 			ojClass.addToOperations(eventGenerator);
-			addParameters(c, eventGenerator, operationMap.getParameterOwner().getArgumentParameters());
+			addParameters(c, eventGenerator, operationMap.getArgumentParameters());
 		}
 		return eventGenerator;
 	}
-	private static OJAnnotatedOperation findOrCreateCallEventConsumer(INakedClassifier c,OJAnnotatedClass ojClass,NakedOperationMap map){
+	private static OJAnnotatedOperation findOrCreateCallEventConsumer(Classifier c,OJAnnotatedClass ojClass,NakedOperationMap map){
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) ojClass.findOperation(map.eventConsumerMethodName(), map.javaParamTypePaths());
 		if(oper == null){
 			oper = new OJAnnotatedOperation(map.eventConsumerMethodName(), new OJPathName("boolean"));
@@ -154,10 +159,10 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			oper.getBody().addToLocals(consumed);
 			consumed.setInitExp("false");
 			ojClass.addToOperations(oper);
-			addParameters(c, oper, map.getParameterOwner().getArgumentParameters());
-			if(map.getParameterOwner() instanceof INakedOperation){
-				INakedOperation no = (INakedOperation) map.getParameterOwner();
-				if(c != null && c.getSupertype() != null && c.getSupertype().conformsTo(no.getOwner())){
+			addParameters(c, oper, map.getArgumentParameters());
+			if(map.getNamedElement() instanceof Operation){
+				Operation no = (Operation) map.getNamedElement();
+				if(c != null && c.getGenerals().size()>0 && c.getGenerals().get(0).conformsTo((Classifier) no.getOwner())){
 					oper.getBody().addToStatements("consumed=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
 				}
 			}
@@ -165,7 +170,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		}
 		return oper;
 	}
-	private static OJAnnotatedOperation findOrCreateSignalEventConsumer(INakedClassifier c,OJAnnotatedClass ojClass,SignalMap map){
+	private static OJAnnotatedOperation findOrCreateSignalEventConsumer(Classifier c,OJAnnotatedClass ojClass,SignalMap map){
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) ojClass.findOperation(map.eventConsumerMethodName(),
 				Arrays.asList(map.javaTypePath()));
 		if(oper == null){
@@ -175,8 +180,8 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			oper.getBody().addToLocals(consumed);
 			consumed.setInitExp("false");
 			oper.addParam("signal", map.javaTypePath());
-			if(c != null && c.getSupertype() instanceof INakedBehavioredClassifier
-					&& ((INakedBehavioredClassifier) c.getSupertype()).hasReceptionOrTriggerFor(map.getSignal())){
+			if(c != null && c.getGenerals().get(0) instanceof BehavioredClassifier
+					&& ((BehavioredClassifier) c.getGenerals().get(0)).hasReceptionOrTriggerFor(map.getSignal())){
 				oper.getBody().addToStatements("consumed=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
 			}
 			oper.getBody().addToStatements("return consumed");
@@ -193,13 +198,13 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		}
 		return oper;
 	}
-	private OJAnnotatedOperation createOperation(INakedClassifier context,IParameterOwner o,OJAnnotatedClass owner){
+	private OJAnnotatedOperation createOperation(Classifier context,NamedElement o,OJAnnotatedClass owner){
 		NakedOperationMap operationMap = OJUtil.buildOperationMap(o);
-		OJAnnotatedOperation oper = findOrCreateOperation(context, owner, operationMap, o.isLongRunning());
+		OJAnnotatedOperation oper = findOrCreateOperation(context, owner, operationMap, operationMap.isLongRunning());
 		applyStereotypesAsAnnotations((o), oper);
-		List<INakedParameter> argumentParameters = o.getArgumentParameters();
+		List<Parameter> argumentParameters = operationMap.getArgumentParameters();
 		for(int i = 0;i < argumentParameters.size();i++){
-			if(o.isLongRunning()){
+			if(operationMap.isLongRunning()){
 				// Include return info
 				applyStereotypesAsAnnotations(argumentParameters.get(i), (OJAnnotatedElement) oper.getParameters().get(i + 1));
 			}else{
@@ -208,52 +213,52 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		}
 		return oper;
 	}
-	public static OJAnnotatedOperation findOrCreateOperation(INakedClassifier context,OJAnnotatedClass owner,NakedOperationMap map,
+	public static OJAnnotatedOperation findOrCreateOperation(Classifier context,OJAnnotatedClass owner,NakedOperationMap map,
 			boolean withReturnInfo){
-		IParameterOwner o = map.getParameterOwner();
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(map.javaOperName(), map.javaParamTypePathsWithReturnInfo());
 		if(oper == null){
 			oper = new OJAnnotatedOperation(map.javaOperName());
 			owner.addToOperations(oper);
 			if(map.hasMessageStructure()){
 				oper.setReturnType(map.messageStructurePath());
-			}else if(o.getReturnParameter() != null){
+			}else if(map.getReturnParameter() != null){
 				oper.setReturnType(map.javaReturnTypePath());
 				owner.addToImports(map.javaReturnTypePath());
 			}
-			List<? extends INakedParameter> argumentParameters = o.getArgumentParameters();
+			List<Parameter> argumentParameters = map.getArgumentParameters();
 			if(withReturnInfo){
 				oper.addParam("context", Jbpm5Util.getProcessContext());
 			}
 			addParameters(context, oper, argumentParameters);
+			NamedElement o = map.getNamedElement();
 			if(!(owner instanceof OJAnnotatedInterface)){
 				if(map.hasMessageStructure()){
 					oper.initializeResultVariable("new " + map.messageStructurePath().getLast() + "(this)");
 					oper.getResultVariable().setType(map.messageStructurePath());
-					List<? extends INakedParameter> args = o.getArgumentParameters();
-					for(INakedParameter arg:args){
-						NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap((INakedClassifier) o.getContext(), arg);
+					List<? extends Parameter> args = map.getArgumentParameters();
+					for(Parameter arg:args){
+						NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap(map.getContext(), arg);
 						oper.getBody().addToStatements("result." + argMap.setter() + "(" + argMap.fieldname() + ")");
 					}
 					if(withReturnInfo){
 						oper.getBody().addToStatements("result.setReturnInfo(context)");
 					}
-					if(o.isLongRunning()){
+					if(map.isLongRunning()){
 						OJSimpleStatement executeStatement = new OJSimpleStatement("result.execute()");
 						final String EXECUTE_STATEMENT = "executeStatement";
 						executeStatement.setName(EXECUTE_STATEMENT);
 						oper.getBody().addToStatements(executeStatement);
 					}
-					if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
+					if(o instanceof Operation && !((Operation) o).isQuery()){
 						oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 					}
-				}else if(o.getReturnParameter() != null){
+				}else if(map.getReturnParameter() != null){
 					owner.addToImports(map.javaReturnDefaultTypePath());
 					oper.initializeResultVariable(map.javaReturnDefaultValue());
-					if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
+					if(o instanceof Operation && !((Operation) o).isQuery()){
 						oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 					}
-				}else if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
+				}else if(o instanceof Operation && !((Operation) o).isQuery()){
 					oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 				}
 			}
@@ -262,8 +267,8 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		}
 		return oper;
 	}
-	private static void addParameters(INakedClassifier context,OJAnnotatedOperation oper,List<? extends INakedParameter> argumentParameters){
-		for(INakedParameter elem:argumentParameters){
+	private static void addParameters(Classifier context,OJAnnotatedOperation oper,List<? extends Parameter> argumentParameters){
+		for(Parameter elem:argumentParameters){
 			OJAnnotatedParameter param = new OJAnnotatedParameter();
 			NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(context, elem);
 			param.setName(pMap.fieldname());
@@ -271,16 +276,16 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			oper.addToParameters(param);
 			OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.ParameterMetaInfo"));
 			param.putAnnotation(ap);
-			ap.putAttribute("uuid", elem.getId());
-			ap.putAttribute("opaeumId", elem.getMappingInfo().getOpaeumId());
+			ap.putAttribute("uuid", EmfWorkspace.getId(elem));
+			ap.putAttribute("opaeumId", EmfWorkspace.getOpaeumId(elem));
 			ap.putAttribute("name", elem.getName());
-			if(elem.getDocumentation() != null){
-				ap.putAttribute("shortDescripion", elem.getDocumentation());
+			if(EmfElementUtil.getDocumentation(elem) != null){
+				ap.putAttribute("shortDescripion", EmfElementUtil.getDocumentation(elem));
 			}
-			if(elem.getNakedBaseType() instanceof INakedSimpleType){
-				INakedSimpleType e = (INakedSimpleType) elem.getNakedBaseType();
-				if(e.getRuntimeStrategyFactory() != null){
-					ap.putAttribute("strategyFactory", new OJPathName(e.getRuntimeStrategyFactory()));
+			if(EmfClassifierUtil.isSimpleType(elem.getType())){
+				DataType e = (DataType) elem.getType();
+				if(EmfClassifierUtil.getStrategyFactory(e).getRuntimeStrategyFactory() != null){
+					ap.putAttribute("strategyFactory", new OJPathName(EmfClassifierUtil.getStrategyFactory(e).getRuntimeStrategyFactory()));
 				}
 			}
 			oper.getOwner().addToImports(pMap.javaTypePath());
@@ -300,7 +305,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		}
 		return statement.toString();
 	}
-	public static OJAnnotatedOperation findOrCreateEventGenerator(INakedBehavioredClassifier context,OJAnnotatedClass ojClass,SignalMap map){
+	public static OJAnnotatedOperation findOrCreateEventGenerator(BehavioredClassifier context,OJAnnotatedClass ojClass,SignalMap map){
 		OJAnnotatedOperation eventGenerator = (OJAnnotatedOperation) ojClass.findOperation(map.eventGeratorMethodName(),
 				Arrays.asList(map.javaTypePath()));
 		if(eventGenerator == null){
@@ -310,7 +315,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		}
 		return eventGenerator;
 	}
-	public static OJAnnotatedOperation findOrCreateEventConsumer(INakedBehavioredClassifier context,OJAnnotatedClass ojContext,
+	public static OJAnnotatedOperation findOrCreateEventConsumer(BehavioredClassifier context,OJAnnotatedClass ojContext,
 			IMessageMap map1){
 		if(map1 instanceof SignalMap){
 			return findOrCreateSignalEventConsumer(context, ojContext, (SignalMap) map1);
@@ -318,9 +323,9 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			return findOrCreateCallEventConsumer(context, ojContext, (NakedOperationMap) map1);
 		}
 	}
-	private void createCallbackListener(IParameterOwner no,IClassifier message){
-		if(no.isLongRunning()){
-			NakedOperationMap map = OJUtil.buildOperationMap(no);
+	private void createCallbackListener(NamedElement no,Classifier message){
+		NakedOperationMap map = OJUtil.buildOperationMap(no);
+		if(map.isLongRunning()){
 			if(!map.hasContract()){
 				OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
 				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
@@ -329,20 +334,20 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				callBackOper.addParam("nodeInstance", new OJPathName("String"));
 				callBackOper.addParam("completedProcess", map.messageStructurePath());
 				listener.addToOperations(callBackOper);
-				List<? extends INakedParameter> exceptionParameters = no.getExceptionParameters();
-				for(INakedParameter e:exceptionParameters){
+				List<? extends Parameter> exceptionParameters = map.getExceptionParameters();
+				for(Parameter e:exceptionParameters){
 					OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
 					exceptionOper.addParam("nodeInstance", new OJPathName("String"));
 					exceptionOper.addParam("failedProcess", map.messageStructurePath());
 					listener.addToOperations(exceptionOper);
 				}
-				if(no instanceof INakedOperation){
-					Collection<INakedClassifier> raisedExceptions = ((INakedOperation) no).getRaisedExceptions();
-					for(INakedClassifier e:raisedExceptions){
+				if(no instanceof Operation){
+					Collection<Type> raisedExceptions = ((Operation) no).getRaisedExceptions();
+					for(Type e:raisedExceptions){
 						OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
 						exceptionOper.addParam("nodeInstance", new OJPathName("String"));
-						exceptionOper.addParam("exception", e.getMappingInfo().getJavaName().getAsIs());
-						listener.addToImports(e.getMappingInfo().getQualifiedJavaName());
+						exceptionOper.addParam("exception", e.getName());
+						listener.addToImports(OJUtil.classifierPathname((Classifier) e));
 						exceptionOper.addParam("failedProcess", map.messageStructurePath());
 						listener.addToOperations(exceptionOper);
 					}

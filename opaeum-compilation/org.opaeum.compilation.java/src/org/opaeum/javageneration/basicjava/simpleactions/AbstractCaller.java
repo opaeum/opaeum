@@ -5,6 +5,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.uml2.uml.CallAction;
+import org.eclipse.uml2.uml.InputPin;
+import org.eclipse.uml2.uml.ObjectNode;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJParameter;
@@ -15,31 +20,24 @@ import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.runtime.domain.ExceptionHolder;
 
-public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleNodeBuilder<T>{
+public abstract class AbstractCaller<T extends CallAction> extends SimpleNodeBuilder<T>{
 	protected NakedStructuralFeatureMap callMap;
 	protected NakedOperationMap operationMap;
 	public AbstractCaller(OpaeumLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(oclEngine, action, objectNodeExpressor);
-		if(BehaviorUtil.hasMessageStructure(node)){
+		if(EmfBehaviorUtil.hasMessageStructure(node)){
 			callMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
-		}
-		if(node.getCalledElement()!=null){
-			operationMap=OJUtil.buildOperationMap(node.getCalledElement());
 		}
 
 	}
-	protected <E extends INakedInputPin>StringBuilder populateArgumentPinsAndBuildArgumentString(OJOperation operation,boolean includeReturnInfo,Collection<E> input){
+	protected <E extends InputPin>StringBuilder populateArgumentPinsAndBuildArgumentString(OJOperation operation,boolean includeReturnInfo,Collection<E> input){
 		StringBuilder arguments = new StringBuilder();
-		Iterator<? extends INakedInputPin> args = input.iterator();
+		Iterator<? extends InputPin> args = input.iterator();
 		if(includeReturnInfo){
-			if(node.getActivity().getActivityKind().isSimpleSynchronousMethod()){
+			if(EmfActivityUtil.isSimpleSynchronousMethod(EmfActivityUtil.getContainingActivity(node))){
 				arguments.append("null");
 			}else{
 				arguments.append("context");
@@ -49,7 +47,7 @@ public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleN
 			}
 		}
 		while(args.hasNext()){
-			INakedObjectNode pin = args.next();
+			ObjectNode pin = args.next();
 			arguments.append(readPin(operation, operation.getBody(), pin));
 			if(args.hasNext()){
 				arguments.append(",");
@@ -58,7 +56,7 @@ public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleN
 		return arguments;
 	}
 	public OJTryStatement surroundWithCatchIfNecessary(OJOperation operationContext,OJBlock originalBlock){
-		boolean shouldSurround = BehaviorUtil.shouldSurrounWithTry(node);
+		boolean shouldSurround = EmfBehaviorUtil.shouldSurrounWithTry(node);
 		if(shouldSurround){
 			// List<OJField> locals = new
 			// ArrayList<OJField>(originalBlock.getLocals());

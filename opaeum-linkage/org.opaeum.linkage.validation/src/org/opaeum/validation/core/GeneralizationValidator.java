@@ -1,13 +1,15 @@
 package org.opaeum.validation.core;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Reception;
+import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.linkage.CoreValidationRule;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.commonbehaviors.INakedReception;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedGeneralization;
 import org.opaeum.validation.AbstractValidator;
 import org.opaeum.validation.ValidationPhase;
 
@@ -15,38 +17,41 @@ import org.opaeum.validation.ValidationPhase;
 public class GeneralizationValidator extends AbstractValidator{
 	// TODO find better place
 	@VisitBefore
-	public void visitReception(INakedReception r){
+	public void visitReception(Reception r){
 		if(r.getSignal() == null){
 			getErrorMap().putError(r, CoreValidationRule.RECEPTION_REQUIRES_SIGNAL);
 		}
 	}
 	@VisitBefore
-	public void visitGeneralization(INakedGeneralization p){
+	public void visitGeneralization(Generalization p){
 		if(p.getSpecific() != null && p.getGeneral() != null){
 			if(!p.getSpecific().getClass().equals(p.getGeneral().getClass())){
 				getErrorMap().putError(p.getSpecific(), CoreValidationRule.GENERALIZATION_ONLY_OF_SAME_METATYPE, p.getSpecific().getMetaClass(), p.getGeneral(),
 						p.getGeneral().getMetaClass(),p);
-			}else if(p.getSpecific() instanceof INakedBehavior){
-				INakedBehavior s = (INakedBehavior) p.getSpecific();
-				INakedBehavior g = (INakedBehavior) p.getGeneral();
-				INakedBehavioredClassifier sContext = s.getContext();
-				INakedBehavioredClassifier gContext = g.getContext();
+			}else if(p.getSpecific() instanceof Behavior){
+				Behavior s = (Behavior) p.getSpecific();
+				Behavior g = (Behavior) p.getGeneral();
+				BehavioredClassifier sContext = s.getContext();
+				BehavioredClassifier gContext = g.getContext();
 				if(sContext != null && gContext != null && !sContext.conformsTo(gContext)){
 					getErrorMap().putError(s, CoreValidationRule.GENERALIZATION_CONTEXTS_CONFORMANCE, g, sContext, gContext,p);
 				}else if(sContext == null && gContext != null){
 					getErrorMap().putError(s, CoreValidationRule.GENERALIZATION_CONTEXTS_CONFORMANCE, g, "undefined", gContext,p);
 				}
-			}else if(p.getSpecific() instanceof ICompositionParticipant){
-				ICompositionParticipant s = (ICompositionParticipant) p.getSpecific();
-				ICompositionParticipant g = (ICompositionParticipant) p.getGeneral();
-				if(s.getEndToComposite() != null && g.getEndToComposite() != null){
-					ICompositionParticipant sContext = (ICompositionParticipant) s.getEndToComposite().getNakedBaseType();
-					ICompositionParticipant gContext = (ICompositionParticipant) g.getEndToComposite().getNakedBaseType();
+			}else if(EmfClassifierUtil.isCompositionParticipant(p.getSpecific())){
+				Classifier s =  p.getSpecific();
+				Classifier g =  p.getGeneral();
+				if(getEndToComposite(s) != null && getEndToComposite(g) != null){
+					Classifier sContext =  (Classifier) getEndToComposite(s).getType();
+					Classifier gContext =   (Classifier) getEndToComposite(g).getType();
 					if(sContext != null && gContext != null && !sContext.conformsTo(gContext)){
 						getErrorMap().putError(s, CoreValidationRule.GENERALIZATION_COMPOSITION_CONFORMANCE, g, sContext, gContext,p);
 					}
 				}
 			}
 		}
+	}
+	public Property getEndToComposite(Classifier g){
+		return workspace.getOpaeumLibrary().getEndToComposite(g);
 	}
 }

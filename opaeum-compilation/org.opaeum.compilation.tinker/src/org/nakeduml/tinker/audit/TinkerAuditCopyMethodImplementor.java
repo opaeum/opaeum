@@ -4,6 +4,13 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IModelElement;
 
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedComplexStructure;
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedEnumeration;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedSimpleType;
+import org.eclipse.uml2.uml.INakedStructuredDataType;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
@@ -18,13 +25,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
 
 @StepDependency(phase = TinkerAuditPhase.class, requires={TinkerAuditSuperTypeGenerator.class, TinkerAuditClassTransformation.class}, after={TinkerAuditSuperTypeGenerator.class, TinkerAuditClassTransformation.class})
 public class TinkerAuditCopyMethodImplementor extends AbstractAuditJavaProducingVisitor {

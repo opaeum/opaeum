@@ -2,9 +2,9 @@ package org.opaeum.metamodel.bpm;
 
 import java.util.List;
 
-import org.opaeum.metamodel.actions.INakedOpaqueAction;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedPin;
+import org.eclipse.uml2.uml.INakedOpaqueAction;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedPin;
 
 public interface INakedEmbeddedSingleScreenTask extends INakedOpaqueAction,INakedEmbeddedTask{
 	boolean isSynchronous();

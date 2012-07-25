@@ -7,13 +7,13 @@ import java.util.List;
 
 import nl.klasse.octopus.expressions.internal.types.OclExpression;
 
-import org.opaeum.metamodel.components.INakedConnectorEnd;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedPowerType;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedAssociation;
+import org.eclipse.uml2.uml.INakedConnectorEnd;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedPowerType;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 
 public class NakedPropertyImpl extends NakedStructuralFeature implements INakedProperty{
 	private static final long serialVersionUID = -6082767755715076655L;

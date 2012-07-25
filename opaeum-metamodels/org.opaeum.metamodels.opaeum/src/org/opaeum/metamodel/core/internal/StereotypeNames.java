@@ -1,5 +1,6 @@
 package org.opaeum.metamodel.core.internal;
 
+
 public class StereotypeNames{
 	public static final String MODELS_PATHMAP = "pathmap://NAKEDUML_MODELS/";
 	public static final String NAVIGATION_TOO_MANY = "TooMany";

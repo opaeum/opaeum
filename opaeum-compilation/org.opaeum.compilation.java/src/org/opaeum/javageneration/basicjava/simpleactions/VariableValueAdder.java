@@ -1,15 +1,15 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
+import org.eclipse.uml2.uml.AddVariableValueAction;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.actions.INakedAddVariableValueAction;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
-public class VariableValueAdder extends SimpleNodeBuilder<INakedAddVariableValueAction>{
-	public VariableValueAdder(OpaeumLibrary oclEngine,INakedAddVariableValueAction action,AbstractObjectNodeExpressor expressor){
+public class VariableValueAdder extends SimpleNodeBuilder<AddVariableValueAction>{
+	public VariableValueAdder(OpaeumLibrary oclEngine,AddVariableValueAction action,AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	@Override
@@ -19,6 +19,6 @@ public class VariableValueAdder extends SimpleNodeBuilder<INakedAddVariableValue
 		if(node.isReplaceAll() && map.isMany()){
 			block.addToStatements(expressor.clear(map));
 		}
-		block.addToStatements(expressor.pathToVariableContext(node) +  expressor.storeResults(map, valuePinField, node.getValue().getNakedMultiplicity().isMany()));
+		block.addToStatements(expressor.pathToVariableContext(node) +  expressor.storeResults(map, valuePinField, node.getValue().isMultivalued()));
 	}
 }

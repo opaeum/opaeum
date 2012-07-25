@@ -3,6 +3,9 @@ package org.nakeduml.tinker.generator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedComplexStructure;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -15,9 +18,6 @@ import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = JavaTransformationPhase.class, after = { TinkerAttributeImplementor.class })
 public class TinkerQualifierGenerator extends AbstractStructureVisitor {

@@ -8,11 +8,11 @@ import java.util.TreeSet;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedRootObject;
+import org.eclipse.uml2.uml.DefaultOpaeumComparator;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedRootObject;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class GeneralizationUtil{

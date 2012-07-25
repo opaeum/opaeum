@@ -1,8 +1,8 @@
 package org.opaeum.metamodel.bpm.internal;
 
-import org.opaeum.metamodel.actions.CallBehaviorMessageStructure;
+import org.eclipse.uml2.uml.CallBehaviorMessageStructure;
+import org.eclipse.uml2.uml.INakedClassifier;
 import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
-import org.opaeum.metamodel.core.INakedClassifier;
 
 public class EmbeddedScreenFlowTaskMessageStructure extends CallBehaviorMessageStructure{
 	private static final long serialVersionUID = -83727119475369046L;

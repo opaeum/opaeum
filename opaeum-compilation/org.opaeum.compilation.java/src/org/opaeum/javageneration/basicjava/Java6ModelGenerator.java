@@ -6,6 +6,24 @@ import java.util.List;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Signal;
+import org.opaeum.eclipse.CodeGenerationStrategy;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfElementUtil;
+import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
@@ -26,21 +44,6 @@ import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedDataType;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedMessageStructure;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedPackage;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.strategies.BlobStrategyFactory;
@@ -67,41 +70,36 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		return 1;// adds too many entries to shared non-synchronized collections;
 	}
 	@Override
-	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+	protected void visitComplexStructure(Classifier umlOwner){
 		visitClass(umlOwner);
 	}
 	protected boolean ignoreDeletedElements(){
 		return false;
 	}
-
-	@SuppressWarnings({
-			"unchecked","rawtypes"
-	})
-	@VisitAfter(matchSubclasses = true,match = {
-			INakedInterface.class,INakedEnumeration.class
-	})
-	public void visitClass(final INakedClassifier c){
+	@SuppressWarnings({"unchecked","rawtypes"})
+	@VisitAfter(matchSubclasses = true,match = {Interface.class,Enumeration.class})
+	public void visitClass(final Classifier c){
 		// We do not generate simple data types. They can't participate in
 		// two-way associations and should be built-in or pre-implemented
-		if(c.isMarkedForDeletion()){
-			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getQualifiedJavaName()));
-			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getQualifiedJavaName().toLowerCase()));
-		}else if(OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)){
-			if(c.getMappingInfo().requiresJavaRename()){
-				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName()));
-				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName().toLowerCase()));
+		if(EmfElementUtil.isMarkedForDeletion(c)){
+			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.classifierPathname(c));
+			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.packagePathname(c));
+		}else if(OJUtil.hasOJClass(c) && !EmfClassifierUtil.isSimpleType(c)){
+			if(OJUtil.requiresJavaRename( c)){
+				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.getOldClassifierPathname(c));
+				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.getOldPackagePathname(c));
 			}
 			OJPathName path = OJUtil.classifierPathname(c);
 			OJPackage pack = findOrCreatePackage(path.getHead());
-			ClassifierMap classifierMap = OJUtil.buildClassifierMap(c);
+			ClassifierMap classifierMap = OJUtil.buildClassifierMap(c, (CollectionKind) null);
 			OJAnnotatedClass myClass;
-			if(c instanceof INakedEnumeration){
+			if(c instanceof Enumeration){
 				myClass = new OJEnum(path.getLast());
 				// In case it needs to be sent by jms or serialized as session state
 				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
 				myClass.addToImplementedInterfaces(new OJPathName(IEnum.class.getName()));
 				OJUtil.addMetaInfo(myClass, c);
-			}else if(c instanceof INakedInterface){
+			}else if(c instanceof Interface){
 				myClass = new OJAnnotatedInterface(path.getLast());
 				// In case it needs to be sent by jms or serialized as session state
 				((OJAnnotatedInterface) myClass).addToSuperInterfaces(new OJPathName(Serializable.class.getName()));
@@ -117,12 +115,12 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				seri.setStatic(true);
 				seri.setFinal(true);
 				seri.setVisibility(OJVisibilityKind.PRIVATE);
-				seri.setInitExp(c.getMappingInfo().getOpaeumId() + "l");
+				seri.setInitExp(EmfWorkspace.getOpaeumId(c) + "l");
 				myClass.addToFields(seri);
 			}
 			// TODO find another place
-			if(c instanceof INakedSignal){
-				SignalMap signalMap = OJUtil.buildSignalMap((INakedSignal) c);
+			if(c instanceof Signal){
+				SignalMap signalMap = OJUtil.buildSignalMap((Signal) c);
 				OJAnnotatedInterface receiver = new OJAnnotatedInterface(signalMap.receiverContractTypePath().getLast());
 				pack.addToClasses(receiver);
 				OJAnnotatedOperation consumeMethod = new OJAnnotatedOperation(signalMap.eventConsumerMethodName(), new OJPathName("boolean"));
@@ -138,16 +136,16 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			pack.addToClasses(myClass);
 			myClass.setVisibility(classifierMap.javaVisibility());
 			myClass.setAbstract(c.isAbstract());
-			myClass.setComment(c.getDocumentation());
-			INakedRootObject ro = c.getRootObject();
-			INakedRootObject rootObject = ro;
-			if(c.getCodeGenerationStrategy().isAbstractSupertypeOnly()){
+			myClass.setComment(EmfElementUtil.getDocumentation(c));
+			Package rootObject = EmfElementFinder.getRootObject(c);
+			if(EmfClassifierUtil.getCodeGenerationStrategy(c) == CodeGenerationStrategy.ABSTRACT_SUPERTYPE_ONLY){
 				createTextPath(JavaSourceKind.ABSTRACT_SUPERCLASS, myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(true);
 				TextFile impl = createTextPath(JavaSourceKind.CONCRETE_IMPLEMENTATION, myClass, JavaSourceFolderIdentifier.DOMAIN_SRC);
-				if(rootObject instanceof INakedModel && ((INakedModel) rootObject).isRegeneratingLibrary()){
-					INakedModel m = (INakedModel) rootObject;
-					String artifactName = impl.getParent().getRelativePath().substring(impl.getParent().getSourceFolder().getRelativePath().length() + 1) + "/"
-							+ impl.getName();
+				if(rootObject instanceof Model && EmfPackageUtil.isRegeneratingLibrary(((Model) rootObject))){
+					Model m = (Model) rootObject;
+					String artifactName = impl.getParent().getRelativePath()
+							.substring(impl.getParent().getSourceFolder().getRelativePath().length() + 1)
+							+ "/" + impl.getName();
 					final String implementationCodeFor = m.getImplementationCodeFor(artifactName);
 					impl.setDependsOnVersion(true);
 					if(implementationCodeFor != null){
@@ -157,25 +155,25 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			}else{
 				super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(true);
 			}
-			if(c instanceof INakedEnumeration){
+			if(c instanceof Enumeration){
 				OJEnum oje = (OJEnum) myClass;
-				INakedEnumeration e = (INakedEnumeration) c;
-				List<INakedEnumerationLiteral> literals = (List) e.getLiterals();
-				for(INakedEnumerationLiteral l:literals){
-					OJEnumLiteral ojLiteral = new OJEnumLiteral( OJUtil.toJavaLiteral(l));
-					ojLiteral.setComment(l.getDocumentation());
+				Enumeration e = (Enumeration) c;
+				List<EnumerationLiteral> literals = (List) e.getOwnedLiterals();
+				for(EnumerationLiteral l:literals){
+					OJEnumLiteral ojLiteral = new OJEnumLiteral(OJUtil.toJavaLiteral(l));
+					ojLiteral.setComment(EmfElementUtil.getDocumentation(l));
 					applyStereotypesAsAnnotations((l), ojLiteral);
 					oje.addToLiterals(ojLiteral);
 				}
-			}else if(c instanceof INakedDataType){
+			}else if(c instanceof DataType){
 				// Create default constructor for inits
 				myClass.getDefaultConstructor();
 				// Signals and StructuredDataTypes
 				// TODO implement hashCode and Equals methods
-			}else if(c instanceof INakedBehavior){
-				INakedOperation specification = ((INakedBehavior) c).getSpecification();
+			}else if(c instanceof Behavior){
+				Operation specification = (Operation) ((Behavior) c).getSpecification();
 				if(specification != null){
-					NakedClassifierMap map = OJUtil.buildClassifierMap(specification.getMessageStructure());
+					NakedClassifierMap map = OJUtil.buildClassifierMap(getLibrary().getMessageStructure(specification), (CollectionKind) null);
 					myClass.setSuperclass(map.javaTypePath());
 				}
 			}
@@ -183,25 +181,24 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitPackage(INakedPackage p){
-		if(p.getMappingInfo().requiresJavaRename()){
-			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(p.getMappingInfo().getOldQualifiedJavaName()));
+	public void visitPackage(Package p){
+		if(OJUtil.requiresJavaRename( p)){
+			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.getOldPackagePathname(p));
 		}
 		OJPackage currentPack = findOrCreatePackage(OJUtil.packagePathname(p));
-		if(p.getDocumentation() != null){
-			currentPack.setComment(p.getDocumentation());
+		if(EmfElementUtil.getDocumentation(p) != null){
+			currentPack.setComment(EmfElementUtil.getDocumentation(p));
 		}
 		super.applyStereotypesAsAnnotations(p, findOrCreatePackageInfo(currentPack.getPathName(), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC));
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitOperation(INakedOperation no){
-		if(BehaviorUtil.hasExecutionInstance(no)){
-			INakedMessageStructure message = no.getMessageStructure();
-			this.visitClass(message);
+	public void visitOperation(Operation no){
+		if(EmfBehaviorUtil.hasExecutionInstance(no)){
+			this.visitClass(getLibrary().getMessageStructure(no));
 		}
 	}
 	@Override
-	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
 	}
 	private synchronized TextFile createTextPath(JavaSourceKind kind,OJAnnotatedClass c,ISourceFolderIdentifier id){
 		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);

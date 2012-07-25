@@ -28,7 +28,7 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.uimodeler.common,
  org.opaeum.uimodeler.abstractactionbar.diagram,
  org.opaeum.uimodeler.cubequery.diagram;bundle-version="1.0.0",
- org.opaeum.metamodels.opaeum;bundle-version="1.0.0"
+ org.opaeum.metamodels.emfworkspace;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.uim2uim.actions,

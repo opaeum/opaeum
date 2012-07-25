@@ -2,6 +2,13 @@ package org.nakeduml.tinker.generator;
 
 import java.util.Arrays;
 
+import org.eclipse.uml2.uml.ICompositionParticipant;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedEnumeration;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.generation.features.ExtendedCompositionSemantics;
 import org.opaeum.java.metamodel.OJBlock;
@@ -23,13 +30,6 @@ import org.opaeum.javageneration.composition.ComponentInitializer;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = JavaTransformationPhase.class, replaces = AttributeImplementor.class, after = { TinkerImplementNodeStep.class, ExtendedCompositionSemantics.class,
 		ComponentInitializer.class })

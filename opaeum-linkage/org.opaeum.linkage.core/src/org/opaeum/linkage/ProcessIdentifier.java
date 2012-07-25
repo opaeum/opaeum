@@ -1,14 +1,14 @@
 package org.opaeum.linkage;
 
+import org.eclipse.uml2.uml.ActivityKind;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedStateMachine;
+import org.eclipse.uml2.uml.StateMachineKind;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.activities.ActivityKind;
-import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.core.internal.NakedOperationImpl;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
-import org.opaeum.metamodel.statemachines.StateMachineKind;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	DependencyCalculator.class
@@ -18,7 +18,7 @@ import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 public class ProcessIdentifier extends AbstractModelElementLinker{
 	private BehaviorUtil behaviorUtil;
 	@VisitBefore
-	public void visitWorkspace(INakedModelWorkspace workspace){
+	public void visitWorkspace(ModelWorkspace workspace){
 		setBehaviorUtil(new BehaviorUtil(workspace));
 	}
 	@VisitBefore

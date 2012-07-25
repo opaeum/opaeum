@@ -1,8 +1,8 @@
 package org.opaeum.javageneration.maps;
 
+import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Property;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedProperty;
 
 public class AssociationClassEndMap{
 	private NakedStructuralFeatureMap map;
@@ -11,8 +11,8 @@ public class AssociationClassEndMap{
 	private NakedStructuralFeatureMap assocationClassToOtherEndMap;
 	private NakedStructuralFeatureMap endToAssocationClassMap;
 	private NakedStructuralFeatureMap otherEndToAssocationClassMap;
-	public AssociationClassEndMap(INakedProperty p){
-		INakedAssociation asc = (INakedAssociation) p.getAssociation();
+	public AssociationClassEndMap(Property p){
+		Association asc = (Association) p.getAssociation();
 		map = OJUtil.buildStructuralFeatureMap(p);
 		otherMap = OJUtil.buildStructuralFeatureMap(p.getOtherEnd());
 		assocationClassToEndMap = OJUtil.buildStructuralFeatureMap(asc.getPropertyToEnd(p));

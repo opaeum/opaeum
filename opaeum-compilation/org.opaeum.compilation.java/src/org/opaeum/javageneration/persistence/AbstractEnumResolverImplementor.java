@@ -2,6 +2,8 @@ package org.opaeum.javageneration.persistence;
 
 import java.util.Collection;
 
+import org.eclipse.uml2.uml.NamedElement;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
@@ -12,7 +14,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
-import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.runtime.domain.EnumResolver;
 import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
@@ -21,7 +22,7 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 	public AbstractEnumResolverImplementor(){
 		super();
 	}
-	protected void createResolver(OJEnum ojEnum,Collection<? extends INakedElement> els,String oldQualifiedName){
+	protected void createResolver(OJEnum ojEnum,Collection<? extends NamedElement> els,String oldQualifiedName){
 		if(oldQualifiedName != null){
 			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(oldQualifiedName + "Resolver"));
 		}
@@ -36,7 +37,7 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 		resolver.addToOperations(returnedClass);
 		resolver.setSuperclass(new OJPathName("org.opaeum.hibernate.domain.AbstractEnumResolver"));
 	}
-	private OJAnnotatedOperation buildToOpaeumId(OJEnum oje, Collection<? extends INakedElement> els){
+	private OJAnnotatedOperation buildToOpaeumId(OJEnum oje, Collection<? extends NamedElement> els){
 		OJAnnotatedOperation toOpaeumId = new OJAnnotatedOperation("toOpaeumId",new OJPathName("long"));
 		toOpaeumId.addParam("en", new OJPathName(IEnum.class.getName()));
 		OJAnnotatedField result = new OJAnnotatedField("result", new OJPathName("long"));
@@ -45,25 +46,25 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 		OJSwitchStatement sst= new OJSwitchStatement();
 		toOpaeumId.getBody().addToStatements(sst);
 		sst.setCondition("("+ oje.getName()+")en");
-		for(INakedElement l:els){
+		for(NamedElement l:els){
 			OJSwitchCase sc = new OJSwitchCase();
 			sc.setLabel(getLiteralName(l));
-			sc.getBody().addToStatements("result = "  + l.getMappingInfo().getOpaeumId() + "l");
+			sc.getBody().addToStatements("result = "  + EmfWorkspace.getOpaeumId(l)  + "l");
 			sst.addToCases(sc);
 		}
 		toOpaeumId.getBody().addToStatements("return result");
 		return toOpaeumId;
 	}
-	protected abstract String getLiteralName(INakedElement l);
-	private OJAnnotatedOperation buildFromOpaeumId(OJEnum oje,Collection<? extends INakedElement> els){
+	protected abstract String getLiteralName(NamedElement l);
+	private OJAnnotatedOperation buildFromOpaeumId(OJEnum oje,Collection<? extends NamedElement> els){
 		OJAnnotatedOperation toOpaeumId = new OJAnnotatedOperation("fromOpaeumId", new OJPathName(IEnum.class.getName()));
 		toOpaeumId.addParam("i", new OJPathName("long"));
 		OJAnnotatedField result = new OJAnnotatedField("result", new OJPathName(IEnum.class.getName()));
 		result.setInitExp("null");
 		toOpaeumId.getBody().addToLocals(result);
 		OJBlock elsePart =toOpaeumId.getBody();
-		for(INakedElement l:els){
-			OJIfStatement sc = new OJIfStatement("i=="+l.getMappingInfo().getOpaeumId() + "l","result = " + oje.getName() + "." + getLiteralName(l));
+		for(NamedElement l:els){
+			OJIfStatement sc = new OJIfStatement("i=="+EmfWorkspace.getOpaeumId(l) + "l","result = " + oje.getName() + "." + getLiteralName(l));
 			elsePart.addToStatements(sc);
 			sc.setElsePart(new OJBlock());
 			elsePart=sc.getElsePart();

@@ -1,10 +1,10 @@
 package org.opaeum.linkage;
 
+import org.eclipse.uml2.uml.INakedEnumeration;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 import org.opaeum.metamodel.core.internal.NakedPropertyImpl;
 import org.opaeum.metamodel.name.SingularNameWrapper;

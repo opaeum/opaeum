@@ -1,5 +1,6 @@
 package org.opaeum.javageneration.accesscontrol;
 
+import org.eclipse.uml2.uml.Class;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -14,7 +15,6 @@ import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.util.ReflectionUtil;
-import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.runtime.domain.CompositionNode;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -27,7 +27,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private static final OJPathName NUML_USER = new OJPathName("org.opaeum.runtime.bpm.OpaeumUser");
 	public static OJPathName SECURE_OBJECT = new OJPathName("org.opaeum.runtime.bpm.ISecureObject");
 	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedEntity entity){
+	public void visitClass(Class entity){
 		OJAnnotatedClass ojClass = findJavaClass(entity);
 		ojClass.addToImplementedInterfaces(SECURE_OBJECT);
 		ojClass.addToImports(BUSINESS_ROLE);
@@ -48,7 +48,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		isUserOwnershipValid.getBody().addToStatements(ifCan);
 		isUserOwnershipValid.setComment("User Ownership is bypassed if the current user does not share the role required for ownership");
 	}
-	private void addCanBeOwnedByUser(OJClass owner,INakedEntity entity){
+	private void addCanBeOwnedByUser(OJClass owner,Class entity){
 		OJOperation canBeOwnedByUser = owner.getUniqueOperation("canBeOwnedByUser");
 		if(canBeOwnedByUser == null || canBeOwnedByUser.getParameters().size() > 1){
 			canBeOwnedByUser = new OJAnnotatedOperation("canBeOwnedByUser");
@@ -58,7 +58,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
 			forRoles.setBody(new OJBlock());
 			forRoles.setElemType(BUSINESS_ROLE);
-			OJIfStatement ifEquals = new OJIfStatement("role instanceof " + entity.getMappingInfo().getJavaName(), "return true");
+			OJIfStatement ifEquals = new OJIfStatement("role instanceof " + entity.getName(), "return true");
 			forRoles.getBody().addToStatements(ifEquals);
 			canBeOwnedByUser.getBody().addToStatements(forRoles);
 			OJIfStatement ifIsSecureObject = new OJIfStatement("getOwningObject() instanceof " + SECURE_OBJECT.getLast() + "&&((" + SECURE_OBJECT.getLast()
@@ -69,7 +69,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		}
 		canBeOwnedByUser.setReturnType(new OJPathName("boolean"));
 	}
-	private void addIsOwnedByUser(OJClass owner,INakedEntity entity){
+	private void addIsOwnedByUser(OJClass owner,Class entity){
 		OJOperation isOwnedByUser = owner.getUniqueOperation("isOwnedByUser");
 		if(isOwnedByUser == null || isOwnedByUser.getParameters().size() > 1){
 			isOwnedByUser = new OJAnnotatedOperation("isOwnedByUser");
@@ -90,7 +90,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		}
 		isOwnedByUser.setReturnType(new OJPathName("boolean"));
 	}
-	private void addIsGroupOwnershipValid(OJClass owner,INakedEntity entity){
+	private void addIsGroupOwnershipValid(OJClass owner,Class entity){
 		OJOperation isGroupOwnershipValid = owner.getUniqueOperation("isGroupOwnershipValid");
 		if(isGroupOwnershipValid == null || isGroupOwnershipValid.getParameters().size() > 0){
 			isGroupOwnershipValid = new OJAnnotatedOperation("isGroupOwnershipValid");

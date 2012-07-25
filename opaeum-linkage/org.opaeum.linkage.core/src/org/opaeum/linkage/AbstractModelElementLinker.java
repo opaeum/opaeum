@@ -6,25 +6,25 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import org.eclipse.uml2.uml.INakedAssociation;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedRootObject;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.visitor.NakedElementOwnerVisitor;
 
 public abstract class AbstractModelElementLinker extends NakedElementOwnerVisitor implements ITransformationStep{
 	@InputModel
-	protected INakedModelWorkspace workspace;
+	protected ModelWorkspace workspace;
 	protected OpaeumConfig config;
 	private Collection<INakedElement> affectedElements;
-	public void initialize(INakedModelWorkspace workspace,OpaeumConfig config){
+	public void initialize(ModelWorkspace workspace,OpaeumConfig config){
 		affectedElements = new HashSet<INakedElement>();
 		this.workspace = workspace;
 		this.config = config;

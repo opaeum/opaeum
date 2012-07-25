@@ -14,20 +14,20 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IInterface;
 import nl.klasse.octopus.model.IState;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedReception;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTriggerContainer;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedGeneralization;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
+import org.eclipse.uml2.uml.DefaultOpaeumComparator;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedEvent;
+import org.eclipse.uml2.uml.INakedGeneralization;
+import org.eclipse.uml2.uml.INakedInterfaceRealization;
+import org.eclipse.uml2.uml.INakedReception;
+import org.eclipse.uml2.uml.INakedSignal;
+import org.eclipse.uml2.uml.INakedSignalEvent;
+import org.eclipse.uml2.uml.INakedStateMachine;
+import org.eclipse.uml2.uml.INakedTriggerContainer;
 import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
 import org.opaeum.metamodel.core.internal.ParameterUtil;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
 
 public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implements INakedBehavioredClassifier{
 	private static final long serialVersionUID = -2856991672094313864L;

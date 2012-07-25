@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.eclipse.uml2.uml.INakedElement;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.PhaseDependency;
@@ -17,8 +18,7 @@ import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.JavaTransformationStep;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.visitor.TextFileGeneratingVisitor;
@@ -31,7 +31,7 @@ public class TinkerAuditPhase implements TransformationPhase<JavaTransformationS
 	@InputModel
 	OJWorkspace javaModel;
 	@InputModel
-	private INakedModelWorkspace modelWorkspace;
+	private ModelWorkspace modelWorkspace;
 	private List<JavaTransformationStep> features;
 	private OpaeumConfig config;
 

@@ -4,18 +4,18 @@ import java.util.Collection;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opaeum.metamodel.actions.INakedExceptionHandler;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedObjectFlow;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.ObjectNodeType;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedEnumerationLiteral;
+import org.eclipse.uml2.uml.INakedExceptionHandler;
+import org.eclipse.uml2.uml.INakedExpansionNode;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedMultiplicityElement;
+import org.eclipse.uml2.uml.INakedObjectFlow;
+import org.eclipse.uml2.uml.INakedObjectNode;
+import org.eclipse.uml2.uml.INakedValueSpecification;
+import org.eclipse.uml2.uml.ObjectNodeType;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityElement;
 
 public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INakedObjectNode{

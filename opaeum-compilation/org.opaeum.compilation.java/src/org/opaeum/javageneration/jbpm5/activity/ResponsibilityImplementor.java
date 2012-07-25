@@ -4,8 +4,22 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
-import nl.klasse.octopus.model.IOperation;
-
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.CallAction;
+import org.eclipse.uml2.uml.CallBehaviorAction;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.StateMachine;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -23,29 +37,15 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.jbpm5.AbstractBehaviorVisitor;
 import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.javageneration.jbpm5.TaskUtil;
 import org.opaeum.javageneration.jbpm5.statemachine.StateMachineImplementor;
 import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.bpm.INakedDeadline;
-import org.opaeum.metamodel.bpm.INakedDefinedResponsibility;
-import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
-import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.bpm.INakedResponsibility;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.PreAndPostConstrained;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.name.NameConverter;
+import org.opaeum.ocl.uml.ResponsibilityDefinition;
 import org.opaeum.runtime.domain.DeadlineKind;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
@@ -56,27 +56,26 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 })
 public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
-	public void visitActivity(INakedActivity activity){
-		if(activity.getSpecification() instanceof INakedResponsibility && BehaviorUtil.hasExecutionInstance(activity)){
+	public void visitActivity(Activity activity){
+		if(EmfBehaviorUtil.isResponsibility( activity.getSpecification() ) && EmfBehaviorUtil.hasExecutionInstance(activity)){
 		}
-		for(INakedActivityNode n:activity.getActivityNodesRecursively()){
-			if(n instanceof INakedEmbeddedScreenFlowTask){
-				visitScreenFlowTask((INakedEmbeddedScreenFlowTask) n);
-			}else if(n instanceof INakedEmbeddedSingleScreenTask){
-				visitEmbeddedSingleScreenTask((INakedEmbeddedSingleScreenTask) n);
+		for(ActivityNode n:EmfActivityUtil.getActivityNodesRecursively( activity)){
+			if(EmfActionUtil.isScreenFlowTask(n)){
+				visitScreenFlowTask((CallBehaviorAction) n);
+			}else if(EmfActionUtil.isSingleScreenTask(n)){
+				visitEmbeddedSingleScreenTask((OpaqueAction) n);
 			}
-			if(n instanceof INakedCallAction){
-				visitCallAction((INakedCallAction) n);
+			if(n instanceof CallAction){
+				visitCallAction((CallAction) n);
 			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitClassifier(INakedClassifier nc){
-		for(IOperation o:nc.getOperations()){
-			if(o instanceof INakedResponsibility){
-				INakedResponsibility oa = (INakedResponsibility) o;
-				OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
-				OJAnnotatedOperation exec = implementExecute(oa, ojClass);
+	public void visitClassifier(Classifier nc){
+		for(Operation o:nc.getOperations()){
+			if(EmfBehaviorUtil.isResponsibility(o)){
+				OJAnnotatedClass ojClass = findJavaClass(getLibrary().getMessageStructure( o));
+				OJAnnotatedOperation exec = implementExecute(o, ojClass);
 				/**
 				 * If contextObject instanceof BusinessRole then create task, assign to user,kick off events IF contextObject instanceof
 				 * BusinessGateway on a Business Component then see if there is an implementing process contained by the Business Component
@@ -85,15 +84,16 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 				 * Else if there is a delegation to a property of type BusinessRole, create assignees for each business role
 				 * if the port has other assignement expressions assign these too
 				 */
-				TaskUtil.implementAssignmentsAndDeadlines(exec, exec.getBody(), oa.getTaskDefinition(), "this");
-				NakedOperationMap map = OJUtil.buildOperationMap(oa);
+				ResponsibilityDefinition taskDefinition = EmfActionUtil.getTaskDefinition(o,StereotypeNames.RESPONSIBILITY);
+				taskUtil.implementAssignmentsAndDeadlines(exec, exec.getBody(), taskDefinition, "this");
+				NakedOperationMap map = OJUtil.buildOperationMap(o);
 				EventUtil.addOutgoingEventManagement(ojClass);
-				Collection<INakedDeadline> deadlines = oa.getTaskDefinition().getDeadlines();
+				Collection<Deadline> deadlines = taskDefinition.getDeadlines();
 				OJOperation completed = ojClass.findOperation("completed", Collections.emptyList());
 				ojClass.addToImports(new OJPathName("java.util.Date"));
-				for(INakedDeadline d:deadlines){
+				for(Deadline d:deadlines){
 					// TODO ensure uniqueness of deadline names
-					implementDeadlineCallback(ojClass, d, oa, map.callbackListenerPath());
+					implementDeadlineCallback(ojClass, d, o, map.callbackListenerPath());
 					if(d.getKind() == DeadlineKind.COMPLETE){
 						EventUtil.cancelTimer(completed.getBody(), d, "this");
 					}else{
@@ -107,64 +107,64 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		}
 	}
 	@VisitBefore
-	public void visitStateMachine(INakedStateMachine sm){
-		if(sm.getSpecification() instanceof INakedResponsibility && BehaviorUtil.hasExecutionInstance(sm)){
+	public void visitStateMachine(StateMachine sm){
+		if(EmfBehaviorUtil.isResponsibility(sm.getSpecification()) && EmfBehaviorUtil.hasExecutionInstance(sm)){
 			// TODO distinguish between tasks and contractedProcesses
 		}
 	}
-	private void visitScreenFlowTask(INakedEmbeddedScreenFlowTask a){
-		INakedStateMachine sm = (INakedStateMachine) a.getBehavior();
-		NakedClassifierMap map = OJUtil.buildClassifierMap(sm);
-		if(a.getMappingInfo().requiresJavaRename()){
-			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(a.getActivity().getMappingInfo().getOldQualifiedJavaName() + "."
-					+ a.getMappingInfo().getOldJavaName().getCapped()));
+	private void visitScreenFlowTask(CallBehaviorAction a){
+		StateMachine sm = (StateMachine) a.getBehavior();
+		NakedClassifierMap map = OJUtil.buildClassifierMap(sm,(CollectionKind) null);
+		Activity activity = EmfActivityUtil.getContainingActivity(a);
+		if(OJUtil.requiresJavaRename( a)){
+			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.getOldClassifierPathname(a));
 		}
-		OJAnnotatedClass ojClass = new OJAnnotatedClass(a.getMappingInfo().getJavaName().getCapped().getAsIs());
-		OJPackage pkg = findOrCreatePackage(OJUtil.packagePathname(a.getActivity()));
+		OJAnnotatedClass ojClass = new OJAnnotatedClass(NameConverter.capitalize(a.getName()));
+		OJPackage pkg = findOrCreatePackage(OJUtil.packagePathname(activity));
 		pkg.addToClasses(ojClass);
 		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
-		JpaUtil.addEntity(ojClass);
-		JpaUtil.buildTableAnnotation(ojClass, a.getMappingInfo().getPersistentName().getAsIs(), super.config, a.getActivity());
-		for(INakedParameter p:sm.getOwnedParameters()){
-			NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(a.getActivity(), p);
+		JpaUtil.addClass(ojClass);
+		JpaUtil.buildTableAnnotation(ojClass, PersistentNameUtil.getPersistentName( a).getAsIs(), super.config, activity);
+		for(Parameter p:sm.getOwnedParameters()){
+			NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(activity, p);
 			OJAnnotatedOperation setter = new OJAnnotatedOperation(pMap.setter());
 			setter.addParam(pMap.fieldname(), pMap.javaTypePath());
 			ojClass.addToOperations(setter);
-			setter.getBody().addToStatements("get" + sm.getMappingInfo().getJavaName().getCapped() + "()." + pMap.setter() + "(" + pMap.fieldname() + ")");
+			setter.getBody().addToStatements("get" + NameConverter.capitalize(sm.getName()) + "()." + pMap.setter() + "(" + pMap.fieldname() + ")");
 			OJAnnotatedOperation getter = new OJAnnotatedOperation(pMap.getter(), map.javaTypePath());
-			getter.getBody().addToStatements("return get" + sm.getMappingInfo().getJavaName().getCapped() + "()." + pMap.getter() + "()");
+			getter.getBody().addToStatements("return get" +  NameConverter.capitalize(sm.getName()) + "()." + pMap.getter() + "()");
 			ojClass.addToOperations(getter);
 		}
 		implementEmbeddedTask(a, ojClass);
 	}
-	private void visitEmbeddedSingleScreenTask(INakedEmbeddedSingleScreenTask oa){
-		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
+	private void visitEmbeddedSingleScreenTask(OpaqueAction oa){
+		OJAnnotatedClass ojClass = findJavaClass(getLibrary().getMessageStructure( oa));
 		implementEmbeddedTask(oa, ojClass);
 	}
-	private void implementEmbeddedTask(INakedEmbeddedTask oa,OJAnnotatedClass ojClass){
+	private void implementEmbeddedTask(Action oa,OJAnnotatedClass ojClass){
 		implementExecute(oa, ojClass);
-		String callbackMethodName = "on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed";
+		String callbackMethodName = "on" + NameConverter.capitalize(oa.getName()) + "Completed";
 		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
 		ojClass.addToOperations(setReturnInfo);
 		setReturnInfo.addParam("context", Jbpm5Util.getProcessContext());
 		setReturnInfo.getBody().addToStatements("this.nodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
 		OJUtil.addPersistentProperty(ojClass, "nodeInstanceUniqueId", new OJPathName("String"), true);
 		ojClass.addToImports(Jbpm5Util.getNodeInstance());
-		implementTask(oa, ojClass, callbackMethodName, new OJPathName(oa.getActivity().getMappingInfo().getQualifiedJavaName()));
+		implementTask(oa, ojClass, callbackMethodName, OJUtil.classifierPathname(EmfActivityUtil.getContainingActivity(oa)));
 		OJAnnotatedOperation isComplete = new OJAnnotatedOperation("isComplete", new OJPathName("boolean"));
 		ojClass.addToOperations(isComplete);
 		isComplete.initializeResultVariable("getTaskRequest().getCompleted()");
 	}
-	private void implementTask(INakedDefinedResponsibility oa,OJAnnotatedClass ojClass,String callbackMethodName,OJPathName processObject){
+	private void implementTask(DefinedResponsibility oa,OJAnnotatedClass ojClass,String callbackMethodName,OJPathName processObject){
 		OJAnnotatedOperation completed = new OJAnnotatedOperation("completed");
 		ojClass.addToOperations(completed);
 		completed.getBody().addToStatements("getProcessObject()." + callbackMethodName + "(getNodeInstanceUniqueId(), this)");
-		Collection<INakedDeadline> deadlines = oa.getTaskDefinition().getDeadlines();
+		Collection<Deadline> deadlines = oa.getTaskDefinition().getDeadlines();
 		OJAnnotatedOperation started = new OJAnnotatedOperation("started");
 		ojClass.addToOperations(started);
 		EventUtil.addOutgoingEventManagement(ojClass);
 		ojClass.addToImports(new OJPathName("java.util.Date"));
-		for(INakedDeadline d:deadlines){
+		for(Deadline d:deadlines){
 			// TODO ensure uniqueness of deadline names
 			implementDeadlineCallback(ojClass, d, oa, processObject);
 			if(d.getKind() == DeadlineKind.COMPLETE){
@@ -175,7 +175,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 			// Repeat if not Null because a previous event may cause the process to end
 		}
 	}
-	private void implementDeadlineCallback(OJAnnotatedClass ojClass,INakedDeadline d,INakedDefinedResponsibility a,OJPathName processObject){
+	private void implementDeadlineCallback(OJAnnotatedClass ojClass,Deadline d,DefinedResponsibility a,OJPathName processObject){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getEventConsumerName(d), new OJPathName("boolean"));
 		ojClass.addToOperations(oper);
 		oper.addParam("nodeInstanceUniqueId", new OJPathName("String"));
@@ -187,19 +187,19 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		ifNotNullCallback.setElsePart(new OJBlock());
 		ifNotNullCallback.getElsePart().addToStatements("return false");
 	}
-	private void addCallingProcessObjectField(OJAnnotatedOperation op,OJPathName processObject,INakedDefinedResponsibility v){
+	private void addCallingProcessObjectField(OJAnnotatedOperation op,OJPathName processObject,DefinedResponsibility v){
 		OJAnnotatedField callingProcessObject = new OJAnnotatedField("callingProcessObject", processObject);
 		op.getBody().addToLocals(callingProcessObject);
-		if(v instanceof INakedResponsibility){
+		if(v instanceof Operation && EmfBehaviorUtil.isResponsibility(v)){
 			callingProcessObject.setInitExp("getCallingProcessObject()");
 		}else{
 			callingProcessObject.setInitExp("getProcessObject()");
 		}
 	}
-	private OJAnnotatedOperation implementExecute(PreAndPostConstrained element,OJAnnotatedClass ojClass){
+	private OJAnnotatedOperation implementExecute(NamedElement element,OJAnnotatedClass ojClass){
 		OJAnnotatedOperation execute = new OJAnnotatedOperation("execute");
 		ojClass.addToOperations(execute);
-		if(element instanceof INakedOperation && element.getPreConditions().size() > 0){
+		if(element instanceof Operation && ((Operation) element).getPreconditions() .size() > 0){
 			OJUtil.addFailedConstraints(execute);
 			execute.getBody().addToStatements("evaluatePreConditions()");
 		}
@@ -215,7 +215,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		execute.getBody().addToStatements("setExecutedOn(new Date())");
 		return execute;
 	}
-	private void addGetName(INakedElement c,OJAnnotatedClass ojOperationClass){
+	private void addGetName(NamedElement c,OJAnnotatedClass ojOperationClass){
 		OJOperation getName = ojOperationClass.getUniqueOperation("getName");
 		if(getName == null){
 			getName = new OJAnnotatedOperation("getName");
@@ -226,12 +226,12 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		}
 		getName.getBody().addToStatements("return \"" + c.getName() + "On\"+getContextObject().getName()");
 	}
-	public void visitCallAction(INakedCallAction ca){
+	public void visitCallAction(CallAction ca){
 		// Always order invocations of contractedProcesses or tasks by the executedOn date
-		if(ca.isLongRunning()){
+		if(EmfActionUtil.isLongRunning( ca)){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(ca, getLibrary());
 			if(map.isMany()){
-				OJAnnotatedClass ojOwner = findJavaClass(ca.getActivity());
+				OJAnnotatedClass ojOwner = findJavaClass(EmfActivityUtil.getContainingActivity(ca));
 				OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.OrderBy"), "executedOn"));
 			}

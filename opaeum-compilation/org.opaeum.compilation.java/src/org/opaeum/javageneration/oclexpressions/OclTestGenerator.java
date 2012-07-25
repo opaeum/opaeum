@@ -1,7 +1,13 @@
 package org.opaeum.javageneration.oclexpressions;
 
-import nl.klasse.octopus.model.IOperation;
 
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Property;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJPackage;
@@ -15,11 +21,7 @@ import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeExpressionGenerator.class,ConstrainedImplementor.class,
@@ -28,7 +30,7 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 		InvariantsGenerator.class,ConstrainedImplementor.class})
 public class OclTestGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore
-	public void visitEntity(INakedEntity entity){
+	public void visitClass(Class entity){
 		OJPathName pn = OJUtil.classifierPathname(entity);
 		OJPackage pkg = findOrCreatePackage(pn.getHead());
 		OJAnnotatedClass test = new OJAnnotatedClass(pn.getLast() + "Test");
@@ -37,9 +39,9 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 		pkg.addToClasses(testInterface);
 		test.addToImports(testInterface.getPathName());
 		test.addToImplementedInterfaces(testInterface.getPathName());
-		for(INakedProperty p:entity.getOwnedAttributes()){
-			if(p.getInitialValue() != null && p.getInitialValue().isOclValue()){
-				String name = "test" + p.getMappingInfo().getJavaName() + "InitialValue";
+		for(Property p:entity.getOwnedAttributes()){
+			if(p.getDefaultValue() != null && p.getDefaultValue() instanceof OpaqueExpression){
+				String name = "test" + p.getName() + "InitialValue";
 				addTestMEthod(entity, pn, test, testInterface, name);
 				// NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 				// testInitialValue.getBody().addToStatements("assert object."
@@ -47,19 +49,19 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 				// +")");
 			}
 		}
-		for(IOperation oper:entity.getOperations()){
-			INakedOperation o = (INakedOperation) oper;
-			if(o.getBodyCondition() != null && o.getBodyCondition().getSpecification().isOclValue()){
-				String name = "test" + o.getMappingInfo().getJavaName();
+		for(Operation oper:entity.getOperations()){
+			Operation o = (Operation) oper;
+			if(o.getBodyCondition() != null && o.getBodyCondition().getSpecification() instanceof OpaqueExpression){
+				String name = "test" + o.getName();
 				addTestMEthod(entity, pn, test, testInterface, name);
 				// testInitialValue.getBody().addToStatements("assert object."
 				// + map.getter() + "().equals(" + map.javaDefaultValue()
 				// +")");
 			}
 		}
-		for(INakedConstraint nc:entity.getOwnedRules()){
+		for(Constraint nc:entity.getOwnedRules()){
 			if(!(nc.getName().startsWith("uniqueIn") || nc.getName().toLowerCase().startsWith("sourcepopulation"))){
-				addTestMEthod(entity, pn, test, testInterface, "test" + nc.getMappingInfo().getJavaName().getCapped());
+				addTestMEthod(entity, pn, test, testInterface, "test" + NameConverter.capitalize(nc.getName()));
 			}
 		}
 		if(test.getOperations().size() > 0){
@@ -67,7 +69,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 			createTextPath(test, JavaSourceFolderIdentifier.DOMAIN_TEST_SRC);
 		}
 	}
-	private void addTestMEthod(INakedEntity entity,OJPathName pn,OJAnnotatedClass test,OJAnnotatedInterface testInterface,String name){
+	private void addTestMEthod(Class entity,OJPathName pn,OJAnnotatedClass test,OJAnnotatedInterface testInterface,String name){
 		String newName = name;
 		int i = 0;
 		while(test.getUniqueOperation(newName) != null){
@@ -78,8 +80,8 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 		testInitialValue.putAnnotation(new OJAnnotationValue(new OJPathName("org.junit.Test")));
 		test.addToOperations(testInitialValue);
 		if(!entity.isAbstract()){
-			INakedProperty endToComposite = entity.getEndToComposite();
-			if(endToComposite != null && !endToComposite.getNakedBaseType().isAbstract()){
+			Property endToComposite = getLibrary().getEndToComposite(entity);
+			if(endToComposite != null && !((Classifier) endToComposite.getType()).isAbstract()){
 				NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(endToComposite);
 				test.addToImports(compositeEndMap.javaBaseTypePath());
 				OJAnnotatedField compositionalOwner = new OJAnnotatedField("parent", compositeEndMap.javaBaseTypePath());
@@ -89,8 +91,8 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 				if(endToComposite.getOtherEnd().getQualifiers().size() > 0){
 					object.setInitExp("null");
 					if(endToComposite.getOtherEnd().getQualifiers().size() == 1){
-						if(endToComposite.getOtherEnd().getQualifiers().get(0).getBaseType() instanceof INakedEnumeration){
-							INakedEnumeration en=(INakedEnumeration) endToComposite.getOtherEnd().getQualifiers().get(0).getBaseType();
+						if(endToComposite.getOtherEnd().getQualifiers().get(0).getType() instanceof Enumeration){
+							Enumeration en=(Enumeration) endToComposite.getOtherEnd().getQualifiers().get(0).getType();
 							if(en.getOwnedLiterals().size()>0){
 								test.addToImports(OJUtil.classifierPathname(en));
 								object.setInitExp("new " + pn.getLast() + "("+en.getName() +"."+ en.getOwnedLiterals().get(0).getName().toUpperCase() +",parent)");

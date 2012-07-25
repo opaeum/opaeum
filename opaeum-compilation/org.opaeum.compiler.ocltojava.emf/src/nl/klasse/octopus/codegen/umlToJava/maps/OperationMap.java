@@ -10,39 +10,40 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.utilities.JavaPathNames;
 
-/**
- * OperationMap :
- */
+
 public class OperationMap extends PackageableElementMap{
-	protected Operation operation = null;
+	protected NamedElement operation = null;
 	protected ClassifierMap operationTypeMap = null;
+	
 	private ArrayList<OJPathName> paramTypePaths;
+	protected List<Parameter> parameters;
+	protected Parameter returnParameter;
 	static public String javaPlusOperName(){
 		return "plus";
 	}
-	/**
-	 * 
-	 */
-	public OperationMap(Operation operation){
+	public OperationMap(NamedElement operation,List<Parameter> parameters){
 		super(operation);
+		this.parameters=parameters;
 		this.operation = operation;
-		if(operation.getType() != null){
-			this.operationTypeMap = new ClassifierMap((Classifier) operation.getType());
+		for(Parameter parameter:parameters){
+			if(parameter.getDirection()==ParameterDirectionKind.RETURN_LITERAL){
+				this.returnParameter=parameter;
+				this.operationTypeMap = new ClassifierMap((Classifier) parameter.getType(),getCollectionKind(parameter));
+			}
 		}
 	}
-	/**
-	 * @param in
-	 * @return
-	 */
+	public OperationMap(Operation operation){
+		this(operation,operation.getOwnedParameters());
+	}
+
 	public String javaOperName(){
-		// Parser only recognises:
-		// ( <PRIVATE> | <PUBLIC> | <DERIVATION> | <MODEL_LESS> | <MODEL_GT> | <MODEL_LESSEQ>
-		// | <MODEL_GTEQ> | <MODEL_EQUALS> | <MODEL_NOTEQUALS> | <MODEL_MULTIPLY>
 		String in = operation.getName();
 		String result = in;
 		if(in.length() == 1){
@@ -82,21 +83,17 @@ public class OperationMap extends PackageableElementMap{
 		}
 		return result;
 	}
-	/**
-	 * @return
-	 */
+
 	public String javaReturnDefaultValue(){
-		if(operation.getType() != null){
+		if(operationTypeMap != null){
 			return operationTypeMap.javaDefaultValue();
 		}else{
 			return "null";
 		}
 	}
-	/**
-	 * @return
-	 */
+
 	public OJPathName javaReturnTypePath(){
-		if(operation.getType() != null){
+		if(operationTypeMap != null){
 			return operationTypeMap.javaTypePath();
 		}else{
 			return JavaPathNames.Void;
@@ -107,14 +104,14 @@ public class OperationMap extends PackageableElementMap{
 	 * @return
 	 */
 	public OJPathName javaParamTypePath(Parameter elem){
-		ClassifierMap mapper = new ClassifierMap((Classifier) elem.getType());
+		ClassifierMap mapper = new ClassifierMap((Classifier) elem.getType(), getCollectionKind(elem));
 		return mapper.javaTypePath();
 	}
 	/**
 	 * @return
 	 */
 	public OJPathName javaReturnDefaultTypePath(){
-		if(operation.getType() != null){
+		if(operationTypeMap != null){
 			return operationTypeMap.javaDefaultTypePath();
 		}else{
 			return JavaPathNames.Void;
@@ -126,7 +123,7 @@ public class OperationMap extends PackageableElementMap{
 	public List<OJPathName> javaParamTypePaths(){
 		if(paramTypePaths == null){
 			paramTypePaths = new ArrayList<OJPathName>();
-			Iterator<?> it = operation.getOwnedParameters().iterator();
+			Iterator<?> it = parameters.iterator();
 			while(it.hasNext()){
 				Parameter param = (Parameter) it.next();
 				paramTypePaths.add(javaParamTypePath(param));

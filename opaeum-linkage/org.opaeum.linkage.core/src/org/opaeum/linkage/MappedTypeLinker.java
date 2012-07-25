@@ -9,23 +9,23 @@ import java.util.Set;
 import nl.klasse.octopus.model.IPrimitiveType;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
+import org.eclipse.uml2.uml.CodeGenerationStrategy;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedPrimitiveType;
+import org.eclipse.uml2.uml.INakedSimpleType;
+import org.eclipse.uml2.uml.INakedStateMachine;
+import org.eclipse.uml2.uml.INakedStructuredDataType;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.core.CodeGenerationStrategy;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedPrimitiveType;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.MappedType;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
@@ -203,7 +203,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 		javaType.setCodeGenerationStrategy(CodeGenerationStrategy.NO_CODE);
 	}
 	@Override
-	public void initialize(INakedModelWorkspace workspace,OpaeumConfig config){
+	public void initialize(ModelWorkspace workspace,OpaeumConfig config){
 		super.initialize(workspace, config);
 		for(Class<? extends AbstractStrategyFactory> class1:config.getStrategyFactories()){
 			strategyFactories.add(IntrospectionUtil.newInstance(class1));

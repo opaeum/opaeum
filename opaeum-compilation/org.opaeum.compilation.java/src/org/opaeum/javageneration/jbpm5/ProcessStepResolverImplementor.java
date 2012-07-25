@@ -1,68 +1,65 @@
 package org.opaeum.javageneration.jbpm5;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
-import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
 import org.opaeum.javageneration.jbpm5.statemachine.StateEnumerationImplementor;
 import org.opaeum.javageneration.persistence.AbstractEnumResolverImplementor;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.activities.ActivityNodeContainer;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.commonbehaviors.INakedStep;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.statemachines.INakedState;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.javageneration.util.OJUtil;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		StateEnumerationImplementor.class,ActivityNodeEnumerationImplementor.class
-},after = {
-		StateEnumerationImplementor.class,ActivityNodeEnumerationImplementor.class
-})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {StateEnumerationImplementor.class,
+		ActivityNodeEnumerationImplementor.class},after = {StateEnumerationImplementor.class,ActivityNodeEnumerationImplementor.class})
 public class ProcessStepResolverImplementor extends AbstractEnumResolverImplementor{
 	@VisitBefore
-	public void visitActivity(INakedActivity a){
-		if(a.isProcess()){
+	public void visitActivity(Activity a){
+		if(EmfBehaviorUtil.isProcess( a)){
 			doNodes(a);
 		}
 	}
-	private void doNodes(ActivityNodeContainer container){
-		List<INakedActivityNode> restingNodes = new ArrayList<INakedActivityNode>();
-		for(INakedActivityNode n:container.getActivityNodes()){
-			if(BehaviorUtil.isRestingNode(n)){
+	private void doNodes(Namespace container){
+		List<ActivityNode> restingNodes = new ArrayList<ActivityNode>();
+		for(ActivityNode n:EmfActivityUtil.getActivityNodes(container) ){
+			if(EmfBehaviorUtil.isRestingNode(n)){
 				restingNodes.add(n);
 			}
-			if(n instanceof INakedStructuredActivityNode){
-				doNodes((ActivityNodeContainer) n);
+			if(n instanceof StructuredActivityNode){
+				doNodes((Namespace) n);
 			}
 		}
-		OJClass findClass = javaModel.findClass(new OJPathName(container.getMappingInfo().getQualifiedJavaName() + "State"));
-		createResolver((OJEnum) findClass, restingNodes, container.getMappingInfo().requiresJavaRename() ? container.getMappingInfo().getOldQualifiedJavaName()
-				+ "State" : null);
+		OJClass findClass = javaModel.findClass(OJUtil.statePathname(container));
+		createResolver((OJEnum) findClass, restingNodes, OJUtil.requiresJavaRename( container) ? OJUtil
+				.getOldClassifierPathname(container) + "State" : null);
 	}
 	@VisitBefore
-	public void visitStateMachine(INakedStateMachine sm){
-		Set<INakedState> allStates = sm.getAllStates();
-		List<INakedState> restingStates = new ArrayList<INakedState>();
-		for(INakedState s:allStates){
-			if(s.getKind().isRestingState()){
-				restingStates.add(s);
-			}
+	public void visitStateMachine(StateMachine sm){
+		Collection<State> allStates = EmfStateMachineUtil.getAllStates(sm);
+		List<State> restingStates = new ArrayList<State>();
+		for(State s:allStates){
+			restingStates.add(s);
 		}
-		OJEnum e = (OJEnum) javaModel.findClass(new OJPathName(sm.getMappingInfo().getQualifiedJavaName() + "State"));
-		createResolver(e, restingStates, sm.getMappingInfo().requiresJavaRename() ? sm.getMappingInfo().getOldQualifiedJavaName() + "State" : null);
+		OJEnum e = (OJEnum) javaModel.findClass(OJUtil.statePathname(sm));
+		createResolver(e, restingStates, OJUtil.requiresJavaRename( sm) ? OJUtil.getOldClassifierPathname(sm) + "State"
+				: null);
 	}
 	@Override
-	protected String getLiteralName(INakedElement l){
-		return Jbpm5Util.stepLiteralName((INakedStep) l);
+	protected String getLiteralName(NamedElement l){
+		return Jbpm5Util.stepLiteralName(l);
 	}
 }

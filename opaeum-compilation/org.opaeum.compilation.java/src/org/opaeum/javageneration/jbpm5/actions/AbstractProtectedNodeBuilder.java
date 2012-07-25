@@ -3,6 +3,11 @@ package org.opaeum.javageneration.jbpm5.actions;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ExceptionHandler;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Type;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
@@ -16,14 +21,9 @@ import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.maps.ExceptionRaisingMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.actions.INakedExceptionHandler;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
-public abstract class AbstractProtectedNodeBuilder<T extends INakedAction> extends Jbpm5ActionBuilder<T>{
+public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbpm5ActionBuilder<T>{
 	static final String IF_TOKEN_FOUND = "ifTokenFound";
 	protected NakedStructuralFeatureMap callMap;
 	public AbstractProtectedNodeBuilder(OpaeumLibrary oclEngine,T node,NakedStructuralFeatureMap callMap){
@@ -31,11 +31,11 @@ public abstract class AbstractProtectedNodeBuilder<T extends INakedAction> exten
 		this.callMap = callMap;
 	}
 	protected void implementExceptionHandlers(OJClassifier owner,ExceptionRaisingMap map){
-		Collection<INakedClassifier> exceptions = getRaisedExceptions();
-		for(INakedExceptionHandler p:node.getHandlers()){
-			Collection<INakedClassifier> exceptionTypes = p.getExceptionTypes();
+		Collection<Type> exceptions = getRaisedExceptions();
+		for(ExceptionHandler p:node.getHandlers()){
+			Collection<Classifier> exceptionTypes = p.getExceptionTypes();
 			exceptions.removeAll(exceptionTypes);
-			for(INakedClassifier exception:exceptionTypes){
+			for(Classifier exception:exceptionTypes){
 				OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, exception, true);
 				onException.getBody().addToStatements(Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + "=exception");
 				OJIfStatement ifAtNode = buildIfAtNode(onException);
@@ -43,7 +43,7 @@ public abstract class AbstractProtectedNodeBuilder<T extends INakedAction> exten
 				flowTo(ifAtNode.getThenPart(), p.getHandlerBody());
 			}
 		}
-		for(INakedClassifier ex:exceptions){
+		for(Type ex:exceptions){
 			OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, ex, true);
 			OJIfStatement ifAtNode = buildIfAtNode(onException);
 			ifAtNode.getThenPart().addToStatements("propagateException(exception)");
@@ -66,8 +66,8 @@ public abstract class AbstractProtectedNodeBuilder<T extends INakedAction> exten
 			forEachTask.getBody().addToStatements("workObject.cancel()");
 		}
 	}
-	protected abstract Collection<INakedClassifier> getRaisedExceptions();
-	protected OJAnnotatedOperation findOrCreateExceptionListener(OJClassifier owner,ExceptionRaisingMap map,INakedElement exceptionPArameter,boolean takesException){
+	protected abstract Collection<Type> getRaisedExceptions();
+	protected OJAnnotatedOperation findOrCreateExceptionListener(OJClassifier owner,ExceptionRaisingMap map,NamedElement exceptionPArameter,boolean takesException){
 		OJAnnotatedOperation onException = (OJAnnotatedOperation) ((OJClass) owner).getUniqueOperation(map.exceptionOperName(exceptionPArameter));
 		if(onException == null){
 			onException = new OJAnnotatedOperation(map.exceptionOperName(exceptionPArameter));
@@ -92,7 +92,7 @@ public abstract class AbstractProtectedNodeBuilder<T extends INakedAction> exten
 		ifTokenFound.addToThenPart(ifAtNode);
 		return ifAtNode;
 	}
-	protected void implementCallbackOnComplete(OJClass activityClass,String completeMethodName,INakedMessageStructure message){
+	protected void implementCallbackOnComplete(OJClass activityClass,String completeMethodName,Classifier message){
 		OJAnnotatedOperation complete;
 		complete = (OJAnnotatedOperation) activityClass.getUniqueOperation(completeMethodName);
 		activityClass.addToImports(AbstractEventConsumptionImplementor.UML_NODE_INSTANCE);
@@ -101,7 +101,7 @@ public abstract class AbstractProtectedNodeBuilder<T extends INakedAction> exten
 			activityClass.addToOperations(complete);
 			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", AbstractEventConsumptionImplementor.UML_NODE_INSTANCE));
 			complete.addParam("nodeInstanceUniqueId", new OJPathName("String"));
-			complete.addParam("completedWorkObject", OJUtil.buildClassifierMap(message).javaTypePath());
+			complete.addParam("completedWorkObject", OJUtil.classifierPathname(message));
 		}
 		OJIfStatement ifFound = new OJIfStatement("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId))!=null");
 		complete.getBody().addToStatements(ifFound);
@@ -116,12 +116,12 @@ public abstract class AbstractProtectedNodeBuilder<T extends INakedAction> exten
 		}
 		implementConditionalFlows(complete, ifFound.getThenPart());
 	}
-	protected void implementHandler(OJAnnotatedOperation operation,INakedExceptionHandler e,OJBlock catchPart,String exceptionExpression){
+	protected void implementHandler(OJAnnotatedOperation operation,ExceptionHandler e,OJBlock catchPart,String exceptionExpression){
 		catchPart.addToStatements(Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + "=" + exceptionExpression);
 		StringBuilder sb = new StringBuilder();
-		Iterator<INakedClassifier> iter = e.getExceptionTypes().iterator();
+		Iterator<Classifier> iter = e.getExceptionTypes().iterator();
 		while(iter.hasNext()){
-			INakedClassifier type = iter.next();
+			Classifier type = iter.next();
 			OJPathName pathName = OJUtil.classifierPathname(type);
 			sb.append(exceptionExpression + " instanceof ");
 			sb.append(pathName.getLast());

@@ -4,26 +4,26 @@ import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
+import org.eclipse.uml2.uml.INakedAction;
+import org.eclipse.uml2.uml.INakedCallAction;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedDurationObservation;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedPrimitiveType;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedSimpleType;
+import org.eclipse.uml2.uml.INakedStructuredActivityNode;
+import org.eclipse.uml2.uml.INakedTimeObservation;
+import org.eclipse.uml2.uml.INakedTypedElement;
+import org.eclipse.uml2.uml.INakedValuePin;
+import org.eclipse.uml2.uml.IParameterOwner;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
-import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedPrimitiveType;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.core.internal.NakedPrimitiveTypeImpl;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 /**
  */
@@ -105,7 +105,7 @@ public class TypeResolver extends AbstractModelElementLinker{
 		return DEFAULT_TYPE;
 	}
 	@Override
-	public void startVisiting(INakedModelWorkspace root){
+	public void startVisiting(ModelWorkspace root){
 		getDefaultType();
 		super.startVisiting(root);
 	}

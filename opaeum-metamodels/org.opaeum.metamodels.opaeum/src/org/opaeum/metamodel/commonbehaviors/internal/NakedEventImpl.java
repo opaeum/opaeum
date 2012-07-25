@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.commonbehaviors.internal;
 
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.eclipse.uml2.uml.INakedEvent;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public abstract class NakedEventImpl extends NakedElementImpl implements INakedEvent{

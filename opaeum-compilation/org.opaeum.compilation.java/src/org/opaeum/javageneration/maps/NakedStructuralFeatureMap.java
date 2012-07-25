@@ -3,9 +3,14 @@ package org.opaeum.javageneration.maps;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
 
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.name.NameConverter;
 
 public class NakedStructuralFeatureMap extends StructuralFeatureMap{
@@ -16,17 +21,19 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 		}
 		return asIs;
 	}
-	public NakedStructuralFeatureMap(INakedProperty feature){
+	public NakedStructuralFeatureMap(Property feature){
 		super(feature);
-		
-		baseTypeMap = OJUtil.buildClassifierMap(feature.getNakedBaseType());
-		featureTypeMap = OJUtil.buildClassifierMap(feature.getType());
+		baseTypeMap = OJUtil.buildClassifierMap((Classifier) feature.getType(),(CollectionKind)null);
+		featureTypeMap = OJUtil.buildClassifierMap((Classifier) feature.getType(),feature);
 	}
 	public String qualifierProperty(){
-		return "z_keyOf" + NameConverter.capitalize(getProperty().getName()) + "On" +getProperty().getOwner().getName();
+		return "z_keyOf" + NameConverter.capitalize(getProperty().getName()) + "On" +((Classifier)getProperty().getOwner()).getName();
 	}
 	public String qualifierPropertySetter(){
-		return "setZ_keyOf" + NameConverter.capitalize(getProperty().getName()) + "On" +getProperty().getOwner().getName();
+		return "setZ_keyOf" + NameConverter.capitalize(getProperty().getName()) + "On" +((Classifier)getProperty().getOwner()).getName();
+	}
+	public NameWrapper getPersistentName(){
+		return PersistentNameUtil.getPersistentName(feature);
 	}
 
 	@Override
@@ -67,12 +74,12 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 		return "clear" + StringHelpers.firstCharToUpper(feature.getName());
 	}
 	public boolean isMany(){
-		if(feature instanceof INakedProperty){
-			INakedProperty property = (INakedProperty) feature;
+		if(feature instanceof Property){
+			Property property = (Property) feature;
 			int qualifierCount = property.getQualifiers().size();
-			return property.getNakedMultiplicity().isMany() || qualifierCount > 0;
+			return property.isMultivalued() || qualifierCount > 0;
 		}else{
-			return feature.getMultiplicity().getUpper() > 1;
+			return feature.isMultivalued();
 		}
 	}
 	public boolean isOne(){
@@ -97,13 +104,16 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 	 */
 	protected boolean otherEndIsOne(){
 		if(getProperty().getOtherEnd() != null){
-			INakedProperty otherEnd = getProperty().getOtherEnd();
-			return otherEnd.isNavigable() && otherEnd.getNakedMultiplicity().isOne() && otherEnd.getQualifiers().size() == 0;
+			Property otherEnd = getProperty().getOtherEnd();
+			return otherEnd.isNavigable() && otherEnd.getUpper()==1 && otherEnd.getQualifiers().size() == 0;
 		}else{
 			return false;
 		}
 	}
-	public INakedProperty getProperty(){
-		return((INakedProperty) feature);
+	public Property getProperty(){
+		return((Property) feature);
+	}
+	public Classifier getDefiningClassifier(){
+		return (Classifier)EmfElementFinder.getContainer(feature);
 	}
 }

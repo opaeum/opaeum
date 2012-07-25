@@ -4,6 +4,9 @@ import nl.klasse.octopus.expressions.internal.analysis.Environment;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.oclengine.IOclContext;
 
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.linkage.CoreValidationRule;
@@ -16,9 +19,6 @@ import org.opaeum.linkage.ProcessIdentifier;
 import org.opaeum.linkage.ReferenceResolver;
 import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.linkage.TypeResolver;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.validation.namegeneration.UmlNameRegenerator;
 
 @StepDependency(phase = LinkagePhase.class, after = { EnumerationValuesAttributeAdder.class, PinLinker.class, MappedTypeLinker.class, SourcePopulationResolver.class,

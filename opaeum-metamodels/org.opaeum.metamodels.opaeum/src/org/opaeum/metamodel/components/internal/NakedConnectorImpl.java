@@ -1,8 +1,8 @@
 package org.opaeum.metamodel.components.internal;
 
-import org.opaeum.metamodel.components.INakedConnector;
-import org.opaeum.metamodel.components.INakedConnectorEnd;
-import org.opaeum.metamodel.components.NakedConnectorKind;
+import org.eclipse.uml2.uml.INakedConnector;
+import org.eclipse.uml2.uml.INakedConnectorEnd;
+import org.eclipse.uml2.uml.NakedConnectorKind;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedConnectorImpl extends NakedElementImpl implements INakedConnector{

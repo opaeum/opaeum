@@ -6,16 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Package;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.PhaseDependency;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.linkage.LinkagePhase;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.RootObjectStatus;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.validation.activities.ActionValidation;
 import org.opaeum.validation.activities.ActivityValidator;
 import org.opaeum.validation.commonbehavior.BehaviorValidator;
@@ -26,16 +25,16 @@ import org.opaeum.validation.namegeneration.NameGenerationPhase;
 @PhaseDependency(after = {
 		NameGenerationPhase.class,LinkagePhase.class
 })
-public class ValidationPhase implements TransformationPhase<AbstractValidator,INakedElement>{
+public class ValidationPhase implements TransformationPhase<AbstractValidator,Element>{
 	private OpaeumConfig config;
 	@InputModel
-	private INakedModelWorkspace modelWorkspace;
+	private EmfWorkspace modelWorkspace;
 	private List<AbstractValidator> validators;
 	@Override
-	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
-		for(INakedElement element:elements){
+	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
+		for(Element element:elements){
 			for(AbstractValidator v:validators){
-				v.visitRecursively((INakedElement) element);
+				v.visitRecursively((Element) element);
 			}
 		}
 		return elements;
@@ -50,7 +49,7 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 				context.getLog().endLastStep();
 			}
 		}
-		for(INakedRootObject ro:modelWorkspace.getGeneratingModelsOrProfiles()){
+		for(Package ro:modelWorkspace.getGeneratingModelsOrProfiles()){
 			ro.setStatus(RootObjectStatus.VALIDATED);
 		}
 		context.getLog().endLastTask();

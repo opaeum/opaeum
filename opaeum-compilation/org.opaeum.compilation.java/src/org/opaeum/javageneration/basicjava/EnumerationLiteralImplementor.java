@@ -3,9 +3,15 @@ package org.opaeum.javageneration.basicjava;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.klasse.octopus.model.IAttribute;
-import nl.klasse.octopus.model.IEnumLiteral;
-
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Slot;
+import org.opaeum.eclipse.CodeGenerationStrategy;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
@@ -24,11 +30,7 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSlot;
-import org.opaeum.metamodel.core.internal.NakedEnumerationLiteralImpl;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class
@@ -37,11 +39,11 @@ import org.opaeum.metamodel.core.internal.NakedEnumerationLiteralImpl;
 })
 public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
-	public void generateExtraConstructor(INakedEnumeration c){
-		if(!(c.getCodeGenerationStrategy().isNone())){
+	public void generateExtraConstructor(Enumeration c){
+		if(EmfClassifierUtil.getCodeGenerationStrategy( c)!=CodeGenerationStrategy.NO_CODE){
 			OJEnum myClass = (OJEnum) findJavaClass(c);
-			IAttribute valuesAttr = c.findClassAttribute("values");
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((INakedProperty) valuesAttr);
+			Property valuesAttr = c.getAttribute("values",null);
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((Property) valuesAttr);
 			OJOperation values = myClass.getUniqueOperation("getValues");
 			// TODO find out why the getter is not generated
 			if(values == null){
@@ -58,11 +60,11 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 			OJConstructor constr = new OJConstructor();
 			myClass.addToConstructors(constr);
 			constr.setVisibility(OJVisibilityKindGEN.PRIVATE);
-			List<? extends INakedProperty> allAttributes = c.getEffectiveAttributes();
+			List<? extends Property> allAttributes = EmfElementFinder.getPropertiesInScope(c);
 			boolean hasDuplicates = hasDuplicates(allAttributes);
 			if(!hasDuplicates){
-				for(INakedProperty attr:allAttributes){
-					if(!(attr.isDerived() || attr.isOclDef())){
+				for(Property attr:allAttributes){
+					if(!(attr.isDerived())){
 						addToConstructor(constr, myClass, attr, c);
 					}
 				}
@@ -72,9 +74,9 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 				myClass.addToOperations(getUid);
 				OJUtil.addField(myClass, constr, "opaeumId", new OJPathName("long"));
 
-				for(IEnumLiteral el:c.getLiterals()){
-					INakedEnumerationLiteral nl = (INakedEnumerationLiteral) el;
-					OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()), "uuid", "\"" + nl.getMappingInfo().getIdInModel() + "\"," +  nl.getMappingInfo().getOpaeumId() + "l");
+				for(EnumerationLiteral el:c.getOwnedLiterals()){
+					EnumerationLiteral nl = (EnumerationLiteral) el;
+					OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()), "uuid", "\"" + EmfWorkspace.getId(nl) + "\"," +  EmfWorkspace.getOpaeumId(nl) + "l");
 				}
 				if(!constr.getParameters().isEmpty()){
 					myClass.addToConstructors(constr);
@@ -83,31 +85,31 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void generateStaticMethods(INakedEnumeration c){
+	public void generateStaticMethods(Enumeration c){
 		OJEnum myClass = (OJEnum) findJavaClass(c);
 		// Does lookups on arbitrary string properties
-		List<? extends INakedProperty> allAttributes = c.getEffectiveAttributes();
-		for(INakedProperty prop:allAttributes){
-			if(prop.getType().getName().equals("String") && prop.getNakedMultiplicity().isOne() && !prop.isDerived()){
+		List<? extends Property> allAttributes = EmfElementFinder.getPropertiesInScope(c);
+		for(Property prop:allAttributes){
+			if(prop.getType().getName().equals("String") && prop.getUpper()==1 && !prop.isDerived()){
 				// TODO support for other types??
-				OJAnnotatedOperation staticOp = new OJAnnotatedOperation("from" + prop.getMappingInfo().getJavaName().getCapped());
+				OJAnnotatedOperation staticOp = new OJAnnotatedOperation("from" + NameConverter.capitalize(prop.getName()));
 				staticOp.setStatic(true);
 				OJPathName path = OJUtil.classifierPathname(c);
 				staticOp.setReturnType(path);
 				OJParameter ojParameter = new OJParameter();
 				ojParameter.setName(prop.getName());
-				ojParameter.setType(OJUtil.classifierPathname(prop.getNakedBaseType()));
+				ojParameter.setType(OJUtil.classifierPathname((Classifier) prop.getType()));
 				staticOp.addToParameters(ojParameter);
-				List<IEnumLiteral> literals = c.getLiterals();
-				for(IEnumLiteral iEnumLiteral:literals){
+				List<EnumerationLiteral> literals = c.getOwnedLiterals();
+				for(EnumerationLiteral EnumerationLiteral:literals){
 					OJIfStatement ifSPS = new OJIfStatement();
-					NakedEnumerationLiteralImpl nakedLiteral = (NakedEnumerationLiteralImpl) iEnumLiteral;
-					List<INakedSlot> slots = nakedLiteral.getSlots();
-					for(INakedSlot nakedSlot:slots){
+					EnumerationLiteral nakedLiteral = (EnumerationLiteral) EnumerationLiteral;
+					List<Slot> slots = nakedLiteral.getSlots();
+					for(Slot nakedSlot:slots){
 						if(nakedSlot.getDefiningFeature().equals(prop)){
 							ifSPS.setCondition(prop.getName() + ".equals("
-									+ ValueSpecificationUtil.expressValue(myClass, nakedSlot.getFirstValue(), prop.getType(), true) + ")");
-							ifSPS.addToThenPart("return " + iEnumLiteral.getName().toUpperCase());
+									+ ValueSpecificationUtil.expressValue(myClass, nakedSlot.getFirstValue(), getLibrary().getActualType( prop), true) + ")");
+							ifSPS.addToThenPart("return " + EnumerationLiteral.getName().toUpperCase());
 							break;
 						}
 					}
@@ -118,10 +120,10 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 			}
 		}
 	}
-	private boolean hasDuplicates(List<? extends INakedProperty> allAttributes){
+	private boolean hasDuplicates(List<? extends Property> allAttributes){
 		boolean result = false;
 		List<String> names = new ArrayList<String>();
-		for(INakedProperty attr:allAttributes){
+		for(Property attr:allAttributes){
 			if(names.contains(attr.getName())){
 				return true;
 			}else{
@@ -130,7 +132,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		}
 		return result;
 	}
-	private void addToConstructor(OJConstructor constr,OJClass myClass,INakedProperty feat,INakedEnumeration c){
+	private void addToConstructor(OJConstructor constr,OJClass myClass,Property feat,Enumeration c){
 		NakedStructuralFeatureMap mapper = OJUtil.buildStructuralFeatureMap(feat);
 		OJPathName type = mapper.javaTypePath();
 		myClass.addToImports(type);
@@ -139,13 +141,13 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		String setter = mapper.setter();
 		constr.getBody().addToStatements("this." + setter + "(" + parname + ")");
 		OJEnum oje = (OJEnum) myClass;
-		for(IEnumLiteral l:c.getLiterals()){
+		for(EnumerationLiteral l:c.getOwnedLiterals()){
 			OJEnumLiteral ojl = oje.findLiteral(l.getName().toUpperCase());
 			OJField f = ojl.findAttributeValue(mapper.fieldname());
-			INakedEnumerationLiteral nakedLiteral = (INakedEnumerationLiteral) l;
-			final INakedSlot slot = nakedLiteral.getSlotForFeature(feat.getName());
+			EnumerationLiteral nakedLiteral = (EnumerationLiteral) l;
+			final Slot slot = nakedLiteral.getSlotForFeature(feat.getName());
 			if(slot != null){
-				f.setInitExp(ValueSpecificationUtil.expressSlot(myClass, slot));
+				f.setInitExp(valueSpecificationUtil.expressSlot(myClass, slot));
 			}
 		}
 	}

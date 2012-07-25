@@ -6,7 +6,7 @@ import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-import org.opaeum.metamodel.core.INakedTypedElement;
+import org.eclipse.uml2.uml.INakedTypedElement;
 
 //TODO maybe move to metamodel?
 public class SignalParameter implements IParameter{

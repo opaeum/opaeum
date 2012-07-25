@@ -5,19 +5,19 @@ import java.util.Collections;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedPin;
+import org.eclipse.uml2.uml.INakedAction;
+import org.eclipse.uml2.uml.INakedCallAction;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedConnectorEnd;
+import org.eclipse.uml2.uml.INakedExpansionNode;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedMultiplicityElement;
+import org.eclipse.uml2.uml.INakedObjectNode;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedPin;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedTypedElement;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.components.INakedConnectorEnd;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedTypedElement;
 
 /**
  * This class is need to emulate attibutes in namespaces where other typed elements should also function appear as attributes to Octopus

@@ -8,14 +8,14 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedElement;
+import org.eclipse.uml2.uml.DefaultOpaeumComparator;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedRegion;
+import org.eclipse.uml2.uml.INakedState;
+import org.eclipse.uml2.uml.INakedStateMachine;
+import org.eclipse.uml2.uml.INakedTransition;
+import org.eclipse.uml2.uml.IRegionOwner;
 import org.opaeum.metamodel.core.internal.NakedNameSpaceImpl;
-import org.opaeum.metamodel.statemachines.INakedRegion;
-import org.opaeum.metamodel.statemachines.INakedState;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
-import org.opaeum.metamodel.statemachines.INakedTransition;
-import org.opaeum.metamodel.statemachines.IRegionOwner;
 
 public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 	private static final long serialVersionUID = 7711042727363444332L;

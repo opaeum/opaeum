@@ -33,7 +33,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Package;
 import org.opaeum.bootstrap.BootstrapGenerationPhase;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
@@ -46,9 +49,7 @@ import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.migration.MigrationGenerationPhase;
 import org.opaeum.jbpm5.FlowGenerationPhase;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextProject;
@@ -59,9 +60,9 @@ import org.opaeum.textmetamodel.TextWorkspace;
 },before = {
 	FileGenerationPhase.class
 })
-public class PomGenerationPhase implements TransformationPhase<PomGenerationStep,INakedElement>,IntegrationPhase{
+public class PomGenerationPhase implements TransformationPhase<PomGenerationStep,Element>,IntegrationPhase{
 	@InputModel
-	private INakedModelWorkspace workspace;
+	private ModelWorkspace workspace;
 	@InputModel
 	private TextWorkspace textWorkspace;
 	@InputModel(optional = true)
@@ -136,10 +137,10 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 						DocumentRoot root = getRoot(step, prefix);
 						updatePom(step, root);
 					}else{
-						List<INakedRootObject> models = workspace.getGeneratingModelsOrProfiles();
-						for(INakedRootObject model:models){
+						Collection<Package> models = workspace.getGeneratingModelsOrProfiles();
+						for(Package model:models){
 							step.setModel(model);
-							DocumentRoot root = getRoot(step, model.getIdentifier());
+							DocumentRoot root = getRoot(step, EmfPackageUtil.getIdentifier(model));
 							updatePom(step, root);
 						}
 					}
@@ -398,7 +399,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		parentPom.getProject().getDependencyManagement().getDependencies().getDependency().add(newDep);
 	}
 	@Override
-	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
+	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		return elements;
 	}
 	@Override

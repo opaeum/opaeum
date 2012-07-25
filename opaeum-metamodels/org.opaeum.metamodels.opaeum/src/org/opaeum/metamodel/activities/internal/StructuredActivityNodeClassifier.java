@@ -2,14 +2,14 @@ package org.opaeum.metamodel.activities.internal;
 
 import nl.klasse.octopus.model.IAttribute;
 
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityVariable;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
-import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedActivityVariable;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedDurationObservation;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedStructuredActivityNode;
+import org.eclipse.uml2.uml.INakedTimeObservation;
 import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;

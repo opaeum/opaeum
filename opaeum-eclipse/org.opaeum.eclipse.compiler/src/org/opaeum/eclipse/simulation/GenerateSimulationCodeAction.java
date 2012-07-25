@@ -12,7 +12,7 @@ import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
@@ -100,7 +100,7 @@ public class GenerateSimulationCodeAction extends AbstractOpaeumAction{
 			public void redo(){
 			}
 		});
-		INakedModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
+		ModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
 		PersistentNameGenerator png = new PersistentNameGenerator();
 		png.startVisiting(nakedWorkspace);
 		TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);

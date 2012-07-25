@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.transformation.engine
 Bundle-SymbolicName: org.opaeum.transformation.engine;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.opaeum.metamodels.opaeum,
+Require-Bundle: org.opaeum.metamodels.emfworkspace,
  org.opaeum.metamodels.text,
  org.eclipse.emf.ecore
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

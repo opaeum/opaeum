@@ -1,5 +1,17 @@
 package org.opaeum.javageneration.persistence;
 
+
+
+
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfAssociationUtil;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
@@ -9,63 +21,56 @@ import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.name.NameWrapper;
 
 public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
-	protected final void mapXToOneEnumeration(INakedProperty f,OJAnnotatedClass owner,OJAnnotatedField field){
-		JpaUtil.addColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), !f.isRequired());
+	protected final void mapXToOneEnumeration(Property f,OJAnnotatedClass owner,OJAnnotatedField field){
+		JpaUtil.addColumn(field, PersistentNameUtil.getPersistentName( f).getAsIs(), !EmfPropertyUtil.isRequired( f));
 		OJAnnotationValue enumerated = new OJAnnotationValue(new OJPathName("javax.persistence.Enumerated"));
 		enumerated.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.EnumType"), "STRING"));
 		field.addAnnotationIfNew(enumerated);
 	}
-	protected final boolean isOtherEndOrdered(INakedProperty f){
-		return f instanceof INakedProperty && (f).getOtherEnd() != null && (f).getOtherEnd().isOrdered();
+	protected final boolean isOtherEndOrdered(Property f){
+		return f instanceof Property && (f).getOtherEnd() != null && (f).getOtherEnd().isOrdered();
 	}
-	protected final void mapXToOneSimpleType(INakedProperty f,OJAnnotatedClass owner,OJAnnotatedField field){
+	protected final void mapXToOneSimpleType(Property f,OJAnnotatedClass owner,OJAnnotatedField field){
 		if(this.workspace.getOpaeumLibrary().getDateType() != null
-				&& f.getNakedBaseType().conformsTo(this.workspace.getOpaeumLibrary().getDateType())){
+				&& f.getType().conformsTo(this.workspace.getOpaeumLibrary().getDateType())){
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"));
 			temporal.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.TemporalType"), "DATE"));
 			field.addAnnotationIfNew(temporal);
 		}
 		OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
-		column.putAttribute("name", JpaUtil.getValidSqlName(f.getMappingInfo().getPersistentName().getAsIs()));
+		column.putAttribute("name", JpaUtil.getValidSqlName(PersistentNameUtil.getPersistentName( f).getAsIs()));
 		field.addAnnotationIfNew(column);
-		INakedSimpleType simpleType = (INakedSimpleType) f.getNakedBaseType();
-		if(simpleType.hasStrategy(JpaStrategy.class)){
-			simpleType.getStrategy(JpaStrategy.class).annotate(field, f);
+		DataType simpleType = (DataType) f.getType();
+		if(EmfClassifierUtil.hasStrategy(simpleType,JpaStrategy.class)){
+			EmfClassifierUtil.getStrategy(simpleType,JpaStrategy.class).annotate(field, f);
 		}
 	}
-	protected final void mapXToOnePersistentType(INakedProperty f,OJAnnotatedClass owner,OJAnnotatedField field){
+	protected final void mapXToOnePersistentType(Property f,OJAnnotatedClass owner,OJAnnotatedField field){
 		// Entities and behaviors
 		// Inverse is always OneToOne
-		String toOneType = f.isInverse() ? "javax.persistence.OneToOne" : "javax.persistence.ManyToOne";
+		String toOneType = EmfPropertyUtil .isInverse(f) ? "javax.persistence.OneToOne" : "javax.persistence.ManyToOne";
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName(toOneType));
 		JpaUtil.fetchLazy(toOne);
-		if(f.getNakedBaseType() instanceof INakedStructuredDataType || f.isComposite()){
-			// TODO validate that INakedStructuredDataType cannot participate in bidirectional relationships
+		if(EmfClassifierUtil.isStructuredDataType(f.getType()) || f.isComposite()){
+			// TODO validate that StructuredDataType cannot participate in bidirectional relationships
 			// Compositional semantics - should also delete Orphan
 			JpaUtil.cascadeAll(toOne);
 		}
 		// TODO with oneToOne components map a relationship
 		// table.
-		if(f.isInverse() && !(f.getAssociation() != null && f.getAssociation().isClass())){
-			// Implies navigable other end and INakedProperty
+		if(EmfPropertyUtil.isInverse(f) && !(f.getAssociation() != null && EmfAssociationUtil .isClass(f.getAssociation()))){
+			// Implies navigable other end and Property
 			NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((f).getOtherEnd());
 			toOne.putAttribute(new OJAnnotationAttributeValue("mappedBy", otherMap.fieldname()));
 		}else{
 			// Remember that oneToOne uniqueness will be added as a
 			// uniqueConstraint
-			NameWrapper persistentName = f.getMappingInfo().getPersistentName();
+			NameWrapper persistentName = PersistentNameUtil.getPersistentName( f);
 			String asIs = persistentName.getAsIs();
-			OJAnnotationValue column = JpaUtil.addJoinColumn(field, asIs, !f.isRequired());
+			OJAnnotationValue column = JpaUtil.addJoinColumn(field, asIs, !EmfPropertyUtil .isRequired(f));
 			if(isOtherEndOrdered(f)){
 				// Emulate "inverse" behavior
 				column.putAttribute(new OJAnnotationAttributeValue("insertable", false));
@@ -74,25 +79,25 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 		}
 		field.addAnnotationIfNew(toOne);
 	}
-	protected final void mapXToOne(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
+	protected final void mapXToOne(Classifier umlOwner,NakedStructuralFeatureMap map){
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		mapXToOne(map, owner);
 	}
 	public void mapXToOne(NakedStructuralFeatureMap map,OJAnnotatedClass owner){
-		INakedProperty f = map.getProperty();
+		Property f = map.getProperty();
 		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
 		if(field != null){
 			// Field might have been replaced by a name-value type map
-			if(f.getNakedBaseType() instanceof INakedEnumeration){
+			if(f.getType() instanceof Enumeration){
 				mapXToOneEnumeration(f, owner, field);
-			}else if(f.getNakedBaseType() instanceof INakedSimpleType){
+			}else if(EmfClassifierUtil.isSimpleType( f.getType() )){
 				mapXToOneSimpleType(f, owner, field);
-			}else if(isPersistent(f.getNakedBaseType())){
+			}else if(isPersistent((Classifier) f.getType())){
 				mapXToOnePersistentType(f, owner, field);
-			}else if(f.getBaseType() instanceof INakedBehavior || f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
+			}else if(f.getType() instanceof Behavior || EmfClassifierUtil.isHelper(f.getType())){
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 			}
-			for(INakedProperty p:map.getProperty().getPropertiesQualified()){
+			for(Property p:map.getProperty().getPropertiesQualified()){
 				NakedStructuralFeatureMap qualifiedMap = OJUtil.buildStructuralFeatureMap(p);
 				OJAnnotatedField qf = (OJAnnotatedField) owner.findField(qualifiedMap.qualifierProperty());
 				if(qf != null){

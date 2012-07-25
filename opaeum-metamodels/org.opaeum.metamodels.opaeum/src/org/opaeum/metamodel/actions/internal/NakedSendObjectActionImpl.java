@@ -3,9 +3,9 @@ package org.opaeum.metamodel.actions.internal;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opaeum.metamodel.actions.INakedSendObjectAction;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedSendObjectAction;
 
 public class NakedSendObjectActionImpl extends NakedInvocationActionImpl implements INakedSendObjectAction{
 	private static final long serialVersionUID = 110231012348710L;

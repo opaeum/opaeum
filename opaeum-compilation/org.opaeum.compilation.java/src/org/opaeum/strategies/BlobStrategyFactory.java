@@ -1,7 +1,10 @@
 package org.opaeum.strategies;
 
+
 import javax.persistence.Lob;
 
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Property;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -10,15 +13,13 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.TestModelValueStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 
 public class BlobStrategyFactory extends AbstractStrategyFactory {
 	public static class MyJpaStrategy implements JpaStrategy {
 
 		@Override
-		public void annotate(OJAnnotatedField f, INakedProperty p) {
+		public void annotate(OJAnnotatedField f, Property p) {
 			OJAnnotationValue type = new OJAnnotationValue(new OJPathName(Lob.class.getName()));
 			f.putAnnotation(type);
 		}
@@ -28,12 +29,12 @@ public class BlobStrategyFactory extends AbstractStrategyFactory {
 	public static class MyConfigurableDataStrategy implements ConfigurableDataStrategy {
 
 		@Override
-		public String getDefaultStringValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p) {
+		public String getDefaultStringValue(OJAnnotatedClass owner, OJBlock block, Property p) {
 			return getDefaultStringValue();
 		}
 
 		@Override
-		public String parseConfiguredValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p, String configuredValue) {
+		public String parseConfiguredValue(OJAnnotatedClass owner, OJBlock block, Property p, String configuredValue) {
 			return configuredValue;
 		}
 
@@ -56,7 +57,7 @@ public class BlobStrategyFactory extends AbstractStrategyFactory {
 		super(MyJpaStrategy.class,MyConfigurableDataStrategy.class,MyTestValueStrategy.class);
 	}
 	@Override
-	public boolean appliesTo(INakedSimpleType st){
+	public boolean appliesTo(DataType st){
 		return st.getName().equals("BinaryLargeObject");
 	}
 	@Override

@@ -1,15 +1,16 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.ObjectFlow;
+import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.VariableAction;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.actions.INakedVariableAction;
-import org.opaeum.metamodel.activities.INakedObjectFlow;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
@@ -19,18 +20,18 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 	public boolean pinsAvailableAsVariables(){
 		return false;
 	}
-	public String expressFeedingNodeForObjectFlowGuard(OJBlock block,INakedObjectFlow flow){
-		INakedObjectNode feedingNode = (INakedObjectNode) flow.getOriginatingObjectNode();
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(flow.getActivity(), feedingNode, shouldEnsureUniquenes(feedingNode));
-		String call = map.fieldname();// ParameterNode or top level output
+	public String expressFeedingNodeForObjectFlowGuard(OJBlock block,ObjectFlow flow){
+		ObjectNode feedingNode = (ObjectNode) EmfActivityUtil.getOriginatingObjectNode( flow);
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(flow), feedingNode, shouldEnsureUniquenes(feedingNode));
+		String call = map.fieldname();// ActivityParameterNode or top level output
 		return surroundWithSelectionAndTransformation(call, flow);
 	}
-	public final String expressInputPinOrOutParamOrExpansionNode(OJBlock block,INakedObjectNode pin){
+	public final String expressInputPinOrOutParamOrExpansionNode(OJBlock block,ObjectNode pin){
 		// Either an outputpin or parameterNode
-		INakedObjectFlow edge = (INakedObjectFlow) pin.getIncoming().iterator().next();
-		INakedObjectNode feedingNode = pin.getFeedingNode();
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), feedingNode, shouldEnsureUniquenes(feedingNode));
-		String call = map.fieldname();// ParameterNode or top level output
+		ObjectFlow edge = (ObjectFlow) pin.getIncomings().iterator().next();
+		ObjectNode feedingNode = EmfActivityUtil.getFeedingNode( pin);
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity( pin), feedingNode, shouldEnsureUniquenes(feedingNode));
+		String call = map.fieldname();// ActivityParameterNode or top level output
 										// pin or expansion node
 		return surroundWithSelectionAndTransformation(call, edge);
 	}
@@ -59,12 +60,12 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		return map.fieldname() + ".clear()";
 	}
 	@Override
-	protected String surroundWithBehaviorCall(String expression,INakedBehavior b,INakedObjectFlow flow){
+	protected String surroundWithBehaviorCall(String expression,Behavior b,ObjectFlow flow){
 		// TODO Auto-generated method stub
 		return OJUtil.buildOperationMap(b).javaOperName() + "(" + expression + ")";
 	}
 	@Override
-	public String pathToVariableContext(INakedVariableAction action){
+	public String pathToVariableContext(VariableAction action){
 		return "";
 	}
 }

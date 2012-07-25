@@ -3,6 +3,9 @@ package org.opaeum.emf.extraction;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.AddVariableValueAction;
 import org.eclipse.uml2.uml.ClearVariableAction;
+import org.eclipse.uml2.uml.INakedActivityVariable;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
 import org.eclipse.uml2.uml.ReadVariableAction;
 import org.eclipse.uml2.uml.RemoveVariableValueAction;
 import org.eclipse.uml2.uml.Variable;
@@ -12,9 +15,6 @@ import org.opaeum.metamodel.actions.internal.NakedAddVariableValueActionImpl;
 import org.opaeum.metamodel.actions.internal.NakedClearVariableActionImpl;
 import org.opaeum.metamodel.actions.internal.NakedReadVariableActionImpl;
 import org.opaeum.metamodel.actions.internal.NakedRemoveVariableValueActionImpl;
-import org.opaeum.metamodel.activities.INakedActivityVariable;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
 
 @StepDependency(phase = EmfExtractionPhase.class, requires = { FeatureExtractor.class, ActivityStructureExtractor.class }, after = {
 		FeatureExtractor.class, ActivityStructureExtractor.class })

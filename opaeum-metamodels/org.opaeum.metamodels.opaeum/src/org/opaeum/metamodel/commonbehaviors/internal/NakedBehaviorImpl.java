@@ -10,25 +10,25 @@ import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opaeum.metamodel.activities.ActivityKind;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.CodeGenerationStrategy;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.ActivityKind;
+import org.eclipse.uml2.uml.CodeGenerationStrategy;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedConstraint;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedModel;
+import org.eclipse.uml2.uml.INakedMultiplicityElement;
+import org.eclipse.uml2.uml.INakedNameSpace;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedProfile;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedState;
+import org.eclipse.uml2.uml.INakedTransition;
 import org.opaeum.metamodel.core.internal.ParameterUtil;
-import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.metamodel.profiles.INakedProfile;
-import org.opaeum.metamodel.statemachines.INakedState;
-import org.opaeum.metamodel.statemachines.INakedTransition;
 
 /**
  * Defines a common superclass for elements that: 1. Can be called as a method/operation/behavior 2. Has pre and post conditions expressed

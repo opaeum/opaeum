@@ -7,19 +7,19 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedActivityVariable;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedPin;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
-import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.eclipse.uml2.uml.DefaultOpaeumComparator;
+import org.eclipse.uml2.uml.INakedAction;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedActivityNode;
+import org.eclipse.uml2.uml.INakedActivityVariable;
+import org.eclipse.uml2.uml.INakedDurationObservation;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedMessageStructure;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedPin;
+import org.eclipse.uml2.uml.INakedStructuredActivityNode;
+import org.eclipse.uml2.uml.INakedTimeObservation;
 
 public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements INakedStructuredActivityNode{
 	private static final long serialVersionUID = 5226193508709902688L;

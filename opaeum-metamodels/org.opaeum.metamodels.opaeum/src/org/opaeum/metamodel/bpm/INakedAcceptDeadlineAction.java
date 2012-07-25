@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.bpm;
 
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
+import org.eclipse.uml2.uml.INakedAcceptEventAction;
 
 public interface INakedAcceptDeadlineAction extends INakedAcceptEventAction{
 }

@@ -12,16 +12,16 @@ import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedMessageStructure;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedConstraint;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedMessageStructure;
+import org.eclipse.uml2.uml.INakedMultiplicityElement;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedParameter;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
 public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOperation{

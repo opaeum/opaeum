@@ -31,16 +31,18 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.ValuePin;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfValidationUtil;
+import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.commands.SetOclBodyCommand;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.linkage.CoreValidationRule;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.topcased.modeler.uml.oclinterpreter.ColorManager;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.NakedOclViewer;
 import org.topcased.modeler.uml.oclinterpreter.OCLDocument;
+import org.topcased.modeler.uml.oclinterpreter.OpaeumOclFactory;
 
 public abstract class OclBodyComposite extends Composite{
 	protected boolean updating = false;
@@ -115,9 +117,9 @@ public abstract class OclBodyComposite extends Composite{
 				String text = viewer.getTextWidget().getText();
 				if(text != null && !text.trim().equals(lastVal.trim())){
 					lastVal = text;
-					updating=true;
+					updating = true;
 					fireOclChanged(text);
-					updating=false;
+					updating = false;
 				}
 			}
 		}
@@ -169,7 +171,8 @@ public abstract class OclBodyComposite extends Composite{
 			keyListener.lastVal = text;
 			getTextControl().setText(text);
 		}
-		getEditingDomain().getCommandStack().execute(SetOclBodyCommand.create(getEditingDomain(), oclBodyOwner, getBodiesFeature(), getLanguagesFeature(), text));
+		getEditingDomain().getCommandStack().execute(
+				SetOclBodyCommand.create(getEditingDomain(), oclBodyOwner, getBodiesFeature(), getLanguagesFeature(), text));
 		Display.getDefault().timerExec(1000, highlighter);
 	}
 	public StyledText getTextControl(){
@@ -219,7 +222,7 @@ public abstract class OclBodyComposite extends Composite{
 	public void highlightError(){
 		StyledText t = viewer.getTextWidget();
 		if(!(oclBodyOwner == null || t == null || t.isDisposed())){
-			INakedModelWorkspace ws = OpaeumEclipseContext.getCurrentContext().getNakedWorkspace();
+			ModelWorkspace ws = OpaeumEclipseContext.getCurrentContext().getNakedWorkspace();
 			ErrorMap errors = ws.getErrorMap();
 			String id = OpaeumEclipseContext.getCurrentContext().getId(oclBodyOwner);
 			BrokenElement be = errors.getErrors().get(id);
@@ -228,9 +231,7 @@ public abstract class OclBodyComposite extends Composite{
 				Integer i = objects.length == 2 ? ((Integer) objects[1]) - 1 : 0;
 				StyleRange[] srs = t.getStyleRanges();
 				if(srs.length <= 0){
-					srs = new StyleRange[]{
-						new StyleRange(0, t.getText().length(), null, null, SWT.NORMAL)
-					};
+					srs = new StyleRange[]{new StyleRange(0, t.getText().length(), null, null, SWT.NORMAL)};
 				}
 				for(StyleRange sr:srs){
 					if(i == 0 || (sr.start <= i && sr.start + sr.length > i)){
@@ -257,17 +258,11 @@ public abstract class OclBodyComposite extends Composite{
 		document.set(text);
 	}
 	public static String getOclText(EList<String> bodies,EList<String> languages){
-		for(int i = 0;i < languages.size();i++){
-			if(languages.get(i).equalsIgnoreCase("ocl")){
-				if(bodies.size() > i){
-					return bodies.get(i);
-				}
-			}
+		String result = EmfValueSpecificationUtil.getOclBody(bodies, languages);
+		if(result == null){
+			result = DEFAULT_TEXT;
 		}
-		if(bodies.size() == 1){
-			return bodies.get(0);
-		}
-		return DEFAULT_TEXT;
+		return result;
 	}
 	public Control getTabTo(){
 		return tabTo;
@@ -276,8 +271,9 @@ public abstract class OclBodyComposite extends Composite{
 		this.tabTo = tabTo;
 	}
 	protected boolean isOclContext(EObject container){
-		return(container instanceof Operation || container instanceof Property || container instanceof Classifier || container instanceof Action
-				|| container instanceof InstanceSpecification || container instanceof ValuePin || container instanceof Transition || container instanceof ActivityEdge || container instanceof JoinNode || container instanceof Constraint);
+		return(container instanceof Operation || container instanceof Property || container instanceof Classifier
+				|| container instanceof Action || container instanceof InstanceSpecification || container instanceof ValuePin
+				|| container instanceof Transition || container instanceof ActivityEdge || container instanceof JoinNode || container instanceof Constraint);
 	}
 	public abstract EStructuralFeature getBodiesFeature();
 	public abstract EStructuralFeature getLanguagesFeature();

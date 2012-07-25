@@ -3,8 +3,8 @@ package org.opaeum.metamodel.actions.internal;
 import java.util.Collection;
 import java.util.List;
 
-import org.opaeum.metamodel.actions.INakedOpaqueAction;
-import org.opaeum.metamodel.activities.INakedInputPin;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOpaqueAction;
 import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 
 public abstract class NakedOpaqueActionImpl extends NakedActionImpl implements INakedOpaqueAction{

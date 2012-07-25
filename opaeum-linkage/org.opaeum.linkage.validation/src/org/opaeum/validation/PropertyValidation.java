@@ -1,9 +1,9 @@
 package org.opaeum.validation;
 
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Property;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.validation.IValidationRule;
 
 @StepDependency(phase = ValidationPhase.class)
@@ -34,8 +34,8 @@ public class PropertyValidation extends AbstractValidator{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitProperty(INakedProperty p){
-		if(p.isStatic() && p.getOwner() instanceof INakedInterface){
+	public void visitProperty(Property p){
+		if(p.isStatic() && p.getOwner() instanceof Interface){
 			getErrorMap().putError(p, PropertyValidationRule.INTERFACE_PROPERTIES_CANNOT_BE_STATIC);
 		}
 		if(p.isNavigable() && p.isDerivedUnion() && p.getAssociation() != null && p.getOtherEnd() != null && p.getOtherEnd().isNavigable()
@@ -43,7 +43,7 @@ public class PropertyValidation extends AbstractValidator{
 			getErrorMap().putError(p, PropertyValidationRule.DERIVED_UNION_NOT_BIDIRECTIONAL, p.getOtherEnd());
 		}
 		if(p.getSubsettedProperties().size() > 0){
-			for(INakedProperty sp:p.getSubsettedProperties()){
+			for(Property sp:p.getSubsettedProperties()){
 				if(!sp.isDerivedUnion()){
 					getErrorMap().putError(p, PropertyValidationRule.SUBSETTED_PROPERTY_NO_UNION, sp);
 				}
@@ -55,7 +55,7 @@ public class PropertyValidation extends AbstractValidator{
 			}
 		}
 		if(p.getRedefinedProperties().size() > 0){
-			for(INakedProperty rp:p.getRedefinedProperties()){
+			for(Property rp:p.getRedefinedProperties()){
 				if(p.getOwner().findEffectiveAttribute(rp.getName()) == null){
 					getErrorMap().putError(p, PropertyValidationRule.REDEFINED_PROPERTY_NOT_IN_CONTEXT, rp, p.getOwner());
 				}

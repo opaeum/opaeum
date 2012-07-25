@@ -2,6 +2,11 @@ package org.nakeduml.tinker.javageneration.composition;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
+import org.eclipse.uml2.uml.ICompositionParticipant;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
@@ -21,11 +26,6 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.AttributeExpressionGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { CompositionEmulator.class, OperationAnnotator.class }, after = { OperationAnnotator.class,

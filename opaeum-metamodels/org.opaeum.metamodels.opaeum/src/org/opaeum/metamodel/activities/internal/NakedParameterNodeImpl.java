@@ -2,11 +2,11 @@ package org.opaeum.metamodel.activities.internal;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opaeum.metamodel.activities.INakedParameterNode;
-import org.opaeum.metamodel.activities.ObjectNodeType;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedParameter;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedParameterNode;
+import org.eclipse.uml2.uml.ObjectNodeType;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 
 public class NakedParameterNodeImpl extends NakedObjectNodeImpl implements INakedParameterNode{

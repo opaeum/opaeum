@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Extension;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Port;
 import org.eclipse.uml2.uml.Property;
@@ -17,7 +18,6 @@ import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.metamodel.bpm.internal.NakedResponsibilityImpl;
 import org.opaeum.metamodel.components.internal.NakedPortImpl;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opaeum.metamodel.core.internal.NakedOperationImpl;
 import org.opaeum.metamodel.core.internal.NakedPropertyImpl;

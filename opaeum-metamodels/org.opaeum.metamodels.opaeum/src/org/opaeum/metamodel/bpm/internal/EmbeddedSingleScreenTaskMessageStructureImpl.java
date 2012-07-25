@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.bpm.internal;
 
-import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.eclipse.uml2.uml.INakedObjectNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;

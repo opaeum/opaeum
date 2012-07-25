@@ -15,22 +15,21 @@ import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
 import org.opaeum.eclipse.context.OpenUmlFile;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 public class UserInterfaceSynchronizerManager implements IStartup,Runnable{
 	Map<OpaeumEclipseContext,UserInterfaceSynchronizer> synchronizers = new HashMap<OpaeumEclipseContext,UserInterfaceSynchronizerManager.UserInterfaceSynchronizer>();
 	public static class UserInterfaceSynchronizer implements OpaeumEclipseContextListener{
 		OpaeumEclipseContext ctx;
-		Set<INakedElement> affectedElements = new HashSet<INakedElement>();
+		Set<Element> affectedElements = new HashSet<Element>();
 		@Override
-		public void synchronizationComplete(INakedModelWorkspace workspace,Set<INakedElement> affectedElements){
+		public void synchronizationComplete(ModelWorkspace workspace,Set<Element> affectedElements){
 			this.affectedElements.addAll(affectedElements);
 		}
 		@Override
 		public void onSave(IProgressMonitor monitor,OpenUmlFile file){
-			for(INakedElement e:affectedElements){
-				Element element = file.getEmfWorkspace().getElement(e.getId());
+			for(Element e:affectedElements){
+				Element element = e;
 				while(element != null){
 					if(element instanceof OpaqueAction || element instanceof org.eclipse.uml2.uml.Class || element instanceof Operation){
 						SynchronizeAction.doSynchronize(element, file.getEmfWorkspace());

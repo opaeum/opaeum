@@ -2,6 +2,15 @@ package org.opaeum.javageneration.persistence;
 
 import javax.persistence.Transient;
 
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -18,46 +27,36 @@ import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedGeneralization;
-import org.opaeum.metamodel.core.INakedHelper;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedPowerType;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 /**
- * This class builds all the operations specified by the AbstractEntity interface. It also provides an implementation for the equals method
+ * This class builds all the operations specified by the AbstractClass interface. It also provides an implementation for the equals method
  * that uses the id of the instance involved
  */
-@StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeImplementor.class,PersistentNameGenerator.class},after = {AttributeImplementor.class})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeImplementor.class},after = {AttributeImplementor.class})
 public class PersistentObjectImplementor extends AbstractStructureVisitor{
 	private static final OJPathName ABSTRACT_ENTITY = new OJPathName(IPersistentObject.class.getName());
 	@VisitBefore
-	public void visitModel(INakedModel p){
+	public void visitModel(Model p){
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitInterface(INakedInterface a){
-		if(OJUtil.hasOJClass(a) && !(a instanceof INakedHelper || a.hasStereotype(StereotypeNames.HELPER))){
+	public void visitInterface(Interface a){
+		if(OJUtil.hasOJClass(a) && !EmfClassifierUtil.isHelper(a)){
 			OJAnnotatedInterface asdf = (OJAnnotatedInterface) findJavaClass(a);
 			asdf.addToSuperInterfaces(new OJPathName(IPersistentObject.class.getName()));
 		}
 	}
-	private void visitClass(INakedClassifier c){
+	private void visitClass(Classifier c){
 		OJClassifier ojClassifier = super.findJavaClass(c);
 		if(ojClassifier instanceof OJAnnotatedInterface){
-			if(c.getStereotype(StereotypeNames.HELPER) == null){
+			if(!EmfClassifierUtil.isHelper(c)){
 				((OJAnnotatedInterface) ojClassifier).addToSuperInterfaces(ABSTRACT_ENTITY);
 				ojClassifier.addToImports(ABSTRACT_ENTITY);
 			}
 		}else if(ojClassifier instanceof OJClass){
-			if(c instanceof INakedEntity && ((INakedEntity) c).getPrimaryKeyProperties().size() > 0){
+			if(c instanceof Class && ((Class) c).getPrimaryKeyProperties().size() > 0){
 				return;
 			}else{
 				OJClass ojClass = (OJClass) ojClassifier;
@@ -65,46 +64,45 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 					OJAnnotatedField persistence = new OJAnnotatedField("persistence", new OJPathName(AbstractPersistence.class.getName()));
 					persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
 					ojClass.addToFields(persistence);
-					INakedComplexStructure entity = (INakedComplexStructure) c;
 					ojClass.addToImports(ABSTRACT_ENTITY);
-					if(entity.findAttribute("name") == null){
-						addGetName(entity, ojClass);
+					if(c.getAttribute("name",null) == null){
+						addGetName(c, ojClass);
 					}
 					ojClass.addToImplementedInterfaces(ABSTRACT_ENTITY);
-					if(entity instanceof INakedEntity){
-						addDiscriminatorInitialization((INakedEntity) entity, ojClass);
+					if(c instanceof Class){
+						addDiscriminatorInitialization((Class) c, ojClass);
 					}
 				}
 			}
 		}
 	}
-	private void addDiscriminatorInitialization(INakedEntity entity,OJClass ojClass){
+	private void addDiscriminatorInitialization(Class entity,OJClass ojClass){
 		OJBlock dcBody = new OJBlock();
-		for(INakedProperty attr:entity.getEffectiveAttributes()){
+		for(Property attr:EmfElementFinder.getPropertiesInScope(entity)){
 			if(attr.isDiscriminator()){
-				INakedPowerType powerType = (INakedPowerType) attr.getNakedBaseType();
+				Enumeration powerType = (Enumeration) attr.getType();
 				if(entity.isPowerTypeInstance()){
-					INakedGeneralization generalization = entity.getNakedGeneralizations().iterator().next();
-					String literal = powerType.getMappingInfo().getQualifiedJavaName() + "."
-							+ generalization.getPowerTypeLiteral().getMappingInfo().getJavaName().getUpperCase();
-					dcBody.addToStatements("set" + attr.getMappingInfo().getJavaName().getCapped() + "(" + literal + ")");
+					Generalization generalization = entity.getGeneralizations().iterator().next();
+					String literal = powerType.getQualifiedJavaName() + "."
+							+ generalization.getPowerTypeLiteral().getName().getUpperCase();
+					dcBody.addToStatements("set" + NameConverter.capitalize(attr.getName()) + "(" + literal + ")");
 				}
 			}
 		}
 		ojClass.getDefaultConstructor().setBody(dcBody);
 	}
-	private void addGetName(INakedComplexStructure entity,OJClass ojClass){
+	private void addGetName(Classifier entity,OJClass ojClass){
 		OJOperation getName = new OJAnnotatedOperation("getName");
 		getName.setReturnType(new OJPathName("String"));
 		getName.setBody(new OJBlock());
-		getName.getBody().addToStatements("return \"" + entity.getMappingInfo().getJavaName() + "[\"+getId()+\"]\"");
+		getName.getBody().addToStatements("return \"" + entity.getName() + "[\"+getId()+\"]\"");
 		ojClass.addToOperations(getName);
 	}
 	@Override
-	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
 	}
 	@Override
-	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+	protected void visitComplexStructure(Classifier umlOwner){
 		visitClass(umlOwner);
 	}
 }

@@ -5,12 +5,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.OpaqueAction;
@@ -18,10 +21,30 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class EmfPropertyUtil{
-	public static Property getEndToComposite(Classifier c){
+	public static boolean isDimension(TypedElement te){
+		return fullfillsRoleInCube(te, "DIMENSION");
+		
+	}
+	public static boolean isMeasure(TypedElement te){
+		return fullfillsRoleInCube(te, "MEASURE");
+		
+	}
+	private static boolean fullfillsRoleInCube(TypedElement te,String role){
+		for(Stereotype st:te.getAppliedStereotypes()){
+			Property roleInCube = st.getAttribute("roleInCube", null);
+			if(roleInCube!=null){
+				EnumerationLiteral l = (EnumerationLiteral) te.getValue(st, "roleInCube");
+				return l.getName().toUpperCase().equals(role);
+			}
+		} 
+		return false;
+	}
+	public static Property getEndToComposite(Classifier c, OpaeumLibrary library){
 		Property result = getImmediateEndToComposite(c);
 		if(result == null){
 			Iterator<Classifier> classes = c.getGenerals().iterator();
@@ -35,8 +58,34 @@ public class EmfPropertyUtil{
 				}
 			}
 		}
+		if(result==null){
+			result=library.getArtificialEndToComposite(c);
+		}
 		return result;
 	}
+	public static CollectionKind getCollectionKind(MultiplicityElement exp) {
+		if(exp==null){
+			return null;
+		}
+		if (exp.isMultivalued()) {
+			if (exp.isOrdered()) {
+				if (exp.isUnique()) {
+					return CollectionKind.ORDERED_SET_LITERAL;
+				} else {
+					return CollectionKind.SEQUENCE_LITERAL;
+				}
+			} else {
+				if (exp.isUnique()) {
+					return CollectionKind.SET_LITERAL;
+				} else {
+					return CollectionKind.BAG_LITERAL;
+				}
+
+			}
+		}
+		return null;
+	}
+
 	private static Property getImmediateEndToComposite(Classifier c){
 		Property result = null;
 		for(Association association:c.getAssociations()){
@@ -97,5 +146,48 @@ public class EmfPropertyUtil{
 			}
 		}
 		return Collections.emptySet();
+	}
+	public static boolean isRequired(MultiplicityElement otherEnd){
+		if( otherEnd.getLower()==1){
+			return true;
+		}else if(otherEnd instanceof Property){
+			Property p = (Property) otherEnd;
+			return isQualifier(p) || (p.getOtherEnd()!=null && p.getOtherEnd().getQualifiers().size()>0);
+		}
+		return false;
+	}
+	public static boolean isQualifier(Property p){
+		Classifier c = (Classifier) EmfElementFinder.getContainer(p);
+		List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(c);
+		for(Property property:propertiesInScope){
+			for(Property q:property.getQualifiers()){
+				if(p.getName().equals(q.getName())){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public static boolean isInverse(Property f){
+		if(f.getOtherEnd()==null || !f.getOtherEnd().isNavigable()){
+			return false;
+		}else{
+			if(isMany(f)){
+				if(isMany(f.getOtherEnd())){
+					return f.getAssociation().getMemberEnds().indexOf(f)==1;
+				}else{
+					return true;
+				}
+			}else{
+				if(isMany(f.getOtherEnd())){
+					return false;
+				}else{
+					return f.getAssociation().getMemberEnds().indexOf(f)==1;
+				}
+			}
+		}
+	}
+	public static Classifier getOwningClassifier(Property p){
+		return (Classifier) EmfElementFinder.getContainer(p);
 	}
 }

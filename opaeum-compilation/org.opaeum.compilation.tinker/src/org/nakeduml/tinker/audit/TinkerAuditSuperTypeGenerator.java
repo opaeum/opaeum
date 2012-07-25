@@ -1,5 +1,10 @@
 package org.nakeduml.tinker.audit;
 
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedGeneralization;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedInterfaceRealization;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJConstructor;
@@ -8,11 +13,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedGeneralization;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
 
 @StepDependency(phase = TinkerAuditPhase.class, requires = {
 		TinkerAuditCreator.class, TinkerAuditAttributeImplementor.class }, after = { TinkerAuditCreator.class }, before = { TinkerAuditAttributeImplementor.class })

@@ -8,14 +8,14 @@ import java.util.Set;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedPin;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedElement;
+import org.eclipse.uml2.uml.INakedAction;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedConstraint;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedPin;
 
 public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements INakedAction{
 	private static final long serialVersionUID = 2697132216413111920L;

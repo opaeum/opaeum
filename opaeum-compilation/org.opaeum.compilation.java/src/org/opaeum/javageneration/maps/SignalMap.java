@@ -1,42 +1,43 @@
 package org.opaeum.javageneration.maps;
 
+import org.eclipse.uml2.uml.Signal;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.name.NameConverter;
 
 public class SignalMap extends NakedClassifierMap implements IMessageMap{
-	INakedSignal signal;
+	Signal signal;
 	private OJPathName handlerTypePath;
 	private OJPathName receiverTypePath;
-	public INakedSignal getSignal(){
+	public Signal getSignal(){
 		return signal;
 	}
-	public SignalMap(INakedSignal signal){
-		super(signal);
+	public SignalMap(Signal signal){
+		super(signal,null);
 		this.signal = signal;
 	}
 	public OJPathName handlerTypePath(){
 		if(this.handlerTypePath==null){
-			this.handlerTypePath = OJUtil.packagePathname(signal.getNameSpace()).getCopy().append(signal.getMappingInfo().getJavaName() + "Handler");
+			this.handlerTypePath = OJUtil.packagePathname(signal.getNamespace()).getCopy().append(signal.getName() + "Handler");
 		}
 		return handlerTypePath;
 	}
 	public OJPathName receiverContractTypePath(){
 		if(receiverTypePath==null){
-			receiverTypePath=OJUtil.packagePathname(signal.getNameSpace()).getCopy().append(signal.getMappingInfo().getJavaName() + "Receiver");
+			receiverTypePath=OJUtil.packagePathname(signal.getNamespace()).getCopy().append(signal.getName() + "Receiver");
 		}
 		return receiverTypePath;
 	}
 	public String receiveMethodName(){
-		return "receive" + signal.getMappingInfo().getJavaName().getCapped();
+		return "receive" +  NameConverter.capitalize(signal.getName());
 	}
 	public OJPathName eventHandlerPath(){
-		return new OJPathName(signal.getMappingInfo().getQualifiedJavaName() + "Handler");
+		return new OJPathName(signal.getName() + "Handler");
 	}
 	public String eventGeratorMethodName(){
 		return "generate" + signal.getName() + "Event";
 	}
 	public String eventConsumerMethodName(){
-		return "consume" + signal.getMappingInfo().getJavaName().getCapped() + "Event";
+		return "consume" + signal.getName() + "Event";
 	}
 }

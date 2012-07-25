@@ -5,19 +5,19 @@ import java.util.Iterator;
 
 import nl.klasse.octopus.model.IClassifier;
 
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedControlNode;
+import org.eclipse.uml2.uml.INakedExpansionNode;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedObjectFlow;
+import org.eclipse.uml2.uml.INakedObjectNode;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedParameterNode;
+import org.eclipse.uml2.uml.INakedPrimitiveType;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.linkage.TypeResolver.DefaultPrimitiveType;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedControlNode;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedObjectFlow;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedParameterNode;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedPrimitiveType;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	NakedParsedOclStringResolver.class

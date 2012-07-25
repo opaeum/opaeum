@@ -3,16 +3,34 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.metamodels.emfworkspace
 Bundle-SymbolicName: org.opaeum.metamodels.emfworkspace;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/opaeum-runtime-domain-1.0.0-SNAPSHOT.jar
 Bundle-Vendor: Opaeum
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: 
+ org.opaeum,
+ org.opaeum.annotation,
  org.opaeum.eclipse,
  org.opaeum.emf.extraction,
- org.opaeum.emf.workspace
+ org.opaeum.emf.workspace,
+ org.opaeum.feature,
+ org.opaeum.metamodel.core.internal,
+ org.opaeum.metamodel.name,
+ org.opaeum.metamodel.validation,
+ org.opaeum.metamodel.workspace,
+ org.opaeum.name,
+ org.opaeum.ocl.uml,
+ org.opaeum.runtime.domain,
+ org.opaeum.runtime.environment,
+ org.opaeum.runtime.environment.marshall,
+ org.opaeum.runtime.event,
+ org.opaeum.runtime.jbpm,
+ org.opaeum.runtime.persistence,
+ org.opaeum.util
 Require-Bundle: 
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.uml2.uml,
- org.opaeum.metamodels.opaeum
+ org.opaeum.metamodels.emfworkspace,
+ org.eclipse.ocl.uml
 Bundle-ActivationPolicy: lazy

@@ -12,16 +12,16 @@ import java.util.UUID;
 
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedComment;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedNameSpace;
+import org.eclipse.uml2.uml.INakedRootObject;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.feature.MappingInfo;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComment;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.INakedValueSpecification;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 /**
  * @author Ampie Barnard
@@ -189,7 +189,7 @@ public abstract class NakedElementImpl extends NakedElementOwnerImpl implements 
 	public INakedClassifier getNearestClassifier(){
 		INakedElementOwner o = getOwnerElement();
 		while(!(o instanceof INakedClassifier)){
-			if(o == null || o instanceof INakedModelWorkspace){
+			if(o == null || o instanceof ModelWorkspace){
 				return null;
 			}
 			o = ((INakedElement) o).getOwnerElement();

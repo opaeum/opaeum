@@ -3,10 +3,10 @@ package org.opaeum.metamodel.commonbehaviors.internal;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedEnumerationLiteral;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.name.SingularNameWrapper;
 

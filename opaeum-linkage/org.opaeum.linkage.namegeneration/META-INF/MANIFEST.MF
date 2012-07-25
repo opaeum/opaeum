@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
  org.eclipse.uml2.uml.resources;visibility:=reexport,
  org.junit4,
- org.opaeum.metamodels.opaeum,
+ org.opaeum.metamodels.emfworkspace,
  org.opaeum.metamodels.ocl,
  org.opaeum.transformation.engine,
  org.opaeum.linkage.core

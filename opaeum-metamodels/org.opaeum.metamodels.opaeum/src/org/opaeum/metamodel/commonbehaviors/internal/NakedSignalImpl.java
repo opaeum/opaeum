@@ -6,8 +6,8 @@ import java.util.List;
 import nl.klasse.octopus.model.IDataType;
 import nl.klasse.octopus.model.IState;
 
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedSignal;
 import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 

@@ -8,11 +8,11 @@ import java.util.Set;
 
 import nl.klasse.octopus.model.IImportedElement;
 
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.RootObjectStatus;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedRootObject;
+import org.eclipse.uml2.uml.RootObjectStatus;
 
 public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootObject {
 	

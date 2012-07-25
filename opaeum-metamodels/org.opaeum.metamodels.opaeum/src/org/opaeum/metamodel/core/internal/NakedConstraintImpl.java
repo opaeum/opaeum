@@ -3,9 +3,9 @@ package org.opaeum.metamodel.core.internal;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedConstraint;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 
 public class NakedConstraintImpl extends NakedElementImpl implements INakedConstraint{
 	private static final long serialVersionUID = -7552731810827480586L;

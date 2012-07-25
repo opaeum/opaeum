@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
@@ -36,7 +37,6 @@ import org.opaeum.filegeneration.TextFileDeleter;
 import org.opaeum.filegeneration.TextFileGenerator;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
@@ -86,14 +86,11 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 							}else{
 								monitor.beginTask("Generating Java Code", 90);
 								currentContext.getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
-								INakedElement ne = currentContext.getNakedWorkspace().getModelElement(currentContext.getId(element));
+								Element ne = currentContext.getNakedWorkspace().getModelElement(currentContext.getId(element));
 								p.replaceModel(new OJPackage());
 								p.replaceModel(new TextWorkspace());
 								OpaeumConfig cfg = currentContext.getConfig();
-								PersistentNameGenerator png = new PersistentNameGenerator();
-								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
-								png.visitRecursively(ne.getRootObject());
-								Collection<INakedElement> allDescendants = ne.getAllDescendants();
+								Collection<Element> allDescendants = (Collection)ne.eAllContents();
 								allDescendants.add(ne);
 								Collection<?> processElements = p.processElements(allDescendants, JavaTransformationPhase.class,
 										new ProgressMonitorTransformationLog(monitor, 60));

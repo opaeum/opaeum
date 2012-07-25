@@ -5,13 +5,15 @@ import nl.klasse.octopus.model.OclUsageType;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedSignal;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedCallEventImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
@@ -19,8 +21,6 @@ import org.opaeum.metamodel.commonbehaviors.internal.NakedEventImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedSignalEventImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {

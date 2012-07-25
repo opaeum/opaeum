@@ -10,9 +10,9 @@ import java.util.List;
 import nl.klasse.octopus.model.IEnumLiteral;
 import nl.klasse.octopus.model.IModelElement;
 
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedEnumeration;
+import org.eclipse.uml2.uml.INakedEnumerationLiteral;
 
 public class NakedEnumerationImpl extends NakedClassifierImpl implements INakedEnumeration{
 	private static final long serialVersionUID = 2719597562476111234L;

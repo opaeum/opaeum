@@ -1,37 +1,37 @@
 package org.opaeum.validation.composition;
 
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ComplexStructure;
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Property;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.validation.AbstractValidator;
 import org.opaeum.validation.ValidationPhase;
 
 @StepDependency(phase = ValidationPhase.class)
 public class CompositionValidator extends AbstractValidator{
-	protected boolean isPersistent(INakedClassifier c){
-		if(c instanceof INakedComplexStructure){
-			return ((INakedComplexStructure) c).isPersistent();
+	protected boolean isPersistent(Classifier c){
+		if(c instanceof ComplexStructure){
+			return ((ComplexStructure) c).isPersistent();
 		}else{
 			return false;
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void class_Before(INakedEntity st){
+	public void class_Before(Class st){
 		if(isPersistent(st)){
 			if(st.hasComposite()){
-				INakedProperty composite = st.getEndToComposite();
-				if(!isPersistent(composite.getNakedBaseType())){
+				Property composite = st.getEndToComposite();
+				if(!isPersistent((Classifier) composite.getType())){
 					getErrorMap().putError(st, CompositionValidationRule.PERSISTENT_CONTAINS_PERSISTENT);
 				}
-				if(st instanceof INakedBehavior || st instanceof INakedEntity){
+				if(st instanceof Behavior || st instanceof Class){
 					int composites = 0;
-					for(INakedProperty f:st.getOwnedAttributes()){
-						if(f instanceof INakedProperty){
-							INakedProperty p = f;
+					for(Property f:st.getOwnedAttributes()){
+						if(f instanceof Property){
+							Property p = f;
 							if(p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
 								composites++;
 							}

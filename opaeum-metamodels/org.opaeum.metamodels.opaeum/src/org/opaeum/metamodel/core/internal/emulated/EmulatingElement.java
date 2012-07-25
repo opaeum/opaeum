@@ -10,13 +10,13 @@ import java.util.Map;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IPackage;
 
+import org.eclipse.uml2.uml.INakedComment;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedNameSpace;
+import org.eclipse.uml2.uml.INakedRootObject;
 import org.opaeum.feature.MappingInfo;
-import org.opaeum.metamodel.core.INakedComment;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedRootObject;
 
 public abstract class EmulatingElement implements INakedElement{
 	private static final long serialVersionUID = -1375831977226433661L;

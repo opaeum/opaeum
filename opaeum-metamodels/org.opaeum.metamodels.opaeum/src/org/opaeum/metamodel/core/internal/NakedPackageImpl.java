@@ -12,12 +12,12 @@ import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.types.AttributeImpl;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opaeum.metamodel.core.CodeGenerationStrategy;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedPackage;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.CodeGenerationStrategy;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedNameSpace;
+import org.eclipse.uml2.uml.INakedPackage;
+import org.eclipse.uml2.uml.INakedProperty;
 
 /**
  * @author Ampie Barnard

@@ -41,6 +41,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.EclipseUriToFileConverter;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.eclipse.OclUpdater;
 import org.opaeum.eclipse.OpaeumConfigDialog;
@@ -50,9 +51,7 @@ import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.emf.workspace.UriToFileConverter;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.runtime.domain.ExceptionAnalyser;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
@@ -298,8 +297,8 @@ public class OpaeumEclipseContext{
 		return umlDirectory;
 	}
 	public boolean isNakedRootObjectLoaded(IFile r){
-		for(INakedRootObject ro:getEmfToOpaeumSynchronizer().getNakedWorkspace().getRootObjects()){
-			if(ro.getFileName().equals(r.getLocation().lastSegment()) && ro.getStatus().isExtracted()){
+		for(Package ro:getEmfToOpaeumSynchronizer().getNakedWorkspace().getRootObjects()){
+			if(EmfPackageUtil.getFileName(ro).equals(r.getLocation().lastSegment()) ){
 				return true;
 			}
 		}
@@ -344,15 +343,15 @@ public class OpaeumEclipseContext{
 			getEmfToOpaeumSynchronizer().getTransformationProcess().replaceModel(dew);
 			getEmfToOpaeumSynchronizer().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 200));
 			getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(dew);
-			INakedModelWorkspace nakedWorkspace = getEmfToOpaeumSynchronizer().getNakedWorkspace();
+			ModelWorkspace nakedWorkspace = getEmfToOpaeumSynchronizer().getNakedWorkspace();
 			nakedWorkspace.clearGeneratingModelOrProfiles();
-			for(INakedRootObject ro:nakedWorkspace.getRootObjects()){
-				if(ro instanceof INakedModel && ((INakedModel) ro).isRegeneratingLibrary()){
+			for(Package ro:nakedWorkspace.getRootObjects()){
+				if(ro instanceof Model && EmfPackageUtil.isRegeneratingLibrary( ((Model) ro))){
 					// TODO check if code should be regenerated;
 					nakedWorkspace.addGeneratingRootObject(ro);
 				}else{
 					for(IResource r:getUmlDirectory().members()){
-						if(r.getLocation().lastSegment().equals(ro.getFileName())){
+						if(r.getLocation().lastSegment().equals(EmfPackageUtil.getFileName(ro))){
 							nakedWorkspace.addGeneratingRootObject(ro);
 							break;
 						}
@@ -417,8 +416,8 @@ public class OpaeumEclipseContext{
 	public OpaeumConfig getConfig(){
 		return getEmfToOpaeumSynchronizer().getConfig();
 	}
-	public INakedModelWorkspace getNakedWorkspace(){
-		return getEmfToOpaeumSynchronizer().getNakedWorkspace();
+	public EmfWorkspace getNakedWorkspace(){
+		return (EmfWorkspace) getEmfToOpaeumSynchronizer().getNakedWorkspace();
 	}
 	public static OpaeumEclipseContext getCurrentContext(){
 		return currentContext;

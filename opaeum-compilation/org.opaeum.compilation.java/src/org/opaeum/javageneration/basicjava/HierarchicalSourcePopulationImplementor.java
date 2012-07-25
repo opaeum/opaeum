@@ -3,6 +3,15 @@ package org.opaeum.javageneration.basicjava;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJOperation;
@@ -11,15 +20,9 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
-
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class
 },after = {
@@ -28,23 +31,24 @@ import org.opaeum.name.NameConverter;
 
 public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator {
 	@VisitAfter(matchSubclasses = true)
-	public void visitFeature(INakedProperty p) {
+	public void visitFeature(Property p) {
 		boolean isComposition = p.isComposite() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite());
-		if (!isComposition && shouldResolve(p, p.getOwner()) && !p.isDerived() && !p.isReadOnly() && p.getOwner().hasStereotype(StereotypeNames.HIERARCHY)) {
+		Classifier umlOwner=EmfPropertyUtil.getOwningClassifier(p);
+		if (!isComposition && shouldResolve(p, umlOwner) && !p.isDerived() && !p.isReadOnly() && StereotypesHelper.hasStereotype((Element) umlOwner,StereotypeNames.HIERARCHY)) {
 			
-			INakedEntity entityOwner = (INakedEntity)p.getOwner();
-			INakedProperty endToComposite = entityOwner.getEndToComposite();
+			Class entityOwner = (Class)p.getOwner();
+			Property endToComposite = EmfPropertyUtil.getEndToComposite( entityOwner, getLibrary());
 			
-			OJAnnotatedClass owner = findJavaClass(p.getOwner());
+			OJAnnotatedClass owner = findJavaClass(umlOwner);
 			OJOperation sourcePopulation = new OJAnnotatedOperation("get" + NameConverter.capitalize(p.getName()) + "SourcePopulation");
 			sourcePopulation.getBody().addToStatements("return " + endToComposite.getName()+"."+"get" + NameConverter.capitalize(p.getName()) + "SourcePopulation()");
 			owner.addToOperations(sourcePopulation);
 
-			OJAnnotatedClass abstractOwner = findJavaClass(endToComposite.getNakedBaseType());
+			OJAnnotatedClass abstractOwner = findJavaClass((Classifier) endToComposite.getType());
 			OJOperation abstractSourcePopulation = new OJAnnotatedOperation("get" + NameConverter.capitalize(p.getName()) + "SourcePopulation");
 			OJPathName pathName = new OJPathName("java.util.Set");
 			
-			OJPathName lookupPathName = new OJPathName(p.getNakedBaseType().getMappingInfo().getQualifiedJavaName().toString());
+			OJPathName lookupPathName  =OJUtil.classifierPathname(p.getType());
 			abstractOwner.addToImports(lookupPathName); 
 			List<OJPathName> x = new ArrayList<OJPathName>();
 			x.add(lookupPathName);
@@ -57,7 +61,7 @@ public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator
 		}
 	}
 	
-	private boolean shouldResolve(INakedTypedElement p,INakedClassifier owner){
-		return((p.getNakedBaseType() instanceof INakedEntity || p.getNakedBaseType() instanceof INakedInterface || p.getNakedBaseType() instanceof INakedEnumeration) && owner instanceof INakedEntity);
+	private boolean shouldResolve(TypedElement p,Classifier owner){
+		return((p.getType() instanceof Class || p.getType() instanceof Interface || p.getType() instanceof Enumeration) && owner instanceof Class);
 	}	
 }

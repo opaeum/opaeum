@@ -4,19 +4,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.uml2.uml.Element;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.PhaseDependency;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.java.metamodel.OJWorkspace;
-import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = {},before = {})
-public class MigrationGenerationPhase implements TransformationPhase<AbstractMigrationCodeGenerator,INakedElementOwner>{
+public class MigrationGenerationPhase implements TransformationPhase<AbstractMigrationCodeGenerator,Element>{
 	@InputModel
 	MigrationWorkspace workspace;
 	@InputModel
@@ -35,7 +35,7 @@ public class MigrationGenerationPhase implements TransformationPhase<AbstractMig
 		}
 	}
 	@Override
-	public Collection<?> processElements(TransformationContext context,Collection<INakedElementOwner> elements){
+	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		// No can do, yet
 		return Collections.emptySet();
 	}

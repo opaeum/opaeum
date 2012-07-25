@@ -15,6 +15,9 @@ import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedPackage;
+import org.eclipse.uml2.uml.INakedRootObject;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
@@ -22,6 +25,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Pseudostate;
 import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Region;
+import org.eclipse.uml2.uml.RootObjectStatus;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StructuredActivityNode;
@@ -35,12 +39,8 @@ import org.opaeum.feature.PhaseDependency;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.linkage.LinkagePhase;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedPackage;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.RootObjectStatus;
 import org.opaeum.metamodel.core.internal.NakedElementOwnerImpl;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 
 @PhaseDependency(before = {
@@ -48,7 +48,7 @@ import org.opaeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 })
 public class EmfExtractionPhase implements TransformationPhase<AbstractExtractorFromEmf,EObject>{
 	@InputModel(implementationClass = NakedModelWorkspaceImpl.class)
-	private INakedModelWorkspace modelWorkspace;
+	private ModelWorkspace modelWorkspace;
 	@InputModel
 	private EmfWorkspace emfWorkspace;
 	private OpaeumConfig config;

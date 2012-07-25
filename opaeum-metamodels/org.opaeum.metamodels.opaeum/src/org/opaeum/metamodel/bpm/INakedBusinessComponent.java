@@ -2,7 +2,7 @@ package org.opaeum.metamodel.bpm;
 
 import java.util.Collection;
 
-import org.opaeum.metamodel.components.INakedComponent;
+import org.eclipse.uml2.uml.INakedComponent;
 
 public interface INakedBusinessComponent extends INakedComponent{
 	Collection<INakedBusinessService> getProvidedBusinessServices();

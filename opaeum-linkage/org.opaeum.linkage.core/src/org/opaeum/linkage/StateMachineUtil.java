@@ -1,10 +1,10 @@
 package org.opaeum.linkage;
 
-import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opaeum.metamodel.statemachines.INakedState;
-import org.opaeum.metamodel.statemachines.INakedTransition;
+import org.eclipse.uml2.uml.INakedChangeEvent;
+import org.eclipse.uml2.uml.INakedState;
+import org.eclipse.uml2.uml.INakedTimeEvent;
+import org.eclipse.uml2.uml.INakedTransition;
+import org.eclipse.uml2.uml.INakedTrigger;
 
 public class StateMachineUtil{
 	public static INakedState getHistoryPeer(INakedState state){

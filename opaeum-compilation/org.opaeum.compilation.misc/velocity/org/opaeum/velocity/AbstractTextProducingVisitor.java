@@ -1,6 +1,7 @@
 package org.opaeum.velocity;
 
 import java.io.CharArrayWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,12 +16,16 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Package;
+import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
+import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.CharArrayTextSource;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.PropertiesSource;
@@ -41,18 +46,19 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 		super.release();
 		textFiles=null;
 	}	@Override
-	public void visitRecursively(INakedElementOwner o){
-		if(o instanceof INakedRootObject){
-			INakedRootObject pkg = (INakedRootObject) o;
-			OJPathName utilPath = new OJPathName(pkg.getMappingInfo().getQualifiedJavaName() + ".util");
+	public void visitRecursively(Element o){
+		if(EmfPackageUtil.isRootObject(o )){
+			Package pkg = (Package) o;
+			OJPathName utilPath = OJUtil.packagePathname(pkg).getCopy();
+			utilPath.append("util");
 			UtilityCreator.setUtilPathName(utilPath);
-		}else if(o instanceof INakedModelWorkspace){
+		}else if(o instanceof ModelWorkspace){
 			OJPathName utilPath = new OJPathName(config.getMavenGroupId() + ".util");
 			UtilityCreator.setUtilPathName(utilPath);
 		}
 		super.visitRecursively(o);
 	}
-	public void initialize(OpaeumConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
+	public void initialize(OpaeumConfig config,TextWorkspace textWorkspace, EmfWorkspace workspace){
 		this.workspace=workspace;
 		this.config = config;
 		super.textFiles=new HashSet<TextOutputNode>();
@@ -70,16 +76,16 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 			throw new RuntimeException(e);
 		}
 	}
-	protected void processTemplate(INakedElement element,String templateResource,String destinationExpression,ISourceFolderIdentifier outputRootId){
+	protected void processTemplate(Element element,String templateResource,String destinationExpression,ISourceFolderIdentifier outputRootId){
 		Map<String,Object> emptyMap = Collections.emptyMap();
 		processTemplate(element, templateResource, destinationExpression, outputRootId, emptyMap);
 	}
-	protected void processTemplate(INakedElementOwner element,String templateResource,String destinationExpression,ISourceFolderIdentifier outputRootId,Map<String,Object> vars){
+	protected void processTemplate(Element element,String templateResource,String destinationExpression,ISourceFolderIdentifier outputRootId,Map<String,Object> vars){
 		VelocityContext context = new VelocityContext();
 		for(Map.Entry<String,Object> var:vars.entrySet()){
 			context.put(var.getKey(), var.getValue());
 		}
-		context.put(element.getMetaClass(), element);
+		context.put(NameConverter.decapitalize(element.eClass().getName()), element);
 		context.put("config", this.config);
 		context.put("workspace", this.workspace);
 		context.put("stack1", new Stack<Object>());
@@ -93,7 +99,7 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 			template.merge(context, contentWriter);
 			this.ve.evaluate(context, fileNameWriter, templateResource,/* logTag */destinationExpression);
 		}catch(Throwable e){
-			transformationContext.getLog().error(templateResource + " could not merge " + element.getName(), e);
+			transformationContext.getLog().error(templateResource + " could not merge " + ((NamedElement) element).getName(), e);
 			transformationContext.getLog().info(new String(contentWriter.toCharArray()));
 		}
 		fileNameWriter.close();
@@ -104,9 +110,9 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 		}
 	}
 	@Override
-	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
-		if(root instanceof INakedModelWorkspace){
-			return ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
+	public Collection<Element> getChildren(Element root){
+		if(root instanceof ModelWorkspace){
+			return new ArrayList<Element>( ((ModelWorkspace) root).getGeneratingModelsOrProfiles());
 		}else{
 			return super.getChildren(root);
 		}

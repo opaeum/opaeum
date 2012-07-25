@@ -5,6 +5,24 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.opaeum.eclipse.CodeGenerationStrategy;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJPathName;
@@ -16,19 +34,7 @@ import org.opaeum.javageneration.jbpm5.Jbpm5JavaStep;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.core.CodeGenerationStrategy;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.metamodel.profiles.INakedProfile;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.rap.RapCapabilities;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
@@ -44,9 +50,9 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 	}
 	@SuppressWarnings({"unchecked","rawtypes"})
 	@VisitBefore
-	public void visitWorkspace(INakedModelWorkspace workspace){
+	public void visitWorkspace(ModelWorkspace workspace){
 		if(shouldProcessWorkspace()){
-			Collection<INakedRootObject> rootObjects = (Collection) workspace.getOwnedElements();
+			Collection<Package> rootObjects = (Collection) workspace.getOwnedElements();
 			generateConfigAndEnvironment(rootObjects, TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, workspace);
 		}
 	}
@@ -54,9 +60,9 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		return transformationContext.isIntegrationPhase();
 	}
 	@VisitBefore
-	public void visitModel(INakedModel model){
+	public void visitModel(Model model){
 		if(shouldProcessModel()){
-			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(model.getAllDependencies());
+			Collection<Package> selfAndDependencies = EmfPackageUtil.getAllDependencies(model);
 			selfAndDependencies.add(model);
 			TextSourceFolderIdentifier domainGenTestResource = TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE;
 			generateConfigAndEnvironment(selfAndDependencies, domainGenTestResource, false, model);
@@ -70,13 +76,13 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		SourceFolderDefinition sfd = config.getSourceFolderDefinition(TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE);
 		return !(transformationContext.isIntegrationPhase() || sfd.isOneProjectPerWorkspace());
 	}
-	protected abstract String getOutputPath(INakedElementOwner model);
-	protected abstract String getConfigName(INakedElementOwner model);
+	protected abstract String getOutputPath(Element model);
+	protected abstract String getConfigName(Element model);
 	protected abstract String getTemplateName();
 	protected abstract String getDomainEnvironmentImplementation();
 	protected abstract String getAdaptorEnvironmentImplementation();
-	private void generateConfigAndEnvironment(Collection<INakedRootObject> models,TextSourceFolderIdentifier outputRootId,
-			boolean isAdaptorEnvironment,INakedElementOwner owner){
+	private void generateConfigAndEnvironment(Collection<Package> models,TextSourceFolderIdentifier outputRootId,
+			boolean isAdaptorEnvironment,Element owner){
 		SortedProperties properties = new SortedProperties();
 		HashMap<String,Object> vars = buildVars(models, isAdaptorEnvironment, owner);
 		properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
@@ -92,7 +98,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		processTemplate(workspace, getTemplateName(), getOutputPath(owner), outputRootId, vars);
 	}
 	@SuppressWarnings("unchecked")
-	private HashMap<String,Object> buildVars(Collection<? extends INakedElement> models,boolean isAdaptorEnvironment,INakedElementOwner owner){
+	private HashMap<String,Object> buildVars(Collection<? extends Element> models,boolean isAdaptorEnvironment,Element owner){
 		HashMap<String,Object> vars = new HashMap<String,Object>();
 		vars.put("requiresAuditing", true);
 		vars.put("config", this.config);
@@ -105,21 +111,21 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		}
 		if(!config.getSourceFolderStrategy().isSingleProjectStrategy() || transformationContext.isFeatureSelected(RapCapabilities.class)){
 			// CLasses across multiple jars need to be registered explicitly
-			Collection<INakedElement> allElements = workspace.getAllElements();
-			for(INakedElement e:allElements){
-				if(e instanceof INakedComplexStructure && ((INakedComplexStructure) e).isPersistent() && isGeneratingElement(e)){
-					persistentClasses.add(OJUtil.classifierPathname((INakedClassifier) e));
-				}else if(e instanceof INakedOperation && ((INakedOperation) e).isLongRunning() && isGeneratingElement(e)){
-					persistentClasses.add(OJUtil.classifierPathname(((INakedOperation) e).getMessageStructure()));
-				}else if(e instanceof INakedEnumeration && isGeneratingElement(e)
-						&& ((INakedClassifier) e).getCodeGenerationStrategy() == CodeGenerationStrategy.ALL
-						&& !(e.getRootObject() instanceof INakedProfile)){
-					persistentClasses.add(new OJPathName(e.getMappingInfo().getQualifiedJavaName() + "Entity"));
-				}else if(e instanceof INakedEmbeddedTask && isGeneratingElement(e)){
-					persistentClasses.add(OJUtil.classifierPathname(((INakedEmbeddedTask) e).getMessageStructure()));
-				}else if(e instanceof INakedStructuredActivityNode
-						&& BehaviorUtil.hasExecutionInstance(((INakedStructuredActivityNode) e).getActivity()) && isGeneratingElement(e)){
-					persistentClasses.add(OJUtil.classifierPathname(((INakedStructuredActivityNode) e).getMessageStructure()));
+			Collection<Element> allElements = workspace.getAllElements();
+			for(Element e:allElements){
+				if(e instanceof ComplexStructure && ((ComplexStructure) e).isPersistent() && isGeneratingElement(e)){
+					persistentClasses.add(OJUtil.classifierPathname((Classifier) e));
+				}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
+					persistentClasses.add(OJUtil.classifierPathname((Operation) e));
+				}else if(e instanceof Enumeration && isGeneratingElement(e)
+						&& EmfClassifierUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
+						&& !(EmfElementFinder.getRootObject( e) instanceof Profile)){
+					persistentClasses.add(new OJPathName(e.getQualifiedJavaName() + "Entity"));
+				}else if(e instanceof Action &&  EmfActionUtil.isEmbeddedTask((ActivityNode) e) && isGeneratingElement(e)){
+					persistentClasses.add(OJUtil.classifierPathname(((Action) e)));
+				}else if(e instanceof StructuredActivityNode
+						&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e))) && isGeneratingElement(e)){
+					persistentClasses.add(OJUtil.classifierPathname((StructuredActivityNode) e));
 				}
 			}
 			vars.put("persistentClasses", persistentClasses);
@@ -128,15 +134,15 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		return vars;
 	}
 	@Override
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace){
 		super.initialize(config, textWorkspace, workspace);
 		// TODO Auto-generated method stub
 	}
-	private boolean isGeneratingElement(INakedElement e){
+	private boolean isGeneratingElement(Element e){
 		if(shouldProcessWorkspace()){
-			return workspace.getRootObjects().contains(e.getRootObject());
+			return workspace.getRootObjects().contains(EmfElementFinder .getRootObject(e));
 		}else{
-			return workspace.getGeneratingModelsOrProfiles().contains(e.getRootObject());
+			return workspace.getGeneratingModelsOrProfiles().contains(EmfElementFinder .getRootObject(e));
 		}
 	}
 }

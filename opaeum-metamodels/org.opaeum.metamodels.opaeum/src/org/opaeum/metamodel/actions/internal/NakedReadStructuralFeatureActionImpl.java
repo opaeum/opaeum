@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.opaeum.metamodel.actions.INakedReadStructuralFeatureAction;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedReadStructuralFeatureAction;
 
 public class NakedReadStructuralFeatureActionImpl extends NakedStructuralFeatureActionImpl implements INakedReadStructuralFeatureAction{
 	private static final long serialVersionUID = 1730941677240408016L;

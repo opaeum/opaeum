@@ -1,11 +1,11 @@
 package org.opaeum.metamodel.bpm.internal;
 
+import org.eclipse.uml2.uml.INakedClassifier;
 import org.opaeum.metamodel.bpm.INakedDeadline;
 import org.opaeum.metamodel.bpm.INakedDefinedResponsibility;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.bpm.INakedResponsibility;
 import org.opaeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
-import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.runtime.domain.DeadlineKind;
 
 public class NakedDeadlineImpl extends AbstractTimeEventImpl implements INakedDeadline{

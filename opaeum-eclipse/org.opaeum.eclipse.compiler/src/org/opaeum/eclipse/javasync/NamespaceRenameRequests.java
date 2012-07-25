@@ -6,43 +6,42 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.OpaeumSynchronizationListener;
 import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
 import org.opaeum.eclipse.context.OpenUmlFile;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedPackage;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
-public class NamespaceRenameRequests implements OpaeumSynchronizationListener, OpaeumEclipseContextListener{
+public class NamespaceRenameRequests implements OpaeumSynchronizationListener,OpaeumEclipseContextListener{
 	private Map<String,NamespaceRenameRequest> renamedRequestsByNewName = new HashMap<String,NamespaceRenameRequest>();
-	private void maybeAddRenameRequest(INakedNameSpace ne){
+	private void maybeAddRenameRequest(Namespace ne){
 		// NB!!! this has to be done here in case multiple renames occurred before synchronization with java source
-		if(ne.getMappingInfo().requiresJavaRename()){
+		if(OJUtil.requiresJavaRename(ne)){
 			// Optimize namespace renames to minimize need for other models to be recompiled
-			if(ne instanceof INakedClassifier){
-				addRenameRequest(ne, ne.getMappingInfo().getOldQualifiedJavaName().toLowerCase(), ne.getMappingInfo().getQualifiedJavaName().toLowerCase());
-			}
-			addRenameRequest(ne, ne.getMappingInfo().getOldQualifiedJavaName(), ne.getMappingInfo().getQualifiedJavaName());
+			addRenameRequest( OJUtil.getOldClassifierPathname(ne).toJavaString(), OJUtil.classifierPathname(ne).toJavaString());
+			addRenameRequest(OJUtil.getOldPackagePathname(ne).toJavaString(), OJUtil.packagePathname(ne).toJavaString());
 		}
 	}
-	private void addRenameRequest(INakedNameSpace ne,String oldName,String newName){
+	private void addRenameRequest(String oldName,String newName){
 		NamespaceRenameRequest prev = renamedRequestsByNewName.get(oldName);
 		if(prev != null){
 			// just update the previous rename request
-			prev.newName = ne.getMappingInfo().getQualifiedJavaName();
-			renamedRequestsByNewName.remove(ne.getMappingInfo().getOldQualifiedJavaName());
+			prev.newName = newName;
+			renamedRequestsByNewName.remove(oldName);
 		}else{
-			prev = new NamespaceRenameRequest(ne.getMappingInfo().getOldQualifiedJavaName(), ne.getMappingInfo().getQualifiedJavaName());
+			prev = new NamespaceRenameRequest(oldName, newName);
 		}
 		renamedRequestsByNewName.put(newName, prev);
 	}
 	@Override
-	public void synchronizationComplete(INakedModelWorkspace ws,Set<INakedElement> affectedElements){
-		for(INakedElement ne:affectedElements){
-			if(ne instanceof INakedClassifier || ne instanceof INakedPackage){
-				maybeAddRenameRequest((INakedNameSpace) ne);
+	public void synchronizationComplete(ModelWorkspace ws,Set<Element> affectedElements){
+		for(Element ne:affectedElements){
+			if(ne instanceof Classifier || ne instanceof Package){
+				maybeAddRenameRequest((Namespace) ne);
 			}
 		}
 	}
@@ -51,13 +50,11 @@ public class NamespaceRenameRequests implements OpaeumSynchronizationListener, O
 	}
 	public void clearRenamedNamespaces(){
 		this.renamedRequestsByNewName.clear();
-		
 	}
 	@Override
-	public void onSave(IProgressMonitor monitor, OpenUmlFile f){
+	public void onSave(IProgressMonitor monitor,OpenUmlFile f){
 	}
 	@Override
 	public void onClose(boolean save){
-		
 	}
 }

@@ -3,9 +3,9 @@ package org.opaeum.linkage;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.feature.MappingInfo;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedConstraintImpl;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 import org.opaeum.metamodel.core.internal.emulated.EmulatingElement;

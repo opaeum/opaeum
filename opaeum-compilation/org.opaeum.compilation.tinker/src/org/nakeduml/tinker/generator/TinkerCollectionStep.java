@@ -2,6 +2,9 @@ package org.nakeduml.tinker.generator;
 
 import java.util.Set;
 
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJConstructor;
@@ -12,9 +15,6 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerImplementNodeStep.class }, after = { TinkerImplementNodeStep.class })
 public class TinkerCollectionStep extends StereotypeAnnotator {

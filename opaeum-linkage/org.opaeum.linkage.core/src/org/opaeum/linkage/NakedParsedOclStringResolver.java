@@ -27,49 +27,49 @@ import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
+import org.eclipse.uml2.uml.GuardedFlow;
+import org.eclipse.uml2.uml.IModifiableTypedElement;
+import org.eclipse.uml2.uml.INakedAction;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedChangeEvent;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedConstraint;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedEnumeration;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedModel;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedNameSpace;
+import org.eclipse.uml2.uml.INakedOclAction;
+import org.eclipse.uml2.uml.INakedOpaqueBehavior;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedPrimitiveType;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedSendSignalAction;
+import org.eclipse.uml2.uml.INakedSlot;
+import org.eclipse.uml2.uml.INakedStateMachine;
+import org.eclipse.uml2.uml.INakedTimeEvent;
+import org.eclipse.uml2.uml.INakedTransition;
+import org.eclipse.uml2.uml.INakedTriggerEvent;
+import org.eclipse.uml2.uml.INakedValuePin;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.eclipse.EmfValidationUtil;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.actions.INakedOclAction;
-import org.opaeum.metamodel.actions.INakedSendSignalAction;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.bpm.INakedDeadline;
 import org.opaeum.metamodel.bpm.INakedDefinedResponsibility;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.bpm.INakedResponsibility;
 import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTriggerEvent;
-import org.opaeum.metamodel.core.IModifiableTypedElement;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedPrimitiveType;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSlot;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 import org.opaeum.metamodel.core.internal.NakedOperationImpl;
-import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
-import org.opaeum.metamodel.statemachines.INakedTransition;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 @StepDependency(phase = LinkagePhase.class,after = {EnumerationValuesAttributeAdder.class,PinLinker.class,MappedTypeLinker.class,
 		SourcePopulationResolver.class,ReferenceResolver.class,TypeResolver.class,ProcessIdentifier.class},requires = {MappedTypeLinker.class,
@@ -87,7 +87,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		return children;
 	}
 	@Override
-	public void initialize(INakedModelWorkspace workspace,OpaeumConfig config){
+	public void initialize(ModelWorkspace workspace,OpaeumConfig config){
 		super.initialize(workspace, config);
 		environmentFactory = new EnvironmentFactory(workspace);
 	}

@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.uml2.uml.DefaultOpaeumComparator;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
 import org.opaeum.feature.MappingInfo;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
 
 public abstract class NakedElementOwnerImpl implements INakedElementOwner{
 	protected Map<String,INakedElement> ownedElements = new HashMap<String,INakedElement>();

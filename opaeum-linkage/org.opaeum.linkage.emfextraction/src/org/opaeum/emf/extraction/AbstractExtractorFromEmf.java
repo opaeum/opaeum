@@ -17,6 +17,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedEnumerationLiteral;
+import org.eclipse.uml2.uml.INakedMultiplicityElement;
+import org.eclipse.uml2.uml.INakedPackageableElement;
+import org.eclipse.uml2.uml.INakedRootObject;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
@@ -38,24 +46,16 @@ import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.visit.VisitSpec;
 import org.opaeum.metamodel.bpm.internal.NakedDeadlineImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedPackageableElement;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 import org.opaeum.metamodel.core.internal.NakedTypedElementImpl;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 public abstract class AbstractExtractorFromEmf extends EmfElementVisitor implements ITransformationStep{
-	protected INakedModelWorkspace nakedWorkspace;
+	protected ModelWorkspace nakedWorkspace;
 	protected EmfWorkspace emfWorkspace;
 	private Set<INakedElement> affectedElements;
 	protected synchronized void addAffectedElement(INakedElement a){
@@ -219,7 +219,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	protected ErrorMap getErrorMap(){
 		return nakedWorkspace.getErrorMap();
 	}
-	public void initialize(EmfWorkspace emfWorkspace,INakedModelWorkspace workspace2){
+	public void initialize(EmfWorkspace emfWorkspace,ModelWorkspace workspace2){
 		affectedElements = new HashSet<INakedElement>();
 		this.nakedWorkspace = workspace2;
 		this.emfWorkspace = emfWorkspace;

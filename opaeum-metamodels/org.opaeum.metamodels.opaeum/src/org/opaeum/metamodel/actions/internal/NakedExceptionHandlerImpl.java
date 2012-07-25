@@ -2,10 +2,10 @@ package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 
-import org.opaeum.metamodel.actions.INakedExceptionHandler;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.core.INakedClassifier;
+import org.eclipse.uml2.uml.INakedAction;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedExceptionHandler;
+import org.eclipse.uml2.uml.INakedObjectNode;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedExceptionHandlerImpl extends NakedElementImpl implements INakedExceptionHandler{

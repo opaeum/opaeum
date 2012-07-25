@@ -1,34 +1,35 @@
 package org.opaeum.validation;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.uml2.uml.Element;
+import org.opaeum.EmfElementVisitor;
+import org.opaeum.eclipse.EmfElementUtil;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.visitor.NakedElementOwnerVisitor;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
-public abstract class AbstractValidator extends NakedElementOwnerVisitor implements ITransformationStep{
+public abstract class AbstractValidator extends EmfElementVisitor implements ITransformationStep{
 	@Override
-	public void visitRecursively(INakedElementOwner o){
-		if(!(o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion() || (o instanceof INakedRootObject && ((INakedRootObject) o).getStatus().isValidated()))){
+	public void visitRecursively(Element o){
+		if(!(EmfElementUtil.isMarkedForDeletion(o) || (EmfPackageUtil.isRootObject(o ) && ((RootObject) o).getStatus().isValidated()))){
 			super.visitRecursively(o);
 		}
 	}
-	protected INakedModelWorkspace workspace;
+	protected ModelWorkspace workspace;
 	protected OpaeumConfig config;
 	@Override
-	public Collection<? extends INakedElement> getChildren(INakedElementOwner root){
-		if(root instanceof INakedModelWorkspace){
-			return ((INakedModelWorkspace) root).getPrimaryRootObjects();
+	public Collection<Element> getChildren(Element root){
+		if(root instanceof ModelWorkspace){
+			return new ArrayList<Element>(((ModelWorkspace) root).getPrimaryRootObjects());
 		}else{
 			return root.getOwnedElements();
 		}
 	}
-	public void initialize(INakedModelWorkspace workspace,OpaeumConfig config){
+	public void initialize(ModelWorkspace workspace,OpaeumConfig config){
 		this.workspace = workspace;
 		this.config = config;
 	}
@@ -41,7 +42,6 @@ public abstract class AbstractValidator extends NakedElementOwnerVisitor impleme
 		return 12;
 	}
 	public void release(){
-		super.release();
 		this.workspace = null;
 	}
 }

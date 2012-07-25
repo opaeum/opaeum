@@ -3,10 +3,10 @@ package org.opaeum.metamodel.commonbehaviors.internal;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedReception;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.core.INakedClassifier;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedReception;
+import org.eclipse.uml2.uml.INakedSignal;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedReceptionImpl extends NakedElementImpl implements INakedReception{

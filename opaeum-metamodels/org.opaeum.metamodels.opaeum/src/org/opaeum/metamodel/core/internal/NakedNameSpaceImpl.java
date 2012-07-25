@@ -18,16 +18,16 @@ import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.model.IPackageableElement;
 import nl.klasse.octopus.modelVisitors.IPackageVisitor;
 
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedGeneralization;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedPackage;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedAssociation;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedGeneralization;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedInterfaceRealization;
+import org.eclipse.uml2.uml.INakedNameSpace;
+import org.eclipse.uml2.uml.INakedPackage;
 
 public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements INakedNameSpace{
 	/**

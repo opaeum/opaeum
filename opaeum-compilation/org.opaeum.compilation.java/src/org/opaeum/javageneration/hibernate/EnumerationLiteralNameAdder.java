@@ -2,6 +2,9 @@ package org.opaeum.javageneration.hibernate;
 
 import java.util.List;
 
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJPathName;
@@ -11,22 +14,20 @@ import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 
 public class EnumerationLiteralNameAdder extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	@SuppressWarnings({
 			"rawtypes","unchecked"
 	})
-	public void visitClass(INakedEnumeration ne){
+	public void visitClass(Enumeration ne){
 		OJEnum je = (OJEnum) findJavaClass(ne);
 		addSqlNameInitialization(je);
-		List<INakedEnumerationLiteral> literals = (List) ne.getLiterals();
-		for(INakedEnumerationLiteral l:literals){
+		List<EnumerationLiteral> literals = (List) ne.getOwnedLiterals();
+		for(EnumerationLiteral l:literals){
 			OJAnnotatedField field = new OJAnnotatedField("sqlName", new OJPathName("String"));
-			field.setInitExp("\"" + l.getMappingInfo().getPersistentName() + "\"");
-			OJEnumLiteral jl = je.findLiteral(l.getMappingInfo().getJavaName().getAsIs());
+			field.setInitExp("\"" + PersistentNameUtil.getPersistentName( l) + "\"");
+			OJEnumLiteral jl = je.findLiteral(l.getName());
 			jl.addToAttributeValues(field);
 		}
 	}

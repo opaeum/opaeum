@@ -1,10 +1,10 @@
 package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.Connector;
+import org.eclipse.uml2.uml.INakedConnectorEnd;
+import org.eclipse.uml2.uml.NakedConnectorKind;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.components.INakedConnectorEnd;
-import org.opaeum.metamodel.components.NakedConnectorKind;
 import org.opaeum.metamodel.components.internal.NakedConnectorImpl;
 
 /**

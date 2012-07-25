@@ -6,6 +6,14 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IEnumerationType;
 
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.PrimitiveType;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -14,13 +22,6 @@ import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.GeneralizationUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedPrimitiveType;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
 
 public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVisitor {
 	public AbstractTestDataGenerator() {
@@ -28,22 +29,22 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	}
 
 
-	protected List<INakedBehavioredClassifier> getConcreteImplementations(INakedInterface entity) {
-		return new ArrayList<INakedBehavioredClassifier>(GeneralizationUtil.getConcreteEntityImplementationsOf(entity,getModelInScope()));
+	protected List<BehavioredClassifier> getConcreteImplementations(Interface i) {
+		return new ArrayList<BehavioredClassifier>(EmfClassifierUtil.getConcreteEntityImplementationsOf(i,getModelInScope()));
 	}
 
 
 
-	protected OJPathName getTestDataPath(INakedClassifier child) {
+	protected OJPathName getTestDataPath(Classifier child) {
 		OJPathName testPath;
-		if (child instanceof INakedInterface) {
-			Collection<INakedBehavioredClassifier> implementors =getConcreteImplementations((INakedInterface) child);
-			INakedClassifier next = implementors.iterator().next();
-			NakedClassifierMap map = OJUtil.buildClassifierMap(next);
+		if (child instanceof Interface) {
+			Collection<BehavioredClassifier> implementors =getConcreteImplementations((Interface) child);
+			Classifier next = implementors.iterator().next();
+			NakedClassifierMap map = OJUtil.buildClassifierMap(next,(CollectionKind)null);
 			testPath = map.javaTypePath().getCopy();
 			testPath.replaceTail(getTestDataName(next));
 		} else {
-			NakedClassifierMap map = OJUtil.buildClassifierMap(child);
+			NakedClassifierMap map = OJUtil.buildClassifierMap(child,(CollectionKind)null);
 			testPath = map.javaTypePath().getCopy();
 			testPath.replaceTail(getTestDataName(child));
 		}
@@ -51,37 +52,37 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	}
 
 
-	protected abstract String getTestDataName(INakedClassifier child);
+	protected abstract String getTestDataName(Classifier child);
 
-	protected String calculateDefaultValue(OJAnnotatedClass test, OJBlock block, INakedProperty f) {
+	protected String calculateDefaultValue(OJAnnotatedClass test, OJBlock block, Property f) {
 		String value = calculateDefaultValue(f);
-		if (f.getNakedBaseType() instanceof INakedSimpleType) {
-			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
-			test.addToImports(new OJPathName((baseType).getMappingInfo().getQualifiedJavaName()));
-			if (baseType.hasStrategy(TestModelValueStrategy.class)) {
+		if (EmfClassifierUtil.isSimpleType(f.getType())) {
+			DataType baseType = (DataType) f.getType();
+			test.addToImports(OJUtil.classifierPathname(baseType));
+			if (EmfClassifierUtil.hasStrategy(baseType,TestModelValueStrategy.class)) {
 			}
-		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
-			OJAnnotatedClass javaType = findJavaClass(f.getNakedBaseType());
+		} else if (f.getType() instanceof IEnumerationType) {
+			OJAnnotatedClass javaType = findJavaClass((Classifier) f.getType());
 			test.addToImports(javaType.getPathName());
-		} else if (getConcreteImplementations((INakedInterface) f.getNakedBaseType()).size()>0) {
+		} else if (getConcreteImplementations((Interface) f.getType()).size()>0) {
 			return lookup(test, f);
 		}
 		return value;
 	}
 
-	public String calculateDefaultStringValue(INakedProperty f) {
-		if (f.getNakedBaseType() instanceof IEnumerationType) {
-			OJEnum javaType = (OJEnum) findJavaClass(f.getNakedBaseType());
+	public String calculateDefaultStringValue(Property f) {
+		if (f.getType() instanceof IEnumerationType) {
+			OJEnum javaType = (OJEnum) findJavaClass((Classifier) f.getType());
 			if (javaType.getLiterals().size() > 0) {
 				return javaType.getLiterals().get(0).getName();
 			} else {
 				return javaType.getName() + ".has no literals!!!!";
 			}
-		} else if (f.getNakedBaseType() instanceof INakedSimpleType) {
-			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
-			if (baseType.hasStrategy(ConfigurableDataStrategy.class)) {
-				return baseType.getStrategy(ConfigurableDataStrategy.class).getDefaultStringValue();
-			} else if (f.getNakedBaseType() instanceof INakedPrimitiveType) {
+		} else if (EmfClassifierUtil.isSimpleType(f.getType())) {
+			DataType baseType = (DataType) f.getType();
+			if (EmfClassifierUtil.hasStrategy(baseType,ConfigurableDataStrategy.class)) {
+				return EmfClassifierUtil.getStrategy(baseType,ConfigurableDataStrategy.class).getDefaultStringValue();
+			} else if (f.getType() instanceof PrimitiveType) {
 				String calculateDefaultValue = calculateDefaultValue(f);
 				if (calculateDefaultValue.startsWith("\"") && calculateDefaultValue.endsWith("\"")) {
 					calculateDefaultValue = calculateDefaultValue.substring(1, calculateDefaultValue.length() - 1);
@@ -94,14 +95,14 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		return "BLASDFASDFadsf";
 	}
 
-	public String calculateDefaultValue(INakedProperty f) {
+	public String calculateDefaultValue(Property f) {
 		double value = Math.random() * 123456;
-		if (f.getNakedBaseType() instanceof INakedSimpleType) {
-			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
-			if (baseType.hasStrategy(TestModelValueStrategy.class)) {
-				return baseType.getStrategy(TestModelValueStrategy.class).getDefaultStringValue(12341);
-			} else if (workspace.getOpaeumLibrary().getDateType() != null && f.getNakedBaseType().conformsTo(workspace.getOpaeumLibrary().getDateType())) {
-				String javaDate = baseType.getMappingInfo().getQualifiedJavaName();
+	if (EmfClassifierUtil.isSimpleType(f.getType())) {
+			DataType baseType = (DataType) f.getType();
+			if (EmfClassifierUtil.hasStrategy(baseType,TestModelValueStrategy.class)) {
+				return EmfClassifierUtil.getStrategy(baseType,TestModelValueStrategy.class).getDefaultStringValue(12341);
+			} else if (workspace.getOpaeumLibrary().getDateType() != null && f.getType().conformsTo(workspace.getOpaeumLibrary().getDateType())) {
+				String javaDate = OJUtil.classifierPathname(baseType).toJavaString();
 				if (javaDate.equals("java.util.Date")) {
 					return "new Date()";
 				} else if (javaDate.equals("java.util.Calendar")) {
@@ -109,32 +110,32 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 				} else {
 					return "new Date()";
 				}
-			} else if (f.getNakedBaseType() instanceof INakedPrimitiveType) {
-				INakedPrimitiveType t = (INakedPrimitiveType) f.getNakedBaseType();
-				if (t.getOclType().getName().equals("Integer")) {
+			} else if (f.getType() instanceof PrimitiveType) {
+				PrimitiveType t = (PrimitiveType) f.getType();
+				if (EmfClassifierUtil.comformsToLibraryType(t,"Integer")) {
 					return "" + new Double(value).intValue();
-				} else if (t.getOclType().getName().equals("Real")) {
+				} else if (EmfClassifierUtil.comformsToLibraryType(t,"Real")) {
 					return "" + new Double(value).floatValue();
-				} else if (t.getOclType().getName().equals("Boolean")) {
+				} else if (EmfClassifierUtil.comformsToLibraryType(t,"Boolean")) {
 					return "" + ((Math.round(value) % 2) == 1);
 				} else if (f.getName().equals("name")) {
-					return "\"" + f.getOwner().getName() + value + "\"";
+					return "\"" + ((Classifier) f.getOwner()).getName() + value + "\"";
 				} else {
-					return "\"" + f.getOwner().getName() + "." + f.getName() + value + "\"";
+					return "\"" + ((Classifier) f.getOwner()).getName() + "." + f.getName() + value + "\"";
 				}
 			}
 			return "no TestValueStrategy found ";
-		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
-			return f.getNakedBaseType().getName() + ".values()[0]";
-		} else if (f.getNakedBaseType() instanceof INakedInterface && getConcreteImplementations((INakedInterface) f.getNakedBaseType()).size()>0) {
+		} else if (f.getType() instanceof IEnumerationType) {
+			return f.getType().getName() + ".values()[0]";
+		} else if (f.getType() instanceof Interface && getConcreteImplementations((Interface) f.getType()).size()>0) {
 			return lookup(f);
 		} else {
-			return "\"" + f.getOwner().getName() + "::" + f.getName() + new Double(value).intValue() + "\"";
+			return "\"" + ((Classifier) f.getOwner()).getName() + "::" + f.getName() + new Double(value).intValue() + "\"";
 		}
 	}
 
-	protected String lookup(INakedProperty f) {
-		OJPathName featureTest = getTestDataPath(f.getNakedBaseType());
+	protected String lookup(Property f) {
+		OJPathName featureTest = getTestDataPath((Classifier) f.getType());
 		if (new NakedStructuralFeatureMap(f).isOneToOne()) {
 			return featureTest.getLast() + ".createNew()";
 		} else {
@@ -142,8 +143,8 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		}
 	}
 
-	protected String lookup(OJAnnotatedClass test, INakedProperty f) {
-		OJPathName featureTest = getTestDataPath(f.getNakedBaseType());
+	protected String lookup(OJAnnotatedClass test, Property f) {
+		OJPathName featureTest = getTestDataPath((Classifier) f.getType());
 		test.addToImports(featureTest);
 		return lookup(f);
 	}
@@ -152,7 +153,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	@SuppressWarnings({
 			"unchecked","rawtypes"
 	})
-	public Collection<INakedClassifier> getConcreteSubclassifiersOf(INakedClassifier nakedBaseType){
-		return (Collection)GeneralizationUtil.getAllSubClassifiers(nakedBaseType, getModelInScope());
+	public Collection<Classifier> getConcreteSubclassifiersOf(Classifier nakedBaseType){
+		return (Collection)EmfClassifierUtil.getAllSubClassifiers(nakedBaseType, getModelInScope());
 	}
 }

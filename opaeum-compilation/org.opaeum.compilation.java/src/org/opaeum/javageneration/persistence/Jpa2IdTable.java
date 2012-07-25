@@ -1,12 +1,12 @@
 package org.opaeum.javageneration.persistence;
 
+import org.eclipse.uml2.uml.Classifier;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
-import org.opaeum.metamodel.core.INakedComplexStructure;
 
 public class Jpa2IdTable implements JpaIdStrategy{
 	@Override
@@ -19,6 +19,6 @@ public class Jpa2IdTable implements JpaIdStrategy{
 	}
 
 	@Override
-	public void annotate(OJAnnotatedClass javaRoot, INakedComplexStructure complexType) {
+	public void annotate(OJAnnotatedClass javaRoot, Classifier complexType) {
 	}
 }

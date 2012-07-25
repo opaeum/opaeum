@@ -1,6 +1,16 @@
 package org.opaeum.javageneration.jbpm5;
 
 
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.Vertex;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfStateMachineUtil;
+import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
@@ -11,45 +21,47 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opaeum.metamodel.commonbehaviors.INakedStep;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.ExceptionHolder;
 import org.opaeum.runtime.environment.Environment;
 
 public class Jbpm5Util{
 	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opaeum.runtime.domain.UmlNodeInstance");
-	public static OJPathName jbpmKnowledgeBase(INakedElementOwner m){
-		OJPathName result = new OJPathName(m.getMappingInfo().getQualifiedJavaName());
-		return result.append("util").append(m.getMappingInfo().getJavaName().getCapped() + "KnowledgeBase");
+	public static OJPathName jbpmKnowledgeBase(Namespace m){
+		OJPathName result = OJUtil.packagePathname(m);
+		return result.append("util").append(NameConverter.capitalize(m.getName()) + "KnowledgeBase");
 	}
-	public static String stepLiteralName(INakedStep s){
-		return s.getStatePath().toString().replace("::", "_").toUpperCase();
+	public static String stepLiteralName(NamedElement s){
+		String result="";
+		if(s instanceof State){
+			result=EmfStateMachineUtil.getStatePath((Vertex) s);
+		}else if(s instanceof ActivityNode){
+			result=EmfActivityUtil.getNodePath((ActivityNode) s);
+		}
+		return result.replace("::", "_").toUpperCase();
 	}
 	public static OJPathName getNodeInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");
 	}
-	public static String generateProcessName(INakedElement parameterOwner){
-		return parameterOwner.getOwnerElement().getMappingInfo().getPersistentName() + "_" + parameterOwner.getMappingInfo().getPersistentName();
+	public static String generateProcessName(Element parameterOwner){
+		return PersistentNameUtil.getPersistentName((Element) EmfElementFinder.getContainer( parameterOwner)) + "_" + PersistentNameUtil.getPersistentName( parameterOwner);
 	}
-	public static String getArtificialJoinName(INakedElement target){
-		return "join_for_" + target.getMappingInfo().getPersistentName();
+	public static String getArtificialJoinName(Element target){
+		return "join_for_" + PersistentNameUtil.getPersistentName(target);
 	}
-	public static String getGuardMethod(GuardedFlow t){
-		return "is" + t.getSource().getMappingInfo().getJavaName().getCapped() + t.getMappingInfo().getJavaName().getCapped();
+	public static String getGuardMethod(NamedElement source, NamedElement flow){
+		return "is" + NameConverter.capitalize(source.getName()) + NameConverter.capitalize(flow.getName());
 	}
 
-	public static String getArtificialForkName(INakedElement owner){
-		return "fork_for_" + owner.getMappingInfo().getPersistentName();
+	public static String getArtificialForkName(Element owner){
+		return "fork_for_" + PersistentNameUtil.getPersistentName(owner);
 	}
 	public static OJPathName getExceptionHolder(){
 		return new OJPathName(ExceptionHolder.class.getName());
 	}
-	public static String endNodeFieldNameFor(INakedElement flow){
-		return "endNodeIn" + flow.getMappingInfo().getJavaName().getCapped();
+	public static String endNodeFieldNameFor(NamedElement flow){
+		return "endNodeIn" + NameConverter.capitalize(flow.getName());
 	}
 	public static OJPathName getWorkflowProcesInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.WorkflowProcessInstance");
@@ -60,8 +72,8 @@ public class Jbpm5Util{
 	public static OJPathName getNode(){
 		return new OJPathName("org.jbpm.workflow.core.impl.NodeImpl");
 	}
-	public static String getArtificialChoiceName(INakedActivityNode node){
-		return node.getMappingInfo().getPersistentName().getAsIs() + "_choice";
+	public static String getArtificialChoiceName(ActivityNode node){
+		return PersistentNameUtil.getPersistentName( node).getAsIs() + "_choice";
 	}
 	public static void implementRelationshipWithProcess(OJAnnotatedClass ojBehavior,boolean persistent,String propertyPrefix){
 		OJAnnotatedField processInstanceField = OJUtil.addPersistentProperty(ojBehavior, propertyPrefix+"Instance", new OJPathName("WorkflowProcessInstance"), true);

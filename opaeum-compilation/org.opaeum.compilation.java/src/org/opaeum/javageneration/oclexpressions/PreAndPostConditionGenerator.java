@@ -2,12 +2,21 @@ package org.opaeum.javageneration.oclexpressions;
 
 import java.util.Collection;
 
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.ValueSpecification;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJOperation;
-import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
@@ -17,145 +26,139 @@ import org.opaeum.javageneration.basicjava.SpecificationImplementor;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.linkage.NakedParsedOclStringResolver;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedMessageStructure;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedValueSpecification;
-import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.ocl.uml.AbstractOclContext;
+import org.opaeum.ocl.uml.OclBehaviorContext;
+import org.opaeum.ocl.uml.OclContext;
 
 //TODO implement post conditions 
 //as a method similar to "checkInvariants" on operations that are represented as classifiers/ tuples
 //or in the finally block
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		OperationAnnotator.class,SpecificationImplementor.class,NakedParsedOclStringResolver.class
-},after = {
+@StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class,SpecificationImplementor.class},after = {
 		OperationAnnotator.class,SpecificationImplementor.class,AttributeExpressionGenerator.class
 /* Need the sequence of the ocl generating steps to be repeatable to ensure minimal deviations from previous generation */
 })
 public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
-	public void visitBehavioredClassifier(INakedBehavioredClassifier bc){
-		for(INakedBehavior b:bc.getOwnedBehaviors()){
+	public void visitBehavioredClassifier(BehavioredClassifier bc){
+		for(Behavior b:bc.getOwnedBehaviors()){
 			visitBehavior(b);
-			if(b instanceof INakedOpaqueBehavior){
-				visitOpaqueBehavior((INakedOpaqueBehavior) b);
+			if(b instanceof OpaqueBehavior){
+				visitOpaqueBehavior((OpaqueBehavior) b);
 			}
 		}
 	}
-	private void visitBehavior(INakedBehavior behavior){
-		if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier){
+	private void visitBehavior(Behavior behavior){
+		if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwner() instanceof Classifier){
 			// Ignore transition effects and state actions for now
-			if(BehaviorUtil.hasExecutionInstance(behavior)){
-				addEvaluationMethod(behavior.getPreConditions(), "evaluatePreConditions", behavior, "this");
-				addEvaluationMethod(behavior.getPostConditions(), "evaluatePostConditions", behavior, "this");
+			if(EmfBehaviorUtil.hasExecutionInstance(behavior)){
+				addEvaluationMethod(behavior.getPreconditions(), "evaluatePreconditions", behavior, "this");
+				addEvaluationMethod(behavior.getPostconditions(), "evaluatePostconditions", behavior, "this");
 			}else{
 				NakedOperationMap mapper = OJUtil.buildOperationMap(behavior);
-				addLocalConditions(behavior.getContext(), mapper, behavior.getPreConditions(), true);
-				addLocalConditions(behavior.getContext(), mapper, behavior.getPostConditions(), false);
+				addLocalConditions(behavior.getContext(), mapper, behavior.getPreconditions(), true);
+				addLocalConditions(behavior.getContext(), mapper, behavior.getPostconditions(), false);
 			}
 		}
 	}
-	private void visitOpaqueBehavior(INakedOpaqueBehavior behavior){
-		if(BehaviorUtil.hasExecutionInstance(behavior)){
-			OJAnnotatedClass javaContext = findJavaClass(behavior);
-			OJAnnotatedOperation execute = (OJAnnotatedOperation) javaContext.getUniqueOperation("execute");
-			if(execute == null){
-				execute = new OJAnnotatedOperation("execute");
-				javaContext.addToOperations(execute);
-			}
-			if(behavior.getBodyExpression() != null){
+	private void visitOpaqueBehavior(OpaqueBehavior behavior){
+		OclBehaviorContext oclBehaviorContext = getLibrary().getOclBehaviorContext(behavior);
+		if(!oclBehaviorContext.hasErrors()){
+			if(EmfBehaviorUtil.hasExecutionInstance(behavior)){
+				OJAnnotatedClass javaContext = findJavaClass(behavior);
+				OJAnnotatedOperation execute = (OJAnnotatedOperation) javaContext.getUniqueOperation("execute");
+				if(execute == null){
+					execute = new OJAnnotatedOperation("execute");
+					javaContext.addToOperations(execute);
+				}
 				NakedOperationMap map = OJUtil.buildOperationMap(behavior);
-				INakedClassifier owner = behavior.getContext();
-				INakedValueSpecification specification = behavior.getBody();
-				if(map.getParameterOwner().getReturnParameter() == null){
-					execute.getBody().addToStatements(ValueSpecificationUtil.expressValue(execute, specification, owner, specification.getType()));
+				if(map.getReturnParameter() == null){
+					execute.getBody().addToStatements(
+							valueSpecificationUtil.expressOcl(oclBehaviorContext, execute, oclBehaviorContext.getExpression().getType()));
 				}else{
 					OJField result = new OJField();
 					result.setName("result");
 					result.setType(map.javaReturnTypePath());
 					result.setInitExp(map.javaReturnDefaultValue());
-					IParameterOwner oper = map.getParameterOwner();
 					execute.getBody().addToLocals(result);
-					NakedStructuralFeatureMap resultMap = OJUtil.buildStructuralFeatureMap(behavior, behavior.getReturnParameter());
-					execute.getBody()
-							.addToStatements("result=" + ValueSpecificationUtil.expressValue(execute, specification, owner, oper.getReturnParameter().getType()));
+					NakedStructuralFeatureMap resultMap = OJUtil.buildStructuralFeatureMap(behavior, map.getReturnParameter());
+					Classifier actualType = getLibrary().getActualType(map.getReturnParameter());
+					execute.getBody().addToStatements("result=" + valueSpecificationUtil.expressOcl(oclBehaviorContext, execute, actualType));
 					execute.getBody().addToStatements(resultMap.setter() + "(result)");
 				}
+			}else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwner() instanceof Classifier){
+				OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
+				NakedOperationMap map = OJUtil.buildOperationMap(behavior);
+				OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
+				this.addBody(oper, map, oclBehaviorContext);
 			}
-		}else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier && behavior.getBodyExpression() != null){
-			OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
-			NakedOperationMap map = OJUtil.buildOperationMap(behavior);
-			OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
-			this.addBody(oper, behavior.getContext(), map, behavior.getBody());
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitClassifier(INakedClassifier owner){
-		if(OJUtil.hasOJClass(owner) && !(owner instanceof INakedInterface)){
-			for(INakedOperation oper:owner.getEffectiveOperations()){
-				if(oper.getOwner() instanceof INakedInterface || oper.getOwner() == owner){
+	public void visitClassifier(Classifier owner){
+		if(OJUtil.hasOJClass(owner) && !(owner instanceof Interface)){
+			for(Operation oper:owner.getAllOperations()){
+				if(oper.getOwner() instanceof Interface || oper.getOwner() == owner){
 					processOperation(oper, owner);
 				}
 			}
 		}
 	}
-	private void processOperation(INakedOperation oper,INakedClassifier owner){
+	private void processOperation(Operation oper,Classifier owner){
 		NakedOperationMap mapper = OJUtil.buildOperationMap(oper);
 		if(oper.getBodyCondition() != null && oper.getBodyCondition().getSpecification() != null){
-			OJPathName path = OJUtil.classifierPathname(owner);
-			OJClass myOwner = javaModel.findClass(path);
+			OJClass myOwner = findJavaClass(owner);
 			if(myOwner != null){
 				OJAnnotatedOperation myOper = (OJAnnotatedOperation) myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
-				INakedValueSpecification specification = oper.getBodyCondition().getSpecification();
-				addBody(myOper, owner, mapper, specification);
+				ValueSpecification specification = oper.getBodyCondition().getSpecification();
+				if(specification instanceof OpaqueExpression){
+					OpaqueExpression oe =(OpaqueExpression) specification;
+					OclContext oclExpressionContext = getLibrary().getOclExpressionContext(oe);
+					if(!oclExpressionContext.hasErrors()){
+						addBody(myOper, mapper, oclExpressionContext);
+					}
+				}
 			}
 		}
 		//
-		if(BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()){
-			INakedMessageStructure messageClass = oper.getMessageStructure();
-			addEvaluationMethod(oper.getPreConditions(), "evaluatePreConditions", messageClass, "getContextObject()");
-			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass, "getContextObject()");
+		if(EmfBehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()){
+			Classifier messageClass = getLibrary().getMessageStructure(oper);
+			addEvaluationMethod(oper.getPreconditions(), "evaluatePreconditions", messageClass, "getContextObject()");
+			addEvaluationMethod(oper.getPostconditions(), "evaluatePostconditions", messageClass, "getContextObject()");
 		}else{
-			addLocalConditions(owner, mapper, oper.getPreConditions(), true);
-			if(!oper.isLongRunning()){
+			addLocalConditions(owner, mapper, oper.getPreconditions(), true);
+			if(!EmfBehaviorUtil.isLongRunning(oper)){
 				// implement on Operation Message Structure instead
-				addLocalConditions(owner, mapper, oper.getPostConditions(), false);
+				addLocalConditions(owner, mapper, oper.getPostconditions(), false);
 			}
 		}
 	}
-	public void addLocalConditions(INakedClassifier owner,NakedOperationMap mapper,Collection<INakedConstraint> conditions,boolean pre){
+	public void addLocalConditions(Classifier owner,NakedOperationMap mapper,Collection<Constraint> conditions,boolean pre){
 		OJClass myOwner = findJavaClass(owner);
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
-		ConstraintGenerator cg = new ConstraintGenerator(myOwner, mapper.getParameterOwner());
+		ConstraintGenerator cg = new ConstraintGenerator(getLibrary(), myOwner, mapper.getNamedElement());
 		if(conditions.size() > 0){
 			cg.addConstraintChecks(myOper1, conditions, pre, "this");
 		}
 	}
-	public void addEvaluationMethod(Collection<INakedConstraint> conditions,String evaluationMethodName,INakedClassifier messageClass,String selfExpression){
+	public void addEvaluationMethod(Collection<Constraint> conditions,String evaluationMethodName,Classifier messageClass,
+			String selfExpression){
 		if(conditions.size() > 0){
 			OJClass myOwner = findJavaClass(messageClass);
 			OJOperation myOper1 = new OJAnnotatedOperation(evaluationMethodName);
 			myOwner.addToOperations(myOper1);
-			ConstraintGenerator cg = new ConstraintGenerator(myOwner, messageClass);
+			ConstraintGenerator cg = new ConstraintGenerator(getLibrary(), myOwner, messageClass);
 			if(conditions.size() > 0){
 				cg.addConstraintChecks(myOper1, conditions, true, selfExpression);
 				// true because they can sit anywhere in the method
 			}
 		}
 	}
-	private void addBody(OJAnnotatedOperation ojOper,INakedClassifier owner,NakedOperationMap map,INakedValueSpecification specification){
-		if(map.getParameterOwner().getReturnParameter() == null){
-			ojOper.getBody().addToStatements(ValueSpecificationUtil.expressValue(ojOper, specification, owner, specification.getType()));
+	private void addBody(OJAnnotatedOperation ojOper,NakedOperationMap map,AbstractOclContext specification){
+		if(map.getReturnParameter() == null){
+			ojOper.getBody().addToStatements(valueSpecificationUtil.expressOcl(specification, ojOper, specification.getExpression().getType()));
 		}else{
-			IParameterOwner oper = map.getParameterOwner();
-			ojOper.initializeResultVariable(ValueSpecificationUtil.expressValue(ojOper, specification, owner, oper.getReturnParameter().getType()));
+			ojOper.initializeResultVariable(valueSpecificationUtil.expressOcl(specification, ojOper,
+					getLibrary().getActualType(map.getReturnParameter())));
 		}
 	}
 }

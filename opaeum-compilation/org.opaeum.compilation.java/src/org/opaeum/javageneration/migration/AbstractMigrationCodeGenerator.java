@@ -2,18 +2,17 @@ package org.opaeum.javageneration.migration;
 
 import java.util.HashSet;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Type;
+import org.opaeum.eclipse.CodeGenerationStrategy;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.CodeGenerationStrategy;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.runtime.environment.VersionNumber;
 import org.opaeum.textmetamodel.TextOutputNode;
@@ -25,12 +24,12 @@ public abstract class AbstractMigrationCodeGenerator extends AbstractStructureVi
 		super.release();
 		this.fromWorkspace=null;
 	}
-	protected INakedModelWorkspace fromWorkspace;
+	protected EmfWorkspace fromWorkspace;
 	@Override
-	protected abstract void visitComplexStructure(INakedComplexStructure umlOwner);
-	protected final OJPathName migratorPath(ICompositionParticipant toEntity){
-		OJPathName pkg = OJUtil.packagePathname(toEntity.getNameSpace()).getCopy();
-		pkg.addToNames(toEntity.getMappingInfo().getJavaName().getAsIs() + getFromVersion().getSuffix() + "Migrator");
+	protected abstract void visitComplexStructure(Classifier umlOwner);
+	protected final OJPathName migratorPath(Classifier toClass){
+		OJPathName pkg = OJUtil.packagePathname(toClass.getNamespace()).getCopy();
+		pkg.addToNames(toClass.getName() + getFromVersion().getSuffix() + "Migrator");
 		return pkg;
 	}
 	protected final VersionNumber getFromVersion(){
@@ -39,15 +38,15 @@ public abstract class AbstractMigrationCodeGenerator extends AbstractStructureVi
 	protected final VersionNumber getToVersion(){
 		return workspace.getWorkspaceMappingInfo().getVersion();
 	}
-	protected final OJPathName classifierPathName(INakedClassifier a,VersionNumber version){
-		if(a instanceof INakedSimpleType || a.getCodeGenerationStrategy()==CodeGenerationStrategy.NO_CODE){
-			return new OJPathName(a.getMappingInfo().getQualifiedJavaName());
+	protected final OJPathName classifierPathName(Type a,VersionNumber version){
+		if(EmfClassifierUtil.isSimpleType(a ) || EmfClassifierUtil.getCodeGenerationStrategy( (Classifier) a)==CodeGenerationStrategy.NO_CODE){
+			return OJUtil.classifierPathname(a);
 		}else{
-			return new OJPathName(a.getMappingInfo().getQualifiedJavaName() + version.getSuffix());
+			return new OJPathName(OJUtil.classifierPathname(a).toJavaString()+ version.getSuffix());
 		}
 	}
 	@Override
-	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
 	}
 	public void initialize(OpaeumConfig config,OJWorkspace javaModel,TextWorkspace textWorkspace,MigrationWorkspace workspace){
 		super.javaModel = javaModel;

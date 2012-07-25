@@ -50,7 +50,6 @@ public class BpmLibCodeGenerator implements ISourceFolderStrategy{
 		workspace.markLibraries("OpaeumSimpleTypes.papyrus.uml");
 		workspace.markLibraries("OpaeumBPM.library.uml");
 		process.execute(cfg, workspace, getSteps(), new DefaultTransformationLog());
-		workspace.getMappingInfo().store();
 	}
 	protected OpaeumConfig buildConfig() throws IOException{
 		OpaeumConfig cfg = new OpaeumConfig(new File(modelFile.getParentFile(), "bpm-opaeum.properties"));

@@ -5,9 +5,9 @@ import java.util.Collection;
 
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opaeum.metamodel.actions.INakedOclAction;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedOclAction;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 
 public class NakedOclActionImpl extends NakedOpaqueActionImpl implements INakedOclAction{

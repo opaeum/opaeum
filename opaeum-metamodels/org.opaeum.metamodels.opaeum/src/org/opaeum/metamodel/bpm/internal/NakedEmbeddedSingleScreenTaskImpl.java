@@ -5,16 +5,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import org.opaeum.metamodel.actions.ITargetElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedMessageStructure;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedPin;
+import org.eclipse.uml2.uml.INakedStereotype;
+import org.eclipse.uml2.uml.ITargetElement;
 import org.opaeum.metamodel.actions.internal.NakedOpaqueActionImpl;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.profiles.INakedStereotype;
 
 public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl implements INakedEmbeddedSingleScreenTask{
 	private static final long serialVersionUID = -1263880243304275436L;

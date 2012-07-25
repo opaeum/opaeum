@@ -2,13 +2,13 @@ package org.opaeum.metamodel.commonbehaviors.internal;
 
 import java.util.Collection;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedChangeEvent;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedTrigger;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 
 public class NakedChangeEventImpl extends NakedEventImpl implements INakedChangeEvent{
 	private static final long serialVersionUID = 562216620570901336L;

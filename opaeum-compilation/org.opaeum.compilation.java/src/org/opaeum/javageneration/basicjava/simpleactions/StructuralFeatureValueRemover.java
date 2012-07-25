@@ -1,15 +1,17 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.RemoveStructuralFeatureValueAction;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.metamodel.actions.INakedRemoveStructuralFeatureValueAction;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
-public class StructuralFeatureValueRemover extends SimpleNodeBuilder<INakedRemoveStructuralFeatureValueAction> {
-	public StructuralFeatureValueRemover(OpaeumLibrary oclEngine, INakedRemoveStructuralFeatureValueAction action,
+public class StructuralFeatureValueRemover extends SimpleNodeBuilder<RemoveStructuralFeatureValueAction> {
+	public StructuralFeatureValueRemover(OpaeumLibrary oclEngine, RemoveStructuralFeatureValueAction action,
 			AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}
@@ -19,10 +21,10 @@ public class StructuralFeatureValueRemover extends SimpleNodeBuilder<INakedRemov
 		String valuePinField = readPin(operation, block, node.getValue());
 		ActionMap actionMap = new ActionMap(node);
 		OJBlock forEach = buildLoopThroughTarget(operation, block, actionMap);
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(node.getFeature());
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
 		if (map.isOne()) {
 			forEach.addToStatements(actionMap.targetName() + "." + map.setter() + "(" + valuePinField + ")");
-		} else if (node.getValue().getNakedMultiplicity().isSingleObject()) {
+		} else if (node.getValue().isMultivalued()==false) {
 			forEach.addToStatements(actionMap.targetName() + "." + map.remover() + "(" + valuePinField + ")");
 		} else {
 			forEach.addToStatements(actionMap.targetName() + "." + map.removeAll() + "(" + valuePinField + ")");

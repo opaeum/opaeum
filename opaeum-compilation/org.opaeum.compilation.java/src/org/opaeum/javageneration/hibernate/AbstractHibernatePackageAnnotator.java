@@ -5,6 +5,19 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Profile;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
@@ -14,36 +27,25 @@ import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.jbpm5.ProcessStepResolverImplementor;
 import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.GeneralizationUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.metamodel.profiles.INakedProfile;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
-
 public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	public static final class MetaDefElementCollector{
-		Set<INakedInterface> interfaces = new HashSet<INakedInterface>();
-		Set<INakedBehavior> allProcesses = new HashSet<INakedBehavior>();
-		Set<INakedEnumeration> enumerations = new HashSet<INakedEnumeration>();
+		Set<Interface> interfaces = new HashSet<Interface>();
+		Set<Behavior> allProcesses = new HashSet<Behavior>();
+		Set<Enumeration> enumerations = new HashSet<Enumeration>();
 	}
-	public abstract void visitWorkspace(INakedModelWorkspace root);
-	public abstract void visitModel(INakedModel model);
-	protected void doWorkspace(INakedModelWorkspace workspace){
+	public abstract void visitWorkspace(EmfWorkspace root);
+	public abstract void visitModel(Model model);
+	protected void doWorkspace(EmfWorkspace workspace){
 		if(transformationContext.isIntegrationPhase()){
 			OJAnnotatedPackageInfo pkg = findOrCreatePackageInfo(OJUtil.utilPackagePath(workspace),
 					JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			applyFilter(pkg);
 			MetaDefElementCollector collector = collectElements(workspace.getRootObjects());
-			Set<INakedInterface> interfaces = collector.interfaces;
-			for(INakedInterface i:interfaces){
-				String metaDefName = HibernateUtil.metadefName((INakedInterface) i);
-				doMetaDef(GeneralizationUtil.getConcreteEntityImplementationsOf(i, workspace.getRootObjects()), metaDefName, pkg);
+			Set<Interface> interfaces = collector.interfaces;
+			for(Interface i:interfaces){
+				String metaDefName = HibernateUtil.metadefName((Interface) i);
+				doMetaDef(EmfClassifierUtil.getConcreteEntityImplementationsOf(i, workspace.getRootObjects()), metaDefName, pkg);
 			}
 			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
 				doTypeDefs(collector.enumerations, "Resolver", pkg);
@@ -62,17 +64,17 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	private String getCurrentTimestampSQLFunction(){
 		return config.getDbDialect().getCurrentTimeStampString();
 	}
-	protected void doModel(INakedModel model){
+	protected void doModel(Model model){
 		if(shouldProcessModel()){
 			OJAnnotatedPackageInfo domainPkg = findOrCreatePackageInfo(OJUtil.utilPackagePath(model), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			applyFilter(domainPkg);
-			Collection<INakedRootObject> selfAndDependencies = getModelInScope();
+			Collection<Package> selfAndDependencies = getModelInScope();
 			MetaDefElementCollector collector = collectElements(selfAndDependencies);
-			Set<INakedInterface> interfaces = collector.interfaces;
-			for(INakedInterface i:interfaces){
-				Collection<INakedBehavioredClassifier> generalizations = GeneralizationUtil.getConcreteEntityImplementationsOf(i,
+			Set<Interface> interfaces = collector.interfaces;
+			for(Interface i:interfaces){
+				Collection<BehavioredClassifier> generalizations = EmfClassifierUtil.getConcreteEntityImplementationsOf(i,
 						selfAndDependencies);
-				doMetaDef(generalizations, HibernateUtil.metadefName((INakedInterface) i), domainPkg);
+				doMetaDef(generalizations, HibernateUtil.metadefName((Interface) i), domainPkg);
 			}
 			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
 				doTypeDefs(collector.enumerations, "Resolver", domainPkg);
@@ -86,15 +88,15 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		// Will result in multiple packages defining the same filters and metadefs
 		return !(transformationContext.isIntegrationPhase() || config.getSourceFolderStrategy().isSingleProjectStrategy());
 	}
-	private void doTypeDefs(Set<? extends INakedClassifier> processes,String string,OJAnnotatedPackageInfo p){
+	private void doTypeDefs(Set<? extends Classifier> processes,String string,OJAnnotatedPackageInfo p){
 		OJAnnotationAttributeValue typeDefs = getTypeDefs(p);
-		for(INakedClassifier a:processes){
-			if(!(a.getRootObject() instanceof INakedProfile)){
+		for(Classifier a:processes){
+			if(!(EmfElementFinder.getRootObject(a) instanceof Profile)){
 				OJAnnotationValue typeDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDef"));
 				typeDefs.addAnnotationValue(typeDef);
 				p.putAnnotation(typeDef);
-				typeDef.putAttribute("name", a.getMappingInfo().getJavaName() + string);
-				typeDef.putAttribute("typeClass", new OJPathName(a.getMappingInfo().getQualifiedJavaName() + string));
+				typeDef.putAttribute("name", a.getName() + string);
+				typeDef.putAttribute("typeClass", new OJPathName(OJUtil.classifierPathname(a) + string));
 			}
 		}
 	}
@@ -107,22 +109,22 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 		return typeDefs.findAttribute("value");
 	}
-	private MetaDefElementCollector collectElements(Collection<INakedRootObject> ownedElements){
+	private MetaDefElementCollector collectElements(Collection<Package> ownedElements){
 		MetaDefElementCollector collector = new MetaDefElementCollector();
-		final Set<INakedBehavior> elementsOfType = getElementsOfType(INakedBehavior.class, ownedElements);
-		final Iterator<INakedBehavior> iter = elementsOfType.iterator();
+		final Set<Behavior> elementsOfType = getElementsOfType(Behavior.class, ownedElements);
+		final Iterator<Behavior> iter = elementsOfType.iterator();
 		while(iter.hasNext()){
-			INakedBehavior p = (INakedBehavior) iter.next();
-			if(!p.isProcess()){
+			Behavior p = (Behavior) iter.next();
+			if(!EmfBehaviorUtil.isProcess( p)){
 				iter.remove();
 			}
 		}
 		collector.allProcesses = elementsOfType;
-		collector.enumerations = getElementsOfType(INakedEnumeration.class, ownedElements);
-		collector.interfaces = getElementsOfType(INakedInterface.class, ownedElements);
+		collector.enumerations = getElementsOfType(Enumeration.class, ownedElements);
+		collector.interfaces = getElementsOfType(Interface.class, ownedElements);
 		return collector;
 	}
-	private void doMetaDef(Collection<? extends INakedClassifier> impls,String metaDefName,OJAnnotatedPackageInfo p){
+	private void doMetaDef(Collection<? extends Classifier> impls,String metaDefName,OJAnnotatedPackageInfo p){
 		OJAnnotationValue metaDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AnyMetaDef"));
 		OJAnnotationValue anyMetaDefs = getAnyMetaDefs(p);
 		anyMetaDefs.addAnnotationValue(metaDef);
@@ -131,13 +133,12 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		metaDef.putAttribute("idType", getIdType());
 		OJAnnotationAttributeValue metaValues = new OJAnnotationAttributeValue("metaValues");
 		metaDef.putAttribute(metaValues);
-		for(INakedClassifier bc:impls){
+		for(Classifier bc:impls){
 			OJAnnotationValue metaValue = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.MetaValue"));
-			NakedClassifierMap map = OJUtil.buildClassifierMap(bc);
+			NakedClassifierMap map = OJUtil.buildClassifierMap(bc,(CollectionKind)null);
 			OJPathName javaTypePath = map.javaTypePath();
-			metaValue.putAttribute("value", config.shouldBeCm1Compatible() ? OJUtil.classifierPathname(bc).toJavaString() : bc.getMappingInfo()
-					.getOpaeumId().toString());
-			metaValue.putAttribute("targetEntity", javaTypePath);
+			metaValue.putAttribute("value", config.shouldBeCm1Compatible() ? OJUtil.classifierPathname(bc).toJavaString() : EmfWorkspace.getOpaeumId(bc)+"");
+			metaValue.putAttribute("targetClass", javaTypePath);
 			metaValues.addAnnotationValue(metaValue);
 		}
 	}

@@ -2,10 +2,10 @@ package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ElementImport;
+import org.eclipse.uml2.uml.INakedElement;
 import org.eclipse.uml2.uml.PackageImport;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opaeum.metamodel.core.internal.NakedImportedElementImpl;
 

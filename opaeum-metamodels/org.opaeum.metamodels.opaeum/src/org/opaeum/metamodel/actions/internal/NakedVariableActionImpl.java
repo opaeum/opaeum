@@ -3,9 +3,9 @@ package org.opaeum.metamodel.actions.internal;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opaeum.metamodel.actions.INakedVariableAction;
-import org.opaeum.metamodel.activities.INakedActivityVariable;
-import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedActivityVariable;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedVariableAction;
 import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 
 public abstract class NakedVariableActionImpl extends NakedActionImpl implements INakedVariableAction {

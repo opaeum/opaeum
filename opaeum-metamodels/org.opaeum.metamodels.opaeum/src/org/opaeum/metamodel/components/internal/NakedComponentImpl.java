@@ -6,13 +6,13 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IPackage;
 
-import org.opaeum.metamodel.components.INakedComponent;
-import org.opaeum.metamodel.components.INakedConnector;
-import org.opaeum.metamodel.components.INakedPort;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedPackage;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.INakedComponent;
+import org.eclipse.uml2.uml.INakedConnector;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedPackage;
+import org.eclipse.uml2.uml.INakedPort;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedEntityImpl;
 
 public class NakedComponentImpl extends NakedEntityImpl implements INakedComponent{

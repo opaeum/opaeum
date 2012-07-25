@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedState;
+import org.eclipse.uml2.uml.INakedTypedElement;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.internal.NakedTransitionImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {StateExtractor.class,InstanceExtractor.class, ActivityExtractor.class},after = {ActivityExtractor.class, StateExtractor.class,InstanceExtractor.class})

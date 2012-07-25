@@ -6,11 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedExpansionRegion;
-import org.opaeum.metamodel.core.INakedElement;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedActivityNode;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedExpansionNode;
+import org.eclipse.uml2.uml.INakedExpansionRegion;
 
 public class NakedExpansionRegionImpl extends NakedStructuredActivityNodeImpl implements INakedExpansionRegion {
 	/**

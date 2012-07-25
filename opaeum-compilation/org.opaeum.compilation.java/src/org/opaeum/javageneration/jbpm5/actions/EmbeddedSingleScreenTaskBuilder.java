@@ -3,25 +3,26 @@ package org.opaeum.javageneration.jbpm5.actions;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.Type;
+import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.EmbeddedSingleScreenTaskCaller;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.name.NameConverter;
 
-public class EmbeddedSingleScreenTaskBuilder extends PotentialTaskActionBuilder<INakedEmbeddedSingleScreenTask>{
+public class EmbeddedSingleScreenTaskBuilder extends PotentialTaskActionBuilder<OpaqueAction>{
 	EmbeddedSingleScreenTaskCaller delegate;
-	public EmbeddedSingleScreenTaskBuilder(OpaeumLibrary oclEngine,INakedEmbeddedSingleScreenTask node){
+	public EmbeddedSingleScreenTaskBuilder(OpaeumLibrary oclEngine,OpaqueAction node){
 		super(oclEngine, node);
 		delegate = new EmbeddedSingleScreenTaskCaller(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation){
-		if(!node.isSynchronous()){
+		if(!EmfActionUtil.isSynchronous( node)){
 			// TODO think of exception pins perhaps
 			delegate.implementActionOn(operation, operation.getBody());
 		} // build task variable
@@ -37,13 +38,12 @@ public class EmbeddedSingleScreenTaskBuilder extends PotentialTaskActionBuilder<
 	private void implementCompleteMethod(OJClass activityClass){
 		activityClass.addToImports(Jbpm5Util.getNodeInstance());
 		String completeMethodName = null;
-		INakedMessageStructure message = null;
-		message = ((INakedEmbeddedTask) node).getMessageStructure();
-		completeMethodName = "on" + node.getMappingInfo().getJavaName().getCapped() + "Completed";
+		Classifier message = getLibrary().getMessageStructure(node);
+		completeMethodName = "on" + NameConverter.capitalize(node.getName()) + "Completed";
 		implementCallbackOnComplete(activityClass, completeMethodName, message);
 	}
 	@Override
-	protected Collection<INakedClassifier> getRaisedExceptions(){
+	protected Collection<Type> getRaisedExceptions(){
 		return Collections.emptySet();
 	}
 }

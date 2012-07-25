@@ -10,11 +10,11 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.extraction.EmfExtractionPhase;
 import org.opaeum.feature.TransformationProcess;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 public final class SynchronizationProcessRunner extends Job{
 	private Set<EObject> emfChanges;
@@ -42,14 +42,14 @@ public final class SynchronizationProcessRunner extends Job{
 					monitor.beginTask("Synchronizing Opaeum Metadata", 50);
 					if(emfChanges.size() > 0){
 						long start = System.currentTimeMillis();
-						Set<INakedElement> changedNakedElements = new HashSet<INakedElement>();
+						Set<Element> changedNakedElements = new HashSet<Element>();
 						for(Object object:transformationProcess.processElements(emfChanges, EmfExtractionPhase.class,
 								new ProgressMonitorTransformationLog(monitor, 50))){
-							if(object instanceof INakedElement){
-								changedNakedElements.add((INakedElement) object);
+							if(object instanceof Element){
+								changedNakedElements.add((Element) object);
 							}
 						}
-						final INakedModelWorkspace findModel = transformationProcess.findModel(INakedModelWorkspace.class);
+						final ModelWorkspace findModel = transformationProcess.findModel(ModelWorkspace.class);
 						for(OpaeumSynchronizationListener listener:synchronizationListener){
 							listener.synchronizationComplete(findModel, changedNakedElements);
 						}

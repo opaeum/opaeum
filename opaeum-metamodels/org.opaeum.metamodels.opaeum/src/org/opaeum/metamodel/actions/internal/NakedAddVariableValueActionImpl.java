@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.actions.internal;
 
-import org.opaeum.metamodel.actions.INakedAddVariableValueAction;
+import org.eclipse.uml2.uml.INakedAddVariableValueAction;
 
 public class NakedAddVariableValueActionImpl extends NakedWriteVariableActionImpl implements INakedAddVariableValueAction{
 	/**

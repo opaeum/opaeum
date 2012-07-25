@@ -1,10 +1,10 @@
 package org.opaeum.metamodel.commonbehaviors.internal;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedTimeEvent;
+import org.eclipse.uml2.uml.INakedTrigger;
 public class NakedTimeEventImpl extends AbstractTimeEventImpl implements INakedTimeEvent {
 	private static final long serialVersionUID = 8679314599756152781L;
 	public NakedTimeEventImpl() {

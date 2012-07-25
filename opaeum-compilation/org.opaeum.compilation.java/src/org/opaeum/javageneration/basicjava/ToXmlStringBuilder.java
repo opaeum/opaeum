@@ -1,7 +1,17 @@
 package org.opaeum.javageneration.basicjava;
 
+
+
+
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -16,14 +26,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedHelper;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -33,31 +35,31 @@ import org.opaeum.name.NameConverter;
 })
 public class ToXmlStringBuilder extends AbstractStructureVisitor{
 	@VisitBefore(matchSubclasses = true)
-	public void visitInterface(INakedInterface i){
-		if(OJUtil.hasOJClass(i) && !(i instanceof INakedHelper)){
+	public void visitInterface(Interface i){
+		if(OJUtil.hasOJClass(i) && !(EmfClassifierUtil.isHelper(i ))){
 			OJAnnotatedClass ojClass = findJavaClass(i);
 			this.buildToXmlString(ojClass, i);
 			this.buildToXmlReferenceString(ojClass, i);
 		}
 	}
-	private void visitClass(INakedClassifier c){
-		if(OJUtil.hasOJClass(c) && !(c instanceof INakedEnumeration) && c.getStereotype(StereotypeNames.HELPER) == null){
+	private void visitClass(Classifier c){
+		if(OJUtil.hasOJClass(c) && !(c instanceof Enumeration) && EmfClassifierUtil.isHelper(c)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			this.buildToXmlString(ojClass, c);
 			this.buildToXmlReferenceString(ojClass, c);
 		}
 	}
-	protected void buildToXmlReferenceString(OJAnnotatedClass owner,INakedClassifier umlClass){
+	protected void buildToXmlReferenceString(OJAnnotatedClass owner,Classifier umlClass){
 		OJOperation toString = new OJAnnotatedOperation("toXmlReferenceString");
 		toString.setReturnType(new OJPathName("String"));
 		if(!(owner instanceof OJAnnotatedInterface)){
 			toString.getBody().addToStatements(
-					"return \"<" + umlClass.getMappingInfo().getJavaName() + " uid=\\\"\"+getUid() + \"\\\"/>\"");
+					"return \"<" + umlClass.getName() + " uid=\\\"\"+getUid() + \"\\\"/>\"");
 		}
 		owner.addToOperations(toString);
 	}
-	protected void buildToXmlString(OJAnnotatedClass owner,INakedClassifier umlClass){
-		String rootObjectName = NameConverter.capitalize(umlClass.getRootObject().getName());
+	protected void buildToXmlString(OJAnnotatedClass owner,Classifier umlClass){
+		String rootObjectName = NameConverter.capitalize(EmfElementFinder.getRootObject( umlClass).getName());
 		owner.addToImports(UtilityCreator.getUtilPathName() + "." + rootObjectName + "Formatter");
 		OJOperation toString = new OJAnnotatedOperation("toXmlString");
 		toString.setReturnType(new OJPathName("String"));
@@ -66,20 +68,20 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 			OJAnnotatedField sb = new OJAnnotatedField("sb", new OJPathName("StringBuilder"));
 			sb.setInitExp("new StringBuilder()");
 			toString.getBody().addToLocals(sb);
-			toString.getBody().addToStatements("sb.append(\"<" + umlClass.getMappingInfo().getJavaName() + " \")");
-			toString.getBody().addToStatements("sb.append(\"classUuid=\\\"" + umlClass.getId() + "\\\" \")");
+			toString.getBody().addToStatements("sb.append(\"<" + umlClass.getName() + " \")");
+			toString.getBody().addToStatements("sb.append(\"classUuid=\\\"" + EmfWorkspace.getId( umlClass) + "\\\" \")");
 			toString.getBody().addToStatements("sb.append(\"className=\\\"" + OJUtil.classifierPathname(umlClass) + "\\\" \")");
 			toString.getBody().addToStatements("sb.append(\"uid=\\\"\" + this.getUid() + \"\\\" \")");
-			for(INakedProperty f:umlClass.getEffectiveAttributes()){
+			for(Property f:EmfElementFinder.getPropertiesInScope( umlClass)){
 				if(XmlUtil.isXmlAttribute(f)){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 					owner.addToImports(map.javaBaseTypePath());
 					if(map.isOne()){
 						OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
 						toString.getBody().addToStatements(ifNotNull);
-						if(f.getNakedBaseType() instanceof INakedSimpleType){
+						if(EmfClassifierUtil.isSimpleType(f.getType() )){
 							ifNotNull.getThenPart().addToStatements(
-									"sb.append(\"" + map.fieldname() + "=\\\"\"+ " + rootObjectName + "Formatter.getInstance().format" + f.getNakedBaseType().getName()
+									"sb.append(\"" + map.fieldname() + "=\\\"\"+ " + rootObjectName + "Formatter.getInstance().format" + f.getType().getName()
 											+ "(" + map.getter() + "())+\"\\\" \")");
 						}else{
 							// ENumeration
@@ -90,9 +92,9 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 						OJForStatement forEach = new OJForStatement("val", map.javaBaseTypePath(), map.getter() + "()");
 						toString.getBody().addToStatements(forEach);
 						toString.getBody().addToStatements("sb.append(\"\\\" \")");
-						if(f.getNakedBaseType() instanceof INakedSimpleType){
+						if(EmfClassifierUtil.isSimpleType(f.getType() )){
 							forEach.getBody().addToStatements(
-									"sb.append(" + rootObjectName + "Formatter.getInstance().format" + f.getNakedBaseType().getName() + "(val) + \";\")");
+									"sb.append(" + rootObjectName + "Formatter.getInstance().format" + f.getType().getName() + "(val) + \";\")");
 						}else{
 							// ENumeration
 							forEach.getBody().addToStatements("sb.append(val.name() + \";\")");
@@ -101,11 +103,11 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 				}
 			}
 			toString.getBody().addToStatements("sb.append(\">\")");
-			for(INakedProperty f:umlClass.getEffectiveAttributes()){
+			for(Property f:EmfElementFinder.getPropertiesInScope( umlClass)){
 				if(XmlUtil.isXmlReference(f) || XmlUtil.isXmlSubElement(f)){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 					owner.addToImports(map.javaBaseTypePath());
-					String openProperty = "sb.append(\"\\n<" + map.fieldname() + " propertyId=\\\""+ map.getProperty().getMappingInfo().getOpaeumId() + "\\\">\")";
+					String openProperty = "sb.append(\"\\n<" + map.fieldname() + " propertyId=\\\""+ EmfWorkspace.getOpaeumId( map.getProperty()) + "\\\">\")";
 					String closeProperty = "sb.append(\"\\n</" + map.fieldname() + ">\")";
 					if(map.isOne()){
 						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"\\n<" + map.fieldname() + "/>\")");
@@ -135,16 +137,16 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 					}
 				}
 			}
-			toString.getBody().addToStatements("sb.append(\"\\n</" + umlClass.getMappingInfo().getJavaName() + ">\")");
+			toString.getBody().addToStatements("sb.append(\"\\n</" + umlClass.getName() + ">\")");
 			toString.getBody().addToStatements("return sb.toString()");
 		}
 	}
 	@Override
-	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
 		// TODO Auto-generated method stub
 	}
 	@Override
-	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+	protected void visitComplexStructure(Classifier umlOwner){
 		visitClass(umlOwner);
 	}
 }

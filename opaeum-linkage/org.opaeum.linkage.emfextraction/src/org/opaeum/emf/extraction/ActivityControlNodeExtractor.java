@@ -2,17 +2,17 @@ package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.ActivityFinalNode;
 import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.ControlNodeType;
 import org.eclipse.uml2.uml.DecisionNode;
 import org.eclipse.uml2.uml.FlowFinalNode;
 import org.eclipse.uml2.uml.ForkNode;
+import org.eclipse.uml2.uml.INakedActivityNode;
+import org.eclipse.uml2.uml.INakedActivityPartition;
 import org.eclipse.uml2.uml.InitialNode;
 import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.MergeNode;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.activities.ControlNodeType;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedActivityPartition;
 import org.opaeum.metamodel.activities.internal.NakedControlNodeImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {FeatureExtractor.class,ActivityStructureExtractor.class},after = {

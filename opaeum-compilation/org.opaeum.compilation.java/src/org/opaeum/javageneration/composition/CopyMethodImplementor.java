@@ -5,6 +5,13 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IModelElement;
 
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
@@ -22,29 +29,17 @@ import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.persistence.PersistentObjectImplementor;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.CompositionEmulator;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.name.NameConverter;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		CompositionEmulator.class,OperationAnnotator.class
-},after = {
-	OperationAnnotator.class
-})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class})
 public class CopyMethodImplementor extends AbstractStructureVisitor{
-	protected void visitComplexStructure(INakedComplexStructure c){
+	protected void visitComplexStructure(Classifier c){
 		OJPathName path = OJUtil.classifierPathname(c);
 		OJClassifier myOwner = this.javaModel.findClass(path);
 		// NakedModelElement mew = (NakedModelElement)
 		// nakedModel.lookup(c.getPathName());
-		if(myOwner instanceof OJClass && (c instanceof INakedEntity || c instanceof INakedStructuredDataType)){
-			INakedComplexStructure nc = (INakedComplexStructure) c;
+		if(myOwner instanceof OJClass && (c instanceof Class || EmfClassifierUtil.isStructuredDataType(c ))){
+			Classifier nc = (Classifier) c;
 			OJClass ojClass = (OJClass) myOwner;
 			implementCopyMethod(ojClass, nc);
 			addCopyStateMethod(nc, ojClass);
@@ -52,7 +47,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 			addShallowCopyStateMethod(nc, ojClass);
 		}
 	}
-	private void addShallowMakeCopyMethod(OJClass owner,INakedComplexStructure classifier){
+	private void addShallowMakeCopyMethod(OJClass owner,Classifier classifier){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation("makeShallowCopy");
 		oper.setReturnType(OJUtil.classifierPathname(classifier));
 		owner.addToOperations(oper);
@@ -63,13 +58,13 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 			OJBlock body = oper.getBody();
 			oper.initializeResultVariable("new " + owner.getName() + "()");
 			oper.getResultVariable().setType(owner.getPathName());
-			body.addToStatements("copyShallowState((" + classifier.getMappingInfo().getJavaName() + ")this,result)");
+			body.addToStatements("copyShallowState((" + classifier.getName() + ")this,result)");
 			if(super.transformationContext.isFeatureSelected(PersistentObjectImplementor.class)){
 				body.addToStatements(new OJSimpleStatement("result.setId(this.getId())"));
 			}
 		}
 	}
-	private void implementCopyMethod(OJClass owner,INakedClassifier classifier){
+	private void implementCopyMethod(OJClass owner,Classifier classifier){
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.getUniqueOperation("makeCopy");
 		if(oper == null){
 			oper = new OJAnnotatedOperation("makeCopy");
@@ -84,12 +79,11 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		}else{
 			oper.initializeResultVariable("new " + owner.getName() + "()");
 			oper.getResultVariable().setType(owner.getPathName());
-
 			OJBlock body = oper.getBody();
-			body.addToStatements("copyState((" + classifier.getMappingInfo().getJavaName() + ")this,result)");
+			body.addToStatements("copyState((" + classifier.getName() + ")this,result)");
 		}
 	}
-	private void addCopyStateMethod(INakedClassifier classifier,OJClass owner){
+	private void addCopyStateMethod(Classifier classifier,OJClass owner){
 		OJOperation oper = new OJAnnotatedOperation("copyState");
 		oper.setVisibility(OJVisibilityKindGEN.PUBLIC);
 		oper.addParam("from", owner.getPathName());
@@ -97,7 +91,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		addCopyStatements(classifier, owner, oper.getBody(), true, false);
 		owner.addToOperations(oper);
 	}
-	private void addShallowCopyStateMethod(INakedClassifier classifier,OJClass owner){
+	private void addShallowCopyStateMethod(Classifier classifier,OJClass owner){
 		OJOperation oper = new OJAnnotatedOperation("copyShallowState");
 		oper.setVisibility(OJVisibilityKindGEN.PUBLIC);
 		oper.addParam("from", owner.getPathName());
@@ -105,9 +99,9 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		addCopyStatements(classifier, owner, oper.getBody(), false, true);
 		owner.addToOperations(oper);
 	}
-	private void addCopyStatements(INakedClassifier classifier,OJClass owner,OJBlock body,boolean deep,boolean shallowCopy){
+	private void addCopyStatements(Classifier classifier,OJClass owner,OJBlock body,boolean deep,boolean shallowCopy){
 		String copyMethodName = shallowCopy ? "makeShallowCopy" : "makeCopy";
-		List<? extends INakedProperty> properties = classifier.getEffectiveAttributes();
+		List<? extends Property> properties = EmfElementFinder.getPropertiesInScope(classifier);
 		// TODO implement containment by value (composition) vs containment
 		// by reference logic
 		// might be helpful for web service, for instance
@@ -116,19 +110,19 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		// include in a deep copy
 		for(int i = 0;i < properties.size();i++){
 			IModelElement a = (IModelElement) properties.get(i);
-			if(a instanceof INakedProperty){
-				INakedProperty np = (INakedProperty) a;
+			if(a instanceof Property){
+				Property np = (Property) a;
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 				if(!(np.isDerived() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
-					if(np.getNakedBaseType() instanceof INakedSimpleType || np.getNakedBaseType() instanceof INakedEnumeration){
+					if(EmfClassifierUtil.isSimpleType(np.getType())|| np.getType() instanceof Enumeration){
 						if(map.isMany()){
 							body.addToStatements("to." + map.getter() + "().addAll(from." + map.getter() + "())");
 						}else{
 							body.addToStatements("to." + map.setter() + "(from." + map.getter() + "())");
 						}
-					}else if(np.getNakedBaseType() instanceof INakedEntity || np.getNakedBaseType() instanceof INakedStructuredDataType){
+					}else if(np.getType() instanceof Class || EmfClassifierUtil.isStructuredDataType(np.getType() )){
 						OJBlock forBlock = new OJBlock();
-						if(np.getNakedBaseType() instanceof INakedStructuredDataType || (deep && np.isComposite())){
+						if(EmfClassifierUtil.isStructuredDataType(np.getType()) || (deep && np.isComposite())){
 							if(map.isMany()){
 								OJForStatement ws = new OJForStatement("", "", "child", "from." + map.getter() + "()");
 								OJBlock whileBody = forBlock;
@@ -136,37 +130,37 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 								ws.setElemType(map.javaBaseTypePath());
 								if(isMap(map.getProperty())){
 									StringBuilder sb = new StringBuilder();
-									List<INakedProperty> qualifiers = map.getProperty().getQualifiers();
-									//Assume qualifiers are back by attributes as we are doing composition here
-									for(INakedProperty q:qualifiers){
+									List<Property> qualifiers = map.getProperty().getQualifiers();
+									// Assume qualifiers are back by attributes as we are doing composition here
+									for(Property q:qualifiers){
 										NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(q);
 										sb.append("child.");
 										sb.append(qMap.getter());
 										sb.append("(),");
 									}
-									whileBody.addToStatements("to." + map.adder() + "("+sb.toString()+"child." + copyMethodName + "())");
+									whileBody.addToStatements("to." + map.adder() + "(" + sb.toString() + "child." + copyMethodName + "())");
 								}else{
 									whileBody.addToStatements("to." + map.adder() + "(child." + copyMethodName + "())");
 								}
 								body.addToStatements(ws);
 							}else{
-								OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from." + map.getter() + "()."
-										+ copyMethodName + "())");
+								OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from."
+										+ map.getter() + "()." + copyMethodName + "())");
 								body.addToStatements(ifNotNull);
 							}
-						}else if(map.isOne() && np.isInverse()){
-							OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from." + map.getter() + "()."
-									+ copyMethodName + "())");
+						}else if(map.isOne() && EmfPropertyUtil.isInverse( np)){
+							OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from."
+									+ map.getter() + "()." + copyMethodName + "())");
 							body.addToStatements(ifNotNull);
-						}else if(map.isManyToMany() && np.isInverse()){
+						}else if(map.isManyToMany() && EmfPropertyUtil.isInverse(np)){
 							String localCopyMethodName;
 							if(shallowCopy){
 								localCopyMethodName = "copyShallowState";
 							}else{
 								localCopyMethodName = "copyState";
 							}
-							body.addToStatements("to." + map.allAdder() + "(" + localCopyMethodName + NameConverter.capitalize(map.fieldname()) + "(from." + map.getter()
-									+ "()))");
+							body.addToStatements("to." + map.allAdder() + "(" + localCopyMethodName + NameConverter.capitalize(map.fieldname())
+									+ "(from." + map.getter() + "()))");
 							String operName = localCopyMethodName + NameConverter.capitalize(map.fieldname());
 							List<OJPathName> params = new ArrayList<OJPathName>();
 							params.add(map.javaTypePath());
@@ -178,7 +172,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 								copyMany.addParam("from", map.javaTypePath());
 								owner.addToImports(map.javaDefaultTypePath());
 								copyMany.initializeResultVariable("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">()");
-//								copyMany.getResultVariable().setType(owner.getPathName());
+								// copyMany.getResultVariable().setType(owner.getPathName());
 								OJForStatement forS = new OJForStatement("", "", "entity", "from");
 								forS.setElemType(map.javaBaseTypePath());
 								forS.setBody(forBlock);
@@ -192,7 +186,6 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
-		
+	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
 	}
 }

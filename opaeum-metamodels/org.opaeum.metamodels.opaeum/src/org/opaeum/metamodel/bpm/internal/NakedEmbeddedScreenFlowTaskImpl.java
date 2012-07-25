@@ -1,12 +1,12 @@
 package org.opaeum.metamodel.bpm.internal;
 
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedMessageStructure;
+import org.eclipse.uml2.uml.INakedStateMachine;
 import org.opaeum.metamodel.actions.internal.NakedCallBehaviorActionImpl;
 import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
 
 public class NakedEmbeddedScreenFlowTaskImpl extends NakedCallBehaviorActionImpl implements INakedEmbeddedScreenFlowTask{
 	private static final long serialVersionUID = 2669838847662466125L;

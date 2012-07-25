@@ -5,6 +5,15 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IModelElement;
 
+import org.eclipse.uml2.uml.ICompositionParticipant;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedEnumeration;
+import org.eclipse.uml2.uml.INakedEnumerationLiteral;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedStructuredDataType;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -20,15 +29,6 @@ import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { CompositionEmulator.class, CompositionNodeImplementor.class }, after = { CompositionNodeImplementor.class }, replaces = ComponentInitializer.class)
 public class TinkerComponentInitializer extends ComponentInitializer {

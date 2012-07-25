@@ -9,9 +9,12 @@ package nl.klasse.octopus.codegen.umlToJava.expgenerators.visitors;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.InvHelpersCreator;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.StdLibCreator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
-import nl.klasse.octopus.stdlib.IOclLibrary;
 
+import org.eclipse.ocl.TypeResolver;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Property;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
@@ -36,16 +39,16 @@ public class OclUtilityCreator {
 		utilPack = javamodel.findPackage(path);
 	}
 	
-	public void makeOclUtilities(Package in, IOclLibrary lib) {
-		makeTupleTypes(in, lib);
+	public void makeOclUtilities(TypeResolver<Classifier,Operation,Property> tr) {
+		makeTupleTypes(tr);
 		makeStdlib();
 		makeInvHelperClasses();
 	}
 
-	private void makeTupleTypes(Package in, IOclLibrary lib) {
+	private void makeTupleTypes(TypeResolver<Classifier,Operation,Property> tr) {
 		// get the tupletypes from the standlib and transform these
 		TupleTypeAdder tupleTypeAdder = new TupleTypeAdder();
-		OJPackage tuples = tupleTypeAdder.makeTupleTypes(lib);
+		OJPackage tuples = tupleTypeAdder.makeTupleTypes(tr);
 		if (utilPack != null && tuples != null) {
 			utilPack.addToSubpackages(tuples);
 			tuplesPath = tuples.getPathName();

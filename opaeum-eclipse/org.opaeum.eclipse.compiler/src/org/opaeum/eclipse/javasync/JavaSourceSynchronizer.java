@@ -24,6 +24,15 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Package;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
@@ -35,14 +44,7 @@ import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedPackage;
-import org.opaeum.metamodel.core.RootObjectStatus;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextOutputNode;
@@ -57,7 +59,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	EclipseProjectGenerationStep eclipseGenerator = new EclipseProjectGenerationStep();
 	private TransformationProcess process;
 	private IJavaModel javaWorkspace;
-	private Set<INakedElement> nakedUmlChanges = new HashSet<INakedElement>();
+	private Set<Element> nakedUmlChanges = new HashSet<Element>();
 	private NamespaceRenameRequests namespaceRenameRequests = new NamespaceRenameRequests();
 	private boolean synchronizing = false;
 	public JavaSourceSynchronizer(OpaeumEclipseContext ne,TransformationProcess process){
@@ -159,15 +161,14 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	private void synchronizeClasses(IProgressMonitor monitor){
 		try{
 			monitor.beginTask("Generating Java Code", 1000);
-			Set<INakedElement> clss;
+			Set<Element> clss;
 			synchronized(nakedUmlChanges){
-				clss = new HashSet<INakedElement>(this.nakedUmlChanges);
+				clss = new HashSet<Element>(this.nakedUmlChanges);
 				nakedUmlChanges.clear();
 			}
 			if(clss.size() > 0){
 				process.replaceModel(new OJPackage());
 				process.replaceModel(new TextWorkspace());
-				regeneratePersistentNames(clss);
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(
 						monitor, 400));
 				boolean hasNewJavaSourceFolders = hasNewJavaSourceFolders(workspace, process.findModel(TextWorkspace.class));
@@ -214,25 +215,8 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 		}
 		return fileCount;
 	}
-	public void regeneratePersistentNames(Set<INakedElement> clss){
-		for(INakedElement ne:clss){
-			PersistentNameRegenerator png = new PersistentNameRegenerator();
-			if(!ne.isMarkedForDeletion()){
-				MappingInfo mappingInfo = ne.getRootObject().getMappingInfo();
-				if(mappingInfo.getPersistentName() == null){
-					ne.getRootObject().setStatus(RootObjectStatus.LINKED);
-					png.visitRecursively(ne.getRootObject());
-				}
-				while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null
-						|| ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
-					ne = (INakedElement) ne.getOwnerElement();
-				}
-				png.visitUpThenDown(ne);
-			}
-		}
-	}
 	@Override
-	public void synchronizationComplete(INakedModelWorkspace workspace,Set<INakedElement> affectedElements){
+	public void synchronizationComplete(ModelWorkspace workspace,Set<Element> affectedElements){
 		this.nakedUmlChanges.addAll(affectedElements);
 	}
 	private void renamePackages(NamespaceRenameRequest rn){

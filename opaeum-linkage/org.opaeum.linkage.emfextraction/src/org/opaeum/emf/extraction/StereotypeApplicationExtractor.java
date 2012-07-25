@@ -13,27 +13,27 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EEnumLiteralImpl;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.INakedComment;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedEnumeration;
+import org.eclipse.uml2.uml.INakedEvent;
+import org.eclipse.uml2.uml.INakedHelper;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedSlot;
+import org.eclipse.uml2.uml.INakedStereotype;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
-import org.opaeum.metamodel.core.INakedComment;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedHelper;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSlot;
 import org.opaeum.metamodel.core.internal.NakedCommentImpl;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opaeum.metamodel.core.internal.NakedInstanceSpecificationImpl;
 import org.opaeum.metamodel.core.internal.NakedSlotImpl;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.profiles.INakedStereotype;
 
 /**
  * Applies stereotypes to elements. Uses InstanceSpecifications to represent stereotype applications Should be done last. pre: All

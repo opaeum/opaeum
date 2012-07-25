@@ -2,7 +2,7 @@ package org.opaeum.metamodel.commonbehaviors.internal;
 
 import nl.klasse.octopus.model.IMultiplicityKind;
 
-import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedMultiplicity;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 import org.opaeum.metamodel.core.internal.NakedTypedElementImpl;
 

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opaeum.metamodels.opaeum
+Bundle-Name: org.opaeum.metamodels.emfworkspace
 Bundle-SymbolicName: org.opaeum.metamodels.opaeum;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
@@ -8,36 +8,25 @@ Bundle-ClassPath: .,
 Bundle-Vendor: Opaeum
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.opaeum.metamodels.ocl
-Export-Package: org.opaeum,
+Require-Bundle: org.opaeum.metamodels.ocl,
+ org.opaeum.metamodels.emfworkspace,
+ org.eclipse.uml2.uml
+Export-Package: org.eclipse.uml2.uml,
+ org.opaeum,
  org.opaeum.annotation,
- org.opaeum.feature,
- org.opaeum.metamodel.actions,
  org.opaeum.metamodel.actions.internal,
- org.opaeum.metamodel.activities,
  org.opaeum.metamodel.activities.internal,
  org.opaeum.metamodel.bpm,
  org.opaeum.metamodel.bpm.internal,
- org.opaeum.metamodel.commonbehaviors,
  org.opaeum.metamodel.commonbehaviors.internal,
- org.opaeum.metamodel.components,
  org.opaeum.metamodel.components.internal,
- org.opaeum.metamodel.compositestructures,
  org.opaeum.metamodel.compositestructures.internal,
- org.opaeum.metamodel.core,
  org.opaeum.metamodel.core.internal,
  org.opaeum.metamodel.core.internal.emulated,
- org.opaeum.metamodel.models,
  org.opaeum.metamodel.models.internal,
- org.opaeum.metamodel.name,
- org.opaeum.metamodel.profiles,
  org.opaeum.metamodel.profiles.internal,
- org.opaeum.metamodel.statemachines,
  org.opaeum.metamodel.statemachines.internal,
- org.opaeum.metamodel.usecases,
  org.opaeum.metamodel.usecases.internal,
- org.opaeum.metamodel.validation,
- org.opaeum.metamodel.workspace,
  org.opaeum.metamodel.workspace.internal,
  org.opaeum.name,
  org.opaeum.runtime.domain,

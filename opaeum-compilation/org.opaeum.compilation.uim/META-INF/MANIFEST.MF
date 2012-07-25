@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.opaeum.metamodels.uim,
  org.opaeum.metamodels.text,
  org.opaeum.transformation.engine,
- org.opaeum.metamodels.opaeum,
+ org.opaeum.metamodels.emfworkspace,
  org.opaeum.linkage.emfextraction
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

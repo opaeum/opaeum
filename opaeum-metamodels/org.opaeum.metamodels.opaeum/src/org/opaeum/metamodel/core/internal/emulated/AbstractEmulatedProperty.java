@@ -12,15 +12,15 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IMultiplicityKind;
 import nl.klasse.octopus.model.VisibilityKind;
 
+import org.eclipse.uml2.uml.INakedAssociation;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedMultiplicityElement;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.feature.MappingInfo;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityElement;
 
 public abstract class AbstractEmulatedProperty extends EmulatingElement implements INakedProperty{

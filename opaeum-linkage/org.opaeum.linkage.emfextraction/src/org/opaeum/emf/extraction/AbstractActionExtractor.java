@@ -6,23 +6,23 @@ import java.util.List;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.INakedActivityNode;
+import org.eclipse.uml2.uml.INakedActivityPartition;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedPin;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValuePin;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedActivityPartition;
-import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 import org.opaeum.metamodel.activities.internal.NakedInputPinImpl;
 import org.opaeum.metamodel.activities.internal.NakedObjectNodeImpl;
 import org.opaeum.metamodel.activities.internal.NakedOutputPinImpl;
 import org.opaeum.metamodel.activities.internal.NakedPinImpl;
 import org.opaeum.metamodel.activities.internal.NakedValuePinImpl;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 
 public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{

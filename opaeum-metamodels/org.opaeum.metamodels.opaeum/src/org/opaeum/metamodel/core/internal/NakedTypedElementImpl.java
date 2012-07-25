@@ -2,10 +2,10 @@ package org.opaeum.metamodel.core.internal;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedTypedElement;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedEnumerationLiteral;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedTypedElement;
 
 public class NakedTypedElementImpl extends NakedMultiplicityElement implements INakedTypedElement {
 	private static final long serialVersionUID = -5574117047617953873L;

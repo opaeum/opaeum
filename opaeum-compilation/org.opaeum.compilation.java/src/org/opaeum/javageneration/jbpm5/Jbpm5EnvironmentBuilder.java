@@ -6,9 +6,14 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import nl.klasse.octopus.model.IImportedElement;
-import nl.klasse.octopus.model.IModelElement;
-
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.DefaultOpaeumComparator;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.feature.visit.VisitorAdapter;
@@ -23,55 +28,48 @@ import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.ProcessIdentifier;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
-
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-	ProcessIdentifier.class
-},after = {})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
-	public static class ProcessCollector extends VisitorAdapter<INakedElement,INakedModel>{
+	public static class ProcessCollector extends VisitorAdapter<Element,Model>{
 		@Override
 		protected int getThreadPoolSize(){
 			return 1;
 		}
-		private SortedSet<INakedBehavior> processes = new TreeSet<INakedBehavior>(new DefaultOpaeumComparator());
+		private SortedSet<Behavior> processes = new TreeSet<Behavior>(new DefaultOpaeumComparator());
 		@VisitBefore(matchSubclasses = true)
-		public void visitBehavior(INakedBehavior b){
-			if(b.isProcess()){
+		public void visitBehavior(Behavior b){
+			if(EmfBehaviorUtil.isProcess( b)){
 				this.processes.add(b);
 			}
 		}
 		@Override
-		public Collection<? extends INakedElement> getChildren(INakedElement parent){
+		public Collection<? extends Element> getChildren(Element parent){
 			return parent.getOwnedElements();
 		}
-		public Collection<INakedBehavior> getProcesses(){
+		public Collection<Behavior> getProcesses(){
 			return this.processes;
 		}
 	}
 	public Jbpm5EnvironmentBuilder(){
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitWorkspace(INakedModelWorkspace workspace){
+	public void visitWorkspace(EmfWorkspace workspace){
 		if(transformationContext.isIntegrationPhase()){
-			SortedSet<INakedRootObject> primaryRootObjects2 = new TreeSet<INakedRootObject>(new DefaultOpaeumComparator());
+			SortedSet<Package> primaryRootObjects2 = new TreeSet<Package>(new DefaultOpaeumComparator());
 			primaryRootObjects2.addAll(workspace.getPrimaryRootObjects());
 			OJPathName pn = Jbpm5Util.jbpmKnowledgeBase(workspace);
-			SortedSet<INakedBehavior> emptySet = new TreeSet<INakedBehavior>();
+			SortedSet<Behavior> emptySet = new TreeSet<Behavior>();
 			createKnowledgeBase(primaryRootObjects2, emptySet, pn, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			OJAnnotatedPackageInfo pkgInfo = findOrCreatePackageInfo(pn.getHead(), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
-			JpaUtil.addNamedQueries(pkgInfo, "ProcessInstancesWaitingForEvent",
-					"select processInstanceInfo.processInstanceId from org.jbpm.persistence.processinstance.ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
+			JpaUtil
+					.addNamedQueries(
+							pkgInfo,
+							"ProcessInstancesWaitingForEvent",
+							"select processInstanceInfo.processInstanceId from org.jbpm.persistence.processinstance.ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 		}
 	}
-	protected void createKnowledgeBase(SortedSet<INakedRootObject> bpmModels,SortedSet<INakedBehavior> processes,OJPathName pn,JavaSourceFolderIdentifier i){
+	protected void createKnowledgeBase(SortedSet<Package> bpmModels,SortedSet<Behavior> processes,OJPathName pn,JavaSourceFolderIdentifier i){
 		OJAnnotatedClass knowledgeBase = new OJAnnotatedClass(pn.getLast());
 		findOrCreatePackage(pn.getHead()).addToClasses(knowledgeBase);
 		knowledgeBase.addToImports(new OJPathName("java.util.Set"));
@@ -88,13 +86,14 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		getProcessLocations.getBody().addToLocals(result);
 		knowledgeBase.addToOperations(getProcessLocations);
 		createTextPath(knowledgeBase, i);
-		for(INakedRootObject ro:bpmModels){
-			if(ro instanceof INakedModel && ( !((INakedModel) ro).isLibrary() || ((INakedModel) ro).isRegeneratingLibrary())){
-				getProcessLocations.getBody().addToStatements("result.addAll(" + Jbpm5Util.jbpmKnowledgeBase(ro) + ".INSTANCE.getProcessLocations())");
+		for(Package ro:bpmModels){
+			if(ro instanceof Model && (!((Model) ro).isLibrary() || EmfPackageUtil.isRegeneratingLibrary((Model) ro))){
+				getProcessLocations.getBody().addToStatements(
+						"result.addAll(" + Jbpm5Util.jbpmKnowledgeBase(ro) + ".INSTANCE.getProcessLocations())");
 			}
 		}
-		for(INakedBehavior p:processes){
-			getProcessLocations.getBody().addToStatements("result.add(\"" + p.getMappingInfo().getJavaPath() + ".rf\")");
+		for(Behavior p:processes){
+			getProcessLocations.getBody().addToStatements("result.add(\"" + p.getJavaPath() + ".rf\")");
 		}
 		getProcessLocations.getBody().addToStatements("return result");
 		OJAnnotatedField instance = new OJAnnotatedField("INSTANCE", pn);
@@ -111,28 +110,30 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		return 1;
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitModel(INakedModel model){
+	public void visitModel(Model model){
 		if(!transformationContext.isIntegrationPhase()){
 			ProcessCollector processCollector = new ProcessCollector();
 			processCollector.visitRecursively(model);
-			SortedSet<INakedRootObject> dependencies = new TreeSet<INakedRootObject>(new DefaultOpaeumComparator());
-			for(IImportedElement ie:model.getImports()){
-				IModelElement element = ie.getElement();
-				if(element instanceof INakedModel && isBpmModel((INakedModel) element)){
-					dependencies.add((INakedModel) element);
+			SortedSet<Package> dependencies = new TreeSet<Package>(new DefaultOpaeumComparator());
+			for(Package ie:model.getImportedPackages()){
+				if(ie instanceof Model && isBpmModel((Model) ie)){
+					dependencies.add((Model) ie);
 				}
 			}
-			createKnowledgeBase(dependencies, processCollector.processes, Jbpm5Util.jbpmKnowledgeBase(model), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+			createKnowledgeBase(dependencies, processCollector.processes, Jbpm5Util.jbpmKnowledgeBase(model),
+					JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
 				// Could lead to duplicate declarations of this query in the same integrated jar so we have to make sure we don't
 				// accidentally install this package in JPA
-				JpaUtil.addNamedQueries(findOrCreatePackageInfo(OJUtil.utilPackagePath(model), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC),
-						"ProcessInstancesWaitingForEvent",
-						"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
+				JpaUtil
+						.addNamedQueries(
+								findOrCreatePackageInfo(OJUtil.utilPackagePath(model), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC),
+								"ProcessInstancesWaitingForEvent",
+								"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 			}
 		}
 	}
-	protected boolean isBpmModel(INakedModel element){
+	protected boolean isBpmModel(Model element){
 		if(workspace.getPrimaryRootObjects().contains(element)){
 			return true;
 		}else{

@@ -3,11 +3,11 @@ package org.opaeum.metamodel.actions.internal;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opaeum.metamodel.actions.INakedSendSignalAction;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedSendSignalAction;
+import org.eclipse.uml2.uml.INakedSignal;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.TagNames;
 
 public class NakedSendSignalActionImpl extends NakedInvocationActionImpl implements INakedSendSignalAction{

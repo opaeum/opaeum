@@ -21,6 +21,21 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Collaboration;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.PrimitiveType;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.ValueSpecification;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
@@ -29,22 +44,9 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.persistence.JpaUtil;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedPrimitiveType;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSlot;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
-import org.opaeum.metamodel.core.internal.emulated.NakedBusinessCollaboration;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.TimeUnit;
 import org.opaeum.textmetamodel.CharArrayTextSource;
@@ -56,13 +58,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import org.eclipse.uml2.uml.Class;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class MondrianCubeGenerator extends AbstractStructureVisitor{
 	private Document doc;
 	private Element schema;
 	@Override
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace){
 		// TODO Auto-generated method stub
 		super.initialize(pac, config, textWorkspace, workspace);
 		try{
@@ -90,7 +93,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@VisitAfter
-	public void afterWorkspace(INakedModelWorkspace w){
+	public void afterWorkspace(ModelWorkspace w){
 		try{
 			TransformerFactory transfac = TransformerFactory.newInstance();
 			Transformer trans = transfac.newTransformer();
@@ -114,13 +117,13 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
 	}
 	@Override
-	protected void visitComplexStructure(INakedComplexStructure umlOwner){
-		if(umlOwner instanceof ICompositionParticipant){
-			ICompositionParticipant cp = (ICompositionParticipant) umlOwner;
-			if(cp.isFact()){
+	protected void visitComplexStructure(Classifier umlOwner){
+		if(EmfClassifierUtil.isCompositionParticipant(umlOwner)){
+			Classifier cp = umlOwner;
+			if(EmfClassifierUtil.isFact( cp)){
 				NodeList elementsByTagName = doc.getElementsByTagName("Cube");
 				for(int i = 0;i < elementsByTagName.getLength();i++){
 					Element found = (Element) elementsByTagName.item(i);
@@ -134,7 +137,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 				schema.appendChild(cube);
 				Element table = doc.createElement("Table");
 				cube.appendChild(table);
-				table.setAttribute("name", umlOwner.getMappingInfo().getPersistentName().getAsIs());
+				table.setAttribute("name", PersistentNameUtil.getPersistentName( umlOwner).getAsIs());
 				String schemaName = JpaUtil.getNearestSchema(umlOwner);
 				if(schemaName != null){
 					table.setAttribute("schema", schemaName);
@@ -148,9 +151,9 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 		afterWorkspace(workspace);
 	}
-	protected void addCalculatedMeasures(ICompositionParticipant cp,Element cube){
-		for(INakedProperty p:cp.getEffectiveAttributes()){
-			if(p.isMeasure() && p.isDerived()){
+	protected void addCalculatedMeasures(Classifier cp,Element cube){
+		for(Property p:EmfElementFinder.getPropertiesInScope(cp)){
+			if(EmfPropertyUtil.isMeasure( p) && p.isDerived()){
 				Element calculateMember = doc.createElement("CalculatedMember");
 				calculateMember.setAttribute("name", p.getName());
 				calculateMember.setAttribute("dimension", "Measures");
@@ -193,22 +196,22 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 		return valid;
 	}
-	protected void addMeasures(ICompositionParticipant cp,Element cube){
+	protected void addMeasures(Classifier cp,Element cube){
 		List<Element> measures = new ArrayList<Element>();
-		for(INakedProperty p:cp.getEffectiveAttributes()){
-			if(p.isMeasure() && !p.isDerived()){
-				INakedInstanceSpecification stereotype = p.getStereotype(StereotypeNames.ATTRIBUTE);
+		for(Property p:getLibrary().getEffectiveAttributes(cp)){
+			if(EmfPropertyUtil.isMeasure( p) && !p.isDerived()){
+				InstanceSpecification stereotype = p.getStereotype(StereotypeNames.ATTRIBUTE);
 				if(stereotype != null){
-					INakedSlot slotForFeature = stereotype.getSlotForFeature(TagNames.AGGREGATION_FORMULAS);
+					Slot slotForFeature = stereotype.getSlotForFeature(TagNames.AGGREGATION_FORMULAS);
 					if(slotForFeature != null){
-						List<INakedValueSpecification> values = slotForFeature.getValues();
-						for(INakedValueSpecification v:values){
-							INakedEnumerationLiteral l = (org.opaeum.metamodel.core.INakedEnumerationLiteral) v.getValue();
+						List<ValueSpecification> values = slotForFeature.getValues();
+						for(ValueSpecification v:values){
+							EnumerationLiteral l = (org.eclipse.uml2.uml.EnumerationLiteral) v.getValue();
 							Element measure = doc.createElement("Measure");
 							measures.add(measure);
 							measure.setAttribute("name",
 									NameConverter.capitalize(l.getName().toLowerCase()) + "Of" + NameConverter.capitalize(p.getName()));
-							measure.setAttribute("column", p.getMappingInfo().getPersistentName().getAsIs());
+							measure.setAttribute("column", PersistentNameUtil.getPersistentName( p).getAsIs());
 							if(l.getName().equalsIgnoreCase("average")){
 								measure.setAttribute("aggregator", "avg");
 							}else{
@@ -227,17 +230,17 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			cube.appendChild(element);
 		}
 	}
-	protected String getFormatString(INakedProperty p){
+	protected String getFormatString(Property p){
 		String format;
 		// TODO create a strategy for this
-		if(p.getType() instanceof INakedPrimitiveType && ((INakedPrimitiveType) p.getType()).getOclType().getName().equals("Real")){
+		if(p.getType() instanceof PrimitiveType && EmfClassifierUtil.comformsToLibraryType(p.getType(), "Real")){
 			format = "#.00";
 		}else{
 			format = "Standard";
 		}
 		return format;
 	}
-	protected void addDimensions(ICompositionParticipant cp,Element cube){
+	protected void addDimensions(Classifier cp,Element cube){
 		HashSet<DimensionNode> leaves = new HashSet<DimensionNode>();
 		addDimensions(cp, null, leaves);
 		for(DimensionNode dimensionNode:leaves){
@@ -246,27 +249,25 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			Element hierarchy = doc.createElement("Hierarchy");
 			dimension.appendChild(hierarchy);
 			hierarchy.setAttribute("hasAll", "true");
-			hierarchy.setAttribute("allMemberName", "All "
-					+ dimensionNode.linkToInnermostDetail().getProperty().getNakedBaseType().getMappingInfo().getJavaName().getPlural()
-							.getSeparateWords().getAsIs());
-			if(dimensionNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant
-					|| dimensionNode.getProperty().getNakedBaseType() instanceof INakedEnumeration){
-				hierarchy.setAttribute("primaryKey", getIdColumn(dimensionNode.getProperty().getNakedBaseType()));
-				hierarchy.setAttribute("primaryKeyTable", dimensionNode.getProperty().getNakedBaseType().getMappingInfo().getPersistentName()
-						.getAsIs());
+			String plural = NameConverter.toPlural(dimensionNode.linkToInnermostDetail().getProperty().getType().getName());
+			hierarchy.setAttribute("allMemberName", "All " + NameConverter.separateWords(plural));
+			if(EmfClassifierUtil.isCompositionParticipant((Classifier) dimensionNode.getProperty().getType())
+					|| dimensionNode.getProperty().getType() instanceof Enumeration){
+				hierarchy.setAttribute("primaryKey", getIdColumn((Classifier) dimensionNode.getProperty().getType()));
+				hierarchy.setAttribute("primaryKeyTable", PersistentNameUtil.getPersistentName(dimensionNode.getProperty().getType()).getAsIs());
 			}
-			dimension.setAttribute("foreignKey", dimensionNode.getProperty().getMappingInfo().getPersistentName().getAsIs());
+			dimension.setAttribute("foreignKey", PersistentNameUtil.getPersistentName(dimensionNode.getProperty()).getAsIs());
 			dimension.setAttribute("name", dimensionNode.getName());
 			List<Element> theLevels = null;
 			if(dimensionNode.master == null
-					|| !(dimensionNode.master.getProperty().getNakedBaseType() instanceof ICompositionParticipant || dimensionNode.master
-							.getProperty().getNakedBaseType() instanceof INakedEnumeration)){
+					|| !(EmfClassifierUtil.isCompositionParticipant((Classifier) dimensionNode.master.getProperty().getType()) || dimensionNode.master
+							.getProperty().getType() instanceof Enumeration)){
 				// Single table scenario
 				List<Element> theLevels1 = new ArrayList<Element>();
-				if(dimensionNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant
-						|| dimensionNode.getProperty().getNakedBaseType() instanceof INakedEnumeration){
-					appendTable(hierarchy, dimensionNode.getProperty().getNakedBaseType());
-				}else if(isDateType(dimensionNode.getProperty().getNakedBaseType())){
+				if(EmfClassifierUtil.isCompositionParticipant((Classifier) dimensionNode.getProperty().getType())
+						|| dimensionNode.getProperty().getType() instanceof Enumeration){
+					appendTable(hierarchy, (Classifier) dimensionNode.getProperty().getType());
+				}else if(isDateType((Classifier) dimensionNode.getProperty().getType())){
 					Element table = doc.createElement("Table");
 					hierarchy.appendChild(table);
 					table.setAttribute("name", "date_time_entry");
@@ -296,14 +297,14 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		DimensionNode curNode = leaf.master;
 		Element prevParent = hierarchy;
 		while(curNode != null){
-			if(curNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant
-					|| curNode.getProperty().getNakedBaseType() instanceof INakedEnumeration){
-				Element join = appendJoin(curNode.getProperty(), curNode.getProperty().getNakedBaseType(), prevParent);
+			if(EmfClassifierUtil.isCompositionParticipant((Classifier) curNode.getProperty().getType())
+					|| curNode.getProperty().getType() instanceof Enumeration){
+				Element join = appendJoin(curNode.getProperty(), (Classifier) curNode.getProperty().getType(), prevParent);
 				appendTable(join, curNode.getFromClass());
 				addLevels(curNode.detail.getProperty(), levels);
 				if(curNode.master == null){
 					// Scenario where path ends in a foreignKey
-					appendTable(join, curNode.getProperty().getNakedBaseType());
+					appendTable(join, (Classifier) curNode.getProperty().getType());
 					addLevels(curNode.getProperty(), levels);
 				}
 				prevParent = join;
@@ -324,8 +325,8 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 	protected List<Element> addSingleTable(DimensionNode dimensionNode,Element hierarchy){
 		return null;
 	}
-	private void addLevels(INakedProperty property,List<Element> levels){
-		INakedClassifier toClass = property.getNakedBaseType();
+	private void addLevels(Property property,List<Element> levels){
+		Classifier toClass = (Classifier) property.getType();
 		if(isDateType(toClass)){
 			// TODO support for dimension for week of year and day of week
 			switch(getDatePrecision(toClass)){
@@ -351,32 +352,32 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 				break;
 			}
 			// TODO set formatter
-		}else if(toClass instanceof ICompositionParticipant){
+		}else if(EmfClassifierUtil.isCompositionParticipant(toClass)){
 			Element result = doc.createElement("Level");
 			result.setAttribute("name", toClass.getName());
-			result.setAttribute("table", toClass.getMappingInfo().getPersistentName().getAsIs());
+			result.setAttribute("table", PersistentNameUtil.getPersistentName( toClass).getAsIs());
 			result.setAttribute("column", getIdColumn(toClass));
 			// result.setAttribute("uniqueMembers", "true");
-			INakedProperty nameProperty = toClass.getNameProperty();
+			Property nameProperty = toClass.getNameProperty();
 			if(nameProperty != null){
-				result.setAttribute("nameColumn", nameProperty.getMappingInfo().getPersistentName().getAsIs());
+				result.setAttribute("nameColumn", PersistentNameUtil.getPersistentName(nameProperty).getAsIs());
 			}else{
 				result.setAttribute("nameColumn", "uuid");
 			}
 			levels.add(result);
-		}else if(toClass instanceof INakedEnumeration){
+		}else if(toClass instanceof Enumeration){
 			Element result = doc.createElement("Level");
 			result.setAttribute("name", toClass.getName());
 			result.setAttribute("column", "id");
-			result.setAttribute("table", property.getNakedBaseType().getMappingInfo().getPersistentName().getAsIs());
+			result.setAttribute("table", PersistentNameUtil.getPersistentName( property.getType()).getAsIs());
 			result.setAttribute("nameColumn", "name");
 			levels.add(result);
 			// TODO set formatter
 		}else{
 			Element result = doc.createElement("Level");
-			result.setAttribute("name", property.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs());
-			result.setAttribute("column", property.getMappingInfo().getPersistentName().getAsIs());
-			result.setAttribute("table", property.getOwner().getMappingInfo().getPersistentName().getAsIs());
+			result.setAttribute("name", NameConverter.separateWords(NameConverter.capitalize(property.getName())));
+			result.setAttribute("column", PersistentNameUtil.getPersistentName(property).getAsIs());
+			result.setAttribute("table", PersistentNameUtil.getPersistentName((org.eclipse.uml2.uml.Element) EmfElementFinder.getContainer(property)).getAsIs());
 			levels.add(result);
 		}
 	}
@@ -396,47 +397,46 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		levels.add(result);
 	}
 	// TODO make this a bit more sophisticated
-	protected TimeUnit getDatePrecision(INakedClassifier toClass){
+	protected TimeUnit getDatePrecision(Classifier toClass){
 		return TimeUnit.DAY;
 	}
 	// TODO make this a bit more sophisticated
-	protected boolean isDateType(INakedClassifier toClass){
+	protected boolean isDateType(Classifier toClass){
 		return toClass.getName().contains("Date");
 	}
-	protected Element appendJoin(INakedProperty p,INakedClassifier rightTable,Element curParent){
+	protected Element appendJoin(Property p,Classifier rightTable,Element curParent){
 		Element curJoin;
 		curJoin = doc.createElement("Join");
 		String idName = getIdColumn(rightTable);
 		curJoin.setAttribute("rightKey", idName);
-		curJoin.setAttribute("leftKey", p.getMappingInfo().getPersistentName().getAsIs());
-		curJoin.setAttribute("rightAlias", rightTable.getMappingInfo().getPersistentName().getAsIs());
+		curJoin.setAttribute("leftKey", PersistentNameUtil.getPersistentName( p).getAsIs());
+		curJoin.setAttribute("rightAlias", PersistentNameUtil.getPersistentName(rightTable).getAsIs());
 		curParent.appendChild(curJoin);
 		return curJoin;
 	}
-	protected String getIdColumn(INakedClassifier rightTable){
+	protected String getIdColumn(Classifier rightTable){
 		String idName = "id";
-		if(rightTable instanceof INakedEntity){
-			INakedProperty primaryKeyProperty = ((INakedEntity) rightTable).getPrimaryKeyProperty();
+		if(rightTable instanceof Class){
+			Property primaryKeyProperty = ((Class) rightTable).getPrimaryKeyProperty();
 			if(primaryKeyProperty != null){
-				idName = primaryKeyProperty.getMappingInfo().getPersistentName().getAsIs();
+				idName = PersistentNameUtil.getPersistentName( primaryKeyProperty).getAsIs();
 			}
 		}
 		return idName;
 	}
-	protected void appendTable(Element curJoin,INakedClassifier fromClass){
+	protected void appendTable(Element curJoin,Classifier fromClass){
 		Element table = doc.createElement("Table");
 		curJoin.appendChild(table);
-		table.setAttribute("name", fromClass.getMappingInfo().getPersistentName().getAsIs());
+		table.setAttribute("name", PersistentNameUtil.getPersistentName(fromClass).getAsIs());
 		String curSchemaName2 = JpaUtil.getNearestSchema(fromClass);
 		if(curSchemaName2 != null){
 			table.setAttribute("schema", curSchemaName2);
 		}
 	}
-	private boolean addDimensions(INakedClassifier cp,DimensionNode detail,Set<DimensionNode> leaves){
+	private boolean addDimensions(Classifier cp,DimensionNode detail,Set<DimensionNode> leaves){
 		boolean hasParent = false;
-		for(INakedProperty p:cp.getEffectiveAttributes()){
-			if(p.isDimension()
-					&& !(p.getNakedBaseType() instanceof NakedBusinessCollaboration || p.getNakedBaseType() instanceof INakedInterface)){
+		for(Property p:getLibrary().getEffectiveAttributes(cp)){
+			if(EmfPropertyUtil.isDimension( p) && !(p.getType() instanceof Collaboration || p.getType() instanceof Interface)){
 				hasParent = true;
 				DimensionNode master = new DimensionNode(cp, p);
 				if(detail != null){
@@ -444,8 +444,8 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 					master.detail = detail;
 				}
 				boolean masterHasMaster = false;
-				if(p.getNakedBaseType() instanceof ICompositionParticipant || p.getNakedBaseType() instanceof INakedEnumeration){
-					masterHasMaster = addDimensions(p.getNakedBaseType(), master, leaves);
+				if(EmfClassifierUtil.isCompositionParticipant((Classifier) p.getType()) || p.getType() instanceof Enumeration){
+					masterHasMaster = addDimensions((Classifier) p.getType(), master, leaves);
 				}
 				if(master.hasRecursion()){
 					throw new IllegalStateException("The property path " + master.linkToInnermostDetail().getName()

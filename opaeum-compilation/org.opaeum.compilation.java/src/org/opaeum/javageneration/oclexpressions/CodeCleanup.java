@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.eclipse.uml2.uml.Model;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -19,14 +20,13 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.models.INakedModel;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {
 	UtilCreator.class
 })
 public class CodeCleanup extends AbstractJavaProducingVisitor{
 	@VisitAfter
-	public void visitModel(INakedModel p){
+	public void visitModel(Model p){
 		OJPathName utilPathName = UtilityCreator.getUtilPathName();
 
 		OJPackage util = javaModel.findPackage(utilPathName);

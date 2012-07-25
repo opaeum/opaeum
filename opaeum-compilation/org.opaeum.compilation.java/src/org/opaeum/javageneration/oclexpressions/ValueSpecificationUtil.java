@@ -4,14 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
-import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.expressions.IOclExpression;
-import nl.klasse.octopus.model.CollectionMetaType;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
-import nl.klasse.octopus.oclengine.IOclContext;
-import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.ocl.uml.CollectionType;
+import org.eclipse.ocl.uml.OCLExpression;
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.InstanceValue;
+import org.eclipse.uml2.uml.LiteralBoolean;
+import org.eclipse.uml2.uml.LiteralInteger;
+import org.eclipse.uml2.uml.LiteralString;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.ValueSpecification;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;
@@ -23,46 +33,55 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSlot;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.ocl.uml.AbstractOclContext;
 
 public class ValueSpecificationUtil{
-	public static String expressValue(OJClass ojOwner,INakedValueSpecification valueSpec,IClassifier expectedType,boolean isStatic){
-		if(valueSpec.isValidOclValue()){
-			String expression = null;
-			ExpressionCreator ec = new ExpressionCreator(ojOwner);
-			IOclContext value = (IOclContext) valueSpec.getValue();
-			expression = ec.makeExpression(value.getExpression(), isStatic, new ArrayList<OJParameter>());
-			expression = buildTypeCastIfNecessary(expression, value.getExpression(), expectedType);
-			return expression;
+	OpaeumLibrary library;
+	public ValueSpecificationUtil(OpaeumLibrary opaeumLibrary){
+		this.library=opaeumLibrary;
+	}
+	public String expressValue(OJClass ojOwner,ValueSpecification valueSpec,Classifier expectedType,boolean isStatic){
+		if(valueSpec instanceof OpaqueExpression){
+			AbstractOclContext oclExpression = library.getOclExpressionContext((OpaqueExpression) valueSpec);
+			return expressOcl(oclExpression, ojOwner, expectedType, isStatic);
 		}
 		return expressLiterals(valueSpec, ojOwner, null);
 	}
-	public static String expressValue(OJOperation operationContext,INakedValueSpecification valueSpec,INakedClassifier owner,
-			IClassifier expectedType){
+	private String expressOcl(AbstractOclContext oclExpression,OJClass ojOwner,Classifier expectedType,boolean isStatic){
+		String expression;
+		if(oclExpression.hasErrors()){
+			return "ERROR IN OCL: " + oclExpression.getExpressionString();
+		}
+			
+		ExpressionCreator ec = new ExpressionCreator(ojOwner);
+		expression = ec.makeExpression(oclExpression.getExpression(), isStatic, new ArrayList<OJParameter>());
+		expression = buildTypeCastIfNecessary(expression, oclExpression.getExpression(), expectedType);
+		return expression;
+	}
+	public String expressValue(OJOperation operationContext,ValueSpecification valueSpec,Classifier owner,Classifier expectedType){
 		if(valueSpec == null){
 			if(expectedType == null){
 				return "could not determine type of implicit object";
 			}else{
 				return expressDefaultOrImplicitObject(owner, expectedType);
 			}
-		}else if(valueSpec.isOclValue()){
-			return expressOcl(operationContext, valueSpec, expectedType);
+		}else if(valueSpec instanceof OpaqueExpression){
+			return expressOcl(operationContext, (OpaqueExpression) valueSpec, expectedType);
 		}
 		return expressLiterals(valueSpec, (OJClass) operationContext.getOwner(), operationContext);
 	}
-	private static String expressOcl(OJOperation operationContext,INakedValueSpecification valueSpec,IClassifier expectedType){
-		if(valueSpec.isValidOclValue()){
-			String expression = null;
+	private String expressOcl(OJOperation operationContext,OpaqueExpression valueSpec,Classifier expectedType){
+		AbstractOclContext value = library.getOclExpressionContext((OpaqueExpression) valueSpec);
+		return expressOcl(value, operationContext, expectedType);
+	}
+	public String expressOcl(AbstractOclContext value,OJOperation operationContext,Classifier expectedType){
+		String expression;
+		if(value.hasErrors()){
+			return "ERROR IN OCL:" + value.getExpressionString();
+		}else{
 			OJClass ojOwner = (OJClass) operationContext.getOwner();
 			ExpressionCreator ec = new ExpressionCreator(ojOwner);
-			IOclContext value = (IOclContext) valueSpec.getValue();
 			List<OJParameter> parameters = buildContext(operationContext);
 			addExtendedKeywords(operationContext, value);
 			expression = ec.makeExpression(value.getExpression(), operationContext.isStatic(), parameters);
@@ -70,8 +89,6 @@ public class ValueSpecificationUtil{
 				expression = buildTypeCastIfNecessary(expression, value.getExpression(), expectedType);
 			}
 			return expression;
-		}else{
-			return "ERROR IN OCL:" + valueSpec.getOclValue().getExpressionString();
 		}
 	}
 	private static List<OJParameter> buildContext(OJOperation operationContext){
@@ -82,7 +99,8 @@ public class ValueSpecificationUtil{
 	}
 	public static void buildContext(OJOperation operationContext,List<OJParameter> parameters,OJBlock body){
 		for(OJField f:body.getLocals()){
-			if(!f.getName().equals("result")){// Standard result variable for operations
+			if(!f.getName().equals("result")){// Standard result variable for
+				// operations
 				OJParameter fake = new OJParameter();
 				fake.setName(f.getName());
 				fake.setType(f.getType());
@@ -90,18 +108,18 @@ public class ValueSpecificationUtil{
 			}
 		}
 	}
-	public static void addExtendedKeywords(OJOperation operationContext,IOclContext value){
-		if(value.getExpressionString().contains("now") && !hasLocal(operationContext, "now")){
+	public static void addExtendedKeywords(OJOperation operationContext,AbstractOclContext expression){
+		if(expression.getExpressionString().contains("now") && !hasLocal(operationContext, "now")){
 			OJAnnotatedField now = new OJAnnotatedField("now", new OJPathName("java.util.Date"));
 			now.setInitExp("new Date()");
 			operationContext.getBody().addToLocals(now);
 		}
-		if(value.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
+		if(expression.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
 			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.opaeum.runtime.organization.IPersonNode"));
 			now.setInitExp("null");
 			operationContext.getBody().addToLocals(now);
 		}
-		if(value.getExpressionString().contains("currentRole") && !hasLocal(operationContext, "currentRole")){
+		if(expression.getExpressionString().contains("currentRole") && !hasLocal(operationContext, "currentRole")){
 			OJAnnotatedField now = new OJAnnotatedField("currentRole", new OJPathName("org.opaeum.runtime.bpm.organization.Participant"));
 			now.setInitExp("null");
 			operationContext.getBody().addToLocals(now);
@@ -115,25 +133,27 @@ public class ValueSpecificationUtil{
 		}
 		return false;
 	}
-	private static String expressLiterals(INakedValueSpecification valueSpec,OJClass ojOwner,OJOperation operation){
+	private static String expressLiterals(ValueSpecification valueSpec,OJClass ojOwner,OJOperation operation){
 		String expression = null;
-		if(valueSpec.getValue() instanceof Boolean){
-			expression = valueSpec.getValue().toString();
-		}else if(valueSpec.getValue() instanceof String){
-			expression = "\"" + valueSpec.getValue().toString() + "\"";
-		}else if(valueSpec.getValue() instanceof INakedEnumerationLiteral){
-			INakedEnumerationLiteral l = (INakedEnumerationLiteral) valueSpec.getValue();
-			NakedClassifierMap map = OJUtil.buildClassifierMap(l.getEnumeration());
-			expression = map.javaType() + "." + l.getName().toUpperCase();
-		}else if(valueSpec.getValue() instanceof Number){
-			expression = valueSpec.getValue().toString();
-		}else if(valueSpec.getValue() instanceof ParsedOclString){
-			return "OCL INVALID!: " + valueSpec.getValue();
-			// TODO instancespecifications
-		}else if(valueSpec.getValue() instanceof INakedInstanceSpecification){
-			INakedInstanceSpecification spec = (INakedInstanceSpecification) valueSpec.getValue();
-			NakedClassifierMap map = OJUtil.buildClassifierMap(spec.getClassifier());
-			final OJAnnotatedOperation getInstance = new OJAnnotatedOperation("get" + spec.getName() + spec.getMappingInfo().getOpaeumId(),
+		if(valueSpec instanceof LiteralBoolean){
+			expression = valueSpec.booleanValue() + "";
+		}else if(valueSpec instanceof LiteralString){
+			expression = "\"" + valueSpec.stringValue().toString() + "\"";
+		}else if(valueSpec instanceof InstanceValue){
+			InstanceValue iv = (InstanceValue) valueSpec;
+			if(iv.getInstance() instanceof EnumerationLiteral){
+				EnumerationLiteral l = (EnumerationLiteral) iv.getInstance();
+				NakedClassifierMap map = OJUtil.buildClassifierMap(l.getEnumeration(),(CollectionKind) null);
+				expression = map.javaType() + "." + l.getName().toUpperCase();
+			}else{
+				expression = "";
+			}
+		}else if(valueSpec instanceof LiteralInteger){
+			expression = valueSpec.integerValue() + "";
+		}else if(valueSpec instanceof InstanceValue){
+			InstanceSpecification spec = (InstanceSpecification) ((InstanceValue) valueSpec).getInstance();
+			NakedClassifierMap map = OJUtil.buildClassifierMap(spec.getClassifiers().get(0), (CollectionKind)null);
+			final OJAnnotatedOperation getInstance = new OJAnnotatedOperation("get" + spec.getName() + EmfWorkspace.getOpaeumId(spec),
 					map.javaTypePath());
 			ojOwner.addToOperations(getInstance);
 			final OJAnnotatedField result = new OJAnnotatedField("result", map.javaTypePath());
@@ -152,20 +172,20 @@ public class ValueSpecificationUtil{
 				sb.deleteCharAt(sb.length() - 1);
 			}
 			expression = getInstance.getName() + "(" + sb + ")";
-			for(INakedSlot s:spec.getSlots()){
-				NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(s.getDefiningFeature());
+			for(Slot s:spec.getSlots()){
+				NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap((Property) s.getDefiningFeature());
 				getInstance.getBody().addToStatements("result." + featureMap.setter() + "(" + expressSlot(operation, s) + ")");
 			}
 		}
 		return expression;
 	}
-	static String buildTypeCastIfNecessary(String java,IOclExpression expression,IClassifier expectedType){
-		if(expectedType.isCollectionKind()){
-			if(expression.getExpressionType().isCollectionKind()){
-				StdlibCollectionType is = (StdlibCollectionType) expression.getExpressionType();
-				StdlibCollectionType shouldBe = (StdlibCollectionType) expectedType;
-				if(!is.getElementType().equals(shouldBe.getElementType())){
-					ClassifierMap classifierMap = new ClassifierMap(shouldBe);
+	static String buildTypeCastIfNecessary(String java,OCLExpression expression,Classifier expectedType){
+		if(expectedType instanceof CollectionType){
+			CollectionKind collectionKind = ((CollectionType) expectedType).getKind();
+			if(expression.getType() instanceof CollectionType){
+				CollectionType is = (CollectionType) expression.getType();
+				if(!is.getElementType().equals(expectedType)){
+					NakedClassifierMap classifierMap = OJUtil.buildClassifierMap(expectedType, collectionKind);
 					String defaultValue = classifierMap.javaDefaultValue();
 					String typeCast = defaultValue.substring(0, defaultValue.length() - 1) + java + ")";
 					return typeCast;
@@ -173,32 +193,33 @@ public class ValueSpecificationUtil{
 					return java;
 				}
 			}else{
-				if(((StdlibCollectionType) expectedType).getMetaType() == CollectionMetaType.SEQUENCE){
+				if(collectionKind == CollectionKind.SEQUENCE_LITERAL){
 					return "StdLib.objectAsSequence(" + java + ")";
 				}else{
 					return "StdLib.objectAsSet(" + java + ")";
 				}
 			}
 		}else{
-			if(expression.getExpressionType().isCollectionKind()){
-				ClassifierMap classifierMap = new ClassifierMap(expectedType);
+			if(expression.getType() instanceof CollectionType){
+				CollectionType type = (CollectionType) expression.getType();
+				NakedClassifierMap classifierMap = OJUtil.buildClassifierMap(type.getElementType(), type.getKind());
 				return "(" + classifierMap.javaType() + ")Stdlib.collectionAsSingleObject(" + java + ")";
 			}
 		}
 		return java;
 	}
-	public static String expressDefaultOrImplicitObject(INakedClassifier owner,IClassifier expectedType){
+	public static String expressDefaultOrImplicitObject(Classifier owner,Classifier expectedType){
 		String expression;
-		ClassifierMap map = OJUtil.buildClassifierMap(expectedType);
-		if(expectedType.isCollectionKind()){
+		NakedClassifierMap map = OJUtil.buildClassifierMap(expectedType, (CollectionKind) null);
+		if(expectedType instanceof CollectionType){
 			throw new IllegalStateException("Implicit objects cannot be collections");
 		}
 		if(owner.conformsTo(expectedType)){
 			expression = "getSelf()";
-		}else if(owner instanceof INakedBehavior){
-			INakedBehavior b = (INakedBehavior) owner;
+		}else if(owner instanceof Behavior){
+			Behavior b = (Behavior) owner;
 			if(b.getContext() != null && b.getContext().conformsTo(expectedType)){
-				if(BehaviorUtil.hasExecutionInstance(b)){
+				if(EmfBehaviorUtil.hasExecutionInstance(b)){
 					expression = "getContextObject()";
 				}else{
 					expression = "getSelf()";
@@ -211,41 +232,41 @@ public class ValueSpecificationUtil{
 		}
 		return expression;
 	}
-	public static String expressSlot(OJOperation oper,final INakedSlot slot){
+	public static String expressSlot(OJOperation oper,final Slot slot){
 		return "";
 	} // Assume a static context
-	public static String expressSlot(OJClass myClass,final INakedSlot slot){
-		INakedProperty feat = slot.getDefiningFeature();
+	public String expressSlot(OJClass myClass,final Slot slot){
+		Property feat = (Property) slot.getDefiningFeature();
 		String init = null;
 		NakedStructuralFeatureMap mapper = OJUtil.buildStructuralFeatureMap(feat);
-		final List<INakedValueSpecification> values = slot.getValues();
+		final List<ValueSpecification> values = slot.getValues();
 		if(mapper.isOne()){
-			init = expressValue(myClass, values.get(0), feat.getType(), true);
+			init = expressValue(myClass, values.get(0), library.getActualType(feat), true);
 		}else{
 			StringBuilder sb = new StringBuilder(mapper.javaDefaultValue());
 			sb.deleteCharAt(sb.length() - 1);
 			StringBuffer valueExpressions = new StringBuffer();
-			for(INakedValueSpecification v:values){
-				String expressValue = expressValue(myClass, v, feat.getType(), true);
+			for(ValueSpecification v:values){
+				String expressValue = expressValue(myClass, v, library.getActualType(feat), true);
 				if(expressValue != null){
 					valueExpressions.append(expressValue);
 					valueExpressions.append(",");
 				}
 			}
-			if(valueExpressions.length()>0 &&  valueExpressions.charAt(valueExpressions.length() - 1) == ','){
+			if(valueExpressions.length() > 0 && valueExpressions.charAt(valueExpressions.length() - 1) == ','){
 				valueExpressions.deleteCharAt(valueExpressions.length() - 1);
 			}
-			if(valueExpressions.length()>0){
+			if(valueExpressions.length() > 0){
 				sb.append("java.util.Arrays.asList(");
 				sb.append(valueExpressions);
 				sb.append("))");
 			}else{
 				sb.append(valueExpressions);
 				sb.append(")");
-				
 			}
 			init = sb.toString();
 		}
 		return init;
 	}
+
 }

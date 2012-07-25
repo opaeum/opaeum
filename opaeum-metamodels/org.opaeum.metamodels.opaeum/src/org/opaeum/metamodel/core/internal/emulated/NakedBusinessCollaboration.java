@@ -1,9 +1,9 @@
 package org.opaeum.metamodel.core.internal.emulated;
 
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedRootObject;
+import org.eclipse.uml2.uml.ICompositionParticipant;
+import org.eclipse.uml2.uml.INakedComplexStructure;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedRootObject;
 
 public class NakedBusinessCollaboration extends EmulatedClassifier implements ICompositionParticipant,INakedComplexStructure{
 	private static final long serialVersionUID = 1L;

@@ -2,10 +2,10 @@ package org.opaeum.metamodel.activities.internal;
 
 import java.util.Collection;
 
-import org.opaeum.metamodel.activities.INakedValuePin;
-import org.opaeum.metamodel.activities.ObjectNodeType;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedValuePin;
+import org.eclipse.uml2.uml.INakedValueSpecification;
+import org.eclipse.uml2.uml.ObjectNodeType;
 
 public class NakedValuePinImpl extends NakedInputPinImpl implements INakedValuePin {
 	private static final long serialVersionUID = 9125417030702683972L;

@@ -9,10 +9,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.feature.WorkspaceMappingInfo;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
@@ -30,6 +26,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
@@ -38,12 +35,17 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Stereotype;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.feature.WorkspaceMappingInfo;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 /**
  * Represents the concept of multiple emf models as one root nakedWorkspace. Hacked to implement Element because of visitor constraints
  * 
  */
-public class EmfWorkspace implements Element{
+public class EmfWorkspace implements Element, ModelWorkspace{
 	private Map<String,Resource> resources = new HashMap<String,Resource>();
 	private Set<Package> generatingModels = new HashSet<Package>();
 	private Set<Package> primaryModels = new HashSet<Package>();
@@ -474,5 +476,8 @@ public class EmfWorkspace implements Element{
 				return uuid;
 			}
 		}
+	}
+	public static long getOpaeumId(Element node){
+		return MappingInfo.toOpaeumId(getId(node));
 	}
 }

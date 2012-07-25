@@ -1,25 +1,29 @@
 package org.opaeum.javageneration.hibernate;
 
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.NamedElement;
+import org.opaeum.eclipse.CodeGenerationStrategy;
+import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.EnumerationLiteralImplementor;
 import org.opaeum.javageneration.persistence.AbstractEnumResolverImplementor;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = HibernateAnnotator.class,after = EnumerationLiteralImplementor.class)
 public class EnumResolverImplementor extends AbstractEnumResolverImplementor{
 	@VisitBefore
-	public void visitEnumeration(INakedEnumeration e){
-		if(!e.getCodeGenerationStrategy().isNone()){
-			createResolver((OJEnum) findJavaClass(e), e.getOwnedLiterals(),e.getMappingInfo().requiresJavaRename()?e.getMappingInfo().getOldQualifiedJavaName():null);
+	public void visitEnumeration(Enumeration e){
+		if(EmfClassifierUtil.getCodeGenerationStrategy( e)!=CodeGenerationStrategy.NO_CODE){
+			boolean requiresJavaRename = OJUtil.requiresJavaRename(e);
+			createResolver((OJEnum) findJavaClass(e), e.getOwnedLiterals(),requiresJavaRename?OJUtil.getOldClassifierPathname(e).toJavaString():null);
 		}
 	}
 
 	@Override
-	protected String getLiteralName(INakedElement l){
+	protected String getLiteralName(NamedElement l){
 		return l.getName().toUpperCase();
 	}
 }

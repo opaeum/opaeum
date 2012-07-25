@@ -2,48 +2,50 @@ package org.opaeum.javageneration.jbpm5.activity;
 
 import java.util.Collection;
 
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.ExpansionNode;
+import org.eclipse.uml2.uml.ObjectFlow;
+import org.eclipse.uml2.uml.Pin;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.Variable;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedActivityVariable;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedObjectFlow;
-import org.opaeum.metamodel.activities.INakedPin;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 
 public class ActivityUtil{
-	public static String getCollectionExpression(INakedExpansionNode node){
-		return "getCollection" + node.getName() + "On" + node.getExpansionRegion().getName();
+	public static String getCollectionExpression(ExpansionNode node){
+		return "getCollection" + node.getName() + "On" + EmfActivityUtil.getExpansionRegion( node).getName();
 	}
-	public static void setupVariables(OJAnnotatedOperation oper,INakedActivityNode node){
-		if(node instanceof INakedStructuredActivityNode){
-			Collection<INakedActivityVariable> variables = ((INakedStructuredActivityNode) node).getVariables();
-			for(INakedActivityVariable var:variables){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), var);
+	public static void setupVariables(OJAnnotatedOperation oper,ActivityNode node){
+		if(node instanceof StructuredActivityNode){
+			Collection<Variable> variables = ((StructuredActivityNode) node).getVariables();
+			for(Variable var:variables){
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(node), var);
 				OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 				field.setInitExp("(" + map.javaType() + ")context.getVariable(\"" + map.fieldname() + "\")");
 				oper.getOwner().addToImports(map.javaTypePath());
 				oper.getBody().addToLocals(field);
 			}
 		}
-		if(node.getOwnerElement() instanceof INakedActivityNode){
-			setupVariables(oper, (INakedActivityNode) node.getOwnerElement());
+		if(node.getOwner() instanceof ActivityNode){
+			setupVariables(oper, (ActivityNode) node.getOwner());
 		}
 	}
-	public static boolean flowsInStructuredNode(INakedObjectFlow flow){
-		if(flow.getTarget() instanceof INakedExpansionNode){
-			INakedExpansionNode target = (INakedExpansionNode) flow.getTarget();
-			if(target.isOutputElement()){
+	public static boolean flowsInStructuredNode(ObjectFlow flow){
+		if(flow.getTarget() instanceof ExpansionNode){
+			ExpansionNode target = (ExpansionNode) flow.getTarget();
+			if(target.getRegionAsOutput()!=null){
 				return true;
 			}else{
-				return target.getExpansionRegion().getOutputElement() instanceof INakedActivity;
+				return EmfElementFinder.getContainer(EmfActivityUtil.getExpansionRegion(target)) instanceof Activity;
 			}
-		}else if(flow.getTarget() instanceof INakedPin){
-			INakedPin pin = (INakedPin) flow.getTarget();
-			return pin.getAction().getOwnerElement() instanceof INakedStructuredActivityNode;
+		}else if(flow.getTarget() instanceof Pin){
+			Pin pin = (Pin) flow.getTarget();
+			return pin.getOwner().getOwner() instanceof StructuredActivityNode;
 		}else {
 			return false;
 		}

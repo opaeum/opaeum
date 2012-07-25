@@ -2,8 +2,8 @@ package org.opaeum.metamodel.core.internal;
 import java.util.Collection;
 import java.util.List;
 
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.INakedComplexStructure;
+import org.eclipse.uml2.uml.INakedProperty;
 public class ClassifierDependencyComparator {
 	// public int compare(Object o1, Object o2) {
 	// int result = 0;

@@ -1,9 +1,9 @@
 package org.nakeduml.tinker.audit;
 
+import org.eclipse.uml2.uml.INakedClassifier;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.StereotypeAnnotator;
-import org.opaeum.metamodel.core.INakedClassifier;
 
 public abstract class AbstractAuditJavaProducingVisitor extends StereotypeAnnotator {
 

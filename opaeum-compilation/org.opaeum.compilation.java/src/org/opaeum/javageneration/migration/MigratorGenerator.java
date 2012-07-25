@@ -1,5 +1,17 @@
 package org.opaeum.javageneration.migration;
 
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.InterfaceRealization;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJForStatement;
@@ -14,30 +26,19 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedDataType;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
+import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.environment.IMigrator;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = MigrationGenerationPhase.class)
 public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 	private static class MigratorContext{
-		private INakedComplexStructure fromClass;
-		private INakedComplexStructure toClass;
+		private Classifier fromClass;
+		private Classifier toClass;
 		private OJAnnotatedClass migrator;
 		private OJAnnotatedOperation migratingOperation;
 		private String prefix;
-		private MigratorContext(INakedComplexStructure fromClass,INakedComplexStructure toClass,OJAnnotatedClass migrator,OJAnnotatedOperation migratingOperation,
+		private MigratorContext(Classifier fromClass,Classifier toClass,OJAnnotatedClass migrator,OJAnnotatedOperation migratingOperation,
 				String prefix){
 			super();
 			this.fromClass = fromClass;
@@ -54,39 +55,39 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 	protected int getThreadPoolSize(){
 		return 0;
 	}
-	protected void visitComplexStructure(INakedComplexStructure to){
-		if(to instanceof ICompositionParticipant){
-			if(to instanceof INakedInterface){
+	protected void visitComplexStructure(Classifier to){
+		if(EmfClassifierUtil.isCompositionParticipant(to )){
+			if(to instanceof Interface){
 				generateMigratorContractForInterface(to);
 			}else if(isPersistent(to)){
-				ICompositionParticipant toEntity = (ICompositionParticipant) to;
-				ICompositionParticipant fromEntity = (ICompositionParticipant) fromWorkspace.getModelElement(toEntity.getId());
-				if(fromEntity != null){
-					OJPathName migratorPath = migratorPath(toEntity);
+				Classifier toClass = (Classifier) to;
+				Classifier fromClass = (Classifier) fromWorkspace.getModelElement(EmfWorkspace.getId(toClass));
+				if(fromClass != null){
+					OJPathName migratorPath = migratorPath(toClass);
 					OJPackage pkg = findOrCreatePackage(migratorPath.getHead());
-					OJAnnotatedClass migratorGen = generateMigrationContract(toEntity, migratorPath, pkg);
+					OJAnnotatedClass migratorGen = generateMigrationContract(toClass, migratorPath, pkg);
 					generateImplementationClass(migratorPath, pkg, migratorGen);
-					addMigrationEntryPoint(toEntity, fromEntity, migratorGen);
-					buildMigrateTreeImpl(toEntity, fromEntity, migratorGen);
-					buildMigrateDataTypeProperties(toEntity, fromEntity, migratorGen);
-					buildMigrateCompositeProperties(toEntity, fromEntity, migratorGen);
-					buildMigrateReferences(toEntity, fromEntity, migratorGen);
+					addMigrationEntryPoint(toClass, fromClass, migratorGen);
+					buildMigrateTreeImpl(toClass, fromClass, migratorGen);
+					buildMigrateDataTypeProperties(toClass, fromClass, migratorGen);
+					buildMigrateCompositeProperties(toClass, fromClass, migratorGen);
+					buildMigrateReferences(toClass, fromClass, migratorGen);
 				}
 			}
 		}
 	}
-	private OJAnnotatedClass generateMigrationContract(ICompositionParticipant toEntity,OJPathName migratorPath,OJPackage pkg){
+	private OJAnnotatedClass generateMigrationContract(Classifier toClass,OJPathName migratorPath,OJPackage pkg){
 		OJAnnotatedClass migratorGen = new OJAnnotatedClass(migratorPath.getLast() + "GEN");
 		pkg.addToClasses(migratorGen);
 		migratorGen.setAbstract(true);
 		createTextPath(migratorGen, JavaSourceFolderIdentifier.MIGRATION_GEN_SRC);
 		migratorGen.addToImplementedInterfaces(new OJPathName(IMigrator.class.getName()));
 		OJUtil.addTransientProperty(migratorGen, "context", new OJPathName("org.opaeum.runtime.environment.MigrationContext"), true);
-		if(toEntity instanceof INakedBehavioredClassifier){
-			implementMigatorInterfaces(migratorGen, (INakedBehavioredClassifier) toEntity);
+		if(toClass instanceof BehavioredClassifier){
+			implementMigatorInterfaces(migratorGen, (BehavioredClassifier) toClass);
 		}
-		if(toEntity.getSupertype() != null){
-			migratorGen.setSuperclass(migratorPath((ICompositionParticipant) toEntity.getSupertype()));
+		if(toClass.getGenerals().size() >= 1){
+			migratorGen.setSuperclass(migratorPath(toClass.getGenerals().get(0)));
 		}
 		return migratorGen;
 	}
@@ -98,15 +99,15 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		createTextPath(migratorImpl, JavaSourceFolderIdentifier.MIGRATION_SRC);
 		migratorImpl.setSuperclass(migratorGen.getPathName());
 	}
-	private void buildMigrateTreeImpl(ICompositionParticipant toEntity,ICompositionParticipant fromEntity,OJAnnotatedClass migrator){
+	private void buildMigrateTreeImpl(Classifier toClass,Classifier fromClass,OJAnnotatedClass migrator){
 		OJAnnotatedOperation migrateTreeImpl = new OJAnnotatedOperation("migrateTreeImpl");
 		migrator.addToOperations(migrateTreeImpl);
-		if(toEntity.getEndToComposite() != null){
-			migrateTreeImpl.addParam("owner", classifierPathName(toEntity.getEndToComposite().getNakedBaseType(), getToVersion()));
+		if(getLibrary().getEndToComposite( toClass) != null){
+			migrateTreeImpl.addParam("owner", classifierPathName(getLibrary().getEndToComposite( toClass).getType(), getToVersion()));
 		}else{
 		}
-		migrateTreeImpl.addParam("from", classifierPathName(fromEntity, getFromVersion()));
-		migrateTreeImpl.addParam("result", classifierPathName(toEntity, getToVersion()));
+		migrateTreeImpl.addParam("from", classifierPathName(fromClass, getFromVersion()));
+		migrateTreeImpl.addParam("result", classifierPathName(toClass, getToVersion()));
 		migrateTreeImpl.getBody().addToStatements("");
 		migrateTreeImpl.getBody().addToStatements("migrateDataTypeProperties(from,result)");
 		migrateTreeImpl.getBody().addToStatements("context.persistToObject(result)");
@@ -115,41 +116,42 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		migrateTreeImpl.getBody().addToStatements("from=context.reloadFromObject(from)");
 		migrateTreeImpl.getBody().addToStatements("migrateCompositeProperties(from,result)");
 	}
-	private void buildMigrateCompositeProperties(ICompositionParticipant toEntity,ICompositionParticipant fromEntity,OJAnnotatedClass migrator){
+	private void buildMigrateCompositeProperties(Classifier toClass,Classifier fromClass,OJAnnotatedClass migrator){
 		OJAnnotatedOperation migrateComposites = new OJAnnotatedOperation("migrateCompositeProperties");
 		migrator.addToOperations(migrateComposites);
-		migrateComposites.addParam("from", classifierPathName(fromEntity, getFromVersion()));
-		migrateComposites.addParam("result", classifierPathName(toEntity, getToVersion()));
-		MigratorContext ctx2 = new MigratorContext(fromEntity, toEntity, migrator, migrateComposites, "");
-		if(toEntity.getSupertype() != null){
+		migrateComposites.addParam("from", classifierPathName(fromClass, getFromVersion()));
+		migrateComposites.addParam("result", classifierPathName(toClass, getToVersion()));
+		MigratorContext ctx2 = new MigratorContext(fromClass, toClass, migrator, migrateComposites, "");
+		if(toClass.getGenerals().size() > 0){
 			migrateInheritedCompositeProperties(ctx2);
 		}
-		for(INakedProperty toProperty:toEntity.getDirectlyImplementedAttributes()){
-			if(!(toProperty.isDerived() || toProperty.isReadOnly()) && isPersistent(toProperty.getNakedBaseType())){
-				if(toProperty.isComposite() && toProperty.getNakedBaseType() instanceof ICompositionParticipant){
+		for(Property toProperty:toClass.getDirectlyImplementedAttributes()){
+			if(!(toProperty.isDerived() || toProperty.isReadOnly()) && isPersistent(toProperty.getType())){
+				if(toProperty.isComposite() && EmfClassifierUtil.isCompositionParticipant((Classifier) toProperty.getType())){
 					migrateComposites(ctx2, toProperty);
 				}
 			}
 		}
 	}
-	private void buildMigrateReferences(ICompositionParticipant toEntity,ICompositionParticipant fromEntity,OJAnnotatedClass migrator){
+	private void buildMigrateReferences(Classifier toClass,Classifier fromClass,OJAnnotatedClass migrator){
 		OJAnnotatedOperation migrateReferences = new OJAnnotatedOperation("migrateReferences");
 		migrator.addToOperations(migrateReferences);
-		migrateReferences.addParam("from", classifierPathName(fromEntity, getFromVersion()));
-		migrateReferences.addParam("result", classifierPathName(toEntity, getToVersion()));
-		MigratorContext ctx2 = new MigratorContext(fromEntity, toEntity, migrator, migrateReferences, "");
-		if(toEntity.getSupertype() != null){
+		migrateReferences.addParam("from", classifierPathName(fromClass, getFromVersion()));
+		migrateReferences.addParam("result", classifierPathName(toClass, getToVersion()));
+		MigratorContext ctx2 = new MigratorContext(fromClass, toClass, migrator, migrateReferences, "");
+		if(toClass.getGenerals().size() > 0){
 			migrateInheritedReferences(ctx2);
 		}
-		for(INakedProperty toProperty:toEntity.getDirectlyImplementedAttributes()){
-			if(isReference(toProperty) && toProperty.getNakedBaseType() instanceof ICompositionParticipant){
+		for(Property toProperty:toClass.getDirectlyImplementedAttributes()){
+			if(isReference(toProperty) && EmfClassifierUtil.isCompositionParticipant((Classifier) toProperty.getType() )){
 				migrateReference(ctx2, toProperty);
-			}else if(toProperty.getNakedBaseType() instanceof INakedStructuredDataType
-					&& !needsCustomCalculation(toProperty, findMatchingProperty(fromEntity, toProperty))){
-				OJAnnotatedOperation resolve = buildMigrateReferenceOnStructuredDataType(ctx2, toProperty, findMatchingProperty(fromEntity, toProperty));
+			}else if(EmfClassifierUtil.isStructuredDataType(toProperty.getType())
+					&& !needsCustomCalculation(toProperty, findMatchingProperty(fromClass, toProperty))){
+				OJAnnotatedOperation resolve = buildMigrateReferenceOnStructuredDataType(ctx2, toProperty,
+						findMatchingProperty(fromClass, toProperty));
 				if(OJUtil.buildStructuralFeatureMap(toProperty).isMany()){
-					OJForStatement forEach = new OJForStatement("tmp", classifierPathName(toProperty.getNakedBaseType(), getToVersion()), "result."
-							+ OJUtil.buildStructuralFeatureMap(toProperty).getter() + "()");
+					OJForStatement forEach = new OJForStatement("tmp", classifierPathName((Classifier) toProperty.getType(), getToVersion()),
+							"result." + OJUtil.buildStructuralFeatureMap(toProperty).getter() + "()");
 					ctx2.migratingOperation.getBody().addToStatements(forEach);
 					forEach.getBody().addToStatements(resolve.getName() + "(result,tmp))");
 				}else{
@@ -159,173 +161,186 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 			}
 		}
 	}
-	private boolean isReference(INakedProperty toProperty){
-		boolean participatesInComposition = toProperty.isComposite() || (toProperty.getOtherEnd() != null && toProperty.getOtherEnd().isComposite());
-		return !(toProperty.isDerived() || toProperty.isReadOnly() || participatesInComposition || toProperty.isInverse()) && isPersistent(toProperty.getNakedBaseType());
+	private boolean isReference(Property toProperty){
+		boolean participatesInComposition = toProperty.isComposite()
+				|| (toProperty.getOtherEnd() != null && toProperty.getOtherEnd().isComposite());
+		return !(toProperty.isDerived() || toProperty.isReadOnly() || participatesInComposition || EmfPropertyUtil.isInverse(toProperty))
+				&& isPersistent(toProperty.getType());
 	}
-	private void migrateReference(MigratorContext ctx2,INakedProperty toProperty){
-		INakedProperty fromProperty = findMatchingProperty(ctx2.fromClass, toProperty);
-		OJPathName toBaseType = classifierPathName(toProperty.getNakedBaseType(), getToVersion());
+	private void migrateReference(MigratorContext ctx2,Property toProperty){
+		Property fromProperty = findMatchingProperty(ctx2.fromClass, toProperty);
+		OJPathName toBaseType = classifierPathName((Classifier) toProperty.getType(), getToVersion());
 		ctx2.migrator.addToImports(toBaseType);
 		NakedStructuralFeatureMap toMap = OJUtil.buildStructuralFeatureMap(toProperty);
 		String resultVarName = "result" + ctx2.prefix;
 		if(needsCustomCalculation(toProperty, fromProperty)){
 			OJAnnotatedOperation calc = addCalculator(ctx2, toProperty);
-			ctx2.migratingOperation.getBody().addToStatements(resultVarName + "." + toMap.setter() + "(" + calc.getName() + "(from" + ctx2.prefix + "))");
+			ctx2.migratingOperation.getBody().addToStatements(
+					resultVarName + "." + toMap.setter() + "(" + calc.getName() + "(from" + ctx2.prefix + "))");
 		}else{
 			NakedStructuralFeatureMap fromMap = OJUtil.buildStructuralFeatureMap(fromProperty);
 			String fromVarName = "from" + ctx2.prefix;
 			if(toMap.isMany()){
 				if(fromMap.isOne()){
 					ctx2.migratingOperation.getBody().addToStatements(
-							new OJIfStatement(fromVarName + "." + fromMap.getter() + "()!=null", resultVarName + "." + toMap.adder() + "((" + toBaseType.getLast()
-									+ ")context.resolveByUuid(" + fromVarName + "." + fromMap.getter() + "().getUid()))"));
+							new OJIfStatement(fromVarName + "." + fromMap.getter() + "()!=null", resultVarName + "." + toMap.adder() + "(("
+									+ toBaseType.getLast() + ")context.resolveByUuid(" + fromVarName + "." + fromMap.getter() + "().getUid()))"));
 				}else{
-					OJForStatement forEach = new OJForStatement("tmp", classifierPathName(fromProperty.getNakedBaseType(), getFromVersion()), "from." + fromMap.getter()
-							+ "()");
+					OJForStatement forEach = new OJForStatement("tmp", classifierPathName(fromProperty.getType(), getFromVersion()), "from."
+							+ fromMap.getter() + "()");
 					ctx2.migratingOperation.getBody().addToStatements(forEach);
-					forEach.getBody().addToStatements("result." + toMap.adder() + "((" + toBaseType.getLast() + ")context.resolveByUuid(tmp.getUid()))");
+					forEach.getBody().addToStatements(
+							"result." + toMap.adder() + "((" + toBaseType.getLast() + ")context.resolveByUuid(tmp.getUid()))");
 				}
 			}else{
 				ctx2.migratingOperation.getBody().addToStatements(
-						new OJIfStatement(fromVarName + "." + fromMap.getter() + "()!=null", resultVarName + "." + toMap.setter() + "((" + toBaseType.getLast()
-								+ ")context.resolveByUuid(" + fromVarName + "." + fromMap.getter() + "().getUid()))"));
+						new OJIfStatement(fromVarName + "." + fromMap.getter() + "()!=null", resultVarName + "." + toMap.setter() + "(("
+								+ toBaseType.getLast() + ")context.resolveByUuid(" + fromVarName + "." + fromMap.getter() + "().getUid()))"));
 			}
 		}
 	}
-	private void buildMigrateDataTypeProperties(ICompositionParticipant toEntity,ICompositionParticipant fromEntity,OJAnnotatedClass migrator){
+	private void buildMigrateDataTypeProperties(Classifier toClass,Classifier fromClass,OJAnnotatedClass migrator){
 		OJAnnotatedOperation migrateDataTypeProperties = new OJAnnotatedOperation("migrateDataTypeProperties");
 		migrator.addToOperations(migrateDataTypeProperties);
-		migrateDataTypeProperties.addParam("from", classifierPathName(fromEntity, getFromVersion()));
-		migrateDataTypeProperties.addParam("result", classifierPathName(toEntity, getToVersion()));
-		MigratorContext ctx = new MigratorContext(fromEntity, toEntity, migrator, migrateDataTypeProperties, "");
-		if(toEntity.getSupertype() != null){
+		migrateDataTypeProperties.addParam("from", classifierPathName(fromClass, getFromVersion()));
+		migrateDataTypeProperties.addParam("result", classifierPathName(toClass, getToVersion()));
+		MigratorContext ctx = new MigratorContext(fromClass, toClass, migrator, migrateDataTypeProperties, "");
+		if(toClass.getGenerals().size() > 0){
 			migrateInheritedDataTypeProperties(ctx);
 		}
-		for(INakedProperty toProperty:toEntity.getDirectlyImplementedAttributes()){
+		for(Property toProperty:toClass.getDirectlyImplementedAttributes()){
 			if(!(toProperty.isDerived() || toProperty.isReadOnly())){
-				if(toProperty.getNakedBaseType() instanceof INakedDataType){
+				if(toProperty.getType() instanceof DataType){
 					migrateDataTypeValue(ctx, toProperty);
 				}
 			}
 		}
 	}
-	private void generateMigratorContractForInterface(INakedComplexStructure to){
-		INakedInterface toInterface = (INakedInterface) to;
-		INakedInterface fromInterface = (INakedInterface) fromWorkspace.getModelElement(toInterface.getId());
-		if(fromInterface != null && toInterface.getEndToComposite() != null
-				&& !(needsCustomCalculation(toInterface.getEndToComposite(), fromInterface.getEndToComposite()))){
+	private void generateMigratorContractForInterface(Classifier to){
+		Interface toInterface = (Interface) to;
+		Interface fromInterface = (Interface) fromWorkspace.getModelElement(EmfWorkspace.getId(toInterface));
+		if(fromInterface != null && getLibrary().getEndToComposite(toInterface) != null
+				&& !(needsCustomCalculation(getLibrary().getEndToComposite(toInterface), getLibrary().getEndToComposite(fromInterface)))){
 			OJPathName migratorPath = migratorPath(toInterface);
 			OJPackage pkg = javaModel.findPackage(migratorPath.getHead());
 			OJAnnotatedInterface migrator = new OJAnnotatedInterface(migratorPath.getLast());
 			pkg.addToClasses(migrator);
 			OJAnnotatedOperation migrateTree = new OJAnnotatedOperation("migrateTree", classifierPathName(toInterface, getToVersion()));
 			migrator.addToOperations(migrateTree);
-			migrateTree.addParam("owner", classifierPathName(toInterface.getEndToComposite().getNakedBaseType(), getToVersion()));
+			migrateTree.addParam("owner", classifierPathName(getLibrary().getEndToComposite(toInterface).getType(), getToVersion()));
 			migrateTree.addParam("from", classifierPathName(fromInterface, getFromVersion()));
 		}
 	}
-	private void implementMigatorInterfaces(OJAnnotatedClass migrator,INakedBehavioredClassifier bc){
-		for(INakedInterfaceRealization ir:bc.getInterfaceRealizations()){
-			INakedInterface toInterface = ir.getContract();
-			INakedInterface fromInterface = (INakedInterface) fromWorkspace.getModelElement(toInterface.getId());
-			if(fromInterface != null && toInterface.getEndToComposite() != null
-					&& !(needsCustomCalculation(toInterface.getEndToComposite(), fromInterface.getEndToComposite()))){
+	private void implementMigatorInterfaces(OJAnnotatedClass migrator,BehavioredClassifier bc){
+		for(InterfaceRealization ir:bc.getInterfaceRealizations()){
+			Interface toInterface = ir.getContract();
+			Interface fromInterface = (Interface) fromWorkspace.getModelElement(EmfWorkspace.getId(toInterface));
+			if(fromInterface != null && getLibrary().getEndToComposite(toInterface) != null
+					&& !(needsCustomCalculation(getLibrary().getEndToComposite(toInterface), getLibrary().getEndToComposite(fromInterface)))){
 				migrator.addToImplementedInterfaces(migratorPath(toInterface));
 				OJAnnotatedOperation migrateTree = new OJAnnotatedOperation("migrateTree", migratorPath(toInterface));
 				migrator.addToOperations(migrateTree);
-				migrateTree.addParam("owner", classifierPathName(toInterface.getEndToComposite().getNakedBaseType(), getToVersion()));
+				migrateTree.addParam("owner", classifierPathName(getLibrary().getEndToComposite(toInterface).getType(), getToVersion()));
 				migrateTree.addParam("from", classifierPathName(fromInterface, getFromVersion()));
 				migrateTree.getBody().addToStatements("migrateTreeImpl(owner,from)");
 			}
 		}
 	}
-	private void addMigrationEntryPoint(ICompositionParticipant toEntity,ICompositionParticipant fromEntity,OJAnnotatedClass migrator){
-		if(toEntity.getEndToComposite() != null){
-			OJPathName ownerPath = classifierPathName(toEntity.getEndToComposite().getNakedBaseType(), getToVersion());
-			if(needsCustomCalculation(toEntity.getEndToComposite(), fromEntity.getEndToComposite())){
+	private void addMigrationEntryPoint(Classifier toClass,Classifier fromClass,OJAnnotatedClass migrator){
+		if(getLibrary().getEndToComposite(toClass) != null){
+			OJPathName ownerPath = classifierPathName(getLibrary().getEndToComposite(toClass).getType(), getToVersion());
+			if(needsCustomCalculation(getLibrary().getEndToComposite(toClass), getLibrary().getEndToComposite(fromClass))){
 				// Containment tree changed. Not much we can do as we don't know the entities' positions in their respective
 				// containment trees. Force the developer to think
-				OJAnnotatedOperation populateChildren = new OJAnnotatedOperation("populate"
-						+ toEntity.getEndToComposite().getOtherEnd().getMappingInfo().getJavaName().getCapped(), classifierPathName(toEntity, getToVersion()));
+				OJAnnotatedOperation populateChildren = new OJAnnotatedOperation("populate" 
+						+ NameConverter.capitalize(getLibrary().getEndToComposite(toClass).getOtherEnd().getName()), classifierPathName(toClass, getToVersion()));
 				migrator.addToOperations(populateChildren);
 				populateChildren.addParam("owner", ownerPath);
-				if(fromEntity.getEndToComposite() != null){
-					populateChildren.addParam("fromOwner", classifierPathName(fromEntity.getEndToComposite().getNakedBaseType(), getToVersion()));
+				if(getLibrary().getEndToComposite(fromClass) != null){
+					populateChildren.addParam("fromOwner", classifierPathName(getLibrary().getEndToComposite(fromClass).getType(), getToVersion()));
 				}
 				populateChildren.setAbstract(true);
-			}else if(!toEntity.isAbstract()){
-				OJAnnotatedOperation migrateTree = new OJAnnotatedOperation("migrateTree", classifierPathName(toEntity, getToVersion()));
+			}else if(!toClass.isAbstract()){
+				OJAnnotatedOperation migrateTree = new OJAnnotatedOperation("migrateTree", classifierPathName(toClass, getToVersion()));
 				migrator.addToOperations(migrateTree);
 				migrateTree.addParam("owner", ownerPath);
-				migrateTree.addParam("from", classifierPathName((INakedClassifier) fromWorkspace.getModelElement(toEntity.getId()), getFromVersion()));
+				migrateTree.addParam("from",
+						classifierPathName((Classifier) fromWorkspace.getModelElement(EmfWorkspace.getId(toClass)), getFromVersion()));
 				migrateTree.getBody().addToStatements("context.push()");
-				migrateTree.initializeResultVariable("new " + toEntity.getMappingInfo().getJavaName() + getToVersion().getSuffix() + "((" + ownerPath.getLast()
+				migrateTree.initializeResultVariable("new " + toClass.getName() + getToVersion().getSuffix() + "((" + ownerPath.getLast()
 						+ ")context.reloadToObject(owner))");
 				migrateTree.getBody().addToStatements("from=context.reloadFromObject(from)");
 				migrateTree.getBody().addToStatements("migrateTreeImpl(owner,from,result)");
 			}
-		}else if(!toEntity.isAbstract()){
-			OJAnnotatedOperation migrateTree = new OJAnnotatedOperation("migrateTree", classifierPathName(toEntity, getToVersion()));
+		}else if(!toClass.isAbstract()){
+			OJAnnotatedOperation migrateTree = new OJAnnotatedOperation("migrateTree", classifierPathName(toClass, getToVersion()));
 			migrator.addToOperations(migrateTree);
-			migrateTree.addParam("from", classifierPathName((INakedClassifier) fromWorkspace.getModelElement(toEntity.getId()), getFromVersion()));
+			migrateTree.addParam("from",
+					classifierPathName((Classifier) fromWorkspace.getModelElement(EmfWorkspace.getId(toClass)), getFromVersion()));
 			migrateTree.getBody().addToStatements("context.push()");
-			migrateTree.initializeResultVariable("new " + toEntity.getMappingInfo().getJavaName() + getToVersion().getSuffix() + "()");
+			migrateTree.initializeResultVariable("new " + toClass.getName() + getToVersion().getSuffix() + "()");
 			migrateTree.getBody().addToStatements("from=context.reloadFromObject(from)");
 			migrateTree.getBody().addToStatements("migrateTreeImpl(from,result)");
 		}
 	}
 	private void migrateInheritedDataTypeProperties(MigratorContext ctx){
-		if(ctx.fromClass.getSupertype() == null || !ctx.fromClass.getSupertype().getId().equals(ctx.toClass.getSupertype().getId())){
+		if(ctx.fromClass.getGenerals().isEmpty()
+				|| !EmfWorkspace.getId(ctx.fromClass.getGenerals().get(0)).equals(EmfWorkspace.getId(ctx.toClass.getGenerals().get(0)))){
 			// Inheritance tree changed. Force the developer to think it through
 			OJAnnotatedOperation calculateSuperFields = new OJAnnotatedOperation("calculateInheritedDataTypeProperties");
 			ctx.migrator.addToOperations(calculateSuperFields);
-			calculateSuperFields.addParam("from", classifierPathName((INakedClassifier) fromWorkspace.getModelElement(ctx.toClass.getId()), getFromVersion()));
-			calculateSuperFields.addParam("result", classifierPathName(ctx.toClass.getSupertype(), getToVersion()));
+			calculateSuperFields.addParam("from",
+					classifierPathName((Classifier) fromWorkspace.getModelElement(EmfWorkspace.getId(ctx.toClass)), getFromVersion()));
+			calculateSuperFields.addParam("result", classifierPathName(ctx.toClass.getGenerals().get(0), getToVersion()));
 			calculateSuperFields.setAbstract(true);
 			ctx.migratingOperation.getBody().addToStatements("calculateInheritedDataTypeProperties(from,result)");
 		}else{
-			ctx.migrator.setSuperclass(migratorPath((ICompositionParticipant) ctx.toClass.getSupertype()));
+			ctx.migrator.setSuperclass(migratorPath(ctx.toClass.getGenerals().get(0)));
 			ctx.migratingOperation.getBody().addToStatements("super.migrateDataTypeProperties(from,result)");
 		}
 	}
 	private void migrateInheritedCompositeProperties(MigratorContext ctx){
-		if(ctx.fromClass.getSupertype() == null || !ctx.fromClass.getSupertype().getId().equals(ctx.toClass.getSupertype().getId())){
+		if(ctx.fromClass.getGenerals().isEmpty()
+				|| !EmfWorkspace.getId(ctx.fromClass.getGenerals().get(0)).equals(EmfWorkspace.getId(ctx.toClass.getGenerals().get(0)))){
 			// Inheritance tree changed. Force the developer to think it through
 			OJAnnotatedOperation calculateSuperFields = new OJAnnotatedOperation("calculateInheritedCompositeProperties");
 			ctx.migrator.addToOperations(calculateSuperFields);
-			calculateSuperFields.addParam("from", classifierPathName((INakedClassifier) fromWorkspace.getModelElement(ctx.toClass.getId()), getFromVersion()));
-			calculateSuperFields.addParam("result", classifierPathName(ctx.toClass.getSupertype(), getToVersion()));
+			calculateSuperFields.addParam("from",
+					classifierPathName((Classifier) fromWorkspace.getModelElement(EmfWorkspace.getId(ctx.toClass)), getFromVersion()));
+			calculateSuperFields.addParam("result", classifierPathName(ctx.toClass.getGenerals().get(0), getToVersion()));
 			calculateSuperFields.setAbstract(true);
 			ctx.migratingOperation.getBody().addToStatements("calculateInheritedCompositeProperties(from,result)");
 		}else{
-			ctx.migrator.setSuperclass(migratorPath((ICompositionParticipant) ctx.toClass.getSupertype()));
+			ctx.migrator.setSuperclass(migratorPath(ctx.toClass.getGenerals().get(0)));
 			ctx.migratingOperation.getBody().addToStatements("super.migrateCompositeProperties(from,result)");
 		}
 	}
 	private void migrateInheritedReferences(MigratorContext ctx){
-		if(ctx.fromClass.getSupertype() == null || !ctx.fromClass.getSupertype().getId().equals(ctx.toClass.getSupertype().getId())){
+		if(ctx.fromClass.getGenerals().isEmpty()
+				|| !EmfWorkspace.getId(ctx.fromClass.getGenerals().get(0)).equals(EmfWorkspace.getId(ctx.toClass.getGenerals().get(0)))){
 			// Inheritance tree changed. Force the developer to think it through
 			OJAnnotatedOperation calculateSuperFields = new OJAnnotatedOperation("calculateInheritedReferences");
 			ctx.migrator.addToOperations(calculateSuperFields);
-			calculateSuperFields.addParam("from", classifierPathName((INakedClassifier) fromWorkspace.getModelElement(ctx.toClass.getId()), getFromVersion()));
-			calculateSuperFields.addParam("result", classifierPathName(ctx.toClass.getSupertype(), getToVersion()));
+			calculateSuperFields.addParam("from",
+					classifierPathName((Classifier) fromWorkspace.getModelElement(EmfWorkspace.getId(ctx.toClass)), getFromVersion()));
+			calculateSuperFields.addParam("result", classifierPathName(ctx.toClass.getGenerals().get(0), getToVersion()));
 			calculateSuperFields.setAbstract(true);
 			ctx.migratingOperation.getBody().addToStatements("calculateInheritedReferences(from,result)");
 		}else{
-			ctx.migrator.setSuperclass(migratorPath((ICompositionParticipant) ctx.toClass.getSupertype()));
+			ctx.migrator.setSuperclass(migratorPath(ctx.toClass.getGenerals().get(0)));
 			ctx.migratingOperation.getBody().addToStatements("super.migrateReferences(from,result)");
 		}
 	}
-	private void migrateComposites(MigratorContext ctx,INakedProperty toProperty){
+	private void migrateComposites(MigratorContext ctx,Property toProperty){
 		NakedStructuralFeatureMap toMap = OJUtil.buildStructuralFeatureMap(toProperty);
-		INakedProperty fromProp = findMatchingProperty(ctx.fromClass, toProperty);
+		Property fromProp = findMatchingProperty(ctx.fromClass, toProperty);
 		if(!needsCustomCalculation(toProperty, fromProp)){
 			NakedStructuralFeatureMap fromMap = OJUtil.buildStructuralFeatureMap(fromProp);
-			OJPathName migratorPath2 = migratorPath((ICompositionParticipant) toProperty.getNakedBaseType());
+			OJPathName migratorPath2 = migratorPath((Classifier) toProperty.getType());
 			ctx.migrator.addToImports(migratorPath2);
 			if(toMap.isMany() && fromMap.isMany()){
-				OJForStatement forEach = new OJForStatement("tmp", classifierPathName(fromProp.getNakedBaseType(), getFromVersion()), "from." + fromMap.getter() + "()");
+				OJForStatement forEach = new OJForStatement("tmp", classifierPathName(fromProp.getType(), getFromVersion()), "from."
+						+ fromMap.getter() + "()");
 				ctx.migratingOperation.getBody().addToStatements(forEach);
 				OJAnnotatedField migrator = new OJAnnotatedField("migrator", migratorPath2);
 				migrator.setInitExp("(" + migratorPath2.getLast() + ")context.getMigratorFor(tmp)");
@@ -340,16 +355,16 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 				ctx.migratingOperation.getBody().addToStatements(ifNotNull);
 			}
 		}else{
-			OJPathName baseTypePath = classifierPathName(toProperty.getNakedBaseType(), getToVersion());
+			OJPathName baseTypePath = classifierPathName(toProperty.getType(), getToVersion());
 			OJPathName pn = baseTypePath;
 			if(toMap.isMany()){
 				OJPathName coll = new OJPathName("java.util.Collection");
 				coll.addToElementTypes(pn);
 			}
-			OJAnnotatedOperation calc = new OJAnnotatedOperation("calc" + ctx.prefix + toProperty.getMappingInfo().getJavaName().getCapped(), pn);
+			OJAnnotatedOperation calc = new OJAnnotatedOperation("calc" + ctx.prefix + NameConverter.capitalize(toProperty.getName()), pn);
 			calc.addParam("from", classifierPathName(ctx.fromClass, getFromVersion()));
 			ctx.migrator.addToOperations(calc);
-			if(fromWorkspace.getModelElement(toProperty.getNakedBaseType().getId()) == null){
+			if(fromWorkspace.getModelElement(EmfWorkspace.getId(toProperty.getType())) == null){
 				if(toMap.isMany()){
 					calc.initializeResultVariable("new ArrayList<" + baseTypePath.getLast() + ">()");
 				}else{
@@ -360,15 +375,15 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 			}
 		}
 	}
-	private INakedProperty findMatchingProperty(INakedClassifier fromEntity,INakedProperty toProperty){
-		INakedProperty result = (INakedProperty) fromEntity.getOwnedElement(toProperty.getId());
+	private Property findMatchingProperty(Classifier fromClass,Property toProperty){
+		Property result = (Property) fromClass.getOwnedElement(EmfWorkspace.getId(toProperty));
 		if(result == null){
-			result = fromEntity.findEffectiveAttribute(toProperty.getName());
+			result = fromClass.findEffectiveAttribute(toProperty.getName());
 		}
 		return result;
 	}
-	private void migrateDataTypeValue(MigratorContext ctx,INakedProperty toProperty){
-		INakedProperty fromProperty = findMatchingProperty(ctx.fromClass, toProperty);
+	private void migrateDataTypeValue(MigratorContext ctx,Property toProperty){
+		Property fromProperty = findMatchingProperty(ctx.fromClass, toProperty);
 		if(needsCustomCalculation(toProperty, fromProperty)){
 			NakedStructuralFeatureMap toMap = OJUtil.buildStructuralFeatureMap(toProperty);
 			OJAnnotatedOperation calc = addCalculator(ctx, toProperty);
@@ -376,33 +391,34 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		}else{
 			NakedStructuralFeatureMap fromMap = OJUtil.buildStructuralFeatureMap(fromProperty);
 			NakedStructuralFeatureMap toMap = OJUtil.buildStructuralFeatureMap(toProperty);
-			if(toProperty.getNakedBaseType() instanceof INakedSimpleType){
+			if(EmfClassifierUtil.isSimpleType(toProperty.getType())){
 				if(toMap.isOne()){
 					ctx.migratingOperation.getBody().addToStatements("result." + toMap.setter() + "(from." + fromMap.getter() + "())");
 				}else if(fromMap.isOne()){
 					ctx.migratingOperation.getBody().addToStatements(
 							new OJIfStatement("from." + fromMap.getter() + "()!=null", "result." + toMap.adder() + "(from." + fromMap.getter() + "())"));
 				}else{
-					OJPathName ojType = classifierPathName(fromProperty.getNakedBaseType(), getFromVersion());
+					OJPathName ojType = classifierPathName((Classifier) fromProperty.getType(), getFromVersion());
 					OJForStatement forEach = new OJForStatement("tmp", ojType, "from." + fromMap.getter() + "()");
 					ctx.migratingOperation.getBody().addToStatements(forEach);
 					forEach.getBody().addToStatements("result." + toMap.adder() + "(tmp)");
 				}
 			}else{
 				OJAnnotatedOperation converter = null;
-				if(toProperty.getNakedBaseType() instanceof INakedEnumeration){
+				if(toProperty.getType() instanceof Enumeration){
 					converter = migrateEnumerationValue(ctx, toProperty, fromProperty);
-				}else if(toProperty.getNakedBaseType() instanceof INakedStructuredDataType){
+				}else if(EmfClassifierUtil.isStructuredDataType(toProperty.getType())){
 					converter = migrateStructuredDataTypeDataTypeProperties(ctx, toProperty, fromProperty);
 				}else{
 				}
 				if(toMap.isOne()){
-					ctx.migratingOperation.getBody().addToStatements("result." + toMap.setter() + "(" + converter.getName() + "(from,from." + fromMap.getter() + "()))");
+					ctx.migratingOperation.getBody().addToStatements(
+							"result." + toMap.setter() + "(" + converter.getName() + "(from,from." + fromMap.getter() + "()))");
 				}else if(fromMap.isOne()){
 					String invocation = "result." + toMap.adder() + "(" + converter.getName() + "(from, from." + fromMap.getter() + "())";
 					ctx.migratingOperation.getBody().addToStatements(new OJIfStatement("from." + fromMap.getter() + "()!=null", invocation));
 				}else{
-					OJPathName ojType = classifierPathName(fromProperty.getNakedBaseType(), getFromVersion());
+					OJPathName ojType = classifierPathName((Classifier) fromProperty.getType(), getFromVersion());
 					OJForStatement forEach = new OJForStatement("tmp", ojType, "from." + fromMap.getter() + "()");
 					ctx.migratingOperation.getBody().addToStatements(forEach);
 					String invocation = "result." + toMap.adder() + "(" + converter.getName() + "(from, tmp))";
@@ -411,43 +427,44 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 			}
 		}
 	}
-	private boolean needsCustomCalculation(INakedProperty toProperty,INakedProperty fromProperty){
+	private boolean needsCustomCalculation(Property toProperty,Property fromProperty){
 		return fromProperty == null || !haveCompatibleTypes(toProperty, fromProperty) || !fromProperty.fitsInTo(toProperty);
 	}
-	private boolean haveCompatibleTypes(INakedProperty toProperty,INakedProperty fromProperty){
-		return fromProperty.getNakedBaseType().getId().equals(toProperty.getNakedBaseType().getId())
-				|| fromProperty.getNakedBaseType().getMappingInfo().getQualifiedJavaName().equals(toProperty.getNakedBaseType().getMappingInfo().getQualifiedJavaName());
+	private boolean haveCompatibleTypes(Property toProperty,Property fromProperty){
+		return EmfWorkspace.getId(fromProperty.getType()).equals(EmfWorkspace.getId(toProperty.getType()))
+				|| OJUtil.classifierPathname(fromProperty.getType()).equals(OJUtil.classifierPathname(toProperty.getType()));
 	}
-	private OJAnnotatedOperation migrateStructuredDataTypeDataTypeProperties(MigratorContext ctx,INakedProperty toProperty,INakedProperty fromProperty){
-		OJPathName toPathName = classifierPathName(toProperty.getNakedBaseType(), getToVersion());
-		OJAnnotatedOperation convertStruct = new OJAnnotatedOperation("convert" + ctx.prefix + toProperty.getMappingInfo().getJavaName().getCapped());
+	private OJAnnotatedOperation migrateStructuredDataTypeDataTypeProperties(MigratorContext ctx,Property toProperty,Property fromProperty){
+		OJPathName toPathName = classifierPathName((Classifier) toProperty.getType(), getToVersion());
+		OJAnnotatedOperation convertStruct = new OJAnnotatedOperation("convert" + ctx.prefix + NameConverter.capitalize(toProperty.getName()));
 		ctx.migrator.addToOperations(convertStruct);
-		convertStruct.setReturnType(classifierPathName(toProperty.getNakedBaseType(), getToVersion()));
+		convertStruct.setReturnType(classifierPathName((Classifier) toProperty.getType(), getToVersion()));
 		convertStruct.addParam("fromOwner", classifierPathName(ctx.fromClass, getFromVersion()));
-		convertStruct.addParam("from", classifierPathName(fromProperty.getNakedBaseType(), getFromVersion()));
+		convertStruct.addParam("from", classifierPathName(fromProperty.getType(), getFromVersion()));
 		convertStruct.getBody().addToStatements(new OJIfStatement("from==null", "return null"));
 		convertStruct.initializeResultVariable("new " + toPathName.getLast() + "()");
-		INakedStructuredDataType fromStruct = (INakedStructuredDataType) fromProperty.getNakedBaseType();
-		INakedStructuredDataType toStruct = (INakedStructuredDataType) toProperty.getNakedBaseType();
+		DataType fromStruct = (DataType) fromProperty.getType();
+		DataType toStruct = (DataType) toProperty.getType();
 		MigratorContext childCtx = new MigratorContext(fromStruct, toStruct, ctx.migrator, convertStruct, ctx.prefix
-				+ toProperty.getMappingInfo().getJavaName().getCapped());
-		for(INakedProperty toProp:toStruct.getEffectiveAttributes()){
-			if(toProp.getNakedBaseType() instanceof INakedDataType && !toProp.isDerived() && !toProp.isReadOnly()){
+				+ NameConverter.capitalize(toProperty.getName()));
+		for(Property toProp:EmfElementFinder.getPropertiesInScope(toStruct)){
+			if(toProp.getType() instanceof DataType && !toProp.isDerived() && !toProp.isReadOnly()){
 				migrateDataTypeValue(childCtx, toProp);
 			}
 		}
 		return convertStruct;
 	}
-	private OJAnnotatedOperation buildMigrateReferenceOnStructuredDataType(MigratorContext ctx,INakedProperty toProperty,INakedProperty fromProperty){
-		OJAnnotatedOperation resolve = new OJAnnotatedOperation("migrate" + ctx.prefix + toProperty.getMappingInfo().getJavaName().getCapped());
+	private OJAnnotatedOperation buildMigrateReferenceOnStructuredDataType(MigratorContext ctx,Property toProperty,Property fromProperty){
+		OJAnnotatedOperation resolve = new OJAnnotatedOperation("migrate" + ctx.prefix + NameConverter.capitalize(toProperty.getName()));
 		ctx.migrator.addToOperations(resolve);
 		resolve.addParam("owner", classifierPathName(ctx.toClass, getToVersion()));
-		resolve.addParam("result", classifierPathName(toProperty.getNakedBaseType(), getToVersion()));
+		resolve.addParam("result", classifierPathName(toProperty.getType(), getToVersion()));
 		resolve.getBody().addToStatements(new OJIfStatement("result==null", "return"));
-		INakedStructuredDataType fromStruct = (INakedStructuredDataType) fromProperty.getNakedBaseType();
-		INakedStructuredDataType toStruct = (INakedStructuredDataType) toProperty.getNakedBaseType();
-		MigratorContext childCtx = new MigratorContext(fromStruct, toStruct, ctx.migrator, resolve, ctx.prefix + toProperty.getMappingInfo().getJavaName().getCapped());
-		for(INakedProperty toProp:toStruct.getEffectiveAttributes()){
+		DataType fromStruct = (DataType) fromProperty.getType();
+		DataType toStruct = (DataType) toProperty.getType();
+		MigratorContext childCtx = new MigratorContext(fromStruct, toStruct, ctx.migrator, resolve, ctx.prefix
+				+ NameConverter.capitalize(toProperty.getName()));
+		for(Property toProp:EmfElementFinder.getPropertiesInScope(toStruct)){
 			if(isReference(toProp)){
 				childCtx.migratingOperation.getBody().addToStatements(new OJIfStatement());
 				migrateReference(childCtx, toProp);
@@ -455,25 +472,25 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		}
 		return resolve;
 	}
-	private OJAnnotatedOperation migrateEnumerationValue(MigratorContext ctx,INakedProperty toProperty,INakedProperty fromProperty){
-		OJPathName toPathName = classifierPathName(toProperty.getNakedBaseType(), getToVersion());
-		OJAnnotatedOperation convertEnum = new OJAnnotatedOperation("convert" + toProperty.getMappingInfo().getJavaName(), classifierPathName(
-				toProperty.getNakedBaseType(), getToVersion()));
+	private OJAnnotatedOperation migrateEnumerationValue(MigratorContext ctx,Property toProperty,Property fromProperty){
+		OJPathName toPathName = classifierPathName(toProperty.getType(), getToVersion());
+		OJAnnotatedOperation convertEnum = new OJAnnotatedOperation("convert" + toProperty.getName(), classifierPathName(toProperty.getType(),
+				getToVersion()));
 		ctx.migrator.addToOperations(convertEnum);
 		convertEnum.addParam("fromOwner", classifierPathName(ctx.fromClass, getFromVersion()));
-		convertEnum.addParam("from", classifierPathName(fromProperty.getNakedBaseType(), getFromVersion()));
+		convertEnum.addParam("from", classifierPathName(fromProperty.getType(), getFromVersion()));
 		convertEnum.getBody().addToStatements(new OJIfStatement("from==null", "return null"));
 		convertEnum.initializeResultVariable("null");
 		OJSwitchStatement switchLiteral = new OJSwitchStatement();
 		convertEnum.getBody().addToStatements(switchLiteral);
 		switchLiteral.setCondition("from");
-		INakedEnumeration fromEnum = (INakedEnumeration) fromProperty.getNakedBaseType();
-		INakedEnumeration toEnum = (INakedEnumeration) toProperty.getNakedBaseType();
+		Enumeration fromEnum = (Enumeration) fromProperty.getType();
+		Enumeration toEnum = (Enumeration) toProperty.getType();
 		OJAnnotatedOperation calc = null;
-		for(INakedEnumerationLiteral fromLit:fromEnum.getOwnedLiterals()){
-			INakedEnumerationLiteral toLit = (INakedEnumerationLiteral) toEnum.getOwnedElement(fromLit.getId());
+		for(EnumerationLiteral fromLit:fromEnum.getOwnedLiterals()){
+			EnumerationLiteral toLit = (EnumerationLiteral) toEnum.getOwnedElement(EmfWorkspace.getId(fromLit));
 			if(toLit == null){
-				toLit = (INakedEnumerationLiteral) toEnum.lookupLiteral(fromLit.getName());
+				toLit = (EnumerationLiteral) toEnum.getOwnedLiteral(fromLit.getName());
 			}
 			OJSwitchCase caseLit = new OJSwitchCase();
 			switchLiteral.addToCases(caseLit);
@@ -489,9 +506,9 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		}
 		return convertEnum;
 	}
-	private OJAnnotatedOperation addCalculator(MigratorContext ctx,INakedProperty toProperty){
-		String name = "calculate" + ctx.prefix + toProperty.getMappingInfo().getJavaName().getCapped();
-		OJPathName resultPath = classifierPathName(toProperty.getNakedBaseType(), getToVersion());
+	private OJAnnotatedOperation addCalculator(MigratorContext ctx,Property toProperty){
+		String name = "calculate" + ctx.prefix + NameConverter.capitalize(toProperty.getName());
+		OJPathName resultPath = classifierPathName(toProperty.getType(), getToVersion());
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(toProperty);
 		if(map.isMany()){
 			OJPathName p = map.javaTypePath();
@@ -502,7 +519,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		OJAnnotatedOperation calc = new OJAnnotatedOperation(name, resultPath);
 		ctx.migrator.addToOperations(calc);
 		calc.addParam("from", classifierPathName(ctx.fromClass, getFromVersion()));
-		if(toProperty.isRequired()){
+		if(EmfPropertyUtil.isRequired(toProperty)){
 			calc.setAbstract(true);
 		}else if(map.isMany()){
 			OJPathName javaDefaultTypePath = map.javaDefaultTypePath();

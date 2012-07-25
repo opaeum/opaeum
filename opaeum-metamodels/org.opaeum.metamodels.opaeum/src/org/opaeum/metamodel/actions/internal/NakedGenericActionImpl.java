@@ -2,8 +2,8 @@ package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
 import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 
 public class NakedGenericActionImpl extends NakedActionImpl{

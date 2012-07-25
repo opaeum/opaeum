@@ -1,24 +1,24 @@
 package org.opaeum.linkage;
 
+import org.eclipse.uml2.uml.INakedAcceptEventAction;
+import org.eclipse.uml2.uml.INakedAction;
+import org.eclipse.uml2.uml.INakedCallAction;
+import org.eclipse.uml2.uml.INakedCallEvent;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedGeneralization;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedInterfaceRealization;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedSendSignalAction;
+import org.eclipse.uml2.uml.INakedSignalEvent;
+import org.eclipse.uml2.uml.INakedStructuralFeatureAction;
+import org.eclipse.uml2.uml.INakedTrigger;
+import org.eclipse.uml2.uml.INakedVariableAction;
+import org.eclipse.uml2.uml.ITargetElement;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.actions.INakedSendSignalAction;
-import org.opaeum.metamodel.actions.INakedStructuralFeatureAction;
-import org.opaeum.metamodel.actions.INakedVariableAction;
-import org.opaeum.metamodel.actions.ITargetElement;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedGeneralization;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedInterfaceRealization;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	

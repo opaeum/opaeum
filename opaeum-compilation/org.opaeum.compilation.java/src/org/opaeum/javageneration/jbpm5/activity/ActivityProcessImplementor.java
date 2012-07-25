@@ -5,9 +5,34 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.stdlib.IOclLibrary;
-
+import org.eclipse.uml2.uml.AcceptCallAction;
+import org.eclipse.uml2.uml.AcceptEventAction;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.ActivityParameterNode;
+import org.eclipse.uml2.uml.CallBehaviorAction;
+import org.eclipse.uml2.uml.CallOperationAction;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ControlNode;
+import org.eclipse.uml2.uml.DecisionNode;
+import org.eclipse.uml2.uml.ExpansionNode;
+import org.eclipse.uml2.uml.ExpansionRegion;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.ObjectFlow;
+import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.OutputPin;
+import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.ReplyAction;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.Variable;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -25,7 +50,6 @@ import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.basicjava.SimpleActivityMethodImplementor;
 import org.opaeum.javageneration.jbpm5.AbstractJavaProcessVisitor;
-import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import org.opaeum.javageneration.jbpm5.actions.CallBehaviorActionBuilder;
@@ -40,107 +64,74 @@ import org.opaeum.javageneration.jbpm5.actions.SimpleActionBridge;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.StructuredActivityNodeMap;
 import org.opaeum.javageneration.oclexpressions.CodeCleanup;
-import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.linkage.CompositionEmulator;
-import org.opaeum.linkage.NakedParsedOclStringResolver;
-import org.opaeum.linkage.PinLinker;
-import org.opaeum.linkage.ProcessIdentifier;
-import org.opaeum.metamodel.actions.INakedAcceptCallAction;
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
-import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
-import org.opaeum.metamodel.actions.INakedCallOperationAction;
-import org.opaeum.metamodel.actions.INakedReplyAction;
-import org.opaeum.metamodel.activities.ActivityKind;
-import org.opaeum.metamodel.activities.ActivityNodeContainer;
-import org.opaeum.metamodel.activities.ControlNodeType;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedActivityVariable;
-import org.opaeum.metamodel.activities.INakedControlNode;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedExpansionRegion;
-import org.opaeum.metamodel.activities.INakedObjectFlow;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedParameterNode;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
-import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedMessageStructure;
-import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.runtime.domain.ExceptionHolder;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		OperationAnnotator.class,PinLinker.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
-},after = {
-	OperationAnnotator.class,SimpleActivityMethodImplementor.class /*Needs repeatable sequence in the ocl generating steps*/
+@StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class,CodeCleanup.class},after = {
+		OperationAnnotator.class,SimpleActivityMethodImplementor.class /* Needs repeatable sequence in the ocl generating steps */
 },before = CodeCleanup.class)
 public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
-	private void activityEdge(INakedActivityEdge edge){
-		OJAnnotatedClass c = findJavaClass(edge.getActivity());
-		if(edge instanceof INakedObjectFlow && ((INakedObjectFlow) edge).getTransformation() != null){
-			SimpleActivityMethodImplementor.generateTransformationMultiplier(c, ((INakedObjectFlow) edge));
+	private void activityEdge(ActivityEdge edge){
+		OJAnnotatedClass c = findJavaClass(EmfActivityUtil.getContainingActivity(edge));
+		if(edge instanceof ObjectFlow && ((ObjectFlow) edge).getTransformation() != null){
+			SimpleActivityMethodImplementor.generateTransformationMultiplier(c, ((ObjectFlow) edge));
 		}
-		if(edge.hasGuard() && BehaviorUtil.hasExecutionInstance(edge.getActivity())){
-			INakedActivityNode node = edge.getEffectiveSource();
-			OJAnnotatedOperation oper = new OJAnnotatedOperation(Jbpm5Util.getGuardMethod(edge));
+		if(EmfActivityUtil.hasGuard(edge) && EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(edge))){
+			ActivityNode node = EmfActivityUtil.getEffectiveSource(edge);
+			OJAnnotatedOperation oper = new OJAnnotatedOperation(Jbpm5Util.getGuardMethod(node, edge));
 			c.addToOperations(oper);
 			oper.setReturnType(new OJPathName("boolean"));
 			ActivityUtil.setupVariables(oper, node);
-			INakedActivityNode source = edge.getEffectiveSource();
-			if(edge instanceof INakedObjectFlow){
-				addObjectFlowVariable(edge, oper, (INakedObjectFlow) edge);
-			}else if((source instanceof INakedControlNode && ((INakedControlNode) source).getControlNodeType() == ControlNodeType.DECISION_NODE)){
+			ActivityNode source = EmfActivityUtil.getEffectiveSource(edge);
+			if(edge instanceof ObjectFlow){
+				addObjectFlowVariable(edge, oper, (ObjectFlow) edge);
+			}else if(source instanceof DecisionNode){
 				// NB!! we are doing it here for both controlflows and
 				// objectflows which is not entirely to uml spec but what the
 				// heck,
 				// looks like a good idea
-				if(source.getIncoming().size() == 1 && source.getIncoming().iterator().next() instanceof INakedObjectFlow){
-					INakedObjectFlow objectFlow = (INakedObjectFlow) source.getIncoming().iterator().next();
+				if(source.getIncomings().size() == 1 && source.getIncomings().iterator().next() instanceof ObjectFlow){
+					ObjectFlow objectFlow = (ObjectFlow) source.getIncomings().iterator().next();
 					addObjectFlowVariable(edge, oper, objectFlow);
 				}
 			}
-			IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
-			oper.getBody().addToStatements("return " + ValueSpecificationUtil.expressValue(oper, edge.getGuard(), node.getActivity(), booleanType));
+			Classifier booleanType = getLibrary().getBooleanType();
+			oper.getBody().addToStatements(
+					"return " + valueSpecificationUtil.expressValue(oper, edge.getGuard(), EmfActivityUtil.getContainingActivity(edge), booleanType));
 			oper.addParam("context", Jbpm5Util.getProcessContext());
 		}
 	}
-	private void addObjectFlowVariable(INakedActivityEdge edge,OJAnnotatedOperation oper,INakedObjectFlow objectFlow){
-		INakedObjectNode origin = objectFlow.getOriginatingObjectNode();
+	private void addObjectFlowVariable(ActivityEdge edge,OJAnnotatedOperation oper,ObjectFlow objectFlow){
+		ObjectNode origin = EmfActivityUtil.getOriginatingObjectNode( objectFlow);
 		// TODO the originatingObjectNode may not have the correct type after
 		// transformations and selections
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), origin, false);
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(edge), origin, false);
 		OJAnnotatedField sourceField = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 		oper.getBody().addToLocals(sourceField);
 		AbstractObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
 		sourceField.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(oper.getBody(), objectFlow));
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void implementActivity(INakedActivity activity){
-		if(activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
+	public void implementActivity(Activity activity){
+		if(!EmfActivityUtil.isSimpleSynchronousMethod(activity)){
 			OJAnnotatedClass activityClasss = findJavaClass(activity);
 			addParameterDelegation(activityClasss, activity);
 			OJPathName stateClass = OJUtil.statePathname(activity);
 			OJAnnotatedOperation getSelf = new OJAnnotatedOperation("getSelf", activityClasss.getPathName());
 			getSelf.initializeResultVariable("this");
 			activityClasss.addToOperations(getSelf);
-			implementContainer(activity.getActivityKind() == ActivityKind.PROCESS, stateClass, activity, activity);
+			implementContainer(EmfBehaviorUtil.isProcess(activity), stateClass, activity, activity);
 		}
 	}
-	private void implementContainer(boolean isProcess,OJPathName stateClass,ActivityNodeContainer container,INakedClassifier msg){
+	private void implementContainer(boolean isProcess,OJPathName stateClass,Namespace container,Classifier msg){
 		OJAnnotatedClass activityClass = findJavaClass(msg);
 		implementNodeMethods(container);
 		doExecute(msg, activityClass, isProcess);
 		if(isProcess){
 			implementProcessInterfaceOperations(activityClass, stateClass, msg);
 			OJOperation init = activityClass.findOperation("init", Arrays.asList(Jbpm5Util.getProcessContext()));
-			EventUtil.requestEvents((OJAnnotatedOperation) init, container.getActivityNodes(), getLibrary().getBusinessRole() != null);
+			eventUtil.requestEvents((OJAnnotatedOperation) init, EmfActivityUtil.getActivityNodes(container),
+					getLibrary().getBusinessRole() != null);
 		}else{
 			Jbpm5Util.implementRelationshipWithProcess(activityClass, false, "process");
 			doIsStepActive(activityClass, msg);
@@ -149,32 +140,34 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			doFindNodeInstanceByUniqueId(activityClass);
 			addDirtyLogic(activityClass);
 		}
-		OJUtil.addTransientProperty(activityClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(OJVisibilityKind.PROTECTED);
+		OJUtil.addTransientProperty(activityClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
+				OJVisibilityKind.PROTECTED);
 		OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
 		activityClass.addToOperations(complete);
-		if(container.getPostConditions().size() > 0){
+		if(EmfActivityUtil.getPostconditions(container).size() > 0){
 			complete.getBody().addToStatements("evaluatePostConditions()");
 			OJUtil.addFailedConstraints(complete);
 		}
-		for(INakedActivityNode n:container.getActivityNodes()){
-			if(n instanceof INakedStructuredActivityNode){
-				INakedStructuredActivityNode san = (INakedStructuredActivityNode) n;
-				INakedMessageStructure childMsg = san.getMessageStructure();
+		for(ActivityNode n:EmfActivityUtil.getActivityNodes(container)){
+			if(n instanceof StructuredActivityNode){
+				StructuredActivityNode san = (StructuredActivityNode) n;
+				Classifier childMsg = getLibrary().getMessageStructure(san);
 				OJAnnotatedClass c = findJavaClass(childMsg);
 				OJAnnotatedOperation getter = (OJAnnotatedOperation) c.getUniqueOperation("getSelf");
-				if(container instanceof INakedActivity){
+				if(container instanceof Activity){
 					getter.initializeResultVariable("getNodeContainer()");
 				}else{
 					getter.initializeResultVariable("getNodeContainer().getSelf()");
 				}
-				OJAnnotatedOperation getActivity = new OJAnnotatedOperation("getContainingActivity", OJUtil.classifierPathname(container.getActivity()));
+				OJAnnotatedOperation getActivity = new OJAnnotatedOperation("getContainingActivity", OJUtil.classifierPathname(EmfActivityUtil
+						.getContainingActivity(container)));
 				c.addToOperations(getActivity);
-				if(container instanceof INakedActivity){
+				if(container instanceof Activity){
 					getActivity.initializeResultVariable("getNodeContainer()");
 				}else{
 					getActivity.initializeResultVariable("getNodeContainer().getContainingActivity()");
 				}
-				if(container.getActivity().getContext() != null){
+				if(EmfActivityUtil.getContainingActivity(container).getContext() != null){
 					OJAnnotatedOperation contextGetter = (OJAnnotatedOperation) c.getUniqueOperation("getContextObject");
 					contextGetter.initializeResultVariable("getSelf().getContextObject()");
 				}
@@ -194,39 +187,41 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		OJAnnotatedOperation propagateException = new OJAnnotatedOperation("propagateException");
 		ojOperationClass.addToOperations(propagateException);
 		propagateException.addParam("exception", new OJPathName("Object"));
-		propagateException.getBody().addToStatements("getNodeContainer()." + map.unhandledExceptionOperName() + "(getCallingNodeInstanceUniqueId(),exception, this)");
+		propagateException.getBody().addToStatements(
+				"getNodeContainer()." + map.unhandledExceptionOperName() + "(getCallingNodeInstanceUniqueId(),exception, this)");
 	}
-	public void implementVariableDelegation(ActivityNodeContainer container,INakedClassifier msg,OJAnnotatedClass c){
+	public void implementVariableDelegation(Namespace container,Classifier msg,OJAnnotatedClass c){
 		// NB!!! remember this is only for OCL, not for actions. We only implement getters
-		for(INakedActivityVariable var:container.getVariables()){
+		for(Variable var:EmfActivityUtil.getVariables(container)){
 			NakedStructuralFeatureMap varMap = OJUtil.buildStructuralFeatureMap(msg, var);
 			OJAnnotatedOperation delegate = new OJAnnotatedOperation(varMap.getter(), varMap.javaTypePath());
 			c.addToOperations(delegate);
 			delegate.initializeResultVariable("getNodeContainer()." + varMap.getter() + "()");
 		}
-		if(container instanceof INakedActivity){
-			for(INakedParameter var:((INakedActivity) container).getOwnedParameters()){
+		if(container instanceof Activity){
+			for(Parameter var:((Activity) container).getOwnedParameters()){
 				NakedStructuralFeatureMap varMap = OJUtil.buildStructuralFeatureMap(msg, var);
 				OJAnnotatedOperation delegate = new OJAnnotatedOperation(varMap.getter(), varMap.javaTypePath());
 				c.addToOperations(delegate);
 				delegate.initializeResultVariable("getNodeContainer()." + varMap.getter() + "()");
 			}
-		}else if(container.getOwnerElement() instanceof ActivityNodeContainer){
-			implementVariableDelegation((ActivityNodeContainer) container.getOwnerElement(), msg, c);
+		}else if(container.getOwner() instanceof Activity || container.getOwner() instanceof StructuredActivityNode){
+			implementVariableDelegation((Namespace) container.getOwner(), msg, c);
 		}
 	}
-	private void doExecute(INakedClassifier activity,OJAnnotatedClass activityClass,boolean isProcess){
+	private void doExecute(Classifier activity,OJAnnotatedClass activityClass,boolean isProcess){
 		OJOperation execute = implementExecute(activityClass, activity);
 		if(isProcess){
 			execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
-		}else if(activity instanceof INakedActivity){
+		}else if(activity instanceof Activity){
 			activityClass.addToImports(new OJPathName(ExceptionHolder.class.getName()));
-			INakedActivity a = (INakedActivity) activity;
-			for(INakedParameter p:a.getOwnedParameters()){
+			Activity a = (Activity) activity;
+			for(Parameter p:a.getOwnedParameters()){
 				if(p.isException()){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(activity, p);
 					execute.getBody().addToStatements(
-							new OJIfStatement("this." + map.getter() + "()!=null", "throw new ExceptionHolder(this,\"" + p.getName() + "\"," + map.getter() + "())"));
+							new OJIfStatement("this." + map.getter() + "()!=null", "throw new ExceptionHolder(this,\"" + p.getName() + "\","
+									+ map.getter() + "())"));
 				}
 			}
 			execute.getBody().addToStatements(
@@ -234,33 +229,33 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 							+ Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + ")"));
 		}
 	}
-	private void implementNodeMethods(ActivityNodeContainer activity){
+	private void implementNodeMethods(Namespace activity){
 		OJAnnotatedClass activityClass;
-		if(activity instanceof INakedStructuredActivityNode){
-			activityClass = findJavaClass(((INakedStructuredActivityNode) activity).getMessageStructure());
+		if(activity instanceof StructuredActivityNode){
+			activityClass = findJavaClass(getLibrary().getMessageStructure(((StructuredActivityNode) activity)));
 		}else{
-			activityClass = findJavaClass((INakedActivity) activity);
+			activityClass = findJavaClass((Activity) activity);
 		}
 		activityClass.addToImports(Jbpm5Util.getProcessContext());
-		for(INakedActivityNode node:activity.getActivityNodes()){
-			if(node instanceof INakedAction || node instanceof INakedParameterNode || node instanceof INakedControlNode || node instanceof INakedExpansionRegion
-					|| node instanceof INakedExpansionNode){
+		for(ActivityNode node:EmfActivityUtil.getActivityNodes(activity)){
+			if(node instanceof Action || node instanceof ActivityParameterNode || node instanceof ControlNode || node instanceof ExpansionRegion
+					|| node instanceof ExpansionNode){
 				this.implementNodeMethod(activityClass, node);
-				if(node instanceof ActivityNodeContainer){
-					visitEdges(((ActivityNodeContainer) node).getActivityEdges());
+				if(node instanceof StructuredActivityNode){
+					visitEdges(((StructuredActivityNode) node).getContainedEdges());
 				}
-				if(node instanceof INakedAction && BehaviorUtil.hasMessageStructure((INakedAction) node)){
-					for(INakedOutputPin op:((INakedAction) node).getOutput()){
-						if(!(node instanceof INakedAcceptCallAction && ((INakedAcceptCallAction) node).getReturnInfo() == op)){
+				if(node instanceof Action && EmfActionUtil.hasMessageStructure((Action) node)){
+					for(OutputPin op:((Action) node).getOutputs()){
+						if(!(node instanceof AcceptCallAction && ((AcceptCallAction) node).getReturnInformation() == op)){
 							implementDerivedGetter(activityClass, op);
 						}
 					}
 				}
-				if(node instanceof INakedExpansionRegion){
-					INakedExpansionRegion region = (INakedExpansionRegion) node;
-					INakedMessageStructure msg = region.getMessageStructure();
+				if(node instanceof ExpansionRegion){
+					ExpansionRegion region = (ExpansionRegion) node;
+					Classifier msg = getLibrary().getMessageStructure(region);
 					OJAnnotatedClass msgClass = findJavaClass(msg);
-					for(INakedExpansionNode ip:region.getOutputElement()){
+					for(ExpansionNode ip:region.getOutputElements()){
 						NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(msg, ip, true);
 						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(msg, ip, false);
 						OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
@@ -270,12 +265,14 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				}
 			}
 		}
-		visitEdges(activity.getActivityEdges());
+		visitEdges(EmfActivityUtil.getEdges(activity));
 	}
-	private void implementDerivedGetter(OJAnnotatedClass activityClass,INakedObjectNode node2){
-		NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap((INakedAction) node2.getOwnerElement(), getLibrary());
-		NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(node2.getNearestStructuredElementAsClassifier(), node2, true);
-		NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(node2.getNearestStructuredElementAsClassifier(), node2, false);
+	private void implementDerivedGetter(OJAnnotatedClass activityClass,ObjectNode node2){
+		NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap((Action) EmfElementFinder.getContainer(node2), getLibrary());
+		Namespace container = EmfActivityUtil.getNearestNodeContainer(node2);
+		Classifier parentMsg = getLibrary().getMessageStructure(container);
+		NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(parentMsg, node2, true);
+		NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(parentMsg, node2, false);
 		List<OJPathName> emptyList = Collections.emptyList();
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) activityClass.findOperation(pinMap.getter(), emptyList);
 		oper.setBody(new OJBlock());
@@ -313,34 +310,34 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			}
 		}
 	}
-	protected void visitEdges(Collection<INakedActivityEdge> activityEdges){
-		for(INakedActivityEdge edge:activityEdges){
+	protected void visitEdges(Collection<ActivityEdge> activityEdges){
+		for(ActivityEdge edge:activityEdges){
 			activityEdge(edge);
 		}
 	}
-	private void implementNodeMethod(OJClass activityClass,INakedActivityNode node){
+	private void implementNodeMethod(OJClass activityClass,ActivityNode node){
 		Jbpm5ActionBuilder<?> implementor = null;
-		if(node instanceof INakedExpansionRegion){
-			implementor = new ExpansionRegionBuilder(getLibrary(), (INakedExpansionRegion) node);
-		}else if(node instanceof INakedEmbeddedSingleScreenTask){
-			implementor = new EmbeddedSingleScreenTaskBuilder(getLibrary(), (INakedEmbeddedSingleScreenTask) node);
-		}else if(node instanceof INakedEmbeddedScreenFlowTask){
-			implementor = new EmbeddedScreenFlowTaskBuilder(getLibrary(), (INakedEmbeddedScreenFlowTask) node);
-		}else if(node instanceof INakedCallBehaviorAction){
-			implementor = new CallBehaviorActionBuilder(getLibrary(), (INakedCallBehaviorAction) node);
-		}else if(node instanceof INakedCallOperationAction){
-			implementor = new CallOperationActionBuilder(getLibrary(), (INakedCallOperationAction) node);
-		}else if(node instanceof INakedAcceptEventAction){
-			implementor = new AcceptEventActionBuilder(getLibrary(), (INakedAcceptEventAction) node);
-		}else if(node instanceof INakedParameterNode){
-			INakedParameterNode parameterNode = (INakedParameterNode) node;
+		if(node instanceof ExpansionRegion){
+			implementor = new ExpansionRegionBuilder(getLibrary(), (ExpansionRegion) node);
+		}else if(EmfActionUtil.isSingleScreenTask(node)){
+			implementor = new EmbeddedSingleScreenTaskBuilder(getLibrary(), (OpaqueAction) node);
+		}else if(EmfActionUtil.isScreenFlowTask(node)){
+			implementor = new EmbeddedScreenFlowTaskBuilder(getLibrary(), (CallBehaviorAction) node);
+		}else if(node instanceof CallBehaviorAction){
+			implementor = new CallBehaviorActionBuilder(getLibrary(), (CallBehaviorAction) node);
+		}else if(node instanceof CallOperationAction){
+			implementor = new CallOperationActionBuilder(getLibrary(), (CallOperationAction) node);
+		}else if(node instanceof AcceptEventAction){
+			implementor = new AcceptEventActionBuilder(getLibrary(), (AcceptEventAction) node);
+		}else if(node instanceof ActivityParameterNode){
+			ActivityParameterNode parameterNode = (ActivityParameterNode) node;
 			implementor = new ParameterNodeBuilder(getLibrary(), parameterNode);
-		}else if(node instanceof INakedReplyAction){
-			INakedReplyAction action = (INakedReplyAction) node;
+		}else if(node instanceof ReplyAction){
+			ReplyAction action = (ReplyAction) node;
 			implementor = new ReplyActionBuilder(getLibrary(), action);
 		}else{
-			implementor = new SimpleActionBridge(getLibrary(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getLibrary(), new Jbpm5ObjectNodeExpressor(
-					getLibrary())));
+			implementor = new SimpleActionBridge(getLibrary(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getLibrary(),
+					new Jbpm5ObjectNodeExpressor(getLibrary())));
 		}
 		if(implementor.hasNodeMethod()){
 			OJAnnotatedOperation operation = new OJAnnotatedOperation(implementor.getMap().doActionMethod());
@@ -350,14 +347,13 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			if(implementor.isEffectiveFinalNode()){
 				implementor.implementFinalStep(operation.getBody());
 			}
-			
 			implementor.setupArgumentPins(operation);
 			implementor.implementPreConditions(operation);
 			implementor.implementObersvations(operation);
 			implementor.implementActionOn(operation);
 			if(implementor.isLongRunning()){
 				implementor.implementCallbackMethods(activityClass);
-			}else if(!(implementor.waitsForEvent() || node instanceof INakedControlNode)){
+			}else if(!(implementor.waitsForEvent() || node instanceof ControlNode)){
 				implementor.implementPostConditions(operation);
 				// implementor.implementConditionalFlows(operation,
 				// operation.getBody(), true);
@@ -365,7 +361,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}
 	}
 	@Override
-	protected Collection<? extends INakedElement> getTopLevelFlows(INakedClassifier umlBehavior){
+	protected Collection<? extends NamedElement> getTopLevelFlows(Classifier umlBehavior){
 		return Arrays.asList(umlBehavior);
 	}
 }

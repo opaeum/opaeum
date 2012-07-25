@@ -5,31 +5,32 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.eclipse.uml2.uml.ActivityKind;
+import org.eclipse.uml2.uml.CallBehaviorMessageStructure;
+import org.eclipse.uml2.uml.DefaultOpaeumComparator;
+import org.eclipse.uml2.uml.ICompositionParticipant;
+import org.eclipse.uml2.uml.INakedActor;
+import org.eclipse.uml2.uml.INakedAssociation;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedCallBehaviorAction;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedMessageStructure;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedRootObject;
+import org.eclipse.uml2.uml.INakedStructuredActivityNode;
+import org.eclipse.uml2.uml.INakedStructuredDataType;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.actions.CallBehaviorMessageStructure;
-import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
-import org.opaeum.metamodel.activities.ActivityKind;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.activities.internal.StructuredActivityNodeClassifier;
 import org.opaeum.metamodel.bpm.INakedBusinessComponent;
 import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opaeum.metamodel.bpm.INakedResponsibility;
 import org.opaeum.metamodel.bpm.internal.EmbeddedScreenFlowTaskMessageStructure;
 import org.opaeum.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedMessageStructure;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.metamodel.core.internal.AssociationClassToEnd;
 import org.opaeum.metamodel.core.internal.EndToAssociationClass;
 import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
@@ -39,8 +40,7 @@ import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
 import org.opaeum.metamodel.core.internal.emulated.NakedBusinessCollaboration;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import org.opaeum.metamodel.usecases.INakedActor;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 @StepDependency(phase = LinkagePhase.class,after = {ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class},before = {TypeResolver.class},requires = {
 		ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class})
@@ -278,11 +278,11 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		addAffectedElement(msg);
 	}
 	@VisitBefore
-	public void visitWorkspaceBefore(INakedModelWorkspace ws){
+	public void visitWorkspaceBefore(ModelWorkspace ws){
 		rootClasses.clear();
 	}
 	@VisitAfter
-	public void visitWorkspaceAfter(INakedModelWorkspace ws){
+	public void visitWorkspaceAfter(ModelWorkspace ws){
 		if(rootClasses.size() > 1){
 			SortedSet<INakedRootObject> rootObjects = new TreeSet<INakedRootObject>(new Comparator<INakedRootObject>(){
 				@Override

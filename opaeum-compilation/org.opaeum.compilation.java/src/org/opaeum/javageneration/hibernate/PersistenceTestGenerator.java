@@ -4,6 +4,13 @@ import java.util.Collection;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -19,20 +26,15 @@ import org.opaeum.javageneration.AbstractTestDataGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.GeneralizationUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
-@StepDependency(phase = JavaTransformationPhase.class, requires = {HibernateAnnotator.class}, after = { HibernateAnnotator.class })
-public class PersistenceTestGenerator extends AbstractTestDataGenerator {
-
+@StepDependency(phase = JavaTransformationPhase.class,requires = {HibernateAnnotator.class},after = {HibernateAnnotator.class})
+public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedClassifier c) {
-		if ((isPersistent(c) /* || c instanceof INakedInterface */) && OJUtil.hasOJClass(c)) {
-			if(c.getMappingInfo().requiresJavaRename()){
-				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, new OJPathName(c.getMappingInfo().getQualifiedJavaName() + "PersistenceTest"));
+	public void visitClass(Classifier c){
+		if((isPersistent(c) /* || c instanceof Interface */) && OJUtil.hasOJClass(c)){
+			if(c.requiresJavaRename()){
+				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, new OJPathName(OJUtil.classifierPathname(c) + "PersistenceTest"));
 			}
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			String name = ojClass.getName();
@@ -42,9 +44,9 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 			OJPackage testPackage = ojClass.getMyPackage();
 			testPackage.addToClasses(test);
 			super.createTextPath(test, JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC);
-			INakedClassifier nc = c;
+			Classifier nc = c;
 			addPopulate(ojClass, test, nc);
-			OJAnnotatedField instance = new OJAnnotatedField("instance",ojClass.getPathName());
+			OJAnnotatedField instance = new OJAnnotatedField("instance", ojClass.getPathName());
 			instance.setStatic(true);
 			test.addToFields(instance);
 			addGetInstance(ojClass, test, nc);
@@ -54,29 +56,27 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 			addReset(test, nc);
 		}
 	}
-
 	@Override
-	protected String getTestDataName(INakedClassifier child) {
+	protected String getTestDataName(Classifier child){
 		return OJUtil.classifierPathname(child).getLast() + "PersistenceTest";
 	}
-
-	protected void addPopulate(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
+	protected void addPopulate(OJAnnotatedClass ojClass,OJAnnotatedClass test,Classifier c){
 		OJOperation populate = new OJAnnotatedOperation("populate");
 		populate.addToThrows("Exception");
 		test.addToOperations(populate);
 		populate.setStatic(true);
 		populate.addParam("instance", ojClass.getPathName());
-		if (c.getNakedGeneralizations().size() > 0) {
-			OJPathName superType = getTestDataPath(c.getSupertype());
+		if(c.getGeneralizations().size() > 0){
+			OJPathName superType = getTestDataPath(c.getGeneralizations().get(0).getGeneral());
 			test.addToImports(superType);
 			populate.getBody().addToStatements(superType.getLast() + ".populate(instance)");
 		}
-		for (INakedProperty f : c.getEffectiveAttributes()) {
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(f);
-			boolean isReadOnly = (f instanceof INakedProperty && (f).isReadOnly());
-			if (f.getOwner() == c || c.getInterfaces().contains(f.getOwner())) {
+		for(Property f:EmfElementFinder.getPropertiesInScope(c)){
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
+			boolean isReadOnly = (f instanceof Property && (f).isReadOnly());
+			if(f.getOwner() == c || (c instanceof BehavioredClassifier && ((BehavioredClassifier) c).getImplementedInterfaces().contains(f.getOwner()))){
 				// do properties for directly implemented interfaces too.
-				if (map.isOne() && !(f.isDerived() || isReadOnly || f.isInverse()) && f.isRequired()) {
+				if(map.isOne() && !(f.isDerived() || isReadOnly || EmfPropertyUtil.isInverse(f)) && EmfPropertyUtil.isRequired(f)){
 					String defaultValue = calculateDefaultValue(test, populate.getBody(), f);
 					populate.getBody().addToStatements("instance." + map.setter() + "(" + defaultValue + ")");
 				}
@@ -84,8 +84,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		}
 		test.addToOperations(populate);
 	}
-
-	protected void addGetInstance(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
+	protected void addGetInstance(OJAnnotatedClass ojClass,OJAnnotatedClass test,Classifier c){
 		OJOperation getInstance = new OJAnnotatedOperation("getInstance");
 		test.addToOperations(getInstance);
 		getInstance.addToThrows("Exception");
@@ -94,21 +93,21 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		test.addToOperations(getInstance);
 		OJIfStatement ifNull = new OJIfStatement();
 		ifNull.setCondition("instance==null");
-		if (c.isAbstract()) {
-			Collection<? extends INakedClassifier> subClasses = getConcreteSubclassifiersOf(c);
-			if (subClasses.size() > 0) {
-				INakedClassifier child = subClasses.iterator().next();
+		if(c.isAbstract()){
+			Collection<? extends Classifier> subClasses = getConcreteSubclassifiersOf(c);
+			if(subClasses.size() > 0){
+				Classifier child = subClasses.iterator().next();
 				OJPathName testPath = getTestDataPath(child);
 				test.addToImports(testPath);
 				ifNull.getThenPart().addToStatements("instance=" + testPath.getLast() + ".getInstance()");
 			}else{
-				ifNull.getThenPart().addToStatements("throw new RuntimeException(\"Entity "+ c.getName() +" has no concrete implementations\")");
+				ifNull.getThenPart().addToStatements("throw new RuntimeException(\"Class " + c.getName() + " has no concrete implementations\")");
 			}
-		} else {
+		}else{
 			ifNull.getThenPart().addToStatements("instance=new " + ojClass.getName() + "()");
 			ifNull.getThenPart().addToStatements("populate(instance)");
-			OJAnnotatedField entityManager = new OJAnnotatedField("entityManager",new OJPathName("javax.persistence.EntityManager"));
-			entityManager.setInitExp("HibernateConfigurator.getInstance().getEntityManager()");
+			OJAnnotatedField entityManager = new OJAnnotatedField("entityManager", new OJPathName("javax.persistence.ClassManager"));
+			entityManager.setInitExp("HibernateConfigurator.getInstance().getClassManager()");
 			ifNull.getThenPart().addToLocals(entityManager);
 			ifNull.getThenPart().addToStatements("entityManager.persist(instance)");
 		}
@@ -117,39 +116,37 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		getInstance.getBody().addToStatements(ifNull);
 		getInstance.getBody().addToStatements("return instance");
 	}
-
-	protected void addCreateNew(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
+	protected void addCreateNew(OJAnnotatedClass ojClass,OJAnnotatedClass test,Classifier c){
 		OJOperation createNew = new OJAnnotatedOperation("createNew");
 		createNew.addToThrows("Exception");
 		test.addToOperations(createNew);
 		createNew.setStatic(true);
 		createNew.setReturnType(ojClass.getPathName());
 		test.addToOperations(createNew);
-		Collection<? extends INakedClassifier> subClasses = GeneralizationUtil.getAllSubClassifiers(c,getModelInScope());
-		if (c.isAbstract()) {
-			if (subClasses.size() > 0) {
-				//TODO invalid
-				INakedClassifier child = subClasses.iterator().next();
+		Collection<? extends Classifier> subClasses = EmfClassifierUtil.getAllSubClassifiers(c, getModelInScope());
+		if(c.isAbstract()){
+			if(subClasses.size() > 0){
+				// TODO invalid
+				Classifier child = subClasses.iterator().next();
 				OJPathName testPath = getTestDataPath(child);
 				createNew.getBody().addToStatements("return " + testPath.getLast() + ".createNew()");
 			}else{
-				createNew.getBody().addToStatements("throw new RuntimeException(\"Entity "+ c.getName() +" has no concrete implementations\")");
+				createNew.getBody().addToStatements("throw new RuntimeException(\"Class " + c.getName() + " has no concrete implementations\")");
 			}
-		} else {
+		}else{
 			OJAnnotatedField newInstance = new OJAnnotatedField("newInstance", ojClass.getPathName());
 			newInstance.setInitExp("new " + ojClass.getName() + "()");
 			createNew.getBody().addToLocals(newInstance);
 			createNew.getBody().addToStatements("populate(newInstance)");
-			OJAnnotatedField entityManager = new OJAnnotatedField("entityManager",new OJPathName("javax.persistence.EntityManager"));
-			entityManager.setInitExp("HibernateConfigurator.getInstance().getEntityManager()");
+			OJAnnotatedField entityManager = new OJAnnotatedField("entityManager", new OJPathName("javax.persistence.ClassManager"));
+			entityManager.setInitExp("HibernateConfigurator.getInstance().getClassManager()");
 			createNew.getBody().addToLocals(entityManager);
 			createNew.getBody().addToStatements("entityManager.persist(newInstance)");
 			createNew.getBody().addToStatements("return newInstance");
 		}
 	}
-
-	protected void addReset(OJAnnotatedClass test, INakedClassifier c) {
-		OJAnnotatedField isResetting = new OJAnnotatedField("isResetting",new OJPathName("boolean"));
+	protected void addReset(OJAnnotatedClass test,Classifier c){
+		OJAnnotatedField isResetting = new OJAnnotatedField("isResetting", new OJPathName("boolean"));
 		isResetting.setInitExp("false");
 		isResetting.setStatic(true);
 		test.addToFields(isResetting);
@@ -163,41 +160,36 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		test.addToOperations(reset);
 		OJIfStatement ifResetting = new OJIfStatement("isResetting==false", "isResetting=true");
 		ifResetting.getThenPart().addToStatements("instance=null");
-		if (c.hasSupertype()) {
-			OJPathName featureTest = new OJPathName(
-			// (((INakedEntity)
-			// c.getSupertype()).getMappingInfo().getQualifiedJavaName() +
-			// "PersistenceTest"));
-					(((INakedClassifier) c.getSupertype()).getMappingInfo().getQualifiedJavaName() + "PersistenceTest"));
+		if(c.getGenerals().size() >= 1){
+			Classifier supertype = (Classifier) c.getGenerals().get(0);
+			OJPathName featureTest = new OJPathName((OJUtil.classifierPathname(supertype) + "PersistenceTest"));
 			ifResetting.getThenPart().addToStatements(featureTest.getLast() + ".reset()");
 		}
-		for (INakedProperty f : c.getOwnedAttributes()) {
+		for(Property f:c.getAttributes()){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
-			boolean isReadOnly = (f instanceof INakedProperty && (f).isReadOnly());
-			if (map.isOne() && !(f.isDerived() || isReadOnly || f.isInverse()) && f.getNakedBaseType() instanceof INakedEntity) {
-				OJPathName featureTest = new OJPathName(
-						(((INakedEntity) f.getNakedBaseType()).getMappingInfo().getQualifiedJavaName() + "PersistenceTest"));
+			boolean isReadOnly = (f instanceof Property && (f).isReadOnly());
+			if(map.isOne() && !(f.isDerived() || isReadOnly || EmfPropertyUtil.isInverse(f)) && f.getType() instanceof Class){
+				OJPathName featureTest = new OJPathName(OJUtil.classifierPathname(f.getType()) + "PersistenceTest");
 				ifResetting.getThenPart().addToStatements(featureTest.getLast() + ".reset()");
 			}
 		}
-		ifResetting.getThenPart().addToStatements("HibernateConfigurator.getInstance().closeEntityManager()");
+		ifResetting.getThenPart().addToStatements("HibernateConfigurator.getInstance().closeClassManager()");
 		ifResetting.getThenPart().addToStatements("isResetting=false");
 		reset.getBody().addToStatements(ifResetting);
 	}
-
-	protected void addTestInsert(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
-		if (!(c.isAbstract())) {
+	protected void addTestInsert(OJAnnotatedClass ojClass,OJAnnotatedClass test,Classifier c){
+		if(!(c.isAbstract())){
 			OJAnnotatedOperation testInsert = new OJAnnotatedOperation("testInsert");
 			test.addToOperations(testInsert);
 			testInsert.addToThrows("Exception");
 			OJAnnotationValue atTest = new OJAnnotationValue(new OJPathName("org.testng.annotations.Test"));
 			atTest.putAttribute(new OJAnnotationAttributeValue("groups", "persistence"));
 			testInsert.putAnnotation(atTest);
-			OJAnnotatedField entityManager = new OJAnnotatedField("entityManager",new OJPathName("javax.persistence.EntityManager"));
-			entityManager.setInitExp("HibernateConfigurator.getInstance().getEntityManager()");
+			OJAnnotatedField entityManager = new OJAnnotatedField("entityManager", new OJPathName("javax.persistence.ClassManager"));
+			entityManager.setInitExp("HibernateConfigurator.getInstance().getClassManager()");
 			test.addToImports(entityManager.getType());
 			testInsert.getBody().addToLocals(entityManager);
-			OJAnnotatedField instance = new OJAnnotatedField("instance",ojClass.getPathName());
+			OJAnnotatedField instance = new OJAnnotatedField("instance", ojClass.getPathName());
 			instance.setInitExp("new " + ojClass.getName() + "()");
 			testInsert.getBody().addToLocals(instance);
 			testInsert.getBody().addToStatements("entityManager.getTransaction().begin()");
@@ -206,35 +198,34 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 			testInsert.getBody().addToStatements("entityManager.getTransaction().commit()");
 		}
 	}
-
-	protected void addTestOptionalFields(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
+	protected void addTestOptionalFields(OJAnnotatedClass ojClass,OJAnnotatedClass test,Classifier c){
 		OJAnnotatedOperation testOptionalFields = new OJAnnotatedOperation("testOptionalFields");
 		test.addToOperations(testOptionalFields);
 		testOptionalFields.addToThrows("Exception");
 		OJAnnotationValue atTest = new OJAnnotationValue(new OJPathName("org.testng.annotations.Test"));
 		atTest.putAttribute(new OJAnnotationAttributeValue("groups", "persistence"));
 		testOptionalFields.putAnnotation(atTest);
-		OJAnnotatedField entityManager = new OJAnnotatedField("entityManager",new OJPathName("javax.persistence.EntityManager"));
-		entityManager.setInitExp("HibernateConfigurator.getInstance().getEntityManager()");
+		OJAnnotatedField entityManager = new OJAnnotatedField("entityManager", new OJPathName("javax.persistence.ClassManager"));
+		entityManager.setInitExp("HibernateConfigurator.getInstance().getClassManager()");
 		test.addToImports(entityManager.getType());
 		testOptionalFields.getBody().addToLocals(entityManager);
-		OJAnnotatedField instance = new OJAnnotatedField("instance",ojClass.getPathName());
+		OJAnnotatedField instance = new OJAnnotatedField("instance", ojClass.getPathName());
 		instance.setInitExp("null");
 		testOptionalFields.getBody().addToLocals(instance);
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().begin()");
 		testOptionalFields.getBody().addToStatements("instance=getInstance()");
-		for (INakedProperty p : c.getEffectiveAttributes()) {
+		for(Property p:EmfElementFinder.getPropertiesInScope(c)){
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-			if (map.isOne() && !(p.isDerived() || p.isReadOnly() || p.isInverse()) && !p.isRequired()) {
+			if(map.isOne() && !(p.isDerived() || p.isReadOnly() || EmfPropertyUtil.isInverse(p)) && !EmfPropertyUtil.isRequired(p)){
 				testOptionalFields.getBody().addToStatements(
 						"instance." + map.setter() + "(" + calculateDefaultValue(test, testOptionalFields.getBody(), p) + ")");
 			}
 		}
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().commit()");
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().begin()");
-		for (INakedProperty p : c.getEffectiveAttributes()) {
+		for(Property p:EmfElementFinder.getPropertiesInScope(c)){
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-			if (map.isOne() && !(p.isDerived() || p.isReadOnly() || p.isInverse()) && !p.isRequired()) {
+			if(map.isOne() && !(p.isDerived() || p.isReadOnly() || EmfPropertyUtil.isInverse(p)) && !EmfPropertyUtil.isRequired(p)){
 				testOptionalFields.getBody().addToStatements("instance." + map.setter() + "(null)");
 			}
 		}

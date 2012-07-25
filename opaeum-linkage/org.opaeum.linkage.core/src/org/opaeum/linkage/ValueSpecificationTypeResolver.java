@@ -1,14 +1,14 @@
 package org.opaeum.linkage;
 
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedSlot;
+import org.eclipse.uml2.uml.INakedTypedElement;
+import org.eclipse.uml2.uml.INakedValuePin;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.activities.INakedValuePin;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSlot;
-import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 
 @StepDependency(phase = LinkagePhase.class, requires = { TypeResolver.class }, after = { TypeResolver.class })
 public class ValueSpecificationTypeResolver extends AbstractModelElementLinker {

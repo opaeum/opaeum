@@ -80,8 +80,6 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 										}
 									}
 								}
-								PersistentNameGenerator png = new PersistentNameGenerator();
-								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
 								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60),false);
 								//TODO add features to SourceFolderStrategy to determine if this should be true, ie shouldCleanDirectoriesWhenGeneratingSingleModel
 								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext,true);

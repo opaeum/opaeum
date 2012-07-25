@@ -5,10 +5,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.opaeum.metamodel.actions.INakedAcceptCallAction;
-import org.opaeum.metamodel.actions.INakedReplyAction;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedAcceptCallAction;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedReplyAction;
 import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 
 public class NakedReplyActionImpl extends NakedActionImpl implements INakedReplyAction{

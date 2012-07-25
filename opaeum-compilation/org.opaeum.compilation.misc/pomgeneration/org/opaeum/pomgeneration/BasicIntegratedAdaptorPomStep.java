@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
-
+import org.eclipse.uml2.uml.Package;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Plugin;
 import org.opaeum.feature.StepDependency;
-import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 
@@ -21,7 +20,7 @@ public class BasicIntegratedAdaptorPomStep extends PomGenerationStep{
 	@Override
 	public Dependency[] getDependencies(){
 		Collection<Dependency> dependencies = getTestDepedencies();
-		for(INakedRootObject rootObject:workspace.getPrimaryRootObjects()){
+		for(Package rootObject:workspace.getPrimaryRootObjects()){
 			addDependencyToRootObject(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, rootObject, dependencies);
 		}
 		addHibernate(dependencies);

@@ -4,13 +4,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedPort;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.metamodel.bpm.INakedBusinessComponent;
 import org.opaeum.metamodel.bpm.INakedBusinessRole;
 import org.opaeum.metamodel.bpm.INakedBusinessService;
-import org.opaeum.metamodel.components.INakedPort;
 import org.opaeum.metamodel.components.internal.NakedComponentImpl;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.emulated.NakedBusinessCollaboration;
 

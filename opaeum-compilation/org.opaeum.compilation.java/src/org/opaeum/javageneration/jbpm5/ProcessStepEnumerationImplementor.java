@@ -5,6 +5,13 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Trigger;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.emf.workspace.DefaultOpaeumComparator;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJForStatement;
@@ -18,27 +25,23 @@ import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedStep;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.domain.TriggerMethod;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator{
-	protected abstract INakedStep getEnclosingElement(INakedElement step);
+	protected abstract NamedElement getEnclosingElement(NamedElement step);
 	@Override
 	protected int getThreadPoolSize(){
 		return 1;
 	}
-	protected abstract Collection<INakedTrigger> getOperationTriggers(INakedElement step);
-	protected OJEnum buildOJEnum(INakedClassifier c, boolean hasStateposition) {
-		OJEnum e = new OJEnum(c.getMappingInfo().getJavaName().getAsIs() + "State");
+	protected abstract Collection<Trigger> getOperationTriggers(Element step);
+	protected OJEnum buildOJEnum(Classifier c, boolean hasStateposition) {
+		OJEnum e = new OJEnum(c.getName() + "State");
 		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(IProcessStep.class);
 		e.addToImplementedInterfaces(abstractProcessStep);
-		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNameSpace()));
+		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNamespace()));
 		p.addToClasses(e);
 		super.createTextPath(e, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(true);
 		OJConstructor constructor = new OJConstructor();
@@ -72,7 +75,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		e.addToOperations(resolve);
 		return e;
 	}
-	protected void buildLiteral(INakedStep step,OJEnum e,String parentLiteral){
+	protected void buildLiteral(NamedElement step,OJEnum e,String parentLiteral){
 		OJEnumLiteral l = new OJEnumLiteral();
 		l.setName(Jbpm5Util.stepLiteralName(step));
 		e.addToLiterals(l);
@@ -81,23 +84,23 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		}else{
 			OJUtil.addParameter(l, "parentState", "null");
 		}
-		OJUtil.addParameter(l, "uuid", '"' + step.getMappingInfo().getIdInModel() + '"');
-		OJUtil.addParameter(l, "id", step.getMappingInfo().getOpaeumId().toString() + 'l');
-		OJUtil.addParameter(l, "humanName", '"' + step.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs() + '"');
+		OJUtil.addParameter(l, "uuid", '"' + EmfWorkspace.getId(step)+ '"');
+		OJUtil.addParameter(l, "id", EmfWorkspace.getOpaeumId(step) + "l");
+		OJUtil.addParameter(l, "humanName", '"' + NameConverter.separateWords(NameConverter.capitalize(step.getName())) + '"');
 		OJUtil.addParameter(l, "triggerMethods", buildTriggerMethodParameter(getOperationTriggers(step)));
 		applyStereotypesAsAnnotations(step, l);
 	}
-	private String buildTriggerMethodParameter(Collection<INakedTrigger> methodTriggers){
-		SortedSet<INakedTrigger> sortedSet = new TreeSet<INakedTrigger>(new DefaultOpaeumComparator());
+	private String buildTriggerMethodParameter(Collection<Trigger> methodTriggers){
+		SortedSet<Trigger> sortedSet = new TreeSet<Trigger>(new DefaultOpaeumComparator());
 		sortedSet.addAll(methodTriggers);
 		StringBuilder sb = new StringBuilder("new TriggerMethod[]{");
-		Iterator<INakedTrigger> iter = sortedSet.iterator();
+		Iterator<Trigger> iter = sortedSet.iterator();
 		while(iter.hasNext()){
-			INakedTrigger t = iter.next();
+			Trigger t = iter.next();
 			sb.append("new TriggerMethod(");
-			sb.append(t.isHumanTrigger());
+			sb.append(EmfBehaviorUtil.isHumanTrigger(t));
 			sb.append(",\"");
-			sb.append(t.getEvent().getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs());
+			sb.append( NameConverter.separateWords(NameConverter.capitalize(t.getEvent().getName())));
 			sb.append("\",\"");
 			sb.append(t.getEvent().getName());
 			sb.append("\")");

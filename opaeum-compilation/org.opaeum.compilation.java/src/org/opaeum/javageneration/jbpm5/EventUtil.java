@@ -5,6 +5,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.AcceptEventAction;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.CallEvent;
+import org.eclipse.uml2.uml.ChangeEvent;
+import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.SignalEvent;
+import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.Trigger;
+import org.eclipse.uml2.uml.ValueSpecification;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJOperation;
@@ -15,21 +29,8 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.bpm.INakedDeadline;
-import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTimer;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedValueSpecification;
-import org.opaeum.metamodel.statemachines.INakedCompletionEvent;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.OutgoingEvent;
@@ -37,30 +38,37 @@ import org.opaeum.runtime.domain.TimeUnit;
 
 //TODO refactor into an EventMap
 public class EventUtil{
-	public static String getEventConsumerName(INakedElement e){
-		if(e instanceof INakedSignalEvent){
-			return OJUtil.buildSignalMap(((INakedSignalEvent) e).getSignal()).eventConsumerMethodName();
-		}else if(e instanceof INakedCallEvent){
-			return OJUtil.buildOperationMap(((INakedCallEvent) e).getOperation()).eventConsumerMethodName();
-		}else if(e instanceof INakedCompletionEvent){
-			return "on" + e.getMappingInfo().getJavaName().getCapped() + "Completed";
-		}else if(e instanceof INakedEvent){
-			return e.getMappingInfo().getJavaName().getDecapped() + "Occurred";
+	OpaeumLibrary library;
+	private ValueSpecificationUtil valueSpecificationUtil;
+	public EventUtil(OpaeumLibrary library){
+		super();
+		this.library = library;
+		this.valueSpecificationUtil=new ValueSpecificationUtil(library);
+	}
+	public static String getEventConsumerName(NamedElement e){
+		if(e instanceof SignalEvent){
+			return OJUtil.buildSignalMap(((SignalEvent) e).getSignal()).eventConsumerMethodName();
+		}else if(e instanceof CallEvent){
+			return OJUtil.buildOperationMap(((CallEvent) e).getOperation()).eventConsumerMethodName();
+		}else if(e instanceof CompletionEvent){
+			return "on" + NameConverter.capitalize(e.getName()) + "Completed";
+		}else if(e instanceof Event){
+			return NameConverter.capitalize(e.getName()) + "Occurred";
 		}else{
-			return "on" + e.getMappingInfo().getJavaName().getCapped();
+			return "on" + NameConverter.capitalize(e.getName());
 		}
 	}
-	public static OJPathName handlerPathName(INakedOperation s){
+	public static OJPathName handlerPathName(Operation s){
 		return OJUtil.buildOperationMap(s).handlerPath();
 	}
-	public static OJPathName handlerPathName(INakedEvent e){
-		return OJUtil.packagePathname(e.getContext()).getCopy().append(e.getMappingInfo().getJavaName().getCapped() + "Handler");
+	public static OJPathName handlerPathName(Event e){
+		return OJUtil.packagePathname(e.getContext()).getCopy().append(NameConverter.capitalize(e.getName()) + "Handler");
 	}
-	public static void implementChangeEventRequest(OJOperation operation,INakedChangeEvent event){
+	public void implementChangeEventRequest(OJOperation operation,ChangeEvent event){
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
-		INakedValueSpecification when = event.getChangeExpression();
+		ValueSpecification when = event.getChangeExpression();
 		if(when != null){
-			String changeExpr = ValueSpecificationUtil.expressValue(operation, when, event.getBehaviorContext(), when.getType());
+			String changeExpr = valueSpecificationUtil.expressValue(operation, when, event.getBehaviorContext(), when.getType());
 			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation(evaluatorName(event), new OJPathName("boolean"));
 			evaluationMethod.getBody().addToStatements("return " + changeExpr);
 			owner.addToOperations(evaluationMethod);
@@ -72,8 +80,8 @@ public class EventUtil{
 			operation.getBody().addToStatements("NO_CHANGE_EXPRESSION_SPECIFIED");
 		}
 	}
-	public static String evaluatorName(INakedChangeEvent event){
-		return "evaluate" + event.getMappingInfo().getJavaName().getCapped();
+	public static String evaluatorName(ChangeEvent event){
+		return "evaluate" + NameConverter.capitalize(event.getName());
 	}
 	public static void addOutgoingEventManagement(OJClass ojClass){
 		OJPathName pn = new OJPathName(IEventGenerator.class.getName());
@@ -96,22 +104,22 @@ public class EventUtil{
 			field2.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		}
 	}
-	public static void implementTimeEventRequest(OJOperation operation,OJBlock block,INakedTimeEvent event, boolean businessTime){
+	public void implementTimeEventRequest(OJOperation operation,OJBlock block,TimeEvent event, boolean businessTime){
 		implementTimerRequest(operation, block, event, "this",businessTime);
 	}
-	public static void implementDeadlineRequest(OJOperation operation,OJBlock block,INakedDeadline event,String taskName){
+	public static void implementDeadlineRequest(OJOperation operation,OJBlock block,Deadline event,String taskName){
 		implementTimerRequest(operation, block, event, taskName,true);
 	}
-	private static void implementTimerRequest(OJOperation operation,OJBlock block,INakedTimer event,String targetExpression, boolean businessTime){
+	private static void implementTimerRequest(OJOperation operation,OJBlock block,Timer event,String targetExpression, boolean businessTime){
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
-		INakedValueSpecification when = event.getWhen();
+		ValueSpecification when = event.getWhen();
 		OJPathName eventHandler = handlerPathName(event);
 		owner.addToImports(eventHandler);
 		if(when != null){
-			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getContext(), when.getType());
+			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getContext(), null);
 			// TODO add the timeSpecification INstanceSpecification values
 			if(event.isRelative()){
-				INakedEnumerationLiteral timeUnit = event.getTimeUnit();
+				EnumerationLiteral timeUnit = event.getTimeUnit();
 				if(businessTime){
 					String timeUnitConstant= timeUnit==null? "BUSINESSDAY":timeUnit.getName().toUpperCase();
 					owner.addToImports("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit");
@@ -135,39 +143,39 @@ public class EventUtil{
 			block.addToStatements("NO_WHEN_EXPRESSION_SPECIFIED");
 		}
 	}
-	public static void cancelTimer(OJBlock block,INakedTimer event,String targetExpression){
-		block.addToStatements("getCancelledEvents().add(new CancelledEvent(" + targetExpression + ",\"" + event.getMappingInfo().getIdInModel() + "\"))");
+	public static void cancelTimer(OJBlock block,Timer event,String targetExpression){
+		block.addToStatements("getCancelledEvents().add(new CancelledEvent(" + targetExpression + ",\"" + event.getIdInModel() + "\"))");
 	}
-	public static void cancelChangeEvent(OJBlock block,INakedChangeEvent event){
-		block.addToStatements("getCancelledEvents().add(new CancelledEvent(this,\"" + event.getMappingInfo().getIdInModel() + "\"))");
+	public static void cancelChangeEvent(OJBlock block,ChangeEvent event){
+		block.addToStatements("getCancelledEvents().add(new CancelledEvent(this,\"" + EmfWorkspace.getId(event) + "\"))");
 	}
-	public static String getInvokerName(INakedOperation o){
-		return o.getOwner().getMappingInfo().getJavaName().getAsIs() + o.getMappingInfo().getJavaName().getCapped() + o.getMappingInfo().getOpaeumId() + "Invoker";
+	public static String getInvokerName(Operation o){
+		return ((NamedElement) o.getOwner()).getName() + NameConverter.capitalize(o.getName()) + EmfWorkspace.getOpaeumId(o) + "Invoker";
 	}
-	public static void requestEvents(OJAnnotatedOperation operation,Collection<INakedActivityNode> activityNodes,boolean businessCalendarAvailable){
-		for(INakedActivityNode node:activityNodes){
-			if(node instanceof INakedAcceptEventAction && node.getAllEffectiveIncoming().isEmpty()){
-				INakedAcceptEventAction acceptEventAction = (INakedAcceptEventAction) node;
-				for(INakedTrigger t:acceptEventAction.getTriggers()){
-					if(t.getEvent() instanceof INakedTimeEvent){
-						implementTimeEventRequest(operation, operation.getBody(), (INakedTimeEvent) t.getEvent(),businessCalendarAvailable);
-					}else if(t.getEvent() instanceof INakedChangeEvent){
-						implementChangeEventRequest(operation, (INakedChangeEvent) t.getEvent());
+	public void requestEvents(OJAnnotatedOperation operation,Collection<ActivityNode> activityNodes,boolean businessCalendarAvailable){
+		for(ActivityNode node:activityNodes){
+			if(node instanceof AcceptEventAction && EmfActivityUtil.getAllEffectiveIncoming( node).isEmpty()){
+				AcceptEventAction acceptEventAction = (AcceptEventAction) node;
+				for(Trigger t:acceptEventAction.getTriggers()){
+					if(t.getEvent() instanceof TimeEvent){
+						implementTimeEventRequest(operation, operation.getBody(), (TimeEvent) t.getEvent(),businessCalendarAvailable);
+					}else if(t.getEvent() instanceof ChangeEvent){
+						implementChangeEventRequest(operation, (ChangeEvent) t.getEvent());
 					}
 				}
 			}
 		}
 	}
-	public static void cancelEvents(OJBlock block,Collection<INakedActivityNode> activityNodes){
-		for(INakedActivityNode node:activityNodes){
-			if(node instanceof INakedAcceptEventAction && node.getAllEffectiveIncoming().isEmpty()){
-				INakedAcceptEventAction acceptEventAction = (INakedAcceptEventAction) node;
-				Collection<INakedTrigger> triggers = acceptEventAction.getTriggers();
-				for(INakedTrigger t:triggers){
-					if(t.getEvent() instanceof INakedTimeEvent){
-						cancelTimer(block, (INakedTimeEvent) t.getEvent(), "this");
-					}else if(t.getEvent() instanceof INakedChangeEvent){
-						cancelChangeEvent(block, (INakedChangeEvent) t.getEvent());
+	public static void cancelEvents(OJBlock block,Collection<ActivityNode> activityNodes){
+		for(ActivityNode node:activityNodes){
+			if(node instanceof AcceptEventAction && EmfActivityUtil.getAllEffectiveIncoming(node).isEmpty()){
+				AcceptEventAction acceptEventAction = (AcceptEventAction) node;
+				Collection<Trigger> triggers = acceptEventAction.getTriggers();
+				for(Trigger t:triggers){
+					if(t.getEvent() instanceof TimeEvent){
+						cancelTimer(block, (TimeEvent) t.getEvent(), "this");
+					}else if(t.getEvent() instanceof ChangeEvent){
+						cancelChangeEvent(block, (ChangeEvent) t.getEvent());
 					}
 				}
 			}

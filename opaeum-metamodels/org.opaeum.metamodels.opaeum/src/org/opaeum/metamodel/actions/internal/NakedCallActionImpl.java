@@ -8,12 +8,12 @@ import java.util.Set;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedPin;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedParameter;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedCallAction;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedPin;
 
 public abstract class NakedCallActionImpl extends NakedInvocationActionImpl implements INakedCallAction {
 	/**

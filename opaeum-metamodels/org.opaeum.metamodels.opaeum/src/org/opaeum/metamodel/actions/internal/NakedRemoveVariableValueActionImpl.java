@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.actions.internal;
 
-import org.opaeum.metamodel.actions.INakedRemoveVariableValueAction;
+import org.eclipse.uml2.uml.INakedRemoveVariableValueAction;
 
 public class NakedRemoveVariableValueActionImpl extends NakedWriteVariableActionImpl implements INakedRemoveVariableValueAction{
 

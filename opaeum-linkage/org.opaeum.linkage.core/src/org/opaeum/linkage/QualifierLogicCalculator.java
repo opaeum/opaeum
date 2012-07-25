@@ -1,8 +1,8 @@
 package org.opaeum.linkage;
 
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedOperationImpl;
 import org.opaeum.name.NameConverter;
 

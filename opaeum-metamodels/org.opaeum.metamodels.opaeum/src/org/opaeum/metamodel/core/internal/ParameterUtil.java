@@ -7,10 +7,10 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.tools.common.Util;
 
-import org.opaeum.metamodel.commonbehaviors.INakedReception;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
+import org.eclipse.uml2.uml.INakedMultiplicityElement;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedReception;
 
 public class ParameterUtil{
 	@SuppressWarnings({

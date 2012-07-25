@@ -1,9 +1,9 @@
 package org.opaeum.validation.namegeneration;
 
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.ElementOwner;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.name.NameWrapper;
 
 /**
@@ -19,13 +19,13 @@ import org.opaeum.metamodel.name.NameWrapper;
 })
 public class PersistentNameGenerator extends AbstractPersistentNameGenerator{
 	@VisitBefore(matchSubclasses = true)
-	public void updateSqlNameIfNew(INakedElement me){
+	public void updateSqlNameIfNew(Element me){
 		if(!me.getMappingInfo().hasPersistentName() || getTaggedValue(me, "persistentName", "persistenceType") != null){
 			NameWrapper pname = generateSqlName(me);
 			me.getMappingInfo().setPersistentName(pname);
 		}
 	}
-	protected boolean shouldVisitRecursively(INakedElementOwner o){
+	protected boolean shouldVisitRecursively(ElementOwner o){
 		return true;
 	}
 }

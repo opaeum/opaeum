@@ -3,10 +3,10 @@ package org.opaeum.metamodel.models.internal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedEnumerationLiteral;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedModel;
 import org.opaeum.metamodel.core.internal.NakedRootObjectImpl;
-import org.opaeum.metamodel.models.INakedModel;
 
 public class NakedModelImpl extends NakedRootObjectImpl implements INakedModel{
 	public static final String META_CLASS = "model";

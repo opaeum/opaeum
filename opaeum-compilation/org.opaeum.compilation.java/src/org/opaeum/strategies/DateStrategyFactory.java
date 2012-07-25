@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Property;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJPathName;
@@ -16,14 +18,12 @@ import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.TestModelValueStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 
 public class DateStrategyFactory extends AbstractStrategyFactory{
 	public static class MyJpaStrategy implements JpaStrategy{
 		@Override
-		public void annotate(OJAnnotatedField f,INakedProperty p){
+		public void annotate(OJAnnotatedField f,Property p){
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName(Temporal.class.getName()));
 			temporal.addEnumValue(new OJEnumValue(new OJPathName(TemporalType.class.getName()), "DATE"));
 			f.putAnnotation(temporal);
@@ -31,11 +31,11 @@ public class DateStrategyFactory extends AbstractStrategyFactory{
 	}
 	public static class MyConfigurableDataStrategy implements ConfigurableDataStrategy{
 		@Override
-		public String getDefaultStringValue(OJAnnotatedClass owner,OJBlock block,INakedProperty p){
+		public String getDefaultStringValue(OJAnnotatedClass owner,OJBlock block,Property p){
 			return getDefaultStringValue();
 		}
 		@Override
-		public String parseConfiguredValue(OJAnnotatedClass owner,OJBlock block,INakedProperty p,String configuredValue){
+		public String parseConfiguredValue(OJAnnotatedClass owner,OJBlock block,Property p,String configuredValue){
 			addSimpleDateFormat(owner, block);
 			return "dateTimeFormat.parse(" + configuredValue + ")";
 		}
@@ -74,7 +74,7 @@ public class DateStrategyFactory extends AbstractStrategyFactory{
 		}
 	}
 	@Override
-	public boolean appliesTo(INakedSimpleType st){
+	public boolean appliesTo(DataType st){
 		return st.getName().equals("DateTime");
 	}
 	@Override

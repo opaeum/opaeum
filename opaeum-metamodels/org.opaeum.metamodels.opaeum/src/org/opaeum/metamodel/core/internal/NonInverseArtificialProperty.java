@@ -6,12 +6,12 @@ import java.util.Collections;
 import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.expressions.internal.types.OclExpression;
 
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedConnectorEnd;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.feature.MappingInfo;
-import org.opaeum.metamodel.components.INakedConnectorEnd;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
 
 public class NonInverseArtificialProperty extends AbstractEmulatedProperty implements IVariableDeclaration{

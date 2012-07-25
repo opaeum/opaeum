@@ -5,11 +5,11 @@ import java.util.Collections;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opaeum.metamodel.components.INakedConnectorEnd;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedConnectorEnd;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
 
 public class AssociationClassToEnd extends AbstractEmulatedProperty{

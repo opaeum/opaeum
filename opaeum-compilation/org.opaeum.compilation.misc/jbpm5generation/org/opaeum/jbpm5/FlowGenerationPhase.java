@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.Element;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.PhaseDependency;
@@ -12,23 +14,22 @@ import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = JavaTransformationPhase.class,before = FileGenerationPhase.class)
-public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep,INakedElement>{
+public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep,Element>{
 	@InputModel
-	INakedModelWorkspace workspace;
+	EmfWorkspace workspace;
 	@InputModel
 	TextWorkspace textWorkspace;
 	private OpaeumConfig config;
 	private List<AbstractFlowStep> flowSteps;
 	@Override
-	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
+	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		Set<TextOutputNode> result = new HashSet<TextOutputNode>();
-		for(INakedElement element:elements){
+		for(Element element:elements){
 			for(AbstractFlowStep step:flowSteps){
 				step.initialize(config, textWorkspace, workspace);
 				step.visitOnly(element);

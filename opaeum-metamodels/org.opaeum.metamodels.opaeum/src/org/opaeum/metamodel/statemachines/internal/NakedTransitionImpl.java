@@ -7,25 +7,25 @@ import java.util.List;
 
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedConstraint;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedNameSpace;
+import org.eclipse.uml2.uml.INakedRegion;
+import org.eclipse.uml2.uml.INakedState;
+import org.eclipse.uml2.uml.INakedStateMachine;
+import org.eclipse.uml2.uml.INakedTransition;
+import org.eclipse.uml2.uml.INakedTrigger;
+import org.eclipse.uml2.uml.INakedTypedElement;
+import org.eclipse.uml2.uml.INakedValueSpecification;
+import org.eclipse.uml2.uml.IRegionOwner;
+import org.eclipse.uml2.uml.PreAndPostConstrained;
+import org.eclipse.uml2.uml.StateKind;
+import org.eclipse.uml2.uml.TransitionKind;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.core.INakedValueSpecification;
-import org.opaeum.metamodel.core.PreAndPostConstrained;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
-import org.opaeum.metamodel.statemachines.INakedRegion;
-import org.opaeum.metamodel.statemachines.INakedState;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
-import org.opaeum.metamodel.statemachines.INakedTransition;
-import org.opaeum.metamodel.statemachines.IRegionOwner;
-import org.opaeum.metamodel.statemachines.StateKind;
-import org.opaeum.metamodel.statemachines.TransitionKind;
 
 public class NakedTransitionImpl extends NakedElementImpl implements INakedElement,INakedTransition{
 	private static final long serialVersionUID = 133077616488879831L;

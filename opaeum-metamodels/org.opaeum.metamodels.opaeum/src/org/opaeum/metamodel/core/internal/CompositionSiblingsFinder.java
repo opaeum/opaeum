@@ -1,7 +1,7 @@
 package org.opaeum.metamodel.core.internal;
 
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedProperty;
+import org.eclipse.uml2.uml.ICompositionParticipant;
+import org.eclipse.uml2.uml.INakedProperty;
 
 /**
  * 

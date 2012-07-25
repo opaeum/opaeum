@@ -3,6 +3,20 @@ package org.opaeum.javageneration.jbpm5.activity;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.uml2.uml.AcceptEventAction;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.ExpansionNode;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.Trigger;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJPathName;
@@ -11,64 +25,51 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.ProcessStepEnumerationImplementor;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
-import org.opaeum.metamodel.activities.ActivityKind;
-import org.opaeum.metamodel.activities.ActivityNodeContainer;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.commonbehaviors.INakedStep;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = ActivityProcessImplementor.class,after = ActivityProcessImplementor.class)
 public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationImplementor{
 	@VisitBefore(matchSubclasses = true)
-	public void visitClass(INakedActivity c){
-		if(c.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
+	public void visitClass(Activity c){
+		if(!EmfActivityUtil.isSimpleSynchronousMethod(c)){
 			OJEnum e = super.buildOJEnum(c, false);
 			nodes(e, c, c);
 		}
 	}
-	private void nodes(OJEnum e,ActivityNodeContainer c,INakedClassifier msg){
-		Collection<INakedActivityNode> activityNodes = c.getActivityNodes();
-		for(INakedActivityNode n:activityNodes){
+	private void nodes(OJEnum e,Namespace c,Classifier msg){
+		Collection<ActivityNode> activityNodes = EmfActivityUtil.getActivityNodes( c);
+		for(ActivityNode n:activityNodes){
 			String parentLiteral;
-			if(BehaviorUtil.isRestingNode(n) || n instanceof INakedAction || (n instanceof INakedExpansionNode && ((INakedExpansionNode) n).isOutputElement())){
+			if(EmfBehaviorUtil.isRestingNode(n) || n instanceof Action || (n instanceof ExpansionNode && ((ExpansionNode) n).getRegionAsOutput()!=null)){
 				if(getEnclosingElement(n) == null){
 					parentLiteral = "null";
 				}else{
-					OJPathName parentState = OJUtil.classifierPathname(((INakedStructuredActivityNode)c).getNearestStructuredElementAsClassifier()).getCopy();
+					Namespace container = EmfActivityUtil.getNearestNodeContainer((StructuredActivityNode)c);
+					OJPathName parentState = OJUtil.classifierPathname(container).getCopy();
 					parentState.replaceTail(parentState.getLast() + "State");
 					e.addToImports(parentState);
 					parentLiteral = parentState.getLast() + "." + Jbpm5Util.stepLiteralName(getEnclosingElement(n));
 				}
 				buildLiteral(n, e, parentLiteral);
 			}
-			if(n instanceof INakedStructuredActivityNode){
-				INakedStructuredActivityNode san = (INakedStructuredActivityNode) n;
-				OJEnum e2 = super.buildOJEnum(san.getMessageStructure(), false);
-				nodes(e2, san, san.getMessageStructure());
+			if(n instanceof StructuredActivityNode){
+				StructuredActivityNode san = (StructuredActivityNode) n;
+				OJEnum e2 = super.buildOJEnum(getLibrary().getMessageStructure( san), false);
+				nodes(e2, san, getLibrary().getMessageStructure(san));
 			}
 		}
 	}
 	@Override
-	protected INakedStep getEnclosingElement(INakedElement s){
-		INakedActivityNode node = (INakedActivityNode) s;
+	protected NamedElement getEnclosingElement(NamedElement s){
+		ActivityNode node = (ActivityNode) s;
 		return node.getInStructuredNode();
 	}
 	@Override
-	protected Collection<INakedTrigger> getOperationTriggers(INakedElement step){
-		Collection<INakedTrigger> result = new ArrayList<INakedTrigger>();
-		if(step instanceof INakedAcceptEventAction){
-			INakedAcceptEventAction a = (INakedAcceptEventAction) step;
-			for(INakedTrigger t:a.getTriggers()){
-				if(t.getEvent() instanceof INakedOperation){
+	protected Collection<Trigger> getOperationTriggers(Element step){
+		Collection<Trigger> result = new ArrayList<Trigger>();
+		if(step instanceof AcceptEventAction){
+			AcceptEventAction a = (AcceptEventAction) step;
+			for(Trigger t:a.getTriggers()){
+				if(t.getEvent() instanceof Operation){
 					result.add(t);
 				}
 			}

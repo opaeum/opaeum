@@ -3,6 +3,8 @@ package org.opaeum.bootstrap;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.uml2.uml.Element;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
 import org.opaeum.feature.OpaeumConfig;
@@ -11,8 +13,6 @@ import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -21,15 +21,15 @@ import org.opaeum.textmetamodel.TextWorkspace;
 },after = {
 	JavaTransformationPhase.class
 })
-public class BootstrapGenerationPhase implements TransformationPhase<AbstractBootstrapStep,INakedElement>,IntegrationPhase{
+public class BootstrapGenerationPhase implements TransformationPhase<AbstractBootstrapStep,Element>,IntegrationPhase{
 	private OpaeumConfig config;
 	@InputModel
 	private TextWorkspace textWorkspace;
 	@InputModel
-	private INakedModelWorkspace workspace;
+	private EmfWorkspace workspace;
 	private List<AbstractBootstrapStep> features;
 	@Override
-	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
+	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		return elements;
 	}
 	@Override

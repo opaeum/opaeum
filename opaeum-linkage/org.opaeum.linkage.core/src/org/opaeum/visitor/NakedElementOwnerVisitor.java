@@ -8,17 +8,17 @@ import java.util.Set;
 
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedNameSpace;
+import org.eclipse.uml2.uml.INakedRootObject;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.visit.VisitSpec;
 import org.opaeum.feature.visit.VisitorAdapter;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
-public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,INakedModelWorkspace>{
+public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,ModelWorkspace>{
 	private final ThreadLocal<INakedRootObject> currentRootObject = new ThreadLocal<INakedRootObject>();
 	protected TransformationContext transformationContext;
 	@Override

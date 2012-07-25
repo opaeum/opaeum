@@ -15,7 +15,7 @@ import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public abstract class MavenProjectCodeGenerator{
@@ -53,7 +53,6 @@ public abstract class MavenProjectCodeGenerator{
 		OpaeumConfig cfg = prepareConfig();
 		cfg.store();
 		process.execute(cfg, workspace, getSteps(),new DefaultTransformationLog());
-		workspace.getMappingInfo().store();
 		System.out.println("Generating code for model '" + modelFileName + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}
 	protected EmfWorkspace loadSingleModel(File modelFile) throws Exception{
@@ -89,10 +88,9 @@ public abstract class MavenProjectCodeGenerator{
 		EmfWorkspace workspace = loadDirectory();
 		process.removeModel(OJWorkspace.class);
 		process.removeModel(TextWorkspace.class);
-		INakedModelWorkspace nmw = process.findModel(INakedModelWorkspace.class);
+		ModelWorkspace nmw = process.findModel(ModelWorkspace.class);
 		workspace.setMappingInfo(nmw.getWorkspaceMappingInfo());
 		nmw.clearGeneratingModelOrProfiles();
 		process.integrate(new DefaultTransformationLog());
-		workspace.getMappingInfo().store();
 	}
 }

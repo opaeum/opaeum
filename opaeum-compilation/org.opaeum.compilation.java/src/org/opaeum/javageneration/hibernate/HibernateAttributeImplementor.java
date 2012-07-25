@@ -1,5 +1,9 @@
 package org.opaeum.javageneration.hibernate;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Interface;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
@@ -12,23 +16,20 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 @StepDependency(phase = JavaTransformationPhase.class,replaces = AttributeImplementor.class)
 public class HibernateAttributeImplementor extends AttributeImplementor{
 	@Override
-	protected OJAnnotatedOperation buildGetter(INakedClassifier umlOwner, OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean derived){
+	protected OJAnnotatedOperation buildGetter(Classifier umlOwner, OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean derived){
 		if(isInterfaceValue(owner, map)){
 			OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 			getter.setReturnType(map.javaTypePath());
 			owner.addToOperations(getter);
 			getter.initializeResultVariable("(" + map.javaType() + ")" + getReferencePrefix(owner, map) + map.fieldname()
 					+ ".getValue(" +(isPersistent(umlOwner)? "persistence":"null")+")");
-			INakedElement property = map.getProperty();
-			addPropertyMetaInfo(umlOwner, getter, map.getProperty() );
+			Element property = map.getProperty();
+			addPropertyMetaInfo(umlOwner, getter, map.getProperty(),getLibrary() );
 
 			OJUtil.addMetaInfo(getter, property);
 			return getter;
@@ -82,7 +83,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 	}
 	private boolean isInterfaceValue(OJAnnotatedClass c,NakedStructuralFeatureMap map){
 		return !(c instanceof OJAnnotatedInterface) && !map.getProperty().isDerived() && map.isOne()
-				&& map.getProperty().getNakedBaseType() instanceof INakedInterface
-				&& !map.getProperty().getNakedBaseType().hasStereotype(StereotypeNames.HELPER);
+				&& map.getProperty().getType() instanceof Interface
+				&& ! StereotypesHelper.hasStereotype(map.getProperty().getType(),StereotypeNames.HELPER);
 	}
 }

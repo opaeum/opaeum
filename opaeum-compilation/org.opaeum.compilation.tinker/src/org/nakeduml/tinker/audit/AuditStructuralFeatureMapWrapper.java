@@ -1,8 +1,8 @@
 package org.nakeduml.tinker.audit;
 
+import org.eclipse.uml2.uml.INakedEnumeration;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.metamodel.core.INakedEnumeration;
 
 public class AuditStructuralFeatureMapWrapper extends NakedStructuralFeatureMap {
 

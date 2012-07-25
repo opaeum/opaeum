@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.eclipse.uml2.uml.Model;
 import org.opaeum.feature.ITransformationStep;
-import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opaeum.velocity.AbstractTextProducingVisitor;
 
 public abstract class AbstractBootstrapStep extends AbstractTextProducingVisitor implements ITransformationStep {
-	protected INakedModel currentModel;
+	protected Model currentModel;
 
 	@Override
 	public void release(){

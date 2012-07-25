@@ -1,8 +1,8 @@
 package org.opaeum.metamodel.commonbehaviors.internal;
 
-import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
-import org.opaeum.metamodel.commonbehaviors.ObservedPoint;
-import org.opaeum.metamodel.core.INakedElement;
+import org.eclipse.uml2.uml.INakedDurationObservation;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.ObservedPoint;
 
 public class NakedDurationObservationImpl extends NakedObservationImpl implements INakedDurationObservation{
 	private static final long serialVersionUID = -4918133177125335657L;

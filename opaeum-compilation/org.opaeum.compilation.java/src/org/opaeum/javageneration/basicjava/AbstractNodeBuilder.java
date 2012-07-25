@@ -1,5 +1,12 @@
 package org.opaeum.javageneration.basicjava;
 
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.ValuePin;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -8,40 +15,34 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.actions.IActionWithTargetElement;
-import org.opaeum.metamodel.actions.IActionWithTargetPin;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedValuePin;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractNodeBuilder {
 	protected OpaeumLibrary library;
 	protected AbstractObjectNodeExpressor expressor;
-
+	protected ValueSpecificationUtil valueSpecificationUtil;
 	protected AbstractNodeBuilder(OpaeumLibrary library, AbstractObjectNodeExpressor expressor) {
 		this.library=library;
 		this.expressor=expressor;
+		valueSpecificationUtil=new ValueSpecificationUtil(library);
 	}
-
 	public OJBlock buildLoopThroughTarget(OJOperation operationContext, OJBlock block, ActionMap actionMap) {
 		if (actionMap.targetIsImplicitObject()) {
 			return block;
 		} else {
-			IActionWithTargetElement action = (IActionWithTargetElement) actionMap.getAction();
+			Action action = actionMap.getAction();
 			String expression = null;
-			if (action.getInPartition() != null) {
+			if (action.getInPartitions().size()==1) {
 				// TODO is this wise? letting the partition override all pins
-				if (action.getInPartition().getRepresents() instanceof INakedProperty) {
+				if (action.getInPartitions().get(0).getRepresents() instanceof Property) {
 					expression = actionMap.targetMap().getter() + "()";
-				} else if (action.getInPartition().getRepresents() instanceof INakedClassifier) {
+				} else if (action.getInPartitions().get(0).getRepresents() instanceof Classifier) {
 					
 					expression = "NOT IMPLEMENTED";
 					// TODO use group assignment here
 				}
-			} else if(action instanceof IActionWithTargetPin){
-				expression = readPin(operationContext, block, ((IActionWithTargetPin) action).getTarget());
+			} else if(EmfActionUtil.getLogicalTarget(action)!=null){
+				expression = readPin(operationContext, block, EmfActionUtil.getLogicalTarget(action));
 			}
 			if (actionMap.targetMap().isOne()) {
 				OJPathName targetPath = actionMap.targetMap().javaBaseTypePath();
@@ -71,24 +72,24 @@ public abstract class AbstractNodeBuilder {
 			}
 		}
 	}
-	protected final String readPin(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
+	protected final String readPin(OJOperation operationContext, OJBlock block, ObjectNode pin) {
 		if(expressor.pinsAvailableAsVariables()){
-			return  OJUtil.buildStructuralFeatureMap(pin.getActivity(),pin).fieldname();
+			return  OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(pin),pin).fieldname();
 		}else{
 			return expressPin(operationContext, block, pin);
 		}
 	}
 
-	protected final String expressPin(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
+	protected final String expressPin(OJOperation operationContext, OJBlock block, ObjectNode pin) {
 		String expression = null;
-		if (pin instanceof INakedValuePin) {
-			expression = ValueSpecificationUtil.expressValue(operationContext, ((INakedValuePin) pin).getValue(), pin.getActivity(),
-					pin.getType());
-		}else if(pin.getIncomingExceptionHandler()!=null){
+		if (pin instanceof ValuePin) {
+			expression = valueSpecificationUtil.expressValue(operationContext, ((ValuePin) pin).getValue(), EmfActivityUtil.getContainingActivity( pin),
+					 getLibrary().getActualType( (ValuePin)pin));
+		}else if(EmfActivityUtil.getIncomingExceptionHandlers( pin).size()>0){
 			expression=this.expressor.expressExceptionInput(block,pin);
-		} else if (pin.getIncoming().size() == 0) {
-			expression = ValueSpecificationUtil.expressDefaultOrImplicitObject(pin.getActivity(), pin.getType());
-		} else if (pin.getIncoming().size() == 1) {
+		} else if (pin.getIncomings().size() == 0) {
+			expression = ValueSpecificationUtil.expressDefaultOrImplicitObject(EmfActivityUtil.getContainingActivity(pin), (Classifier)pin.getType());
+		} else if (pin.getIncomings().size() == 1) {
 			expression = this.expressor.expressInputPinOrOutParamOrExpansionNode(block, pin);
 		} else {
 			throw new IllegalStateException("Multiple flows are not supported into ObjectNodes");

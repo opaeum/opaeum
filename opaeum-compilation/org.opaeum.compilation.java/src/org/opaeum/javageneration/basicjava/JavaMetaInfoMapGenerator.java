@@ -7,9 +7,21 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import nl.klasse.octopus.model.IOperation;
-
-import org.opaeum.feature.MappingInfo;
+import org.eclipse.uml2.uml.ChangeEvent;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Signal;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.DefaultOpaeumComparator;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -24,27 +36,12 @@ import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.commonbehaviors.INakedTimer;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opaeum.validation.namegeneration.JavaNameRegenerator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-	JavaNameRegenerator.class
 },after = {})
 public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	@Override
@@ -52,39 +49,37 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		return 12;
 	}
 	@VisitBefore
-	public void visitWorkspace(INakedModelWorkspace ws){
+	public void visitWorkspace(EmfWorkspace ws){
 		if(transformationContext.isIntegrationPhase()){
 			createBasicMetaInfo(ws, ws.getPrimaryRootObjects(), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 		}
 	}
 	@VisitBefore
-	public void visitModel(INakedModel m){
+	public void visitModel(Model m){
 		if(!transformationContext.isIntegrationPhase()){
-			Collection<INakedRootObject> rootObjectsToImport = new TreeSet<INakedRootObject>(new DefaultOpaeumComparator());
-			rootObjectsToImport.addAll(m.getAllDependencies());
+			Collection<Package> rootObjectsToImport = new TreeSet<Package>(new DefaultOpaeumComparator());
+			rootObjectsToImport.addAll(EmfPackageUtil.getAllDependencies( m));
 			rootObjectsToImport.remove(m);
 			OJBlock initBlock = createBasicMetaInfo(m, rootObjectsToImport, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
-			for(INakedClassifier c:getElementsOfType(INakedClassifier.class, Arrays.asList(m))){
-				if(isPersistent(c) || c instanceof INakedEnumeration || c instanceof INakedSignal || c instanceof INakedInterface || c instanceof INakedSimpleType){
-					MappingInfo ci = c.getMappingInfo();
-					initBlock.addToStatements("putClass(" + ci.getQualifiedJavaName() + ".class,\"" + ci.getIdInModel() + "\")");
-					if(c.getRootObject() == m){
-						for(IOperation o:c.getOperations()){
-							MappingInfo mi = ((INakedOperation) o).getMappingInfo();
-							initBlock.addToStatements("putMethod(" + ci.getQualifiedJavaName() + ".class,\"" + mi.getIdInModel() + "\"," + mi.getOpaeumId() + "l)");
+			for(Classifier c:getElementsOfType(Classifier.class, Arrays.asList(m))){
+				if(isPersistent(c) || c instanceof Enumeration || c instanceof Signal || c instanceof Interface || EmfClassifierUtil.isSimpleType(c )){
+					initBlock.addToStatements("putClass(" + OJUtil.classifierPathname(c) + ".class,\"" + EmfWorkspace.getId(c) + "\")");
+					if(EmfElementFinder.getRootObject( c) == m){
+						for(Operation o:c.getOperations()){
+							initBlock.addToStatements("putMethod(" + OJUtil.classifierPathname(c) + ".class,\"" + EmfWorkspace.getId(m) + "\"," + EmfWorkspace.getOpaeumId(m) + "l)");
 						}
 					}
 				}
 			}
-			for(INakedEvent e:getElementsOfType(INakedEvent.class, Collections.singletonList((INakedRootObject) m))){
-				if(e instanceof INakedTimer || e instanceof INakedChangeEvent){
-					initBlock.addToStatements("putEventHandler(" + EventUtil.handlerPathName(e) + ".class,\"" + e.getId() + "\")");
+			for(Event e:getElementsOfType(Event.class, Collections.singletonList((Package) m))){
+				if(e instanceof Timer || e instanceof ChangeEvent){
+					initBlock.addToStatements("putEventHandler(" + EventUtil.handlerPathName(e) + ".class,\"" + EmfWorkspace.getId(e) + "\")");
 				}
 			}
 		}
 	}
-	private OJBlock createBasicMetaInfo(INakedElementOwner m,Collection<INakedRootObject> allDependencies,JavaSourceFolderIdentifier sourceid){
-		TreeSet<INakedRootObject> treeSet = new TreeSet<INakedRootObject>(new DefaultOpaeumComparator());
+	private OJBlock createBasicMetaInfo(NamedElement m,Collection<Package> allDependencies,JavaSourceFolderIdentifier sourceid){
+		TreeSet<Package> treeSet = new TreeSet<Package>(new DefaultOpaeumComparator());
 		treeSet.addAll(allDependencies);
 		OJPathName pathName = javaMetaInfoMapPath(m);
 		OJClass mapClass = new OJAnnotatedClass(pathName.getLast());
@@ -107,14 +102,14 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		ignore.add("PrimitiveTypes".toLowerCase());
 		ignore.add("JavaPrimitiveTypes".toLowerCase());
 		ignore.add("OpaeumSimpleTypes".toLowerCase());
-		for(INakedRootObject ro:treeSet){
-			if(ro instanceof INakedModel && ( !((INakedModel) ro).isLibrary() || ((INakedModel) ro).isRegeneratingLibrary())){
+		for(Package ro:treeSet){
+			if(ro instanceof Model && ( !((Model) ro).isLibrary() || EmfPackageUtil.isRegeneratingLibrary( ((Model) ro)))){
 				initBlock.addToStatements("this.importMetaInfo(" + javaMetaInfoMapPath(ro) + ".INSTANCE)");
 			}
 		}
 		return initBlock;
 	}
-	public static OJPathName javaMetaInfoMapPath(INakedElementOwner owner){
-		return OJUtil.utilPackagePath(owner).append(owner.getMappingInfo().getJavaName().getCapped() + "JavaMetaInfoMap");
+	public static OJPathName javaMetaInfoMapPath(NamedElement owner){
+		return OJUtil.utilPackagePath(owner).append(NameConverter.capitalize(owner.getName()) + "JavaMetaInfoMap");
 	}
 }

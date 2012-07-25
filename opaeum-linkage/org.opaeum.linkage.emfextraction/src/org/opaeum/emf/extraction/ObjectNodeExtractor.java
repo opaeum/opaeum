@@ -5,15 +5,15 @@ import java.util.List;
 import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.CentralBufferNode;
 import org.eclipse.uml2.uml.ExpansionNode;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedExpansionNode;
+import org.eclipse.uml2.uml.INakedParameter;
 import org.eclipse.uml2.uml.Parameter;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.internal.NakedExpansionNodeImpl;
 import org.opaeum.metamodel.activities.internal.NakedObjectNodeImpl;
 import org.opaeum.metamodel.activities.internal.NakedParameterNodeImpl;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {FeatureExtractor.class,ActivityStructureExtractor.class},after = {

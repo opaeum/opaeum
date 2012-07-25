@@ -2,9 +2,9 @@ package org.opaeum.metamodel.core.internal;
 
 import nl.klasse.octopus.model.IMultiplicityKind;
 
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.eclipse.uml2.uml.INakedExpansionNode;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedMultiplicityElement;
 
 public class NakedMultiplicityElement extends NakedElementImpl implements INakedMultiplicityElement{
 	/**

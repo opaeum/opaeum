@@ -3,12 +3,12 @@ package org.opaeum.metamodel.actions.internal;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opaeum.metamodel.actions.INakedStartClassifierBehaviorAction;
-import org.opaeum.metamodel.actions.ITargetElement;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedStartClassifierBehaviorAction;
+import org.eclipse.uml2.uml.ITargetElement;
 import org.opaeum.metamodel.activities.internal.NakedActionImpl;
-import org.opaeum.metamodel.core.INakedClassifier;
 
 public class NakedStartClassifierBehaviorActionImpl extends NakedActionImpl implements INakedStartClassifierBehaviorAction{
 	private static final long serialVersionUID = -236758123440467617L;

@@ -1,10 +1,9 @@
 package org.opaeum.javageneration.jbpm5.actions;
 
+import org.eclipse.uml2.uml.Action;
+import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.actions.IActionWithTargetElement;
-import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 /**
@@ -12,14 +11,14 @@ import org.opaeum.metamodel.workspace.OpaeumLibrary;
  * 
  * @param <A>
  */
-public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends AbstractProtectedNodeBuilder<A>{
+public abstract class PotentialTaskActionBuilder<A extends Action> extends AbstractProtectedNodeBuilder<A>{
 	protected PotentialTaskActionBuilder(OpaeumLibrary oclEngine,A node){
 		super(oclEngine, node, maybeBuildCallMap(node, oclEngine));
 	}
-	private static NakedStructuralFeatureMap maybeBuildCallMap(INakedAction node,OpaeumLibrary l){
+	private static NakedStructuralFeatureMap maybeBuildCallMap(Action node,OpaeumLibrary l){
 		NakedStructuralFeatureMap callMap = null;
-		if(node instanceof IActionWithTargetElement && BehaviorUtil.hasMessageStructure(node)){
-			callMap = OJUtil.buildStructuralFeatureMap((IActionWithTargetElement) node, l);
+		if(EmfActionUtil.getTargetElement(node)!=null && EmfActionUtil.hasMessageStructure(node)){
+			callMap = OJUtil.buildStructuralFeatureMap(node, l);
 		}
 		return callMap;
 	}

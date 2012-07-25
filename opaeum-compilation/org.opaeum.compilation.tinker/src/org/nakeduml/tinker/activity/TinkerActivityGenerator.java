@@ -8,6 +8,21 @@ import java.util.List;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
+import org.eclipse.uml2.uml.ControlNodeType;
+import org.eclipse.uml2.uml.INakedAcceptEventAction;
+import org.eclipse.uml2.uml.INakedAction;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedActivityNode;
+import org.eclipse.uml2.uml.INakedControlNode;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedObjectNode;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedParameterNode;
+import org.eclipse.uml2.uml.INakedPin;
+import org.eclipse.uml2.uml.INakedSendSignalAction;
+import org.eclipse.uml2.uml.INakedValuePin;
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
@@ -23,21 +38,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
-import org.opaeum.metamodel.actions.INakedSendSignalAction;
-import org.opaeum.metamodel.activities.ControlNodeType;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedControlNode;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedParameterNode;
-import org.opaeum.metamodel.activities.INakedPin;
-import org.opaeum.metamodel.activities.INakedValuePin;
-import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerImplementNodeStep.class, TinkerActivityNodeGenerator.class }, after = { TinkerImplementNodeStep.class })

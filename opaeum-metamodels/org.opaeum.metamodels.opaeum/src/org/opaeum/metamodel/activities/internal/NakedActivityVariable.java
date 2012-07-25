@@ -2,10 +2,10 @@ package org.opaeum.metamodel.activities.internal;
 
 import nl.klasse.octopus.expressions.internal.types.OclExpression;
 
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityVariable;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedActivityVariable;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
 import org.opaeum.metamodel.core.internal.NakedTypedElementImpl;
 
 public class NakedActivityVariable extends NakedTypedElementImpl implements INakedActivityVariable{

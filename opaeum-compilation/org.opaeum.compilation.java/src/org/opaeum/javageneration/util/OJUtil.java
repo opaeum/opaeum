@@ -12,9 +12,35 @@ import java.util.StringTokenizer;
 
 import javax.persistence.Transient;
 
-import nl.klasse.octopus.model.IClassifier;
-
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.AcceptCallAction;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Collaboration;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.MultiplicityElement;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Signal;
+import org.eclipse.uml2.uml.Stereotype;
+import org.eclipse.uml2.uml.TypedElement;
+import org.eclipse.uml2.uml.UseCase;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.eclipse.CodeGenerationStrategy;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfAssociationUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfElementUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
@@ -35,32 +61,8 @@ import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.actions.IActionWithTargetElement;
-import org.opaeum.metamodel.actions.INakedAcceptCallAction;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.compositestructures.INakedCollaboration;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedNameSpace;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.core.IParameterOwner;
-import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
-import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
-import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
-import org.opaeum.metamodel.profiles.INakedStereotype;
-import org.opaeum.metamodel.usecases.INakedUseCase;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.name.NameConverter;
-import org.opaeum.validation.namegeneration.AbstractJavaNameGenerator;
 
 public class OJUtil{
 	private static class ImmutablePathName extends OJPathName{
@@ -103,25 +105,29 @@ public class OJUtil{
 			throw new UnsupportedOperationException();
 		}
 	}
-	private static Map<INakedClassifier,OJPathName> classifierPaths = new HashMap<INakedClassifier,OJPathName>();
-	private static Map<INakedNameSpace,OJPathName> packagePaths = new HashMap<INakedNameSpace,OJPathName>();
-	private static Map<IParameterOwner,NakedOperationMap> operationMaps = new HashMap<IParameterOwner,NakedOperationMap>();
-	private static Map<INakedTypedElement,NakedStructuralFeatureMap> locallyUniqueFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
-	private static Map<INakedTypedElement,NakedStructuralFeatureMap> structuralFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
-	private static Map<INakedAction,NakedStructuralFeatureMap> actionFeatureMaps = new HashMap<INakedAction,NakedStructuralFeatureMap>();
-	private static Map<INakedSignal,SignalMap> signalMaps = new HashMap<INakedSignal,SignalMap>();
-	private static Map<IClassifier,NakedClassifierMap> classifierMaps = new HashMap<IClassifier,NakedClassifierMap>();
-	private static Map<INakedClassifier,OJPathName> statePathnames = new HashMap<INakedClassifier,OJPathName>();
+	private static Map<NamedElement,OJPathName> oldClassifierPaths = new HashMap<NamedElement,OJPathName>();
+	private static Map<Namespace,OJPathName> oldPackagePaths = new HashMap<Namespace,OJPathName>();
+	private static Map<NamedElement,OJPathName> classifierPaths = new HashMap<NamedElement,OJPathName>();
+	private static Map<Namespace,OJPathName> packagePaths = new HashMap<Namespace,OJPathName>();
+	private static Map<NamedElement,NakedOperationMap> operationMaps = new HashMap<NamedElement,NakedOperationMap>();
+	private static Map<TypedElement,NakedStructuralFeatureMap> locallyUniqueFeatureMaps = new HashMap<TypedElement,NakedStructuralFeatureMap>();
+	private static Map<TypedElement,NakedStructuralFeatureMap> structuralFeatureMaps = new HashMap<TypedElement,NakedStructuralFeatureMap>();
+	private static Map<Action,NakedStructuralFeatureMap> actionFeatureMaps = new HashMap<Action,NakedStructuralFeatureMap>();
+	private static Map<Signal,SignalMap> signalMaps = new HashMap<Signal,SignalMap>();
+	private static Map<String,NakedClassifierMap> classifierMaps = new HashMap<String,NakedClassifierMap>();
+	private static Map<Namespace,OJPathName> statePathnames = new HashMap<Namespace,OJPathName>();
 	public static void clearCache(){
-		classifierPaths = new HashMap<INakedClassifier,OJPathName>();
-		packagePaths = new HashMap<INakedNameSpace,OJPathName>();
-		operationMaps = new HashMap<IParameterOwner,NakedOperationMap>();
-		locallyUniqueFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
-		structuralFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
-		actionFeatureMaps = new HashMap<INakedAction,NakedStructuralFeatureMap>();
-		signalMaps = new HashMap<INakedSignal,SignalMap>();
-		classifierMaps = new HashMap<IClassifier,NakedClassifierMap>();
-		statePathnames = new HashMap<INakedClassifier,OJPathName>();
+		oldClassifierPaths=classifierPaths;
+		oldPackagePaths=packagePaths;
+		classifierPaths = new HashMap<NamedElement,OJPathName>();
+		packagePaths = new HashMap<Namespace,OJPathName>();
+		operationMaps = new HashMap<NamedElement,NakedOperationMap>();
+		locallyUniqueFeatureMaps = new HashMap<TypedElement,NakedStructuralFeatureMap>();
+		structuralFeatureMaps = new HashMap<TypedElement,NakedStructuralFeatureMap>();
+		actionFeatureMaps = new HashMap<Action,NakedStructuralFeatureMap>();
+		signalMaps = new HashMap<Signal,SignalMap>();
+		classifierMaps = new HashMap<String,NakedClassifierMap>();
+		statePathnames = new HashMap<Namespace,OJPathName>();
 	}
 	private static final Set<String> BUILT_IN_ATTRIBUTES = new HashSet<String>(3);
 	static{
@@ -165,11 +171,11 @@ public class OJUtil{
 		signalMaps = Collections.unmodifiableMap(signalMaps);
 		statePathnames = Collections.unmodifiableMap(statePathnames);
 	}
-	public static boolean isBuiltIn(INakedTypedElement f){
+	public static boolean isBuiltIn(TypedElement f){
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
 	}
-	public static OJPathName utilPackagePath(INakedElementOwner e){
-		return new OJPathName(e.getMappingInfo().getQualifiedJavaName()).append("util");
+	public static OJPathName utilPackagePath(Element e){
+		return new OJPathName(e.getQualifiedJavaName()).append("util");
 	}
 	public static OJAnnotatedOperation buildMain(OJAnnotatedClass ojClass){
 		OJAnnotatedOperation main = new OJAnnotatedOperation("main");
@@ -178,10 +184,10 @@ public class OJUtil{
 		ojClass.addToOperations(main);
 		return main;
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier owner,INakedTypedElement typedAndOrdered){
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(Classifier owner,TypedElement typedAndOrdered){
 		NakedStructuralFeatureMap linkedParameter;
-		if(typedAndOrdered instanceof INakedProperty){
-			linkedParameter = OJUtil.buildStructuralFeatureMap((INakedProperty) typedAndOrdered);
+		if(typedAndOrdered instanceof Property){
+			linkedParameter = OJUtil.buildStructuralFeatureMap((Property) typedAndOrdered);
 		}else{
 			NakedStructuralFeatureMap map = structuralFeatureMaps.get(typedAndOrdered);
 			if(map == null){
@@ -192,7 +198,7 @@ public class OJUtil{
 		}
 		return linkedParameter;
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedProperty sf){
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(Property sf){
 		NakedStructuralFeatureMap map = structuralFeatureMaps.get(sf);
 		if(map == null){
 			map = new NakedStructuralFeatureMap(sf);
@@ -200,7 +206,7 @@ public class OJUtil{
 		}
 		return map;
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedAction action,OpaeumLibrary lib){
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(Action action,OpaeumLibrary lib){
 		NakedStructuralFeatureMap map = actionFeatureMaps.get(action);
 		if(map == null){
 			ActionFeatureBridge bridge = buildActionBridge(action, lib);
@@ -209,11 +215,11 @@ public class OJUtil{
 		}
 		return map;
 	}
-	private static ActionFeatureBridge buildActionBridge(INakedAction action,OpaeumLibrary lib){
-		if(action instanceof IActionWithTargetElement){
+	private static ActionFeatureBridge buildActionBridge(Action action,OpaeumLibrary lib){
+		if(EmfActionUtil.getTargetElement(action)!=null){
 			return new ActionFeatureBridge((IActionWithTargetElement) action, lib);
 		}else{
-			return new ActionFeatureBridge((INakedAcceptCallAction) action, lib);
+			return new ActionFeatureBridge((AcceptCallAction) action, lib);
 		}
 	}
 	/**
@@ -223,13 +229,20 @@ public class OJUtil{
 	 * @param classifier
 	 * @return
 	 */
-	public static OJPathName packagePathname(INakedNameSpace p){
+	public static OJPathName packagePathname(Namespace p){
 		OJPathName result = packagePaths.get(p);
 		if(result == null){
-			packagePaths.put(p, result = new ImmutablePathName(AbstractJavaNameGenerator.packagePathname(p)));
+			packagePaths.put(p, result = new ImmutablePathName(JavaNameGenerator.packagePathname(p)));
 		}
 		return result;
 	}
+	public static OJPathName getOldClassifierPathname(NamedElement c){
+		if(oldClassifierPaths!=null){
+			return oldClassifierPaths.get(c);
+		}
+		return null;
+		
+	}
 	/**
 	 * A Opaeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
 	 * nesting a package is generated for every classifier with nested classifiers
@@ -237,10 +250,10 @@ public class OJUtil{
 	 * @param classifier
 	 * @return
 	 */
-	public static OJPathName classifierPathname(INakedClassifier classifier){
+	public static OJPathName classifierPathname(NamedElement classifier){
 		OJPathName result = classifierPaths.get(classifier);
 		if(result == null){
-			classifierPaths.put(classifier, result = new ImmutablePathName(AbstractJavaNameGenerator.classifierPathname(classifier)));
+			classifierPaths.put(classifier, result = new ImmutablePathName(JavaNameGenerator.classifierPathname(classifier)));
 		}
 		return result;
 	}
@@ -304,23 +317,23 @@ public class OJUtil{
 	 * resulting parameters
 	 * 
 	 */
-	public static boolean hasOJClass(INakedClassifier c){
-		if(c == null || c instanceof INakedStereotype || c instanceof INakedCollaboration || c instanceof INakedUseCase){
+	public static boolean hasOJClass(Classifier c){
+		if(c == null || c instanceof Stereotype || c instanceof Collaboration || c instanceof UseCase){
 			return false;
-		}else if(c.isMarkedForDeletion() || c.getCodeGenerationStrategy().isNone()){
+		}else if(EmfElementUtil.isMarkedForDeletion( c) || EmfClassifierUtil.getCodeGenerationStrategy( c)==CodeGenerationStrategy.NO_CODE){
 			return false;
-		}else if(c instanceof INakedBehavior){
-			return BehaviorUtil.hasExecutionInstance((IParameterOwner) c);
-		}else if(c instanceof INakedAssociation){
-			return ((INakedAssociation) c).isClass();
+		}else if(c instanceof Behavior){
+			return EmfBehaviorUtil.hasExecutionInstance((Behavior) c);
+		}else if(c instanceof Association){
+			return EmfAssociationUtil.isClass((Association) c);
 		}else if(c instanceof EmulatedCompositionMessageStructure){
 			return true;
 		}else{
 			return true;
 		}
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner,INakedObjectNode pin,boolean ensureUniquenes){
-		Map<INakedTypedElement,NakedStructuralFeatureMap> maps = ensureUniquenes ? locallyUniqueFeatureMaps : structuralFeatureMaps;
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(Classifier umlOwner,ObjectNode pin,boolean ensureUniquenes){
+		Map<TypedElement,NakedStructuralFeatureMap> maps = ensureUniquenes ? locallyUniqueFeatureMaps : structuralFeatureMaps;
 		NakedStructuralFeatureMap map = maps.get(pin);
 		if(map == null){
 			map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniquenes));
@@ -335,13 +348,13 @@ public class OJUtil{
 			javaMethod.getBody().removeFromStatements(last);
 		}
 	}
-	public static OJPathName classifierPathname(INakedEmbeddedScreenFlowTask origin){
-		return packagePathname(origin.getActivity()).append(origin.getMappingInfo().getJavaName().getCapped().getAsIs());
+	public static OJPathName classifierPathname(EmbeddedScreenFlowTask origin){
+		return packagePathname(origin.getContainingActivity()).append(origin.getName().getCapped().getAsIs());
 	}
-	public static void addMetaInfo(OJAnnotatedElement element,INakedElement property){
+	public static void addMetaInfo(OJAnnotatedElement element,Element property){
 		if(!(property instanceof InverseArtificialProperty)){
 			OJAnnotationValue metaInfo = new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()));
-			metaInfo.putAttribute("uuid", property.getMappingInfo().getIdInModel());
+			metaInfo.putAttribute("uuid", EmfWorkspace.getId(property));
 			element.putAnnotation(metaInfo);
 		}
 	}
@@ -360,13 +373,13 @@ public class OJUtil{
 		persistentName.setInitExp(value);
 		l.addToAttributeValues(persistentName);
 	}
-	public static String toJavaLiteral(INakedEnumerationLiteral l){
+	public static String toJavaLiteral(EnumerationLiteral l){
 		return l.getName().toUpperCase();
 	}
-	public static String addQualifierArguments(List<INakedProperty> qualifiers,String varName){
+	public static String addQualifierArguments(List<Property> qualifiers,String varName){
 		StringBuilder sb = new StringBuilder();
 		// Assume qualifiers are back by attributes as we are doing composition here
-		for(INakedProperty q:qualifiers){
+		for(Property q:qualifiers){
 			NakedStructuralFeatureMap qMap = buildStructuralFeatureMap(q);
 			sb.append(varName);
 			sb.append(".");
@@ -376,21 +389,26 @@ public class OJUtil{
 		String string = sb.toString();
 		return string;
 	}
-	public static NakedClassifierMap buildClassifierMap(IClassifier c){
-		NakedClassifierMap result = classifierMaps.get(c);
+	public static NakedClassifierMap buildClassifierMap(Classifier c, MultiplicityElement m){
+		CollectionKind kind=EmfPropertyUtil.getCollectionKind(m);
+		return buildClassifierMap(c, kind);
+	}
+	public static NakedClassifierMap buildClassifierMap(Classifier c,CollectionKind kind){
+		String key = c.getQualifiedName() + kind==null?"base": kind.getName();
+		NakedClassifierMap result = classifierMaps.get(key);
 		if(result == null){
-			classifierMaps.put(c, result = new NakedClassifierMap(c));
+			classifierMaps.put(key, result = new NakedClassifierMap(c,kind));
 		}
 		return result;
 	}
-	public static NakedOperationMap buildOperationMap(IParameterOwner s){
+	public static NakedOperationMap buildOperationMap(Operation s){
 		NakedOperationMap result = operationMaps.get(s);
 		if(result == null){
 			operationMaps.put(s, result = new NakedOperationMap(s));
 		}
 		return result;
 	}
-	public static SignalMap buildSignalMap(INakedSignal s){
+	public static SignalMap buildSignalMap(Signal s){
 		SignalMap result = signalMaps.get(s);
 		if(result == null){
 			signalMaps.put(s, result = new SignalMap(s));
@@ -400,12 +418,29 @@ public class OJUtil{
 	public static boolean isJavaKeyword(String name){
 		return javaKeyWords.contains(name);
 	}
-	public static OJPathName statePathname(INakedClassifier activity){
+	public static OJPathName statePathname(Namespace activity){
 		OJPathName result = statePathnames.get(activity);
 		if(result == null){
-			statePathnames.put(activity, result = new ImmutablePathName(packagePathname(activity.getNameSpace()), activity.getMappingInfo()
-					.getJavaName() + "State"));
+			Namespace namespace=(Namespace) EmfElementFinder.getContainer(activity);
+			statePathnames.put(activity, result = new ImmutablePathName(packagePathname(namespace), classifierPathname(activity).getLast() + "State"));
 		}
 		return result;
 	}
+	public static NakedOperationMap buildOperationMap(NamedElement o){
+		if(o instanceof Behavior){
+			return buildOperationMap((Behavior)o);
+		}
+		return buildOperationMap((Operation)o);
+	}
+	public static boolean requiresJavaRename(NamedElement a){
+		return oldClassifierPaths!=null && !oldClassifierPaths.get(a).equals(classifierPaths.get(a));
+	}
+	public static OJPathName getOldPackagePathname(Namespace c){
+		if(oldPackagePaths!=null){
+			return oldPackagePaths.get(c);
+		}
+		return null;
+	}
+
+
 }

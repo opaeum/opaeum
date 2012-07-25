@@ -1,12 +1,12 @@
 package org.opaeum.validation.namegeneration;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.MultiplicityElement;
+import org.eclipse.uml2.uml.TypedElement;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
-import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.name.SingularNameWrapper;
 
@@ -16,18 +16,18 @@ public class HumanNameGenerator extends AbstractNameGenerator {
 	private static final String PLURAL = "plural";
 
 	@VisitBefore(matchSubclasses = true)
-	public void updateHumanName(INakedElement ne) {
+	public void updateHumanName(Element ne) {
 		ne.getMappingInfo().setHumanName(generateHumanName(ne));
 	}
 
-	private NameWrapper generateHumanName(INakedElement mew) {
+	private NameWrapper generateHumanName(Element mew) {
 		NameWrapper generatedName;
-		INakedValueSpecification humanName = getTaggedValue(mew, HUMAN_NAME);
-		if (mew instanceof INakedClassifier) {
-			INakedClassifier nc = (INakedClassifier) mew;
+		ValueSpecification humanName = getTaggedValue(mew, HUMAN_NAME);
+		if (mew instanceof Classifier) {
+			Classifier nc = (Classifier) mew;
 			generatedName = generateHumanNameForClassifier(nc);
-		} else if (mew instanceof INakedMultiplicityElement) {
-			INakedTypedElement tew = (INakedTypedElement) mew;
+		} else if (mew instanceof MultiplicityElement) {
+			TypedElement tew = (TypedElement) mew;
 			generatedName = generateNameForTypedElement(tew);
 		} else if (humanName != null) {
 			// generate plural
@@ -42,14 +42,14 @@ public class HumanNameGenerator extends AbstractNameGenerator {
 		return generatedName;
 	}
 
-	private NameWrapper generateNameForTypedElement(INakedTypedElement tew) {
+	private NameWrapper generateNameForTypedElement(TypedElement tew) {
 		NameWrapper generatedName;
 		NameWrapper typeName = generateHumanNameForClassifier(tew.getNakedBaseType());
 		String nameInModel = tew.getName();
 		boolean noName = nameInModel == null || nameInModel.length() == 0 || nameInModel.equalsIgnoreCase(tew.getNakedBaseType().getName());
 		NameWrapper separateWords = new SingularNameWrapper(nameInModel, null).getCapped().getSeparateWords();
-		INakedValueSpecification humanName = getTaggedValue(tew, HUMAN_NAME);
-		INakedValueSpecification plural = getTaggedValue(tew, PLURAL);
+		ValueSpecification humanName = getTaggedValue(tew, HUMAN_NAME);
+		ValueSpecification plural = getTaggedValue(tew, PLURAL);
 		if (humanName != null) {
 			if (plural != null) {
 				// Everything supplied, nothing to be generated
@@ -88,10 +88,10 @@ public class HumanNameGenerator extends AbstractNameGenerator {
 		return generatedName;
 	}
 
-	private NameWrapper generateHumanNameForClassifier(INakedClassifier classifier) {
+	private NameWrapper generateHumanNameForClassifier(Classifier classifier) {
 		NameWrapper generatedName;
-		INakedValueSpecification plural = getTaggedValue((INakedElement) classifier, PLURAL);
-		INakedValueSpecification humanName = getTaggedValue((INakedElement) classifier, HUMAN_NAME);
+		ValueSpecification plural = getTaggedValue((Element) classifier, PLURAL);
+		ValueSpecification humanName = getTaggedValue((Element) classifier, HUMAN_NAME);
 		if (humanName != null) {
 			if (plural != null) {
 				// use both taggedValues
@@ -115,7 +115,7 @@ public class HumanNameGenerator extends AbstractNameGenerator {
 	}
 
 	@Override
-	protected boolean hasName(INakedElement p){
+	protected boolean hasName(Element p){
 		return p.getMappingInfo().getHumanName()!=null;
 	}
 }

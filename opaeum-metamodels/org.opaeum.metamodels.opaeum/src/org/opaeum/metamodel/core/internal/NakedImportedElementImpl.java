@@ -3,7 +3,7 @@ package org.opaeum.metamodel.core.internal;
 import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.model.IModelElement;
 
-import org.opaeum.metamodel.core.INakedElement;
+import org.eclipse.uml2.uml.INakedElement;
 
 public class NakedImportedElementImpl extends NakedElementImpl implements INakedElement, IImportedElement {
 	private static final long serialVersionUID = 1630029513308357488L;

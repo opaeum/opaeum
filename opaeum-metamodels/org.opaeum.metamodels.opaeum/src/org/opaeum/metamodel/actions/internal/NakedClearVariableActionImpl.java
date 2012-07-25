@@ -3,8 +3,8 @@ package org.opaeum.metamodel.actions.internal;
 import java.util.Collections;
 import java.util.Set;
 
-import org.opaeum.metamodel.actions.INakedClearVariableAction;
-import org.opaeum.metamodel.activities.INakedInputPin;
+import org.eclipse.uml2.uml.INakedClearVariableAction;
+import org.eclipse.uml2.uml.INakedInputPin;
 
 public class NakedClearVariableActionImpl extends NakedVariableActionImpl implements INakedClearVariableAction{
 	/**

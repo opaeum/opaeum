@@ -6,9 +6,9 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedTypedElement;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedTypedElement;
 
 public class NakedParameterImpl extends NakedTypedElementImpl implements INakedTypedElement, INakedParameter, IVariableDeclaration {
 	private static final long serialVersionUID = -1300669933351165122L;

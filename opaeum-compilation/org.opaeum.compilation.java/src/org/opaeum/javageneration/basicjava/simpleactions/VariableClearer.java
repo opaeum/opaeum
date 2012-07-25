@@ -1,15 +1,15 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
+import org.eclipse.uml2.uml.ClearVariableAction;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.actions.INakedClearVariableAction;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
-public class VariableClearer extends SimpleNodeBuilder<INakedClearVariableAction>{
-	public VariableClearer(OpaeumLibrary oclEngine,INakedClearVariableAction action, AbstractObjectNodeExpressor expressor){
+public class VariableClearer extends SimpleNodeBuilder<ClearVariableAction>{
+	public VariableClearer(OpaeumLibrary oclEngine,ClearVariableAction action, AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	@Override

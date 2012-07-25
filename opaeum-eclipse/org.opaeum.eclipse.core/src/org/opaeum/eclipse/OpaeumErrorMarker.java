@@ -18,13 +18,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.BrokenRule;
 import org.opaeum.metamodel.validation.IValidationRule;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 	public static final String VALIDATION_MARKER_TYPE = "org.eclipse.emf.validation.problem"; //$NON-NLS-1$
@@ -107,8 +107,8 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 							if(object instanceof EObject){
 								EObject eObject = (EObject) object;
 								brokenUris.add(markerKey(findUmlFile(eObject), eObject, key));
-							}else if(object instanceof INakedElement){
-								EObject eObject = findElement(((INakedElement) object).getId());
+							}else if(object instanceof Element){
+								EObject eObject = findElement(EmfWorkspace.getId((EObject) object));
 								if(eObject != null){
 									brokenUris.add(markerKey(findUmlFile(eObject), eObject, key));
 								}
@@ -138,8 +138,8 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 				maybeMarkFile(o, brokenRule, message);
 				Object[] parameters = brokenRule.getParameters();
 				for(Object object:parameters){
-					if(object instanceof INakedElement){
-						EObject e = findElement(((INakedElement) object).getId());
+					if(object instanceof Element){
+						EObject e = findElement(EmfWorkspace.getId((EObject) object));
 						maybeMarkFile(e, brokenRule, message);
 					}else if(object instanceof EObject){
 						maybeMarkFile((EObject) object, brokenRule, message);
@@ -198,7 +198,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 		return o;
 	}
 	@Override
-	public void synchronizationComplete(INakedModelWorkspace workspace,Set<INakedElement> affectedElements){
+	public void synchronizationComplete(ModelWorkspace workspace,Set<Element> affectedElements){
 		maybeSchedule();
 	}
 }

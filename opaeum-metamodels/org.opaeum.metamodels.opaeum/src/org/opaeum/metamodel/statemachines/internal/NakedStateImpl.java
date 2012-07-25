@@ -12,19 +12,19 @@ import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IState;
 import nl.klasse.octopus.model.VisibilityKind;
 
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedNameSpace;
+import org.eclipse.uml2.uml.DefaultOpaeumComparator;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedCompletionEvent;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedNameSpace;
+import org.eclipse.uml2.uml.INakedRegion;
+import org.eclipse.uml2.uml.INakedState;
+import org.eclipse.uml2.uml.INakedStateMachine;
+import org.eclipse.uml2.uml.INakedTransition;
+import org.eclipse.uml2.uml.IRegionOwner;
+import org.eclipse.uml2.uml.StateKind;
 import org.opaeum.metamodel.core.internal.NakedNameSpaceImpl;
-import org.opaeum.metamodel.statemachines.INakedCompletionEvent;
-import org.opaeum.metamodel.statemachines.INakedRegion;
-import org.opaeum.metamodel.statemachines.INakedState;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
-import org.opaeum.metamodel.statemachines.INakedTransition;
-import org.opaeum.metamodel.statemachines.IRegionOwner;
-import org.opaeum.metamodel.statemachines.StateKind;
 
 public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	private static final long serialVersionUID = 1L;

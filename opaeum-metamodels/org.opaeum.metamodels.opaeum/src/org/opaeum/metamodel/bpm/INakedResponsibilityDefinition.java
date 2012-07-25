@@ -2,9 +2,9 @@ package org.opaeum.metamodel.bpm;
 
 import java.util.Collection;
 
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.runtime.domain.TaskDelegation;
 
 public interface INakedResponsibilityDefinition extends INakedElement{

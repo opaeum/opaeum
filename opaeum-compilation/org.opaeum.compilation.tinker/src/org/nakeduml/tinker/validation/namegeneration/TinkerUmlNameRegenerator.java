@@ -1,8 +1,8 @@
 package org.nakeduml.tinker.validation.namegeneration;
 
+import org.eclipse.uml2.uml.INakedPin;
+import org.eclipse.uml2.uml.INakedTypedElement;
 import org.opaeum.feature.StepDependency;
-import org.opaeum.metamodel.activities.INakedPin;
-import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.name.NameConverter;
 import org.opaeum.validation.namegeneration.NameGenerationPhase;
 import org.opaeum.validation.namegeneration.UmlNameRegenerator;

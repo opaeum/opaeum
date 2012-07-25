@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.core.internal;
 
-import org.opaeum.metamodel.core.INakedComment;
+import org.eclipse.uml2.uml.INakedComment;
 
 public class NakedCommentImpl extends NakedElementImpl implements INakedComment {
 	private static final long serialVersionUID = -2277029928805037846L;

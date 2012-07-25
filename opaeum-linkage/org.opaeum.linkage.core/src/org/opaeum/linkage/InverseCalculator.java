@@ -1,10 +1,10 @@
 package org.opaeum.linkage;
 
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedInterface;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedPropertyImpl;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 

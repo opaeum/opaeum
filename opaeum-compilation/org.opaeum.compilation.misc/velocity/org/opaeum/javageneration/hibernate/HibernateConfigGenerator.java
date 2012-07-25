@@ -1,25 +1,26 @@
 package org.opaeum.javageneration.hibernate;
 
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class HibernateConfigGenerator extends AbstractPersistenceConfigGenerator{
 	public HibernateConfigGenerator(){
 		super();
 	}
-	protected String getOutputPath(INakedElementOwner model){
-		if(model instanceof INakedModel){
-			return ((INakedRootObject) model).getIdentifier() + "-hibernate.cfg.xml";
+	protected String getOutputPath(Element model){
+		if(model instanceof Model){
+			return EmfPackageUtil.getIdentifier((Package) model) + "-hibernate.cfg.xml";
 		}else{
-			return ((INakedModelWorkspace) model).getIdentifier() + "-hibernate.cfg.xml";
+			return ((ModelWorkspace) model).getIdentifier() + "-hibernate.cfg.xml";
 		}
 	}
-	protected String getConfigName(INakedElementOwner model){
+	protected String getConfigName(Element model){
 		return getOutputPath(model);
 	}
 	protected String getTemplateName(){

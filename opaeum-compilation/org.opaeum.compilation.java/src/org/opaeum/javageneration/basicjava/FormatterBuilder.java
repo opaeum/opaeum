@@ -2,6 +2,13 @@ package org.opaeum.javageneration.basicjava;
 
 import java.util.Collection;
 
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -15,45 +22,39 @@ import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.AbstractFormatter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-	Java6ModelGenerator.class
-},after = {
-	Java6ModelGenerator.class
-})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class},after = {Java6ModelGenerator.class})
 public class FormatterBuilder extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	@VisitBefore
-	public void visitModel(INakedModel m){
+	public void visitModel(Model m){
 		if(!transformationContext.isIntegrationPhase()){
 			OJPathName formatter = formatterPathName(m);
 			OJPackage util = findOrCreatePackage(formatter.getHead());
-			Collection<INakedSimpleType> simpleTypes = getElementsOfType(INakedSimpleType.class, m.getAllDependencies());
+			Collection<DataType> simpleTypes = getElementsOfType(DataType.class, EmfPackageUtil.getAllDependencies(m));
 			createFormatter(util, formatter.getLast());
 			createFormatterContract(util, formatter.getLast(), simpleTypes);
 		}
 	}
-	public static OJPathName formatterPathName(INakedElement m){
-		INakedRootObject ro = m.getRootObject();
-		return OJUtil.utilPackagePath(ro).append(ro.getMappingInfo().getJavaName().getCapped() + "Formatter");
+	public static OJPathName formatterPathName(Element m){
+		Package ro = EmfElementFinder.getRootObject(m);
+		return OJUtil.utilPackagePath(ro).append(NameConverter.capitalize(ro.getName()) + "Formatter");
 	}
-	private void createFormatterContract(OJPackage util,String name,Collection<INakedSimpleType> types){
+	private void createFormatterContract(OJPackage util,String name,Collection<DataType> types){
 		OJAnnotatedInterface formatterContract = new OJAnnotatedInterface("I" + name);
 		util.addToClasses(formatterContract);
 		createTextPath(formatterContract, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
-		for(INakedSimpleType e:types){
-			INakedSimpleType type = (INakedSimpleType) e;
-			OJAnnotatedOperation parse = new OJAnnotatedOperation("parse" + type.getName(), new OJPathName(type.getMappingInfo().getQualifiedJavaName()));
-			parse.addParam("value", new OJPathName("String"));
-			formatterContract.addToOperations(parse);
-			OJAnnotatedOperation format = new OJAnnotatedOperation("format" + type.getName(), new OJPathName("String"));
-			format.addParam("value", new OJPathName(type.getMappingInfo().getQualifiedJavaName()));
-			formatterContract.addToOperations(format);
+		for(DataType e:types){
+			if(EmfClassifierUtil.isSimpleType(e)){
+				OJAnnotatedOperation parse = new OJAnnotatedOperation("parse" + e.getName(), OJUtil.classifierPathname(e));
+				parse.addParam("value", new OJPathName("String"));
+				formatterContract.addToOperations(parse);
+				OJAnnotatedOperation format = new OJAnnotatedOperation("format" + e.getName(), new OJPathName("String"));
+				format.addParam("value",  OJUtil.classifierPathname(e));
+				formatterContract.addToOperations(format);
+			}
 		}
 	}
 	private void createFormatter(OJPackage util,String name){

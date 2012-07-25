@@ -1,7 +1,7 @@
 package org.opaeum.metamodel.actions.internal;
 
-import org.opaeum.metamodel.actions.INakedAddStructuralFeatureValueAction;
-import org.opaeum.metamodel.activities.INakedInputPin;
+import org.eclipse.uml2.uml.INakedAddStructuralFeatureValueAction;
+import org.eclipse.uml2.uml.INakedInputPin;
 
 public class NakedAddStructuralFeatureValueActionImpl extends NakedWriteStructuralFeatureActionImpl implements INakedAddStructuralFeatureValueAction{
 	private static final long serialVersionUID = -6520786921966729943L;

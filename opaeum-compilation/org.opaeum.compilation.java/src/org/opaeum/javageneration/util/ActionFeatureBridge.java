@@ -3,40 +3,30 @@ package org.opaeum.javageneration.util;
 import java.util.Collection;
 import java.util.Collections;
 
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
-
-import org.opaeum.metamodel.actions.IActionWithTargetElement;
-import org.opaeum.metamodel.actions.INakedAcceptCallAction;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.components.INakedConnectorEnd;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
-import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
+import org.eclipse.ocl.uml.CollectionType;
+import org.eclipse.uml2.uml.AcceptCallAction;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.CallAction;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ConnectorEnd;
+import org.eclipse.uml2.uml.MultiplicityElement;
+import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.name.NameConverter;
 
 public class ActionFeatureBridge extends AbstractEmulatedProperty{
 	private static final long serialVersionUID = 620463438474285488L;
-	IClassifier type;
-	private INakedAction action;
-	NakedMultiplicityImpl multiplicity = null;
-	private INakedClassifier baseType;
-	private INakedTypedElement targetElement;
-	public NakedMultiplicityImpl getNakedMultiplicity(){
-		return multiplicity;
-	}
-	public void setMultiplicity(NakedMultiplicityImpl multiplicity){
-		this.multiplicity = multiplicity;
-	}
-	public ActionFeatureBridge(INakedAcceptCallAction action,OpaeumLibrary lib){
+	Classifier type;
+	private Action action;
+	private Classifier baseType;
+	private TypedElement targetElement;
+
+	public ActionFeatureBridge(AcceptCallAction action,OpaeumLibrary lib){
 		super(action.getNearestStructuredElementAsClassifier(), action);
 		this.multiplicity = new NakedMultiplicityImpl(0, 1);// TODO What if invoked multiple times before reply takes place???
-		this.baseType = action.getOperation().getMessageStructure();
-		setType(getNakedBaseType());
+		this.baseType =  action.getOperation().getMessageStructure();
+		setType(getType());
 		this.action = action;
 	}
 	public ActionFeatureBridge(IActionWithTargetElement action,OpaeumLibrary lib){
@@ -45,59 +35,52 @@ public class ActionFeatureBridge extends AbstractEmulatedProperty{
 		this.baseType = getType(action);
 		if(targetElement == null){
 			this.multiplicity = new NakedMultiplicityImpl(0, 1);
-			setType(getNakedBaseType());
+			setType((Classifier) getType());
 		}else{
 			this.multiplicity = (NakedMultiplicityImpl) targetElement.getNakedMultiplicity();
-			IClassifier type = targetElement.getType();
-			if(type instanceof StdlibCollectionType){
-				setType(lib.getOclLibrary().lookupCollectionType(((StdlibCollectionType) type).getMetaType(), getNakedBaseType()));
+			Classifier type = targetElement.getActualType();
+			if(type instanceof CollectionType){
+				setType((Classifier) lib.getTypeResolver().resolveCollectionType(((CollectionType) type).getKind(), ((CollectionType) type).getElementType()));
 			}else{
-				setType(getNakedBaseType());
+				setType((Classifier) getType());
 			}
 		}
 		this.action = action;
 	}
-	private static INakedClassifier getType(IActionWithTargetElement action){
-		INakedClassifier baseType = null;
-		if(action instanceof INakedCallAction){
-			baseType = ((INakedCallAction) action).getMessageStructure();
-		}else if(action instanceof INakedEmbeddedTask){
-			baseType = ((INakedEmbeddedTask) action).getMessageStructure();
+	private static Classifier getType(IActionWithTargetElement action){
+		Classifier baseType = null;
+		if(action instanceof CallAction){
+			baseType = ((CallAction) action).getMessageStructure();
+		}else if(action instanceof EmbeddedTask){
+			baseType = ((EmbeddedTask) action).getMessageStructure();
 		}
 		return baseType;
 	}
-	public INakedAction getAction(){
+	public Action getAction(){
 		return action;
 	}
 	public boolean isOrdered(){
-		return targetElement == null ? false : targetElement.isOrdered();
+		return targetElement instanceof MultiplicityElement ?  ((MultiplicityElement) targetElement).isOrdered():false;
 	}
 	public boolean isUnique(){
-		return targetElement == null ? false : targetElement.isUnique();
+		return targetElement instanceof MultiplicityElement ?  ((MultiplicityElement) targetElement).isUnique():false;
 	}
 	@Override
-	public INakedClassifier getNakedBaseType(){
+	public Type getType(){
 		return baseType;
 	}
 	public String getName(){
 		return "invoked" + NameConverter.capitalize(action.getName());
 	}
-	public IClassifier getType(){
+	public Classifier getActualType(){
 		return type;
 	}
-	public void setType(IClassifier type){
+	public void setType(Classifier type){
 		this.type = type;
 	}
 	@Override
-	public Collection<INakedConnectorEnd> getConnectorEnd(){
+	public Collection<ConnectorEnd> getConnectorEnd(){
 		return Collections.emptySet();
 	}
-	@Override
-	public boolean isMeasure(){
-		return false;
-	}
-	@Override
-	public boolean isDimension(){
-		return false;
-	}
+
 }

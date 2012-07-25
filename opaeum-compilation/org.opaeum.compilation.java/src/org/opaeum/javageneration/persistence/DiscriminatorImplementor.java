@@ -2,35 +2,35 @@ package org.opaeum.javageneration.persistence;
 
 import java.util.List;
 
-import nl.klasse.octopus.model.IAttribute;
-
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedGeneralization;
-import org.opaeum.metamodel.core.INakedPowerType;
-import org.opaeum.metamodel.core.INakedProperty;
 
 /**
  */
 public class DiscriminatorImplementor extends AbstractJavaProducingVisitor {
 //	@VisitAfter(matchSubclasses=true)
-//	public void buildDefaultConstructorBody(INakedProperty attr) {
+//	public void buildDefaultConstructorBody(Property attr) {
 //		if (attr.isDiscriminator()) {
-//			INakedEntity entity = (INakedEntity) attr.getOwner();
+//			Class entity = (Class) attr.getOwner();
 //			OJPathName path = OJUtil.classifierPathname(entity);
 //			OJBlock dcBody = new OJBlock();
 //			OJClass ojClass = this.javaModel.findClass(path);
-//			INakedPowerType powerType = (INakedPowerType) attr.getBaseType();
+//			PowerType powerType = (PowerType) attr.getType();
 //			if (entity.isPowerTypeInstance()) {
-//				INakedGeneralization generalization = entity.getNakedGeneralizations().iterator().next();
-//				String literal = powerType.getMappingInfo().getQualifiedJavaName() + "."
-//						+ generalization.getPowerTypeLiteral().getMappingInfo().getJavaName().getUpperCase();
-//				dcBody.addToStatements("set" + attr.getMappingInfo().getJavaName().getCapped() + "(" + literal + ")");
+//				Generalization generalization = entity.getGeneralizations().iterator().next();
+//				String literal = powerType.getQualifiedJavaName() + "."
+//						+ generalization.getPowerTypeLiteral().getName().getUpperCase();
+//				dcBody.addToStatements("set" + attr.getName().getCapped() + "(" + literal + ")");
 //			}
 //			ojClass.getDefaultConstructor().setBody(dcBody);
 //			// TODO make setter protected
@@ -38,21 +38,21 @@ public class DiscriminatorImplementor extends AbstractJavaProducingVisitor {
 //	}
 	
 	@VisitAfter(matchSubclasses=true)
-	public void buildDefaultConstructorBody(INakedEntity entity) {
+	public void buildDefaultConstructorBody(Class entity) {
 		
-		List<? extends INakedProperty> attributes = entity.getEffectiveAttributes();
-		for (INakedProperty attr : attributes) {
-			INakedProperty property = (INakedProperty)attr;
-			if (property.isDiscriminator()) {
+		List<? extends Property> attributes = EmfElementFinder.getPropertiesInScope(entity);
+		for (Property attr : attributes) {
+			if (attr.isDiscriminator()) {
 				OJPathName path = OJUtil.classifierPathname(entity);
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(attr);
 				OJBlock dcBody = new OJBlock();
 				OJClass ojClass = this.javaModel.findClass(path);
-				INakedPowerType powerType = (INakedPowerType) property.getNakedBaseType();
+				Enumeration powerType = (Enumeration) attr.getType();
 				if (entity.isPowerTypeInstance()) {
-					INakedGeneralization generalization = entity.getNakedGeneralizations().iterator().next();
-					String literal = powerType.getMappingInfo().getQualifiedJavaName() + "."
-							+ generalization.getPowerTypeLiteral().getMappingInfo().getJavaName().getUpperCase();
-					dcBody.addToStatements("set" + property.getMappingInfo().getJavaName().getCapped() + "(" + literal + ")");
+					Generalization generalization = entity.getGeneralizations().iterator().next();
+					String literal = OJUtil.classifierPathname(powerType) + "."
+							+ generalization.getPowerTypeLiteral().getName().getUpperCase();
+					dcBody.addToStatements(map.setter() + "(" + literal + ")");
 				}
 				ojClass.getDefaultConstructor().setBody(dcBody);
 				// TODO make setter protected

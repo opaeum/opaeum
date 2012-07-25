@@ -5,9 +5,9 @@ import java.util.List;
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.eclipse.uml2.uml.INakedOpaqueBehavior;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 

@@ -4,11 +4,11 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.OpaeumSynchronizationListener;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 public class OpenUmlFile implements OpaeumSynchronizationListener{
 	private EmfWorkspace emfWorkspace;
@@ -54,7 +54,7 @@ public class OpenUmlFile implements OpaeumSynchronizationListener{
 		this.dirty = dirty;
 	}
 	@Override
-	public void synchronizationComplete(INakedModelWorkspace workspace,Set<INakedElement> affectedElements){
+	public void synchronizationComplete(ModelWorkspace workspace,Set<Element> affectedElements){
 		if(affectedElements.size()>0){
 			this.dirty=true;
 		}

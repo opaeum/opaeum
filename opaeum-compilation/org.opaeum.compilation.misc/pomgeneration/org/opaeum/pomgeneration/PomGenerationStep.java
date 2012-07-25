@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Properties;
 
 import nl.klasse.octopus.model.IImportedElement;
-
+import org.eclipse.uml2.uml.Package;
 import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
@@ -16,10 +16,10 @@ import org.apache.maven.pom.PluginExecution;
 import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
@@ -28,8 +28,8 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	protected static final String HIBERNATE_VERSION = "3.4.0.GA";
 	public static final String ARQUILLIAN_VERSION = "1.0.0.Alpha4";
 	protected OpaeumConfig config;
-	protected INakedModelWorkspace workspace;
-	protected INakedRootObject model;
+	protected ModelWorkspace workspace;
+	protected Package model;
 	private boolean shouldAppendVersionSuffix;
 	protected MigrationWorkspace migrationWorkspace;
 	protected abstract SourceFolderDefinition getExampleTargetDir();
@@ -39,7 +39,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	public void appendVersionSuffix(boolean b){
 		this.shouldAppendVersionSuffix=b;
 	}
-	public void initialize(OpaeumConfig config,INakedModelWorkspace workspace, MigrationWorkspace migrationWorkspace){
+	public void initialize(OpaeumConfig config,ModelWorkspace workspace, MigrationWorkspace migrationWorkspace){
 		this.config = config;
 		this.workspace = workspace;
 		this.migrationWorkspace=migrationWorkspace;
@@ -74,7 +74,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		}
 		switch(getExampleTargetDir().getProjectNameStrategy()){
 		case MODEL_NAME_AND_SUFFIX:
-			return this.model.getIdentifier() + suffix;
+			return EmfPackageUtil.getIdentifier(this.model) + suffix;
 		case SUFFIX_ONLY:
 			return suffix;
 		case WORKSPACE_NAME_AND_SUFFIX:
@@ -96,7 +96,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	public Profile[] getProfiles(){
 		return new Profile[0];
 	}
-	public void setModel(INakedRootObject model){
+	public void setModel(Package model){
 		this.model = model;
 	}
 	public Properties getProperties(){
@@ -268,16 +268,16 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		Collection<Dependency> result = getTestDepedencies();
 		if(getExampleTargetDir().isOneProjectPerWorkspace()){
 		}else{
-			Collection<IImportedElement> imports = this.model.getImports();
-			for(IImportedElement imp:imports){
-				if(imp.getElement() instanceof INakedRootObject){
-					addDependencyToRootObject(identifier, (INakedRootObject) imp.getElement(), result);
+			Collection<Package> imports = this.model.getImportedPackages();
+			for(Package imp:imports){
+				if(EmfPackageUtil.isRootObject(imp) ){
+					addDependencyToRootObject(identifier,imp, result);
 				}
 			}
 		}
 		return result;
 	}
-	protected void addDependencyToRootObject(ISourceFolderIdentifier identifier,INakedRootObject rootObject,Collection<Dependency> result){
+	protected void addDependencyToRootObject(ISourceFolderIdentifier identifier,Package rootObject,Collection<Dependency> result){
 		if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
 			SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(identifier);
 			String versionSuffix = shouldAppendVersionSuffix?config.getMavenGroupVersionSuffix():"";
@@ -296,7 +296,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 					d.setVersion(getVersionVariable());
 					d.setScope("compile");
 					d.setType("jar");
-					d.setArtifactId(rootObject.getIdentifier() + sourceFolderDefinition.getProjectSuffix()+versionSuffix);
+					d.setArtifactId(EmfPackageUtil.getIdentifier(rootObject) + sourceFolderDefinition.getProjectSuffix()+versionSuffix);
 					result.add(d);
 				}else{
 					// TODO Model level stereotype, or opaeumconfig.properties get group

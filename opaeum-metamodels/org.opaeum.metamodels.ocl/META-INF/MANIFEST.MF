@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.opaeum.metamodels.ocl;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: nl.klasse.octopus,
- nl.klasse.octopus.expressionVisitors, 
+ nl.klasse.octopus.expressionVisitors,
  nl.klasse.octopus.expressionVisitors.internal,
  nl.klasse.octopus.expressions,
  nl.klasse.octopus.expressions.internal.analysis,
@@ -26,5 +26,5 @@ Export-Package: nl.klasse.octopus,
  nl.klasse.octopus.stdlib.internal.library,
  nl.klasse.octopus.stdlib.internal.types,
  nl.klasse.tools.common,
- nl.klasse.tools.octopus 
+ nl.klasse.tools.octopus
 Bundle-ClassPath: .

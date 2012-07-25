@@ -7,13 +7,13 @@ import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.IClass;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedTypedElement;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedConstraint;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedProperty;
+import org.eclipse.uml2.uml.INakedTypedElement;
 import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
 
 public class OperationMessageStructureImpl extends EmulatedCompositionMessageStructure implements IClass{

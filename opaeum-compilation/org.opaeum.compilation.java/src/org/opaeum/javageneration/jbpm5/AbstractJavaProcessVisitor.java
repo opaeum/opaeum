@@ -3,6 +3,12 @@ package org.opaeum.javageneration.jbpm5;
 import java.util.Collection;
 import java.util.Date;
 
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Parameter;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJForStatement;
@@ -23,26 +29,22 @@ import org.opaeum.javageneration.hibernate.HibernateUtil;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.IParameterOwner;
-import org.opaeum.metamodel.core.PreAndPostConstrained;
 import org.opaeum.runtime.domain.IActiveEntity;
 import org.opaeum.runtime.domain.IProcessObject;
 import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.environment.Environment;
 
 public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVisitor{
+
+
 	public static final OJPathName ABSTRACT_PROCESS_STEP = new OJPathName(IProcessStep.class.getName());
 	public static final OJPathName ACTIVE_ENTITY = new OJPathName(IActiveEntity.class.getName());
 	static final OJPathName STATEFUL_KNOWLEDGE_SESSION = new OJPathName("org.drools.runtime.StatefulKnowledgeSession");
 	public AbstractJavaProcessVisitor(){
 		super();
 	}
-	protected abstract Collection<? extends INakedElement> getTopLevelFlows(INakedClassifier umlBehavior);
-	protected OJOperation implementExecute(OJAnnotatedClass ojClass,INakedClassifier oc){
+	protected abstract Collection<? extends NamedElement> getTopLevelFlows(Classifier umlBehavior);
+	protected OJOperation implementExecute(OJAnnotatedClass ojClass,Classifier oc){
 		OJOperation execute = new OJAnnotatedOperation("execute");
 		ojClass.addToOperations(execute);
 		// add executedOn property for sorting purposes
@@ -58,24 +60,24 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		execute.getBody().addToStatements("setExecutedOn(new Date())");
 		createJbpmProcess(oc, execute);
 		execute.getBody().addToStatements("this.processInstance=processInstance");
-		if(oc instanceof IParameterOwner && ((PreAndPostConstrained) oc).getPreConditions().size() > 0){
+		if(oc instanceof Behavior && ((Behavior) oc).getPreconditions().size() > 0){
 			execute.getBody().addToStatements("evaluatePreConditions()");
 			OJUtil.addFailedConstraints(execute);
 		}
 		return execute;
 	}
-	protected void doIsComplete(OJAnnotatedClass activityClass,INakedClassifier container){
+	protected void doIsComplete(OJAnnotatedClass activityClass,Classifier container){
 		OJAnnotatedOperation isComplete = new OJAnnotatedOperation("isComplete", new OJPathName("boolean"));
 		activityClass.addToOperations(isComplete);
-		Collection<? extends INakedElement> topLevelFlows = getTopLevelFlows(container);
+		Collection<? extends NamedElement> topLevelFlows = getTopLevelFlows(container);
 		StringBuilder sb = new StringBuilder();
-		for(INakedElement flow:topLevelFlows){
+		for(NamedElement flow:topLevelFlows){
 			sb.append(Jbpm5Util.endNodeFieldNameFor(flow) + "!=null ||");
 		}
 		sb.append(Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + "!=null");
 		isComplete.initializeResultVariable(sb.toString());
 	}
-	protected void createJbpmProcess(INakedElement element,OJOperation javaMethod){
+	protected void createJbpmProcess(Element element,OJOperation javaMethod){
 		OJClass owner = (OJClass) javaMethod.getOwner();
 		owner.addToImports(Jbpm5Util.getWorkflowProcesInstance());
 		owner.addToImports(Jbpm5Util.getWorkflowProcessImpl());
@@ -95,7 +97,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		javaMethod.getBody().addToStatements("((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true)");
 		javaMethod.getOwner().addToImports(STATEFUL_KNOWLEDGE_SESSION);
 	}
-	protected void implementProcessInterfaceOperations(OJAnnotatedClass ojBehavior,OJPathName stepEnumeration,INakedClassifier umlBehavior){
+	protected void implementProcessInterfaceOperations(OJAnnotatedClass ojBehavior,OJPathName stepEnumeration,Classifier umlBehavior){
 		Jbpm5Util.implementRelationshipWithProcess(ojBehavior, true, "process");
 		addDirtyLogic(ojBehavior);
 		if(!umlBehavior.conformsTo(getLibrary().getAbstractRequest())){
@@ -130,7 +132,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		findNodeInstaceByUniqueId.getBody().addToStatements("return null");
 		ojBehavior.addToOperations(findNodeInstaceByUniqueId);
 	}
-	private void doForceToStep(OJClass ojBehavior,OJPathName stepEnumeration,INakedClassifier umlBehavior){
+	private void doForceToStep(OJClass ojBehavior,OJPathName stepEnumeration,Classifier umlBehavior){
 		OJOperation forceStateChange = new OJAnnotatedOperation("forceToStep");
 		forceStateChange.addParam("step", ABSTRACT_PROCESS_STEP);
 		OJAnnotatedField nextStep = new OJAnnotatedField("nextStep", stepEnumeration);
@@ -205,7 +207,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		ifNodeContainer.getThenPart().addToStatements(ifNotNull);
 		recursivelyFindNode.getBody().addToStatements("return null");
 	}
-	private void doGetActiveLeafSteps(OJClass ojBehavior,INakedClassifier umlBehavior){
+	private void doGetActiveLeafSteps(OJClass ojBehavior,Classifier umlBehavior){
 		OJAnnotatedOperation getActiveLeafStates = new OJAnnotatedOperation("getActiveLeafSteps");
 		OJPathName set = new OJPathName("java.util.Set");
 		set.addToElementTypes(ABSTRACT_PROCESS_STEP);
@@ -220,11 +222,11 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		getActiveLeafStates.getBody().addToStatements("return results");
 		ojBehavior.addToOperations(getActiveLeafStates);
 	}
-	protected void doIsStepActive(OJClass ojBehavior,INakedClassifier umlBehavior){
+	protected void doIsStepActive(OJClass ojBehavior,Classifier umlBehavior){
 		OJOperation isStepActive = new OJAnnotatedOperation("isStepActive");
 		isStepActive.addParam("step", ABSTRACT_PROCESS_STEP);
-		Collection<? extends INakedElement> topLevelFlows = getTopLevelFlows(umlBehavior);
-		for(INakedElement flow:topLevelFlows){
+		Collection<? extends NamedElement> topLevelFlows = getTopLevelFlows(umlBehavior);
+		for(NamedElement flow:topLevelFlows){
 			String endNodeFieldName = Jbpm5Util.endNodeFieldNameFor(flow);
 			OJPathName stateClass = OJUtil.statePathname(umlBehavior);
 			OJAnnotatedField field = new OJAnnotatedField(endNodeFieldName, stateClass);
@@ -239,7 +241,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 				}
 			}
 		}
-		for(INakedElement flow:topLevelFlows){
+		for(NamedElement flow:topLevelFlows){
 			String endNodeFieldName = Jbpm5Util.endNodeFieldNameFor(flow);
 			OJIfStatement ifEquals = new OJIfStatement("step==this." + endNodeFieldName, "return true");
 			isStepActive.getBody().addToStatements(ifEquals);
@@ -269,10 +271,10 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 						+ ">)(Collection)((NodeInstanceContainer)getProcessInstance()).getNodeInstances(true)");
 		ojBehavior.addToOperations(getNodeInstancesRecursively);
 	}
-	private void doGetInnermostNonParallelStep(OJClass ojBehavior,INakedClassifier umlBehavior){
+	private void doGetInnermostNonParallelStep(OJClass ojBehavior,Classifier umlBehavior){
 		OJOperation getInnermostNonParallelStep = new OJAnnotatedOperation("getInnermostNonParallelStep");
 		getInnermostNonParallelStep.setReturnType(ABSTRACT_PROCESS_STEP);
-		Collection<? extends INakedElement> topLevelFlows = getTopLevelFlows(umlBehavior);
+		Collection<? extends NamedElement> topLevelFlows = getTopLevelFlows(umlBehavior);
 		ojBehavior.addToOperations(getInnermostNonParallelStep);
 		if(topLevelFlows.isEmpty() || topLevelFlows.size() > 1){
 			getInnermostNonParallelStep.getBody().addToStatements("return null");
@@ -312,11 +314,11 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		init.setBody(body);
 		activityClass.getDefaultConstructor().setBody(new OJBlock());
 	}
-	protected void addParameterDelegation(OJAnnotatedClass cls,INakedBehavior b){
+	protected void addParameterDelegation(OJAnnotatedClass cls,Behavior b){
 		if(b.getSpecification() != null){
-			for(INakedParameter p:b.getOwnedParameters()){
-				if(p.getLinkedParameter() != null){
-					NakedStructuralFeatureMap linkedMap = OJUtil.buildStructuralFeatureMap(b, p.getLinkedParameter());
+			for(Parameter p:b.getOwnedParameters()){
+				if(EmfBehaviorUtil.getLinkedParameter( p) != null){
+					NakedStructuralFeatureMap linkedMap = OJUtil.buildStructuralFeatureMap(b, EmfBehaviorUtil.getLinkedParameter( p));
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(b, p);
 					OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter(), linkedMap.javaTypePath());
 					cls.addToOperations(getter);

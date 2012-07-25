@@ -3,8 +3,8 @@ package org.opaeum.metamodel.actions.internal;
 import java.util.Collections;
 import java.util.Set;
 
-import org.opaeum.metamodel.actions.INakedWriteVariableAction;
-import org.opaeum.metamodel.activities.INakedInputPin;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedWriteVariableAction;
 
 public abstract class NakedWriteVariableActionImpl extends NakedVariableActionImpl implements INakedWriteVariableAction{
 	/**

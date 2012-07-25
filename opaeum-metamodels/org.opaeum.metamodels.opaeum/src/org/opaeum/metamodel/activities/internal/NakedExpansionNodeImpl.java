@@ -1,8 +1,8 @@
 package org.opaeum.metamodel.activities.internal;
 
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedExpansionRegion;
-import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.eclipse.uml2.uml.INakedExpansionNode;
+import org.eclipse.uml2.uml.INakedExpansionRegion;
+import org.eclipse.uml2.uml.INakedMultiplicityElement;
 
 public class NakedExpansionNodeImpl extends NakedObjectNodeImpl implements INakedExpansionNode {
 

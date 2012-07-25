@@ -7,9 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.opaeum.metamodel.statemachines.INakedRegion;
-import org.opaeum.metamodel.statemachines.INakedState;
-import org.opaeum.metamodel.statemachines.IRegionOwner;
+import org.eclipse.uml2.uml.INakedRegion;
+import org.eclipse.uml2.uml.INakedState;
+import org.eclipse.uml2.uml.IRegionOwner;
 
 public class RegionOwnerUtil{
 	public static boolean isAncestorOf(IRegionOwner one,IRegionOwner two){

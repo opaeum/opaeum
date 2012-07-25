@@ -2,8 +2,13 @@ package org.opaeum.javageneration.basicjava;
 
 import java.util.List;
 
-import nl.klasse.octopus.model.IOperation;
-
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.Type;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
@@ -23,14 +28,6 @@ import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.runtime.domain.IActiveEntity;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -45,13 +42,13 @@ import org.opaeum.runtime.domain.IActiveEntity;
  */
 public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore(matchSubclasses = true)
-	public void visitBehavior(INakedBehavior ob){
-		if(BehaviorUtil.hasExecutionInstance(ob)){
+	public void visitBehavior(Behavior ob){
+		if(EmfBehaviorUtil.hasExecutionInstance(ob)){
 			// Most likely long running
-			if(ob.isClassifierBehavior()){
+			if(EmfBehaviorUtil.isClassifierBehavior( ob)){
 				implementStartClassifierBehavior(ob);
 			}else{
-				if(ob.isProcess() && ob.getSpecification() == null){
+				if(EmfBehaviorUtil.isProcess( ob) && ob.getSpecification() == null){
 					implementCallbacksOnCompletionOrFailure(OJUtil.buildOperationMap(ob));
 				}
 				if(requiresOperationForInvocation(ob)){
@@ -71,29 +68,29 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		ojClass.addToImports(Jbpm5Util.getNodeInstance());
 	}
 	@VisitAfter(matchSubclasses = true)
-	public void visitClassifier(INakedBehavioredClassifier c){
-		List<IOperation> operations = c.getOperations();
-		for(IOperation o:operations){
-			if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
-				implementCallbacksOnCompletionOrFailure(OJUtil.buildOperationMap((IParameterOwner) o));
+	public void visitClassifier(BehavioredClassifier c){
+		List<Operation> operations = c.getOperations();
+		for(Operation o:operations){
+			if(o.getOwner() == c || o.getOwner() instanceof Interface){
+				implementCallbacksOnCompletionOrFailure(OJUtil.buildOperationMap( o));
 			}
 		}
 	}
 	private void implementCallbacksOnCompletionOrFailure(NakedOperationMap map){
-		if(BehaviorUtil.hasExecutionInstance(map.getParameterOwner())){
+		if(map.hasMessageStructure()){
 			OJAnnotatedClass ojOperationClass = (OJAnnotatedClass) javaModel.findClass(map.messageStructurePath());
 			OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
 			ojOperationClass.addToOperations(complete);
-			if(map.getParameterOwner().getPostConditions().size() > 0){
+			if(map.getPostConditions().size() > 0){
 				complete.getBody().addToStatements("evaluatePostConditions()");
 				OJUtil.addFailedConstraints(complete);
 			}
-			if(map.getParameterOwner() instanceof INakedBehavior){
+			if(map.getNamedElement() instanceof Behavior){
 				complete.getBody().addToStatements("getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED)");
 			}
 			OJAnnotatedField currentException = OJUtil.addTransientProperty(ojOperationClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"),true);
 			currentException.setVisibility(OJVisibilityKind.PROTECTED);
-			if(map.getParameterOwner().isLongRunning()){
+			if(map.isLongRunning()){
 				Jbpm5Util.implementRelationshipWithProcess(ojOperationClass, true, "callingProcess");
 				addSetReturnInfo(ojOperationClass);
 				OJAnnotatedField callBackListener = new OJAnnotatedField("callbackListener", map.callbackListenerPath());
@@ -118,10 +115,10 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		propagateException.getBody().addToStatements(ifNull);
 		OJIfStatement previousIf = ifNull;
 		previousIf.setElsePart(new OJBlock());
-		if(map.getParameterOwner() instanceof INakedOperation){
-			INakedOperation oper = (INakedOperation) map.getParameterOwner();
-			for(INakedClassifier ex:oper.getRaisedExceptions()){
-				OJIfStatement ifInstance = new OJIfStatement("exception instanceof " + ex.getMappingInfo().getJavaName());
+		if(map.getNamedElement() instanceof Operation){
+			Operation oper = (Operation) map.getNamedElement();
+			for(Type ex:oper.getRaisedExceptions()){
+				OJIfStatement ifInstance = new OJIfStatement("exception instanceof " + ex.getName());
 				previousIf.getElsePart().addToStatements(ifInstance);
 				ifInstance.getThenPart().addToStatements("callbackListener." + map.exceptionOperName(ex) + "(getCallingNodeInstanceUniqueId(),exception,this)");
 				previousIf = ifInstance;
@@ -130,29 +127,29 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		}
 		previousIf.getElsePart().addToStatements("callbackListener." + map.unhandledExceptionOperName() + "(getCallingNodeInstanceUniqueId(),exception, this)");
 	}
-	private boolean requiresOperationForInvocation(INakedBehavior behavior){
-		return behavior.getContext() != null && !behavior.isClassifierBehavior();
+	private boolean requiresOperationForInvocation(Behavior behavior){
+		return behavior.getContext() != null && !EmfBehaviorUtil.isClassifierBehavior( behavior);
 	}
-	private void invokeSimpleBehavior(INakedBehavior behavior,OJOperation javaMethod){
+	private void invokeSimpleBehavior(Behavior behavior,OJOperation javaMethod){
 	}
-	private void implementSpecification(INakedBehavior o){
+	private void implementSpecification(Behavior o){
 		NakedOperationMap map = OJUtil.buildOperationMap(o.getSpecification() == null ? o : o.getSpecification());
 		OJAnnotatedClass ojContext = findJavaClass(o.getContext());
 		// Behaviours without
 		// specifications are given an emulated specification
-		List<OJPathName> parmTypes = o.isLongRunning() ? map.javaParamTypePathsWithReturnInfo() : map.javaParamTypePaths();
+		List<OJPathName> parmTypes = EmfBehaviorUtil.isLongRunning(o) ? map.javaParamTypePathsWithReturnInfo() : map.javaParamTypePaths();
 		OJOperation javaMethod = ojContext.findOperation(map.javaOperName(), parmTypes);
-		if(o.isProcess()){
+		if(EmfBehaviorUtil.isProcess( o)){
 			implementProcessCreation(o, ojContext, javaMethod);
 		}else{
 			invokeSimpleBehavior(o, javaMethod);
 		}
 	}
-	private void implementProcessCreation(INakedBehavior o,OJAnnotatedClass ojContext,OJOperation javaMethod){
+	private void implementProcessCreation(Behavior o,OJAnnotatedClass ojContext,OJOperation javaMethod){
 		OJPathName ojBehavior = OJUtil.classifierPathname(o);
 		javaMethod.getOwner().addToImports(ojBehavior);
 		// Leave preconditions in tact
-		NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(o.getEndToComposite().getOtherEnd());
+		NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite( o).getOtherEnd());
 		ojContext.addToImports(ojBehavior);
 		OJAnnotatedOperation ojAnnotatedOperation = (OJAnnotatedOperation) javaMethod;
 		ojAnnotatedOperation.initializeResultVariable("new " + ojBehavior.getLast() + "(this)");
@@ -160,7 +157,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		javaMethod.getBody().addToStatements("this." + featureMap.adder() + "(result)");
 		javaMethod.setReturnType(ojBehavior);
 	}
-	private void implementStartClassifierBehavior(INakedBehavior behavior){
+	private void implementStartClassifierBehavior(Behavior behavior){
 		OJAnnotatedClass ojContext = findJavaClass(behavior.getContext());
 		ojContext.addToImplementedInterfaces(ReflectionUtil.getUtilInterface(IActiveEntity.class));
 		OJAnnotatedOperation start = new OJAnnotatedOperation("startClassifierBehavior");
@@ -172,15 +169,15 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		behaviorField.setInitExp("new " + behaviorClass.getLast() + "(this)");
 		populateBehavior(behavior, start);
 		start.getBody().addToStatements("_behavior.execute()");
-		NakedStructuralFeatureMap otherMap = OJUtil.buildStructuralFeatureMap(behavior.getEndToComposite().getOtherEnd());
+		NakedStructuralFeatureMap otherMap = OJUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite(behavior).getOtherEnd());
 		start.getBody().addToStatements(otherMap.setter() + "(_behavior)");
 	}
-	private void populateBehavior(INakedBehavior parameterOwner,OJOperation javaMethod){
-		for(INakedParameter p:parameterOwner.getArgumentParameters()){
+	private void populateBehavior(Behavior parameterOwner,OJOperation javaMethod){
+		for(Parameter p:EmfBehaviorUtil.getArgumentParameters(parameterOwner)){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parameterOwner, p);
 			javaMethod.getBody().addToStatements("_behavior." + map.setter() + "(" + map.fieldname() + ")");
 		}
-		if(parameterOwner.getPreConditions().size() > 0){
+		if(parameterOwner.getPreconditions().size() > 0){
 			OJUtil.addFailedConstraints(javaMethod);
 		}
 	}

@@ -25,7 +25,7 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
 import org.opaeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public class JavaTransformationProcessManager implements IStartup,Runnable{
@@ -79,7 +79,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		process.removeModel(OJWorkspace.class);
 		process.removeModel(TextWorkspace.class);
 		process.removeModel(EmfWorkspace.class);
-		process.removeModel(INakedModelWorkspace.class);
+		process.removeModel(ModelWorkspace.class);
 		process.initialize(ne.getConfig(), steps);
 		process.replaceModel(ne.getNakedWorkspace());
 	}

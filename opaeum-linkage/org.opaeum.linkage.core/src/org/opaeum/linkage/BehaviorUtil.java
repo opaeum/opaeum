@@ -5,39 +5,39 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opaeum.metamodel.actions.INakedAcceptCallAction;
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.actions.INakedReplyAction;
-import org.opaeum.metamodel.actions.INakedStartClassifierBehaviorAction;
-import org.opaeum.metamodel.activities.ActivityKind;
-import org.opaeum.metamodel.activities.ControlNodeType;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedControlNode;
-import org.opaeum.metamodel.activities.INakedParameterNode;
-import org.opaeum.metamodel.activities.INakedPin;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
+import org.eclipse.uml2.uml.ActivityKind;
+import org.eclipse.uml2.uml.ControlNodeType;
+import org.eclipse.uml2.uml.INakedAcceptCallAction;
+import org.eclipse.uml2.uml.INakedAcceptEventAction;
+import org.eclipse.uml2.uml.INakedAction;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedActivityNode;
+import org.eclipse.uml2.uml.INakedAssociation;
+import org.eclipse.uml2.uml.INakedBehavior;
+import org.eclipse.uml2.uml.INakedBehavioredClassifier;
+import org.eclipse.uml2.uml.INakedCallAction;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedControlNode;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedMessageStructure;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedParameterNode;
+import org.eclipse.uml2.uml.INakedPin;
+import org.eclipse.uml2.uml.INakedReplyAction;
+import org.eclipse.uml2.uml.INakedStartClassifierBehaviorAction;
+import org.eclipse.uml2.uml.INakedStateMachine;
+import org.eclipse.uml2.uml.INakedStructuredActivityNode;
+import org.eclipse.uml2.uml.IParameterOwner;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedMessageStructure;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 public class BehaviorUtil{
-	private INakedModelWorkspace workspace;
-	public BehaviorUtil(INakedModelWorkspace workspace){
+	private ModelWorkspace workspace;
+	public BehaviorUtil(ModelWorkspace workspace){
 		super();
 		this.workspace = workspace;
 	}

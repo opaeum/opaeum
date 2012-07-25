@@ -1,7 +1,7 @@
 package org.opaeum.metamodel.bpm;
 
-import org.opaeum.metamodel.actions.IActionWithTargetElement;
-import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.eclipse.uml2.uml.IActionWithTargetElement;
+import org.eclipse.uml2.uml.INakedMessageStructure;
 
 public interface INakedEmbeddedTask extends IActionWithTargetElement,INakedDefinedResponsibility{
 	void initMessageStructure();

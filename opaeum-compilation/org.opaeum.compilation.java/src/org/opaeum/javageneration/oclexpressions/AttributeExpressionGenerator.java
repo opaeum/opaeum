@@ -2,6 +2,9 @@ package org.opaeum.javageneration.oclexpressions;
 
 import java.util.Collections;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
@@ -13,32 +16,27 @@ import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.NakedParsedOclStringResolver;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		OperationAnnotator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
+		OperationAnnotator.class,CodeCleanup.class
 },after = {
 	OperationAnnotator.class
 },before = CodeCleanup.class)
 public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 	@Override
-	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap mapper){
-		INakedProperty attr = mapper.getProperty();
-		INakedValueSpecification cont = attr.getInitialValue();
+	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap mapper){
+		Property attr = mapper.getProperty();
+		ValueSpecification cont = attr.getDefaultValue();
 		if(cont != null){
 			if(attr.isDerived()){
 				OJPathName path = OJUtil.classifierPathname(owner);
 				OJClass myOwner = javaModel.findClass(path);
 				addDerivationRule(owner, myOwner, mapper, cont);
 			}else{
-				INakedClassifier owningElem = owner;
+				Classifier owningElem = owner;
 				OJPathName path = OJUtil.classifierPathname(owningElem);
 				OJClass myOwner = javaModel.findClass(path);
-				if(attr.hasClassScope()){
+				if(attr.isStatic()){
 					addInitToStaticField(myOwner, mapper, cont);
 				}else{
 					addInitToConstructor(myOwner, mapper, cont);
@@ -47,15 +45,15 @@ public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+	protected void visitComplexStructure(Classifier umlOwner){
 	}
-	private void addDerivationRule(INakedClassifier c,OJClass myClass,NakedStructuralFeatureMap mapper,INakedValueSpecification vs){
+	private void addDerivationRule(Classifier c,OJClass myClass,NakedStructuralFeatureMap mapper,ValueSpecification vs){
 		String getterName = mapper.getter();
 		OJAnnotatedOperation getterOp = (OJAnnotatedOperation) myClass.findOperation(getterName, Collections.emptyList());
-		getterOp.initializeResultVariable(ValueSpecificationUtil.expressValue(getterOp, vs, mapper.getProperty().getOwner(), mapper.getProperty().getType()));
+		getterOp.initializeResultVariable(valueSpecificationUtil.expressValue(getterOp, vs, mapper.getDefiningClassifier(), getLibrary().getActualType( mapper.getProperty())));
 	}
-	private void addInitToStaticField(OJClass myClass,NakedStructuralFeatureMap mapper,INakedValueSpecification vs){
-		String initStr = ValueSpecificationUtil.expressValue(myClass, vs, mapper.getProperty().getType(), true);
+	private void addInitToStaticField(OJClass myClass,NakedStructuralFeatureMap mapper,ValueSpecification vs){
+		String initStr = valueSpecificationUtil.expressValue(myClass, vs,  getLibrary().getActualType( mapper.getProperty()), true);
 		if(initStr.length() > 0){
 			OJAnnotatedField myField = (OJAnnotatedField) myClass.findField(mapper.fieldname());
 			if(myField != null){
@@ -63,8 +61,8 @@ public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private void addInitToConstructor(OJClass myClass,NakedStructuralFeatureMap mapper,INakedValueSpecification vs){
-		String initStr = ValueSpecificationUtil.expressValue(myClass.getDefaultConstructor(), vs, mapper.getProperty().getOwner(), mapper.getProperty().getType());
+	private void addInitToConstructor(OJClass myClass,NakedStructuralFeatureMap mapper,ValueSpecification vs){
+		String initStr = valueSpecificationUtil.expressValue(myClass.getDefaultConstructor(), vs, mapper.getDefiningClassifier(), getLibrary().getActualType( mapper.getProperty()));
 		if(initStr.length() > 0){
 			String statement = "this." + mapper.setter() + "( " + initStr + " )";
 			for(OJConstructor constr:myClass.getConstructors()){

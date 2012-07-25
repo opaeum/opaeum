@@ -19,7 +19,7 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.olap.MondrianCubeGenerator;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextWorkspace;
@@ -76,7 +76,7 @@ public class GenerateBusinessIntelligenceSchemaAction extends AbstractOpaeumActi
 		monitor.worked(5);
 		monitor.subTask("Loading Opaeum Metadata");
 		ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
-		INakedModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
+		ModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
 		PersistentNameGenerator png = new PersistentNameGenerator();
 		png.startVisiting(nakedWorkspace);
 		ctx.getConfig().getSourceFolderStrategy().defineSourceFolders(ctx.getConfig());

@@ -2,34 +2,34 @@ package org.opaeum.linkage;
 
 import java.util.List;
 
+import org.eclipse.uml2.uml.IActionWithTargetPin;
+import org.eclipse.uml2.uml.INakedAcceptEventAction;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedActivityNode;
+import org.eclipse.uml2.uml.INakedCallAction;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedCreateObjectAction;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedExceptionHandler;
+import org.eclipse.uml2.uml.INakedInputPin;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedObjectFlow;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedPin;
+import org.eclipse.uml2.uml.INakedReadStructuralFeatureAction;
+import org.eclipse.uml2.uml.INakedReadVariableAction;
+import org.eclipse.uml2.uml.INakedReplyAction;
+import org.eclipse.uml2.uml.INakedSendSignalAction;
+import org.eclipse.uml2.uml.INakedTypedElement;
+import org.eclipse.uml2.uml.INakedWriteStructuralFeatureAction;
+import org.eclipse.uml2.uml.INakedWriteVariableAction;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.actions.IActionWithTargetPin;
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.actions.INakedCreateObjectAction;
-import org.opaeum.metamodel.actions.INakedExceptionHandler;
-import org.opaeum.metamodel.actions.INakedReadStructuralFeatureAction;
-import org.opaeum.metamodel.actions.INakedReadVariableAction;
-import org.opaeum.metamodel.actions.INakedReplyAction;
-import org.opaeum.metamodel.actions.INakedSendSignalAction;
-import org.opaeum.metamodel.actions.INakedWriteStructuralFeatureAction;
-import org.opaeum.metamodel.actions.INakedWriteVariableAction;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedObjectFlow;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.bpm.INakedAcceptDeadlineAction;
 import org.opaeum.metamodel.bpm.internal.NakedAcceptTaskEventActionImpl;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedTypedElement;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	ParameterLinker.class

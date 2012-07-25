@@ -13,7 +13,7 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 public class GenerateSimulationModelAction extends AbstractOpaeumAction{
@@ -49,7 +49,7 @@ public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 		final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(folder);
 		monitor.worked(5);
 		EmfWorkspace r = ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
-		INakedModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
+		ModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
 		PersistentNameGenerator png = new PersistentNameGenerator();
 		png.startVisiting(nakedWorkspace);
 		return r;

@@ -2,9 +2,9 @@ package org.opaeum.metamodel.activities.internal;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.VisibilityKind;
 
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.core.INakedMultiplicity;
-import org.opaeum.metamodel.core.INakedParameter;
+import org.eclipse.uml2.uml.INakedMultiplicity;
+import org.eclipse.uml2.uml.INakedOutputPin;
+import org.eclipse.uml2.uml.INakedParameter;
 public class NakedOutputPinImpl extends NakedPinImpl implements INakedOutputPin {
 	private static final long serialVersionUID = 2680974388304633167L;
 	public boolean treatAsAttribute() {

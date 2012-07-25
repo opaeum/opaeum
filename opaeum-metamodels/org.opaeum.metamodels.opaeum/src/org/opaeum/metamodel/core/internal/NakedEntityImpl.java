@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedEntity;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedProperty;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedBehavioredClassifierImpl;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedProperty;
 
 public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements INakedEntity{
 	private static final long serialVersionUID = -257231836042506513L;

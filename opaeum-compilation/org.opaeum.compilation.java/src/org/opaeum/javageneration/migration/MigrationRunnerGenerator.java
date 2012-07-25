@@ -1,5 +1,9 @@
 package org.opaeum.javageneration.migration;
 
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Interface;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJPackage;
@@ -7,12 +11,6 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.environment.MigrationContext;
 import org.opaeum.runtime.environment.VersionNumber;
@@ -30,10 +28,10 @@ public class MigrationRunnerGenerator extends AbstractMigrationCodeGenerator{
 		main=null;
 	}
 	@Override
-	public void startVisiting(INakedModelWorkspace root){
+	public void startVisiting(EmfWorkspace root){
 		initRunner();
 		super.startVisiting(root);
-		for(INakedClassifier cls:workspace.getRootClassifiers()){
+		for(Classifier cls:workspace.getRootClassifiers()){
 			OJPathName pn = classifierPathName(cls, getFromVersion());
 			OJForStatement forEach = new OJForStatement("tmp", pn, "context.readFromRootObjects(" + pn + ".class)");
 			main.getBody().addToStatements(forEach);
@@ -62,20 +60,16 @@ public class MigrationRunnerGenerator extends AbstractMigrationCodeGenerator{
 		runner.addToImports(VersionNumber.class.getName());
 		context.setInitExp("new MigrationContext(new VersionNumber(\"" + fromVersion + "\"),new VersionNumber(\"" + toVersion + "\"),args[0])");
 	}
-	private OJPathName migratorPath(INakedClassifier toEntity){
-		OJPathName pkg = OJUtil.packagePathname(toEntity.getNameSpace()).getCopy();
-		pkg.addToNames(toEntity.getMappingInfo().getJavaName().getAsIs() + getFromVersion().getSuffix() + "Migrator");
-		return pkg;
-	}
-	protected void visitComplexStructure(INakedComplexStructure to){
-		if(to instanceof ICompositionParticipant && isPersistent(to)){
-			if(!(to instanceof INakedInterface)){
-				ICompositionParticipant toEntity = (ICompositionParticipant) to;
-				ICompositionParticipant fromEntity = (ICompositionParticipant) fromWorkspace.getModelElement(toEntity.getId());
-				if(fromEntity != null && !toEntity.isAbstract()){
-					OJPathName migratorPath = migratorPath(toEntity);
-					main.getBody().addToStatements("context.registerMigrator("+classifierPathName(fromEntity, getFromVersion())+".class,new "+ migratorPath + "())");
-					main.getBody().addToStatements("context.registerMigrator("+classifierPathName(toEntity, getToVersion())+".class,new "+ migratorPath + "())");
+
+	protected void visitComplexStructure(Classifier to){
+		if(EmfClassifierUtil.isCompositionParticipant(to ) && isPersistent(to)){
+			if(!(to instanceof Interface)){
+				Classifier toClass = (Classifier) to;
+				Classifier fromClass = (Classifier) fromWorkspace.getModelElement(EmfWorkspace.getId(toClass));
+				if(fromClass != null && !toClass.isAbstract()){
+					OJPathName migratorPath = migratorPath(toClass);
+					main.getBody().addToStatements("context.registerMigrator("+classifierPathName(fromClass, getFromVersion())+".class,new "+ migratorPath + "())");
+					main.getBody().addToStatements("context.registerMigrator("+classifierPathName(toClass, getToVersion())+".class,new "+ migratorPath + "())");
 				}
 			}
 		}

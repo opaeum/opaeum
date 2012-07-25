@@ -5,74 +5,79 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.uml2.uml.AcceptEventAction;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.CallAction;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ControlNode;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.JoinNode;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.ObjectFlow;
+import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.ValueSpecification;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.linkage.ActivityValidationRule;
-import org.opaeum.metamodel.actions.INakedAcceptEventAction;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.activities.INakedAction;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedControlNode;
-import org.opaeum.metamodel.activities.INakedObjectFlow;
-import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.validation.AbstractValidator;
 import org.opaeum.validation.ValidationPhase;
 
 @StepDependency(phase = ValidationPhase.class)
 public class ActivityValidator extends AbstractValidator{
 	@VisitBefore(matchSubclasses = true)
-	public void class_Before(INakedClassifier c){
-		if(c instanceof INakedActivity){
+	public void class_Before(Classifier c){
+		if(c instanceof Activity){
 			// TODO validate that, if both a context AND a composite are
 			// present, that they are of the same type
-			INakedActivity activity = (INakedActivity) c;
-			for(INakedActivityNode node:activity.getActivityNodesRecursively()){
-				if(node instanceof INakedAction){
-				}else if(node instanceof INakedObjectNode){
-					INakedObjectNode object = (INakedObjectNode) node;
+			Activity activity = (Activity) c;
+			for(ActivityNode node:EmfActivityUtil.getActivityNodesRecursively( activity)){
+				if(node instanceof Action){
+				}else if(node instanceof ObjectNode){
+					ObjectNode object = (ObjectNode) node;
 					validateFlows(object);
 				}
 			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	protected void validateControlNode(INakedControlNode control){
-		if(control.getControlNodeType().isJoinNode()){
-			for(INakedActivityEdge e:control.getAllEffectiveIncoming()){
+	protected void validateControlNode(ControlNode control){
+		if(control instanceof JoinNode){
+			for(ActivityEdge e:EmfActivityUtil.getAllEffectiveIncoming( control)){
 				visitEdge(e);
 			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitEdge(INakedActivityEdge e){
+	public void visitEdge(ActivityEdge e){
 		// TODO validate edges,transformations and selections recursively until an object node is found. Remember to start from one side,
 		// say the start, and not to evaluate the same flow multiple times
-		INakedActivityNode es = e.getEffectiveTarget();
-		if((es.isImplicitJoin() || (es instanceof INakedControlNode && ((INakedControlNode) es).getControlNodeType().isJoinNode())) && e.hasGuard()){
-			getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, es.isImplicitJoin() ? "implicit" : "explicit", e.getEffectiveTarget());
+		ActivityNode es = EmfActivityUtil.getEffectiveTarget( e);
+		if((EmfActivityUtil.isImplicitJoin( es) || (es instanceof JoinNode)) && EmfActivityUtil.hasGuard( e)){
+			getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, EmfActivityUtil.isImplicitJoin( es) ? "implicit" : "explicit", EmfActivityUtil.getEffectiveTarget( e));
 		}
-		if(e instanceof INakedObjectFlow){
-			INakedObjectFlow of = (INakedObjectFlow) e;
-			INakedObjectNode target = null;
-			INakedObjectNode source = null;
-			if(of.getTarget() instanceof INakedObjectNode){
-				target = (INakedObjectNode) of.getTarget();
-				source = target.getFeedingNode();
-			}else if(of.getSource() instanceof INakedObjectNode){
-				source = (INakedObjectNode) of.getSource();
+		if(e instanceof ObjectFlow){
+			ObjectFlow of = (ObjectFlow) e;
+			ObjectNode target = null;
+			ObjectNode source = null;
+			if(of.getTarget() instanceof ObjectNode){
+				target = (ObjectNode) of.getTarget();
+				source = EmfActivityUtil.getFeedingNode( target);
+			}else if(of.getSource() instanceof ObjectNode){
+				source = (ObjectNode) of.getSource();
 				target = source.getFedNode();
 			}
 			if(source != null && target != null){
 				if(of.getTransformation() == null){
-					if(!target.getNakedBaseType().conformsTo(source.getNakedBaseType())){
+					if(!target.getType().conformsTo(source.getType())){
 						getErrorMap().putError(e, ActivityValidationRule.OBJECT_NODE_TYPES_MUST_MATCH, source, target);
 					}
 					if(of.getSelection() == null){
@@ -80,60 +85,60 @@ public class ActivityValidator extends AbstractValidator{
 							getErrorMap().putError(e, ActivityValidationRule.SOURCE_AND_TARGET_MULTIPLICTY_MUST_CORRESPOND, source, target);
 						}
 					}else{
-						INakedParameter returnParam = of.getSelection().getReturnParameter();
-						if(returnParam == null || of.getSelection().getArgumentParameters().size() != 1){
+						Parameter returnParam = EmfBehaviorUtil.getReturnParameter( of.getSelection());
+						if(returnParam == null || EmfBehaviorUtil.getArgumentParameters( of.getSelection()).size() != 1){
 							getErrorMap().putError(e, ActivityValidationRule.SELECTION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getSelection());
 						}else{
-							if(!returnParam.getNakedBaseType().conformsTo(target.getNakedBaseType())){
+							if(!returnParam.getType().conformsTo(target.getType())){
 								getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, returnParam, of.getSelection(), target);
 							}else{
-								INakedParameter arg1 = of.getSelection().getArgumentParameters().get(0);
-								if(!arg1.getNakedBaseType().conformsTo(source.getNakedBaseType())){
+								Parameter arg1 = EmfBehaviorUtil.getArgumentParameters(of.getSelection()).get(0);
+								if(!arg1.getType().conformsTo(source.getType())){
 									getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE,
-											of.getSelection().getArgumentParameters().get(0), of.getSelection(), source);
+										EmfBehaviorUtil.getArgumentParameters( of.getSelection()).get(0), of.getSelection(), source);
 								}else if(!source.canDeliverOutputTo(arg1)){
 									getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_SOURCE_MULTIPLICITY,
-											of.getSelection().getArgumentParameters().get(0), of.getSelection(), source);
+											 EmfBehaviorUtil.getArgumentParameters( of.getSelection()).get(0), of.getSelection(), source);
 								}else if(!target.canAcceptInputFrom(returnParam)){
 									getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY,
 											returnParam, of.getSelection(), target);
-								}else if(source.getNakedMultiplicity().getUpper() == 1 || source.getNakedMultiplicity().getUpper() == 0){
+								}else if(!EmfActivityUtil.isMultivalued(source)){
 									getErrorMap().putError(e, ActivityValidationRule.SELECTION_BEHAVIOR_ASSUMES_MULTIPLE_SOURCE_VALUES, source, of.getSelection());
 								}
 							}
 						}
 					}
-				}else if(of.getTransformation().getReturnParameter() == null || of.getTransformation().getArgumentParameters().size() != 1){
+				}else if(EmfBehaviorUtil.getReturnParameter( of.getTransformation()) == null || EmfBehaviorUtil.getArgumentParameters( of.getTransformation()).size() != 1){
 					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getTransformation());
-				}else if(!of.getTransformation().getReturnParameter().getNakedBaseType().conformsTo(target.getNakedBaseType())){
-					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, of.getTransformation().getReturnParameter(),
+				}else if(!EmfBehaviorUtil.getReturnParameter( of.getTransformation()).getType().conformsTo(target.getType())){
+					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, EmfBehaviorUtil.getReturnParameter( of.getTransformation()),
 							of.getTransformation(), target);
-				}else if(!of.getTransformation().getArgumentParameters().get(0).getNakedBaseType().conformsTo(source.getNakedBaseType())){
+				}else if(!EmfBehaviorUtil.getArgumentParameters( of.getTransformation()).get(0).getType().conformsTo(source.getType())){
 					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE, source, target);
-				}else if(!target.canAcceptInputFrom(of.getTransformation().getReturnParameter())){
+				}else if(! target.canAcceptInputFrom(EmfBehaviorUtil.getReturnParameter(of.getTransformation()))){
 					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY,
-							of.getTransformation().getReturnParameter(), of.getTransformation(), target);
-				}else if(of.getTransformation().getArgumentParameters().get(0).getNakedMultiplicity().getUpper() != 1){
+							EmfBehaviorUtil.getReturnParameter( of.getTransformation()), of.getTransformation(), target);
+				}else if(EmfBehaviorUtil.getArgumentParameters( of.getTransformation()).get(0).getUpper() != 1){
 					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_ARGUMENT_MULTIPLICITY_MUST_BE_ONE,
-							of.getTransformation().getArgumentParameters().get(0), of.getTransformation());
-				}else if(!of.getTransformation().getArgumentParameters().get(0).getNakedBaseType().conformsTo(source.getNakedBaseType())){
+							EmfBehaviorUtil.getArgumentParameters( of.getTransformation()).get(0), of.getTransformation());
+				}else if(!EmfBehaviorUtil.getArgumentParameters( of.getTransformation()).get(0).getType().conformsTo(source.getType())){
 					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE, source, target);
 				}else if(of.getSelection() != null){
-					INakedParameter returnParam = of.getSelection().getReturnParameter();
-					if(returnParam == null || of.getSelection().getArgumentParameters().size() != 1){
+					Parameter returnParam = EmfBehaviorUtil.getReturnParameter( of.getSelection());
+					if(returnParam == null || EmfBehaviorUtil.getArgumentParameters( of.getSelection()).size() != 1){
 						getErrorMap().putError(e, ActivityValidationRule.SELECTION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getSelection());
 					}else{
-						if(!returnParam.getNakedBaseType().conformsTo(of.getTransformation().getReturnParameter().getNakedBaseType())){
+						if(!returnParam.getType().conformsTo(EmfBehaviorUtil.getReturnParameter( of.getTransformation()).getType())){
 							getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, returnParam, of.getSelection(), target);
 						}else{
-							INakedParameter input = of.getSelection().getArgumentParameters().get(0);
-							if(!input.getNakedBaseType().conformsTo(of.getTransformation().getReturnParameter().getNakedBaseType())){
+							Parameter input = EmfBehaviorUtil.getArgumentParameters( of.getSelection()).get(0);
+							if(!input.getType().conformsTo(EmfBehaviorUtil.getReturnParameter( of.getTransformation()).getType())){
 								getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MUST_CONFORM_TO_TRANSFORMATION_RESULT_TYPE,
-										of.getSelection().getArgumentParameters().get(0), of.getSelection(), of.getTransformation().getReturnParameter(),
+										EmfBehaviorUtil.getArgumentParameters( of.getSelection()).get(0), of.getSelection(), EmfBehaviorUtil.getReturnParameter( of.getTransformation()),
 										of.getTransformation());
-							}else if(!of.getTransformation().getReturnParameter().fitsInTo(input)){
+							}else if(!EmfBehaviorUtil.getReturnParameter( of.getTransformation()).fitsInTo(input)){
 								getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MULTIPLICITY_MUST_CORRESPOND_WITH_TRANSFORMATION_RESULT_MULTIPLICITY,
-										of.getSelection().getArgumentParameters().get(0), of.getSelection(), of.getTransformation().getReturnParameter(),
+										EmfBehaviorUtil.getArgumentParameters( of.getSelection()).get(0), of.getSelection(), EmfBehaviorUtil.getReturnParameter( of.getTransformation()),
 										of.getTransformation());
 							}else if(!target.canAcceptInputFrom(returnParam)){
 								getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY, returnParam,
@@ -146,70 +151,68 @@ public class ActivityValidator extends AbstractValidator{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void validateAction(INakedAction action){
+	public void validateAction(Action action){
 		validateFlows(action);
-		if(!action.getActivity().isProcess()){
+		if(!EmfBehaviorUtil.isProcess(EmfActivityUtil.getContainingActivity(action))){
 			checkDisallowedActions(action);
 		}
 	}
-	private void validateFlows(INakedObjectNode object){
-		if(object.getAllEffectiveIncoming().size() > 1){
+	private void validateFlows(ObjectNode object){
+		if(EmfActivityUtil.getAllEffectiveIncoming( object).size() > 1){
 			getErrorMap().putError(object, ActivityValidationRule.ONE_FLOW_TO_OBJECT_NODES);
-		}else if(object.getAllEffectiveOutgoing().size() > 1){
+		}else if(EmfActivityUtil.getAllEffectiveOutgoing(object).size() > 1){
 			getErrorMap().putError(object, ActivityValidationRule.ONE_FLOW_FROM_OBJECT_NODES);
 		}
 	}
-	private void checkDisallowedActions(INakedAction action){
-		if(action instanceof INakedEmbeddedTask){
+	private void checkDisallowedActions(Action action){
+		if(EmfActionUtil.isEmbeddedTask(action)){
 			getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS, action.getActivity());
-		}else if(action instanceof INakedAcceptEventAction){
+		}else if(action instanceof AcceptEventAction){
 			getErrorMap().putError(action, ActivityValidationRule.ACCEPT_EVENT_ACTION_ONLY_IN_PROCESS, action.getActivity());
-		}else if(action instanceof INakedCallAction){
-			INakedCallAction callAction = (INakedCallAction) action;
-			if(callAction.isLongRunning()){
-				getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS);
-			}else if(callAction.isLongRunning()){
+		}else if(action instanceof CallAction){
+			CallAction callAction = (CallAction) action;
+			if(EmfActionUtil.isLongRunning( callAction)){
 				getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS);
 			}
 		}
 	}
-	private void validateFlows(INakedAction action){
-		if(action.getDefaultOutgoing().isEmpty() && action.getConditionalOutgoing().size() > 0){
+	private void validateFlows(Action action){
+		if(EmfActivityUtil.getDefaultOutgoing( action).isEmpty() && EmfActivityUtil.getConditionalOutgoing( action).size() > 0){
 			getErrorMap().putError(action, ActivityValidationRule.AT_LEAST_ONE_DEFAULT_FLOW, "No default flows found");
-		}else if(action.isImplicitJoin()){
-			for(INakedActivityEdge e:action.getAllEffectiveIncoming()){
-				if(e.hasGuard()){
-					getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, "implicit", e.getEffectiveTarget());
+		}else if(EmfActivityUtil.isImplicitJoin( action)){
+			for(ActivityEdge e:EmfActivityUtil.getAllEffectiveIncoming( action)){
+				if(EmfActivityUtil.hasGuard(e)){
+					getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, "implicit", EmfActivityUtil.getEffectiveTarget( e));
 				}
 			}
 		}
 	}
-	protected Map<String,List<INakedValueSpecification>> getGuards(INakedActivity activity){
-		Map<String,List<INakedValueSpecification>> results = new HashMap<String,List<INakedValueSpecification>>();
-		for(INakedActivityEdge e:activity.getActivityEdges()){
-			if(e.hasGuard()){
+	protected Map<String,List<ValueSpecification>> getGuards(Activity activity){
+		Map<String,List<ValueSpecification>> results = new HashMap<String,List<ValueSpecification>>();
+		for(ActivityEdge e:activity.getEdges()){
+			if(EmfActivityUtil.hasGuard( e)){
 				addNamedElement(results, e.getGuard());
 			}
 		}
 		return results;
 	}
-	protected Map<String,List<INakedProperty>> getEmulatedAttributes(INakedActivity activity){
-		Map<String,List<INakedProperty>> results = new HashMap<String,List<INakedProperty>>();
-		for(INakedProperty e:activity.getEffectiveAttributes()){
+	protected Map<String,List<Property>> getEmulatedAttributes(Activity activity){
+		Map<String,List<Property>> results = new HashMap<String,List<Property>>();
+		for(Property e:EmfElementFinder.getPropertiesInScope(activity)){
 			addNamedElement(results, e);
 		}
 		return results;
 	}
-	protected Map<String,List<INakedAction>> getActions(INakedActivity activity){
-		Map<String,List<INakedAction>> results = new HashMap<String,List<INakedAction>>();
-		for(INakedActivityNode e:activity.getActivityNodesRecursively()){
-			if(e instanceof INakedAction){
-				addNamedElement(results, (INakedAction) e);
+	protected Map<String,List<Action>> getActions(Activity activity){
+		Map<String,List<Action>> results = new HashMap<String,List<Action>>();
+		for(ActivityNode e:EmfActivityUtil.getActivityNodesRecursively( activity)){
+			if(e instanceof Action){
+				addNamedElement(results, (Action) e);
 			}
 		}
 		return results;
 	}
-	private <E extends INakedElement>void addNamedElement(Map<String,List<E>> results,E e){
+	private <E extends NamedElement>void addNamedElement(Map<String,List<E>> results,E e){
 		List<E> guards = results.get(e.getName());
 		if(guards == null){
 			guards = new ArrayList<E>();

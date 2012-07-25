@@ -5,9 +5,9 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IState;
 
-import org.opaeum.metamodel.core.CodeGenerationStrategy;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedSimpleType;
+import org.eclipse.uml2.uml.CodeGenerationStrategy;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedSimpleType;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 
 /**

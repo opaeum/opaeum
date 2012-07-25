@@ -2,10 +2,10 @@ package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.ObservedPoint;
 import org.eclipse.uml2.uml.TimeObservation;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.commonbehaviors.ObservedPoint;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedDurationObservationImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedTimeObservationImpl;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;

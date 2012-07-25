@@ -5,9 +5,10 @@ import java.util.Collection;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
-import nl.klasse.octopus.model.IModelElement;
-import nl.klasse.octopus.oclengine.IOclContext;
 
+import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;
@@ -17,44 +18,46 @@ import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.ocl.uml.AbstractOclContext;
 
-public class ConstraintGenerator {
+public class ConstraintGenerator{
 	OJClass context;
-	IModelElement element;
+	NamedElement element;
 	private ExpressionCreator expressionCreator;
-
-	public ConstraintGenerator(OJClass context, IModelElement element) {
+	private OpaeumLibrary library;
+	public ConstraintGenerator(OpaeumLibrary library,OJClass context,NamedElement element){
 		super();
+		this.library = library;
 		this.context = context;
 		this.element = element;
 		expressionCreator = new ExpressionCreator(context);
 	}
-
-	public void addConstraintChecks(OJOperation operation, Collection<INakedConstraint> constraints, boolean pre,String selfExpression) {
-		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre,selfExpression);
-		if (pre) {
+	public void addConstraintChecks(OJOperation operation,Collection<Constraint> constraints,boolean pre,String selfExpression){
+		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre, selfExpression);
+		if(pre){
 			operation.getBody().getStatements().add(0, block);
-		} else if (operation.getReturnType() == null || operation.getReturnType().equals(new OJPathName("void"))||((OJAnnotatedOperation)operation).getResultVariable()!=null) {
+		}else if(operation.getReturnType() == null || operation.getReturnType().equals(new OJPathName("void"))
+				|| ((OJAnnotatedOperation) operation).getResultVariable() != null){
 			operation.getBody().getStatements().add(block);
-		} else {
+		}else{
 			operation.getBody().getStatements().add(operation.getBody().getStatements().size() - 1, block);
 		}
 	}
-
-	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock sourceBlock, Collection<INakedConstraint> constraints, boolean pre, String deleteThisParam) {
+	public OJBlock buildConstraintsBlock(OJOperation operation,OJBlock sourceBlock,Collection<Constraint> constraints,boolean pre,
+			String deleteThisParam){
 		OJBlock result = new OJBlock();
 		// Assume that there could be a last statement to return a value
 		// use all the local fields
 		List<OJParameter> parameters = new ArrayList<OJParameter>(operation.getParameters());
-		for (OJField l : operation.getBody().getLocals()) {
+		for(OJField l:operation.getBody().getLocals()){
 			OJParameter parameter = new OJParameter();
 			parameter.setName(l.getName());
 			parameter.setType(l.getType());
 			parameters.add(parameter);
 		}
-		if (sourceBlock !=null && sourceBlock != operation.getBody()) {
-			for (OJField l : sourceBlock.getLocals()) {
+		if(sourceBlock != null && sourceBlock != operation.getBody()){
+			for(OJField l:sourceBlock.getLocals()){
 				OJParameter parameter = new OJParameter();
 				parameter.setName(l.getName());
 				parameter.setType(l.getType());
@@ -65,22 +68,26 @@ public class ConstraintGenerator {
 		if(!operation.getThrows().contains(failedConstraintsException)){
 			context.addToImports(failedConstraintsException);
 			operation.addToThrows(failedConstraintsException);
-			OJAnnotatedField failedConstraints = new OJAnnotatedField("failedConstraints",new OJPathName("List<String>"));
+			OJAnnotatedField failedConstraints = new OJAnnotatedField("failedConstraints", new OJPathName("List<String>"));
 			failedConstraints.setInitExp("new ArrayList<String>()");
 			operation.getBody().addToLocals(failedConstraints);
 			context.addToImports("java.util.ArrayList");
 			context.addToImports("java.util.List");
 		}
-		for (INakedConstraint post : constraints) {
+		for(Constraint post:constraints){
 			OJIfStatement ifBroken = new OJIfStatement();
-			if (post.getSpecification().isValidOclValue()) {
-				IOclContext oclValue = post.getSpecification().getOclValue();
-				ValueSpecificationUtil.addExtendedKeywords(operation, oclValue);
-				String expr = expressionCreator.makeExpression(oclValue.getExpression(), operation.isStatic(), parameters);
-				ifBroken.setCondition("!" + expr);
-				String qname = element.getPathName() + "::" + post.getName();
-				ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");
-				result.addToStatements(ifBroken);
+			if(post.getSpecification() instanceof OpaqueExpression){
+				OpaqueExpression oe = (OpaqueExpression) post.getSpecification();
+				AbstractOclContext oclExpression = library.getOclExpressionContext(oe);
+				if(!oclExpression.hasErrors()){
+					ValueSpecificationUtil.addExtendedKeywords(operation, oclExpression);
+					String expr = expressionCreator.makeExpression(oclExpression.getExpression(), operation.isStatic(), parameters);
+					ifBroken.setCondition("!" + expr);
+					String qname = element.getQualifiedName() + "::" + post.getName();
+					ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");
+					result.addToStatements(ifBroken);
+				}
+				;
 			}
 		}
 		OJIfStatement ifFailed = new OJIfStatement();

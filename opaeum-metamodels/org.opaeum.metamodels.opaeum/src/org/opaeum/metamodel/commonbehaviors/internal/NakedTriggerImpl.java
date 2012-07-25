@@ -7,17 +7,17 @@ import java.util.List;
 
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 
+import org.eclipse.uml2.uml.INakedCallEvent;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedEvent;
+import org.eclipse.uml2.uml.INakedInstanceSpecification;
+import org.eclipse.uml2.uml.INakedOperation;
+import org.eclipse.uml2.uml.INakedParameter;
+import org.eclipse.uml2.uml.INakedSignal;
+import org.eclipse.uml2.uml.INakedSignalEvent;
+import org.eclipse.uml2.uml.INakedTrigger;
+import org.eclipse.uml2.uml.INakedTypedElement;
 import org.opaeum.metamodel.bpm.INakedDeadline;
-import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
-import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedOperation;
-import org.opaeum.metamodel.core.INakedParameter;
-import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{

@@ -7,17 +7,17 @@ import java.util.TreeSet;
 
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
-import org.opaeum.metamodel.activities.ActivityNodeContainer;
-import org.opaeum.metamodel.activities.INakedActivity;
-import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedActivityPartition;
-import org.opaeum.metamodel.activities.INakedParameterNode;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opaeum.metamodel.core.DefaultOpaeumComparator;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
+import org.eclipse.uml2.uml.ActivityNodeContainer;
+import org.eclipse.uml2.uml.DefaultOpaeumComparator;
+import org.eclipse.uml2.uml.INakedActivity;
+import org.eclipse.uml2.uml.INakedActivityEdge;
+import org.eclipse.uml2.uml.INakedActivityNode;
+import org.eclipse.uml2.uml.INakedActivityPartition;
+import org.eclipse.uml2.uml.INakedClassifier;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedElementOwner;
+import org.eclipse.uml2.uml.INakedParameterNode;
+import org.eclipse.uml2.uml.INakedStructuredActivityNode;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedActivityNodeImpl extends NakedElementImpl implements INakedActivityNode{

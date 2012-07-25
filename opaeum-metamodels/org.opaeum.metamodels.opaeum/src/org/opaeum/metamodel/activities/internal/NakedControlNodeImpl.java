@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.activities.internal;
-import org.opaeum.metamodel.activities.ControlNodeType;
-import org.opaeum.metamodel.activities.INakedControlNode;
+import org.eclipse.uml2.uml.ControlNodeType;
+import org.eclipse.uml2.uml.INakedControlNode;
 public class NakedControlNodeImpl extends NakedActivityNodeImpl implements INakedControlNode {
 	private static final long serialVersionUID = -4774558296787039182L;
 	private ControlNodeType controlNodeType;

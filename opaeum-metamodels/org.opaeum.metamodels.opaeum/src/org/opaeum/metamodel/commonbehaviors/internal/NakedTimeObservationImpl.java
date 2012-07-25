@@ -2,9 +2,9 @@ package org.opaeum.metamodel.commonbehaviors.internal;
 
 import nl.klasse.octopus.model.IMultiplicityKind;
 
-import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
-import org.opaeum.metamodel.commonbehaviors.ObservedPoint;
-import org.opaeum.metamodel.core.INakedElement;
+import org.eclipse.uml2.uml.INakedElement;
+import org.eclipse.uml2.uml.INakedTimeObservation;
+import org.eclipse.uml2.uml.ObservedPoint;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 
 public class NakedTimeObservationImpl extends NakedObservationImpl implements INakedTimeObservation{

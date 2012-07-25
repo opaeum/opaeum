@@ -3,6 +3,7 @@ package org.opaeum.javageneration.rap;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.eclipse.uml2.uml.Classifier;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
@@ -14,13 +15,11 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.hibernate.HibernateAttributeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedComplexStructure;
 
 @StepDependency(phase = JavaTransformationPhase.class,replaces = HibernateAttributeImplementor.class)
 public class RapAttributeImplementor extends HibernateAttributeImplementor{
 	@Override
-	protected OJOperation buildSetter(INakedClassifier umlOwner,OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation setter = super.buildSetter(umlOwner, owner, map);
 		if(owner.findField("propertyChangeSupport") != null){
 			setter.getBody().addToStatements(
@@ -31,7 +30,7 @@ public class RapAttributeImplementor extends HibernateAttributeImplementor{
 		return setter;
 	}
 	@Override
-	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+	protected void visitComplexStructure(Classifier umlOwner){
 		OJAnnotatedField support = new OJAnnotatedField("propertyChangeSupport", new OJPathName(PropertyChangeSupport.class.getName()));
 		OJAnnotatedClass ojClass = findJavaClass(umlOwner);
 		ojClass.addToFields(support);

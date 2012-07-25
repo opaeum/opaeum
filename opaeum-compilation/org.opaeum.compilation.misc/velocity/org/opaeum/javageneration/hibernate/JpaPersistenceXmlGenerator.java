@@ -1,11 +1,12 @@
 package org.opaeum.javageneration.hibernate;
 
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.rap.RapCapabilities;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
@@ -13,14 +14,14 @@ public class JpaPersistenceXmlGenerator extends AbstractPersistenceConfigGenerat
 	public JpaPersistenceXmlGenerator(){
 		super();
 	}
-	protected String getOutputPath(INakedElementOwner model){
+	protected String getOutputPath(Element model){
 		return "META-INF/persistence.xml";
 	}
-	protected String getConfigName(INakedElementOwner model){
-		if(model instanceof INakedModel){
-			return ((INakedRootObject) model).getIdentifier();
+	protected String getConfigName(Element model){
+		if(model instanceof Model){
+			return EmfPackageUtil.getIdentifier((Package) model);
 		}else{
-			return ((INakedModelWorkspace) model).getIdentifier();
+			return ((ModelWorkspace) model).getIdentifier();
 		}
 	}
 	protected boolean shouldProcessModel(){
