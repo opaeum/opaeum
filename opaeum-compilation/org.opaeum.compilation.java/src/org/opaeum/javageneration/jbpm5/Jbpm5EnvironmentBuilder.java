@@ -87,13 +87,15 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		knowledgeBase.addToOperations(getProcessLocations);
 		createTextPath(knowledgeBase, i);
 		for(Package ro:bpmModels){
-			if(ro instanceof Model && (!((Model) ro).isLibrary() || EmfPackageUtil.isRegeneratingLibrary((Model) ro))){
+			if(ro instanceof Model && (!EmfPackageUtil.isLibrary( (Model) ro) || EmfPackageUtil.isRegeneratingLibrary((Model) ro))){
 				getProcessLocations.getBody().addToStatements(
 						"result.addAll(" + Jbpm5Util.jbpmKnowledgeBase(ro) + ".INSTANCE.getProcessLocations())");
 			}
 		}
 		for(Behavior p:processes){
-			getProcessLocations.getBody().addToStatements("result.add(\"" + p.getJavaPath() + ".rf\")");
+			String javaString = ojUtil.classifierPathname(p).toJavaString();
+			javaString=javaString.replaceAll("\\.", "\\");
+			getProcessLocations.getBody().addToStatements("result.add(\"" +javaString + ".rf\")");
 		}
 		getProcessLocations.getBody().addToStatements("return result");
 		OJAnnotatedField instance = new OJAnnotatedField("INSTANCE", pn);
@@ -127,7 +129,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 				// accidentally install this package in JPA
 				JpaUtil
 						.addNamedQueries(
-								findOrCreatePackageInfo(OJUtil.utilPackagePath(model), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC),
+								findOrCreatePackageInfo(ojUtil.utilPackagePath(model), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC),
 								"ProcessInstancesWaitingForEvent",
 								"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 			}

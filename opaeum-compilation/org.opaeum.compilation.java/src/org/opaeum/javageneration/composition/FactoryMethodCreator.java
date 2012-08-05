@@ -2,11 +2,12 @@ package org.opaeum.javageneration.composition;
 
 import java.util.Iterator;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
@@ -16,7 +17,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
@@ -45,15 +45,15 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 			creator = new OJAnnotatedOperation(createOperName);
 			owner.addToOperations(creator);
 			for(Property p:pw.getQualifiers()){
-				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(p);
+				StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
 				creator.addParam(m.fieldname(), m.javaTypePath());
 			}
 		}
-		creator.setReturnType(OJUtil.classifierPathname(type));
+		creator.setReturnType(ojUtil.classifierPathname(type));
 		OJBlock body = new OJBlock();
 		body.addToStatements(type.getName() + " newInstance= new " + type.getName() + "()");
 		for(Property p:pw.getQualifiers()){
-			NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(p);
+			StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
 			body.addToStatements("newInstance." + m.setter() + "(" + m.fieldname() + ")");
 		}
 		// if(pw.getOtherEnd() != null && pw.getOtherEnd().isNavigable()){
@@ -71,7 +71,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		creator.setBody(body);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap map){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap map){
 		Property aw = map.getProperty();
 		OJAnnotatedClass myOwner = findJavaClass(owner);
 		if(!aw.isDerived() && isPersistent(aw.getType()) && aw.isComposite() && !((Classifier) aw.getType()).isAbstract()){
@@ -81,9 +81,9 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
 		if(OJUtil.hasOJClass(umlOwner)){
-			for(Property p:EmfElementFinder.getPropertiesInScope(umlOwner)){
+			for(Property p:getLibrary().getEffectiveAttributes(umlOwner)){
 				if(p.getOwner() instanceof Interface){
-					visitProperty(umlOwner, OJUtil.buildStructuralFeatureMap(p));
+					visitProperty(umlOwner, ojUtil.buildStructuralFeatureMap(p));
 				}
 			}
 		}

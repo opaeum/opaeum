@@ -11,12 +11,12 @@ import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class ClassifierBehaviorStarter extends SimpleNodeBuilder<StartClassifierBehaviorAction>{
-	public ClassifierBehaviorStarter(OpaeumLibrary oclEngine,StartClassifierBehaviorAction action,AbstractObjectNodeExpressor expressor){
-		super(oclEngine, action, expressor);
+	public ClassifierBehaviorStarter(StartClassifierBehaviorAction action,AbstractObjectNodeExpressor expressor){
+		super(action, expressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		ActionMap actionMap = new ActionMap(node);
+		ActionMap actionMap = ojUtil.buildActionMap(node);
 		Classifier targetType = EmfActionUtil.getTargetType(node);
 		if(targetType instanceof BehavioredClassifier){
 			BehavioredClassifier entity = (BehavioredClassifier) targetType;

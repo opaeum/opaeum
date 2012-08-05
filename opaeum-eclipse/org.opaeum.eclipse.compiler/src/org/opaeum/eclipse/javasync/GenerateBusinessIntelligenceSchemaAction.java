@@ -49,7 +49,7 @@ public class GenerateBusinessIntelligenceSchemaAction extends AbstractOpaeumActi
 						OpaeumEclipseContext ctx = prepareDirectoryForTransformation(folder, monitor);
 						MondrianCubeGenerator mg = new MondrianCubeGenerator();
 						monitor.subTask("Generating Schema");
-						mg.initialize(null, ctx.getConfig(), new TextWorkspace(), ctx.getNakedWorkspace());
+						mg.initialize(null, ctx.getConfig(), new TextWorkspace(), ctx.getNakedWorkspace(), null);
 						mg.startVisiting(ctx.getNakedWorkspace());
 						monitor.subTask("Generating text files");
 						TextFile next = (TextFile) mg.getTextFiles().iterator().next();

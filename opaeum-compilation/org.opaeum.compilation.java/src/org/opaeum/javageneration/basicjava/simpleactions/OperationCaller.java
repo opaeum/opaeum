@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.Pin;
@@ -11,16 +13,16 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.maps.ActionMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class OperationCaller extends AbstractCaller<CallOperationAction>{
-	public OperationCaller(OpaeumLibrary oclEngine,CallOperationAction action,AbstractObjectNodeExpressor expressor){
-		super(oclEngine, action, expressor);
+	EventUtil eventUtil;
+	public OperationCaller(CallOperationAction action,AbstractObjectNodeExpressor expressor){
+		super(action, expressor);
 		if(node.getOperation()!=null){
-			operationMap=OJUtil.buildOperationMap(node.getOperation());
+			operationMap=ojUtil.buildOperationMap(node.getOperation());
 		}
+		eventUtil=new EventUtil(expressor.getOjUtil());
 
 	}
 	@Override
@@ -30,14 +32,14 @@ public class OperationCaller extends AbstractCaller<CallOperationAction>{
 		}else{
 			StringBuilder args = populateArgumentPinsAndBuildArgumentString(operation, EmfBehaviorUtil.isLongRunning( node.getOperation()), node.getArguments());
 			if(node.isSynchronous()){
-				NakedStructuralFeatureMap resultMap = null;
+				StructuralFeatureMap resultMap = null;
 				Pin returnPin = EmfActionUtil.getReturnPin( node);
-				ActionMap actionMap = new ActionMap(node);
+				ActionMap actionMap = ojUtil.buildActionMap(node);
 				String call = actionMap.targetName() + "." + operationMap.javaOperName() + "(" + args + ")";
 				if(EmfBehaviorUtil.hasMessageStructure(node)){
-					resultMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
+					resultMap = ojUtil.buildStructuralFeatureMap(node);
 				}else if(returnPin != null){
-					resultMap = OJUtil.buildStructuralFeatureMap(getContainingActivity(), returnPin, true);
+					resultMap = ojUtil.buildStructuralFeatureMap(returnPin);
 				}
 				OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
 				if(resultMap != null){
@@ -53,9 +55,9 @@ public class OperationCaller extends AbstractCaller<CallOperationAction>{
 				}
 				fs.addToStatements(call);
 			}else{
-				ActionMap actionMap = new ActionMap(node);
+				ActionMap actionMap =  ojUtil.buildActionMap(node);
 				OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
-				OJPathName handler = EventUtil.handlerPathName(node.getOperation());
+				OJPathName handler = eventUtil.handlerPathName(node.getOperation());
 				operation.getOwner().addToImports(handler);
 				if(args.length() > 0){
 					args.append(",");

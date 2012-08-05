@@ -3,6 +3,7 @@ package org.opaeum.javageneration.basicjava.simpleactions;
 import java.util.Iterator;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.uml.CollectionType;
@@ -15,7 +16,6 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPathName;
@@ -23,32 +23,29 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.ActionMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.ocl.uml.OclContext;
 
 public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 	private ActionMap actionMap;
-	public SignalSender(OpaeumLibrary oclEngine,SendSignalAction action,AbstractObjectNodeExpressor expressor){
-		super(oclEngine, action, expressor);
-		this.actionMap = new ActionMap(node);
+	public SignalSender(SendSignalAction action,AbstractObjectNodeExpressor expressor){
+		super(action, expressor);
+		this.actionMap = ojUtil.buildActionMap(node);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		SignalMap signalMap = OJUtil.buildSignalMap(node.getSignal());
+		SignalMap signalMap = ojUtil.buildSignalMap(node.getSignal());
 		Iterator<InputPin> args = node.getArguments().iterator();
 		String signalName = "_signal" + node.getName();
-		ClassifierMap cm = OJUtil.buildClassifierMap(node.getSignal(),(CollectionKind)null);
+		ClassifierMap cm = ojUtil.buildClassifierMap(node.getSignal(),(CollectionKind)null);
 		operation.getOwner().addToImports(cm.javaTypePath());
 		while(args.hasNext()){
 			Pin pin = args.next();
 			if(EmfActionUtil.getLinkedTypedElement( pin) == null){
 				block.addToStatements(signalName + "couldNotLinkPinToProperty!!!");
 			}else{
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((Property) EmfActionUtil.getLinkedTypedElement( pin));
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap((Property) EmfActionUtil.getLinkedTypedElement( pin));
 				block.addToStatements(signalName + "." + map.setter() + "(" + readPin(operation, block, pin) + ")");
 			}
 		}
@@ -67,15 +64,15 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 		if(EmfActionUtil.getTargetType( node) instanceof BehavioredClassifier){
 			BehavioredClassifier target = (BehavioredClassifier)EmfActionUtil.getTargetType( node);
 			if(EmfClassifierUtil.isNotification( node.getSignal()) && isNotificationReceiver(target)){
-				if(node.getFromExpression() != null){
-					block.addToStatements(handler.getName() + ".setFrom(new HashSet<INotificationReceiver>(" + expressDestination(operation, node.getFromExpression())
+				if(EmfActionUtil.getFromExpression( node) != null){
+					block.addToStatements(handler.getName() + ".setFrom(new HashSet<INotificationReceiver>(" + expressDestination(operation, EmfActionUtil.getFromExpression( node))
 							+ ")");
 				}
-				if(node.getCcExpression() != null){
-					block.addToStatements(handler.getName() + ".setCc(new HashSet<INotificationReceiver>(" + expressDestination(operation, node.getCcExpression()) + ")");
+				if(EmfActionUtil.getCcExpression(node) != null){
+					block.addToStatements(handler.getName() + ".setCc(new HashSet<INotificationReceiver>(" + expressDestination(operation, EmfActionUtil.getCcExpression(node)) + ")");
 				}
-				if(node.getBccExpression() != null){
-					block.addToStatements(handler.getName() + ".setBcc(new HashSet<INotificationReceiver>(" + expressDestination(operation, node.getBccExpression())
+				if(EmfActionUtil.getBccExpression(node) != null){
+					block.addToStatements(handler.getName() + ".setBcc(new HashSet<INotificationReceiver>(" + expressDestination(operation, EmfActionUtil.getBccExpression(node))
 							+ ")");
 				}
 			}
@@ -118,7 +115,7 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 	}
 	private boolean isNotificationReceiver(BehavioredClassifier target){
 		if(StereotypesHelper.hasStereotype(target, StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.BUSINESS_ROLE, StereotypeNames.BUSINESS_SERVICE)){
-			for(Property p:EmfElementFinder.getPropertiesInScope(target)){
+			for(Property p:getLibrary().getEffectiveAttributes(target)){
 				if(getLibrary().getEmailAddressType().equals(p.getType())){
 					return true;
 				}

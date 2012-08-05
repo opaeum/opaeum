@@ -146,7 +146,7 @@ public abstract class OclBodyComposite extends Composite{
 		viewer = new NakedOclViewer(this, new ColorManager(), SWT.MULTI | textControlStyle);
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		document = new OCLDocument();
-		factory = new OpaeumOclFactory();
+		factory = new OpaeumOclFactory(OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getOpaeumLibrary());
 		document.setOCLFactory(factory);
 		document.setModelingLevel(ModelingLevel.M1);
 		viewer.setInput(document);

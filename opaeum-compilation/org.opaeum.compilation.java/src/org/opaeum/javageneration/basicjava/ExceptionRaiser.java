@@ -8,11 +8,10 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class ExceptionRaiser extends SimpleNodeBuilder<RaiseExceptionAction>{
-	public ExceptionRaiser(OpaeumLibrary oclEngine,RaiseExceptionAction action,AbstractObjectNodeExpressor objectNodeExpressor){
-		super(oclEngine, action, objectNodeExpressor);
+	public ExceptionRaiser(RaiseExceptionAction action,AbstractObjectNodeExpressor objectNodeExpressor){
+		super(action, objectNodeExpressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){

@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.migration;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
@@ -24,7 +26,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.environment.IMigrator;
@@ -125,7 +126,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		if(toClass.getGenerals().size() > 0){
 			migrateInheritedCompositeProperties(ctx2);
 		}
-		for(Property toProperty:toClass.getDirectlyImplementedAttributes()){
+		for(Property toProperty: getLibrary().getDirectlyImplementedAttributes( toClass)){
 			if(!(toProperty.isDerived() || toProperty.isReadOnly()) && isPersistent(toProperty.getType())){
 				if(toProperty.isComposite() && EmfClassifierUtil.isCompositionParticipant((Classifier) toProperty.getType())){
 					migrateComposites(ctx2, toProperty);
@@ -142,21 +143,21 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		if(toClass.getGenerals().size() > 0){
 			migrateInheritedReferences(ctx2);
 		}
-		for(Property toProperty:toClass.getDirectlyImplementedAttributes()){
+		for(Property toProperty: getLibrary().getDirectlyImplementedAttributes( toClass)){
 			if(isReference(toProperty) && EmfClassifierUtil.isCompositionParticipant((Classifier) toProperty.getType() )){
 				migrateReference(ctx2, toProperty);
 			}else if(EmfClassifierUtil.isStructuredDataType(toProperty.getType())
 					&& !needsCustomCalculation(toProperty, findMatchingProperty(fromClass, toProperty))){
 				OJAnnotatedOperation resolve = buildMigrateReferenceOnStructuredDataType(ctx2, toProperty,
 						findMatchingProperty(fromClass, toProperty));
-				if(OJUtil.buildStructuralFeatureMap(toProperty).isMany()){
+				if(ojUtil.buildStructuralFeatureMap(toProperty).isMany()){
 					OJForStatement forEach = new OJForStatement("tmp", classifierPathName((Classifier) toProperty.getType(), getToVersion()),
-							"result." + OJUtil.buildStructuralFeatureMap(toProperty).getter() + "()");
+							"result." + ojUtil.buildStructuralFeatureMap(toProperty).getter() + "()");
 					ctx2.migratingOperation.getBody().addToStatements(forEach);
 					forEach.getBody().addToStatements(resolve.getName() + "(result,tmp))");
 				}else{
 					ctx2.migratingOperation.getBody().addToStatements(
-							resolve.getName() + "(result,result." + OJUtil.buildStructuralFeatureMap(toProperty).getter() + "())");
+							resolve.getName() + "(result,result." + ojUtil.buildStructuralFeatureMap(toProperty).getter() + "())");
 				}
 			}
 		}
@@ -171,14 +172,14 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		Property fromProperty = findMatchingProperty(ctx2.fromClass, toProperty);
 		OJPathName toBaseType = classifierPathName((Classifier) toProperty.getType(), getToVersion());
 		ctx2.migrator.addToImports(toBaseType);
-		NakedStructuralFeatureMap toMap = OJUtil.buildStructuralFeatureMap(toProperty);
+		StructuralFeatureMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
 		String resultVarName = "result" + ctx2.prefix;
 		if(needsCustomCalculation(toProperty, fromProperty)){
 			OJAnnotatedOperation calc = addCalculator(ctx2, toProperty);
 			ctx2.migratingOperation.getBody().addToStatements(
 					resultVarName + "." + toMap.setter() + "(" + calc.getName() + "(from" + ctx2.prefix + "))");
 		}else{
-			NakedStructuralFeatureMap fromMap = OJUtil.buildStructuralFeatureMap(fromProperty);
+			StructuralFeatureMap fromMap = ojUtil.buildStructuralFeatureMap(fromProperty);
 			String fromVarName = "from" + ctx2.prefix;
 			if(toMap.isMany()){
 				if(fromMap.isOne()){
@@ -208,7 +209,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		if(toClass.getGenerals().size() > 0){
 			migrateInheritedDataTypeProperties(ctx);
 		}
-		for(Property toProperty:toClass.getDirectlyImplementedAttributes()){
+		for(Property toProperty: getLibrary().getDirectlyImplementedAttributes( toClass)){
 			if(!(toProperty.isDerived() || toProperty.isReadOnly())){
 				if(toProperty.getType() instanceof DataType){
 					migrateDataTypeValue(ctx, toProperty);
@@ -332,10 +333,10 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		}
 	}
 	private void migrateComposites(MigratorContext ctx,Property toProperty){
-		NakedStructuralFeatureMap toMap = OJUtil.buildStructuralFeatureMap(toProperty);
+		StructuralFeatureMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
 		Property fromProp = findMatchingProperty(ctx.fromClass, toProperty);
 		if(!needsCustomCalculation(toProperty, fromProp)){
-			NakedStructuralFeatureMap fromMap = OJUtil.buildStructuralFeatureMap(fromProp);
+			StructuralFeatureMap fromMap = ojUtil.buildStructuralFeatureMap(fromProp);
 			OJPathName migratorPath2 = migratorPath((Classifier) toProperty.getType());
 			ctx.migrator.addToImports(migratorPath2);
 			if(toMap.isMany() && fromMap.isMany()){
@@ -376,21 +377,21 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		}
 	}
 	private Property findMatchingProperty(Classifier fromClass,Property toProperty){
-		Property result = (Property) fromClass.getOwnedElement(EmfWorkspace.getId(toProperty));
+		Property result = (Property) EmfElementFinder.getOwnedElement(fromClass,EmfWorkspace.getId(toProperty));
 		if(result == null){
-			result = fromClass.findEffectiveAttribute(toProperty.getName());
+			result = getLibrary().findEffectiveAttribute( fromClass, toProperty.getName());
 		}
 		return result;
 	}
 	private void migrateDataTypeValue(MigratorContext ctx,Property toProperty){
 		Property fromProperty = findMatchingProperty(ctx.fromClass, toProperty);
 		if(needsCustomCalculation(toProperty, fromProperty)){
-			NakedStructuralFeatureMap toMap = OJUtil.buildStructuralFeatureMap(toProperty);
+			StructuralFeatureMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
 			OJAnnotatedOperation calc = addCalculator(ctx, toProperty);
 			ctx.migratingOperation.getBody().addToStatements("result." + toMap.setter() + "(" + calc.getName() + "(from))");
 		}else{
-			NakedStructuralFeatureMap fromMap = OJUtil.buildStructuralFeatureMap(fromProperty);
-			NakedStructuralFeatureMap toMap = OJUtil.buildStructuralFeatureMap(toProperty);
+			StructuralFeatureMap fromMap = ojUtil.buildStructuralFeatureMap(fromProperty);
+			StructuralFeatureMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
 			if(EmfClassifierUtil.isSimpleType(toProperty.getType())){
 				if(toMap.isOne()){
 					ctx.migratingOperation.getBody().addToStatements("result." + toMap.setter() + "(from." + fromMap.getter() + "())");
@@ -428,11 +429,21 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		}
 	}
 	private boolean needsCustomCalculation(Property toProperty,Property fromProperty){
-		return fromProperty == null || !haveCompatibleTypes(toProperty, fromProperty) || !fromProperty.fitsInTo(toProperty);
+		return fromProperty == null || !haveCompatibleTypes(toProperty, fromProperty) || !haveCompatibleMultiplicty(toProperty, fromProperty);
+	}
+	public boolean haveCompatibleMultiplicty(Property toProperty,Property fromProperty){
+		if(toProperty.isMultivalued()==fromProperty.isMultivalued()){
+			if(!toProperty.isMultivalued()){
+				return true;
+			}else{
+				return toProperty.isUnique()==fromProperty.isUnique() && toProperty.isOrdered()==fromProperty.isOrdered();
+			}
+		}
+		return false;
 	}
 	private boolean haveCompatibleTypes(Property toProperty,Property fromProperty){
 		return EmfWorkspace.getId(fromProperty.getType()).equals(EmfWorkspace.getId(toProperty.getType()))
-				|| OJUtil.classifierPathname(fromProperty.getType()).equals(OJUtil.classifierPathname(toProperty.getType()));
+				|| ojUtil.classifierPathname(fromProperty.getType()).equals(ojUtil.classifierPathname(toProperty.getType()));
 	}
 	private OJAnnotatedOperation migrateStructuredDataTypeDataTypeProperties(MigratorContext ctx,Property toProperty,Property fromProperty){
 		OJPathName toPathName = classifierPathName((Classifier) toProperty.getType(), getToVersion());
@@ -447,7 +458,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		DataType toStruct = (DataType) toProperty.getType();
 		MigratorContext childCtx = new MigratorContext(fromStruct, toStruct, ctx.migrator, convertStruct, ctx.prefix
 				+ NameConverter.capitalize(toProperty.getName()));
-		for(Property toProp:EmfElementFinder.getPropertiesInScope(toStruct)){
+		for(Property toProp:getLibrary().getEffectiveAttributes(toStruct)){
 			if(toProp.getType() instanceof DataType && !toProp.isDerived() && !toProp.isReadOnly()){
 				migrateDataTypeValue(childCtx, toProp);
 			}
@@ -464,7 +475,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		DataType toStruct = (DataType) toProperty.getType();
 		MigratorContext childCtx = new MigratorContext(fromStruct, toStruct, ctx.migrator, resolve, ctx.prefix
 				+ NameConverter.capitalize(toProperty.getName()));
-		for(Property toProp:EmfElementFinder.getPropertiesInScope(toStruct)){
+		for(Property toProp:getLibrary().getEffectiveAttributes(toStruct)){
 			if(isReference(toProp)){
 				childCtx.migratingOperation.getBody().addToStatements(new OJIfStatement());
 				migrateReference(childCtx, toProp);
@@ -488,7 +499,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		Enumeration toEnum = (Enumeration) toProperty.getType();
 		OJAnnotatedOperation calc = null;
 		for(EnumerationLiteral fromLit:fromEnum.getOwnedLiterals()){
-			EnumerationLiteral toLit = (EnumerationLiteral) toEnum.getOwnedElement(EmfWorkspace.getId(fromLit));
+			EnumerationLiteral toLit = (EnumerationLiteral) EmfElementFinder.getOwnedElement( toEnum, EmfWorkspace.getId(fromLit));
 			if(toLit == null){
 				toLit = (EnumerationLiteral) toEnum.getOwnedLiteral(fromLit.getName());
 			}
@@ -509,7 +520,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 	private OJAnnotatedOperation addCalculator(MigratorContext ctx,Property toProperty){
 		String name = "calculate" + ctx.prefix + NameConverter.capitalize(toProperty.getName());
 		OJPathName resultPath = classifierPathName(toProperty.getType(), getToVersion());
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(toProperty);
+		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(toProperty);
 		if(map.isMany()){
 			OJPathName p = map.javaTypePath();
 			p.removeAllFromElementTypes();

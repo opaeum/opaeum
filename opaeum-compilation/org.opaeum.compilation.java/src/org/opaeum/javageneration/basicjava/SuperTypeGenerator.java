@@ -1,5 +1,8 @@
 package org.opaeum.javageneration.basicjava;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
@@ -13,8 +16,6 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.maps.NakedClassifierMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class},after = {Java6ModelGenerator.class})
@@ -25,7 +26,7 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 			OJAnnotatedClass myClass = findJavaClass(c);
 			if(myClass != null){
 				for(Generalization g:c.getGeneralizations()){
-					NakedClassifierMap map = OJUtil.buildClassifierMap(g.getGeneral(),(CollectionKind)null);
+					ClassifierMap map = ojUtil.buildClassifierMap(g.getGeneral(),(CollectionKind)null);
 					myClass.setSuperclass(map.javaTypePath());
 					myClass.addToImports(map.javaTypePath());
 					OJConstructor constructor = myClass.getDefaultConstructor();
@@ -37,7 +38,7 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 		if(OJUtil.hasOJClass(c) && c instanceof BehavioredClassifier){
 			for(InterfaceRealization ir:((BehavioredClassifier)c).getInterfaceRealizations()){
 				OJAnnotatedClass myClass = findJavaClass(c);
-				myClass.addToImplementedInterfaces(OJUtil.classifierPathname(ir.getContract()));
+				myClass.addToImplementedInterfaces(ojUtil.classifierPathname(ir.getContract()));
 			}
 		}
 	}
@@ -48,14 +49,14 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 		OJAnnotatedInterface myIntf = (OJAnnotatedInterface) findJavaClass(c);
 		if(myIntf != null){
 			for(Generalization g:c.getGeneralizations()){
-				OJPathName pathname = OJUtil.classifierPathname(g.getGeneral());
+				OJPathName pathname = ojUtil.classifierPathname(g.getGeneral());
 				myIntf.getSuperInterfaces().add(pathname);
 				myIntf.addToImports(pathname);
 			}
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
 		
 	}
 }

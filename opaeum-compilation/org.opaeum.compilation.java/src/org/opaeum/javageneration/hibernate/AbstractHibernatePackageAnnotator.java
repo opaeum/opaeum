@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -25,7 +27,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.jbpm5.ProcessStepResolverImplementor;
-import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
@@ -38,7 +39,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	public abstract void visitModel(Model model);
 	protected void doWorkspace(EmfWorkspace workspace){
 		if(transformationContext.isIntegrationPhase()){
-			OJAnnotatedPackageInfo pkg = findOrCreatePackageInfo(OJUtil.utilPackagePath(workspace),
+			OJAnnotatedPackageInfo pkg = findOrCreatePackageInfo(ojUtil.utilPackagePath(workspace),
 					JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			applyFilter(pkg);
 			MetaDefElementCollector collector = collectElements(workspace.getRootObjects());
@@ -66,7 +67,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	}
 	protected void doModel(Model model){
 		if(shouldProcessModel()){
-			OJAnnotatedPackageInfo domainPkg = findOrCreatePackageInfo(OJUtil.utilPackagePath(model), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+			OJAnnotatedPackageInfo domainPkg = findOrCreatePackageInfo(ojUtil.utilPackagePath(model), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			applyFilter(domainPkg);
 			Collection<Package> selfAndDependencies = getModelInScope();
 			MetaDefElementCollector collector = collectElements(selfAndDependencies);
@@ -96,7 +97,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 				typeDefs.addAnnotationValue(typeDef);
 				p.putAnnotation(typeDef);
 				typeDef.putAttribute("name", a.getName() + string);
-				typeDef.putAttribute("typeClass", new OJPathName(OJUtil.classifierPathname(a) + string));
+				typeDef.putAttribute("typeClass", new OJPathName(ojUtil.classifierPathname(a) + string));
 			}
 		}
 	}
@@ -135,9 +136,9 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		metaDef.putAttribute(metaValues);
 		for(Classifier bc:impls){
 			OJAnnotationValue metaValue = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.MetaValue"));
-			NakedClassifierMap map = OJUtil.buildClassifierMap(bc,(CollectionKind)null);
+			ClassifierMap map = ojUtil.buildClassifierMap(bc,(CollectionKind)null);
 			OJPathName javaTypePath = map.javaTypePath();
-			metaValue.putAttribute("value", config.shouldBeCm1Compatible() ? OJUtil.classifierPathname(bc).toJavaString() : EmfWorkspace.getOpaeumId(bc)+"");
+			metaValue.putAttribute("value", config.shouldBeCm1Compatible() ? ojUtil.classifierPathname(bc).toJavaString() : EmfWorkspace.getOpaeumId(bc)+"");
 			metaValue.putAttribute("targetClass", javaTypePath);
 			metaValues.addAnnotationValue(metaValue);
 		}

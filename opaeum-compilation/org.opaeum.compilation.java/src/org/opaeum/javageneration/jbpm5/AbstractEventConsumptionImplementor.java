@@ -2,7 +2,11 @@ package org.opaeum.javageneration.jbpm5;
 
 import java.util.Collection;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallBehaviorAction;
@@ -20,6 +24,10 @@ import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfEventUtil;
+import org.opaeum.eclipse.EmfTimeUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJForStatement;
@@ -28,16 +36,16 @@ import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJStatement;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.maps.IMessageMap;
-import org.opaeum.javageneration.maps.NakedOperationMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 public abstract class AbstractEventConsumptionImplementor extends StereotypeAnnotator{
 	protected static final OJPathName NODE_INSTANCE_CONTAINER = new OJPathName("org.jbpm.workflow.instance.NodeInstanceContainer");
@@ -46,6 +54,12 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opaeum.runtime.domain.UmlNodeInstance");
 	protected abstract void consumeEvent(OJOperation operationContext,FromNode node,OJIfStatement ifTokenFound);
 	abstract protected void implementEventConsumerBody(ElementsWaitingForEvent eventActions,OJAnnotatedOperation listener,OJIfStatement ifProcessActive);
+	protected OperationAnnotator operationAnnotator=new OperationAnnotator();
+	@Override
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace,OJUtil ojUtil){
+		super.initialize(pac, config, textWorkspace, workspace, ojUtil);
+		operationAnnotator.initialize(pac, config, textWorkspace, workspace, ojUtil);
+	}
 	protected void implementEventConsumption(OJAnnotatedClass ojBehavior,Behavior behavior,Collection<ElementsWaitingForEvent> ea){
 		addFindWaitingNode(ojBehavior);
 		// FIrst implement the event consumers on the process class itself
@@ -63,8 +77,8 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		for(ElementsWaitingForEvent elementsWaitingForEvent:ea){
 			if(elementsWaitingForEvent.getEvent() instanceof SignalEvent){
 				SignalEvent signalEvent = (SignalEvent) elementsWaitingForEvent.getEvent();
-				SignalMap map = OJUtil.buildSignalMap(signalEvent.getSignal());
-				if(behavior.hasReceptionOrTriggerFor(signalEvent.getSignal())){
+				SignalMap map = ojUtil.buildSignalMap(signalEvent.getSignal());
+				if(EmfEventUtil.behaviorHasReceptionOrTriggerFor( behavior, signalEvent.getSignal())){
 					activiateSignalEventGeneration(behavior, ojBehavior, map);
 				}
 			}else if(elementsWaitingForEvent.getEvent() instanceof CallEvent){
@@ -82,8 +96,8 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		for(ElementsWaitingForEvent elementsWaitingForEvent:ea){
 			if(elementsWaitingForEvent.getEvent() instanceof SignalEvent){
 				SignalEvent signalEvent = (SignalEvent) elementsWaitingForEvent.getEvent();
-				SignalMap map = OJUtil.buildSignalMap(signalEvent.getSignal());
-				if(context.hasReceptionOrTriggerFor(signalEvent.getSignal())){
+				SignalMap map = ojUtil.buildSignalMap(signalEvent.getSignal());
+				if(EmfEventUtil.hasReceptionOrTriggerFor(context,signalEvent.getSignal())){
 					// Could originate from the context
 					// delegate to this owned behavior
 					delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, map);
@@ -93,7 +107,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 				CallEvent ce = (CallEvent) elementsWaitingForEvent.getEvent();
 				Operation operation = ce.getOperation();
 				if(context.conformsTo((Classifier) operation.getOwner())){
-					delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, OJUtil.buildOperationMap(operation));
+					delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, ojUtil.buildOperationMap(operation));
 					activateCallEventGeneration(context, ojContext, operation);
 				}
 			}
@@ -107,8 +121,8 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		}
 	}
 	private void activateCallEventGeneration(BehavioredClassifier context,OJAnnotatedClass ojContext,Operation operation){
-		NakedOperationMap map = OJUtil.buildOperationMap(operation);
-		OJAnnotatedOperation eventGenerator = OperationAnnotator.findOrCreateEventGenerator(context, ojContext, map);
+		OperationMap map = ojUtil.buildOperationMap(operation);
+		OJAnnotatedOperation eventGenerator = operationAnnotator.findOrCreateEventGenerator(context, ojContext, map);
 		if(eventGenerator.getBody().getStatements().isEmpty()){
 			ojContext.addToImports(map.eventHandlerPath());
 			StringBuilder sb = new StringBuilder("this.getOutgoingEvents().add(new OutgoingEvent(this, new " + map.eventHandlerPath().getLast() + "(");
@@ -123,9 +137,9 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 	}
 	private void delegateMessageEventConsumtionFromContextToOwnedBehavior(Behavior behavior,BehavioredClassifier context,OJAnnotatedClass ojContext,
 			IMessageMap map1){
-		OJOperation consumer = OperationAnnotator.findOrCreateEventConsumer(context, ojContext, map1);
+		OJOperation consumer = operationAnnotator.findOrCreateEventConsumer(context, ojContext, map1);
 		OJStatement statement;
-		NakedStructuralFeatureMap mapToBehavior = OJUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite( behavior).getOtherEnd());
+		StructuralFeatureMap mapToBehavior = ojUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite( behavior).getOtherEnd());
 		if(EmfBehaviorUtil.isClassifierBehavior( behavior)){
 			statement = new OJSimpleStatement("getClassifierBehavior()." + callToEventConsumer(map1, consumer));
 		}else{
@@ -190,7 +204,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 			//State could be inherited
 			ownerElement=(Element) EmfElementFinder.getContainer(((Element) ownerElement));
 		}
-		String literalExpression = OJUtil.classifierPathname((Classifier) ownerElement) + "State." + Jbpm5Util.stepLiteralName(waitingElement);
+		String literalExpression = ojUtil.classifierPathname((Classifier) ownerElement) + "State." + Jbpm5Util.stepLiteralName(waitingElement);
 		ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(" + literalExpression + ".getId()))" + "!=null");
 		return ifTokenFound;
 	}
@@ -202,20 +216,20 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 	}
 	private OJAnnotatedOperation createEventConsumerSignature(Behavior behavior,OJAnnotatedClass activityClass,
 			ElementsWaitingForEvent elementsWaitingForEvent){
-		Event event = elementsWaitingForEvent.getEvent();
+		NamedElement event = elementsWaitingForEvent.getEvent();
 		if(event instanceof MessageEvent){
 			IMessageMap map1;
 			if(event instanceof CallEvent){
-				map1 = OJUtil.buildOperationMap(((CallEvent) event).getOperation());
+				map1 = ojUtil.buildOperationMap(((CallEvent) event).getOperation());
 			}else{
-				map1 = OJUtil.buildSignalMap(((SignalEvent) event).getSignal());
+				map1 = ojUtil.buildSignalMap(((SignalEvent) event).getSignal());
 			}
-			OJAnnotatedOperation listener = OperationAnnotator.findOrCreateEventConsumer(behavior, activityClass, map1);
+			OJAnnotatedOperation listener = operationAnnotator.findOrCreateEventConsumer(behavior, activityClass, map1);
 			OJUtil.removeReturnStatement(listener);
 			return listener;
 		}else{
 			// TODO if the behavior's superBehavior reacts to this event to, initialise consumed:boolean to super.consumeEventxyz
-			String methodName = EventUtil.getEventConsumerName(event);
+			String methodName = eventUtil.getEventConsumerName(event);
 			OJAnnotatedOperation listener = (OJAnnotatedOperation) activityClass.getUniqueOperation(methodName);
 			if(listener == null){
 				listener = new OJAnnotatedOperation(methodName);
@@ -224,23 +238,23 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 				OJAnnotatedField processed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
 				processed.setInitExp("false");
 				listener.getBody().addToLocals(processed);
-				if(event instanceof Deadline){
-					DefinedResponsibility origin = ((Deadline) event).getOrigin();
+				if(event instanceof TimeEvent && EmfTimeUtil.isDeadline((Event) event)){
+					Element origin = EmfEventUtil.getDeadlineOrigin((TimeEvent) event);
 					OJPathName pn = null;
 					if(origin instanceof Operation){
-						pn = OJUtil.classifierPathname(getLibrary().getMessageStructure( ((Operation) origin)));
-					}else if(EmfActionUtil.isSingleScreenTask(origin)){
-						pn = OJUtil.classifierPathname(getLibrary().getMessageStructure(((OpaqueAction) origin)));
+						pn = ojUtil.classifierPathname(getLibrary().getMessageStructure( ((Operation) origin)));
+					}else if(origin instanceof OpaqueAction &&  EmfActionUtil.isSingleScreenTask((ActivityNode) origin)){
+						pn = ojUtil.classifierPathname(getLibrary().getMessageStructure(((OpaqueAction) origin)));
 					}else{
-						pn = OJUtil.classifierPathname((CallBehaviorAction) origin);
+						pn = ojUtil.classifierPathname((CallBehaviorAction) origin);
 					}
-					listener.addParam("triggerDate", OJUtil.buildClassifierMap(workspace.getOpaeumLibrary().getDateType(),(CollectionKind)null).javaTypePath());
+					listener.addParam("triggerDate", ojUtil.buildClassifierMap(workspace.getOpaeumLibrary().getDateType(),(CollectionKind)null).javaTypePath());
 					listener.addParam("source", pn);
 				}else if(event instanceof ChangeEvent){
 					listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
 				}else if(event instanceof TimeEvent){
 					listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
-					listener.addParam("triggerDate", OJUtil.buildClassifierMap(workspace.getOpaeumLibrary().getDateType(),(CollectionKind)null).javaTypePath());
+					listener.addParam("triggerDate", ojUtil.buildClassifierMap(workspace.getOpaeumLibrary().getDateType(),(CollectionKind)null).javaTypePath());
 				}
 			}
 			return listener;

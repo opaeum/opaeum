@@ -2,10 +2,9 @@ package org.opaeum.eclipse;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Type;
-
-import org.eclipse.uml2.uml.AssociationClass;
 
 public class EmfAssociationUtil{
 	public static boolean isClass(Association a){

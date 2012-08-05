@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
@@ -86,10 +87,9 @@ import org.opaeum.javageneration.basicjava.simpleactions.VariableClearer;
 import org.opaeum.javageneration.basicjava.simpleactions.VariableReader;
 import org.opaeum.javageneration.basicjava.simpleactions.VariableValueAdder;
 import org.opaeum.javageneration.basicjava.simpleactions.VariableValueRemover;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.PreAndPostConditionGenerator;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.metamodel.workspace.IPropertyEmulation;
 import org.opaeum.ocl.uml.OclContext;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -119,7 +119,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 					// multilplicity must be compatible
 					// only one node should
 					OJAnnotatedClass owner = findJavaClass(a.getContext());
-					OperationMap am = OJUtil.buildOperationMap(a.getSpecification() == null ? a : a.getSpecification());
+					OperationMap am = ojUtil.buildOperationMap(a.getSpecification() == null ? a : a.getSpecification());
 					OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(am.javaOperName(), am.javaParamTypePaths());
 					implementActivityOn(a, oper);
 				}
@@ -137,7 +137,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 	}
 	private void addVariables(Activity a,Collection<Variable> vars,OJBlock body,OJClassifier owner){
 		for(Variable var:vars){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(a, var);
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(var);
 			OJField field = new OJField();
 			field.setName(map.fieldname());
 			field.setType(map.javaTypePath());
@@ -170,7 +170,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		maybeImplementNextNode(operation, block, node);
 	}
 	private void implementObjectNodeOrAtomicAction(OJAnnotatedOperation operation,OJBlock block,ActivityNode node){
-		SimpleNodeBuilder<?> builder = resolveBuilder(node, getLibrary(), new ObjectNodeExpressor(getLibrary()));
+		SimpleNodeBuilder<?> builder = resolveBuilder(node, getLibrary(), new ObjectNodeExpressor(ojUtil));
 		if(builder != null){
 			builder.implementActionOn(operation, block);
 			if(builder instanceof AbstractCaller){
@@ -183,17 +183,17 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 	}
 	private void implementExpansionRegion(OJAnnotatedOperation operation,OJBlock block,ExpansionRegion region){
 		ExpansionNode input = region.getInputElements().get(0);
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity( region), input, false);
+		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(input);
 		List<ExpansionNode> output = region.getOutputElements();
 		for(ExpansionNode expansionNode:output){
-			NakedStructuralFeatureMap outMap = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(region).getContext(), expansionNode, true);
+			StructuralFeatureMap outMap = ojUtil.buildStructuralFeatureMap(expansionNode);
 			OJAnnotatedField outField = new OJAnnotatedField(outMap.fieldname(), outMap.javaTypePath());
 			outField.setInitExp(outMap.javaDefaultValue());
 			operation.getOwner().addToImports(outMap.javaBaseDefaultTypePath());
 			operation.getOwner().addToImports(outMap.javaTypePath());
 			block.addToLocals(outField);
 		}
-		ObjectNodeExpressor expressor = new ObjectNodeExpressor(getLibrary());
+		ObjectNodeExpressor expressor = new ObjectNodeExpressor(ojUtil);
 		OJForStatement forEach = new OJForStatement(map.fieldname(), map.javaBaseTypePath(), expressor.expressInputPinOrOutParamOrExpansionNode(block, input));
 		block.addToStatements(forEach);
 		addVariables(EmfActivityUtil.getContainingActivity(region), region.getVariables(), forEach.getBody(), operation.getOwner());
@@ -221,11 +221,11 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			ActivityEdge incomingEdge = cn.getIncomings().iterator().next();
 			if(incomingEdge instanceof ObjectFlow){
 				// TODO the originatingOBjectNode my not have the correct type after transformations and selections
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity( cn),  EmfActivityUtil.getOriginatingObjectNode((ObjectFlow) incomingEdge), false);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(EmfActivityUtil.getOriginatingObjectNode((ObjectFlow) incomingEdge));
 				if(block.findLocal(map.fieldname()) == null && operation.findParameter(map.fieldname()) == null){
 					// TODO check for more scopes
 					OJAnnotatedField decisionNodeVar = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
-					ObjectNodeExpressor expressor = new ObjectNodeExpressor(getLibrary());
+					ObjectNodeExpressor expressor = new ObjectNodeExpressor(ojUtil);
 					decisionNodeVar.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(block, (ObjectFlow) incomingEdge));
 					elseBlock.addToLocals(decisionNodeVar);
 				}
@@ -252,46 +252,46 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			}
 		}
 	}
-	public static SimpleNodeBuilder<?> resolveBuilder(ActivityNode node,OpaeumLibrary lib,AbstractObjectNodeExpressor expressor){
+	public static SimpleNodeBuilder<?> resolveBuilder(ActivityNode node,IPropertyEmulation lib,AbstractObjectNodeExpressor expressor){
 		SimpleNodeBuilder<?> actionBuilder = null;
 		if(node instanceof ActivityParameterNode){
-			actionBuilder = new ParameterNodeImplementor(lib, (ActivityParameterNode) node, expressor);
+			actionBuilder = new ParameterNodeImplementor((ActivityParameterNode) node, expressor);
 		}else if(node instanceof ExpansionNode){
-			actionBuilder = new ExpansionNodeImplementor(lib, (ExpansionNode) node, expressor);
+			actionBuilder = new ExpansionNodeImplementor((ExpansionNode) node, expressor);
 		}else if(node instanceof AddStructuralFeatureValueAction){
-			actionBuilder = new StructuralFeatureValueAdder(lib, (AddStructuralFeatureValueAction) node, expressor);
+			actionBuilder = new StructuralFeatureValueAdder((AddStructuralFeatureValueAction) node, expressor);
 		}else if(node instanceof RemoveStructuralFeatureValueAction){
-			actionBuilder = new StructuralFeatureValueRemover(lib, (RemoveStructuralFeatureValueAction) node, expressor);
+			actionBuilder = new StructuralFeatureValueRemover((RemoveStructuralFeatureValueAction) node, expressor);
 		}else if(node instanceof ClearStructuralFeatureAction){
-			actionBuilder = new StructuralFeatureClearer(lib, (ClearStructuralFeatureAction) node, expressor);
+			actionBuilder = new StructuralFeatureClearer( (ClearStructuralFeatureAction) node, expressor);
 		}else if(node instanceof ReadStructuralFeatureAction){
-			actionBuilder = new StructuralFeatureReader(lib, (ReadStructuralFeatureAction) node, expressor);
+			actionBuilder = new StructuralFeatureReader((ReadStructuralFeatureAction) node, expressor);
 		}else if(node instanceof AddVariableValueAction){
-			actionBuilder = new VariableValueAdder(lib, (AddVariableValueAction) node, expressor);
+			actionBuilder = new VariableValueAdder((AddVariableValueAction) node, expressor);
 		}else if(node instanceof RemoveVariableValueAction){
-			actionBuilder = new VariableValueRemover(lib, (RemoveVariableValueAction) node, expressor);
+			actionBuilder = new VariableValueRemover((RemoveVariableValueAction) node, expressor);
 		}else if(node instanceof ClearVariableAction){
-			actionBuilder = new VariableClearer(lib, (ClearVariableAction) node, expressor);
+			actionBuilder = new VariableClearer((ClearVariableAction) node, expressor);
 		}else if(node instanceof ReadVariableAction){
-			actionBuilder = new VariableReader(lib, (ReadVariableAction) node, expressor);
+			actionBuilder = new VariableReader((ReadVariableAction) node, expressor);
 		}else if(node instanceof OpaqueAction){
-			actionBuilder = new OclActionCaller(lib, (OpaqueAction) node, expressor);
+			actionBuilder = new OclActionCaller((OpaqueAction) node, expressor);
 		}else if(EmfActionUtil.isSingleScreenTask(node )){
-			actionBuilder = new EmbeddedSingleScreenTaskCaller(lib, (OpaqueAction) node, expressor);
+			actionBuilder = new EmbeddedSingleScreenTaskCaller((OpaqueAction) node, expressor);
 		}else if(node instanceof CallOperationAction){
-			actionBuilder = new OperationCaller(lib, (CallOperationAction) node, expressor);
+			actionBuilder = new OperationCaller((CallOperationAction) node, expressor);
 		}else if(EmfActionUtil.isScreenFlowTask(node )){
-			actionBuilder = new EmbeddedScreenFlowTaskCaller(lib, (CallBehaviorAction) node, expressor);
+			actionBuilder = new EmbeddedScreenFlowTaskCaller((CallBehaviorAction) node, expressor);
 		}else if(node instanceof CallBehaviorAction){
-			actionBuilder = new BehaviorCaller(lib, (CallBehaviorAction) node, expressor);
+			actionBuilder = new BehaviorCaller((CallBehaviorAction) node, expressor);
 		}else if(node instanceof CreateObjectAction){
-			actionBuilder = new ObjectCreator(lib, (CreateObjectAction) node, expressor);
+			actionBuilder = new ObjectCreator((CreateObjectAction) node, expressor);
 		}else if(node instanceof StartClassifierBehaviorAction){
-			actionBuilder = new ClassifierBehaviorStarter(lib, (StartClassifierBehaviorAction) node, expressor);
+			actionBuilder = new ClassifierBehaviorStarter((StartClassifierBehaviorAction) node, expressor);
 		}else if(node instanceof SendSignalAction){
-			actionBuilder = new SignalSender(lib, (SendSignalAction) node, expressor);
+			actionBuilder = new SignalSender((SendSignalAction) node, expressor);
 		}else if(node instanceof RaiseExceptionAction){
-			actionBuilder = new ExceptionRaiser(lib, (RaiseExceptionAction) node, expressor);
+			actionBuilder = new ExceptionRaiser((RaiseExceptionAction) node, expressor);
 		}
 		return actionBuilder;
 	}
@@ -307,7 +307,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			implementNode(operation, nodeBlock, EmfActivityUtil.getEffectiveTarget( out));
 		}
 	}
-	public static void generateTransformationMultiplier(OJClassifier owner,ObjectFlow of){
+	public void generateTransformationMultiplier(OJClassifier owner,ObjectFlow of){
 		ObjectNode originatingObjectNode = EmfActivityUtil.getOriginatingObjectNode( of);
 		if(EmfActivityUtil.isMultivalued( originatingObjectNode) || of.getSelection() != null
 				&& EmfBehaviorUtil.getReturnParameter( of.getSelection()).isMultivalued()){
@@ -318,16 +318,16 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 				arg = originatingObjectNode;
 			}
 			if(arg instanceof MultiplicityElement && ((MultiplicityElement) arg).isMultivalued()){
-				NakedStructuralFeatureMap targetMap = OJUtil.buildStructuralFeatureMap (EmfActivityUtil.getContainingActivity( of), (ObjectNode) of.getTarget());
+				StructuralFeatureMap targetMap = ojUtil.buildStructuralFeatureMap ((ObjectNode) of.getTarget());
 				OJPathName resultTypePath = targetMap.javaTypePath();
 				if(of.getTarget() instanceof ExpansionNode){
 					resultTypePath = new OJPathName("java.util.Collection");
 					resultTypePath.addToElementTypes(targetMap.javaBaseTypePath());
 				}
-				String transformOperName = OJUtil.buildOperationMap(of.getTransformation()).javaOperName();
+				String transformOperName = ojUtil.buildOperationMap(of.getTransformation()).javaOperName();
 				OJAnnotatedOperation transformMany = new OJAnnotatedOperation(transformOperName, resultTypePath);
 				owner.addToOperations(transformMany);
-				NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(of), arg);
+				StructuralFeatureMap argMap = ojUtil.buildStructuralFeatureMap(arg);
 				transformMany.addParam(argMap.fieldname(), argMap.javaTypePath());
 				if(of.getTarget() instanceof ExpansionNode){
 					transformMany.initializeResultVariable("new ArrayList<" + targetMap.javaType() + ">()");
@@ -363,8 +363,8 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		if(EmfBehaviorUtil.shouldSurrounWithTry(nakedCall)){
 			OJTryStatement tryStatement = caller.surroundWithCatchIfNecessary(operation, originalBlock);
 			for(OutputPin e:EmfActionUtil.getExceptionPins( nakedCall)){
-				NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity( nakedCall).getContext(), e);
-				OJPathName pathName = OJUtil.classifierPathname((Classifier) e.getType());
+				StructuralFeatureMap pinMap = ojUtil.buildStructuralFeatureMap(e);
+				OJPathName pathName = ojUtil.classifierPathname((Classifier) e.getType());
 				operation.getOwner().addToImports(pathName);
 				OJIfStatement statement = new OJIfStatement();
 				statement.setCondition("e.isParameter(\"" +EmfActionUtil.getLinkedTypedElement(  e).getName() + "\")");
@@ -387,7 +387,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 				Iterator<Classifier> iter = e.getExceptionTypes().iterator();
 				while(iter.hasNext()){
 					Classifier type = iter.next();
-					OJPathName pathName = OJUtil.classifierPathname(type);
+					OJPathName pathName = ojUtil.classifierPathname(type);
 					sb.append("e.getValue() instanceof ");
 					sb.append(pathName.getLast());
 					operation.getOwner().addToImports(pathName);

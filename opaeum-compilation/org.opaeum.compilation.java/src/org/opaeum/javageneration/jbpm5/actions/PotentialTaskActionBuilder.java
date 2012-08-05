@@ -1,10 +1,10 @@
 package org.opaeum.javageneration.jbpm5.actions;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Action;
 import org.opaeum.eclipse.EmfActionUtil;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 /**
  * Base class for all action builders that could potentially build a task representing a usertask.
@@ -12,13 +12,13 @@ import org.opaeum.metamodel.workspace.OpaeumLibrary;
  * @param <A>
  */
 public abstract class PotentialTaskActionBuilder<A extends Action> extends AbstractProtectedNodeBuilder<A>{
-	protected PotentialTaskActionBuilder(OpaeumLibrary oclEngine,A node){
-		super(oclEngine, node, maybeBuildCallMap(node, oclEngine));
+	protected PotentialTaskActionBuilder(OJUtil util,A node){
+		super(util, node, maybeBuildCallMap(node, util));
 	}
-	private static NakedStructuralFeatureMap maybeBuildCallMap(Action node,OpaeumLibrary l){
-		NakedStructuralFeatureMap callMap = null;
+	private static StructuralFeatureMap maybeBuildCallMap(Action node,OJUtil ojUtil){
+		StructuralFeatureMap callMap = null;
 		if(EmfActionUtil.getTargetElement(node)!=null && EmfActionUtil.hasMessageStructure(node)){
-			callMap = OJUtil.buildStructuralFeatureMap(node, l);
+			callMap = ojUtil.buildStructuralFeatureMap(node);
 		}
 		return callMap;
 	}

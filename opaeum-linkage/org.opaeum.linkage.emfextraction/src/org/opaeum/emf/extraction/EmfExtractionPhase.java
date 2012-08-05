@@ -94,7 +94,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 				}
 			}
 			emfWorkspace.calculatePrimaryModels();
-			for(Package gp:emfWorkspace.getPotentialGeneratingModels()){
+			for(Package gp:emfWorkspace.getPrimaryRootObjects()){
 				if(!gp.eIsProxy()){
 					INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
 					if(nakedPackage.getStatus() == null || !nakedPackage.getStatus().isExtracted()){
@@ -117,7 +117,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		this.extractors = features;
 	}
 	public void initializeSteps(){
-		emfWorkspace.setMappingInfo(config.getWorkspaceMappingInfo());
+		emfWorkspace.setWorkspaceMappingInfo(config.getWorkspaceMappingInfo());
 		modelWorkspace.setWorkspaceMappingInfo(config.getWorkspaceMappingInfo());
 		modelWorkspace.setIdentifier(emfWorkspace.getIdentifier());
 		modelWorkspace.setName(emfWorkspace.getName());// Currently same as Identifier

@@ -41,6 +41,7 @@ import org.opaeum.visitor.TextFileGeneratingVisitor;
 public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 	protected VelocityEngine ve;
 	protected Set<TextFile> textFiles;
+	protected OJUtil ojUtil;
 	@Override
 	public void release(){
 		super.release();
@@ -49,7 +50,7 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 	public void visitRecursively(Element o){
 		if(EmfPackageUtil.isRootObject(o )){
 			Package pkg = (Package) o;
-			OJPathName utilPath = OJUtil.packagePathname(pkg).getCopy();
+			OJPathName utilPath = ojUtil.packagePathname(pkg).getCopy();
 			utilPath.append("util");
 			UtilityCreator.setUtilPathName(utilPath);
 		}else if(o instanceof ModelWorkspace){
@@ -58,7 +59,8 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 		}
 		super.visitRecursively(o);
 	}
-	public void initialize(OpaeumConfig config,TextWorkspace textWorkspace, EmfWorkspace workspace){
+	public void initialize(OpaeumConfig config,TextWorkspace textWorkspace, EmfWorkspace workspace, OJUtil ojUtil){
+		this.ojUtil=ojUtil;
 		this.workspace=workspace;
 		this.config = config;
 		super.textFiles=new HashSet<TextOutputNode>();

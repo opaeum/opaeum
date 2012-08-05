@@ -50,6 +50,7 @@ import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
+@SuppressWarnings("restriction")
 public final class OpaeumEnvironment extends UMLEnvironment{
 	OpaeumLibrary library;
 	Element context;

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.ocl.OCL;
 import org.eclipse.ocl.options.EvaluationOptions;
@@ -14,10 +13,6 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
-import org.opaeum.ocl.uml.OpaeumEnvironmentFactory;
-import org.topcased.modeler.uml.oclinterpreter.DelegatingPackageRegistry;
-import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
-import org.topcased.modeler.uml.oclinterpreter.UMLOCLFactory;
 
 public final class OpaeumOclFactory extends UMLOCLFactory{
 	private Map<String,Classifier> variables = new HashMap<String,Classifier>();

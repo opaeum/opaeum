@@ -1,6 +1,5 @@
 package org.opaeum.javageneration.oclexpressions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.othergenerators.creators.MultCheckCreator;
 import nl.klasse.octopus.model.IEnumerationType;
 
@@ -24,10 +23,10 @@ public class MultiplicityChecking extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(Classifier in){
 		if(!(in instanceof IEnumerationType)){
-			OJPathName path = new ClassifierMap(in).javaTypePath();
+			OJPathName path = ojUtil.classifierPathname(in);
 			OJClassifier myOwner = javaModel.findClass(path);
 			if(myOwner != null){
-				MultCheckCreator maker = new MultCheckCreator();
+				MultCheckCreator maker = new MultCheckCreator(ojUtil);
 				maker.createCheckOper(myOwner);
 				if(myOwner instanceof OJClass){
 					for(Property attr:in.getAttributes()){

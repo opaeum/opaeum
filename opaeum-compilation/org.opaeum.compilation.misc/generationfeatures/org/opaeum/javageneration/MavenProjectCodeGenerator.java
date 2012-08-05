@@ -89,8 +89,7 @@ public abstract class MavenProjectCodeGenerator{
 		process.removeModel(OJWorkspace.class);
 		process.removeModel(TextWorkspace.class);
 		ModelWorkspace nmw = process.findModel(ModelWorkspace.class);
-		workspace.setMappingInfo(nmw.getWorkspaceMappingInfo());
-		nmw.clearGeneratingModelOrProfiles();
+		workspace.setWorkspaceMappingInfo(nmw.getWorkspaceMappingInfo());
 		process.integrate(new DefaultTransformationLog());
 	}
 }

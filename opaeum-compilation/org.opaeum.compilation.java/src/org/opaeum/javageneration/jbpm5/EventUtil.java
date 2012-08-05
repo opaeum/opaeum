@@ -9,15 +9,20 @@ import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.ChangeEvent;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.SignalEvent;
+import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
@@ -40,17 +45,19 @@ import org.opaeum.runtime.domain.TimeUnit;
 public class EventUtil{
 	OpaeumLibrary library;
 	private ValueSpecificationUtil valueSpecificationUtil;
-	public EventUtil(OpaeumLibrary library){
+	private OJUtil ojUtil;
+	public EventUtil(OJUtil ojUtil){
 		super();
-		this.library = library;
-		this.valueSpecificationUtil=new ValueSpecificationUtil(library);
+		this.ojUtil=ojUtil;
+		this.library = ojUtil.getLibrary();
+		this.valueSpecificationUtil=new ValueSpecificationUtil(ojUtil);
 	}
-	public static String getEventConsumerName(NamedElement e){
+	public String getEventConsumerName(NamedElement e){
 		if(e instanceof SignalEvent){
-			return OJUtil.buildSignalMap(((SignalEvent) e).getSignal()).eventConsumerMethodName();
+			return ojUtil.buildSignalMap(((SignalEvent) e).getSignal()).eventConsumerMethodName();
 		}else if(e instanceof CallEvent){
-			return OJUtil.buildOperationMap(((CallEvent) e).getOperation()).eventConsumerMethodName();
-		}else if(e instanceof CompletionEvent){
+			return ojUtil.buildOperationMap(((CallEvent) e).getOperation()).eventConsumerMethodName();
+		}else if(e instanceof State){
 			return "on" + NameConverter.capitalize(e.getName()) + "Completed";
 		}else if(e instanceof Event){
 			return NameConverter.capitalize(e.getName()) + "Occurred";
@@ -58,17 +65,24 @@ public class EventUtil{
 			return "on" + NameConverter.capitalize(e.getName());
 		}
 	}
-	public static OJPathName handlerPathName(Operation s){
-		return OJUtil.buildOperationMap(s).handlerPath();
+	public OJPathName handlerPathName(Operation s){
+		return ojUtil.buildOperationMap(s).handlerPath();
 	}
-	public static OJPathName handlerPathName(Event e){
-		return OJUtil.packagePathname(e.getContext()).getCopy().append(NameConverter.capitalize(e.getName()) + "Handler");
+	public OJPathName handlerPathName(Event e){
+		Namespace ctx;
+		if(EmfEventUtil.isDeadline(e)){
+			ctx = (Namespace) EmfElementFinder.getContainer(e);
+		}else{
+			ctx= EmfEventUtil.getBehaviorContext(e);
+		}
+
+		return ojUtil.packagePathname( ctx).getCopy().append(NameConverter.capitalize(e.getName()) + "Handler");
 	}
 	public void implementChangeEventRequest(OJOperation operation,ChangeEvent event){
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
 		ValueSpecification when = event.getChangeExpression();
 		if(when != null){
-			String changeExpr = valueSpecificationUtil.expressValue(operation, when, event.getBehaviorContext(), when.getType());
+			String changeExpr = valueSpecificationUtil.expressValue(operation, when, EmfEventUtil.getBehaviorContext( event), (Classifier)when.getType());
 			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation(evaluatorName(event), new OJPathName("boolean"));
 			evaluationMethod.getBody().addToStatements("return " + changeExpr);
 			owner.addToOperations(evaluationMethod);
@@ -107,19 +121,19 @@ public class EventUtil{
 	public void implementTimeEventRequest(OJOperation operation,OJBlock block,TimeEvent event, boolean businessTime){
 		implementTimerRequest(operation, block, event, "this",businessTime);
 	}
-	public static void implementDeadlineRequest(OJOperation operation,OJBlock block,Deadline event,String taskName){
+	public void implementDeadlineRequest(OJOperation operation,OJBlock block,TimeEvent event,String taskName){
 		implementTimerRequest(operation, block, event, taskName,true);
 	}
-	private static void implementTimerRequest(OJOperation operation,OJBlock block,Timer event,String targetExpression, boolean businessTime){
+	private  void implementTimerRequest(OJOperation operation,OJBlock block,TimeEvent event,String targetExpression, boolean businessTime){
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
 		ValueSpecification when = event.getWhen();
 		OJPathName eventHandler = handlerPathName(event);
 		owner.addToImports(eventHandler);
 		if(when != null){
-			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getContext(), null);
+			String whenExpr = valueSpecificationUtil.expressValue(operation, when, library.getEventContext( event), null);
 			// TODO add the timeSpecification INstanceSpecification values
 			if(event.isRelative()){
-				EnumerationLiteral timeUnit = event.getTimeUnit();
+				EnumerationLiteral timeUnit = EmfEventUtil.getTimeUnit( event);
 				if(businessTime){
 					String timeUnitConstant= timeUnit==null? "BUSINESSDAY":timeUnit.getName().toUpperCase();
 					owner.addToImports("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit");
@@ -143,8 +157,8 @@ public class EventUtil{
 			block.addToStatements("NO_WHEN_EXPRESSION_SPECIFIED");
 		}
 	}
-	public static void cancelTimer(OJBlock block,Timer event,String targetExpression){
-		block.addToStatements("getCancelledEvents().add(new CancelledEvent(" + targetExpression + ",\"" + event.getIdInModel() + "\"))");
+	public static void cancelTimer(OJBlock block,TimeEvent event,String targetExpression){
+		block.addToStatements("getCancelledEvents().add(new CancelledEvent(" + targetExpression + ",\"" + EmfWorkspace.getId( event) + "\"))");
 	}
 	public static void cancelChangeEvent(OJBlock block,ChangeEvent event){
 		block.addToStatements("getCancelledEvents().add(new CancelledEvent(this,\"" + EmfWorkspace.getId(event) + "\"))");
@@ -181,4 +195,5 @@ public class EventUtil{
 			}
 		}
 	}
+
 }

@@ -11,6 +11,7 @@ import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
@@ -28,9 +29,14 @@ import org.opaeum.runtime.environment.Environment;
 
 public class Jbpm5Util{
 	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opaeum.runtime.domain.UmlNodeInstance");
-	public static OJPathName jbpmKnowledgeBase(Namespace m){
-		OJPathName result = OJUtil.packagePathname(m);
-		return result.append("util").append(NameConverter.capitalize(m.getName()) + "KnowledgeBase");
+	public static OJPathName jbpmKnowledgeBase(Element owner){
+		OJPathName result = ojUtil.utilPackagePath(owner);
+		if(owner instanceof Namespace){
+			return result.append("util").append(NameConverter.capitalize(((Namespace) owner).getName()) + "KnowledgeBase");
+		}else if(owner instanceof EmfWorkspace){
+			return result.append("util").append(NameConverter.capitalize(((EmfWorkspace) owner).getName()) + "KnowledgeBase");
+		}
+		return null;
 	}
 	public static String stepLiteralName(NamedElement s){
 		String result="";

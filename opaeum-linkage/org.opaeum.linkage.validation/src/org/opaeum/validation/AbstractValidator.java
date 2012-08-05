@@ -15,7 +15,7 @@ import org.opaeum.metamodel.workspace.ModelWorkspace;
 public abstract class AbstractValidator extends EmfElementVisitor implements ITransformationStep{
 	@Override
 	public void visitRecursively(Element o){
-		if(!(EmfElementUtil.isMarkedForDeletion(o) || (EmfPackageUtil.isRootObject(o ) && ((RootObject) o).getStatus().isValidated()))){
+		if(!(EmfElementUtil.isMarkedForDeletion(o) || (EmfPackageUtil.isRootObject(o ) && workspace.getGeneratingModelsOrProfiles().contains(o)))){
 			super.visitRecursively(o);
 		}
 	}

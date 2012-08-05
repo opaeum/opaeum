@@ -13,8 +13,6 @@ import org.drools.drools._5._0.process.ActionType;
 import org.drools.drools._5._0.process.CompositeType;
 import org.drools.drools._5._0.process.ConnectionType;
 import org.drools.drools._5._0.process.ConnectionsType;
-import org.drools.drools._5._0.process.ConstraintType;
-import org.drools.drools._5._0.process.ConstraintsType;
 import org.drools.drools._5._0.process.DocumentRoot;
 import org.drools.drools._5._0.process.DynamicType;
 import org.drools.drools._5._0.process.EndType;
@@ -42,6 +40,7 @@ import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
@@ -56,13 +55,16 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 	protected Stack<Map<Element, Long>> targetIdMap=new Stack<Map<Element,Long>>();
 	protected Stack<Map<Element, Long>> sourceIdMap=new Stack<Map<Element,Long>>();
 	protected OpaeumConfig config;
+	OJUtil ojUtil;
+	EventUtil eventUtil;
 
-
-	public void initialize(OpaeumConfig config, TextWorkspace textWorkspace, EmfWorkspace workspace) {
+	public void initialize(OpaeumConfig config, TextWorkspace textWorkspace, EmfWorkspace workspace, OJUtil ojUtil) {
 		super.textWorkspace = textWorkspace;
 		super.workspace = workspace;
 		super.config = config;
 		super.textFiles=new HashSet<TextOutputNode>();
+		this.ojUtil=ojUtil;
+		eventUtil=new EventUtil(ojUtil);
 	}
 
 	protected DocumentRoot createRoot(NamedElement behavior) {
@@ -77,7 +79,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		HeaderType header = ProcessFactory.eINSTANCE.createHeaderType();
 		process.getHeader().add(header);
 		String variableName = "processObject";
-		String qualifiedJavaName = OJUtil.classifierPathname(behavior).toJavaString();
+		String qualifiedJavaName = ojUtil.classifierPathname(behavior).toJavaString();
 		VariablesType variables = ProcessFactory.eINSTANCE.createVariablesType();
 		header.getVariables().add(variables);
 		createVariable(variables, variableName, qualifiedJavaName);
@@ -85,10 +87,10 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		root.getProcess().getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
 		root.getProcess().setId(Jbpm5Util.generateProcessName(behavior));
 		root.getProcess().setName(Jbpm5Util.generateProcessName(behavior));
-		root.getProcess().setPackageName(OJUtil.packagePathname(behavior.getNamespace()).toJavaString());
+		root.getProcess().setPackageName(ojUtil.packagePathname(behavior.getNamespace()).toJavaString());
 		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getVersion().toVersionString());
 		root.getProcess().setType("RuleFlow");
-		List<String> names = OJUtil.packagePathname(behavior.getNamespace()).getCopy().getNames();
+		List<String> names = ojUtil.packagePathname(behavior.getNamespace()).getCopy().getNames();
 		names.add(behavior.getName() + ".rf");
 		TextFile textFile = createTextPath(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE,names);
 		textFile.setTextSource(new EmfTextSource(r, "process"));

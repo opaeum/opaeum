@@ -31,7 +31,7 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 		Set<TextOutputNode> result = new HashSet<TextOutputNode>();
 		for(Element element:elements){
 			for(AbstractFlowStep step:flowSteps){
-				step.initialize(config, textWorkspace, workspace);
+				step.initialize(config, textWorkspace, workspace, ojUtil);
 				step.visitOnly(element);
 				result.addAll(step.getTextFiles());
 			}
@@ -54,7 +54,7 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 	}
 	public void initializeSteps(){
 		for(AbstractFlowStep step:this.flowSteps){
-			step.initialize(this.config, textWorkspace, workspace);
+			step.initialize(this.config, textWorkspace, workspace, ojUtil);
 		}
 	}
 	@Override

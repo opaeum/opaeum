@@ -1,6 +1,5 @@
 package org.opaeum.topcased.propertysections.filters;
 
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Element;
 
 public class ClassFilter extends AbstractFilter{

@@ -11,6 +11,7 @@ Export-Package:
  org.opaeum,
  org.opaeum.annotation,
  org.opaeum.eclipse,
+ org.opaeum.eclipse.emulated,
  org.opaeum.emf.extraction,
  org.opaeum.emf.workspace,
  org.opaeum.feature,

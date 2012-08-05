@@ -104,7 +104,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		populateRootObject(p, np);
 	}
 	private void populateRootObject(Package p,NakedRootObjectImpl nakedPeer){
-		if(emfWorkspace.getPotentialGeneratingModels().contains(p)){
+		if(emfWorkspace.getPrimaryRootObjects().contains(p)){
 			nakedWorkspace.addPrimaryModel(nakedPeer);
 		}
 		nakedWorkspace.addOwnedElement(nakedPeer);// NB!!!!

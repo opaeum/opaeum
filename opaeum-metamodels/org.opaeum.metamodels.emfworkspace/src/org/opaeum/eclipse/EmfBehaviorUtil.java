@@ -1,15 +1,11 @@
 package org.opaeum.eclipse;
 
-import java.beans.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.management.modelmbean.RequiredModelMBean;
-import javax.sound.midi.Receiver;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.AcceptCallAction;
@@ -20,12 +16,12 @@ import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityFinalNode;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.ActivityParameterNode;
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.CallBehaviorAction;
+import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -50,7 +46,6 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
-import org.eclipse.uml2.uml.profile.l2.Call;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
@@ -154,45 +149,40 @@ public class EmfBehaviorUtil{
 			addBehaviors(behaviors, c);
 		}
 	}
-	private static void addBehaviors(Set<Behavior> behaviors,Classifier c){
+	static void addBehaviors(Set<Behavior> behaviors,Classifier c){
 		if(c instanceof BehavioredClassifier){
 			behaviors.addAll(((BehavioredClassifier) c).getOwnedBehaviors());
 			addBehaviorsRecursively(behaviors, c.getGenerals());
 		}
 	}
-	private static void addOperationsRecursively(HashSet<Operation> behaviors,EList<? extends Classifier> generals){
+	private static void addPotentialSpecificationsRecursively(HashSet<Operation> behaviors,EList<? extends Classifier> generals){
 		for(Classifier c:generals){
-			addOperations(behaviors, c);
+			addPotentialSpecifications(behaviors, c);
 		}
 	}
-	private static void addOperations(HashSet<Operation> behaviors,Classifier c){
+	
+	private static void addPotentialSpecifications(HashSet<Operation> behaviors,Classifier c){
 		if(c instanceof Class){
 			behaviors.addAll(((Class) c).getOperations());
-			addOperationsRecursively(behaviors, c.getGenerals());
-			addOperationsRecursively(behaviors, ((Class) c).getImplementedInterfaces());
+			addPotentialSpecificationsRecursively(behaviors, c.getGenerals());
+			addPotentialSpecificationsRecursively(behaviors, ((Class) c).getImplementedInterfaces());
 			if(c instanceof Component){
 				for(Port port:((Component) c).getOwnedPorts()){
-					addOperationsRecursively(behaviors, port.getProvideds());
+					addPotentialSpecificationsRecursively(behaviors, port.getProvideds());
 				}
 			}
 		}else if(c instanceof Interface){
 			behaviors.addAll(((Interface) c).getOperations());
-			addOperationsRecursively(behaviors, ((Interface) c).getGenerals());
+			addPotentialSpecificationsRecursively(behaviors, ((Interface) c).getGenerals());
 		}
 	}
 	public static Collection<Operation> findSpecificationsInScope(Behavior behavior){
 		Classifier context = getContext(behavior);
 		HashSet<Operation> operations = new HashSet<Operation>();
-		addOperations(operations, context);
+		addPotentialSpecifications(operations, context);
 		return operations;
 	}
-	public static Collection<Behavior> findBehaviorsInScope(CallBehaviorAction behavior){
-		BehavioredClassifier context = getContext(behavior);
-		Set<Behavior> behaviors = findBehaviorsInScope(context);
-		addBehaviors(behaviors, behavior.getActivity());
-		return behaviors;
-	}
-	public static Set<Behavior> findBehaviorsInScope(BehavioredClassifier context){
+	public static Set<Behavior> getEffectiveBehaviors(BehavioredClassifier context){
 		HashSet<Behavior> operations = new HashSet<Behavior>();
 		addBehaviors(operations, context);
 		return operations;
@@ -202,7 +192,7 @@ public class EmfBehaviorUtil{
 	}
 	public static Collection<Activity> getAllOwnedActivities(Class representedClass){
 		Collection<Activity> results = new ArrayList<Activity>();
-		for(Behavior b:findBehaviorsInScope(representedClass)){
+		for(Behavior b:getEffectiveBehaviors(representedClass)){
 			if(b instanceof Activity){
 				results.add((Activity) b);
 			}
@@ -305,7 +295,7 @@ public class EmfBehaviorUtil{
 			Collection<AcceptCallAction> acas = getCallActions(o);
 			if(acas != null){
 				for(AcceptCallAction aca:acas){
-					if(requiresExternalInputBeforeReply(origin, aca, getReplyAction(aca))){
+					if(requiresExternalInputBeforeReply(origin, aca, EmfActionUtil.getReplyAction(aca))){
 						return true;
 					}
 				}
@@ -313,18 +303,16 @@ public class EmfBehaviorUtil{
 		}
 		return false;
 	}
-	public static ReplyAction getReplyAction(AcceptCallAction aca){
-		if(aca.getReturnInformation() != null && aca.getReturnInformation().getIncomings().size() == 1){
-			return (ReplyAction) EmfActivityUtil.getEffectiveSource(aca.getReturnInformation().getIncomings().get(0));
-		}else{
-			return null;
-		}
-	}
 	private static Collection<AcceptCallAction> getCallActions(Operation o){
 		Set<AcceptCallAction> callActions = new HashSet<AcceptCallAction>();
-		for(Element e:workspace.getDependentElements(o)){
-			if(e instanceof AcceptCallAction){
-				callActions.add((AcceptCallAction) e);
+		for(Element e:EmfElementFinder.getDependentElements(o)){
+			if(e instanceof CallEvent){
+				Set<Element> dependentElements = EmfElementFinder.getDependentElements(e);
+				for(Element element:dependentElements){
+					if(element instanceof Trigger && element.getOwner() instanceof AcceptCallAction){
+						callActions.add((AcceptCallAction) element);
+					}
+				}
 			}
 		}
 		return callActions;
@@ -373,7 +361,7 @@ public class EmfBehaviorUtil{
 				for(AcceptCallAction aca:acas){
 					Set<ActivityEdge> allEffectiveOutgoing = EmfActivityUtil.getAllEffectiveOutgoing(aca);
 					for(ActivityEdge edge:allEffectiveOutgoing){
-						if(leadsTo(edge, getReplyAction(aca)) && requiresExternalInput(aca.getActivity(), EmfActivityUtil.getEffectiveTarget(edge))){
+						if(leadsTo(edge, EmfActionUtil.getReplyAction(aca)) && requiresExternalInput(aca.getActivity(), EmfActivityUtil.getEffectiveTarget(edge))){
 							return true;
 						}
 					}
@@ -551,8 +539,10 @@ public class EmfBehaviorUtil{
 			return true;
 		}else if(StereotypesHelper.hasStereotype(o, StereotypeNames.METHOD)){
 			return false;
-		}else{
+		}else if(o instanceof Activity){
 			return requiresExternalInput((Activity) o);
+		}else{
+			return false;
 		}
 	}
 	public static boolean isResponsibility(BehavioralFeature specification){

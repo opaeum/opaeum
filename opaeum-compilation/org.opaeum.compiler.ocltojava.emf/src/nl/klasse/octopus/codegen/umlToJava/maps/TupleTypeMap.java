@@ -16,15 +16,14 @@ import org.eclipse.ocl.uml.TupleType;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
+import org.opaeum.javageneration.util.OJUtil;
 
 public class TupleTypeMap extends ClassifierMap {
 	private TupleType modelClass = null;
 
-	/**
-	 * @param modelClass
-	 */
-	public TupleTypeMap(TupleType modelClass) {
-		super(modelClass);
+
+	public TupleTypeMap(OJUtil ojUtil, TupleType modelClass) {
+		super(ojUtil,modelClass);
 		this.modelClass = modelClass;
 	}
 

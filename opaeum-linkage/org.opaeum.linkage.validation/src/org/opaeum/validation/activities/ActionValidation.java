@@ -1,6 +1,7 @@
 package org.opaeum.validation.activities;
 
 import org.eclipse.uml2.uml.AcceptCallAction;
+import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallEvent;
@@ -18,6 +19,9 @@ import org.eclipse.uml2.uml.VariableAction;
 import org.eclipse.uml2.uml.WriteStructuralFeatureAction;
 import org.eclipse.uml2.uml.WriteVariableAction;
 import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.validation.AbstractValidator;
@@ -78,13 +82,13 @@ public class ActionValidation extends AbstractValidator{
 		if(EmfActionUtil.getTargetElement( a) != null){
 			if(EmfActionUtil.getTargetType(a) instanceof BehavioredClassifier){
 				BehavioredClassifier bc = (BehavioredClassifier) EmfActionUtil.getTargetType(a);
-				if(a.getSignal() != null && !bc.hasReceptionOrTriggerFor(a.getSignal())){
+				if(a.getSignal() != null && !EmfEventUtil.hasReceptionOrTriggerFor( bc,a.getSignal())){
 					getErrorMap().putError(EmfActionUtil.getTargetElement( a), ActionValidationRule.SEND_SIGNAL_TARGET_MUST_RECEIVE_SIGNAL, a, EmfActionUtil.getTargetType(a),
 							a.getSignal());
 				}
 			}else if(EmfActionUtil.getTargetType(a) instanceof Interface){
 				Interface i = (Interface) EmfActionUtil.getTargetType(a);
-				if(a.getSignal() != null && !i.hasReceptionFor(a.getSignal())){
+				if(a.getSignal() != null && !EmfEventUtil.hasReceptionFor( i, a.getSignal())){
 					getErrorMap().putError(EmfActionUtil.getTargetElement( a), ActionValidationRule.SEND_SIGNAL_TARGET_MUST_RECEIVE_SIGNAL, a, EmfActionUtil.getTargetType(a),
 							a.getSignal());
 				}
@@ -98,16 +102,10 @@ public class ActionValidation extends AbstractValidator{
 		if(a.getBehavior() == null){
 			getErrorMap().putError(a, ActionValidationRule.CALL_BEHAVIOR_ACTION_REQUIRES_BEHAVIOR);
 		}else{
-			if(!a.getActivity().getEffectiveBehaviors().contains(a.getBehavior())){
-				if(a.getActivity().getContext() != null){
-					if(!a.getActivity().getContext().getEffectiveBehaviors().contains(a.getBehavior())){
-						if(a.getInPartitions().isEmpty()
-								|| !(a.getInPartition().getType() instanceof BehavioredClassifier && ((BehavioredClassifier) a.getInPartition()
-										.getType()).getEffectiveBehaviors().contains(a.getBehavior())))
-							getErrorMap().putError(a, ActionValidationRule.CALL_BEHAVIOR_ACTION_BEHAVIOR_IN_CONTEXT, a.getBehavior(), a.getActivity(),
-									a.getActivity().getContext());
-					}
-				}
+			Activity activity = EmfActivityUtil.getContainingActivity(a);
+			if(!EmfActionUtil.findBehaviorsInScope(a).contains(a.getBehavior())){
+							getErrorMap().putError(a, ActionValidationRule.CALL_BEHAVIOR_ACTION_BEHAVIOR_IN_CONTEXT, a.getBehavior(), activity,
+									activity.getContext());
 			}
 		}
 	}

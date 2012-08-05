@@ -1,8 +1,5 @@
 package org.opaeum.topcased.propertysections.base;
 
-import java.util.List;
-
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;

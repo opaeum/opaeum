@@ -93,7 +93,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 	}
 	private Set<String> calcBrokenElements(){
 		Set<String> brokenUris = new HashSet<String>();
-		Map<String,BrokenElement> errors = context.getEmfToOpaeumSynchronizer().getNakedWorkspace().getErrorMap().getErrors();
+		Map<String,BrokenElement> errors = context.getEmfToOpaeumSynchronizer().getCurrentEmfWorkspace().getErrorMap().getErrors();
 		for(Entry<String,BrokenElement> entry:errors.entrySet()){
 			EObject o = findElement(entry.getKey());
 			if(o != null && o.eResource() != null){
@@ -190,7 +190,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 		EObject o = null;
 		for(EmfWorkspace emfWorkspace:context.getEmfWorkspaces()){
 			// Doesn't matter which workspace it comes from - where after the file really
-			o = emfWorkspace.getElement(id);
+			o = emfWorkspace.getModelElement(id);
 			if(o != null){
 				break;
 			}

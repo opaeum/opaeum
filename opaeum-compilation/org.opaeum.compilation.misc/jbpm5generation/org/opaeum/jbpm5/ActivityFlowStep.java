@@ -53,13 +53,14 @@ import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
-import org.opaeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.maps.ActionMap;
+import org.opaeum.javageneration.maps.ActivityNodeMap;
 
 @StepDependency(phase = FlowGenerationPhase.class)
 public class ActivityFlowStep extends AbstractFlowStep{
@@ -301,12 +302,12 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		StateType state = addState(nodes, i, PersistentNameUtil.getPersistentName( task).toString(), EmfWorkspace.getOpaeumId(task));
 		OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 		state.getOnEntry().add(onEntry);
-		ActionMap map = new ActionMap(task);
+		ActionMap map = ojUtil.buildActionMap(task);
 		createAction(map.doActionMethod(), onEntry.getAction(), true);
 		return state;
 	}
 	public void addExceptionAwareState(NodesType nodesType,int i,Action action){
-		ActivityNodeMap map = new ActivityNodeMap(action);
+		ActivityNodeMap map = ojUtil.buildActivityNodeMap(action);
 		StateType state = addState(nodesType, i, PersistentNameUtil.getPersistentName( action).getAsIs(), EmfWorkspace.getOpaeumId(action));
 		OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 		createAction(map.doActionMethod(), onEntry.getAction(), true);
@@ -333,15 +334,15 @@ public class ActivityFlowStep extends AbstractFlowStep{
 	private void addActionNode(NodesType nodes,int i,ActivityNode node){
 		ActionNodeType actionNode = ProcessFactory.eINSTANCE.createActionNodeType();
 		setBounds(i, actionNode, EmfWorkspace.getOpaeumId(node));
-		ActivityNodeMap map = new ActivityNodeMap(node);
+		ActivityNodeMap map = ojUtil.buildActivityNodeMap(node);
 		createAction(map.doActionMethod(), actionNode.getAction(), true);
 		actionNode.setName(PersistentNameUtil.getPersistentName( node).getAsIs());
 		nodes.getActionNode().add(actionNode);
 	}
 	private void addWaitState(NodesType nodes,int i,AcceptEventAction action){
 		StateType state = addState(nodes, i, PersistentNameUtil.getPersistentName( action).toString(), EmfWorkspace.getOpaeumId(action));
-		ActionMap map = new ActionMap(action);
-		if(action.requiresEventRequest() && EmfActivityUtil .getAllEffectiveIncoming(action).size() > 0){
+		ActionMap map = ojUtil.buildActionMap(action);
+		if(EmfEventUtil.requiresEventRequest( action) && EmfActivityUtil .getAllEffectiveIncoming(action).size() > 0){
 			OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 			state.getOnEntry().add(onEntry);
 			createAction(map.doActionMethod(), onEntry.getAction(), true);

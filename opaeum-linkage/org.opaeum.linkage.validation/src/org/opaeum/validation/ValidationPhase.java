@@ -49,9 +49,7 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,El
 				context.getLog().endLastStep();
 			}
 		}
-		for(Package ro:modelWorkspace.getGeneratingModelsOrProfiles()){
-			ro.setStatus(RootObjectStatus.VALIDATED);
-		}
+
 		context.getLog().endLastTask();
 	}
 	@Override

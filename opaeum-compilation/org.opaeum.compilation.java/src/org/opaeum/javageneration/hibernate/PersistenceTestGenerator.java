@@ -2,6 +2,7 @@ package org.opaeum.javageneration.hibernate;
 
 import java.util.Collection;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -9,7 +10,6 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
@@ -24,7 +24,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractTestDataGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
@@ -33,8 +32,8 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(Classifier c){
 		if((isPersistent(c) /* || c instanceof Interface */) && OJUtil.hasOJClass(c)){
-			if(c.requiresJavaRename()){
-				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, new OJPathName(OJUtil.classifierPathname(c) + "PersistenceTest"));
+			if(ojUtil.requiresJavaRename( c)){
+				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, new OJPathName(ojUtil.classifierPathname(c) + "PersistenceTest"));
 			}
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			String name = ojClass.getName();
@@ -58,7 +57,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 	}
 	@Override
 	protected String getTestDataName(Classifier child){
-		return OJUtil.classifierPathname(child).getLast() + "PersistenceTest";
+		return ojUtil.classifierPathname(child).getLast() + "PersistenceTest";
 	}
 	protected void addPopulate(OJAnnotatedClass ojClass,OJAnnotatedClass test,Classifier c){
 		OJOperation populate = new OJAnnotatedOperation("populate");
@@ -71,8 +70,8 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 			test.addToImports(superType);
 			populate.getBody().addToStatements(superType.getLast() + ".populate(instance)");
 		}
-		for(Property f:EmfElementFinder.getPropertiesInScope(c)){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
+		for(Property f:getLibrary().getEffectiveAttributes(c)){
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
 			boolean isReadOnly = (f instanceof Property && (f).isReadOnly());
 			if(f.getOwner() == c || (c instanceof BehavioredClassifier && ((BehavioredClassifier) c).getImplementedInterfaces().contains(f.getOwner()))){
 				// do properties for directly implemented interfaces too.
@@ -162,14 +161,14 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 		ifResetting.getThenPart().addToStatements("instance=null");
 		if(c.getGenerals().size() >= 1){
 			Classifier supertype = (Classifier) c.getGenerals().get(0);
-			OJPathName featureTest = new OJPathName((OJUtil.classifierPathname(supertype) + "PersistenceTest"));
+			OJPathName featureTest = new OJPathName((ojUtil.classifierPathname(supertype) + "PersistenceTest"));
 			ifResetting.getThenPart().addToStatements(featureTest.getLast() + ".reset()");
 		}
 		for(Property f:c.getAttributes()){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
 			boolean isReadOnly = (f instanceof Property && (f).isReadOnly());
 			if(map.isOne() && !(f.isDerived() || isReadOnly || EmfPropertyUtil.isInverse(f)) && f.getType() instanceof Class){
-				OJPathName featureTest = new OJPathName(OJUtil.classifierPathname(f.getType()) + "PersistenceTest");
+				OJPathName featureTest = new OJPathName(ojUtil.classifierPathname(f.getType()) + "PersistenceTest");
 				ifResetting.getThenPart().addToStatements(featureTest.getLast() + ".reset()");
 			}
 		}
@@ -214,8 +213,8 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 		testOptionalFields.getBody().addToLocals(instance);
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().begin()");
 		testOptionalFields.getBody().addToStatements("instance=getInstance()");
-		for(Property p:EmfElementFinder.getPropertiesInScope(c)){
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
+		for(Property p:getLibrary().getEffectiveAttributes(c)){
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 			if(map.isOne() && !(p.isDerived() || p.isReadOnly() || EmfPropertyUtil.isInverse(p)) && !EmfPropertyUtil.isRequired(p)){
 				testOptionalFields.getBody().addToStatements(
 						"instance." + map.setter() + "(" + calculateDefaultValue(test, testOptionalFields.getBody(), p) + ")");
@@ -223,8 +222,8 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 		}
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().commit()");
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().begin()");
-		for(Property p:EmfElementFinder.getPropertiesInScope(c)){
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
+		for(Property p:getLibrary().getEffectiveAttributes(c)){
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 			if(map.isOne() && !(p.isDerived() || p.isReadOnly() || EmfPropertyUtil.isInverse(p)) && !EmfPropertyUtil.isRequired(p)){
 				testOptionalFields.getBody().addToStatements("instance." + map.setter() + "(null)");
 			}

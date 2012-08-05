@@ -9,6 +9,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 /**
@@ -19,9 +20,9 @@ import org.opaeum.textmetamodel.TextWorkspace;
 public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisitor{
 	protected TaskUtil taskUtil;
 	@Override
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace){
-		super.initialize(pac, config, textWorkspace, workspace);
-		taskUtil=new TaskUtil(workspace.getOpaeumLibrary());
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace, OJUtil ojUtil){
+		super.initialize(pac, config, textWorkspace, workspace, ojUtil);
+		taskUtil=new TaskUtil(ojUtil);
 	}
 	protected OJAnnotatedOperation addGetCallingProcessObject(OJAnnotatedClass ojOperationClass,OJPathName type){
 		// getCAllbackLister

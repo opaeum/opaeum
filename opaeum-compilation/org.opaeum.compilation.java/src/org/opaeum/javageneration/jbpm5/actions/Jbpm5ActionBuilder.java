@@ -3,10 +3,13 @@ package org.opaeum.javageneration.jbpm5.actions;
 import java.util.Collection;
 import java.util.HashSet;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.ExpansionNode;
@@ -33,14 +36,12 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractNodeBuilder;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.maps.ActionMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.maps.ActivityNodeMap;
 import org.opaeum.javageneration.oclexpressions.ConstraintGenerator;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends AbstractNodeBuilder{
 	protected A node;
@@ -50,15 +51,15 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 		return map;
 	}
 	protected ActivityNodeMap map;
-	protected Jbpm5ActionBuilder(final OpaeumLibrary l,A node){
-		super(l, new Jbpm5ObjectNodeExpressor(l));
+	protected Jbpm5ActionBuilder(final OJUtil ojUtil,A node){
+		super(new Jbpm5ObjectNodeExpressor(ojUtil));
 		this.node = node;
 		if(node instanceof Action){
-			this.map = new ActionMap((Action) node);
+			this.map = ojUtil.buildActionMap((Action) node);
 		}else{
-			this.map = new ActivityNodeMap(node);
+			this.map = ojUtil.buildActivityNodeMap(node);
 		}
-		eventUtil=new EventUtil(l);
+		eventUtil=new EventUtil(ojUtil);
 		this.expressor = (AbstractObjectNodeExpressor) super.expressor;
 	}
 	public void setupArgumentPins(OJAnnotatedOperation oper){
@@ -68,7 +69,7 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 				boolean ignore = node instanceof ReplyAction && pin.equals(((ReplyAction) node).getReturnInformation());
 				if(!ignore){
 					OJBlock block = oper.getBody();
-					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(getContainingActivity(), pin, false);
+					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(pin);
 					oper.getOwner().addToImports(map.javaTypePath());
 					OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 					field.setInitExp(expressPin(oper, block, pin));
@@ -94,17 +95,17 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 	public void implementObersvations(OJOperation oper){
 		Namespace container = EmfActivityUtil.getNearestNodeContainer(node);
 		for(TimeObservation o: EmfTimeUtil.findTimeObservationsOn( container,node)){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(getLibrary().getMessageStructure(container), o);
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(o);
 			oper.getBody().addToStatements(map.setter() + "(new Date())");
 		}
 		for(DurationObservation o:EmfTimeUtil.findDurationObservationsFrom(container,node)){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(getLibrary().getMessageStructure(container), o);
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(o);
 			oper.getBody().addToStatements(map.setter() + "(new Duration())");
 			oper.getBody().addToStatements(map.getter() + ".setFromDate(new Date())");
 			// TODO set TimeUnit
 		}
 		for(DurationObservation o:EmfTimeUtil.findDurationObservationsTo(container,node)){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(getLibrary().getMessageStructure(container), o);
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(o);
 			oper.getBody().addToStatements(map.getter() + ".setFromDate(new Date())");
 			// TODO set quantity and calculate from BusinessCalendar specified somewhere
 		}
@@ -121,7 +122,7 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 					Collection<Pin> pins = new HashSet<Pin>(action.getOutputs());
 					pins.addAll(action.getInputs());
 					for(Pin pin:pins){
-						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(getContainingActivity(), pin, false);
+						StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap( pin);
 						oper.getOwner().addToImports(map.javaTypePath());
 						OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 						field.setInitExp("completedWorkObject." + map.getter() + "()");
@@ -129,7 +130,7 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 					}
 				}
 			}
-			ConstraintGenerator cg = new ConstraintGenerator(getLibrary(), (OJClass) oper.getOwner(), constrained);
+			ConstraintGenerator cg = new ConstraintGenerator(ojUtil, (OJClass) oper.getOwner(), constrained);
 			String selfExpr = EmfElementFinder.getContainer(node) instanceof Activity ? "this" : "getContainingActivity()";
 			block.addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre, selfExpr));
 		}

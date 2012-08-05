@@ -9,9 +9,10 @@ import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Operation;
+import org.opaeum.eclipse.EmfOperationUtil;
+import org.opaeum.eclipse.EmfParameterUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.core.internal.ParameterUtil;
 
 @StepDependency(phase = ValidationPhase.class)
 public class OperationValidation extends AbstractValidator{
@@ -30,18 +31,18 @@ public class OperationValidation extends AbstractValidator{
 
 	protected Collection<Operation> findOperationsRedefinedByName(Operation o){
 		Collection<Operation> byName = new HashSet<Operation>();
-		String identifyingString = ParameterUtil.toIdentifyingString(o);
+		String identifyingString = EmfParameterUtil.toIdentifyingString(o);
 		for(Generalization g:((Classifier) o.getOwner()).getGeneralizations()){
-			for(Operation eo:g.getGeneral().getEffectiveOperations()){
-				if(identifyingString.equals(ParameterUtil.toIdentifyingString(eo))){
+			for(Operation eo:EmfOperationUtil.getEffectiveOperations( g.getGeneral())){
+				if(identifyingString.equals(EmfParameterUtil.toIdentifyingString(eo))){
 					byName.add(eo);
 				}
 			}
 		}
 		if(o.getOwner() instanceof BehavioredClassifier){
 			for(InterfaceRealization ir:((BehavioredClassifier) o.getOwner()).getInterfaceRealizations()){
-				for(Operation eo:ir.getContract().getEffectiveOperations()){
-					if(identifyingString.equals(ParameterUtil.toIdentifyingString(eo))){
+				for(Operation eo:EmfOperationUtil.getEffectiveOperations(ir.getContract())){
+					if(identifyingString.equals(EmfParameterUtil.toIdentifyingString(eo))){
 						byName.add(eo);
 					}
 				}

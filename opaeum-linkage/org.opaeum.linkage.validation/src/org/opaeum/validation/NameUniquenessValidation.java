@@ -7,14 +7,17 @@ import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.Variable;
+import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.feature.StepDependency;
@@ -35,10 +38,18 @@ public class NameUniquenessValidation extends AbstractValidator{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitPreAndPostConstraint(PreAndPostConstrained nc){
-		Collection<Element> o = new ArrayList<Element>(nc.getPreConditions());
-		o.addAll(nc.getPostConditions());
+	public void visitPreAndPostConstraint(Behavior nc){
+		Collection<NamedElement> o = new ArrayList<NamedElement>(nc.getPreconditions());
+		o.addAll(nc.getPostconditions());
 		ensureUniqueness(nc, "preconditions and postconditions", o);
+		ensureUniqueness(nc, "ownedParameters", nc.getOwnedParameters());
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitPreAndPostConstraint(Operation nc){
+		Collection<NamedElement> o = new ArrayList<NamedElement>(nc.getPreconditions());
+		o.addAll(nc.getPostconditions());
+		ensureUniqueness(nc, "preconditions and postconditions", o);
+		ensureUniqueness(nc, "ownedParameters", nc.getOwnedParameters());
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitAction(Action nc){
@@ -48,6 +59,9 @@ public class NameUniquenessValidation extends AbstractValidator{
 		for(Element element:o){
 			checkUniquenessInContext(nc, (TypedElement) element);
 		}
+		Collection<NamedElement> c = new ArrayList<NamedElement>(nc.getLocalPreconditions());
+		o.addAll(nc.getLocalPostconditions());
+		ensureUniqueness(nc, "preconditions and postconditions", c);
 	}
 	protected void checkUniquenessInContext(Element ownerElement,TypedElement pin){
 		if(ownerElement instanceof ActivityNode){
@@ -83,7 +97,7 @@ public class NameUniquenessValidation extends AbstractValidator{
 	private void ensureUniqueness(NamedElement context,String feature,Collection<? extends NamedElement> ownedRules){
 		for(NamedElement c1:ownedRules){
 			if(c1.getName() == null || c1.getName().trim().length() == 1){
-				getErrorMap().putError(c1, CoreValidationRule.NAME_REQIURED, c1.getMetaClass(), c1.getName());
+				getErrorMap().putError(c1, CoreValidationRule.NAME_REQIURED, EmfClassifierUtil.getMetaClass( c1), c1.getName());
 			}else{
 				for(NamedElement c2:ownedRules){
 					if(c1.getName().equals(c2.getName()) && c1 != c2){

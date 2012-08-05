@@ -1215,12 +1215,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 	}
 	public static void ensureSlotsPresence(InstanceSpecification is,Property a){
-		Slot found = null;
-		for(Slot slot:new ArrayList<Slot>(is.getSlots())){
-			if(slot.getDefiningFeature() != null && slot.getDefiningFeature().equals(a)){
-				found = slot;
-			}
-		}
+		Slot found = EmfValueSpecificationUtil.getSlotForFeature(is, a);
 		if(found == null){
 			found = UMLFactory.eINSTANCE.createSlot();
 			found.setDefiningFeature(a);

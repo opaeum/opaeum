@@ -15,6 +15,7 @@ import org.eclipse.uml2.uml.PrimitiveType;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.utilities.JavaPathNames;
+import org.opaeum.javageneration.util.OJUtil;
 
 public class ClassifierMap extends PackageableElementMap{
 	protected Classifier modelClass;
@@ -26,15 +27,15 @@ public class ClassifierMap extends PackageableElementMap{
 	// element type if 'modelClass'
 	// is a collection
 	protected CollectionKind collectionKind;
-	public ClassifierMap(Classifier modelClass,CollectionKind collectionKind){
-		this(modelClass);
-		if(this.collectionKind == null & collectionKind!=null){
-			this.collectionKind = collectionKind;
-			elementMap = newClassifierMap(modelClass);
-		}
-	}
-	public ClassifierMap(Classifier modelClass){
-		super(modelClass);
+	// public ClassifierMap(Classifier modelClass,CollectionKind collectionKind){
+	// this(modelClass);
+	// if(this.collectionKind == null & collectionKind!=null){
+	// this.collectionKind = collectionKind;
+	// elementMap = newClassifierMap(modelClass);
+	// }
+	// }
+	public ClassifierMap(OJUtil ojUtil, Classifier modelClass){
+		super(ojUtil,modelClass);
 		if(modelClass instanceof CollectionType){
 			CollectionType ct = (CollectionType) modelClass;
 			this.collectionKind = ct.getKind();
@@ -57,7 +58,8 @@ public class ClassifierMap extends PackageableElementMap{
 	}
 	public boolean isJavaPrimitive(){
 		String javatype = javaType();
-		return javatype.equals("int") || javatype.equals("float") || javatype.equals("boolean");
+		return javatype.equals("int") || javatype.equals("double") || javatype.equals("float") || javatype.equals("long")
+				|| javatype.equals("boolean");
 	}
 	/* SET OF OPERATIONS THAT RETURN JAVA TYPE INFO ON THIS CLASSIFIER */
 	/**
@@ -96,20 +98,6 @@ public class ClassifierMap extends PackageableElementMap{
 	}
 	public OJPathName javaElementTypePath(){
 		Check.pre("ClassMap.javaElementType called for non-collection attribute", isCollection());
-		if(elementMap != null){
-			return elementMap.javaTypePath();
-		}
-		return null;
-	}
-	/**
-	 * If this classifier represents a collection and it has a facade interface, this method returns the path of the java type of the facade
-	 * of the elements in the collection. E.g. the java element facade type of a Sequence of <code>pack1.SomeClass</code> objects is
-	 * <code>pack1.ISomeClass</code>.
-	 * 
-	 * @return
-	 */
-	public OJPathName javaElementFacadeTypePath(){
-		Check.pre("ClassMap.elementFacadeTypePath called for non-collection attribute", isCollection());
 		if(elementMap != null){
 			return elementMap.javaTypePath();
 		}
@@ -219,7 +207,7 @@ public class ClassifierMap extends PackageableElementMap{
 	}
 	private OJPathName getJavaType(TupleType t){
 		OJPathName result = null;
-		TupleTypeMap innerMap = new TupleTypeMap(t);
+		TupleTypeMap innerMap = ojUtil.buildTupleTypeMap(t);
 		String name = innerMap.getClassName();
 		result = OclUtilityCreator.getTuplesPath().getCopy();
 		result.addToNames(name);
@@ -343,19 +331,23 @@ public class ClassifierMap extends PackageableElementMap{
 			path.addToElementTypes(innerPath);
 	}
 	protected ClassifierMap newClassifierMap(Classifier elementType){
-		return new ClassifierMap(elementType);
+		return ojUtil.buildClassifierMap(elementType, (CollectionKind) null);
 	}
 	protected OJPathName pathname(NamedElement t){
-		OJPathName result = new OJPathName();
-		while(t != null){
-			result.addToNames(t.getName());
-			if(EmfElementFinder.getContainer(t) instanceof NamedElement){
-				t = (NamedElement) EmfElementFinder.getContainer(t);
-			}else{
-				t = null;
+		if(t instanceof Classifier){
+			return ojUtil.classifierPathname((Classifier) t);
+		}else{
+			OJPathName result = new OJPathName();
+			while(t != null){
+				result.addToNames(t.getName());
+				if(EmfElementFinder.getContainer(t) instanceof NamedElement){
+					t = (NamedElement) EmfElementFinder.getContainer(t);
+				}else{
+					t = null;
+				}
 			}
+			return result;
 		}
-		return result;
 	}
 	/*
 	 * A SET OF CONVIENCE OPERATIONS THAT RETURN A STRING REPRESENTATION OF THE CORRESPONDING OJPATHNAME

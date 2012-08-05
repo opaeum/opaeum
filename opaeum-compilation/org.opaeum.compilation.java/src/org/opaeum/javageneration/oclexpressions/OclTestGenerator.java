@@ -1,6 +1,8 @@
 package org.opaeum.javageneration.oclexpressions;
 
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
@@ -19,8 +21,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
@@ -31,7 +31,7 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 public class OclTestGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore
 	public void visitClass(Class entity){
-		OJPathName pn = OJUtil.classifierPathname(entity);
+		OJPathName pn = ojUtil.classifierPathname(entity);
 		OJPackage pkg = findOrCreatePackage(pn.getHead());
 		OJAnnotatedClass test = new OJAnnotatedClass(pn.getLast() + "Test");
 		pkg.addToClasses(test);
@@ -43,7 +43,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 			if(p.getDefaultValue() != null && p.getDefaultValue() instanceof OpaqueExpression){
 				String name = "test" + p.getName() + "InitialValue";
 				addTestMEthod(entity, pn, test, testInterface, name);
-				// NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
+				// NakedStructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 				// testInitialValue.getBody().addToStatements("assert object."
 				// + map.getter() + "().equals(" + map.javaDefaultValue()
 				// +")");
@@ -82,7 +82,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 		if(!entity.isAbstract()){
 			Property endToComposite = getLibrary().getEndToComposite(entity);
 			if(endToComposite != null && !((Classifier) endToComposite.getType()).isAbstract()){
-				NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(endToComposite);
+				StructuralFeatureMap compositeEndMap = ojUtil.buildStructuralFeatureMap(endToComposite);
 				test.addToImports(compositeEndMap.javaBaseTypePath());
 				OJAnnotatedField compositionalOwner = new OJAnnotatedField("parent", compositeEndMap.javaBaseTypePath());
 				compositionalOwner.setInitExp("new " + compositeEndMap.javaBaseType() + "()");
@@ -94,7 +94,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 						if(endToComposite.getOtherEnd().getQualifiers().get(0).getType() instanceof Enumeration){
 							Enumeration en=(Enumeration) endToComposite.getOtherEnd().getQualifiers().get(0).getType();
 							if(en.getOwnedLiterals().size()>0){
-								test.addToImports(OJUtil.classifierPathname(en));
+								test.addToImports(ojUtil.classifierPathname(en));
 								object.setInitExp("new " + pn.getLast() + "("+en.getName() +"."+ en.getOwnedLiterals().get(0).getName().toUpperCase() +",parent)");
 							}
 						}

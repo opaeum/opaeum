@@ -7,11 +7,12 @@ import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.java.metamodel.OJWorkspace;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public interface JavaTransformationStep extends ITransformationStep{
-	public void initialize(OJWorkspace pac, OpaeumConfig config, TextWorkspace textWorkspace, EmfWorkspace workspace) ;
+	public void initialize(OJWorkspace pac, OpaeumConfig config, TextWorkspace textWorkspace, EmfWorkspace workspace, OJUtil ojUtil) ;
 	public void setTransformationContext(TransformationContext c);
 	public Collection<TextOutputNode> getTextFiles();
 	public void release();

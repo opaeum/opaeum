@@ -14,6 +14,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
@@ -57,24 +59,28 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 					monitor.subTask("Generating text files");
 					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p, currentContext, true);
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
-					ModelWorkspace mw = p.findModel(ModelWorkspace.class);
-					Collection<Element> allElements = new HashSet<Element>(mw.getAllElements());
+					EmfWorkspace mw = p.findModel(EmfWorkspace.class);
+					TreeIterator<Notifier> iter = mw.getResourceSet().getAllContents();
 					Map<Long,Element> ids = new HashMap<Long,Element>();
 					int duplicates = 0;
-					for(Element e:allElements){
-						if(!ids.containsKey(EmfWorkspace.getOpaeumId( e))){
-							ids.put(EmfWorkspace.getOpaeumId( e), e);
-						}else{
-							duplicates++;
-							Element other = ids.get(EmfWorkspace.getOpaeumId( e));
-							if(other instanceof NamedElement){
-								System.out.println(((NamedElement) e).getQualifiedName() + " collides with " + ((NamedElement) other).getQualifiedName());
+					while(iter.hasNext()){
+						Notifier notifier = (Notifier) iter.next();
+						if(notifier instanceof Element){
+							Element e = (Element) notifier;
+							if(!ids.containsKey(EmfWorkspace.getOpaeumId(e))){
+								ids.put(EmfWorkspace.getOpaeumId(e), e);
+							}else{
+								duplicates++;
+								Element other = ids.get(EmfWorkspace.getOpaeumId(e));
+								if(other instanceof NamedElement){
+									System.out.println(((NamedElement) e).getQualifiedName() + " collides with " + ((NamedElement) other).getQualifiedName());
+								}
+								System.out.println(e.getClass().getName() + " collides with " + other.getClass().getName());
+								System.out.println(EmfWorkspace.getId(e) + " collides with " + EmfWorkspace.getId(other));
 							}
-							System.out.println(e.getClass().getName() + " collides with " + other.getClass().getName());
-							System.out.println(EmfWorkspace.getId( e) + " collides with " + EmfWorkspace.getId( other));
 						}
 					}
-					System.out.println("Number of duplicates: " + duplicates + " from " + allElements.size());
+					System.out.println("Number of duplicates: " + duplicates + " from " + ids.size());
 				}catch(Exception e){
 					e.printStackTrace();
 					return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);

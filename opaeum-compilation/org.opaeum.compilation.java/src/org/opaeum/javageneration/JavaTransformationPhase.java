@@ -47,6 +47,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	@InputModel
 	OJWorkspace javaModel;
 	private OpaeumConfig config;
+	OJUtil ojUtil;
 	private List<JavaTransformationStep> features;
 	public static final boolean IS_RUNTIME_AVAILABLE = false;
 	private TextWorkspace getTextWorkspaceInternal(){
@@ -58,10 +59,10 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		Set<Element> realChanges = calculateEffectiveChanges(elements);
-		OJUtil.clearCache();
+		ojUtil.clearCache();
 		Collection<TextOutputNode> files = new HashSet<TextOutputNode>();
 		for(Element e:elements){
-			if(e instanceof Classifier &&  OJUtil.requiresJavaRename((NamedElement) e)){
+			if(e instanceof Classifier &&  ojUtil.requiresJavaRename((NamedElement) e)){
 				realChanges.addAll(modelWorkspace.getDependentElements((Classifier) e));
 			}
 		}
@@ -129,7 +130,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	}
 	@Override
 	public void execute(TransformationContext context){
-		OJUtil.clearCache();
+		ojUtil.clearCache();
 		context.getLog().registerInstanceCountMap(OJElementGEN.counts);
 		context.getLog().registerInstanceCountMap(TextOutputNode.counts);
 		context.getLog().startTask("Generating Java Model", features.size());
@@ -149,7 +150,6 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 			context.getLog().endLastStep();
 		}
 		context.getLog().endLastTask();
-		OJUtil.clearCache();
 	}
 	@Override
 	public void initialize(OpaeumConfig config,List<JavaTransformationStep> features){
@@ -157,9 +157,12 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		this.features = features;
 	}
 	public void initializeSteps(){
-		OJUtil.clearCache();
+		if(ojUtil==null || ojUtil.getLibrary()!=this.modelWorkspace.getOpaeumLibrary()){
+			ojUtil=new OJUtil(modelWorkspace.getOpaeumLibrary());
+		}
+		ojUtil.clearCache();
 		for(JavaTransformationStep f:this.features){
-			f.initialize(javaModel, this.config, textWorkspace, modelWorkspace);
+			f.initialize(javaModel, this.config, textWorkspace, modelWorkspace, ojUtil);
 		}
 	}
 	@Override

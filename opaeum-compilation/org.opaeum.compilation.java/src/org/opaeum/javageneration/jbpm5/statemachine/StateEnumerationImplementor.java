@@ -24,7 +24,6 @@ import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.ProcessStepEnumerationImplementor;
-import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)
 public class StateEnumerationImplementor extends ProcessStepEnumerationImplementor{
@@ -66,7 +65,7 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 	}
 	private void state(Vertex state){
 		StateMachine sm = EmfStateMachineUtil.getStateMachine(state);
-		OJPackage p = findOrCreatePackage(OJUtil.packagePathname((Namespace) sm.getOwner()));
+		OJPackage p = findOrCreatePackage(ojUtil.packagePathname((Namespace) sm.getOwner()));
 		OJEnum e = (OJEnum) p.findClass(new OJPathName(sm.getName() + "State"));
 		State enclosingElement = state.getContainer().getState();
 		buildLiteral(state, e, enclosingElement == null ? "null" : Jbpm5Util.stepLiteralName(enclosingElement));

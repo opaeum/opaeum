@@ -1,5 +1,6 @@
 package org.opaeum.emf.extraction;
 
+import java.awt.Desktop.Action;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EAnnotation;

@@ -7,12 +7,11 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractNodeBuilder;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class SimpleNodeBuilder<E extends ActivityNode> extends AbstractNodeBuilder {
 	protected E node;
-	public SimpleNodeBuilder(OpaeumLibrary oclEngine, E action, AbstractObjectNodeExpressor objectNodeExpressor) {
-		super(oclEngine, objectNodeExpressor);
+	public SimpleNodeBuilder(E action, AbstractObjectNodeExpressor objectNodeExpressor) {
+		super(objectNodeExpressor);
 		this.node = action;
 	}
 

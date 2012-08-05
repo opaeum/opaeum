@@ -22,7 +22,7 @@ public class OpaeumModelPreparation implements WorkspaceLoadListener{
 		context.executeAndForget(new AbstractCommand(){
 			@Override
 			public void execute(){
-				for(Package model:w.getPotentialGeneratingModels()){
+				for(Package model:w.getPrimaryRootObjects()){
 					boolean dirty = false;
 					if(model instanceof Model || model instanceof Profile){
 						if(!EmfWorkspace.isReadOnly(model.eResource())){

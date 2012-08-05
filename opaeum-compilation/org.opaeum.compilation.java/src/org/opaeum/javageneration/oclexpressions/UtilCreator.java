@@ -21,7 +21,7 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 public class UtilCreator extends AbstractJavaProducingVisitor{
 	@VisitBefore
 	public void visitModel(Model pkg){
-		OclUtilityCreator ouc = new OclUtilityCreator(javaModel);
+		OclUtilityCreator ouc = new OclUtilityCreator(ojUtil, javaModel);
 		ouc.makeOclUtilities(getLibrary().getTypeResolver());
 		for(OJClassifier c:UtilityCreator.getUtilPack().getClasses()){
 			if(!(c instanceof OJAnnotatedClass)){

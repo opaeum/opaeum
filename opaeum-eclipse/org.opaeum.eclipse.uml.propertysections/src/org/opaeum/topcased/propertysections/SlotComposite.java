@@ -34,7 +34,6 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfPropertyUtil;
-import org.opaeum.topcased.propertysections.SlotComposite.SlotValueListener;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class SlotComposite extends Composite{

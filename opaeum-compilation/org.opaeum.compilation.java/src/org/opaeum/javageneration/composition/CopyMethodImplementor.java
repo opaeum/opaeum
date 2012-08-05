@@ -3,6 +3,7 @@ package org.opaeum.javageneration.composition;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IModelElement;
 
 import org.eclipse.uml2.uml.Class;
@@ -10,7 +11,6 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
@@ -26,15 +26,13 @@ import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.persistence.PersistentObjectImplementor;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class})
 public class CopyMethodImplementor extends AbstractStructureVisitor{
 	protected void visitComplexStructure(Classifier c){
-		OJPathName path = OJUtil.classifierPathname(c);
+		OJPathName path = ojUtil.classifierPathname(c);
 		OJClassifier myOwner = this.javaModel.findClass(path);
 		// NakedModelElement mew = (NakedModelElement)
 		// nakedModel.lookup(c.getPathName());
@@ -49,7 +47,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 	}
 	private void addShallowMakeCopyMethod(OJClass owner,Classifier classifier){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation("makeShallowCopy");
-		oper.setReturnType(OJUtil.classifierPathname(classifier));
+		oper.setReturnType(ojUtil.classifierPathname(classifier));
 		owner.addToOperations(oper);
 		if(classifier.isAbstract() || owner.isAbstract()){
 			// Can NEVER instantiate abstract objects
@@ -72,7 +70,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		}else{
 			oper.setBody(new OJBlock());
 		}
-		oper.setReturnType(OJUtil.classifierPathname(classifier));
+		oper.setReturnType(ojUtil.classifierPathname(classifier));
 		if(classifier.isAbstract() || owner.isAbstract()){
 			// Can NEVER instantiate abstract objects
 			oper.setAbstract(true);
@@ -101,7 +99,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 	}
 	private void addCopyStatements(Classifier classifier,OJClass owner,OJBlock body,boolean deep,boolean shallowCopy){
 		String copyMethodName = shallowCopy ? "makeShallowCopy" : "makeCopy";
-		List<? extends Property> properties = EmfElementFinder.getPropertiesInScope(classifier);
+		List<? extends Property> properties = getLibrary().getEffectiveAttributes(classifier);
 		// TODO implement containment by value (composition) vs containment
 		// by reference logic
 		// might be helpful for web service, for instance
@@ -112,7 +110,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 			IModelElement a = (IModelElement) properties.get(i);
 			if(a instanceof Property){
 				Property np = (Property) a;
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
 				if(!(np.isDerived() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
 					if(EmfClassifierUtil.isSimpleType(np.getType())|| np.getType() instanceof Enumeration){
 						if(map.isMany()){
@@ -133,7 +131,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 									List<Property> qualifiers = map.getProperty().getQualifiers();
 									// Assume qualifiers are back by attributes as we are doing composition here
 									for(Property q:qualifiers){
-										NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(q);
+										StructuralFeatureMap qMap = ojUtil.buildStructuralFeatureMap(q);
 										sb.append("child.");
 										sb.append(qMap.getter());
 										sb.append("(),");
@@ -186,6 +184,6 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
 	}
 }

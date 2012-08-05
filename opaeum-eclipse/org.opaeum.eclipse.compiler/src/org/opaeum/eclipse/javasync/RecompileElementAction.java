@@ -86,12 +86,11 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 							}else{
 								monitor.beginTask("Generating Java Code", 90);
 								currentContext.getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
-								Element ne = currentContext.getNakedWorkspace().getModelElement(currentContext.getId(element));
 								p.replaceModel(new OJPackage());
 								p.replaceModel(new TextWorkspace());
 								OpaeumConfig cfg = currentContext.getConfig();
-								Collection<Element> allDescendants = (Collection)ne.eAllContents();
-								allDescendants.add(ne);
+								Collection<Element> allDescendants = (Collection)element.eAllContents();
+								allDescendants.add(element);
 								Collection<?> processElements = p.processElements(allDescendants, JavaTransformationPhase.class,
 										new ProgressMonitorTransformationLog(monitor, 60));
 								TextFileGenerator tfg = new TextFileGenerator();

@@ -11,10 +11,12 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TypedElement;
@@ -146,4 +148,19 @@ public class EmfParameterUtil{
 		return direction == ParameterDirectionKind.OUT_LITERAL || direction == ParameterDirectionKind.INOUT_LITERAL
 				|| direction == ParameterDirectionKind.RETURN_LITERAL;
 	}
+	public static String toIdentifyingString(Operation o){
+		return o.getName() + "(" + collectionToString(EmfBehaviorUtil.getArgumentParameters( o), ", ") + ")";
+	}
+	private static String collectionToString(List<? extends NamedElement> argumentParameters,String seperator){
+		StringBuilder sb = new StringBuilder();
+		for(NamedElement namedElement:argumentParameters){
+			sb.append(namedElement.getQualifiedName());
+			sb.append(seperator);
+		}
+		return sb.substring(0,sb.length()-1);
+	}
+	public static String toIdentifyingString(Reception o){
+		return o.getName() + "(" + (o.getSignal() == null ? "nosignal" : o.getSignal().getQualifiedName()) + ")";
+	}
+
 }

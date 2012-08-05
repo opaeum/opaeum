@@ -2,6 +2,8 @@ package org.opaeum.javageneration.basicjava;
 
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Behavior;
@@ -15,23 +17,27 @@ import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.metamodel.workspace.IPropertyEmulation;
 
 public abstract class AbstractObjectNodeExpressor{
-	protected OpaeumLibrary library;
-	public AbstractObjectNodeExpressor(OpaeumLibrary l){
-		this.library = l;
+	protected IPropertyEmulation library;
+	protected OJUtil ojUtil;
+	public AbstractObjectNodeExpressor(OJUtil ojUtil){
+		this.library = ojUtil.getLibrary();
+		this.ojUtil=ojUtil;
 	}
-	public abstract String storeResults(NakedStructuralFeatureMap resultMap,String call,boolean isMany);
+	public abstract String storeResults(StructuralFeatureMap resultMap,String call,boolean isMany);
 	abstract public boolean pinsAvailableAsVariables();
-	public abstract String clear(NakedStructuralFeatureMap map);
+	public abstract String clear(StructuralFeatureMap map);
 	public abstract String expressFeedingNodeForObjectFlowGuard(OJBlock block,ObjectFlow flow);
 	abstract public String expressInputPinOrOutParamOrExpansionNode(OJBlock block,ObjectNode pin);
-	abstract public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap map);
+	abstract public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,StructuralFeatureMap map);
 	public abstract String pathToVariableContext(VariableAction action);
 	protected abstract String surroundWithBehaviorCall(String expression,Behavior b, ObjectFlow flow);
+	public OJUtil getOjUtil(){
+		return ojUtil;
+	}
 	protected String surroundWithSelectionAndTransformation(String expression,ObjectFlow edge){
 		if(edge.getSource() instanceof ControlNode){
 			List<ActivityEdge> incoming = edge.getSource().getIncomings();
@@ -59,8 +65,8 @@ public abstract class AbstractObjectNodeExpressor{
 				Pin target = (Pin) edge.getTarget();
 				// TODO need to take the transformations and selections of intermediary object flows into account
 				if(target.isMultivalued() && EmfActivityUtil.isMultivalued( source)
-						&& (source.isOrdered() != target.isOrdered() || source.isUnique() != target.isUnique())){
-					NakedStructuralFeatureMap targetMap = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity( edge), target);
+						&& (isOrdered(source) != target.isOrdered() || isUnique(source) != target.isUnique())){
+					StructuralFeatureMap targetMap = ojUtil.buildStructuralFeatureMap(target);
 					expression = "new " + targetMap.javaDefaultTypePath().getLast() + "<" + targetMap.javaDefaultTypePath().getElementTypes().get(0).getLast() + ">("
 							+ expression + ")";
 				}
@@ -68,11 +74,17 @@ public abstract class AbstractObjectNodeExpressor{
 		}
 		return expression;
 	}
+	private boolean isOrdered(ObjectNode source){
+		 return source instanceof Pin && ((Pin) source).isOrdered();
+	}
+	private boolean isUnique(ObjectNode source){
+		 return source instanceof Pin && ((Pin) source).isUnique();
+	}
 	public String expressExceptionInput(OJBlock block,ObjectNode pin){
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(pin), pin);
+		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(pin);
 		return "(" + map.javaType() + ")e.getValue()";
 	}
-	protected OpaeumLibrary getLibrary(){
+	protected IPropertyEmulation getLibrary(){
 		return library;
 	}
 	protected boolean shouldEnsureUniquenes(ObjectNode feedingNode){

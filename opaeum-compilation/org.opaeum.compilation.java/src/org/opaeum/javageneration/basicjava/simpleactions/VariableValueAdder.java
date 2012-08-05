@@ -1,21 +1,21 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.AddVariableValueAction;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class VariableValueAdder extends SimpleNodeBuilder<AddVariableValueAction>{
-	public VariableValueAdder(OpaeumLibrary oclEngine,AddVariableValueAction action,AbstractObjectNodeExpressor expressor){
-		super(oclEngine, action, expressor);
+	public VariableValueAdder(AddVariableValueAction action,AbstractObjectNodeExpressor expressor){
+		super(action, expressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation oper,OJBlock block){
 		String valuePinField = readPin(oper, block, node.getValue());
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getContext(), node.getVariable());
+		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(node.getVariable());
 		if(node.isReplaceAll() && map.isMany()){
 			block.addToStatements(expressor.clear(map));
 		}

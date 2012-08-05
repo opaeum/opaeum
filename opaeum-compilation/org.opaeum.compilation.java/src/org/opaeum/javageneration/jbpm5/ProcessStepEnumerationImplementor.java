@@ -41,7 +41,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		OJEnum e = new OJEnum(c.getName() + "State");
 		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(IProcessStep.class);
 		e.addToImplementedInterfaces(abstractProcessStep);
-		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNamespace()));
+		OJPackage p = findOrCreatePackage(ojUtil.packagePathname(c.getNamespace()));
 		p.addToClasses(e);
 		super.createTextPath(e, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(true);
 		OJConstructor constructor = new OJConstructor();

@@ -33,7 +33,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.INakedElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
@@ -135,7 +134,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 							gl.marginWidth = 0;
 							gl.marginHeight = 0;
 							gl.verticalSpacing = 0;
-							EObject brokenElement = ctx.getCurrentEmfWorkspace().getElement(brokenRule.getValue().getElementId());
+							EObject brokenElement = ctx.getCurrentEmfWorkspace().getModelElement(brokenRule.getValue().getElementId());
 							if(split.length == 1 && split[0].length()==0){
 								createMessageFragment(brokenElement, comp, brokenRule.getKey().name(), brokenRule.getValue().getParameters());
 							}else{
@@ -170,10 +169,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 			}else if(parameters.length > parseInt - 1){
 				o = parameters[parseInt - 1];
 			}
-			if(o instanceof INakedElement){
-				INakedElement o1 = (INakedElement) o;
-				txt = createHyperlink(comp, o1.getOwnerElement().getName() + "::" + o1.getName(), o1.getId());
-			}else if(o instanceof Element){
+			if(o instanceof Element){
 				Element element = (Element) o;
 				txt = createHyperlink(comp, getName((Element) EmfElementFinder.getContainer(element)) + "::" + getName(element),
 						OpaeumEclipseContext.getCurrentContext().getId(element));
@@ -199,7 +195,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 					if(currentContext != null){
 						EmfWorkspace emfWorkspace = currentContext.getCurrentEmfWorkspace();
 						if(markedElementUri != null && brokenElementId != null && emfWorkspace != null){
-							EObject problemElement = emfWorkspace.getElement(brokenElementId);
+							EObject problemElement = emfWorkspace.getModelElement(brokenElementId);
 							EObject eo = emfWorkspace.getResourceSet().getEObject(URI.createURI(markedElementUri), true);
 							while(eo != null){
 								if(eo == getEObject()){
@@ -220,7 +216,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 	}
 	protected Hyperlink createHyperlink(Composite comp,String text,String id){
 		Hyperlink lbl = getWidgetFactory().createHyperlink(comp, text, SWT.NONE);
-		final EObject key = OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getElement(id);
+		final EObject key = OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getModelElement(id);
 		lbl.addMouseListener(new MouseListener(){
 			@Override
 			public void mouseUp(MouseEvent e){

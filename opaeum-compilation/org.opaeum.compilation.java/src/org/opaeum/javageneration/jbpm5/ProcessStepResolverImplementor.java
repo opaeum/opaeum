@@ -22,7 +22,6 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
 import org.opaeum.javageneration.jbpm5.statemachine.StateEnumerationImplementor;
 import org.opaeum.javageneration.persistence.AbstractEnumResolverImplementor;
-import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {StateEnumerationImplementor.class,
 		ActivityNodeEnumerationImplementor.class},after = {StateEnumerationImplementor.class,ActivityNodeEnumerationImplementor.class})
@@ -43,8 +42,8 @@ public class ProcessStepResolverImplementor extends AbstractEnumResolverImplemen
 				doNodes((Namespace) n);
 			}
 		}
-		OJClass findClass = javaModel.findClass(OJUtil.statePathname(container));
-		createResolver((OJEnum) findClass, restingNodes, OJUtil.requiresJavaRename( container) ? OJUtil
+		OJClass findClass = javaModel.findClass(ojUtil.statePathname(container));
+		createResolver((OJEnum) findClass, restingNodes, ojUtil.requiresJavaRename( container) ? ojUtil
 				.getOldClassifierPathname(container) + "State" : null);
 	}
 	@VisitBefore
@@ -54,8 +53,8 @@ public class ProcessStepResolverImplementor extends AbstractEnumResolverImplemen
 		for(State s:allStates){
 			restingStates.add(s);
 		}
-		OJEnum e = (OJEnum) javaModel.findClass(OJUtil.statePathname(sm));
-		createResolver(e, restingStates, OJUtil.requiresJavaRename( sm) ? OJUtil.getOldClassifierPathname(sm) + "State"
+		OJEnum e = (OJEnum) javaModel.findClass(ojUtil.statePathname(sm));
+		createResolver(e, restingStates, ojUtil.requiresJavaRename( sm) ? ojUtil.getOldClassifierPathname(sm) + "State"
 				: null);
 	}
 	@Override

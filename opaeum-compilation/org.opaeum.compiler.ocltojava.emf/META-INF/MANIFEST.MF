@@ -23,4 +23,6 @@ Export-Package: nl.klasse.octopus.codegen.helpers,
  nl.klasse.octopus.codegen.umlToJava.othergenerators.creators,
  nl.klasse.octopus.stdlib,
  nl.klasse.tools.common,
- org.opaeum.compiler.ocltojava.emf
+ org.opaeum.compiler.ocltojava.emf,
+ org.opaeum.javageneration.maps,
+ org.opaeum.javageneration.util

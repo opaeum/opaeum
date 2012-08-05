@@ -2,6 +2,8 @@ package org.opaeum.javageneration.composition;
 
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
@@ -17,7 +19,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 
 /**
@@ -41,7 +42,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 					createComponents.getBody().addToStatements("super.createComponents()");
 				}
 				for(Property np:aws){
-					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(np);
+					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
 					if(!np.isDerived() && (np.getType() instanceof Class || EmfClassifierUtil.isStructuredDataType(np.getType()))){
 						Classifier type = (Classifier) np.getType();
 						if(isMap(np) && np.getLower() == 1 && np.getQualifiers().size() == 1
@@ -56,7 +57,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 							for(EnumerationLiteral l:ownedLiterals){
 								ifEmpty.getThenPart().addToStatements("new" + np.getName() + "= new " + type.getName() + "()");
 								ifEmpty.getThenPart().addToStatements(
-										map.adder() + "(" +  OJUtil.classifierPathname(en) + "." + l.getName().toUpperCase()+ ",new"
+										map.adder() + "(" +  ojUtil.classifierPathname(en) + "." + l.getName().toUpperCase()+ ",new"
 												+ np.getName() + ")");
 							}
 							createComponents.getBody().addToStatements(ifEmpty);
@@ -80,7 +81,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
 		// TODO Auto-generated method stub
 	}
 }

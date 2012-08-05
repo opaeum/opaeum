@@ -5,12 +5,14 @@ import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.VisibilityKind;
 import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.javageneration.util.OJUtil;
 
 public class PackageableElementMap {
 	protected NamedElement e = null;
-
-	public PackageableElementMap(NamedElement e) {
+	protected OJUtil ojUtil;
+	public PackageableElementMap(OJUtil ojUtil, NamedElement e) {
 		super();
+		this.ojUtil=ojUtil;
 		this.e = e;
 	}
 

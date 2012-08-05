@@ -10,15 +10,14 @@ import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.EnumerationLiteralImplementor;
 import org.opaeum.javageneration.persistence.AbstractEnumResolverImplementor;
-import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = HibernateAnnotator.class,after = EnumerationLiteralImplementor.class)
 public class EnumResolverImplementor extends AbstractEnumResolverImplementor{
 	@VisitBefore
 	public void visitEnumeration(Enumeration e){
 		if(EmfClassifierUtil.getCodeGenerationStrategy( e)!=CodeGenerationStrategy.NO_CODE){
-			boolean requiresJavaRename = OJUtil.requiresJavaRename(e);
-			createResolver((OJEnum) findJavaClass(e), e.getOwnedLiterals(),requiresJavaRename?OJUtil.getOldClassifierPathname(e).toJavaString():null);
+			boolean requiresJavaRename = ojUtil.requiresJavaRename(e);
+			createResolver((OJEnum) findJavaClass(e), e.getOwnedLiterals(),requiresJavaRename?ojUtil.getOldClassifierPathname(e).toJavaString():null);
 		}
 	}
 

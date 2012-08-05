@@ -1,6 +1,5 @@
 package nl.klasse.octopus.codegen.umlToJava.expgenerators.visitors;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.TupleTypeCreator;
@@ -15,13 +14,14 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
 import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.javageneration.util.OJUtil;
 
 public class TupleTypeAdder{
 	private String TuplePackName = "tuples";
 	public TupleTypeAdder(){
 		super();
 	}
-	public OJPackage makeTupleTypes(TypeResolver<Classifier,Operation,Property> tr){
+	public OJPackage makeTupleTypes(OJUtil ojUtil, TypeResolver<Classifier,Operation,Property> tr){
 		EList<Type> types=null;
 		for (EObject o : tr.getResource().getContents()) {
 			if (o instanceof Package) {
@@ -40,7 +40,7 @@ public class TupleTypeAdder{
 			Iterator<?> it = types.iterator();
 			while(it.hasNext()){
 				TupleType tupletype = (TupleType) it.next();
-				TupleTypeCreator tupleMaker = new TupleTypeCreator();
+				TupleTypeCreator tupleMaker = new TupleTypeCreator(ojUtil);
 				tupleMaker.make(tupletype, tuples);
 			}
 		}else{

@@ -3,6 +3,8 @@ package org.opaeum.jaxb;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -22,7 +24,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.simpleactions.EventGeneratorImplementor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
@@ -44,13 +45,13 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 			if(cancelledEvents != null){
 				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) cancelledEvents);
 			}
-			for(Property p:c.getDirectlyImplementedAttributes()){
+			for(Property p:getLibrary().getDirectlyImplementedAttributes( c)){
 				if(StereotypesHelper.hasStereotype(p.getType(),StereotypeNames.HELPER)){
-					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
+					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 					OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<Classifier>());
 					JaxbAnnotator.addXmlTransient(getter);
 				}else if(p.getType() instanceof Class && !EmfPropertyUtil.isInverse( p)){
-					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
+					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 					OJAnnotatedOperation o = (OJAnnotatedOperation) owner.findOperation(map.getter(), Collections.EMPTY_LIST);
 					JaxbAnnotator.addXmlTransient(o);
 				}else if(p.getType() instanceof Interface){
@@ -75,7 +76,7 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void addXmlAnyElement(OJAnnotatedClass clazz,Class c,Property p){
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
+		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) clazz.findOperation(map.getter(), Collections.EMPTY_LIST);
 		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAnyElement")));
 	}

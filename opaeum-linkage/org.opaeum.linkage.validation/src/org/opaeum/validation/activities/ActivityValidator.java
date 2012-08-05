@@ -73,7 +73,7 @@ public class ActivityValidator extends AbstractValidator{
 				source = EmfActivityUtil.getFeedingNode( target);
 			}else if(of.getSource() instanceof ObjectNode){
 				source = (ObjectNode) of.getSource();
-				target = source.getFedNode();
+				target = EmfActivityUtil.getFedNode( source);
 			}
 			if(source != null && target != null){
 				if(of.getTransformation() == null){

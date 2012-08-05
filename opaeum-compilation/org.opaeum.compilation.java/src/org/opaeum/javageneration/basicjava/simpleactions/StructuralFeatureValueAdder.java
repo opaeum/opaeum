@@ -1,26 +1,26 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.AddStructuralFeatureValueAction;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.ActionMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class StructuralFeatureValueAdder extends SimpleNodeBuilder<AddStructuralFeatureValueAction>{
-	public StructuralFeatureValueAdder(OpaeumLibrary oclEngine,AddStructuralFeatureValueAction action, AbstractObjectNodeExpressor expressor){
-		super(oclEngine, action, expressor);
+	public StructuralFeatureValueAdder(AddStructuralFeatureValueAction action, AbstractObjectNodeExpressor expressor){
+		super(action, expressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation oper,OJBlock block){
 
 		String valuePinField = readPin(oper, block, node.getValue());
-		ActionMap actionMap = new ActionMap(node);
+		ActionMap actionMap = ojUtil.buildActionMap(node);
 		OJBlock forEach = buildLoopThroughTarget(oper, block, actionMap);
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
+		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
 		String modifier = null;
 		if(map.isOne()){
 			modifier = map.setter();

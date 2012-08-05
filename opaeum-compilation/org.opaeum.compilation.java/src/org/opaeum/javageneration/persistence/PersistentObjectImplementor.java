@@ -2,6 +2,8 @@ package org.opaeum.javageneration.persistence;
 
 import javax.persistence.Transient;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
@@ -10,7 +12,7 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -25,7 +27,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IPersistentObject;
@@ -56,7 +57,7 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 				ojClassifier.addToImports(ABSTRACT_ENTITY);
 			}
 		}else if(ojClassifier instanceof OJClass){
-			if(c instanceof Class && ((Class) c).getPrimaryKeyProperties().size() > 0){
+			if(c instanceof Class && EmfClassifierUtil.getPrimaryKeyProperties((Class) c).size() > 0){
 				return;
 			}else{
 				OJClass ojClass = (OJClass) ojClassifier;
@@ -65,7 +66,7 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 					persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
 					ojClass.addToFields(persistence);
 					ojClass.addToImports(ABSTRACT_ENTITY);
-					if(c.getAttribute("name",null) == null){
+					if(c.getAttribute("name", null) == null){
 						addGetName(c, ojClass);
 					}
 					ojClass.addToImplementedInterfaces(ABSTRACT_ENTITY);
@@ -78,13 +79,13 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 	}
 	private void addDiscriminatorInitialization(Class entity,OJClass ojClass){
 		OJBlock dcBody = new OJBlock();
-		for(Property attr:EmfElementFinder.getPropertiesInScope(entity)){
-			if(attr.isDiscriminator()){
+		for(Property attr:getLibrary().getEffectiveAttributes(entity)){
+			if(EmfPropertyUtil.isDiscriminator(attr)){
 				Enumeration powerType = (Enumeration) attr.getType();
-				if(entity.isPowerTypeInstance()){
+				if(EmfClassifierUtil.isPowerTypeInstanceOn(entity, powerType)){
 					Generalization generalization = entity.getGeneralizations().iterator().next();
-					String literal = powerType.getQualifiedJavaName() + "."
-							+ generalization.getPowerTypeLiteral().getName().getUpperCase();
+					String literal = ojUtil.classifierPathname(powerType) + "."
+							+ EmfClassifierUtil.getPowerTypeLiteral(generalization, powerType).getName().toUpperCase();
 					dcBody.addToStatements("set" + NameConverter.capitalize(attr.getName()) + "(" + literal + ")");
 				}
 			}
@@ -99,7 +100,7 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 		ojClass.addToOperations(getName);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){

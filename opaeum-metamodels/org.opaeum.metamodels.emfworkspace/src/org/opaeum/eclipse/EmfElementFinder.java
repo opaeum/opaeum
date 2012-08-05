@@ -25,6 +25,7 @@ import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -52,6 +53,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmfElementFinder{
@@ -245,8 +247,8 @@ public class EmfElementFinder{
 		for(Generalization ir:c.getGeneralizations()){
 			result.addAll(getPropertiesInScope(ir.getGeneral()));
 		}
-		if(c instanceof org.eclipse.uml2.uml.Class){
-			org.eclipse.uml2.uml.Class cls = (Class) c;
+		if(c instanceof BehavioredClassifier){
+			BehavioredClassifier cls = (BehavioredClassifier) c;
 			for(InterfaceRealization ir:cls.getInterfaceRealizations()){
 				result.addAll(getPropertiesInScope(ir.getContract()));
 			}
@@ -271,6 +273,8 @@ public class EmfElementFinder{
 			return s.eContainer();
 		}else if(s instanceof Event){
 			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s;
+			ECrossReferenceAdapter cra = ECrossReferenceAdapter.getCrossReferenceAdapter(s);
+			Collection<Setting> nonNavigableInverseReferences = cra.getNonNavigableInverseReferences(event);
 			// Contained by an annotation inside another element?
 			if(event.eContainer() instanceof EAnnotation){
 				// Skip event AND annotation straight to the containing element
@@ -441,5 +445,27 @@ public class EmfElementFinder{
 			clss = ((Behavior) clss).getContext();
 		}
 		return clss;
+	}
+	public static Element getOwnedElement(Element toEnum,String id){
+		for(Element element:getCorrectOwnedElements(toEnum)){
+			if(EmfWorkspace.getId(element).equals(id)){
+				return element;
+			}
+		}
+		return null;
+	}
+	public static Set<Element> getDependentElements(Element e){
+		Set<Element> result = new HashSet<Element>();
+		for(Setting s:ECrossReferenceAdapter.getCrossReferenceAdapter(e).getInverseReferences(e)){
+			if(s.getEObject() instanceof Element){
+				result.add((Element) s.getEObject());
+			}
+		}
+		for(Setting s:ECrossReferenceAdapter.getCrossReferenceAdapter(e).getNonNavigableInverseReferences(e)){
+			if(s.getEObject() instanceof Element){
+				result.add((Element) s.getEObject());
+			}
+		}
+		return result;
 	}
 }

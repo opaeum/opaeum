@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.NamedElement;
 import org.opaeum.eclipse.PersistentNameUtil;
 
@@ -17,9 +16,9 @@ import org.opaeum.eclipse.PersistentNameUtil;
  * 
  */
 public class ElementsWaitingForEvent{
-	Event event;
+	NamedElement event;
 	Map<String,FromNode> fromNodes = new HashMap<String,FromNode>();
-	public ElementsWaitingForEvent(Event event){
+	public ElementsWaitingForEvent(NamedElement event){
 		this.event = event;
 	}
 	public ElementsWaitingForEvent(){
@@ -36,7 +35,7 @@ public class ElementsWaitingForEvent{
 	public Collection<FromNode> getWaitingNodes(){
 		return this.fromNodes.values();
 	}
-	public Event getEvent(){
+	public NamedElement getEvent(){
 		return this.event;
 	}
 }

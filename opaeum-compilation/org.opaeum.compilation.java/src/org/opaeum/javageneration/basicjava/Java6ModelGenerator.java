@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Behavior;
@@ -40,8 +41,6 @@ import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opaeum.javageneration.JavaSourceKind;
 import org.opaeum.javageneration.JavaTextSource;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.maps.NakedClassifierMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.runtime.domain.IEnum;
@@ -82,16 +81,16 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		// We do not generate simple data types. They can't participate in
 		// two-way associations and should be built-in or pre-implemented
 		if(EmfElementUtil.isMarkedForDeletion(c)){
-			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.classifierPathname(c));
-			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.packagePathname(c));
+			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.classifierPathname(c));
+			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.packagePathname(c));
 		}else if(OJUtil.hasOJClass(c) && !EmfClassifierUtil.isSimpleType(c)){
-			if(OJUtil.requiresJavaRename( c)){
-				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.getOldClassifierPathname(c));
-				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.getOldPackagePathname(c));
+			if(ojUtil.requiresJavaRename( c)){
+				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldClassifierPathname(c));
+				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldPackagePathname(c));
 			}
-			OJPathName path = OJUtil.classifierPathname(c);
+			OJPathName path = ojUtil.classifierPathname(c);
 			OJPackage pack = findOrCreatePackage(path.getHead());
-			ClassifierMap classifierMap = OJUtil.buildClassifierMap(c, (CollectionKind) null);
+			ClassifierMap classifierMap = ojUtil.buildClassifierMap(c, (CollectionKind) null);
 			OJAnnotatedClass myClass;
 			if(c instanceof Enumeration){
 				myClass = new OJEnum(path.getLast());
@@ -120,7 +119,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			}
 			// TODO find another place
 			if(c instanceof Signal){
-				SignalMap signalMap = OJUtil.buildSignalMap((Signal) c);
+				SignalMap signalMap = ojUtil.buildSignalMap((Signal) c);
 				OJAnnotatedInterface receiver = new OJAnnotatedInterface(signalMap.receiverContractTypePath().getLast());
 				pack.addToClasses(receiver);
 				OJAnnotatedOperation consumeMethod = new OJAnnotatedOperation(signalMap.eventConsumerMethodName(), new OJPathName("boolean"));
@@ -173,7 +172,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			}else if(c instanceof Behavior){
 				Operation specification = (Operation) ((Behavior) c).getSpecification();
 				if(specification != null){
-					NakedClassifierMap map = OJUtil.buildClassifierMap(getLibrary().getMessageStructure(specification), (CollectionKind) null);
+					ClassifierMap map = ojUtil.buildClassifierMap(getLibrary().getMessageStructure(specification), (CollectionKind) null);
 					myClass.setSuperclass(map.javaTypePath());
 				}
 			}
@@ -182,10 +181,10 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitPackage(Package p){
-		if(OJUtil.requiresJavaRename( p)){
-			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, OJUtil.getOldPackagePathname(p));
+		if(ojUtil.requiresJavaRename( p)){
+			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldPackagePathname(p));
 		}
-		OJPackage currentPack = findOrCreatePackage(OJUtil.packagePathname(p));
+		OJPackage currentPack = findOrCreatePackage(ojUtil.packagePathname(p));
 		if(EmfElementUtil.getDocumentation(p) != null){
 			currentPack.setComment(EmfElementUtil.getDocumentation(p));
 		}
@@ -198,7 +197,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
 	}
 	private synchronized TextFile createTextPath(JavaSourceKind kind,OJAnnotatedClass c,ISourceFolderIdentifier id){
 		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);

@@ -14,13 +14,15 @@ import org.eclipse.uml2.uml.Operation;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.javageneration.util.OJUtil;
 
 @SuppressWarnings("rawtypes")
 public class BasicTypeOperCallCreator {
 	private OJClass myClass = null;
-
-	public BasicTypeOperCallCreator(OJClass myClass) {
+	OJUtil ojUtil;
+	public BasicTypeOperCallCreator(OJUtil ojUtil, OJClass myClass) {
 		super();
+		this.ojUtil=ojUtil;
 		this.myClass = myClass;
 	}
 
@@ -197,7 +199,7 @@ public class BasicTypeOperCallCreator {
 			} else if (referedOp.getName().equals("oclAsType")) {
 				Classifier argType = ((TypeExp) exp.getArgument().get(0))
 						.getReferredType();
-				ClassifierMap mapper = new ClassifierMap(argType);
+				ClassifierMap mapper = ojUtil.buildClassifierMap(argType);
 				String typeStr = mapper.javaType();
 				result = "(" + typeStr + ") " + source;
 			} else if (referedOp.getName().equals("=")) {

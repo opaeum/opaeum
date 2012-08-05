@@ -110,7 +110,7 @@ public final class JavaProjectGenerator extends Job{
 			}
 		}
 		EmfWorkspace mws = process.findModel(EmfWorkspace.class);
-		rpb.initialize(cfg, tws, mws);
+		rpb.initialize(cfg, tws, mws,null);
 		rpb.beforeWorkspace(mws);
 		Set<TextOutputNode> textFiles = rpb.getTextFiles();
 		for(TextOutputNode textOutputNode:textFiles){

@@ -43,7 +43,7 @@ public class EmfStateMachineUtil{
 	}
 	public static Collection<StateMachine> getAllOwnedStateMachines(Class representedClass){
 		Collection<StateMachine> results = new ArrayList<StateMachine>();
-		for(Behavior b:EmfBehaviorUtil.findBehaviorsInScope(representedClass)){
+		for(Behavior b:EmfBehaviorUtil.getEffectiveBehaviors(representedClass)){
 			if(b instanceof StateMachine){
 				results.add((StateMachine) b);
 			}

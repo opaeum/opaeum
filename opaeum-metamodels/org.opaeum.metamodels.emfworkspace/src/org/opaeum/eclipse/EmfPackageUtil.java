@@ -90,4 +90,12 @@ public class EmfPackageUtil{
 	public static String getFileName(Package ro){
 		return ro.eResource().getURI().lastSegment();
 	}
+	public static boolean isLibrary(Model model){
+		if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL)){
+			EObject sa = model.getStereotypeApplication(StereotypesHelper.getStereotype(model, StereotypeNames.MODEL));
+			EEnumLiteral value = (EEnumLiteral) sa.eGet(sa.eClass().getEStructuralFeature("modelType"));
+			return value.getName().equals("LIBRARY");
+		}
+		return false;
+	}
 }

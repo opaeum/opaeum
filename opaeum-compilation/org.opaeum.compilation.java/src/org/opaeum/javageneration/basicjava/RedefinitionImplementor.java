@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.basicjava;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfAssociationUtil;
@@ -17,7 +19,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.hibernate.HibernateAnnotator;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.persistence.JpaAnnotator;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {
@@ -30,7 +31,7 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		return 1;// Works across models
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap map){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap map){
 		Property p = map.getProperty();
 		if(p.isNavigable()){
 			OJClass c = findJavaClass(owner);
@@ -39,8 +40,8 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	public void implementRedefinition(NakedStructuralFeatureMap redefiningMap,OJClass c,Property redefinedProperty){
-		NakedStructuralFeatureMap redefinedMap = new NakedStructuralFeatureMap(redefinedProperty);
+	public void implementRedefinition(StructuralFeatureMap redefiningMap,OJClass c,Property redefinedProperty){
+		StructuralFeatureMap redefinedMap = ojUtil.buildStructuralFeatureMap(redefinedProperty);
 		OJField f = c.findField(redefinedMap.fieldname());
 		if(f != null){
 			c.removeFromFields(f);
@@ -62,7 +63,7 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		}
 		if(redefinedProperty.getAssociation()!=null &&  EmfAssociationUtil.isClass(redefinedProperty.getAssociation())){
 			//TODO implement validation - AssociationClasss end cannot be redefined			
-			AssociationClassEndMap assocEndMap = new AssociationClassEndMap(redefinedProperty);
+			AssociationClassEndMap assocEndMap = ojUtil.buildAssociationClassEndMap(redefinedProperty);
 			 ((OJAnnotatedClass)c).removeFromFields(assocEndMap.getEndToAssocationClassMap().fieldname());
 		}
 		// force implementation of redefinition
@@ -103,7 +104,7 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		collectionType.removeAllFromElementTypes();
 		return collectionType;
 	}
-	private void convertToCorrectCollectionType(OJClass c,OJAnnotatedOperation o,NakedStructuralFeatureMap redefiningMap,NakedStructuralFeatureMap redefinedMap){
+	private void convertToCorrectCollectionType(OJClass c,OJAnnotatedOperation o,StructuralFeatureMap redefiningMap,StructuralFeatureMap redefinedMap){
 		if(getLibrary().getActualType( redefinedMap.getFeature()) != getLibrary().getActualType( redefiningMap.getFeature())){
 			OJPathName collectionType = getRawType(redefiningMap.javaTypePath());
 			o.initializeResultVariable("(" + collectionType + ")" + redefiningMap.getter() + "()");
@@ -118,7 +119,7 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		suppress.addStringValue("rawtypes");
 		o.putAnnotation(suppress);
 	}
-	private void wrapInCollection(OJClass c,OJAnnotatedOperation o,NakedStructuralFeatureMap redefiningMap,NakedStructuralFeatureMap redefinedMap){
+	private void wrapInCollection(OJClass c,OJAnnotatedOperation o,StructuralFeatureMap redefiningMap,StructuralFeatureMap redefinedMap){
 		o.initializeResultVariable(redefinedMap.javaDefaultValue());
 		OJIfStatement ifNotNull = new OJIfStatement((redefiningMap.getter() + "()") + "!=null", "result.add(" + (redefiningMap.getter() + "()") + ")");
 		o.getBody().addToStatements(ifNotNull);

@@ -9,14 +9,16 @@ import java.util.TreeSet;
 
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Signal;
+import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
@@ -34,7 +36,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IPersistentObject;
@@ -63,22 +64,22 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 			OJBlock initBlock = createBasicMetaInfo(m, rootObjectsToImport, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			for(Classifier c:getElementsOfType(Classifier.class, Arrays.asList(m))){
 				if(isPersistent(c) || c instanceof Enumeration || c instanceof Signal || c instanceof Interface || EmfClassifierUtil.isSimpleType(c )){
-					initBlock.addToStatements("putClass(" + OJUtil.classifierPathname(c) + ".class,\"" + EmfWorkspace.getId(c) + "\")");
+					initBlock.addToStatements("putClass(" + ojUtil.classifierPathname(c) + ".class,\"" + EmfWorkspace.getId(c) + "\")");
 					if(EmfElementFinder.getRootObject( c) == m){
 						for(Operation o:c.getOperations()){
-							initBlock.addToStatements("putMethod(" + OJUtil.classifierPathname(c) + ".class,\"" + EmfWorkspace.getId(m) + "\"," + EmfWorkspace.getOpaeumId(m) + "l)");
+							initBlock.addToStatements("putMethod(" + ojUtil.classifierPathname(c) + ".class,\"" + EmfWorkspace.getId(m) + "\"," + EmfWorkspace.getOpaeumId(m) + "l)");
 						}
 					}
 				}
 			}
 			for(Event e:getElementsOfType(Event.class, Collections.singletonList((Package) m))){
-				if(e instanceof Timer || e instanceof ChangeEvent){
-					initBlock.addToStatements("putEventHandler(" + EventUtil.handlerPathName(e) + ".class,\"" + EmfWorkspace.getId(e) + "\")");
+				if(e instanceof TimeEvent || e instanceof ChangeEvent){
+					initBlock.addToStatements("putEventHandler(" + eventUtil.handlerPathName(e) + ".class,\"" + EmfWorkspace.getId(e) + "\")");
 				}
 			}
 		}
 	}
-	private OJBlock createBasicMetaInfo(NamedElement m,Collection<Package> allDependencies,JavaSourceFolderIdentifier sourceid){
+	private OJBlock createBasicMetaInfo(Element m,Collection<Package> allDependencies,JavaSourceFolderIdentifier sourceid){
 		TreeSet<Package> treeSet = new TreeSet<Package>(new DefaultOpaeumComparator());
 		treeSet.addAll(allDependencies);
 		OJPathName pathName = javaMetaInfoMapPath(m);
@@ -103,13 +104,19 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		ignore.add("JavaPrimitiveTypes".toLowerCase());
 		ignore.add("OpaeumSimpleTypes".toLowerCase());
 		for(Package ro:treeSet){
-			if(ro instanceof Model && ( !((Model) ro).isLibrary() || EmfPackageUtil.isRegeneratingLibrary( ((Model) ro)))){
+			if(ro instanceof Model && ( !(EmfPackageUtil.isLibrary( (Model) ro)) || EmfPackageUtil.isRegeneratingLibrary( ((Model) ro)))){
 				initBlock.addToStatements("this.importMetaInfo(" + javaMetaInfoMapPath(ro) + ".INSTANCE)");
 			}
 		}
 		return initBlock;
 	}
-	public static OJPathName javaMetaInfoMapPath(NamedElement owner){
-		return OJUtil.utilPackagePath(owner).append(NameConverter.capitalize(owner.getName()) + "JavaMetaInfoMap");
+	public static OJPathName javaMetaInfoMapPath(Element owner){
+		OJPathName result = ojUtil.utilPackagePath(owner);
+		if(owner instanceof Namespace){
+			return result.append("util").append(NameConverter.capitalize(((Namespace) owner).getName()) + "JavaMetaInfoMap");
+		}else if(owner instanceof EmfWorkspace){
+			return result.append("util").append(NameConverter.capitalize(((EmfWorkspace) owner).getName()) + "JavaMetaInfoMap");
+		}
+		return null;
 	}
 }

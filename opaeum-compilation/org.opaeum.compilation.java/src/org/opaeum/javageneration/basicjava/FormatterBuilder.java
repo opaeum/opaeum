@@ -38,9 +38,9 @@ public class FormatterBuilder extends AbstractJavaProducingVisitor implements In
 			createFormatterContract(util, formatter.getLast(), simpleTypes);
 		}
 	}
-	public static OJPathName formatterPathName(Element m){
+	private OJPathName formatterPathName(Element m){
 		Package ro = EmfElementFinder.getRootObject(m);
-		return OJUtil.utilPackagePath(ro).append(NameConverter.capitalize(ro.getName()) + "Formatter");
+		return ojUtil.utilPackagePath(ro).append(NameConverter.capitalize(ro.getName()) + "Formatter");
 	}
 	private void createFormatterContract(OJPackage util,String name,Collection<DataType> types){
 		OJAnnotatedInterface formatterContract = new OJAnnotatedInterface("I" + name);
@@ -48,11 +48,11 @@ public class FormatterBuilder extends AbstractJavaProducingVisitor implements In
 		createTextPath(formatterContract, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		for(DataType e:types){
 			if(EmfClassifierUtil.isSimpleType(e)){
-				OJAnnotatedOperation parse = new OJAnnotatedOperation("parse" + e.getName(), OJUtil.classifierPathname(e));
+				OJAnnotatedOperation parse = new OJAnnotatedOperation("parse" + e.getName(), ojUtil.classifierPathname(e));
 				parse.addParam("value", new OJPathName("String"));
 				formatterContract.addToOperations(parse);
 				OJAnnotatedOperation format = new OJAnnotatedOperation("format" + e.getName(), new OJPathName("String"));
-				format.addParam("value",  OJUtil.classifierPathname(e));
+				format.addParam("value",  ojUtil.classifierPathname(e));
 				formatterContract.addToOperations(format);
 			}
 		}

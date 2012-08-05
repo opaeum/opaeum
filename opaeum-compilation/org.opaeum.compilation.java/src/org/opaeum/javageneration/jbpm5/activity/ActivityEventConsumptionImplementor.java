@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
@@ -14,6 +17,7 @@ import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.MessageEvent;
 import org.eclipse.uml2.uml.OpaqueAction;
@@ -28,6 +32,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -43,14 +48,10 @@ import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.basicjava.SpecificationImplementor;
 import org.opaeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
 import org.opaeum.javageneration.jbpm5.ElementsWaitingForEvent;
-import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.FromNode;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
-import org.opaeum.javageneration.maps.NakedOperationMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 
@@ -67,8 +68,8 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 				if(n instanceof AcceptCallAction){
 					AcceptCallAction acc = (AcceptCallAction) n;
 					Operation no = EmfActionUtil.getOperation( acc);
-					NakedOperationMap map = OJUtil.buildOperationMap(no);
-					OJAnnotatedOperation oper = OperationAnnotator.findOrCreateOperation(activity, activityClass, map, true);
+					OperationMap map = ojUtil.buildOperationMap(no);
+					OJAnnotatedOperation oper = operationAnnotator.findOrCreateOperation(activity, activityClass, map, true);
 					if(oper.getBody().findLocal("consumed") == null){
 						OJAnnotatedField consumed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
 						consumed.setInitExp("false");
@@ -78,22 +79,22 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 					OJIfStatement ifProcessActive = addIfProcessActiveAndRemoveReturnStatementIfNecessary(activityClass, oper);
 					OJIfStatement ifTokenFound = addIfTokenFound(oper, ifProcessActive, acc);
 					if(EmfBehaviorUtil.hasExecutionInstance(no)){
-						NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(acc, getLibrary());
+						StructuralFeatureMap actionMap = ojUtil.buildStructuralFeatureMap(acc);
 						final String EXECUTE_STATEMENT = "executeStatement";
 						oper.getBody().removeFromStatements(oper.getBody().findStatementRecursive(EXECUTE_STATEMENT));
 						ifTokenFound.getThenPart().addToStatements(actionMap.setter() + "(result)");
 					}else{
 						for(OutputPin pin:acc.getResults()){
-							NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(activity, pin, true);
-							NakedStructuralFeatureMap parameterMap = OJUtil.buildStructuralFeatureMap(activity, EmfActionUtil.getLinkedTypedElement( pin));
+							StructuralFeatureMap pinMap = ojUtil.buildStructuralFeatureMap(pin);
+							StructuralFeatureMap parameterMap = ojUtil.buildStructuralFeatureMap(EmfActionUtil.getLinkedTypedElement( pin));
 							ifTokenFound.getThenPart().addToStatements(pinMap.setter() + "(" + parameterMap.fieldname() + ")");
 						}
 					}
 					checkWaitAndFlowToNextNodes(oper, ifTokenFound.getThenPart(), acc);
 					if(!EmfBehaviorUtil.hasExecutionInstance(no)){
-						for(InputPin pin:EmfBehaviorUtil.getReplyAction( acc).getReplyValues()){
+						for(InputPin pin:EmfActionUtil.getReplyAction( acc).getReplyValues()){
 							if(((Parameter)  EmfActionUtil.getLinkedTypedElement( pin)).getDirection()==ParameterDirectionKind.RETURN_LITERAL){
-								Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
+								Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(ojUtil);
 								ifTokenFound.getThenPart().addToStatements(
 										"result=" + expressor.expressInputPinOrOutParamOrExpansionNode(ifTokenFound.getThenPart(), pin));
 							}
@@ -105,10 +106,10 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 				}else if(EmfActionUtil.isEmbeddedTask(n)){
 					Action t = (Action) n;
 					String stereotypeName=n instanceof OpaqueAction?StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK:StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK;
-					for(Deadline d:EmfActionUtil. getTaskDefinition( t,stereotypeName).getDeadlines()){
-						OJPathName date = OJUtil.classifierPathname(getLibrary().getDateType());
-						OJPathName task = OJUtil.classifierPathname(getLibrary().getMessageStructure( t));
-						String consumerName = EventUtil.getEventConsumerName(d);
+					for(TimeEvent d:getLibrary().getResponsibilityDefinition( t,stereotypeName).getDeadlines()){
+						OJPathName date = ojUtil.classifierPathname(getLibrary().getDateType());
+						OJPathName task = ojUtil.classifierPathname(t);
+						String consumerName = eventUtil.getEventConsumerName(d);
 						OJOperation findOperation = activityClass.findOperation(consumerName, Arrays.asList(date, task));
 						if(findOperation == null){
 							findOperation = new OJAnnotatedOperation(consumerName, new OJPathName("boolean"));
@@ -123,7 +124,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		}
 	}
 	protected void implementEventConsumerBody(ElementsWaitingForEvent eventActions,OJAnnotatedOperation listener,OJIfStatement ifProcessActive){
-		if(eventActions.getEvent() instanceof Deadline){
+		if( eventActions.getEvent() instanceof Event && EmfEventUtil.isDeadline((Event) eventActions.getEvent())){
 			OJIfStatement ifTaskTokenFound = new OJIfStatement();
 			ifProcessActive.getThenPart().addToStatements(ifTaskTokenFound);
 			ifTaskTokenFound.setCondition("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(source.getNodeInstanceUniqueId()))"
@@ -206,8 +207,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		// TODO implement validation
 		for(ActivityEdge edge:EmfActivityUtil.getDefaultOutgoing( node)){
 			if(edge.getSource() instanceof OutputPin){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(edge),
-						(OutputPin) edge.getSource(), true);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap((OutputPin) edge.getSource());
 				if(edge.getWeight() != null){
 					if(map.isCollection()){
 						Classifier integerType = getLibrary().getIntegerType();
@@ -235,7 +235,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 	}
 	private void storeArguments(OJIfStatement ifTokenFound,AcceptEventAction aea){
 		List<OutputPin> result = aea.getResults();
-		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
+		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(ojUtil);
 		OJAnnotatedField context = new OJAnnotatedField("context", Jbpm5Util.getProcessContext());
 		context
 				.setInitExp("new org.drools.spi.ProcessContext(org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class))");
@@ -243,18 +243,18 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		ifTokenFound.getThenPart().addToStatements("((org.drools.spi.ProcessContext)context).setNodeInstance(waitingNode)");
 		for(int i = 0;i < result.size();i++){
 			OutputPin argument = result.get(i);
-			NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(argument), argument, true);
+			StructuralFeatureMap pinMap = ojUtil.buildStructuralFeatureMap(argument);
 			TypedElement parm = EmfActionUtil.getLinkedTypedElement(argument);
 			if(parm == null){
 				String param = "unknown";
-				if(aea instanceof AcceptDeadlineAction){
+				if(EmfActionUtil.acceptsDeadline(aea )){
 					param = i == 1 ? "source.getTaskRequest()" : "triggerDate";
-				}else if(aea.containsTriggerType(TimeEvent.class)){
+				}else if(EmfEventUtil.containsTriggerType( aea,TimeEvent.class)){
 					param = "triggerDate";
 				}
 				ifTokenFound.getThenPart().addToStatements(expressor.storeResults(pinMap, param, false));
 			}else{
-				NakedStructuralFeatureMap parmMap = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(argument), parm);
+				StructuralFeatureMap parmMap = ojUtil.buildStructuralFeatureMap(parm);
 				String expression = parmMap.fieldname();
 				if(parm instanceof Property){
 					// signal
@@ -292,7 +292,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 	}
 	private Jbpm5ActionBuilder<ActivityNode> getActionBuilder(){
 		if(actionBuilder == null){
-			actionBuilder = new Jbpm5ActionBuilder<ActivityNode>(getLibrary(), null){
+			actionBuilder = new Jbpm5ActionBuilder<ActivityNode>(ojUtil,null){
 				@Override
 				public void implementActionOn(OJAnnotatedOperation oper){
 				}

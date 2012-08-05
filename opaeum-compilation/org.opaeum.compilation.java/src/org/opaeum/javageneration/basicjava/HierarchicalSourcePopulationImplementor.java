@@ -20,7 +20,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -48,7 +47,7 @@ public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator
 			OJOperation abstractSourcePopulation = new OJAnnotatedOperation("get" + NameConverter.capitalize(p.getName()) + "SourcePopulation");
 			OJPathName pathName = new OJPathName("java.util.Set");
 			
-			OJPathName lookupPathName  =OJUtil.classifierPathname(p.getType());
+			OJPathName lookupPathName  =ojUtil.classifierPathname(p.getType());
 			abstractOwner.addToImports(lookupPathName); 
 			List<OJPathName> x = new ArrayList<OJPathName>();
 			x.add(lookupPathName);

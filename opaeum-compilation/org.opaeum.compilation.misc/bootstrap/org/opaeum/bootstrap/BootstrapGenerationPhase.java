@@ -48,7 +48,7 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 	}
 	public void initializeSteps(){
 		for(AbstractBootstrapStep step:this.features){
-			step.initialize(this.config, textWorkspace, workspace);
+			step.initialize(this.config, textWorkspace, workspace, ojUtil);
 		}
 	}
 	@Override

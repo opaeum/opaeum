@@ -56,7 +56,6 @@ public final class EmfToOpaeumSynchronizer{
 	protected TransformationProcess transformationProcess;
 	protected OpaeumConfig cfg;
 	protected Set<EObject> emfChanges = Collections.synchronizedSet(new HashSet<EObject>());
-	protected ModelWorkspace nakedModelWorspace;
 	protected UriToFileConverter resourceHelper;
 	protected EmfWorkspace currentEmfWorkspace;
 	long lastChange = System.currentTimeMillis();
@@ -128,20 +127,7 @@ public final class EmfToOpaeumSynchronizer{
 	}
 	public void setCurrentEmfWorkspace(EmfWorkspace e){
 		transformationProcess.replaceModel(e);
-		ModelWorkspace nws = getNakedWorkspace();
-		nws.clearGeneratingModelOrProfiles();
-		for(Package package1:e.getPotentialGeneratingModels()){
-			if(!package1.eIsProxy()){
-				Package modelElement = (Package) nws.getModelElement(EmfWorkspace.getId(package1));
-				nws.addPrimaryModel(modelElement);
-			}
-		}
-		for(Package g:e.getGeneratingModelsOrProfiles()){
-			if(!g.eIsProxy()){
-				Package modelElement = (Package) nws.getModelElement(EmfWorkspace.getId(g));
-				nws.addGeneratingRootObject(modelElement);
-			}
-		}
+
 		this.currentEmfWorkspace = e;
 	}
 	public EmfWorkspace getCurrentEmfWorkspace(){
@@ -160,14 +146,9 @@ public final class EmfToOpaeumSynchronizer{
 		this.transformationProcess = new TransformationProcess();
 		cfg.reset();
 		this.transformationProcess.initialize(cfg, getTransformationSteps());
-		if(nakedModelWorspace != null){
-			nakedModelWorspace.release();
-		}
-		this.nakedModelWorspace = new NakedModelWorkspaceImpl();
-		this.transformationProcess.replaceModel(nakedModelWorspace);
 	}
 	public EmfWorkspace buildWorkspaces(Package model,TransformationProgressLog log) throws Exception,IOException{
-		EmfWorkspace emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
+		EmfWorkspace emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier(),cfg.getMavenGroupId());
 		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
 		emfWorkspace.setName(cfg.getWorkspaceName());
 		emfWorkspaceLoaded(emfWorkspace);
@@ -319,9 +300,6 @@ public final class EmfToOpaeumSynchronizer{
 	}
 	public static void sheduleTask(Runnable r,long l){
 		threadPool.schedule(r, l, TimeUnit.MILLISECONDS);
-	}
-	public ModelWorkspace getNakedWorkspace(){
-		return nakedModelWorspace;
 	}
 	public OpaeumConfig getConfig(){
 		return this.cfg;

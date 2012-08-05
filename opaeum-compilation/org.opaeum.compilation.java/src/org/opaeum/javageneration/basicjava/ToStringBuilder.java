@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.basicjava;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
@@ -8,7 +10,6 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
@@ -23,7 +24,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class,AttributeImplementor.class},after = {Java6ModelGenerator.class})
@@ -55,9 +55,9 @@ public class ToStringBuilder extends StereotypeAnnotator{
 		sb.setInitExp("new StringBuilder()");
 		toString.getBody().addToLocals(sb);
 		toString.getBody().addToStatements("sb.append(super.toString())");
-		for(Property f:EmfElementFinder.getPropertiesInScope(umlClass)){
+		for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
 			if(!OJUtil.isBuiltIn(f)){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
 				if(map.isOne() && !EmfPropertyUtil.isInverse(f)){
 					if(map.getProperty().getType() instanceof Class || map.getProperty().getType() instanceof Interface){
 						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"" + map.fieldname() + "=null;\")");
@@ -65,7 +65,7 @@ public class ToStringBuilder extends StereotypeAnnotator{
 						OJSimpleStatement b = null;
 						ifNull.getElsePart().addToStatements(
 								"sb.append(\"" + map.fieldname() + "=\"+" + map.getter() + "().getClass().getSimpleName()+\"[\")");
-						if(f.getType().findEffectiveAttribute("name") != null){
+						if(getLibrary().findEffectiveAttribute( (Classifier) f.getType(),"name") != null){
 							b = new OJSimpleStatement("sb.append(" + map.getter() + "().getName())");
 						}else{
 							b = new OJSimpleStatement("sb.append(" + map.getter() + "().hashCode())");

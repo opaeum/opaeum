@@ -15,8 +15,8 @@ import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.validation.ErrorMap;
+import org.opaeum.metamodel.workspace.IPropertyEmulation;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.visitor.NakedElementOwnerVisitor;
 
 public abstract class AbstractModelElementLinker extends NakedElementOwnerVisitor implements ITransformationStep{
@@ -33,7 +33,7 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 	protected int getThreadPoolSize(){
 		return 12;
 	}
-	protected OpaeumLibrary getLibrary(){
+	protected IPropertyEmulation getLibrary(){
 		return workspace.getOpaeumLibrary();
 	}
 	protected ErrorMap getErrorMap(){

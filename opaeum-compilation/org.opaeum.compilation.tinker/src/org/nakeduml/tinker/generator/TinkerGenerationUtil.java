@@ -1,12 +1,12 @@
 package org.nakeduml.tinker.generator;
 
-import nl.klasse.octopus.model.IMultiplicityKind;
 
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.uml2.uml.INakedClassifier;
-import org.eclipse.uml2.uml.INakedEntity;
-import org.eclipse.uml2.uml.INakedEnumeration;
-import org.eclipse.uml2.uml.INakedProperty;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.MultiplicityElement;
+import org.eclipse.uml2.uml.Property;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJParameter;
@@ -17,6 +17,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 
 public class TinkerGenerationUtil {
 
@@ -86,12 +87,9 @@ public class TinkerGenerationUtil {
 	public static OJPathName TINKER_QUALIFIER_PATHNAME = new OJPathName("org.nakeduml.tinker.collection.Qualifier");
 	public static OJPathName tinkerMultiplicityPathName = new OJPathName("org.nakeduml.tinker.collection.Multiplicity");
 
-	public static String constructSelfToAuditEdgeLabel(INakedEntity entity) {
-		return "audit";
-	}
 
-	public static String contructNameForQualifiedGetter(NakedStructuralFeatureMap map) {
-		return "getQualifierFor" + StringUtils.capitalize(map.fieldname());
+	public static String contructNameForQualifiedGetter(StructuralFeatureMap map) {
+		return "getQualifierFor" + NameConverter.capitalize(map.fieldname());
 	}
 
 	// public static boolean calculateDirection(NakedStructuralFeatureMap map,
@@ -113,21 +111,21 @@ public class TinkerGenerationUtil {
 	// return isComposite;
 	// }
 
-	public static String constructTinkerCollectionInit(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean jsf) {
+	public static String constructTinkerCollectionInit(OJAnnotatedClass owner, StructuralFeatureMap map, boolean jsf) {
 		if (map.getProperty().getOtherEnd() != null) {
 			return map.umlName() + " = new " + (map.getProperty().isOrdered() ? "TinkerArrayList" : jsf ? "TinkerJsfHashSet" : "TinkerHashSet") + "<"
 					+ map.javaBaseTypePath().getLast() + ">(" + map.javaBaseTypePath().getLast() + ".class, this, " + owner.getName() + ".class.getMethod(\"addTo"
-					+ StringUtils.capitalize(map.umlName()) + "\", new Class[]{" + map.javaBaseTypePath().getLast() + ".class}), " + owner.getName()
-					+ ".class.getMethod(\"removeFrom" + StringUtils.capitalize(map.umlName()) + "\", new Class[]{" + map.javaBaseTypePath().getLast() + ".class}))";
+					+ NameConverter.capitalize(map.umlName()) + "\", new Class[]{" + map.javaBaseTypePath().getLast() + ".class}), " + owner.getName()
+					+ ".class.getMethod(\"removeFrom" + NameConverter.capitalize(map.umlName()) + "\", new Class[]{" + map.javaBaseTypePath().getLast() + ".class}))";
 		} else {
 			return map.umlName() + " = new " + (map.getProperty().isOrdered() ? "TinkerEmbeddedArrayList" : "TinkerEmbeddedHashSet") + "<" + map.javaBaseTypePath().getLast()
-					+ ">(this, " + owner.getName() + ".class.getMethod(\"addTo" + StringUtils.capitalize(map.umlName()) + "\", new Class[]{" + map.javaBaseTypePath().getLast()
-					+ ".class}), " + owner.getName() + ".class.getMethod(\"removeFrom" + StringUtils.capitalize(map.umlName()) + "\", new Class[]{"
+					+ ">(this, " + owner.getName() + ".class.getMethod(\"addTo" + NameConverter.capitalize(map.umlName()) + "\", new Class[]{" + map.javaBaseTypePath().getLast()
+					+ ".class}), " + owner.getName() + ".class.getMethod(\"removeFrom" + NameConverter.capitalize(map.umlName()) + "\", new Class[]{"
 					+ map.javaBaseTypePath().getLast() + ".class}))";
 		}
 	}
 
-	public static String getEdgeName(NakedStructuralFeatureMap map) {
+	public static String getEdgeName(StructuralFeatureMap map) {
 		if (map.getProperty().getAssociation() != null) {
 			return map.getProperty().getAssociation().getName();
 		} else {
@@ -135,27 +133,27 @@ public class TinkerGenerationUtil {
 		}
 	}
 
-	public static String getEdgeName(INakedClassifier c) {
+	public static String getEdgeName(Classifier c) {
 		return tinkeriseUmlName(c.getMappingInfo().getQualifiedUmlName());
 	}
 
-	public static String constructNameForInternalCreateAuditToOne(NakedStructuralFeatureMap map) {
-		return "z_internalCreateAuditToOne" + StringUtils.capitalize(map.umlName());
+	public static String constructNameForInternalCreateAuditToOne(StructuralFeatureMap map) {
+		return "z_internalCreateAuditToOne" + NameConverter.capitalize(map.umlName());
 	}
 
-	public static String constructNameForInternalCreateAuditManies(NakedStructuralFeatureMap map) {
-		return "z_internalCreateAuditToMany" + StringUtils.capitalize(map.umlName()) + "s";
+	public static String constructNameForInternalCreateAuditManies(StructuralFeatureMap map) {
+		return "z_internalCreateAuditToMany" + NameConverter.capitalize(map.umlName()) + "s";
 	}
 
-	public static String constructNameForInternalCreateAuditMany(NakedStructuralFeatureMap map) {
-		return "z_internalCreateAuditToMany" + StringUtils.capitalize(map.umlName());
+	public static String constructNameForInternalCreateAuditMany(StructuralFeatureMap map) {
+		return "z_internalCreateAuditToMany" + NameConverter.capitalize(map.umlName());
 	}
 
-	public static String constructNameForInternalManiesRemoval(NakedStructuralFeatureMap map) {
-		return "z_internalRemoveAllFrom" + StringUtils.capitalize(map.umlName());
+	public static String constructNameForInternalManiesRemoval(StructuralFeatureMap map) {
+		return "z_internalRemoveAllFrom" + NameConverter.capitalize(map.umlName());
 	}
 
-	public static OJBlock instantiateClassifier(OJBlock block, NakedStructuralFeatureMap map) {
+	public static OJBlock instantiateClassifier(OJBlock block, StructuralFeatureMap map) {
 		OJField field = new OJField();
 		field.setName(map.umlName());
 		field.setType(map.javaBaseTypePath());
@@ -176,13 +174,13 @@ public class TinkerGenerationUtil {
 		return numlMetaInfo.findAttribute("uuid").getValues().get(0).toString();
 	}
 
-	public static String getQualifierValueGetterName(INakedProperty qualifier) {
-		NakedStructuralFeatureMap qualifierOwnerMap = OJUtil.buildStructuralFeatureMap((INakedProperty) qualifier.getOwnerElement());
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(qualifier);
-		return "get" + StringUtils.capitalize(qualifierOwnerMap.fieldname()) + StringUtils.capitalize(map.fieldname()) + "QualifierValue";
+	public static String getQualifierValueGetterName(Property qualifier) {
+		StructuralFeatureMap qualifierOwnerMap = OJUtil.buildStructuralFeatureMap((Property) qualifier.getOwner());
+		StructuralFeatureMap map = new NakedStructuralFeatureMap(qualifier);
+		return "get" + NameConverter.capitalize(qualifierOwnerMap.fieldname()) + NameConverter.capitalize(map.fieldname()) + "QualifierValue";
 	}
 
-	public static String calculateMultiplcity(IMultiplicityKind multiplicityKind) {
+	public static String calculateMultiplcity(MultiplicityElement multiplicityKind) {
 		if (multiplicityKind.getLower() == 1 && multiplicityKind.getUpper() == Integer.MAX_VALUE) {
 			return "Multiplicity.ONE_TO_MANY";
 		} else if (multiplicityKind.getLower() == 0 && multiplicityKind.getUpper() == Integer.MAX_VALUE) {
@@ -196,12 +194,12 @@ public class TinkerGenerationUtil {
 		}
 	}
 
-	public static String addSetterForSimpleType(NakedStructuralFeatureMap map) {
+	public static String addSetterForSimpleType(StructuralFeatureMap map) {
 		return addSetterForSimpleType(map, false);
 	}
 	
-	public static String addSetterForSimpleType(NakedStructuralFeatureMap map, boolean audit) {
-		if (map.getProperty().getBaseType() instanceof INakedEnumeration) {
+	public static String addSetterForSimpleType(StructuralFeatureMap map, boolean audit) {
+		if (map.getProperty().getType() instanceof Enumeration) {
 			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
 					+ "\", val!=null?val.name():null)";
 		} else {

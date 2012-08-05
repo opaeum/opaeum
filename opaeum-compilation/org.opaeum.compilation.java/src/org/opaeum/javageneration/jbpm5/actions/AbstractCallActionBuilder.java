@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.CallOperationAction;
@@ -27,16 +30,14 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.AbstractCaller;
 import org.opaeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.javageneration.maps.NakedOperationMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractCallActionBuilder<T extends CallAction> extends PotentialTaskActionBuilder<T>{
 	private AbstractCaller<T> delegate;
-	protected NakedOperationMap calledElementMap;
-	public AbstractCallActionBuilder(OpaeumLibrary l,T node,AbstractCaller<T> behaviorCaller){
-		super(l, node);
+	protected OperationMap calledElementMap;
+	public AbstractCallActionBuilder(T node,AbstractCaller<T> behaviorCaller){
+		super(behaviorCaller.getOjUtil(), node);
 		this.delegate = behaviorCaller;
 	}
 	@Override
@@ -75,7 +76,7 @@ public abstract class AbstractCallActionBuilder<T extends CallAction> extends Po
 	public boolean isLongRunning(){
 		return calledElementMap.isLongRunning();
 	}
-	private void implementExceptionPins(OJClassifier owner,NakedOperationMap map){
+	private void implementExceptionPins(OJClassifier owner,OperationMap map){
 		if(map.getExceptionParameters().size() > 0){
 			Set<Parameter> exceptionParameters = new HashSet<Parameter>(map.getExceptionParameters());
 			for(OutputPin p:EmfActionUtil.getExceptionPins( node)){
@@ -91,7 +92,7 @@ public abstract class AbstractCallActionBuilder<T extends CallAction> extends Po
 			}
 			for(Parameter ex:exceptionParameters){
 				OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, ex, false);
-				NakedStructuralFeatureMap exceptionMap = OJUtil.buildStructuralFeatureMap(map.getContext(), ex);
+				StructuralFeatureMap exceptionMap = ojUtil.buildStructuralFeatureMap(ex);
 				OJIfStatement ifAtNode = buildIfAtNode(onException);
 				ifAtNode.getThenPart().addToStatements("propagateException(failedProcess." + exceptionMap.getter() + "())");
 			}
@@ -105,7 +106,7 @@ public abstract class AbstractCallActionBuilder<T extends CallAction> extends Po
 	private void implementExceptionPins(OJAnnotatedOperation operation,OJTryStatement tryStatement){
 		List<OutputPin> exceptionPins = EmfActionUtil.getExceptionPins( node);
 		for(OutputPin e:exceptionPins){
-			OJPathName pathName = OJUtil.classifierPathname((Classifier) e.getType());
+			OJPathName pathName = ojUtil.classifierPathname((Classifier) e.getType());
 			operation.getOwner().addToImports(pathName);
 			OJIfStatement statement = new OJIfStatement();
 			statement.setCondition("e.isParameter(\"" + EmfActionUtil.getLinkedTypedElement( e).getName() + "\")");

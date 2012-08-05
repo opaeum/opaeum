@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
@@ -61,7 +63,6 @@ import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import org.opaeum.javageneration.jbpm5.actions.ParameterNodeBuilder;
 import org.opaeum.javageneration.jbpm5.actions.ReplyActionBuilder;
 import org.opaeum.javageneration.jbpm5.actions.SimpleActionBridge;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.StructuredActivityNodeMap;
 import org.opaeum.javageneration.oclexpressions.CodeCleanup;
 import org.opaeum.javageneration.util.OJUtil;
@@ -71,6 +72,21 @@ import org.opaeum.runtime.domain.ExceptionHolder;
 		OperationAnnotator.class,SimpleActivityMethodImplementor.class /* Needs repeatable sequence in the ocl generating steps */
 },before = CodeCleanup.class)
 public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
+	private void setupVariables(OJAnnotatedOperation oper,ActivityNode node){
+		if(node instanceof StructuredActivityNode){
+			Collection<Variable> variables = ((StructuredActivityNode) node).getVariables();
+			for(Variable var:variables){
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(var);
+				OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
+				field.setInitExp("(" + map.javaType() + ")context.getVariable(\"" + map.fieldname() + "\")");
+				oper.getOwner().addToImports(map.javaTypePath());
+				oper.getBody().addToLocals(field);
+			}
+		}
+		if(node.getOwner() instanceof ActivityNode){
+			setupVariables(oper, (ActivityNode) node.getOwner());
+		}
+	}
 	private void activityEdge(ActivityEdge edge){
 		OJAnnotatedClass c = findJavaClass(EmfActivityUtil.getContainingActivity(edge));
 		if(edge instanceof ObjectFlow && ((ObjectFlow) edge).getTransformation() != null){
@@ -81,7 +97,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			OJAnnotatedOperation oper = new OJAnnotatedOperation(Jbpm5Util.getGuardMethod(node, edge));
 			c.addToOperations(oper);
 			oper.setReturnType(new OJPathName("boolean"));
-			ActivityUtil.setupVariables(oper, node);
+			setupVariables(oper, node);
 			ActivityNode source = EmfActivityUtil.getEffectiveSource(edge);
 			if(edge instanceof ObjectFlow){
 				addObjectFlowVariable(edge, oper, (ObjectFlow) edge);
@@ -105,10 +121,10 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		ObjectNode origin = EmfActivityUtil.getOriginatingObjectNode( objectFlow);
 		// TODO the originatingObjectNode may not have the correct type after
 		// transformations and selections
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(edge), origin, false);
+		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(origin);
 		OJAnnotatedField sourceField = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 		oper.getBody().addToLocals(sourceField);
-		AbstractObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
+		AbstractObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(ojUtil);
 		sourceField.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(oper.getBody(), objectFlow));
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -116,7 +132,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		if(!EmfActivityUtil.isSimpleSynchronousMethod(activity)){
 			OJAnnotatedClass activityClasss = findJavaClass(activity);
 			addParameterDelegation(activityClasss, activity);
-			OJPathName stateClass = OJUtil.statePathname(activity);
+			OJPathName stateClass = ojUtil.statePathname(activity);
 			OJAnnotatedOperation getSelf = new OJAnnotatedOperation("getSelf", activityClasss.getPathName());
 			getSelf.initializeResultVariable("this");
 			activityClasss.addToOperations(getSelf);
@@ -159,7 +175,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				}else{
 					getter.initializeResultVariable("getNodeContainer().getSelf()");
 				}
-				OJAnnotatedOperation getActivity = new OJAnnotatedOperation("getContainingActivity", OJUtil.classifierPathname(EmfActivityUtil
+				OJAnnotatedOperation getActivity = new OJAnnotatedOperation("getContainingActivity", ojUtil.classifierPathname(EmfActivityUtil
 						.getContainingActivity(container)));
 				c.addToOperations(getActivity);
 				if(container instanceof Activity){
@@ -172,7 +188,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 					contextGetter.initializeResultVariable("getSelf().getContextObject()");
 				}
 				implementVariableDelegation(container, msg, c);
-				StructuredActivityNodeMap map = new StructuredActivityNodeMap(san);
+				StructuredActivityNodeMap map = ojUtil.buildStructuredActivityNodeMap(san);
 				OJUtil.addPersistentProperty(c, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
 				implementContainer(isProcess, stateClass, san, childMsg);
 				if(isProcess){
@@ -193,14 +209,14 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	public void implementVariableDelegation(Namespace container,Classifier msg,OJAnnotatedClass c){
 		// NB!!! remember this is only for OCL, not for actions. We only implement getters
 		for(Variable var:EmfActivityUtil.getVariables(container)){
-			NakedStructuralFeatureMap varMap = OJUtil.buildStructuralFeatureMap(msg, var);
+			StructuralFeatureMap varMap = ojUtil.buildStructuralFeatureMap(var);
 			OJAnnotatedOperation delegate = new OJAnnotatedOperation(varMap.getter(), varMap.javaTypePath());
 			c.addToOperations(delegate);
 			delegate.initializeResultVariable("getNodeContainer()." + varMap.getter() + "()");
 		}
 		if(container instanceof Activity){
 			for(Parameter var:((Activity) container).getOwnedParameters()){
-				NakedStructuralFeatureMap varMap = OJUtil.buildStructuralFeatureMap(msg, var);
+				StructuralFeatureMap varMap = ojUtil.buildStructuralFeatureMap(var);
 				OJAnnotatedOperation delegate = new OJAnnotatedOperation(varMap.getter(), varMap.javaTypePath());
 				c.addToOperations(delegate);
 				delegate.initializeResultVariable("getNodeContainer()." + varMap.getter() + "()");
@@ -218,7 +234,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			Activity a = (Activity) activity;
 			for(Parameter p:a.getOwnedParameters()){
 				if(p.isException()){
-					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(activity, p);
+					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 					execute.getBody().addToStatements(
 							new OJIfStatement("this." + map.getter() + "()!=null", "throw new ExceptionHolder(this,\"" + p.getName() + "\","
 									+ map.getter() + "())"));
@@ -256,8 +272,8 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 					Classifier msg = getLibrary().getMessageStructure(region);
 					OJAnnotatedClass msgClass = findJavaClass(msg);
 					for(ExpansionNode ip:region.getOutputElements()){
-						NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(msg, ip, true);
-						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(msg, ip, false);
+						StructuralFeatureMap propertyMap = ojUtil.buildStructuralFeatureMap(ip);
+						StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(ip);
 						OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
 						msgClass.addToOperations(getter);
 						getter.initializeResultVariable("getNodeContainer()." + propertyMap.getter() + "()");
@@ -268,11 +284,11 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		visitEdges(EmfActivityUtil.getEdges(activity));
 	}
 	private void implementDerivedGetter(OJAnnotatedClass activityClass,ObjectNode node2){
-		NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap((Action) EmfElementFinder.getContainer(node2), getLibrary());
+		StructuralFeatureMap actionMap = ojUtil.buildStructuralFeatureMap((Action) EmfElementFinder.getContainer(node2));
 		Namespace container = EmfActivityUtil.getNearestNodeContainer(node2);
 		Classifier parentMsg = getLibrary().getMessageStructure(container);
-		NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(parentMsg, node2, true);
-		NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(parentMsg, node2, false);
+		StructuralFeatureMap pinMap = ojUtil.buildStructuralFeatureMap( node2);
+		StructuralFeatureMap propertyMap = ojUtil.buildStructuralFeatureMap( node2);
 		List<OJPathName> emptyList = Collections.emptyList();
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) activityClass.findOperation(pinMap.getter(), emptyList);
 		oper.setBody(new OJBlock());
@@ -318,26 +334,26 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	private void implementNodeMethod(OJClass activityClass,ActivityNode node){
 		Jbpm5ActionBuilder<?> implementor = null;
 		if(node instanceof ExpansionRegion){
-			implementor = new ExpansionRegionBuilder(getLibrary(), (ExpansionRegion) node);
+			implementor = new ExpansionRegionBuilder(ojUtil, (ExpansionRegion) node);
 		}else if(EmfActionUtil.isSingleScreenTask(node)){
-			implementor = new EmbeddedSingleScreenTaskBuilder(getLibrary(), (OpaqueAction) node);
+			implementor = new EmbeddedSingleScreenTaskBuilder(ojUtil, (OpaqueAction) node);
 		}else if(EmfActionUtil.isScreenFlowTask(node)){
-			implementor = new EmbeddedScreenFlowTaskBuilder(getLibrary(), (CallBehaviorAction) node);
+			implementor = new EmbeddedScreenFlowTaskBuilder(ojUtil, (CallBehaviorAction) node);
 		}else if(node instanceof CallBehaviorAction){
-			implementor = new CallBehaviorActionBuilder(getLibrary(), (CallBehaviorAction) node);
+			implementor = new CallBehaviorActionBuilder(ojUtil, (CallBehaviorAction) node);
 		}else if(node instanceof CallOperationAction){
-			implementor = new CallOperationActionBuilder(getLibrary(), (CallOperationAction) node);
+			implementor = new CallOperationActionBuilder(ojUtil, (CallOperationAction) node);
 		}else if(node instanceof AcceptEventAction){
-			implementor = new AcceptEventActionBuilder(getLibrary(), (AcceptEventAction) node);
+			implementor = new AcceptEventActionBuilder(ojUtil, (AcceptEventAction) node);
 		}else if(node instanceof ActivityParameterNode){
 			ActivityParameterNode parameterNode = (ActivityParameterNode) node;
-			implementor = new ParameterNodeBuilder(getLibrary(), parameterNode);
+			implementor = new ParameterNodeBuilder(ojUtil, parameterNode);
 		}else if(node instanceof ReplyAction){
 			ReplyAction action = (ReplyAction) node;
-			implementor = new ReplyActionBuilder(getLibrary(), action);
+			implementor = new ReplyActionBuilder(ojUtil, action);
 		}else{
-			implementor = new SimpleActionBridge(getLibrary(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getLibrary(),
-					new Jbpm5ObjectNodeExpressor(getLibrary())));
+			implementor = new SimpleActionBridge(ojUtil, node, SimpleActivityMethodImplementor.resolveBuilder(node, getLibrary(),
+					new Jbpm5ObjectNodeExpressor(ojUtil)));
 		}
 		if(implementor.hasNodeMethod()){
 			OJAnnotatedOperation operation = new OJAnnotatedOperation(implementor.getMap().doActionMethod());

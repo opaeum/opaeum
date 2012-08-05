@@ -1,5 +1,8 @@
 package org.opaeum.javageneration.jbpm5.actions;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Behavior;
@@ -13,10 +16,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.jbpm5.activity.ActivityUtil;
-import org.opaeum.javageneration.maps.NakedOperationMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 	// oyoyoyoyoy Jbpm
@@ -25,8 +25,8 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 	public boolean pinsAvailableAsVariables(){
 		return true;
 	}
-	public Jbpm5ObjectNodeExpressor(OpaeumLibrary l){
-		super(l);
+	public Jbpm5ObjectNodeExpressor(OJUtil ojUtil){
+		super(ojUtil);
 	}
 	@Override
 	public String pathToVariableContext(VariableAction action){
@@ -46,7 +46,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 			return sb.toString();
 		}
 	}
-	public String storeResults(NakedStructuralFeatureMap resultMap,String call,boolean isMany){
+	public String storeResults(StructuralFeatureMap resultMap,String call,boolean isMany){
 		if(resultMap.isCollection()){
 			if(isMany){
 				call = resultMap.allAdder() + "(" + call + ")";
@@ -59,13 +59,13 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		return call;
 	}
 	@Override
-	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap resultMap){
+	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,StructuralFeatureMap resultMap){
 		OJAnnotatedField outPinVar = new OJAnnotatedField(resultMap.fieldname(), resultMap.javaTypePath());
 		block.addToLocals(outPinVar);
 		return outPinVar;
 	}
 	public String surroundWithBehaviorCall(String expression,Behavior transformation,ObjectFlow flow){
-		NakedOperationMap map = OJUtil.buildOperationMap(transformation);
+		OperationMap map = ojUtil.buildOperationMap(transformation);
 		if(transformation.getContext().conformsTo(EmfActivityUtil.getContainingActivity(flow))){
 			if(ActivityUtil.flowsInStructuredNode(flow)){
 				return "getContainingActivity()." + map.javaOperName() + "(" + expression + ")";
@@ -84,27 +84,27 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		}else{
 			ObjectFlow edge = (ObjectFlow) pin.getIncomings().iterator().next();
 			ObjectNode feedingNode = EmfActivityUtil.getFeedingNode( pin);
-			NakedStructuralFeatureMap feedingMap = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(feedingNode), feedingNode, shouldEnsureUniquenes(feedingNode));
+			StructuralFeatureMap feedingMap = ojUtil.buildStructuralFeatureMap(feedingNode);
 			String call = feedingMap.getter() + "()";
 			return surroundWithSelectionAndTransformation(call, edge);
 		}
 	}
-	protected String initForResultVariable(NakedStructuralFeatureMap map){
+	protected String initForResultVariable(StructuralFeatureMap map){
 		return map.getter() + "()";
 	}
 	public String expressExceptionInput(OJBlock block,ObjectNode pin){
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(pin), pin, true);
+		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(pin);
 		return "(" + map.javaType() + ")" + EXCEPTION_FIELD;
 	}
 	@Override
 	public String expressFeedingNodeForObjectFlowGuard(OJBlock block,ObjectFlow flow){
 		ObjectNode feedingNode = (ObjectNode) EmfActivityUtil.getOriginatingObjectNode( flow);
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(flow), feedingNode, shouldEnsureUniquenes(feedingNode));
+		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(feedingNode);
 		String call = map.getter() + "()";
 		return surroundWithSelectionAndTransformation(call, flow);
 	}
 	@Override
-	public String clear(NakedStructuralFeatureMap map){
+	public String clear(StructuralFeatureMap map){
 		return map.clearer() + "()";
 	}
 }

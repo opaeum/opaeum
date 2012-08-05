@@ -11,8 +11,8 @@ public class CallOperationActionBuilder extends AbstractCallActionBuilder<CallOp
 	public boolean isLongRunning(){
 		return EmfBehaviorUtil.isResponsibility(node.getOperation());
 	}
-	public CallOperationActionBuilder(OpaeumLibrary oclEngine,CallOperationAction node){
-		super(oclEngine, node,new OperationCaller(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine)));
-		calledElementMap = OJUtil.buildOperationMap(node.getOperation());
+	public CallOperationActionBuilder(OJUtil ojUtil,CallOperationAction node){
+		super( node,new OperationCaller( node, new Jbpm5ObjectNodeExpressor(ojUtil)));
+		calledElementMap = ojUtil.buildOperationMap(node.getOperation());
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.helpers.CommonNames;
+import nl.klasse.octopus.codegen.umlToJava.common.ExpGeneratorHelper;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.visitors.OclUtilityCreator;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
@@ -26,13 +27,17 @@ import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.javageneration.util.OJUtil;
 
 @SuppressWarnings("rawtypes")
 public class OperationCallCreator {
 	private OJClass myClass = null;
-
-	public OperationCallCreator(OJClass myClass) {
+	OJUtil ojUtil;
+	ExpGeneratorHelper expGeneratorHelper;
+	public OperationCallCreator(ExpGeneratorHelper h,OJClass myClass) {
 		super();
+		expGeneratorHelper=h;
+		this.ojUtil=h.ojUtil;
 		this.myClass = myClass;
 	}
 
@@ -51,12 +56,12 @@ public class OperationCallCreator {
 			}
 		} else if (exp.getReferredOperation().getUpper() == -1
 				|| exp.getReferredOperation().getUpper() > 1) {
-			CollectionOperCallCreator maker1 = new CollectionOperCallCreator(
+			CollectionOperCallCreator maker1 = new CollectionOperCallCreator(expGeneratorHelper,
 					myClass);
 			result = maker1.collectionOperCall(exp, source.toString(), args,
 					referedOp, isStatic, params);
 		} else if (sourceType instanceof PrimitiveType) {
-			BasicTypeOperCallCreator maker2 = new BasicTypeOperCallCreator(
+			BasicTypeOperCallCreator maker2 = new BasicTypeOperCallCreator(ojUtil,
 					myClass);
 			result = maker2.makeOperCall(exp, source.toString(), args,
 					referedOp, params);
@@ -72,11 +77,11 @@ public class OperationCallCreator {
 	}
 
 	private String buildClassOp(List args, Operation referedOp) {
-		ClassifierMap OWNER = new ClassifierMap(
+		ClassifierMap OWNER = ojUtil.buildClassifierMap(
 				(Classifier) referedOp.getOwner());
 		myClass.addToImports(OWNER.javaTypePath());
 		String className = OWNER.javaType();
-		OperationMap OPERATION = new OperationMap(referedOp);
+		OperationMap OPERATION = ojUtil.buildOperationMap(referedOp);
 		String opName = OPERATION.javaOperName();
 		String arguments = Util.collectionToString(args, ", ");
 		return className + "." + opName + "(" + arguments + ")";
@@ -88,7 +93,7 @@ public class OperationCallCreator {
 		Iterator it = exp.getArgument().iterator();
 		while (it.hasNext()) {
 			OCLExpression arg = (OCLExpression) it.next();
-			ExpressionCreator myExpMaker = new ExpressionCreator(myClass);
+			ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass);
 			String expStr = myExpMaker.makeExpression(arg, isStatic, params);
 			result.add(expStr);
 		}
@@ -144,10 +149,10 @@ public class OperationCallCreator {
 
 	private String buildAllInstances(OperationCallExp exp, StringBuffer source,
 			List args, Operation referedOp) {
-		ClassifierMap OWNER = new ClassifierMap(
+		ClassifierMap OWNER = ojUtil.buildClassifierMap(
 				(Classifier) referedOp.getOwner());
 		String className = OWNER.javaType();
-		OperationMap OPERATION = new OperationMap(referedOp);
+		OperationMap OPERATION = ojUtil.buildOperationMap(referedOp);
 		String opName = OPERATION.javaOperName(); // should be "allInstances"
 		String arguments = Util.collectionToString(args, ", ");
 		// indicate that this class needs the allInstances oper implemented
@@ -172,7 +177,7 @@ public class OperationCallCreator {
 			List args) {
 		Classifier argType = ((TypeExp) exp.getArgument().get(0))
 				.getReferredType();
-		String typeStr = new ClassifierMap(argType).javaType();
+		String typeStr = ojUtil.buildClassifierMap(argType).javaType();
 		String result = "((" + typeStr + ") "
 				+ StringHelpers.addBrackets(source.toString()) + ")";
 		return result;
@@ -213,7 +218,7 @@ public class OperationCallCreator {
 		String result = "";
 		StateExp arg = (StateExp) exp.getArgument().get(0);
 		State usedState = arg.getReferredState();
-		StateMap STATE = new StateMap(usedState);
+		StateMap STATE = ojUtil.buildStateMap(usedState);
 		result = source + "." + STATE.getter() + "() == true";
 		return result;
 	}
@@ -224,7 +229,7 @@ public class OperationCallCreator {
 				source != null && source.length() > 0);
 		source = StringHelpers.addBrackets(source);
 		String result = "";
-		OperationMap OPERATION = new OperationMap(referedOp);
+		OperationMap OPERATION = ojUtil.buildOperationMap(referedOp);
 		String operationName = OPERATION.javaOperName();
 		String arguments = Util.collectionToString(args, ", ");
 		// if ( referedOp.isInfix() ) {

@@ -26,10 +26,12 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.ControlFlow;
 import org.eclipse.uml2.uml.ControlNode;
+import org.eclipse.uml2.uml.DecisionNode;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
+import org.eclipse.uml2.uml.ForkNode;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.LiteralInteger;
@@ -553,4 +555,34 @@ public class EmfActivityUtil{
 			}
 		}
 	}
+	public static ObjectNode getFedNode(ObjectNode source){
+		return getObjectNodeTarget(source.getOutgoings());
+	}
+	private static ObjectNode getObjectNodeTarget(Collection<ActivityEdge> source){
+		for(ActivityEdge edge:source){
+			if(edge instanceof ObjectFlow){
+				return getFedObjectNode((ObjectFlow) edge);
+			}
+		}
+		return null;
+	}
+	private static ObjectNode getFedObjectNode(ObjectFlow edge){
+		if(edge.getTarget() instanceof ObjectNode){
+			return (ObjectNode) edge.getTarget();
+		}else if(edge.getTarget() instanceof ControlNode){
+			ControlNode c= (ControlNode) edge.getTarget();
+			Set<ActivityEdge> allEffectiveOutgoing= getAllEffectiveOutgoing(edge.getTarget());
+			if((c instanceof ForkNode ||c instanceof DecisionNode) && multipleObjectFlows(allEffectiveOutgoing)){
+				//Eliminate guess work. Under these conditions it would be misleading to return anything
+				return null;
+			}
+			for(ActivityEdge outgoing:allEffectiveOutgoing){
+				if(outgoing instanceof ObjectFlow){
+					return getFedObjectNode((ObjectFlow) outgoing);
+				}
+			}
+		}
+		return null;
+	}
+
 }

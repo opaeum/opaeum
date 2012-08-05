@@ -15,7 +15,6 @@ public class ClearOpaeumCacheACtion extends AbstractOpaeumAction{
 		super(selection, "Clear Opaeum Cache");
 	}
 	public void run(){
-		OJUtil.clearCache();
 		// Load classes
 		OpaeumEclipsePlugin.getDefault();
 		IContainer umlDir = (IContainer) selection.getFirstElement();

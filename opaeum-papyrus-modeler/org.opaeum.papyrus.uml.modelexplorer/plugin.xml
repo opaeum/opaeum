@@ -5,6 +5,7 @@
     <startup
           class="org.opaeum.papyrus.OpaeumStartup"></startup>
  </extension>
+
     <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
       <browserCustomization file="resource/UMLPapyrusDefaultBrowserCustomization.uiCustom" loadByDefault="true"/>
       <browserCustomization

@@ -21,10 +21,15 @@ public abstract class AbstractNodeBuilder {
 	protected OpaeumLibrary library;
 	protected AbstractObjectNodeExpressor expressor;
 	protected ValueSpecificationUtil valueSpecificationUtil;
-	protected AbstractNodeBuilder(OpaeumLibrary library, AbstractObjectNodeExpressor expressor) {
-		this.library=library;
+	protected OJUtil ojUtil;
+	protected AbstractNodeBuilder(AbstractObjectNodeExpressor expressor) {
+		this.library=expressor.ojUtil.getLibrary();
+		this.ojUtil=expressor.ojUtil;
 		this.expressor=expressor;
-		valueSpecificationUtil=new ValueSpecificationUtil(library);
+		valueSpecificationUtil=new ValueSpecificationUtil(ojUtil);
+	}
+	public OJUtil getOjUtil(){
+		return ojUtil;
 	}
 	public OJBlock buildLoopThroughTarget(OJOperation operationContext, OJBlock block, ActionMap actionMap) {
 		if (actionMap.targetIsImplicitObject()) {
@@ -74,7 +79,7 @@ public abstract class AbstractNodeBuilder {
 	}
 	protected final String readPin(OJOperation operationContext, OJBlock block, ObjectNode pin) {
 		if(expressor.pinsAvailableAsVariables()){
-			return  OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(pin),pin).fieldname();
+			return  ojUtil.buildStructuralFeatureMap(pin).fieldname();
 		}else{
 			return expressPin(operationContext, block, pin);
 		}
@@ -88,7 +93,7 @@ public abstract class AbstractNodeBuilder {
 		}else if(EmfActivityUtil.getIncomingExceptionHandlers( pin).size()>0){
 			expression=this.expressor.expressExceptionInput(block,pin);
 		} else if (pin.getIncomings().size() == 0) {
-			expression = ValueSpecificationUtil.expressDefaultOrImplicitObject(EmfActivityUtil.getContainingActivity(pin), (Classifier)pin.getType());
+			expression = valueSpecificationUtil.expressDefaultOrImplicitObject(EmfActivityUtil.getContainingActivity(pin), (Classifier)pin.getType());
 		} else if (pin.getIncomings().size() == 1) {
 			expression = this.expressor.expressInputPinOrOutParamOrExpansionNode(block, pin);
 		} else {

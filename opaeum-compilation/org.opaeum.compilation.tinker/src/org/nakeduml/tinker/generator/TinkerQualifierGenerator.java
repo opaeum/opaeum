@@ -2,10 +2,12 @@ package org.nakeduml.tinker.generator;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.uml2.uml.INakedClassifier;
-import org.eclipse.uml2.uml.INakedComplexStructure;
-import org.eclipse.uml2.uml.INakedProperty;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -18,16 +20,17 @@ import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class, after = { TinkerAttributeImplementor.class })
 public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 
 	@Override
-	protected void visitProperty(INakedClassifier owner, NakedStructuralFeatureMap map) {
+	protected void visitProperty(Classifier owner, StructuralFeatureMap map) {
 		if (!map.getProperty().getQualifiers().isEmpty()) {
 			// For each qualifier gen a method returning the default value, i.e.
 			// jippo QualifierValue
-			for (INakedProperty q : map.getProperty().getQualifiers()) {
+			for (Property q : map.getProperty().getQualifiers()) {
 				generateQualifierValue(q);
 				generateQualifiedGetter(q);
 			}
@@ -35,7 +38,7 @@ public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 		}
 	}
 
-	private void generateQualifierGetter(OJAnnotatedClass ojClass, NakedStructuralFeatureMap map, List<INakedProperty> qualifiers) {
+	private void generateQualifierGetter(OJAnnotatedClass ojClass, StructuralFeatureMap map, List<Property> qualifiers) {
 		OJAnnotatedOperation qualifierGetter = new OJAnnotatedOperation(TinkerGenerationUtil.contructNameForQualifiedGetter(map));
 		qualifierGetter.addParam("context", map.javaBaseTypePath());
 		ojClass.addToOperations(qualifierGetter);
@@ -46,8 +49,8 @@ public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 		result.setInitExp("new ArrayList<" + TinkerGenerationUtil.TINKER_QUALIFIER_PATHNAME.getLast() + ">()");
 		qualifierGetter.setReturnType(result.getType());
 		qualifierGetter.getBody().addToLocals(result);
-		for (INakedProperty q : qualifiers) {
-			NakedStructuralFeatureMap qualifierMap = new NakedStructuralFeatureMap(q);
+		for (Property q : qualifiers) {
+			StructuralFeatureMap qualifierMap = new NakedStructuralFeatureMap(q);
 			StringBuilder sb = new StringBuilder();
 			sb.append("result.add(");
 			sb.append("new ");
@@ -58,7 +61,7 @@ public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 			sb.append("context.");
 			sb.append(TinkerGenerationUtil.getQualifierValueGetterName(q));
 			sb.append("(), ");
-			sb.append(TinkerGenerationUtil.calculateMultiplcity(q.getMultiplicity()));
+			sb.append(TinkerGenerationUtil.calculateMultiplcity(q));
 			sb.append("))");
 			qualifierGetter.getBody().addToStatements(sb.toString());	
 		}
@@ -67,14 +70,14 @@ public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 		ojClass.addToImports(TinkerGenerationUtil.tinkerMultiplicityPathName);
 	}
 
-	private void generateQualifiedGetter(INakedProperty qualifier) {
-		INakedProperty ownerElement = (INakedProperty) qualifier.getOwnerElement();
-		INakedClassifier qualifiedClassifier = ownerElement.getOwner();
+	private void generateQualifiedGetter(Property qualifier) {
+		Property ownerElement = (Property) qualifier.getOwner();
+		Classifier qualifiedClassifier = (Classifier) EmfElementFinder.getContainer(ownerElement);
 		OJAnnotatedClass ojClass = findJavaClass(qualifiedClassifier);
 
-		NakedStructuralFeatureMap ownerElementMap = OJUtil.buildStructuralFeatureMap(ownerElement);
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(qualifier);
-		OJAnnotatedOperation qualifierValue = new OJAnnotatedOperation(ownerElementMap.getter() + "For" + StringUtils.capitalize(map.fieldname()));
+		StructuralFeatureMap ownerElementMap = OJUtil.buildStructuralFeatureMap(ownerElement);
+		StructuralFeatureMap map = new NakedStructuralFeatureMap(qualifier);
+		OJAnnotatedOperation qualifierValue = new OJAnnotatedOperation(ownerElementMap.getter() + "For" + NameConverter.capitalize(map.fieldname()));
 		if (qualifier.getMultiplicity().isSingleObject()) {
 			qualifierValue.setReturnType(ownerElementMap.javaTypePath().getElementTypes().get(0));
 		} else {
@@ -98,7 +101,7 @@ public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 		} else {
 			OJSimpleStatement ojSimpleStatement = new OJSimpleStatement("return new TinkerSetClosableSequenceImpl<" + ownerElementMap.javaBaseTypePath().getLast() + ">(closeableSequence");
 			//Specify inverse boolean
-			if (ownerElementMap.getProperty().isInverse() || ownerElementMap.getProperty().getOtherEnd()==null || !ownerElementMap.getProperty().getOtherEnd().isNavigable()) {
+			if (EmfPropertyUtil.isInverse( ownerElementMap.getProperty()) || ownerElementMap.getProperty().getOtherEnd()==null || !ownerElementMap.getProperty().getOtherEnd().isNavigable()) {
 				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", true)");
 			} else {
 				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", false)");
@@ -115,14 +118,14 @@ public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 		ojClass.addToOperations(qualifierValue);
 	}
 
-	private void generateQualifierValue(INakedProperty qualifier) {
-		INakedClassifier qualifierContext = (INakedClassifier) ((INakedProperty) qualifier.getOwnerElement()).getBaseType();
+	private void generateQualifierValue(Property qualifier) {
+		Classifier qualifierContext = (Classifier) ((Property) qualifier.getOwner()).getType();
 		OJAnnotatedClass ojClass = findJavaClass(qualifierContext);
 		OJAnnotatedOperation qualifierValue = new OJAnnotatedOperation(TinkerGenerationUtil.getQualifierValueGetterName(qualifier));
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(qualifier);
+		StructuralFeatureMap map = new NakedStructuralFeatureMap(qualifier);
 		qualifierValue.setReturnType(map.isOne() ? map.javaTypePath() : map.javaBaseTypePath());
 		qualifierValue.getBody().addToStatements(
-				"return " + forceTinkerQualifierToBeOne(ValueSpecificationUtil.expressValue(qualifierValue, qualifier.getInitialValue(), qualifierContext, qualifier.getType())));
+				"return " + forceTinkerQualifierToBeOne(ValueSpecificationUtil.expressValue(qualifierValue, qualifier.getDefaultValue(), qualifierContext, qualifier.getType())));
 		ojClass.addToOperations(qualifierValue);
 	}
 	
@@ -141,7 +144,7 @@ public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 	}
 
 	@Override
-	protected void visitComplexStructure(INakedComplexStructure umlOwner) {
+	protected void visitComplexStructure(Classifier umlOwner) {
 
 	}
 

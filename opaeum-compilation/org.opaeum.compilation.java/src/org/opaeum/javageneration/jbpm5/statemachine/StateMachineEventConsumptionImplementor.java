@@ -4,12 +4,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StateMap;
+
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.MessageEvent;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.State;
@@ -18,6 +21,7 @@ import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.Vertex;
+import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -35,7 +39,6 @@ import org.opaeum.javageneration.jbpm5.ElementsWaitingForEvent;
 import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.FromNode;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.javageneration.maps.NakedStateMap;
 import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.ocl.uml.AbstractOclContext;
 import org.opaeum.ocl.uml.OclBehaviorContext;
@@ -49,11 +52,11 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 		Collection<ElementsWaitingForEvent> waitForEventElements = getWaitForEventElements(umlStateMachine);
 		// TODO fire default transition after doActivity if it is a simple state
 		for(ElementsWaitingForEvent wfe:waitForEventElements){
-			if(wfe.getEvent() instanceof Deadline){
+			if( wfe.getEvent() instanceof TimeEvent && EmfEventUtil.isDeadline((Event) wfe.getEvent())){
 				// fired and cancelled from task
 			}else if(wfe.getEvent() instanceof TimeEvent){
 				for(FromNode fromNode:wfe.getWaitingNodes()){
-					NakedStateMap map = new NakedStateMap((State) fromNode.getWaitingElement());
+					StateMap map = ojUtil.buildStateMap((State) fromNode.getWaitingElement());
 					OJOperation fire = javaStateMachine.getUniqueOperation(map.getOnEntryMethod());
 					eventUtil.implementTimeEventRequest(fire, fire.getBody(), (TimeEvent) wfe.getEvent(), getLibrary().getBusinessRole() != null);
 					OJOperation cancel = javaStateMachine.getUniqueOperation(map.getOnExitMethod());
@@ -62,7 +65,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 				}
 			}else if(wfe.getEvent() instanceof ChangeEvent){
 				for(FromNode fromNode:wfe.getWaitingNodes()){
-					NakedStateMap map = new NakedStateMap((State) fromNode.getWaitingElement());
+					StateMap map = ojUtil.buildStateMap((State) fromNode.getWaitingElement());
 					OJOperation fire = javaStateMachine.getUniqueOperation(map.getOnEntryMethod());
 					eventUtil.implementChangeEventRequest(fire, (ChangeEvent) wfe.getEvent());
 					OJOperation cancel = javaStateMachine.getUniqueOperation(map.getOnExitMethod());
@@ -78,7 +81,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 		for(Transition transition:EmfStateMachineUtil.getTransitions( ns)){
 			Collection<Trigger> triggers = transition.getTriggers();
 			if(triggers.isEmpty()){
-				addEvent(results, transition, transition.getSource().getCompletionEvent());
+				addEvent(results, transition, transition.getSource());
 			}else{
 				for(Trigger trigger:triggers){
 					Event event = trigger.getEvent();
@@ -88,7 +91,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 		}
 		return results.values();
 	}
-	private void addEvent(Map<Element,ElementsWaitingForEvent> results,Transition transition,Event event){
+	private void addEvent(Map<Element,ElementsWaitingForEvent> results,Transition transition,NamedElement event){
 		Vertex state = transition.getSource();
 		ElementsWaitingForEvent eventActions = results.get(event);
 		if(eventActions == null){
@@ -146,7 +149,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 				p.setFinal(true);
 			}
 			SimpleActivityMethodImplementor ai = new SimpleActivityMethodImplementor();
-			ai.initialize(javaModel, config, textWorkspace, workspace);
+			ai.initialize(javaModel, config, textWorkspace, workspace, ojUtil);
 			ai.setWorkspace(workspace);
 			ai.implementActivityOn((Activity) flow.getEffect(), onTransition);
 			operationContext.getOwner().addToImports(listener.getClassDeclaration().getImports());
@@ -164,8 +167,8 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 	}
 	@Override
 	protected void implementEventConsumerBody(ElementsWaitingForEvent eventActions,OJAnnotatedOperation listener,OJIfStatement ifProcessActive){
-		if(eventActions.getEvent() instanceof MessageEvent || eventActions.getEvent() instanceof CompletionEvent){
-			// Message event
+		if(eventActions.getEvent() instanceof MessageEvent || eventActions.getEvent() instanceof State){
+			// Message event or Complecion Event
 			for(FromNode node:eventActions.getWaitingNodes()){
 				consumeEventWithoutSourceNodeInstanceUniqueId(listener, ifProcessActive, node);
 			}

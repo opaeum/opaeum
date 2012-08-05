@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StateMap;
+
 import org.drools.drools._5._0.process.ActionNodeType;
 import org.drools.drools._5._0.process.CompositeType;
 import org.drools.drools._5._0.process.ConnectionsType;
@@ -29,9 +31,6 @@ import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
-import org.opaeum.javageneration.jbpm5.EventUtil;
-import org.opaeum.javageneration.maps.NakedStateMap;
-import org.opaeum.linkage.StateMachineUtil;
 
 @StepDependency(phase = FlowGenerationPhase.class)
 public class StateMachineFlowStep extends AbstractFlowStep{
@@ -86,7 +85,7 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 			long id = EmfWorkspace.getOpaeumId(owner) + ON_COMPLETION_NODE_ID;
 			StateType state = super.addState(nodes, i, "on_completion_of_" + owner.getName(), id);
 			state.getOnEntry().add(ProcessFactory.eINSTANCE.createOnEntryType());
-			createAction(EventUtil.getEventConsumerName(((State) owner).getCompletionEvent()), state.getOnEntry().get(0).getAction(), false);
+			createAction(eventUtil.getEventConsumerName((State) owner), state.getOnEntry().get(0).getAction(), false);
 			createConnection(connections, id, endNodeId);
 			endNodeId = id;
 			i++;
@@ -125,12 +124,12 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 		Long id = EmfWorkspace.getOpaeumId(state);
 		CompositeType cs = createCompositeState(nodes, i, state.getName(), id);
 		nodes.getComposite().add(cs);
-		NakedStateMap map = new NakedStateMap(state);
+		StateMap map = ojUtil.buildStateMap(state);
 		addActions(state, map, cs.getOnEntry(), cs.getOnExit());
 		addRegions(state, cs.getNodes().get(0), cs.getConnections().get(0));
 	}
 	private void addSimpleState(NodesType nodes,int i,Vertex state){
-		NakedStateMap map = new NakedStateMap(state);
+		StateMap map = ojUtil.buildStateMap(state);
 		StateType flowState = ProcessFactory.eINSTANCE.createStateType();
 		setBounds(i, flowState, EmfWorkspace.getOpaeumId( state));
 		flowState.setName(PersistentNameUtil.getPersistentName( state).toString());
@@ -139,7 +138,7 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 		addActions(state, map, onEntries, onExits);
 		nodes.getState().add(flowState);
 	}
-	private void addActions(Vertex state,NakedStateMap map,EList<OnEntryType> onEntries,EList<OnExitType> onExits){
+	private void addActions(Vertex state,StateMap map,EList<OnEntryType> onEntries,EList<OnExitType> onExits){
 		if(EmfStateMachineUtil.doesWorkOnEntry(state)){
 			OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 			createAction(map.getOnEntryMethod(), onEntry.getAction(), true);

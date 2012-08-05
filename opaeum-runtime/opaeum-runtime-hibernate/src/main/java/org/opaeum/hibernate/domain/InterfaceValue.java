@@ -13,41 +13,55 @@ public class InterfaceValue{
 	private String classIdentifier;
 	@Transient
 	private IPersistentObject value;
-	public Long getIdentifier(){
-		return identifier;
-	}
+
 	public IPersistentObject getValue(AbstractPersistence p){
-		if(hasValue() && (value==null)){
+		if(hasValue() && (getValue()==null)){
 			Class<?> implementationClass = getImplementationClass();
-			value=(IPersistentObject) p.getReference(implementationClass, identifier);
+			setValueImpl((IPersistentObject) p.getReference(implementationClass, getIdentifier()));
 		}
-		return value;
+		return getValue();
 	}
 	public void setValue(IPersistentObject value){
 		if(value == null){
-			identifier = null;
-			classIdentifier = null;
+			setIdentifier(null);
+			setClassIdentifier(null);
 		}else{
-			identifier = value.getId();
-			classIdentifier = IntrospectionUtil.getOriginalClass(value).getName();
+			setIdentifier(value.getId());
+			setClassIdentifier(IntrospectionUtil.getOriginalClass(value).getName());
 		}
-		this.value=value;
+		setValueImpl(value);
 	}
-	public void setIdentifier(Long identifier){
-		this.identifier = identifier;
-	}
+
 	public boolean hasValue(){
-		return classIdentifier != null && (identifier != null || value!=null);
+		return getClassIdentifier() != null && (getIdentifier() != null || getValue()!=null);
 	}
 	private Class<?> getImplementationClass(){
-		if(classIdentifier == null){
+		if(getClassIdentifier() == null){
 			return null;
 		}else{
 			try {
-				return Class.forName(classIdentifier);
+				return Class.forName(getClassIdentifier());
 			} catch (ClassNotFoundException e) {
 				throw new RuntimeException(e);
 			}
 		}
+	}
+	public void setIdentifier(Long identifier){
+		this.identifier = identifier;
+	}
+	public Long getIdentifier(){
+		return identifier;
+	}
+	protected IPersistentObject getValue(){
+		return value;
+	}
+	protected String getClassIdentifier(){
+		return classIdentifier;
+	}
+	protected void setClassIdentifier(String classIdentifier){
+		this.classIdentifier = classIdentifier;
+	}
+	protected void setValueImpl(IPersistentObject value){
+		this.value=value;
 	}
 }

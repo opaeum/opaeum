@@ -5,12 +5,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Package;
@@ -45,6 +48,7 @@ import org.opaeum.velocity.AbstractTextProducingVisitor;
 
 public abstract class AbstractPersistenceConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep,
 		IntegrationCodeGenerator{
+	private OJUtil ojUtil;
 	public AbstractPersistenceConfigGenerator(){
 		super();
 	}
@@ -111,38 +115,45 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		}
 		if(!config.getSourceFolderStrategy().isSingleProjectStrategy() || transformationContext.isFeatureSelected(RapCapabilities.class)){
 			// CLasses across multiple jars need to be registered explicitly
-			Collection<Element> allElements = workspace.getAllElements();
-			for(Element e:allElements){
-				if(e instanceof ComplexStructure && ((ComplexStructure) e).isPersistent() && isGeneratingElement(e)){
-					persistentClasses.add(OJUtil.classifierPathname((Classifier) e));
-				}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
-					persistentClasses.add(OJUtil.classifierPathname((Operation) e));
-				}else if(e instanceof Enumeration && isGeneratingElement(e)
-						&& EmfClassifierUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
-						&& !(EmfElementFinder.getRootObject( e) instanceof Profile)){
-					persistentClasses.add(new OJPathName(e.getQualifiedJavaName() + "Entity"));
-				}else if(e instanceof Action &&  EmfActionUtil.isEmbeddedTask((ActivityNode) e) && isGeneratingElement(e)){
-					persistentClasses.add(OJUtil.classifierPathname(((Action) e)));
-				}else if(e instanceof StructuredActivityNode
-						&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e))) && isGeneratingElement(e)){
-					persistentClasses.add(OJUtil.classifierPathname((StructuredActivityNode) e));
+			TreeIterator<Notifier> iter = workspace.getResourceSet().getAllContents();
+			while(iter.hasNext()){
+				Notifier n = iter.next();
+				if(n instanceof Element){
+					Element e = (Element) n;
+					if(e instanceof Classifier && EmfClassifierUtil.isComplexStructure((Classifier) e) && ((ComplexStructure) e).isPersistent()
+							&& isGeneratingElement(e)){
+						persistentClasses.add(ojUtil.classifierPathname((Classifier) e));
+					}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
+						persistentClasses.add(ojUtil.classifierPathname((Operation) e));
+					}else if(e instanceof Enumeration && isGeneratingElement(e)
+							&& EmfClassifierUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
+							&& !(EmfElementFinder.getRootObject(e) instanceof Profile)){
+						persistentClasses.add(new OJPathName(ojUtil.classifierPathname((Enumeration) e) + "Entity"));
+					}else if(e instanceof Action && EmfActionUtil.isEmbeddedTask((ActivityNode) e) && isGeneratingElement(e)){
+						persistentClasses.add(ojUtil.classifierPathname(((Action) e)));
+					}else if(e instanceof StructuredActivityNode
+							&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e)))
+							&& isGeneratingElement(e)){
+						persistentClasses.add(ojUtil.classifierPathname((StructuredActivityNode) e));
+					}
 				}
 			}
 			vars.put("persistentClasses", persistentClasses);
-			vars.put("pkg", OJUtil.utilPackagePath(owner));
+			vars.put("pkg", ojUtil.utilPackagePath(owner));
 		}
 		return vars;
 	}
 	@Override
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace){
-		super.initialize(config, textWorkspace, workspace);
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace, OJUtil ojUtil){
+		super.initialize(config, textWorkspace, workspace,ojUtil);
+
 		// TODO Auto-generated method stub
 	}
 	private boolean isGeneratingElement(Element e){
 		if(shouldProcessWorkspace()){
-			return workspace.getRootObjects().contains(EmfElementFinder .getRootObject(e));
+			return workspace.getRootObjects().contains(EmfElementFinder.getRootObject(e));
 		}else{
-			return workspace.getGeneratingModelsOrProfiles().contains(EmfElementFinder .getRootObject(e));
+			return workspace.getGeneratingModelsOrProfiles().contains(EmfElementFinder.getRootObject(e));
 		}
 	}
 }

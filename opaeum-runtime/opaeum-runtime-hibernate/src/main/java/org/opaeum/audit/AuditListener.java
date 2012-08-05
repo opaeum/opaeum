@@ -10,6 +10,12 @@ import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.classic.Lifecycle;
+import org.hibernate.ejb.event.EJB3FlushEntityEventListener;
+import org.hibernate.ejb.event.EJB3PersistOnFlushEventListener;
+import org.hibernate.ejb.event.EntityCallbackHandler;
+import org.hibernate.engine.Cascade;
+import org.hibernate.engine.CascadingAction;
+import org.hibernate.engine.EntityEntry;
 import org.hibernate.engine.Versioning;
 import org.hibernate.event.EventSource;
 import org.hibernate.event.FlushEntityEvent;
@@ -26,6 +32,7 @@ import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
 import org.hibernate.event.def.AbstractFlushingEventListener;
+import org.hibernate.event.def.DefaultPersistOnFlushEventListener;
 import org.hibernate.persister.entity.EntityPersister;
 import org.opaeum.hibernate.domain.AbstractHibernatePersistence;
 import org.opaeum.hibernate.domain.CascadingInterfaceValue;
@@ -43,6 +50,7 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 	private static final long serialVersionUID = -233067098331332700L;
 	private static final Logger log = LoggerFactory.getLogger(AuditListener.class);
 	private static final Map<EventSource,AuditWorkUnit> entries = Collections.synchronizedMap(new HashMap<EventSource,AuditWorkUnit>());
+	private EJB3FlushEntityEventListener ejb3FlushEntityEventListener;
 	@Override
 	public void onPostUpdate(PostUpdateEvent event){
 		Object entity = event.getEntity();
@@ -90,9 +98,6 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 		}
 		entries.remove(source);
 	}
-	protected void flushInterfaceValues(FlushEvent event){
-		
-	}
 	protected void performExecutions(EventSource session) throws HibernateException{
 		log.trace("executing flush");
 		session.getPersistenceContext().setFlushing(true);
@@ -118,23 +123,43 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 		// hahahahahahahahaha
 	}
 	public void onPersist(PersistEvent event,Map createdAlready) throws HibernateException{
-	};
-	@Override
-	public void onPersist(PersistEvent event) throws HibernateException{
-		EntityPersister p = event.getSession().getEntityPersister(event.getEntityName(), event.getObject());
+		EventSource session = event.getSession();
+		String entityName = event.getEntityName();
+		EntityPersister p = session.getEntityPersister(entityName, event.getObject());
 		Object[] propertyValues = p.getPropertyValues(event.getObject(), EntityMode.POJO);
+		doInterfaceValues(createdAlready, session, propertyValues);
+	}
+	private void doInterfaceValues(Map createdAlready,EventSource session,Object[] propertyValues){
+		session.getSessionFactory().getAllClassMetadata();
 		for(Object object2:propertyValues){
 			if(object2 instanceof InterfaceValue){
 				InterfaceValue iv = (InterfaceValue) object2;
 				if(iv.hasValue() && iv.getIdentifier() == null){
-					IPersistentObject value = iv.getValue(getPersistence(event.getSession()));
+					IPersistentObject value = iv.getValue(getPersistence(session));
 					if(iv instanceof CascadingInterfaceValue){
-						event.getSession().persist(value);
+						// getEjbPersistOnFlushEventListener().onPersist(new PersistEvent(value, session));
+						String entityName = IntrospectionUtil.getOriginalClass(value).getSimpleName();
+						session.persistOnFlush(entityName, value, new HashMap());
+						EntityEntry entry = session.getPersistenceContext().getEntry(value);
+						getEjb3FlushEntityEventListener().onFlushEntity(new FlushEntityEvent(session, value, entry));
+						// session.persistOnFlush(entityName, value, new HashMap());
+						// new Cascade(CascadingAction.PERSIST_ON_FLUSH, Cascade.BEFORE_FLUSH, session).cascade(
+						// session.getEntityPersister(entityName, value), value);
 					}
 					iv.setValue(value);// Populate the id
 				}
 			}
 		}
+	}
+	private EJB3FlushEntityEventListener getEjb3FlushEntityEventListener(){
+		if(ejb3FlushEntityEventListener == null){
+			ejb3FlushEntityEventListener = new EJB3FlushEntityEventListener(new EntityCallbackHandler());
+		}
+		return ejb3FlushEntityEventListener;
+	}
+	@Override
+	public void onPersist(PersistEvent event) throws HibernateException{
+		this.onPersist(event, new HashMap());
 	}
 	private AbstractPersistence getPersistence(EventSource session){
 		AbstractHibernatePersistence persistence = persistenceMap.get(session);
@@ -174,6 +199,10 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 	}
 	@Override
 	public void onFlushEntity(FlushEntityEvent event) throws HibernateException{
-		// TODO Auto-generated method stub
+		if(event.getEntity() instanceof IPersistentObject){
+			EventSource session = event.getSession();
+			Object[] propertyValues = event.getPropertyValues();
+			doInterfaceValues(new HashMap(), session, propertyValues);
+		}
 	}
 }

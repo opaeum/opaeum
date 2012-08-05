@@ -2,9 +2,11 @@ package org.nakeduml.tinker.generator;
 
 import java.util.Set;
 
-import org.eclipse.uml2.uml.INakedClassifier;
-import org.eclipse.uml2.uml.INakedEntity;
-import org.eclipse.uml2.uml.INakedProperty;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJConstructor;
@@ -13,19 +15,19 @@ import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 
+import org.eclipse.uml2.uml.Class;
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerImplementNodeStep.class }, after = { TinkerImplementNodeStep.class })
 public class TinkerCollectionStep extends StereotypeAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
-	public void visitProperty(INakedEntity c) {
+	public void visitProperty(Class c) {
 		if (OJUtil.hasOJClass(c)) {
-			Set<INakedProperty> directlyImplementedAttributes = c.getDirectlyImplementedAttributes();
-			for (INakedProperty p : directlyImplementedAttributes) {
+			Set<Property> directlyImplementedAttributes = getLibrary().getDirectlyImplementedAttributes( c);
+			for (Property p : directlyImplementedAttributes) {
 				if (p.isNavigable()) {
-					if (OJUtil.hasOJClass((INakedClassifier) p.getAssociation())) {
+					if (OJUtil.hasOJClass((Classifier) p.getAssociation())) {
 						// visitAssociationClassProperty(c, new
 						// AssociationClassEndMap(p));
 					} else {
@@ -36,7 +38,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 		}
 	}
 
-	private void visitProperty(INakedEntity c, NakedStructuralFeatureMap map) {
+	private void visitProperty(Class c, StructuralFeatureMap map) {
 		if (!map.getProperty().isDerived() && map.isMany()) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			for (OJConstructor constructor : ojClass.getConstructors()) {
@@ -46,25 +48,25 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 				}
 				OJPathName collectionPathName;
 				if (map.getProperty().isOrdered() && map.getProperty().isUnique()) {
-					if (map.getProperty().hasQualifiers()) {
+					if (map.getProperty().getQualifiers().size()>0) {
 						collectionPathName = TinkerGenerationUtil.tinkerQualifiedOrderedSetImpl.getCopy();
 					} else {
 						collectionPathName = TinkerGenerationUtil.tinkerOrderedSetImpl.getCopy();
 					}
 				} else if (map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
-					if (map.getProperty().hasQualifiers()) {
+					if (map.getProperty().getQualifiers().size()>0) {
 						collectionPathName = TinkerGenerationUtil.tinkerQualifiedSequenceImpl.getCopy();
 					} else {
 						collectionPathName = TinkerGenerationUtil.tinkerSequenceImpl.getCopy();
 					}
 				} else if (!map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
-					if (map.getProperty().hasQualifiers()) {
+					if (map.getProperty().getQualifiers().size()>0) {
 						collectionPathName = TinkerGenerationUtil.tinkerQualifiedBagImpl.getCopy();
 					} else {
 						collectionPathName = TinkerGenerationUtil.tinkerBagImpl.getCopy();
 					}
 				} else if (!map.getProperty().isOrdered() && map.getProperty().isUnique()) {
-					if (map.getProperty().hasQualifiers()) {
+					if (map.getProperty().getQualifiers().size()>0) {
 						collectionPathName = TinkerGenerationUtil.tinkerQualifiedSetImpl.getCopy();
 					} else {
 						collectionPathName = TinkerGenerationUtil.tinkerSetImpl.getCopy();
@@ -85,7 +87,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 					ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", getUid()");
 				}
 				//Specify inverse boolean
-				if (map.getProperty().isInverse() || map.getProperty().getOtherEnd()==null || !map.getProperty().getOtherEnd().isNavigable()) {
+				if (EmfPropertyUtil.isInverse( map.getProperty()) || map.getProperty().getOtherEnd()==null || !map.getProperty().getOtherEnd().isNavigable()) {
 					ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", true");
 				} else {
 					ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", false");

@@ -11,14 +11,14 @@ import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.EmbeddedSingleScreenTaskCaller;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
 public class EmbeddedSingleScreenTaskBuilder extends PotentialTaskActionBuilder<OpaqueAction>{
 	EmbeddedSingleScreenTaskCaller delegate;
-	public EmbeddedSingleScreenTaskBuilder(OpaeumLibrary oclEngine,OpaqueAction node){
-		super(oclEngine, node);
-		delegate = new EmbeddedSingleScreenTaskCaller(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
+	public EmbeddedSingleScreenTaskBuilder(OJUtil ojUtil,OpaqueAction node){
+		super(ojUtil, node);
+		delegate = new EmbeddedSingleScreenTaskCaller(node, new Jbpm5ObjectNodeExpressor(ojUtil));
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation){

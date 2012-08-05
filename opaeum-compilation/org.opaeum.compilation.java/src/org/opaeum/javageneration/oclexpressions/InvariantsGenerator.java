@@ -55,7 +55,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void addConstraintsTo(Classifier c,OJAnnotatedClass myClass){
-		ExpressionCreator ec = new ExpressionCreator(myClass);
+		ExpressionCreator ec = new ExpressionCreator(ojUtil,myClass);
 		boolean hasConstraints = false;
 		for(Constraint rule:c.getOwnedRules()){
 			if(rule.getSpecification() instanceof OpaqueExpression){
@@ -74,7 +74,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 							returnType.addToNames("List");
 							ICollectionType type = (ICollectionType) et;
 							if(type.getElementType() instanceof Classifier){
-								OJPathName pn = OJUtil.classifierPathname((Classifier) type.getElementType());
+								OJPathName pn = ojUtil.classifierPathname((Classifier) type.getElementType());
 								returnType.addToElementTypes(pn);
 								oper.getBody().addToStatements("return new ArrayList<" + pn.getLast() + ">(" + body + ")");
 							}else{

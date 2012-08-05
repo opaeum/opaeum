@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Behavior;
@@ -18,6 +19,7 @@ import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Variable;
 import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
@@ -25,8 +27,6 @@ import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.strategies.BlobStrategyFactory;
 import org.opaeum.strategies.DateTimeStrategyFactory;
 import org.opaeum.strategies.TextStrategyFactory;
@@ -54,68 +54,67 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
-		if(umlOwner instanceof EmulatingElement){
+		if(umlOwner instanceof IEmulatedElement){
 			visitClass(umlOwner);
 		}
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitObjectNode(ObjectNode on){
-		OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity( on), on, false);
-		OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(on), on, true);
+		ojUtil.buildStructuralFeatureMap(on);
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitVariable(Variable v){
-		OJUtil.buildStructuralFeatureMap(EmfActivityUtil.getContainingActivity(v), v);
+		ojUtil.buildStructuralFeatureMap(v);
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitParameterOwner(Behavior p){
-		OJUtil.buildOperationMap(p);
+		ojUtil.buildOperationMap(p);
 		List<Parameter> ownedParameters = p.getOwnedParameters();
 		for(Parameter parm:ownedParameters){
-			OJUtil.buildStructuralFeatureMap( p, parm);
+			ojUtil.buildStructuralFeatureMap( parm);
 		}
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitParameterOwner(Operation p){
-		OJUtil.buildOperationMap(p);
+		ojUtil.buildOperationMap(p);
 		List<Parameter> ownedParameters = p.getOwnedParameters();
 		for(Parameter parm:ownedParameters){
-			OJUtil.buildStructuralFeatureMap((Classifier) p.getOwner(),parm);
+			ojUtil.buildStructuralFeatureMap(parm);
 		}
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void workspaceAfter(EmfWorkspace a){
-		OJUtil.lock();
+		ojUtil.lock();
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitStructuredActivityNode(final StructuredActivityNode c){
-		OJUtil.statePathname(c);
+		ojUtil.statePathname(c);
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(final Classifier c){
-		OJUtil.buildClassifierMap(c,(CollectionKind)null);
+		ojUtil.buildClassifierMap(c,(CollectionKind)null);
 		if(c instanceof Signal){
-			OJUtil.buildSignalMap((Signal) c);
+			ojUtil.buildSignalMap((Signal) c);
 		}
-		OJUtil.classifierPathname(c);
-		OJUtil.packagePathname(c);
+		ojUtil.classifierPathname(c);
+		ojUtil.packagePathname(c);
 		if(c instanceof Behavior ){
-			OJUtil.statePathname(c);
+			ojUtil.statePathname(c);
 		}
 		List<? extends Property> ownedAttributes = c.getAttributes();
 		for(Property iNakedProperty:ownedAttributes){
-			OJUtil.buildStructuralFeatureMap(iNakedProperty);// for interfaces and stereotypes
+			ojUtil.buildStructuralFeatureMap(iNakedProperty);// for interfaces and stereotypes
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitPackage(Package p){
-		OJUtil.packagePathname(p);
+		ojUtil.packagePathname(p);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap map){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap map){
 		Property p = map.getProperty();
 		if(p.getOtherEnd() != null){
-			OJUtil.buildStructuralFeatureMap(p.getOtherEnd());
+			ojUtil.buildStructuralFeatureMap(p.getOtherEnd());
 		}
 		// NB!! This will initialise NakedStructuralFeatureMaps
 	}

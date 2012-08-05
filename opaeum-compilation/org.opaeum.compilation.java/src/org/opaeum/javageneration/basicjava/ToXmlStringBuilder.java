@@ -3,6 +3,7 @@ package org.opaeum.javageneration.basicjava;
 
 
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.eclipse.uml2.uml.Classifier;
@@ -24,7 +25,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
@@ -70,11 +70,11 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 			toString.getBody().addToLocals(sb);
 			toString.getBody().addToStatements("sb.append(\"<" + umlClass.getName() + " \")");
 			toString.getBody().addToStatements("sb.append(\"classUuid=\\\"" + EmfWorkspace.getId( umlClass) + "\\\" \")");
-			toString.getBody().addToStatements("sb.append(\"className=\\\"" + OJUtil.classifierPathname(umlClass) + "\\\" \")");
+			toString.getBody().addToStatements("sb.append(\"className=\\\"" + ojUtil.classifierPathname(umlClass) + "\\\" \")");
 			toString.getBody().addToStatements("sb.append(\"uid=\\\"\" + this.getUid() + \"\\\" \")");
-			for(Property f:EmfElementFinder.getPropertiesInScope( umlClass)){
+			for(Property f:getLibrary().getEffectiveAttributes( umlClass)){
 				if(XmlUtil.isXmlAttribute(f)){
-					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
+					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
 					owner.addToImports(map.javaBaseTypePath());
 					if(map.isOne()){
 						OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
@@ -103,9 +103,9 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 				}
 			}
 			toString.getBody().addToStatements("sb.append(\">\")");
-			for(Property f:EmfElementFinder.getPropertiesInScope( umlClass)){
+			for(Property f:getLibrary().getEffectiveAttributes( umlClass)){
 				if(XmlUtil.isXmlReference(f) || XmlUtil.isXmlSubElement(f)){
-					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
+					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
 					owner.addToImports(map.javaBaseTypePath());
 					String openProperty = "sb.append(\"\\n<" + map.fieldname() + " propertyId=\\\""+ EmfWorkspace.getOpaeumId( map.getProperty()) + "\\\">\")";
 					String closeProperty = "sb.append(\"\\n</" + map.fieldname() + ">\")";
@@ -142,7 +142,7 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
 		// TODO Auto-generated method stub
 	}
 	@Override

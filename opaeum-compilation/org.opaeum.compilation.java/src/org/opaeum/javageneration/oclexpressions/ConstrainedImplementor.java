@@ -16,7 +16,6 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.ocl.uml.AbstractOclContext;
 import org.opaeum.runtime.domain.IConstrained;
 import org.opaeum.runtime.domain.IInvariantError;
@@ -36,7 +35,7 @@ public class ConstrainedImplementor extends AbstractJavaProducingVisitor{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(Classifier c){
-		OJPathName path = OJUtil.classifierPathname(c);
+		OJPathName path = ojUtil.classifierPathname(c);
 		OJClassifier ojClassifier = this.javaModel.findClass(path);
 		if(ojClassifier instanceof OJClass && c instanceof Classifier){
 			Classifier nc = c;

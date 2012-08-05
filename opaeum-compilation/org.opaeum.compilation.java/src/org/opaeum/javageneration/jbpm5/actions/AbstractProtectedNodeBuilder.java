@@ -3,6 +3,8 @@ package org.opaeum.javageneration.jbpm5.actions;
 import java.util.Collection;
 import java.util.Iterator;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.ExceptionHandler;
@@ -19,15 +21,13 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.maps.ExceptionRaisingMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbpm5ActionBuilder<T>{
 	static final String IF_TOKEN_FOUND = "ifTokenFound";
-	protected NakedStructuralFeatureMap callMap;
-	public AbstractProtectedNodeBuilder(OpaeumLibrary oclEngine,T node,NakedStructuralFeatureMap callMap){
-		super(oclEngine, node);
+	protected StructuralFeatureMap callMap;
+	public AbstractProtectedNodeBuilder(OJUtil util,T node,StructuralFeatureMap callMap){
+		super(util, node);
 		this.callMap = callMap;
 	}
 	protected void implementExceptionHandlers(OJClassifier owner,ExceptionRaisingMap map){
@@ -101,7 +101,7 @@ public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbp
 			activityClass.addToOperations(complete);
 			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", AbstractEventConsumptionImplementor.UML_NODE_INSTANCE));
 			complete.addParam("nodeInstanceUniqueId", new OJPathName("String"));
-			complete.addParam("completedWorkObject", OJUtil.classifierPathname(message));
+			complete.addParam("completedWorkObject", ojUtil.classifierPathname(message));
 		}
 		OJIfStatement ifFound = new OJIfStatement("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId))!=null");
 		complete.getBody().addToStatements(ifFound);
@@ -122,7 +122,7 @@ public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbp
 		Iterator<Classifier> iter = e.getExceptionTypes().iterator();
 		while(iter.hasNext()){
 			Classifier type = iter.next();
-			OJPathName pathName = OJUtil.classifierPathname(type);
+			OJPathName pathName = ojUtil.classifierPathname(type);
 			sb.append(exceptionExpression + " instanceof ");
 			sb.append(pathName.getLast());
 			operation.getOwner().addToImports(pathName);

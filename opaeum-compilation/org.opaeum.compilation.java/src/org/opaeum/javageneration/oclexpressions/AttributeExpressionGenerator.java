@@ -2,6 +2,8 @@ package org.opaeum.javageneration.oclexpressions;
 
 import java.util.Collections;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.ValueSpecification;
@@ -14,8 +16,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,CodeCleanup.class
@@ -24,17 +24,17 @@ import org.opaeum.javageneration.util.OJUtil;
 },before = CodeCleanup.class)
 public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap mapper){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap mapper){
 		Property attr = mapper.getProperty();
 		ValueSpecification cont = attr.getDefaultValue();
 		if(cont != null){
 			if(attr.isDerived()){
-				OJPathName path = OJUtil.classifierPathname(owner);
+				OJPathName path = ojUtil.classifierPathname(owner);
 				OJClass myOwner = javaModel.findClass(path);
 				addDerivationRule(owner, myOwner, mapper, cont);
 			}else{
 				Classifier owningElem = owner;
-				OJPathName path = OJUtil.classifierPathname(owningElem);
+				OJPathName path = ojUtil.classifierPathname(owningElem);
 				OJClass myOwner = javaModel.findClass(path);
 				if(attr.isStatic()){
 					addInitToStaticField(myOwner, mapper, cont);
@@ -47,12 +47,12 @@ public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
 	}
-	private void addDerivationRule(Classifier c,OJClass myClass,NakedStructuralFeatureMap mapper,ValueSpecification vs){
+	private void addDerivationRule(Classifier c,OJClass myClass,StructuralFeatureMap mapper,ValueSpecification vs){
 		String getterName = mapper.getter();
 		OJAnnotatedOperation getterOp = (OJAnnotatedOperation) myClass.findOperation(getterName, Collections.emptyList());
 		getterOp.initializeResultVariable(valueSpecificationUtil.expressValue(getterOp, vs, mapper.getDefiningClassifier(), getLibrary().getActualType( mapper.getProperty())));
 	}
-	private void addInitToStaticField(OJClass myClass,NakedStructuralFeatureMap mapper,ValueSpecification vs){
+	private void addInitToStaticField(OJClass myClass,StructuralFeatureMap mapper,ValueSpecification vs){
 		String initStr = valueSpecificationUtil.expressValue(myClass, vs,  getLibrary().getActualType( mapper.getProperty()), true);
 		if(initStr.length() > 0){
 			OJAnnotatedField myField = (OJAnnotatedField) myClass.findField(mapper.fieldname());
@@ -61,7 +61,7 @@ public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private void addInitToConstructor(OJClass myClass,NakedStructuralFeatureMap mapper,ValueSpecification vs){
+	private void addInitToConstructor(OJClass myClass,StructuralFeatureMap mapper,ValueSpecification vs){
 		String initStr = valueSpecificationUtil.expressValue(myClass.getDefaultConstructor(), vs, mapper.getDefiningClassifier(), getLibrary().getActualType( mapper.getProperty()));
 		if(initStr.length() > 0){
 			String statement = "this." + mapper.setter() + "( " + initStr + " )";

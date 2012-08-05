@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.ObjectNode;
@@ -17,19 +20,15 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJStatement;
 import org.opaeum.java.metamodel.OJTryStatement;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.javageneration.maps.NakedOperationMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.runtime.domain.ExceptionHolder;
 
 public abstract class AbstractCaller<T extends CallAction> extends SimpleNodeBuilder<T>{
-	protected NakedStructuralFeatureMap callMap;
-	protected NakedOperationMap operationMap;
-	public AbstractCaller(OpaeumLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
-		super(oclEngine, action, objectNodeExpressor);
+	protected StructuralFeatureMap callMap;
+	protected OperationMap operationMap;
+	public AbstractCaller(T action,AbstractObjectNodeExpressor objectNodeExpressor){
+		super(action, objectNodeExpressor);
 		if(EmfBehaviorUtil.hasMessageStructure(node)){
-			callMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
+			callMap = ojUtil.buildStructuralFeatureMap(node);
 		}
 
 	}

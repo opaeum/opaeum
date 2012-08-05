@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
@@ -26,26 +27,37 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
-import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Stereotype;
+import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
+import org.eclipse.uml2.uml.resource.UMLResource;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.WorkspaceMappingInfo;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.validation.ErrorMap;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 /**
  * Represents the concept of multiple emf models as one root nakedWorkspace. Hacked to implement Element because of visitor constraints
  * 
  */
-public class EmfWorkspace implements Element, ModelWorkspace{
+public class EmfWorkspace implements Element,ModelWorkspace{
+	private String prefix;
+	ErrorMap errorMap;
+	private OpaeumLibrary library;
 	private Map<String,Resource> resources = new HashMap<String,Resource>();
 	private Set<Package> generatingModels = new HashSet<Package>();
 	private Set<Package> primaryModels = new HashSet<Package>();
@@ -57,9 +69,11 @@ public class EmfWorkspace implements Element, ModelWorkspace{
 	private UriToFileConverter uriToFileConverter = new DefaultUriToFileConverter();
 	private String name;
 	private ECrossReferenceAdapter crossReferenceAdaptor;
+	StereotypeApplicationListener applicationListener = new StereotypeApplicationListener();
 	// Load single model
-	public EmfWorkspace(Package model,WorkspaceMappingInfo mappingInfo,String identifier){
-		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
+	public EmfWorkspace(Package model,WorkspaceMappingInfo mappingInfo,String identifier,String prefix){
+		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier,
+				prefix);
 		addGeneratingModelOrProfile(model);
 	}
 	public ECrossReferenceAdapter getCrossReferenceAdapter(){
@@ -69,12 +83,37 @@ public class EmfWorkspace implements Element, ModelWorkspace{
 		return this.crossReferenceAdaptor;
 	}
 	// Load entire resourceSet
-	public EmfWorkspace(URI directoryUri,ResourceSet rs,WorkspaceMappingInfo mappingInfo,String identifier){
+	public EmfWorkspace(URI directoryUri,ResourceSet rs,WorkspaceMappingInfo mappingInfo,String identifier,String prefix){
 		this.resourceSet = rs;
+		this.prefix = prefix;
 		this.mappingInfo = mappingInfo;
 		this.directoryUri = directoryUri;
 		this.identifier = identifier;
 		calculatePrimaryModels();
+		this.library = new OpaeumLibrary(rs);
+		this.errorMap = new ErrorMap();
+		resourceSet.eAdapters().add(new AdapterImpl(){
+			@Override
+			public void notifyChanged(Notification msg){
+				if(msg.getEventType() == Notification.ADD && msg.getNewValue() instanceof UMLResource){
+					UMLResource r = (UMLResource) msg.getNewValue();
+					r.eAdapters().add(applicationListener);
+				}else if(msg.getEventType() == Notification.REMOVE && msg.getOldValue() instanceof UMLResource){
+					UMLResource r = (UMLResource) msg.getOldValue();
+					r.eAdapters().remove(applicationListener);
+				}
+			}
+		});
+	}
+	@Override
+	public ErrorMap getErrorMap(){
+		return errorMap;
+	}
+	public String getPrefix(){
+		return prefix;
+	}
+	public OpaeumLibrary getOpaeumLibrary(){
+		return library;
 	}
 	public void calculatePrimaryModels(){
 		for(Element pkg:getOwnedElements()){
@@ -97,10 +136,10 @@ public class EmfWorkspace implements Element, ModelWorkspace{
 		}
 		return result;
 	}
-	public Set<Package> getPotentialGeneratingModels(){
+	public Set<Package> getPrimaryRootObjects(){
 		return primaryModels;
 	}
-	public WorkspaceMappingInfo getMappingInfo(){
+	public WorkspaceMappingInfo getWorkspaceMappingInfo(){
 		return mappingInfo;
 	}
 	public Set<Package> getGeneratingModelsOrProfiles(){
@@ -118,6 +157,8 @@ public class EmfWorkspace implements Element, ModelWorkspace{
 		generatingModels.clear();
 		for(Element e:getOwnedElements()){
 			if(isPrimaryModelOrProfile((Package) e, dir)){
+				generatingModels.add((Package) e);
+			}else if(e instanceof Model && EmfPackageUtil.isRegeneratingLibrary((Model) e)){
 				generatingModels.add((Package) e);
 			}
 		}
@@ -367,7 +408,7 @@ public class EmfWorkspace implements Element, ModelWorkspace{
 		}
 		return result;
 	}
-	public void setMappingInfo(WorkspaceMappingInfo mappingInfo2){
+	public void setWorkspaceMappingInfo(WorkspaceMappingInfo mappingInfo2){
 		this.mappingInfo = (WorkspaceMappingInfo) mappingInfo2;
 	}
 	public void markLibraries(String...names){
@@ -407,7 +448,7 @@ public class EmfWorkspace implements Element, ModelWorkspace{
 	private static boolean isSchemeReadOnly(String scheme){
 		return Arrays.asList("pathmap").contains(scheme);
 	}
-	public Element getElement(String s){
+	public Element getModelElement(String s){
 		String[] split = s.split("@");
 		Resource r = resources.get(split[0]);
 		// NB!!! Note that we only use the first occurrence of a @-seperated pair. When having to correlate back to model elements make sure
@@ -450,6 +491,8 @@ public class EmfWorkspace implements Element, ModelWorkspace{
 			return null;
 		}else if(object instanceof EmfWorkspace){
 			return ((EmfWorkspace) object).getIdentifier();
+		}else if(object instanceof IEmulatedElement){
+			return ((IEmulatedElement) object).getId();
 		}else{
 			String uid = null;
 			if(object.eResource() != null){
@@ -462,6 +505,10 @@ public class EmfWorkspace implements Element, ModelWorkspace{
 			}
 			return uid;
 		}
+	}
+	@Override
+	public boolean isPrimaryModel(Package rootObject){
+		return isPrimaryModelOrProfile(rootObject, directoryUri);
 	}
 	public static String getResourceId(Resource eResource){
 		Element v = (Element) eResource.getContents().get(0);
@@ -479,5 +526,8 @@ public class EmfWorkspace implements Element, ModelWorkspace{
 	}
 	public static long getOpaeumId(Element node){
 		return MappingInfo.toOpaeumId(getId(node));
+	}
+	public Set<Element> getDependentElements(Element e){
+		return EmfElementFinder.getDependentElements(e);
 	}
 }

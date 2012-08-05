@@ -24,7 +24,6 @@ import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.ProcessStepEnumerationImplementor;
-import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = ActivityProcessImplementor.class,after = ActivityProcessImplementor.class)
 public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationImplementor{
@@ -44,7 +43,7 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 					parentLiteral = "null";
 				}else{
 					Namespace container = EmfActivityUtil.getNearestNodeContainer((StructuredActivityNode)c);
-					OJPathName parentState = OJUtil.classifierPathname(container).getCopy();
+					OJPathName parentState = ojUtil.classifierPathname(container).getCopy();
 					parentState.replaceTail(parentState.getLast() + "State");
 					e.addToImports(parentState);
 					parentLiteral = parentState.getLast() + "." + Jbpm5Util.stepLiteralName(getEnclosingElement(n));

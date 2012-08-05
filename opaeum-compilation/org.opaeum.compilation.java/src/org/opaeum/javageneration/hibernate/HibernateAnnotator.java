@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.OneToMany;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.eclipse.uml2.uml.Association;
@@ -47,7 +48,6 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.composition.CompositionNodeImplementor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.UtilCreator;
 import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.javageneration.persistence.JpaUtil;
@@ -66,10 +66,10 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	public void visitEnumeration(Enumeration e){
 		// TODO do something similar for interfaces, even without
 		if(EmfClassifierUtil.getCodeGenerationStrategy( e)==CodeGenerationStrategy.ALL){
-			OJPackage pkg = findOrCreatePackage(OJUtil.packagePathname(e.getNamespace()));
+			OJPackage pkg = findOrCreatePackage(ojUtil.packagePathname(e.getNamespace()));
 			OJAnnotatedClass clss = (OJAnnotatedClass) pkg.findClass(new OJPathName(e.getName() + "Class"));
 			for(Property p:e.getOwnedAttributes()){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 				if(map.isOne()){
 					mapXToOne(e, map, clss);
 				}
@@ -90,7 +90,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			if(EmfClassifierUtil.isCompositionParticipant(complexType )){
 				Property endToComposite = getLibrary().getEndToComposite(complexType);
 				if(endToComposite != null && (endToComposite.getOwner() == complexType || endToComposite.getOwner() instanceof Interface)){
-					setDeletedOn(OJUtil.buildStructuralFeatureMap(endToComposite), owner);
+					setDeletedOn(ojUtil.buildStructuralFeatureMap(endToComposite), owner);
 				}
 			}
 			OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));
@@ -137,7 +137,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			owner.addToImplementedInterfaces(new OJPathName(HibernateEntity.class.getName()));
 		}
 	}
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap map){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap map){
 		Property f = map.getProperty();
 		if(isPersistent(owner) && !f.isDerived() && !map.isStatic()){
 			if(map.isOne()){
@@ -165,7 +165,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 				if(f.getType() instanceof Enumeration){
 					if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
-						HibernateUtil.addEnumResolverAsCustomType(field, OJUtil.classifierPathname(f.getType()));
+						HibernateUtil.addEnumResolverAsCustomType(field, ojUtil.classifierPathname(f.getType()));
 					}
 				}else if(isPersistent(f.getType())){
 					HibernateUtil.applyFilter(field, this.config.getDbDialect());
@@ -176,7 +176,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				if(f.getType() instanceof Enumeration || EmfClassifierUtil.isSimpleType(f.getType())){
 					OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.CollectionOfElements"));
 					OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetElement",
-							OJUtil.classifierPathname((Classifier) f.getType()));
+							ojUtil.classifierPathname((Classifier) f.getType()));
 					collectionOfElements.putAttribute(targetElement);
 					OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName(
 							"javax.persistence.FetchType"), "LAZY"));
@@ -193,18 +193,18 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private void mapXToOne(Classifier owner,NakedStructuralFeatureMap map){
+	private void mapXToOne(Classifier owner,StructuralFeatureMap map){
 		OJAnnotatedClass ojOwner = findJavaClass(owner);
 		mapXToOne(owner, map, ojOwner);
 	}
-	public void mapXToOne(Classifier owner,NakedStructuralFeatureMap map,OJAnnotatedClass ojOwner){
+	public void mapXToOne(Classifier owner,StructuralFeatureMap map,OJAnnotatedClass ojOwner){
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 		if(field != null){
 			// may have been removed by custom transformation
 			Property f = map.getProperty();
 			if(f.getType() instanceof Enumeration){
 				if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
-					HibernateUtil.addEnumResolverAsCustomType(field, OJUtil.classifierPathname(f.getType()));
+					HibernateUtil.addEnumResolverAsCustomType(field, ojUtil.classifierPathname(f.getType()));
 				}
 			}else if(EmfClassifierUtil.isSimpleType(f.getType())){
 				// TODO use strategies
@@ -277,7 +277,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private void implementListSemantics(NakedStructuralFeatureMap map,OJAnnotatedField field){
+	private void implementListSemantics(StructuralFeatureMap map,OJAnnotatedField field){
 		OJAnnotationValue index = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.IndexColumn"));
 		index.putAttribute(new OJAnnotationAttributeValue("name", JpaUtil.generateIndexColumnName(map, "idx")));
 		field.addAnnotationIfNew(index);
@@ -316,7 +316,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			field.addAnnotationIfNew(collectionId);
 		}
 	}
-	private void setDeletedOn(NakedStructuralFeatureMap map,OJAnnotatedClass ojOwner){
+	private void setDeletedOn(StructuralFeatureMap map,OJAnnotatedClass ojOwner){
 		if(map.getFeature() instanceof Property){
 			Property p = (Property) map.getFeature();
 			if(!p.isDerived() && p.getOtherEnd() != null && p.getOtherEnd().isComposite()){

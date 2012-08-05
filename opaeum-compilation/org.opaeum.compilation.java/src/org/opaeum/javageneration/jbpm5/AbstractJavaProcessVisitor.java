@@ -3,6 +3,8 @@ package org.opaeum.javageneration.jbpm5;
 import java.util.Collection;
 import java.util.Date;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
@@ -27,7 +29,6 @@ import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.hibernate.HibernateUtil;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.runtime.domain.IActiveEntity;
 import org.opaeum.runtime.domain.IProcessObject;
@@ -228,7 +229,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		Collection<? extends NamedElement> topLevelFlows = getTopLevelFlows(umlBehavior);
 		for(NamedElement flow:topLevelFlows){
 			String endNodeFieldName = Jbpm5Util.endNodeFieldNameFor(flow);
-			OJPathName stateClass = OJUtil.statePathname(umlBehavior);
+			OJPathName stateClass = ojUtil.statePathname(umlBehavior);
 			OJAnnotatedField field = new OJAnnotatedField(endNodeFieldName, stateClass);
 			ojBehavior.addToFields(field);
 			if(isPersistent(umlBehavior)){
@@ -318,8 +319,8 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		if(b.getSpecification() != null){
 			for(Parameter p:b.getOwnedParameters()){
 				if(EmfBehaviorUtil.getLinkedParameter( p) != null){
-					NakedStructuralFeatureMap linkedMap = OJUtil.buildStructuralFeatureMap(b, EmfBehaviorUtil.getLinkedParameter( p));
-					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(b, p);
+					StructuralFeatureMap linkedMap = ojUtil.buildStructuralFeatureMap(EmfBehaviorUtil.getLinkedParameter( p));
+					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 					OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter(), linkedMap.javaTypePath());
 					cls.addToOperations(getter);
 					getter.initializeResultVariable("super." + linkedMap.getter() + "()");

@@ -3,10 +3,13 @@ package org.opaeum.ocl.uml;
 import java.util.Collection;
 
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.runtime.domain.TaskDelegation;
 
 public interface ResponsibilityDefinition{
+	Element getDefiningElement();
 	/**
 	 * After creating a task, an assignment will be created for each AbstractUser in this expression 
 	 */
@@ -22,7 +25,7 @@ public interface ResponsibilityDefinition{
 	 */
 	OpaqueExpression getPotentialStakeholders();
 	
-	Collection<Deadline> getDeadlines();
+	Collection<TimeEvent> getDeadlines();
 	TaskDelegation getDelegation();
 	Classifier getExpressionContext();
 }

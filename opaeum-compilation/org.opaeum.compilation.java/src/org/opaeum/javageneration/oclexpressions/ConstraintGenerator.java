@@ -18,6 +18,7 @@ import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.ocl.uml.AbstractOclContext;
 
@@ -26,12 +27,12 @@ public class ConstraintGenerator{
 	NamedElement element;
 	private ExpressionCreator expressionCreator;
 	private OpaeumLibrary library;
-	public ConstraintGenerator(OpaeumLibrary library,OJClass context,NamedElement element){
+	public ConstraintGenerator(OJUtil ojUtil,OJClass context,NamedElement element){
 		super();
-		this.library = library;
+		this.library = ojUtil.getLibrary();
 		this.context = context;
 		this.element = element;
-		expressionCreator = new ExpressionCreator(context);
+		expressionCreator = new ExpressionCreator(ojUtil,context);
 	}
 	public void addConstraintChecks(OJOperation operation,Collection<Constraint> constraints,boolean pre,String selfExpression){
 		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre, selfExpression);

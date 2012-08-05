@@ -13,12 +13,15 @@ import java.util.TreeSet;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Type;
+import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
@@ -51,7 +54,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	protected OJWorkspace javaModel;
 	protected ValueSpecificationUtil valueSpecificationUtil;
 	protected EventUtil eventUtil;
-
+	protected OJUtil ojUtil;
 	public <T extends NamedElement>Set<T> getElementsOfType(Class<T> type,Collection<? extends Package> roots){
 		SortedSet<T> result = new TreeSet<T>(new Comparator<T>(){
 			@Override
@@ -60,7 +63,13 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			}
 		});
 		for(Package r:roots){
-			result.addAll(r.getDirectlyAccessibleElementOfType(type));
+			TreeIterator<EObject> iter = r.eAllContents();
+			while(iter.hasNext()){
+				EObject eObject = (EObject) iter.next();
+				if(type.isInstance(eObject)){
+					result.add((T) eObject);
+				}
+			}
 		}
 		final Iterator<T> iterator = result.iterator();
 		while(iterator.hasNext()){
@@ -72,14 +81,14 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		return result;
 	}
 	@Override
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace){
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace,OJUtil ojUtil){
 		textFiles = new HashSet<TextOutputNode>();
 		this.javaModel = pac;
 		this.config = config;
 		this.textWorkspace = textWorkspace;
 		this.workspace = workspace;
-		this.eventUtil=new EventUtil(workspace.getOpaeumLibrary());
-		this.valueSpecificationUtil=new ValueSpecificationUtil(workspace.getOpaeumLibrary());
+		this.eventUtil = new EventUtil(ojUtil);
+		this.valueSpecificationUtil = new ValueSpecificationUtil(ojUtil);
 	}
 	public OpaeumLibrary getLibrary(){
 		return workspace.getOpaeumLibrary();
@@ -95,7 +104,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			visitAfterMethods(o);
 			// Free memory
 			UtilityCreator.setUtilPackage(null);
-		}else if(EmfPackageUtil.isRootObject(o )){
+		}else if(EmfPackageUtil.isRootObject(o)){
 			Package pkg = (Package) o;
 			setRootObjectUtilPackage(pkg);
 			this.setCurrentRootObject(pkg);
@@ -103,7 +112,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			visitChildren(o);
 			setRootObjectUtilPackage(pkg);
 			visitAfterMethods(o);
-				setCurrentRootObject(null);// NB!! needs to be cleared from every thread
+			setCurrentRootObject(null);// NB!! needs to be cleared from every thread
 			UtilityCreator.setUtilPackage(null);
 		}else{
 			super.visitRecursively(o);
@@ -137,7 +146,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		UtilityCreator.setUtilPackage(null);
 	}
 	protected OJPathName calculateUtilPath(Package pkg){
-		String qualifiedJavaName = OJUtil.packagePathname(pkg).toJavaString();
+		String qualifiedJavaName = ojUtil.packagePathname(pkg).toJavaString();
 		OJPathName utilPath = new OJPathName(qualifiedJavaName + ".util");
 		return utilPath;
 	}
@@ -158,7 +167,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		return this.javaModel.findOrCreatePackage(packageName);
 	}
 	protected OJAnnotatedClass findJavaClass(Classifier classifier){
-		OJPathName path = OJUtil.classifierPathname(classifier);
+		OJPathName path = ojUtil.classifierPathname(classifier);
 		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(path);
 		if(owner == null){
 			owner = (OJAnnotatedClass) this.javaModel.findClass(path);
@@ -189,29 +198,19 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		}
 	}
 	public static boolean isPersistent(Type type){
-		// what about interfaces implemented by persistent classifiers??????
-		// They can be persisted in Hibernate but not JPA
-		// Interfaces are so different from normal persisten classifiers that
-		// they have to be treated separately and explicitly
-		if(type instanceof ComplexStructure){
-			return ((ComplexStructure) type).isPersistent();
-		}else{
-			return false;
-		}
+		return EmfClassifierUtil.isPersistent(type);
 	}
-
 	@Override
 	public Collection<Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
-			return new ArrayList<Element>( ((EmfWorkspace) root).getGeneratingModelsOrProfiles());
+			return new ArrayList<Element>(((EmfWorkspace) root).getGeneratingModelsOrProfiles());
 		}else{
 			return super.getChildren(root);
 		}
 	}
 	public static boolean isInSingleTableInheritance(Classifier c){
-		
-		Classifier superType = c.getGenerals().size()==1? c.getGenerals().get(0):null;
-		if(superType != null && StereotypesHelper.hasStereotype(superType,SINGLE_TABLE_INHERITANCE)){
+		Classifier superType = c.getGenerals().size() == 1 ? c.getGenerals().get(0) : null;
+		if(superType != null && StereotypesHelper.hasStereotype(superType, SINGLE_TABLE_INHERITANCE)){
 			return true;
 		}else{
 			if(superType == null){

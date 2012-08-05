@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.model.IEnumerationType;
 
 import org.eclipse.ocl.expressions.CollectionKind;
@@ -19,9 +20,6 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
-import org.opaeum.javageneration.maps.NakedClassifierMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 
 public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVisitor {
 	public AbstractTestDataGenerator() {
@@ -40,11 +38,11 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		if (child instanceof Interface) {
 			Collection<BehavioredClassifier> implementors =getConcreteImplementations((Interface) child);
 			Classifier next = implementors.iterator().next();
-			NakedClassifierMap map = OJUtil.buildClassifierMap(next,(CollectionKind)null);
+			ClassifierMap map = ojUtil.buildClassifierMap(next,(CollectionKind)null);
 			testPath = map.javaTypePath().getCopy();
 			testPath.replaceTail(getTestDataName(next));
 		} else {
-			NakedClassifierMap map = OJUtil.buildClassifierMap(child,(CollectionKind)null);
+			ClassifierMap map = ojUtil.buildClassifierMap(child,(CollectionKind)null);
 			testPath = map.javaTypePath().getCopy();
 			testPath.replaceTail(getTestDataName(child));
 		}
@@ -58,7 +56,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		String value = calculateDefaultValue(f);
 		if (EmfClassifierUtil.isSimpleType(f.getType())) {
 			DataType baseType = (DataType) f.getType();
-			test.addToImports(OJUtil.classifierPathname(baseType));
+			test.addToImports(ojUtil.classifierPathname(baseType));
 			if (EmfClassifierUtil.hasStrategy(baseType,TestModelValueStrategy.class)) {
 			}
 		} else if (f.getType() instanceof IEnumerationType) {
@@ -102,7 +100,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			if (EmfClassifierUtil.hasStrategy(baseType,TestModelValueStrategy.class)) {
 				return EmfClassifierUtil.getStrategy(baseType,TestModelValueStrategy.class).getDefaultStringValue(12341);
 			} else if (workspace.getOpaeumLibrary().getDateType() != null && f.getType().conformsTo(workspace.getOpaeumLibrary().getDateType())) {
-				String javaDate = OJUtil.classifierPathname(baseType).toJavaString();
+				String javaDate = ojUtil.classifierPathname(baseType).toJavaString();
 				if (javaDate.equals("java.util.Date")) {
 					return "new Date()";
 				} else if (javaDate.equals("java.util.Calendar")) {
@@ -136,7 +134,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 
 	protected String lookup(Property f) {
 		OJPathName featureTest = getTestDataPath((Classifier) f.getType());
-		if (new NakedStructuralFeatureMap(f).isOneToOne()) {
+		if (ojUtil.buildStructuralFeatureMap(f).isOneToOne()) {
 			return featureTest.getLast() + ".createNew()";
 		} else {
 			return featureTest.getLast() + ".getInstance()";

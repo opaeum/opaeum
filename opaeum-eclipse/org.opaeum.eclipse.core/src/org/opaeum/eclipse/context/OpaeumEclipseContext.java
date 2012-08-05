@@ -296,14 +296,7 @@ public class OpaeumEclipseContext{
 	public IContainer getUmlDirectory(){
 		return umlDirectory;
 	}
-	public boolean isNakedRootObjectLoaded(IFile r){
-		for(Package ro:getEmfToOpaeumSynchronizer().getNakedWorkspace().getRootObjects()){
-			if(EmfPackageUtil.getFileName(ro).equals(r.getLocation().lastSegment()) ){
-				return true;
-			}
-		}
-		return false;
-	}
+
 	public EmfWorkspace getCurrentEmfWorkspace(){
 		if(currentOpenFile == null || !openUmlFiles.containsKey(currentOpenFile) || openUmlFiles.isEmpty()){
 			if(dew != null){
@@ -325,7 +318,7 @@ public class OpaeumEclipseContext{
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
 			OpaeumConfig cfg = getEmfToOpaeumSynchronizer().getConfig();
 			if(dew == null){
-				dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
+				dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier(),cfg.getMavenGroupId());
 				dew.setUriToFileConverter(new EclipseUriToFileConverter());
 				dew.setName(cfg.getWorkspaceName());
 				for(IResource r:umlDirectory.members()){
@@ -343,21 +336,7 @@ public class OpaeumEclipseContext{
 			getEmfToOpaeumSynchronizer().getTransformationProcess().replaceModel(dew);
 			getEmfToOpaeumSynchronizer().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 200));
 			getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(dew);
-			ModelWorkspace nakedWorkspace = getEmfToOpaeumSynchronizer().getNakedWorkspace();
-			nakedWorkspace.clearGeneratingModelOrProfiles();
-			for(Package ro:nakedWorkspace.getRootObjects()){
-				if(ro instanceof Model && EmfPackageUtil.isRegeneratingLibrary( ((Model) ro))){
-					// TODO check if code should be regenerated;
-					nakedWorkspace.addGeneratingRootObject(ro);
-				}else{
-					for(IResource r:getUmlDirectory().members()){
-						if(r.getLocation().lastSegment().equals(EmfPackageUtil.getFileName(ro))){
-							nakedWorkspace.addGeneratingRootObject(ro);
-							break;
-						}
-					}
-				}
-			}
+
 			getEmfToOpaeumSynchronizer().resume();
 			errorMarker.maybeSchedule();
 			return dew;
@@ -417,7 +396,7 @@ public class OpaeumEclipseContext{
 		return getEmfToOpaeumSynchronizer().getConfig();
 	}
 	public EmfWorkspace getNakedWorkspace(){
-		return (EmfWorkspace) getEmfToOpaeumSynchronizer().getNakedWorkspace();
+		return (EmfWorkspace) getEmfToOpaeumSynchronizer().getCurrentEmfWorkspace();
 	}
 	public static OpaeumEclipseContext getCurrentContext(){
 		return currentContext;

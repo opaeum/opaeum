@@ -2,7 +2,6 @@ package org.opaeum.topcased.propertysections.property;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 
 public class FirstEndRoleInCubeSection extends PropertyRoleInCubeSection{

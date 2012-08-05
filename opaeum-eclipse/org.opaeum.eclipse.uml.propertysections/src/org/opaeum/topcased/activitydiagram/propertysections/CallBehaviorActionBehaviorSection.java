@@ -29,8 +29,8 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
-import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.topcased.propertysections.NavigationDecorator;
@@ -123,7 +123,7 @@ public class CallBehaviorActionBehaviorSection extends OpaeumChooserPropertySect
 	protected Object[] getComboFeatureValues(){
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
-		Collection<Behavior> ownedBehaviors = EmfBehaviorUtil.findBehaviorsInScope(getAction());
+		Collection<Behavior> ownedBehaviors = EmfActionUtil.findBehaviorsInScope(getAction());
 		List<Behavior> all = new ArrayList<Behavior>();
 		// TODO handle transition and state owned behaviors
 		for(Behavior behavior:ownedBehaviors){

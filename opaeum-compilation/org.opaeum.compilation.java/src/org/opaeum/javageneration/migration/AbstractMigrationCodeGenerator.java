@@ -2,6 +2,8 @@ package org.opaeum.javageneration.migration;
 
 import java.util.HashSet;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Type;
 import org.opaeum.eclipse.CodeGenerationStrategy;
@@ -11,8 +13,6 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.runtime.environment.VersionNumber;
 import org.opaeum.textmetamodel.TextOutputNode;
@@ -28,7 +28,7 @@ public abstract class AbstractMigrationCodeGenerator extends AbstractStructureVi
 	@Override
 	protected abstract void visitComplexStructure(Classifier umlOwner);
 	protected final OJPathName migratorPath(Classifier toClass){
-		OJPathName pkg = OJUtil.packagePathname(toClass.getNamespace()).getCopy();
+		OJPathName pkg = ojUtil.packagePathname(toClass.getNamespace()).getCopy();
 		pkg.addToNames(toClass.getName() + getFromVersion().getSuffix() + "Migrator");
 		return pkg;
 	}
@@ -40,13 +40,13 @@ public abstract class AbstractMigrationCodeGenerator extends AbstractStructureVi
 	}
 	protected final OJPathName classifierPathName(Type a,VersionNumber version){
 		if(EmfClassifierUtil.isSimpleType(a ) || EmfClassifierUtil.getCodeGenerationStrategy( (Classifier) a)==CodeGenerationStrategy.NO_CODE){
-			return OJUtil.classifierPathname(a);
+			return ojUtil.classifierPathname(a);
 		}else{
-			return new OJPathName(OJUtil.classifierPathname(a).toJavaString()+ version.getSuffix());
+			return new OJPathName(ojUtil.classifierPathname(a).toJavaString()+ version.getSuffix());
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
 	}
 	public void initialize(OpaeumConfig config,OJWorkspace javaModel,TextWorkspace textWorkspace,MigrationWorkspace workspace){
 		super.javaModel = javaModel;

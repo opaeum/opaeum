@@ -3,6 +3,8 @@ package org.opaeum.javageneration.jbpm5.activity;
 import java.util.Collection;
 import java.util.Collections;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
@@ -19,14 +21,12 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.actions.AbstractProtectedNodeBuilder;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.StructuredActivityNodeMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class ExpansionRegionBuilder extends AbstractProtectedNodeBuilder<ExpansionRegion>{
-	public ExpansionRegionBuilder(OpaeumLibrary oclEngine,ExpansionRegion node){
-		super(oclEngine, node, OJUtil.buildStructuralFeatureMap(oclEngine.getEndToComposite(oclEngine.getMessageStructure( node)).getOtherEnd()));
+	public ExpansionRegionBuilder(OJUtil ojUtil,ExpansionRegion node){
+		super(ojUtil, node, ojUtil.buildStructuralFeatureMap(ojUtil.getLibrary().getEndToComposite(ojUtil.getLibrary().getMessageStructure( node)).getOtherEnd()));
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation oper){
@@ -40,7 +40,7 @@ public class ExpansionRegionBuilder extends AbstractProtectedNodeBuilder<Expansi
 		forEach.getBody().addToStatements("cur.setCallingNodeInstanceUniqueId(((NodeInstanceImpl)context.getNodeInstance()).getUniqueId())");
 		for(ExpansionNode n:node.getInputElements()){
 			Namespace container = EmfActivityUtil.getNearestNodeContainer(node);
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(getLibrary().getMessageStructure(container), n, false);
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(n);
 			OJPathName collectionPath = new OJPathName("java.util.Collection");
 			collectionPath.addToElementTypes(map.javaBaseTypePath());
 			OJAnnotatedField coll = new OJAnnotatedField(map.fieldname(), collectionPath);
@@ -75,7 +75,7 @@ public class ExpansionRegionBuilder extends AbstractProtectedNodeBuilder<Expansi
 	}
 	public void implementCallbackMethods(OJClass owner){
 		if(EmfBehaviorUtil.isProcess(getContainingActivity())){
-			StructuredActivityNodeMap map = new StructuredActivityNodeMap(node);
+			StructuredActivityNodeMap map  = ojUtil.buildStructuredActivityNodeMap(node);
 			implementCallbackOnComplete(owner, map.completeMethodName(), getLibrary().getMessageStructure(node));
 			implementExceptionHandlers(owner, map);
 		}

@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StateMap;
+
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.ChangeEvent;
@@ -47,7 +49,6 @@ import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import org.opaeum.javageneration.jbpm5.activity.ActivityProcessImplementor;
-import org.opaeum.javageneration.maps.NakedStateMap;
 import org.opaeum.javageneration.oclexpressions.CodeCleanup;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
@@ -68,13 +69,13 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		OJUtil.addTransientProperty(ojStateMachine, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
 				OJVisibilityKind.PROTECTED);
 		addParameterDelegation(ojStateMachine, umlStateMachine);
-		implementProcessInterfaceOperations(ojStateMachine, OJUtil.statePathname(umlStateMachine), umlStateMachine);
+		implementProcessInterfaceOperations(ojStateMachine, ojUtil.statePathname(umlStateMachine), umlStateMachine);
 		OJOperation execute = implementExecute(ojStateMachine, umlStateMachine);
 		execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 		visitRegions(ojStateMachine, umlStateMachine.getRegions());
 	}
 	private void state(Vertex state){
-		NakedStateMap map = new NakedStateMap(state);
+		StateMap map = ojUtil.buildStateMap(state);
 		OJAnnotatedClass ojStateMachine = findJavaClass(EmfStateMachineUtil.getStateMachine(state));
 		if(state instanceof State){
 			OJOperation getter = new OJAnnotatedOperation("get" + EmfStateMachineUtil.getStatePath(state).replace("::", "_"));
@@ -101,7 +102,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			historyField.putAnnotation(enumeratd);
 		}
 	}
-	private void implementOnExitIfRequired(OJAnnotatedClass ojStateMachine,Vertex vertex,NakedStateMap map){
+	private void implementOnExitIfRequired(OJAnnotatedClass ojStateMachine,Vertex vertex,StateMap map){
 		if(vertex instanceof State && EmfStateMachineUtil.doesWorkOnExit((State) vertex)){
 			State state = (State) vertex;
 			OJAnnotatedOperation onExit = new OJAnnotatedOperation(map.getOnExitMethod());
@@ -124,7 +125,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			}
 		}
 	}
-	private void implementOnEntryIfRequired(OJAnnotatedClass ojStateMachine,Vertex vertex,NakedStateMap map){
+	private void implementOnEntryIfRequired(OJAnnotatedClass ojStateMachine,Vertex vertex,StateMap map){
 		if(vertex instanceof State && EmfStateMachineUtil.doesWorkOnEntry(vertex)){
 			State state = (State) vertex;
 			OJAnnotatedOperation onEntry = new OJAnnotatedOperation(map.getOnEntryMethod());
@@ -158,9 +159,9 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 				defaultTransitions = new OJBlock();
 				ifNotNul.setElsePart(defaultTransitions);
 			}
-			Collection<Transition> completionTransitions = state.getCompletionTransitions();
+			Collection<Transition> completionTransitions = EmfStateMachineUtil.getCompletionTransitions( state);
 			if(completionTransitions.size() > 0 && !(state.isComposite() || state.isOrthogonal())){
-				defaultTransitions.addToStatements(EventUtil.getEventConsumerName(state.getCompletionEvent()) + "()");
+				defaultTransitions.addToStatements(eventUtil.getEventConsumerName(state) + "()");
 			}
 			if(state instanceof FinalState && state.getContainer().getOwner() instanceof State){
 				ojStateMachine.addToImports("org.jbpm.workflow.instance.NodeInstanceContainer");
@@ -178,7 +179,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	private void implementBehaviorOn(State state,Behavior behavior,OJAnnotatedOperation onEntry){
 		if(behavior instanceof Activity){
 			SimpleActivityMethodImplementor impl = new SimpleActivityMethodImplementor();
-			impl.initialize(javaModel, config, textWorkspace, workspace);
+			impl.initialize(javaModel, config, textWorkspace, workspace, ojUtil);
 			impl.setWorkspace(workspace);
 			impl.implementActivityOn((Activity) behavior, onEntry);
 		}else if(behavior instanceof OpaqueBehavior){

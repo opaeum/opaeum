@@ -6,12 +6,14 @@ import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 
 import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.name.PluralNameWrapper;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.ocl.uml.OclContext;
@@ -21,10 +23,12 @@ import org.opaeum.runtime.domain.TaskDelegation;
 public class TaskUtil{
 	OpaeumLibrary library;
 	private ValueSpecificationUtil valueSpecificationUtil;
-	public TaskUtil(OpaeumLibrary library){
+	private EventUtil eventUtil;
+	public TaskUtil(OJUtil ojUtil){
 		super();
-		this.library = library;
-		this.valueSpecificationUtil = new ValueSpecificationUtil(library);
+		this.library = ojUtil.getLibrary();
+		this.valueSpecificationUtil = new ValueSpecificationUtil(ojUtil);
+		this.eventUtil=new EventUtil(ojUtil);
 	}
 	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opaeum.runtime.bpm.BusinessRole");
 	public void implementAssignmentsAndDeadlines(OJAnnotatedOperation operation,OJBlock block,ResponsibilityDefinition td,String taskName){
@@ -48,9 +52,9 @@ public class TaskUtil{
 		}else{
 			block.addToStatements(taskName + ".getTaskRequest().setDelegation(TaskDelegation." + td.getDelegation().name() + ")");
 		}
-		Collection<Deadline> deadlines = td.getDeadlines();
-		for(Deadline d:deadlines){
-			EventUtil.implementDeadlineRequest(operation, block, d, taskName);
+		Collection<TimeEvent> deadlines = td.getDeadlines();
+		for(TimeEvent d:deadlines){
+			eventUtil.implementDeadlineRequest(operation, block, d, taskName);
 		}
 	}
 	private void implementTaskRequestAssignment(OJAnnotatedOperation operation,OJBlock block,ResponsibilityDefinition td,String taskName,

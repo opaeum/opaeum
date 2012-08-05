@@ -15,7 +15,7 @@ public class XmlUtil{
 	}
 	public static boolean isXmlSubElement(Property f){
 		if(isXmlElement(f)){
-			if(f instanceof EndToAssociationClass){
+			if( f instanceof EndToAssociationClass){
 				return ((EndToAssociationClass) f).getIndexInAssocation() == 0;
 			}else{
 				return f.isComposite();
@@ -28,7 +28,7 @@ public class XmlUtil{
 		return f.getOtherEnd() != null && f.getOtherEnd().isComposite() && !(f instanceof AssociationClassToEnd);
 	}
 	private static boolean isPersistent(Type nakedBaseType){
-		return nakedBaseType instanceof ComplexStructure && ((ComplexStructure) nakedBaseType).isPersistent();
+		return EmfClassifierUtil.isComplexStructure(nakedBaseType) && EmfClassifierUtil.isPersistent(nakedBaseType);
 	}
 	public static boolean isXmlReference(Property f){
 		if(isXmlElement(f)){

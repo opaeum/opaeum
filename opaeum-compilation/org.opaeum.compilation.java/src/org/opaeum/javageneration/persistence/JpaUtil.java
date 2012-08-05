@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
@@ -13,6 +15,7 @@ import org.eclipse.uml2.uml.Property;
 import org.hibernate.annotations.Filter;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.OpaeumConfig;
@@ -23,7 +26,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
@@ -135,7 +137,7 @@ public class JpaUtil{
 	public static void addAndAnnotatedIdAndVersion(JpaIdStrategy jpaIdStrategy,OJAnnotatedClass ojClass,Classifier complexType){
 		OJUtil.addPersistentProperty(ojClass, "objectVersion", new OJPathName("int"), true);
 		JpaUtil.annotateVersion(ojClass);
-		if((complexType instanceof Class && !((Class) complexType).getPrimaryKeyProperties().isEmpty())){
+		if((complexType instanceof Class && EmfClassifierUtil.getPrimaryKeyProperties((Class) complexType).size()>0)){
 			return;
 		}else{
 			OJUtil.addPersistentProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
@@ -160,7 +162,7 @@ public class JpaUtil{
 		entity.putAttribute(new OJAnnotationAttributeValue("name", ojClass.getName()));
 		ojClass.addAnnotationIfNew(entity);
 	}
-	public static void addJoinTable(Classifier umlOwner,NakedStructuralFeatureMap map,OJAnnotatedField field,OpaeumConfig config){
+	public static void addJoinTable(Classifier umlOwner,StructuralFeatureMap map,OJAnnotatedField field,OpaeumConfig config){
 		// ManyToMany or non-navigable XToMany
 		Property f = map.getProperty();
 		String tableName = calculateTableName(umlOwner, f);
@@ -205,14 +207,14 @@ public class JpaUtil{
 		}
 		return tableName;
 	}
-	public static void addNamedQueryForUniquenessConstraints(OJAnnotatedClass ojClass,Class entity){
-		for(Property p:entity.getUniquenessConstraints()){
+	public static void addNamedQueryForUniquenessConstraints(OJAnnotatedClass ojClass,Class entity, OJUtil ojUtil){
+		for(Property p:EmfPropertyUtil.getUniquenessConstraints( entity)){
 			if(!p.getOtherEnd().getQualifiers().isEmpty()){
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 				String queryString = "from " + entity.getName() + " a where a." + map.fieldname() + " = :" + map.fieldname();
 				String queryName = "Query" + entity.getName() + "With";
 				for(Property q:p.getOtherEnd().getQualifiers()){
-					NakedStructuralFeatureMap qualifiedMap = new NakedStructuralFeatureMap(q);
+					StructuralFeatureMap qualifiedMap = ojUtil.buildStructuralFeatureMap(q);
 					queryString += " and a." + qualifiedMap.fieldname() + " = :" + qualifiedMap.fieldname();
 					queryName += NameConverter.capitalize(qualifiedMap.fieldname());
 				}
@@ -248,7 +250,7 @@ public class JpaUtil{
 		filter.putAttribute("name", "noDeletedObjects");
 		return filter;
 	}
-	public static String generateIndexColumnName(NakedStructuralFeatureMap map,String prefix){
+	public static String generateIndexColumnName(StructuralFeatureMap map,String prefix){
 		String columnName;
 		if(map.isManyToMany()){
 			// simple column name - no requirement for uniqueness

@@ -1,46 +1,43 @@
 package org.opaeum.eclipse;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
-import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.ActivityPartition;
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.EnumerationLiteral;
-import org.eclipse.uml2.uml.ExceptionHandler;
-import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.ObjectNode;
-import org.eclipse.uml2.uml.OutputPin;
-import org.eclipse.uml2.uml.Parameter;
-import org.eclipse.uml2.uml.ParameterDirectionKind;
-import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.InvocationAction;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.ReadVariableAction;
 import org.eclipse.uml2.uml.ReplyAction;
+import org.eclipse.uml2.uml.SendObjectAction;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StartClassifierBehaviorAction;
+import org.eclipse.uml2.uml.StartObjectBehaviorAction;
 import org.eclipse.uml2.uml.Stereotype;
-import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.StructuralFeatureAction;
+import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -49,24 +46,35 @@ import org.eclipse.uml2.uml.WriteVariableAction;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.ocl.uml.ResponsibilityDefinition;
-import org.opaeum.runtime.domain.TaskDelegation;
 
 public class EmfActionUtil{
-	public static InputPin getLogicalTarget(Action a){
-		if(a instanceof SendSignalAction){
-			return ((SendSignalAction) a).getTarget();
+	public static boolean isActionWithTargetPin(Action a){
+		return a instanceof StructuralFeatureAction || a instanceof CallOperationAction || a instanceof SendSignalAction
+				|| a instanceof SendObjectAction || a instanceof StartClassifierBehaviorAction || a instanceof StartObjectBehaviorAction;
+	}
+
+	public static InputPin getTargetPin(Action a){
+		if(a instanceof StructuralFeatureAction){
+			return ((StructuralFeatureAction) a).getObject();
 		}else if(a instanceof CallOperationAction){
 			return ((CallOperationAction) a).getTarget();
+		}else if(a instanceof SendSignalAction){
+			return ((SendSignalAction) a).getTarget();
+		}else if(a instanceof SendObjectAction){
+			return ((SendObjectAction) a).getTarget();
 		}else if(a instanceof StartClassifierBehaviorAction){
 			return ((StartClassifierBehaviorAction) a).getObject();
-		}else if(a instanceof StructuralFeatureAction){
-			return ((StructuralFeatureAction) a).getObject();
+		}else if(a instanceof StartObjectBehaviorAction){
+			return ((StartObjectBehaviorAction) a).getObject();
 		}else{
 			return null;
 		}
 	}
+	public static InputPin getLogicalTarget(Action a){
+		return getTargetPin(a);
+	}
 	public static NamedElement getTargetElement(Action a){
-		InputPin pin=getLogicalTarget(a);
+		InputPin pin = getLogicalTarget(a);
 		if(pin != null){
 			return pin;
 		}else if(a.getInPartitions().size() == 1){
@@ -109,8 +117,6 @@ public class EmfActionUtil{
 		Action action = (Action) pin.getOwner();
 		if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getWriteStructuralFeatureAction_Value()){
 			return ((WriteStructuralFeatureAction) action).getStructuralFeature();
-		}else if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getWriteStructuralFeatureAction_Result()){
-			return ((WriteStructuralFeatureAction) action).getStructuralFeature();
 		}else if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getReadStructuralFeatureAction_Result()){
 			return ((WriteStructuralFeatureAction) action).getStructuralFeature();
 		}else if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getWriteVariableAction_Value()){
@@ -120,42 +126,54 @@ public class EmfActionUtil{
 		}else if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getInvocationAction_Argument()){
 			List<? extends TypedElement> typedElements = null;
 			List<InputPin> args = ((InvocationAction) action).getArguments();
-			if(action instanceof SendSignalAction){
+			if(action instanceof SendSignalAction && ((SendSignalAction) action).getSignal() != null){
 				typedElements = EmfElementFinder.getTypedElementsInScope(((SendSignalAction) action).getSignal());
-			}else if(action instanceof CallBehaviorAction){
+			}else if(action instanceof CallBehaviorAction && ((CallBehaviorAction) action).getBehavior() != null){
 				typedElements = EmfBehaviorUtil.getArgumentParameters(((CallBehaviorAction) action).getBehavior());
-			}else if(action instanceof CallOperationAction){
+			}else if(action instanceof CallOperationAction && ((CallOperationAction) action).getOperation() != null){
 				typedElements = EmfBehaviorUtil.getArgumentParameters(((CallOperationAction) action).getOperation());
 			}
-			if(typedElements.size() == args.size()){
+			if(typedElements != null && typedElements.size() == args.size()){
 				return typedElements.get(args.indexOf(pin));
-			}else{
-				return null;
 			}
 		}else if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getCallAction_Result()){
 			List<? extends TypedElement> typedElements = null;
-			if(action instanceof CallBehaviorAction){
+			if(action instanceof CallBehaviorAction && ((CallBehaviorAction) action).getBehavior() != null){
 				typedElements = EmfBehaviorUtil.getResultParameters(((CallBehaviorAction) action).getBehavior());
-			}else{
+			}else if(action instanceof CallOperationAction && ((CallOperationAction) action).getOperation() != null){
 				typedElements = EmfBehaviorUtil.getResultParameters(((CallOperationAction) action).getOperation());
 			}
 			List<OutputPin> result = ((CallAction) action).getResults();
 			if(typedElements.size() == result.size()){
 				return typedElements.get(result.indexOf(pin));
-			}else{
-				return null;
 			}
 		}else if(action instanceof AcceptCallAction && pin.eContainingFeature() == UMLPackage.eINSTANCE.getAcceptEventAction_Result()){
 			List<? extends TypedElement> typedElements = null;
 			AcceptCallAction acceptAction = (AcceptCallAction) action;
-			typedElements = EmfBehaviorUtil.getResultParameters(getOperation(acceptAction));
-			List<OutputPin> result = acceptAction.getResults();
-			if(typedElements.size() == result.size()){
-				return typedElements.get(result.indexOf(pin));
-			}else{
-				return null;
+			Operation operation = getOperation(acceptAction);
+			if(operation != null){
+				typedElements = EmfBehaviorUtil.getArgumentParameters(operation);
+				List<OutputPin> result = acceptAction.getResults();
+				if(typedElements.size() == result.size()){
+					return typedElements.get(result.indexOf(pin));
+				}
+			}
+		}else if(action instanceof ReplyAction && pin.eContainingFeature() == UMLPackage.eINSTANCE.getReplyAction_ReplyValue()){
+			List<? extends TypedElement> typedElements = null;
+			ReplyAction replyAction = (ReplyAction) action;
+			AcceptCallAction cause = getCause(replyAction);
+			if(cause != null){
+				Operation operation = getOperation(cause);
+				if(operation != null){
+					typedElements = EmfBehaviorUtil.getResultParameters(operation);
+					List<InputPin> result = replyAction.getReplyValues();
+					if(typedElements.size() == result.size()){
+						return typedElements.get(result.indexOf(pin));
+					}
+				}
 			}
 		}
+		return null;
 	}
 	public static OutputPin getReturnPin(Action a){
 		Parameter p = null;
@@ -207,39 +225,7 @@ public class EmfActionUtil{
 			return false;
 		}
 	}
-	public static ResponsibilityDefinition getTaskDefinition(final Element node,String embeddedScreenFlowTask){
-		final Stereotype stereotype = StereotypesHelper.getStereotype(node, embeddedScreenFlowTask);
-		return new ResponsibilityDefinition(){
-			@Override
-			public OpaqueExpression getPotentialStakeholders(){
-				return (OpaqueExpression) node.getValue(stereotype, "potentialStakeholders");
-			}
-			@Override
-			public OpaqueExpression getPotentialOwners(){
-				return (OpaqueExpression) node.getValue(stereotype, "potentialOwners");
-			}
-			@Override
-			public OpaqueExpression getPotentialBusinessAdministrators(){
-				return (OpaqueExpression) node.getValue(stereotype, "potentialBusinessAdministrators");
-			}
-			@Override
-			public Classifier getExpressionContext(){
-				// TODO Auto-generated method stub
-				return null;
-			}
-			public Collection<Deadline> getDeadlines(){
-				return null;
-			}
-			@Override
-			public TaskDelegation getDelegation(){
-				Object value = node.getValue(stereotype, "taskDelegation");
-				if(value instanceof EnumerationLiteral){
-					return TaskDelegation.valueOf(((EnumerationLiteral) value).getName().toUpperCase());
-				}
-				return null;
-			}
-		};
-	}
+
 	public static boolean hasExceptions(Action action){
 		return getExceptionPins(action).size() > 0 || action.getHandlers().size() > 0;
 	}
@@ -264,13 +250,79 @@ public class EmfActionUtil{
 		return true;
 	}
 	public static AcceptCallAction getCause(ReplyAction node){
-		if(node.getReturnInformation()!=null){
+		if(node.getReturnInformation() != null){
 			ObjectNode feedingNode = EmfActivityUtil.getFeedingNode(node.getReturnInformation());
-			if(feedingNode!=null && feedingNode.getOwner() instanceof AcceptCallAction){
+			if(feedingNode != null && feedingNode.getOwner() instanceof AcceptCallAction){
 				return (AcceptCallAction) feedingNode.getOwner();
 			}
 		}
 		return null;
 	}
+	public static ReplyAction getReplyAction(AcceptCallAction aca){
+		if(aca.getReturnInformation() != null && aca.getReturnInformation().getIncomings().size() == 1){
+			return (ReplyAction) EmfActivityUtil.getEffectiveSource(aca.getReturnInformation().getIncomings().get(0));
+		}else{
+			return null;
+		}
+	}
+	public static boolean acceptsDeadline(AcceptEventAction node){
+		EList<Trigger> triggers = node.getTriggers();
+		for(Trigger trigger:triggers){
+			if(trigger.getEvent() instanceof TimeEvent && EmfEventUtil.isDeadline(trigger.getEvent())){
+			}
+		}
+		return false;
+	}
+	public static OpaqueExpression getFromExpression(SendSignalAction node){
+		Stereotype st = StereotypesHelper.getStereotype(node, StereotypeNames.SEND_NOTIFICATION_ACTION);
+		if(st != null){
+			return (OpaqueExpression) node.getValue(st, "fromExpression");
+		}
+		return null;
+	}
+	public static OpaqueExpression getCcExpression(SendSignalAction node){
+		Stereotype st = StereotypesHelper.getStereotype(node, StereotypeNames.SEND_NOTIFICATION_ACTION);
+		if(st != null){
+			return (OpaqueExpression) node.getValue(st, "ccExpression");
+		}
+		return null;
+	}
+	public static OpaqueExpression getBccExpression(SendSignalAction node){
+		Stereotype st = StereotypesHelper.getStereotype(node, StereotypeNames.SEND_NOTIFICATION_ACTION);
+		if(st != null){
+			return (OpaqueExpression) node.getValue(st, "bccExpression");
+		}
+		return null;
+	}
+	public static Collection<Behavior> findBehaviorsInScope(CallBehaviorAction behavior){
+		BehavioredClassifier context = EmfBehaviorUtil.getContext(behavior);
+		Set<Behavior> behaviors = EmfBehaviorUtil.getEffectiveBehaviors(context);
+		EmfBehaviorUtil.addBehaviors(behaviors, EmfActivityUtil.getContainingActivity(behavior));
+		for(ActivityPartition ap:behavior.getInPartitions()){
+			if(ap.getRepresents() instanceof TypedElement){
+				TypedElement te = (TypedElement) ap.getRepresents();
+				if(te.getType() instanceof BehavioredClassifier){
+					EmfBehaviorUtil.addBehaviors(behaviors, (Classifier) te.getType());
+				}
+			}else if(ap.getRepresents() instanceof BehavioredClassifier){
+				BehavioredClassifier bc = (BehavioredClassifier) ap.getRepresents();
+				EmfBehaviorUtil.addBehaviors(behaviors, bc);
+			}
+		}
+		return behaviors;
+	}
 
+	public static Classifier getExpectedTargetType(Action action){
+		if(action instanceof StructuralFeatureAction){
+			return (Classifier) EmfElementFinder.getContainer(((StructuralFeatureAction) action).getStructuralFeature());
+		}else if(action instanceof CallOperationAction){
+			return (Classifier) ((CallOperationAction) action).getOperation().getOwner();
+		}else {
+			InputPin targetPin = getTargetPin(action);
+			if(targetPin!=null){
+				return (Classifier) targetPin.getType();
+			}
+		}
+		return null;
+	}
 }

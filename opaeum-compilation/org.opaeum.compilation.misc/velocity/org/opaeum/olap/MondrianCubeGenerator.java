@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +22,8 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Enumeration;
@@ -30,11 +33,13 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
@@ -42,8 +47,8 @@ import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.persistence.JpaUtil;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
@@ -65,9 +70,9 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 	private Document doc;
 	private Element schema;
 	@Override
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace){
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace, OJUtil ojUtil){
 		// TODO Auto-generated method stub
-		super.initialize(pac, config, textWorkspace, workspace);
+		super.initialize(pac, config, textWorkspace, workspace, ojUtil);
 		try{
 			TextFile textFile = createTextPath(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, Arrays.asList("cube.xml"));
 			File f = new File(config.getOutputRoot(), textFile.getWorkspaceRelativePath());
@@ -117,7 +122,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
@@ -160,7 +165,8 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 				cube.appendChild(calculateMember);
 				Element formula = doc.createElement("Formula");
 				calculateMember.appendChild(formula);
-				String sv = p.getStereotype(StereotypeNames.ATTRIBUTE).getFirstValueFor(TagNames.DERIVATION_FORMULA).stringValue();
+				Stereotype attrStereotype = StereotypesHelper.getStereotype( p,StereotypeNames.ATTRIBUTE);
+				String sv=(String) p.getValue(attrStereotype, TagNames.DERIVATION_FORMULA);
 				if(sv != null){
 					String string = translateFormula(sv);
 					formula.setTextContent(string);
@@ -200,13 +206,10 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		List<Element> measures = new ArrayList<Element>();
 		for(Property p:getLibrary().getEffectiveAttributes(cp)){
 			if(EmfPropertyUtil.isMeasure( p) && !p.isDerived()){
-				InstanceSpecification stereotype = p.getStereotype(StereotypeNames.ATTRIBUTE);
+				Stereotype stereotype = StereotypesHelper.getStereotype( p,StereotypeNames.ATTRIBUTE);
 				if(stereotype != null){
-					Slot slotForFeature = stereotype.getSlotForFeature(TagNames.AGGREGATION_FORMULAS);
-					if(slotForFeature != null){
-						List<ValueSpecification> values = slotForFeature.getValues();
-						for(ValueSpecification v:values){
-							EnumerationLiteral l = (org.eclipse.uml2.uml.EnumerationLiteral) v.getValue();
+						List<EnumerationLiteral> values = (List<EnumerationLiteral>) p.getValue(stereotype, TagNames.AGGREGATION_FORMULAS);
+						for(EnumerationLiteral l:values){
 							Element measure = doc.createElement("Measure");
 							measures.add(measure);
 							measure.setAttribute("name",
@@ -219,7 +222,6 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 							}
 							String format = getFormatString(p);
 							measure.setAttribute("formatString", format);
-						}
 					}
 				}
 				if(measures.isEmpty()){
@@ -358,7 +360,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			result.setAttribute("table", PersistentNameUtil.getPersistentName( toClass).getAsIs());
 			result.setAttribute("column", getIdColumn(toClass));
 			// result.setAttribute("uniqueMembers", "true");
-			Property nameProperty = toClass.getNameProperty();
+			Property nameProperty = EmfPropertyUtil.getNameProperty( toClass);
 			if(nameProperty != null){
 				result.setAttribute("nameColumn", PersistentNameUtil.getPersistentName(nameProperty).getAsIs());
 			}else{
@@ -417,9 +419,9 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 	protected String getIdColumn(Classifier rightTable){
 		String idName = "id";
 		if(rightTable instanceof Class){
-			Property primaryKeyProperty = ((Class) rightTable).getPrimaryKeyProperty();
-			if(primaryKeyProperty != null){
-				idName = PersistentNameUtil.getPersistentName( primaryKeyProperty).getAsIs();
+			Collection<Property> primaryKeyProperties = EmfClassifierUtil.getPrimaryKeyProperties((Class) rightTable);
+			if(primaryKeyProperties.size()==1){
+				idName = PersistentNameUtil.getPersistentName( primaryKeyProperties.iterator().next()).getAsIs();
 			}
 		}
 		return idName;

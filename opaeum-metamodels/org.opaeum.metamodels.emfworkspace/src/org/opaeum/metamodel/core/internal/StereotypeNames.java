@@ -115,4 +115,5 @@ public class StereotypeNames{
 	public static final String BUSINESS_DOCUMENT = "BusinessDocument";
 	public static final String ENUMERATION = "Enumeration";
 	public static final String DELEGATION = "Delegation";
+	public static final String BUSINESS_COLLABORATION = "BusinessCollaboration";
 }

@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.basicjava;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
@@ -8,7 +10,6 @@ import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {
 		OperationAnnotator.class,AttributeImplementor.class
@@ -18,7 +19,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 	protected int getThreadPoolSize(){
 		return 1;// Does work across multiple models
 	}
-	public void visitProperty(Classifier owner,NakedStructuralFeatureMap map){
+	public void visitProperty(Classifier owner,StructuralFeatureMap map){
 		Property p = map.getProperty();
 		if(p.isNavigable()){
 			OJClass c = findJavaClass(owner);
@@ -27,7 +28,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private OJAnnotatedOperation findOrCreateDerivedUnionGetter(Classifier owner,NakedStructuralFeatureMap derivedUnionMap,OJClass c){
+	private OJAnnotatedOperation findOrCreateDerivedUnionGetter(Classifier owner,StructuralFeatureMap derivedUnionMap,OJClass c){
 		// just a default implementation so that all subclasses are not required
 		// to implement it. Remember this getter may have been implemented in the superclass only.
 		OJAnnotatedOperation getter = (OJAnnotatedOperation) c.getUniqueOperation(derivedUnionMap.getter());
@@ -47,8 +48,8 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 		}
 		return getter;
 	}
-	private void addSubsetToUnion(Classifier owner,NakedStructuralFeatureMap subsettingMap,OJClass c,Property derivedUnion){
-		NakedStructuralFeatureMap derivedUnionMap = new NakedStructuralFeatureMap(derivedUnion);
+	private void addSubsetToUnion(Classifier owner,StructuralFeatureMap subsettingMap,OJClass c,Property derivedUnion){
+		StructuralFeatureMap derivedUnionMap = ojUtil.buildStructuralFeatureMap(derivedUnion);
 		if(!isNormalPropertyOverride(subsettingMap, derivedUnionMap)){
 			OJAnnotatedOperation sgetter = findOrCreateDerivedUnionGetter(owner, derivedUnionMap, c);
 			// TODO when property override occurs on a many property, the getter needs to be changed
@@ -73,10 +74,10 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	protected boolean isNormalPropertyOverride(NakedStructuralFeatureMap subsettingMap,NakedStructuralFeatureMap derivedUnionMap){
+	protected boolean isNormalPropertyOverride(StructuralFeatureMap subsettingMap,StructuralFeatureMap derivedUnionMap){
 		return(subsettingMap.getter().equals(derivedUnionMap.getter()) && subsettingMap.isOne() && derivedUnionMap.isOne());
 	}
-	private String buildExpression(NakedStructuralFeatureMap mapOfSubsettingProperty,Property derivedUnionProperty){
+	private String buildExpression(StructuralFeatureMap mapOfSubsettingProperty,Property derivedUnionProperty){
 		String expression = "this." + mapOfSubsettingProperty.getter() + "()";
 		if(derivedUnionProperty.getName().equals(mapOfSubsettingProperty.fieldname())){
 			// we need to avoid recursion now

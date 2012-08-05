@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.emf.transaction,
  org.eclipse.emf.edit.ui,
  org.eclipse.uml2.uml.edit,
- org.eclipse.ocl.uml
+ org.eclipse.ocl.uml,
+ org.opaeum.compilation.ocltojava.emf
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6 
 Export-Package: org.opaeum.eclipse,

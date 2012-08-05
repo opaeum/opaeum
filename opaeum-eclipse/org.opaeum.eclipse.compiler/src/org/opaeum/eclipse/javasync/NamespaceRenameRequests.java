@@ -18,12 +18,12 @@ import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 public class NamespaceRenameRequests implements OpaeumSynchronizationListener,OpaeumEclipseContextListener{
 	private Map<String,NamespaceRenameRequest> renamedRequestsByNewName = new HashMap<String,NamespaceRenameRequest>();
-	private void maybeAddRenameRequest(Namespace ne){
+	private void maybeAddRenameRequest(OJUtil ojUtil, Namespace ne){
 		// NB!!! this has to be done here in case multiple renames occurred before synchronization with java source
-		if(OJUtil.requiresJavaRename(ne)){
+		if(ojUtil.requiresJavaRename(ne)){
 			// Optimize namespace renames to minimize need for other models to be recompiled
-			addRenameRequest( OJUtil.getOldClassifierPathname(ne).toJavaString(), OJUtil.classifierPathname(ne).toJavaString());
-			addRenameRequest(OJUtil.getOldPackagePathname(ne).toJavaString(), OJUtil.packagePathname(ne).toJavaString());
+			addRenameRequest( ojUtil.getOldClassifierPathname(ne).toJavaString(), ojUtil.classifierPathname(ne).toJavaString());
+			addRenameRequest(ojUtil.getOldPackagePathname(ne).toJavaString(), ojUtil.packagePathname(ne).toJavaString());
 		}
 	}
 	private void addRenameRequest(String oldName,String newName){
@@ -41,7 +41,7 @@ public class NamespaceRenameRequests implements OpaeumSynchronizationListener,Op
 	public void synchronizationComplete(ModelWorkspace ws,Set<Element> affectedElements){
 		for(Element ne:affectedElements){
 			if(ne instanceof Classifier || ne instanceof Package){
-				maybeAddRenameRequest((Namespace) ne);
+				maybeAddRenameRequest("find appropriate ojUtil", (Namespace) ne);
 			}
 		}
 	}

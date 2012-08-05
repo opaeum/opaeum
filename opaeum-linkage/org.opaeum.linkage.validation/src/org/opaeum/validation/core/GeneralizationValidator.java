@@ -25,9 +25,11 @@ public class GeneralizationValidator extends AbstractValidator{
 	@VisitBefore
 	public void visitGeneralization(Generalization p){
 		if(p.getSpecific() != null && p.getGeneral() != null){
-			if(!p.getSpecific().getClass().equals(p.getGeneral().getClass())){
-				getErrorMap().putError(p.getSpecific(), CoreValidationRule.GENERALIZATION_ONLY_OF_SAME_METATYPE, p.getSpecific().getMetaClass(), p.getGeneral(),
-						p.getGeneral().getMetaClass(),p);
+			String specificMetaClass = EmfClassifierUtil.getMetaClass( p.getSpecific());
+			String generalMetaClass = EmfClassifierUtil.getMetaClass(p.getGeneral());
+			if(specificMetaClass.equals(generalMetaClass)){
+				getErrorMap().putError(p.getSpecific(), CoreValidationRule.GENERALIZATION_ONLY_OF_SAME_METATYPE, specificMetaClass, p.getGeneral(),
+						generalMetaClass,p);
 			}else if(p.getSpecific() instanceof Behavior){
 				Behavior s = (Behavior) p.getSpecific();
 				Behavior g = (Behavior) p.getGeneral();

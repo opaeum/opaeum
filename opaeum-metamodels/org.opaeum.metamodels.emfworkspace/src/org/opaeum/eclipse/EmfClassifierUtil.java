@@ -2,7 +2,6 @@ package org.opaeum.eclipse;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -13,27 +12,36 @@ import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.ocl.uml.MessageType;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.GeneralizationSet;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
+import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
@@ -43,18 +51,19 @@ import org.opaeum.metamodel.workspace.AbstractStrategyFactory.ISimpleTypeStrateg
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class EmfClassifierUtil{
-	public static CodeGenerationStrategy getCodeGenerationStrategy(NamedElement  c){
+	public static CodeGenerationStrategy getCodeGenerationStrategy(NamedElement c){
 		EList<Stereotype> appliedStereotypes = c.getAppliedStereotypes();
 		for(Stereotype st:appliedStereotypes){
-			CodeGenerationStrategy codeGenerationStrategy=null;
-			if(st.getAttribute(TagNames.MAPPED_IMPLEMENTATION_TYPE,null)!=null || st.getAttribute(TagNames.MAPPED_IMPLEMENTATION_PACKAGE,null)!=null){
+			CodeGenerationStrategy codeGenerationStrategy = null;
+			if(st.getAttribute(TagNames.MAPPED_IMPLEMENTATION_TYPE, null) != null
+					|| st.getAttribute(TagNames.MAPPED_IMPLEMENTATION_PACKAGE, null) != null){
 				codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
 			}
-			if(st.getAttribute(TagNames.CODE_GENERATION_STRATEGY,null)!=null){
-				EnumerationLiteral l =(EnumerationLiteral) c.getValue(st, TagNames.CODE_GENERATION_STRATEGY);
+			if(st.getAttribute(TagNames.CODE_GENERATION_STRATEGY, null) != null){
+				EnumerationLiteral l = (EnumerationLiteral) c.getValue(st, TagNames.CODE_GENERATION_STRATEGY);
 				codeGenerationStrategy = Enum.valueOf(CodeGenerationStrategy.class, l.getName().toUpperCase());
 			}
-			if(codeGenerationStrategy!=null){
+			if(codeGenerationStrategy != null){
 				return codeGenerationStrategy;
 			}
 		}
@@ -64,13 +73,12 @@ public class EmfClassifierUtil{
 		String mit = getMappedImplementationType(classifier);
 		return mit != null && mit.trim().length() > 0;
 	}
-	public static boolean conformsTo(CollectionType from, CollectionType to){
-		if(from.getKind()==CollectionKind.COLLECTION_LITERAL || from.getKind()==to.getKind()){
+	public static boolean conformsTo(CollectionType from,CollectionType to){
+		if(from.getKind() == CollectionKind.COLLECTION_LITERAL || from.getKind() == to.getKind()){
 			return from.getElementType().conformsTo(to.getElementType());
 		}else{
 			return false;
 		}
-		
 	}
 	public static String getMappedImplementationType(Classifier classifier){
 		return (String) getTagValue(classifier, TagNames.MAPPED_IMPLEMENTATION_TYPE);
@@ -256,8 +264,31 @@ public class EmfClassifierUtil{
 		}
 		return false;
 	}
+	public static boolean isPersistent(Type type){
+		if(!isComplexStructure(type)){
+			return false;
+		}else if(type instanceof Behavior){
+			return EmfBehaviorUtil.isProcess((Behavior) type);
+		}else if(type instanceof IEmulatedElement){
+			Element element = ((IEmulatedElement) type).getOriginalElement();
+			if(element instanceof Operation){
+				return EmfBehaviorUtil.isLongRunning((Operation)element);
+			}else if(element instanceof StructuredActivityNode){
+				StructuredActivityNode n = (StructuredActivityNode) element;
+				Activity a= EmfActivityUtil.getContainingActivity(n);
+				return EmfBehaviorUtil.isProcess(a);
+			}else if(element instanceof OpaqueAction){
+				return EmfActionUtil.isEmbeddedTask((OpaqueAction) element);
+			}else{
+				return false;
+			}
+		}else {
+			return type instanceof Class || type instanceof Actor ||  EmfClassifierUtil.isBusinessCollaboration(type) ;
+		}
+	}
 	public static boolean isComplexStructure(Type type){
-		if(type instanceof Class || type instanceof Component || type instanceof Actor || type instanceof Collaboration || type instanceof StructuredNodeMessage || type instanceof ActionMessage || type instanceof MessageType){
+		if(type instanceof Class || type instanceof Actor || type instanceof Collaboration
+				|| type instanceof MessageType){
 			return true;
 		}
 		return false;
@@ -269,5 +300,84 @@ public class EmfClassifierUtil{
 			}
 		}
 		return false;
+	}
+	public static boolean isBusinessRole(Type type){
+		return type.eClass().equals(UMLPackage.eINSTANCE.getClass_()) && StereotypesHelper.hasStereotype(type, StereotypeNames.BUSINESS_ROLE);
+	}
+	public static boolean isBusinessComponent(Classifier umlOwner){
+		return umlOwner.eClass().equals(UMLPackage.eINSTANCE.getComponent())
+				&& StereotypesHelper.hasStereotype(umlOwner, StereotypeNames.BUSINESS_COMPONENT);
+	}
+	public static boolean isBusinessCollaboration(Type type){
+		return type.eClass().equals(UMLPackage.eINSTANCE.getCollaboration())
+				&& StereotypesHelper.hasStereotype(type, StereotypeNames.BUSINESS_COLLABORATION);
+	}
+	public static Class getAdminRole(Component c){
+		Stereotype st = StereotypesHelper.getStereotype(c, StereotypeNames.BUSINESS_COMPONENT);
+		if(st != null){
+			return (Class) c.getValue(st, "adminRole");
+		}
+		return null;
+	}
+	public static Collection<Property> getPrimaryKeyProperties(Class class1){
+		Collection<Property> result = new HashSet<Property>();
+		for(Property property:class1.getOwnedAttributes()){
+			if(EmfPropertyUtil.isMarkedAsPrimaryKey(property)){
+				result.add(property);
+			}
+		}
+		return result;
+	}
+	public static EnumerationLiteral getPowerTypeLiteral(Generalization generalization,Enumeration type){
+		for(GeneralizationSet gs:generalization.getGeneralizationSets()){
+			if(gs.getPowertype() == type){
+				for(EnumerationLiteral l:type.getOwnedLiterals()){
+					if(generalization.getSpecific().getName().equalsIgnoreCase(l.getName())){
+						return l;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	public static boolean isPowerTypeInstanceOn(Class entity,Enumeration type){
+		EList<Generalization> generalizations = entity.getGeneralizations();
+		for(Generalization generalization:generalizations){
+			for(GeneralizationSet gs:generalization.getGeneralizationSets()){
+				if(gs.getPowertype() == type){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public static String getMetaClass(NamedElement c){
+		if(c instanceof Activity){
+			if(StereotypesHelper.hasStereotype(c, StereotypeNames.BUSINES_PROCESS)){
+				return StereotypeNames.BUSINES_PROCESS;
+			}else{
+				return StereotypeNames.METHOD;
+			}
+		}else if(c instanceof Class){
+			if(StereotypesHelper.hasStereotype(c, StereotypeNames.BUSINESS_DOCUMENT)){
+				return StereotypeNames.BUSINESS_DOCUMENT;
+			}else if(StereotypesHelper.hasStereotype(c, StereotypeNames.BUSINESS_ROLE)){
+				return StereotypeNames.BUSINESS_ROLE;
+			}else if(StereotypesHelper.hasStereotype(c, StereotypeNames.BUSINESS_COMPONENT)){
+				return StereotypeNames.BUSINESS_COMPONENT;
+			}else if(StereotypesHelper.hasStereotype(c, StereotypeNames.BUSINESS_WORKER)){
+				return StereotypeNames.BUSINESS_WORKER;
+			}else{
+				return StereotypeNames.ENTITY;
+			}
+		}else if(c instanceof Collaboration && StereotypesHelper.hasStereotype(c, StereotypeNames.BUSINESS_COLLABORATION)){
+			return StereotypeNames.BUSINESS_COLLABORATION;
+		}else if(c instanceof Enumeration){
+			Enumeration en = (Enumeration) c;
+			if(en.getPowertypeExtents().size() > 0){
+				return StereotypeNames.POWER_TYPE;
+			}
+		}
+		return c.eClass().getName();
 	}
 }

@@ -7,13 +7,13 @@ import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.ParameterNodeImplementor;
 import org.opaeum.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.javageneration.util.OJUtil;
 
 public class ParameterNodeBuilder extends Jbpm5ActionBuilder<ActivityParameterNode>{
 	private SimpleNodeBuilder<ActivityParameterNode> delegate;
-	public ParameterNodeBuilder(OpaeumLibrary oclEngine,ActivityParameterNode node){
-		super(oclEngine, node);
-		this.delegate = new ParameterNodeImplementor(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
+	public ParameterNodeBuilder(OJUtil ojUtil,ActivityParameterNode node){
+		super(ojUtil, node);
+		this.delegate = new ParameterNodeImplementor(node, new Jbpm5ObjectNodeExpressor(ojUtil));
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation){

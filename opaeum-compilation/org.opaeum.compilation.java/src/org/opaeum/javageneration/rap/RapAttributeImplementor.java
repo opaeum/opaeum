@@ -3,6 +3,8 @@ package org.opaeum.javageneration.rap;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Classifier;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJOperation;
@@ -14,12 +16,11 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.hibernate.HibernateAttributeImplementor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 
 @StepDependency(phase = JavaTransformationPhase.class,replaces = HibernateAttributeImplementor.class)
 public class RapAttributeImplementor extends HibernateAttributeImplementor{
 	@Override
-	protected OJOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,StructuralFeatureMap map){
 		OJOperation setter = super.buildSetter(umlOwner, owner, map);
 		if(owner.findField("propertyChangeSupport") != null){
 			setter.getBody().addToStatements(

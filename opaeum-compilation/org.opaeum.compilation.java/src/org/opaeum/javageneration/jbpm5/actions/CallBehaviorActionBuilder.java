@@ -6,8 +6,8 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class CallBehaviorActionBuilder extends AbstractCallActionBuilder<CallBehaviorAction>{
-	public CallBehaviorActionBuilder(OpaeumLibrary engine,CallBehaviorAction node){
-		super(engine, node, new BehaviorCaller(engine, node, new Jbpm5ObjectNodeExpressor(engine)));
-		calledElementMap = OJUtil.buildOperationMap(node.getBehavior());
+	public CallBehaviorActionBuilder(OJUtil ojUtil,CallBehaviorAction node){
+		super(node, new BehaviorCaller(node, new Jbpm5ObjectNodeExpressor(ojUtil)));
+		calledElementMap = ojUtil.buildOperationMap(node.getBehavior());
 	}
 }

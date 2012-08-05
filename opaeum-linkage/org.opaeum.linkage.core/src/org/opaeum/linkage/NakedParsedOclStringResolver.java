@@ -517,8 +517,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				if(getLibrary().getBusinessRole() != null){
 					env.addElement("currentRole", new VariableDeclaration("currentRole", getLibrary().getBusinessRole()), false);
 				}
-				if(getLibrary().getOpaeumPerson() != null){
-					env.addElement("currentUser", new VariableDeclaration("currentUser", getLibrary().getOpaeumPerson()), false);
+				if(getLibrary().getPersonNode() != null){
+					env.addElement("currentUser", new VariableDeclaration("currentUser", getLibrary().getPersonNode()), false);
 				}
 				ast = ea.analyzeParsetree(parser.OclExpression(), c, ns, env);
 				IOclContext newC = transformIntoOclContext(holder, ast, localErrors);
