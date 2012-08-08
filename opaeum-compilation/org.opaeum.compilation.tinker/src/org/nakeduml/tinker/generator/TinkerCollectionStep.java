@@ -4,6 +4,7 @@ import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfPropertyUtil;
@@ -16,8 +17,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.util.OJUtil;
-
-import org.eclipse.uml2.uml.Class;
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerImplementNodeStep.class }, after = { TinkerImplementNodeStep.class })
 public class TinkerCollectionStep extends StereotypeAnnotator {
 
@@ -31,7 +30,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 						// visitAssociationClassProperty(c, new
 						// AssociationClassEndMap(p));
 					} else {
-						visitProperty(c, OJUtil.buildStructuralFeatureMap(p));
+						visitProperty(c, ojUtil.buildStructuralFeatureMap(p));
 					}
 				}
 			}

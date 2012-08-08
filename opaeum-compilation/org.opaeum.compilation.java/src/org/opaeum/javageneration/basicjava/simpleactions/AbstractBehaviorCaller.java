@@ -13,7 +13,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.ActionMap;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractBehaviorCaller<T extends CallBehaviorAction> extends AbstractCaller<T>{
 	public AbstractBehaviorCaller(T action,AbstractObjectNodeExpressor objectNodeExpressor){

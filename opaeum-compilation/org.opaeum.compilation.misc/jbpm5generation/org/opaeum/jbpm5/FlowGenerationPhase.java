@@ -14,7 +14,7 @@ import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -24,6 +24,9 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 	EmfWorkspace workspace;
 	@InputModel
 	TextWorkspace textWorkspace;
+	@InputModel
+	private OJUtil ojUtil;
+
 	private OpaeumConfig config;
 	private List<AbstractFlowStep> flowSteps;
 	@Override

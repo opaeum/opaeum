@@ -4,13 +4,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-import nl.klasse.octopus.expressions.internal.types.OclExpression;
-import nl.klasse.octopus.oclengine.IOclContext;
-import nl.klasse.octopus.oclengine.internal.OclContextImpl;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.ocl.util.ToStringVisitor;
 import org.eclipse.swt.widgets.Display;
@@ -20,6 +15,7 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.OpaqueExpression;
@@ -29,15 +25,11 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.State;
-import org.eclipse.uml2.uml.ValueSpecification;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Variable;
 import org.opaeum.eclipse.commands.SetOclBodyCommand;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.javageneration.basicjava.ToStringBuilder;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
@@ -53,11 +45,11 @@ public class OclUpdater implements OpaeumSynchronizationListener{
 		this.emfWorkspaces = emfWorkspaces;
 	}
 	@Override
-	public void synchronizationComplete(ModelWorkspace nakedWorkspace,Set<Element> affectedElements){
-		OJUtil ojUtil = "get one associated with this emWorkspace";
+	public void synchronizationComplete(OpenUmlFile openUmlFile,Set<Element> affectedElements){
+		OJUtil ojUtil = openUmlFile.getOJUtil();
 		for(Element ne:affectedElements){
 			if(isLocalJavaRename(ojUtil, ne) && couldBeReferencedFromOcl(ne)){
-				oclCalculated(nakedWorkspace, ne);
+				oclCalculated(openUmlFile.getEmfWorkspace(), ne);
 			}
 		}
 	}

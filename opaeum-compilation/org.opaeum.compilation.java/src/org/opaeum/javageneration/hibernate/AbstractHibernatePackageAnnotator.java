@@ -27,7 +27,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.jbpm5.ProcessStepResolverImplementor;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	public static final class MetaDefElementCollector{

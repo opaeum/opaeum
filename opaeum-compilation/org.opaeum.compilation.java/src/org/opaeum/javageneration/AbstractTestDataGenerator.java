@@ -5,12 +5,12 @@ import java.util.Collection;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.model.IEnumerationType;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
@@ -59,7 +59,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			test.addToImports(ojUtil.classifierPathname(baseType));
 			if (EmfClassifierUtil.hasStrategy(baseType,TestModelValueStrategy.class)) {
 			}
-		} else if (f.getType() instanceof IEnumerationType) {
+		} else if (f.getType() instanceof Enumeration) {
 			OJAnnotatedClass javaType = findJavaClass((Classifier) f.getType());
 			test.addToImports(javaType.getPathName());
 		} else if (getConcreteImplementations((Interface) f.getType()).size()>0) {
@@ -69,7 +69,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	}
 
 	public String calculateDefaultStringValue(Property f) {
-		if (f.getType() instanceof IEnumerationType) {
+		if (f.getType() instanceof Enumeration) {
 			OJEnum javaType = (OJEnum) findJavaClass((Classifier) f.getType());
 			if (javaType.getLiterals().size() > 0) {
 				return javaType.getLiterals().get(0).getName();
@@ -123,7 +123,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 				}
 			}
 			return "no TestValueStrategy found ";
-		} else if (f.getType() instanceof IEnumerationType) {
+		} else if (f.getType() instanceof Enumeration) {
 			return f.getType().getName() + ".values()[0]";
 		} else if (f.getType() instanceof Interface && getConcreteImplementations((Interface) f.getType()).size()>0) {
 			return lookup(f);

@@ -27,10 +27,10 @@ import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.persistence.JpaUtil;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
+	public static final String JBPM_KNOWLEDGE_BASE = "JbpmKnowledgeBase";
 	public static class ProcessCollector extends VisitorAdapter<Element,Model>{
 		@Override
 		protected int getThreadPoolSize(){
@@ -58,7 +58,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		if(transformationContext.isIntegrationPhase()){
 			SortedSet<Package> primaryRootObjects2 = new TreeSet<Package>(new DefaultOpaeumComparator());
 			primaryRootObjects2.addAll(workspace.getPrimaryRootObjects());
-			OJPathName pn = Jbpm5Util.jbpmKnowledgeBase(workspace);
+			OJPathName pn = ojUtil.utilClass(workspace,JBPM_KNOWLEDGE_BASE);
 			SortedSet<Behavior> emptySet = new TreeSet<Behavior>();
 			createKnowledgeBase(primaryRootObjects2, emptySet, pn, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			OJAnnotatedPackageInfo pkgInfo = findOrCreatePackageInfo(pn.getHead(), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
@@ -89,7 +89,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		for(Package ro:bpmModels){
 			if(ro instanceof Model && (!EmfPackageUtil.isLibrary( (Model) ro) || EmfPackageUtil.isRegeneratingLibrary((Model) ro))){
 				getProcessLocations.getBody().addToStatements(
-						"result.addAll(" + Jbpm5Util.jbpmKnowledgeBase(ro) + ".INSTANCE.getProcessLocations())");
+						"result.addAll(" + ojUtil.utilClass(ro,JBPM_KNOWLEDGE_BASE) + ".INSTANCE.getProcessLocations())");
 			}
 		}
 		for(Behavior p:processes){
@@ -122,7 +122,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 					dependencies.add((Model) ie);
 				}
 			}
-			createKnowledgeBase(dependencies, processCollector.processes, Jbpm5Util.jbpmKnowledgeBase(model),
+			createKnowledgeBase(dependencies, processCollector.processes, ojUtil.utilClass(workspace,JBPM_KNOWLEDGE_BASE),
 					JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
 				// Could lead to duplicate declarations of this query in the same integrated jar so we have to make sure we don't

@@ -103,7 +103,7 @@ public class CompileVersionAction extends RecompileModelDirectoryAction{
 					}
 					versionContext.getConfig().setGenerateMavenPoms(true);
 					p.getPhase(PomGenerationPhase.class).generateVersionedPoms(new ProgressMonitorTransformationLog(monitor, 50));
-					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p, versionContext, true);
+					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p,  true);
 					versionContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 				}catch(Exception e){
 					e.printStackTrace();

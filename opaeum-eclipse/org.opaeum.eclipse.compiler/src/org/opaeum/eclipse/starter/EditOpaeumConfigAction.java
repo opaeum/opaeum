@@ -30,7 +30,7 @@ public class EditOpaeumConfigAction extends AbstractOpaeumAction{
 				ne.reinitialize();
 				TransformationProcess process = JavaTransformationProcessManager.getTransformationProcessFor(umlDir);
 				if(process != null){
-					JavaTransformationProcessManager.reinitializeProcess(process, ne);
+					JavaTransformationProcessManager.reinitializeProcess(process, ne.getConfig(),umlDir);
 				}
 				try{
 					umlDir.refreshLocal(IResource.DEPTH_INFINITE, null);

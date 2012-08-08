@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.linkage.core
 Bundle-SymbolicName: org.opaeum.linkage.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.opaeum.metamodels.emfworkspace,
- org.opaeum.metamodels.ocl,
+Require-Bundle: org.opaeum.metamodels.emfworkspace
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.transformation.engine,
  org.eclipse.uml2.uml;bundle-version="3.2.100",

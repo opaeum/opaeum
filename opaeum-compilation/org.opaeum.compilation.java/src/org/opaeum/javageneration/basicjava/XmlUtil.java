@@ -7,6 +7,8 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.emulated.AssociationClassToEnd;
+import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.javageneration.util.OJUtil;
 
 public class XmlUtil{

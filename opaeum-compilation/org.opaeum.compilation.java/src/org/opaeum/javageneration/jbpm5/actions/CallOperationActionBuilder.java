@@ -4,7 +4,6 @@ import org.eclipse.uml2.uml.CallOperationAction;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.javageneration.basicjava.simpleactions.OperationCaller;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class CallOperationActionBuilder extends AbstractCallActionBuilder<CallOperationAction>{
 	@Override

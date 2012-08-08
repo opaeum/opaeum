@@ -31,7 +31,6 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextWorkspace;
-import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 public class RecompileModelAction extends AbstractOpaeumAction{
 	public RecompileModelAction(IStructuredSelection selection){
@@ -57,7 +56,7 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 							OpaeumEclipseContext.selectContext(model);
 							OpaeumEclipseContext currentContext =OpaeumEclipseContext.getCurrentContext();
 
-							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getUmlDirectory());
+							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getEditingContextFor(model));
 							if(p == null||currentContext.isLoading()){
 								Display.getDefault().syncExec(new Runnable(){
 									public void run(){
@@ -67,8 +66,6 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 								});
 							}else{
 								monitor.beginTask("Generating Java Model", 90);
-								currentContext.getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
-								EmfToOpaeumSynchronizer eos = currentContext.getEmfToOpaeumSynchronizer();
 								p.removeModel(OJWorkspace.class);
 								p.removeModel(TextWorkspace.class);
 								OpaeumConfig cfg = currentContext.getConfig();
@@ -82,10 +79,9 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 								}
 								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60),false);
 								//TODO add features to SourceFolderStrategy to determine if this should be true, ie shouldCleanDirectoriesWhenGeneratingSingleModel
-								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext,true);
+								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p,true);
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
-								eos.setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
 							}
 						}catch(Exception e){
 							e.printStackTrace();

@@ -24,52 +24,40 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.uml2.uml.Action;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Event;
-import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Package;
-import org.opaeum.eclipse.EmfActionUtil;
-import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
 import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.EclipseProjectGenerationStep;
-import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
-import org.opaeum.validation.namegeneration.PersistentNameRegenerator;
 
 public final class JavaSourceSynchronizer implements OpaeumEclipseContextListener{
 	private final IWorkspaceRoot workspace;
 	// TODO remove this dependency on the context
-	OpaeumEclipseContext context;
 	EclipseProjectGenerationStep eclipseGenerator = new EclipseProjectGenerationStep();
 	private TransformationProcess process;
 	private IJavaModel javaWorkspace;
 	private Set<Element> nakedUmlChanges = new HashSet<Element>();
 	private NamespaceRenameRequests namespaceRenameRequests = new NamespaceRenameRequests();
 	private boolean synchronizing = false;
-	public JavaSourceSynchronizer(OpaeumEclipseContext ne,TransformationProcess process){
+	public JavaSourceSynchronizer(OpenUmlFile ne, TransformationProcess process){
 		this.process = process;
+		this.process.replaceModel(ne.getEmfWorkspace());
+		this.process.replaceModel(ne.getOJUtil());
 		ne.addContextListener(this);
 		ne.addContextListener(this.namespaceRenameRequests);
 		this.workspace = ResourcesPlugin.getWorkspace().getRoot();
 		this.eclipseGenerator.initialize(workspace, ne.getConfig());
 		javaWorkspace = JavaCore.create(workspace);
-		this.context = ne;
 	}
 	@Override
 	public void onSave(IProgressMonitor monit, final OpenUmlFile f){
@@ -80,7 +68,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 				public IStatus run(IProgressMonitor monitor){
 					try{
 						monitor.beginTask("Synchronizing Java sources", 1000);
-						if(context.isOpen() && context.getAutoSync()){
+						if(f.getConfig().synchronizeAutomatically()){
 							process.replaceModel(f.getEmfWorkspace());
 							renamePackages(new SubProgressMonitor(monitor, 500));
 							synchronizeClasses(new SubProgressMonitor(monitor, 500));
@@ -180,7 +168,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 					writeFilesIndividually(monitor, processElements);
 				}else{
 					try{
-						JavaProjectGenerator.writeTextFilesAndRefresh(monitor, process, context, false);
+						JavaProjectGenerator.writeTextFilesAndRefresh(monitor, process, false);
 					}catch(CoreException e){
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -216,7 +204,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 		return fileCount;
 	}
 	@Override
-	public void synchronizationComplete(ModelWorkspace workspace,Set<Element> affectedElements){
+	public void synchronizationComplete(OpenUmlFile workspace,Set<Element> affectedElements){
 		this.nakedUmlChanges.addAll(affectedElements);
 	}
 	private void renamePackages(NamespaceRenameRequest rn){
@@ -257,8 +245,5 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 		}catch(Exception e){
 			Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));
 		}
-	}
-	@Override
-	public void onClose(boolean save){
 	}
 }

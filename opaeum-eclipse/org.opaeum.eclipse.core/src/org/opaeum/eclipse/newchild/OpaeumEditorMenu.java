@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.ecore.EAnnotation;

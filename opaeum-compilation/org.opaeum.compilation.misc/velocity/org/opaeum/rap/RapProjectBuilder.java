@@ -1,7 +1,6 @@
 package org.opaeum.rap;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.opaeum.bootstrap.AbstractBootstrapStep;
 import org.opaeum.bootstrap.BootstrapGenerationPhase;
@@ -10,8 +9,6 @@ import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolder;
-import org.opaeum.textmetamodel.SourceFolderDefinition;
-import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 
 @StepDependency(phase = BootstrapGenerationPhase.class)

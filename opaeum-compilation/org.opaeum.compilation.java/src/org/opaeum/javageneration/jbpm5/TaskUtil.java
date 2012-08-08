@@ -2,8 +2,6 @@ package org.opaeum.javageneration.jbpm5;
 
 import java.util.Collection;
 
-import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
-
 import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.TimeEvent;
@@ -83,7 +81,7 @@ public class TaskUtil{
 			String expr = valueSpecificationUtil.expressOcl(oclExpressionContext,operation, null);
 			OJIfStatement ifEmpty = new OJIfStatement(taskName + ".getTaskRequest().get" + name.getCapped() + "().isEmpty()");
 			block.addToStatements(ifEmpty);
-			if(oclExpressionContext.getExpression().getType() instanceof StdlibCollectionType){
+			if(oclExpressionContext.getExpression().getType() instanceof CollectionType){
 				operation.getOwner().addToImports(BUSINESS_ROLE);
 				OJForStatement forEach = new OJForStatement("participant", BUSINESS_ROLE, expr);
 				ifEmpty.getThenPart().addToStatements(forEach);

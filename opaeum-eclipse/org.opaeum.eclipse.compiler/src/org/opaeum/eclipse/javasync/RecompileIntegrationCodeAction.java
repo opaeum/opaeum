@@ -32,7 +32,7 @@ public class RecompileIntegrationCodeAction extends RecompileModelDirectoryActio
 					monitor.subTask("Generating Java Code");
 					p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
 					monitor.subTask("Generating text files");
-					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 100), p, currentContext,false);
+					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 100), p, false);
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 				}catch(Exception e){
 					e.printStackTrace();

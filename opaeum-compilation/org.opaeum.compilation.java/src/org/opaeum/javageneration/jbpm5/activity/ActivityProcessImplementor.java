@@ -90,7 +90,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	private void activityEdge(ActivityEdge edge){
 		OJAnnotatedClass c = findJavaClass(EmfActivityUtil.getContainingActivity(edge));
 		if(edge instanceof ObjectFlow && ((ObjectFlow) edge).getTransformation() != null){
-			SimpleActivityMethodImplementor.generateTransformationMultiplier(c, ((ObjectFlow) edge));
+			SimpleActivityMethodImplementor.generateTransformationMultiplier(c, ((ObjectFlow) edge), ojUtil);
 		}
 		if(EmfActivityUtil.hasGuard(edge) && EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(edge))){
 			ActivityNode node = EmfActivityUtil.getEffectiveSource(edge);

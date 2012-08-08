@@ -131,9 +131,9 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 						@Override
 						public void execute(){
 							try{
-								ctx.getEmfToOpaeumSynchronizer().suspend();
+								eCtx.suspend();
 								new UmlGenerator().generateUml(types, eCtx.getModel());
-								ctx.getEmfToOpaeumSynchronizer().resumeAndCatchUp();
+								eCtx.resumeAndCatchUp();
 								file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 							}catch(Exception e){
 								MessageDialog.openError(Display.getCurrent().getActiveShell(), "Reverse Engineering Failed", e.toString());

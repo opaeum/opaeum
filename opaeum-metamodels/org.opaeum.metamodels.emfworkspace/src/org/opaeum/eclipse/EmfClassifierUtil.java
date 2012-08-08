@@ -254,7 +254,7 @@ public class EmfClassifierUtil{
 		// TODO Auto-generated method stub
 		return StereotypesHelper.hasStereotype(s, StereotypeNames.NOTIFICATION);
 	}
-	public static boolean isCompositionParticipant(Classifier umlOwner){
+	public static boolean isCompositionParticipant(Type umlOwner){
 		if(umlOwner instanceof Component || umlOwner instanceof Class || umlOwner instanceof MessageType || umlOwner instanceof Actor){
 			return true;
 		}else if(umlOwner instanceof Interface){
@@ -293,8 +293,8 @@ public class EmfClassifierUtil{
 		}
 		return false;
 	}
-	public static boolean isFact(Classifier cp){
-		for(Property property:EmfElementFinder.getPropertiesInScope(cp)){
+	public static boolean isFact(Type type){
+		for(Property property:EmfElementFinder.getPropertiesInScope((Classifier) type)){
 			if(EmfPropertyUtil.isMeasure(property)){
 				return true;
 			}

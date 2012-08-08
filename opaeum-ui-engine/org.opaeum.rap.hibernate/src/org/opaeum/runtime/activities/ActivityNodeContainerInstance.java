@@ -9,4 +9,6 @@ public interface ActivityNodeContainerInstance{
 	List<Token> getTokensHeldBy(ActivityNodeActivation node);
 	List<Token> getTokensOfferedTo(ActivityEdgeInstance edge);
 	Token createToken(TokenKind kind);
+
+	void terminateAll();
 }

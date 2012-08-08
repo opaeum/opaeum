@@ -54,21 +54,20 @@ public class OpaeumStartup implements IStartup{
 						CommonViewer treeViewer = modelExplorerView.getCommonViewer();
 						// The common viewer is in fact a tree viewer
 						ModelExplorerView.reveal(Lists.newArrayList(key), treeViewer);
-
-//						Object modelElementItem = me.findElementForEObject(treeViewer, key);
-//						if(modelElementItem != null){
-//							TreePath treePath = new TreePath(new Object[]{modelElementItem});
-//							EObject parent = key.eContainer();
-//							if(parent != null){
-//								// workaround: in case of a pseudo parent (like "ownedConnector", the expansion
-//								// is not made automatically
-//								Object parentElement = me.findElementForEObject(treeViewer, parent);
-//								treeViewer.expandToLevel(parentElement, 1);
-//							}
-//							modelExplorerView.revealSemanticElement(Arrays.asList(key));
-//							treeViewer.setSelection(new StructuredSelection(modelElementItem), true);
-////							modelExplorerView.selectReveal(new TreeSelection(treePath));
-//						}
+						// Object modelElementItem = me.findElementForEObject(treeViewer, key);
+						// if(modelElementItem != null){
+						// TreePath treePath = new TreePath(new Object[]{modelElementItem});
+						// EObject parent = key.eContainer();
+						// if(parent != null){
+						// // workaround: in case of a pseudo parent (like "ownedConnector", the expansion
+						// // is not made automatically
+						// Object parentElement = me.findElementForEObject(treeViewer, parent);
+						// treeViewer.expandToLevel(parentElement, 1);
+						// }
+						// modelExplorerView.revealSemanticElement(Arrays.asList(key));
+						// treeViewer.setSelection(new StructuredSelection(modelElementItem), true);
+						// // modelExplorerView.selectReveal(new TreeSelection(treePath));
+						// }
 					}
 				}
 			}
@@ -129,46 +128,43 @@ public class OpaeumStartup implements IStartup{
 				}
 			}
 		});
-//		new OpaeumPreferenceInitializer().initializeDefaultPreferences();
+		// new OpaeumPreferenceInitializer().initializeDefaultPreferences();
 	}
 	private IFile getUmlFile(final IFileEditorInput fe){
 		return fe.getFile().getProject().getFile(fe.getFile().getProjectRelativePath().removeFileExtension().addFileExtension("uml"));
 	}
 	private void associateOpaeumContext(PapyrusMultiDiagramEditor e){
-		IEditorPart activeEditor = e.getActiveEditor();
 		final IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
 		if(!(umlFile.getParent().getName().equals("ui") || umlFile.getParent().getName().equals("simulation"))){
 			final OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlFile.getParent());
 			((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
 			if(result.getEditingContextFor(umlFile) == null){
 				((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
-				if(!result.isLoadingFile(umlFile)){
-					result.startSynch(e.getEditingDomain(), umlFile);
-					final IWorkbenchWindow workbenchWindow = e.getSite().getWorkbenchWindow();
-					result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(workbenchWindow));
-					ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);
-					saveAndDirtyService.registerIsaveablePart(new ISaveablePart(){
-						public boolean isSaveOnCloseNeeded(){
-							return true;
-						}
-						public boolean isSaveAsAllowed(){
-							return false;
-						}
-						public boolean isDirty(){
-							return false;
-						}
-						public void doSaveAs(){
-						}
-						public void doSave(IProgressMonitor monitor){
-							result.onSave(monitor, umlFile);
-						}
-					});
-					try{
-						workbenchWindow.getActivePage().showView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
-					}catch(PartInitException e1){
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+				result.startSynch(e.getEditingDomain(), umlFile);
+				final IWorkbenchWindow workbenchWindow = e.getSite().getWorkbenchWindow();
+				result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(workbenchWindow));
+				ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);
+				saveAndDirtyService.registerIsaveablePart(new ISaveablePart(){
+					public boolean isSaveOnCloseNeeded(){
+						return true;
 					}
+					public boolean isSaveAsAllowed(){
+						return false;
+					}
+					public boolean isDirty(){
+						return false;
+					}
+					public void doSaveAs(){
+					}
+					public void doSave(IProgressMonitor monitor){
+						result.onSave(monitor, umlFile);
+					}
+				});
+				try{
+					workbenchWindow.getActivePage().showView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
+				}catch(PartInitException e1){
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 			result.setCurrentEditContext(e.getEditingDomain(), umlFile, result.geteObjectSelectorUI());

@@ -1,9 +1,9 @@
 package org.opaeum.javageneration.oclexpressions;
 
 import nl.klasse.octopus.codegen.umlToJava.othergenerators.creators.MultCheckCreator;
-import nl.klasse.octopus.model.IEnumerationType;
 
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -22,7 +22,7 @@ import org.opaeum.javageneration.basicjava.AttributeImplementor;
 public class MultiplicityChecking extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(Classifier in){
-		if(!(in instanceof IEnumerationType)){
+		if(!(in instanceof Enumeration)){
 			OJPathName path = ojUtil.classifierPathname(in);
 			OJClassifier myOwner = javaModel.findClass(path);
 			if(myOwner != null){

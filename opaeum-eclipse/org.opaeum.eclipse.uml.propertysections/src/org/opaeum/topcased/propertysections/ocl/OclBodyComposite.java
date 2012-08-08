@@ -34,6 +34,7 @@ import org.opaeum.eclipse.EmfValidationUtil;
 import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.commands.SetOclBodyCommand;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.linkage.CoreValidationRule;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.ErrorMap;
@@ -222,9 +223,10 @@ public abstract class OclBodyComposite extends Composite{
 	public void highlightError(){
 		StyledText t = viewer.getTextWidget();
 		if(!(oclBodyOwner == null || t == null || t.isDisposed())){
-			ModelWorkspace ws = OpaeumEclipseContext.getCurrentContext().getNakedWorkspace();
+			
+			EmfWorkspace ws = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner).getEmfWorkspace();
 			ErrorMap errors = ws.getErrorMap();
-			String id = OpaeumEclipseContext.getCurrentContext().getId(oclBodyOwner);
+			String id = EmfWorkspace.getId(oclBodyOwner);
 			BrokenElement be = errors.getErrors().get(id);
 			if(be != null && be.hasBroken(CoreValidationRule.OCL)){
 				Object[] objects = be.getBrokenRules().get(CoreValidationRule.OCL).getParameters();

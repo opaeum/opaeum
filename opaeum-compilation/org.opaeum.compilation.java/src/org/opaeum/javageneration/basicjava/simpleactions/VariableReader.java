@@ -7,7 +7,6 @@ import org.eclipse.uml2.uml.ReadVariableAction;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class VariableReader extends SimpleNodeBuilder<ReadVariableAction> {
 	public VariableReader(ReadVariableAction action, AbstractObjectNodeExpressor expressor) {

@@ -33,7 +33,6 @@ import org.opaeum.feature.TransformationProcess;
 import org.opaeum.filegeneration.TextFileDeleter;
 import org.opaeum.filegeneration.TextFileGenerator;
 import org.opaeum.java.metamodel.OJWorkspace;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.rap.RapCapabilities;
 import org.opaeum.rap.RapProjectBuilder;
@@ -47,9 +46,9 @@ public final class JavaProjectGenerator extends Job{
 	private final OpaeumConfig cfg;
 	private final IWorkspaceRoot workspace;
 	private TransformationProcess process;
-	public JavaProjectGenerator(OpaeumConfig cfg,TransformationProcess process,IWorkspaceRoot workspace){
+	public JavaProjectGenerator(TransformationProcess process,IWorkspaceRoot workspace){
 		super("Generating java projects");
-		this.cfg = cfg;
+		this.cfg = process.getConfig();
 		this.process = process;
 		this.workspace = workspace;
 	}
@@ -173,7 +172,7 @@ public final class JavaProjectGenerator extends Job{
 		}
 		return result;
 	}
-	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,OpaeumEclipseContext currentContext,
+	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,
 			boolean cleanDirectories) throws CoreException{
 		try{
 			monitor.beginTask("Updating resources", 1000);
@@ -182,18 +181,18 @@ public final class JavaProjectGenerator extends Job{
 				monitor.setTaskName("Writing Text Files");
 				if(cleanDirectories){
 					TextFileDeleter textFileDeleter = new TextFileDeleter();
-					textFileDeleter.initialize(currentContext.getConfig());
+					textFileDeleter.initialize(p.getConfig());
 					textFileDeleter.startVisiting(textWorkspace);
 				}
 				TextFileGenerator textFileGenerator = new TextFileGenerator();
-				textFileGenerator.initialize(currentContext.getConfig());
+				textFileGenerator.initialize(p.getConfig());
 				textFileGenerator.startVisiting(textWorkspace);
 				monitor.worked(500);
 			}
 			monitor.setTaskName("Refreshing Projects");
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			// clients expect synchronous execution
-			new JavaProjectGenerator(currentContext.getConfig(), p, root).run(new SubProgressMonitor(monitor, 500));
+			new JavaProjectGenerator(p, root).run(new SubProgressMonitor(monitor, 500));
 		}finally{
 			monitor.done();
 		}

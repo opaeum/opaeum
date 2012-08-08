@@ -1,6 +1,5 @@
 package org.opaeum.javageneration.basicjava;
 
-import java.util.Collection;
 import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
@@ -18,28 +17,19 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.DataType;
-import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.Enumeration;
-import org.eclipse.uml2.uml.ExpansionNode;
-import org.eclipse.uml2.uml.ExpansionRegion;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.OutputPin;
-import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
-import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.StructuredActivityNode;
-import org.eclipse.uml2.uml.TimeObservation;
-import org.eclipse.uml2.uml.Variable;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfOperationUtil;
-import org.opaeum.eclipse.EmfTimeUtil;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
@@ -74,7 +64,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			for(Property p:directlyImplementedAttributes){
 				if(p.isNavigable()){
 					if(OJUtil.hasOJClass((Classifier) p.getAssociation())){
-						visitAssociationClassProperty(c, new AssociationClassEndMap(p));
+						visitAssociationClassProperty(c, new AssociationClassEndMap(ojUtil, p));
 					}else{
 						StructuralFeatureMap buildStructuralFeatureMap = ojUtil.buildStructuralFeatureMap(p);
 						visitProperty(c, buildStructuralFeatureMap);

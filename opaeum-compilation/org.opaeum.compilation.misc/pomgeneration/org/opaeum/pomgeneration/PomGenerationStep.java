@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
-import nl.klasse.octopus.model.IImportedElement;
-import org.eclipse.uml2.uml.Package;
 import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
@@ -16,11 +14,12 @@ import org.apache.maven.pom.PluginExecution;
 import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 

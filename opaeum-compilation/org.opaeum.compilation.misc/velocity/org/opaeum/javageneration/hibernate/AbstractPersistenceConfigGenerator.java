@@ -1,6 +1,5 @@
 package org.opaeum.javageneration.hibernate;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,11 +12,11 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.Type;
 import org.opaeum.eclipse.CodeGenerationStrategy;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
@@ -33,10 +32,9 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationStep;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
+import org.opaeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
 import org.opaeum.javageneration.jbpm5.Jbpm5JavaStep;
-import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.rap.RapCapabilities;
 import org.opaeum.runtime.environment.Environment;
@@ -89,9 +87,9 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 			boolean isAdaptorEnvironment,Element owner){
 		SortedProperties properties = new SortedProperties();
 		HashMap<String,Object> vars = buildVars(models, isAdaptorEnvironment, owner);
-		properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
+		properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, ojUtil.utilClass(owner, Jbpm5EnvironmentBuilder.JBPM_KNOWLEDGE_BASE).toJavaString());
 		properties.setProperty(Environment.DBMS, config.getDbms());
-		properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, JavaMetaInfoMapGenerator.javaMetaInfoMapPath(owner).toJavaString());
+		properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, ojUtil.utilClass(owner, JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX).toJavaString());
 		properties.setProperty(Environment.JDBC_CONNECTION_URL, config.getJdbcConnectionUrl());
 		properties.setProperty(Environment.DB_USER, config.getDbUser());
 		properties.setProperty(Environment.DB_PASSWORD, config.getDbPassword());
@@ -120,7 +118,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 				Notifier n = iter.next();
 				if(n instanceof Element){
 					Element e = (Element) n;
-					if(e instanceof Classifier && EmfClassifierUtil.isComplexStructure((Classifier) e) && ((ComplexStructure) e).isPersistent()
+					if(e instanceof Classifier && EmfClassifierUtil.isComplexStructure((Classifier) e) && EmfClassifierUtil.isPersistent((Type) e)
 							&& isGeneratingElement(e)){
 						persistentClasses.add(ojUtil.classifierPathname((Classifier) e));
 					}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){

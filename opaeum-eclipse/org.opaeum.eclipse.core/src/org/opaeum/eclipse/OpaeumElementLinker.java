@@ -524,12 +524,14 @@ public class OpaeumElementLinker extends EContentAdapter{
 			if(newValue instanceof Association){
 				Association ass = (Association) newValue;
 				for(Property property:ass.getMemberEnds()){
+
 					if(property.getOtherEnd().isNavigable() && property.getType() instanceof Enumeration){
 						for(EnumerationLiteral e:((Enumeration) property.getType()).getOwnedLiterals()){
 							ensureSlotsPresence(e, property.getOtherEnd());
 						}
 					}
 				}
+				
 			}
 			if(newValue instanceof TimeEvent){
 				applyRelativeTimeEventStereotype((TimeEvent) newValue, p);

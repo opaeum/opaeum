@@ -130,9 +130,14 @@ public class OJUtil{
 	private Map<Signal,SignalMap> signalMaps = new HashMap<Signal,SignalMap>();
 	private Map<String,ClassifierMap> classifierMaps = new HashMap<String,ClassifierMap>();
 	private Map<Namespace,OJPathName> statePathnames = new HashMap<Namespace,OJPathName>();
-	public OJUtil(OpaeumLibrary library){
+	public OJUtil(){
 		super();
-		this.library = library;
+	}
+	public void initialise(OpaeumLibrary o){
+		if(library!=o){
+			clearCache();
+		}
+		this.library=o;
 	}
 	public OpaeumLibrary getLibrary(){
 		return library;
@@ -229,19 +234,18 @@ public class OJUtil{
 		StructuralFeatureMap map = structuralFeatureMaps.get(action);
 		if(map == null){
 			Namespace nearestNodeContainer = EmfActivityUtil.getNearestNodeContainer(action);
-			ActionFeatureBridge bridge=null;
+			ActionFeatureBridge bridge = null;
 			if(nearestNodeContainer instanceof Activity){
-				bridge=(ActionFeatureBridge) library.getEmulatedPropertyHolder((Activity)nearestNodeContainer).getEmulatedAttribute(action);
-			}else {
-				StructuredActivityNodeMessageType msg= (StructuredActivityNodeMessageType) library.getMessageStructure(nearestNodeContainer);
-				bridge=(ActionFeatureBridge) msg.getEmulatedAttribute(action);
+				bridge = (ActionFeatureBridge) library.getEmulatedPropertyHolder((Activity) nearestNodeContainer).getEmulatedAttribute(action);
+			}else{
+				StructuredActivityNodeMessageType msg = (StructuredActivityNodeMessageType) library.getMessageStructure(nearestNodeContainer);
+				bridge = (ActionFeatureBridge) msg.getEmulatedAttribute(action);
 			}
 			map = new StructuralFeatureMap(this, bridge);
 			structuralFeatureMaps.put(action, map);
 		}
 		return map;
 	}
-
 	/**
 	 * A Opaeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
 	 * nesting a package is generated for every classifier with nested classifiers
@@ -489,5 +493,13 @@ public class OJUtil{
 		}
 		return map;
 	}
-
+	public OJPathName utilClass(Element owner,String suffix){
+		OJPathName result = utilPackagePath(owner);
+		if(owner instanceof Namespace){
+			return result.append("util").append(NameConverter.capitalize(((Namespace) owner).getName()) + suffix);
+		}else if(owner instanceof EmfWorkspace){
+			return result.append("util").append(NameConverter.capitalize(((EmfWorkspace) owner).getName()) + suffix);
+		}
+		return null;
+	}
 }

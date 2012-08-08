@@ -145,7 +145,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 					String artifactName = impl.getParent().getRelativePath()
 							.substring(impl.getParent().getSourceFolder().getRelativePath().length() + 1)
 							+ "/" + impl.getName();
-					final String implementationCodeFor = m.getImplementationCodeFor(artifactName);
+					final String implementationCodeFor = getLibrary().getImplementationCodeFor( m,artifactName);
 					impl.setDependsOnVersion(true);
 					if(implementationCodeFor != null){
 						impl.setTextSource(new JavaStringTextSource(implementationCodeFor));

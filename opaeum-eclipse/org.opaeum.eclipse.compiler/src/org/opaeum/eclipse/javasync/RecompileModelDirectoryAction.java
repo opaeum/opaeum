@@ -1,8 +1,6 @@
 package org.opaeum.eclipse.javasync;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
@@ -30,9 +28,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.TextWorkspace;
-import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 	public RecompileModelDirectoryAction(IStructuredSelection selection2){
@@ -57,7 +53,7 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 						p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
 					}
 					monitor.subTask("Generating text files");
-					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p, currentContext, true);
+					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p, true);
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 					EmfWorkspace mw = p.findModel(EmfWorkspace.class);
 					TreeIterator<Notifier> iter = mw.getResourceSet().getAllContents();
@@ -98,23 +94,9 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 		final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(folder);
 		monitor.worked(5);
 		monitor.subTask("Loading Opaeum Metadata");
-		ctx.executeAndWait(new AbstractCommand(){
-			@Override
-			public boolean canExecute(){
-				return true;
-			}
-			@Override
-			public void execute(){
-				ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
-			}
-			@Override
-			public void redo(){
-			}
-		});
-		ModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
-		PersistentNameGenerator png = new PersistentNameGenerator();
-		png.startVisiting(nakedWorkspace);
+		final EmfWorkspace ws=ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
 		TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);
+		p.replaceModel(ws);
 		p.removeModel(OJWorkspace.class);
 		p.removeModel(TextWorkspace.class);
 		OpaeumConfig config = ctx.getConfig();

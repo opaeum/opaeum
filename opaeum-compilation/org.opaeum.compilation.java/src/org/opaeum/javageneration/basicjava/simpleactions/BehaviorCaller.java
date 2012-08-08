@@ -8,7 +8,6 @@ import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class BehaviorCaller extends AbstractBehaviorCaller<CallBehaviorAction>{
 	public BehaviorCaller(CallBehaviorAction action,AbstractObjectNodeExpressor expressor){

@@ -30,7 +30,6 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.composition.ComponentInitializer;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class, replaces = AttributeImplementor.class, after = { TinkerImplementNodeStep.class, 
@@ -66,7 +65,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 			adder.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
 			if (!(p.getOtherEnd() == null || p.getOtherEnd().isDerived()) && p.getOtherEnd().isNavigable()) {
-				StructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
+				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap((p).getOtherEnd());
 				if (otherMap.isMany()) {
 					if (!OJUtil.hasOJClass((Classifier) p.getAssociation())) {
 						adder.getBody().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
@@ -171,7 +170,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 					} else {
 						OJIfStatement ifResultNull = new OJIfStatement("result == null");
 						ifResultNull.addToThenPart("result = (" + map.javaTypePath().getLast() + ") this.vertex.getProperty(\""
-								+ TinkerGenerationUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+								+ TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\")");
 						ifResultNull.addToThenPart("result = (result==null || result.equals(\"" + TinkerGenerationUtil.TINKER_DB_NULL + "\"))?null:result");
 						getter.getBody().addToStatements(ifResultNull);
 					}
@@ -258,7 +257,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 			OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null");
 			remover.getBody().addToStatements(ifNotNull);
 			if (p.getOtherEnd() != null && p.getOtherEnd().isNavigable()) {
-				StructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
+				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap((p).getOtherEnd());
 				if (!OJUtil.hasOJClass((Classifier) map.getProperty().getAssociation())) {
 					ifNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(this)");
 				}
@@ -277,7 +276,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		Classifier umlOwner = (Classifier) map.getFeature().getOwner();
 		if (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
 			if (map.isOne()) {
-				StructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
+				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
 				buildTinkerToOneRemover(umlOwner, map, otherMap, owner, buildBasicRemover(owner, map));
 			} else {
 				builTinkerManyRemover(owner, map);
@@ -302,7 +301,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		Classifier umlOwner = (Classifier) map.getFeature().getOwner();
 		if (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
 			if (map.isOne()) {
-				StructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
+				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
 				buildTinkerToOneAdder(umlOwner, map, otherMap, owner, buildBasicAdder(owner, map));
 			} else {
 				builTinkerManyAdder(owner, map);
@@ -470,7 +469,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		String otherClassName;
 		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map);
 		otherClassifier = (Classifier) map.getProperty().getType();
-		otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
+		otherClassName = otherClassifier.getName();
 		OJBlock block = new OJBlock();
 		if (isComposite) {
 			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");
@@ -506,7 +505,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 
 	public static void buildGetterForToOneEnumeration(StructuralFeatureMap map, OJOperation getter, Property prop) {
 		getter.getBody().addToStatements(
-				"String enumValue = (String)this.vertex.getProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+				"String enumValue = (String)this.vertex.getProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\")");
 		OJIfStatement ifNotNull = new OJIfStatement("enumValue !=null");
 		ifNotNull.addToThenPart("result = " + map.javaTypePath().getLast() + ".valueOf(enumValue)");
 		getter.getBody().addToStatements(ifNotNull);
@@ -517,7 +516,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		result.setName(EMBEDDED_MANY_RESULT);
 		result.setType(map.javaTypePath());
 		result.setInitExp("(" + map.javaTypePath().getCollectionTypeName() + ") " + TinkerGenerationUtil.tinkerUtil + ".convertEnumsFromPersistence(this.vertex.getProperty(\""
-				+ TinkerGenerationUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\"), " + map.javaBaseTypePath().getLast() + ".class, "
+				+ TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\"), " + map.javaBaseTypePath().getLast() + ".class, "
 				+ map.getProperty().isOrdered() + " )");
 		owner.addToImports(new OJPathName("java.util.Collection"));
 		getter.getBody().addToLocals(result);
@@ -532,7 +531,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 
 		OJField property = new OJField();
 		property.setType(new OJPathName("java.lang.Object"));
-		property.setInitExp("this.vertex.getProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+		property.setInitExp("this.vertex.getProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\")");
 		property.setName(EMBEDDED_MANY_PROPERTY_RESULT);
 		getter.getBody().addToLocals(property);
 

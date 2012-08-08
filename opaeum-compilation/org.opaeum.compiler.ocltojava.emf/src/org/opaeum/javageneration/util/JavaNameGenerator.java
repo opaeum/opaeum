@@ -39,7 +39,7 @@ public class JavaNameGenerator{
 		String name = element.getName();
 		if(element instanceof Classifier){
 			Classifier nc = (Classifier) element;
-			if(EmfClassifierUtil.getCodeGenerationStrategy( nc).isNone()){
+			if(EmfClassifierUtil.getCodeGenerationStrategy(nc).isNone()){
 				// Use the name of the mapped class in java
 				name = generateQualifiedJavaName(nc);
 				if(name.indexOf(".") > -1){
@@ -157,34 +157,30 @@ public class JavaNameGenerator{
 	 * @return
 	 */
 	public static String packagePathname(Namespace p){
-		if(EmfElementUtil.isMarkedForDeletion(p)){
-			return p.getQualifiedJavaName();
-		}else{
-			Set<String> keywords = new HashSet<String>();
-			keywords.add("public");
-			keywords.add("static");
-			keywords.add("final");
-			keywords.add("class");
-			keywords.add("void");
-			keywords.add("return");
-			if(p instanceof Package){
-				Package np = (Package) p;
-				if(EmfPackageUtil.hasMappedImplementationPackage(np)){
-					return EmfPackageUtil.getMappedImplementationPackage(np);
-				}else if(EmfPackageUtil.isRootPackage(np) || p instanceof Model || p instanceof Profile || p.getOwner() == null){
-					return np.getName().toLowerCase();
-				}
+		Set<String> keywords = new HashSet<String>();
+		keywords.add("public");
+		keywords.add("static");
+		keywords.add("final");
+		keywords.add("class");
+		keywords.add("void");
+		keywords.add("return");
+		if(p instanceof Package){
+			Package np = (Package) p;
+			if(EmfPackageUtil.hasMappedImplementationPackage(np)){
+				return EmfPackageUtil.getMappedImplementationPackage(np);
+			}else if(EmfPackageUtil.isRootPackage(np) || p instanceof Model || p instanceof Profile || p.getOwner() == null){
+				return np.getName().toLowerCase();
 			}
-			StringBuilder path = new StringBuilder();
-			addParentsToPath(p, path);
-			String lowerCase = p.getName().toLowerCase();
-			if(keywords.contains(lowerCase)){
-				path.append(lowerCase + "_");
-			}else{
-				path.append(lowerCase);
-			}
-			return path.toString();
 		}
+		StringBuilder path = new StringBuilder();
+		addParentsToPath(p, path);
+		String lowerCase = p.getName().toLowerCase();
+		if(keywords.contains(lowerCase)){
+			path.append(lowerCase + "_");
+		}else{
+			path.append(lowerCase);
+		}
+		return path.toString();
 	}
 	/**
 	 * A Opaeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
@@ -199,12 +195,9 @@ public class JavaNameGenerator{
 			if(EmfClassifierUtil.hasMappedImplementationType(classifier)){
 				return EmfClassifierUtil.getMappedImplementationType(classifier);
 			}
-		}else if(EmfElementUtil.isMarkedForDeletion(ne)){
-			return ne.getQualifiedJavaName();
-		}else{
-			String path = packagePathname((Namespace) EmfElementFinder.getContainer(ne));
-			return path + "." + NameConverter.capitalize(ne.getName());
 		}
+		String path = packagePathname((Namespace) EmfElementFinder.getContainer(ne));
+		return path + "." + NameConverter.capitalize(ne.getName());
 	}
 	private static void addParentsToPath(Namespace c,StringBuilder path){
 		Namespace parent = (Namespace) c.getOwner();

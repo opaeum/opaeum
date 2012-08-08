@@ -114,8 +114,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 				hide();
 			}else{
 				for(final Entry<EObject,IMarker> entry:markers.entrySet()){
-					ErrorMap errorMap = ctx.getNakedWorkspace().getErrorMap();
-					EObject key = entry.getKey();
+					ErrorMap errorMap = ctx.getEditingContextFor(getEObject()).getEmfWorkspace().getErrorMap();
 					BrokenElement error = null;
 					try{
 						error = errorMap.getErrors().get(entry.getValue().getAttribute("BROKEN_ELEMENT_ID"));

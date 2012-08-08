@@ -4,7 +4,6 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.javageneration.JavaFeature;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.hibernate.HibernateAnnotator;
-import org.opaeum.javageneration.hibernate.HibernateAttributeImplementor;
 import org.opaeum.javageneration.hibernate.HibernateConfigGenerator;
 import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
 import org.opaeum.pomgeneration.BasicIntegratedAdaptorPomStep;

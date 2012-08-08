@@ -58,7 +58,7 @@ public class OperationMap extends PackageableElementMap implements IMessageMap,E
 	public List<OJPathName> javaParamTypePathsWithReturnInfo(){
 		List<OJPathName> javaParamTypePaths = new ArrayList<OJPathName>();
 		if(isLongRunning()){
-			javaParamTypePaths.add(Jbpm5Util.getProcessContext());
+			javaParamTypePaths.add(new OJPathName("org.opaeum.runtime.activities.Token"));
 		}
 		javaParamTypePaths.addAll(javaParamTypePaths());
 		return javaParamTypePaths;

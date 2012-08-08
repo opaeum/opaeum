@@ -13,6 +13,7 @@ import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -27,6 +28,8 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 	private TextWorkspace textWorkspace;
 	@InputModel
 	private EmfWorkspace workspace;
+	@InputModel
+	private OJUtil ojUtil;
 	private List<AbstractBootstrapStep> features;
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){

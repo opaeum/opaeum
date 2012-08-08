@@ -25,29 +25,34 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 
 public class StereotypeApplyingTypeCreationTool extends AspectUnspecifiedTypeCreationTool{
+	OpenUmlFile currentFile;
 	public StereotypeApplyingTypeCreationTool(List<IElementType> elementTypes,final String profileName,final String stereotypeName){
 		super(elementTypes);
 		super.postActions.add(new StereotypePostAction(){
 			public void run(final EditPart editPart){
-				Element c = (Element) editPart.getAdapter(Element.class);
+				final Element c = (Element) editPart.getAdapter(Element.class);
 				Stereotype st = ProfileApplier.getProfile(c, profileName).getOwnedStereotype(stereotypeName);
 				ApplyStereotypeCommand command = new ApplyStereotypeCommand(c, st){
 					@Override
 					public void execute(){
 						super.execute();
-						OpaeumEclipseContext.getCurrentContext().getEmfToOpaeumSynchronizer().resumeAndCatchUp();
+						currentFile = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(c);
+						currentFile.resumeAndCatchUp();
 					}
 				};
-				OpaeumEclipseContext.getCurrentContext(). executeAndForget(command);
+				OpaeumEclipseContext.getCurrentContext().executeAndForget(command);
 			};
 		});
 	}
 	protected void executeCurrentCommand(){
-		//We need this whole sequence to be processessed in a single go so that the object is only extracted once the stereotype has been applied
-		OpaeumEclipseContext.getCurrentContext().getEmfToOpaeumSynchronizer().suspend();
-
+		if(currentFile != null){
+			// We need this whole sequence to be processessed in a single go so that the object is only extracted once the stereotype has been
+			// applied
+			currentFile.suspend();
+		}
 		final Command curCommand = getCurrentCommand();
 		if(curCommand != null && curCommand.canExecute())
 			executeCommand(curCommand);

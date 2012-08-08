@@ -72,9 +72,9 @@ public class ReverseEngineerTablesAction extends Action{
 			if(ctx != null){
 				OpenUmlFile eCtx = ctx.getEditingContextFor(file);
 				if(eCtx != null){
-					ctx.getEmfToOpaeumSynchronizer().suspend();
+					eCtx.suspend();
 					new UmlGenerator().generateUml(calculateTables(), eCtx.getModel());
-					ctx.getEmfToOpaeumSynchronizer().resumeAndCatchUp();
+					eCtx.resumeAndCatchUp();
 				}
 			}
 			try{

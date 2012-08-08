@@ -15,7 +15,6 @@ import org.opaeum.java.metamodel.OJTryStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
@@ -129,12 +128,12 @@ public class TinkerGenerationUtil {
 		if (map.getProperty().getAssociation() != null) {
 			return map.getProperty().getAssociation().getName();
 		} else {
-			return tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName());
+			return tinkeriseUmlName(map.getProperty().getQualifiedName());
 		}
 	}
 
 	public static String getEdgeName(Classifier c) {
-		return tinkeriseUmlName(c.getMappingInfo().getQualifiedUmlName());
+		return tinkeriseUmlName(c.getQualifiedName());
 	}
 
 	public static String constructNameForInternalCreateAuditToOne(StructuralFeatureMap map) {
@@ -174,11 +173,7 @@ public class TinkerGenerationUtil {
 		return numlMetaInfo.findAttribute("uuid").getValues().get(0).toString();
 	}
 
-	public static String getQualifierValueGetterName(Property qualifier) {
-		StructuralFeatureMap qualifierOwnerMap = OJUtil.buildStructuralFeatureMap((Property) qualifier.getOwner());
-		StructuralFeatureMap map = new NakedStructuralFeatureMap(qualifier);
-		return "get" + NameConverter.capitalize(qualifierOwnerMap.fieldname()) + NameConverter.capitalize(map.fieldname()) + "QualifierValue";
-	}
+
 
 	public static String calculateMultiplcity(MultiplicityElement multiplicityKind) {
 		if (multiplicityKind.getLower() == 1 && multiplicityKind.getUpper() == Integer.MAX_VALUE) {
@@ -200,10 +195,10 @@ public class TinkerGenerationUtil {
 	
 	public static String addSetterForSimpleType(StructuralFeatureMap map, boolean audit) {
 		if (map.getProperty().getType() instanceof Enumeration) {
-			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
+			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getQualifiedName())
 					+ "\", val!=null?val.name():null)";
 		} else {
-			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", val==null?\""
+			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getQualifiedName()) + "\", val==null?\""
 					+ TINKER_DB_NULL + "\":val)";
 		}
 	}

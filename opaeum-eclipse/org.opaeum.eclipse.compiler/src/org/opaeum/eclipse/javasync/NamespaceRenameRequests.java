@@ -38,10 +38,10 @@ public class NamespaceRenameRequests implements OpaeumSynchronizationListener,Op
 		renamedRequestsByNewName.put(newName, prev);
 	}
 	@Override
-	public void synchronizationComplete(ModelWorkspace ws,Set<Element> affectedElements){
+	public void synchronizationComplete(OpenUmlFile ws,Set<Element> affectedElements){
 		for(Element ne:affectedElements){
 			if(ne instanceof Classifier || ne instanceof Package){
-				maybeAddRenameRequest("find appropriate ojUtil", (Namespace) ne);
+				maybeAddRenameRequest(ws.getOJUtil(), (Namespace) ne);
 			}
 		}
 	}
@@ -54,7 +54,5 @@ public class NamespaceRenameRequests implements OpaeumSynchronizationListener,Op
 	@Override
 	public void onSave(IProgressMonitor monitor,OpenUmlFile f){
 	}
-	@Override
-	public void onClose(boolean save){
-	}
+
 }

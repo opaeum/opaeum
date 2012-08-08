@@ -1,12 +1,14 @@
 package org.opaeum.eclipse.emulated;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.ocl.uml.MessageType;
+import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
@@ -19,6 +21,7 @@ public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedProp
 	private EList<AbstractEmulatedProperty> emulatedAttributes = new BasicEList<AbstractEmulatedProperty>();
 	protected Classifier owner;
 	protected IPropertyEmulation propertyEmulation;
+	protected Map<Element,OCLExpression> queries = new HashMap<Element, OCLExpression>();
 	protected EmulatedPropertyHolder(Classifier owner,IPropertyEmulation e,EList<? extends TypedElement>...typedElements){
 		this.owner = owner;
 		this.propertyEmulation = e;
@@ -31,6 +34,11 @@ public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedProp
 		for(Operation operation:owner.getOperations()){
 			addOperationMessageProperty(operation);
 		}
+
+	}
+	@Override
+	public void putQuery(Element e, OCLExpression exp){
+		queries.put(e, exp);
 	}
 	private void addOperationMessageProperty(Operation operation){
 		OperationMessageType msg = (OperationMessageType) propertyEmulation.getMessageStructure(operation);
@@ -83,7 +91,8 @@ public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedProp
 		return emulatedAttributes;
 	}
 	@Override
-	public void addEmulatedAttribute(NonInverseArtificialProperty otherEnd){
+	public void addEmulatedAttribute(AbstractEmulatedProperty otherEnd){
 		getEmulatedAttributes().add(otherEnd);
 	}
+
 }

@@ -276,4 +276,11 @@ public class EmfPropertyUtil{
 		}
 		return null;
 	}
+	public static boolean isOneToOne(Property p){
+		if(p.getOtherEnd()==null){
+			return false;
+		}else{
+			return !(isMany(p) || isMany(p.getOtherEnd()));
+		}
+	}
 }

@@ -14,7 +14,7 @@ import org.opaeum.validation.ValidationPhase;
 public class CompositionValidator extends AbstractValidator{
 	protected boolean isPersistent(Classifier c){
 		if(EmfClassifierUtil.isComplexStructure(c)){
-			return ((ComplexStructure) c).isPersistent();
+			return EmfClassifierUtil.isPersistent(c);
 		}else{
 			return false;
 		}

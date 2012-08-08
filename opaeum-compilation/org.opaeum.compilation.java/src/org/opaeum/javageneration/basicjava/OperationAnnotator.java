@@ -12,7 +12,6 @@ import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
-import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Behavior;

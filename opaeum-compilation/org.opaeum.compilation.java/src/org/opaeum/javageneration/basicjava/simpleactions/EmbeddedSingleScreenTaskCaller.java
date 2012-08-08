@@ -5,9 +5,7 @@ import java.util.List;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.eclipse.uml2.uml.InputPin;
-import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueAction;
-import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;

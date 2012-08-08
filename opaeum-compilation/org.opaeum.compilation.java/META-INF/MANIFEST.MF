@@ -9,7 +9,6 @@ Require-Bundle: org.opaeum.compilation.runtimedependencies,
  org.opaeum.transformation.engine,
  org.opaeum.compilation.ocltojava.emf,
  org.eclipse.uml2.uml,
- org.opaeum.metamodels.ocl,
  org.eclipse.ocl.uml,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.linkage.validation

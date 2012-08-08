@@ -13,13 +13,13 @@ import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.ControlNode;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
@@ -81,7 +81,7 @@ public class ActivityValidator extends AbstractValidator{
 						getErrorMap().putError(e, ActivityValidationRule.OBJECT_NODE_TYPES_MUST_MATCH, source, target);
 					}
 					if(of.getSelection() == null){
-						if(!source.canDeliverOutputTo(target)){
+						if(!canDeliverOutputToObjectNode(source,target)){
 							getErrorMap().putError(e, ActivityValidationRule.SOURCE_AND_TARGET_MULTIPLICTY_MUST_CORRESPOND, source, target);
 						}
 					}else{
@@ -96,10 +96,10 @@ public class ActivityValidator extends AbstractValidator{
 								if(!arg1.getType().conformsTo(source.getType())){
 									getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE,
 										EmfBehaviorUtil.getArgumentParameters( of.getSelection()).get(0), of.getSelection(), source);
-								}else if(!source.canDeliverOutputTo(arg1)){
+								}else if(!canDeliverOutputTo(source,arg1)){
 									getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_SOURCE_MULTIPLICITY,
 											 EmfBehaviorUtil.getArgumentParameters( of.getSelection()).get(0), of.getSelection(), source);
-								}else if(!target.canAcceptInputFrom(returnParam)){
+								}else if(!canAcceptInputFrom(target,returnParam)){
 									getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY,
 											returnParam, of.getSelection(), target);
 								}else if(!EmfActivityUtil.isMultivalued(source)){
@@ -115,7 +115,7 @@ public class ActivityValidator extends AbstractValidator{
 							of.getTransformation(), target);
 				}else if(!EmfBehaviorUtil.getArgumentParameters( of.getTransformation()).get(0).getType().conformsTo(source.getType())){
 					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE, source, target);
-				}else if(! target.canAcceptInputFrom(EmfBehaviorUtil.getReturnParameter(of.getTransformation()))){
+				}else if(! canAcceptInputFrom(target,EmfBehaviorUtil.getReturnParameter(of.getTransformation()))){
 					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY,
 							EmfBehaviorUtil.getReturnParameter( of.getTransformation()), of.getTransformation(), target);
 				}else if(EmfBehaviorUtil.getArgumentParameters( of.getTransformation()).get(0).getUpper() != 1){
@@ -136,11 +136,11 @@ public class ActivityValidator extends AbstractValidator{
 								getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MUST_CONFORM_TO_TRANSFORMATION_RESULT_TYPE,
 										EmfBehaviorUtil.getArgumentParameters( of.getSelection()).get(0), of.getSelection(), EmfBehaviorUtil.getReturnParameter( of.getTransformation()),
 										of.getTransformation());
-							}else if(!EmfBehaviorUtil.getReturnParameter( of.getTransformation()).fitsInTo(input)){
+							}else if(!EmfBehaviorUtil.getReturnParameter( of.getTransformation()).compatibleWith(input)){
 								getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MULTIPLICITY_MUST_CORRESPOND_WITH_TRANSFORMATION_RESULT_MULTIPLICITY,
 										EmfBehaviorUtil.getArgumentParameters( of.getSelection()).get(0), of.getSelection(), EmfBehaviorUtil.getReturnParameter( of.getTransformation()),
 										of.getTransformation());
-							}else if(!target.canAcceptInputFrom(returnParam)){
+							}else if(!canAcceptInputFrom(target,returnParam)){
 								getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY, returnParam,
 										of.getSelection(), target);
 							}

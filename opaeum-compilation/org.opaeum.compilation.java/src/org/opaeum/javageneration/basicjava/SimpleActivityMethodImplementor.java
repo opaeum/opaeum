@@ -302,12 +302,12 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			block.addToStatements(nodeBlock);
 			ActivityEdge out = defaultOutgoing.iterator().next();
 			if(out instanceof ObjectFlow && ((ObjectFlow) out).getTransformation() != null){
-				generateTransformationMultiplier(operation.getOwner(), ((ObjectFlow) out));
+				generateTransformationMultiplier(operation.getOwner(), ((ObjectFlow) out), ojUtil);
 			}
 			implementNode(operation, nodeBlock, EmfActivityUtil.getEffectiveTarget( out));
 		}
 	}
-	public void generateTransformationMultiplier(OJClassifier owner,ObjectFlow of){
+	public static void generateTransformationMultiplier(OJClassifier owner,ObjectFlow of,OJUtil ojUtil2){
 		ObjectNode originatingObjectNode = EmfActivityUtil.getOriginatingObjectNode( of);
 		if(EmfActivityUtil.isMultivalued( originatingObjectNode) || of.getSelection() != null
 				&& EmfBehaviorUtil.getReturnParameter( of.getSelection()).isMultivalued()){
@@ -318,16 +318,16 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 				arg = originatingObjectNode;
 			}
 			if(arg instanceof MultiplicityElement && ((MultiplicityElement) arg).isMultivalued()){
-				StructuralFeatureMap targetMap = ojUtil.buildStructuralFeatureMap ((ObjectNode) of.getTarget());
+				StructuralFeatureMap targetMap = ojUtil2.buildStructuralFeatureMap ((ObjectNode) of.getTarget());
 				OJPathName resultTypePath = targetMap.javaTypePath();
 				if(of.getTarget() instanceof ExpansionNode){
 					resultTypePath = new OJPathName("java.util.Collection");
 					resultTypePath.addToElementTypes(targetMap.javaBaseTypePath());
 				}
-				String transformOperName = ojUtil.buildOperationMap(of.getTransformation()).javaOperName();
+				String transformOperName = ojUtil2.buildOperationMap(of.getTransformation()).javaOperName();
 				OJAnnotatedOperation transformMany = new OJAnnotatedOperation(transformOperName, resultTypePath);
 				owner.addToOperations(transformMany);
-				StructuralFeatureMap argMap = ojUtil.buildStructuralFeatureMap(arg);
+				StructuralFeatureMap argMap = ojUtil2.buildStructuralFeatureMap(arg);
 				transformMany.addParam(argMap.fieldname(), argMap.javaTypePath());
 				if(of.getTarget() instanceof ExpansionNode){
 					transformMany.initializeResultVariable("new ArrayList<" + targetMap.javaType() + ">()");

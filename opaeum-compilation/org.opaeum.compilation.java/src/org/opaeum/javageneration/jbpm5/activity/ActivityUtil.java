@@ -1,20 +1,12 @@
 package org.opaeum.javageneration.jbpm5.activity;
 
-import java.util.Collection;
-
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
-
 import org.eclipse.uml2.uml.Activity;
-import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.StructuredActivityNode;
-import org.eclipse.uml2.uml.Variable;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.util.OJUtil;
 
 public class ActivityUtil{

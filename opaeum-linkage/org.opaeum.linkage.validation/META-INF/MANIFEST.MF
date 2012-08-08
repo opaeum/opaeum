@@ -7,13 +7,12 @@ Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
  org.eclipse.uml2.uml.resources;visibility:=reexport,
  org.junit4,
  org.opaeum.metamodels.emfworkspace,
- org.opaeum.metamodels.ocl,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.transformation.engine,
- org.opaeum.linkage.core,
- org.opaeum.linkage.namegeneration
+ org.eclipse.ocl.uml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum,
+ org.opaeum.linkage,
  org.opaeum.validation,
  org.opaeum.validation.activities,
  org.opaeum.validation.commonbehavior,

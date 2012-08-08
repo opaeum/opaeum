@@ -3,9 +3,7 @@ package org.opaeum.metamodel.workspace;
 import java.util.Collection;
 import java.util.Set;
 
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.feature.WorkspaceMappingInfo;
 import org.opaeum.metamodel.validation.ErrorMap;

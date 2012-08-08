@@ -19,11 +19,10 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.olap.MondrianCubeGenerator;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextWorkspace;
-import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 public class GenerateBusinessIntelligenceSchemaAction extends AbstractOpaeumAction{
 	public GenerateBusinessIntelligenceSchemaAction(IStructuredSelection selection2){
@@ -40,23 +39,23 @@ public class GenerateBusinessIntelligenceSchemaAction extends AbstractOpaeumActi
 		if((dir = fd.open()) != null){
 			final String finalDir=dir;
 			final IContainer folder = (IContainer) selection.getFirstElement();
-			final OpaeumEclipseContext currentContext = OpaeumEclipseContext.findOrCreateContextFor(folder);
+			final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(folder);
 			new Job("Generating Business Intelligence Schema"){
 				@Override
 				protected IStatus run(final IProgressMonitor monitor){
 					try{
 						monitor.beginTask("Loading All Models", 1000);
-						OpaeumEclipseContext ctx = prepareDirectoryForTransformation(folder, monitor);
+						EmfWorkspace workspace = prepareDirectoryForTransformation(folder, monitor);
 						MondrianCubeGenerator mg = new MondrianCubeGenerator();
 						monitor.subTask("Generating Schema");
-						mg.initialize(null, ctx.getConfig(), new TextWorkspace(), ctx.getNakedWorkspace(), null);
-						mg.startVisiting(ctx.getNakedWorkspace());
+						mg.initialize(null, ctx.getConfig(), new TextWorkspace(), workspace, null);
+						mg.startVisiting(workspace);
 						monitor.subTask("Generating text files");
 						TextFile next = (TextFile) mg.getTextFiles().iterator().next();
-						FileWriter fw = new FileWriter(new File(finalDir,ctx.getNakedWorkspace().getIdentifier() + ".xml"));
+						FileWriter fw = new FileWriter(new File(finalDir,workspace.getIdentifier() + ".xml"));
 						fw.write(next.getContent());
 						fw.close();
-						currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
+						ctx.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 					}catch(Exception e){
 						e.printStackTrace();
 						return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
@@ -69,17 +68,14 @@ public class GenerateBusinessIntelligenceSchemaAction extends AbstractOpaeumActi
 			}.schedule();
 		}
 	}
-	protected OpaeumEclipseContext prepareDirectoryForTransformation(final IContainer folder,final IProgressMonitor monitor)
+	protected EmfWorkspace prepareDirectoryForTransformation(final IContainer folder,final IProgressMonitor monitor)
 			throws CoreException{
 		monitor.subTask("Saving Open Models");
 		final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(folder);
 		monitor.worked(5);
 		monitor.subTask("Loading Opaeum Metadata");
-		ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
-		ModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
-		PersistentNameGenerator png = new PersistentNameGenerator();
-		png.startVisiting(nakedWorkspace);
+		EmfWorkspace result = ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
 		ctx.getConfig().getSourceFolderStrategy().defineSourceFolders(ctx.getConfig());
-		return ctx;
+		return result;
 	}
 }

@@ -8,13 +8,13 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.starter.GeneratorSourceFolderIdentifier;
-import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
@@ -25,15 +25,10 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
 import org.opaeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public class JavaTransformationProcessManager implements IStartup,Runnable{
-	public static TransformationProcess getCurrentTransformationProcess(){
-		return currentTransformationProcess;
-	}
-	private static Map<OpaeumEclipseContext,TransformationProcess> processes = new WeakHashMap<OpaeumEclipseContext,TransformationProcess>();
-	private static TransformationProcess currentTransformationProcess;
+	private static Map<IResource,TransformationProcess> processes = new WeakHashMap<IResource,TransformationProcess>();
 	public JavaTransformationProcessManager(){
 	}
 	@Override
@@ -43,6 +38,10 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 			if(currentContext != null && !currentContext.isLoading()){
 				getTransformationProcess(currentContext);
+				for(OpenUmlFile openUmlFile:currentContext.getEditingContexts()){
+					getTransformationProcess(openUmlFile);
+					
+				}
 			}
 		}catch(Throwable e){
 			e.printStackTrace();
@@ -57,31 +56,41 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		}
 	}
 	private static synchronized TransformationProcess getTransformationProcess(final OpaeumEclipseContext ne){
-		TransformationProcess process = processes.get(ne);
+		TransformationProcess process = processes.get(ne.getUmlDirectory());
 		if(process == null){
 			process = new TransformationProcess();
 			// Load classes for config
 			OpaeumEclipsePlugin.getDefault();
-			ne.addContextListener(new JavaSourceSynchronizer(ne, process));
-			reinitializeProcess(process, ne);
-			processes.put(ne, process);
+			reinitializeProcess(process, ne.getConfig(), ne.getUmlDirectory());
+			processes.put(ne.getUmlDirectory(), process);
 		}
-		if(process!=null && ne.getCurrentEmfWorkspace() !=null && process.findModel(EmfWorkspace.class) != ne.getCurrentEmfWorkspace()){
-			process.replaceModel(ne.getCurrentEmfWorkspace());
-		}
-		currentTransformationProcess = process;
 		return process;
 	}
-	public static void reinitializeProcess(TransformationProcess process, OpaeumEclipseContext ne){
-		Set<Class<? extends ITransformationStep>> steps = getAllSteps(ne.getConfig());
-		ne.getConfig().calculateOutputRoot(ne.getUmlDirectory().getProject().getLocation().toFile());
-		mapAdditionalOutputRoots(ne.getConfig());
+	private static synchronized TransformationProcess getTransformationProcess(final OpenUmlFile ouf){
+		TransformationProcess process = processes.get(ouf.getFile());
+		if(process == null){
+			process = new TransformationProcess();
+			// Load classes for config
+			OpaeumEclipsePlugin.getDefault();
+			reinitializeProcess(process, ouf.getConfig(), ouf.getFile().getParent());
+			processes.put(ouf.getFile(), process);
+			new JavaSourceSynchronizer(ouf, process);
+		}
+		return process;
+	}
+	public static void reinitializeProcess(TransformationProcess process, OpaeumConfig cfg, IContainer umlDir){
+		Set<Class<? extends ITransformationStep>> steps = getAllSteps(cfg);
+		cfg.calculateOutputRoot(umlDir.getProject().getLocation().toFile());
+		if(cfg.getOutputRoot().exists()){
+			for(File file:cfg.getOutputRoot().listFiles()){
+				if(file.getName().equals(".project") || file.getName().equals(".classpath")){
+					file.delete();
+				}
+			}
+		}
 		process.removeModel(OJWorkspace.class);
 		process.removeModel(TextWorkspace.class);
-		process.removeModel(EmfWorkspace.class);
-		process.removeModel(ModelWorkspace.class);
-		process.initialize(ne.getConfig(), steps);
-		process.replaceModel(ne.getNakedWorkspace());
+		process.initialize(cfg, steps);
 	}
 	public static Set<Class<? extends ITransformationStep>> getAllSteps(OpaeumConfig cfg){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps();
@@ -94,17 +103,6 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		// basicIntegrationSteps.add(GeneratorPomStep.class);
 		basicIntegrationSteps.addAll(getBasicSteps());
 		return basicIntegrationSteps;
-	}
-	private static void mapAdditionalOutputRoots(OpaeumConfig cfg){
-		cfg.defineSourceFolder(GeneratorSourceFolderIdentifier.GENERATOR_SRC, true, "-generator", "src/main/java");
-		if(cfg.getOutputRoot().exists()){
-			for(File file:cfg.getOutputRoot().listFiles()){
-				if(file.getName().equals(".project") || file.getName().equals(".classpath")){
-					file.delete();
-				}
-			}
-		}
-		cfg.defineSourceFolder(GeneratorSourceFolderIdentifier.GENERATOR_SRC, true, "-generator", "src/main/java");
 	}
 	protected static Set<Class<? extends ITransformationStep>> toSet(Class<? extends ITransformationStep>...classes){
 		return new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(classes));
@@ -129,5 +127,9 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	}
 	public static TransformationProcess getTransformationProcessFor(IContainer folder){
 		return getTransformationProcess(OpaeumEclipseContext.findOrCreateContextFor(folder));
+	}
+	public static TransformationProcess getTransformationProcessFor(OpenUmlFile file){
+		
+		return getTransformationProcess(file);
 	}
 }

@@ -30,14 +30,14 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.emf.extraction.NameSpaceExtractor;
+import org.opaeum.linkage.MappedTypeLoader;
 
 public class UmlGenerator{
 	private ClassifierFactory factory;
 	public void generateUml(Collection<ITypeBinding> selection,Package library) throws Exception{
 		IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(library.eResource().getURI().toPlatformString(true)));
 		String absolutePath=ifile.getLocation().toFile().getAbsolutePath();
-		File mappedTypesFile = new File(absolutePath.substring(0, absolutePath.length() - 3) + NameSpaceExtractor.MAPPINGS_EXTENSION);
+		File mappedTypesFile = new File(absolutePath.substring(0, absolutePath.length() - 3) + MappedTypeLoader.MAPPINGS_EXTENSION);
 		factory = new ClassifierFactory(library);
 		if(mappedTypesFile.exists()){
 			factory.getMappedTypes().load(new FileInputStream(mappedTypesFile));

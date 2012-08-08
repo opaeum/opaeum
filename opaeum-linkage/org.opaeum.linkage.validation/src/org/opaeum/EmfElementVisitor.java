@@ -13,11 +13,11 @@ import org.opaeum.feature.visit.VisitorAdapter;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
-	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Element> getChildren(Element root){
 		return getChildrenAndRetryIfFailed(root, 0);
 	}
+	@SuppressWarnings("unchecked")
 	protected Collection<Element> getChildrenAndRetryIfFailed(Element root,int count){
 		Collection<Element> elements = EmfElementFinder.getCorrectOwnedElements(root);
 		if(!(root instanceof EmfWorkspace) && root.getEAnnotation(StereotypeNames.NUML_ANNOTATION) != null){

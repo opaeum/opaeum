@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.uml2.uml.Element;
-import org.opaeum.emf.extraction.EmfElementVisitor;
+import org.opaeum.EmfElementVisitor;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;

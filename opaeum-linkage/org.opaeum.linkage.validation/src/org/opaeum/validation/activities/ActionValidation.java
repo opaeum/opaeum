@@ -9,11 +9,16 @@ import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.CreateObjectAction;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
+import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.MultiplicityElement;
+import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
 import org.eclipse.uml2.uml.ReadVariableAction;
 import org.eclipse.uml2.uml.ReplyAction;
 import org.eclipse.uml2.uml.SendSignalAction;
+import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.StructuralFeatureAction;
 import org.eclipse.uml2.uml.VariableAction;
 import org.eclipse.uml2.uml.WriteStructuralFeatureAction;
@@ -38,7 +43,7 @@ public class ActionValidation extends AbstractValidator{
 				ReadStructuralFeatureAction rsfa = (ReadStructuralFeatureAction) a;
 				if(rsfa.getResult() == null){
 					getErrorMap().putError(a, ActionValidationRule.REQUIRED_PIN, "Output Pin", "Result");
-				}else if(!rsfa.getResult().canAcceptInputFrom(rsfa.getStructuralFeature())){
+				}else if(!canAcceptInputFrom(rsfa.getResult(),rsfa.getStructuralFeature())){
 					getErrorMap().putError(rsfa.getResult(), ActionValidationRule.REQUIRED_MULTIPLICITY, "Property", rsfa.getStructuralFeature());
 				}
 			}
@@ -46,12 +51,13 @@ public class ActionValidation extends AbstractValidator{
 				WriteStructuralFeatureAction wsfa = (WriteStructuralFeatureAction) a;
 				if(wsfa.getValue() == null){
 					getErrorMap().putError(a, ActionValidationRule.REQUIRED_PIN, "Input Pin", "Value");
-				}else if(!wsfa.getValue().canDeliverOutputTo(wsfa.getStructuralFeature())){
+				}else if(!canDeliverOutputTo(wsfa.getValue(),wsfa.getStructuralFeature())){
 					getErrorMap().putError(wsfa.getValue(), ActionValidationRule.REQUIRED_MULTIPLICITY, "Property", wsfa.getStructuralFeature());
 				}
 			}
 		}
 	}
+
 	@VisitBefore(matchSubclasses = true)
 	public void visitVariableAction(VariableAction a){
 		if(a.getVariable() == null){
@@ -61,7 +67,7 @@ public class ActionValidation extends AbstractValidator{
 			ReadVariableAction rva = (ReadVariableAction) a;
 			if(rva.getResult() == null){
 				getErrorMap().putError(a, ActionValidationRule.REQUIRED_PIN, "Output Pin", "Result");
-			}else if(!rva.getResult().canAcceptInputFrom(rva.getVariable())){
+			}else if(!canAcceptInputFrom(rva.getResult(),rva.getVariable())){
 				getErrorMap().putError(rva.getResult(), ActionValidationRule.REQUIRED_MULTIPLICITY, "Variable", rva.getVariable());
 			}
 		}
@@ -69,7 +75,7 @@ public class ActionValidation extends AbstractValidator{
 			WriteVariableAction wva = (WriteVariableAction) a;
 			if(wva.getValue() == null){
 				getErrorMap().putError(a, ActionValidationRule.REQUIRED_PIN, "Input Pin", "Value");
-			}else if(!wva.getValue().canDeliverOutputTo(wva.getVariable())){
+			}else if(!canDeliverOutputTo(wva.getValue(),wva.getVariable())){
 				getErrorMap().putError(wva.getValue(), ActionValidationRule.REQUIRED_MULTIPLICITY, "Variable", wva.getVariable());
 			}
 		}

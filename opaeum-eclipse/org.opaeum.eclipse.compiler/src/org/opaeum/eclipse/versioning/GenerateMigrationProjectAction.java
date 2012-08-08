@@ -23,6 +23,7 @@ import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.JavaProjectGenerator;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
@@ -56,8 +57,8 @@ public class GenerateMigrationProjectAction extends AbstractOpaeumAction{
 					OpaeumConfig toConfig = toContext.getConfig();
 					try{
 						monitor.beginTask("Generating Migration Project", 100);
-						toContext.loadDirectory(new SubProgressMonitor(monitor, 33));
-						fromContext.loadDirectory(new SubProgressMonitor(monitor, 33));
+						 EmfWorkspace toWorkspace = toContext.loadDirectory(new SubProgressMonitor(monitor, 33));
+						EmfWorkspace fromWorkspace = fromContext.loadDirectory(new SubProgressMonitor(monitor, 33));
 						TransformationProcess p = new TransformationProcess();
 						Set<Class<? extends ITransformationStep>> steps = new HashSet<Class<? extends ITransformationStep>>();
 						steps.add(MigrationRunnerGenerator.class);
@@ -65,10 +66,10 @@ public class GenerateMigrationProjectAction extends AbstractOpaeumAction{
 						steps.add(MigrationPomStep.class);
 						toConfig.setOutputRoot(new File(oldOutputRoot, "migration"));
 						p.initialize(toConfig, steps);
-						p.replaceModel(toContext.getNakedWorkspace());
-						p.replaceModel(new MigrationWorkspace(fromContext.getNakedWorkspace(), toContext.getNakedWorkspace()));
+						p.replaceModel(toWorkspace);
+						p.replaceModel(new MigrationWorkspace(fromWorkspace, toWorkspace));
 						p.execute(new ProgressMonitorTransformationLog(monitor, 33));
-						JavaProjectGenerator.writeTextFilesAndRefresh(monitor, p, toContext, true);
+						JavaProjectGenerator.writeTextFilesAndRefresh(monitor, p, true);
 						return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Migration Code generated successfully");
 					}catch(CoreException e){
 						return new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Migration Code generation failed", e);

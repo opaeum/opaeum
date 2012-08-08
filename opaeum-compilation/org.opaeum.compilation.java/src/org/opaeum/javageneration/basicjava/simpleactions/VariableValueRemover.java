@@ -6,7 +6,6 @@ import org.eclipse.uml2.uml.RemoveVariableValueAction;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class VariableValueRemover extends SimpleNodeBuilder<RemoveVariableValueAction>{
 	public VariableValueRemover(RemoveVariableValueAction action, AbstractObjectNodeExpressor expressor){

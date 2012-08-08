@@ -1,6 +1,5 @@
 package org.opaeum.eclipse.starter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,20 +17,16 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
+import org.opaeum.EmfElementVisitor;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.OpaeumElementLinker;
 import org.opaeum.eclipse.OpaeumElementLinker.EmfUmlElementLinker;
-import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.emf.extraction.EmfElementVisitor;
-import org.opaeum.emf.load.EmfWorkspaceLoader;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.visit.VisitBefore;
 
 public class RegenerateUuids extends AbstractOpaeumAction{
@@ -122,10 +117,7 @@ public class RegenerateUuids extends AbstractOpaeumAction{
 				try{
 					monitor.beginTask("Regenerating UUIDS", 7);
 					monitor.subTask("Removing UUIDS");
-					File dir = currentContext.getUmlDirectory().getLocation().toFile();
-					OpaeumConfig cfg = currentContext.getConfig();
-					ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor, 3);
-					final EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(new ResourceSetImpl(), dir, cfg, log);
+					final EmfWorkspace workspace = currentContext.getCurrentEmfWorkspace();
 					// No cache listening - just linking
 					OpaeumElementLinker linker = new OpaeumElementLinker();
 					workspace.getResourceSet().eAdapters().add(linker);
@@ -143,7 +135,6 @@ public class RegenerateUuids extends AbstractOpaeumAction{
 					workspace.saveAll();
 					workspace.getResourceSet().eAdapters().remove(linker);
 					monitor.worked(1);
-					new ClearOpaeumCacheACtion(selection).run();
 				}finally{
 					monitor.done();
 				}

@@ -2,8 +2,6 @@ package org.nakeduml.tinker.generator;
 
 import java.util.Collections;
 
-import javax.management.openmbean.SimpleType;
-
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.eclipse.emf.common.util.EList;
@@ -26,7 +24,6 @@ import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.basicjava.HashcodeBuilder;
 import org.opaeum.javageneration.basicjava.ToXmlStringBuilder;
 import org.opaeum.javageneration.composition.CompositionNodeImplementor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {TinkerAttributeImplementor.class,HashcodeBuilder.class},after = {
@@ -156,7 +153,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator{
 				.add(0, new OJSimpleStatement("super( " + TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_PARAM_NAME + " )"));
 	}
 	private void addInitVertexToConstructorWithOwningObject(OJAnnotatedClass ojClass,Classifier c){
-		StructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(getLibrary().getEndToComposite(c));
+		StructuralFeatureMap compositeEndMap = ojUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite(c));
 		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
 		if(c.getGeneralizations().isEmpty()){
 			constructor

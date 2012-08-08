@@ -30,8 +30,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.AbstractCaller;
 import org.opaeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractCallActionBuilder<T extends CallAction> extends PotentialTaskActionBuilder<T>{
 	private AbstractCaller<T> delegate;

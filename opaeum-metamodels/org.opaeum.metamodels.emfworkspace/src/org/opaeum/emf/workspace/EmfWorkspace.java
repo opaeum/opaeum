@@ -1,5 +1,6 @@
 package org.opaeum.emf.workspace;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -27,17 +28,18 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Comment;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Stereotype;
-import org.eclipse.uml2.uml.internal.impl.NamedElementImpl;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
@@ -68,6 +70,7 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	private Set<Model> libraries = new HashSet<Model>();
 	private UriToFileConverter uriToFileConverter = new DefaultUriToFileConverter();
 	private String name;
+	private Classifier applicationRoot;
 	private ECrossReferenceAdapter crossReferenceAdaptor;
 	StereotypeApplicationListener applicationListener = new StereotypeApplicationListener();
 	// Load single model
@@ -90,7 +93,12 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 		this.directoryUri = directoryUri;
 		this.identifier = identifier;
 		calculatePrimaryModels();
-		this.library = new OpaeumLibrary(rs);
+		this.library = new OpaeumLibrary(rs, new UriToFileConverter(){
+			@Override
+			public File resolveUri(URI uri){
+				return getUriToFileConverter().resolveUri(uri);
+			}
+		});
 		this.errorMap = new ErrorMap();
 		resourceSet.eAdapters().add(new AdapterImpl(){
 			@Override
@@ -320,8 +328,9 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	public EList<EAnnotation> getEAnnotations(){
 		return null;
 	}
+	@SuppressWarnings({"unchecked","rawtypes"})
 	public TreeIterator<EObject> eAllContents(){
-		return null;
+		return (TreeIterator) getResourceSet().getAllContents();
 	}
 	public EClass eClass(){
 		return null;
@@ -529,5 +538,25 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	}
 	public Set<Element> getDependentElements(Element e){
 		return EmfElementFinder.getDependentElements(e);
+	}
+	public Classifier getApplicationRoot(){
+		if(this.applicationRoot == null || getOpaeumLibrary().getEndToComposite(this.applicationRoot) != null){
+			outer:for(Package p:getPrimaryRootObjects()){
+				TreeIterator<EObject> iter = p.eAllContents();
+				while(iter.hasNext()){
+					EObject eObject = iter.next();
+					if(eObject instanceof Class || eObject instanceof Component || eObject instanceof Collaboration){
+						Classifier c = (Classifier) eObject;
+						if(!c.isAbstract()){
+							if(getOpaeumLibrary().getEndToComposite(c) == null){
+								this.applicationRoot=c;
+								break outer;
+							}
+						}
+					}
+				}
+			}
+		}
+		return applicationRoot;
 	}
 }

@@ -24,7 +24,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
@@ -41,7 +40,6 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
-import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 public class RecompileElementAction extends AbstractOpaeumAction implements IObjectActionDelegate{
 	public RecompileElementAction(){
@@ -75,7 +73,7 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 						OpaeumEclipseContext.selectContext(element);
 						OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 						try{
-							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getUmlDirectory());
+							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getEditingContextFor(element));
 							if(p == null || currentContext.isLoading()){
 								Display.getDefault().syncExec(new Runnable(){
 									public void run(){
@@ -85,7 +83,6 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 								});
 							}else{
 								monitor.beginTask("Generating Java Code", 90);
-								currentContext.getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
 								p.replaceModel(new OJPackage());
 								p.replaceModel(new TextWorkspace());
 								OpaeumConfig cfg = currentContext.getConfig();
@@ -116,7 +113,6 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 								}
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
-								currentContext.getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
 							}
 						}catch(Exception e){
 							OpaeumEclipsePlugin.logError("Recompilation Failed", e);

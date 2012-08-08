@@ -30,8 +30,8 @@ import org.opaeum.eclipse.simulation.GenerateSimulationModelAction;
 import org.opaeum.eclipse.versioning.CompileVersionAction;
 import org.opaeum.eclipse.versioning.GenerateMigrationProjectAction;
 import org.opaeum.eclipse.versioning.VersionAction;
-import org.opaeum.emf.extraction.EmfExtractionPhase;
 import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.validation.ValidationPhase;
 
 public class DynamicOpaeumMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;
@@ -59,7 +59,6 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 					if(hasConfigFile(selection)){
 						if(!OpaeumEclipseContext.findOrCreateContextFor((IContainer) firstElement).isLoading()){
 							action.setText("Edit Opaeum Settings");
-							actions.add(new ActionContributionItem(new ClearOpaeumCacheACtion(selection)));
 							actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
 							actions.add(new ActionContributionItem(new RecompileIntegrationCodeAction(selection)));
 							actions.add(new ActionContributionItem(new ToggleAutomaticSynchronization(selection)));
@@ -78,19 +77,18 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 			}
 		}else{
 			firstElement = getElementFrom();
-			boolean isJavaActive = JavaTransformationProcessManager.getCurrentTransformationProcess() != null;
 			if(firstElement.getClass().getSimpleName().equals("SimulationModelImpl")){
 				actions.add(new ActionContributionItem(new GenerateSimulationCodeAction(selection)));
-			}else if(isJavaActive){
+			}else {
 				if(firstElement instanceof Model){
 					actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
 				}else if((firstElement instanceof Element)){
-					if(EmfExtractionPhase.canBeProcessedIndividually((EObject) firstElement)){
+					if(ValidationPhase.canBeProcessedIndividually((EObject) firstElement)){
 						actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
 					}
 				}else if(firstElement instanceof AbstractGraphicalEditPart){
 					AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
-					if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
+					if(a.getModel() instanceof Element && ValidationPhase.canBeProcessedIndividually((EObject) a.getModel())){
 						actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
 					}
 				}

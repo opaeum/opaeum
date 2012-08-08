@@ -44,7 +44,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.basicjava.SpecificationImplementor;
 import org.opaeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
 import org.opaeum.javageneration.jbpm5.ElementsWaitingForEvent;

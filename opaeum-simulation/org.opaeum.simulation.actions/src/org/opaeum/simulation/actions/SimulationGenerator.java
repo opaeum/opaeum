@@ -3,15 +3,29 @@ package org.opaeum.simulation.actions;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.management.openmbean.SimpleType;
+
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
+import org.eclipse.uml2.uml.Actor;
+import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Component;
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.LiteralReal;
 import org.eclipse.uml2.uml.LiteralString;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPathName;
@@ -20,20 +34,6 @@ import org.opaeum.java.metamodel.OJWhileStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.components.INakedComponent;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedAssociation;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.metamodel.core.INakedEnumeration;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedSimpleType;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
-import org.opaeum.metamodel.usecases.INakedActor;
 import org.opaeum.metamodels.simulation.simulation.ActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
 import org.opaeum.metamodels.simulation.simulation.LiteralSimpleType;
@@ -48,16 +48,16 @@ import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.CompositionNode;
 
 public class SimulationGenerator extends AbstractSimulationCodeGenerator{
-	@VisitBefore(match = {INakedInterface.class,INakedComponent.class,INakedEntity.class,INakedStructuredDataType.class,
-			INakedAssociation.class,INakedActor.class},matchSubclasses = true)
-	public void visitClassifier(INakedClassifier nc){
+	@VisitBefore(match = {Interface.class,Component.class,Class.class,DataType.class,
+			Association.class,Actor.class},matchSubclasses = true)
+	public void visitClassifier(Classifier nc){
 		List<InstanceSpecification> iss = getInstances(nc);
 		if(iss.size() > 0){
 			for(InstanceSpecification is:iss){
 				OJAnnotatedClass dataGenerator = new OJAnnotatedClass(dataGeneratorName(nc, is).getLast());
-				findOrCreatePackage(OJUtil.packagePathname(nc.getNameSpace())).addToClasses(dataGenerator);
+				findOrCreatePackage(ojUtil.packagePathname(nc.getNamespace())).addToClasses(dataGenerator);
 				OJPathName pn;
-				if(nc instanceof INakedStructuredDataType){
+				if(EmfClassifierUtil.isStructuredDataType(nc)){
 					pn = new OJPathName("org.opaeum.simulation.StructInstanceSimulation");
 					dataGenerator.setSuperclass(pn);
 				}else{
@@ -71,21 +71,21 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 				populator.addToThrows(ParseException.class.getName());
 				dataGenerator.addToOperations(populator);
 				populator.getOwner().addToImports(ParseException.class.getName());
-				if(nc instanceof INakedStructuredDataType){
+				if(EmfClassifierUtil.isStructuredDataType(nc)){
 					populator.addParam("in", new OJPathName(Object.class.getName()));
 				}else{
 					populator.addParam("in", new OJPathName(CompositionNode.class.getName()));
 				}
-				OJAnnotatedField instance = new OJAnnotatedField("instance", OJUtil.classifierPathname(nc));
+				OJAnnotatedField instance = new OJAnnotatedField("instance", ojUtil.classifierPathname(nc));
 				populator.getBody().addToLocals(instance);
-				instance.setInitExp("(" + OJUtil.classifierPathname(nc).getLast() + ")in");
+				instance.setInitExp("(" + ojUtil.classifierPathname(nc).getLast() + ")in");
 				for(Slot s:is.getSlots()){
 					SimulatingSlot slot = (SimulatingSlot) s;
 					if(slot.getDefiningFeature() != null){
-						INakedProperty p = (INakedProperty) getNakedPeer(slot.getDefiningFeature());
-						if(p.getNakedBaseType() instanceof ICompositionParticipant && !p.isComposite()
-								&& !(p.getOtherEnd() != null && p.getOtherEnd().isComposite() && !p.isInverse())){
-							NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(p);
+						Property p = (Property) slot.getDefiningFeature();
+						if(EmfClassifierUtil.isCompositionParticipant(p.getType()) && !p.isComposite()
+								&& !(p.getOtherEnd() != null && p.getOtherEnd().isComposite() && !EmfPropertyUtil.isInverse(p))){
+							StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
 							OJWhileStatement whileSize = buildLoopForSize(is, populator, slot, m);
 							populator.getOwner().addToImports(m.javaBaseTypePath());
 							String getReference = "(" + m.javaBaseType() + ")SimulationMetaData.getInstance().getEntityValueProvider(\""
@@ -102,36 +102,36 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 			}
 		}
 	}
-	private OJAnnotatedOperation buildCreator(INakedClassifier nc,OJAnnotatedClass dataGenerator,InstanceSpecification is){
+	private OJAnnotatedOperation buildCreator(Classifier nc,OJAnnotatedClass dataGenerator,InstanceSpecification is){
 		OJAnnotatedOperation creator = initializeCreator(nc, dataGenerator, is);
 		for(Slot sl:is.getSlots()){
 			SimulatingSlot slot = (SimulatingSlot) sl;
 			if(slot.getDefiningFeature() != null){
-				INakedProperty p = (INakedProperty) getNakedPeer(slot.getDefiningFeature());
-				if(p.getNakedBaseType() instanceof INakedSimpleType || p.getNakedBaseType() instanceof INakedEnumeration){
+				Property p = (Property) slot.getDefiningFeature();
+				if(EmfClassifierUtil.isSimpleType(p.getType()) || p.getType() instanceof Enumeration){
 					generateDataTypeValue(is, creator, slot, p);
 					// Get from bucket
-				}else if(p.getNakedBaseType() instanceof ICompositionParticipant && p.isComposite()){
+				}else if(EmfClassifierUtil.isCompositionParticipant(p.getType()) && p.isComposite()){
 					generateComplexStructuredData(dataGenerator, is, creator, slot, p);
-				}else if(p.getNakedBaseType() instanceof INakedStructuredDataType){
+				}else if(EmfClassifierUtil.isStructuredDataType(p.getType())){
 					generateComplexStructuredData(dataGenerator, is, creator, slot, p);
 				}
 			}
 		}
-		if(nc instanceof ICompositionParticipant && ((ICompositionParticipant) nc).getEndToComposite() != null){
+		if( EmfClassifierUtil.isCompositionParticipant(nc) && getLibrary().getEndToComposite(nc) != null){
 			creator.getBody().addToStatements("result.addToOwningObject()");
 		}
 		return creator;
 	}
 	private void generateComplexStructuredData(OJAnnotatedClass dataGenerator,InstanceSpecification is,OJAnnotatedOperation creator,
-			SimulatingSlot slot,INakedProperty p){
-		NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(p);
+			SimulatingSlot slot,Property p){
+		StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
 		boolean hasEntityValueProvider = false;
 		for(ValueSpecification vs:slot.getValues()){
 			if(vs instanceof ContainedActualInstance){
-				OJPathName generatorPathName = super.dataGeneratorName(p.getNakedBaseType(), ((ContainedActualInstance) vs).getContainedInstance());
+				OJPathName generatorPathName = super.dataGeneratorName((Classifier) p.getType(), ((ContainedActualInstance) vs).getContainedInstance());
 				dataGenerator.addToImports(generatorPathName);
-				if(p.getNakedBaseType() instanceof INakedStructuredDataType){
+				if(EmfClassifierUtil.isStructuredDataType(p.getType())){
 					creator.getBody().addToStatements(generatorPathName.getLast() + ".INSTANCE.generateInstance()");
 				}else{
 					creator.getBody().addToStatements(generatorPathName.getLast() + ".INSTANCE.generateInstance(result)");// Will be
@@ -143,15 +143,15 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 			}
 		}
 		if(hasEntityValueProvider){
-			createNewInstanceFromSimulation(is, creator, slot, m, p.getNakedBaseType() instanceof INakedStructuredDataType ? "Struct" : "Entity");
+			createNewInstanceFromSimulation(is, creator, slot, m,  EmfClassifierUtil.isStructuredDataType(p.getType()) ? "Struct" : "Entity");
 		}
 	}
 	private void createNewInstanceFromSimulation(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,
-			NakedStructuralFeatureMap m,String obsolete){
+			StructuralFeatureMap m,String obsolete){
 		OJWhileStatement whileSize = buildLoopForSize(is, creator, slot, m);
 		creator.getOwner().addToImports(m.javaBaseTypePath());
 		// Will be added by addToOwningObject
-		if(m.getProperty().getNakedBaseType() instanceof INakedStructuredDataType){
+		if(EmfClassifierUtil.isStructuredDataType(m.getProperty().getType())){
 			if(m.isMany()){
 				whileSize.getBody().addToStatements(
 						"result." + m.adder() + "((" + m.javaBaseType() + ")SimulationMetaData.getInstance().getStructValueProvider(\""
@@ -167,7 +167,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 							+ "\").createNewInstance(result)");
 		}
 	}
-	private String calculateSize(InstanceSpecification is,SimulatingSlot slot,NakedStructuralFeatureMap m){
+	private String calculateSize(InstanceSpecification is,SimulatingSlot slot,StructuralFeatureMap m){
 		String size;
 		if(slot.getSizeDistribution() != null && m.isMany()){
 			size = "SimulationMetaData.getInstance().getNextPropertySize(\"" + is.getQualifiedName() + "\",\"" + m.umlName() + "\")";
@@ -176,10 +176,10 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 		}
 		return size;
 	}
-	private void generateDataTypeValue(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,INakedProperty p){
+	private void generateDataTypeValue(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,Property p){
 		boolean hasDoneSimulatedValue = false;
 		for(ValueSpecification vs:slot.getValues()){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 			if(vs instanceof LiteralBoolean){
 				LiteralBoolean b = (LiteralBoolean) vs;
 				addGivenValue(creator, map, (Object) b.booleanValue());
@@ -205,8 +205,8 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 				// Should be enum
 				InstanceValue b = (InstanceValue) vs;
 				if(b.getInstance() instanceof EnumerationLiteral){
-					INakedEnumerationLiteral lit = (INakedEnumerationLiteral) getNakedPeer(b.getInstance());
-					OJPathName pn = OJUtil.classifierPathname((INakedClassifier) lit.getEnumeration());
+					EnumerationLiteral lit = (EnumerationLiteral) b.getInstance();
+					OJPathName pn = ojUtil.classifierPathname((Classifier) lit.getEnumeration());
 					creator.getOwner().addToImports(pn);
 					addGivenValue(creator, map, pn.getLast() + "." + lit.getName().toUpperCase());
 				}
@@ -229,7 +229,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 		}
 	}
 	private OJWhileStatement buildLoopForSize(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,
-			NakedStructuralFeatureMap map){
+			StructuralFeatureMap map){
 		OJBlock block = new OJBlock();
 		creator.getBody().addToStatements(block);
 		OJAnnotatedField countField = new OJAnnotatedField(map.umlName() + "Count", new OJPathName("int"));
@@ -241,14 +241,14 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 		whileSize.getBody().addToStatements(countField.getName() + "++");
 		return whileSize;
 	}
-	private OJAnnotatedOperation initializeCreator(INakedClassifier nc,OJAnnotatedClass dataGenerator,InstanceSpecification is){
+	private OJAnnotatedOperation initializeCreator(Classifier nc,OJAnnotatedClass dataGenerator,InstanceSpecification is){
 		String name = "createNewObject";
-		OJPathName pn1 = OJUtil.classifierPathname(nc);
+		OJPathName pn1 = ojUtil.classifierPathname(nc);
 		OJAnnotatedOperation creator = new OJAnnotatedOperation(name);
 		dataGenerator.addToOperations(creator);
 		creator.addToThrows(ParseException.class.getName());
 		creator.setReturnType(pn1);
-		if(nc instanceof ICompositionParticipant){
+		if(EmfClassifierUtil.isCompositionParticipant(nc)){
 			creator.addParam("parent", new OJPathName(CompositionNode.class.getName()));
 			if(is instanceof ActualInstance){
 				OJAnnotatedField constant = new OJAnnotatedField(NameConverter.toJavaVariableName(is.getName()).toUpperCase(), pn1);
@@ -266,7 +266,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 			}else{
 				creator.initializeResultVariable("new " + pn1.getLast() + "()");
 			}
-			if(((ICompositionParticipant) nc).getEndToComposite() != null){
+			if(getLibrary().getEndToComposite(nc) != null){
 				creator.getBody().addToStatements("result.init(parent)");
 			}
 		}else{
@@ -274,7 +274,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 		}
 		return creator;
 	}
-	private void addGivenValue(OJAnnotatedOperation creator,NakedStructuralFeatureMap map,Object value){
+	private void addGivenValue(OJAnnotatedOperation creator,StructuralFeatureMap map,Object value){
 		if(map.isMany()){
 			creator.getBody().addToStatements("result." + map.adder() + "(" + value + ")");
 		}else{

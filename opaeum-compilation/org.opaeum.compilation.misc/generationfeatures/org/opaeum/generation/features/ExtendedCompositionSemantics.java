@@ -8,10 +8,8 @@ import org.opaeum.javageneration.basicjava.ToXmlStringBuilder;
 import org.opaeum.javageneration.composition.ComponentInitializer;
 import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.composition.CopyMethodImplementor;
-import org.opaeum.linkage.CompositionEmulator;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		CompositionEmulator.class,CompositionNodeImplementor.class,ComponentInitializer.class,CopyMethodImplementor.class,
+@StepDependency(phase = JavaTransformationPhase.class,requires = {CompositionNodeImplementor.class,ComponentInitializer.class,CopyMethodImplementor.class,
 		BasicJava6Model.class,ToXmlStringBuilder.class,FromXmlBuilder.class
 },after = {
 	BasicJava6Model.class

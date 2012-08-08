@@ -7,5 +7,4 @@ public interface OpaeumEclipseContextListener extends OpaeumSynchronizationListe
 
 	void onSave(IProgressMonitor monitor, OpenUmlFile file);
 
-	void onClose(boolean save);
 }

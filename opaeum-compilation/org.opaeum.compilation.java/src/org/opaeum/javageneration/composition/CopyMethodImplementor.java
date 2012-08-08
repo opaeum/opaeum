@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
-import nl.klasse.octopus.model.IModelElement;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -36,7 +35,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		OJClassifier myOwner = this.javaModel.findClass(path);
 		// NakedModelElement mew = (NakedModelElement)
 		// nakedModel.lookup(c.getPathName());
-		if(myOwner instanceof OJClass && (c instanceof Class || EmfClassifierUtil.isStructuredDataType(c ))){
+		if(myOwner instanceof OJClass && (c instanceof Class || EmfClassifierUtil.isStructuredDataType(c))){
 			Classifier nc = (Classifier) c;
 			OJClass ojClass = (OJClass) myOwner;
 			implementCopyMethod(ojClass, nc);
@@ -106,77 +105,73 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		// give some more thought
 		// maybe consider an input parameter specifying the number of levels to
 		// include in a deep copy
-		for(int i = 0;i < properties.size();i++){
-			IModelElement a = (IModelElement) properties.get(i);
-			if(a instanceof Property){
-				Property np = (Property) a;
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
-				if(!(np.isDerived() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
-					if(EmfClassifierUtil.isSimpleType(np.getType())|| np.getType() instanceof Enumeration){
+		for(Property np:properties){
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
+			if(!(np.isDerived() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
+				if(EmfClassifierUtil.isSimpleType(np.getType()) || np.getType() instanceof Enumeration){
+					if(map.isMany()){
+						body.addToStatements("to." + map.getter() + "().addAll(from." + map.getter() + "())");
+					}else{
+						body.addToStatements("to." + map.setter() + "(from." + map.getter() + "())");
+					}
+				}else if(np.getType() instanceof Class || EmfClassifierUtil.isStructuredDataType(np.getType())){
+					OJBlock forBlock = new OJBlock();
+					if(EmfClassifierUtil.isStructuredDataType(np.getType()) || (deep && np.isComposite())){
 						if(map.isMany()){
-							body.addToStatements("to." + map.getter() + "().addAll(from." + map.getter() + "())");
-						}else{
-							body.addToStatements("to." + map.setter() + "(from." + map.getter() + "())");
-						}
-					}else if(np.getType() instanceof Class || EmfClassifierUtil.isStructuredDataType(np.getType() )){
-						OJBlock forBlock = new OJBlock();
-						if(EmfClassifierUtil.isStructuredDataType(np.getType()) || (deep && np.isComposite())){
-							if(map.isMany()){
-								OJForStatement ws = new OJForStatement("", "", "child", "from." + map.getter() + "()");
-								OJBlock whileBody = forBlock;
-								ws.setBody(whileBody);
-								ws.setElemType(map.javaBaseTypePath());
-								if(isMap(map.getProperty())){
-									StringBuilder sb = new StringBuilder();
-									List<Property> qualifiers = map.getProperty().getQualifiers();
-									// Assume qualifiers are back by attributes as we are doing composition here
-									for(Property q:qualifiers){
-										StructuralFeatureMap qMap = ojUtil.buildStructuralFeatureMap(q);
-										sb.append("child.");
-										sb.append(qMap.getter());
-										sb.append("(),");
-									}
-									whileBody.addToStatements("to." + map.adder() + "(" + sb.toString() + "child." + copyMethodName + "())");
-								}else{
-									whileBody.addToStatements("to." + map.adder() + "(child." + copyMethodName + "())");
+							OJForStatement ws = new OJForStatement("", "", "child", "from." + map.getter() + "()");
+							OJBlock whileBody = forBlock;
+							ws.setBody(whileBody);
+							ws.setElemType(map.javaBaseTypePath());
+							if(isMap(map.getProperty())){
+								StringBuilder sb = new StringBuilder();
+								List<Property> qualifiers = map.getProperty().getQualifiers();
+								// Assume qualifiers are back by attributes as we are doing composition here
+								for(Property q:qualifiers){
+									StructuralFeatureMap qMap = ojUtil.buildStructuralFeatureMap(q);
+									sb.append("child.");
+									sb.append(qMap.getter());
+									sb.append("(),");
 								}
-								body.addToStatements(ws);
+								whileBody.addToStatements("to." + map.adder() + "(" + sb.toString() + "child." + copyMethodName + "())");
 							}else{
-								OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from."
-										+ map.getter() + "()." + copyMethodName + "())");
-								body.addToStatements(ifNotNull);
+								whileBody.addToStatements("to." + map.adder() + "(child." + copyMethodName + "())");
 							}
-						}else if(map.isOne() && EmfPropertyUtil.isInverse( np)){
+							body.addToStatements(ws);
+						}else{
 							OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from."
 									+ map.getter() + "()." + copyMethodName + "())");
 							body.addToStatements(ifNotNull);
-						}else if(map.isManyToMany() && EmfPropertyUtil.isInverse(np)){
-							String localCopyMethodName;
-							if(shallowCopy){
-								localCopyMethodName = "copyShallowState";
-							}else{
-								localCopyMethodName = "copyState";
-							}
-							body.addToStatements("to." + map.allAdder() + "(" + localCopyMethodName + NameConverter.capitalize(map.fieldname())
-									+ "(from." + map.getter() + "()))");
-							String operName = localCopyMethodName + NameConverter.capitalize(map.fieldname());
-							List<OJPathName> params = new ArrayList<OJPathName>();
-							params.add(map.javaTypePath());
-							OJOperation oper = owner.findOperation(operName, params);
-							if(oper == null){
-								OJAnnotatedOperation copyMany = new OJAnnotatedOperation(operName);
-								copyMany.setReturnType(map.javaTypePath());
-								owner.addToOperations(copyMany);
-								copyMany.addParam("from", map.javaTypePath());
-								owner.addToImports(map.javaDefaultTypePath());
-								copyMany.initializeResultVariable("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">()");
-								// copyMany.getResultVariable().setType(owner.getPathName());
-								OJForStatement forS = new OJForStatement("", "", "entity", "from");
-								forS.setElemType(map.javaBaseTypePath());
-								forS.setBody(forBlock);
-								forBlock.addToStatements(new OJSimpleStatement("result.add(entity." + copyMethodName + "())"));
-								copyMany.getBody().addToStatements(forS);
-							}
+						}
+					}else if(map.isOne() && EmfPropertyUtil.isInverse(np)){
+						OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from." + map.getter()
+								+ "()." + copyMethodName + "())");
+						body.addToStatements(ifNotNull);
+					}else if(map.isManyToMany() && EmfPropertyUtil.isInverse(np)){
+						String localCopyMethodName;
+						if(shallowCopy){
+							localCopyMethodName = "copyShallowState";
+						}else{
+							localCopyMethodName = "copyState";
+						}
+						body.addToStatements("to." + map.allAdder() + "(" + localCopyMethodName + NameConverter.capitalize(map.fieldname()) + "(from."
+								+ map.getter() + "()))");
+						String operName = localCopyMethodName + NameConverter.capitalize(map.fieldname());
+						List<OJPathName> params = new ArrayList<OJPathName>();
+						params.add(map.javaTypePath());
+						OJOperation oper = owner.findOperation(operName, params);
+						if(oper == null){
+							OJAnnotatedOperation copyMany = new OJAnnotatedOperation(operName);
+							copyMany.setReturnType(map.javaTypePath());
+							owner.addToOperations(copyMany);
+							copyMany.addParam("from", map.javaTypePath());
+							owner.addToImports(map.javaDefaultTypePath());
+							copyMany.initializeResultVariable("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">()");
+							// copyMany.getResultVariable().setType(owner.getPathName());
+							OJForStatement forS = new OJForStatement("", "", "entity", "from");
+							forS.setElemType(map.javaBaseTypePath());
+							forS.setBody(forBlock);
+							forBlock.addToStatements(new OJSimpleStatement("result.add(entity." + copyMethodName + "())"));
+							copyMany.getBody().addToStatements(forS);
 						}
 					}
 				}

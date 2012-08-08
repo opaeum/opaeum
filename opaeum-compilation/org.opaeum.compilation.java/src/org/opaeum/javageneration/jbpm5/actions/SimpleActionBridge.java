@@ -4,7 +4,6 @@ import org.eclipse.uml2.uml.ActivityNode;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class SimpleActionBridge extends Jbpm5ActionBuilder<ActivityNode> {
 	private SimpleNodeBuilder<?> delegate;

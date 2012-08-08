@@ -24,17 +24,15 @@ import javax.xml.transform.stream.StreamResult;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
-import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.Stereotype;
-import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
@@ -63,7 +61,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.eclipse.uml2.uml.Class;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class MondrianCubeGenerator extends AbstractStructureVisitor{

@@ -14,7 +14,6 @@ import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Signal;
@@ -36,8 +35,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
@@ -45,6 +42,7 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 },after = {})
 public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
+	public static final String JAVA_META_INFO_MAP_SUFFIX = "JavaMetaInfoMap";
 	@Override
 	protected int getThreadPoolSize(){
 		return 12;
@@ -82,7 +80,7 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 	private OJBlock createBasicMetaInfo(Element m,Collection<Package> allDependencies,JavaSourceFolderIdentifier sourceid){
 		TreeSet<Package> treeSet = new TreeSet<Package>(new DefaultOpaeumComparator());
 		treeSet.addAll(allDependencies);
-		OJPathName pathName = javaMetaInfoMapPath(m);
+		OJPathName pathName =  ojUtil.utilClass(m,JAVA_META_INFO_MAP_SUFFIX);
 		OJClass mapClass = new OJAnnotatedClass(pathName.getLast());
 		mapClass.setSuperclass(new OJPathName(JavaMetaInfoMap.class.getName()));
 		findOrCreatePackage(pathName.getHead()).addToClasses(mapClass);
@@ -105,18 +103,10 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		ignore.add("OpaeumSimpleTypes".toLowerCase());
 		for(Package ro:treeSet){
 			if(ro instanceof Model && ( !(EmfPackageUtil.isLibrary( (Model) ro)) || EmfPackageUtil.isRegeneratingLibrary( ((Model) ro)))){
-				initBlock.addToStatements("this.importMetaInfo(" + javaMetaInfoMapPath(ro) + ".INSTANCE)");
+				initBlock.addToStatements("this.importMetaInfo(" + ojUtil.utilClass(ro, JAVA_META_INFO_MAP_SUFFIX)  + ".INSTANCE)");
 			}
 		}
 		return initBlock;
 	}
-	public static OJPathName javaMetaInfoMapPath(Element owner){
-		OJPathName result = ojUtil.utilPackagePath(owner);
-		if(owner instanceof Namespace){
-			return result.append("util").append(NameConverter.capitalize(((Namespace) owner).getName()) + "JavaMetaInfoMap");
-		}else if(owner instanceof EmfWorkspace){
-			return result.append("util").append(NameConverter.capitalize(((EmfWorkspace) owner).getName()) + "JavaMetaInfoMap");
-		}
-		return null;
-	}
+
 }

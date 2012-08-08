@@ -18,6 +18,8 @@ import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForAssociation;
+import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -55,9 +57,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		return 12;
 	}
 	public static void addPropertyMetaInfo(Classifier owner,OJAnnotatedOperation element,Property property,OpaeumLibrary opaeumLibrary){
-		addPropertyMetaInfo(owner.getOwnedRules(), element, property,opaeumLibrary);
+		addPropertyMetaInfo(owner.getOwnedRules(), element, property, opaeumLibrary);
 	}
-	public static void addPropertyMetaInfo(Collection<? extends Constraint> ownedRules,OJAnnotatedOperation element,Property property, OpaeumLibrary opaeumLibrary){
+	public static void addPropertyMetaInfo(Collection<? extends Constraint> ownedRules,OJAnnotatedOperation element,Property property,
+			OpaeumLibrary opaeumLibrary){
 		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyMetaInfo"));
 		ap.putAttribute("isComposite", property.isComposite());
 		if(EmfClassifierUtil.isSimpleType(property.getType())){
@@ -68,12 +71,12 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		if(property instanceof IEmulatedElement){
 			IEmulatedElement ee = (IEmulatedElement) property;
-			ap.putAttribute("uuid", EmfWorkspace.getId( ee.getOriginalElement()));
+			ap.putAttribute("uuid", EmfWorkspace.getId(ee.getOriginalElement()));
 		}else{
 			ap.putAttribute("uuid", EmfWorkspace.getId(property));
 		}
 		ap.putAttribute("opaeumId", EmfWorkspace.getOpaeumId(property));
-		if(property.getOwnedComments().size()>0){
+		if(property.getOwnedComments().size() > 0){
 			ap.putAttribute("shortDescripion", property.getOwnedComments().get(0).getBody());
 		}
 		if(property.getOtherEnd() != null){
@@ -86,10 +89,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			if(!isLookupConstraint && property instanceof IEmulatedElement){
 				isLookupConstraint = c.getConstrainedElements().contains(((IEmulatedElement) property).getOriginalElement());
 			}
-			if(c.getSpecification() instanceof OpaqueExpression  && isLookupConstraint){
-				AbstractOclContext oclContext=opaeumLibrary.getOclExpressionContext((OpaqueExpression) c.getSpecification());
+			if(c.getSpecification() instanceof OpaqueExpression && isLookupConstraint){
+				AbstractOclContext oclContext = opaeumLibrary.getOclExpressionContext((OpaqueExpression) c.getSpecification());
 				if(oclContext.getExpression().getType() instanceof CollectionType){
-					ap.putAttribute("lookupMethod", "get" +  NameConverter.capitalize(c.getName()));
+					ap.putAttribute("lookupMethod", "get" + NameConverter.capitalize(c.getName()));
 					// Lookup method
 				}else{
 					// Associated constraint
@@ -108,8 +111,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			OJAnnotatedClass ojOwner = findJavaClass(umlOwner);
 			OJConstructor constr1 = new OJConstructor();
 			Association assocClass = (Association) umlOwner;
-			StructuralFeatureMap mapToEnd1 = ojUtil.buildStructuralFeatureMap(assocClass.getPropertyToEnd1());
-			StructuralFeatureMap mapToEnd2 = ojUtil.buildStructuralFeatureMap(assocClass.getPropertyToEnd2());
+			EmulatedPropertyHolderForAssociation holder = (EmulatedPropertyHolderForAssociation) getLibrary().getEmulatedPropertyHolder(
+					assocClass);
+			StructuralFeatureMap mapToEnd1 = ojUtil.buildStructuralFeatureMap(holder.getEmulatedAttribute(assocClass.getMemberEnds().get(0)));
+			StructuralFeatureMap mapToEnd2 = ojUtil.buildStructuralFeatureMap(holder.getEmulatedAttribute(assocClass.getMemberEnds().get(1)));
 			constr1.addParam("end1", mapToEnd1.javaTypePath());
 			constr1.addParam("end2", mapToEnd2.javaTypePath());
 			constr1.getBody().addToStatements("this." + mapToEnd1.internalAdder() + "(end1)");
@@ -124,7 +129,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			OJAnnotatedOperation clear = new OJAnnotatedOperation("clear");
 			ojOwner.addToOperations(clear);
 			if(assocClass.getMemberEnds().get(0).isNavigable()){
-				EndToAssociationClass end1ToAssocationClass = (EndToAssociationClass) assocClass.getPropertyToEnd1().getOtherEnd();
+				EndToAssociationClass end1ToAssocationClass = holder.getEndToAssociation(assocClass.getMemberEnds().get(0));
 				StructuralFeatureMap mapFromEnd1 = ojUtil.buildStructuralFeatureMap(end1ToAssocationClass);
 				if(assocClass.getMemberEnds().get(0).isNavigable()){
 					clear.getBody().addToStatements(mapToEnd1.getter() + "()." + mapFromEnd1.internalRemover() + "(this)");
@@ -132,9 +137,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				}
 			}
 			if(assocClass.getMemberEnds().get(1).isNavigable()){
-				EndToAssociationClass end2ToAssocationClass = (EndToAssociationClass) assocClass.getPropertyToEnd2().getOtherEnd();// new
-																																																														// EndToAssociationClass(((Association)
-																																																														// umlOwner).getMemberEnds().get(1));
+				EndToAssociationClass end2ToAssocationClass =  holder.getEndToAssociation(assocClass.getMemberEnds().get(1));
 				StructuralFeatureMap mapFromEnd2 = ojUtil.buildStructuralFeatureMap(end2ToAssocationClass);
 				if(assocClass.getMemberEnds().get(1).isNavigable()){
 					clear.getBody().addToStatements(mapToEnd2.getter() + "()." + mapFromEnd2.internalRemover() + "(this)");
@@ -155,7 +158,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	protected void visitProperty(Classifier umlOwner,StructuralFeatureMap map){
 		Property p = map.getProperty();
 		if(!OJUtil.isBuiltIn(p)){
-			if(StereotypesHelper.hasStereotype(p.getType(),StereotypeNames.HELPER)){
+			if(StereotypesHelper.hasStereotype(p.getType(), StereotypeNames.HELPER)){
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
 				buildSetter(umlOwner, owner, map);
 				buildField(owner, map).setTransient(true);
@@ -198,7 +201,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		Element property = map.getProperty();
 		OJUtil.addMetaInfo(getter, property);
 		// TODO move thisS
-		addPropertyMetaInfo(umlOwner, getter, map.getProperty(),getLibrary());
+		addPropertyMetaInfo(umlOwner, getter, map.getProperty(), getLibrary());
 		return getter;
 	}
 	@Override
@@ -306,7 +309,8 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			StructuralFeatureMap mapToAssClass = aMap.getEndToAssocationClassMap();
 			Association assc = (Association) map.getProperty().getAssociation();
 			Property otherEnd = map.getProperty().getOtherEnd();
-			Property fromAssToOtherEnd = assc.getMemberEnds().get(0) == otherEnd ? assc.getPropertyToEnd1() : assc.getPropertyToEnd2();
+			EmulatedPropertyHolderForAssociation holder = (EmulatedPropertyHolderForAssociation) getLibrary().getEmulatedPropertyHolder(assc);
+			Property fromAssToOtherEnd = holder.getEmulatedAttribute(otherEnd);
 			StructuralFeatureMap mapFromAssClassToOtherEnd = ojUtil.buildStructuralFeatureMap(fromAssToOtherEnd);
 			if(map.isMany()){
 				OJForStatement foreach = new OJForStatement("cur", mapToAssClass.javaBaseTypePath(), getReferencePrefix(owner, map)
@@ -322,7 +326,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 			getter.getBody().addToStatements("return result");
 		}
-		addPropertyMetaInfo(umlOwner, getter, map.getProperty(),getLibrary());
+		addPropertyMetaInfo(umlOwner, getter, map.getProperty(), getLibrary());
 		owner.addToOperations(getter);
 	}
 	protected void implementAttributeFully(Classifier umlOwner,StructuralFeatureMap map){
@@ -627,7 +631,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			setter.setStatic(map.isStatic());
 			setter.setVisibility(prop.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
-			for(Property p:EmfPropertyUtil.getPropertiesQualified( map.getProperty())){
+			for(Property p:EmfPropertyUtil.getPropertiesQualified(map.getProperty())){
 				if(isMap(p)){
 					StructuralFeatureMap peerMap = ojUtil.buildStructuralFeatureMap(p.getOtherEnd());
 					StructuralFeatureMap qMap = ojUtil.buildStructuralFeatureMap(p);
@@ -637,7 +641,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 							peerMap.getter() + "()." + qMap.internalRemover() + "(" + ojUtil.addQualifierArguments(p.getQualifiers(), "this") + "this)");
 				}
 			}
-			if(StereotypesHelper.hasStereotype(map.getProperty().getType(),StereotypeNames.HELPER)){
+			if(StereotypesHelper.hasStereotype(map.getProperty().getType(), StereotypeNames.HELPER)){
 				setter.getBody().addToStatements("this." + map.fieldname() + "=" + map.fieldname());
 			}else if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()){
 				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
@@ -709,14 +713,14 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
 				}
 			}
-			for(Property p:EmfPropertyUtil.getPropertiesQualified( map.getProperty())){
+			for(Property p:EmfPropertyUtil.getPropertiesQualified(map.getProperty())){
 				if(isMap(p)){
 					StructuralFeatureMap peerMap = ojUtil.buildStructuralFeatureMap(p.getOtherEnd());
 					StructuralFeatureMap qMap = ojUtil.buildStructuralFeatureMap(p);
 					OJIfStatement ifNotNull = new OJIfStatement(peerMap.getter() + "()!=null && " + map.getter() + "()!=null");
 					setter.getBody().addToStatements(ifNotNull);
 					ifNotNull.getThenPart().addToStatements(
-							peerMap.getter() + "()." + qMap.internalAdder() + "(" +   ojUtil.addQualifierArguments(p.getQualifiers(), "this") + "this)");
+							peerMap.getter() + "()." + qMap.internalAdder() + "(" + ojUtil.addQualifierArguments(p.getQualifiers(), "this") + "this)");
 				}
 			}
 		}

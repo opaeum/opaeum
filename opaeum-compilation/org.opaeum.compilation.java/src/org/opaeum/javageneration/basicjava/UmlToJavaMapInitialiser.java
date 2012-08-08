@@ -18,7 +18,6 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Variable;
-import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;

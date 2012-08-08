@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
-import org.eclipse.uml2.uml.Package;
+
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Plugin;
+import org.eclipse.uml2.uml.Package;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;

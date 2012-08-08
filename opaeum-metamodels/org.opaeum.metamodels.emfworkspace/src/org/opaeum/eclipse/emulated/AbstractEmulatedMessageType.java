@@ -48,6 +48,10 @@ public abstract class AbstractEmulatedMessageType extends BehavioredClassifierIm
 		}
 	}
 	@Override
+	public Element getOwner(){
+		return originalElement.getOwner();
+	}
+	@Override
 	public EList<Property> getOwnedAttributes(){
 		return ownedAttributes;
 	}

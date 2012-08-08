@@ -237,7 +237,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			}
 		}
 	}
-	private void extractImplementationCodeFor(Model m,NakedModelImpl model){
+	private void extractImplementationCodeFor(Model m){
 		try{
 			URI uri = m.eResource().getURI().trimFileExtension().appendFileExtension("zip");
 			uri = m.eResource().getResourceSet().getURIConverter().normalize(uri);

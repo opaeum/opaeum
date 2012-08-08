@@ -18,7 +18,7 @@ import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.newchild.OpaeumEditorMenu;
-import org.opaeum.emf.extraction.EmfExtractionPhase;
+import org.opaeum.validation.ValidationPhase;
 
 public class OpaeumContributionFactory extends ExtensionContributionFactory{
 	public OpaeumContributionFactory(){
@@ -46,12 +46,12 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 								&& (firstElement.getClass().getSimpleName().equals("SimulationModelImpl") || firstElement instanceof Model)){
 							return EvaluationResult.TRUE;
 						}else if(firstElement instanceof Element){
-							if(EmfExtractionPhase.canBeProcessedIndividually((EObject) firstElement)){
+							if(ValidationPhase.canBeProcessedIndividually((EObject) firstElement)){
 								return EvaluationResult.TRUE;
 							}
 						}else if(firstElement instanceof AbstractGraphicalEditPart){
 							AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
-							if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
+							if(a.getModel() instanceof Element && ValidationPhase.canBeProcessedIndividually((EObject) a.getModel())){
 								return EvaluationResult.TRUE;
 							}
 						}

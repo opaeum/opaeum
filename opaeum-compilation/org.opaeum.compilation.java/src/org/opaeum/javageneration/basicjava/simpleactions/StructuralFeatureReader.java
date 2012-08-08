@@ -9,7 +9,6 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.ActionMap;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class StructuralFeatureReader extends SimpleNodeBuilder<ReadStructuralFeatureAction> {
 	public StructuralFeatureReader(ReadStructuralFeatureAction action, AbstractObjectNodeExpressor expressor) {

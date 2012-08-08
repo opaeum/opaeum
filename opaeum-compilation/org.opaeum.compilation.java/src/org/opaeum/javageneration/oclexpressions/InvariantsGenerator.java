@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
-import nl.klasse.octopus.model.ICollectionType;
 
 import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -72,7 +71,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 							myClass.addToImports("java.util.ArrayList");
 							OJPathName returnType = new OJPathName();
 							returnType.addToNames("List");
-							ICollectionType type = (ICollectionType) et;
+							CollectionType type = (CollectionType) et;
 							if(type.getElementType() instanceof Classifier){
 								OJPathName pn = ojUtil.classifierPathname((Classifier) type.getElementType());
 								returnType.addToElementTypes(pn);

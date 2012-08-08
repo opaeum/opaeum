@@ -41,7 +41,6 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.EclipseUriToFileConverter;
-import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.eclipse.OclUpdater;
 import org.opaeum.eclipse.OpaeumConfigDialog;
@@ -51,7 +50,6 @@ import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.emf.workspace.UriToFileConverter;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.runtime.domain.ExceptionAnalyser;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
@@ -63,114 +61,32 @@ public class OpaeumEclipseContext{
 			return true;
 		}
 	}
-	private class LoadEditingDomainJob extends Job{
-		private final EditingDomain domain;
-		private final IFile file;
-		boolean done = false;
-		public LoadEditingDomainJob nextJob;
-		private Status status;
-		private LoadEditingDomainJob(String name,EditingDomain domain,IFile file){
-			super(name);
-			if(domain == null){
-				throw new NullPointerException();
-			}
-			this.domain = domain;
-			this.file = file;
-		}
-		@Override
-		protected IStatus run(final IProgressMonitor monitor){
-			isLoading = true;
-			monitor.beginTask("Loading Opaeum  Metadata", 1000);
-			monitor.subTask("Resolving Emf Resources");
-			final Package model = findRootObjectInFile(file, domain.getResourceSet());
-			// domain.getCommandStack().execute(
-			new AbstractCommand(){
-				@Override
-				public boolean canExecute(){
-					return true;
-				}
-				@Override
-				public void execute(){
-					try{
-						boolean resolved = false;
-						while(!resolved){//Concurrency issues while Papyrus is opening the model
-							try{
-								EcoreUtil.resolveAll(domain.getResourceSet());
-								resolved = true;
-							}catch(ConcurrentModificationException cme){
-								Thread.sleep(1000);
-								resolved = false;
-							}
-						}
-						Package model2 = findRootObjectInFile(file, domain.getResourceSet());
-						if(model2 != null && model2.eResource() != null && model2.eResource().getURI() != null){
-							monitor.subTask("Resolving Emf Resources");
-							// Will be null if the editingDomain is inactive
-							currentOpenFile = file;
-							EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(model2, new ProgressMonitorTransformationLog(monitor, 1000));
-							newDomainLoaded(domain, file, model2, emfWorkspace);
-						}
-						status = new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Opaeum Metadata loaded");
-					}catch(NullPointerException e){
-						ExceptionAnalyser ea = new ExceptionAnalyser(e);
-						if(model == null || model.eResource() == null || model.eResource().getURI() == null
-								|| model.eResource().getResourceSet() == null
-								|| ea.stringOccurs("org.eclipse.emf.ecore.util.ECrossReferenceAdapter$InverseCrossReferencer$2.add")){
-							// Model closed while loading. NakedModel in unknown state. Remove
-							reinitialize();
-							status = new Status(IStatus.INFO, OpaeumEclipsePlugin.getId(), "Opaeum Metadata not loaded", e);
-						}else{
-							status = new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Opaeum Metadata not loaded", e);
-						}
-					}catch(Exception e){
-						status = new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Opaeum Metadata not loaded", e);
-					}finally{
-						isLoading = false;
-						monitor.done();
-						done = true;
-						if(nextJob != null){
-							nextJob.schedule();
-						}
-					}
-				}
-				@Override
-				public void redo(){
-				}
-			}.execute();
-			return status;
-		}
-	}
+
 	private static Map<IContainer,OpaeumEclipseContext> contexts = new WeakHashMap<IContainer,OpaeumEclipseContext>();
 	private static OpaeumEclipseContext currentContext;
-	private Set<IFile> resourceSetsStartedButNotLoaded = new HashSet<IFile>();
 	private Map<IFile,OpenUmlFile> openUmlFiles = new HashMap<IFile,OpenUmlFile>();
-	private EmfToOpaeumSynchronizer umlElementCache;
 	private boolean isOpen = false;
-	private List<OpaeumEclipseContextListener> listeners = new ArrayList<OpaeumEclipseContextListener>();
 	private IContainer umlDirectory;
 	private IFile currentOpenFile;
 	protected UriToFileConverter resourceHelper = new EclipseUriToFileConverter();
 	private OpaeumErrorMarker errorMarker;
 	private boolean isLoading;
 	private boolean newlyCreated;
-	private LoadEditingDomainJob currentJob;
 	private EObjectSelectorUI eObjectSelectorUI;
 	private TransactionalEditingDomain directoryEditingDomain;
 	private EmfWorkspace dew;
+	private OpaeumConfig config;
 	public OpaeumEclipseContext(OpaeumConfig cfg,IContainer umlDirectory,boolean newlyCreated){
 		super();
+		this.config=cfg;
 		isOpen = true;
 		this.newlyCreated = newlyCreated;
-		umlElementCache = new EmfToOpaeumSynchronizer(cfg);
-		umlElementCache.addSynchronizationListener(new OclUpdater(this.openUmlFiles));
 		this.umlDirectory = umlDirectory;
 		if(cfg.getErrorMarker() == null){
 			this.errorMarker = new OpaeumErrorMarker();
 		}else{
 			this.errorMarker = (OpaeumErrorMarker) IntrospectionUtil.newInstance(cfg.getErrorMarker());
 		}
-		errorMarker.setContext(this);
-		umlElementCache.addSynchronizationListener(errorMarker);
 	}
 	public boolean isNewlyCreated(){
 		return newlyCreated;
@@ -178,18 +94,14 @@ public class OpaeumEclipseContext{
 	public void reinitialize(){
 		this.dew = null;
 		this.directoryEditingDomain = null;
-		resourceSetsStartedButNotLoaded.clear();
-		umlElementCache.reinitializeProcess();
 		ArrayList<OpenUmlFile> arrayList = new ArrayList<OpenUmlFile>(openUmlFiles.values());
 		this.openUmlFiles.clear();
 		for(OpenUmlFile editingContext:arrayList){
-			getEmfToOpaeumSynchronizer().deregister(editingContext.getEditingDomain().getResourceSet());
-			getEmfToOpaeumSynchronizer().removeSynchronizationListener(editingContext);
+			editingContext.reinitializeProcess();
 		}
 		for(OpenUmlFile editingContext:arrayList){
 			startSynch(editingContext.getEditingDomain(), editingContext.getFile());
 		}
-		errorMarker.maybeSchedule();
 	}
 	public String getId(Element umlElement){
 		return EmfWorkspace.getId(umlElement);
@@ -201,30 +113,17 @@ public class OpaeumEclipseContext{
 		}
 		return result;
 	}
-	// TODO declare private and delegate from context
-	public EmfToOpaeumSynchronizer getEmfToOpaeumSynchronizer(){
-		return umlElementCache;
-	}
 	public boolean startSynch(final EditingDomain domain,final IFile file){
-		resourceSetsStartedButNotLoaded.add(file);
-		if(currentJob != null && !currentJob.done){
-			this.currentJob.nextJob = new LoadEditingDomainJob("Loading Opaeum Metadata", domain, file);
-		}else{
-			this.currentJob = new LoadEditingDomainJob("Loading Opaeum Metadata", domain, file);
-			currentJob.schedule();
-		}
-		return true;
-	}
-	private void newDomainLoaded(final EditingDomain domain,final IFile file,final Package model,EmfWorkspace emfWorkspace){
+		OpenUmlFile openUmlFile = new OpenUmlFile(domain,  file,config);
+		openUmlFile.addSynchronizationListener(new OclUpdater(this.openUmlFiles));
+		openUmlFile.addSynchronizationListener(errorMarker);
 		if(dew != null){
 			dew.getResourceSet().getResource(URI.createPlatformResourceURI((file).getFullPath().toString(), true), true);
 		}
-		OpenUmlFile openUmlFile = new OpenUmlFile(emfWorkspace, domain, model, file);
 		openUmlFiles.put(file, openUmlFile);
-		resourceSetsStartedButNotLoaded.remove(file);
-		umlElementCache.registerTo(domain.getResourceSet());
-		umlElementCache.addSynchronizationListener(openUmlFile);
-		errorMarker.maybeSchedule();
+		errorMarker.maybeSchedule(openUmlFile);
+
+		return true;
 	}
 	public boolean isOpen(){
 		return isOpen;
@@ -233,22 +132,14 @@ public class OpaeumEclipseContext{
 		seteObjectSelectorUI(eObjectSelectorUI);
 		setCurrentContext(this);
 		this.currentOpenFile = file;
-		OpenUmlFile editingContext = openUmlFiles.get(file);
-		if(editingContext != null){
-			getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(editingContext.getEmfWorkspace());
-			// could still be loading
-		}
 	}
 	public void onSave(IProgressMonitor monitor,IFile f){
 		try{
 			OpenUmlFile openUmlFile = this.openUmlFiles.get(f);
+			monitor.beginTask("Saving UML Models",  100);
 			if(openUmlFile != null){
 				openUmlFile.setDirty(false);
-			}
-			monitor.beginTask("Saving UML Models", listeners.size() * 100);
-			getEmfToOpaeumSynchronizer().getConfig().getWorkspaceMappingInfo().store();
-			for(OpaeumEclipseContextListener l:listeners){
-				l.onSave(new SubProgressMonitor(monitor, 100), openUmlFile);
+				openUmlFile.onSave(monitor);
 			}
 			getUmlDirectory().refreshLocal(1, null);
 			if(dew != null){
@@ -274,24 +165,17 @@ public class OpaeumEclipseContext{
 	}
 	public void onClose(IFile umlFile){
 		OpenUmlFile openUmlFile = this.openUmlFiles.get(umlFile);
-		for(OpaeumEclipseContextListener l:listeners){
-			l.onClose(openUmlFile == null || openUmlFile.isDirty());
-		}
+
 		this.openUmlFiles.remove(umlFile);
 		if(openUmlFile != null){
 			// May not have loaded successfully
 			if(openUmlFile.isDirty()){
 				reinitialize();
-			}else if(umlElementCache != null && openUmlFile != null){
-				umlElementCache.deregister(openUmlFile.getEmfWorkspace().getResourceSet());
-				getEmfToOpaeumSynchronizer().removeSynchronizationListener(openUmlFile);
+			}else if(openUmlFile != null){
+				openUmlFile.release();
 				currentOpenFile = null;
 			}
 		}
-	}
-	public void addContextListener(OpaeumEclipseContextListener l){
-		this.listeners.add(l);
-		umlElementCache.addSynchronizationListener(l);
 	}
 	public IContainer getUmlDirectory(){
 		return umlDirectory;
@@ -305,22 +189,21 @@ public class OpaeumEclipseContext{
 				return null;
 			}
 		}else{
-			return this.openUmlFiles.get(currentOpenFile).getEmfWorkspace();
+			OpenUmlFile openUmlFile = this.openUmlFiles.get(currentOpenFile);
+			return openUmlFile.getEmfWorkspace();
 		}
 	}
 	public EmfWorkspace loadDirectory(IProgressMonitor monitor){
 		this.isLoading = true;
 		try{
-			getEmfToOpaeumSynchronizer().suspend();
 			monitor.beginTask("Loading EMF resources", 300);
 			ResourceSet rst;
 			rst = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
-			OpaeumConfig cfg = getEmfToOpaeumSynchronizer().getConfig();
 			if(dew == null){
-				dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier(),cfg.getMavenGroupId());
+				dew = new EmfWorkspace(uri, rst, getConfig().getWorkspaceMappingInfo(), getConfig().getWorkspaceIdentifier(),getConfig().getMavenGroupId());
 				dew.setUriToFileConverter(new EclipseUriToFileConverter());
-				dew.setName(cfg.getWorkspaceName());
+				dew.setName(getConfig().getWorkspaceName());
 				for(IResource r:umlDirectory.members()){
 					monitor.subTask("Loading " + r.getName());
 					if(r instanceof IFile && r.getFileExtension().equals("uml")){
@@ -332,13 +215,6 @@ public class OpaeumEclipseContext{
 				}
 			}
 			dew.guessGeneratingModelsAndProfiles(URI.createPlatformResourceURI(umlDirectory.getFullPath().toString(), true));
-			// Will only process elements as per their RootObjectStatus
-			getEmfToOpaeumSynchronizer().getTransformationProcess().replaceModel(dew);
-			getEmfToOpaeumSynchronizer().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 200));
-			getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(dew);
-
-			getEmfToOpaeumSynchronizer().resume();
-			errorMarker.maybeSchedule();
 			return dew;
 		}catch(CoreException e){
 			throw new RuntimeException(e);
@@ -357,21 +233,8 @@ public class OpaeumEclipseContext{
 		}
 		return false;
 	}
-	private Package findRootObjectInFile(IResource r,ResourceSet rs){
-		EList<Resource> ownedElements = rs.getResources();
-		for(Resource element:ownedElements){
-			if(element.getURI().trimFileExtension().lastSegment().equals(r.getLocation().removeFileExtension().lastSegment())){
-				for(EObject eObject:element.getContents()){
-					if(eObject instanceof Model || eObject instanceof Package){
-						return (Package) eObject;
-					}
-				}
-			}
-		}
-		return null;
-	}
 	public boolean isSyncronizingWith(IFile file){
-		return resourceSetsStartedButNotLoaded.contains(file) || openUmlFiles.containsKey(file);
+		return openUmlFiles.containsKey(file);
 	}
 	public boolean getAutoSync(){
 		return this.getConfig().synchronizeAutomatically();
@@ -379,13 +242,10 @@ public class OpaeumEclipseContext{
 	public boolean isLoading(){
 		return this.isLoading;
 	}
-	public boolean isLoadingFile(IFile file){
-		return this.resourceSetsStartedButNotLoaded.contains(file);
-	}
 	public EditingDomain getEditingDomain(){
 		if(currentOpenFile != null && openUmlFiles.get(currentOpenFile) != null){
 			OpenUmlFile editingContext = openUmlFiles.get(currentOpenFile);
-			return editingContext.editingDomain;
+			return editingContext.getEditingDomain();
 		}else if(directoryEditingDomain != null){
 			return directoryEditingDomain;
 		}else{
@@ -393,10 +253,7 @@ public class OpaeumEclipseContext{
 		}
 	}
 	public OpaeumConfig getConfig(){
-		return getEmfToOpaeumSynchronizer().getConfig();
-	}
-	public EmfWorkspace getNakedWorkspace(){
-		return (EmfWorkspace) getEmfToOpaeumSynchronizer().getCurrentEmfWorkspace();
+		return this.config;
 	}
 	public static OpaeumEclipseContext getCurrentContext(){
 		return currentContext;
@@ -533,5 +390,17 @@ public class OpaeumEclipseContext{
 	}
 	public OpaeumErrorMarker getErrorMarker(){
 		return errorMarker;
+	}
+	public OpenUmlFile getEditingContextFor(EObject eObject){
+		Collection<OpenUmlFile> values = this.openUmlFiles.values();
+		for(OpenUmlFile openUmlFile:values){
+			if(openUmlFile.getEmfWorkspace().getResourceSet()==eObject.eResource().getResourceSet()){
+				return openUmlFile;
+			}
+		}
+		return null;
+	}
+	public Collection<OpenUmlFile> getEditingContexts(){
+		return this.openUmlFiles.values();
 	}
 }

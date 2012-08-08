@@ -4,9 +4,14 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPackage;
@@ -14,12 +19,7 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedEnumerationLiteral;
-import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.INakedStructuredDataType;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ExponentialDistribution;
 import org.opaeum.metamodels.simulation.simulation.NormalDistribution;
@@ -32,12 +32,13 @@ import org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
+import org.opaeum.name.NameConverter;
 
 public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 	@VisitBefore(matchSubclasses = true)
-	public void visitWorkspace(INakedModelWorkspace nmws){
+	public void visitWorkspace(EmfWorkspace nmws){
 		OJPackage pkg = findOrCreatePackage(UtilityCreator.getUtilPathName());
-		OJAnnotatedClass clss = new OJAnnotatedClass(nmws.getMappingInfo().getJavaName().getCapped() + "DataGenerator");
+		OJAnnotatedClass clss = new OJAnnotatedClass(NameConverter.capitalize(nmws.getName()) + "DataGenerator");
 		pkg.addToClasses(clss);
 		createTextPath(clss, SimulationSourceFolderId.GEN_SRC);
 		clss.addToImports("org.opaeum.simulation.SimulationMetaData");
@@ -67,7 +68,7 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 		}
 		if(getLibrary().getBusinessNetwork() != null && getInstances(getLibrary().getBusinessNetwork()).size() > 0){
 			InstanceSpecification bni = getInstances(getLibrary().getBusinessNetwork()).get(0);
-			OJPathName bnpn = OJUtil.classifierPathname(getLibrary().getBusinessNetwork());
+			OJPathName bnpn = ojUtil.classifierPathname(getLibrary().getBusinessNetwork());
 			OJBlock registerBlock = new OJBlock();
 			main.getBody().addToStatements(registerBlock);
 			registerBlock.addToStatements("SimulationMetaData.getInstance().registerEntityInstanceSimulation(\"" + bni.getQualifiedName()
@@ -79,16 +80,16 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 					+ ".INSTANCE.generateInstance(null)");
 			intializeBlock.addToLocals(bnField);
 			if(nmws.getApplicationRoot() != null){
-				OJPathName bcpn = OJUtil.classifierPathname(nmws.getApplicationRoot());
+				OJPathName bcpn = ojUtil.classifierPathname(nmws.getApplicationRoot());
 				OJAnnotatedField rootField = new OJAnnotatedField("businessCollaboration", bcpn);
 				rootField.setInitExp("new " + bcpn.getLast() + "(businessNetwork)");
 				intializeBlock.addToLocals(rootField);
-				for(INakedProperty p:nmws.getApplicationRoot().getEffectiveAttributes()){
+				for(Property p:nmws.getOpaeumLibrary().getEffectiveAttributes(nmws.getApplicationRoot())){
 					if(!p.isDerived() && p.isComposite()){
-						for(InstanceSpecification is:getInstances(p.getNakedBaseType())){
+						for(InstanceSpecification is:getInstances(p.getType())){
 							registerBlock.addToStatements("SimulationMetaData.getInstance().registerEntityInstanceSimulation(\"" + is.getQualifiedName()
-									+ "\", \"NONE\"," + dataGeneratorName(p.getNakedBaseType(), is) + ".INSTANCE," + 1 + ")");
-							intializeBlock.addToStatements(dataGeneratorName(p.getNakedBaseType(), is)
+									+ "\", \"NONE\"," + dataGeneratorName(p.getType(), is) + ".INSTANCE," + 1 + ")");
+							intializeBlock.addToStatements(dataGeneratorName(p.getType(), is)
 									+ ".INSTANCE.generateInstance(businessCollaboration)");
 						}
 					}
@@ -104,8 +105,8 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 		}
 	}
 	private void processSlot(OJAnnotatedClass clss,OJAnnotatedOperation main,SimulatingSlot slot){
-		INakedClassifier c = (INakedClassifier) getNakedPeer(slot.getOwningInstance().getClassifiers().get(0));
-		OJPathName pn = OJUtil.classifierPathname(c);
+		Classifier c = (Classifier) slot.getOwningInstance().getClassifiers().get(0);
+		OJPathName pn = ojUtil.classifierPathname(c);
 		if(slot.getSizeDistribution() != null){
 			registerNumberValueDistribution(main, slot, slot.getSizeDistribution(), "registerPropertySizeGenerator");
 		}
@@ -122,8 +123,8 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 				main.getBody().addToStatements(buildRegistration(slot, pn, wbv.isValue(), wbv.getWeight()));
 			}else if(vs instanceof WeightedEnumLiteralValue){
 				WeightedEnumLiteralValue welv = (WeightedEnumLiteralValue) vs;
-				INakedEnumerationLiteral literal = (INakedEnumerationLiteral) getNakedPeer(welv.getLiteral());
-				OJPathName epn = OJUtil.classifierPathname((INakedClassifier) literal.getEnumeration());
+				EnumerationLiteral literal = (EnumerationLiteral) welv.getLiteral();
+				OJPathName epn = ojUtil.classifierPathname((Classifier) literal.getEnumeration());
 				clss.addToImports(epn);
 				main.getBody()
 						.addToStatements(buildRegistration(slot, pn, epn.getLast() + "." + literal.getName().toUpperCase(), welv.getWeight()));
@@ -131,7 +132,7 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 				WeightedStringValue wbv = (WeightedStringValue) vs;
 				main.getBody().addToStatements(buildRegistration(slot, pn, "\"" + wbv.getValue() + "\"", wbv.getWeight()));
 			}else if(vs instanceof NumericValueDistribution){
-				INakedClassifier type = (INakedClassifier) getNakedPeer(slot.getDefiningFeature().getType());
+				Classifier type = (Classifier) slot.getDefiningFeature().getType();
 				if(type.conformsTo(workspace.getOpaeumLibrary().getIntegerType())){
 					registerNumberValueDistribution(main, slot, vs, "registerIntegerValueDistribution");
 				}else{
@@ -142,9 +143,9 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 					WeightedInstanceValue wiv = (WeightedInstanceValue) vs;
 					InstanceSpecification instance = wiv.getInstance();
 					if(instance != null){
-						INakedClassifier nakedPeer = (INakedClassifier) getNakedPeer(instance.getClassifiers().get(0));
+						Classifier nakedPeer = (Classifier) instance.getClassifiers().get(0);
 						String methodName;
-						if(nakedPeer instanceof INakedStructuredDataType){
+						if(EmfClassifierUtil.isStructuredDataType(nakedPeer)){
 							methodName = "registerStructInstanceSimulation";
 						}else{
 							methodName = "registerEntityInstanceSimulation";
@@ -157,9 +158,9 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 				}else if(vs instanceof ContainedActualInstance){
 					InstanceSpecification instance = ((ContainedActualInstance) vs).getContainedInstance();
 					if(instance != null){
-						INakedClassifier nakedPeer = (INakedClassifier) getNakedPeer(instance.getClassifiers().get(0));
+						Classifier nakedPeer = (Classifier) instance.getClassifiers().get(0);
 						String methodName;
-						if(nakedPeer instanceof INakedStructuredDataType){
+						if(EmfClassifierUtil.isStructuredDataType(nakedPeer)){
 							methodName = "registerStructInstanceSimulation";
 						}else{
 							methodName = "registerEntityInstanceSimulation";

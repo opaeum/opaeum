@@ -1,27 +1,288 @@
 package org.opaeum.eclipse.context;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
+import org.eclipse.uml2.uml.resource.UMLResource;
+import org.eclipse.uml2.uml.util.UMLUtil;
+import org.opaeum.eclipse.EclipseUriToFileConverter;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.OpaeumElementLinker;
 import org.opaeum.eclipse.OpaeumSynchronizationListener;
+import org.opaeum.eclipse.ProgressMonitorTransformationLog;
+import org.opaeum.eclipse.WorkspaceLoadListener;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
+import org.opaeum.emf.workspace.UriToFileConverter;
+import org.opaeum.feature.DefaultTransformationLog;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.Steps;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.feature.TransformationProcess;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.SourcePopulationResolver;
+import org.opaeum.validation.AbstractValidator;
+import org.opaeum.validation.ValidationPhase;
+import org.opaeum.validation.activities.ActionValidation;
 
-public class OpenUmlFile implements OpaeumSynchronizationListener{
+@SuppressWarnings("restriction")
+public class OpenUmlFile extends EContentAdapter{
 	private EmfWorkspace emfWorkspace;
-	EditingDomain editingDomain;
+	private EditingDomain editingDomain;
 	private Package model;
 	private IFile file;
 	private boolean dirty;
-	public OpenUmlFile(EmfWorkspace emfWorkspace,EditingDomain editingDomain,Package model,IFile f){
+	private TransformationProcess transformationProcess;
+	private OpaeumConfig cfg;
+	private Set<EObject> emfChanges = Collections.synchronizedSet(new HashSet<EObject>());
+	private UriToFileConverter resourceHelper;
+	private long lastChange = System.currentTimeMillis();
+	private Set<UMLResource> resourcesBeingLoaded = new HashSet<UMLResource>();
+	private Set<UMLResource> resourcesLoaded = new HashSet<UMLResource>();
+	private boolean suspended = false;
+	private Set<OpaeumSynchronizationListener> synchronizationListener = new HashSet<OpaeumSynchronizationListener>();
+	private Set<WorkspaceLoadListener> workspaceLoadListener = new HashSet<WorkspaceLoadListener>();
+	private OpaeumElementLinker linker = new OpaeumElementLinker();
+	private OJUtil ojUtil;
+	public OpenUmlFile(EditingDomain editingDomain,IFile f,OpaeumConfig cfg){
 		super();
-		this.setEmfWorkspace(emfWorkspace);
+		Package model = findRootObjectInFile(file, editingDomain.getResourceSet());
 		this.setEditingDomain(editingDomain);
 		this.setModel(model);
 		this.setFile(f);
+		this.resourceHelper = new EclipseUriToFileConverter();
+		this.cfg = cfg;
+		this.ojUtil = new OJUtil();
+		reinitializeProcess();
+		emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier(), cfg.getMavenGroupId());
+		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
+		emfWorkspace.setName(cfg.getWorkspaceName());
+		emfWorkspaceLoaded(emfWorkspace);
+		this.transformationProcess.replaceModel(ojUtil);
+		this.transformationProcess.replaceModel(emfWorkspace);
+		this.transformationProcess.execute(new DefaultTransformationLog());
+	}
+	public void addEmfChange(URI uri){
+		EObject eObject = emfWorkspace.getResourceSet().getEObject(uri, true);
+		synchronized(emfChanges){
+			emfChanges.add(eObject);
+		}
+	}
+	public void addSynchronizationListener(OpaeumSynchronizationListener l){
+		this.synchronizationListener.add(l);
+	}
+	public void addWorkspaceLoadListener(WorkspaceLoadListener l){
+		this.workspaceLoadListener.add(l);
+	}
+	public void suspend(){
+		suspended = true;
+	}
+	public void resumeAndCatchUp(){
+		suspended = false;
+		scheduleSynchronization();
+	}
+	public void resume(){
+		suspended = false;
+		emfChanges.clear();
+	}
+	protected void scheduleSynchronization(){
+		if(!suspended){
+			ValidationRunner synchronizer = new ValidationRunner();
+			synchronizer.schedule();
+		}
+	}
+	protected void synchronizationNow(final Set<Package> packages){
+		if(!suspended){
+			Display.getDefault().syncExec(new Runnable(){
+				@Override
+				public void run(){
+					ProgressMonitorDialog dlg = new ProgressMonitorDialog(Display.getDefault().getActiveShell());
+					IProgressMonitor pm = dlg.getProgressMonitor();
+					dlg.open();
+					try{
+						pm.beginTask("Loading new Packages", 50);
+						new ValidationRunner().run(pm);
+						pm.done();
+					}finally{
+						dlg.close();
+						pm.done();
+					}
+				}
+			});
+		}
+	}
+	private void emfWorkspaceLoaded(EmfWorkspace w){
+		for(WorkspaceLoadListener workspaceLoadListener:this.workspaceLoadListener){
+			workspaceLoadListener.workspaceLoaded(w);
+		}
+	}
+	public UriToFileConverter getResourceHelper(){
+		return resourceHelper;
+	}
+	public void registerTo(ResourceSet rst){
+		rst.eAdapters().add(this);
+	}
+	public void deregister(ResourceSet rst){
+		rst.eAdapters().remove(this);
+	}
+	public void reinitializeProcess(){
+		this.transformationProcess = new TransformationProcess();
+		cfg.reset();
+		this.transformationProcess.initialize(cfg, getTransformationSteps());
+	}
+	@SuppressWarnings("unchecked")
+	protected HashSet<Class<? extends ITransformationStep>> getTransformationSteps(){
+		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(
+				Arrays.asList(ActionValidation.class));
+		Set<Class<? extends AbstractValidator>> allSteps = ValidationPhase.getAllValidationSteps();
+		if(cfg.shouldBeCm1Compatible()){
+			// TODO ignore linkage steps as they will be included from Javatransformations
+			allSteps.remove(SourcePopulationResolver.class);
+		}
+		result.addAll(allSteps);
+		Set<Class<? extends ITransformationStep>> additionalTransformationSteps = cfg.getAdditionalTransformationSteps();
+		Steps steps = new Steps();
+		steps.initializeFromClasses(additionalTransformationSteps);
+		for(Class<? extends ITransformationStep> stepClass:steps.getExecutionUnitClasses()){
+			if(stepClass.isAnnotationPresent(StepDependency.class)){
+				Class<? extends TransformationPhase<? extends ITransformationStep,?>> phase = stepClass.getAnnotation(StepDependency.class).phase();
+				if(phase == ValidationPhase.class){
+					result.add(stepClass);
+				}
+			}
+		}
+		return result;
+	}
+	@Override
+	public void notifyChanged(final Notification notification){
+		if(notification.getNotifier() instanceof ResourceSet && notification.getNewValue() instanceof UMLResource){
+			resourcesBeingLoaded.add((UMLResource) notification.getNewValue());
+		}
+		if(!suspended && resourcesBeingLoaded.isEmpty()){
+			linker.notifyChanged(notification);
+		}
+		if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY
+				|| notification.getEventType() == Notification.SET){
+			final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
+					&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
+			if(!annotationCreated){
+				if(notification.getNotifier() instanceof UMLResource){
+					manageResourceEvent(notification);
+				}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
+					scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
+				}else{
+					if(notification.getNotifier() instanceof Element){
+						EObject o = null;
+						if(notification.getEventType() == Notification.ADD && notification.getFeature() instanceof EReference
+								&& ((EReference) notification.getFeature()).isContainment() && notification.getNewValue() instanceof Element){
+							// new object
+							o = (EObject) notification.getNewValue();
+							scheduleSynchronization(o);
+						}else if(notification.getNotifier() instanceof EObject){
+							o = (EObject) notification.getNotifier();
+							scheduleSynchronization(o);
+						}
+					}
+				}
+			}
+		}else if(notification.getEventType() == Notification.REMOVE || notification.getEventType() == Notification.REMOVE_MANY){
+			if(notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()
+					&& notification.getOldValue() instanceof Element){
+				// Deletion
+				final Element oldValue = (Element) notification.getOldValue();
+				final Resource eResource = ((EObject) notification.getNotifier()).eResource();
+				storeTempId(oldValue, eResource);
+				scheduleSynchronization(oldValue);
+			}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
+				scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
+			}else if(notification.getNotifier() instanceof EObject){
+				scheduleSynchronization((EObject) notification.getNotifier());
+			}
+		}
+		super.notifyChanged(notification);
+	}
+	private void storeTempId(final Element ne,final Resource eResource){
+		final StringBuilder uriFragment = new StringBuilder();
+		// STore it temporarily for EmfWorkspace.getId()
+		new UMLResourceImpl(null){
+			{
+				uriFragment.append(DETACHED_EOBJECT_TO_ID_MAP.get(ne));
+			}
+		};
+		final String id = EmfWorkspace.getResourceId(eResource) + "@" + uriFragment.toString();
+		StereotypesHelper.findOrCreateNumlAnnotation(ne).getDetails().put("opaeumId", id);
+		for(Element element:EmfElementFinder.getCorrectOwnedElements(ne)){
+			storeTempId(element, eResource);
+		}
+	}
+	private void manageResourceEvent(final Notification notification){
+		int featureID = notification.getFeatureID(UMLResource.class);
+		if(notification.getNewValue() instanceof Package && featureID == UMLResource.RESOURCE__CONTENTS){
+			this.resourcesBeingLoaded.add((UMLResource) notification.getNotifier());
+			EcoreUtil.resolveAll((UMLResource) notification.getNotifier());
+		}else if(featureID == UMLResource.RESOURCE__IS_LOADED && notification.getNewBooleanValue() == true){
+			// Do this synchronously
+			this.resourcesLoaded.add((UMLResource) notification.getNotifier());
+			if(resourcesLoaded.containsAll(resourcesBeingLoaded)){
+				Set<Package> newObjects = new HashSet<Package>();
+				for(UMLResource umlResource:resourcesLoaded){
+					for(EObject eObject:umlResource.getContents()){
+						if(eObject instanceof Model || eObject instanceof Profile){
+							newObjects.add((Package) eObject);
+						}
+					}
+				}
+				synchronizationNow(newObjects);
+				this.resourcesBeingLoaded.clear();
+				this.resourcesLoaded.clear();
+			}
+		}
+	}
+	private void scheduleSynchronization(EObject o){
+		lastChange = System.currentTimeMillis();
+		this.emfChanges.add(o);
+		this.dirty = true;
+		EmfToOpaeumSynchronizer.schedule(new Runnable(){
+			@Override
+			public void run(){
+				if(System.currentTimeMillis() - lastChange >= 500){
+					scheduleSynchronization();
+				}
+			}
+		}, 500);
 	}
 	public EmfWorkspace getEmfWorkspace(){
 		return emfWorkspace;
@@ -41,7 +302,7 @@ public class OpenUmlFile implements OpaeumSynchronizationListener{
 	void setModel(Package model){
 		this.model = model;
 	}
-	IFile getFile(){
+	public IFile getFile(){
 		return file;
 	}
 	private void setFile(IFile file){
@@ -53,11 +314,91 @@ public class OpenUmlFile implements OpaeumSynchronizationListener{
 	public void setDirty(boolean dirty){
 		this.dirty = dirty;
 	}
-	@Override
-	public void synchronizationComplete(ModelWorkspace workspace,Set<Element> affectedElements){
-		if(affectedElements.size()>0){
-			this.dirty=true;
+	public TransformationProcess getTransformationProcess(){
+		return transformationProcess;
+	}
+	public void removeSynchronizationListener(OpaeumSynchronizationListener editingContext){
+		this.synchronizationListener.remove(editingContext); // TODO Auto-generated method stub
+	}
+	public void release(){
+		deregister(emfWorkspace.getResourceSet());
+	}
+	private Package findRootObjectInFile(IResource r,ResourceSet rs){
+		EList<Resource> ownedElements = rs.getResources();
+		for(Resource element:ownedElements){
+			if(element.getURI().trimFileExtension().lastSegment().equals(r.getLocation().removeFileExtension().lastSegment())){
+				for(EObject eObject:element.getContents()){
+					if(eObject instanceof Model || eObject instanceof Package){
+						return (Package) eObject;
+					}
+				}
+			}
 		}
-		
+		return null;
+	}
+	public OJUtil getOJUtil(){
+		return this.ojUtil;
+	}
+	private class ValidationRunner extends Job{
+		private Set<EObject> emfChanges;
+		public ValidationRunner(){
+			super("Synchronizing Opaeum Metadata with UML");
+			synchronized(OpenUmlFile.this.emfChanges){
+				this.emfChanges = new HashSet<EObject>(OpenUmlFile.this.emfChanges);
+				OpenUmlFile.this.emfChanges.clear();
+			}
+		}
+		public IStatus run(final IProgressMonitor monitor){
+			try{
+				new AbstractCommand(){
+					@Override
+					public boolean canExecute(){
+						return true;
+					}
+					@Override
+					public void execute(){
+						monitor.beginTask("Synchronizing Opaeum Metadata", 50);
+						if(emfChanges.size() > 0){
+							long start = System.currentTimeMillis();
+							Set<Element> changedElements = new HashSet<Element>();
+							for(Object object:transformationProcess.processElements(emfChanges, ValidationPhase.class,
+									new ProgressMonitorTransformationLog(monitor, 50))){
+								if(object instanceof Element){
+									changedElements.add((Element) object);
+								}
+							}
+							final EmfWorkspace findModel = transformationProcess.findModel(EmfWorkspace.class);
+							for(OpaeumSynchronizationListener listener:synchronizationListener){
+								listener.synchronizationComplete(OpenUmlFile.this, changedElements);
+							}
+							System.out.println("Synchronization took " + (System.currentTimeMillis() - start));
+						}
+					}
+					@Override
+					public void redo(){
+						// TODO Auto-generated method stub
+					}
+				}.execute();
+				return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Opaeum Metadata Synchronized Successfully");
+			}catch(Exception e){
+				e.printStackTrace();
+				return new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Synchronization Failed", e);
+			}finally{
+				monitor.done();
+			}
+		}
+	}
+	public void addContextListener(OpaeumSynchronizationListener javaSourceSynchronizer){
+		this.synchronizationListener.add(javaSourceSynchronizer);
+	}
+	public void onSave(IProgressMonitor monitor){
+		for(OpaeumSynchronizationListener l:this.synchronizationListener){
+			if(l instanceof OpaeumEclipseContextListener){
+				((OpaeumEclipseContextListener) l).onSave(monitor, this);
+			}
+		}
+	}
+	public OpaeumConfig getConfig(){
+		return this.cfg;
 	}
 }

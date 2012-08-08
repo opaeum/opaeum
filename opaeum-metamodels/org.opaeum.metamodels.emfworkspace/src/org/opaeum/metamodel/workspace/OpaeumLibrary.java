@@ -1,12 +1,18 @@
 package org.opaeum.metamodel.workspace;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -17,14 +23,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.ocl.TypeResolver;
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.types.OCLStandardLibrary;
-import org.eclipse.ocl.uml.MessageType;
 import org.eclipse.ocl.uml.OCL;
 import org.eclipse.ocl.uml.OCL.Helper;
 import org.eclipse.ocl.uml.UMLEnvironment;
 import org.eclipse.ocl.uml.UMLEnvironmentFactory;
 import org.eclipse.uml2.uml.AcceptCallAction;
-import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallAction;
@@ -51,6 +56,7 @@ import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.Variable;
 import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
@@ -58,6 +64,7 @@ import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.ResponsibilityDefinitionImpl;
 import org.opaeum.eclipse.emulated.AbstractEmulatedProperty;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForActivity;
+import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForAssociation;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForBehavioredClassifier;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForStateMachine;
 import org.opaeum.eclipse.emulated.ExpansionRegionMessageType;
@@ -66,8 +73,8 @@ import org.opaeum.eclipse.emulated.IEmulatedPropertyHolder;
 import org.opaeum.eclipse.emulated.OpaqueActionMessageType;
 import org.opaeum.eclipse.emulated.OperationMessageType;
 import org.opaeum.eclipse.emulated.StructuredActivityNodeMessageType;
-import org.opaeum.eclipse.emulated.TypedElementPropertyBridge;
 import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.workspace.UriToFileConverter;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.ocl.uml.OclActionContext;
 import org.opaeum.ocl.uml.OclBehaviorContext;
@@ -107,11 +114,14 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private Interface businessActor;
 	private Class businessNetwork;
 	private UMLEnvironment parentEnvironment;
-	public OpaeumLibrary(ResourceSet resourceSet){
+	UriToFileConverter uriToFileConverter;
+	private Map<Model,Map<String,String>> implementationCode = new HashMap<Model,Map<String,String>>();
+	public OpaeumLibrary(ResourceSet resourceSet, UriToFileConverter uriToFileConverter){
 		super();
 		UMLEnvironmentFactory factory = new UMLEnvironmentFactory(resourceSet);
 		this.parentEnvironment = factory.createEnvironment();
 		this.resourceSet = resourceSet;
+		this.uriToFileConverter=uriToFileConverter;
 	}
 	public DataType getDateTimeType(){
 		return dateTimeType;
@@ -196,6 +206,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		return taskResponsibilityObject = findClassifier(taskResponsibilityObject, StereotypeNames.OPAEUM_BPM_LIBRARY,
 				"IResponsibilityTaskObject");
 	}
+
 	public Interface getProcessObject(){
 		return this.processObject = findClassifier(processObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "IProcessObject");
 	}
@@ -248,14 +259,14 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	}
 	public Property getEndToComposite(Classifier entity){
 		Property etc = EmfPropertyUtil.getEndToComposite(entity, this);
-		if(etc==null && !(entity instanceof IEmulatedElement)){
+		if(etc == null && !(entity instanceof IEmulatedElement)){
 			return getArtificialEndToComposite(entity);
 		}
 		return etc;
 	}
 	public Property getArtificialEndToComposite(Classifier entity){
 		for(AbstractEmulatedProperty p:getEmulatedPropertyHolder(entity).getEmulatedAttributes()){
-			if(p.getOtherEnd()!=null && p.getOtherEnd().isComposite()){
+			if(p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
 				return p;
 			}
 		}
@@ -321,12 +332,12 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	public Classifier getMessageStructure(Namespace container){
 		if(container instanceof Behavior){
 			return (Behavior) container;
-		}else if(container!=null){
+		}else if(container != null){
 			Classifier classifier = emulatedClassifiers.get(container);
 			if(classifier == null){
 				if(container instanceof Operation){
 					classifier = new OperationMessageType((Operation) container, this);
-					((OperationMessageType)classifier).createInterfaceRealization(getTaskObject().getName(), getTaskObject());
+					((OperationMessageType) classifier).createInterfaceRealization(getTaskObject().getName(), getTaskObject());
 				}else if(container instanceof ExpansionRegion){
 					classifier = new ExpansionRegionMessageType((ExpansionRegion) container, this);
 				}else if(container instanceof StructuredActivityNode){
@@ -345,9 +356,17 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		return propertiesInScope;
 	}
 	public List<Property> getEffectiveAttributes(Classifier bc){
-		List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(bc);
-		addAllEmulatedProperties(bc, propertiesInScope);
-		return propertiesInScope;
+		List<Property> props = EmfElementFinder.getPropertiesInScope(bc);
+		List<Property> result = new ArrayList<Property>(props);
+		for(Property property:props){
+			if(property.getAssociation() != null && EmfAssociationUtil.isClass(property.getAssociation())){
+				EmulatedPropertyHolderForAssociation ephfa = (EmulatedPropertyHolderForAssociation) getEmulatedPropertyHolder(property
+						.getAssociation());
+				result.add(ephfa.getEndToAssociation(property));
+			}
+		}
+		addAllEmulatedProperties(bc, result);
+		return result;
 	}
 	protected void addAllEmulatedProperties(Classifier bc,Collection<Property> propertiesInScope){
 		addEmulatedProperties(bc, propertiesInScope);
@@ -377,6 +396,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 				holder = new EmulatedPropertyHolderForStateMachine((StateMachine) bc, this);
 			}else if(bc instanceof BehavioredClassifier){
 				holder = new EmulatedPropertyHolderForBehavioredClassifier((BehavioredClassifier) bc, this);
+			}else if(bc instanceof Association){
 			}
 		}
 		return holder;
@@ -414,6 +434,39 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		return classifier;
 	}
 	public ResponsibilityDefinition getResponsibilityDefinition(NamedElement node,String embeddedScreenFlowTask){
-		return new ResponsibilityDefinitionImpl(this,node, StereotypesHelper.getStereotype(node, embeddedScreenFlowTask));
+		return new ResponsibilityDefinitionImpl(this, node, StereotypesHelper.getStereotype(node, embeddedScreenFlowTask));
 	}
+	public String getImplementationCodeFor(Model m,String artefactName){
+		Map<String,String> map = implementationCode.get(m);
+		if(map == null){
+			try{
+				map=new HashMap<String,String>();
+				implementationCode.put(m, map);
+				URI uri = m.eResource().getURI().trimFileExtension().appendFileExtension("zip");
+				uri = m.eResource().getResourceSet().getURIConverter().normalize(uri);
+				File file = uriToFileConverter.resolveUri(uri);
+				if(file != null){
+					ZipFile zipFile = new ZipFile(file);
+					java.util.Enumeration<? extends ZipEntry> entries = zipFile.entries();
+					while(entries.hasMoreElements()){
+						ZipEntry zipEntry = entries.nextElement();
+						if(!zipEntry.isDirectory()){
+							BufferedReader reader = new BufferedReader(new InputStreamReader(zipFile.getInputStream(zipEntry)));
+							StringBuilder sb = new StringBuilder();
+							String line;
+							while((line = reader.readLine()) != null){
+								sb.append(line);
+								sb.append("\n");
+							}
+							map.put(zipEntry.getName(), sb.toString());
+						}
+					}
+				}
+			}catch(IOException e){
+				System.out.println(e.toString());
+			}
+		}
+		return map.get(artefactName);
+	}
+
 }

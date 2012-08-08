@@ -3,7 +3,6 @@ package org.opaeum.javageneration.composition;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
-import nl.klasse.octopus.model.IModelElement;
 
 import org.eclipse.ocl.uml.MessageType;
 import org.eclipse.uml2.uml.Association;
@@ -98,7 +97,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			Property endToComposite = getLibrary().getEndToComposite(entity);
 			if(endToComposite != null && !endToComposite.isDerived()){
 				if(endToComposite.getAssociation() != null && EmfAssociationUtil.isClass(endToComposite.getAssociation())){
-					AssociationClassEndMap aMap = new AssociationClassEndMap(endToComposite);
+					AssociationClassEndMap aMap = new AssociationClassEndMap(ojUtil, endToComposite);
 					addToOwningObject.getBody().addToStatements(
 							aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "("
 									+ aMap.getEndToAssocationClassMap().getter() + "())");
@@ -221,7 +220,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		OJOperation getOwner = new OJAnnotatedOperation(GET_OWNING_OBJECT);
 		if(isPersistent(c)){
 			getOwner.setReturnType(COMPOSITION_NODE);
-		}else {
+		}else{
 			Property endToComposite = getLibrary().getEndToComposite(c);
 			if(endToComposite != null){
 				getOwner.setReturnType(ojUtil.classifierPathname(endToComposite.getType()));
@@ -231,7 +230,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		Property endToComposite = getLibrary().getEndToComposite(c);
 		if(endToComposite != null){
 			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(endToComposite);
-			getOwner.getBody().addToStatements("return " +map.getter() + "()");
+			getOwner.getBody().addToStatements("return " + map.getter() + "()");
 		}else{
 			getOwner.getBody().addToStatements("return null");
 		}
@@ -250,27 +249,22 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	private void invokeOperationRecursively(Classifier ew,OJOperation markDeleted,String operationName){
-		List<? extends Property> awss = ew.getAttributes();
-		for(int i = 0;i < awss.size();i++){
-			IModelElement a = (IModelElement) awss.get(i);
-			if(a instanceof Property){
-				Property np = (Property) a;
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
-				if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !np.isDerived()){
-					Classifier type = (Classifier) np.getType();
-					if(map.isMany()){
-						markDeleted.getOwner().addToImports("java.util.ArrayList");
-						OJForStatement forEach = new OJForStatement();
-						forEach.setCollection("new ArrayList<" + map.javaBaseDefaultType() + ">(" + map.getter() + "())");
-						forEach.setElemType(ojUtil.classifierPathname(type));
-						forEach.setElemName("child");
-						forEach.setBody(new OJBlock());
-						forEach.getBody().addToStatements("child." + operationName);
-						markDeleted.getBody().addToStatements(forEach);
-					}else if(map.isOne()){
-						OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + operationName);
-						markDeleted.getBody().addToStatements(ifNotNull);
-					}
+		for(Property np:getLibrary().getEffectiveAttributes(ew)){
+			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
+			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !np.isDerived()){
+				Classifier type = (Classifier) np.getType();
+				if(map.isMany()){
+					markDeleted.getOwner().addToImports("java.util.ArrayList");
+					OJForStatement forEach = new OJForStatement();
+					forEach.setCollection("new ArrayList<" + map.javaBaseDefaultType() + ">(" + map.getter() + "())");
+					forEach.setElemType(ojUtil.classifierPathname(type));
+					forEach.setElemName("child");
+					forEach.setBody(new OJBlock());
+					forEach.getBody().addToStatements("child." + operationName);
+					markDeleted.getBody().addToStatements(forEach);
+				}else if(map.isOne()){
+					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + operationName);
+					markDeleted.getBody().addToStatements(ifNotNull);
 				}
 			}
 		}
