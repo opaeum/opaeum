@@ -41,7 +41,7 @@ public class PersistentNameUtil{
 			// TODO check if this was necessary
 			boolean isCmCompatible = true;
 			boolean isPersistentInterface = tew.getType() instanceof Interface && !EmfClassifierUtil.isHelper(tew.getType());
-			if(EmfClassifierUtil.isComplexStructure(tew.getType()) && !(isCmCompatible && isPersistentInterface)){
+			if(tew.getType()!=null&& EmfClassifierUtil.isComplexStructure(tew.getType()) && !(isCmCompatible && isPersistentInterface)){
 				// foreign key
 				// TODO re-evaluate the _id thing
 				generatedName = NameConverter.toUnderscoreStyle(name) + "_id";

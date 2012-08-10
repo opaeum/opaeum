@@ -1,19 +1,21 @@
 package org.opaeum.eclipse;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.TreeSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.ocl.uml.MessageType;
 import org.eclipse.uml2.uml.Activity;
-import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
@@ -51,23 +53,30 @@ import org.opaeum.metamodel.workspace.AbstractStrategyFactory.ISimpleTypeStrateg
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class EmfClassifierUtil{
+	private static Map<String,java.lang.Class<?>> classRegistry;
+	public static void setClassRegistry(Map<String,java.lang.Class<?>> reg){
+		classRegistry = reg;
+	}
 	public static CodeGenerationStrategy getCodeGenerationStrategy(NamedElement c){
-		EList<Stereotype> appliedStereotypes = c.getAppliedStereotypes();
-		for(Stereotype st:appliedStereotypes){
-			CodeGenerationStrategy codeGenerationStrategy = null;
-			if(st.getAttribute(TagNames.MAPPED_IMPLEMENTATION_TYPE, null) != null
-					|| st.getAttribute(TagNames.MAPPED_IMPLEMENTATION_PACKAGE, null) != null){
+		CodeGenerationStrategy codeGenerationStrategy = CodeGenerationStrategy.ALL;
+		if(c instanceof Classifier){
+			Classifier cl = (Classifier) c;
+			String s = (String) getTagValue(cl, TagNames.MAPPED_IMPLEMENTATION_TYPE);
+			if(s != null){
 				codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
 			}
-			if(st.getAttribute(TagNames.CODE_GENERATION_STRATEGY, null) != null){
-				EnumerationLiteral l = (EnumerationLiteral) c.getValue(st, TagNames.CODE_GENERATION_STRATEGY);
+			//TODO this bit is obsolete
+			EEnumLiteral l = (EEnumLiteral) getTagValue(cl, TagNames.CODE_GENERATION_STRATEGY);
+			if(l != null){
 				codeGenerationStrategy = Enum.valueOf(CodeGenerationStrategy.class, l.getName().toUpperCase());
 			}
-			if(codeGenerationStrategy != null){
-				return codeGenerationStrategy;
+			if(Boolean.TRUE.equals(getTagValue(cl, "generateAbstractSupertype"))){
+				codeGenerationStrategy=CodeGenerationStrategy.ABSTRACT_SUPERTYPE_ONLY;
 			}
+		}else if(c instanceof Package && EmfPackageUtil.hasMappedImplementationPackage((Package) c)){
+			codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
 		}
-		return CodeGenerationStrategy.ALL;
+		return codeGenerationStrategy;
 	}
 	public static boolean hasMappedImplementationType(Classifier classifier){
 		String mit = getMappedImplementationType(classifier);
@@ -117,7 +126,11 @@ public class EmfClassifierUtil{
 		Object value = getTagValue(dt, tagName);
 		AbstractStrategyFactory stf = null;
 		if(value != null){
-			stf = (AbstractStrategyFactory) IntrospectionUtil.newInstance((String) value);
+			if(classRegistry.containsKey(value)){
+				stf = (AbstractStrategyFactory) IntrospectionUtil.newInstance(classRegistry.get(value));
+			}else{
+				stf = (AbstractStrategyFactory) IntrospectionUtil.newInstance((String) value);
+			}
 		}
 		return stf;
 	}
@@ -179,7 +192,7 @@ public class EmfClassifierUtil{
 	}
 	public static boolean isSimpleType(Type type){
 		return type instanceof PrimitiveType
-				|| (type.eClass().equals(UMLPackage.eINSTANCE.getDataType()) || StereotypesHelper.hasStereotype(type, StereotypeNames.VALUE_TYPE));
+				|| (type.eClass().equals(UMLPackage.eINSTANCE.getDataType()) && StereotypesHelper.hasStereotype(type, StereotypeNames.VALUE_TYPE));
 	}
 	@SuppressWarnings({"unchecked","rawtypes"})
 	public static Collection<BehavioredClassifier> getConcreteEntityImplementationsOf(Interface baseType,Collection<Package> models){
@@ -189,13 +202,13 @@ public class EmfClassifierUtil{
 		return (Collection) results;
 	}
 	public static Collection<Classifier> getAllSubClassifiers(Classifier baseType,Collection<Package> models){
-		Set<Classifier> results = new HashSet<Classifier>();
+		Set<Classifier> results = new TreeSet<Classifier>(new ElementComparator());
 		addConcreteSubclasses(results, baseType, models, false);
 		results.remove(baseType);
 		return results;
 	}
 	public static Collection<Classifier> getAllConcreteSubClassifiers(Classifier baseType,Collection<Package> models){
-		Set<Classifier> results = new HashSet<Classifier>();
+		Set<Classifier> results = new TreeSet<Classifier>(new ElementComparator());
 		addConcreteSubclasses(results, baseType, models, true);
 		results.remove(baseType);
 		return results;
@@ -218,7 +231,7 @@ public class EmfClassifierUtil{
 		}
 	}
 	public static Collection<Classifier> getSubClasses(Classifier c){
-		Set<Classifier> result = new HashSet<Classifier>();
+		Set<Classifier> result = new TreeSet<Classifier>(new ElementComparator());
 		Collection<Setting> refs = ECrossReferenceAdapter.getCrossReferenceAdapter(c.eResource().getResourceSet())
 				.getNonNavigableInverseReferences(c);
 		for(Setting setting:refs){
@@ -230,7 +243,7 @@ public class EmfClassifierUtil{
 		return result;
 	}
 	public static Collection<BehavioredClassifier> getImplementingClassifiers(Interface i){
-		Set<BehavioredClassifier> result = new HashSet<BehavioredClassifier>();
+		Set<BehavioredClassifier> result = new TreeSet<BehavioredClassifier>(new ElementComparator());
 		Collection<Setting> refs = ECrossReferenceAdapter.getCrossReferenceAdapter(i.eResource().getResourceSet())
 				.getNonNavigableInverseReferences(i);
 		for(Setting setting:refs){
@@ -272,23 +285,25 @@ public class EmfClassifierUtil{
 		}else if(type instanceof IEmulatedElement){
 			Element element = ((IEmulatedElement) type).getOriginalElement();
 			if(element instanceof Operation){
-				return EmfBehaviorUtil.isLongRunning((Operation)element);
+				return EmfBehaviorUtil.isLongRunning((Operation) element);
 			}else if(element instanceof StructuredActivityNode){
 				StructuredActivityNode n = (StructuredActivityNode) element;
-				Activity a= EmfActivityUtil.getContainingActivity(n);
+				Activity a = EmfActivityUtil.getContainingActivity(n);
 				return EmfBehaviorUtil.isProcess(a);
 			}else if(element instanceof OpaqueAction){
 				return EmfActionUtil.isEmbeddedTask((OpaqueAction) element);
 			}else{
 				return false;
 			}
-		}else {
-			return type instanceof Class || type instanceof Actor ||  EmfClassifierUtil.isBusinessCollaboration(type) ;
+		}else{
+			return type instanceof Class || type instanceof Actor || EmfClassifierUtil.isBusinessCollaboration(type)
+					|| (type instanceof Association && EmfAssociationUtil.isClass((Association) type)) || EmfClassifierUtil.isStructuredDataType(type);
 		}
 	}
 	public static boolean isComplexStructure(Type type){
-		if(type instanceof Class || type instanceof Actor || type instanceof Collaboration
-				|| type instanceof MessageType){
+		if(type instanceof Signal || type instanceof Class || type instanceof Actor || type instanceof Collaboration
+				|| type instanceof MessageType || isStructuredDataType(type)
+				|| (type instanceof Association && EmfAssociationUtil.isClass((Association) type))){
 			return true;
 		}
 		return false;
@@ -320,7 +335,7 @@ public class EmfClassifierUtil{
 		return null;
 	}
 	public static Collection<Property> getPrimaryKeyProperties(Class class1){
-		Collection<Property> result = new HashSet<Property>();
+		Collection<Property> result = new TreeSet<Property>(new ElementComparator());
 		for(Property property:class1.getOwnedAttributes()){
 			if(EmfPropertyUtil.isMarkedAsPrimaryKey(property)){
 				result.add(property);
@@ -340,11 +355,10 @@ public class EmfClassifierUtil{
 		}
 		return null;
 	}
-	public static boolean isPowerTypeInstanceOn(Class entity,Enumeration type){
-		EList<Generalization> generalizations = entity.getGeneralizations();
-		for(Generalization generalization:generalizations){
+	public static boolean isPowerTypeInstanceOn(Class entity,Enumeration powerType){
+		for(Generalization generalization:entity.getGeneralizations()){
 			for(GeneralizationSet gs:generalization.getGeneralizationSets()){
-				if(gs.getPowertype() == type){
+				if(gs.getPowertype() == powerType){
 					return true;
 				}
 			}
@@ -379,5 +393,13 @@ public class EmfClassifierUtil{
 			}
 		}
 		return c.eClass().getName();
+	}
+	public static <T extends Classifier> T getRootClass(T classifier){
+		for(Classifier c:classifier.getGenerals()){
+			if(classifier.eClass().isInstance(c)){
+				return getRootClass((T)c);
+			}
+		}
+		return classifier;
 	}
 }

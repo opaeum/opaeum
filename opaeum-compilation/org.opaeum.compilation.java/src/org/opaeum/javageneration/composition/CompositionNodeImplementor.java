@@ -10,6 +10,7 @@ import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.StateMachine;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.feature.StepDependency;
@@ -242,6 +243,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
+	
 		if(EmfClassifierUtil.isCompositionParticipant(umlOwner)){
 			visitClass((Classifier) umlOwner);
 		}else if(EmfClassifierUtil.isStructuredDataType(umlOwner)){

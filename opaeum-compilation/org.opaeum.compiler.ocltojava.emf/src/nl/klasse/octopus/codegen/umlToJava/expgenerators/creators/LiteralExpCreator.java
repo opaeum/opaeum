@@ -16,11 +16,13 @@ import org.eclipse.ocl.uml.CollectionItem;
 import org.eclipse.ocl.uml.CollectionLiteralExp;
 import org.eclipse.ocl.uml.CollectionLiteralPart;
 import org.eclipse.ocl.uml.CollectionRange;
+import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.ocl.uml.EnumLiteralExp;
 import org.eclipse.ocl.uml.IntegerLiteralExp;
 import org.eclipse.ocl.uml.LiteralExp;
 import org.eclipse.ocl.uml.NumericLiteralExp;
 import org.eclipse.ocl.uml.OCLExpression;
+import org.eclipse.ocl.uml.PropertyCallExp;
 import org.eclipse.ocl.uml.RealLiteralExp;
 import org.eclipse.ocl.uml.StateExp;
 import org.eclipse.ocl.uml.StringLiteralExp;
@@ -32,19 +34,21 @@ import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.javageneration.util.OJUtil;
 
 public class LiteralExpCreator{
 	private OJClass myClass = null;
 	OJUtil ojUtil;
-	public LiteralExpCreator(OJUtil ojUtil, OJClass myClass){
+	public LiteralExpCreator(OJUtil ojUtil,OJClass myClass){
 		this.myClass = myClass;
-		this.ojUtil=ojUtil;
+		this.ojUtil = ojUtil;
 	}
 	public String makeExpression(LiteralExp in,boolean isStatic,List<OJParameter> params){
 		String result = "";
@@ -68,7 +72,7 @@ public class LiteralExpCreator{
 			if(in instanceof IntegerLiteralExp){
 				result = ((IntegerLiteralExp) in).toString();
 			}else if(in instanceof RealLiteralExp){
-				result = "(float)" + ((RealLiteralExp) in).toString();
+				result = "(Double)" + ((RealLiteralExp) in).toString();
 			}
 		}else if(in instanceof StringLiteralExp){
 			result = StringHelpers.replaceAllSubstrings(((StringLiteralExp) in).toString(), "'", "\"");
@@ -106,7 +110,6 @@ public class LiteralExpCreator{
 		myClass.addToImports(tuplePath);
 		return result;
 	}
-
 	private String makeCollectionLiteralExp(CollectionLiteralExp exp,boolean isStatic,List<OJParameter> params){
 		// generate a separate operation
 		ClassifierMap mapper = ojUtil.buildClassifierMap(exp.getType());
@@ -114,7 +117,6 @@ public class LiteralExpCreator{
 		myClass.addToImports(mapper.javaTypePath());
 		String operName = "collectionLiteral" + myClass.getUniqueNumber();
 		OJOperation oper = null;
-
 		oper = new OJOperation();
 		myClass.addToOperations(oper);
 		oper.setReturnType(mapper.javaTypePath());
@@ -139,19 +141,25 @@ public class LiteralExpCreator{
 		Iterator<?> partsIter = exp.getPart().iterator();
 		while(partsIter.hasNext()){
 			CollectionLiteralPart part = (CollectionLiteralPart) partsIter.next();
-			String elemToAdd = "";
 			if(part instanceof CollectionItem){
 				OCLExpression item = (OCLExpression) ((CollectionItem) part).getItem();
 				String str = myExpMaker.makeExpression(item, isStatic, params);
+				OJStatement addStatement = null;
 				if(EmfClassifierUtil.comformsToLibraryType(item.getType(), IOclLibrary.IntegerTypeName)){
-					elemToAdd = "new Integer(" + str + ")";
+					addStatement = new OJSimpleStatement(collectionVarName + ".add( new Integer(" + str + ") )");
 				}else if(EmfClassifierUtil.comformsToLibraryType(item.getType(), IOclLibrary.RealTypeName)){
-					elemToAdd = "new Float(" + str + ")";
+					addStatement = new OJSimpleStatement(collectionVarName + ".add(  new Double(" + str + ") )");
 				}else{
-					elemToAdd = str;
+					// NB!! Eclipse qualified associations still see multiplicity[0..1] as a single object, and not a set, therefore
+					// an expression invoking the qualified property as a collection will be interpreted as a collection item
+					if(exp.getPart().size()==1 && item instanceof PropertyCallExp && ((PropertyCallExp) item).getReferredProperty().getQualifiers().size()>0 && ((PropertyCallExp)item).getQualifier().isEmpty()){
+						addStatement = new OJSimpleStatement(collectionVarName + ".addAll( " + str + " )");
+					}else{
+						// TODO may have to optimise by storing the value in a variable to eliminate multiple invocations
+						addStatement = new OJIfStatement(str + " != null", collectionVarName + ".add( " + str + " )");
+					}
 				}
-				OJSimpleStatement exp2 = new OJSimpleStatement(collectionVarName + ".add( " + elemToAdd + " )");
-				body.addToStatements(exp2);
+				body.addToStatements(addStatement);
 			}
 			if(part instanceof CollectionRange){
 				String first = myExpMaker.makeExpression((OCLExpression) ((CollectionRange) part).getFirst(), isStatic, params);

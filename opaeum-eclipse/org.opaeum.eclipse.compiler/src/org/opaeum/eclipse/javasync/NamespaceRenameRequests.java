@@ -54,5 +54,10 @@ public class NamespaceRenameRequests implements OpaeumSynchronizationListener,Op
 	@Override
 	public void onSave(IProgressMonitor monitor,OpenUmlFile f){
 	}
+	@Override
+	public void onClose(OpenUmlFile openUmlFile){
+		this.renamedRequestsByNewName=null;
+		
+	}
 
 }

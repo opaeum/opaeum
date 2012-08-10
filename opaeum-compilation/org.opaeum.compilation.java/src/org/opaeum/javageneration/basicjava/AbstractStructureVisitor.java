@@ -23,6 +23,7 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
@@ -47,6 +48,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true,match = {Class.class,DataType.class,Association.class,Signal.class,Component.class,Enumeration.class,
 			Behavior.class,Actor.class,Collaboration.class})
 	public void visitFeaturesOf(Classifier c){
+
 		if(OJUtil.hasOJClass(c) || (EmfElementUtil.isMarkedForDeletion(c) && !ignoreDeletedElements())){
 			if(EmfClassifierUtil.isComplexStructure(c)){
 				visitComplexStructure((Classifier) c);
@@ -63,7 +65,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			Set<Property> directlyImplementedAttributes = getLibrary().getDirectlyImplementedAttributes(c);
 			for(Property p:directlyImplementedAttributes){
 				if(p.isNavigable()){
-					if(OJUtil.hasOJClass((Classifier) p.getAssociation())){
+					if( OJUtil.hasOJClass((Classifier) p.getAssociation())){
 						visitAssociationClassProperty(c, new AssociationClassEndMap(ojUtil, p));
 					}else{
 						StructuralFeatureMap buildStructuralFeatureMap = ojUtil.buildStructuralFeatureMap(p);

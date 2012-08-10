@@ -10,6 +10,7 @@ import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.ActivityPartition;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -18,7 +19,7 @@ import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.CreateObjectAction;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.InvocationAction;
 import org.eclipse.uml2.uml.NamedElement;
@@ -39,20 +40,19 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuralFeatureAction;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.WriteStructuralFeatureAction;
 import org.eclipse.uml2.uml.WriteVariableAction;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.ocl.uml.ResponsibilityDefinition;
 
 public class EmfActionUtil{
 	public static boolean isActionWithTargetPin(Action a){
 		return a instanceof StructuralFeatureAction || a instanceof CallOperationAction || a instanceof SendSignalAction
 				|| a instanceof SendObjectAction || a instanceof StartClassifierBehaviorAction || a instanceof StartObjectBehaviorAction;
 	}
-
 	public static InputPin getTargetPin(Action a){
 		if(a instanceof StructuralFeatureAction){
 			return ((StructuralFeatureAction) a).getObject();
@@ -225,7 +225,6 @@ public class EmfActionUtil{
 			return false;
 		}
 	}
-
 	public static boolean hasExceptions(Action action){
 		return getExceptionPins(action).size() > 0 || action.getHandlers().size() > 0;
 	}
@@ -311,18 +310,58 @@ public class EmfActionUtil{
 		}
 		return behaviors;
 	}
-
 	public static Classifier getExpectedTargetType(Action action){
 		if(action instanceof StructuralFeatureAction){
 			return (Classifier) EmfElementFinder.getContainer(((StructuralFeatureAction) action).getStructuralFeature());
 		}else if(action instanceof CallOperationAction){
 			return (Classifier) ((CallOperationAction) action).getOperation().getOwner();
-		}else {
+		}else{
 			InputPin targetPin = getTargetPin(action);
-			if(targetPin!=null){
+			if(targetPin != null){
 				return (Classifier) targetPin.getType();
 			}
 		}
 		return null;
+	}
+	public static Classifier calculateType(ObjectNode target){
+		Classifier result = null;
+		if(target.getType() != null){
+			result = (Classifier) target.getType();
+		}else if(target instanceof ActivityParameterNode){
+			ActivityParameterNode apn = (ActivityParameterNode) target;
+			if(apn.getParameter() != null){
+				result = (Classifier) apn.getParameter().getType();
+			}
+		}else if(target instanceof Pin){
+			Pin pin = (Pin) target;
+			TypedElement te = getLinkedTypedElement(pin);
+			if(te == null){
+				Action owner = (Action) pin.getOwner();
+				if(getTargetPin(owner) == pin){
+					result = getExpectedTargetType(owner);
+				}
+				if(result == null){
+					if(owner instanceof CreateObjectAction && ((CreateObjectAction) owner).getResult() == target){
+						result = ((CreateObjectAction) owner).getClassifier();
+					}else if(owner instanceof WriteStructuralFeatureAction && ((WriteStructuralFeatureAction) owner).getResult() == target){
+						result = (Classifier) EmfElementFinder.getContainer(((WriteStructuralFeatureAction) owner).getStructuralFeature());
+					}
+				}
+			}
+		}
+		if(result == null){
+			ObjectNode feedingNode = EmfActivityUtil.getFeedingNode(target);
+			if(feedingNode == null){
+			}else{
+				result = calculateType(feedingNode);
+			}
+		}
+		if(result == null){
+			ObjectNode fedNode = EmfActivityUtil.getFedNode(target);
+			if(fedNode != null){
+				result = calculateType(fedNode);
+			}
+		}
+		return result;
 	}
 }

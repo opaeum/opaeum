@@ -2,9 +2,9 @@ package org.opaeum.eclipse;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.event.ChangeEvent;
 
@@ -67,7 +67,7 @@ public class EmfEventUtil{
 	}
 	public static Collection<Event> getEventsInScopeForClassAsContext(BehavioredClassifier bc){
 		Set<Behavior> effectiveBehaviors = getEffectiveBehaviors(bc);
-		Collection<Event> allEvents= new HashSet<Event>();
+		Collection<Event> allEvents= new TreeSet<Event>(new ElementComparator());
 		for(Behavior behavior:effectiveBehaviors){
 			if(behavior instanceof StateMachine){
 				allEvents.addAll(getAllEvents((StateMachine) behavior));
@@ -81,7 +81,7 @@ public class EmfEventUtil{
 		return EmfBehaviorUtil.getEffectiveBehaviors(bc);
 	}
 	public static Collection<Event> getAllEvents(Activity activity){
-		Collection<Event> events = new HashSet<Event>();
+		Collection<Event> events = new TreeSet<Event>(new ElementComparator());
 		Collection<ActivityNode> nodes = EmfActivityUtil.getActivityNodes(activity);
 		for(ActivityNode node:nodes){
 			if(node instanceof AcceptEventAction){
@@ -94,7 +94,7 @@ public class EmfEventUtil{
 		return events;
 	}
 	public static Collection<Event> getAllEvents(StateMachine sm){
-		Collection<Event> events = new HashSet<Event>();
+		Collection<Event> events = new TreeSet<Event>(new ElementComparator());
 		Collection<Transition> transitions = EmfStateMachineUtil.getTransitions(sm);
 		for(Transition transition:transitions){
 			EList<Trigger> triggers = transition.getTriggers();

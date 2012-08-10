@@ -7,6 +7,7 @@ import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.generated.OJClassGEN;
 import org.opaeum.java.metamodel.generated.OJElementGEN;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextOutputNode;
 
 public class MemoryUtil{
@@ -31,11 +32,12 @@ public class MemoryUtil{
 						System.out.println(entry.getKey().getName() + "=" + entry.getValue());
 					}
 					for(OJPathName p:OJPackage.pkgs.keySet()){
-						System.out.println(p);
+//						System.out.println(p);
 					}
 					for(OJPathName p:OJClassGEN.pns){
-						System.out.println(p);
+//						System.out.println(p);
 					}
+					System.out.println("OJUtil.instanceCount:"+OJUtil.instanceCount);
 	
 				}
 			}, 0);

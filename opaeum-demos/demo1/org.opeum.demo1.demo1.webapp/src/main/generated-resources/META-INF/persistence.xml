@@ -8,62 +8,151 @@
 	<persistence-unit name="demo1">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>org.opaeum.runtime.bpm.businesscalendar.WorkDay</class>
-		<class>structuredbusiness.Technician</class>
+		<class>opaeumstandardprofile.Model</class>
+		<class>opaeumbpmprofile.Method</class>
+		<class>ocltests.SailPositionEntity</class>
+		<class>opaeumstandardprofile.AbstractProperty</class>
+		<class>org.opaeum.runtime.domain.TaskDelegationEntity</class>
+		<class>ocltests.BusinessRole1</class>
 		<class>structuredbusiness.Online_Customer</class>
+		<class>ocltests.Boat</class>
+		<class>opaeumstandardprofile.Property</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.WorkDayKindEntity</class>
-		<class>org.opaeum.runtime.bpm.request.ProcessRequest</class>
+		<class>opaeumbpmprofile.BusinessTimeEvent</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar</class>
+		<class>opaeumbpmprofile.Swimlane</class>
+		<class>opaeumbpmprofile.BusinessChangeEvent</class>
 		<class>org.opaeum.runtime.bpm.request.TaskRequest</class>
-		<class>org.opaeum.runtime.bpm.contact.PhysicalAddress</class>
-		<class>org.opaeum.runtime.bpm.organization.BusinessNetwork</class>
-		<class>org.opaeum.runtime.bpm.request.AbstractRequest</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday</class>
+		<class>opaeumstandardprofile.Attribute</class>
+		<class>opaeumbpmprofile.SendNotificationAction</class>
 		<class>org.opaeum.runtime.bpm.organization.Organization_iBusinessComponent_1</class>
-		<class>org.opaeum.runtime.bpm.contact.OrganizationEMailAddress</class>
 		<class>structuredbusiness.VendorEntity</class>
+		<class>opaeumbpmprofile.Screen</class>
 		<class>org.opaeum.runtime.bpm.contact.PersonPhoneNumber</class>
+		<class>opaeumbpmprofile.Responsibility</class>
 		<class>org.opaeum.runtime.bpm.organization.PersonFullfillsActorRole</class>
-		<class>org.opaeum.runtime.bpm.organization.OrganizationFullfillsActorRole</class>
-		<class>org.opaeum.runtime.bpm.contact.OrganizationPhoneNumberTypeEntity</class>
-		<class>org.opaeum.runtime.bpm.organization.Leave</class>
+		<class>javax.validation.constraints.Digits</class>
+		<class>opaeumstandardprofile.Profile</class>
+		<class>opaeumbpmprofile.Notification</class>
+		<class>org.opaeum.runtime.bpm.organization.IBusinessCollaboration_iBusinessActor_1</class>
 		<class>org.opaeum.runtime.bpm.request.ParticipationInTask</class>
 		<class>structuredbusiness.Activity</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.TimeOfDay</class>
+		<class>org.hibernate.validator.constraints.Email</class>
 		<class>org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber</class>
+		<class>javax.validation.constraints.NotNull</class>
 		<class>org.opaeum.runtime.bpm.request.Participation</class>
-		<class>org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday</class>
-		<class>org.opaeum.runtime.bpm.request.RequestParticipationKindEntity</class>
-		<class>structuredbusiness.IdBook</class>
+		<class>opaeumbpmprofile.TaskAssignments</class>
+		<class>javax.validation.constraints.Null</class>
+		<class>javax.validation.ReportAsSingleViolation</class>
 		<class>structuredbusiness.Branch</class>
-		<class>org.opaeum.runtime.bpm.opaeumsimpletypes.DayOfWeekEntity</class>
+		<class>structuredbusiness.IdBook</class>
+		<class>opaeumstandardprofile.Association</class>
+		<class>javax.validation.Constraint</class>
 		<class>org.opaeum.runtime.bpm.contact.PersonEMailAddress</class>
-		<class>structuredbusiness.ApplianceTypeEntity</class>
-		<class>structuredbusiness.Structuredbusiness</class>
-		<class>org.opaeum.runtime.bpm.organization.OrganizationNode</class>
-		<class>structuredbusiness.ApplianceComponentSale</class>
+		<class>opaeumbpmprofile.ResponsibilityDelegation</class>
+		<class>opaeumstandardprofile.PrimitiveType</class>
+		<class>org.opaeum.runtime.domain.DocumentTypeEntity</class>
 		<class>org.opaeum.runtime.bpm.organization.PersonNode</class>
-		<class>structuredbusiness.Manager</class>
-		<class>model.MyBusiness</class>
-		<class>org.opaeum.runtime.bpm.businesscalendar.Duration</class>
-		<class>org.opaeum.runtime.bpm.request.ParticipationInRequest</class>
-		<class>org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeEntity</class>
+		<class>org.hibernate.validator.constraints.URL</class>
 		<class>org.opaeum.runtime.bpm.request.TaskParticipationKindEntity</class>
-		<class>structuredbusiness.CustomerAssistant</class>
-		<class>org.opaeum.runtime.bpm.organization.Person_iBusinessRole_1</class>
-		<class>structuredbusiness.ApplianceComponent</class>
-		<class>model.Class2</class>
-		<class>org.opaeum.runtime.bpm.businesscalendar.CronExpression</class>
+		<class>opaeumbpmprofile.EmbeddedTask</class>
+		<class>javax.validation.constraints.Future</class>
+		<class>org.hibernate.validator.constraints.Range</class>
+		<class>opaeumstandardprofile.AbstractPackage</class>
+		<class>org.opaeum.annotation.BusinessActor</class>
 		<class>structuredbusiness.ApplianceModel</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.CronExpression</class>
+		<class>ocltests.Sail</class>
 		<class>org.opaeum.runtime.bpm.contact.PostalAddress</class>
-		<class>model.Class1</class>
-		<class>structuredbusiness.Job</class>
-		<class>structuredbusiness.Supplier</class>
+		<class>org.hibernate.validator.constraints.ScriptAssert</class>
+		<class>javax.validation.constraints.DecimalMax</class>
+		<class>javax.validation.constraints.DecimalMin</class>
+		<class>opaeumbpmprofile.BusinessStateMachine</class>
+		<class>org.opaeum.runtime.bpm.request.ParticipationParticipant</class>
+		<class>org.hibernate.validator.constraints.NotBlank</class>
 		<class>org.opaeum.runtime.bpm.organization.BusinessNetworkFacilatatesCollaboration</class>
 		<class>org.opaeum.runtime.bpm.opaeumsimpletypes.MonthEntity</class>
+		<class>org.hibernate.validator.constraints.Length</class>
 		<class>org.opaeum.runtime.bpm.contact.Address</class>
-		<class>structuredbusiness.ApplianceDoctor</class>
 		<class>structuredbusiness.ProvinceEntity</class>
 		<class>structuredbusiness.CityEntity</class>
+		<class>opaeumstandardprofile.Helper</class>
+		<class>org.hibernate.validator.constraints.ConstraintComposition</class>
+		<class>javax.validation.constraints.Past</class>
+		<class>javax.validation.OverridesAttribute</class>
+		<class>opaeumstandardprofile.ValueType</class>
+		<class>structuredbusiness.Technician</class>
+		<class>opaeumbpmprofile.BusinessComponent</class>
+		<class>org.opaeum.runtime.bpm.request.ProcessRequest</class>
+		<class>org.opaeum.runtime.bpm.contact.PhysicalAddress</class>
+		<class>org.opaeum.runtime.bpm.organization.BusinessNetwork</class>
+		<class>org.opaeum.runtime.bpm.organization.IBusinessCollaboration_iBusinessComponent_1</class>
+		<class>org.opaeum.runtime.bpm.request.AbstractRequest</class>
+		<class>opaeumstandardprofile.AssociationEnd</class>
+		<class>opaeumstandardprofile.Component</class>
+		<class>javax.validation.constraints.Min</class>
+		<class>javax.validation.constraints.Size</class>
+		<class>org.opaeum.runtime.bpm.contact.OrganizationEMailAddress</class>
+		<class>opaeumbpmprofile.AcceptDeadlineAction</class>
+		<class>opaeumbpmprofile.BusinessCollaboration</class>
+		<class>org.hibernate.validator.constraints.CreditCardNumber</class>
+		<class>opaeumbpmprofile.BusinessDurationObservation</class>
+		<class>opaeumbpmprofile.ContextualChangeEvent</class>
+		<class>opaeumbpmprofile.StructureBusinessProcessN</class>
+		<class>org.opaeum.runtime.bpm.organization.OrganizationFullfillsActorRole</class>
+		<class>opaeumbpmprofile.BusinessService</class>
+		<class>opaeumstandardprofile.Classifier</class>
+		<class>org.opaeum.runtime.bpm.contact.OrganizationPhoneNumberTypeEntity</class>
+		<class>opaeumbpmprofile.Deadlines</class>
+		<class>opaeumstandardprofile.Interface</class>
+		<class>org.opaeum.runtime.bpm.organization.Leave</class>
+		<class>javax.validation.GroupSequence</class>
+		<class>javax.validation.constraints.Pattern</class>
+		<class>javax.validation.Valid</class>
+		<class>opaeumbpmprofile.ContextualBusinessTimeEvent</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday</class>
+		<class>opaeumstandardprofile.Entity</class>
+		<class>opaeumbpmprofile.BusinessProcess</class>
+		<class>opaeumbpmprofile.EmbeddedSingleScreenTask</class>
+		<class>org.opaeum.runtime.bpm.request.RequestParticipationKindEntity</class>
+		<class>opaeumbpmprofile.EmbeddedScreenFlowTask</class>
+		<class>org.opaeum.runtime.bpm.opaeumsimpletypes.DayOfWeekEntity</class>
+		<class>structuredbusiness.ApplianceTypeEntity</class>
+		<class>javax.validation.constraints.AssertFalse</class>
+		<class>javax.validation.constraints.AssertTrue</class>
+		<class>opaeumbpmprofile.Deadline</class>
+		<class>opaeumstandardprofile.Trigger</class>
+		<class>org.opaeum.runtime.bpm.organization.OrganizationNode</class>
+		<class>org.opaeum.runtime.domain.BusinessTimeUnitEntity</class>
+		<class>org.opaeum.annotation.BusinessRole</class>
+		<class>structuredbusiness.ApplianceComponentSale</class>
+		<class>org.opaeum.annotation.BusinessDocument</class>
+		<class>opaeumbpmprofile.AcceptTaskEventAction</class>
+		<class>opaeumbpmprofile.Observed</class>
+		<class>structuredbusiness.Manager</class>
+		<class>opaeumbpmprofile.BusinessChannel</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.Duration</class>
+		<class>javax.validation.constraints.Max</class>
+		<class>org.opaeum.runtime.bpm.request.ParticipationInRequest</class>
+		<class>opaeumstandardprofile.PowerTypeInstance</class>
+		<class>opaeumstandardprofile.Package</class>
+		<class>opaeumstandardprofile.RelativeTimeEvent</class>
+		<class>org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeEntity</class>
+		<class>org.hibernate.validator.constraints.NotEmpty</class>
+		<class>structuredbusiness.CustomerAssistant</class>
+		<class>opaeumbpmprofile.ScreenFlow</class>
+		<class>opaeumbpmprofile.Owner</class>
+		<class>org.opaeum.runtime.bpm.organization.Person_iBusinessRole_1</class>
+		<class>structuredbusiness.ApplianceComponent</class>
+		<class>opaeumbpmprofile.BusinessGateway</class>
+		<class>opaeumstandardprofile.Enumeration</class>
+		<class>structuredbusiness.Job</class>
+		<class>structuredbusiness.Supplier</class>
+		<class>org.hibernate.validator.constraints.SafeHtml</class>
+		<class>structuredbusiness.ApplianceDoctor</class>
+		<class>opaeumbpmprofile.BusinessUseCase</class>
 		<class>org.opeum.demo1.util</class>
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceEventInfo</class>

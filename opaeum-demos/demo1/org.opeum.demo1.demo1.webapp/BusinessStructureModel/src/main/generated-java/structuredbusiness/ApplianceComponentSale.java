@@ -4,11 +4,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -40,9 +38,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -121,10 +117,9 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 		getJob().z_internalAddToApplianceComponentSale((ApplianceComponentSale)this);
 	}
 	
-	static public Set<? extends ApplianceComponentSale> allInstances() {
+	static public Set<? extends ApplianceComponentSale> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
-			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
-			return new HashSet(session.readAll(structuredbusiness.ApplianceComponentSale.class));
+			return new HashSet(persistence.readAll(structuredbusiness.ApplianceComponentSale.class));
 		} else {
 			return mockedAllInstances;
 		}
@@ -171,7 +166,7 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 		return false;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForApplianceComponent",opaeumId=6098139414879603393l,opposite="applianceComponentSale",uuid="914890@_xHDdYJLBEeGnpuq6_ber_Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6098139414879603393l,opposite="applianceComponentSale",uuid="914890@_xHDdYJLBEeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_xHDdYJLBEeGnpuq6_ber_Q")
 	public ApplianceComponent getApplianceComponent() {
 		ApplianceComponent result = this.applianceComponent;
@@ -183,7 +178,7 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8688700823983782316l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_0sbXoJN8EeGzUIOTq-3iUg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8688700823983782316l,uuid="914890@_0sbXoJN8EeGzUIOTq-3iUg")
 	@NumlMetaInfo(uuid="914890@_0sbXoJN8EeGzUIOTq-3iUg")
 	public Double getCostPriceOfComponent() {
 		Double result = this.costPriceOfComponent;
@@ -191,7 +186,7 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6210166080156242980l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_nD2CEJN8EeGzUIOTq-3iUg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6210166080156242980l,uuid="914890@_nD2CEJN8EeGzUIOTq-3iUg")
 	@NumlMetaInfo(uuid="914890@_nD2CEJN8EeGzUIOTq-3iUg")
 	public Double getCostToCustomer() {
 		Double result = this.costToCustomer;
@@ -237,10 +232,6 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 	
 	public CompositionNode getOwningObject() {
 		return getJob();
-	}
-	
-	public List<ApplianceComponent> getSourcePopulationForApplianceComponent() {
-		return new ArrayList<ApplianceComponent>(Stdlib.collectionAsSet(collect1()));
 	}
 	
 	public String getUid() {
@@ -349,9 +340,6 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 		if ( job!=null ) {
 			job.z_internalAddToApplianceComponentSale(this);
 			this.z_internalAddToJob(job);
-			setDeletedOn(Stdlib.FUTURE);
-		} else {
-			markDeleted();
 		}
 	}
 	
@@ -451,17 +439,6 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 			this.job=null;
 			this.job=null;
 		}
-	}
-	
-	/** Implements ->collect( c : ApplianceModel | c.component )
-	 */
-	private Collection<ApplianceComponent> collect1() {
-		Collection<ApplianceComponent> result = new ArrayList<ApplianceComponent>();
-		for ( ApplianceModel c : this.getJob().getBranch().getDishwashersInc().getApplianceModel() ) {
-			Set<ApplianceComponent> bodyExpResult = c.getComponent();
-			result.addAll( bodyExpResult );
-		}
-		return result;
 	}
 
 }

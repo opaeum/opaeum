@@ -55,17 +55,24 @@ import org.opaeum.runtime.domain.IEnum;
 		return new HashSet<City>(java.util.Arrays.asList(values()));
 	}
 	
-	public void z_internalAddToProvince(Province val) {
-		this.province=val;
-	}
-	
-	private void setProvince(Province province) {
+	public void setProvince(Province province) {
 		if ( this.getProvince()!=null ) {
-		
+			this.getProvince().z_internalRemoveFromCity(this);
 		}
 		if ( province!=null ) {
 			province.z_internalAddToCity(this);
 			this.z_internalAddToProvince(province);
+		}
+	}
+	
+	public void z_internalAddToProvince(Province val) {
+		this.province=val;
+	}
+	
+	public void z_internalRemoveFromProvince(Province val) {
+		if ( getProvince()!=null && val!=null && val.equals(getProvince()) ) {
+			this.province=null;
+			this.province=null;
 		}
 	}
 

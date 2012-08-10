@@ -3,10 +3,10 @@ package org.opaeum.eclipse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.ocl.expressions.CollectionKind;
@@ -29,13 +29,15 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.emulated.AssociationClassToEnd;
+import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.eclipse.emulated.InverseArtificialProperty;
 import org.opaeum.eclipse.emulated.NonInverseArtificialProperty;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class EmfPropertyUtil{
 	public static Set<Property> getUniquenessConstraints(Classifier c){
-		Set<Property> result = new HashSet<Property>();
+		Set<Property> result = new TreeSet<Property>(new ElementComparator());
 		for(Property property:getDirectlyImplementedAttributes(c)){
 			if(!property.isDerived() && !property.isDerivedUnion() && property.getOtherEnd() != null
 					&& property.getOtherEnd().getQualifiers().size() > 0 && property.getOtherEnd().getUpper() == 1){
@@ -46,13 +48,13 @@ public class EmfPropertyUtil{
 	}
 	public static Set<Property> getDirectlyImplementedAttributes(Classifier c){
 		// NB remember that there might be properties specified by this class' interfaces that have already been implemented by a superclass
-		Set<String> inheritedConcretePropertyNames = new HashSet<String>();
+		Set<String> inheritedConcretePropertyNames = new TreeSet<String>();
 		for(Generalization g:c.getGeneralizations()){
 			for(Property p:getDirectlyImplementedAttributes(g.getGeneral())){
 				inheritedConcretePropertyNames.add(p.getName());
 			}
 		}
-		Set<Property> results = new HashSet<Property>();
+		Set<Property> results = new TreeSet<Property>(new ElementComparator());
 		List<Property> effectiveAttributes = getEffectiveAttributes(c);
 		for(Property p:effectiveAttributes){
 			if(p.getOwner() == c || !inheritedConcretePropertyNames.contains(p.getName())){
@@ -173,7 +175,8 @@ public class EmfPropertyUtil{
 		}else if(e instanceof OpaqueAction){
 			OpaqueAction action = (OpaqueAction) e;
 			if(action != null){
-				Collection<Pin> result = new HashSet<Pin>(action.getInputs());
+				Collection<Pin> result = new TreeSet<Pin>(new ElementComparator());
+				result.addAll(action.getInputs());
 				result.addAll(action.getOutputs());
 			}
 		}
@@ -204,7 +207,11 @@ public class EmfPropertyUtil{
 		if(f.getOtherEnd() == null || !f.getOtherEnd().isNavigable()){
 			return false;
 		}else{
-			if(f instanceof NonInverseArtificialProperty){
+			if(f instanceof EndToAssociationClass){
+				return true;
+			}else if(f instanceof AssociationClassToEnd){
+				return false;
+			}else if(f instanceof NonInverseArtificialProperty){
 				return false;
 			}else if(f instanceof InverseArtificialProperty){
 				return true;
@@ -245,7 +252,7 @@ public class EmfPropertyUtil{
 		if(property.getOtherEnd() != null){
 			Type owner = property.getOtherEnd().getType();
 			Classifier otherClass = (Classifier) property.getType();
-			Collection<Property> result = new HashSet<Property>();
+			Collection<Property> result = new TreeSet<Property>(new ElementComparator());
 			for(Association association:otherClass.getAssociations()){
 				EList<Property> memberEnds = association.getMemberEnds();
 				for(Property potentialQualifiedProperty:memberEnds){
@@ -277,7 +284,7 @@ public class EmfPropertyUtil{
 		return null;
 	}
 	public static boolean isOneToOne(Property p){
-		if(p.getOtherEnd()==null){
+		if(p.getOtherEnd() == null){
 			return false;
 		}else{
 			return !(isMany(p) || isMany(p.getOtherEnd()));

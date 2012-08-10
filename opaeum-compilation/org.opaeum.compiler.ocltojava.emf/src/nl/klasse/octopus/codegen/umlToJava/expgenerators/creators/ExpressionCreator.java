@@ -13,6 +13,7 @@ import org.eclipse.ocl.uml.LetExp;
 import org.eclipse.ocl.uml.LiteralExp;
 import org.eclipse.ocl.uml.MessageExp;
 import org.eclipse.ocl.uml.OCLExpression;
+import org.eclipse.ocl.uml.TypeExp;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.ocl.uml.VariableExp;
 import org.eclipse.uml2.uml.Classifier;
@@ -30,16 +31,21 @@ import org.opaeum.javageneration.util.OJUtil;
 public class ExpressionCreator{
 	private OJClass myClass = null;
 	OJUtil ojUtil;
-	ExpGeneratorHelper expGeneratorHelper; 
+	ExpGeneratorHelper expGeneratorHelper;
 	public ExpressionCreator(OJUtil ojUtil,OJClass myOwner){
 		super();
-		this.ojUtil=ojUtil;
-		this.expGeneratorHelper=new ExpGeneratorHelper(ojUtil);
+		this.ojUtil = ojUtil;
+		this.expGeneratorHelper = new ExpGeneratorHelper(ojUtil);
 		this.myClass = myOwner;
 	}
 	public String makeExpression(OCLExpression in,boolean isStatic,List<OJParameter> params){
 		StringBuffer thisNode = new StringBuffer();
-		if(in instanceof IfExp){
+		if(in instanceof TypeExp){
+			Classifier type=((TypeExp) in).getReferredType();
+			OJPathName javaType = ojUtil.classifierPathname(type);
+			myClass.addToImports(javaType);
+			thisNode.append(javaType.getLast());
+		}else if(in instanceof IfExp){
 			thisNode.append(makeIfExpression((IfExp) in, isStatic, params));
 		}else if(in instanceof LetExp){
 			thisNode.append(makeLetExpression((LetExp) in, isStatic, params));
@@ -56,7 +62,14 @@ public class ExpressionCreator{
 				thisNode.append(maker.makeExpressionNode((CallExp) in, isStatic, params));
 			}else{
 				StringBuffer source = new StringBuffer();
-				source.append(makeExpression((OCLExpression) ce.getSource(), isStatic, params));
+				if(ce.getSource() instanceof TypeExp){
+					TypeExp typeExp = (TypeExp) ce.getSource();
+					ClassifierMap map = ojUtil.buildClassifierMap(typeExp.getReferredType());
+					myClass.addToImports(map.javaTypePath());
+					source.append(map.javaType());
+				}else{
+					source.append(makeExpression((OCLExpression) ce.getSource(), isStatic, params));
+				}
 				thisNode.append(maker.makeExpression(ce, source, isStatic, params));
 			}
 		}else if(in instanceof VariableExp){

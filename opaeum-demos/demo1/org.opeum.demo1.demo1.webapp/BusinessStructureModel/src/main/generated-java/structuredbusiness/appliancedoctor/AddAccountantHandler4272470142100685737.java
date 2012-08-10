@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.opaeum.annotation.PropertyMetaInfo;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
 import org.opaeum.runtime.event.ICallEventHandler;
@@ -58,12 +57,12 @@ public class AddAccountantHandler4272470142100685737 implements ICallEventHandle
 		return this.isEvent;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3326746136356078816l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2393690327089260099l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ")
 	public Manager getManager() {
 		return this.manager;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1698496834697340522l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=764729956015188894l,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ")
 	public String getName() {
 		return this.name;
 	}
@@ -82,7 +81,7 @@ public class AddAccountantHandler4272470142100685737 implements ICallEventHandle
 		}
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7742455353317600026l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6316818369965993872l,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ")
 	public String isChartered() {
 		return this.isChartered;
 	}

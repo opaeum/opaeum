@@ -52,8 +52,9 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,El
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		for(Element element:elements){
+			emfWorkspace.getErrorMap().getErrors().remove(EmfWorkspace.getId(element));
 			for(AbstractValidator v:validators){
-				v.visitRecursively((Element) element);
+				v.visitOnly(element);
 			}
 		}
 		return elements;

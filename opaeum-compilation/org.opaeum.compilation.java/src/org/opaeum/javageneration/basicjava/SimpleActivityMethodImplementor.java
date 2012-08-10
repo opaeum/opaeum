@@ -90,7 +90,7 @@ import org.opaeum.javageneration.basicjava.simpleactions.VariableValueRemover;
 import org.opaeum.javageneration.oclexpressions.PreAndPostConditionGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
-import org.opaeum.ocl.uml.OclContext;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	OperationAnnotator.class
@@ -236,7 +236,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 				elseBlock.addToStatements(ifStatement);
 				BehavioredClassifier ctx = EmfActivityUtil.getContainingActivity(cn).getContext();
 				if(edge.getGuard() instanceof OpaqueExpression){
-					OclContext oclExpressionContext = getLibrary().getOclExpressionContext((OpaqueExpression) edge.getGuard());
+					OpaqueExpressionContext oclExpressionContext = getLibrary().getOclExpressionContext((OpaqueExpression) edge.getGuard());
 					ifStatement.setCondition(valueSpecificationUtil.expressOcl(oclExpressionContext, operation,  getLibrary().getBooleanType()));
 				}
 				implementNode(operation, ifStatement.getThenPart(), EmfActivityUtil.getEffectiveTarget(edge));

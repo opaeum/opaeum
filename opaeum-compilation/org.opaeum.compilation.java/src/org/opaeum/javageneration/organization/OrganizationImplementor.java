@@ -41,7 +41,8 @@ public class OrganizationImplementor extends AbstractStructureVisitor{
 					br.addClassValue(ojUtil.classifierPathname(p.getType()));
 				}
 			}
-			if ( EmfClassifierUtil.isBusinessCollaboration(getLibrary().getEndToComposite(bc).getType() )){
+			Property endToComposite = getLibrary().getEndToComposite(bc);
+			if (endToComposite!=null&& EmfClassifierUtil.isBusinessCollaboration(endToComposite.getType() )){
 				an.putAttribute("isRoot", true);
 			}
 			Class adminRole = EmfClassifierUtil.getAdminRole( bc);

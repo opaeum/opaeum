@@ -32,6 +32,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Pin;
+import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.SendSignalAction;
@@ -45,6 +46,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Vertex;
 import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
@@ -55,27 +57,31 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	OpaeumLibrary library;
 	Element context;
 	private Collection<Variable> variables;
-	
-	public OpaeumEnvironment(Element context,
+	public OpaeumEnvironment(
+			Element context,
 			Environment<Package,Classifier,Operation,Property,EnumerationLiteral,Parameter,State,CallOperationAction,SendSignalAction,Constraint,Class,EObject> parent,
-			OpaeumLibrary library, Collection<Variable> variables){
+			OpaeumLibrary library,Collection<Variable> variables){
 		super(parent);
-		this.context=context;
+		Variable self = UMLFactory.eINSTANCE.createVariable();
+		self.setName("self");
+		self.setType(EmfBehaviorUtil.getSelf(context));
+		setSelfVariable(self);
+		this.context = context;
 		this.library = library;
-		this.variables=variables;
+		this.variables = variables;
+		setProblemHandler(new OpaeumOclProblemHandler(getParser()));
 	}
 	@Override
 	public org.eclipse.ocl.expressions.Variable<Classifier,Parameter> lookup(String name){
 		org.eclipse.ocl.expressions.Variable<Classifier,Parameter> result = super.lookup(name);
-		if(result==null){
+		if(result == null){
 			Collection<org.eclipse.ocl.expressions.Variable<Classifier,Parameter>> variables = new HashSet<org.eclipse.ocl.expressions.Variable<Classifier,Parameter>>();
 			addSpecialVariables(variables);
 			for(org.eclipse.ocl.expressions.Variable<Classifier,Parameter> variable:variables){
 				if(UMLForeignMethods.isNamed(name, (NamedElement) variable)){
-					result=variable;
+					result = variable;
 					break;
 				}
-				
 			}
 		}
 		return result;
@@ -97,6 +103,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	}
 	@Override
 	public Classifier lookupClassifier(List<String> names){
+
 		Classifier cls = getContextClassifier();
 		if(cls.getOwner() instanceof Namespace){
 			// Try the owner's nestedClassifier/ownedBehavior containment hierarchy first
@@ -117,7 +124,13 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 				ns = (Namespace) ns.getMember(string, false, UMLPackage.eINSTANCE.getClassifier());
 			}
 		}
-		if(ns instanceof Classifier){
+		if(ns instanceof Behavior){
+			if(EmfBehaviorUtil.hasExecutionInstance((Behavior) ns)){
+				return (Behavior) ns;
+			}else{
+				return null;
+			}
+		}else if(ns instanceof Classifier){
 			return (Classifier) ns;
 		}
 		Classifier result = super.lookupClassifier(names);
@@ -313,7 +326,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		List<TypedElement> tes = EmfElementFinder.getTypedElementsInScope(context);
 		for(TypedElement te:tes){
 			if(te instanceof org.eclipse.uml2.uml.Variable || te instanceof Parameter || te instanceof Pin){
-				Variable var = UMLFactory.eINSTANCE.createVariable();
+				Variable var = new EmulatedVariable(te);
 				var.setType(te.getType());
 				var.setName(te.getName());
 				variables.add(var);
@@ -328,14 +341,17 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 				variables.add(var);
 			}
 		}
-		if(organizationLib != null){
-			Type br = organizationLib.getOwnedType("OpaeumPerson");
-			if(br != null){
-				Variable var = UMLFactory.eINSTANCE.createVariable();
-				var.setType(br);
-				var.setName("currentUser");
-				variables.add(var);
-			}
+		if(library.getPersonNode() != null){
+			Variable var = UMLFactory.eINSTANCE.createVariable();
+			var.setType(library.getPersonNode());
+			var.setName("currentUser");
+			variables.add(var);
+		}
+		if(library.getBusinessRole() != null){
+			Variable var = UMLFactory.eINSTANCE.createVariable();
+			var.setType(library.getBusinessRole());
+			var.setName("currentRole");
+			variables.add(var);
 		}
 		if(simpleTypes != null){
 			Type br = simpleTypes.getOwnedType("DateTime");
@@ -347,29 +363,65 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 			}
 		}
 		variables.addAll(this.variables);
-
 	}
-	private void addDurationObservations(Collection<org.eclipse.ocl.expressions.Variable<Classifier,Parameter>> variables, Element element,Type duration,String businesStateMachine){
+	private void addDurationObservations(Collection<org.eclipse.ocl.expressions.Variable<Classifier,Parameter>> variables,Element element,
+			Type duration,String businesStateMachine){
 		Stereotype s = StereotypesHelper.getStereotype(element, businesStateMachine);
 		if(s != null){
 			EList<DurationObservation> obs = (EList<DurationObservation>) element.getValue(s, "durationObservations");
-			for(DurationObservation timeObservation:obs){
-				Variable var = UMLFactory.eINSTANCE.createVariable();
+			for(DurationObservation ob:obs){
+				Variable var = new EmulatedVariable(ob);
 				var.setType(duration);
+				var.setName(ob.getName());
 				variables.add(var);
 			}
 		}
 	}
-	protected void addTimeObservations(Collection<org.eclipse.ocl.expressions.Variable<Classifier,Parameter>> variables, Element element,Type br,String businesStateMachine){
+	protected void addTimeObservations(Collection<org.eclipse.ocl.expressions.Variable<Classifier,Parameter>> variables,Element element,
+			Type br,String businesStateMachine){
 		Stereotype s = StereotypesHelper.getStereotype(element, businesStateMachine);
 		if(s != null){
 			EList<TimeObservation> obs = (EList<TimeObservation>) element.getValue(s, "timeObservations");
 			for(TimeObservation timeObservation:obs){
-				Variable var = UMLFactory.eINSTANCE.createVariable();
+				Variable var = new EmulatedVariable(timeObservation);
 				var.setType(br);
 				var.setName(timeObservation.getName());
 				variables.add(var);
 			}
 		}
+	}
+	@Override
+	public Property lookupProperty(Classifier owner,String name){
+		Property p = super.lookupProperty(owner, name);
+		if(p == null && owner instanceof PrimitiveType){
+			PrimitiveType pt = EmfClassifierUtil.getRootClass((PrimitiveType) owner);
+			Classifier oclType = getTypeResolver().resolve(pt);
+			if(oclType != null){
+				p = super.lookupProperty(oclType, name);
+			}
+		}
+		return p;
+	}
+	@Override
+	public Operation lookupOperation(Classifier owner,String name,List<? extends org.eclipse.ocl.utilities.TypedElement<Classifier>> args){
+		Operation o = super.lookupOperation(owner, name, args);
+		if(o == null && owner instanceof PrimitiveType){
+			PrimitiveType pt = EmfClassifierUtil.getRootClass((PrimitiveType) owner);
+			Classifier oclType = getTypeResolver().resolve(pt);
+			if(oclType != null){
+				if(name.length() > 2){
+					o = super.lookupOperation(oclType, name, args);
+				}else{
+					List<Operation> operations = getTypeChecker().getOperations(oclType);
+					for(Operation operation:operations){
+						if(operation.getName().equals(name)){
+							o = operation;
+							break;
+						}
+					}
+				}
+			}
+		}
+		return o;
 	}
 }

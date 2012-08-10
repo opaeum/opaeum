@@ -126,10 +126,10 @@ public class TransformationProcess{
 			boolean start = false;
 			for(TransformationPhase phase:phaseList){
 				if(!log.isCanceled() && (start || (start = fromPhase.isInstance(phase)))){
-					setInputModelsFor(phase);
-					phase.initializeSteps();
-					changedElements.addAll(phase.processElements(context, findElementsFor(phase, changedElements)));
-					phase.release();
+						setInputModelsFor(phase);
+						phase.initializeSteps();
+						changedElements.addAll(phase.processElements(context, findElementsFor(phase, changedElements)));
+						phase.release();
 				}
 			}
 			log.endLastTask();
@@ -250,7 +250,7 @@ public class TransformationProcess{
 	}
 	public synchronized void removeModel(Class<?> class1){
 		if(this.models.size() > 0){
-			//CHeck for size as there is some weird negative array size problem that emerges
+			// CHeck for size as there is some weird negative array size problem that emerges
 			Collection<Object> models = new ArrayList<Object>(this.models);
 			for(Object object:models){
 				if(class1.isInstance(object)){
@@ -260,11 +260,16 @@ public class TransformationProcess{
 		}
 	}
 	public synchronized void replaceModel(Object model){
-
 		removeModel(model.getClass());
 		this.models.add(model);
 	}
 	public OpaeumConfig getConfig(){
 		return this.config;
+	}
+	public void release(){
+		config=null;
+		this.models.clear();
+		this.actualClasses.clear();
+		this.phases=null;
 	}
 }

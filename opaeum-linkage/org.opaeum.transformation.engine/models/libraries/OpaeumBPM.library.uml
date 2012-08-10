@@ -785,7 +785,7 @@
           </ownedParameter>
           <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_6yDHwGIIEeGzlJ4_CwngCw" name="AddStructuralFeatureValueAction1" structuralFeature="_YJETMFYjEeGJUqEGX7bKSg">
             <eAnnotations xmi:id="_6yUNgGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
-            <object xmi:type="uml:ValuePin" xmi:id="_6yKcgGIIEeGzlJ4_CwngCw">
+            <object xmi:type="uml:ValuePin" xmi:id="_6yKcgGIIEeGzlJ4_CwngCw" name="object">
               <eAnnotations xmi:id="_60szIGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
               <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6yMRsGIIEeGzlJ4_CwngCw" value="*">
                 <eAnnotations xmi:id="_60n6oGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
@@ -796,12 +796,12 @@
                 <body>self</body>
               </value>
             </object>
-            <result xmi:id="_6yE88GIIEeGzlJ4_CwngCw">
+            <result xmi:id="_6yE88GIIEeGzlJ4_CwngCw" name="result">
               <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6yIAQGIIEeGzlJ4_CwngCw" value="*">
                 <eAnnotations xmi:id="_60fXwGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
               </upperBound>
             </result>
-            <value xmi:type="uml:ValuePin" xmi:id="_6yP8EGIIEeGzlJ4_CwngCw">
+            <value xmi:type="uml:ValuePin" xmi:id="_6yP8EGIIEeGzlJ4_CwngCw" name="value">
               <eAnnotations xmi:id="_60afQGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
               <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6yQjIGIIEeGzlJ4_CwngCw" value="*">
                 <eAnnotations xmi:id="_60TxkGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
@@ -2243,7 +2243,7 @@
   <OpaeumStandardProfile:Interface xmi:id="_1kjSEF18EeGTEsCrqX4GQw" mappedImplementationType="org.opaeum.runtime.organization.IBusinessNetwork" base_Interface="_6e-W8F13EeGKRdKItFLDfg"/>
   <OpaeumStandardProfile:Interface xmi:id="_3tTuUF18EeGTEsCrqX4GQw" mappedImplementationType="org.opaeum.runtime.organization.IOrganizationNode" base_Interface="_8ItU4F13EeGKRdKItFLDfg"/>
   <OpaeumStandardProfile:Attribute xmi:id="_YnDc4F99EeGQnpmoOY8nIw" base_Property="_3FqBQF9lEeG3X_yvufTVmw"/>
-  <OpaeumStandardProfile:Model xmi:id="_K9zXAGFAEeG5-sRmY0oorQ" mappedImplementationPackage="org.opaeum.runtime.bpm" base_Model="_qb8akM37EdqwVrslYOdUDA" modelType="REGENERATING_LIBRARY"/>
+  <OpaeumStandardProfile:Model xmi:id="_K9zXAGFAEeG5-sRmY0oorQ" mappedImplementationPackage="org.opaeum.runtime.bpm" artifactIdentifier="opaeum-runtime-bpm" base_Model="_qb8akM37EdqwVrslYOdUDA" modelType="REGENERATING_LIBRARY"/>
   <OpaeumStandardProfile:Model xmi:id="_u-OmYGFCEeGkTcsMClexwg" mappedImplementationPackage="org.opaeum.runtime.bpm" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
   <OpaeumStandardProfile:Interface xmi:id="_V5WzQGG8EeGfz5OQPVy8bA" mappedImplementationType="org.opaeum.runtime.organization.IBusinessActorBase" base_Interface="_KfH2gGG6EeGY4pS7YATNzA"/>
   <OpaeumStandardProfile:Interface xmi:id="_yjGa4GG8EeGfz5OQPVy8bA" mappedImplementationType="org.opaeum.runtime.organization.IBusinessBase" base_Interface="_MVFSkGG6EeGY4pS7YATNzA"/>

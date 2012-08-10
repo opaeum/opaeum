@@ -34,8 +34,8 @@ public class ClassifierMap extends PackageableElementMap{
 	// elementMap = newClassifierMap(modelClass);
 	// }
 	// }
-	public ClassifierMap(OJUtil ojUtil, Classifier modelClass){
-		super(ojUtil,modelClass);
+	public ClassifierMap(OJUtil ojUtil,Classifier modelClass){
+		super(ojUtil, modelClass);
 		if(modelClass instanceof CollectionType){
 			CollectionType ct = (CollectionType) modelClass;
 			this.collectionKind = ct.getKind();
@@ -154,6 +154,8 @@ public class ClassifierMap extends PackageableElementMap{
 		OJPathName result = null;
 		if(t == null){
 			result = JavaPathNames.Void;
+		}else if(t instanceof CollectionType){
+			result = getJavaColectionType(((CollectionType) t).getElementType(), ((CollectionType) t).getKind());
 		}else if(collectionKind != null){
 			result = getJavaColectionType(t, collectionKind);
 		}else if(t instanceof Enumeration){
@@ -192,6 +194,7 @@ public class ClassifierMap extends PackageableElementMap{
 	}
 	private OJPathName getJavaType(PrimitiveType t){
 		OJPathName result = null;
+		result=ojUtil.classifierPathname(t);
 		if(t.getName().equals(IOclLibrary.StringTypeName)){
 			result = StdlibMap.javaStringType;
 		}else if(t.getName().equals(IOclLibrary.RealTypeName)){
@@ -215,7 +218,9 @@ public class ClassifierMap extends PackageableElementMap{
 	}
 	private String getJavaDefault(Classifier t,CollectionKind k){
 		String result = "null";
-		if(k != null){
+		if(t instanceof CollectionType){
+			result = getJavaDefaultCollection(((CollectionType) t).getElementType(), k);
+		}else if(k != null){
 			result = getJavaDefaultCollection(t, k);
 		}else if(t instanceof Enumeration){
 			result = getJavaDefault((Enumeration) t);

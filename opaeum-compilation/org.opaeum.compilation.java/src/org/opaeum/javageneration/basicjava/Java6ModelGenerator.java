@@ -78,12 +78,13 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	@SuppressWarnings({"unchecked","rawtypes"})
 	@VisitAfter(matchSubclasses = true,match = {Interface.class,Enumeration.class})
 	public void visitClass(final Classifier c){
+
 		// We do not generate simple data types. They can't participate in
 		// two-way associations and should be built-in or pre-implemented
 		if(EmfElementUtil.isMarkedForDeletion(c)){
 			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.classifierPathname(c));
 			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.packagePathname(c));
-		}else if(OJUtil.hasOJClass(c) && !EmfClassifierUtil.isSimpleType(c)){
+		}else if(OJUtil.hasOJClass(c) ){
 			if(ojUtil.requiresJavaRename( c)){
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldClassifierPathname(c));
 				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldPackagePathname(c));

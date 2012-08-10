@@ -58,6 +58,7 @@ import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.maps.IMessageMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeImplementor.class,SuperTypeGenerator.class},after = {
@@ -288,10 +289,11 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			if(EmfElementUtil.getDocumentation(elem) != null){
 				ap.putAttribute("shortDescripion", EmfElementUtil.getDocumentation(elem));
 			}
-			if(EmfClassifierUtil.isSimpleType(elem.getType())){
-				DataType e = (DataType) elem.getType();
-				if(EmfClassifierUtil.getStrategyFactory(e).getRuntimeStrategyFactory() != null){
-					ap.putAttribute("strategyFactory", new OJPathName(EmfClassifierUtil.getStrategyFactory(e).getRuntimeStrategyFactory()));
+			if(EmfClassifierUtil.isSimpleType(pMap.getBaseType())){
+				DataType e = (DataType) pMap.getBaseType();
+				AbstractStrategyFactory sf = EmfClassifierUtil.getStrategyFactory(e);
+				if(sf!=null && sf.getRuntimeStrategyFactory() != null){
+					ap.putAttribute("strategyFactory", new OJPathName(sf.getRuntimeStrategyFactory()));
 				}
 			}
 			oper.getOwner().addToImports(pMap.javaTypePath());

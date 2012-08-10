@@ -5,14 +5,12 @@ import java.util.Collection;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.EnumerationLiteral;
-import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.ocl.uml.ResponsibilityDefinition;
 import org.opaeum.runtime.domain.TaskDelegation;
 

@@ -25,6 +25,9 @@ public class EventGeneratorImplementor extends AbstractJavaProducingVisitor{
 	public void visitBehavioredClassifier(BehavioredClassifier s){
 		if(OJUtil.hasOJClass(s)){
 			OJAnnotatedClass ojClass = findJavaClass(s);
+			if(ojClass==null){
+				System.out.println();
+			}
 			EventUtil.addOutgoingEventManagement(ojClass);
 			if(s instanceof Activity){
 				for(ActivityNode n:EmfActivityUtil.getActivityNodesRecursively(((Activity) s))){

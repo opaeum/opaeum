@@ -4,11 +4,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -40,9 +38,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -123,10 +119,9 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 		getJob().z_internalAddToActivity((Activity)this);
 	}
 	
-	static public Set<? extends Activity> allInstances() {
+	static public Set<? extends Activity> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
-			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
-			return new HashSet(session.readAll(structuredbusiness.Activity.class));
+			return new HashSet(persistence.readAll(structuredbusiness.Activity.class));
 		} else {
 			return mockedAllInstances;
 		}
@@ -182,7 +177,7 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3707035665302306774l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_d_KVgJN8EeGzUIOTq-3iUg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3707035665302306774l,uuid="914890@_d_KVgJN8EeGzUIOTq-3iUg")
 	@NumlMetaInfo(uuid="914890@_d_KVgJN8EeGzUIOTq-3iUg")
 	public Double getCostToCompany() {
 		Double result = this.costToCompany;
@@ -190,7 +185,7 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2172027145591522686l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_cHpaQJN8EeGzUIOTq-3iUg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2172027145591522686l,uuid="914890@_cHpaQJN8EeGzUIOTq-3iUg")
 	@NumlMetaInfo(uuid="914890@_cHpaQJN8EeGzUIOTq-3iUg")
 	public Double getCostToCustomer() {
 		Double result = this.costToCustomer;
@@ -210,7 +205,7 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3022114162335846648l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_XPTyUJN8EeGzUIOTq-3iUg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3022114162335846648l,uuid="914890@_XPTyUJN8EeGzUIOTq-3iUg")
 	@NumlMetaInfo(uuid="914890@_XPTyUJN8EeGzUIOTq-3iUg")
 	public Double getDurationInHours() {
 		Double result = this.durationInHours;
@@ -246,11 +241,7 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 		return getJob();
 	}
 	
-	public List<Technician> getSourcePopulationForTechnician() {
-		return new ArrayList<Technician>(Stdlib.collectionAsSet(collect1()));
-	}
-	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForTechnician",opaeumId=8435746886564594669l,opposite="activity",uuid="914890@_ehuEgJLCEeGnpuq6_ber_Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8435746886564594669l,opposite="activity",uuid="914890@_ehuEgJLCEeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_ehuEgJLCEeGnpuq6_ber_Q")
 	public Technician getTechnician() {
 		Technician result = this.technician;
@@ -364,9 +355,6 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 		if ( job!=null ) {
 			job.z_internalAddToActivity(this);
 			this.z_internalAddToJob(job);
-			setDeletedOn(Stdlib.FUTURE);
-		} else {
-			markDeleted();
 		}
 	}
 	
@@ -485,17 +473,6 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 			this.technician=null;
 			this.technician=null;
 		}
-	}
-	
-	/** Implements ->collect( c : Branch | c.technician )
-	 */
-	private Collection<Technician> collect1() {
-		Collection<Technician> result = new ArrayList<Technician>();
-		for ( Branch c : this.getJob().getBranch().getDishwashersInc().getBranch() ) {
-			Technician bodyExpResult = c.getTechnician();
-			if ( bodyExpResult != null ) result.add( bodyExpResult );
-		}
-		return result;
 	}
 
 }

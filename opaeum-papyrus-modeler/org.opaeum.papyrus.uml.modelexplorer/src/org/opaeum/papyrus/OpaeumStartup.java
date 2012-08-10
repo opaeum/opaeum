@@ -89,7 +89,8 @@ public class OpaeumStartup implements IStartup{
 		private void maybeSetCurrentEditContext(IWorkbenchPart part){
 			IEditorPart editor = part.getSite().getWorkbenchWindow().getActivePage().getActiveEditor();
 			if(editor instanceof PapyrusMultiDiagramEditor){
-				associateOpaeumContext((PapyrusMultiDiagramEditor) editor);
+				PapyrusMultiDiagramEditor papyrusEditor = (PapyrusMultiDiagramEditor) editor;
+				associateOpaeumContext(papyrusEditor);
 			}
 		}
 		public void partClosed(IWorkbenchPart part){
@@ -146,7 +147,7 @@ public class OpaeumStartup implements IStartup{
 				ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);
 				saveAndDirtyService.registerIsaveablePart(new ISaveablePart(){
 					public boolean isSaveOnCloseNeeded(){
-						return true;
+						return false;
 					}
 					public boolean isSaveAsAllowed(){
 						return false;

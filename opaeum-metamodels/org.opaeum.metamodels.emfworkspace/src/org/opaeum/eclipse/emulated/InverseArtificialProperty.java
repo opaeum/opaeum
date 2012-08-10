@@ -6,6 +6,7 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.name.NameConverter;
 
@@ -98,6 +99,8 @@ public class InverseArtificialProperty extends AbstractEmulatedProperty{
 	public boolean shouldEmulate(){
 		if(getType() instanceof IEmulatedElement){
 			return ((IEmulatedElement)getType()).shouldEmulate();
+		}else if(getType() instanceof Behavior){
+			return EmfBehaviorUtil.hasExecutionInstance((Behavior)getType());
 		}
 		return true;
 	}

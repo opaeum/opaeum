@@ -1,8 +1,8 @@
 package org.opaeum.eclipse;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -14,7 +14,7 @@ import org.eclipse.uml2.uml.Reception;
 
 public class EmfReceptionUtil{
 	public static Collection<Reception> getDirectlyImplementedReceptions(BehavioredClassifier bc){
-		Set<String> inheritedConcreteReceptionNames = new HashSet<String>();
+		Set<String> inheritedConcreteReceptionNames = new TreeSet<String>();
 		for(Generalization g:bc.getGeneralizations()){
 			if(g.getGeneral() instanceof BehavioredClassifier){
 				for(Reception o:getDirectlyImplementedReceptions((BehavioredClassifier) g.getGeneral())){
@@ -23,7 +23,7 @@ public class EmfReceptionUtil{
 				}
 			}
 		}
-		Set<Reception> results = new HashSet<Reception>();
+		Set<Reception> results = new TreeSet<Reception>(new ElementComparator());
 		for(Reception o:getEffectiveReceptions(bc)){
 			if(o.getOwner()==bc ||  !inheritedConcreteReceptionNames.contains(EmfParameterUtil.toIdentifyingString(o))){
 				results.add(o);
@@ -32,7 +32,7 @@ public class EmfReceptionUtil{
 		return results;
 	}
 	public static Set<Reception> getEffectiveReceptions(BehavioredClassifier bc){
-		Set<Reception> result = new HashSet<Reception>();
+		Set<Reception> result = new TreeSet<Reception>(new ElementComparator());
 		if(bc instanceof Class){
 			addReceptions(result, (Class) bc);
 		}

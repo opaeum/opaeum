@@ -14,7 +14,7 @@ import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.name.PluralNameWrapper;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
-import org.opaeum.ocl.uml.OclContext;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.ocl.uml.ResponsibilityDefinition;
 import org.opaeum.runtime.domain.TaskDelegation;
 
@@ -57,7 +57,7 @@ public class TaskUtil{
 	}
 	private void implementTaskRequestAssignment(OJAnnotatedOperation operation,OJBlock block,ResponsibilityDefinition td,String taskName,
 			OpaqueExpression potentialOwners,PluralNameWrapper name,String kind){
-		OclContext oclExpressionContext = library.getOclExpressionContext(potentialOwners);
+		OpaqueExpressionContext oclExpressionContext = library.getOclExpressionContext(potentialOwners);
 		if(!oclExpressionContext.hasErrors()){
 			String expr = valueSpecificationUtil.expressOcl(oclExpressionContext, operation, null);
 			OJIfStatement ifEmpty = new OJIfStatement(taskName + ".getTaskRequest().get" + name.getCapped() + "().isEmpty()");
@@ -76,7 +76,7 @@ public class TaskUtil{
 	}
 	private void implementRequestAssignment(OJAnnotatedOperation operation,OJBlock block,ResponsibilityDefinition td,String taskName,
 			OpaqueExpression potentialOwners,PluralNameWrapper name,String kind){
-		OclContext oclExpressionContext = library.getOclExpressionContext(potentialOwners);
+		OpaqueExpressionContext oclExpressionContext = library.getOclExpressionContext(potentialOwners);
 		if(!oclExpressionContext.hasErrors()){
 			String expr = valueSpecificationUtil.expressOcl(oclExpressionContext,operation, null);
 			OJIfStatement ifEmpty = new OJIfStatement(taskName + ".getTaskRequest().get" + name.getCapped() + "().isEmpty()");

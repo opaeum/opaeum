@@ -46,7 +46,7 @@ public class TupleTypeMap extends ClassifierMap {
 		Iterator<?> it = sort_parts().iterator();
 		int j = 0;
 		while (it.hasNext()) {
-			Variable var = (Variable) it.next();
+			Property var = (Property) it.next();
 			// TODO remove all 'strange' characters from the typeName
 			String name = var.getType().toString();
 			name = StringHelpers.replaceAllSubstrings(name, "(", "Of");

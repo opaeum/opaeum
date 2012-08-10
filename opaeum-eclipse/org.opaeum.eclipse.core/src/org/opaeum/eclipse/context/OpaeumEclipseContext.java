@@ -49,7 +49,9 @@ import org.opaeum.eclipse.OpaeumErrorMarker;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.emf.workspace.UriToFileConverter;
+import org.opaeum.feature.DefaultTransformationLog;
 import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.TransformationProcess;
 import org.opaeum.runtime.domain.ExceptionAnalyser;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
@@ -61,7 +63,6 @@ public class OpaeumEclipseContext{
 			return true;
 		}
 	}
-
 	private static Map<IContainer,OpaeumEclipseContext> contexts = new WeakHashMap<IContainer,OpaeumEclipseContext>();
 	private static OpaeumEclipseContext currentContext;
 	private Map<IFile,OpenUmlFile> openUmlFiles = new HashMap<IFile,OpenUmlFile>();
@@ -78,7 +79,7 @@ public class OpaeumEclipseContext{
 	private OpaeumConfig config;
 	public OpaeumEclipseContext(OpaeumConfig cfg,IContainer umlDirectory,boolean newlyCreated){
 		super();
-		this.config=cfg;
+		this.config = cfg;
 		isOpen = true;
 		this.newlyCreated = newlyCreated;
 		this.umlDirectory = umlDirectory;
@@ -114,15 +115,14 @@ public class OpaeumEclipseContext{
 		return result;
 	}
 	public boolean startSynch(final EditingDomain domain,final IFile file){
-		OpenUmlFile openUmlFile = new OpenUmlFile(domain,  file,config);
-		openUmlFile.addSynchronizationListener(new OclUpdater(this.openUmlFiles));
+		OpenUmlFile openUmlFile = new OpenUmlFile(domain, file, config);
+		openUmlFile.addSynchronizationListener(new OclUpdater());
 		openUmlFile.addSynchronizationListener(errorMarker);
 		if(dew != null){
 			dew.getResourceSet().getResource(URI.createPlatformResourceURI((file).getFullPath().toString(), true), true);
 		}
 		openUmlFiles.put(file, openUmlFile);
 		errorMarker.maybeSchedule(openUmlFile);
-
 		return true;
 	}
 	public boolean isOpen(){
@@ -136,7 +136,7 @@ public class OpaeumEclipseContext{
 	public void onSave(IProgressMonitor monitor,IFile f){
 		try{
 			OpenUmlFile openUmlFile = this.openUmlFiles.get(f);
-			monitor.beginTask("Saving UML Models",  100);
+			monitor.beginTask("Saving UML Models", 100);
 			if(openUmlFile != null){
 				openUmlFile.setDirty(false);
 				openUmlFile.onSave(monitor);
@@ -165,22 +165,15 @@ public class OpaeumEclipseContext{
 	}
 	public void onClose(IFile umlFile){
 		OpenUmlFile openUmlFile = this.openUmlFiles.get(umlFile);
-
 		this.openUmlFiles.remove(umlFile);
 		if(openUmlFile != null){
-			// May not have loaded successfully
-			if(openUmlFile.isDirty()){
-				reinitialize();
-			}else if(openUmlFile != null){
-				openUmlFile.release();
-				currentOpenFile = null;
-			}
+			openUmlFile.release();
+			currentOpenFile = null;
 		}
 	}
 	public IContainer getUmlDirectory(){
 		return umlDirectory;
 	}
-
 	public EmfWorkspace getCurrentEmfWorkspace(){
 		if(currentOpenFile == null || !openUmlFiles.containsKey(currentOpenFile) || openUmlFiles.isEmpty()){
 			if(dew != null){
@@ -201,7 +194,8 @@ public class OpaeumEclipseContext{
 			rst = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
 			if(dew == null){
-				dew = new EmfWorkspace(uri, rst, getConfig().getWorkspaceMappingInfo(), getConfig().getWorkspaceIdentifier(),getConfig().getMavenGroupId());
+				dew = new EmfWorkspace(uri, rst, getConfig().getWorkspaceMappingInfo(), getConfig().getWorkspaceIdentifier(), getConfig()
+						.getMavenGroupId());
 				dew.setUriToFileConverter(new EclipseUriToFileConverter());
 				dew.setName(getConfig().getWorkspaceName());
 				for(IResource r:umlDirectory.members()){
@@ -392,10 +386,12 @@ public class OpaeumEclipseContext{
 		return errorMarker;
 	}
 	public OpenUmlFile getEditingContextFor(EObject eObject){
-		Collection<OpenUmlFile> values = this.openUmlFiles.values();
-		for(OpenUmlFile openUmlFile:values){
-			if(openUmlFile.getEmfWorkspace().getResourceSet()==eObject.eResource().getResourceSet()){
-				return openUmlFile;
+		if(eObject.eResource() != null){
+			Collection<OpenUmlFile> values = this.openUmlFiles.values();
+			for(OpenUmlFile openUmlFile:values){
+				if(openUmlFile.getEmfWorkspace().getResourceSet() == eObject.eResource().getResourceSet()){
+					return openUmlFile;
+				}
 			}
 		}
 		return null;

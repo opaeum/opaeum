@@ -25,6 +25,7 @@ import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Transition;
@@ -34,11 +35,14 @@ import org.opaeum.eclipse.EmfValidationUtil;
 import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.commands.SetOclBodyCommand;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.linkage.CoreValidationRule;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.ErrorMap;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
+import org.opaeum.ocl.uml.OpaeumDiagnostic;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.topcased.modeler.uml.oclinterpreter.ColorManager;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.NakedOclViewer;
@@ -47,6 +51,7 @@ import org.topcased.modeler.uml.oclinterpreter.OpaeumOclFactory;
 
 public abstract class OclBodyComposite extends Composite{
 	protected boolean updating = false;
+	@Deprecated
 	private final class ErrorHighlighter implements Runnable{
 		private boolean stopped;
 		private long nextRun = 0;
@@ -174,7 +179,7 @@ public abstract class OclBodyComposite extends Composite{
 		}
 		getEditingDomain().getCommandStack().execute(
 				SetOclBodyCommand.create(getEditingDomain(), oclBodyOwner, getBodiesFeature(), getLanguagesFeature(), text));
-		Display.getDefault().timerExec(1000, highlighter);
+		highlightError();
 	}
 	public StyledText getTextControl(){
 		return viewer.getTextWidget();
@@ -206,7 +211,7 @@ public abstract class OclBodyComposite extends Composite{
 			factory.setContext(context);
 			document.setOCLContext(EmfBehaviorUtil.getSelf(context));
 			manageContentAssist();
-			Display.getDefault().timerExec(1000, this.highlighter);
+			highlightError();
 		}
 	}
 	public void dispose(){
@@ -222,29 +227,25 @@ public abstract class OclBodyComposite extends Composite{
 	}
 	public void highlightError(){
 		StyledText t = viewer.getTextWidget();
-		if(!(oclBodyOwner == null || t == null || t.isDisposed())){
-			
-			EmfWorkspace ws = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner).getEmfWorkspace();
-			ErrorMap errors = ws.getErrorMap();
-			String id = EmfWorkspace.getId(oclBodyOwner);
-			BrokenElement be = errors.getErrors().get(id);
-			if(be != null && be.hasBroken(CoreValidationRule.OCL)){
-				Object[] objects = be.getBrokenRules().get(CoreValidationRule.OCL).getParameters();
-				Integer i = objects.length == 2 ? ((Integer) objects[1]) - 1 : 0;
+		if(!(oclBodyOwner == null || t == null || t.isDisposed() ||OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner)==null)){
+			OpenUmlFile ouf = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner);
+			OpaqueExpressionContext ctx = ouf.getEmfWorkspace().getOpaeumLibrary().getOclExpressionContext((OpaqueExpression) oclBodyOwner);
+			if(ctx.hasErrors()){
+				OpaeumDiagnostic od = (OpaeumDiagnostic) ctx.getHelper().getProblems();
 				StyleRange[] srs = t.getStyleRanges();
 				if(srs.length <= 0){
 					srs = new StyleRange[]{new StyleRange(0, t.getText().length(), null, null, SWT.NORMAL)};
 				}
 				for(StyleRange sr:srs){
-					if(i == 0 || (sr.start <= i && sr.start + sr.length > i)){
+					if(od.getEndPosition() == 0 || (sr.start <= od.getStartPosition() && sr.start + sr.length > od.getStartPosition())){
 						sr.underline = true;
 						sr.underlineStyle = SWT.UNDERLINE_ERROR;
 						sr.underlineColor = ColorConstants.red;
 					}
 				}
 				t.setStyleRanges(srs);
-				String message = (String) objects[0];
-				t.setToolTipText(message);
+				String msg = od.getMessage();
+				t.setToolTipText(msg);
 			}else{
 				StyleRange[] srs = t.getStyleRanges();
 				for(StyleRange s:srs){

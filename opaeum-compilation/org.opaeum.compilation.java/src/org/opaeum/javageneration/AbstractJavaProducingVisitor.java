@@ -82,6 +82,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	}
 	@Override
 	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace,OJUtil ojUtil){
+		EmfClassifierUtil.setClassRegistry(OpaeumConfig.getClassRegistry());
 		textFiles = new HashSet<TextOutputNode>();
 		this.javaModel = pac;
 		this.config = config;
@@ -89,6 +90,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		this.workspace = workspace;
 		this.eventUtil = new EventUtil(ojUtil);
 		this.valueSpecificationUtil = new ValueSpecificationUtil(ojUtil);
+		this.ojUtil=ojUtil;
 	}
 	public OpaeumLibrary getLibrary(){
 		return workspace.getOpaeumLibrary();

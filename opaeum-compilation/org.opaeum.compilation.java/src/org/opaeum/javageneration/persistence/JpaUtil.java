@@ -14,6 +14,7 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.hibernate.annotations.Filter;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
@@ -29,6 +30,7 @@ import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
+
 public class JpaUtil{
 	public static final String BACKTICK = "";
 	private static Set<String> RESERVED_NAMES = new HashSet<String>();
@@ -49,22 +51,22 @@ public class JpaUtil{
 		return buildTableAnnotation(owner, tableName, config, null);
 	}
 	public static String getNearestSchema(Namespace ns){
-		while(!(isSchema(ns) || ns == null)){
-			ns = ns.getNamespace();
+		while(!(ns == null || isSchema(ns))){
+			ns = EmfElementFinder.getNearestNamespace(ns);
 		}
-		if(isSchema(ns)){
-			if(ns instanceof Package){
-				return PersistentNameUtil.getPersistentName(ns).getAsIs();
-			}else{
-				return (String) ns.getValue(StereotypesHelper.getStereotype(ns, StereotypeNames.COMPONENT), "schemaName");
-			}
+		if(ns == null){
+			return null;
 		}
-		return null;
+		if(ns instanceof Package){
+			return PersistentNameUtil.getPersistentName(ns).getAsIs();
+		}else{
+			return (String) ns.getValue(StereotypesHelper.getStereotype(ns, StereotypeNames.COMPONENT), "schemaName");
+		}
 	}
 	private static boolean isSchema(Namespace ns){
 		if(ns instanceof Package){
-			return EmfPackageUtil.isSchema((Package) ns); 
-		}else {
+			return EmfPackageUtil.isSchema((Package) ns);
+		}else{
 			return EmfClassifierUtil.isSchema((Classifier) ns);
 		}
 	}
@@ -137,7 +139,7 @@ public class JpaUtil{
 	public static void addAndAnnotatedIdAndVersion(JpaIdStrategy jpaIdStrategy,OJAnnotatedClass ojClass,Classifier complexType){
 		OJUtil.addPersistentProperty(ojClass, "objectVersion", new OJPathName("int"), true);
 		JpaUtil.annotateVersion(ojClass);
-		if((complexType instanceof Class && EmfClassifierUtil.getPrimaryKeyProperties((Class) complexType).size()>0)){
+		if((complexType instanceof Class && EmfClassifierUtil.getPrimaryKeyProperties((Class) complexType).size() > 0)){
 			return;
 		}else{
 			OJUtil.addPersistentProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
@@ -158,7 +160,7 @@ public class JpaUtil{
 		versionField.putAnnotation(column);
 	}
 	public static void addClass(OJAnnotatedClass ojClass){
-		OJAnnotationValue entity = new OJAnnotationValue(new OJPathName("javax.persistence.Class"));
+		OJAnnotationValue entity = new OJAnnotationValue(new OJPathName("javax.persistence.Entity"));
 		entity.putAttribute(new OJAnnotationAttributeValue("name", ojClass.getName()));
 		ojClass.addAnnotationIfNew(entity);
 	}
@@ -170,7 +172,7 @@ public class JpaUtil{
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
 		buildTableAndSchema(tableName, config, umlOwner, joinTable);
 		OJAnnotationValue otherJoinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("name", PersistentNameUtil.getPersistentName( f).getAsIs()));
+		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("name", PersistentNameUtil.getPersistentName(f).getAsIs()));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("inverseJoinColumns", otherJoinColumn));
 		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
 		joinColumn.putAttribute(new OJAnnotationAttributeValue("name", keyToParentTable));
@@ -200,15 +202,15 @@ public class JpaUtil{
 			// For interfaces, create an association table per realization of
 			// the association.
 			Property p = f;
-			tableName = PersistentNameUtil.getPersistentName( p.getAssociation()).toString();
+			tableName = PersistentNameUtil.getPersistentName(p.getAssociation()).toString();
 		}else{
 			Classifier nakedOwner = umlOwner;
-			tableName = PersistentNameUtil.getPersistentName(nakedOwner) + "_" + PersistentNameUtil.getPersistentName( f).getWithoutId();
+			tableName = PersistentNameUtil.getPersistentName(nakedOwner) + "_" + PersistentNameUtil.getPersistentName(f).getWithoutId();
 		}
 		return tableName;
 	}
-	public static void addNamedQueryForUniquenessConstraints(OJAnnotatedClass ojClass,Class entity, OJUtil ojUtil){
-		for(Property p:EmfPropertyUtil.getUniquenessConstraints( entity)){
+	public static void addNamedQueryForUniquenessConstraints(OJAnnotatedClass ojClass,Class entity,OJUtil ojUtil){
+		for(Property p:EmfPropertyUtil.getUniquenessConstraints(entity)){
 			if(!p.getOtherEnd().getQualifiers().isEmpty()){
 				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
 				String queryString = "from " + entity.getName() + " a where a." + map.fieldname() + " = :" + map.fieldname();
@@ -254,7 +256,7 @@ public class JpaUtil{
 		String columnName;
 		if(map.isManyToMany()){
 			// simple column name - no requirement for uniqueness
-			columnName = prefix + "_in_" + PersistentNameUtil.getPersistentName( map.getProperty()).getWithoutId();
+			columnName = prefix + "_in_" + PersistentNameUtil.getPersistentName(map.getProperty()).getWithoutId();
 		}else{
 			columnName = prefix + "_in_";
 			String withoutId = PersistentNameUtil.getPersistentName(map.getProperty()).getWithoutId().getAsIs();

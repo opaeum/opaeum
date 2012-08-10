@@ -28,8 +28,8 @@ import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.basicjava.SpecificationImplementor;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.ocl.uml.AbstractOclContext;
-import org.opaeum.ocl.uml.OclBehaviorContext;
-import org.opaeum.ocl.uml.OclContext;
+import org.opaeum.ocl.uml.OpaqueBehaviorContext;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 
 //TODO implement post conditions 
 //as a method similar to "checkInvariants" on operations that are represented as classifiers/ tuples
@@ -62,7 +62,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void visitOpaqueBehavior(OpaqueBehavior behavior){
-		OclBehaviorContext oclBehaviorContext = getLibrary().getOclBehaviorContext(behavior);
+		OpaqueBehaviorContext oclBehaviorContext = getLibrary().getOclBehaviorContext(behavior);
 		if(!oclBehaviorContext.hasErrors()){
 			if(EmfBehaviorUtil.hasExecutionInstance(behavior)){
 				OJAnnotatedClass javaContext = findJavaClass(behavior);
@@ -113,7 +113,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 				ValueSpecification specification = oper.getBodyCondition().getSpecification();
 				if(specification instanceof OpaqueExpression){
 					OpaqueExpression oe =(OpaqueExpression) specification;
-					OclContext oclExpressionContext = getLibrary().getOclExpressionContext(oe);
+					OpaqueExpressionContext oclExpressionContext = getLibrary().getOclExpressionContext(oe);
 					if(!oclExpressionContext.hasErrors()){
 						addBody(myOper, mapper, oclExpressionContext);
 					}

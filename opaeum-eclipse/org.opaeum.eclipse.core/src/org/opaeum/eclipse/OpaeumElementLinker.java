@@ -8,11 +8,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.uml2.uml.AcceptCallAction;
@@ -95,6 +93,15 @@ import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class OpaeumElementLinker extends EContentAdapter{
+	public void notifyChanged(final Notification not){
+		if(not.getEventType() == Notification.ADD || not.getEventType() == Notification.ADD_MANY || not.getEventType() == Notification.REMOVE
+				|| not.getEventType() == Notification.REMOVE_MANY || not.getEventType() == Notification.SET){
+			if(not.getNotifier() instanceof Element){
+				EmfUmlElementLinker emfUmlElementLinker = new EmfUmlElementLinker(not);
+				emfUmlElementLinker.doSwitch((Element) not.getNotifier());
+			}
+		}
+	}
 	public static final class EmfUmlElementLinker extends UMLSwitch<EObject>{
 		private Notification notification;
 		private ECrossReferenceAdapter crossReferenceAdapter;
@@ -524,14 +531,12 @@ public class OpaeumElementLinker extends EContentAdapter{
 			if(newValue instanceof Association){
 				Association ass = (Association) newValue;
 				for(Property property:ass.getMemberEnds()){
-
 					if(property.getOtherEnd().isNavigable() && property.getType() instanceof Enumeration){
 						for(EnumerationLiteral e:((Enumeration) property.getType()).getOwnedLiterals()){
 							ensureSlotsPresence(e, property.getOtherEnd());
 						}
 					}
 				}
-				
 			}
 			if(newValue instanceof TimeEvent){
 				applyRelativeTimeEventStereotype((TimeEvent) newValue, p);
@@ -759,6 +764,10 @@ public class OpaeumElementLinker extends EContentAdapter{
 					break;
 				}
 				break;
+			case UMLPackage.OPERATION__OWNED_RULE:
+				if(notification.getNewValue() instanceof Constraint){
+					this.forceConstraintSpecification((Constraint) notification.getNewValue());
+				}
 			}
 			return null;
 		}
@@ -1136,29 +1145,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}
 			}
 		}
-		public void notifyChanged(final Notification not){
-			if(not.getEventType() == Notification.ADD || not.getEventType() == Notification.ADD_MANY || not.getEventType() == Notification.REMOVE
-					|| not.getEventType() == Notification.REMOVE_MANY || not.getEventType() == Notification.SET){
-				if(not.getNotifier() instanceof Element){
-					EmfUmlElementLinker emfUmlElementLinker = new EmfUmlElementLinker(not);
-					emfUmlElementLinker.doSwitch((Element) not.getNotifier());
-				}else if(not.getNotifier() instanceof EAnnotation){
-					switch(not.getFeatureID(EAnnotation.class)){
-					case EcorePackage.EANNOTATION__CONTENTS:
-						if(not.getNewValue() instanceof TimeEvent){
-							EAnnotation eAnnotation = (EAnnotation) not.getNotifier();
-							TimeEvent te = (TimeEvent) not.getNewValue();
-							Element eModelElement = (Element) eAnnotation.getEModelElement();
-							applyStereotypeIfNecessary(eModelElement, te, StereotypeNames.DEADLINE, StereotypeNames.OPAEUM_BPM_PROFILE);
-							applyRelativeTimeEventStereotype(te, eModelElement);
-						}
-						break;
-					default:
-						break;
-					}
-				}
-			}
-		}
 		private static void applyRelativeTimeEventStereotype(TimeEvent te,Element eModelElement){
 			if(te.isRelative()){
 				Profile pr = ProfileApplier.getAppliedProfile(eModelElement.getModel(), StereotypeNames.OPAEUM_STANDARD_PROFILE_PAPYRUS);
@@ -1266,5 +1252,4 @@ public class OpaeumElementLinker extends EContentAdapter{
 	private static boolean isUnInitialised(OpaqueExpression oe){
 		return oe.getBodies().isEmpty() || oe.getBodies().get(0).equals(EmfValidationUtil.TYPE_EXPRESSION_HERE);
 	}
-
 }

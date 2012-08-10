@@ -15,16 +15,20 @@ public class EmulatedPropertyHolderForAssociation extends EmulatedPropertyHolder
 		super(owner, e, owner.getAttributes());
 		this.owner = owner;
 		for(Property p:owner.getMemberEnds()){
+			AssociationClassToEnd otherEnd = new AssociationClassToEnd(p);
+			super.addEmulatedAttribute(otherEnd);
+		}
+		for(Property p:owner.getMemberEnds()){
 			EndToAssociationClass thisEnd = new EndToAssociationClass(p);
 			endsToAssociationClass.add(thisEnd);
-			AssociationClassToEnd otherEnd = new AssociationClassToEnd(p);
-			thisEnd.setOtherEnd(otherEnd);
-			super.addEmulatedAttribute(otherEnd);
+			AssociationClassToEnd associationToEnd = (AssociationClassToEnd) getEmulatedAttribute(p.getOtherEnd());
+			thisEnd.setOtherEnd(associationToEnd);
+			associationToEnd.setOtherEnd(thisEnd);
 		}
 	}
 	public EndToAssociationClass getEndToAssociation(Property property){
 		for(EndToAssociationClass p:this.endsToAssociationClass){
-			if(p.getOriginalElement()==property){
+			if(p.getOriginalProperty()== property){
 				return p;
 			}
 		}

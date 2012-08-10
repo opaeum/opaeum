@@ -3,7 +3,9 @@ package org.opaeum.eclipse;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Element;
@@ -19,13 +21,21 @@ import org.opaeum.metamodel.core.internal.TagNames;
 
 public class EmfPackageUtil{
 	public static String getIdentifier(Package p){
+		for(Stereotype st:p.getAppliedStereotypes()){
+			if(st.getAttribute("artifactIdentifier", null)!=null){
+				String s=(String) p.getValue(st, "artifactIdentifier");
+				if(s!=null){
+					return s;
+				}
+			}
+		}
 		return p.eResource().getURI().trimFileExtension().lastSegment();
 	}
 	public static boolean isRootObject(Element o){
 		return o instanceof Model || o instanceof Profile;
 	}
 	public static Collection<Package> getAllDependencies(Package p){
-		Set<Package> result = new HashSet<Package>();
+		Set<Package> result = new TreeSet<Package>(new ElementComparator());
 		addImports(result, p);
 		return result;
 	}
@@ -38,7 +48,7 @@ public class EmfPackageUtil{
 		return Boolean.TRUE.equals(value);
 	}
 	public static boolean hasMappedImplementationPackage(Package p){
-		Object value = getValue(p, TagNames.MAPPED_IMPLEMENTATION_PACKAGE);
+			Object value = getValue(p, TagNames.MAPPED_IMPLEMENTATION_PACKAGE);
 		return value!=null && value.toString().trim().length()>0;
 	}
 	public static String getMappedImplementationPackage(Package p){
@@ -46,12 +56,12 @@ public class EmfPackageUtil{
 		return value.toString().trim();
 	}
 	private static Object getValue(Package p,String tagName){
-		Stereotype st = getAppropriateStereotype(p);
-		Object value=null;
-		if(st != null){
-			value = p.getValue(st, tagName);
+		for(EObject sa:p.getStereotypeApplications()){
+			if(sa.eClass().getEStructuralFeature(tagName)!=null){
+				return sa.eGet(sa.eClass().getEStructuralFeature(tagName));
+			}
 		}
-		return value;
+		return null;
 	}
 	private static Stereotype getAppropriateStereotype(Package p){
 		Stereotype st = null;
@@ -67,6 +77,9 @@ public class EmfPackageUtil{
 			return;
 		}else{
 			result.add(ro);
+			if(ro ==null){
+				System.out.println();
+			}
 			Collection<PackageImport> imports = ro.getPackageImports();
 			for(PackageImport imp:imports){
 				if(EmfPackageUtil.isRootObject(imp.getImportedPackage())){
@@ -92,10 +105,23 @@ public class EmfPackageUtil{
 	}
 	public static boolean isLibrary(Model model){
 		if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL)){
-			EObject sa = model.getStereotypeApplication(StereotypesHelper.getStereotype(model, StereotypeNames.MODEL));
+			Stereotype st = StereotypesHelper.getStereotype(model, StereotypeNames.MODEL);
+			EObject sa = model.getStereotypeApplication(st);
 			EEnumLiteral value = (EEnumLiteral) sa.eGet(sa.eClass().getEStructuralFeature("modelType"));
-			return value.getName().equals("LIBRARY");
+			return value.getName().equals("REFERENCED_LIBRARY");
+		}else {
+			Set<String> ignore = new HashSet<String>();
+			ignore.add("OpaeumSimpleTypes".toLowerCase());
+			ignore.add("UMLPrimitiveTypes".toLowerCase());
+			ignore.add("PrimitiveTypes".toLowerCase());
+			ignore.add("JavaPrimitiveTypes".toLowerCase());
+			ignore.add("OpaeumSimpleTypes".toLowerCase());
+			if(ignore.contains(model.getName().toLowerCase())){
+				return true;
+			}
+			boolean hasStereotype = StereotypesHelper.hasStereotype(model, "EPackage","MetaModel");
+			return hasStereotype || "PrimitiveTypes".equals(model.getName()) || "UMLPrimitiveTypes".equals(model.getName());
+
 		}
-		return false;
 	}
 }

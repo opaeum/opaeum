@@ -1,10 +1,11 @@
 package org.opaeum.eclipse;
 
 import org.eclipse.uml2.uml.Element;
+import org.opaeum.emf.workspace.EmfWorkspace;
 
 public class EmfElementUtil{
 	public static boolean isMarkedForDeletion(Element e){
-		return e.eResource()==null;
+		return !(e instanceof EmfWorkspace) && e.eResource()==null;
 	}
 
 	public static String getDocumentation(Element elem){

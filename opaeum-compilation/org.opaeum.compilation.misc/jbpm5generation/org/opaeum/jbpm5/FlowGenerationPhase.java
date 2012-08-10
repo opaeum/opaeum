@@ -53,7 +53,6 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 	public void initialize(OpaeumConfig config,List<AbstractFlowStep> features){
 		this.flowSteps = features;
 		this.config = config;
-		initializeSteps();
 	}
 	public void initializeSteps(){
 		for(AbstractFlowStep step:this.flowSteps){

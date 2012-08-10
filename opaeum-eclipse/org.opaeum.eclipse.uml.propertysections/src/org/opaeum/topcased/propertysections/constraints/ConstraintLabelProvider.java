@@ -31,7 +31,7 @@ public class ConstraintLabelProvider implements ITableLabelProvider{
 	}
 	private String getName(Constraint c){
 		String name = c.getName();
-		if(name.trim().length() == 0){
+		if(name==null|| name.trim().length() == 0){
 			return "no name";
 		}
 		return name;

@@ -3,8 +3,6 @@ package org.opaeum.eclipse.emulated;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.Action;
@@ -16,8 +14,6 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Observation;
 import org.eclipse.uml2.uml.OpaqueAction;
-import org.eclipse.uml2.uml.Pin;
-import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TimeObservation;
 import org.eclipse.uml2.uml.TypedElement;

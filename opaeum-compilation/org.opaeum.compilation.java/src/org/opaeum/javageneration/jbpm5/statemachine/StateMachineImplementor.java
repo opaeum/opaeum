@@ -52,8 +52,8 @@ import org.opaeum.javageneration.jbpm5.activity.ActivityProcessImplementor;
 import org.opaeum.javageneration.oclexpressions.CodeCleanup;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
-import org.opaeum.ocl.uml.OclBehaviorContext;
-import org.opaeum.ocl.uml.OclContext;
+import org.opaeum.ocl.uml.OpaqueBehaviorContext;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.runtime.domain.IProcessObject;
 import org.opaeum.runtime.domain.IProcessStep;
 
@@ -184,7 +184,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			impl.implementActivityOn((Activity) behavior, onEntry);
 		}else if(behavior instanceof OpaqueBehavior){
 			OpaqueBehavior b = (OpaqueBehavior) behavior;
-			OclBehaviorContext oclBehaviorContext = getLibrary().getOclBehaviorContext(b);
+			OpaqueBehaviorContext oclBehaviorContext = getLibrary().getOclBehaviorContext(b);
 			Classifier voidType = getLibrary().getOclLibrary().getOclVoid();
 			onEntry.getBody().addToStatements(valueSpecificationUtil.expressOcl(oclBehaviorContext, onEntry, voidType));
 		}
@@ -196,7 +196,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			getter.setReturnType(new OJPathName("boolean"));
 			ojStateMachine.addToOperations(getter);
 			Classifier booleanType = getLibrary().getBooleanType();
-			OclContext context = getLibrary().getOclExpressionContext((OpaqueExpression) transition.getGuard().getSpecification());
+			OpaqueExpressionContext context = getLibrary().getOclExpressionContext((OpaqueExpression) transition.getGuard().getSpecification());
 			if(!context.hasErrors()){
 				String expression = valueSpecificationUtil.expressOcl(context, getter, booleanType);
 				getter.getBody().addToStatements("return " + expression);

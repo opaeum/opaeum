@@ -38,9 +38,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -112,10 +110,9 @@ public class ApplianceComponent implements IPersistentObject, IEventGenerator, H
 		getAppliance().z_internalAddToComponent((ApplianceComponent)this);
 	}
 	
-	static public Set<? extends ApplianceComponent> allInstances() {
+	static public Set<? extends ApplianceComponent> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
-			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
-			return new HashSet(session.readAll(structuredbusiness.ApplianceComponent.class));
+			return new HashSet(persistence.readAll(structuredbusiness.ApplianceComponent.class));
 		} else {
 			return mockedAllInstances;
 		}
@@ -193,7 +190,7 @@ public class ApplianceComponent implements IPersistentObject, IEventGenerator, H
 		return getAppliance();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4779184346657477803l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4779184346657477803l,uuid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ")
 	@NumlMetaInfo(uuid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ")
 	public String getPartNumber() {
 		String result = this.partNumber;
@@ -201,7 +198,7 @@ public class ApplianceComponent implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1800320774890339505l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1800320774890339505l,uuid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ")
 	@NumlMetaInfo(uuid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ")
 	public Double getPrice() {
 		Double result = this.price;
@@ -274,9 +271,6 @@ public class ApplianceComponent implements IPersistentObject, IEventGenerator, H
 		if ( appliance!=null ) {
 			appliance.z_internalAddToComponent(this);
 			this.z_internalAddToAppliance(appliance);
-			setDeletedOn(Stdlib.FUTURE);
-		} else {
-			markDeleted();
 		}
 	}
 	

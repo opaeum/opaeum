@@ -48,12 +48,11 @@ public class DiscriminatorImplementor extends AbstractJavaProducingVisitor {
 				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(attr);
 				OJBlock dcBody = new OJBlock();
 				OJClass ojClass = this.javaModel.findClass(path);
-				Enumeration en = (Enumeration)attr.getType();
-				Enumeration powerType = en;
-				if (EmfClassifierUtil.isPowerTypeInstanceOn( entity,en)) {
+				Enumeration powerType = (Enumeration)attr.getType();
+				if (EmfClassifierUtil.isPowerTypeInstanceOn( entity,powerType)) {
 					Generalization generalization = entity.getGeneralizations().iterator().next();
 					String literal = ojUtil.classifierPathname(powerType) + "."
-							+ EmfClassifierUtil.getPowerTypeLiteral( generalization,en).getName().toUpperCase();
+							+ EmfClassifierUtil.getPowerTypeLiteral( generalization,(Enumeration)attr.getType()).getName().toUpperCase();
 					dcBody.addToStatements(map.setter() + "(" + literal + ")");
 				}
 				ojClass.getDefaultConstructor().setBody(dcBody);

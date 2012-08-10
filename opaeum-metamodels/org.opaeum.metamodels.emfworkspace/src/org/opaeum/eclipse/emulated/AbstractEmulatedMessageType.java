@@ -12,21 +12,15 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ocl.uml.MessageType;
-import org.eclipse.ocl.uml.impl.MessageTypeImpl;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interface;
-import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Parameter;
-import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
-import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.internal.impl.BehavioredClassifierImpl;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
 
@@ -56,7 +50,7 @@ public abstract class AbstractEmulatedMessageType extends BehavioredClassifierIm
 		return ownedAttributes;
 	}
 	protected void addTypedElementPropertyBridge(TypedElement typedElement){
-		ownedAttributes.add(new TypedElementPropertyBridge(this, typedElement));
+		ownedAttributes.add(new TypedElementPropertyBridge(this, typedElement,this.propertyEmulation));
 	}
 	public void addNonInverseArtificialProperty(NonInverseArtificialProperty oe){
 		ownedAttributes.add(oe);

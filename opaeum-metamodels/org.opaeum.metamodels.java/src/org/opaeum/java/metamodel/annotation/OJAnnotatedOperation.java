@@ -22,6 +22,9 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	}
 	public OJAnnotatedOperation(String string){
 		super();
+		if(string.contains("?")){
+			System.out.println();
+		}
 		setName(string);
 	}
 	@Override

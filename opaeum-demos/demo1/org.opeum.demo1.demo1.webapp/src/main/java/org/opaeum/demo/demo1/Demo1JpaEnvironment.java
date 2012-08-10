@@ -11,7 +11,6 @@ import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.runtime.jpa.StandaloneJpaEnvironment;
 import org.opeum.demo1.util.Demo1JavaMetaInfoMap;
-import org.opeum.demo1.util.Demo1KnowledgeBase;
 
 public class Demo1JpaEnvironment extends StandaloneJpaEnvironment{
 	public static Demo1JpaEnvironment getInstance(){

@@ -3,8 +3,10 @@ package org.opaeum.javageneration.basicjava;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
+import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -32,28 +34,20 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-	Java6ModelGenerator.class
-},after = {
-	Java6ModelGenerator.class
-})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class},after = {Java6ModelGenerator.class})
 public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void generateExtraConstructor(Enumeration c){
-		if(EmfClassifierUtil.getCodeGenerationStrategy( c)!=CodeGenerationStrategy.NO_CODE){
+		if(EmfClassifierUtil.getCodeGenerationStrategy(c) != CodeGenerationStrategy.NO_CODE){
 			OJEnum myClass = (OJEnum) findJavaClass(c);
-			Property valuesAttr = c.getAttribute("values",null);
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap((Property) valuesAttr);
+			ClassifierMap map = ojUtil.buildClassifierMap(c, CollectionKind.SET_LITERAL);
 			OJOperation values = myClass.getUniqueOperation("getValues");
-			// TODO find out why the getter is not generated
 			if(values == null){
 				values = new OJAnnotatedOperation("getValues", map.javaTypePath());
 				myClass.addToOperations(values);
 			}
 			values.setStatic(true);
-			OJPathName results = new OJPathName("java.util.Set");
-			results.addToElementTypes(ojUtil.classifierPathname(c));
-			values.setReturnType(results);
+			values.setReturnType(map.javaTypePath());
 			values.getBody().removeAllFromStatements();
 			myClass.addToImports("java.util.HashSet");
 			values.getBody().addToStatements("return new HashSet<" + c.getName() + ">(java.util.Arrays.asList(values()))");
@@ -73,10 +67,10 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 				getUid.initializeResultVariable("getUuid()");
 				myClass.addToOperations(getUid);
 				OJUtil.addField(myClass, constr, "opaeumId", new OJPathName("long"));
-
 				for(EnumerationLiteral el:c.getOwnedLiterals()){
 					EnumerationLiteral nl = (EnumerationLiteral) el;
-					OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()), "uuid", "\"" + EmfWorkspace.getId(nl) + "\"," +  EmfWorkspace.getOpaeumId(nl) + "l");
+					OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()), "uuid",
+							"\"" + EmfWorkspace.getId(nl) + "\"," + EmfWorkspace.getOpaeumId(nl) + "l");
 				}
 				if(!constr.getParameters().isEmpty()){
 					myClass.addToConstructors(constr);
@@ -90,7 +84,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		// Does lookups on arbitrary string properties
 		List<? extends Property> allAttributes = getLibrary().getEffectiveAttributes(c);
 		for(Property prop:allAttributes){
-			if(prop.getType().getName().equals("String") && prop.getUpper()==1 && !prop.isDerived()){
+			if(prop.getType().getName().equals("String") && prop.getUpper() == 1 && !prop.isDerived()){
 				// TODO support for other types??
 				OJAnnotatedOperation staticOp = new OJAnnotatedOperation("from" + NameConverter.capitalize(prop.getName()));
 				staticOp.setStatic(true);
@@ -106,9 +100,10 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 					EnumerationLiteral nakedLiteral = (EnumerationLiteral) EnumerationLiteral;
 					List<Slot> slots = nakedLiteral.getSlots();
 					for(Slot nakedSlot:slots){
-						if(nakedSlot.getDefiningFeature().equals(prop) && nakedSlot.getValues().size()==1){
+						if(nakedSlot.getDefiningFeature().equals(prop) && nakedSlot.getValues().size() == 1){
 							ifSPS.setCondition(prop.getName() + ".equals("
-									+ valueSpecificationUtil.expressValue(myClass, nakedSlot.getValues().get(0), getLibrary().getActualType( prop), true) + ")");
+									+ valueSpecificationUtil.expressValue(myClass, nakedSlot.getValues().get(0), getLibrary().getActualType(prop), true)
+									+ ")");
 							ifSPS.addToThenPart("return " + EnumerationLiteral.getName().toUpperCase());
 							break;
 						}
@@ -145,7 +140,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 			OJEnumLiteral ojl = oje.findLiteral(l.getName().toUpperCase());
 			OJField f = ojl.findAttributeValue(mapper.fieldname());
 			EnumerationLiteral nakedLiteral = (EnumerationLiteral) l;
-			final Slot slot = EmfValueSpecificationUtil.getSlotForFeature( nakedLiteral,feat);
+			final Slot slot = EmfValueSpecificationUtil.getSlotForFeature(nakedLiteral, feat);
 			if(slot != null){
 				f.setInitExp(valueSpecificationUtil.expressSlot(myClass, slot));
 			}

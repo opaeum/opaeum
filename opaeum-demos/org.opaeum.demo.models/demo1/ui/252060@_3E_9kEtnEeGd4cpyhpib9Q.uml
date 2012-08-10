@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_X8KcvJT6EeG_oLv6jKpgkw" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q" name="Person phone number User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_X8KcvZT6EeG_oLv6jKpgkw" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q" name="Edit PersonPhoneNumber"><actionBar xmi:id="_QJ8JZJWxEeGF5JliyOlmJg" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QJ8JZZWxEeGF5JliyOlmJg" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QJ8JZpWxEeGF5JliyOlmJg" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_X8KcvpT6EeG_oLv6jKpgkw" name="Edit Person phone number" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_X8Kcv5T6EeG_oLv6jKpgkw" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_X8KcwJT6EeG_oLv6jKpgkw" name="Phone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJ8JYJWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJ8JYZWxEeGF5JliyOlmJg" umlElementUid="252060@_fjrTsHr7EeGX8L_MMRBizg"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_XDXyUOMAEeGYE-5HtwGq8g" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q" name="Person phone number User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_XDXyUeMAEeGYE-5HtwGq8g" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q" name="Edit PersonPhoneNumber"><actionBar xmi:id="_XDXyWuMAEeGYE-5HtwGq8g" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDXyW-MAEeGYE-5HtwGq8g" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDXyXOMAEeGYE-5HtwGq8g" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_XDXyUuMAEeGYE-5HtwGq8g" name="Edit Person phone number" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_XDXyU-MAEeGYE-5HtwGq8g" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_XDXyVOMAEeGYE-5HtwGq8g" name="Phone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDXyVeMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDXyVuMAEeGYE-5HtwGq8g" umlElementUid="252060@_fjrTsHr7EeGX8L_MMRBizg"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8Kcw5T6EeG_oLv6jKpgkw" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_QJ8JYpWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJ8JY5WxEeGF5JliyOlmJg" umlElementUid="252060@_TR9ilEtoEeGd4cpyhpib9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDXyV-MAEeGYE-5HtwGq8g" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_XDXyWOMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDXyWeMAEeGYE-5HtwGq8g" umlElementUid="252060@_TR9ilEtoEeGd4cpyhpib9Q"/>
         </children>
       </panel>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_X8KcyZT6EeG_oLv6jKpgkw" name="Create PersonPhoneNumber" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
-    <pages xmi:id="_X8KcypT6EeG_oLv6jKpgkw" name="CreatePerson phone number" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_X8Kcy5T6EeG_oLv6jKpgkw" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_X8KczJT6EeG_oLv6jKpgkw" name="Phone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJ8JZ5WxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJ8JaJWxEeGF5JliyOlmJg" umlElementUid="252060@_fjrTsHr7EeGX8L_MMRBizg"/>
+  <newObjectWizard xmi:id="_XDXyXeMAEeGYE-5HtwGq8g" name="Create PersonPhoneNumber" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
+    <pages xmi:id="_XDXyXuMAEeGYE-5HtwGq8g" name="CreatePerson phone number" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_XDXyX-MAEeGYE-5HtwGq8g" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_XDXyYOMAEeGYE-5HtwGq8g" name="Phone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDXyYeMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDXyYuMAEeGYE-5HtwGq8g" umlElementUid="252060@_fjrTsHr7EeGX8L_MMRBizg"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8Kcz5T6EeG_oLv6jKpgkw" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_QJ8JaZWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJ8JapWxEeGF5JliyOlmJg" umlElementUid="252060@_TR9ilEtoEeGd4cpyhpib9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDXyY-MAEeGYE-5HtwGq8g" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_XDYZYOMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDYZYeMAEeGYE-5HtwGq8g" umlElementUid="252060@_TR9ilEtoEeGd4cpyhpib9Q"/>
         </children>
       </panel>
     </pages>

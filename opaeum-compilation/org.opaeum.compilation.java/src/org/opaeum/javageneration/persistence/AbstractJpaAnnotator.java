@@ -33,42 +33,43 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 	protected final boolean isOtherEndOrdered(Property f){
 		return f instanceof Property && (f).getOtherEnd() != null && (f).getOtherEnd().isOrdered();
 	}
-	protected final void mapXToOneSimpleType(Property f,OJAnnotatedClass owner,OJAnnotatedField field){
+	protected final void mapXToOneSimpleType(StructuralFeatureMap map,OJAnnotatedClass owner,OJAnnotatedField field){
 		if(this.workspace.getOpaeumLibrary().getDateType() != null
-				&& f.getType().conformsTo(this.workspace.getOpaeumLibrary().getDateType())){
+				&& map.getBaseType().conformsTo(this.workspace.getOpaeumLibrary().getDateType())){
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"));
 			temporal.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.TemporalType"), "DATE"));
 			field.addAnnotationIfNew(temporal);
 		}
 		OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
-		column.putAttribute("name", JpaUtil.getValidSqlName(PersistentNameUtil.getPersistentName( f).getAsIs()));
+		column.putAttribute("name", JpaUtil.getValidSqlName(map.getPersistentName().getAsIs()));
 		field.addAnnotationIfNew(column);
-		DataType simpleType = (DataType) f.getType();
+		DataType simpleType = (DataType) map.getBaseType();
 		if(EmfClassifierUtil.hasStrategy(simpleType,JpaStrategy.class)){
-			EmfClassifierUtil.getStrategy(simpleType,JpaStrategy.class).annotate(field, f);
+			EmfClassifierUtil.getStrategy(simpleType,JpaStrategy.class).annotate(field, map.getProperty());
 		}
 	}
-	protected final void mapXToOnePersistentType(Property f,OJAnnotatedClass owner,OJAnnotatedField field){
+	protected final void mapXToOnePersistentType(StructuralFeatureMap map,OJAnnotatedClass owner,OJAnnotatedField field){
 		// Entities and behaviors
 		// Inverse is always OneToOne
-		String toOneType = EmfPropertyUtil .isInverse(f) ? "javax.persistence.OneToOne" : "javax.persistence.ManyToOne";
+		String toOneType = map.isInverse() ? "javax.persistence.OneToOne" : "javax.persistence.ManyToOne";
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName(toOneType));
 		JpaUtil.fetchLazy(toOne);
-		if(EmfClassifierUtil.isStructuredDataType(f.getType()) || f.isComposite()){
+		Property f=map.getProperty();
+		if(EmfClassifierUtil.isStructuredDataType(map.getBaseType()) || f.isComposite()){
 			// TODO validate that StructuredDataType cannot participate in bidirectional relationships
 			// Compositional semantics - should also delete Orphan
 			JpaUtil.cascadeAll(toOne);
 		}
 		// TODO with oneToOne components map a relationship
 		// table.
-		if(EmfPropertyUtil.isInverse(f) && !(f.getAssociation() != null && EmfAssociationUtil .isClass(f.getAssociation()))){
+		if(map.isInverse() && !(f.getAssociation() != null && EmfAssociationUtil .isClass(f.getAssociation()))){
 			// Implies navigable other end and Property
 			StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap((f).getOtherEnd());
 			toOne.putAttribute(new OJAnnotationAttributeValue("mappedBy", otherMap.fieldname()));
 		}else{
 			// Remember that oneToOne uniqueness will be added as a
 			// uniqueConstraint
-			NameWrapper persistentName = PersistentNameUtil.getPersistentName( f);
+			NameWrapper persistentName = map.getPersistentName();
 			String asIs = persistentName.getAsIs();
 			OJAnnotationValue column = JpaUtil.addJoinColumn(field, asIs, !EmfPropertyUtil .isRequired(f));
 			if(isOtherEndOrdered(f)){
@@ -88,13 +89,13 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
 		if(field != null){
 			// Field might have been replaced by a name-value type map
-			if(f.getType() instanceof Enumeration){
+			if(map.getBaseType() instanceof Enumeration){
 				mapXToOneEnumeration(f, owner, field);
-			}else if(EmfClassifierUtil.isSimpleType( f.getType() )){
-				mapXToOneSimpleType(f, owner, field);
-			}else if(isPersistent((Classifier) f.getType())){
-				mapXToOnePersistentType(f, owner, field);
-			}else if(f.getType() instanceof Behavior || EmfClassifierUtil.isHelper(f.getType())){
+			}else if(EmfClassifierUtil.isSimpleType( map.getBaseType() )){
+				mapXToOneSimpleType(map, owner, field);
+			}else if(isPersistent((Classifier) map.getBaseType())){
+				mapXToOnePersistentType(map, owner, field);
+			}else if(map.getBaseType() instanceof Behavior || EmfClassifierUtil.isHelper(map.getBaseType())){
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 			}
 			for(Property p:EmfPropertyUtil.getPropertiesQualified( map.getProperty())){

@@ -4,11 +4,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -42,9 +40,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -161,10 +157,9 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		getBranch().z_internalAddToJob((Job)this);
 	}
 	
-	static public Set<? extends Job> allInstances() {
+	static public Set<? extends Job> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
-			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
-			return new HashSet(session.readAll(structuredbusiness.Job.class));
+			return new HashSet(persistence.readAll(structuredbusiness.Job.class));
 		} else {
 			return mockedAllInstances;
 		}
@@ -300,7 +295,7 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=253605700129942225l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_oF8YAJQbEeGJg4MkDnRIeA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=253605700129942225l,uuid="914890@_oF8YAJQbEeGJg4MkDnRIeA")
 	@NumlMetaInfo(uuid="914890@_oF8YAJQbEeGJg4MkDnRIeA")
 	public Double getCostToCompany() {
 		Double result = this.costToCompany;
@@ -308,7 +303,7 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForCustomerAssistant",opaeumId=2334130007322557831l,opposite="job",uuid="914890@_YMgg0JLAEeGnpuq6_ber_Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2334130007322557831l,opposite="job",uuid="914890@_YMgg0JLAEeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_YMgg0JLAEeGnpuq6_ber_Q")
 	public CustomerAssistant getCustomerAssistant() {
 		CustomerAssistant result = this.customerAssistant;
@@ -320,7 +315,7 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForForeman",opaeumId=8444045662644766029l,opposite="job",uuid="914890@_eQfxoJLCEeGnpuq6_ber_Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8444045662644766029l,opposite="job",uuid="914890@_eQfxoJLCEeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_eQfxoJLCEeGnpuq6_ber_Q")
 	public Technician getForeman() {
 		Technician result = this.foreman;
@@ -348,15 +343,7 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		return getBranch();
 	}
 	
-	public List<CustomerAssistant> getSourcePopulationForCustomerAssistant() {
-		return new ArrayList<CustomerAssistant>(Stdlib.collectionAsSet(this.getBranch().getCustomerAssistant()));
-	}
-	
-	public List<Technician> getSourcePopulationForForeman() {
-		return new ArrayList<Technician>(Stdlib.collectionAsSet(collect1()));
-	}
-	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2445396184547786077l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_dbubkJQcEeGJg4MkDnRIeA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2445396184547786077l,uuid="914890@_dbubkJQcEeGJg4MkDnRIeA")
 	@NumlMetaInfo(uuid="914890@_dbubkJQcEeGJg4MkDnRIeA")
 	public Double getTimeInHours() {
 		Double result = this.timeInHours;
@@ -364,7 +351,7 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1905004093031379355l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_sd0zsJQaEeGTXL33HwWNwQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1905004093031379355l,uuid="914890@_sd0zsJQaEeGTXL33HwWNwQ")
 	@NumlMetaInfo(uuid="914890@_sd0zsJQaEeGTXL33HwWNwQ")
 	public Double getTotalCost() {
 		Double result = this.totalCost;
@@ -525,9 +512,6 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		if ( branch!=null ) {
 			branch.z_internalAddToJob(this);
 			this.z_internalAddToBranch(branch);
-			setDeletedOn(Stdlib.FUTURE);
-		} else {
-			markDeleted();
 		}
 	}
 	
@@ -714,17 +698,6 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 			this.totalCost=null;
 			this.totalCost=null;
 		}
-	}
-	
-	/** Implements ->collect( c : Branch | c.technician )
-	 */
-	private Collection<Technician> collect1() {
-		Collection<Technician> result = new ArrayList<Technician>();
-		for ( Branch c : this.getBranch().getDishwashersInc().getBranch() ) {
-			Technician bodyExpResult = c.getTechnician();
-			if ( bodyExpResult != null ) result.add( bodyExpResult );
-		}
-		return result;
 	}
 
 }

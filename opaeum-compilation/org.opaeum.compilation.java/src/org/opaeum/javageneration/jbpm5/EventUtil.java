@@ -20,6 +20,7 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.eclipse.uml2.uml.Vertex;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfEventUtil;
@@ -33,6 +34,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
+import org.opaeum.javageneration.util.JavaNameGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.name.NameConverter;
@@ -57,12 +59,12 @@ public class EventUtil{
 			return ojUtil.buildSignalMap(((SignalEvent) e).getSignal()).eventConsumerMethodName();
 		}else if(e instanceof CallEvent){
 			return ojUtil.buildOperationMap(((CallEvent) e).getOperation()).eventConsumerMethodName();
-		}else if(e instanceof State){
-			return "on" + NameConverter.capitalize(e.getName()) + "Completed";
+		}else if(e instanceof Vertex){
+			return JavaNameGenerator.toJavaName("on" + NameConverter.capitalize(e.getName()) + "Completed");
 		}else if(e instanceof Event){
-			return NameConverter.capitalize(e.getName()) + "Occurred";
+			return JavaNameGenerator.toJavaName(NameConverter.capitalize(e.getName()) + "Occurred");
 		}else{
-			return "on" + NameConverter.capitalize(e.getName());
+			return JavaNameGenerator.toJavaName("on" + NameConverter.capitalize(e.getName()));
 		}
 	}
 	public OJPathName handlerPathName(Operation s){

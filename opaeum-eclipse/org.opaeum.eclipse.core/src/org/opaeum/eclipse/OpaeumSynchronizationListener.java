@@ -8,4 +8,6 @@ import org.opaeum.eclipse.context.OpenUmlFile;
 
 public interface OpaeumSynchronizationListener{
 	public void synchronizationComplete(OpenUmlFile openUmlFile, Set<Element> affectedElements);
+
+	public void onClose(OpenUmlFile openUmlFile);
 }

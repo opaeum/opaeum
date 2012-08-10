@@ -25,7 +25,7 @@ import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.ocl.uml.OclContext;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 
 public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 	private ActionMap actionMap;
@@ -102,7 +102,7 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 		}
 	}
 	protected String expressDestination(OJAnnotatedOperation operation,OpaqueExpression fromExpression){
-		OclContext oclExpressionContext = getLibrary().getOclExpressionContext(fromExpression);
+		OpaqueExpressionContext oclExpressionContext = getLibrary().getOclExpressionContext(fromExpression);
 		if(!oclExpressionContext.hasErrors()){
 			if(oclExpressionContext.getExpression().getType() instanceof CollectionType){
 				return valueSpecificationUtil.expressOcl(oclExpressionContext,operation, null);

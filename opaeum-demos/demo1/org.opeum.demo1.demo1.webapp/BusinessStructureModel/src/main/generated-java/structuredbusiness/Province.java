@@ -29,6 +29,24 @@ import org.opaeum.runtime.domain.IEnum;
 		this.opaeumId=opaeumId;
 	}
 
+	public void addAllToCity(Set<City> city) {
+		for ( City o : city ) {
+			addToCity(o);
+		}
+	}
+	
+	public void addToCity(City city) {
+		if ( city!=null ) {
+			city.z_internalRemoveFromProvince(city.getProvince());
+			city.z_internalAddToProvince(this);
+			z_internalAddToCity(city);
+		}
+	}
+	
+	public void clearCity() {
+		removeAllFromCity(getCity());
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7131124045743016994l,opposite="province",uuid="914890@_DmOEAZKZEeGVguC2OnqOLw")
 	@NumlMetaInfo(uuid="914890@_DmOEAZKZEeGVguC2OnqOLw")
 	public Set<City> getCity() {
@@ -55,25 +73,31 @@ import org.opaeum.runtime.domain.IEnum;
 		return new HashSet<Province>(java.util.Arrays.asList(values()));
 	}
 	
+	public void removeAllFromCity(Set<City> city) {
+		Set<City> tmp = new HashSet<City>(city);
+		for ( City o : tmp ) {
+			removeFromCity(o);
+		}
+	}
+	
+	public void removeFromCity(City city) {
+		if ( city!=null ) {
+			city.z_internalRemoveFromProvince(this);
+			z_internalRemoveFromCity(city);
+		}
+	}
+	
+	public void setCity(Set<City> city) {
+		this.clearCity();
+		this.addAllToCity(city);
+	}
+	
 	public void z_internalAddToCity(City val) {
 		this.city.add(val);
 	}
 	
-	private void addAllToCity(Set<City> city) {
-		for ( City o : city ) {
-			addToCity(o);
-		}
-	}
-	
-	private void addToCity(City city) {
-		if ( city!=null ) {
-			city.z_internalAddToProvince(this);
-			z_internalAddToCity(city);
-		}
-	}
-	
-	private void setCity(Set<City> city) {
-		this.addAllToCity(city);
+	public void z_internalRemoveFromCity(City val) {
+		this.city.remove(val);
 	}
 
 }

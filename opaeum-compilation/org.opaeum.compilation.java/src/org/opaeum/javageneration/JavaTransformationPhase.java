@@ -47,6 +47,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	@InputModel
 	OJWorkspace javaModel;
 	private OpaeumConfig config;
+	@InputModel
 	OJUtil ojUtil;
 	private List<JavaTransformationStep> features;
 	public static final boolean IS_RUNTIME_AVAILABLE = false;

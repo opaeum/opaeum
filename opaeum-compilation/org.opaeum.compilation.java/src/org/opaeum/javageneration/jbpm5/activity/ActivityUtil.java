@@ -7,11 +7,11 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.OJUtill;
 
 public class ActivityUtil{
-	OJUtil ojUtil;
-	public ActivityUtil(OJUtil ojUtil){
+	OJUtill ojUtil;
+	public ActivityUtil(OJUtill ojUtil){
 		super();
 		this.ojUtil = ojUtil;
 	}

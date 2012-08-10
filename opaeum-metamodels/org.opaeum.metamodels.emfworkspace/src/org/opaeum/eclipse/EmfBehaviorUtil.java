@@ -3,9 +3,9 @@ package org.opaeum.eclipse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.AcceptCallAction;
@@ -155,13 +155,13 @@ public class EmfBehaviorUtil{
 			addBehaviorsRecursively(behaviors, c.getGenerals());
 		}
 	}
-	private static void addPotentialSpecificationsRecursively(HashSet<Operation> behaviors,EList<? extends Classifier> generals){
+	private static void addPotentialSpecificationsRecursively(TreeSet<Operation> behaviors,EList<? extends Classifier> generals){
 		for(Classifier c:generals){
 			addPotentialSpecifications(behaviors, c);
 		}
 	}
 	
-	private static void addPotentialSpecifications(HashSet<Operation> behaviors,Classifier c){
+	private static void addPotentialSpecifications(TreeSet<Operation> behaviors,Classifier c){
 		if(c instanceof Class){
 			behaviors.addAll(((Class) c).getOperations());
 			addPotentialSpecificationsRecursively(behaviors, c.getGenerals());
@@ -178,12 +178,12 @@ public class EmfBehaviorUtil{
 	}
 	public static Collection<Operation> findSpecificationsInScope(Behavior behavior){
 		Classifier context = getContext(behavior);
-		HashSet<Operation> operations = new HashSet<Operation>();
+		TreeSet<Operation> operations = new TreeSet<Operation>(new ElementComparator());
 		addPotentialSpecifications(operations, context);
 		return operations;
 	}
 	public static Set<Behavior> getEffectiveBehaviors(BehavioredClassifier context){
-		HashSet<Behavior> operations = new HashSet<Behavior>();
+		TreeSet<Behavior> operations = new TreeSet<Behavior>(new ElementComparator());
 		addBehaviors(operations, context);
 		return operations;
 	}
@@ -200,7 +200,7 @@ public class EmfBehaviorUtil{
 		return results;
 	}
 	public static boolean isClassifierBehavior(Behavior behavior){
-		return behavior.getContext() != null & behavior.getContext().getClassifierBehavior() == behavior;
+		return behavior.getContext() != null && 	 behavior.getContext().getClassifierBehavior() == behavior;
 	}
 	public static boolean isHumanTrigger(Trigger t){
 		Stereotype st = StereotypesHelper.getStereotype(t, StereotypeNames.TRIGGER);
@@ -304,7 +304,7 @@ public class EmfBehaviorUtil{
 		return false;
 	}
 	private static Collection<AcceptCallAction> getCallActions(Operation o){
-		Set<AcceptCallAction> callActions = new HashSet<AcceptCallAction>();
+		Set<AcceptCallAction> callActions = new TreeSet<AcceptCallAction>(new ElementComparator());
 		for(Element e:EmfElementFinder.getDependentElements(o)){
 			if(e instanceof CallEvent){
 				Set<Element> dependentElements = EmfElementFinder.getDependentElements(e);

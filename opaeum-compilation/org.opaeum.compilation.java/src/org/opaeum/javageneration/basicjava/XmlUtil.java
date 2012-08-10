@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.basicjava;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
@@ -12,15 +14,15 @@ import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.javageneration.util.OJUtil;
 
 public class XmlUtil{
-	public static boolean isXmlAttribute(Property f){
-		return (EmfClassifierUtil.isSimpleType(f.getType()) || f.getType() instanceof Enumeration) && !(OJUtil.isBuiltIn(f) || f.isDerived());
+	public static boolean isXmlAttribute(StructuralFeatureMap map){
+		return (EmfClassifierUtil.isSimpleType(map.getBaseType()) || map.getBaseType() instanceof Enumeration) && !(OJUtil.isBuiltIn(map.getProperty()) || map.getProperty().isDerived());
 	}
-	public static boolean isXmlSubElement(Property f){
-		if(isXmlElement(f)){
-			if( f instanceof EndToAssociationClass){
-				return ((EndToAssociationClass) f).getIndexInAssocation() == 0;
+	public static boolean isXmlSubElement(StructuralFeatureMap map){
+		if(isXmlElement(map)){
+			if( map.getProperty() instanceof EndToAssociationClass){
+				return ((EndToAssociationClass) map.getProperty()).getIndexInAssocation() == 0;
 			}else{
-				return f.isComposite();
+				return map.getProperty().isComposite();
 			}
 		}else{
 			return false;
@@ -32,8 +34,9 @@ public class XmlUtil{
 	private static boolean isPersistent(Type nakedBaseType){
 		return EmfClassifierUtil.isComplexStructure(nakedBaseType) && EmfClassifierUtil.isPersistent(nakedBaseType);
 	}
-	public static boolean isXmlReference(Property f){
-		if(isXmlElement(f)){
+	public static boolean isXmlReference(StructuralFeatureMap map){
+		if(isXmlElement(map)){
+			Property f=map.getProperty();
 			if(f instanceof EndToAssociationClass){
 				return ((EndToAssociationClass) f).getIndexInAssocation() == 1;
 			}else{
@@ -43,9 +46,10 @@ public class XmlUtil{
 			return false;
 		}
 	}
-	private static boolean isXmlElement(Property f){
+	private static boolean isXmlElement(StructuralFeatureMap map){
+		Property f=map.getProperty();
 		boolean realizedThroughAssocationClass = OJUtil.hasOJClass((Classifier) f.getAssociation());
-		boolean classIsElement = isPersistent(f.getType()) || (f.getType() instanceof Interface && !(EmfClassifierUtil.isHelper(f.getType())));
+		boolean classIsElement = isPersistent(map.getBaseType()) || (map.getBaseType() instanceof Interface && !(EmfClassifierUtil.isHelper(map.getBaseType())));
 		return classIsElement && !(f.isDerived() || isContainmentFeature(f) || realizedThroughAssocationClass);
 	}
 }

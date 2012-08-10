@@ -61,7 +61,7 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
 	public void visitActivity(Activity activity){
-		if(EmfBehaviorUtil.isResponsibility( activity.getSpecification() ) && EmfBehaviorUtil.hasExecutionInstance(activity)){
+		if(activity.getSpecification()!=null && EmfBehaviorUtil.isResponsibility( activity.getSpecification() ) && EmfBehaviorUtil.hasExecutionInstance(activity)){
 		}
 		for(ActivityNode n:EmfActivityUtil.getActivityNodesRecursively( activity)){
 			if(EmfActionUtil.isScreenFlowTask(n)){
@@ -112,7 +112,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	}
 	@VisitBefore
 	public void visitStateMachine(StateMachine sm){
-		if(EmfBehaviorUtil.isResponsibility(sm.getSpecification()) && EmfBehaviorUtil.hasExecutionInstance(sm)){
+		if(sm.getSpecification()!=null&& EmfBehaviorUtil.isResponsibility(sm.getSpecification()) && EmfBehaviorUtil.hasExecutionInstance(sm)){
 			// TODO distinguish between tasks and contractedProcesses
 		}
 	}

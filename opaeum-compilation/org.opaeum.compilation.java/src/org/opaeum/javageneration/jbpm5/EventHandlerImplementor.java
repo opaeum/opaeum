@@ -46,7 +46,7 @@ import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
-import org.opaeum.ocl.uml.OclContext;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
@@ -329,7 +329,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 					oper.setReturnType(new OJPathName("boolean"));
 					if(c.getSpecification() instanceof OpaqueExpression){
 						OpaqueExpression oe=(OpaqueExpression) c.getSpecification();
-						OclContext oclExpressionContext = getLibrary().getOclExpressionContext(oe);
+						OpaqueExpressionContext oclExpressionContext = getLibrary().getOclExpressionContext(oe);
 						ValueSpecificationUtil.addExtendedKeywords(oper, oclExpressionContext);
 						oper.initializeResultVariable("false");
 						oper.getBody().addToStatements("result = " + ec.makeExpression(oclExpressionContext.getExpression(), false, new ArrayList<OJParameter>()));

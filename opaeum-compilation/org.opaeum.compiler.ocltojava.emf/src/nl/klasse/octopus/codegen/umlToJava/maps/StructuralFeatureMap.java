@@ -1,6 +1,5 @@
 package nl.klasse.octopus.codegen.umlToJava.maps;
 
-import nl.klasse.tools.common.Check;
 import nl.klasse.tools.common.StringHelpers;
 
 import org.eclipse.ocl.expressions.CollectionKind;
@@ -21,13 +20,29 @@ public class StructuralFeatureMap extends PackageableElementMap{
 	protected ClassifierMap baseTypeMap = null;
 	public StructuralFeatureMap(OJUtil ojUtil,StructuralFeature feature){
 		super(ojUtil, feature);
-		this.feature = feature;
-		baseTypeMap = ojUtil.buildClassifierMap((Classifier) feature.getType());
+		Property property = (Property) feature;
+		if(property.getAssociationEnd() != null){
+			// qualifier - might have backing attribute
+			Classifier c= (Classifier) EmfElementFinder.getContainer(property.getAssociationEnd());
+			Property attribute = c.getAttribute(property.getName(),null);
+			if(attribute!=null){
+				property=attribute;
+			}
+		}
+		this.feature = property;
+		Classifier type = (Classifier) property.getType();
+		if(type == null){
+				type = ojUtil.getLibrary().getStringType();
+		}
+		baseTypeMap = ojUtil.buildClassifierMap(type);
 		if(EmfPropertyUtil.isMany(feature)){
-			featureTypeMap = ojUtil.buildClassifierMap((Classifier) feature.getType(), getCollectionKind(feature));
+			featureTypeMap = ojUtil.buildClassifierMap(type, getCollectionKind(property));
 		}else{
 			featureTypeMap = baseTypeMap;
 		}
+	}
+	public Classifier getBaseType(){
+		return baseTypeMap.modelClass;
 	}
 	public OJPathName javaDefaultTypePath(){
 		if(isMany()){
@@ -51,7 +66,7 @@ public class StructuralFeatureMap extends PackageableElementMap{
 		}
 	}
 	private CollectionKind getCollectionKind(StructuralFeature feature){
-		return null;
+		return super.getCollectionKind(feature);
 	}
 	public StructuralFeature getFeature(){
 		return feature;
@@ -132,33 +147,21 @@ public class StructuralFeatureMap extends PackageableElementMap{
 		return featureTypeMap.javaDefaultValue();
 	}
 	public OJPathName javaBaseFacadeTypePath(){
-		Check.pre("StructuralFeatureMap.javaBaseFacadeTypePath called for non-collection attribute or single-value association end",
-				baseTypeMap != null);
 		return baseTypeMap.javaTypePath();
 	}
 	public OJPathName javaBaseDefaultTypePath(){
-		Check.pre("StructuralFeatureMap.javaBaseDefaultTypePath called for non-collection attribute or single-value association end",
-				baseTypeMap != null);
 		return baseTypeMap.javaDefaultTypePath();
 	}
 	public OJPathName javaBaseObjectTypePath(){
-		Check.pre("StructuralFeatureMap.javaBaseObjectTypePath called for non-collection attribute or single-value association end",
-				baseTypeMap != null);
 		return baseTypeMap.javaObjectTypePath();
 	}
 	public String javaBaseDefaultValue(){
-		// TODO check!!!
-		Check.pre("StructuralFeatureMap.javaBaseDefaultValue called for non-collection attribute or single-value association end",
-				baseTypeMap != null);
 		return baseTypeMap.javaDefaultValue();
 	}
 	public OJPathName unmodifiableOperType(){
 		return featureTypeMap.javaUnmodifiableCollectionOperType();
 	}
 	public String javaBaseFacadeDefaultValue(){
-		// TODO check!!!
-		Check.pre("StructuralFeatureMap.javaBaseFacadeDefaultValue called for non-collection attribute or single-value association end",
-				baseTypeMap != null);
 		return baseTypeMap.javaDefaultValue();
 	}
 	public String javaType(){
@@ -243,5 +246,8 @@ public class StructuralFeatureMap extends PackageableElementMap{
 	}
 	public Classifier getDefiningClassifier(){
 		return (Classifier) EmfElementFinder.getContainer(feature);
+	}
+	public boolean isInverse(){
+		return EmfPropertyUtil.isInverse(getProperty());
 	}
 }

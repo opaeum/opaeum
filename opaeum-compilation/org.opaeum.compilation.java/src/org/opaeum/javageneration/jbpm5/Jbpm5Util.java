@@ -19,6 +19,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.javageneration.util.JavaNameGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.name.NameConverter;
@@ -29,12 +30,12 @@ public class Jbpm5Util{
 	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opaeum.runtime.domain.UmlNodeInstance");
 	public static String stepLiteralName(NamedElement s){
 		String result="";
-		if(s instanceof State){
+		if(s instanceof Vertex){
 			result=EmfStateMachineUtil.getStatePath((Vertex) s);
 		}else if(s instanceof ActivityNode){
 			result=EmfActivityUtil.getNodePath((ActivityNode) s);
 		}
-		return result.replace("::", "_").toUpperCase();
+		return  JavaNameGenerator.toJavaName(result.replace("::", "_").toUpperCase());
 	}
 	public static OJPathName getNodeInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");
@@ -46,7 +47,7 @@ public class Jbpm5Util{
 		return "join_for_" + PersistentNameUtil.getPersistentName(target);
 	}
 	public static String getGuardMethod(NamedElement source, NamedElement flow){
-		return "is" + NameConverter.capitalize(source.getName()) + NameConverter.capitalize(flow.getName());
+		return JavaNameGenerator.toJavaName("is" + NameConverter.capitalize(source.getName()) + NameConverter.capitalize(flow.getName()));
 	}
 
 	public static String getArtificialForkName(Element owner){

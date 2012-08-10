@@ -15,7 +15,7 @@ public class EndToAssociationClass extends AbstractEmulatedProperty{
 		super((Classifier) property.getOtherEnd().getType(), (Classifier) property.getAssociation());
 		this.property = property;
 	}
-	
+
 	public int getUpper(){
 		return property.getUpper();
 	}
@@ -78,5 +78,9 @@ public class EndToAssociationClass extends AbstractEmulatedProperty{
 	@Override
 	public Property getOtherEnd(){
 		return otherEnd;
+	}
+
+	public Property getOriginalProperty(){
+		return property;
 	}
 }

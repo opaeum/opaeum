@@ -41,7 +41,7 @@ import org.opaeum.javageneration.jbpm5.FromNode;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.ocl.uml.AbstractOclContext;
-import org.opaeum.ocl.uml.OclBehaviorContext;
+import org.opaeum.ocl.uml.OpaqueBehaviorContext;
 import org.opaeum.runtime.domain.TransitionListener;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)
@@ -155,7 +155,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 			operationContext.getOwner().addToImports(listener.getClassDeclaration().getImports());
 		}else if(flow.getEffect() instanceof OpaqueBehavior){
 			OpaqueBehavior b = (OpaqueBehavior) flow.getEffect();
-			OclBehaviorContext oclBehaviorContext = getLibrary().getOclBehaviorContext(b);
+			OpaqueBehaviorContext oclBehaviorContext = getLibrary().getOclBehaviorContext(b);
 			if(!oclBehaviorContext.hasErrors()){
 				Classifier voidType = getLibrary().getOclLibrary().getOclVoid();
 				String expression = valueSpecificationUtil.expressOcl(oclBehaviorContext, onTransition, voidType);

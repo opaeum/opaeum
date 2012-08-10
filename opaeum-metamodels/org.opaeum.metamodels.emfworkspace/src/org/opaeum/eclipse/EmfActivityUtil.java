@@ -2,7 +2,6 @@ package org.opaeum.eclipse;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -114,7 +113,7 @@ public class EmfActivityUtil{
 		return getOutgoing(node, true);
 	}
 	private static Set<ActivityEdge> getOutgoing(ActivityNode node,boolean hasGuard){
-		Set<ActivityEdge> results = new TreeSet<ActivityEdge>();
+		Set<ActivityEdge> results = new TreeSet<ActivityEdge>(new ElementComparator());
 		for(ActivityEdge e:getAllEffectiveOutgoing(node)){
 			if(hasGuard(e) == hasGuard){
 				results.add(e);
@@ -123,7 +122,7 @@ public class EmfActivityUtil{
 		return results;
 	}
 	public static Collection<ActivityNode> getStartNodes(Namespace ns){
-		Collection<ActivityNode> result = new HashSet<ActivityNode>();
+		Collection<ActivityNode> result = new TreeSet<ActivityNode>(new ElementComparator());
 		for(ActivityNode node:getActivityNodes(ns)){
 			if(node instanceof ActivityParameterNode){
 				ActivityParameterNode parmNode = (ActivityParameterNode) node;
@@ -151,7 +150,7 @@ public class EmfActivityUtil{
 	}
 	public static Collection<ExceptionHandler> getIncomingExceptionHandlers(ObjectNode n){
 		ECrossReferenceAdapter cra = ECrossReferenceAdapter.getCrossReferenceAdapter(n);
-		Collection<ExceptionHandler> result = new HashSet<ExceptionHandler>();
+		Collection<ExceptionHandler> result = new TreeSet<ExceptionHandler>();
 		for(Setting setting:cra.getNonNavigableInverseReferences(n)){
 			if(setting.getEObject() instanceof ExceptionHandler){
 				result.add((ExceptionHandler) setting.getEObject());
@@ -414,7 +413,7 @@ public class EmfActivityUtil{
 		return (Activity) action;
 	}
 	public static Collection<ActivityNode> getActivityNodesRecursively(Activity containingActivity){
-		Set<ActivityNode> result = new HashSet<ActivityNode>();
+		Set<ActivityNode> result = new TreeSet<ActivityNode>(new ElementComparator());
 		EList<ActivityNode> ownedNodes = containingActivity.getOwnedNodes();
 		for(ActivityNode activityNode:ownedNodes){
 			result.add(activityNode);
@@ -425,7 +424,7 @@ public class EmfActivityUtil{
 		return result;
 	}
 	public static Collection<ActivityNode> getActivityNodesRecursively(StructuredActivityNode containingActivity){
-		Set<ActivityNode> result = new HashSet<ActivityNode>();
+		Set<ActivityNode> result = new TreeSet<ActivityNode>(new ElementComparator());
 		EList<ActivityNode> ownedNodes = containingActivity.getContainedNodes();
 		for(ActivityNode activityNode:ownedNodes){
 			result.add(activityNode);
@@ -467,7 +466,7 @@ public class EmfActivityUtil{
 		}
 	}
 	public static Set<ActivityEdge> getAllEffectiveIncoming(ActivityNode node){
-		Set<ActivityEdge> result = new HashSet<ActivityEdge>();
+		Set<ActivityEdge> result = new TreeSet<ActivityEdge>(new ElementComparator());
 		result.addAll(node.getIncomings());
 		if(node instanceof Action){
 			EList<InputPin> inputs = ((Action) node).getInputs();
@@ -478,7 +477,7 @@ public class EmfActivityUtil{
 		return result;
 	}
 	public static Set<ActivityEdge> getAllEffectiveOutgoing(ActivityNode node){
-		Set<ActivityEdge> result = new HashSet<ActivityEdge>();
+		Set<ActivityEdge> result = new TreeSet<ActivityEdge>(new ElementComparator());
 		result.addAll(node.getOutgoings());
 		if(node instanceof Action){
 			EList<OutputPin> inputs = ((Action) node).getOutputs();
@@ -494,7 +493,7 @@ public class EmfActivityUtil{
 		}else{
 			ObjectFlow of = (ObjectFlow) e;
 			if(of.getTarget() instanceof InputPin){
-				return (ActivityNode) ((InputPin) of).getOwner();
+				return (ActivityNode) ((InputPin) of.getTarget()).getOwner();
 			}else{
 				return of.getTarget();
 			}

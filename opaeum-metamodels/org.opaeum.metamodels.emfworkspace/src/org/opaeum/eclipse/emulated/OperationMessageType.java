@@ -3,7 +3,6 @@ package org.opaeum.eclipse.emulated;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
-import org.eclipse.uml2.uml.Variable;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;

@@ -8,7 +8,7 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 
 public class AssociationClassToEnd extends AbstractEmulatedProperty{
 	private Property property;
-	private AssociationClassToEnd otherEnd;
+	private EndToAssociationClass otherEnd;
 	public AssociationClassToEnd(Property property){
 		super((Classifier) property.getAssociation(), property);
 		this.property = property;
@@ -16,6 +16,10 @@ public class AssociationClassToEnd extends AbstractEmulatedProperty{
 	@Override
 	public boolean isComposite(){
 		return property.isComposite();
+	}
+	@Override
+	public boolean isNavigable(){
+		return true;
 	}
 	@Override
 	public int getUpper(){
@@ -49,11 +53,11 @@ public class AssociationClassToEnd extends AbstractEmulatedProperty{
 	public boolean shouldEmulate(){
 		return EmfAssociationUtil.isClass(property.getAssociation());
 	}
-	public void setOtherEnd(AssociationClassToEnd otherEnd){
+	public void setOtherEnd(EndToAssociationClass otherEnd){
 		this.otherEnd=otherEnd;
 	}
 	@Override
-	public Property getOtherEnd(){
+	public EndToAssociationClass getOtherEnd(){
 		return otherEnd;
 	}
 

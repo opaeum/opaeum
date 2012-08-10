@@ -21,6 +21,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.metamodel.workspace.MappedType;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.AbstractFormatter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
@@ -47,12 +48,14 @@ public class FormatterBuilder extends AbstractJavaProducingVisitor implements In
 		createTextPath(formatterContract, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		for(DataType e:types){
 			if(EmfClassifierUtil.isSimpleType(e)){
-				OJAnnotatedOperation parse = new OJAnnotatedOperation("parse" + e.getName(), ojUtil.classifierPathname(e));
-				parse.addParam("value", new OJPathName("String"));
-				formatterContract.addToOperations(parse);
-				OJAnnotatedOperation format = new OJAnnotatedOperation("format" + e.getName(), new OJPathName("String"));
-				format.addParam("value",  ojUtil.classifierPathname(e));
-				formatterContract.addToOperations(format);
+				if(!EmfPackageUtil.isLibrary((Model) EmfElementFinder.getRootObject(e))){//Temp hack, want to get rid of formatter anyway
+					OJAnnotatedOperation parse = new OJAnnotatedOperation("parse" + e.getName(), ojUtil.classifierPathname(e));
+					parse.addParam("value", new OJPathName("String"));
+					formatterContract.addToOperations(parse);
+					OJAnnotatedOperation format = new OJAnnotatedOperation("format" + e.getName(), new OJPathName("String"));
+					format.addParam("value", ojUtil.classifierPathname(e));
+					formatterContract.addToOperations(format);
+				}
 			}
 		}
 	}

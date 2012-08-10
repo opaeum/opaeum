@@ -41,9 +41,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -139,10 +137,9 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		getApplianceDoctor().z_internalAddToApplianceModel((ApplianceModel)this);
 	}
 	
-	static public Set<? extends ApplianceModel> allInstances() {
+	static public Set<? extends ApplianceModel> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
-			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
-			return new HashSet(session.readAll(structuredbusiness.ApplianceModel.class));
+			return new HashSet(persistence.readAll(structuredbusiness.ApplianceModel.class));
 		} else {
 			return mockedAllInstances;
 		}
@@ -260,7 +257,7 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8027636478953627954l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8027636478953627954l,uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
 	public String getName() {
 		String result = this.name;
@@ -280,7 +277,7 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		return getApplianceDoctor();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6341938639454514848l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6341938639454514848l,uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
 	public String getPartNumber() {
 		String result = this.partNumber;
@@ -387,9 +384,6 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		if ( applianceDoctor!=null ) {
 			applianceDoctor.z_internalAddToApplianceModel(this);
 			this.z_internalAddToApplianceDoctor(applianceDoctor);
-			setDeletedOn(Stdlib.FUTURE);
-		} else {
-			markDeleted();
 		}
 	}
 	

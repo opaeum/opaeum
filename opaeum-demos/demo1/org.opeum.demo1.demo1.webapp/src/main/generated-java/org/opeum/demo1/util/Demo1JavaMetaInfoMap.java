@@ -9,7 +9,6 @@ public class Demo1JavaMetaInfoMap extends JavaMetaInfoMap {
 	/** Constructor for Demo1JavaMetaInfoMap
 	 */
 	public Demo1JavaMetaInfoMap() {
-		this.importMetaInfo(structuredbusiness.util.StructuredbusinessJavaMetaInfoMap.INSTANCE);
 	}
 
 

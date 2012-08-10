@@ -140,7 +140,7 @@ public class ValueSpecificationUtil{
 		if(valueSpec instanceof LiteralBoolean){
 			expression = valueSpec.booleanValue() + "";
 		}else if(valueSpec instanceof LiteralString){
-			expression = "\"" + valueSpec.stringValue().toString() + "\"";
+			expression = "\"" + valueSpec.stringValue() + "\"";
 		}else if(valueSpec instanceof InstanceValue){
 			InstanceValue iv = (InstanceValue) valueSpec;
 			if(iv.getInstance() instanceof EnumerationLiteral){
@@ -187,7 +187,7 @@ public class ValueSpecificationUtil{
 			if(expression.getType() instanceof CollectionType){
 				CollectionType is = (CollectionType) expression.getType();
 				if(!is.getElementType().equals(expectedType)){
-					ClassifierMap classifierMap = ojUtil.buildClassifierMap(expectedType, collectionKind);
+					ClassifierMap classifierMap = ojUtil.buildClassifierMap(((CollectionType) expectedType).getElementType(), collectionKind);
 					String defaultValue = classifierMap.javaDefaultValue();
 					String typeCast = defaultValue.substring(0, defaultValue.length() - 1) + java + ")";
 					return typeCast;

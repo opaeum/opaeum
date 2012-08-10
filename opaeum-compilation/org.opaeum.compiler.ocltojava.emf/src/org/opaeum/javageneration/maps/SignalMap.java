@@ -4,6 +4,7 @@ import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.eclipse.uml2.uml.Signal;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.util.JavaNameGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
@@ -31,15 +32,15 @@ public class SignalMap extends ClassifierMap implements IMessageMap{
 		return receiverTypePath;
 	}
 	public String receiveMethodName(){
-		return "receive" +  NameConverter.capitalize(signal.getName());
+		return JavaNameGenerator.toJavaName("receive" +  NameConverter.capitalize(signal.getName()));
 	}
 	public OJPathName eventHandlerPath(){
 		return new OJPathName(signal.getName() + "Handler");
 	}
 	public String eventGeratorMethodName(){
-		return "generate" + signal.getName() + "Event";
+		return JavaNameGenerator.toJavaName("generate" + signal.getName() + "Event");
 	}
 	public String eventConsumerMethodName(){
-		return "consume" + signal.getName() + "Event";
+		return  JavaNameGenerator.toJavaName("consume" + signal.getName() + "Event");
 	}
 }

@@ -10,6 +10,7 @@ import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
@@ -49,7 +50,7 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 	}
 	@Override
 	public Collection<Element> getChildren(Element root){
-		return root.getOwnedElements();
+		return super.getChildren(root);
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
@@ -70,7 +71,7 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 		ojUtil.buildOperationMap(p);
 		List<Parameter> ownedParameters = p.getOwnedParameters();
 		for(Parameter parm:ownedParameters){
-			ojUtil.buildStructuralFeatureMap( parm);
+			ojUtil.buildStructuralFeatureMap(parm);
 		}
 	}
 	@VisitAfter(matchSubclasses = true)
@@ -91,18 +92,20 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(final Classifier c){
-		ojUtil.buildClassifierMap(c,(CollectionKind)null);
+		ojUtil.buildClassifierMap(c, (CollectionKind) null);
 		if(c instanceof Signal){
 			ojUtil.buildSignalMap((Signal) c);
 		}
 		ojUtil.classifierPathname(c);
 		ojUtil.packagePathname(c);
-		if(c instanceof Behavior ){
+		if(c instanceof Behavior){
 			ojUtil.statePathname(c);
 		}
 		List<? extends Property> ownedAttributes = c.getAttributes();
-		for(Property iNakedProperty:ownedAttributes){
-			ojUtil.buildStructuralFeatureMap(iNakedProperty);// for interfaces and stereotypes
+		for(Property p:ownedAttributes){
+			if(p.getType() != null){
+				ojUtil.buildStructuralFeatureMap(p);// for interfaces and stereotypes
+			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

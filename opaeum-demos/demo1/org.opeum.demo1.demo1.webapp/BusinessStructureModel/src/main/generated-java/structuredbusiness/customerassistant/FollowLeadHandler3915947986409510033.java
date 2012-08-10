@@ -44,7 +44,7 @@ public class FollowLeadHandler3915947986409510033 implements ICallEventHandler {
 		return 5;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8090447049092703081l,uuid="914890@_Dzy24JKiEeGiJMBDeZRymA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=577283965044448219l,uuid="914890@_Dzy24JKiEeGiJMBDeZRymA")
 	public Online_Customer getCustomer() {
 		return this.customer;
 	}
@@ -66,7 +66,7 @@ public class FollowLeadHandler3915947986409510033 implements ICallEventHandler {
 	}
 	
 	@PropertyMetaInfo(constraints=
-		@PropertyConstraint(message="New constraint",name="newConstraint"),isComposite=false,opaeumId=1170578743445739845l,strategyFactory=DateTimeStrategyFactory.class,uuid="914890@_D1Kv4JKiEeGiJMBDeZRymA")
+		@PropertyConstraint(message="New constraint",name="NewConstraint"),isComposite=false,opaeumId=2393352033743834460l,strategyFactory=DateTimeStrategyFactory.class,uuid="914890@_D1Kv4JKiEeGiJMBDeZRymA")
 	public Date getTimeOfLead() {
 		return this.timeOfLead;
 	}

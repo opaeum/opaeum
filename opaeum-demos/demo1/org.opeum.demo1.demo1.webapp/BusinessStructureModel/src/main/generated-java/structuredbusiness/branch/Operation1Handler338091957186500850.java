@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.opaeum.annotation.PropertyMetaInfo;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
 import org.opaeum.runtime.event.ICallEventHandler;
@@ -55,7 +54,7 @@ public class Operation1Handler338091957186500850 implements ICallEventHandler {
 		return "structuredbusiness::Branch::Operation1";
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8110004179515465021l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_k_VZsMzBEeGKe7Qm4dvydQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7908037741838922253l,uuid="914890@_k_VZsMzBEeGKe7Qm4dvydQ")
 	public String getSdfgd() {
 		return this.sdfgd;
 	}

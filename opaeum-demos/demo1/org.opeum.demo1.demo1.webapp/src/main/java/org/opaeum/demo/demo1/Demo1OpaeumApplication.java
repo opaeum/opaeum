@@ -14,7 +14,6 @@ import javax.validation.Validator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
@@ -30,8 +29,6 @@ import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.Query;
 import org.opaeum.uim.util.UimResourceImpl;
 import org.opeum.demo1.util.Demo1JavaMetaInfoMap;
-
-import structuredbusiness.Structuredbusiness;
 
 public class Demo1OpaeumApplication implements IOpaeumApplication{
 	ResourceSetImpl uimResourceSet = new ResourceSetImpl();

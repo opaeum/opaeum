@@ -14,14 +14,14 @@ public class StructuredbusinessJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(structuredbusiness.ApplianceComponent.class,"914890@_x_4WgHJ6EeG5aYCQXxe9BQ");
 		putClass(structuredbusiness.ApplianceComponentSale.class,"914890@_tGMQAJLBEeGnpuq6_ber_Q");
 		putClass(structuredbusiness.ApplianceDoctor.class,"914890@_CQTWAGOeEeGwMNo027LgxA");
-		putMethod(structuredbusiness.ApplianceDoctor.class,"914890@_FGOJ8H4bEeGW5bASaRr7SQ",4272470142100685737l);
+		putMethod(structuredbusiness.ApplianceDoctor.class,"914890@_-VLbkE8VEeGA3PFuQY5w7Q",5138080424939164536l);
 		putClass(structuredbusiness.ApplianceModel.class,"914890@_nhV7IGCfEeG6xvYqJACneg");
 		putClass(structuredbusiness.ApplianceType.class,"914890@_8mTZ0JK_EeGnpuq6_ber_Q");
 		putClass(structuredbusiness.Branch.class,"914890@_0l-NAJJNEeGW4L5IejZxpA");
-		putMethod(structuredbusiness.Branch.class,"914890@_dOodgMzBEeGKe7Qm4dvydQ",338091957186500850l);
+		putMethod(structuredbusiness.Branch.class,"914890@_-VLbkE8VEeGA3PFuQY5w7Q",5138080424939164536l);
 		putClass(structuredbusiness.City.class,"914890@_HSme4JKIEeGFkOm2e1MJNQ");
 		putClass(structuredbusiness.CustomerAssistant.class,"914890@_bX-ooJJPEeGW4L5IejZxpA");
-		putMethod(structuredbusiness.CustomerAssistant.class,"914890@_A1hu8JKiEeGiJMBDeZRymA",3915947986409510033l);
+		putMethod(structuredbusiness.CustomerAssistant.class,"914890@_-VLbkE8VEeGA3PFuQY5w7Q",5138080424939164536l);
 		putClass(structuredbusiness.IdBook.class,"914890@_oiVeEGCfEeG6xvYqJACneg");
 		putClass(structuredbusiness.Job.class,"914890@_PgzU8JLAEeGnpuq6_ber_Q");
 		putClass(structuredbusiness.Manager.class,"914890@_u7lZEGQWEeGbL9nlXe9lTQ");
@@ -31,7 +31,6 @@ public class StructuredbusinessJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(structuredbusiness.Supplier.class,"914890@_-N6PwGK6EeGNuoaMwaBk1w");
 		putClass(structuredbusiness.Technician.class,"914890@_loLrkJHrEeGtApeO0lzlHQ");
 		putClass(structuredbusiness.Vendor.class,"914890@_z8IcwHsKEeGBGZr9IpIa3A");
-		putClass(structuredbusiness.Structuredbusiness.class,"914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration");
 	}
 
 

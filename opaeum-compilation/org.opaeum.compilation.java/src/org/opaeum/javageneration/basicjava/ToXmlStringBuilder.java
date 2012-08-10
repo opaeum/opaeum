@@ -43,7 +43,7 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 		}
 	}
 	private void visitClass(Classifier c){
-		if(OJUtil.hasOJClass(c) && !(c instanceof Enumeration) && EmfClassifierUtil.isHelper(c)){
+		if(OJUtil.hasOJClass(c) && !(c instanceof Enumeration) && !EmfClassifierUtil.isHelper(c)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			this.buildToXmlString(ojClass, c);
 			this.buildToXmlReferenceString(ojClass, c);
@@ -73,15 +73,15 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 			toString.getBody().addToStatements("sb.append(\"className=\\\"" + ojUtil.classifierPathname(umlClass) + "\\\" \")");
 			toString.getBody().addToStatements("sb.append(\"uid=\\\"\" + this.getUid() + \"\\\" \")");
 			for(Property f:getLibrary().getEffectiveAttributes( umlClass)){
-				if(XmlUtil.isXmlAttribute(f)){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				if(XmlUtil.isXmlAttribute(map)){
 					owner.addToImports(map.javaBaseTypePath());
 					if(map.isOne()){
 						OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
 						toString.getBody().addToStatements(ifNotNull);
-						if(EmfClassifierUtil.isSimpleType(f.getType() )){
+						if(EmfClassifierUtil.isSimpleType(map.getBaseType() )){
 							ifNotNull.getThenPart().addToStatements(
-									"sb.append(\"" + map.fieldname() + "=\\\"\"+ " + rootObjectName + "Formatter.getInstance().format" + f.getType().getName()
+									"sb.append(\"" + map.fieldname() + "=\\\"\"+ " + rootObjectName + "Formatter.getInstance().format" + map.getBaseType().getName()
 											+ "(" + map.getter() + "())+\"\\\" \")");
 						}else{
 							// ENumeration
@@ -92,9 +92,9 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 						OJForStatement forEach = new OJForStatement("val", map.javaBaseTypePath(), map.getter() + "()");
 						toString.getBody().addToStatements(forEach);
 						toString.getBody().addToStatements("sb.append(\"\\\" \")");
-						if(EmfClassifierUtil.isSimpleType(f.getType() )){
+						if(EmfClassifierUtil.isSimpleType(map.getBaseType() )){
 							forEach.getBody().addToStatements(
-									"sb.append(" + rootObjectName + "Formatter.getInstance().format" + f.getType().getName() + "(val) + \";\")");
+									"sb.append(" + rootObjectName + "Formatter.getInstance().format" + map.getBaseType().getName() + "(val) + \";\")");
 						}else{
 							// ENumeration
 							forEach.getBody().addToStatements("sb.append(val.name() + \";\")");
@@ -104,8 +104,8 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 			}
 			toString.getBody().addToStatements("sb.append(\">\")");
 			for(Property f:getLibrary().getEffectiveAttributes( umlClass)){
-				if(XmlUtil.isXmlReference(f) || XmlUtil.isXmlSubElement(f)){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				if(XmlUtil.isXmlReference(map) || XmlUtil.isXmlSubElement(map)){
 					owner.addToImports(map.javaBaseTypePath());
 					String openProperty = "sb.append(\"\\n<" + map.fieldname() + " propertyId=\\\""+ EmfWorkspace.getOpaeumId( map.getProperty()) + "\\\">\")";
 					String closeProperty = "sb.append(\"\\n</" + map.fieldname() + ">\")";
@@ -114,7 +114,7 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 						toString.getBody().addToStatements(ifNull);
 						ifNull.setElsePart(new OJBlock());
 						ifNull.getElsePart().addToStatements(openProperty);
-						if(XmlUtil.isXmlSubElement(f)){
+						if(XmlUtil.isXmlSubElement(map)){
 							ifNull.getElsePart().addToStatements("sb.append(\"\\n\" + " + map.getter() + "().toXmlString())");
 						}else{
 							ifNull.getElsePart().addToStatements("sb.append(\"\\n\" + " + map.getter() + "().toXmlReferenceString())");
@@ -128,7 +128,7 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 						forEach.setElemName(map.fieldname());
 						forEach.setCollection(map.getter() + "()");
 						forEach.setBody(new OJBlock());
-						if(XmlUtil.isXmlSubElement(f)){
+						if(XmlUtil.isXmlSubElement(map)){
 							forEach.getBody().addToStatements("sb.append(\"\\n\" + " + map.fieldname() + ".toXmlString())");
 						}else{
 							forEach.getBody().addToStatements("sb.append(\"\\n\" + " + map.fieldname() + ".toXmlReferenceString())");

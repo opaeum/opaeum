@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.AbstractCommand;
@@ -25,7 +26,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
@@ -79,7 +79,7 @@ public class OpenUmlFile extends EContentAdapter{
 	private OJUtil ojUtil;
 	public OpenUmlFile(EditingDomain editingDomain,IFile f,OpaeumConfig cfg){
 		super();
-		Package model = findRootObjectInFile(file, editingDomain.getResourceSet());
+		Package model = findRootObjectInFile(f, editingDomain.getResourceSet());
 		this.setEditingDomain(editingDomain);
 		this.setModel(model);
 		this.setFile(f);
@@ -90,10 +90,11 @@ public class OpenUmlFile extends EContentAdapter{
 		emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier(), cfg.getMavenGroupId());
 		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
 		emfWorkspace.setName(cfg.getWorkspaceName());
-		emfWorkspaceLoaded(emfWorkspace);
 		this.transformationProcess.replaceModel(ojUtil);
 		this.transformationProcess.replaceModel(emfWorkspace);
 		this.transformationProcess.execute(new DefaultTransformationLog());
+		editingDomain.getResourceSet().eAdapters().add(this);
+		emfWorkspaceLoaded(emfWorkspace);
 	}
 	public void addEmfChange(URI uri){
 		EObject eObject = emfWorkspace.getResourceSet().getEObject(uri, true);
@@ -129,16 +130,16 @@ public class OpenUmlFile extends EContentAdapter{
 			Display.getDefault().syncExec(new Runnable(){
 				@Override
 				public void run(){
-					ProgressMonitorDialog dlg = new ProgressMonitorDialog(Display.getDefault().getActiveShell());
-					IProgressMonitor pm = dlg.getProgressMonitor();
-					dlg.open();
+					// ProgressMonitorDialog dlg = new ProgressMonitorDialog(Display.getDefault().getActiveShell());
+					// IProgressMonitor pm = dlg.getProgressMonitor();
+					// dlg.open();
 					try{
-						pm.beginTask("Loading new Packages", 50);
-						new ValidationRunner().run(pm);
-						pm.done();
+						// pm.beginTask("Loading new Packages", 50);
+						new ValidationRunner().run(new NullProgressMonitor());
+						// pm.done();
 					}finally{
-						dlg.close();
-						pm.done();
+						// dlg.close();
+						// pm.done();
 					}
 				}
 			});
@@ -152,19 +153,13 @@ public class OpenUmlFile extends EContentAdapter{
 	public UriToFileConverter getResourceHelper(){
 		return resourceHelper;
 	}
-	public void registerTo(ResourceSet rst){
-		rst.eAdapters().add(this);
-	}
-	public void deregister(ResourceSet rst){
-		rst.eAdapters().remove(this);
-	}
 	public void reinitializeProcess(){
 		this.transformationProcess = new TransformationProcess();
 		cfg.reset();
-		this.transformationProcess.initialize(cfg, getTransformationSteps());
+		this.transformationProcess.initialize(cfg, getTransformationSteps(cfg));
 	}
 	@SuppressWarnings("unchecked")
-	protected HashSet<Class<? extends ITransformationStep>> getTransformationSteps(){
+	public static HashSet<Class<? extends ITransformationStep>> getTransformationSteps(OpaeumConfig cfg){
 		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(
 				Arrays.asList(ActionValidation.class));
 		Set<Class<? extends AbstractValidator>> allSteps = ValidationPhase.getAllValidationSteps();
@@ -188,20 +183,23 @@ public class OpenUmlFile extends EContentAdapter{
 	}
 	@Override
 	public void notifyChanged(final Notification notification){
+		super.notifyChanged(notification);
 		if(notification.getNotifier() instanceof ResourceSet && notification.getNewValue() instanceof UMLResource){
 			resourcesBeingLoaded.add((UMLResource) notification.getNewValue());
+			// EcoreUtil.resolveAll((UMLResource) notification.getNotifier());
 		}
 		if(!suspended && resourcesBeingLoaded.isEmpty()){
 			linker.notifyChanged(notification);
+		}
+		if(notification.getNotifier() instanceof UMLResource){
+			manageResourceEvent(notification);
 		}
 		if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY
 				|| notification.getEventType() == Notification.SET){
 			final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
 					&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
 			if(!annotationCreated){
-				if(notification.getNotifier() instanceof UMLResource){
-					manageResourceEvent(notification);
-				}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
+				if(notification.getNotifier() instanceof DynamicEObjectImpl){
 					scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
 				}else{
 					if(notification.getNotifier() instanceof Element){
@@ -250,24 +248,21 @@ public class OpenUmlFile extends EContentAdapter{
 	}
 	private void manageResourceEvent(final Notification notification){
 		int featureID = notification.getFeatureID(UMLResource.class);
-		if(notification.getNewValue() instanceof Package && featureID == UMLResource.RESOURCE__CONTENTS){
-			this.resourcesBeingLoaded.add((UMLResource) notification.getNotifier());
-			EcoreUtil.resolveAll((UMLResource) notification.getNotifier());
-		}else if(featureID == UMLResource.RESOURCE__IS_LOADED && notification.getNewBooleanValue() == true){
+		if(featureID == UMLResource.RESOURCE__IS_LOADED && notification.getNewBooleanValue() == true){
 			// Do this synchronously
 			this.resourcesLoaded.add((UMLResource) notification.getNotifier());
 			if(resourcesLoaded.containsAll(resourcesBeingLoaded)){
 				Set<Package> newObjects = new HashSet<Package>();
 				for(UMLResource umlResource:resourcesLoaded){
 					for(EObject eObject:umlResource.getContents()){
-						if(eObject instanceof Model || eObject instanceof Profile){
+						if((eObject instanceof Model || eObject instanceof Profile) && EmfWorkspace.isUtilzedModel((Package) eObject)){
 							newObjects.add((Package) eObject);
 						}
 					}
 				}
-				synchronizationNow(newObjects);
 				this.resourcesBeingLoaded.clear();
 				this.resourcesLoaded.clear();
+				synchronizationNow(newObjects);
 			}
 		}
 	}
@@ -278,11 +273,11 @@ public class OpenUmlFile extends EContentAdapter{
 		EmfToOpaeumSynchronizer.schedule(new Runnable(){
 			@Override
 			public void run(){
-				if(System.currentTimeMillis() - lastChange >= 500){
+				if(System.currentTimeMillis() - lastChange >= 100){
 					scheduleSynchronization();
 				}
 			}
-		}, 500);
+		}, 100);
 	}
 	public EmfWorkspace getEmfWorkspace(){
 		return emfWorkspace;
@@ -321,12 +316,21 @@ public class OpenUmlFile extends EContentAdapter{
 		this.synchronizationListener.remove(editingContext); // TODO Auto-generated method stub
 	}
 	public void release(){
-		deregister(emfWorkspace.getResourceSet());
+		for(OpaeumSynchronizationListener l:this.synchronizationListener){
+			l.onClose(this);
+		}
+		this.synchronizationListener.clear();
+		ojUtil = null;
+		emfWorkspace.getResourceSet().eAdapters().remove(this);
+		emfWorkspace = null;
+		this.editingDomain = null;
+		this.transformationProcess = null;
 	}
 	private Package findRootObjectInFile(IResource r,ResourceSet rs){
 		EList<Resource> ownedElements = rs.getResources();
 		for(Resource element:ownedElements){
-			if(element.getURI().trimFileExtension().lastSegment().equals(r.getLocation().removeFileExtension().lastSegment())){
+			URI uri = element.getURI();
+			if(uri.trimFileExtension().lastSegment().equals(r.getLocation().removeFileExtension().lastSegment())){
 				for(EObject eObject:element.getContents()){
 					if(eObject instanceof Model || eObject instanceof Package){
 						return (Package) eObject;
@@ -367,7 +371,6 @@ public class OpenUmlFile extends EContentAdapter{
 									changedElements.add((Element) object);
 								}
 							}
-							final EmfWorkspace findModel = transformationProcess.findModel(EmfWorkspace.class);
 							for(OpaeumSynchronizationListener listener:synchronizationListener){
 								listener.synchronizationComplete(OpenUmlFile.this, changedElements);
 							}

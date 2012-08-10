@@ -3,6 +3,7 @@ package org.opaeum.javageneration.util;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityNode;
@@ -18,6 +19,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.TemplateSignature;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
@@ -99,6 +101,10 @@ public class JavaNameGenerator{
 				}
 			}
 		}
+		String string = toJavaName(name);
+		return new SingularNameWrapper(string, null);
+	}
+	public static String toJavaName(String name){
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0;i < name.length();i++){
 			char charAt = name.charAt(i);
@@ -108,7 +114,8 @@ public class JavaNameGenerator{
 				sb.append('_');
 			}
 		}
-		return new SingularNameWrapper(name, null);
+		String string = sb.toString();
+		return string;
 	}
 	protected final String generateQualifiedJavaName(NamedElement me){
 		String generatedName = null;
@@ -196,10 +203,19 @@ public class JavaNameGenerator{
 				return EmfClassifierUtil.getMappedImplementationType(classifier);
 			}
 		}
-		String path = packagePathname((Namespace) EmfElementFinder.getContainer(ne));
-		return path + "." + NameConverter.capitalize(ne.getName());
+		Namespace container = EmfElementFinder.getNearestNamespace(ne);
+		String path = packagePathname(container);
+		String name = ne.getName();
+		char[] charArray = name.toCharArray();
+		for(int i = 0;i < charArray.length;i++){
+			if(!Character.isJavaIdentifierPart(charArray[i])){
+				charArray[i]='_';
+			}
+		}
+		return path + "." + NameConverter.capitalize(new String(charArray));
 	}
 	private static void addParentsToPath(Namespace c,StringBuilder path){
+
 		Namespace parent = (Namespace) c.getOwner();
 		if(parent != null){
 			if(parent instanceof Package && EmfPackageUtil.hasMappedImplementationPackage((Package) parent)){

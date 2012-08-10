@@ -72,7 +72,7 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 	}
 	@Override
 	protected Collection<Trigger> getOperationTriggers(Element step){
-		State state = (State) step;
+		Vertex state = (Vertex) step;
 		Collection<Trigger> result = new ArrayList<Trigger>();
 		List<Transition> outgoing = state.getOutgoings();
 		for(Transition t:outgoing){

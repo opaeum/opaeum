@@ -78,7 +78,6 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 		}
 	}
 	private void addDiscriminatorInitialization(Class entity,OJClass ojClass){
-		OJBlock dcBody = new OJBlock();
 		for(Property attr:getLibrary().getEffectiveAttributes(entity)){
 			if(EmfPropertyUtil.isDiscriminator(attr)){
 				Enumeration powerType = (Enumeration) attr.getType();
@@ -86,11 +85,10 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 					Generalization generalization = entity.getGeneralizations().iterator().next();
 					String literal = ojUtil.classifierPathname(powerType) + "."
 							+ EmfClassifierUtil.getPowerTypeLiteral(generalization, powerType).getName().toUpperCase();
-					dcBody.addToStatements("set" + NameConverter.capitalize(attr.getName()) + "(" + literal + ")");
+					ojClass.getDefaultConstructor().getBody().addToStatements("set" + NameConverter.capitalize(attr.getName()) + "(" + literal + ")");
 				}
 			}
 		}
-		ojClass.getDefaultConstructor().setBody(dcBody);
 	}
 	private void addGetName(Classifier entity,OJClass ojClass){
 		OJOperation getName = new OJAnnotatedOperation("getName");

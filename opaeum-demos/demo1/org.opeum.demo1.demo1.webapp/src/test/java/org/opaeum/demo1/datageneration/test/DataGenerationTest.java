@@ -2,7 +2,6 @@ package org.opaeum.demo1.datageneration.test;
 
 import org.hsqldb.lib.FileUtil;
 import org.junit.Test;
-import org.opeum.demo1.util.Demo1DataGenerator;
 
 public class DataGenerationTest{
 	@Test

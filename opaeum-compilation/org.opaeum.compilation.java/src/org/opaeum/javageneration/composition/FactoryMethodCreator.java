@@ -2,6 +2,7 @@ package org.opaeum.javageneration.composition;
 
 import java.util.Iterator;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.eclipse.uml2.uml.Classifier;
@@ -30,7 +31,7 @@ import org.opaeum.name.NameConverter;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class})
 public class FactoryMethodCreator extends AbstractStructureVisitor{
 	private void createFactoryMethod(Property pw,OJClass owner){
-		Classifier type = (Classifier) pw.getType();
+		StructuralFeatureMap map=ojUtil.buildStructuralFeatureMap(pw);
 		Iterator<OJOperation> ops = owner.getOperations().iterator();
 		OJOperation creator = null;
 		String createOperName = "create" + NameConverter.capitalize(pw.getName());
@@ -49,9 +50,9 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 				creator.addParam(m.fieldname(), m.javaTypePath());
 			}
 		}
-		creator.setReturnType(ojUtil.classifierPathname(type));
+		creator.setReturnType(map.javaBaseTypePath());
 		OJBlock body = new OJBlock();
-		body.addToStatements(type.getName() + " newInstance= new " + type.getName() + "()");
+		body.addToStatements(map.javaBaseType()+ " newInstance= new " + map.javaBaseType() + "()");
 		for(Property p:pw.getQualifiers()){
 			StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
 			body.addToStatements("newInstance." + m.setter() + "(" + m.fieldname() + ")");
@@ -64,7 +65,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		// }else{
 		// body.addToStatements("this.addTo" + pw.getName().getCapped() + "(newInstance)");
 		// }
-		if(EmfClassifierUtil.isCompositionParticipant(type)){
+		if(EmfClassifierUtil.isCompositionParticipant(map.getBaseType())){
 			body.addToStatements("newInstance.init(this)");
 		}
 		body.addToStatements("return newInstance");
@@ -74,7 +75,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 	protected void visitProperty(Classifier owner,StructuralFeatureMap map){
 		Property aw = map.getProperty();
 		OJAnnotatedClass myOwner = findJavaClass(owner);
-		if(!aw.isDerived() && isPersistent(aw.getType()) && aw.isComposite() && !((Classifier) aw.getType()).isAbstract()){
+		if(!aw.isDerived() && isPersistent(map.getBaseType()) && aw.isComposite() && !((Classifier) map.getBaseType()).isAbstract()){
 			createFactoryMethod(aw, myOwner);
 		}
 	}

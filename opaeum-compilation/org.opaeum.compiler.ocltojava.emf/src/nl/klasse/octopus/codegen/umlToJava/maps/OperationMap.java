@@ -139,7 +139,8 @@ public class OperationMap extends PackageableElementMap implements IMessageMap,E
 	public List<OJPathName> javaParamTypePaths(){
 		if(paramTypePaths == null){
 			paramTypePaths = new ArrayList<OJPathName>();
-			Iterator<?> it = parameters.iterator();
+			
+			Iterator<?> it = getArgumentParameters().iterator();
 			while(it.hasNext()){
 				Parameter param = (Parameter) it.next();
 				paramTypePaths.add(javaParamTypePath(param));
@@ -162,7 +163,11 @@ public class OperationMap extends PackageableElementMap implements IMessageMap,E
 		if(params == null){
 			params = new HashMap<Parameter,ClassifierMap>();
 			for(Parameter p:parameters){
-				params.put(p, ojUtil.buildClassifierMap((Classifier) p.getType(), p));
+				Classifier type = (Classifier) p.getType();
+				if(type==null){
+					type=ojUtil.getLibrary().getDefaultType();
+				}
+				params.put(p, ojUtil.buildClassifierMap(type, p));
 			}
 		}
 		return params;

@@ -2,6 +2,7 @@ package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
@@ -88,9 +89,9 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 		}
 	}
 	private void removeBodyCondition(){
-		// getEditingDomain().getCommandStack().execute(
-		// RemoveCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getNamespace_OwnedRule(),
-		// getOperation().getBodyCondition()));
+		getEditingDomain().getCommandStack().execute(
+		 RemoveCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getNamespace_OwnedRule(),
+		 getOperation().getBodyCondition()));
 	}
 	private void createBodyCondition(){
 		if(getOperation().getBodyCondition() == null){

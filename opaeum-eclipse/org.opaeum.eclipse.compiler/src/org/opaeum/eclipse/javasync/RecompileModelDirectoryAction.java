@@ -28,6 +28,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
@@ -95,8 +96,10 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 		monitor.worked(5);
 		monitor.subTask("Loading Opaeum Metadata");
 		final EmfWorkspace ws=ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
+		ws.getOpaeumLibrary().reset();
 		TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);
 		p.replaceModel(ws);
+		p.replaceModel(new OJUtil());
 		p.removeModel(OJWorkspace.class);
 		p.removeModel(TextWorkspace.class);
 		OpaeumConfig config = ctx.getConfig();

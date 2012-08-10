@@ -144,6 +144,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 	@Override
 	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace, OJUtil ojUtil){
 		super.initialize(config, textWorkspace, workspace,ojUtil);
+		this.ojUtil=ojUtil;
 
 		// TODO Auto-generated method stub
 	}

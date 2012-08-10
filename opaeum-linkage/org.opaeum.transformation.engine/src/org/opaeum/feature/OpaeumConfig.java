@@ -366,6 +366,9 @@ public class OpaeumConfig{
 		this.version = version2;
 		store();
 	}
+	public static Map<String,Class<?>> getClassRegistry(){
+		return classRegistry;
+	}
 	public Class<?> getErrorMarker(){
 		Collection<Class<?>> values = classRegistry.values();
 		for(Class<?> class1:values){

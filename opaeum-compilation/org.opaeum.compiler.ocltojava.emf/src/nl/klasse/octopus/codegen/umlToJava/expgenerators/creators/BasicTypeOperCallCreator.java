@@ -183,7 +183,7 @@ public class BasicTypeOperCallCreator {
 				argStr = StringHelpers.addBrackets(argStr);
 			}
 			if (referedOp.getName().equals("div")) {
-				result = source + "d / " + argStr;
+				result = source + " / (double)" + argStr;
 			} else if (referedOp.getName().equals("mod")) {
 				result = source + " % " + argStr;
 			} else if (referedOp.getName().equals("abs")) {
@@ -222,7 +222,7 @@ public class BasicTypeOperCallCreator {
 				result = result + source + " * " + argStr;
 			} else if (referedOp.getName().equals("/")) {
 				source = StringHelpers.addBrackets(source);
-				result = result + source + "d / " + argStr;
+				result = result +   source + " / " + argStr;
 			} else if (referedOp.getName().equals("-")) {
 				if (EmfOperationUtil.isPrefix(referedOp)) {
 					String sourceStr = source;

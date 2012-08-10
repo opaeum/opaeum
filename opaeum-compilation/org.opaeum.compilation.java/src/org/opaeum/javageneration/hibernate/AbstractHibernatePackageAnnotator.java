@@ -138,7 +138,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			ClassifierMap map = ojUtil.buildClassifierMap(bc,(CollectionKind)null);
 			OJPathName javaTypePath = map.javaTypePath();
 			metaValue.putAttribute("value", config.shouldBeCm1Compatible() ? ojUtil.classifierPathname(bc).toJavaString() : EmfWorkspace.getOpaeumId(bc)+"");
-			metaValue.putAttribute("targetClass", javaTypePath);
+			metaValue.putAttribute("targetEntity", javaTypePath);
 			metaValues.addAnnotationValue(metaValue);
 		}
 	}

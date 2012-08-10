@@ -2,7 +2,7 @@ package org.opaeum.eclipse;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -41,7 +41,7 @@ public class EmfTimeUtil{
 		}
 	}
 	public static Collection<TimeObservation> findTimeObservationsOn(Namespace container,Element node){
-		Collection<TimeObservation> result = new HashSet<TimeObservation>();
+		Collection<TimeObservation> result = new TreeSet<TimeObservation>(new ElementComparator());
 		Collection<TimeObservation> value = getTimeObservations(container);
 		for(TimeObservation timeObservation:value){
 			if(timeObservation.getEvent()==node){
@@ -64,7 +64,7 @@ public class EmfTimeUtil{
 	}
 
 	public static Collection<DurationObservation> findDurationObservationsFrom(Namespace container,Element node){
-		Collection<DurationObservation> result = new HashSet<DurationObservation>();
+		Collection<DurationObservation> result = new TreeSet<DurationObservation>(new ElementComparator());
 		Collection<DurationObservation> value = getDurationObservations(container);
 		for(DurationObservation durObservation:value){
 			if(durObservation.getEvents().size()==2 && durObservation.getEvents().get(0) ==node){
@@ -79,7 +79,7 @@ public class EmfTimeUtil{
 	}
 
 	public static Collection<DurationObservation> findDurationObservationsTo(Namespace container,Element node){
-		Collection<DurationObservation> result = new HashSet<DurationObservation>();
+		Collection<DurationObservation> result = new TreeSet<DurationObservation>(new ElementComparator());
 		Collection<DurationObservation> value = getDurationObservations(container);
 		for(DurationObservation durObservation:value){
 			if(durObservation.getEvents().size()==2 && durObservation.getEvents().get(1) ==node){

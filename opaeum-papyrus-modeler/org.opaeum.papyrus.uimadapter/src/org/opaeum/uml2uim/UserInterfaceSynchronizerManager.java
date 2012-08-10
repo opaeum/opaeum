@@ -42,7 +42,10 @@ public class UserInterfaceSynchronizerManager implements IStartup,Runnable{
 			}
 			affectedElements.clear();
 		}
-
+		@Override
+		public void onClose(OpenUmlFile openUmlFile){
+			
+		}
 	}
 	public void run(){
 		try{
@@ -50,13 +53,13 @@ public class UserInterfaceSynchronizerManager implements IStartup,Runnable{
 			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 			if(currentContext != null && !currentContext.isLoading()){
 				for(OpenUmlFile openUmlFile:currentContext.getEditingContexts()){
-					UserInterfaceSynchronizer uis = new UserInterfaceSynchronizer();
-					synchronizers.put(currentContext, uis);
-					openUmlFile.addContextListener(uis);
-					
+					if(synchronizers.get(currentContext) == null){
+						UserInterfaceSynchronizer uis = new UserInterfaceSynchronizer();
+						synchronizers.put(currentContext, uis);
+						openUmlFile.addContextListener(uis);
+					}
 				}
 			}
-
 		}catch(Throwable e){
 			e.printStackTrace();
 			// Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));

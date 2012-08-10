@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -103,13 +105,17 @@ public final class JavaProjectGenerator extends Job{
 			TextProject textProject = tws.findTextProject(iProject.getName());
 			for(IPackageFragmentRoot r:allPackageFragmentRoots){
 				if(!r.isArchive()){
-					String strings = r.getCorrespondingResource().getProjectRelativePath().toString();
-					textProject.findOrCreateSourceFolder(strings, false);
+					IResource correspondingResource = r.getCorrespondingResource();
+					if(correspondingResource != null){
+						IPath projectRelativePath = correspondingResource.getProjectRelativePath();
+						String strings = projectRelativePath.toString();
+						textProject.findOrCreateSourceFolder(strings, false);
+					}
 				}
 			}
 		}
 		EmfWorkspace mws = process.findModel(EmfWorkspace.class);
-		rpb.initialize(cfg, tws, mws,null);
+		rpb.initialize(cfg, tws, mws, null);
 		rpb.beforeWorkspace(mws);
 		Set<TextOutputNode> textFiles = rpb.getTextFiles();
 		for(TextOutputNode textOutputNode:textFiles){
@@ -172,8 +178,8 @@ public final class JavaProjectGenerator extends Job{
 		}
 		return result;
 	}
-	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,
-			boolean cleanDirectories) throws CoreException{
+	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,boolean cleanDirectories)
+			throws CoreException{
 		try{
 			monitor.beginTask("Updating resources", 1000);
 			TextWorkspace textWorkspace = p.findModel(TextWorkspace.class);

@@ -58,7 +58,8 @@ public class EmfParameterUtil{
 		List<Property> ownedAttributes = new ArrayList<Property>();
 		Element owner = assEnd.getOwner();
 		if(owner == assEnd.getAssociation() && assEnd.isNavigable()){
-			if(assEnd.getAssociation().getMemberEnds().size() == 2 && assEnd.getOtherEnd().getType()!=null){// Filter Broken Associations a'la Topcased
+			if(assEnd.getAssociation().getMemberEnds().size() == 2 && assEnd.getOtherEnd().getType() != null){// Filter Broken Associations a'la
+																																																				// Topcased
 				addNonInhertiedAttributes(ownedAttributes, (Classifier) assEnd.getOtherEnd().getType());
 			}
 		}else if(owner instanceof Classifier){
@@ -149,18 +150,21 @@ public class EmfParameterUtil{
 				|| direction == ParameterDirectionKind.RETURN_LITERAL;
 	}
 	public static String toIdentifyingString(Operation o){
-		return o.getName() + "(" + collectionToString(EmfBehaviorUtil.getArgumentParameters( o), ", ") + ")";
+		return o.getName() + "(" + collectionToString(EmfBehaviorUtil.getArgumentParameters(o), ", ") + ")";
 	}
 	private static String collectionToString(List<? extends NamedElement> argumentParameters,String seperator){
-		StringBuilder sb = new StringBuilder();
-		for(NamedElement namedElement:argumentParameters){
-			sb.append(namedElement.getQualifiedName());
-			sb.append(seperator);
+		if(argumentParameters.isEmpty()){
+			return "";
+		}else{
+			StringBuilder sb = new StringBuilder();
+			for(NamedElement namedElement:argumentParameters){
+				sb.append(namedElement.getQualifiedName());
+				sb.append(seperator);
+			}
+			return sb.substring(0, sb.length() - 1);
 		}
-		return sb.substring(0,sb.length()-1);
 	}
 	public static String toIdentifyingString(Reception o){
 		return o.getName() + "(" + (o.getSignal() == null ? "nosignal" : o.getSignal().getQualifiedName()) + ")";
 	}
-
 }

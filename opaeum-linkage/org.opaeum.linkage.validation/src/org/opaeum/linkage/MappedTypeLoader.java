@@ -18,21 +18,9 @@ import org.opaeum.validation.ValidationPhase;
 
 public class MappedTypeLoader extends AbstractValidator{
 	public static final String MAPPINGS_EXTENSION = "mappings";
-	@VisitBefore
+	@VisitBefore(matchSubclasses=true)
 	public void visitRootObject(Package p){
 		if(EmfPackageUtil.isRootObject(p)){
-			URI mappedTypesUri = p.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
-			try{
-				InputStream inStream = p.eResource().getResourceSet().getURIConverter().createInputStream(mappedTypesUri);
-				Properties props = new Properties();
-				props.load(inStream);
-				Set<Entry<Object,Object>> entrySet = props.entrySet();
-				for(Entry<Object,Object> entry:entrySet){
-					super.workspace.getOpaeumLibrary().getTypeMap().put((String) entry.getKey(), new MappedType((String) entry.getValue()));
-				}
-				System.out.println("Loaded mappings: " + mappedTypesUri);
-			}catch(IOException e1){
-			}
 		}
 	}
 }

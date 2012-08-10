@@ -3,24 +3,44 @@ package org.opaeum.eclipse.emulated;
 import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.MultiplicityElement;
+import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
+import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.metamodel.workspace.IPropertyEmulation;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 
 public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
 	private MultiplicityElement zeroToOne ;
 	private TypedElement typedElement;
+	private IPropertyEmulation emulation;
 	@Deprecated
 	public TypedElementPropertyBridge(Classifier owner,TypedElement originalElement, boolean ensureLocallyUniqueName){
-		this(owner,originalElement);
+		this(owner,originalElement,null);
 	}
-	public TypedElementPropertyBridge(Classifier owner,TypedElement originalElement){
+	public TypedElementPropertyBridge(Classifier owner,TypedElement originalElement, IPropertyEmulation pe){
 		super(owner, originalElement);
 		this.typedElement = originalElement;
+		this.emulation=pe;
 	}
 	public Type getType(){
-		return typedElement.getType();
+		Type type = typedElement.getType();
+		if(type==null && typedElement instanceof ObjectNode){
+			type=EmfActionUtil.calculateType((ObjectNode) typedElement);
+			if(type ==null  && typedElement instanceof ValuePin && ((ValuePin)typedElement).getValue() instanceof OpaqueExpression){
+				OpaqueExpressionContext exp = emulation.getOclExpressionContext((OpaqueExpression) ((ValuePin)typedElement).getValue());
+				if(!exp.hasErrors()){
+					type=exp.getExpression().getType();
+				}
+			}
+		}
+
+		return type;
 	}
 	public boolean isOrdered(){
 		return getMultiplicityElement().isOrdered();

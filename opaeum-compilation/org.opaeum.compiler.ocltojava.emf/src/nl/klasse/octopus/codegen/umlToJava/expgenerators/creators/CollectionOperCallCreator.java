@@ -630,7 +630,7 @@ public class CollectionOperCallCreator{
 		OJForStatement for4 = new OJForStatement();
 		body16.addToStatements(for4);
 		for4.setElemName("elem");
-		for4.setElemType(myListType);
+		for4.setElemType(elementMap.javaTypePath());
 		/* <collection> */
 		for4.setCollection(source);
 		/* <collection/> */

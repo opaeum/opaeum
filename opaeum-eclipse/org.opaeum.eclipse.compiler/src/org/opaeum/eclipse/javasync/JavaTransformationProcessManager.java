@@ -11,8 +11,10 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
+import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.OpaeumSynchronizationListener;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.feature.ITransformationStep;
@@ -25,6 +27,7 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
 import org.opaeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public class JavaTransformationProcessManager implements IStartup,Runnable{
@@ -56,9 +59,11 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		}
 	}
 	private static synchronized TransformationProcess getTransformationProcess(final OpaeumEclipseContext ne){
+		//For transformations running on the entire directory of models
 		TransformationProcess process = processes.get(ne.getUmlDirectory());
 		if(process == null){
 			process = new TransformationProcess();
+			process.replaceModel(new OJUtil());
 			// Load classes for config
 			OpaeumEclipsePlugin.getDefault();
 			reinitializeProcess(process, ne.getConfig(), ne.getUmlDirectory());
@@ -67,6 +72,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		return process;
 	}
 	private static synchronized TransformationProcess getTransformationProcess(final OpenUmlFile ouf){
+		//For transformations running on a single model
 		TransformationProcess process = processes.get(ouf.getFile());
 		if(process == null){
 			process = new TransformationProcess();
@@ -75,7 +81,20 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			reinitializeProcess(process, ouf.getConfig(), ouf.getFile().getParent());
 			processes.put(ouf.getFile(), process);
 			new JavaSourceSynchronizer(ouf, process);
+			ouf.addContextListener(new OpaeumSynchronizationListener(){
+				@Override
+				public void synchronizationComplete(OpenUmlFile openUmlFile,Set<Element> affectedElements){
+				}
+				@Override
+				public void onClose(OpenUmlFile openUmlFile){
+					processes.get(openUmlFile.getFile()).release();
+					processes.remove(openUmlFile.getFile());
+				}
+			});
 		}
+		//TODO listen to the closing of files  and remove the process
+		process.replaceModel(ouf.getOJUtil());
+		process.replaceModel(ouf.getEmfWorkspace());
 		return process;
 	}
 	public static void reinitializeProcess(TransformationProcess process, OpaeumConfig cfg, IContainer umlDir){

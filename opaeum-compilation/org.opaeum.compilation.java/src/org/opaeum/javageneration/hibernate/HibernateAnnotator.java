@@ -55,6 +55,7 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {JpaAnnotator.class,UtilCreator.class},after = {JpaAnnotator.class,
 		UtilCreator.class,CompositionNodeImplementor.class/*
@@ -94,14 +95,15 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 			}
 			OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));
-			OJAnnotationValue entity = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Class"));
+			OJAnnotationValue entity = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Entity"));
 			entity.setImportType(false);
 			entity.putAttribute("dynamicUpdate", true);
 			owner.putAnnotation(entity);
 			if(table != null && table.hasAttribute("uniqueConstraints")){
 				OJAnnotationAttributeValue attr = table.findAttribute("uniqueConstraints");
 				for(OJAnnotationValue v:attr.getAnnotationValues()){
-					v.findAttribute("columnNames").addStringValue("deleted_on");
+					OJAnnotationAttributeValue columnNames = v.findAttribute("columnNames");
+					columnNames.addStringValue("deleted_on");
 				}
 			}
 			owner.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AccessType"), "field"));
@@ -163,27 +165,27 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}else if(map.isManyToMany()){
 					implementCollectionId(field);
 				}
-				if(f.getType() instanceof Enumeration){
+				if(map.getBaseType() instanceof Enumeration){
 					if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
-						HibernateUtil.addEnumResolverAsCustomType(field, ojUtil.classifierPathname(f.getType()));
+						HibernateUtil.addEnumResolverAsCustomType(field, ojUtil.classifierPathname(map.getBaseType()));
 					}
-				}else if(isPersistent(f.getType())){
+				}else if(isPersistent(map.getBaseType())){
 					HibernateUtil.applyFilter(field, this.config.getDbDialect());
 				}else{
 					// owner.addAnnotation(field, new OJAnnotation(new
 					// OJPathName("javax.persistence.Transient")));
 				}
-				if(f.getType() instanceof Enumeration || EmfClassifierUtil.isSimpleType(f.getType())){
+				if(map.getBaseType() instanceof Enumeration || EmfClassifierUtil.isSimpleType(map.getBaseType())){
 					OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.CollectionOfElements"));
 					OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetElement",
-							ojUtil.classifierPathname((Classifier) f.getType()));
+							ojUtil.classifierPathname((Classifier) map.getBaseType()));
 					collectionOfElements.putAttribute(targetElement);
 					OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName(
 							"javax.persistence.FetchType"), "LAZY"));
 					collectionOfElements.putAttribute(lazy);
 					field.addAnnotationIfNew(collectionOfElements);
 				}
-				if(f.getType() instanceof Interface && !EmfClassifierUtil.isHelper(f.getType())){
+				if(map.getBaseType() instanceof Interface && !EmfClassifierUtil.isHelper(map.getBaseType())){
 					HibernateUtil.addManyToAny(owner, field, map, config);
 					if(f.isComposite()){
 						HibernateUtil.addCascade(field, CascadeType.ALL);
@@ -202,13 +204,13 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		if(field != null){
 			// may have been removed by custom transformation
 			Property f = map.getProperty();
-			if(f.getType() instanceof Enumeration){
+			if(map.getBaseType() instanceof Enumeration){
 				if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
-					HibernateUtil.addEnumResolverAsCustomType(field, ojUtil.classifierPathname(f.getType()));
+					HibernateUtil.addEnumResolverAsCustomType(field, ojUtil.classifierPathname(map.getBaseType()));
 				}
-			}else if(EmfClassifierUtil.isSimpleType(f.getType())){
+			}else if(EmfClassifierUtil.isSimpleType(map.getBaseType())){
 				// TODO use strategies
-			}else if(f.getType() instanceof Interface && !EmfClassifierUtil.isHelper(f.getType())){
+			}else if(map.getBaseType() instanceof Interface && !EmfClassifierUtil.isHelper(map.getBaseType())){
 				// if(config.shouldBeCm1Compatible()){
 				// HibernateUtil.addAny(field, map);
 				// }else{
@@ -232,11 +234,11 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					HibernateUtil.addCascade(field, CascadeType.ALL);
 					field.removeAnnotation(new OJPathName("javax.persistence.Transient"));
 				}
-			}else if(isPersistent(f.getType())){
+			}else if(isPersistent(map.getBaseType())){
 			}
 			// TODO parameterize development mode
 			if(EmfPropertyUtil.isRequired(f) && !EmfPropertyUtil.isInverse(f) && !JpaAnnotator.DEVELOPMENT_MODE){
-				if(f.getType().conformsTo(workspace.getOpaeumLibrary().getStringType())){
+				if(map.getBaseType().conformsTo(workspace.getOpaeumLibrary().getStringType())){
 					field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotEmpty")));
 				}else{
 					field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotNull")));
@@ -248,7 +250,8 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					JpaUtil.addJoinColumn(field, PersistentNameUtil .getPersistentName(f).getAsIs(), true);
 					OJAnnotationValue oneToOne = field.findAnnotation(new OJPathName("javax.persistence.OneToOne"));
 					if(oneToOne == null){
-						field.findAnnotation(new OJPathName("javax.persistence.ManyToOne")).removeAttribute("mappedBy");
+						OJAnnotationValue manyToOne = field.findAnnotation(new OJPathName("javax.persistence.ManyToOne"));
+						manyToOne.removeAttribute("mappedBy");
 					}else{
 						oneToOne.removeAttribute("mappedBy");
 					}
@@ -264,7 +267,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					field.addAnnotationIfNew(where);
 				}
 			}
-			if(!(f.getType() instanceof Interface)){
+			if(!(map.getBaseType() instanceof Interface)){
 				// TODO address this by adding an extra field to the entity
 				OJPathName indexPathName = new OJPathName("org.hibernate.annotations.Index");
 				if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !EmfPropertyUtil.isInverse(f)
@@ -282,7 +285,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		index.putAttribute(new OJAnnotationAttributeValue("name", JpaUtil.generateIndexColumnName(map, "idx")));
 		field.addAnnotationIfNew(index);
 		// TODO add index in base_table ??? maybe not necessary
-		// OJAnnotatedClass ojType=findJavaClass(f.getType());
+		// OJAnnotatedClass ojType=findJavaClass(map.getBaseType());
 		// ojType.addAnnotation(>???);
 	}
 	@VisitBefore
@@ -349,16 +352,13 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		mockAllInstances.addParam("newMocks", set);
 		mockAllInstances.setStatic(true);
 		mockAllInstances.getBody().addToStatements("mockedAllInstances=newMocks");
-		// TODO move elsewhere where dependency on Seam has been confirmed
 		OJAnnotatedOperation allInstances = new OJAnnotatedOperation("allInstances");
+		allInstances.addParam("persistence", new OJPathName( AbstractPersistence.class.getName()));
 		ojClass.addToOperations(allInstances);
 		allInstances.setStatic(true);
 		OJIfStatement ifMocked = new OJIfStatement("mockedAllInstances==null");
 		allInstances.getBody().addToStatements(ifMocked);
-		ifMocked.getThenPart().addToStatements(
-				"CmtPersistence session =" + Environment.class.getName() + ".getInstance().getComponent(CmtPersistence.class)");
-		ifMocked.getThenPart().addToStatements("return new HashSet(session.readAll(" + ojClass.getPathName() + ".class))");
-		ojClass.addToImports(new OJPathName("org.opaeum.runtime.persistence.CmtPersistence"));
+		ifMocked.getThenPart().addToStatements("return new HashSet(persistence.readAll(" + ojClass.getPathName() + ".class))");
 		ifMocked.setElsePart(new OJBlock());
 		ifMocked.getElsePart().addToStatements("return mockedAllInstances");
 		ojClass.addToImports(new OJPathName("java.util.HashSet"));

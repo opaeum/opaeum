@@ -9,21 +9,25 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Pin;
+import org.eclipse.uml2.uml.Profile;
 import org.opaeum.EmfElementVisitor;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.visit.VisitSpec;
 import org.opaeum.metamodel.validation.ErrorMap;
+import org.opaeum.metamodel.workspace.IPropertyEmulation;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
@@ -33,6 +37,7 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	protected OpaeumConfig config;
 	protected TransformationContext transformationContext;
 	protected OpaeumLibrary getLibrary(){
+
 		return workspace.getOpaeumLibrary();
 	}
 	protected String getPathNameInModel(Classifier stereotype){
@@ -65,15 +70,20 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	}
 	@Override
 	public void visitRecursively(Element o){
-		if(!(EmfElementUtil.isMarkedForDeletion(o) || (EmfPackageUtil.isRootObject(o) && workspace.getGeneratingModelsOrProfiles().contains(o)))){
-			if(o instanceof Package){
+		
+		boolean b =!(o instanceof Profile);
+		if(o instanceof Model && !(workspace.getGeneratingModelsOrProfiles().contains(o)||EmfPackageUtil.isRegeneratingLibrary((Model)o))){
+			b=false;
+		}
+		if(!EmfElementUtil.isMarkedForDeletion(o) && b){
+			if(EmfPackageUtil.isRootObject(o)){
 				Package pkg = (Package) o;
 				this.setCurrentRootObject(pkg);
 			}
 			visitBeforeMethods(o);
 			visitChildren(o);
 			visitAfterMethods(o);
-			if(o instanceof Package){
+			if(EmfPackageUtil.isRootObject(o)){
 				setCurrentRootObject(null);// NB!! needs to be cleared from every thread
 			}
 		}
@@ -107,9 +117,9 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	@Override
 	public Collection<Element> getChildren(Element root){
 		if(root instanceof ModelWorkspace){
-			return new ArrayList<Element>(((ModelWorkspace) root).getPrimaryRootObjects());
+			return new ArrayList<Element>(((ModelWorkspace) root).getRootObjects());
 		}else{
-			return root.getOwnedElements();
+			return EmfElementFinder.getCorrectOwnedElements(root);
 		}
 	}
 	public void initialize(ModelWorkspace workspace,OpaeumConfig config){
@@ -122,7 +132,7 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	@Override
 	protected int getThreadPoolSize(){
 		// It is read-only
-		return 12;
+		return 1;
 	}
 	protected boolean canAcceptInputFrom(ObjectNode target,MultiplicityElement returnParam){
 		if(target instanceof Pin){

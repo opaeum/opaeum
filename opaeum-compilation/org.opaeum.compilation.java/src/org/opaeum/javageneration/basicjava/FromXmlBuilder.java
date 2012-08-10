@@ -70,14 +70,13 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 			OJWhileStatement whileItems = iterateThroughProperties(toString);
 			//TODO rather leverage AbstracStructureVisitor.visitProperty
 			for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
-				if(XmlUtil.isXmlReference(f)){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				if(XmlUtil.isXmlReference(map)){
 					owner.addToImports(map.javaBaseTypePath());
 					OJBlock then = iterateThroughPropertyValues(map, whileItems);
 					then.addToStatements((map.isMany() ? map.adder() : map.setter()) + "((" + map.javaBaseType()
 							+ ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\")))");
-				}else if(XmlUtil.isXmlSubElement(f)){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				}else if(XmlUtil.isXmlSubElement(map)){
 					OJBlock then = iterateThroughPropertyValues(map, whileItems);
 					then.addToStatements("((" + map.javaBaseType()
 							+ ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\"))).populateReferencesFromXml((Element)currentPropertyValueNode, map)");
@@ -102,15 +101,16 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 			toString.getBody().addToStatements("setUid(xml.getAttribute(\"uid\"))");
 			//TODO rather leverage AbstracStructureVisitor.visitProperty
 			for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
-				if(XmlUtil.isXmlAttribute(f)){
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				if(XmlUtil.isXmlAttribute(map)){
 					populateAttributes(owner, rootObjectName, toString, f);
 				}
 			}
 			//TODO rather leverage AbstracStructureVisitor.visitProperty
 			OJWhileStatement whileItems = iterateThroughProperties(toString);
 			for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
-				if(XmlUtil.isXmlSubElement(f)){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				if(XmlUtil.isXmlSubElement(map)){
 					owner.addToImports(map.javaBaseTypePath());
 					populatePropertyValues(map, whileItems);
 				}
@@ -140,9 +140,9 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		OJIfStatement ifNotNull = new OJIfStatement("xml.getAttribute(\"" + map.fieldname() + "\").length()>0");
 		toString.getBody().addToStatements(ifNotNull);
 		if(map.isOne()){
-			if(EmfClassifierUtil.isSimpleType(f.getType())){
+			if(EmfClassifierUtil.isSimpleType(map.getBaseType())){
 				ifNotNull.getThenPart().addToStatements(
-						map.setter() + "(" + rootObjectName + "Formatter.getInstance().parse" + f.getType().getName() + "(xml.getAttribute(\"" + map.fieldname()
+						map.setter() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(xml.getAttribute(\"" + map.fieldname()
 								+ "\")))");
 			}else{
 				ifNotNull.getThenPart().addToStatements(map.setter() + "(" + map.javaType() + ".valueOf(" + "xml.getAttribute(\"" + map.fieldname() + "\")))");
@@ -150,8 +150,8 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		}else{
 			OJForStatement forEach = new OJForStatement("val", new OJPathName("String"), "xml.getAttribute(\"" + map.fieldname() + "\").split(\";\")");
 			ifNotNull.getThenPart().addToStatements(forEach);
-			if(EmfClassifierUtil.isSimpleType(f.getType())){
-				forEach.getBody().addToStatements(map.adder() + "(" + rootObjectName + "Formatter.getInstance().parse" + f.getType().getName() + "(val))");
+			if(EmfClassifierUtil.isSimpleType(map.getBaseType())){
+				forEach.getBody().addToStatements(map.adder() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(val))");
 			}else{
 				forEach.getBody().addToStatements(map.adder() + "(" + map.javaBaseType() + ".valueOf(val))");
 			}

@@ -41,9 +41,8 @@ import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public final class JavaSourceSynchronizer implements OpaeumEclipseContextListener{
-	private final IWorkspaceRoot workspace;
-	// TODO remove this dependency on the context
-	EclipseProjectGenerationStep eclipseGenerator = new EclipseProjectGenerationStep();
+	private IWorkspaceRoot workspace;
+	private EclipseProjectGenerationStep eclipseGenerator = new EclipseProjectGenerationStep();
 	private TransformationProcess process;
 	private IJavaModel javaWorkspace;
 	private Set<Element> nakedUmlChanges = new HashSet<Element>();
@@ -245,5 +244,14 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 		}catch(Exception e){
 			Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));
 		}
+	}
+	@Override
+	public void onClose(OpenUmlFile openUmlFile){
+		this.process.release();
+		this.process=null;
+		this.workspace=null;
+		this.nakedUmlChanges.clear();
+		this.eclipseGenerator.release();
+		this.eclipseGenerator=null;
 	}
 }

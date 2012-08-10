@@ -19,7 +19,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -29,7 +28,6 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
 import org.opaeum.annotation.NumlMetaInfo;
@@ -37,6 +35,7 @@ import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
 import org.opaeum.runtime.bpm.organization.IBusinessActor;
 import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
+import org.opaeum.runtime.bpm.organization.IBusinessCollaboration_iBusinessActor_1;
 import org.opaeum.runtime.bpm.organization.OrganizationFullfillsActorRole;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
 import org.opaeum.runtime.bpm.organization.PersonFullfillsActorRole;
@@ -45,6 +44,7 @@ import org.opaeum.runtime.bpm.request.AbstractRequest;
 import org.opaeum.runtime.bpm.request.Participation;
 import org.opaeum.runtime.bpm.request.ParticipationInRequest;
 import org.opaeum.runtime.bpm.request.ParticipationInTask;
+import org.opaeum.runtime.bpm.request.ParticipationParticipant;
 import org.opaeum.runtime.bpm.request.RequestParticipationKind;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -58,7 +58,6 @@ import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IOrganizationNode;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -82,6 +81,9 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
+	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="i_business_collaboration_i_business_actor_1_business_collaboration_id",nullable=true)
+	private IBusinessCollaboration_iBusinessActor_1 iBusinessCollaboration_iBusinessActor_1_businessCollaboration;
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
@@ -97,9 +99,9 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	@Where(clause="participant_type='914890@_-N6PwGK6EeGNuoaMwaBk1w'")
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
-	@OneToMany(fetch=javax.persistence.FetchType.LAZY,targetEntity=Participation.class)
-	@JoinColumn(name="participation_id",nullable=true)
-	private Set<Participation> participation = new HashSet<Participation>();
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,targetEntity=ParticipationParticipant.class)
+	@JoinColumn(name="participation_participant_participation_id",nullable=true)
+	private Set<ParticipationParticipant> participationParticipant_participation = new HashSet<ParticipationParticipant>();
 	@Transient
 	private AbstractPersistence persistence;
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
@@ -107,10 +109,6 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	private PersonFullfillsActorRole personFullfillsActorRole_representedPerson;
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-	@Index(columnNames="root_id",name="idx_supplier_root_id")
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="root_id",nullable=true)
-	private Structuredbusiness root;
 	static final private long serialVersionUID = 6592718997733823438l;
 	private String uid;
 
@@ -118,7 +116,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	 * 
 	 * @param owningObject 
 	 */
-	public Supplier(Structuredbusiness owningObject) {
+	public Supplier(IBusinessCollaboration owningObject) {
 		init(owningObject);
 		addToOwningObject();
 	}
@@ -134,6 +132,12 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		}
 	}
 	
+	public void addAllToParticipationParticipant_participation(Set<ParticipationParticipant> participationParticipant_participation) {
+		for ( ParticipationParticipant o : participationParticipant_participation ) {
+			addToParticipationParticipant_participation(o);
+		}
+	}
+	
 	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
@@ -141,21 +145,26 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getRoot().z_internalAddToSupplier((Supplier)this);
 	}
 	
 	public void addToParticipation(Participation participation) {
 		if ( participation!=null ) {
 			participation.z_internalRemoveFromParticipant(participation.getParticipant());
-			participation.z_internalAddToParticipant(this);
 			z_internalAddToParticipation(participation);
 		}
 	}
 	
-	static public Set<? extends Supplier> allInstances() {
+	public void addToParticipationParticipant_participation(ParticipationParticipant participationParticipant_participation) {
+		if ( participationParticipant_participation!=null ) {
+			participationParticipant_participation.z_internalRemoveFromParticipant(participationParticipant_participation.getParticipant());
+			participationParticipant_participation.z_internalAddToParticipant(this);
+			z_internalAddToParticipationParticipant_participation(participationParticipant_participation);
+		}
+	}
+	
+	static public Set<? extends Supplier> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
-			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
-			return new HashSet(session.readAll(structuredbusiness.Supplier.class));
+			return new HashSet(persistence.readAll(structuredbusiness.Supplier.class));
 		} else {
 			return mockedAllInstances;
 		}
@@ -167,7 +176,24 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-		
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationParticipant_participation") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5579540379306504838")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ParticipationParticipant curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToParticipationParticipant_participation(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
@@ -175,8 +201,24 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		removeAllFromParticipation(getParticipation());
 	}
 	
+	public void clearParticipationParticipant_participation() {
+		removeAllFromParticipationParticipant_participation(getParticipationParticipant_participation());
+	}
+	
+	public IBusinessCollaboration_iBusinessActor_1 createIBusinessCollaboration_iBusinessActor_1_businessCollaboration() {
+		IBusinessCollaboration_iBusinessActor_1 newInstance= new IBusinessCollaboration_iBusinessActor_1();
+		newInstance.init(this);
+		return newInstance;
+	}
+	
 	public OrganizationFullfillsActorRole createOrganizationFullfillsActorRole_organization() {
 		OrganizationFullfillsActorRole newInstance= new OrganizationFullfillsActorRole();
+		newInstance.init(this);
+		return newInstance;
+	}
+	
+	public ParticipationParticipant createParticipationParticipant_participation() {
+		ParticipationParticipant newInstance= new ParticipationParticipant();
 		newInstance.init(this);
 		return newInstance;
 	}
@@ -195,11 +237,10 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=124417441767574741l,opposite="businessActor",uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
-	@NumlMetaInfo(uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
 	public IBusinessCollaboration getBusinessCollaboration() {
 		IBusinessCollaboration result = null;
-		if ( this.getRoot()!=null ) {
-			result=this.getRoot();
+		if ( this.iBusinessCollaboration_iBusinessActor_1_businessCollaboration!=null ) {
+			result = this.iBusinessCollaboration_iBusinessActor_1_businessCollaboration.getBusinessCollaboration();
 		}
 		return result;
 	}
@@ -212,6 +253,14 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return this.deletedOn;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6660669114099610761l,opposite="businessActor",uuid="252060@_pP5QQFYuEeGj5_I7bIwNoA")
+	@NumlMetaInfo(uuid="252060@_AN3QcEtxEeGElKTCe2jfDw@252060@_pP5QQFYuEeGj5_I7bIwNoA")
+	public IBusinessCollaboration_iBusinessActor_1 getIBusinessCollaboration_iBusinessActor_1_businessCollaboration() {
+		IBusinessCollaboration_iBusinessActor_1 result = this.iBusinessCollaboration_iBusinessActor_1_businessCollaboration;
+		
+		return result;
+	}
+	
 	public Long getId() {
 		return this.id;
 	}
@@ -219,7 +268,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests() {
-		Collection<AbstractRequest> result = collect11();
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>(collect11());
 		
 		return result;
 	}
@@ -227,7 +276,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests() {
-		Collection<AbstractRequest> result = collect2();
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>(collect2());
 		
 		return result;
 	}
@@ -235,7 +284,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests() {
-		Collection<AbstractRequest> result = collect7();
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>(collect9());
 		
 		return result;
 	}
@@ -257,8 +306,8 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4147448129438915430l,opposite="businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw")
-	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=1418802680892094436l,opposite="businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@NumlMetaInfo(uuid="252060@_AN3QcEtxEeGElKTCe2jfDw@252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public OrganizationFullfillsActorRole getOrganizationFullfillsActorRole_organization() {
 		OrganizationFullfillsActorRole result = this.organizationFullfillsActorRole_organization;
 		
@@ -280,27 +329,45 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests() {
-		Collection<TaskRequest> result = collect3();
+		Collection<TaskRequest> result = new ArrayList<TaskRequest>(collect5());
 		
 		return result;
 	}
 	
 	public CompositionNode getOwningObject() {
-		return getRoot();
+		return getBusinessCollaboration();
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
-	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
-		Set<Participation> result = this.participation;
+		Set<Participation> result = new HashSet<Participation>();
+		for ( ParticipationParticipant cur : this.getParticipationParticipant_participation() ) {
+			result.add(cur.getParticipation());
+		}
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5579540379306504838l,opposite="participant",uuid="252060@_3YyGkIoXEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_YgstsI29EeCrtavWRHwoHg@252060@_3YyGkIoXEeCPduia_-NbFw")
+	public Set<ParticipationParticipant> getParticipationParticipant_participation() {
+		Set<ParticipationParticipant> result = this.participationParticipant_participation;
 		
 		return result;
+	}
+	
+	public ParticipationParticipant getParticipationParticipant_participationFor(Participation match) {
+		for ( ParticipationParticipant var : getParticipationParticipant_participation() ) {
+			if ( var.getParticipation().equals(match) ) {
+				return var;
+			}
+		}
+		return null;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests() {
-		Collection<ParticipationInRequest> result = collect9();
+		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>(collect7());
 		
 		return result;
 	}
@@ -308,13 +375,13 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks() {
-		Collection<ParticipationInTask> result = collect5();
+		Collection<ParticipationInTask> result = new ArrayList<ParticipationInTask>(collect4());
 		
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=9023075862366939329l,opposite="businessActor",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw")
-	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5948223451457234128l,opposite="businessActor",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@NumlMetaInfo(uuid="252060@_AN3QcEtxEeGElKTCe2jfDw@252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public PersonFullfillsActorRole getPersonFullfillsActorRole_representedPerson() {
 		PersonFullfillsActorRole result = this.personFullfillsActorRole_representedPerson;
 		
@@ -338,14 +405,6 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7737100568581358598l,opposite="supplier",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
-	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
-	public Structuredbusiness getRoot() {
-		Structuredbusiness result = this.root;
-		
-		return result;
-	}
-	
 	public String getUid() {
 		if ( this.uid==null || this.uid.trim().length()==0 ) {
 			uid=UUID.randomUUID().toString();
@@ -358,7 +417,6 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	}
 	
 	public void init(CompositionNode owner) {
-		this.z_internalAddToRoot((Structuredbusiness)owner);
 	}
 	
 	public void markDeleted() {
@@ -368,8 +426,17 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		if ( getRepresentedPerson()!=null ) {
 			getRepresentedPerson().z_internalRemoveFromBusinessActor(this);
 		}
-		if ( getRoot()!=null ) {
-			getRoot().z_internalRemoveFromSupplier(this);
+		if ( getOrganizationFullfillsActorRole_organization()!=null ) {
+			getOrganizationFullfillsActorRole_organization().markDeleted();
+		}
+		if ( getPersonFullfillsActorRole_representedPerson()!=null ) {
+			getPersonFullfillsActorRole_representedPerson().markDeleted();
+		}
+		if ( getIBusinessCollaboration_iBusinessActor_1_businessCollaboration()!=null ) {
+			getIBusinessCollaboration_iBusinessActor_1_businessCollaboration().markDeleted();
+		}
+		for ( ParticipationParticipant child : new ArrayList<ParticipationParticipant>(getParticipationParticipant_participation()) ) {
+			child.markDeleted();
 		}
 		setDeletedOn(new Date());
 	}
@@ -383,7 +450,17 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("personFullfillsActorRole_representedPerson") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("9023075862366939329")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_organization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1418802680892094436")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setOrganizationFullfillsActorRole_organization((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("personFullfillsActorRole_representedPerson") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5948223451457234128")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -393,13 +470,13 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_organization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4147448129438915430")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationParticipant_participation") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5579540379306504838")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						setOrganizationFullfillsActorRole_organization((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+						((ParticipationParticipant)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -413,14 +490,27 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		}
 	}
 	
+	public void removeAllFromParticipationParticipant_participation(Set<ParticipationParticipant> participationParticipant_participation) {
+		Set<ParticipationParticipant> tmp = new HashSet<ParticipationParticipant>(participationParticipant_participation);
+		for ( ParticipationParticipant o : tmp ) {
+			removeFromParticipationParticipant_participation(o);
+		}
+	}
+	
 	public void removeFromOwningObject() {
 		this.markDeleted();
 	}
 	
 	public void removeFromParticipation(Participation participation) {
 		if ( participation!=null ) {
-			participation.z_internalRemoveFromParticipant(this);
 			z_internalRemoveFromParticipation(participation);
+		}
+	}
+	
+	public void removeFromParticipationParticipant_participation(ParticipationParticipant participationParticipant_participation) {
+		if ( participationParticipant_participation!=null ) {
+			participationParticipant_participation.z_internalRemoveFromParticipant(this);
+			z_internalRemoveFromParticipationParticipant_participation(participationParticipant_participation);
 		}
 	}
 	
@@ -434,6 +524,36 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
+	}
+	
+	public void setIBusinessCollaboration_iBusinessActor_1_businessCollaboration(IBusinessCollaboration_iBusinessActor_1 iBusinessCollaboration_iBusinessActor_1_businessCollaboration) {
+		IBusinessCollaboration_iBusinessActor_1 oldValue = this.getIBusinessCollaboration_iBusinessActor_1_businessCollaboration();
+		propertyChangeSupport.firePropertyChange("iBusinessCollaboration_iBusinessActor_1_businessCollaboration",getIBusinessCollaboration_iBusinessActor_1_businessCollaboration(),iBusinessCollaboration_iBusinessActor_1_businessCollaboration);
+		if ( oldValue==null ) {
+			if ( iBusinessCollaboration_iBusinessActor_1_businessCollaboration!=null ) {
+				Supplier oldOther = (Supplier)iBusinessCollaboration_iBusinessActor_1_businessCollaboration.getBusinessActor();
+				iBusinessCollaboration_iBusinessActor_1_businessCollaboration.z_internalRemoveFromBusinessActor(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromIBusinessCollaboration_iBusinessActor_1_businessCollaboration(iBusinessCollaboration_iBusinessActor_1_businessCollaboration);
+				}
+				iBusinessCollaboration_iBusinessActor_1_businessCollaboration.z_internalAddToBusinessActor((Supplier)this);
+			}
+			this.z_internalAddToIBusinessCollaboration_iBusinessActor_1_businessCollaboration(iBusinessCollaboration_iBusinessActor_1_businessCollaboration);
+		} else {
+			if ( !oldValue.equals(iBusinessCollaboration_iBusinessActor_1_businessCollaboration) ) {
+				oldValue.z_internalRemoveFromBusinessActor(this);
+				z_internalRemoveFromIBusinessCollaboration_iBusinessActor_1_businessCollaboration(oldValue);
+				if ( iBusinessCollaboration_iBusinessActor_1_businessCollaboration!=null ) {
+					Supplier oldOther = (Supplier)iBusinessCollaboration_iBusinessActor_1_businessCollaboration.getBusinessActor();
+					iBusinessCollaboration_iBusinessActor_1_businessCollaboration.z_internalRemoveFromBusinessActor(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromIBusinessCollaboration_iBusinessActor_1_businessCollaboration(iBusinessCollaboration_iBusinessActor_1_businessCollaboration);
+					}
+					iBusinessCollaboration_iBusinessActor_1_businessCollaboration.z_internalAddToBusinessActor((Supplier)this);
+				}
+				this.z_internalAddToIBusinessCollaboration_iBusinessActor_1_businessCollaboration(iBusinessCollaboration_iBusinessActor_1_businessCollaboration);
+			}
+		}
 	}
 	
 	public void setId(Long id) {
@@ -498,6 +618,12 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		this.addAllToParticipation(participation);
 	}
 	
+	public void setParticipationParticipant_participation(Set<ParticipationParticipant> participationParticipant_participation) {
+		propertyChangeSupport.firePropertyChange("participationParticipant_participation",getParticipationParticipant_participation(),participationParticipant_participation);
+		this.clearParticipationParticipant_participation();
+		this.addAllToParticipationParticipant_participation(participationParticipant_participation);
+	}
+	
 	public void setPersonFullfillsActorRole_representedPerson(PersonFullfillsActorRole personFullfillsActorRole_representedPerson) {
 		PersonFullfillsActorRole oldValue = this.getPersonFullfillsActorRole_representedPerson();
 		propertyChangeSupport.firePropertyChange("personFullfillsActorRole_representedPerson",getPersonFullfillsActorRole_representedPerson(),personFullfillsActorRole_representedPerson);
@@ -542,20 +668,6 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		}
 	}
 	
-	public void setRoot(Structuredbusiness root) {
-		propertyChangeSupport.firePropertyChange("root",getRoot(),root);
-		if ( this.getRoot()!=null ) {
-			this.getRoot().z_internalRemoveFromSupplier(this);
-		}
-		if ( root!=null ) {
-			root.z_internalAddToSupplier(this);
-			this.z_internalAddToRoot(root);
-			setDeletedOn(Stdlib.FUTURE);
-		} else {
-			markDeleted();
-		}
-	}
-	
 	public void setUid(String newUid) {
 		this.uid=newUid;
 	}
@@ -571,22 +683,31 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		sb.append("className=\"structuredbusiness.Supplier\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
-		if ( getPersonFullfillsActorRole_representedPerson()==null ) {
-			sb.append("\n<personFullfillsActorRole_representedPerson/>");
-		} else {
-			sb.append("\n<personFullfillsActorRole_representedPerson propertyId=\"9023075862366939329\">");
-			sb.append("\n" + getPersonFullfillsActorRole_representedPerson().toXmlReferenceString());
-			sb.append("\n</personFullfillsActorRole_representedPerson>");
-		}
 		if ( getOrganizationFullfillsActorRole_organization()==null ) {
 			sb.append("\n<organizationFullfillsActorRole_organization/>");
 		} else {
-			sb.append("\n<organizationFullfillsActorRole_organization propertyId=\"4147448129438915430\">");
+			sb.append("\n<organizationFullfillsActorRole_organization propertyId=\"1418802680892094436\">");
 			sb.append("\n" + getOrganizationFullfillsActorRole_organization().toXmlReferenceString());
 			sb.append("\n</organizationFullfillsActorRole_organization>");
 		}
+		if ( getPersonFullfillsActorRole_representedPerson()==null ) {
+			sb.append("\n<personFullfillsActorRole_representedPerson/>");
+		} else {
+			sb.append("\n<personFullfillsActorRole_representedPerson propertyId=\"5948223451457234128\">");
+			sb.append("\n" + getPersonFullfillsActorRole_representedPerson().toXmlReferenceString());
+			sb.append("\n</personFullfillsActorRole_representedPerson>");
+		}
+		sb.append("\n<participationParticipant_participation propertyId=\"5579540379306504838\">");
+		for ( ParticipationParticipant participationParticipant_participation : getParticipationParticipant_participation() ) {
+			sb.append("\n" + participationParticipant_participation.toXmlString());
+		}
+		sb.append("\n</participationParticipant_participation>");
 		sb.append("\n</Supplier>");
 		return sb.toString();
+	}
+	
+	public void z_internalAddToIBusinessCollaboration_iBusinessActor_1_businessCollaboration(IBusinessCollaboration_iBusinessActor_1 val) {
+		this.iBusinessCollaboration_iBusinessActor_1_businessCollaboration=val;
 	}
 	
 	public void z_internalAddToOrganization(OrganizationNode organization) {
@@ -599,8 +720,14 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		this.organizationFullfillsActorRole_organization=val;
 	}
 	
-	public void z_internalAddToParticipation(Participation val) {
-		this.participation.add(val);
+	public void z_internalAddToParticipation(Participation participation) {
+		ParticipationParticipant newOne = new ParticipationParticipant(this,participation);
+		this.z_internalAddToParticipationParticipant_participation(newOne);
+		newOne.getParticipation().z_internalAddToParticipationParticipant_participant(newOne);
+	}
+	
+	public void z_internalAddToParticipationParticipant_participation(ParticipationParticipant val) {
+		this.participationParticipant_participation.add(val);
 	}
 	
 	public void z_internalAddToPersonFullfillsActorRole_representedPerson(PersonFullfillsActorRole val) {
@@ -613,8 +740,11 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		newOne.getRepresentedPerson().z_internalAddToPersonFullfillsActorRole_businessActor(newOne);
 	}
 	
-	public void z_internalAddToRoot(Structuredbusiness val) {
-		this.root=val;
+	public void z_internalRemoveFromIBusinessCollaboration_iBusinessActor_1_businessCollaboration(IBusinessCollaboration_iBusinessActor_1 val) {
+		if ( getIBusinessCollaboration_iBusinessActor_1_businessCollaboration()!=null && val!=null && val.equals(getIBusinessCollaboration_iBusinessActor_1_businessCollaboration()) ) {
+			this.iBusinessCollaboration_iBusinessActor_1_businessCollaboration=null;
+			this.iBusinessCollaboration_iBusinessActor_1_businessCollaboration=null;
+		}
 	}
 	
 	public void z_internalRemoveFromOrganization(OrganizationNode organization) {
@@ -630,8 +760,17 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		}
 	}
 	
-	public void z_internalRemoveFromParticipation(Participation val) {
-		this.participation.remove(val);
+	public void z_internalRemoveFromParticipation(Participation participation) {
+		for ( ParticipationParticipant cur : new HashSet<ParticipationParticipant>(this.participationParticipant_participation) ) {
+			if ( cur.getParticipation().equals(participation) ) {
+				cur.clear();
+				break;
+			}
+		}
+	}
+	
+	public void z_internalRemoveFromParticipationParticipant_participation(ParticipationParticipant val) {
+		this.participationParticipant_participation.remove(val);
 	}
 	
 	public void z_internalRemoveFromPersonFullfillsActorRole_representedPerson(PersonFullfillsActorRole val) {
@@ -647,134 +786,127 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		}
 	}
 	
-	public void z_internalRemoveFromRoot(Structuredbusiness val) {
-		if ( getRoot()!=null && val!=null && val.equals(getRoot()) ) {
-			this.root=null;
-			this.root=null;
-		}
-	}
-	
-	/** Implements ->collect( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.request )
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::initiator))->collect(temp2 : ParticipationInRequest | temp2.request)
 	 */
 	private Collection<AbstractRequest> collect11() {
 		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : select10() ) {
-			AbstractRequest bodyExpResult = i_ParticipationInRequest.getRequest();
+		for ( ParticipationInRequest temp2 : select10() ) {
+			AbstractRequest bodyExpResult = temp2.getRequest();
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->collect( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.request )
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::stakeholder))->collect(temp2 : ParticipationInRequest | temp2.request)
 	 */
 	private Collection<AbstractRequest> collect2() {
 		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : select1() ) {
-			AbstractRequest bodyExpResult = i_ParticipationInRequest.getRequest();
+		for ( ParticipationInRequest temp2 : select1() ) {
+			AbstractRequest bodyExpResult = temp2.getRequest();
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->collect( i_ParticipationInTask : ParticipationInTask | i_ParticipationInTask.taskRequest )
+	/** Implements self.participation->select(temp1 : Participation | temp1.oclIsKindOf(OpaeumLibraryForBPM::request::ParticipationInTask))->collect(temp2 : Participation | temp2.oclAsType(OpaeumLibraryForBPM::request::ParticipationInTask))
 	 */
-	private Collection<TaskRequest> collect3() {
-		Collection<TaskRequest> result = new ArrayList<TaskRequest>();
-		for ( ParticipationInTask i_ParticipationInTask : this.getParticipationsInTasks() ) {
-			TaskRequest bodyExpResult = i_ParticipationInTask.getTaskRequest();
-			if ( bodyExpResult != null ) result.add( bodyExpResult );
-		}
-		return result;
-	}
-	
-	/** Implements ->collect( i_Participation : Participation | i_Participation.oclAsType(ParticipationInTask) )
-	 */
-	private Collection<ParticipationInTask> collect5() {
+	private Collection<ParticipationInTask> collect4() {
 		Collection<ParticipationInTask> result = new ArrayList<ParticipationInTask>();
-		for ( Participation i_Participation : select4() ) {
-			ParticipationInTask bodyExpResult = ((ParticipationInTask) i_Participation);
+		for ( Participation temp2 : select3() ) {
+			ParticipationInTask bodyExpResult = ((ParticipationInTask) temp2);
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->collect( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.request )
+	/** Implements self.participationsInTasks->collect(temp1 : ParticipationInTask | temp1.taskRequest)
 	 */
-	private Collection<AbstractRequest> collect7() {
-		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : select6() ) {
-			AbstractRequest bodyExpResult = i_ParticipationInRequest.getRequest();
+	private Collection<TaskRequest> collect5() {
+		Collection<TaskRequest> result = new ArrayList<TaskRequest>();
+		for ( ParticipationInTask temp1 : this.getParticipationsInTasks() ) {
+			TaskRequest bodyExpResult = temp1.getTaskRequest();
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->collect( i_Participation : Participation | i_Participation.oclAsType(ParticipationInRequest) )
+	/** Implements self.participation->select(temp1 : Participation | temp1.oclIsKindOf(OpaeumLibraryForBPM::request::ParticipationInRequest))->collect(temp2 : Participation | temp2.oclAsType(OpaeumLibraryForBPM::request::ParticipationInRequest))
 	 */
-	private Collection<ParticipationInRequest> collect9() {
+	private Collection<ParticipationInRequest> collect7() {
 		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( Participation i_Participation : select8() ) {
-			ParticipationInRequest bodyExpResult = ((ParticipationInRequest) i_Participation);
+		for ( Participation temp2 : select6() ) {
+			ParticipationInRequest bodyExpResult = ((ParticipationInRequest) temp2);
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->select( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.kind = RequestParticipationKind::stakeholder )
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::businessOwner))->collect(temp2 : ParticipationInRequest | temp2.request)
+	 */
+	private Collection<AbstractRequest> collect9() {
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
+		for ( ParticipationInRequest temp2 : select8() ) {
+			AbstractRequest bodyExpResult = temp2.getRequest();
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::stakeholder))
 	 */
 	private Collection<ParticipationInRequest> select1() {
 		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : this.getParticipationsInRequests() ) {
-			if ( (i_ParticipationInRequest.getKind().equals( RequestParticipationKind.STAKEHOLDER)) ) {
-				result.add( i_ParticipationInRequest );
+		for ( ParticipationInRequest temp1 : this.getParticipationsInRequests() ) {
+			if ( (temp1.getKind().equals( RequestParticipationKind.STAKEHOLDER)) ) {
+				result.add( temp1 );
 			}
 		}
 		return result;
 	}
 	
-	/** Implements ->select( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.kind = RequestParticipationKind::initiator )
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::initiator))
 	 */
 	private Collection<ParticipationInRequest> select10() {
 		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : this.getParticipationsInRequests() ) {
-			if ( (i_ParticipationInRequest.getKind().equals( RequestParticipationKind.INITIATOR)) ) {
-				result.add( i_ParticipationInRequest );
+		for ( ParticipationInRequest temp1 : this.getParticipationsInRequests() ) {
+			if ( (temp1.getKind().equals( RequestParticipationKind.INITIATOR)) ) {
+				result.add( temp1 );
 			}
 		}
 		return result;
 	}
 	
-	/** Implements ->select( i_Participation : Participation | i_Participation.oclIsKindOf(ParticipationInTask) )
+	/** Implements self.participation->select(temp1 : Participation | temp1.oclIsKindOf(OpaeumLibraryForBPM::request::ParticipationInTask))
 	 */
-	private Set<Participation> select4() {
+	private Set<Participation> select3() {
 		Set<Participation> result = new HashSet<Participation>();
-		for ( Participation i_Participation : this.getParticipation() ) {
-			if ( (i_Participation instanceof ParticipationInTask) ) {
-				result.add( i_Participation );
+		for ( Participation temp1 : this.getParticipation() ) {
+			if ( (temp1 instanceof ParticipationInTask) ) {
+				result.add( temp1 );
 			}
 		}
 		return result;
 	}
 	
-	/** Implements ->select( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.kind = RequestParticipationKind::businessOwner )
+	/** Implements self.participation->select(temp1 : Participation | temp1.oclIsKindOf(OpaeumLibraryForBPM::request::ParticipationInRequest))
 	 */
-	private Collection<ParticipationInRequest> select6() {
+	private Set<Participation> select6() {
+		Set<Participation> result = new HashSet<Participation>();
+		for ( Participation temp1 : this.getParticipation() ) {
+			if ( (temp1 instanceof ParticipationInRequest) ) {
+				result.add( temp1 );
+			}
+		}
+		return result;
+	}
+	
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::businessOwner))
+	 */
+	private Collection<ParticipationInRequest> select8() {
 		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : this.getParticipationsInRequests() ) {
-			if ( (i_ParticipationInRequest.getKind().equals( RequestParticipationKind.BUSINESSOWNER)) ) {
-				result.add( i_ParticipationInRequest );
-			}
-		}
-		return result;
-	}
-	
-	/** Implements ->select( i_Participation : Participation | i_Participation.oclIsKindOf(ParticipationInRequest) )
-	 */
-	private Set<Participation> select8() {
-		Set<Participation> result = new HashSet<Participation>();
-		for ( Participation i_Participation : this.getParticipation() ) {
-			if ( (i_Participation instanceof ParticipationInRequest) ) {
-				result.add( i_Participation );
+		for ( ParticipationInRequest temp1 : this.getParticipationsInRequests() ) {
+			if ( (temp1.getKind().equals( RequestParticipationKind.BUSINESSOWNER)) ) {
+				result.add( temp1 );
 			}
 		}
 		return result;

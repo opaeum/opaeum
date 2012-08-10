@@ -71,6 +71,9 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		}
 	}
 	protected void visitComplexStructure(Classifier complexType){
+		if(complexType.getName().equals("CronExpression")){
+			System.out.println();
+		}
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		if(isPersistent(complexType) && OJUtil.hasOJClass(complexType)){
 			buildToString(ojClass, complexType);
@@ -98,7 +101,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 						OJAnnotationValue uniquenessConstraint2 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
 						OJAnnotationAttributeValue columns2 = new OJAnnotationAttributeValue("columnNames", map2.getPersistentName()
 								.getAsIs());
-						uniquenessConstraint1.putAttribute(columns2);
+						uniquenessConstraint2.putAttribute(columns2);
 						uniqueConstraints.addAnnotationValue(uniquenessConstraint2);
 					}else{
 						OJAnnotationValue uniquenessConstraint1 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
@@ -128,6 +131,13 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 						uniqueConstraints.addAnnotationValue(uniquenessConstraint1);
 					}
 				}
+				for(OJAnnotationValue v:uniqueConstraints.getAnnotationValues()){
+					OJAnnotationAttributeValue columnNames = v.findAttribute("columnNames");
+					if(columnNames==null){
+						System.out.println();
+					}
+				}
+
 			}
 			// All classes get default strategy
 			annotateInheritanceType(ojClass);
@@ -241,7 +251,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			// Entities and behaviors, emulated entities
 			OJAnnotationValue toMany = null;
 			OJPathName baseTypePath = ojUtil.classifierPathname((Classifier) p.getType());
-			OJAnnotationAttributeValue targetClass = new OJAnnotationAttributeValue("targetClass", baseTypePath);
+			OJAnnotationAttributeValue targetEntity = new OJAnnotationAttributeValue("targetEntity", baseTypePath);
 			if(EmfPropertyUtil.isInverse(p)){
 				// Can only be bidirectional - implies the presence of
 				// non-inverse other end
@@ -265,7 +275,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 				JpaUtil.addJoinTable(umlOwner, map, field, this.config);
 			}
 			toMany.putAttribute(lazy);
-			toMany.putAttribute(targetClass);
+			toMany.putAttribute(targetEntity);
 			if(p.isComposite() || p.getType() instanceof DataType){
 				JpaUtil.cascadeAll(toMany);
 			}
@@ -280,7 +290,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	private void implementManyForValueTypes(Property f,StructuralFeatureMap map,OJAnnotatedField field){
 		if(isJpa2){
 			OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("javax.persistence.ElementCollection"));
-			OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetClass", ojUtil.classifierPathname((Classifier) f
+			OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetEntity", ojUtil.classifierPathname((Classifier) f
 					.getType()));
 			collectionOfElements.putAttribute(targetElement);
 			OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName(

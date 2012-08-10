@@ -9,7 +9,6 @@ import org.opaeum.runtime.jpa.StandaloneJpaEnvironment;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
 import structuredbusiness.Manager;
-import structuredbusiness.Structuredbusiness;
 
 public class InterfaceAssociationTest{
 	public void testInterfaceMany(){

@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -20,7 +19,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,7 +29,6 @@ import javax.validation.constraints.Digits;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Email;
@@ -41,8 +38,6 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
-import org.opaeum.runtime.bpm.organization.IBusiness;
-import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.IBusinessComponent;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
 import org.opaeum.runtime.bpm.organization.Organization_iBusinessComponent_1;
@@ -50,6 +45,7 @@ import org.opaeum.runtime.bpm.request.AbstractRequest;
 import org.opaeum.runtime.bpm.request.Participation;
 import org.opaeum.runtime.bpm.request.ParticipationInRequest;
 import org.opaeum.runtime.bpm.request.ParticipationInTask;
+import org.opaeum.runtime.bpm.request.ParticipationParticipant;
 import org.opaeum.runtime.bpm.request.RequestParticipationKind;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -60,10 +56,9 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.organization.IOrganizationNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.strategy.DateStrategyFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -73,7 +68,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 
 @AuditMe
 @NumlMetaInfo(uuid="914890@_CQTWAGOeEeGwMNo027LgxA")
-@BusinessComponent(businessRoles=Manager.class,isRoot=true)
+@BusinessComponent(businessRoles=Manager.class)
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
@@ -81,7 +76,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="ApplianceDoctor")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class ApplianceDoctor implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessComponent, IBusiness, Serializable {
+public class ApplianceDoctor implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessComponent, Serializable {
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="applianceDoctor",targetEntity=ApplianceModel.class)
@@ -99,6 +94,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
+	@Temporal(	javax.persistence.TemporalType.DATE)
 	@Column(name="initiation_date")
 	private Date initiationDate;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
@@ -119,17 +115,13 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@Where(clause="participant_type='914890@_CQTWAGOeEeGwMNo027LgxA'")
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
-	@OneToMany(fetch=javax.persistence.FetchType.LAZY,targetEntity=Participation.class)
-	@JoinColumn(name="participation_id",nullable=true)
-	private Set<Participation> participation = new HashSet<Participation>();
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,targetEntity=ParticipationParticipant.class)
+	@JoinColumn(name="participation_participant_participation_id",nullable=true)
+	private Set<ParticipationParticipant> participationParticipant_participation = new HashSet<ParticipationParticipant>();
 	@Transient
 	private AbstractPersistence persistence;
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-	@Index(columnNames="root_id",name="idx_appliance_doctor_root_id")
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="root_id",nullable=true)
-	private Structuredbusiness root;
 	static final private long serialVersionUID = 8415961198448241003l;
 	@Email(groups={},message="Invalid e-mail address format",payload={})
 	@Column(name="support_e_mail_address")
@@ -142,15 +134,6 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@Column(name="vat_number")
 	private String vatNumber;
 
-	/** This constructor is intended for easy initialization in unit tests
-	 * 
-	 * @param owningObject 
-	 */
-	public ApplianceDoctor(Structuredbusiness owningObject) {
-		init(owningObject);
-		addToOwningObject();
-	}
-	
 	/** Default constructor for ApplianceDoctor
 	 */
 	public ApplianceDoctor() {
@@ -185,6 +168,12 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
+	public void addAllToParticipationParticipant_participation(Set<ParticipationParticipant> participationParticipant_participation) {
+		for ( ParticipationParticipant o : participationParticipant_participation ) {
+			addToParticipationParticipant_participation(o);
+		}
+	}
+	
 	public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(property,listener);
 	}
@@ -216,21 +205,26 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getRoot().z_internalAddToApplianceDoctor((ApplianceDoctor)this);
 	}
 	
 	public void addToParticipation(Participation participation) {
 		if ( participation!=null ) {
 			participation.z_internalRemoveFromParticipant(participation.getParticipant());
-			participation.z_internalAddToParticipant(this);
 			z_internalAddToParticipation(participation);
 		}
 	}
 	
-	static public Set<? extends ApplianceDoctor> allInstances() {
+	public void addToParticipationParticipant_participation(ParticipationParticipant participationParticipant_participation) {
+		if ( participationParticipant_participation!=null ) {
+			participationParticipant_participation.z_internalRemoveFromParticipant(participationParticipant_participation.getParticipant());
+			participationParticipant_participation.z_internalAddToParticipant(this);
+			z_internalAddToParticipationParticipant_participation(participationParticipant_participation);
+		}
+	}
+	
+	static public Set<? extends ApplianceDoctor> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
-			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
-			return new HashSet(session.readAll(structuredbusiness.ApplianceDoctor.class));
+			return new HashSet(persistence.readAll(structuredbusiness.ApplianceDoctor.class));
 		} else {
 			return mockedAllInstances;
 		}
@@ -311,7 +305,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organization_iBusinessComponent_1_representedOrganization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5756915452752219728")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organization_iBusinessComponent_1_representedOrganization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3245714109628633948")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -325,6 +319,24 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.setOrganization_iBusinessComponent_1_representedOrganization(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationParticipant_participation") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5579540379306504838")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ParticipationParticipant curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToParticipationParticipant_participation(curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -346,6 +358,10 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void clearParticipation() {
 		removeAllFromParticipation(getParticipation());
+	}
+	
+	public void clearParticipationParticipant_participation() {
+		removeAllFromParticipationParticipant_participation(getParticipationParticipant_participation());
 	}
 	
 	public boolean consumeAddAccountantOccurrence(@ParameterMetaInfo(name="name",opaeumId=341190338248797855l,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ") String name, @ParameterMetaInfo(name="isChartered",opaeumId=9099761849766142693l,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ") String isChartered, @ParameterMetaInfo(name="manager",opaeumId=4684052632804621483l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ") Manager manager) {
@@ -405,6 +421,12 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return newInstance;
 	}
 	
+	public ParticipationParticipant createParticipationParticipant_participation() {
+		ParticipationParticipant newInstance= new ParticipationParticipant();
+		newInstance.init(this);
+		return newInstance;
+	}
+	
 	public boolean equals(Object other) {
 		if ( other instanceof ApplianceDoctor ) {
 			return other==this || ((ApplianceDoctor)other).getUid().equals(this.getUid());
@@ -431,16 +453,6 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2952021989536159761l,opposite="business",uuid="252060@_Rj0oE1YkEeGJUqEGX7bKSg")
-	@NumlMetaInfo(uuid="252060@_Rj0oE1YkEeGJUqEGX7bKSg")
-	public IBusinessCollaboration getBusinessCollaboration() {
-		IBusinessCollaboration result = null;
-		if ( this.getRoot()!=null ) {
-			result=this.getRoot();
-		}
-		return result;
-	}
-	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
@@ -456,12 +468,12 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests() {
-		Collection<AbstractRequest> result = collect11();
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>(collect11());
 		
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2129484770117698232l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2129484770117698232l,strategyFactory=DateStrategyFactory.class,uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
 	public Date getInitiationDate() {
 		Date result = this.initiationDate;
@@ -472,7 +484,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests() {
-		Collection<AbstractRequest> result = collect2();
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>(collect2());
 		
 		return result;
 	}
@@ -480,7 +492,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests() {
-		Collection<AbstractRequest> result = collect7();
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>(collect9());
 		
 		return result;
 	}
@@ -493,7 +505,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2403097927264790462l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_8-HO8HorEeGBZ7vhZCNgsg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2403097927264790462l,uuid="914890@_8-HO8HorEeGBZ7vhZCNgsg")
 	@NumlMetaInfo(uuid="914890@_8-HO8HorEeGBZ7vhZCNgsg")
 	public String getName() {
 		String result = this.name;
@@ -505,8 +517,8 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5756915452752219728l,opposite="businessComponent",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA")
-	@NumlMetaInfo(uuid="252060@_vf4noVYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3245714109628633948l,opposite="businessComponent",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA")
+	@NumlMetaInfo(uuid="252060@_uVek8IoVEeCLqpffVZYAlw@252060@_vf4noFYuEeGj5_I7bIwNoA")
 	public Organization_iBusinessComponent_1 getOrganization_iBusinessComponent_1_representedOrganization() {
 		Organization_iBusinessComponent_1 result = this.organization_iBusinessComponent_1_representedOrganization;
 		
@@ -528,27 +540,45 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests() {
-		Collection<TaskRequest> result = collect3();
+		Collection<TaskRequest> result = new ArrayList<TaskRequest>(collect5());
 		
 		return result;
 	}
 	
 	public CompositionNode getOwningObject() {
-		return getRoot();
+		return null;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
-	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
-		Set<Participation> result = this.participation;
+		Set<Participation> result = new HashSet<Participation>();
+		for ( ParticipationParticipant cur : this.getParticipationParticipant_participation() ) {
+			result.add(cur.getParticipation());
+		}
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5579540379306504838l,opposite="participant",uuid="252060@_3YyGkIoXEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_YgstsI29EeCrtavWRHwoHg@252060@_3YyGkIoXEeCPduia_-NbFw")
+	public Set<ParticipationParticipant> getParticipationParticipant_participation() {
+		Set<ParticipationParticipant> result = this.participationParticipant_participation;
 		
 		return result;
+	}
+	
+	public ParticipationParticipant getParticipationParticipant_participationFor(Participation match) {
+		for ( ParticipationParticipant var : getParticipationParticipant_participation() ) {
+			if ( var.getParticipation().equals(match) ) {
+				return var;
+			}
+		}
+		return null;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests() {
-		Collection<ParticipationInRequest> result = collect9();
+		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>(collect7());
 		
 		return result;
 	}
@@ -556,12 +586,12 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks() {
-		Collection<ParticipationInTask> result = collect5();
+		Collection<ParticipationInTask> result = new ArrayList<ParticipationInTask>(collect4());
 		
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSourcePopulationForRepresentedOrganization",opaeumId=8314504260854280851l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8314504260854280851l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public OrganizationNode getRepresentedOrganization() {
 		OrganizationNode result = null;
 		if ( this.organization_iBusinessComponent_1_representedOrganization!=null ) {
@@ -570,23 +600,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7737100568581358598l,opposite="applianceDoctor",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
-	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
-	public Structuredbusiness getRoot() {
-		Structuredbusiness result = this.root;
-		
-		return result;
-	}
-	
-	public List<Manager> getSourcePopulationForAddAccountantManager() {
-		return new ArrayList<Manager>(Stdlib.collectionAsSet(this.getManager()));
-	}
-	
-	public List<OrganizationNode> getSourcePopulationForRepresentedOrganization() {
-		return new ArrayList<OrganizationNode>(Stdlib.collectionAsSet(this.getRoot().getBusinessNetwork().getOrganization()));
-	}
-	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=656426330587139118l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=656426330587139118l,uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
 	public String getSupportEMailAddress() {
 		String result = this.supportEMailAddress;
@@ -594,7 +608,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=77118842450650400l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=77118842450650400l,uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
 	public String getSupportNumber() {
 		String result = this.supportNumber;
@@ -609,7 +623,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8454956352695908190l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8454956352695908190l,uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
 	public String getVatNumber() {
 		String result = this.vatNumber;
@@ -622,7 +636,6 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void init(CompositionNode owner) {
-		this.z_internalAddToRoot((Structuredbusiness)owner);
 		createComponents();
 	}
 	
@@ -643,9 +656,6 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		if ( getRepresentedOrganization()!=null ) {
 			getRepresentedOrganization().z_internalRemoveFromBusinessComponent(this);
 		}
-		if ( getRoot()!=null ) {
-			getRoot().z_internalRemoveFromApplianceDoctor(this);
-		}
 		for ( Manager child : new ArrayList<Manager>(getManager()) ) {
 			child.markDeleted();
 		}
@@ -653,6 +663,12 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 			child.markDeleted();
 		}
 		for ( ApplianceModel child : new ArrayList<ApplianceModel>(getApplianceModel()) ) {
+			child.markDeleted();
+		}
+		if ( getOrganization_iBusinessComponent_1_representedOrganization()!=null ) {
+			getOrganization_iBusinessComponent_1_representedOrganization().markDeleted();
+		}
+		for ( ParticipationParticipant child : new ArrayList<ParticipationParticipant>(getParticipationParticipant_participation()) ) {
 			child.markDeleted();
 		}
 		setDeletedOn(new Date());
@@ -697,13 +713,23 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organization_iBusinessComponent_1_representedOrganization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5756915452752219728")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organization_iBusinessComponent_1_representedOrganization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3245714109628633948")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						((Organization_iBusinessComponent_1)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationParticipant_participation") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5579540379306504838")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationParticipant)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -738,6 +764,13 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
+	public void removeAllFromParticipationParticipant_participation(Set<ParticipationParticipant> participationParticipant_participation) {
+		Set<ParticipationParticipant> tmp = new HashSet<ParticipationParticipant>(participationParticipant_participation);
+		for ( ParticipationParticipant o : tmp ) {
+			removeFromParticipationParticipant_participation(o);
+		}
+	}
+	
 	public void removeFromApplianceModel(ApplianceModel applianceModel) {
 		if ( applianceModel!=null ) {
 			applianceModel.z_internalRemoveFromApplianceDoctor(this);
@@ -765,8 +798,14 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void removeFromParticipation(Participation participation) {
 		if ( participation!=null ) {
-			participation.z_internalRemoveFromParticipant(this);
 			z_internalRemoveFromParticipation(participation);
+		}
+	}
+	
+	public void removeFromParticipationParticipant_participation(ParticipationParticipant participationParticipant_participation) {
+		if ( participationParticipant_participation!=null ) {
+			participationParticipant_participation.z_internalRemoveFromParticipant(this);
+			z_internalRemoveFromParticipationParticipant_participation(participationParticipant_participation);
 		}
 	}
 	
@@ -858,6 +897,12 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		this.addAllToParticipation(participation);
 	}
 	
+	public void setParticipationParticipant_participation(Set<ParticipationParticipant> participationParticipant_participation) {
+		propertyChangeSupport.firePropertyChange("participationParticipant_participation",getParticipationParticipant_participation(),participationParticipant_participation);
+		this.clearParticipationParticipant_participation();
+		this.addAllToParticipationParticipant_participation(participationParticipant_participation);
+	}
+	
 	public void setRepresentedOrganization(IOrganizationNode p) {
 		setRepresentedOrganization((OrganizationNode)p);
 	}
@@ -869,20 +914,6 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		}
 		if ( representedOrganization!=null ) {
 			this.z_internalAddToRepresentedOrganization(representedOrganization);
-		}
-	}
-	
-	public void setRoot(Structuredbusiness root) {
-		propertyChangeSupport.firePropertyChange("root",getRoot(),root);
-		if ( this.getRoot()!=null ) {
-			this.getRoot().z_internalRemoveFromApplianceDoctor(this);
-		}
-		if ( root!=null ) {
-			root.z_internalAddToApplianceDoctor(this);
-			this.z_internalAddToRoot(root);
-			setDeletedOn(Stdlib.FUTURE);
-		} else {
-			markDeleted();
 		}
 	}
 	
@@ -949,10 +980,15 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		if ( getOrganization_iBusinessComponent_1_representedOrganization()==null ) {
 			sb.append("\n<organization_iBusinessComponent_1_representedOrganization/>");
 		} else {
-			sb.append("\n<organization_iBusinessComponent_1_representedOrganization propertyId=\"5756915452752219728\">");
+			sb.append("\n<organization_iBusinessComponent_1_representedOrganization propertyId=\"3245714109628633948\">");
 			sb.append("\n" + getOrganization_iBusinessComponent_1_representedOrganization().toXmlString());
 			sb.append("\n</organization_iBusinessComponent_1_representedOrganization>");
 		}
+		sb.append("\n<participationParticipant_participation propertyId=\"5579540379306504838\">");
+		for ( ParticipationParticipant participationParticipant_participation : getParticipationParticipant_participation() ) {
+			sb.append("\n" + participationParticipant_participation.toXmlString());
+		}
+		sb.append("\n</participationParticipant_participation>");
 		sb.append("\n</ApplianceDoctor>");
 		return sb.toString();
 	}
@@ -981,18 +1017,20 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		this.organization_iBusinessComponent_1_representedOrganization=val;
 	}
 	
-	public void z_internalAddToParticipation(Participation val) {
-		this.participation.add(val);
+	public void z_internalAddToParticipation(Participation participation) {
+		ParticipationParticipant newOne = new ParticipationParticipant(this,participation);
+		this.z_internalAddToParticipationParticipant_participation(newOne);
+		newOne.getParticipation().z_internalAddToParticipationParticipant_participant(newOne);
+	}
+	
+	public void z_internalAddToParticipationParticipant_participation(ParticipationParticipant val) {
+		this.participationParticipant_participation.add(val);
 	}
 	
 	public void z_internalAddToRepresentedOrganization(OrganizationNode representedOrganization) {
 		Organization_iBusinessComponent_1 newOne = new Organization_iBusinessComponent_1(this,representedOrganization);
 		this.z_internalAddToOrganization_iBusinessComponent_1_representedOrganization(newOne);
 		newOne.getRepresentedOrganization().z_internalAddToOrganization_iBusinessComponent_1_businessComponent(newOne);
-	}
-	
-	public void z_internalAddToRoot(Structuredbusiness val) {
-		this.root=val;
 	}
 	
 	public void z_internalAddToSupportEMailAddress(String val) {
@@ -1040,20 +1078,22 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
-	public void z_internalRemoveFromParticipation(Participation val) {
-		this.participation.remove(val);
+	public void z_internalRemoveFromParticipation(Participation participation) {
+		for ( ParticipationParticipant cur : new HashSet<ParticipationParticipant>(this.participationParticipant_participation) ) {
+			if ( cur.getParticipation().equals(participation) ) {
+				cur.clear();
+				break;
+			}
+		}
+	}
+	
+	public void z_internalRemoveFromParticipationParticipant_participation(ParticipationParticipant val) {
+		this.participationParticipant_participation.remove(val);
 	}
 	
 	public void z_internalRemoveFromRepresentedOrganization(OrganizationNode representedOrganization) {
 		if ( this.organization_iBusinessComponent_1_representedOrganization!=null ) {
 			this.organization_iBusinessComponent_1_representedOrganization.clear();
-		}
-	}
-	
-	public void z_internalRemoveFromRoot(Structuredbusiness val) {
-		if ( getRoot()!=null && val!=null && val.equals(getRoot()) ) {
-			this.root=null;
-			this.root=null;
 		}
 	}
 	
@@ -1078,127 +1118,127 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
-	/** Implements ->collect( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.request )
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::initiator))->collect(temp2 : ParticipationInRequest | temp2.request)
 	 */
 	private Collection<AbstractRequest> collect11() {
 		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : select10() ) {
-			AbstractRequest bodyExpResult = i_ParticipationInRequest.getRequest();
+		for ( ParticipationInRequest temp2 : select10() ) {
+			AbstractRequest bodyExpResult = temp2.getRequest();
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->collect( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.request )
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::stakeholder))->collect(temp2 : ParticipationInRequest | temp2.request)
 	 */
 	private Collection<AbstractRequest> collect2() {
 		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : select1() ) {
-			AbstractRequest bodyExpResult = i_ParticipationInRequest.getRequest();
+		for ( ParticipationInRequest temp2 : select1() ) {
+			AbstractRequest bodyExpResult = temp2.getRequest();
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->collect( i_ParticipationInTask : ParticipationInTask | i_ParticipationInTask.taskRequest )
+	/** Implements self.participation->select(temp1 : Participation | temp1.oclIsKindOf(OpaeumLibraryForBPM::request::ParticipationInTask))->collect(temp2 : Participation | temp2.oclAsType(OpaeumLibraryForBPM::request::ParticipationInTask))
 	 */
-	private Collection<TaskRequest> collect3() {
-		Collection<TaskRequest> result = new ArrayList<TaskRequest>();
-		for ( ParticipationInTask i_ParticipationInTask : this.getParticipationsInTasks() ) {
-			TaskRequest bodyExpResult = i_ParticipationInTask.getTaskRequest();
-			if ( bodyExpResult != null ) result.add( bodyExpResult );
-		}
-		return result;
-	}
-	
-	/** Implements ->collect( i_Participation : Participation | i_Participation.oclAsType(ParticipationInTask) )
-	 */
-	private Collection<ParticipationInTask> collect5() {
+	private Collection<ParticipationInTask> collect4() {
 		Collection<ParticipationInTask> result = new ArrayList<ParticipationInTask>();
-		for ( Participation i_Participation : select4() ) {
-			ParticipationInTask bodyExpResult = ((ParticipationInTask) i_Participation);
+		for ( Participation temp2 : select3() ) {
+			ParticipationInTask bodyExpResult = ((ParticipationInTask) temp2);
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->collect( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.request )
+	/** Implements self.participationsInTasks->collect(temp1 : ParticipationInTask | temp1.taskRequest)
 	 */
-	private Collection<AbstractRequest> collect7() {
-		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : select6() ) {
-			AbstractRequest bodyExpResult = i_ParticipationInRequest.getRequest();
+	private Collection<TaskRequest> collect5() {
+		Collection<TaskRequest> result = new ArrayList<TaskRequest>();
+		for ( ParticipationInTask temp1 : this.getParticipationsInTasks() ) {
+			TaskRequest bodyExpResult = temp1.getTaskRequest();
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->collect( i_Participation : Participation | i_Participation.oclAsType(ParticipationInRequest) )
+	/** Implements self.participation->select(temp1 : Participation | temp1.oclIsKindOf(OpaeumLibraryForBPM::request::ParticipationInRequest))->collect(temp2 : Participation | temp2.oclAsType(OpaeumLibraryForBPM::request::ParticipationInRequest))
 	 */
-	private Collection<ParticipationInRequest> collect9() {
+	private Collection<ParticipationInRequest> collect7() {
 		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( Participation i_Participation : select8() ) {
-			ParticipationInRequest bodyExpResult = ((ParticipationInRequest) i_Participation);
+		for ( Participation temp2 : select6() ) {
+			ParticipationInRequest bodyExpResult = ((ParticipationInRequest) temp2);
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
 	}
 	
-	/** Implements ->select( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.kind = RequestParticipationKind::stakeholder )
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::businessOwner))->collect(temp2 : ParticipationInRequest | temp2.request)
+	 */
+	private Collection<AbstractRequest> collect9() {
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
+		for ( ParticipationInRequest temp2 : select8() ) {
+			AbstractRequest bodyExpResult = temp2.getRequest();
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::stakeholder))
 	 */
 	private Collection<ParticipationInRequest> select1() {
 		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : this.getParticipationsInRequests() ) {
-			if ( (i_ParticipationInRequest.getKind().equals( RequestParticipationKind.STAKEHOLDER)) ) {
-				result.add( i_ParticipationInRequest );
+		for ( ParticipationInRequest temp1 : this.getParticipationsInRequests() ) {
+			if ( (temp1.getKind().equals( RequestParticipationKind.STAKEHOLDER)) ) {
+				result.add( temp1 );
 			}
 		}
 		return result;
 	}
 	
-	/** Implements ->select( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.kind = RequestParticipationKind::initiator )
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::initiator))
 	 */
 	private Collection<ParticipationInRequest> select10() {
 		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : this.getParticipationsInRequests() ) {
-			if ( (i_ParticipationInRequest.getKind().equals( RequestParticipationKind.INITIATOR)) ) {
-				result.add( i_ParticipationInRequest );
+		for ( ParticipationInRequest temp1 : this.getParticipationsInRequests() ) {
+			if ( (temp1.getKind().equals( RequestParticipationKind.INITIATOR)) ) {
+				result.add( temp1 );
 			}
 		}
 		return result;
 	}
 	
-	/** Implements ->select( i_Participation : Participation | i_Participation.oclIsKindOf(ParticipationInTask) )
+	/** Implements self.participation->select(temp1 : Participation | temp1.oclIsKindOf(OpaeumLibraryForBPM::request::ParticipationInTask))
 	 */
-	private Set<Participation> select4() {
+	private Set<Participation> select3() {
 		Set<Participation> result = new HashSet<Participation>();
-		for ( Participation i_Participation : this.getParticipation() ) {
-			if ( (i_Participation instanceof ParticipationInTask) ) {
-				result.add( i_Participation );
+		for ( Participation temp1 : this.getParticipation() ) {
+			if ( (temp1 instanceof ParticipationInTask) ) {
+				result.add( temp1 );
 			}
 		}
 		return result;
 	}
 	
-	/** Implements ->select( i_ParticipationInRequest : ParticipationInRequest | i_ParticipationInRequest.kind = RequestParticipationKind::businessOwner )
+	/** Implements self.participation->select(temp1 : Participation | temp1.oclIsKindOf(OpaeumLibraryForBPM::request::ParticipationInRequest))
 	 */
-	private Collection<ParticipationInRequest> select6() {
+	private Set<Participation> select6() {
+		Set<Participation> result = new HashSet<Participation>();
+		for ( Participation temp1 : this.getParticipation() ) {
+			if ( (temp1 instanceof ParticipationInRequest) ) {
+				result.add( temp1 );
+			}
+		}
+		return result;
+	}
+	
+	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::businessOwner))
+	 */
+	private Collection<ParticipationInRequest> select8() {
 		Collection<ParticipationInRequest> result = new ArrayList<ParticipationInRequest>();
-		for ( ParticipationInRequest i_ParticipationInRequest : this.getParticipationsInRequests() ) {
-			if ( (i_ParticipationInRequest.getKind().equals( RequestParticipationKind.BUSINESSOWNER)) ) {
-				result.add( i_ParticipationInRequest );
-			}
-		}
-		return result;
-	}
-	
-	/** Implements ->select( i_Participation : Participation | i_Participation.oclIsKindOf(ParticipationInRequest) )
-	 */
-	private Set<Participation> select8() {
-		Set<Participation> result = new HashSet<Participation>();
-		for ( Participation i_Participation : this.getParticipation() ) {
-			if ( (i_Participation instanceof ParticipationInRequest) ) {
-				result.add( i_Participation );
+		for ( ParticipationInRequest temp1 : this.getParticipationsInRequests() ) {
+			if ( (temp1.getKind().equals( RequestParticipationKind.BUSINESSOWNER)) ) {
+				result.add( temp1 );
 			}
 		}
 		return result;

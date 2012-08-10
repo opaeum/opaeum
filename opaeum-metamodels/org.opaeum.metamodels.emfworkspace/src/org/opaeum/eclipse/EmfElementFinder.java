@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
@@ -35,6 +36,7 @@ import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
@@ -46,6 +48,7 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.TemplateSignature;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
@@ -99,7 +102,7 @@ public class EmfElementFinder{
 		return false;
 	}
 	public static Collection<Class> getCubes(Class dimension){
-		HashSet<Class> result = new HashSet<Class>();
+		TreeSet<Class> result = new TreeSet<Class>(new ElementComparator());
 		addPotentialCubes(dimension, result);
 		Iterator<Class> iterator = result.iterator();
 		while(iterator.hasNext()){
@@ -148,7 +151,7 @@ public class EmfElementFinder{
 		}
 	}
 	public static org.eclipse.uml2.uml.Package getRootObject(Element e){
-		if(e instanceof Model || e instanceof Profile){
+		if(e instanceof Model || e instanceof Profile || (e instanceof Package && e.eContainer()==null)){
 			return (org.eclipse.uml2.uml.Package) e;
 		}else if(e == null){
 			return null;
@@ -234,7 +237,7 @@ public class EmfElementFinder{
 			}
 		}
 	}
-	//TODO rename to getEffectiveProperties
+	// TODO rename to getEffectiveProperties
 	public static List<Property> getPropertiesInScope(Classifier c){
 		List<Property> result = new ArrayList<Property>(c.getAttributes());
 		for(Association a:c.getAssociations()){
@@ -348,71 +351,77 @@ public class EmfElementFinder{
 		return getCorrectOwnedElementsAndRetryIfFailed(root, 0);
 	}
 	protected static Collection<Element> getCorrectOwnedElementsAndRetryIfFailed(Element root,int count){
-		Collection<Element> elements = new HashSet<Element>(root.getOwnedElements());
-		// Unimplemented containment features, oy
-		if(root instanceof Activity){
-			Activity node = (Activity) root;
-			getOwnedNodesForEclipseUml4(elements, node);
-			elements.addAll(node.getEdges());
-		}else if(root instanceof StructuredActivityNode){
-			StructuredActivityNode node = (StructuredActivityNode) root;
-			elements.addAll(node.getNodes());
-			elements.addAll(node.getEdges());
-		}else if(root instanceof Transition){
-			Transition t = (Transition) root;
-			elements.addAll(t.getTriggers());
-		}else if(root instanceof AcceptEventAction){
-			elements.addAll(((AcceptEventAction) root).getTriggers());
-		}else if(root instanceof ValuePin){
-			ValuePin vp = (ValuePin) root;
-			if(vp.getValue() != null){
-				elements.add(vp.getValue());
+		if(root instanceof TemplateSignature){
+			//TODO add other elements we do not wish to traverse
+			return new TreeSet<Element>(new ElementComparator());
+		}else{
+			Collection<Element> elements = new TreeSet<Element>(new ElementComparator());
+			elements.addAll(root.getOwnedElements());
+			// Unimplemented containment features, oy
+			if(root instanceof Activity){
+				Activity node = (Activity) root;
+				getOwnedNodesForEclipseUml4(elements, node);
+				elements.addAll(node.getEdges());
+			}else if(root instanceof StructuredActivityNode){
+				StructuredActivityNode node = (StructuredActivityNode) root;
+				elements.addAll(node.getNodes());
+				elements.addAll(node.getEdges());
+			}else if(root instanceof Transition){
+				Transition t = (Transition) root;
+				elements.addAll(t.getTriggers());
+			}else if(root instanceof AcceptEventAction){
+				elements.addAll(((AcceptEventAction) root).getTriggers());
+			}else if(root instanceof ValuePin){
+				ValuePin vp = (ValuePin) root;
+				if(vp.getValue() != null){
+					elements.add(vp.getValue());
+				}
+			}else if(root instanceof ActivityEdge){
+				ActivityEdge e = (ActivityEdge) root;
+				if(e.getGuard() != null){
+					elements.add(e.getGuard());
+				}
+				if(e.getWeight() != null){
+					elements.add(e.getWeight());
+				}
 			}
-		}else if(root instanceof ActivityEdge){
-			ActivityEdge e = (ActivityEdge) root;
-			if(e.getGuard() != null){
-				elements.add(e.getGuard());
-			}
-			if(e.getWeight() != null){
-				elements.add(e.getWeight());
-			}
-		}
-		try{
-			for(Stereotype stereotype:root.getAppliedStereotypes()){
-				for(Property property:stereotype.getOwnedAttributes()){
-					if(property.getAggregation() == AggregationKind.COMPOSITE_LITERAL){
-						Object v = root.getValue(stereotype, property.getName());
-						if(v instanceof Element){
-							elements.add((Element) v);
-						}else if(v instanceof EList){
-							EList<?> c = (EList<?>) v;
-							for(Object element:c){
-								if(element instanceof Element){
-									elements.add((Element) element);
+			try{
+				for(Stereotype stereotype:root.getAppliedStereotypes()){
+					for(Property property:stereotype.getOwnedAttributes()){
+						if(property.getAggregation() == AggregationKind.COMPOSITE_LITERAL){
+							Object v = root.getValue(stereotype, property.getName());
+							if(v instanceof Element){
+								elements.add((Element) v);
+							}else if(v instanceof EList){
+								EList<?> c = (EList<?>) v;
+								for(Object element:c){
+									if(element instanceof Element){
+										elements.add((Element) element);
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-		}catch(RuntimeException e){
-			if(e instanceof ArrayIndexOutOfBoundsException || e instanceof NullPointerException){
-				// HACK weird bug in:
-				// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:332)
-				// and
-				// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:323)
-				if(count < 5){
-					try{
-						Thread.sleep(2000);
-					}catch(InterruptedException e1){
+			}catch(RuntimeException e){
+				if(e instanceof ArrayIndexOutOfBoundsException || e instanceof NullPointerException){
+					// HACK weird bug in:
+					// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:332)
+					// and
+					// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:323)
+					if(count < 5){
+						try{
+							Thread.sleep(2000);
+						}catch(InterruptedException e1){
+						}
+						return getCorrectOwnedElementsAndRetryIfFailed(root, ++count);
 					}
-					return getCorrectOwnedElementsAndRetryIfFailed(root, ++count);
+				}else{
+					throw e;
 				}
-			}else{
-				throw e;
 			}
+			return elements;
 		}
-		return elements;
 	}
 	private static void getOwnedNodesForEclipseUml4(Collection<Element> elements,Activity node){
 		Method getOwnedNodes;
@@ -455,7 +464,7 @@ public class EmfElementFinder{
 		return null;
 	}
 	public static Set<Element> getDependentElements(Element e){
-		Set<Element> result = new HashSet<Element>();
+		Set<Element> result = new TreeSet<Element>(new ElementComparator());
 		for(Setting s:ECrossReferenceAdapter.getCrossReferenceAdapter(e).getInverseReferences(e)){
 			if(s.getEObject() instanceof Element){
 				result.add((Element) s.getEObject());
@@ -467,5 +476,12 @@ public class EmfElementFinder{
 			}
 		}
 		return result;
+	}
+	public static Namespace getNearestNamespace(Element ns){
+		Element parent=(Element) getContainer(ns);
+		while(!(parent instanceof Namespace || parent==null) ){
+			parent=(Element) getContainer(parent);
+		}
+		return (Namespace) parent;
 	}
 }

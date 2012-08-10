@@ -14,16 +14,18 @@ import org.eclipse.uml2.uml.util.UMLUtil;
 public class StereotypeApplicationListener extends AdapterImpl{
 	@Override
 	public void notifyChanged(Notification msg){
-		if(msg.getEventType()==Notification.ADD && msg.getNewValue() instanceof DynamicEObjectImpl){
+		if(msg.getEventType() == Notification.ADD && msg.getNewValue() instanceof DynamicEObjectImpl){
 			EObject stereotypeApplication = (EObject) msg.getNewValue();
 			Element be = UMLUtil.getBaseElement(stereotypeApplication);
-			EList<Adapter> eAdapters = be.eAdapters();
-			for(Adapter adapter:eAdapters){
-				if(adapter instanceof StereotypeAttachable){
-					stereotypeApplication.eAdapters().add(adapter);
+			if(be != null){
+				EList<Adapter> eAdapters = be.eAdapters();
+				for(Adapter adapter:eAdapters){
+					if(adapter instanceof StereotypeAttachable){
+						stereotypeApplication.eAdapters().add(adapter);
+					}
 				}
 			}
-		}else if(msg.getEventType()==Notification.REMOVE && msg.getOldValue() instanceof DynamicEObjectImpl){
+		}else if(msg.getEventType() == Notification.REMOVE && msg.getOldValue() instanceof DynamicEObjectImpl){
 			EObject stereotypeApplication = (EObject) msg.getOldValue();
 			Iterator<Adapter> iterator = stereotypeApplication.eAdapters().iterator();
 			while(iterator.hasNext()){

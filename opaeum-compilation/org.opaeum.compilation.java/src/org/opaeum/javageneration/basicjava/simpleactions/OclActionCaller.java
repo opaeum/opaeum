@@ -12,7 +12,7 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.ocl.uml.OclActionContext;
+import org.opaeum.ocl.uml.OpaqueActionActionContext;
 
 public class OclActionCaller extends SimpleNodeBuilder<OpaqueAction>{
 	public OclActionCaller(OpaqueAction action,AbstractObjectNodeExpressor expressor){
@@ -33,7 +33,7 @@ public class OclActionCaller extends SimpleNodeBuilder<OpaqueAction>{
 				argField.setInitExp(super.readPin(operation, block, arg));
 				block.addToLocals(argField);
 			}
-			OclActionContext oclActionContext = getLibrary().getOclActionContext(node);
+			OpaqueActionActionContext oclActionContext = getLibrary().getOclActionContext(node);
 			if(!oclActionContext.hasErrors()){
 				String expr = valueSpecificationUtil.expressOcl(oclActionContext, operation, getLibrary().getActualType(returnPin));
 				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(returnPin);

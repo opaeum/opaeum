@@ -15,6 +15,7 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.OJUtill;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractNodeBuilder {
@@ -90,6 +91,7 @@ public abstract class AbstractNodeBuilder {
 		if (pin instanceof ValuePin) {
 			expression = valueSpecificationUtil.expressValue(operationContext, ((ValuePin) pin).getValue(), EmfActivityUtil.getContainingActivity( pin),
 					 getLibrary().getActualType( (ValuePin)pin));
+
 		}else if(EmfActivityUtil.getIncomingExceptionHandlers( pin).size()>0){
 			expression=this.expressor.expressExceptionInput(block,pin);
 		} else if (pin.getIncomings().size() == 0) {

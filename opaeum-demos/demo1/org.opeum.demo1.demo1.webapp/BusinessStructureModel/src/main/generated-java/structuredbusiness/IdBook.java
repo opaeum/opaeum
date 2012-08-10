@@ -39,9 +39,8 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.strategy.DateStrategyFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -62,6 +61,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 public class IdBook implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessDocument, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Temporal(	javax.persistence.TemporalType.DATE)
 	@Column(name="date_of_birth")
 	private Date dateOfBirth;
 		// Initialise to 1000 from 1970
@@ -105,10 +105,9 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	public void addToOwningObject() {
 	}
 	
-	static public Set<? extends IdBook> allInstances() {
+	static public Set<? extends IdBook> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
-			CmtPersistence session =org.opaeum.runtime.environment.Environment.getInstance().getComponent(CmtPersistence.class);
-			return new HashSet(session.readAll(structuredbusiness.IdBook.class));
+			return new HashSet(persistence.readAll(structuredbusiness.IdBook.class));
 		} else {
 			return mockedAllInstances;
 		}
@@ -116,9 +115,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("documentType").length()>0 ) {
-			setDocumentType(DocumentType.valueOf(xml.getAttribute("documentType")));
-		}
 		if ( xml.getAttribute("idNumber").length()>0 ) {
 			setIdNumber(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("idNumber")));
 		}
@@ -127,6 +123,9 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 		if ( xml.getAttribute("dateOfBirth").length()>0 ) {
 			setDateOfBirth(StructuredbusinessFormatter.getInstance().parseDate(xml.getAttribute("dateOfBirth")));
+		}
+		if ( xml.getAttribute("documentType").length()>0 ) {
+			setDocumentType(DocumentType.valueOf(xml.getAttribute("documentType")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -142,17 +141,17 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void copyShallowState(IdBook from, IdBook to) {
-		to.setDocumentType(from.getDocumentType());
 		to.setIdNumber(from.getIdNumber());
 		to.setFullNames(from.getFullNames());
 		to.setDateOfBirth(from.getDateOfBirth());
+		to.setDocumentType(from.getDocumentType());
 	}
 	
 	public void copyState(IdBook from, IdBook to) {
-		to.setDocumentType(from.getDocumentType());
 		to.setIdNumber(from.getIdNumber());
 		to.setFullNames(from.getFullNames());
 		to.setDateOfBirth(from.getDateOfBirth());
+		to.setDocumentType(from.getDocumentType());
 	}
 	
 	public void createComponents() {
@@ -172,7 +171,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1406233976933179724l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1406233976933179724l,strategyFactory=DateStrategyFactory.class,uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
 	public Date getDateOfBirth() {
 		Date result = this.dateOfBirth;
@@ -192,7 +191,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8379936838922333184l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8379936838922333184l,uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
 	public String getFullNames() {
 		String result = this.fullNames;
@@ -204,7 +203,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3895930087602592634l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3895930087602592634l,uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
 	public String getIdNumber() {
 		String result = this.idNumber;
@@ -336,9 +335,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		sb.append("classUuid=\"914890@_oiVeEGCfEeG6xvYqJACneg\" ");
 		sb.append("className=\"structuredbusiness.IdBook\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
-		if ( getDocumentType()!=null ) {
-			sb.append("documentType=\""+ getDocumentType().name() + "\" ");
-		}
 		if ( getIdNumber()!=null ) {
 			sb.append("idNumber=\""+ StructuredbusinessFormatter.getInstance().formatString(getIdNumber())+"\" ");
 		}
@@ -347,6 +343,9 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 		if ( getDateOfBirth()!=null ) {
 			sb.append("dateOfBirth=\""+ StructuredbusinessFormatter.getInstance().formatDate(getDateOfBirth())+"\" ");
+		}
+		if ( getDocumentType()!=null ) {
+			sb.append("documentType=\""+ getDocumentType().name() + "\" ");
 		}
 		sb.append(">");
 		sb.append("\n</IdBook>");

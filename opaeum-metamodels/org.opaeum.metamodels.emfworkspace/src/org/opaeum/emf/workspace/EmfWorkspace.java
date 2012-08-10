@@ -173,20 +173,15 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	}
 	public void addGeneratingModelOrProfile(Package p){
 		generatingModels.add(p);
-		this.resourceSet = p.eResource().getResourceSet();
 	}
 	public EList<Element> getOwnedElements(){
 		final EList<Element> result = new BasicEList<Element>();
 		EList<Resource> resources2 = new BasicEList<Resource>(resourceSet.getResources());
-		for(Resource r:resources2){
-			Package pkg = getPackageFrom(r);
-			String fileString = r.getURI().toString();
-			if(pkg != null && (pkg.getName() == null || (!fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore")))
-					&& isRootObject(pkg)){
-				boolean hasStereotype = StereotypesHelper.hasStereotype(pkg, "EPackage");
-				if(!hasStereotype || "PrimitiveTypes".equals(pkg.getName()) || "UMLPrimitiveTypes".equals(pkg.getName())){
-					result.add(pkg);
-				}
+		for(Resource rr:resources2){
+			Package pkg = getPackageFrom(rr);
+			boolean isUtilizedModel = isUtilzedModel(pkg);
+			if(isUtilizedModel){
+				result.add(pkg);
 			}
 		}
 		if(result.size() != resources.size()){
@@ -196,7 +191,18 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 		}
 		return result;
 	}
-	private boolean isRootObject(Package pkg){
+	public static boolean isUtilzedModel(Package pkg){
+		boolean isUtilizedModel=false;
+		if(pkg != null && (pkg.getName() == null || (!pkg.eResource().getURI().toString().contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore")))
+				&& isRootObject(pkg)){
+			boolean hasStereotype = StereotypesHelper.hasStereotype(pkg, "EPackage","MetaModel");
+			if(!hasStereotype || "PrimitiveTypes".equals(pkg.getName()) || "UMLPrimitiveTypes".equals(pkg.getName())){
+				isUtilizedModel=true;
+			}
+		}
+		return isUtilizedModel;
+	}
+	private static boolean isRootObject(Package pkg){
 		return((pkg instanceof Profile || pkg instanceof Model) && pkg.getOwner() == null);
 	}
 	private Package getPackageFrom(Resource r){

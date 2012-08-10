@@ -1,5 +1,6 @@
 package org.opaeum.javageneration.composition;
 
+import java.util.Arrays;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
@@ -15,11 +16,13 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.runtime.domain.CompositionNode;
 
 /**
  * This class implements the 'createComponents()' method. This method takes the semantics of compositional relationships one step further:
@@ -32,7 +35,8 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 		if(OJUtil.hasOJClass(entity)){
 			if(entity instanceof Class){
 				OJAnnotatedClass ojClass = findJavaClass(entity);
-				OJOperation init = ojClass.getUniqueOperation("init");
+				OJOperation init = ojClass.findOperation("init", Arrays.asList(new OJPathName(CompositionNode.class.getName())));
+
 				List<? extends Property> aws = entity.getAttributes();
 				init.getBody().addToStatements("createComponents()");
 				OJOperation createComponents = new OJAnnotatedOperation("createComponents");
@@ -43,8 +47,8 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 				}
 				for(Property np:aws){
 					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
-					if(!np.isDerived() && (np.getType() instanceof Class || EmfClassifierUtil.isStructuredDataType(np.getType()))){
-						Classifier type = (Classifier) np.getType();
+					if(!np.isDerived() && (map.getBaseType() instanceof Class || EmfClassifierUtil.isStructuredDataType(map.getBaseType()))){
+						Classifier type = (Classifier) map.getBaseType();
 						if(isMap(np) && np.getLower() == 1 && np.getQualifiers().size() == 1
 								&& (np.getQualifiers().get(0)).getType() instanceof Enumeration){
 							Property qualifier = np.getQualifiers().get(0);
@@ -61,7 +65,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 												+ np.getName() + ")");
 							}
 							createComponents.getBody().addToStatements(ifEmpty);
-							if(EmfClassifierUtil.isCompositionParticipant((Classifier) np.getType())){
+							if(EmfClassifierUtil.isCompositionParticipant((Classifier) map.getBaseType())){
 								OJForStatement whileIter = new OJForStatement("c", map.javaBaseTypePath(), map.getter() + "()");
 								whileIter.setBody(new OJBlock());
 								whileIter.getBody().addToStatements("c.init(this)");
@@ -71,7 +75,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 							OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", map.setter()
 									+ "(new " + type.getName() + "())");
 							createComponents.getBody().addToStatements(ifNull);
-							if(EmfClassifierUtil.isCompositionParticipant((Classifier) np.getType())){
+							if(EmfClassifierUtil.isCompositionParticipant((Classifier) map.getBaseType())){
 								init.getBody().addToStatements(map.getter() + "().init(this)");
 							}
 						}

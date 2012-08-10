@@ -22,7 +22,7 @@ public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedProp
 	protected Classifier owner;
 	protected IPropertyEmulation propertyEmulation;
 	protected Map<Element,OCLExpression> queries = new HashMap<Element, OCLExpression>();
-	protected EmulatedPropertyHolder(Classifier owner,IPropertyEmulation e,EList<? extends TypedElement>...typedElements){
+	public EmulatedPropertyHolder(Classifier owner,IPropertyEmulation e,EList<? extends TypedElement>...typedElements){
 		this.owner = owner;
 		this.propertyEmulation = e;
 		owner.eAdapters().add(this);
@@ -42,7 +42,7 @@ public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedProp
 	}
 	private void addOperationMessageProperty(Operation operation){
 		OperationMessageType msg = (OperationMessageType) propertyEmulation.getMessageStructure(operation);
-		InverseArtificialProperty iap = new InverseArtificialProperty(msg, msg);
+		InverseArtificialProperty iap = new InverseArtificialProperty((Classifier)operation.getOwner(), msg);
 		NonInverseArtificialProperty oe = iap.initialiseOtherEnd();
 		msg.addNonInverseArtificialProperty(oe);
 		propertyEmulation.getEmulatedPropertyHolder(oe.getOwner()).addEmulatedAttribute(oe);
@@ -66,7 +66,7 @@ public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedProp
 		}
 	}
 	protected void addTypedElementBridge(TypedElement te){
-		emulatedAttributes.add(new TypedElementPropertyBridge(owner, te));
+		emulatedAttributes.add(new TypedElementPropertyBridge(owner, te,this.propertyEmulation));
 	}
 	protected void removeEmulatedAttribute(Element original){
 		Iterator<AbstractEmulatedProperty> iterator = emulatedAttributes.iterator();

@@ -18,6 +18,7 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.OJUtill;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
 
 public abstract class AbstractObjectNodeExpressor{

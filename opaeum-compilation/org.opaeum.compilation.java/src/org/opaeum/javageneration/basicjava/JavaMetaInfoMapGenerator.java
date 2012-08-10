@@ -95,14 +95,8 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		OJConstructor constr = new OJConstructor();
 		mapClass.addToConstructors(constr);
 		OJBlock initBlock = constr.getBody();
-		Set<String> ignore = new HashSet<String>();
-		ignore.add("OpaeumSimpleTypes".toLowerCase());
-		ignore.add("UMLPrimitiveTypes".toLowerCase());
-		ignore.add("PrimitiveTypes".toLowerCase());
-		ignore.add("JavaPrimitiveTypes".toLowerCase());
-		ignore.add("OpaeumSimpleTypes".toLowerCase());
 		for(Package ro:treeSet){
-			if(ro instanceof Model && ( !(EmfPackageUtil.isLibrary( (Model) ro)) || EmfPackageUtil.isRegeneratingLibrary( ((Model) ro)))){
+			if(ro instanceof Model && ( !EmfPackageUtil.isLibrary( (Model) ro) || EmfPackageUtil.isRegeneratingLibrary( ((Model) ro)))){
 				initBlock.addToStatements("this.importMetaInfo(" + ojUtil.utilClass(ro, JAVA_META_INFO_MAP_SUFFIX)  + ".INSTANCE)");
 			}
 		}

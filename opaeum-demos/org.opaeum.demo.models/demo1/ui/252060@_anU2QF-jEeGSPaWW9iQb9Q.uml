@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_X8LDwJT6EeG_oLv6jKpgkw" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q" name="Postal address User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_X8LDwZT6EeG_oLv6jKpgkw" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q" name="Edit PostalAddress"><actionBar xmi:id="_QJp1gJWxEeGF5JliyOlmJg" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QJp1gZWxEeGF5JliyOlmJg" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_QJp1gpWxEeGF5JliyOlmJg" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_X8LDwpT6EeG_oLv6jKpgkw" name="Edit Postal address" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_X8LDw5T6EeG_oLv6jKpgkw" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_X8LDxJT6EeG_oLv6jKpgkw" name="Unit number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJpOcJWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJpOcZWxEeGF5JliyOlmJg" umlElementUid="252060@_gaGtMF-jEeGSPaWW9iQb9Q"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_XDZngOMAEeGYE-5HtwGq8g" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q" name="Postal address User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_XDZngeMAEeGYE-5HtwGq8g" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q" name="Edit PostalAddress"><actionBar xmi:id="_XDZnk-MAEeGYE-5HtwGq8g" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDZnlOMAEeGYE-5HtwGq8g" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDZnleMAEeGYE-5HtwGq8g" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_XDZnguMAEeGYE-5HtwGq8g" name="Edit Postal address" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_XDZng-MAEeGYE-5HtwGq8g" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_XDZnhOMAEeGYE-5HtwGq8g" name="Unit number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDZnheMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDZnhuMAEeGYE-5HtwGq8g" umlElementUid="252060@_gaGtMF-jEeGSPaWW9iQb9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8LDx5T6EeG_oLv6jKpgkw" name="Complex name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJpOcpWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJpOc5WxEeGF5JliyOlmJg" umlElementUid="252060@_l4XFoF-jEeGSPaWW9iQb9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDZnh-MAEeGYE-5HtwGq8g" name="Complex name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDZniOMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDZnieMAEeGYE-5HtwGq8g" umlElementUid="252060@_l4XFoF-jEeGSPaWW9iQb9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8LDypT6EeG_oLv6jKpgkw" name="Street name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJpOdJWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJpOdZWxEeGF5JliyOlmJg" umlElementUid="252060@_nqLokF-jEeGSPaWW9iQb9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDZniuMAEeGYE-5HtwGq8g" name="Street name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDZni-MAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDZnjOMAEeGYE-5HtwGq8g" umlElementUid="252060@_nqLokF-jEeGSPaWW9iQb9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8LDzZT6EeG_oLv6jKpgkw" name="Street number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJpOdpWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJpOd5WxEeGF5JliyOlmJg" umlElementUid="252060@_rXXsAF-jEeGSPaWW9iQb9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDZnjeMAEeGYE-5HtwGq8g" name="Street number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDZnjuMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDZnj-MAEeGYE-5HtwGq8g" umlElementUid="252060@_rXXsAF-jEeGSPaWW9iQb9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8LD0JT6EeG_oLv6jKpgkw" name="Property1" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJpOeJWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJpOeZWxEeGF5JliyOlmJg" umlElementUid="252060@_tLfVAF-jEeGSPaWW9iQb9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDZnkOMAEeGYE-5HtwGq8g" name="Property1" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDZnkeMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDZnkuMAEeGYE-5HtwGq8g" umlElementUid="252060@_tLfVAF-jEeGSPaWW9iQb9Q"/>
         </children>
       </panel>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_X8Lq0JT6EeG_oLv6jKpgkw" name="Create PostalAddress" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q">
-    <pages xmi:id="_X8Lq0ZT6EeG_oLv6jKpgkw" name="CreatePostal address" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q">
-      <panel xmi:type="panel:GridPanel" xmi:id="_X8Lq0pT6EeG_oLv6jKpgkw" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_X8Lq05T6EeG_oLv6jKpgkw" name="Unit number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJp1g5WxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJp1hJWxEeGF5JliyOlmJg" umlElementUid="252060@_gaGtMF-jEeGSPaWW9iQb9Q"/>
+  <newObjectWizard xmi:id="_XDZnluMAEeGYE-5HtwGq8g" name="Create PostalAddress" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q">
+    <pages xmi:id="_XDZnl-MAEeGYE-5HtwGq8g" name="CreatePostal address" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q">
+      <panel xmi:type="panel:GridPanel" xmi:id="_XDZnmOMAEeGYE-5HtwGq8g" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_XDZnmeMAEeGYE-5HtwGq8g" name="Unit number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDZnmuMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDZnm-MAEeGYE-5HtwGq8g" umlElementUid="252060@_gaGtMF-jEeGSPaWW9iQb9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8Lq1pT6EeG_oLv6jKpgkw" name="Complex name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJp1hZWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJp1hpWxEeGF5JliyOlmJg" umlElementUid="252060@_l4XFoF-jEeGSPaWW9iQb9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDZnnOMAEeGYE-5HtwGq8g" name="Complex name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDZnneMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDZnnuMAEeGYE-5HtwGq8g" umlElementUid="252060@_l4XFoF-jEeGSPaWW9iQb9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8Lq2ZT6EeG_oLv6jKpgkw" name="Street name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJp1h5WxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJp1iJWxEeGF5JliyOlmJg" umlElementUid="252060@_nqLokF-jEeGSPaWW9iQb9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDaOkOMAEeGYE-5HtwGq8g" name="Street name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDaOkeMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDaOkuMAEeGYE-5HtwGq8g" umlElementUid="252060@_nqLokF-jEeGSPaWW9iQb9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8Lq3JT6EeG_oLv6jKpgkw" name="Street number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJp1iZWxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJp1ipWxEeGF5JliyOlmJg" umlElementUid="252060@_rXXsAF-jEeGSPaWW9iQb9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDaOk-MAEeGYE-5HtwGq8g" name="Street number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDaOlOMAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDaOleMAEeGYE-5HtwGq8g" umlElementUid="252060@_rXXsAF-jEeGSPaWW9iQb9Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_X8Lq35T6EeG_oLv6jKpgkw" name="Property1" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_QJp1i5WxEeGF5JliyOlmJg"/>
-          <binding xmi:id="_QJp1jJWxEeGF5JliyOlmJg" umlElementUid="252060@_tLfVAF-jEeGSPaWW9iQb9Q"/>
+        <children xmi:type="uim:UimField" xmi:id="_XDaOluMAEeGYE-5HtwGq8g" name="Property1" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_XDaOl-MAEeGYE-5HtwGq8g"/>
+          <binding xmi:id="_XDaOmOMAEeGYE-5HtwGq8g" umlElementUid="252060@_tLfVAF-jEeGSPaWW9iQb9Q"/>
         </children>
       </panel>
     </pages>

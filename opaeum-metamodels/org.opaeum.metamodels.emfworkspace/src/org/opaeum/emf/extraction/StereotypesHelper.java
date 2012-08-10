@@ -1,6 +1,5 @@
 package org.opaeum.emf.extraction;
 
-import java.awt.Desktop.Action;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EAnnotation;
@@ -47,7 +46,7 @@ public class StereotypesHelper{
 			Stereotype s = null;
 			while(iter.hasNext()){
 				s = (Stereotype) iter.next();
-				if(s.getName().toLowerCase().endsWith(name)){
+				if(s.getName().equalsIgnoreCase(name)){
 					if(!c.isStereotypeApplied(s)){
 						System.out.println("Stereotype application corrupt:" + c + ":" + s);
 						return null;

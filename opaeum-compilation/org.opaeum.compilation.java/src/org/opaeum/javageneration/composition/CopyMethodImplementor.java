@@ -108,15 +108,15 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		for(Property np:properties){
 			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
 			if(!(np.isDerived() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
-				if(EmfClassifierUtil.isSimpleType(np.getType()) || np.getType() instanceof Enumeration){
+				if(EmfClassifierUtil.isSimpleType(map.getBaseType()) || map.getBaseType() instanceof Enumeration){
 					if(map.isMany()){
 						body.addToStatements("to." + map.getter() + "().addAll(from." + map.getter() + "())");
 					}else{
 						body.addToStatements("to." + map.setter() + "(from." + map.getter() + "())");
 					}
-				}else if(np.getType() instanceof Class || EmfClassifierUtil.isStructuredDataType(np.getType())){
+				}else if(map.getBaseType() instanceof Class || EmfClassifierUtil.isStructuredDataType(map.getBaseType())){
 					OJBlock forBlock = new OJBlock();
-					if(EmfClassifierUtil.isStructuredDataType(np.getType()) || (deep && np.isComposite())){
+					if(EmfClassifierUtil.isStructuredDataType(map.getBaseType()) || (deep && np.isComposite())){
 						if(map.isMany()){
 							OJForStatement ws = new OJForStatement("", "", "child", "from." + map.getter() + "()");
 							OJBlock whileBody = forBlock;

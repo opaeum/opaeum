@@ -94,7 +94,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		}
 		for(Behavior p:processes){
 			String javaString = ojUtil.classifierPathname(p).toJavaString();
-			javaString=javaString.replaceAll("\\.", "\\");
+			javaString=javaString.replaceAll("\\.", "\\/");
 			getProcessLocations.getBody().addToStatements("result.add(\"" +javaString + ".rf\")");
 		}
 		getProcessLocations.getBody().addToStatements("return result");

@@ -3,9 +3,9 @@ package org.opaeum.eclipse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
@@ -51,7 +51,7 @@ public class EmfStateMachineUtil{
 		return results;
 	}
 	public static Collection<State> getAllStates(StateMachine stateMachine){
-		Collection<State> results = new HashSet<State>();
+		Collection<State> results = new TreeSet<State>(new ElementComparator());
 		addStatesRecursively(results, stateMachine.getRegions());
 		return results;
 	}
@@ -73,7 +73,7 @@ public class EmfStateMachineUtil{
 		}else{
 			opers.addAll(sm.getAllOperations());
 		}
-		Set<CallEvent> results = new HashSet<CallEvent>();
+		Set<CallEvent> results = new TreeSet<CallEvent>(new ElementComparator());
 		addCallEvents(results, sm.getRegions());
 		opers.removeAll(results);
 		return opers;
@@ -195,7 +195,7 @@ public class EmfStateMachineUtil{
 		return false;
 	}
 	public static Collection<Transition> getTransitions(StateMachine ns){
-		Collection<Transition> result = new HashSet<Transition>();
+		Collection<Transition> result = new TreeSet<Transition>(new ElementComparator());
 		EList<Region> regions = ns.getRegions();
 		addTransitions(result, regions);
 		return result;
@@ -211,7 +211,7 @@ public class EmfStateMachineUtil{
 		}
 	}
 	public static Collection<Transition> getConditionalTransitions(Vertex node){
-		Set<Transition> result = new HashSet<Transition>();
+		Set<Transition> result = new TreeSet<Transition>(new ElementComparator());
 		EList<Transition> outgoings = node.getOutgoings();
 		for(Transition transition:outgoings){
 			if(hasGuard(transition)){

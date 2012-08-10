@@ -40,7 +40,7 @@ public class ActionMap extends ActivityNodeMap{
 	public boolean targetIsImplicitObject(){
 		NamedElement targetElement = EmfActionUtil.getTargetElement(action);
 		if(targetElement instanceof ValuePin){
-			return ((ValuePin) targetElement).getValue() instanceof OpaqueExpression;
+			return !(((ValuePin) targetElement).getValue() instanceof OpaqueExpression);
 		}else if(targetElement instanceof InputPin){
 			return ((InputPin) targetElement).getIncomings().size() == 1;
 		}else if(targetElement != null){
