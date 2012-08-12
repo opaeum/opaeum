@@ -6,7 +6,7 @@ import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.javageneration.jbpm5.TaskUtil;
+import org.opaeum.javageneration.bpm.TaskUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmbeddedScreenFlowTaskCaller extends AbstractBehaviorCaller<CallBehaviorAction>{

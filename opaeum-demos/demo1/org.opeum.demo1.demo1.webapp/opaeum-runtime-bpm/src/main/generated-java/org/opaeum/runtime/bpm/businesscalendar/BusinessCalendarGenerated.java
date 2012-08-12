@@ -16,6 +16,8 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
@@ -26,6 +28,7 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
@@ -82,6 +85,10 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="businessCalendar",targetEntity=OnceOffHoliday.class)
 	private Set<OnceOffHoliday> onceOffHoliday = new HashSet<OnceOffHoliday>();
+	@Index(columnNames="organization_id",name="idx__organization_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="organization_id",nullable=true)
+	private OrganizationNode organization;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
@@ -244,6 +251,60 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("workDay") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2874459130083887215")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						WorkDay curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToWorkDay(curVal.getKind(),curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("recurringHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5865908630178342957")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						RecurringHoliday curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToRecurringHoliday(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("onceOffHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5435749030548125197")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						OnceOffHoliday curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToOnceOffHoliday(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
@@ -296,6 +357,15 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		to.setBusinessHoursPerWeek(from.getBusinessHoursPerWeek());
 		to.setBusinessDaysPerMonth(from.getBusinessDaysPerMonth());
 		to.setBusinessHoursPerDay(from.getBusinessHoursPerDay());
+		for ( WorkDay child : from.getWorkDay() ) {
+			to.addToWorkDay(child.getKind(),child.makeCopy());
+		}
+		for ( RecurringHoliday child : from.getRecurringHoliday() ) {
+			to.addToRecurringHoliday(child.makeCopy());
+		}
+		for ( OnceOffHoliday child : from.getOnceOffHoliday() ) {
+			to.addToOnceOffHoliday(child.makeCopy());
+		}
 	}
 	
 	public void createComponents() {
@@ -388,6 +458,14 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5488709261826613047l,opposite="businessCalendar",uuid="252060@_8YuD0VZFEeGj5_I7bIwNoA")
+	@NumlMetaInfo(uuid="252060@_8YuD0VZFEeGj5_I7bIwNoA")
+	public OrganizationNode getOrganization() {
+		OrganizationNode result = this.organization;
+		
+		return result;
+	}
+	
 	public Set<OutgoingEvent> getOutgoingEvents() {
 		return this.outgoingEvents;
 	}
@@ -453,6 +531,18 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	}
 	
 	public void markDeleted() {
+		if ( getOrganization()!=null ) {
+			getOrganization().z_internalRemoveFromBusinessCalendar((BusinessCalendar)this);
+		}
+		for ( WorkDay child : new ArrayList<WorkDay>(getWorkDay()) ) {
+			child.markDeleted();
+		}
+		for ( RecurringHoliday child : new ArrayList<RecurringHoliday>(getRecurringHoliday()) ) {
+			child.markDeleted();
+		}
+		for ( OnceOffHoliday child : new ArrayList<OnceOffHoliday>(getOnceOffHoliday()) ) {
+			child.markDeleted();
+		}
 		for ( WorkDay child : new ArrayList<WorkDay>(getWorkDay()) ) {
 			child.markDeleted();
 		}
@@ -474,6 +564,36 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("workDay") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2874459130083887215")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((WorkDay)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("recurringHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5865908630178342957")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((RecurringHoliday)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("onceOffHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5435749030548125197")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((OnceOffHoliday)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("workDay") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2874459130083887215")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -587,6 +707,36 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		this.addAllToOnceOffHoliday(onceOffHoliday);
 	}
 	
+	public void setOrganization(OrganizationNode organization) {
+		OrganizationNode oldValue = this.getOrganization();
+		propertyChangeSupport.firePropertyChange("organization",getOrganization(),organization);
+		if ( oldValue==null ) {
+			if ( organization!=null ) {
+				BusinessCalendar oldOther = (BusinessCalendar)organization.getBusinessCalendar();
+				organization.z_internalRemoveFromBusinessCalendar(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromOrganization(organization);
+				}
+				organization.z_internalAddToBusinessCalendar((BusinessCalendar)this);
+			}
+			this.z_internalAddToOrganization(organization);
+		} else {
+			if ( !oldValue.equals(organization) ) {
+				oldValue.z_internalRemoveFromBusinessCalendar((BusinessCalendar)this);
+				z_internalRemoveFromOrganization(oldValue);
+				if ( organization!=null ) {
+					BusinessCalendar oldOther = (BusinessCalendar)organization.getBusinessCalendar();
+					organization.z_internalRemoveFromBusinessCalendar(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromOrganization(organization);
+					}
+					organization.z_internalAddToBusinessCalendar((BusinessCalendar)this);
+				}
+				this.z_internalAddToOrganization(organization);
+			}
+		}
+	}
+	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
 	}
@@ -636,6 +786,21 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 			sb.append("\n" + onceOffHoliday.toXmlString());
 		}
 		sb.append("\n</onceOffHoliday>");
+		sb.append("\n<workDay propertyId=\"2874459130083887215\">");
+		for ( WorkDay workDay : getWorkDay() ) {
+			sb.append("\n" + workDay.toXmlString());
+		}
+		sb.append("\n</workDay>");
+		sb.append("\n<recurringHoliday propertyId=\"5865908630178342957\">");
+		for ( RecurringHoliday recurringHoliday : getRecurringHoliday() ) {
+			sb.append("\n" + recurringHoliday.toXmlString());
+		}
+		sb.append("\n</recurringHoliday>");
+		sb.append("\n<onceOffHoliday propertyId=\"5435749030548125197\">");
+		for ( OnceOffHoliday onceOffHoliday : getOnceOffHoliday() ) {
+			sb.append("\n" + onceOffHoliday.toXmlString());
+		}
+		sb.append("\n</onceOffHoliday>");
 		sb.append("\n</BusinessCalendar>");
 		return sb.toString();
 	}
@@ -654,6 +819,10 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	
 	public void z_internalAddToOnceOffHoliday(OnceOffHoliday val) {
 		this.onceOffHoliday.add(val);
+	}
+	
+	public void z_internalAddToOrganization(OrganizationNode val) {
+		this.organization=val;
 	}
 	
 	public void z_internalAddToRecurringHoliday(RecurringHoliday val) {
@@ -691,6 +860,13 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	
 	public void z_internalRemoveFromOnceOffHoliday(OnceOffHoliday val) {
 		this.onceOffHoliday.remove(val);
+	}
+	
+	public void z_internalRemoveFromOrganization(OrganizationNode val) {
+		if ( getOrganization()!=null && val!=null && val.equals(getOrganization()) ) {
+			this.organization=null;
+			this.organization=null;
+		}
 	}
 	
 	public void z_internalRemoveFromRecurringHoliday(RecurringHoliday val) {

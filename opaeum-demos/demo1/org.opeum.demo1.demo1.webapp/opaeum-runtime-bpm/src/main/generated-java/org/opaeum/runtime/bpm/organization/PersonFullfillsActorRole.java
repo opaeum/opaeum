@@ -139,10 +139,10 @@ public class PersonFullfillsActorRole implements IPersistentObject, HibernateEnt
 	}
 	
 	public void clear() {
-		getBusinessActor().z_internalRemoveFromPersonFullfillsActorRole_businessActor(this);
-		this.z_internalRemoveFromBusinessActor(getBusinessActor());
-		getRepresentedPerson().z_internalRemoveFromPersonFullfillsActorRole_representedPerson(this);
+		getRepresentedPerson().z_internalRemoveFromPersonFullfillsActorRole_businessActor(this);
 		this.z_internalRemoveFromRepresentedPerson(getRepresentedPerson());
+		getBusinessActor().z_internalRemoveFromPersonFullfillsActorRole_representedPerson(this);
+		this.z_internalRemoveFromBusinessActor(getBusinessActor());
 		markDeleted();
 	}
 	

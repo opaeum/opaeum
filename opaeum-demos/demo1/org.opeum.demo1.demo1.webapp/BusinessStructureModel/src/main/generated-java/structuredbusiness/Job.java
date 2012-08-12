@@ -216,6 +216,42 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("applianceComponentSale") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4717846436910248785")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ApplianceComponentSale curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToApplianceComponentSale(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("activity") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("259316119968393399")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Activity curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToActivity(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
@@ -243,6 +279,12 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		to.setTotalCost(from.getTotalCost());
 		to.setCostToCompany(from.getCostToCompany());
 		to.setTimeInHours(from.getTimeInHours());
+		for ( ApplianceComponentSale child : from.getApplianceComponentSale() ) {
+			to.addToApplianceComponentSale(child.makeCopy());
+		}
+		for ( Activity child : from.getActivity() ) {
+			to.addToActivity(child.makeCopy());
+		}
 	}
 	
 	public Activity createActivity() {
@@ -395,6 +437,15 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		if ( getBranch()!=null ) {
 			getBranch().z_internalRemoveFromJob(this);
 		}
+		if ( getCustomerAssistant()!=null ) {
+			getCustomerAssistant().z_internalRemoveFromJob(this);
+		}
+		for ( ApplianceComponentSale child : new ArrayList<ApplianceComponentSale>(getApplianceComponentSale()) ) {
+			child.markDeleted();
+		}
+		for ( Activity child : new ArrayList<Activity>(getActivity()) ) {
+			child.markDeleted();
+		}
 		for ( ApplianceComponentSale child : new ArrayList<ApplianceComponentSale>(getApplianceComponentSale()) ) {
 			child.markDeleted();
 		}
@@ -413,6 +464,46 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("customerAssistant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2334130007322557831")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setCustomerAssistant((CustomerAssistant)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("applianceComponentSale") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4717846436910248785")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ApplianceComponentSale)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("activity") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("259316119968393399")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((Activity)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("foreman") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8444045662644766029")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setForeman((Technician)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("customerAssistant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2334130007322557831")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -590,6 +681,30 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 			sb.append("timeInHours=\""+ StructuredbusinessFormatter.getInstance().formatReal(getTimeInHours())+"\" ");
 		}
 		sb.append(">");
+		if ( getCustomerAssistant()==null ) {
+			sb.append("\n<customerAssistant/>");
+		} else {
+			sb.append("\n<customerAssistant propertyId=\"2334130007322557831\">");
+			sb.append("\n" + getCustomerAssistant().toXmlReferenceString());
+			sb.append("\n</customerAssistant>");
+		}
+		sb.append("\n<applianceComponentSale propertyId=\"4717846436910248785\">");
+		for ( ApplianceComponentSale applianceComponentSale : getApplianceComponentSale() ) {
+			sb.append("\n" + applianceComponentSale.toXmlString());
+		}
+		sb.append("\n</applianceComponentSale>");
+		sb.append("\n<activity propertyId=\"259316119968393399\">");
+		for ( Activity activity : getActivity() ) {
+			sb.append("\n" + activity.toXmlString());
+		}
+		sb.append("\n</activity>");
+		if ( getForeman()==null ) {
+			sb.append("\n<foreman/>");
+		} else {
+			sb.append("\n<foreman propertyId=\"8444045662644766029\">");
+			sb.append("\n" + getForeman().toXmlReferenceString());
+			sb.append("\n</foreman>");
+		}
 		if ( getCustomerAssistant()==null ) {
 			sb.append("\n<customerAssistant/>");
 		} else {

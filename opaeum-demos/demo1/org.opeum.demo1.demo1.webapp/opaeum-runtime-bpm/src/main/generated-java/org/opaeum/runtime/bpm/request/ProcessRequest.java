@@ -5,8 +5,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,22 +24,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 
-import org.drools.runtime.StatefulKnowledgeSession;
-import org.drools.runtime.process.ProcessContext;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.Type;
-import org.jbpm.workflow.core.NodeContainer;
-import org.jbpm.workflow.core.WorkflowProcess;
-import org.jbpm.workflow.core.impl.NodeImpl;
-import org.jbpm.workflow.core.impl.WorkflowProcessImpl;
-import org.jbpm.workflow.instance.NodeInstanceContainer;
-import org.jbpm.workflow.instance.WorkflowProcessInstance;
-import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
+import org.opaeum.hibernate.domain.AbstractToken;
 import org.opaeum.hibernate.domain.InterfaceValue;
+import org.opaeum.runtime.bpm.request.processrequest.ProcessRequestRegion;
 import org.opaeum.runtime.bpm.requestobject.IProcessObject;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -56,6 +46,9 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
+import org.opaeum.runtime.statemachines.IStateMachineExecution;
+import org.opaeum.runtime.statemachines.IStateMachineExecutionElement;
+import org.opaeum.runtime.statemachines.StateMachineToken;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -70,12 +63,8 @@ import org.w3c.dom.NodeList;
 @Entity(name="ProcessRequest")
 @DiscriminatorValue(	"process_request")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class ProcessRequest extends AbstractRequest implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
-	private String callingNodeInstanceUniqueId;
-	@Transient
-	transient private WorkflowProcessInstance callingProcessInstance;
-	@Column(name="calling_process_instance_id")
-	private Long callingProcessInstanceId;
+public class ProcessRequest extends AbstractRequest implements IStateMachineExecution, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+	private AbstractToken callingToken;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Transient
@@ -84,22 +73,15 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Type(type="org.opaeum.runtime.bpm.request.ProcessRequestStateResolver")
-	private ProcessRequestState endNodeInProcessRequestRegion;
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="executed_on")
 	private Date executedOn;
+	private Map<String, IStateMachineExecutionElement> executionElements;
 	static private Set<ProcessRequest> mockedAllInstances;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
-	@Transient
-	private boolean processDirty;
-	@Transient
-	transient private WorkflowProcessInstance processInstance;
-	@Column(name="process_instance_id")
-	private Long processInstanceId;
 	@Embedded
 	@AttributeOverrides(	{
 		@AttributeOverride(column=
@@ -172,24 +154,38 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3022263813028286216")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ParticipationInRequest curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToParticipationInRequest(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
-	}
-	
-	public void cancel() {
-		getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED);
 	}
 	
 	public void completed() {
 		AbstractRequestListener callbackListener = getCallingProcessObject();
-		getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED);
 		if ( callbackListener!=null ) {
 			callbackListener.onAbstractRequestComplete(getCallingNodeInstanceUniqueId(),this);
 		}
 	}
 	
 	public boolean consumeAbortOccurrence() {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public void copyShallowState(ProcessRequest from, ProcessRequest to) {
@@ -199,10 +195,19 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		for ( ParticipationInRequest child : from.getParticipationInRequest() ) {
 			to.addToParticipationInRequest(child.makeCopy());
 		}
+		for ( ParticipationInRequest child : from.getParticipationInRequest() ) {
+			to.addToParticipationInRequest(child.makeCopy());
+		}
 	}
 	
 	public void createComponents() {
 		super.createComponents();
+	}
+	
+	public ProcessRequestToken createToken(StateMachineToken smToken) {
+		ProcessRequestToken result = new ProcessRequestToken((ProcessRequestToken)smToken);
+		tokens.add(result);
+		return result;
 	}
 	
 	public boolean equals(Object other) {
@@ -213,73 +218,10 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	}
 	
 	public void execute() {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		WorkflowProcessInstance processInstance;
 		setExecutedOn(new Date());
-		params.put("processObject", this);
-		processInstance = (WorkflowProcessInstance)org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("request_process_request",params);
-		((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true);
-		this.processInstance=processInstance;
-		this.setProcessInstanceId(processInstance.getId());
-	}
-	
-	public NodeInstanceImpl findNodeInstanceByUniqueId(String uniqueId) {
-		for ( NodeInstanceImpl nodeInstance : getNodeInstancesRecursively() ) {
-			if ( nodeInstance.getUniqueId().equals(uniqueId) ) {
-				return nodeInstance;
-			}
-		}
-		return null;
-	}
-	
-	public NodeInstanceImpl findWaitingNodeByNodeId(long step) {
-		for ( NodeInstanceImpl nodeInstance : getNodeInstancesRecursively() ) {
-			if ( ((NodeImpl)nodeInstance.getNode()).getId()==step ) {
-				return nodeInstance;
-			}
-		}
-		return null;
-	}
-	
-	public void forceToStep(IProcessStep step) {
-		ProcessRequestState nextStep = (ProcessRequestState)step;
-		NodeImpl newNode = getNodeForStep(nextStep);
-		for ( NodeInstanceImpl curNodeInstance : getNodeInstancesRecursively() ) {
-			if ( curNodeInstance.getNode().getNodeContainer()==newNode.getNodeContainer() ) {
-				transition(curNodeInstance,newNode);
-				return;
-			}
-		}
 	}
 	
 	public void generateAbortEvent() {
-	}
-	
-	public Set<IProcessStep> getActiveLeafSteps() {
-		Set results = new HashSet<IProcessStep>();
-		return results;
-	}
-	
-	public String getCallingNodeInstanceUniqueId() {
-		return this.callingNodeInstanceUniqueId;
-	}
-	
-	public WorkflowProcess getCallingProcessDefinition() {
-		return (WorkflowProcess) getCallingProcessInstance().getProcess();
-	}
-	
-	public WorkflowProcessInstance getCallingProcessInstance() {
-		if ( this.callingProcessInstance==null ) {
-			this.callingProcessInstance=(WorkflowProcessInstance)org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getCallingProcessInstanceId());
-			if ( this.callingProcessInstance!=null ) {
-				((WorkflowProcessImpl)this.callingProcessInstance.getProcess()).setAutoComplete(true);
-			}
-		}
-		return this.callingProcessInstance;
-	}
-	
-	public Long getCallingProcessInstanceId() {
-		return this.callingProcessInstanceId;
 	}
 	
 	public AbstractRequestListener getCallingProcessObject() {
@@ -288,6 +230,10 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 			return processObject;
 		}
 		return null;
+	}
+	
+	public AbstractToken getCallingToken() {
+		return this.callingToken;
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -306,27 +252,17 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		return this.executedOn;
 	}
 	
-	public IProcessStep getInnermostNonParallelStep() {
-		if ( this.endNodeInProcessRequestRegion!=null ) {
-			return this.endNodeInProcessRequestRegion;
-		} else {
-			NodeInstanceImpl nodeInstance = (NodeInstanceImpl)getProcessInstance().getNodeInstances().iterator().next();
-			if ( getProcessInstance().getNodeInstances().size()>1 ) {
-				return null;
-			}
-			while ( nodeInstance instanceof NodeInstanceContainer && ((NodeInstanceContainer)nodeInstance).getNodeInstances().size()==1 ) {
-				nodeInstance=(NodeInstanceImpl)((NodeInstanceContainer)nodeInstance).getNodeInstances().iterator().next();
-			}
-			return ProcessRequestState.resolveById(nodeInstance.getNodeId());
+	public Map<String, IStateMachineExecutionElement> getExecutionElements() {
+		Map<String, IStateMachineExecutionElement> result = executionElements;
+		if ( executionElements==null ) {
+			result=executionElements=new HashMap<String,org.opaeum.runtime.statemachines.IStateMachineExecutionElement>();
+			new ProcessRequestRegion(this).linkTransitions();
 		}
+		return result;
 	}
 	
 	public String getName() {
 		return "ProcessRequest["+getId()+"]";
-	}
-	
-	public Collection<NodeInstanceImpl> getNodeInstancesRecursively() {
-		return (Collection<NodeInstanceImpl>)(Collection)((NodeInstanceContainer)getProcessInstance()).getNodeInstances(true);
 	}
 	
 	public Set<OutgoingEvent> getOutgoingEvents() {
@@ -335,24 +271,6 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	
 	public CompositionNode getOwningObject() {
 		return getProcessObject();
-	}
-	
-	public WorkflowProcess getProcessDefinition() {
-		return (WorkflowProcess) getProcessInstance().getProcess();
-	}
-	
-	public WorkflowProcessInstance getProcessInstance() {
-		if ( this.processInstance==null ) {
-			this.processInstance=(WorkflowProcessInstance)org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId());
-			if ( this.processInstance!=null ) {
-				((WorkflowProcessImpl)this.processInstance.getProcess()).setAutoComplete(true);
-			}
-		}
-		return this.processInstance;
-	}
-	
-	public Long getProcessInstanceId() {
-		return this.processInstanceId;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5083858478754845985l,opposite="processRequest",uuid="252060@_JY15xI3pEeCfQedkc0TCdA")
@@ -382,38 +300,6 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		createComponents();
 	}
 	
-	public void init(ProcessContext context) {
-		super.init(context);
-		this.setProcessInstanceId(context.getProcessInstance().getId());
-		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
-	}
-	
-	public boolean isComplete() {
-		boolean result = endNodeInProcessRequestRegion!=null ||currentException!=null;
-		
-		return result;
-	}
-	
-	public boolean isProcessDirty() {
-		return this.processDirty;
-	}
-	
-	public boolean isStepActive(IProcessStep step) {
-		if ( step==this.endNodeInProcessRequestRegion ) {
-			return true;
-		}
-		if ( getProcessInstance()==null ) {
-			return false;
-		} else {
-			for ( NodeInstanceImpl nodeInstance : getNodeInstancesRecursively() ) {
-				if ( step.getId()==nodeInstance.getNodeId() ) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
 	public ProcessRequest makeCopy() {
 		ProcessRequest result = new ProcessRequest();
 		copyState((ProcessRequest)this,result);
@@ -437,6 +323,9 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		}
 		if ( getRequestObject()!=null ) {
 			getRequestObject().z_internalRemoveFromRequest(this);
+		}
+		for ( ParticipationInRequest child : new ArrayList<ParticipationInRequest>(getParticipationInRequest()) ) {
+			child.markDeleted();
 		}
 		for ( ParticipationInRequest child : new ArrayList<ParticipationInRequest>(getParticipationInRequest()) ) {
 			child.markDeleted();
@@ -473,6 +362,16 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3022263813028286216")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 		}
 	}
 	
@@ -485,22 +384,6 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		}
 	}
 	
-	public NodeImpl recursivelyFindNode(ProcessRequestState step, Collection<NodeImpl> collection) {
-		for ( NodeImpl curNode : collection ) {
-			if ( curNode.getId()==step.getId() ) {
-				return curNode;
-			} else {
-				if ( curNode instanceof NodeContainer ) {
-					NodeImpl childNode = recursivelyFindNode(step, (Collection)Arrays.asList(((NodeContainer)curNode).getNodes()));
-					if ( childNode!=null ) {
-						return childNode;
-					}
-				}
-			}
-		}
-		return null;
-	}
-	
 	public void removeFromOwningObject() {
 		this.markDeleted();
 	}
@@ -509,16 +392,12 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		propertyChangeSupport.removePropertyChangeListener(property,listener);
 	}
 	
-	public void setCallingNodeInstanceUniqueId(String callingNodeInstanceUniqueId) {
-		this.callingNodeInstanceUniqueId=callingNodeInstanceUniqueId;
+	public void removeToken(StateMachineToken smToken) {
+		tokens.remove((ProcessRequestToken)smToken);
 	}
 	
-	public void setCallingProcessInstance(WorkflowProcessInstance callingProcessInstance) {
-		this.callingProcessInstance=callingProcessInstance;
-	}
-	
-	public void setCallingProcessInstanceId(Long callingProcessInstanceId) {
-		this.callingProcessInstanceId=callingProcessInstanceId;
+	public void setCallingToken(AbstractToken callingToken) {
+		this.callingToken=callingToken;
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -540,14 +419,6 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
-	}
-	
-	public void setProcessInstance(WorkflowProcessInstance processInstance) {
-		this.processInstance=processInstance;
-	}
-	
-	public void setProcessInstanceId(Long processInstanceId) {
-		this.processInstanceId=processInstanceId;
 	}
 	
 	public void setProcessObject(IProcessObject processObject) {
@@ -580,9 +451,8 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		}
 	}
 	
-	public void setReturnInfo(ProcessContext context) {
-		this.callingProcessInstanceId=context.getProcessInstance().getId();
-		this.callingNodeInstanceUniqueId=((NodeInstanceImpl)context.getNodeInstance()).getUniqueId();
+	public void setReturnInfo(AbstractToken callingToken) {
+		this.callingToken=callingToken;
 	}
 	
 	public String toXmlReferenceString() {
@@ -608,15 +478,13 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 			sb.append("\n" + getParentTask().toXmlReferenceString());
 			sb.append("\n</parentTask>");
 		}
+		sb.append("\n<participationInRequest propertyId=\"3022263813028286216\">");
+		for ( ParticipationInRequest participationInRequest : getParticipationInRequest() ) {
+			sb.append("\n" + participationInRequest.toXmlString());
+		}
+		sb.append("\n</participationInRequest>");
 		sb.append("\n</ProcessRequest>");
 		return sb.toString();
-	}
-	
-	public void transition(NodeInstanceImpl curNodeInstance, NodeImpl newNode) {
-		NodeInstanceContainer container = (NodeInstanceContainer)curNodeInstance.getNodeInstanceContainer();
-		NodeInstanceImpl newNodeInstance = (NodeInstanceImpl)container.getNodeInstance(newNode);
-		container.removeNodeInstance(curNodeInstance);
-		curNodeInstance.trigger(newNodeInstance, "asdf");
 	}
 	
 	public void z_internalAddToProcessObject(IProcessObject val) {
@@ -627,10 +495,6 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		if ( getProcessObject()!=null && val!=null && val.equals(getProcessObject()) ) {
 			this.processObject.setValue(null);
 		}
-	}
-	
-	private NodeImpl getNodeForStep(ProcessRequestState step) {
-		return recursivelyFindNode(step, (Collection)Arrays.asList(getProcessDefinition().getNodes()));
 	}
 
 }

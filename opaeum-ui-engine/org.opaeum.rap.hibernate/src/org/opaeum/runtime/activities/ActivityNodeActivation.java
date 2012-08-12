@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ActivityNodeActivation{
-	protected ActivityNodeContainerInstance group;
+	protected IActivityNodeContainerExecution group;
 	private String id;
 	public List<ActivityEdgeInstance> incomingEdges = new ArrayList<ActivityEdgeInstance>();
 	public List<ActivityEdgeInstance> outgoingEdges = new ArrayList<ActivityEdgeInstance>();
 	public boolean running = false;
-	public List<Token> heldTokens = new ArrayList<Token>();
-	public ActivityNodeActivation(ActivityNodeContainerInstance group,String id){
+	public List<ActivityToken> heldTokens = new ArrayList<ActivityToken>();
+	public ActivityNodeActivation(IActivityNodeContainerExecution group,String id){
 		super();
 		this.group = group;
 		this.id = id;
 	}
-	public ActivityNodeContainerInstance getGroup(){
+	public IActivityNodeContainerExecution getGroup(){
 		return group;
 	}
 	public List<ActivityEdgeInstance> getIncomingEdges(){
@@ -30,7 +30,7 @@ public abstract class ActivityNodeActivation{
 	public void run(){
 		this.running = true;
 	} // run
-	public List<Token> getHeldTokens(){
+	public List<ActivityToken> getHeldTokens(){
 		if(heldTokens == null){
 			heldTokens = group.getTokensHeldBy(this);
 		}
@@ -40,7 +40,7 @@ public abstract class ActivityNodeActivation{
 		// Receive an offer from an incoming edge.
 		// Check if all prerequisites have been satisfied. If so, fire.
 		boolean ready = this.isReady();
-		List<Token> tokens = new ArrayList<Token>();
+		List<ActivityToken> tokens = new ArrayList<ActivityToken>();
 		if(ready){
 			tokens = this.takeOfferedTokens();
 		}
@@ -48,22 +48,22 @@ public abstract class ActivityNodeActivation{
 			this.fire(tokens);
 		}
 	} // receiveOffer
-	public List<Token> takeOfferedTokens(){
+	public List<ActivityToken> takeOfferedTokens(){
 		// Get tokens from all incoming edges.
-		List<Token> allTokens = new ArrayList<Token>();
+		List<ActivityToken> allTokens = new ArrayList<ActivityToken>();
 		List<ActivityEdgeInstance> incomingEdges = this.incomingEdges;
 		for(int i = 0;i < incomingEdges.size();i++){
 			ActivityEdgeInstance incomingEdge = incomingEdges.get(i);
-			List<Token> tokens = incomingEdge.takeOfferedTokens();
+			List<ActivityToken> tokens = incomingEdge.takeOfferedTokens();
 			for(int j = 0;j < tokens.size();j++){
-				Token token = tokens.get(j);
+				ActivityToken token = tokens.get(j);
 				allTokens.add(token);
 			}
 		}
 		return allTokens;
 	} // takeOfferedTokens
-	public abstract void fire(List<Token> incomingTokens);
-	public void sendOffers(List<Token> tokens){
+	public abstract void fire(List<ActivityToken> incomingTokens);
+	public void sendOffers(List<ActivityToken> tokens){
 		// Send offers for the given set of tokens over all outgoing edges (if
 		// there are any tokens actually being offered).
 		if(tokens.size() > 0){
@@ -96,12 +96,12 @@ public abstract class ActivityNodeActivation{
 		edge.target = this;
 		this.incomingEdges.add(edge);
 	}
-	public void addToken(Token token){
+	public void addToken(ActivityToken token){
 		// Transfer the given token to be held by this node.
-		Token transferredToken = token.transfer(this);
+		ActivityToken transferredToken = token.transfer(this);
 		this.getHeldTokens().add(transferredToken);
 	}
-	public int removeToken(Token token){
+	public int removeToken(ActivityToken token){
 		// Remove the given token, if it is held by this node activation.
 		// Return the position (counting from 1) of the removed token (0 if
 		// there is none removed).
@@ -120,15 +120,15 @@ public abstract class ActivityNodeActivation{
 		}
 		return i;
 	}
-	public void addTokens(List<Token> tokens){
+	public void addTokens(List<ActivityToken> tokens){
 		for(int i = 0;i < tokens.size();i++){
-			Token token = tokens.get(i);
+			ActivityToken token = tokens.get(i);
 			this.addToken(token);
 		}
 	} // addTokens
-	public List<Token> takeTokens(){
+	public List<ActivityToken> takeTokens(){
 		// Take the tokens held by this node activation.
-		List<Token> tokens = this.getTokens();
+		List<ActivityToken> tokens = this.getTokens();
 		this.clearTokens();
 		return tokens;
 	} // takeTokens
@@ -138,12 +138,12 @@ public abstract class ActivityNodeActivation{
 			this.getHeldTokens().get(0).withdraw();
 		}
 	} // clearTokens
-	public List<Token> getTokens(){
+	public List<ActivityToken> getTokens(){
 		// Get the tokens held by this node activation.
-		List<Token> tokens = new ArrayList<Token>();
-		List<Token> heldTokens = this.getHeldTokens();
+		List<ActivityToken> tokens = new ArrayList<ActivityToken>();
+		List<ActivityToken> heldTokens = this.getHeldTokens();
 		for(int i = 0;i < heldTokens.size();i++){
-			Token heldToken = heldTokens.get(i);
+			ActivityToken heldToken = heldTokens.get(i);
 			tokens.add(heldToken);
 		}
 		return tokens;

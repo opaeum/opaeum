@@ -17,6 +17,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -74,10 +75,19 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="businessNetwork",targetEntity=OrganizationNode.class)
+	private Set<OrganizationNode> organization = new HashSet<OrganizationNode>();
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private AbstractPersistence persistence;
+	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="businessNetwork",targetEntity=PersonNode.class)
+	@MapKey(name="z_keyOfPersonOnIBusinessCollaboration")
+	private Map<String, PersonNode> person = new HashMap<String,PersonNode>();
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 2395627898464121473l;
@@ -97,6 +107,12 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	public void addAllToBusinessNetworkFacilatatesCollaboration_businessCollaboration(Set<BusinessNetworkFacilatatesCollaboration> businessNetworkFacilatatesCollaboration_businessCollaboration) {
 		for ( BusinessNetworkFacilatatesCollaboration o : businessNetworkFacilatatesCollaboration_businessCollaboration ) {
 			addToBusinessNetworkFacilatatesCollaboration_businessCollaboration(o);
+		}
+	}
+	
+	public void addAllToOrganization(Set<OrganizationNode> organization) {
+		for ( OrganizationNode o : organization ) {
+			addToOrganization(o);
 		}
 	}
 	
@@ -125,9 +141,25 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		}
 	}
 	
+	public void addToOrganization(OrganizationNode organization) {
+		if ( organization!=null ) {
+			organization.z_internalRemoveFromBusinessNetwork(organization.getBusinessNetwork());
+			organization.z_internalAddToBusinessNetwork(this);
+			z_internalAddToOrganization(organization);
+		}
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
+	}
+	
+	public void addToPerson(String username, PersonNode person) {
+		if ( person!=null ) {
+			person.z_internalRemoveFromBusinessNetwork(person.getBusinessNetwork());
+			person.z_internalAddToBusinessNetwork(this);
+			z_internalAddToPerson(username,person);
+		}
 	}
 	
 	static public Set<? extends BusinessNetwork> allInstances(AbstractPersistence persistence) {
@@ -144,7 +176,42 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-		
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("person") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2470938974911877691")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						PersonNode curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToPerson(curVal.getUsername(),curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5972556763473316153")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						OrganizationNode curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToOrganization(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
@@ -156,10 +223,28 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		removeAllFromBusinessNetworkFacilatatesCollaboration_businessCollaboration(getBusinessNetworkFacilatatesCollaboration_businessCollaboration());
 	}
 	
+	public void clearOrganization() {
+		removeAllFromOrganization(getOrganization());
+	}
+	
+	public void clearPerson() {
+		Set<PersonNode> tmp = new HashSet<PersonNode>(getPerson());
+		for ( PersonNode o : tmp ) {
+			removeFromPerson(o.getUsername(),o);
+		}
+		person.clear();
+	}
+	
 	public void copyShallowState(BusinessNetwork from, BusinessNetwork to) {
 	}
 	
 	public void copyState(BusinessNetwork from, BusinessNetwork to) {
+		for ( PersonNode child : from.getPerson() ) {
+			to.addToPerson(child.getUsername(),child.makeCopy());
+		}
+		for ( OrganizationNode child : from.getOrganization() ) {
+			to.addToOrganization(child.makeCopy());
+		}
 	}
 	
 	public BusinessNetworkFacilatatesCollaboration createBusinessNetworkFacilatatesCollaboration_businessCollaboration() {
@@ -169,6 +254,19 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void createComponents() {
+	}
+	
+	public OrganizationNode createOrganization() {
+		OrganizationNode newInstance= new OrganizationNode();
+		newInstance.init(this);
+		return newInstance;
+	}
+	
+	public PersonNode createPerson(String username) {
+		PersonNode newInstance= new PersonNode();
+		newInstance.setUsername(username);
+		newInstance.init(this);
+		return newInstance;
 	}
 	
 	public boolean equals(Object other) {
@@ -224,12 +322,36 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return this.objectVersion;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5972556763473316153l,opposite="businessNetwork",uuid="252060@_4uZ-MEvREeGmqIr8YsFD4g")
+	@NumlMetaInfo(uuid="252060@_4uZ-MEvREeGmqIr8YsFD4g")
+	public Set<OrganizationNode> getOrganization() {
+		Set<OrganizationNode> result = this.organization;
+		
+		return result;
+	}
+	
 	public Set<OutgoingEvent> getOutgoingEvents() {
 		return this.outgoingEvents;
 	}
 	
 	public CompositionNode getOwningObject() {
 		return null;
+	}
+	
+	public PersonNode getPerson(String username) {
+		PersonNode result = null;
+		StringBuilder key = new StringBuilder();
+		key.append(username.toString());
+		result=this.person.get(key.toString());
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2470938974911877691l,opposite="businessNetwork",uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
+	@NumlMetaInfo(uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
+	public Set<PersonNode> getPerson() {
+		Set<PersonNode> result = new HashSet<PersonNode>(this.person.values());
+		
+		return result;
 	}
 	
 	public String getUid() {
@@ -264,6 +386,15 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
 			child.markDeleted();
 		}
+		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
+			child.markDeleted();
+		}
+		for ( OrganizationNode child : new ArrayList<OrganizationNode>(getOrganization()) ) {
+			child.markDeleted();
+		}
+		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
+			child.markDeleted();
+		}
 		for ( BusinessNetworkFacilatatesCollaboration child : new ArrayList<BusinessNetworkFacilatatesCollaboration>(getBusinessNetworkFacilatatesCollaboration_businessCollaboration()) ) {
 			child.markDeleted();
 		}
@@ -279,6 +410,26 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("person") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2470938974911877691")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((PersonNode)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5972556763473316153")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((OrganizationNode)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessNetworkFacilatatesCollaboration_businessCollaboration") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8697190624988594199")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -306,6 +457,13 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		}
 	}
 	
+	public void removeAllFromOrganization(Set<OrganizationNode> organization) {
+		Set<OrganizationNode> tmp = new HashSet<OrganizationNode>(organization);
+		for ( OrganizationNode o : tmp ) {
+			removeFromOrganization(o);
+		}
+	}
+	
 	public void removeFromBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
 		if ( businessCollaboration!=null ) {
 			z_internalRemoveFromBusinessCollaboration(businessCollaboration);
@@ -319,8 +477,22 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		}
 	}
 	
+	public void removeFromOrganization(OrganizationNode organization) {
+		if ( organization!=null ) {
+			organization.z_internalRemoveFromBusinessNetwork(this);
+			z_internalRemoveFromOrganization(organization);
+		}
+	}
+	
 	public void removeFromOwningObject() {
 		this.markDeleted();
+	}
+	
+	public void removeFromPerson(String username, PersonNode person) {
+		if ( person!=null ) {
+			person.z_internalRemoveFromBusinessNetwork(this);
+			z_internalRemoveFromPerson(username,person);
+		}
 	}
 	
 	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
@@ -355,6 +527,12 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		this.objectVersion=objectVersion;
 	}
 	
+	public void setOrganization(Set<OrganizationNode> organization) {
+		propertyChangeSupport.firePropertyChange("organization",getOrganization(),organization);
+		this.clearOrganization();
+		this.addAllToOrganization(organization);
+	}
+	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
 	}
@@ -374,6 +552,16 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		sb.append("className=\"org.opaeum.runtime.bpm.organization.BusinessNetwork\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
+		sb.append("\n<person propertyId=\"2470938974911877691\">");
+		for ( PersonNode person : getPerson() ) {
+			sb.append("\n" + person.toXmlString());
+		}
+		sb.append("\n</person>");
+		sb.append("\n<organization propertyId=\"5972556763473316153\">");
+		for ( OrganizationNode organization : getOrganization() ) {
+			sb.append("\n" + organization.toXmlString());
+		}
+		sb.append("\n</organization>");
 		sb.append("\n<businessNetworkFacilatatesCollaboration_businessCollaboration propertyId=\"8697190624988594199\">");
 		for ( BusinessNetworkFacilatatesCollaboration businessNetworkFacilatatesCollaboration_businessCollaboration : getBusinessNetworkFacilatatesCollaboration_businessCollaboration() ) {
 			sb.append("\n" + businessNetworkFacilatatesCollaboration_businessCollaboration.toXmlReferenceString());
@@ -393,6 +581,18 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		this.businessNetworkFacilatatesCollaboration_businessCollaboration.add(val);
 	}
 	
+	public void z_internalAddToOrganization(OrganizationNode val) {
+		this.organization.add(val);
+	}
+	
+	public void z_internalAddToPerson(String username, PersonNode val) {
+		StringBuilder key = new StringBuilder();
+		key.append(username.toString());
+		val.z_internalAddToUsername(username);
+		this.person.put(key.toString(),val);
+		val.setZ_keyOfPersonOnIBusinessCollaboration(key.toString());
+	}
+	
 	public void z_internalRemoveFromBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
 		for ( BusinessNetworkFacilatatesCollaboration cur : new HashSet<BusinessNetworkFacilatatesCollaboration>(this.businessNetworkFacilatatesCollaboration_businessCollaboration) ) {
 			if ( cur.getBusinessCollaboration().equals(businessCollaboration) ) {
@@ -404,6 +604,16 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	
 	public void z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessCollaboration(BusinessNetworkFacilatatesCollaboration val) {
 		this.businessNetworkFacilatatesCollaboration_businessCollaboration.remove(val);
+	}
+	
+	public void z_internalRemoveFromOrganization(OrganizationNode val) {
+		this.organization.remove(val);
+	}
+	
+	public void z_internalRemoveFromPerson(String username, PersonNode val) {
+		StringBuilder key = new StringBuilder();
+		key.append(username.toString());
+		this.person.remove(key.toString());
 	}
 
 }

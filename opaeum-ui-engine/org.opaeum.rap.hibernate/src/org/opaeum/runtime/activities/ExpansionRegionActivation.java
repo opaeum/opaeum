@@ -7,16 +7,16 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class ExpansionRegionActivation extends ActionActivation{
-	public ExpansionRegionActivation(ActivityNodeContainerInstance group,String id){
+	public ExpansionRegionActivation(IActivityNodeContainerExecution group,String id){
 		super(group, id);
 	}
 	private List<ExpansionNodeActivation> inputNodeActivations = new ArrayList<ExpansionNodeActivation>();
 	private List<ExpansionNodeActivation> outputNodeActivations = new ArrayList<ExpansionNodeActivation>();
-	public List<Set<Token>> inputTokens = new ArrayList<Set<Token>>();
-	public List<Set<Token>> inputExpansionTokens = new ArrayList<Set<Token>>();
+	public List<Set<ActivityToken>> inputTokens = new ArrayList<Set<ActivityToken>>();
+	public List<Set<ActivityToken>> inputExpansionTokens = new ArrayList<Set<ActivityToken>>();
 	public abstract List<ExpansionRegionExecution> getActivationGroups();
-	public List<Token> takeOfferedTokens(){
-		return new ArrayList<Token>();
+	public List<ActivityToken> takeOfferedTokens(){
+		return new ArrayList<ActivityToken>();
 	}
 	public void doAction(){
 		// If the expansion region has mustIsolate=true, then carry out its

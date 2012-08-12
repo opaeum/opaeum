@@ -843,7 +843,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_38YTBVPiEeGhgtp358IFlA" y="-20"/>
       </children>
       <children xmi:type="notation:DecorationNode" xmi:id="_38YTBlPiEeGhgtp358IFlA" type="6005">
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_38YTB1PiEeGhgtp358IFlA" x="40" y="16"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_38YTB1PiEeGhgtp358IFlA" x="-2" y="17"/>
       </children>
       <children xmi:type="notation:DecorationNode" xmi:id="_38YTCFPiEeGhgtp358IFlA" type="6033">
         <layoutConstraint xmi:type="notation:Location" xmi:id="_38YTCVPiEeGhgtp358IFlA" y="20"/>
@@ -2049,7 +2049,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_anqNgl-jEeGSPaWW9iQb9Q"/>
       </children>
       <element xmi:type="uml:Class" href="OpaeumBPM.library.uml#_anU2QF-jEeGSPaWW9iQb9Q"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_anpmYV-jEeGSPaWW9iQb9Q" x="319" y="229"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_anpmYV-jEeGSPaWW9iQb9Q" x="390" y="225"/>
     </children>
     <children xmi:type="notation:Shape" xmi:id="_cENrAF-jEeGSPaWW9iQb9Q" type="2008" fontName="Sans" fontHeight="8" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_cEOSEF-jEeGSPaWW9iQb9Q" source="ShadowFigure">

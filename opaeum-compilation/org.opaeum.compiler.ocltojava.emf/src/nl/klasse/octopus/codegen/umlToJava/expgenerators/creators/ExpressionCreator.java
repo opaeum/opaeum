@@ -17,7 +17,11 @@ import org.eclipse.ocl.uml.TypeExp;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.ocl.uml.VariableExp;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.Transition;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
@@ -26,22 +30,35 @@ import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.ocl.uml.AbstractOclContext;
 
 public class ExpressionCreator{
 	private OJClass myClass = null;
 	OJUtil ojUtil;
 	ExpGeneratorHelper expGeneratorHelper;
-	public ExpressionCreator(OJUtil ojUtil,OJClass myOwner){
+	private AbstractOclContext context;
+	ExpressionCreator(OJUtil ojUtil,OJClass myOwner,AbstractOclContext context){
 		super();
+		this.context = context;
 		this.ojUtil = ojUtil;
 		this.expGeneratorHelper = new ExpGeneratorHelper(ojUtil);
 		this.myClass = myOwner;
 	}
-	public String makeExpression(OCLExpression in,boolean isStatic,List<OJParameter> params){
+	public ExpressionCreator(OJUtil ojUtil2,OJClass myClass2){
+		this.ojUtil = ojUtil2;
+		this.expGeneratorHelper = new ExpGeneratorHelper(ojUtil);
+		this.myClass = myClass2;
+	}
+	public String makeExpression(AbstractOclContext in,boolean isStatic,List<OJParameter> params){
+		context = in;
+		return makeExpression(in.getExpression(), isStatic, params);
+	}
+	String makeExpression(OCLExpression in,boolean isStatic,List<OJParameter> params){
 		StringBuffer thisNode = new StringBuffer();
 		if(in instanceof TypeExp){
-			Classifier type=((TypeExp) in).getReferredType();
+			Classifier type = ((TypeExp) in).getReferredType();
 			OJPathName javaType = ojUtil.classifierPathname(type);
 			myClass.addToImports(javaType);
 			thisNode.append(javaType.getLast());
@@ -50,13 +67,13 @@ public class ExpressionCreator{
 		}else if(in instanceof LetExp){
 			thisNode.append(makeLetExpression((LetExp) in, isStatic, params));
 		}else if(in instanceof LiteralExp){
-			LiteralExpCreator maker = new LiteralExpCreator(ojUtil, myClass);
+			LiteralExpCreator maker = new LiteralExpCreator(ojUtil, myClass, context);
 			thisNode.append(maker.makeExpression((LiteralExp) in, isStatic, params));
 		}else if(in instanceof MessageExp){
 			// TODO OclMessageExp
 		}else if(in instanceof CallExp){
 			// only if the first node is a call to a class property
-			PropCallCreator maker = new PropCallCreator(expGeneratorHelper, myClass);
+			PropCallCreator maker = new PropCallCreator(expGeneratorHelper, myClass, context);
 			CallExp ce = (CallExp) in;
 			if(ce.getSource() == null){
 				thisNode.append(maker.makeExpressionNode((CallExp) in, isStatic, params));
@@ -80,12 +97,19 @@ public class ExpressionCreator{
 		return StringHelpers.addBrackets(thisNode.toString());
 	}
 	private String makeVariableExp(VariableExp in){
-		String result = "";
-		if(in.getReferredVariable() instanceof Property){
-			// implicit attributes
-			return ojUtil.buildStructuralFeatureMap((Property) in.getReferredVariable()).getter() + "()";
-		}else if(in.getName().equals("self") || in.getName().equals("this")){
-			result = "this";
+		String result = null;
+		org.eclipse.ocl.expressions.Variable<Classifier,Parameter> referredVariable = in.getReferredVariable();
+		if(in.getName().equals("self")){
+			if(in.getType() instanceof StateMachine){
+				if(context.getBodyContainer() instanceof OpaqueExpression){
+					if(context.getBodyContainer().getOwner().getOwner() instanceof Transition){
+						result = "getStateMachineExecution()";
+					}
+				}
+			}
+			if(result == null){
+				result = "this";
+			}
 		}else{
 			Variable varDecl = (Variable) in.getReferredVariable();
 			Classifier type = varDecl.getType();
@@ -151,7 +175,7 @@ public class ExpressionCreator{
 	}
 	private StringBuffer makeIfExpression(IfExp in,boolean isStatic,List<OJParameter> params){
 		StringBuffer created = new StringBuffer();
-		ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass);
+		ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass, context);
 		Classifier thenType = in.getThenExpression().getType();
 		Classifier elseType = in.getElseExpression().getType();
 		String typecast = "";

@@ -5,8 +5,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,27 +30,19 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import org.drools.runtime.StatefulKnowledgeSession;
-import org.drools.runtime.process.ProcessContext;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Proxy;
-import org.hibernate.annotations.Type;
-import org.jbpm.workflow.core.NodeContainer;
-import org.jbpm.workflow.core.WorkflowProcess;
-import org.jbpm.workflow.core.impl.NodeImpl;
-import org.jbpm.workflow.core.impl.WorkflowProcessImpl;
-import org.jbpm.workflow.instance.NodeInstanceContainer;
-import org.jbpm.workflow.instance.WorkflowProcessInstance;
-import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
+import org.opaeum.hibernate.domain.AbstractToken;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.organization.Participant;
+import org.opaeum.runtime.bpm.request.abstractrequest.Region1;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -66,6 +56,9 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
+import org.opaeum.runtime.statemachines.IStateMachineExecution;
+import org.opaeum.runtime.statemachines.IStateMachineExecutionElement;
+import org.opaeum.runtime.statemachines.StateMachineToken;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -80,12 +73,8 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="AbstractRequest")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-abstract public class AbstractRequest implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
-	private String callingNodeInstanceUniqueId;
-	@Transient
-	transient private WorkflowProcessInstance callingProcessInstance;
-	@Column(name="calling_process_instance_id")
-	private Long callingProcessInstanceId;
+abstract public class AbstractRequest implements IStateMachineExecution, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+	private AbstractToken callingToken;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Transient
@@ -94,11 +83,10 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Type(type="org.opaeum.runtime.bpm.request.AbstractRequestStateResolver")
-	private AbstractRequestState endNodeInRegion1;
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="executed_on")
 	private Date executedOn;
+	private Map<String, IStateMachineExecutionElement> executionElements;
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
@@ -119,12 +107,6 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	@Transient
 	private AbstractPersistence persistence;
 	@Transient
-	private boolean processDirty;
-	@Transient
-	transient private WorkflowProcessInstance processInstance;
-	@Column(name="process_instance_id")
-	private Long processInstanceId;
-	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	@Embedded
 	@AttributeOverrides(	{
@@ -134,6 +116,8 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 			@Column(name="request_object_type"),name="classIdentifier")})
 	private InterfaceValue requestObject = new InterfaceValue();
 	static final private long serialVersionUID = 8866332427474042484l;
+	@OneToMany(mappedBy="stateMachineExecution")
+	protected Set<AbstractRequestToken> tokens;
 	private String uid;
 
 	/** Default constructor for AbstractRequest
@@ -160,6 +144,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	public void addRequestParticipant(@ParameterMetaInfo(name="newParticipant",opaeumId=4174829400602250316l,uuid="252060@_TKUhAI6QEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(name="kind",opaeumId=9084738623180185780l,uuid="252060@_TsHmgI6QEeCrtavWRHwoHg") RequestParticipationKind kind) {
 		ParticipationInRequest participation = null;
 		ParticipationInRequest result = null;
+		generateAddRequestParticipantEvent(newParticipant,kind);
 		result=new ParticipationInRequest();
 		participation=result;
 		AbstractRequest tgtAddParticipation=this;
@@ -215,11 +200,25 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3022263813028286216")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ParticipationInRequest curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToParticipationInRequest(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
-	}
-	
-	public void cancel() {
-		getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED);
 	}
 	
 	public void clearParticipationInRequest() {
@@ -233,51 +232,60 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	
 	public void completed() {
 		AbstractRequestListener callbackListener = getCallingProcessObject();
-		getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED);
 		if ( callbackListener!=null ) {
 			callbackListener.onAbstractRequestComplete(getCallingNodeInstanceUniqueId(),this);
 		}
 	}
 	
 	public boolean consumeActivateOccurrence() {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public boolean consumeAddRequestParticipantOccurrence(@ParameterMetaInfo(name="newParticipant",opaeumId=4174829400602250316l,uuid="252060@_TKUhAI6QEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(name="kind",opaeumId=9084738623180185780l,uuid="252060@_TsHmgI6QEeCrtavWRHwoHg") RequestParticipationKind kind) {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public boolean consumeCompleteOccurrence() {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public boolean consumeRemoveRequestParticipantOccurrence(@ParameterMetaInfo(name="participant",opaeumId=5904449775692844716l,uuid="252060@_P68JAI6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(name="kind",opaeumId=5058842751504084224l,uuid="252060@_P8scgI6SEeCrtavWRHwoHg") RequestParticipationKind kind) {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public boolean consumeResumeOccurrence() {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public boolean consumeStartOccurrence() {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public boolean consumeSuspendOccurrence() {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public void copyShallowState(AbstractRequest from, AbstractRequest to) {
 	}
 	
 	public void copyState(AbstractRequest from, AbstractRequest to) {
+		for ( ParticipationInRequest child : from.getParticipationInRequest() ) {
+			to.addToParticipationInRequest(child.makeCopy());
+		}
 		for ( ParticipationInRequest child : from.getParticipationInRequest() ) {
 			to.addToParticipationInRequest(child.makeCopy());
 		}
@@ -292,6 +300,12 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return newInstance;
 	}
 	
+	public AbstractRequestToken createToken(StateMachineToken smToken) {
+		AbstractRequestToken result = new AbstractRequestToken((AbstractRequestToken)smToken);
+		tokens.add(result);
+		return result;
+	}
+	
 	public boolean equals(Object other) {
 		if ( other instanceof AbstractRequest ) {
 			return other==this || ((AbstractRequest)other).getUid().equals(this.getUid());
@@ -300,43 +314,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	}
 	
 	public void execute() {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		WorkflowProcessInstance processInstance;
 		setExecutedOn(new Date());
-		params.put("processObject", this);
-		processInstance = (WorkflowProcessInstance)org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("request_abstract_request",params);
-		((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true);
-		this.processInstance=processInstance;
-		this.setProcessInstanceId(processInstance.getId());
-	}
-	
-	public NodeInstanceImpl findNodeInstanceByUniqueId(String uniqueId) {
-		for ( NodeInstanceImpl nodeInstance : getNodeInstancesRecursively() ) {
-			if ( nodeInstance.getUniqueId().equals(uniqueId) ) {
-				return nodeInstance;
-			}
-		}
-		return null;
-	}
-	
-	public NodeInstanceImpl findWaitingNodeByNodeId(long step) {
-		for ( NodeInstanceImpl nodeInstance : getNodeInstancesRecursively() ) {
-			if ( ((NodeImpl)nodeInstance.getNode()).getId()==step ) {
-				return nodeInstance;
-			}
-		}
-		return null;
-	}
-	
-	public void forceToStep(IProcessStep step) {
-		AbstractRequestState nextStep = (AbstractRequestState)step;
-		NodeImpl newNode = getNodeForStep(nextStep);
-		for ( NodeInstanceImpl curNodeInstance : getNodeInstancesRecursively() ) {
-			if ( curNodeInstance.getNode().getNodeContainer()==newNode.getNodeContainer() ) {
-				transition(curNodeInstance,newNode);
-				return;
-			}
-		}
 	}
 	
 	public void generateActivateEvent() {
@@ -360,39 +338,16 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	public void generateSuspendEvent() {
 	}
 	
-	public Set<IProcessStep> getActiveLeafSteps() {
-		Set results = new HashSet<IProcessStep>();
-		return results;
-	}
-	
-	public String getCallingNodeInstanceUniqueId() {
-		return this.callingNodeInstanceUniqueId;
-	}
-	
-	public WorkflowProcess getCallingProcessDefinition() {
-		return (WorkflowProcess) getCallingProcessInstance().getProcess();
-	}
-	
-	public WorkflowProcessInstance getCallingProcessInstance() {
-		if ( this.callingProcessInstance==null ) {
-			this.callingProcessInstance=(WorkflowProcessInstance)org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getCallingProcessInstanceId());
-			if ( this.callingProcessInstance!=null ) {
-				((WorkflowProcessImpl)this.callingProcessInstance.getProcess()).setAutoComplete(true);
-			}
-		}
-		return this.callingProcessInstance;
-	}
-	
-	public Long getCallingProcessInstanceId() {
-		return this.callingProcessInstanceId;
-	}
-	
 	public AbstractRequestListener getCallingProcessObject() {
 		if ( getCallingProcessInstance()!=null  ) {
 			AbstractRequestListener processObject = (AbstractRequestListener)getCallingProcessInstance().getVariable("processObject");
 			return processObject;
 		}
 		return null;
+	}
+	
+	public AbstractToken getCallingToken() {
+		return this.callingToken;
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -411,6 +366,15 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return this.executedOn;
 	}
 	
+	public Map<String, IStateMachineExecutionElement> getExecutionElements() {
+		Map<String, IStateMachineExecutionElement> result = executionElements;
+		if ( executionElements==null ) {
+			result=executionElements=new HashMap<String,org.opaeum.runtime.statemachines.IStateMachineExecutionElement>();
+			new Region1(this).linkTransitions();
+		}
+		return result;
+	}
+	
 	public Long getId() {
 		return this.id;
 	}
@@ -422,27 +386,8 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return result;
 	}
 	
-	public IProcessStep getInnermostNonParallelStep() {
-		if ( this.endNodeInRegion1!=null ) {
-			return this.endNodeInRegion1;
-		} else {
-			NodeInstanceImpl nodeInstance = (NodeInstanceImpl)getProcessInstance().getNodeInstances().iterator().next();
-			if ( getProcessInstance().getNodeInstances().size()>1 ) {
-				return null;
-			}
-			while ( nodeInstance instanceof NodeInstanceContainer && ((NodeInstanceContainer)nodeInstance).getNodeInstances().size()==1 ) {
-				nodeInstance=(NodeInstanceImpl)((NodeInstanceContainer)nodeInstance).getNodeInstances().iterator().next();
-			}
-			return AbstractRequestState.resolveById(nodeInstance.getNodeId());
-		}
-	}
-	
 	public String getName() {
 		return "AbstractRequest["+getId()+"]";
-	}
-	
-	public Collection<NodeInstanceImpl> getNodeInstancesRecursively() {
-		return (Collection<NodeInstanceImpl>)(Collection)((NodeInstanceContainer)getProcessInstance()).getNodeInstances(true);
 	}
 	
 	public int getObjectVersion() {
@@ -473,28 +418,16 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return result;
 	}
 	
-	public WorkflowProcess getProcessDefinition() {
-		return (WorkflowProcess) getProcessInstance().getProcess();
-	}
-	
-	public WorkflowProcessInstance getProcessInstance() {
-		if ( this.processInstance==null ) {
-			this.processInstance=(WorkflowProcessInstance)org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId());
-			if ( this.processInstance!=null ) {
-				((WorkflowProcessImpl)this.processInstance.getProcess()).setAutoComplete(true);
-			}
-		}
-		return this.processInstance;
-	}
-	
-	public Long getProcessInstanceId() {
-		return this.processInstanceId;
-	}
-	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8918582809852333993l,opposite="request",uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
 	public IRequestObject getRequestObject() {
 		IRequestObject result = (IRequestObject)this.requestObject.getValue(persistence);
+		
+		return result;
+	}
+	
+	public Set<AbstractRequestToken> getTokens() {
+		Set<AbstractRequestToken> result = tokens;
 		
 		return result;
 	}
@@ -514,37 +447,6 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		createComponents();
 	}
 	
-	public void init(ProcessContext context) {
-		this.setProcessInstanceId(context.getProcessInstance().getId());
-		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
-	}
-	
-	public boolean isComplete() {
-		boolean result = endNodeInRegion1!=null ||currentException!=null;
-		
-		return result;
-	}
-	
-	public boolean isProcessDirty() {
-		return this.processDirty;
-	}
-	
-	public boolean isStepActive(IProcessStep step) {
-		if ( step==this.endNodeInRegion1 ) {
-			return true;
-		}
-		if ( getProcessInstance()==null ) {
-			return false;
-		} else {
-			for ( NodeInstanceImpl nodeInstance : getNodeInstancesRecursively() ) {
-				if ( step.getId()==nodeInstance.getNodeId() ) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
 	abstract public AbstractRequest makeCopy();
 	
 	abstract public AbstractRequest makeShallowCopy();
@@ -555,6 +457,9 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		}
 		if ( getRequestObject()!=null ) {
 			getRequestObject().z_internalRemoveFromRequest(this);
+		}
+		for ( ParticipationInRequest child : new ArrayList<ParticipationInRequest>(getParticipationInRequest()) ) {
+			child.markDeleted();
 		}
 		for ( ParticipationInRequest child : new ArrayList<ParticipationInRequest>(getParticipationInRequest()) ) {
 			child.markDeleted();
@@ -591,6 +496,16 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3022263813028286216")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 		}
 	}
 	
@@ -601,22 +516,6 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		} else {
 			callbackListener.onAbstractRequestUnhandledException(getCallingNodeInstanceUniqueId(),exception, this);
 		}
-	}
-	
-	public NodeImpl recursivelyFindNode(AbstractRequestState step, Collection<NodeImpl> collection) {
-		for ( NodeImpl curNode : collection ) {
-			if ( curNode.getId()==step.getId() ) {
-				return curNode;
-			} else {
-				if ( curNode instanceof NodeContainer ) {
-					NodeImpl childNode = recursivelyFindNode(step, (Collection)Arrays.asList(((NodeContainer)curNode).getNodes()));
-					if ( childNode!=null ) {
-						return childNode;
-					}
-				}
-			}
-		}
-		return null;
 	}
 	
 	public void removeAllFromParticipationInRequest(Set<ParticipationInRequest> participationInRequest) {
@@ -643,8 +542,13 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	
 	@NumlMetaInfo(uuid="252060@_Nl5kQI6SEeCrtavWRHwoHg")
 	public void removeRequestParticipant(@ParameterMetaInfo(name="participant",opaeumId=5904449775692844716l,uuid="252060@_P68JAI6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(name="kind",opaeumId=5058842751504084224l,uuid="252060@_P8scgI6SEeCrtavWRHwoHg") RequestParticipationKind kind) {
+		generateRemoveRequestParticipantEvent(participant,kind);
 		AbstractRequest tgtRemoveParticipation=this;
 		tgtRemoveParticipation.removeAllFromParticipationInRequest((select2(participant, kind)));
+	}
+	
+	public void removeToken(StateMachineToken smToken) {
+		tokens.remove((AbstractRequestToken)smToken);
 	}
 	
 	@NumlMetaInfo(uuid="252060@_qwWfEIoaEeCPduia_-NbFw")
@@ -652,16 +556,8 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		generateResumeEvent();
 	}
 	
-	public void setCallingNodeInstanceUniqueId(String callingNodeInstanceUniqueId) {
-		this.callingNodeInstanceUniqueId=callingNodeInstanceUniqueId;
-	}
-	
-	public void setCallingProcessInstance(WorkflowProcessInstance callingProcessInstance) {
-		this.callingProcessInstance=callingProcessInstance;
-	}
-	
-	public void setCallingProcessInstanceId(Long callingProcessInstanceId) {
-		this.callingProcessInstanceId=callingProcessInstanceId;
+	public void setCallingToken(AbstractToken callingToken) {
+		this.callingToken=callingToken;
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -709,14 +605,6 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		this.addAllToParticipationInRequest(participationInRequest);
 	}
 	
-	public void setProcessInstance(WorkflowProcessInstance processInstance) {
-		this.processInstance=processInstance;
-	}
-	
-	public void setProcessInstanceId(Long processInstanceId) {
-		this.processInstanceId=processInstanceId;
-	}
-	
 	public void setRequestObject(IRequestObject requestObject) {
 		IRequestObject oldValue = this.getRequestObject();
 		propertyChangeSupport.firePropertyChange("requestObject",getRequestObject(),requestObject);
@@ -747,9 +635,8 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		}
 	}
 	
-	public void setReturnInfo(ProcessContext context) {
-		this.callingProcessInstanceId=context.getProcessInstance().getId();
-		this.callingNodeInstanceUniqueId=((NodeInstanceImpl)context.getNodeInstance()).getUniqueId();
+	public void setReturnInfo(AbstractToken callingToken) {
+		this.callingToken=callingToken;
 	}
 	
 	public void setUid(String newUid) {
@@ -789,15 +676,13 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 			sb.append("\n" + getParentTask().toXmlReferenceString());
 			sb.append("\n</parentTask>");
 		}
+		sb.append("\n<participationInRequest propertyId=\"3022263813028286216\">");
+		for ( ParticipationInRequest participationInRequest : getParticipationInRequest() ) {
+			sb.append("\n" + participationInRequest.toXmlString());
+		}
+		sb.append("\n</participationInRequest>");
 		sb.append("\n</AbstractRequest>");
 		return sb.toString();
-	}
-	
-	public void transition(NodeInstanceImpl curNodeInstance, NodeImpl newNode) {
-		NodeInstanceContainer container = (NodeInstanceContainer)curNodeInstance.getNodeInstanceContainer();
-		NodeInstanceImpl newNodeInstance = (NodeInstanceImpl)container.getNodeInstance(newNode);
-		container.removeNodeInstance(curNodeInstance);
-		curNodeInstance.trigger(newNodeInstance, "asdf");
 	}
 	
 	public void z_internalAddToParentTask(TaskRequest val) {
@@ -839,10 +724,6 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 			}
 		}
 		return result;
-	}
-	
-	private NodeImpl getNodeForStep(AbstractRequestState step) {
-		return recursivelyFindNode(step, (Collection)Arrays.asList(getProcessDefinition().getNodes()));
 	}
 	
 	/** Implements self.participationInRequest->select(p : ParticipationInRequest | p.participant.=(participant).and(p.kind.=(kind)))

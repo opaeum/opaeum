@@ -136,8 +136,9 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public boolean consumeMakeCopyOccurrence() {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public void copyShallowState(IdBook from, IdBook to) {

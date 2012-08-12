@@ -4,12 +4,12 @@ import java.util.List;
 
 public class ExpansionNodeActivation extends ObjectNodeActivation{
 	String name;
-	public ExpansionNodeActivation(ActivityNodeContainerInstance group,String id, String name){
+	public ExpansionNodeActivation(IActivityNodeContainerExecution group,String id, String name){
 		super(group, id);
 		this.name=name;
 	}
 	private ExpansionRegionActivation expansionRegionActivation;
-	public void fire(List<Token> incomingTokens){
+	public void fire(List<ActivityToken> incomingTokens){
 		this.addTokens(incomingTokens);
 	}
 	public void receiveOffer(){

@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ActivityEdgeInstance{
-	public ActivityNodeContainerInstance group = null;
+	public IActivityNodeContainerExecution group = null;
 	public ActivityNodeActivation source = null;
 	public ActivityNodeActivation target = null;
-	public List<Token> offeredTokens;
+	public List<ActivityToken> offeredTokens;
 	private String id;
 	Guard guard;
 	public ActivityEdgeInstance(String id,ActivityNodeActivation source,ActivityNodeActivation target){
@@ -31,13 +31,13 @@ public class ActivityEdgeInstance{
 			return guard.evaluate();
 		}
 	}
-	public void sendOffer(List<Token> tokens){
+	public void sendOffer(List<ActivityToken> tokens){
 		// Send an offer from the source to the target.
 		// Keep the offered tokens until taken by the target.
 		// (Note that any one edge should only be handling either all object
 		// tokens or all control tokens.)
 		for(int i = 0;i < tokens.size();i++){
-			Token token = tokens.get(i);
+			ActivityToken token = tokens.get(i);
 			token.offeredTo(this);
 			getOfferedTokens().add(token);
 			
@@ -55,23 +55,23 @@ public class ActivityEdgeInstance{
 		}
 		return count;
 	} // countOfferedValues
-	public List<Token> takeOfferedTokens(){
+	public List<ActivityToken> takeOfferedTokens(){
 		removeWithdrawnTokens();
 		// Take all the offered tokens and return them.
-		List<Token> tokens = new ArrayList<Token>();
+		List<ActivityToken> tokens = new ArrayList<ActivityToken>();
 		for(int i = 0;i < getOfferedTokens().size();i++){
 			tokens.add(getOfferedTokens().get(i));
 		}
 		return tokens;
 	} // takeOfferedTokens
-	public List<Token> takeOfferedTokens(int maxCount){
+	public List<ActivityToken> takeOfferedTokens(int maxCount){
 		// Take all the offered tokens, up to the given maximum count of
 		// non-null object tokens, and return them.
-		List<Token> result = new ArrayList<Token>();
+		List<ActivityToken> result = new ArrayList<ActivityToken>();
 		removeWithdrawnTokens();
-		Iterator<Token> iterator = getOfferedTokens().iterator();
+		Iterator<ActivityToken> iterator = getOfferedTokens().iterator();
 		while(iterator.hasNext() && maxCount > 0){
-			Token token = (Token) iterator.next();
+			ActivityToken token = (ActivityToken) iterator.next();
 			if(token.getValue() != null){
 				result.add(token);
 				maxCount--;
@@ -81,17 +81,17 @@ public class ActivityEdgeInstance{
 		}
 		return result;
 	}// takeOfferedTokens
-	public List<Token> getOfferedTokens(){
+	public List<ActivityToken> getOfferedTokens(){
 		if(this.offeredTokens == null){
 			offeredTokens = group.getTokensOfferedTo(this);
 		}
 		return offeredTokens;
 	}
 	private void removeWithdrawnTokens(){
-		List<Token> ts = getOfferedTokens();
-		Iterator<Token> it = ts.iterator();
+		List<ActivityToken> ts = getOfferedTokens();
+		Iterator<ActivityToken> it = ts.iterator();
 		while(it.hasNext()){
-			Token next = it.next();
+			ActivityToken next = it.next();
 			if(next.isWithdrawn()){
 				next.unOffer();
 				it.remove();
@@ -103,7 +103,7 @@ public class ActivityEdgeInstance{
 		return getOfferedTokens().size() > 0;
 	}
 	public boolean isObjectFlow(){
-		for(Token token:getOfferedTokens()){
+		for(ActivityToken token:getOfferedTokens()){
 			if(token.kind==TokenKind.OBJECT){
 				return true;
 			}

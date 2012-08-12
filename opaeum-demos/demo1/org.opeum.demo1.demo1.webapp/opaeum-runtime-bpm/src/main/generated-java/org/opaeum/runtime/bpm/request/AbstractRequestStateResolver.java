@@ -10,6 +10,7 @@ public class AbstractRequestStateResolver extends AbstractEnumResolver implement
 
 	public IEnum fromOpaeumId(long i) {
 		IEnum result = null;
+		
 		return result;
 	}
 	

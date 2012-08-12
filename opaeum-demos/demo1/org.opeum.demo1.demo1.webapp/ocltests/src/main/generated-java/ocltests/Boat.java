@@ -146,6 +146,24 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("sail") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("814077939394093143")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Sail curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToSail(curVal.getSailPosition(),curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
@@ -170,6 +188,9 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	public void copyState(Boat from, Boat to) {
 		to.setName(from.getName());
+		for ( Sail child : from.getSail() ) {
+			to.addToSail(child.getSailPosition(),child.makeCopy());
+		}
 		for ( Sail child : from.getSail() ) {
 			to.addToSail(child.getSailPosition(),child.makeCopy());
 		}
@@ -333,6 +354,9 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 		for ( Sail child : new ArrayList<Sail>(getSail()) ) {
 			child.markDeleted();
 		}
+		for ( Sail child : new ArrayList<Sail>(getSail()) ) {
+			child.markDeleted();
+		}
 		setDeletedOn(new Date());
 	}
 	
@@ -345,6 +369,16 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("sail") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("814077939394093143")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((Sail)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("sail") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("814077939394093143")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -416,6 +450,11 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 			sb.append("name=\""+ OcltestsFormatter.getInstance().formatString(getName())+"\" ");
 		}
 		sb.append(">");
+		sb.append("\n<sail propertyId=\"814077939394093143\">");
+		for ( Sail sail : getSail() ) {
+			sb.append("\n" + sail.toXmlString());
+		}
+		sb.append("\n</sail>");
 		sb.append("\n<sail propertyId=\"814077939394093143\">");
 		for ( Sail sail : getSail() ) {
 			sb.append("\n" + sail.toXmlString());

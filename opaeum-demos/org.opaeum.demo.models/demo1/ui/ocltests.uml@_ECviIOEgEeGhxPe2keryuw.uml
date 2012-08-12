@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_h2MrgOScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_ECviIOEgEeGhxPe2keryuw" name="Boat User Interface Model" linkedUmlResource="ocltests.uml">
+  <primaryEditor xmi:id="_h2MrgeScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_ECviIOEgEeGhxPe2keryuw" name="Edit Boat"><actionBar xmi:id="_h2NSnOScEeG5u9G4h3x7ow" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2NSneScEeG5u9G4h3x7ow" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2NSnuScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_h2MrguScEeG5u9G4h3x7ow" name="Edit Boat" umlElementUid="ocltests.uml@_ECviIOEgEeGhxPe2keryuw">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2Mrg-ScEeG5u9G4h3x7ow" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_h2MrhOScEeG5u9G4h3x7ow" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_h2MrheScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2MrhuScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_VfaNUOEgEeGhxPe2keryuw"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_h2Mrh-ScEeG5u9G4h3x7ow" name="Maximum speed" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimNumberScroller" xmi:id="_h2MriOScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2MrieScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_hbIYcOEgEeGhxPe2keryuw"/>
+        </children>
+      </panel>
+    </pages><pages xmi:id="_h2MriuScEeG5u9G4h3x7ow" name="Sail" umlElementUid="ocltests.uml@_VNzyEOFDEeGyXP1sbXN4GQ">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2Mri-ScEeG5u9G4h3x7ow">
+        <children xmi:type="uim:UimDataTable" xmi:id="_h2MrjOScEeG5u9G4h3x7ow" fillHorizontally="true" fillVertically="true">
+          <children xmi:type="uact:BuiltInLink" xmi:id="_h2NSkOScEeG5u9G4h3x7ow" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xmi:type="uim:UimField" xmi:id="_h2NSkeScEeG5u9G4h3x7ow" name="Size" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimNumberScroller" xmi:id="_h2NSkuScEeG5u9G4h3x7ow"/>
+            <binding xmi:id="_h2NSk-ScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_V0SRUOFFEeGyXP1sbXN4GQ"/>
+          </children>
+          <children xmi:type="uim:UimField" xmi:id="_h2NSlOScEeG5u9G4h3x7ow" name="Sail position" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimDropdown" xmi:id="_h2NSl-ScEeG5u9G4h3x7ow"/>
+            <binding xmi:id="_h2NSmOScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_5ApIwOHyEeGQTZorD0E5LA"/>
+          </children>
+          <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2NSmeScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
+          <binding xmi:id="_h2MrjeScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_VNzyEOFDEeGyXP1sbXN4GQ"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_h2NSmuScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_h2NSm-ScEeG5u9G4h3x7ow" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages></primaryEditor>
+  <newObjectWizard xmi:id="_h2NSn-ScEeG5u9G4h3x7ow" name="Create Boat" umlElementUid="ocltests.uml@_ECviIOEgEeGhxPe2keryuw">
+    <pages xmi:id="_h2NSoOScEeG5u9G4h3x7ow" name="CreateBoat" umlElementUid="ocltests.uml@_ECviIOEgEeGhxPe2keryuw">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2NSoeScEeG5u9G4h3x7ow" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_h2NSouScEeG5u9G4h3x7ow" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_h2NSo-ScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2NSpOScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_VfaNUOEgEeGhxPe2keryuw"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_h2NSpeScEeG5u9G4h3x7ow" name="Maximum speed" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimNumberScroller" xmi:id="_h2NSpuScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2NSp-ScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_hbIYcOEgEeGhxPe2keryuw"/>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_h2NSqOScEeG5u9G4h3x7ow" name="Sail" umlElementUid="ocltests.uml@_VNzyEOFDEeGyXP1sbXN4GQ">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2NSqeScEeG5u9G4h3x7ow">
+        <children xmi:type="uim:UimDataTable" xmi:id="_h2NSquScEeG5u9G4h3x7ow" fillHorizontally="true" fillVertically="true">
+          <children xmi:type="uact:BuiltInLink" xmi:id="_h2NSuOScEeG5u9G4h3x7ow" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xmi:type="uim:UimField" xmi:id="_h2NSueScEeG5u9G4h3x7ow" name="Size" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimNumberScroller" xmi:id="_h2NSuuScEeG5u9G4h3x7ow"/>
+            <binding xmi:id="_h2NSu-ScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_V0SRUOFFEeGyXP1sbXN4GQ"/>
+          </children>
+          <children xmi:type="uim:UimField" xmi:id="_h2NSvOScEeG5u9G4h3x7ow" name="Sail position" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimDropdown" xmi:id="_h2NSv-ScEeG5u9G4h3x7ow"/>
+            <binding xmi:id="_h2NSwOScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_5ApIwOHyEeGQTZorD0E5LA"/>
+          </children>
+          <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2NSweScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
+          <binding xmi:id="_h2NSq-ScEeG5u9G4h3x7ow" umlElementUid="ocltests.uml@_VNzyEOFDEeGyXP1sbXN4GQ"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_h2NSwuScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_h2NSw-ScEeG5u9G4h3x7ow" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</uim:ClassUserInteractionModel>

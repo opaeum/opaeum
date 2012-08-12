@@ -22,14 +22,6 @@ public class OJConstructor extends OJConstructorGEN{
 		return result;
 	}
 	public void setBody(OJBlock element){
-		if(getBody() != null && getBody().getStatements().size()>0){
-			List<OJStatement> statements = getBody().getStatements();
-			for(OJStatement ojStatement:statements){
-				if(ojStatement.toJavaString().contains("setJira(")){
-					System.out.println();
-				}
-			}
-		}
 		super.setBody(element);
 	}
 	public String toJavaString(){
@@ -41,8 +33,13 @@ public class OJConstructor extends OJConstructorGEN{
 		result.append(visToJava(this) + " " + getOwner().getName());
 		// params
 		result.append("(" + paramsToJava(this) + ") {\n");
+		if(getDelegateConstructor()!=null){
+			result.append(getDelegateConstructor() +";\n");
+		}
+		
 		// body
 		StringBuilder bodyStr = new StringBuilder();
+		bodyStr.append(JavaUtil.collectionToJavaString(getBody().getLocals(), "\n"));
 		bodyStr.append(JavaUtil.collectionToJavaString(getBody().getStatements(), "\n"));
 		result.append(JavaStringHelpers.indent(bodyStr, 1));
 		if(result.charAt(result.length() - 1) == '\n'){

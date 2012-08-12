@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_XDOoZeMAEeGYE-5HtwGq8g" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg" name="Add request participant User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_XDOoZuMAEeGYE-5HtwGq8g" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg" name="Edit addRequestParticipant"><actionBar xmi:id="_XDOoaeMAEeGYE-5HtwGq8g" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDOoauMAEeGYE-5HtwGq8g" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDOoa-MAEeGYE-5HtwGq8g" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_XDOoZ-MAEeGYE-5HtwGq8g" name="Edit Add request participant" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg">
-      <panel xmi:type="panel:GridPanel" xmi:id="_XDOoaOMAEeGYE-5HtwGq8g" numberOfColumns="1"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_h2QV6uScEeG5u9G4h3x7ow" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg" name="Add request participant User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_h2QV6-ScEeG5u9G4h3x7ow" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg" name="Edit addRequestParticipant"><actionBar xmi:id="_h2QV7uScEeG5u9G4h3x7ow" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2QV7-ScEeG5u9G4h3x7ow" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2QV8OScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_h2QV7OScEeG5u9G4h3x7ow" name="Edit Add request participant" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2QV7eScEeG5u9G4h3x7ow" numberOfColumns="1"/>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_XDOobOMAEeGYE-5HtwGq8g" name="Create addRequestParticipant" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg">
-    <pages xmi:id="_XDOobeMAEeGYE-5HtwGq8g" name="CreateAdd request participant" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg">
-      <panel xmi:type="panel:GridPanel" xmi:id="_XDOobuMAEeGYE-5HtwGq8g" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_h2QV8eScEeG5u9G4h3x7ow" name="Create addRequestParticipant" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg">
+    <pages xmi:id="_h2QV8uScEeG5u9G4h3x7ow" name="CreateAdd request participant" umlElementUid="252060@_911hoI6NEeCrtavWRHwoHg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2QV8-ScEeG5u9G4h3x7ow" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </uim:ClassUserInteractionModel>

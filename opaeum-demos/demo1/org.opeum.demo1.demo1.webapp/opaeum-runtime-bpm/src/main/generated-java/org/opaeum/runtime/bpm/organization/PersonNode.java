@@ -68,12 +68,12 @@ import org.w3c.dom.NodeList;
 public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Column(name="authentication_token")
 	private String authenticationToken;
+	@Index(columnNames="business_network_id",name="idx_person_node_business_network_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="business_network_id",nullable=true)
+	private BusinessNetwork businessNetwork;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	@Index(columnNames="collaboration_id",name="idx_person_node_collaboration_id")
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="collaboration_id",nullable=true)
-	private BusinessNetwork collaboration;
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -217,7 +217,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getCollaboration().z_internalAddToPerson(this.getUsername(),(PersonNode)this);
+		getBusinessNetwork().z_internalAddToPerson(this.getUsername(),(PersonNode)this);
 	}
 	
 	public void addToPersonFullfillsActorRole_businessActor(PersonFullfillsActorRole personFullfillsActorRole_businessActor) {
@@ -330,6 +330,60 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("leave") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8728994280524309614")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Leave curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToLeave(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("phoneNumber") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("213312905486829476")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						PersonPhoneNumber curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToPhoneNumber(curVal.getType(),curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("eMailAddress") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("399677207222426596")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						PersonEMailAddress curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToEMailAddress(curVal.getType(),curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("personFullfillsActorRole_businessActor") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8013149829678573783")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -412,6 +466,15 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		to.setUsername(from.getUsername());
 		to.setRefreshToken(from.getRefreshToken());
 		to.setTokenExpiryDateTime(from.getTokenExpiryDateTime());
+		for ( Leave child : from.getLeave() ) {
+			to.addToLeave(child.makeCopy());
+		}
+		for ( PersonPhoneNumber child : from.getPhoneNumber() ) {
+			to.addToPhoneNumber(child.getType(),child.makeCopy());
+		}
+		for ( PersonEMailAddress child : from.getEMailAddress() ) {
+			to.addToEMailAddress(child.getType(),child.makeCopy());
+		}
 	}
 	
 	public void createComponents() {
@@ -473,6 +536,14 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4065462070317474495l,opposite="person",uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
+	@NumlMetaInfo(uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
+	public BusinessNetwork getBusinessNetwork() {
+		BusinessNetwork result = this.businessNetwork;
+		
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3322670798188881229l,opposite="representedPerson",uuid="252060@_3lakUFYuEeGj5_I7bIwNoA")
 	public Set<IBusinessRole> getBusinessRole() {
 		Set<IBusinessRole> result = new HashSet<IBusinessRole>();
@@ -484,14 +555,6 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
-	}
-	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4065462070317474495l,opposite="person",uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
-	@NumlMetaInfo(uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
-	public BusinessNetwork getCollaboration() {
-		BusinessNetwork result = this.collaboration;
-		
-		return result;
 	}
 	
 	public Date getDeletedOn() {
@@ -559,7 +622,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public CompositionNode getOwningObject() {
-		return getCollaboration();
+		return getBusinessNetwork();
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=8013149829678573783l,opposite="representedPerson",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw")
@@ -676,7 +739,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void init(CompositionNode owner) {
-		this.z_internalAddToCollaboration((BusinessNetwork)owner);
+		this.z_internalAddToBusinessNetwork((BusinessNetwork)owner);
 		createComponents();
 	}
 	
@@ -694,8 +757,8 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void markDeleted() {
-		if ( getCollaboration()!=null ) {
-			getCollaboration().z_internalRemoveFromPerson(this.getUsername(),this);
+		if ( getBusinessNetwork()!=null ) {
+			getBusinessNetwork().z_internalRemoveFromPerson(this.getUsername(),this);
 		}
 		for ( PersonPhoneNumber child : new ArrayList<PersonPhoneNumber>(getPhoneNumber()) ) {
 			child.markDeleted();
@@ -704,6 +767,15 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 			child.markDeleted();
 		}
 		for ( Leave child : new ArrayList<Leave>(getLeave()) ) {
+			child.markDeleted();
+		}
+		for ( Leave child : new ArrayList<Leave>(getLeave()) ) {
+			child.markDeleted();
+		}
+		for ( PersonPhoneNumber child : new ArrayList<PersonPhoneNumber>(getPhoneNumber()) ) {
+			child.markDeleted();
+		}
+		for ( PersonEMailAddress child : new ArrayList<PersonEMailAddress>(getEMailAddress()) ) {
 			child.markDeleted();
 		}
 		for ( PersonFullfillsActorRole child : new ArrayList<PersonFullfillsActorRole>(getPersonFullfillsActorRole_businessActor()) ) {
@@ -771,6 +843,56 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						setPhysicalAddress((PhysicalAddress)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("leave") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8728994280524309614")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((Leave)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("postalAddress") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3364558357702710040")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setPostalAddress((PostalAddress)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("physicalAddress") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3105719662914651808")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setPhysicalAddress((PhysicalAddress)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("phoneNumber") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("213312905486829476")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((PersonPhoneNumber)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("eMailAddress") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("399677207222426596")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((PersonEMailAddress)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -898,6 +1020,17 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		this.addAllToBusinessActor(businessActor);
 	}
 	
+	public void setBusinessNetwork(BusinessNetwork businessNetwork) {
+		propertyChangeSupport.firePropertyChange("businessNetwork",getBusinessNetwork(),businessNetwork);
+		if ( this.getBusinessNetwork()!=null ) {
+			this.getBusinessNetwork().z_internalRemoveFromPerson(this.getUsername(),this);
+		}
+		if ( businessNetwork!=null ) {
+			businessNetwork.z_internalAddToPerson(this.getUsername(),this);
+			this.z_internalAddToBusinessNetwork(businessNetwork);
+		}
+	}
+	
 	public void setBusinessRole(Set<IBusinessRole> businessRole) {
 		propertyChangeSupport.firePropertyChange("businessRole",getBusinessRole(),businessRole);
 		this.clearBusinessRole();
@@ -906,17 +1039,6 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
-	}
-	
-	public void setCollaboration(BusinessNetwork collaboration) {
-		propertyChangeSupport.firePropertyChange("collaboration",getCollaboration(),collaboration);
-		if ( this.getCollaboration()!=null ) {
-			this.getCollaboration().z_internalRemoveFromPerson(this.getUsername(),this);
-		}
-		if ( collaboration!=null ) {
-			collaboration.z_internalAddToPerson(this.getUsername(),this);
-			this.z_internalAddToCollaboration(collaboration);
-		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -1054,6 +1176,35 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 			sb.append("\n" + getPhysicalAddress().toXmlReferenceString());
 			sb.append("\n</physicalAddress>");
 		}
+		sb.append("\n<leave propertyId=\"8728994280524309614\">");
+		for ( Leave leave : getLeave() ) {
+			sb.append("\n" + leave.toXmlString());
+		}
+		sb.append("\n</leave>");
+		if ( getPostalAddress()==null ) {
+			sb.append("\n<postalAddress/>");
+		} else {
+			sb.append("\n<postalAddress propertyId=\"3364558357702710040\">");
+			sb.append("\n" + getPostalAddress().toXmlReferenceString());
+			sb.append("\n</postalAddress>");
+		}
+		if ( getPhysicalAddress()==null ) {
+			sb.append("\n<physicalAddress/>");
+		} else {
+			sb.append("\n<physicalAddress propertyId=\"3105719662914651808\">");
+			sb.append("\n" + getPhysicalAddress().toXmlReferenceString());
+			sb.append("\n</physicalAddress>");
+		}
+		sb.append("\n<phoneNumber propertyId=\"213312905486829476\">");
+		for ( PersonPhoneNumber phoneNumber : getPhoneNumber() ) {
+			sb.append("\n" + phoneNumber.toXmlString());
+		}
+		sb.append("\n</phoneNumber>");
+		sb.append("\n<eMailAddress propertyId=\"399677207222426596\">");
+		for ( PersonEMailAddress eMailAddress : getEMailAddress() ) {
+			sb.append("\n" + eMailAddress.toXmlString());
+		}
+		sb.append("\n</eMailAddress>");
 		sb.append("\n<personFullfillsActorRole_businessActor propertyId=\"8013149829678573783\">");
 		for ( PersonFullfillsActorRole personFullfillsActorRole_businessActor : getPersonFullfillsActorRole_businessActor() ) {
 			sb.append("\n" + personFullfillsActorRole_businessActor.toXmlString());
@@ -1078,14 +1229,14 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		newOne.getBusinessActor().z_internalAddToPersonFullfillsActorRole_representedPerson(newOne);
 	}
 	
+	public void z_internalAddToBusinessNetwork(BusinessNetwork val) {
+		this.businessNetwork=val;
+	}
+	
 	public void z_internalAddToBusinessRole(IBusinessRole businessRole) {
 		Person_iBusinessRole_1 newOne = new Person_iBusinessRole_1(this,businessRole);
 		this.z_internalAddToPerson_iBusinessRole_1_businessRole(newOne);
 		newOne.getBusinessRole().z_internalAddToPerson_iBusinessRole_1_representedPerson(newOne);
-	}
-	
-	public void z_internalAddToCollaboration(BusinessNetwork val) {
-		this.collaboration=val;
 	}
 	
 	public void z_internalAddToEMailAddress(PersonEMailAddressType type, PersonEMailAddress val) {
@@ -1160,19 +1311,19 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		}
 	}
 	
+	public void z_internalRemoveFromBusinessNetwork(BusinessNetwork val) {
+		if ( getBusinessNetwork()!=null && val!=null && val.equals(getBusinessNetwork()) ) {
+			this.businessNetwork=null;
+			this.businessNetwork=null;
+		}
+	}
+	
 	public void z_internalRemoveFromBusinessRole(IBusinessRole businessRole) {
 		for ( Person_iBusinessRole_1 cur : new HashSet<Person_iBusinessRole_1>(this.person_iBusinessRole_1_businessRole) ) {
 			if ( cur.getBusinessRole().equals(businessRole) ) {
 				cur.clear();
 				break;
 			}
-		}
-	}
-	
-	public void z_internalRemoveFromCollaboration(BusinessNetwork val) {
-		if ( getCollaboration()!=null && val!=null && val.equals(getCollaboration()) ) {
-			this.collaboration=null;
-			this.collaboration=null;
 		}
 	}
 	

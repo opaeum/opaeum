@@ -139,10 +139,10 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	}
 	
 	public void clear() {
-		getRepresentedPerson().z_internalRemoveFromPerson_iBusinessRole_1_representedPerson(this);
-		this.z_internalRemoveFromRepresentedPerson(getRepresentedPerson());
-		getBusinessRole().z_internalRemoveFromPerson_iBusinessRole_1_businessRole(this);
+		getBusinessRole().z_internalRemoveFromPerson_iBusinessRole_1_representedPerson(this);
 		this.z_internalRemoveFromBusinessRole(getBusinessRole());
+		getRepresentedPerson().z_internalRemoveFromPerson_iBusinessRole_1_businessRole(this);
+		this.z_internalRemoveFromRepresentedPerson(getRepresentedPerson());
 		markDeleted();
 	}
 	

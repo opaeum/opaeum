@@ -248,8 +248,9 @@ public class CustomerAssistant implements IPersistentObject, IEventGenerator, Hi
 	}
 	
 	public boolean consumeFollowLeadOccurrence(@ParameterMetaInfo(name="customer",opaeumId=5501124320077697795l,uuid="914890@_Dzy24JKiEeGiJMBDeZRymA") Online_Customer customer, @ParameterMetaInfo(name="timeOfLead",opaeumId=3684593961093410895l,strategyFactory=DateTimeStrategyFactory.class,uuid="914890@_D1Kv4JKiEeGiJMBDeZRymA") Date timeOfLead) {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public void copyShallowState(CustomerAssistant from, CustomerAssistant to) {

@@ -3,25 +3,23 @@ package org.opaeum.runtime.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.command.GetVariableCommand;
-
 public class DecisionNodeActivation extends ControlNodeActivation{
 	private ActivityEdgeInstance decisionInputFlow;
 	private DecisionInputBehavior  decisionInputBehavior;
-	public DecisionNodeActivation(ActivityNodeContainerInstance group,String id){
+	public DecisionNodeActivation(IActivityNodeContainerExecution group,String id){
 		super(group, id);
 	}
-	public void fire(List<Token> incomingTokens){
+	public void fire(List<ActivityToken> incomingTokens){
 		// Get the decision values and test them on each guard.
 		// Forward the offer over the edges for which the test succeeds.
 		// List<Token> incomingTokens = this.takeOfferedTokens();
-		List<Token> removedControlTokens = this.removeJoinedControlTokens(incomingTokens);
+		List<ActivityToken> removedControlTokens = this.removeJoinedControlTokens(incomingTokens);
 		List<ActivityEdgeInstance> outgoingEdges = this.outgoingEdges;
 		for(ActivityEdgeInstance edgeInstance:outgoingEdges){
 			
 			Object guard = edgeInstance.evaluateGuard();
-			List<Token> offeredTokens = new ArrayList<Token>();
-			for(Token incomingToken:incomingTokens){
+			List<ActivityToken> offeredTokens = new ArrayList<ActivityToken>();
+			for(ActivityToken incomingToken:incomingTokens){
 				
 				Object decisionValue = getDecisionValues(incomingToken);
 				if(Boolean.TRUE.equals(guard) ||  guard.equals(decisionValue)){
@@ -30,14 +28,14 @@ public class DecisionNodeActivation extends ControlNodeActivation{
 			}
 			if(offeredTokens.size() > 0){
 				for(int j = 0;j < removedControlTokens.size();j++){
-					Token removedControlToken = removedControlTokens.get(j);
+					ActivityToken removedControlToken = removedControlTokens.get(j);
 					offeredTokens.add(removedControlToken);
 				}
 				edgeInstance.sendOffer(offeredTokens);
 			}
 		}
 	}
-	public Object getDecisionValues(Token incomingToken){
+	public Object getDecisionValues(ActivityToken incomingToken){
 		// If there is neither a decision input flow nor a decision input
 		// behavior, then return the set of values from the incoming tokens.
 		// [In this case, the single incoming edge must be an object flow.]
@@ -88,14 +86,14 @@ public class DecisionNodeActivation extends ControlNodeActivation{
 		}
 		return ready;
 	}
-	public List<Token> takeOfferedTokens(){
+	public List<ActivityToken> takeOfferedTokens(){
 		// Get tokens from the incoming edge that is not the decision input
 		// flow.
-		List<Token> allTokens = new ArrayList<Token>();
+		List<ActivityToken> allTokens = new ArrayList<ActivityToken>();
 		List<ActivityEdgeInstance> incomingEdges = this.incomingEdges;
 		for(ActivityEdgeInstance edgeInstance:incomingEdges){
 			if(edgeInstance != decisionInputFlow){
-				List<Token> tokens = edgeInstance.takeOfferedTokens();
+				List<ActivityToken> tokens = edgeInstance.takeOfferedTokens();
 				allTokens.addAll(tokens);
 			}
 		}
@@ -107,7 +105,7 @@ public class DecisionNodeActivation extends ControlNodeActivation{
 		ActivityEdgeInstance decisionInputFlowInstance = this.getDecisionInputFlowInstance();
 		Object value = null;
 		if(decisionInputFlowInstance != null){
-			List<Token> tokens = decisionInputFlowInstance.takeOfferedTokens();
+			List<ActivityToken> tokens = decisionInputFlowInstance.takeOfferedTokens();
 			if(tokens.size() > 0){
 				value = tokens.get(0).getValue();
 			}
@@ -117,16 +115,16 @@ public class DecisionNodeActivation extends ControlNodeActivation{
 	public ActivityEdgeInstance getDecisionInputFlowInstance(){
 		return decisionInputFlow;
 	}
-	public List<Token> removeJoinedControlTokens(List<Token> incomingTokens){
+	public List<ActivityToken> removeJoinedControlTokens(List<ActivityToken> incomingTokens){
 		// If the primary incoming edge is an object flow, then remove any
 		// control tokens from the incoming tokens and return them.
 		// [Control tokens may effectively be offered on an object flow outgoing
 		// from a join node that has both control and object flows incoming.]
-		List<Token> removedControlTokens = new ArrayList<Token>();
+		List<ActivityToken> removedControlTokens = new ArrayList<ActivityToken>();
 		if(this.hasObjectFlowInput()){
 			int i = 1;
 			while(i <= incomingTokens.size()){
-				Token token = incomingTokens.get(i - 1);
+				ActivityToken token = incomingTokens.get(i - 1);
 				if(token.isControl()){
 					removedControlTokens.add(token);
 					incomingTokens.remove(i - 1);

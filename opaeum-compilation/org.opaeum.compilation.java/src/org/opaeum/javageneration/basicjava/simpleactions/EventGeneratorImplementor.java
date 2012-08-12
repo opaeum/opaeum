@@ -10,9 +10,9 @@ import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.jbpm5.EventUtil;
-import org.opaeum.javageneration.jbpm5.activity.ActivityEventConsumptionImplementor;
-import org.opaeum.javageneration.jbpm5.statemachine.StateMachineEventConsumptionImplementor;
+import org.opaeum.javageneration.bpm.EventUtil;
+import org.opaeum.javageneration.bpm.activity.ActivityEventConsumptionImplementor;
+import org.opaeum.javageneration.bpm.statemachine.StateMachineEventConsumptionImplementor;
 import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {

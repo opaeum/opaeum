@@ -139,10 +139,10 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	}
 	
 	public void clear() {
-		getBusinessActor().z_internalRemoveFromOrganizationFullfillsActorRole_businessActor(this);
-		this.z_internalRemoveFromBusinessActor(getBusinessActor());
-		getOrganization().z_internalRemoveFromOrganizationFullfillsActorRole_organization(this);
+		getOrganization().z_internalRemoveFromOrganizationFullfillsActorRole_businessActor(this);
 		this.z_internalRemoveFromOrganization(getOrganization());
+		getBusinessActor().z_internalRemoveFromOrganizationFullfillsActorRole_organization(this);
+		this.z_internalRemoveFromBusinessActor(getBusinessActor());
 		markDeleted();
 	}
 	

@@ -35,7 +35,7 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
-import org.opaeum.javageneration.jbpm5.EventUtil;
+import org.opaeum.javageneration.bpm.EventUtil;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;

@@ -67,7 +67,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 
 @AuditMe
 @NumlMetaInfo(uuid="914890@_0l-NAJJNEeGW4L5IejZxpA")
-@BusinessComponent(businessRoles={CustomerAssistant.class,Technician.class})
+@BusinessComponent(businessRoles={CustomerAssistant.class,Technician.class,CustomerAssistant.class,Technician.class})
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
@@ -226,10 +226,67 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("name")));
 		}
+		if ( xml.getAttribute("city").length()>0 ) {
+			setCity(City.valueOf(xml.getAttribute("city")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("customerAssistant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("758991831684440668")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						CustomerAssistant curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToCustomerAssistant(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("technician") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6994431291756453463")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Technician curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setTechnician(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("job") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("9026526080661167087")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Job curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToJob(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("customerAssistant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("758991831684440668")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -340,8 +397,9 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public boolean consumeOperation1Occurrence(@ParameterMetaInfo(name="sdfgd",opaeumId=4983800839352232442l,uuid="914890@_k_VZsMzBEeGKe7Qm4dvydQ") String sdfgd) {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public void copyShallowState(Branch from, Branch to) {
@@ -350,6 +408,10 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 			to.setTechnician(from.getTechnician().makeShallowCopy());
 		}
 		to.setName(from.getName());
+		to.setCity(from.getCity());
+		if ( from.getTechnician()!=null ) {
+			to.setTechnician(from.getTechnician().makeShallowCopy());
+		}
 	}
 	
 	public void copyState(Branch from, Branch to) {
@@ -364,6 +426,16 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 			to.addToJob(child.makeCopy());
 		}
 		to.setName(from.getName());
+		for ( CustomerAssistant child : from.getCustomerAssistant() ) {
+			to.addToCustomerAssistant(child.makeCopy());
+		}
+		to.setCity(from.getCity());
+		if ( from.getTechnician()!=null ) {
+			to.setTechnician(from.getTechnician().makeCopy());
+		}
+		for ( Job child : from.getJob() ) {
+			to.addToJob(child.makeCopy());
+		}
 	}
 	
 	public void createComponents() {
@@ -629,6 +701,15 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		for ( Job child : new ArrayList<Job>(getJob()) ) {
 			child.markDeleted();
 		}
+		for ( CustomerAssistant child : new ArrayList<CustomerAssistant>(getCustomerAssistant()) ) {
+			child.markDeleted();
+		}
+		if ( getTechnician()!=null ) {
+			getTechnician().markDeleted();
+		}
+		for ( Job child : new ArrayList<Job>(getJob()) ) {
+			child.markDeleted();
+		}
 		if ( getOrganization_iBusinessComponent_1_representedOrganization()!=null ) {
 			getOrganization_iBusinessComponent_1_representedOrganization().markDeleted();
 		}
@@ -647,6 +728,36 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("customerAssistant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("758991831684440668")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((CustomerAssistant)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("technician") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6994431291756453463")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((Technician)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("job") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("9026526080661167087")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((Job)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("customerAssistant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("758991831684440668")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -922,7 +1033,27 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( getName()!=null ) {
 			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
 		}
+		if ( getCity()!=null ) {
+			sb.append("city=\""+ getCity().name() + "\" ");
+		}
 		sb.append(">");
+		sb.append("\n<customerAssistant propertyId=\"758991831684440668\">");
+		for ( CustomerAssistant customerAssistant : getCustomerAssistant() ) {
+			sb.append("\n" + customerAssistant.toXmlString());
+		}
+		sb.append("\n</customerAssistant>");
+		if ( getTechnician()==null ) {
+			sb.append("\n<technician/>");
+		} else {
+			sb.append("\n<technician propertyId=\"6994431291756453463\">");
+			sb.append("\n" + getTechnician().toXmlString());
+			sb.append("\n</technician>");
+		}
+		sb.append("\n<job propertyId=\"9026526080661167087\">");
+		for ( Job job : getJob() ) {
+			sb.append("\n" + job.toXmlString());
+		}
+		sb.append("\n</job>");
 		sb.append("\n<customerAssistant propertyId=\"758991831684440668\">");
 		for ( CustomerAssistant customerAssistant : getCustomerAssistant() ) {
 			sb.append("\n" + customerAssistant.toXmlString());

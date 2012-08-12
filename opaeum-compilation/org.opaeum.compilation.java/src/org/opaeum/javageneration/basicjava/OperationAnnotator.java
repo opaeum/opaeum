@@ -54,7 +54,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedParameter;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
-import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.bpm.BpmUtil;
 import org.opaeum.javageneration.maps.IMessageMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.util.OJUtil;
@@ -160,18 +160,15 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) ojClass.findOperation(map.eventConsumerMethodName(), map.javaParamTypePaths());
 		if(oper == null){
 			oper = new OJAnnotatedOperation(map.eventConsumerMethodName(), new OJPathName("boolean"));
-			OJAnnotatedField consumed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
-			oper.getBody().addToLocals(consumed);
-			consumed.setInitExp("false");
+			oper.initializeResultVariable("false");
 			ojClass.addToOperations(oper);
 			addParameters(c, oper, map.getArgumentParameters());
 			if(map.getNamedElement() instanceof Operation){
 				Operation no = (Operation) map.getNamedElement();
 				if(c != null && c.getGenerals().size() > 0 && c.getGenerals().get(0).conformsTo((Classifier) no.getOwner())){
-					oper.getBody().addToStatements("consumed=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
+					oper.getBody().addToStatements("result=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
 				}
 			}
-			oper.getBody().addToStatements("return consumed");
 		}
 		return oper;
 	}
@@ -181,17 +178,14 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		if(oper == null){
 			oper = new OJAnnotatedOperation(map.eventConsumerMethodName(), new OJPathName("boolean"));
 			ojClass.addToOperations(oper);
-			OJAnnotatedField consumed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
-			oper.getBody().addToLocals(consumed);
-			consumed.setInitExp("false");
+			oper.initializeResultVariable("false");
 			oper.addParam("signal", map.javaTypePath());
 			if(c.getGenerals().size()>0 && c.getGenerals().get(0) instanceof BehavioredClassifier){
 				BehavioredClassifier gbc = (BehavioredClassifier) c.getGenerals().get(0);
 				if(EmfEventUtil.hasReceptionOrTriggerFor(gbc,map.getSignal())){
-					oper.getBody().addToStatements("consumed=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
+					oper.getBody().addToStatements("result=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
 				}
 			}
-			oper.getBody().addToStatements("return consumed");
 		}
 		return oper;
 	}
@@ -234,7 +228,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			}
 			List<Parameter> argumentParameters = map.getArgumentParameters();
 			if(withReturnInfo){
-				oper.addParam("context", Jbpm5Util.getProcessContext());
+				oper.addParam("context", BpmUtil.ABSTRACT_TOKEN);
 			}
 			addParameters(context, oper, argumentParameters);
 			NamedElement o = map.getNamedElement();
@@ -304,7 +298,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		Iterator<OJParameter> parms = ojOperation.getParameters().iterator();
 		while(parms.hasNext()){
 			OJParameter parm = parms.next();
-			if(!parm.getType().equals(Jbpm5Util.getProcessContext())){
+			if(!parm.getType().equals(BpmUtil.ABSTRACT_TOKEN)){
 				statement.append(parm.getName());
 				if(parms.hasNext()){
 					statement.append(",");

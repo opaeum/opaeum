@@ -18,7 +18,7 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.bpm.BpmUtil;
 
 public class ParameterNodeImplementor extends SimpleNodeBuilder<ActivityParameterNode>{
 	public ParameterNodeImplementor(ActivityParameterNode action,AbstractObjectNodeExpressor objectNodeExpressor){
@@ -43,7 +43,7 @@ public class ParameterNodeImplementor extends SimpleNodeBuilder<ActivityParamete
 					// oper.getBody().addToStatements("processInstance.getRootToken().end()");
 					OJPathName pathName = ojUtil.classifierPathname((Classifier) node.getType());
 					operation.getOwner().addToImports(pathName);
-					operation.getOwner().addToImports(Jbpm5Util.getExceptionHolder());
+					operation.getOwner().addToImports(BpmUtil.getExceptionHolder());
 					if(EmfBehaviorUtil.isLongRunning( getActivity()) ||  getActivity().getOwner() instanceof Transition
 							|| getActivity().getOwner() instanceof State){
 						block.addToStatements(expressor.storeResults(resultMap, call, EmfActivityUtil.isMultivalued( feedingNode)));

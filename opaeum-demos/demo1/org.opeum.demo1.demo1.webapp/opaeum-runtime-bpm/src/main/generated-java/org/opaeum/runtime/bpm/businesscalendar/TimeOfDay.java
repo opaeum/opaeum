@@ -11,12 +11,22 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import org.hibernate.annotations.AccessType;
+import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
@@ -34,8 +44,13 @@ import org.w3c.dom.NodeList;
 
 @AuditMe
 @NumlMetaInfo(uuid="252060@_UjTHMNb_EeCJ0dmaHEVVnw")
+@Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
+@Table(name="time_of_day")
+@Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
+@Entity(name="TimeOfDay")
+@DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializable {
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
@@ -43,11 +58,19 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	private Date deletedOn = Stdlib.FUTURE;
 	@Min(groups={},message="",payload={},value=0)
 	@Max(groups={},message="",payload={},value=23)
+	@Column(name="hours")
 	private Integer hours;
+	@Id
+	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
+	private Long id;
 	@Min(groups={},message="",payload={},value=0)
 	@Max(groups={},message="",payload={},value=59)
+	@Column(name="minutes")
 	private Integer minutes;
 	static private Set<TimeOfDay> mockedAllInstances;
+	@Version
+	@Column(name="object_version")
+	private int objectVersion;
 	@Transient
 	private AbstractPersistence persistence;
 	@Transient
@@ -55,6 +78,8 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	static final private long serialVersionUID = 2904073007558910507l;
 	private String uid;
 	@Index(columnNames="work_day_id",name="idx_time_of_day_work_day_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="work_day_id",nullable=true)
 	private WorkDay workDay;
 
 	/** Default constructor for TimeOfDay
@@ -114,6 +139,10 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return result;
 	}
 	
+	public Long getId() {
+		return this.id;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3808798176605930566l,uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	@NumlMetaInfo(uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	public Integer getMinuteOfDay() {
@@ -132,6 +161,10 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	
 	public String getName() {
 		return "TimeOfDay["+getId()+"]";
+	}
+	
+	public int getObjectVersion() {
+		return this.objectVersion;
 	}
 	
 	public String getUid() {
@@ -195,9 +228,17 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		this.z_internalAddToHours(hours);
 	}
 	
+	public void setId(Long id) {
+		this.id=id;
+	}
+	
 	public void setMinutes(Integer minutes) {
 		propertyChangeSupport.firePropertyChange("minutes",getMinutes(),minutes);
 		this.z_internalAddToMinutes(minutes);
+	}
+	
+	public void setObjectVersion(int objectVersion) {
+		this.objectVersion=objectVersion;
 	}
 	
 	public void setUid(String newUid) {

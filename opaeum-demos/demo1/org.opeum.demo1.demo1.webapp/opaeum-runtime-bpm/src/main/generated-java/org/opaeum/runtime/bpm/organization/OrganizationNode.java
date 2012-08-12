@@ -21,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
@@ -64,8 +65,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="OrganizationNode")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class OrganizationNode implements IOrganizationNode, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
-	@ManyToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="business_calendar_id",nullable=true)
+	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="organization")
 	private BusinessCalendar businessCalendar;
 	@Index(columnNames="business_network_id",name="idx_organization_node_business_network_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
@@ -278,6 +278,60 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessCalendar") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2759918346397932051")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						BusinessCalendar curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setBusinessCalendar(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("phoneNumber") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1861213202254517122")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						OrganizationPhoneNumber curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToPhoneNumber(curVal.getType(),curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("eMailAddress") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6276678134555712740")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						OrganizationEMailAddress curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToEMailAddress(curVal.getType(),curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_businessActor") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("72028596279487881")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -333,6 +387,12 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	
 	public void copyShallowState(OrganizationNode from, OrganizationNode to) {
 		to.setName(from.getName());
+		if ( from.getBusinessCalendar()!=null ) {
+			to.setBusinessCalendar(from.getBusinessCalendar().makeShallowCopy());
+		}
+		if ( from.getBusinessCalendar()!=null ) {
+			to.setBusinessCalendar(from.getBusinessCalendar().makeShallowCopy());
+		}
 	}
 	
 	public void copyState(OrganizationNode from, OrganizationNode to) {
@@ -345,6 +405,15 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		}
 		if ( from.getBusinessCalendar()!=null ) {
 			to.setBusinessCalendar(from.getBusinessCalendar().makeCopy());
+		}
+		if ( from.getBusinessCalendar()!=null ) {
+			to.setBusinessCalendar(from.getBusinessCalendar().makeCopy());
+		}
+		for ( OrganizationPhoneNumber child : from.getPhoneNumber() ) {
+			to.addToPhoneNumber(child.getType(),child.makeCopy());
+		}
+		for ( OrganizationEMailAddress child : from.getEMailAddress() ) {
+			to.addToEMailAddress(child.getType(),child.makeCopy());
 		}
 	}
 	
@@ -564,6 +633,15 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		if ( getBusinessCalendar()!=null ) {
 			getBusinessCalendar().markDeleted();
 		}
+		if ( getBusinessCalendar()!=null ) {
+			getBusinessCalendar().markDeleted();
+		}
+		for ( OrganizationPhoneNumber child : new ArrayList<OrganizationPhoneNumber>(getPhoneNumber()) ) {
+			child.markDeleted();
+		}
+		for ( OrganizationEMailAddress child : new ArrayList<OrganizationEMailAddress>(getEMailAddress()) ) {
+			child.markDeleted();
+		}
 		for ( OrganizationFullfillsActorRole child : new ArrayList<OrganizationFullfillsActorRole>(getOrganizationFullfillsActorRole_businessActor()) ) {
 			child.markDeleted();
 		}
@@ -609,6 +687,36 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						((BusinessCalendar)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessCalendar") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2759918346397932051")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((BusinessCalendar)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("phoneNumber") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1861213202254517122")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((OrganizationPhoneNumber)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("eMailAddress") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6276678134555712740")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((OrganizationEMailAddress)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -718,8 +826,33 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	}
 	
 	public void setBusinessCalendar(BusinessCalendar businessCalendar) {
+		BusinessCalendar oldValue = this.getBusinessCalendar();
 		propertyChangeSupport.firePropertyChange("businessCalendar",getBusinessCalendar(),businessCalendar);
-		this.z_internalAddToBusinessCalendar(businessCalendar);
+		if ( oldValue==null ) {
+			if ( businessCalendar!=null ) {
+				OrganizationNode oldOther = (OrganizationNode)businessCalendar.getOrganization();
+				businessCalendar.z_internalRemoveFromOrganization(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromBusinessCalendar(businessCalendar);
+				}
+				businessCalendar.z_internalAddToOrganization((OrganizationNode)this);
+			}
+			this.z_internalAddToBusinessCalendar(businessCalendar);
+		} else {
+			if ( !oldValue.equals(businessCalendar) ) {
+				oldValue.z_internalRemoveFromOrganization(this);
+				z_internalRemoveFromBusinessCalendar(oldValue);
+				if ( businessCalendar!=null ) {
+					OrganizationNode oldOther = (OrganizationNode)businessCalendar.getOrganization();
+					businessCalendar.z_internalRemoveFromOrganization(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromBusinessCalendar(businessCalendar);
+					}
+					businessCalendar.z_internalAddToOrganization((OrganizationNode)this);
+				}
+				this.z_internalAddToBusinessCalendar(businessCalendar);
+			}
+		}
 	}
 	
 	public void setBusinessComponent(Set<IBusinessComponent> businessComponent) {
@@ -811,6 +944,23 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 			sb.append("\n" + getBusinessCalendar().toXmlString());
 			sb.append("\n</businessCalendar>");
 		}
+		if ( getBusinessCalendar()==null ) {
+			sb.append("\n<businessCalendar/>");
+		} else {
+			sb.append("\n<businessCalendar propertyId=\"2759918346397932051\">");
+			sb.append("\n" + getBusinessCalendar().toXmlString());
+			sb.append("\n</businessCalendar>");
+		}
+		sb.append("\n<phoneNumber propertyId=\"1861213202254517122\">");
+		for ( OrganizationPhoneNumber phoneNumber : getPhoneNumber() ) {
+			sb.append("\n" + phoneNumber.toXmlString());
+		}
+		sb.append("\n</phoneNumber>");
+		sb.append("\n<eMailAddress propertyId=\"6276678134555712740\">");
+		for ( OrganizationEMailAddress eMailAddress : getEMailAddress() ) {
+			sb.append("\n" + eMailAddress.toXmlString());
+		}
+		sb.append("\n</eMailAddress>");
 		sb.append("\n<organizationFullfillsActorRole_businessActor propertyId=\"72028596279487881\">");
 		for ( OrganizationFullfillsActorRole organizationFullfillsActorRole_businessActor : getOrganizationFullfillsActorRole_businessActor() ) {
 			sb.append("\n" + organizationFullfillsActorRole_businessActor.toXmlString());

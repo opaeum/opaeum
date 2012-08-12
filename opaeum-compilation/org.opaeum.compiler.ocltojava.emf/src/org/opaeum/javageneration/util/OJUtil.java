@@ -72,6 +72,7 @@ import org.opaeum.name.NameConverter;
 public class OJUtil extends OJUtill{
 	public static int instanceCount;
 	private OpaeumLibrary library;
+	private Map<NamedElement,StateMap> stateMaps = new HashMap<NamedElement,StateMap>();
 	private Map<NamedElement,OJPathName> oldClassifierPaths = new HashMap<NamedElement,OJPathName>();
 	private Map<Namespace,OJPathName> oldPackagePaths = new HashMap<Namespace,OJPathName>();
 	private Map<NamedElement,OJPathName> classifierPaths = new HashMap<NamedElement,OJPathName>();
@@ -138,7 +139,7 @@ public class OJUtil extends OJUtill{
 				}else{
 					Namespace ns = EmfActivityUtil.getNearestNodeContainer(a);
 					Classifier messageStructure = library.getMessageStructure(ns);
-					prop = new TypedElementPropertyBridge(messageStructure, typedAndOrdered,getLibrary());
+					prop = new TypedElementPropertyBridge(messageStructure, typedAndOrdered, getLibrary());
 				}
 			}else if(typedAndOrdered instanceof Parameter){
 				Parameter parm = (Parameter) typedAndOrdered;
@@ -329,7 +330,11 @@ public class OJUtil extends OJUtill{
 		return new ActivityNodeMap(this, a);
 	}
 	public StateMap buildStateMap(Vertex referredState){
-		return new StateMap(this, referredState);
+		StateMap stateMap = this.stateMaps.get(referredState);
+		if(stateMap == null){
+			this.stateMaps.put(referredState, stateMap = new StateMap(this, referredState));
+		}
+		return stateMap;
 	}
 	public TupleTypeMap buildTupleTypeMap(TupleType in){
 		return new TupleTypeMap(this, in);
@@ -394,5 +399,10 @@ public class OJUtil extends OJUtill{
 			}
 		}
 		return map;
+	}
+	public OJPathName tokenPathName(Behavior b){
+		OJPathName copy = classifierPathname(b).getCopy();
+		copy.replaceTail(copy.getLast() + "Token");
+		return copy;
 	}
 }

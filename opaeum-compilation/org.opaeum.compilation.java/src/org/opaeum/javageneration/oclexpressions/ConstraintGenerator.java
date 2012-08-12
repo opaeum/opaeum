@@ -16,6 +16,7 @@ import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.util.OJUtil;
@@ -82,7 +83,7 @@ public class ConstraintGenerator{
 				AbstractOclContext oclExpression = library.getOclExpressionContext(oe);
 				if(!oclExpression.hasErrors()){
 					ValueSpecificationUtil.addExtendedKeywords(operation, oclExpression);
-					String expr = expressionCreator.makeExpression(oclExpression.getExpression(), operation.isStatic(), parameters);
+					String expr = expressionCreator.makeExpression(oclExpression, operation.isStatic(), parameters);
 					ifBroken.setCondition("!" + expr);
 					String qname = element.getQualifiedName() + "::" + post.getName();
 					ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");

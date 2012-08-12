@@ -140,10 +140,10 @@ public class ParticipationParticipant implements IPersistentObject, HibernateEnt
 	}
 	
 	public void clear() {
-		getParticipation().z_internalRemoveFromParticipationParticipant_participation(this);
-		this.z_internalRemoveFromParticipation(getParticipation());
-		getParticipant().z_internalRemoveFromParticipationParticipant_participant(this);
+		getParticipant().z_internalRemoveFromParticipationParticipant_participation(this);
 		this.z_internalRemoveFromParticipant(getParticipant());
+		getParticipation().z_internalRemoveFromParticipationParticipant_participant(this);
+		this.z_internalRemoveFromParticipation(getParticipation());
 		markDeleted();
 	}
 	

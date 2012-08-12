@@ -10,6 +10,7 @@ public class ProcessRequestStateResolver extends AbstractEnumResolver implements
 
 	public IEnum fromOpaeumId(long i) {
 		IEnum result = null;
+		
 		return result;
 	}
 	

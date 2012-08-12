@@ -29,6 +29,7 @@ import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.OJWhileStatement;
 import org.opaeum.java.metamodel.utilities.JavaPathNames;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.ocl.uml.AbstractOclContext;
 
 public class LoopExpCreator{
 	private OJClass myClass = null;
@@ -46,11 +47,13 @@ public class LoopExpCreator{
 	private Classifier elementType = null;
 	ExpGeneratorHelper expGeneratorHelper;
 	private OJUtil ojUtil;
-	public LoopExpCreator(ExpGeneratorHelper h,OJClass myClass){
+	private AbstractOclContext context;
+	public LoopExpCreator(ExpGeneratorHelper h,OJClass myClass, AbstractOclContext context){
 		super();
 		this.expGeneratorHelper = h;
 		this.ojUtil = h.ojUtil;
 		this.myClass = myClass;
+		this.context=context;
 	}
 	public String iteratorExp(IteratorExp exp,StringBuffer source,boolean isStatic,List<OJParameter> params){
 		String result = "";
@@ -90,7 +93,7 @@ public class LoopExpCreator{
 	 */
 	public String iterateExp(IterateExp exp,StringBuffer source,boolean isStatic,List<OJParameter> params){
 		// get the result variable of the expression
-		ExpressionCreator maker = new ExpressionCreator(ojUtil, myClass);
+		ExpressionCreator maker = new ExpressionCreator(ojUtil, myClass,context);
 		String varDeclStr = maker.makeVarDecl((Variable) exp.getResult(), isStatic, params);
 		List<OJParameter> bodyParams = expGeneratorHelper.addVarToParams((Variable) exp.getResult(), params);
 		String resultName = ExpGeneratorHelper.javaFieldName((Variable) exp.getResult());
@@ -931,7 +934,7 @@ public class LoopExpCreator{
 		// the names of the iterator variables
 		iterVarNames = getIterVarNames(exp);
 		// the string that holds the body of the loop exp
-		ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass);
+		ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass,context);
 		List<OJParameter> loopParams = addItersToParams(exp.getIterator(), params);
 		expStr = myExpMaker.makeExpression((OCLExpression) exp.getBody(), isStatic, loopParams);
 		ClassifierMap map = ojUtil.buildClassifierMap(exp.getBody().getType());

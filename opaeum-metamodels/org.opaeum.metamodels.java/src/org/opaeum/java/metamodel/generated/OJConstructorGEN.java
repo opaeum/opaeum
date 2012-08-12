@@ -18,7 +18,7 @@ abstract public class OJConstructorGEN extends OJOperation {
 	private OJClass f_owningClass = null;
 	static protected boolean usesAllInstances = false;
 	static protected List<OJConstructor> allInstances = new ArrayList<OJConstructor>();
-
+	private String delegateConstructor;
 	/** Default constructor for OJConstructor
 	 */
 	protected OJConstructorGEN() {
@@ -133,6 +133,15 @@ abstract public class OJConstructorGEN extends OJOperation {
 			throw new RuntimeException("allInstances is not implemented for ((OJConstructor)this) class. Set usesAllInstances to true, if you want allInstances() implemented.");
 		}
 		return allInstances;
+	}
+
+
+	public String getDelegateConstructor(){
+		return delegateConstructor;
+	}
+
+	public void setDelegateConstructor(String delegateConstructor){
+		this.delegateConstructor = delegateConstructor;
 	}
 	
 //	/** Returns a copy of this instance. True parts, i.e. associations marked

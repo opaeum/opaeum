@@ -5,19 +5,14 @@ import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.persistence.Table;
 
-import org.drools.SessionConfiguration;
-import org.drools.impl.EnvironmentImpl;
-import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -31,17 +26,14 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.IEventHandler;
 import org.opaeum.runtime.event.INotificationService;
-import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class HibernateEnvironment extends Environment{
-	private StatefulKnowledgeSession knowledgeSession;
 	private ConversationalPersistence persistence;
 	private UmtPersistence txPersistence;
 	private SessionFactory sessionFactory;
-	private AbstractJbpmKnowledgeBase abstractJbpmKnowledgeBase;
 	private Map<String,Object> components = new HashMap<String,Object>();
 	private Session hibernateSession;
 	private CmtPersistence cmtPersistence;
@@ -58,8 +50,6 @@ public class HibernateEnvironment extends Environment{
 	public <T>T getComponent(Class<T> clazz){
 		if(components.get(clazz.getName()) != null){
 			return (T) components.get(clazz.getName());
-		}else if(clazz == StatefulKnowledgeSession.class){
-			return (T) getKnowledgeSession();
 		}else if(clazz == ConversationalPersistence.class){
 			return (T) createConversationalPersistence();
 		}else if(clazz == CmtPersistence.class){
@@ -106,30 +96,12 @@ public class HibernateEnvironment extends Environment{
 		return sessionFactory.openSession();
 	}
 	public void reset(){
-		knowledgeSession = null;
-		// TODO this should not be necessary
-		abstractJbpmKnowledgeBase = null;
 		if(hibernateSession != null){
 			hibernateSession.close();
 			hibernateSession = null;
 			persistence = null;
 		}
 		components.clear();
-	}
-	// TODO this is not right - no persistence
-	private StatefulKnowledgeSession getKnowledgeSession(){
-		if(this.knowledgeSession == null){
-			if(this.abstractJbpmKnowledgeBase == null){
-				this.abstractJbpmKnowledgeBase = createJbpmKnowledgeBase();
-			}
-			Properties props = new Properties();
-			props.setProperty("drools.processInstanceManagerFactory", "org.jbpm.process.instance.impl.DefaultProcessInstanceManagerFactory");
-			props.setProperty("drools.processSignalManagerFactory", "org.jbpm.process.instance.event.DefaultSignalManagerFactory");
-			SessionConfiguration cfg = new SessionConfiguration(props);
-			EnvironmentImpl env = new EnvironmentImpl();
-			this.knowledgeSession = abstractJbpmKnowledgeBase.getKnowledgeBase().newStatefulKnowledgeSession(cfg, env);
-		}
-		return knowledgeSession;
 	}
 	protected String getHibernateConfigName(){
 		return loadProperties().getProperty(HIBERNATE_CONFIG_NAME);

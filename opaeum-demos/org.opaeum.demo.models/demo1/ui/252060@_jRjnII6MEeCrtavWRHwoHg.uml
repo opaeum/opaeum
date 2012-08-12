@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_XDREoOMAEeGYE-5HtwGq8g" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg" name="Participation User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_XDREoeMAEeGYE-5HtwGq8g" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg" name="Edit Participation"><actionBar xmi:id="_XDREp-MAEeGYE-5HtwGq8g" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDREqOMAEeGYE-5HtwGq8g" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDREqeMAEeGYE-5HtwGq8g" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_XDREouMAEeGYE-5HtwGq8g" name="Edit Participation" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg">
-      <panel xmi:type="panel:GridPanel" xmi:id="_XDREo-MAEeGYE-5HtwGq8g" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_XDREpOMAEeGYE-5HtwGq8g" name="Participant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_XDREpeMAEeGYE-5HtwGq8g"/>
-          <binding xmi:id="_XDREpuMAEeGYE-5HtwGq8g" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_h2SyKOScEeG5u9G4h3x7ow" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg" name="Participation User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_h2SyKeScEeG5u9G4h3x7ow" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg" name="Edit Participation"><actionBar xmi:id="_h2SyL-ScEeG5u9G4h3x7ow" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2SyMOScEeG5u9G4h3x7ow" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2SyMeScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_h2SyKuScEeG5u9G4h3x7ow" name="Edit Participation" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2SyK-ScEeG5u9G4h3x7ow" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_h2SyLOScEeG5u9G4h3x7ow" name="Participant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_h2SyLeScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2SyLuScEeG5u9G4h3x7ow" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
         </children>
       </panel>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_XDREquMAEeGYE-5HtwGq8g" name="Create Participation" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg">
-    <pages xmi:id="_XDREq-MAEeGYE-5HtwGq8g" name="CreateParticipation" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg">
-      <panel xmi:type="panel:GridPanel" xmi:id="_XDRErOMAEeGYE-5HtwGq8g" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_XDREreMAEeGYE-5HtwGq8g" name="Participant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDropdown" xmi:id="_XDREruMAEeGYE-5HtwGq8g"/>
-          <binding xmi:id="_XDREr-MAEeGYE-5HtwGq8g" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
+  <newObjectWizard xmi:id="_h2SyMuScEeG5u9G4h3x7ow" name="Create Participation" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg">
+    <pages xmi:id="_h2SyM-ScEeG5u9G4h3x7ow" name="CreateParticipation" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2SyNOScEeG5u9G4h3x7ow" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_h2SyNeScEeG5u9G4h3x7ow" name="Participant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_h2SyNuScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2SyN-ScEeG5u9G4h3x7ow" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
         </children>
       </panel>
     </pages>

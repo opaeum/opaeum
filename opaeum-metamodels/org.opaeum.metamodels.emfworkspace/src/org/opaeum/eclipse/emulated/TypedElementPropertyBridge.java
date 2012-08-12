@@ -1,5 +1,7 @@
 package org.opaeum.eclipse.emulated;
 
+import org.eclipse.ocl.uml.SequenceType;
+import org.eclipse.ocl.uml.SetType;
 import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.MultiplicityElement;
@@ -39,7 +41,6 @@ public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
 				}
 			}
 		}
-
 		return type;
 	}
 	public boolean isOrdered(){
@@ -81,6 +82,23 @@ public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
 		return true;
 	}
 	MultiplicityElement getMultiplicityElement(){
+		if(typedElement instanceof ValuePin && ((ValuePin) typedElement).getValue() instanceof OpaqueExpression){
+			OpaqueExpressionContext exp = emulation.getOclExpressionContext((OpaqueExpression) ((ValuePin)typedElement).getValue());
+			if(!exp.hasErrors()){
+				Classifier type2 = exp.getExpression().getType();
+				if(type2 instanceof SetType){
+					EmulatedMultiplicityElement result = new EmulatedMultiplicityElement(typedElement, 0, -1);
+					result.setIsUnique(true);
+					result.setIsOrdered(false);
+					return result;
+				}else if(type2 instanceof SequenceType){
+					EmulatedMultiplicityElement result = new EmulatedMultiplicityElement(typedElement, 0, -1);
+					result.setIsUnique(false);
+					result.setIsOrdered(true);
+					return result;
+				}
+			}
+		}
 		if(typedElement instanceof MultiplicityElement){
 			return (MultiplicityElement) typedElement;
 		}else if(typedElement instanceof ActivityParameterNode && ((ActivityParameterNode) typedElement).getParameter()!=null){

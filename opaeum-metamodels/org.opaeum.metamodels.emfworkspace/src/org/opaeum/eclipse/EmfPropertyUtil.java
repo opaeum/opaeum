@@ -126,7 +126,7 @@ public class EmfPropertyUtil{
 		Property result = null;
 		for(Association association:c.getAssociations()){
 			for(Property property:association.getMemberEnds()){
-				if(property.getType() == c && property.isComposite()){
+				if(property.getType() == c && property.isComposite() && property.getOtherEnd().isNavigable()){
 					result = property.getOtherEnd();
 				}
 			}

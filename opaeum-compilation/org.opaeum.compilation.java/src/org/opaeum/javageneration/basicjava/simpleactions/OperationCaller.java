@@ -11,7 +11,7 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.javageneration.jbpm5.EventUtil;
+import org.opaeum.javageneration.bpm.EventUtil;
 import org.opaeum.javageneration.maps.ActionMap;
 
 public class OperationCaller extends AbstractCaller<CallOperationAction>{

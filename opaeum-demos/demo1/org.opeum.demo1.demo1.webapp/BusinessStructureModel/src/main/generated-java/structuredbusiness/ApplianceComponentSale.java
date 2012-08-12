@@ -289,6 +289,16 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("applianceComponent") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6098139414879603393")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setApplianceComponent((ApplianceComponent)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
 		}
 	}
 	
@@ -375,6 +385,13 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 			sb.append("costPriceOfComponent=\""+ StructuredbusinessFormatter.getInstance().formatReal(getCostPriceOfComponent())+"\" ");
 		}
 		sb.append(">");
+		if ( getApplianceComponent()==null ) {
+			sb.append("\n<applianceComponent/>");
+		} else {
+			sb.append("\n<applianceComponent propertyId=\"6098139414879603393\">");
+			sb.append("\n" + getApplianceComponent().toXmlReferenceString());
+			sb.append("\n</applianceComponent>");
+		}
 		if ( getApplianceComponent()==null ) {
 			sb.append("\n<applianceComponent/>");
 		} else {

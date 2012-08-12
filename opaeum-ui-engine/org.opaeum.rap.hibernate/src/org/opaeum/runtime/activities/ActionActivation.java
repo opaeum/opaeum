@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class ActionActivation extends ActivityNodeActivation{
-	public ActionActivation(ActivityNodeContainerInstance group,String id){
+	public ActionActivation(IActivityNodeContainerExecution group,String id){
 		super(group, id);
 	}
 	public List<PinActivation> pinActivations = new ArrayList<PinActivation>();
@@ -18,32 +18,32 @@ public abstract class ActionActivation extends ActivityNodeActivation{
 		}
 		this.firing = false;
 	}
-	public List<Token> takeOfferedTokens(){
+	public List<ActivityToken> takeOfferedTokens(){
 		// If the action is not locally reentrant, then mark this activation as
 		// firing.
 		// Take any incoming offers of control tokens, then concurrently fire
 		// all input pin activations.
 		// Note: This is included here to happen in the same isolation scope as
 		// the isReady test.
-		List<Token> offeredTokens = new ArrayList<Token>();
+		List<ActivityToken> offeredTokens = new ArrayList<ActivityToken>();
 		List<ActivityEdgeInstance> incomingEdges = this.incomingEdges;
 		for(ActivityEdgeInstance incomingEdge:incomingEdges){
-			List<Token> tokens = incomingEdge.takeOfferedTokens();
-			for(Token token:tokens){
+			List<ActivityToken> tokens = incomingEdge.takeOfferedTokens();
+			for(ActivityToken token:tokens){
 				token.withdraw();
 				offeredTokens.add(token);
 			}
 		}
 		for(PinActivation pinActivation:pinActivations){
-			List<Token> tokens = pinActivation.takeOfferedTokens();
+			List<ActivityToken> tokens = pinActivation.takeOfferedTokens();
 			pinActivation.fire(tokens);
-			for(Token token:tokens){
+			for(ActivityToken token:tokens){
 				offeredTokens.add(token);
 			}
 		}
 		return offeredTokens;
 	}
-	public void fire(List<Token> incomingTokens){
+	public void fire(List<ActivityToken> incomingTokens){
 		// Do the main action behavior then concurrently fire all output pin
 		// activations
 		// and offer a single control token. Then activate the action again,
@@ -104,17 +104,17 @@ public abstract class ActionActivation extends ActivityNodeActivation{
 			}
 		}
 		if(this.outgoingEdges.size() == 1){
-			List<Token> tokens = new ArrayList<Token>();
-			Token parent = group.createToken(TokenKind.CONTROl);
+			List<ActivityToken> tokens = new ArrayList<ActivityToken>();
+			ActivityToken parent = group.createToken(TokenKind.CONTROl);
 			tokens.add(parent);
 			this.addTokens(tokens);
 			outgoingEdges.get(0).sendOffer(tokens);
 		}else{
-			Token parent = group.createToken(TokenKind.CONTROl);
+			ActivityToken parent = group.createToken(TokenKind.CONTROl);
 			// Send offers on all outgoing control flows.
 			for(ActivityEdgeInstance edge:this.outgoingEdges){
-				List<Token> tokens = new ArrayList<Token>();
-				Token forkedToken = group.createToken(TokenKind.FORKED);
+				List<ActivityToken> tokens = new ArrayList<ActivityToken>();
+				ActivityToken forkedToken = group.createToken(TokenKind.FORKED);
 				forkedToken.remainingOffersCount = this.outgoingEdges.size();
 				forkedToken.baseToken=parent;
 				tokens.add(forkedToken);
@@ -144,7 +144,7 @@ public abstract class ActionActivation extends ActivityNodeActivation{
 		// owned by the action of the action execution.
 		// Place a token for the given value on the pin activation corresponding
 		// to the given output pin.
-		Token token = group.createToken(TokenKind.OBJECT);
+		ActivityToken token = group.createToken(TokenKind.OBJECT);
 		token.setValue(value);
 		PinActivation pinActivation = this.getPinActivation(pin);
 		pinActivation.addToken(token);
@@ -166,8 +166,8 @@ public abstract class ActionActivation extends ActivityNodeActivation{
 		// (but leave the tokens on the pin).
 		PinActivation pinActivation = this.getPinActivation(pin);
 		List<T> result = new ArrayList<T>();
-		List<Token> tokens = pinActivation.getUnofferedTokens();
-		for(Token token:tokens){
+		List<ActivityToken> tokens = pinActivation.getUnofferedTokens();
+		for(ActivityToken token:tokens){
 			if(token.hasValue()){
 				result.add((T) token.getValue());
 			}
@@ -180,9 +180,9 @@ public abstract class ActionActivation extends ActivityNodeActivation{
 		// Take any tokens held by the pin activation corresponding to the given
 		// input pin and return them.
 		PinActivation pinActivation = this.getPinActivation(pin);
-		List<Token> tokens = pinActivation.takeUnofferedTokens();
+		List<ActivityToken> tokens = pinActivation.takeUnofferedTokens();
 		List<T> values = new ArrayList<T>();
-		for(Token token:tokens){
+		for(ActivityToken token:tokens){
 			if(token.hasValue()){
 				values.add((T) token.getValue());
 			}

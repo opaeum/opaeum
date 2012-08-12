@@ -2,7 +2,7 @@ package org.opaeum.runtime.activities;
 
 public class JoinNodeActivation extends ControlNodeActivation{
 
-	public JoinNodeActivation(ActivityNodeContainerInstance group,String id){
+	public JoinNodeActivation(IActivityNodeContainerExecution group,String id){
 		super(group, id);
 	}
 	public boolean isReady() {

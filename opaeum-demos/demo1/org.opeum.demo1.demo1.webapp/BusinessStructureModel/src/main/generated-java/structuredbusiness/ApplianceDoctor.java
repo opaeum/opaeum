@@ -68,7 +68,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 
 @AuditMe
 @NumlMetaInfo(uuid="914890@_CQTWAGOeEeGwMNo027LgxA")
-@BusinessComponent(businessRoles=Manager.class)
+@BusinessComponent(businessRoles={Manager.class,Manager.class})
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
@@ -305,6 +305,60 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("manager") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6644597149462340021")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Manager curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToManager(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("branch") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5891138470786181946")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Branch curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToBranch(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("applianceModel") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5635067770444539801")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ApplianceModel curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToApplianceModel(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organization_iBusinessComponent_1_representedOrganization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3245714109628633948")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -365,8 +419,9 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public boolean consumeAddAccountantOccurrence(@ParameterMetaInfo(name="name",opaeumId=341190338248797855l,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ") String name, @ParameterMetaInfo(name="isChartered",opaeumId=9099761849766142693l,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ") String isChartered, @ParameterMetaInfo(name="manager",opaeumId=4684052632804621483l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ") Manager manager) {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public void copyShallowState(ApplianceDoctor from, ApplianceDoctor to) {
@@ -386,6 +441,15 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		to.setSupportEMailAddress(from.getSupportEMailAddress());
 		to.setInitiationDate(from.getInitiationDate());
 		to.setVatNumber(from.getVatNumber());
+		for ( Branch child : from.getBranch() ) {
+			to.addToBranch(child.makeCopy());
+		}
+		for ( ApplianceModel child : from.getApplianceModel() ) {
+			to.addToApplianceModel(child.makeCopy());
+		}
+		for ( Manager child : from.getManager() ) {
+			to.addToManager(child.makeCopy());
+		}
 		for ( Branch child : from.getBranch() ) {
 			to.addToBranch(child.makeCopy());
 		}
@@ -665,6 +729,15 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		for ( ApplianceModel child : new ArrayList<ApplianceModel>(getApplianceModel()) ) {
 			child.markDeleted();
 		}
+		for ( Manager child : new ArrayList<Manager>(getManager()) ) {
+			child.markDeleted();
+		}
+		for ( Branch child : new ArrayList<Branch>(getBranch()) ) {
+			child.markDeleted();
+		}
+		for ( ApplianceModel child : new ArrayList<ApplianceModel>(getApplianceModel()) ) {
+			child.markDeleted();
+		}
 		if ( getOrganization_iBusinessComponent_1_representedOrganization()!=null ) {
 			getOrganization_iBusinessComponent_1_representedOrganization().markDeleted();
 		}
@@ -683,6 +756,36 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("manager") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6644597149462340021")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((Manager)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("branch") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5891138470786181946")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((Branch)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("applianceModel") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5635067770444539801")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ApplianceModel)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("manager") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6644597149462340021")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -962,6 +1065,21 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 			sb.append("vatNumber=\""+ StructuredbusinessFormatter.getInstance().formatString(getVatNumber())+"\" ");
 		}
 		sb.append(">");
+		sb.append("\n<manager propertyId=\"6644597149462340021\">");
+		for ( Manager manager : getManager() ) {
+			sb.append("\n" + manager.toXmlString());
+		}
+		sb.append("\n</manager>");
+		sb.append("\n<branch propertyId=\"5891138470786181946\">");
+		for ( Branch branch : getBranch() ) {
+			sb.append("\n" + branch.toXmlString());
+		}
+		sb.append("\n</branch>");
+		sb.append("\n<applianceModel propertyId=\"5635067770444539801\">");
+		for ( ApplianceModel applianceModel : getApplianceModel() ) {
+			sb.append("\n" + applianceModel.toXmlString());
+		}
+		sb.append("\n</applianceModel>");
 		sb.append("\n<manager propertyId=\"6644597149462340021\">");
 		for ( Manager manager : getManager() ) {
 			sb.append("\n" + manager.toXmlString());

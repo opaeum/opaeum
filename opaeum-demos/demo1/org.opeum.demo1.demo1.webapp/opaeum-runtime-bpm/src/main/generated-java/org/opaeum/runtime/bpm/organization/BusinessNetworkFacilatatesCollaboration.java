@@ -158,10 +158,10 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	}
 	
 	public void clear() {
-		getBusinessNetwork().z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessNetwork(this);
-		this.z_internalRemoveFromBusinessNetwork(getBusinessNetwork());
-		getBusinessCollaboration().z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessCollaboration(this);
+		getBusinessCollaboration().z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessNetwork(this);
 		this.z_internalRemoveFromBusinessCollaboration(getBusinessCollaboration());
+		getBusinessNetwork().z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessCollaboration(this);
+		this.z_internalRemoveFromBusinessNetwork(getBusinessNetwork());
 		markDeleted();
 	}
 	

@@ -159,10 +159,10 @@ public class IBusinessCollaboration_iBusinessComponent_1 implements IPersistentO
 	}
 	
 	public void clear() {
-		getBusinessCollaboration().z_internalRemoveFromIBusinessCollaboration_iBusinessComponent_1_businessCollaboration(this);
-		this.z_internalRemoveFromBusinessCollaboration(getBusinessCollaboration());
-		getBusiness().z_internalRemoveFromIBusinessCollaboration_iBusinessComponent_1_business(this);
+		getBusiness().z_internalRemoveFromIBusinessCollaboration_iBusinessComponent_1_businessCollaboration(this);
 		this.z_internalRemoveFromBusiness(getBusiness());
+		getBusinessCollaboration().z_internalRemoveFromIBusinessCollaboration_iBusinessComponent_1_business(this);
+		this.z_internalRemoveFromBusinessCollaboration(getBusinessCollaboration());
 		markDeleted();
 	}
 	

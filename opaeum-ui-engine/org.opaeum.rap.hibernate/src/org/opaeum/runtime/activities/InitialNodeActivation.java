@@ -5,12 +5,12 @@ import java.util.List;
 
 
 public class InitialNodeActivation extends ControlNodeActivation{
-	public InitialNodeActivation(ActivityNodeContainerInstance group,String id){
+	public InitialNodeActivation(IActivityNodeContainerExecution group,String id){
 		super(group, id);
 	}
 	@Override
-	public void fire(List<Token> incomingTokens){
-		List<Token> tokens = new ArrayList<Token>();
+	public void fire(List<ActivityToken> incomingTokens){
+		List<ActivityToken> tokens = new ArrayList<ActivityToken>();
 		tokens.add(group.createToken(TokenKind.CONTROl));
 		this.addTokens(tokens);
 		this.sendOffers(tokens);

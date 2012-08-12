@@ -139,10 +139,10 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 	}
 	
 	public void clear() {
-		getRepresentedOrganization().z_internalRemoveFromOrganization_iBusinessComponent_1_representedOrganization(this);
-		this.z_internalRemoveFromRepresentedOrganization(getRepresentedOrganization());
-		getBusinessComponent().z_internalRemoveFromOrganization_iBusinessComponent_1_businessComponent(this);
+		getBusinessComponent().z_internalRemoveFromOrganization_iBusinessComponent_1_representedOrganization(this);
 		this.z_internalRemoveFromBusinessComponent(getBusinessComponent());
+		getRepresentedOrganization().z_internalRemoveFromOrganization_iBusinessComponent_1_businessComponent(this);
+		this.z_internalRemoveFromRepresentedOrganization(getRepresentedOrganization());
 		markDeleted();
 	}
 	

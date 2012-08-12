@@ -5,7 +5,6 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
@@ -133,16 +132,16 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				EndToAssociationClass end1ToAssocationClass = holder.getEndToAssociation(assocClass.getMemberEnds().get(0));
 				StructuralFeatureMap mapFromEnd1 = ojUtil.buildStructuralFeatureMap(end1ToAssocationClass);
 				if(assocClass.getMemberEnds().get(0).isNavigable()){
-					clear.getBody().addToStatements(mapToEnd1.getter() + "()." + mapFromEnd1.internalRemover() + "(this)");
-					clear.getBody().addToStatements("this." + mapToEnd1.internalRemover() + "(" + mapToEnd1.getter() + "())");
+					clear.getBody().addToStatements(mapToEnd2.getter() + "()." + mapFromEnd1.internalRemover() + "(this)");
+					clear.getBody().addToStatements("this." + mapToEnd2.internalRemover() + "(" + mapToEnd2.getter() + "())");
 				}
 			}
 			if(assocClass.getMemberEnds().get(1).isNavigable()){
 				EndToAssociationClass end2ToAssocationClass = holder.getEndToAssociation(assocClass.getMemberEnds().get(1));
 				StructuralFeatureMap mapFromEnd2 = ojUtil.buildStructuralFeatureMap(end2ToAssocationClass);
 				if(assocClass.getMemberEnds().get(1).isNavigable()){
-					clear.getBody().addToStatements(mapToEnd2.getter() + "()." + mapFromEnd2.internalRemover() + "(this)");
-					clear.getBody().addToStatements("this." + mapToEnd2.internalRemover() + "(" + mapToEnd2.getter() + "())");
+					clear.getBody().addToStatements(mapToEnd1.getter() + "()." + mapFromEnd2.internalRemover() + "(this)");
+					clear.getBody().addToStatements("this." + mapToEnd1.internalRemover() + "(" + mapToEnd1.getter() + "())");
 				}
 			}
 		}
@@ -284,6 +283,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		return map.isStatic() ? o.getName() + "." : "this.";
 	}
 	protected void buildInternalRemover(OJAnnotatedClass owner,AssociationClassEndMap aMap){
+		if(owner.getName().equals("IBusinessCollaboration")){
+			System.out.println();
+		}
 		StructuralFeatureMap map = aMap.getMap();
 		OJOperation internalRemover = new OJAnnotatedOperation(map.internalRemover());
 		internalRemover.addParam(map.fieldname(), map.javaBaseTypePath());
@@ -314,10 +316,8 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		StructuralFeatureMap map = aMap.getMap();
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
-			OJAnnotatedField result = new OJAnnotatedField("result", map.javaTypePath());
 			getter.setStatic(map.isStatic());
-			result.setInitExp(map.javaDefaultValue());
-			getter.getBody().addToLocals(result);
+			getter.initializeResultVariable(map.javaDefaultValue());
 			StructuralFeatureMap mapToAssClass = aMap.getEndToAssocationClassMap();
 			Association assc = (Association) map.getProperty().getAssociation();
 			EmulatedPropertyHolderForAssociation holder = (EmulatedPropertyHolderForAssociation) getLibrary().getEmulatedPropertyHolder(assc);
@@ -335,7 +335,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 						"result = " + getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "."
 								+ aMap.getAssocationClassToOtherEndMap().getter() + "()");
 			}
-			getter.getBody().addToStatements("return result");
 		}
 		addPropertyMetaInfo(umlOwner, getter, map.getProperty(), getLibrary());
 		owner.addToOperations(getter);

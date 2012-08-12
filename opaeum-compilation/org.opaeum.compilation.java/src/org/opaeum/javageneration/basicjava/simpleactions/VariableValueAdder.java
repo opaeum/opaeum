@@ -18,6 +18,8 @@ public class VariableValueAdder extends SimpleNodeBuilder<AddVariableValueAction
 		if(node.isReplaceAll() && map.isMany()){
 			block.addToStatements(expressor.clear(map));
 		}
-		block.addToStatements(expressor.pathToVariableContext(node) +  expressor.storeResults(map, valuePinField, node.getValue().isMultivalued()));
+		StructuralFeatureMap valueMap=ojUtil.buildStructuralFeatureMap(node.getValue());
+
+		block.addToStatements(expressor.pathToVariableContext(node) +  expressor.storeResults(map, valuePinField, valueMap.isMany()));
 	}
 }

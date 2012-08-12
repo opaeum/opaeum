@@ -54,18 +54,18 @@ public class ProductAnnouncementHandler implements ISignalEventHandler {
 	}
 	
 	public boolean handleOn(Object targets) {
-		boolean consumed = false;
+		boolean result = false;
 		for ( Object target : (Collection<?>)targets ) {
 			if ( target instanceof ProductAnnouncementReceiver ) {
 				if ( isEvent ) {
-					consumed |=((ProductAnnouncementReceiver)target).consumeProductAnnouncementEvent(signal);
+					result |=((ProductAnnouncementReceiver)target).consumeProductAnnouncementEvent(signal);
 				} else {
 					((ProductAnnouncementReceiver)target).receiveProductAnnouncement(signal);
-					consumed = true;
+					result = true;
 				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public Collection<PropertyValue> marshall() {

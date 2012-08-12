@@ -57,7 +57,7 @@ import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
-import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.bpm.BpmUtil;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.maps.ActivityNodeMap;
 
@@ -77,7 +77,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 	}
 	private int insertArtificialJoin(NodesType nodes,ConnectionsType connections,int i,ActivityNode state){
 		Long joinId = EmfWorkspace.getOpaeumId( state) + ARTIFICIAL_JOIN_ID;
-		addJoin(nodes, i, Jbpm5Util.getArtificialJoinName(state), joinId);
+		addJoin(nodes, i, BpmUtil.getArtificialJoinName(state), joinId);
 		createConnection(connections, joinId, EmfWorkspace.getOpaeumId( state));
 		i++;
 		targetIdMap.peek().put(state, joinId);
@@ -133,7 +133,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		if(effectiveStartNodes.size() > 1){
 			// INsert artificial Fork;
 			Long forkId = EmfWorkspace.getOpaeumId( container) + ARTIFICIAL_FORK_ID;
-			addFork(nodesType, i, Jbpm5Util.getArtificialForkName(container), forkId);
+			addFork(nodesType, i, BpmUtil.getArtificialForkName(container), forkId);
 			createConnection(connections, startNodeId, forkId);
 			i++;
 			startNodeId = forkId;
@@ -314,7 +314,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 	}
 	private int insertArtificialFork(NodesType nodesType,ConnectionsType connections,int i,ActivityNode node){
 		Long forkId = EmfWorkspace.getOpaeumId(node) + ARTIFICIAL_FORK_ID;
-		addFork(nodesType, i, Jbpm5Util.getArtificialForkName(node), forkId);
+		addFork(nodesType, i, BpmUtil.getArtificialForkName(node), forkId);
 		createConnection(connections, EmfWorkspace.getOpaeumId( node), forkId);
 		i++;
 		sourceIdMap.peek().put(node, EmfWorkspace.getOpaeumId(node) + ARTIFICIAL_FORK_ID);
@@ -323,7 +323,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 	private int insertArtificialChoice(NodesType nodesType,HashMap<SplitType,ActivityNode> choiceNodes,ConnectionsType connections,int i,
 			ActivityNode node){
 		Long forkId = EmfWorkspace.getOpaeumId(node) + ARTIFICIAL_CHOICE_ID;
-		SplitType split = addChoice(nodesType, i, Jbpm5Util.getArtificialChoiceName(node), forkId);
+		SplitType split = addChoice(nodesType, i, BpmUtil.getArtificialChoiceName(node), forkId);
 		createConnection(connections, EmfWorkspace.getOpaeumId(node), forkId);
 		choiceNodes.put(split, node);
 		i++;
@@ -365,7 +365,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 			} else {
 				if (t.getGuard()instanceof OpaqueExpression ) {
 					String param = passContext ? "context" : "";
-					constraint.setValue("return processObject." + Jbpm5Util.getGuardMethod(EmfActivityUtil.getEffectiveSource(t), t) + "(" + param + ");");
+					constraint.setValue("return processObject." + BpmUtil.getGuardMethod(EmfActivityUtil.getEffectiveSource(t), t) + "(" + param + ");");
 					constraint.setPriority("1");
 				} else if (t.getGuard() instanceof LiteralBoolean) {
 					constraint.setValue("return " + ((LiteralBoolean)t.getGuard()).booleanValue() + ";");

@@ -5,7 +5,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,23 +26,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 
-import org.drools.runtime.StatefulKnowledgeSession;
-import org.drools.runtime.process.ProcessContext;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Type;
-import org.jbpm.workflow.core.NodeContainer;
-import org.jbpm.workflow.core.WorkflowProcess;
-import org.jbpm.workflow.core.impl.NodeImpl;
-import org.jbpm.workflow.core.impl.WorkflowProcessImpl;
-import org.jbpm.workflow.instance.NodeInstanceContainer;
-import org.jbpm.workflow.instance.WorkflowProcessInstance;
-import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
+import org.opaeum.hibernate.domain.AbstractToken;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.Participant;
@@ -58,6 +49,19 @@ import org.opaeum.runtime.bpm.request.taskrequest.ForwardHandler7251280809563715
 import org.opaeum.runtime.bpm.request.taskrequest.RevokeHandler7253144136017044923;
 import org.opaeum.runtime.bpm.request.taskrequest.SkipHandler2519565167906952379;
 import org.opaeum.runtime.bpm.request.taskrequest.StopHandler8236205458182045891;
+import org.opaeum.runtime.bpm.request.taskrequest.TaskRequestRegion;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.Active;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.Completed;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.Created;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.Obsolete;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.Suspended;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.region1.FinalActiveState;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.region1.InProgress;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.region1.Ready;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.region1.Reserved;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.suspended.region1.InProgressButSuspended;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.suspended.region1.ReadyButSuspended;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.suspended.region1.ReservedButSuspended;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
 import org.opaeum.runtime.bpm.requestobject.ITaskObject;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -71,10 +75,11 @@ import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.domain.TaskDelegation;
-import org.opaeum.runtime.domain.TransitionListener;
-import org.opaeum.runtime.domain.UmlNodeInstance;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
+import org.opaeum.runtime.statemachines.IStateMachineExecution;
+import org.opaeum.runtime.statemachines.IStateMachineExecutionElement;
+import org.opaeum.runtime.statemachines.StateMachineToken;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -89,14 +94,9 @@ import org.w3c.dom.NodeList;
 @Entity(name="TaskRequest")
 @DiscriminatorValue(	"task_request")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class TaskRequest extends AbstractRequest implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
-	@Type(type="TaskRequestStateResolver")
-	private TaskRequestState History;
-	private String callingNodeInstanceUniqueId;
-	@Transient
-	transient private WorkflowProcessInstance callingProcessInstance;
-	@Column(name="calling_process_instance_id")
-	private Long callingProcessInstanceId;
+public class TaskRequest extends AbstractRequest implements IStateMachineExecution, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+	private String History;
+	private AbstractToken callingToken;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Transient
@@ -108,11 +108,10 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Type(type="org.opaeum.runtime.bpm.request.TaskRequestStateResolver")
-	private TaskRequestState endNodeInTaskRequestRegion;
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="executed_on")
 	private Date executedOn;
+	private Map<String, IStateMachineExecutionElement> executionElements;
 	static private Set<TaskRequest> mockedAllInstances;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
@@ -122,12 +121,6 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	private Set<ParticipationInTask> participationInTask = new HashSet<ParticipationInTask>();
 	@Transient
 	private AbstractPersistence persistence;
-	@Transient
-	private boolean processDirty;
-	@Transient
-	transient private WorkflowProcessInstance processInstance;
-	@Column(name="process_instance_id")
-	private Long processInstanceId;
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 8501108023512204129l;
@@ -177,6 +170,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	public void addTaskRequestParticipant(@ParameterMetaInfo(name="newParticipant",opaeumId=5015842494571072006l,uuid="252060@_v52VoY6SEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(name="kind",opaeumId=3546049321002453618l,uuid="252060@_v52Voo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
 		ParticipationInTask participation = null;
 		ParticipationInTask result = null;
+		generateAddTaskRequestParticipantEvent(newParticipant,kind);
 		result=new ParticipationInTask();
 		participation=result;
 		TaskRequest tgtAddParticipation=this;
@@ -244,6 +238,42 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("7631795069536317681")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ParticipationInTask curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToParticipationInTask(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3022263813028286216")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ParticipationInRequest curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToParticipationInRequest(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3022263813028286216")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -265,10 +295,6 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		}
 	}
 	
-	public void cancel() {
-		getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED);
-	}
-	
 	@NumlMetaInfo(uuid="252060@_Nk_isIobEeCPduia_-NbFw")
 	public void claim() {
 		generateClaimEvent();
@@ -284,225 +310,201 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	
 	public void completed() {
 		AbstractRequestListener callbackListener = getCallingProcessObject();
-		getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED);
 		if ( callbackListener!=null ) {
 			callbackListener.onAbstractRequestComplete(getCallingNodeInstanceUniqueId(),this);
 		}
 	}
 	
 	public boolean consumeActivateOccurrence() {
-		boolean consumed = false;
-		consumed=super.consumeActivateOccurrence();
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.CREATED.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE.getId(), listener);
+		boolean result = false;
+		result=super.consumeActivateOccurrence();
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Created ) {
+				Created state = (Created)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getCreatedToActive().consumeActivateOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeAddTaskRequestParticipantOccurrence(@ParameterMetaInfo(name="newParticipant",opaeumId=5015842494571072006l,uuid="252060@_v52VoY6SEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(name="kind",opaeumId=3546049321002453618l,uuid="252060@_v52Voo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public boolean consumeClaimOccurrence() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE_READY.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE_RESERVED.getId(), listener);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Ready ) {
+				Ready state = (Ready)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getReadyToReserved().consumeClaimOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeCompleteOccurrence() {
-		boolean consumed = false;
-		consumed=super.consumeCompleteOccurrence();
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE_INPROGRESS.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE_FINALACTIVESTATE.getId(), listener);
+		boolean result = false;
+		result=super.consumeCompleteOccurrence();
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
+				InProgress state = (InProgress)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getTransition5().consumeCompleteOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeDelegateOccurrence(@ParameterMetaInfo(name="delegate",opaeumId=8205705053048523991l,uuid="252060@_TsfTcJTyEeChgI0v02SJHQ") IBusinessRole delegate) {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE_RESERVED.getId(), listener);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Active ) {
+				Active state = (Active)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getActiveToReserved().consumeDelegateOccurrence(delegate) ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeForwardOccurrence(@ParameterMetaInfo(name="toPerson",opaeumId=3350895467208403091l,uuid="252060@_kN7FcJTyEeChgI0v02SJHQ") IBusinessRole toPerson) {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE_READY.getId(), listener);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Active ) {
+				Active state = (Active)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getActiveToReady().consumeForwardOccurrence(toPerson) ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeRemoveTaskRequestParticipantOccurrence(@ParameterMetaInfo(name="participant",opaeumId=7590474051790031114l,uuid="252060@_wuzAoY6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(name="kind",opaeumId=6120680878221412726l,uuid="252060@_wuzAoo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
-		boolean consumed = false;
-		return consumed;
+		boolean result = false;
+		
+		return result;
 	}
 	
 	public boolean consumeResumeOccurrence() {
-		boolean consumed = false;
-		consumed=super.consumeResumeOccurrence();
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.SUSPENDED.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE.getId(), listener);
+		boolean result = false;
+		result=super.consumeResumeOccurrence();
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Suspended ) {
+				Suspended state = (Suspended)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getSuspendedToActive().consumeResumeOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeRevokeOccurrence() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE_RESERVED.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE_READY.getId(), listener);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
+				Reserved state = (Reserved)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getReservedToReady().consumeRevokeOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeSkipOccurrence() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.OBSOLETE.getId(), listener);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Active ) {
+				Active state = (Active)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getAtiveToObsolete().consumeSkipOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeStartOccurrence() {
-		boolean consumed = false;
-		consumed=super.consumeStartOccurrence();
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE_INPROGRESS.getId(), listener);
+		boolean result = false;
+		result=super.consumeStartOccurrence();
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
+				Reserved state = (Reserved)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getReservedToInProgress().consumeStartOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE_RESERVED.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE_INPROGRESS.getId(), listener);
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Active ) {
+				Active state = (Active)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getActiveToInProgress().consumeStartOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeStopOccurrence() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE_INPROGRESS.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE_RESERVED.getId(), listener);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
+				InProgress state = (InProgress)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getInProgressToReserved().consumeStopOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public boolean consumeSuspendOccurrence() {
-		boolean consumed = false;
-		consumed=super.consumeSuspendOccurrence();
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE_RESERVED.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.SUSPENDED_RESERVEDBUTSUSPENDED.getId(), listener);
+		boolean result = false;
+		result=super.consumeSuspendOccurrence();
+		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
+				Reserved state = (Reserved)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getReservedToSuspended().consumeSuspendOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE_INPROGRESS.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.SUSPENDED_INPROGRESSBUTSUSPENDED.getId(), listener);
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Ready ) {
+				Ready state = (Ready)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getReadyToSuspended().consumeSuspendOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE_READY.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.SUSPENDED_READYBUTSUSPENDED.getId(), listener);
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
+				InProgress state = (InProgress)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
+					result=true;
+					break;
+				}
 			}
 		}
-		return consumed;
+		return result;
 	}
 	
 	public void copyShallowState(TaskRequest from, TaskRequest to) {
@@ -513,7 +515,13 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		for ( ParticipationInTask child : from.getParticipationInTask() ) {
 			to.addToParticipationInTask(child.makeCopy());
 		}
+		for ( ParticipationInTask child : from.getParticipationInTask() ) {
+			to.addToParticipationInTask(child.makeCopy());
+		}
 		to.setDelegation(from.getDelegation());
+		for ( ParticipationInRequest child : from.getParticipationInRequest() ) {
+			to.addToParticipationInRequest(child.makeCopy());
+		}
 		for ( ParticipationInRequest child : from.getParticipationInRequest() ) {
 			to.addToParticipationInRequest(child.makeCopy());
 		}
@@ -529,9 +537,16 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return newInstance;
 	}
 	
+	public TaskRequestToken createToken(StateMachineToken smToken) {
+		TaskRequestToken result = new TaskRequestToken((TaskRequestToken)smToken);
+		tokens.add(result);
+		return result;
+	}
+	
 	@NumlMetaInfo(uuid="252060@_0lAQAIoaEeCPduia_-NbFw")
 	public void delegate(@ParameterMetaInfo(name="delegate",opaeumId=8205705053048523991l,uuid="252060@_TsfTcJTyEeChgI0v02SJHQ") IBusinessRole delegate) {
 		Participant currentRole = null;
+		generateDelegateEvent(delegate);
 		if ( (this.getOwner() == null) ) {
 			this.addTaskRequestParticipant(delegate,TaskParticipationKind.OWNER);
 			ITaskObject tgtOnDelegated=this.getTaskObject();
@@ -556,43 +571,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public void execute() {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		WorkflowProcessInstance processInstance;
 		setExecutedOn(new Date());
-		params.put("processObject", this);
-		processInstance = (WorkflowProcessInstance)org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("request_task_request",params);
-		((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true);
-		this.processInstance=processInstance;
-		this.setProcessInstanceId(processInstance.getId());
-	}
-	
-	public NodeInstanceImpl findNodeInstanceByUniqueId(String uniqueId) {
-		for ( NodeInstanceImpl nodeInstance : getNodeInstancesRecursively() ) {
-			if ( nodeInstance.getUniqueId().equals(uniqueId) ) {
-				return nodeInstance;
-			}
-		}
-		return null;
-	}
-	
-	public NodeInstanceImpl findWaitingNodeByNodeId(long step) {
-		for ( NodeInstanceImpl nodeInstance : getNodeInstancesRecursively() ) {
-			if ( ((NodeImpl)nodeInstance.getNode()).getId()==step ) {
-				return nodeInstance;
-			}
-		}
-		return null;
-	}
-	
-	public void forceToStep(IProcessStep step) {
-		TaskRequestState nextStep = (TaskRequestState)step;
-		NodeImpl newNode = getNodeForStep(nextStep);
-		for ( NodeInstanceImpl curNodeInstance : getNodeInstancesRecursively() ) {
-			if ( curNodeInstance.getNode().getNodeContainer()==newNode.getNodeContainer() ) {
-				transition(curNodeInstance,newNode);
-				return;
-			}
-		}
 	}
 	
 	@NumlMetaInfo(uuid="252060@__6uyIIoaEeCPduia_-NbFw")
@@ -655,50 +634,53 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public boolean getActive() {
-		return isStepActive(TaskRequestState.ACTIVE);
-	}
-	
-	public Set<IProcessStep> getActiveLeafSteps() {
-		Set results = new HashSet<IProcessStep>();
-		return results;
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof Active ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public boolean getActive_FinalActiveState() {
-		return isStepActive(TaskRequestState.ACTIVE_FINALACTIVESTATE);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof FinalActiveState ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public boolean getActive_InProgress() {
-		return isStepActive(TaskRequestState.ACTIVE_INPROGRESS);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof InProgress ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public boolean getActive_Ready() {
-		return isStepActive(TaskRequestState.ACTIVE_READY);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof Ready ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public boolean getActive_Reserved() {
-		return isStepActive(TaskRequestState.ACTIVE_RESERVED);
-	}
-	
-	public String getCallingNodeInstanceUniqueId() {
-		return this.callingNodeInstanceUniqueId;
-	}
-	
-	public WorkflowProcess getCallingProcessDefinition() {
-		return (WorkflowProcess) getCallingProcessInstance().getProcess();
-	}
-	
-	public WorkflowProcessInstance getCallingProcessInstance() {
-		if ( this.callingProcessInstance==null ) {
-			this.callingProcessInstance=(WorkflowProcessInstance)org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getCallingProcessInstanceId());
-			if ( this.callingProcessInstance!=null ) {
-				((WorkflowProcessImpl)this.callingProcessInstance.getProcess()).setAutoComplete(true);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof Reserved ) {
+				return true;
 			}
 		}
-		return this.callingProcessInstance;
-	}
-	
-	public Long getCallingProcessInstanceId() {
-		return this.callingProcessInstanceId;
+		return result;
 	}
 	
 	public AbstractRequestListener getCallingProcessObject() {
@@ -709,16 +691,32 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return null;
 	}
 	
+	public AbstractToken getCallingToken() {
+		return this.callingToken;
+	}
+	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
 	
 	public boolean getCompleted() {
-		return isStepActive(TaskRequestState.COMPLETED);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof Completed ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public boolean getCreated() {
-		return isStepActive(TaskRequestState.CREATED);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof Created ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public Object getCurrentException() {
@@ -741,35 +739,31 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return this.executedOn;
 	}
 	
-	public TaskRequestState getHistory() {
-		return this.History;
+	public Map<String, IStateMachineExecutionElement> getExecutionElements() {
+		Map<String, IStateMachineExecutionElement> result = executionElements;
+		if ( executionElements==null ) {
+			result=executionElements=new HashMap<String,org.opaeum.runtime.statemachines.IStateMachineExecutionElement>();
+			new TaskRequestRegion(this).linkTransitions();
+		}
+		return result;
 	}
 	
-	public IProcessStep getInnermostNonParallelStep() {
-		if ( this.endNodeInTaskRequestRegion!=null ) {
-			return this.endNodeInTaskRequestRegion;
-		} else {
-			NodeInstanceImpl nodeInstance = (NodeInstanceImpl)getProcessInstance().getNodeInstances().iterator().next();
-			if ( getProcessInstance().getNodeInstances().size()>1 ) {
-				return null;
-			}
-			while ( nodeInstance instanceof NodeInstanceContainer && ((NodeInstanceContainer)nodeInstance).getNodeInstances().size()==1 ) {
-				nodeInstance=(NodeInstanceImpl)((NodeInstanceContainer)nodeInstance).getNodeInstances().iterator().next();
-			}
-			return TaskRequestState.resolveById(nodeInstance.getNodeId());
-		}
+	public String getHistory() {
+		return this.History;
 	}
 	
 	public String getName() {
 		return "TaskRequest["+getId()+"]";
 	}
 	
-	public Collection<NodeInstanceImpl> getNodeInstancesRecursively() {
-		return (Collection<NodeInstanceImpl>)(Collection)((NodeInstanceContainer)getProcessInstance()).getNodeInstances(true);
-	}
-	
 	public boolean getObsolete() {
-		return isStepActive(TaskRequestState.OBSOLETE);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof Obsolete ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public Set<OutgoingEvent> getOutgoingEvents() {
@@ -804,24 +798,6 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return result;
 	}
 	
-	public WorkflowProcess getProcessDefinition() {
-		return (WorkflowProcess) getProcessInstance().getProcess();
-	}
-	
-	public WorkflowProcessInstance getProcessInstance() {
-		if ( this.processInstance==null ) {
-			this.processInstance=(WorkflowProcessInstance)org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId());
-			if ( this.processInstance!=null ) {
-				((WorkflowProcessImpl)this.processInstance.getProcess()).setAutoComplete(true);
-			}
-		}
-		return this.processInstance;
-	}
-	
-	public Long getProcessInstanceId() {
-		return this.processInstanceId;
-	}
-	
 	public IRequestObject getRequestObject() {
 		IRequestObject result = null;
 		result=super.getRequestObject();
@@ -840,19 +816,43 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public boolean getSuspended() {
-		return isStepActive(TaskRequestState.SUSPENDED);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof Suspended ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public boolean getSuspended_InProgressButSuspended() {
-		return isStepActive(TaskRequestState.SUSPENDED_INPROGRESSBUTSUSPENDED);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof InProgressButSuspended ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public boolean getSuspended_ReadyButSuspended() {
-		return isStepActive(TaskRequestState.SUSPENDED_READYBUTSUSPENDED);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof ReadyButSuspended ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	public boolean getSuspended_ReservedButSuspended() {
-		return isStepActive(TaskRequestState.SUSPENDED_RESERVEDBUTSUSPENDED);
+		boolean result = false;
+		for ( StateMachineToken token : getTokens() ) {
+			if ( token.getCurrentExecutionElement() instanceof ReservedButSuspended ) {
+				return true;
+			}
+		}
+		return result;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5302390646449487153l,opposite="taskRequest",uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
@@ -871,46 +871,6 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		super.init(owner);
 		this.z_internalAddToTaskObject((ITaskObject)owner);
 		createComponents();
-	}
-	
-	public void init(ProcessContext context) {
-		super.init(context);
-		this.setProcessInstanceId(context.getProcessInstance().getId());
-		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
-	}
-	
-	public boolean isComplete() {
-		boolean result = endNodeInTaskRequestRegion!=null ||currentException!=null;
-		
-		return result;
-	}
-	
-	public boolean isNumberOfPotentialOwners_NumberOfPotentialOwnersToReady() {
-		return (this.getPotentialOwners().size() > 1);
-	}
-	
-	public boolean isNumberOfPotentialOwners_NumberOfPotentialOwnersToReserved() {
-		return (this.getPotentialOwners().size() == 1);
-	}
-	
-	public boolean isProcessDirty() {
-		return this.processDirty;
-	}
-	
-	public boolean isStepActive(IProcessStep step) {
-		if ( step==this.endNodeInTaskRequestRegion ) {
-			return true;
-		}
-		if ( getProcessInstance()==null ) {
-			return false;
-		} else {
-			for ( NodeInstanceImpl nodeInstance : getNodeInstancesRecursively() ) {
-				if ( step.getId()==nodeInstance.getNodeId() ) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 	
 	public TaskRequest makeCopy() {
@@ -940,6 +900,12 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		for ( ParticipationInTask child : new ArrayList<ParticipationInTask>(getParticipationInTask()) ) {
 			child.markDeleted();
 		}
+		for ( ParticipationInTask child : new ArrayList<ParticipationInTask>(getParticipationInTask()) ) {
+			child.markDeleted();
+		}
+		for ( ParticipationInRequest child : new ArrayList<ParticipationInRequest>(getParticipationInRequest()) ) {
+			child.markDeleted();
+		}
 		for ( ParticipationInRequest child : new ArrayList<ParticipationInRequest>(getParticipationInRequest()) ) {
 			child.markDeleted();
 		}
@@ -950,119 +916,21 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		mockedAllInstances=newMocks;
 	}
 	
-	public boolean onActiveCompleted() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(org.opaeum.runtime.bpm.request.TaskRequestState.ACTIVE.getId()))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.COMPLETED.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public void onEntryOfCompleted(ProcessContext context) {
-	}
-	
-	public void onEntryOfCreated(ProcessContext context) {
-		onCreatedCompleted();
-	}
-	
-	public void onEntryOfFinalActiveState(ProcessContext context) {
-		setHistory(null);
-		((NodeInstanceContainer)context.getNodeInstance().getNodeInstanceContainer()).removeNodeInstance((NodeInstanceImpl)context.getNodeInstance());
-		((NodeInstanceContainer) context.getNodeInstance().getNodeInstanceContainer()).nodeInstanceCompleted((NodeInstanceImpl)context.getNodeInstance(), null);
-	}
-	
-	public void onEntryOfInProgress(ProcessContext context) {
-		setHistory(TaskRequestState.ACTIVE_INPROGRESS);
-		onInProgressCompleted();
-	}
-	
-	public void onEntryOfObsolete(ProcessContext context) {
-	}
-	
-	public void onEntryOfReady(ProcessContext context) {
-		setHistory(TaskRequestState.ACTIVE_READY);
-		onReadyCompleted();
-	}
-	
-	public void onEntryOfReserved(ProcessContext context) {
-		setHistory(TaskRequestState.ACTIVE_RESERVED);
-		onReservedCompleted();
-	}
-	
-	public boolean onHistoryCompleted() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE_NUMBEROFPOTENTIALOWNERS_.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onInactiveCompleted() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId))!=null ) {
-				TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				processDirty=consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.CREATED.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onNumberOfPotentialOwners_Completed() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId))!=null ) {
-				if ( (this.getPotentialOwners().size() > 1) ) {
-					TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-							public void onTransition() {
-							}
-						};
-					processDirty=consumed=true;
-					waitingNode.transitionToNode(TaskRequestState.ACTIVE_READY.getId(), listener);
-				} else {
-					if ( (this.getPotentialOwners().size() == 1) ) {
-						TransitionListener listener = new org.opaeum.runtime.domain.TransitionListener(){	
-								public void onTransition() {
-								}
-							};
-						processDirty=consumed=true;
-						waitingNode.transitionToNode(TaskRequestState.ACTIVE_RESERVED.getId(), listener);
-					} else {
-					
-					}
-				}
-			}
-		}
-		return consumed;
-	}
-	
 	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("7631795069536317681")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInTask)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("7631795069536317681")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -1093,6 +961,16 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3022263813028286216")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 		}
 	}
 	
@@ -1103,22 +981,6 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		} else {
 			callbackListener.onAbstractRequestUnhandledException(getCallingNodeInstanceUniqueId(),exception, this);
 		}
-	}
-	
-	public NodeImpl recursivelyFindNode(TaskRequestState step, Collection<NodeImpl> collection) {
-		for ( NodeImpl curNode : collection ) {
-			if ( curNode.getId()==step.getId() ) {
-				return curNode;
-			} else {
-				if ( curNode instanceof NodeContainer ) {
-					NodeImpl childNode = recursivelyFindNode(step, (Collection)Arrays.asList(((NodeContainer)curNode).getNodes()));
-					if ( childNode!=null ) {
-						return childNode;
-					}
-				}
-			}
-		}
-		return null;
 	}
 	
 	public void removeAllFromParticipationInTask(Set<ParticipationInTask> participationInTask) {
@@ -1159,8 +1021,13 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	
 	@NumlMetaInfo(uuid="252060@_wuzAoI6SEeCrtavWRHwoHg")
 	public void removeTaskRequestParticipant(@ParameterMetaInfo(name="participant",opaeumId=7590474051790031114l,uuid="252060@_wuzAoY6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(name="kind",opaeumId=6120680878221412726l,uuid="252060@_wuzAoo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
+		generateRemoveTaskRequestParticipantEvent(participant,kind);
 		TaskRequest tgtRemoveParticipation=this;
-		tgtRemoveParticipation.removeFromParticipationInTask((select4(participant, kind)));
+		tgtRemoveParticipation.removeAllFromParticipationInTask((select4(participant, kind)));
+	}
+	
+	public void removeToken(StateMachineToken smToken) {
+		tokens.remove((TaskRequestToken)smToken);
 	}
 	
 	@NumlMetaInfo(uuid="252060@_LlMOIIobEeCPduia_-NbFw")
@@ -1168,16 +1035,8 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		generateRevokeEvent();
 	}
 	
-	public void setCallingNodeInstanceUniqueId(String callingNodeInstanceUniqueId) {
-		this.callingNodeInstanceUniqueId=callingNodeInstanceUniqueId;
-	}
-	
-	public void setCallingProcessInstance(WorkflowProcessInstance callingProcessInstance) {
-		this.callingProcessInstance=callingProcessInstance;
-	}
-	
-	public void setCallingProcessInstanceId(Long callingProcessInstanceId) {
-		this.callingProcessInstanceId=callingProcessInstanceId;
+	public void setCallingToken(AbstractToken callingToken) {
+		this.callingToken=callingToken;
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -1202,7 +1061,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		this.executedOn=executedOn;
 	}
 	
-	public void setHistory(TaskRequestState History) {
+	public void setHistory(String History) {
 		this.History=History;
 	}
 	
@@ -1216,17 +1075,8 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		this.addAllToParticipationInTask(participationInTask);
 	}
 	
-	public void setProcessInstance(WorkflowProcessInstance processInstance) {
-		this.processInstance=processInstance;
-	}
-	
-	public void setProcessInstanceId(Long processInstanceId) {
-		this.processInstanceId=processInstanceId;
-	}
-	
-	public void setReturnInfo(ProcessContext context) {
-		this.callingProcessInstanceId=context.getProcessInstance().getId();
-		this.callingNodeInstanceUniqueId=((NodeInstanceImpl)context.getNodeInstance()).getUniqueId();
+	public void setReturnInfo(AbstractToken callingToken) {
+		this.callingToken=callingToken;
 	}
 	
 	public void setSubRequests(Set<AbstractRequest> subRequests) {
@@ -1294,6 +1144,11 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 			sb.append("\n" + participationInTask.toXmlString());
 		}
 		sb.append("\n</participationInTask>");
+		sb.append("\n<participationInTask propertyId=\"7631795069536317681\">");
+		for ( ParticipationInTask participationInTask : getParticipationInTask() ) {
+			sb.append("\n" + participationInTask.toXmlString());
+		}
+		sb.append("\n</participationInTask>");
 		sb.append("\n<participationInRequest propertyId=\"3022263813028286216\">");
 		for ( ParticipationInRequest participationInRequest : getParticipationInRequest() ) {
 			sb.append("\n" + participationInRequest.toXmlString());
@@ -1306,15 +1161,13 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 			sb.append("\n" + getParentTask().toXmlReferenceString());
 			sb.append("\n</parentTask>");
 		}
+		sb.append("\n<participationInRequest propertyId=\"3022263813028286216\">");
+		for ( ParticipationInRequest participationInRequest : getParticipationInRequest() ) {
+			sb.append("\n" + participationInRequest.toXmlString());
+		}
+		sb.append("\n</participationInRequest>");
 		sb.append("\n</TaskRequest>");
 		return sb.toString();
-	}
-	
-	public void transition(NodeInstanceImpl curNodeInstance, NodeImpl newNode) {
-		NodeInstanceContainer container = (NodeInstanceContainer)curNodeInstance.getNodeInstanceContainer();
-		NodeInstanceImpl newNodeInstance = (NodeInstanceImpl)container.getNodeInstance(newNode);
-		container.removeNodeInstance(curNodeInstance);
-		curNodeInstance.trigger(newNodeInstance, "asdf");
 	}
 	
 	public void z_internalAddToDelegation(TaskDelegation val) {
@@ -1375,10 +1228,6 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
 		return result;
-	}
-	
-	private NodeImpl getNodeForStep(TaskRequestState step) {
-		return recursivelyFindNode(step, (Collection)Arrays.asList(getProcessDefinition().getNodes()));
 	}
 	
 	/** Implements self.participationInTask->select(p : ParticipationInTask | p.kind.=(OpaeumLibraryForBPM::request::TaskParticipationKind::potentialOwner))

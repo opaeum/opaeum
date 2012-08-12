@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_XDV9IOMAEeGYE-5HtwGq8g" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg" name="Add task request participant User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_XDV9IeMAEeGYE-5HtwGq8g" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg" name="Edit addTaskRequestParticipant"><actionBar xmi:id="_XDV9JOMAEeGYE-5HtwGq8g" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDV9JeMAEeGYE-5HtwGq8g" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDV9JuMAEeGYE-5HtwGq8g" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_XDV9IuMAEeGYE-5HtwGq8g" name="Edit Add task request participant" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg">
-      <panel xmi:type="panel:GridPanel" xmi:id="_XDV9I-MAEeGYE-5HtwGq8g" numberOfColumns="1"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_h2Y41OScEeG5u9G4h3x7ow" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg" name="Add task request participant User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_h2Y41eScEeG5u9G4h3x7ow" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg" name="Edit addTaskRequestParticipant"><actionBar xmi:id="_h2Y42OScEeG5u9G4h3x7ow" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2Y42eScEeG5u9G4h3x7ow" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2Y42uScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_h2Y41uScEeG5u9G4h3x7ow" name="Edit Add task request participant" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2Y41-ScEeG5u9G4h3x7ow" numberOfColumns="1"/>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_XDV9J-MAEeGYE-5HtwGq8g" name="Create addTaskRequestParticipant" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg">
-    <pages xmi:id="_XDV9KOMAEeGYE-5HtwGq8g" name="CreateAdd task request participant" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg">
-      <panel xmi:type="panel:GridPanel" xmi:id="_XDV9KeMAEeGYE-5HtwGq8g" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_h2Y42-ScEeG5u9G4h3x7ow" name="Create addTaskRequestParticipant" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg">
+    <pages xmi:id="_h2Y43OScEeG5u9G4h3x7ow" name="CreateAdd task request participant" umlElementUid="252060@_nezb8I6SEeCrtavWRHwoHg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2Y43eScEeG5u9G4h3x7ow" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </uim:ClassUserInteractionModel>

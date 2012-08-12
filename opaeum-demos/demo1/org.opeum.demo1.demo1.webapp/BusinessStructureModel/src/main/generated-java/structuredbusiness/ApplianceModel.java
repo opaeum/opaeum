@@ -159,10 +159,34 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		if ( xml.getAttribute("applianceType").length()>0 ) {
 			setApplianceType(ApplianceType.valueOf(xml.getAttribute("applianceType")));
 		}
+		if ( xml.getAttribute("vendor").length()>0 ) {
+			setVendor(Vendor.valueOf(xml.getAttribute("vendor")));
+		}
+		if ( xml.getAttribute("applianceType").length()>0 ) {
+			setApplianceType(ApplianceType.valueOf(xml.getAttribute("applianceType")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("component") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6689744676322243651")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ApplianceComponent curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToComponent(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("component") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6689744676322243651")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -193,6 +217,8 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		to.setPartNumber(from.getPartNumber());
 		to.setVendor(from.getVendor());
 		to.setApplianceType(from.getApplianceType());
+		to.setVendor(from.getVendor());
+		to.setApplianceType(from.getApplianceType());
 	}
 	
 	public void copyState(ApplianceModel from, ApplianceModel to) {
@@ -201,6 +227,11 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		}
 		to.setName(from.getName());
 		to.setPartNumber(from.getPartNumber());
+		to.setVendor(from.getVendor());
+		to.setApplianceType(from.getApplianceType());
+		for ( ApplianceComponent child : from.getComponent() ) {
+			to.addToComponent(child.makeCopy());
+		}
 		to.setVendor(from.getVendor());
 		to.setApplianceType(from.getApplianceType());
 	}
@@ -329,6 +360,9 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		for ( ApplianceComponent child : new ArrayList<ApplianceComponent>(getComponent()) ) {
 			child.markDeleted();
 		}
+		for ( ApplianceComponent child : new ArrayList<ApplianceComponent>(getComponent()) ) {
+			child.markDeleted();
+		}
 		setDeletedOn(new Date());
 	}
 	
@@ -341,6 +375,16 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("component") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6689744676322243651")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ApplianceComponent)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("component") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6689744676322243651")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -459,7 +503,18 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		if ( getApplianceType()!=null ) {
 			sb.append("applianceType=\""+ getApplianceType().name() + "\" ");
 		}
+		if ( getVendor()!=null ) {
+			sb.append("vendor=\""+ getVendor().name() + "\" ");
+		}
+		if ( getApplianceType()!=null ) {
+			sb.append("applianceType=\""+ getApplianceType().name() + "\" ");
+		}
 		sb.append(">");
+		sb.append("\n<component propertyId=\"6689744676322243651\">");
+		for ( ApplianceComponent component : getComponent() ) {
+			sb.append("\n" + component.toXmlString());
+		}
+		sb.append("\n</component>");
 		sb.append("\n<component propertyId=\"6689744676322243651\">");
 		for ( ApplianceComponent component : getComponent() ) {
 			sb.append("\n" + component.toXmlString());

@@ -101,8 +101,6 @@
 	@AnyMetaDef(idType="long",metaType="string",metaValues={},name="IResponsibilityTaskObject"),
 	@AnyMetaDef(idType="long",metaType="string",metaValues=
 		@MetaValue(targetEntity=IResponsibilityTaskObject.class,value="663791456725138204"),name="ITaskObject")})
-@NamedQueries(value=
-	@NamedQuery(name="ProcessInstancesWaitingForEvent",query="select processInstanceInfo.processInstanceId from org.jbpm.persistence.processinstance.ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)"))
 package org.opeum.demo1.util;
 import org.opaeum.runtime.contact.PersonEMailAddressTypeResolver;
 import org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeResolver;
@@ -116,7 +114,6 @@ import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.requestobject.IResponsibilityInvocation;
 import org.hibernate.annotations.AnyMetaDefs;
 import org.opaeum.runtime.bpm.contact.OrganizationPhoneNumberTypeResolver;
-import javax.persistence.NamedQuery;
 import org.opaeum.runtime.domain.DocumentTypeResolver;
 import org.opaeum.runtime.bpm.contact.PersonPhoneNumber;
 import org.opaeum.runtime.domain.TaskDelegationResolver;
@@ -127,7 +124,6 @@ import org.opaeum.runtime.bpm.organization.IBusiness;
 import org.opaeum.runtime.bpm.opaeumsimpletypes.MonthResolver;
 import ocltests.SailPositionResolver;
 import structuredbusiness.VendorResolver;
-import javax.persistence.NamedQueries;
 import structuredbusiness.Branch;
 import structuredbusiness.IdBook;
 import org.hibernate.annotations.FilterDef;

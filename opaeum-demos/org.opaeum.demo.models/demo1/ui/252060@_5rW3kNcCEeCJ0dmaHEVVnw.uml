@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_XDgVMOMAEeGYE-5HtwGq8g" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw" name="Once off holiday User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_XDgVMeMAEeGYE-5HtwGq8g" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw" name="Edit OnceOffHoliday"><actionBar xmi:id="_XDg8QOMAEeGYE-5HtwGq8g" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDg8QeMAEeGYE-5HtwGq8g" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_XDg8QuMAEeGYE-5HtwGq8g" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_XDgVMuMAEeGYE-5HtwGq8g" name="Edit Once off holiday" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw">
-      <panel xmi:type="panel:GridPanel" xmi:id="_XDgVM-MAEeGYE-5HtwGq8g" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_XDgVNOMAEeGYE-5HtwGq8g" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_XDgVNeMAEeGYE-5HtwGq8g"/>
-          <binding xmi:id="_XDgVNuMAEeGYE-5HtwGq8g" umlElementUid="252060@_94Gk0NcCEeCJ0dmaHEVVnw"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_h2lGAOScEeG5u9G4h3x7ow" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw" name="Once off holiday User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_h2lGAeScEeG5u9G4h3x7ow" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw" name="Edit OnceOffHoliday"><actionBar xmi:id="_h2lGCuScEeG5u9G4h3x7ow" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2lGC-ScEeG5u9G4h3x7ow" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2lGDOScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_h2lGAuScEeG5u9G4h3x7ow" name="Edit Once off holiday" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2lGA-ScEeG5u9G4h3x7ow" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_h2lGBOScEeG5u9G4h3x7ow" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_h2lGBeScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2lGBuScEeG5u9G4h3x7ow" umlElementUid="252060@_94Gk0NcCEeCJ0dmaHEVVnw"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_XDgVN-MAEeGYE-5HtwGq8g" name="Date" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDatePopup" xmi:id="_XDgVOOMAEeGYE-5HtwGq8g"/>
-          <binding xmi:id="_XDgVOeMAEeGYE-5HtwGq8g" umlElementUid="252060@__KuDQNcCEeCJ0dmaHEVVnw"/>
+        <children xmi:type="uim:UimField" xmi:id="_h2lGB-ScEeG5u9G4h3x7ow" name="Date" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDatePopup" xmi:id="_h2lGCOScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2lGCeScEeG5u9G4h3x7ow" umlElementUid="252060@__KuDQNcCEeCJ0dmaHEVVnw"/>
         </children>
       </panel>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_XDg8Q-MAEeGYE-5HtwGq8g" name="Create OnceOffHoliday" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw">
-    <pages xmi:id="_XDg8ROMAEeGYE-5HtwGq8g" name="CreateOnce off holiday" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw">
-      <panel xmi:type="panel:GridPanel" xmi:id="_XDg8ReMAEeGYE-5HtwGq8g" numberOfColumns="1">
-        <children xmi:type="uim:UimField" xmi:id="_XDg8RuMAEeGYE-5HtwGq8g" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimText" xmi:id="_XDg8R-MAEeGYE-5HtwGq8g"/>
-          <binding xmi:id="_XDg8SOMAEeGYE-5HtwGq8g" umlElementUid="252060@_94Gk0NcCEeCJ0dmaHEVVnw"/>
+  <newObjectWizard xmi:id="_h2lGDeScEeG5u9G4h3x7ow" name="Create OnceOffHoliday" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw">
+    <pages xmi:id="_h2lGDuScEeG5u9G4h3x7ow" name="CreateOnce off holiday" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw">
+      <panel xmi:type="panel:GridPanel" xmi:id="_h2lGD-ScEeG5u9G4h3x7ow" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_h2lGEOScEeG5u9G4h3x7ow" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_h2lGEeScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2lGEuScEeG5u9G4h3x7ow" umlElementUid="252060@_94Gk0NcCEeCJ0dmaHEVVnw"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_XDg8SeMAEeGYE-5HtwGq8g" name="Date" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-          <control xmi:type="ctl:UimDatePopup" xmi:id="_XDg8SuMAEeGYE-5HtwGq8g"/>
-          <binding xmi:id="_XDg8S-MAEeGYE-5HtwGq8g" umlElementUid="252060@__KuDQNcCEeCJ0dmaHEVVnw"/>
+        <children xmi:type="uim:UimField" xmi:id="_h2lGE-ScEeG5u9G4h3x7ow" name="Date" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDatePopup" xmi:id="_h2lGFOScEeG5u9G4h3x7ow"/>
+          <binding xmi:id="_h2lGFeScEeG5u9G4h3x7ow" umlElementUid="252060@__KuDQNcCEeCJ0dmaHEVVnw"/>
         </children>
       </panel>
     </pages>

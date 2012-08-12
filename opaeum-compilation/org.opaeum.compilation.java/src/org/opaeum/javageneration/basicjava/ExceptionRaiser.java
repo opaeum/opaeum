@@ -6,8 +6,8 @@ import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
-import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
+import org.opaeum.javageneration.bpm.BpmUtil;
+import org.opaeum.javageneration.bpm.actions.Jbpm5ObjectNodeExpressor;
 
 public class ExceptionRaiser extends SimpleNodeBuilder<RaiseExceptionAction>{
 	public ExceptionRaiser(RaiseExceptionAction action,AbstractObjectNodeExpressor objectNodeExpressor){
@@ -15,7 +15,7 @@ public class ExceptionRaiser extends SimpleNodeBuilder<RaiseExceptionAction>{
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		operation.getOwner().addToImports(Jbpm5Util.getExceptionHolder());
+		operation.getOwner().addToImports(BpmUtil.getExceptionHolder());
 		if(EmfBehaviorUtil.isLongRunning(EmfActivityUtil.getContainingActivity(node))){
 			block.addToStatements("propagateException(" + super.readPin(operation, block, node.getException()) + ")");
 		}else if(EmfBehaviorUtil.isComplectSynchronousMethod(getContainingActivity())){

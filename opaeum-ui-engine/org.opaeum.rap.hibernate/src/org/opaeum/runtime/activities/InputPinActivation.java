@@ -1,7 +1,7 @@
 package org.opaeum.runtime.activities;
 
 public class InputPinActivation extends PinActivation{
-	public InputPinActivation(ActivityNodeContainerInstance group,String id,String name,int lower,int upper){
+	public InputPinActivation(IActivityNodeContainerExecution group,String id,String name,int lower,int upper){
 		super(group, id, name,lower, upper);
 	}
 	public void receiveOffer(){

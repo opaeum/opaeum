@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_C6o_6uO4EeGYE-5HtwGq8g" umlElementUid="StandardL3.profile.uml@SystemModel" name="System model User Interface Model" linkedUmlResource="StandardL3.profile.uml">
+  <primaryEditor xmi:id="_C6o_6-O4EeGYE-5HtwGq8g" umlElementUid="StandardL3.profile.uml@SystemModel" name="Edit SystemModel"><actionBar xmi:id="_C6pm8OO4EeGYE-5HtwGq8g" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_C6pm8eO4EeGYE-5HtwGq8g" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_C6pm8uO4EeGYE-5HtwGq8g" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_C6o_7OO4EeGYE-5HtwGq8g" name="Edit System model" umlElementUid="StandardL3.profile.uml@SystemModel">
+      <panel xmi:type="panel:GridPanel" xmi:id="_C6o_7eO4EeGYE-5HtwGq8g" numberOfColumns="1"/>
+    </pages></primaryEditor>
+  <newObjectWizard xmi:id="_C6pm8-O4EeGYE-5HtwGq8g" name="Create SystemModel" umlElementUid="StandardL3.profile.uml@SystemModel">
+    <pages xmi:id="_C6pm9OO4EeGYE-5HtwGq8g" name="CreateSystem model" umlElementUid="StandardL3.profile.uml@SystemModel">
+      <panel xmi:type="panel:GridPanel" xmi:id="_C6pm9eO4EeGYE-5HtwGq8g" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</uim:ClassUserInteractionModel>

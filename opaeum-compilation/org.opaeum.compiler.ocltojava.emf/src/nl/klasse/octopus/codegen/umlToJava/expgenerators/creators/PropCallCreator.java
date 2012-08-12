@@ -23,17 +23,20 @@ import org.eclipse.uml2.uml.Property;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.ocl.uml.AbstractOclContext;
 
 @SuppressWarnings("rawtypes")
 public class PropCallCreator{
 	private OJClass myClass = null;
 	ExpGeneratorHelper expGeneratorHelper;
 	private OJUtil ojUtil;
-	public PropCallCreator(ExpGeneratorHelper e,OJClass myClass){
+	private AbstractOclContext context;
+	public PropCallCreator(ExpGeneratorHelper e,OJClass myClass, AbstractOclContext context){
 		super();
 		expGeneratorHelper = e;
 		this.myClass = myClass;
 		this.ojUtil = e.ojUtil;
+		this.context=context;
 	}
 	public StringBuffer makeExpression(CallExp in,StringBuffer source,boolean isStatic,List<OJParameter> params){
 		StringBuffer thisNode = new StringBuffer();
@@ -51,10 +54,10 @@ public class PropCallCreator{
 		StringBuffer newSource = new StringBuffer();
 		if(in instanceof LoopExp){
 			if(in instanceof IterateExp){
-				LoopExpCreator maker = new LoopExpCreator(expGeneratorHelper, myClass);
+				LoopExpCreator maker = new LoopExpCreator(expGeneratorHelper, myClass,context);
 				newSource.append(maker.iterateExp((IterateExp) in, source, isStatic, params));
 			}else if(in instanceof IteratorExp){
-				LoopExpCreator maker = new LoopExpCreator(expGeneratorHelper, myClass);
+				LoopExpCreator maker = new LoopExpCreator(expGeneratorHelper, myClass,context);
 				newSource.append(maker.iteratorExp((IteratorExp) in, source, isStatic, params));
 			}
 		}else if(in instanceof FeatureCallExp){
@@ -63,7 +66,7 @@ public class PropCallCreator{
 			}else if(in instanceof AssociationClassCallExp){
 				newSource.append(associationClassCallExp((AssociationClassCallExp) in, source));
 			}else if(in instanceof OperationCallExp){
-				OperationCallCreator maker = new OperationCallCreator(expGeneratorHelper, myClass);
+				OperationCallCreator maker = new OperationCallCreator(expGeneratorHelper, myClass,context);
 				newSource.append(maker.operationCallExp((OperationCallExp) in, source, isStatic, params));
 			}
 		}
@@ -80,7 +83,7 @@ public class PropCallCreator{
 		}else{
 			String sourceStr = StringHelpers.addBrackets(source.toString());
 			if(exp.getQualifier().size() > 0){
-				ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass);
+				ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass,context);
 
 				StringBuilder args = new StringBuilder();
 				Iterator it = exp.getQualifier().iterator();

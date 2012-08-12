@@ -20,11 +20,9 @@ import org.hibernate.event.spi.PostInsertEventListener;
 import org.hibernate.event.spi.PostLoadEvent;
 import org.hibernate.event.spi.PostLoadEventListener;
 import org.hibernate.persister.entity.EntityPersister;
-import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.domain.IProcessObject;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -34,8 +32,6 @@ public class EventDispatcher extends DefaultFlushEventListener implements PostLo
 	private static final long serialVersionUID = -8583155822068850343L;
 	static Map<EventSource,Set<IEventGenerator>> eventGeneratorMap = Collections
 			.synchronizedMap(new WeakHashMap<EventSource,Set<IEventGenerator>>());
-	static Map<EventSource,Set<IProcessObject>> processObjectMap = Collections
-			.synchronizedMap(new WeakHashMap<EventSource,Set<IProcessObject>>());
 	static Map<EventSource,AbstractHibernatePersistence> persistenceMap = Collections
 			.synchronizedMap(new WeakHashMap<EventSource,AbstractHibernatePersistence>());
 	private AbstractPersistence getPersistence(EventSource session){
@@ -77,14 +73,6 @@ public class EventDispatcher extends DefaultFlushEventListener implements PostLo
 			}
 			set.add((IEventGenerator) entity);
 		}
-		if(entity instanceof IProcessObject){
-			Set<IProcessObject> set = processObjectMap.get(session);
-			if(set == null){
-				set = new HashSet<IProcessObject>();
-				processObjectMap.put(session, set);
-			}
-			set.add((IProcessObject) entity);
-		}
 	}
 	@Override
 	public void onFlush(FlushEvent event) throws HibernateException{
@@ -97,17 +85,7 @@ public class EventDispatcher extends DefaultFlushEventListener implements PostLo
 	}
 	protected void dispatchEventsAndSaveProcesses(FlushEvent event,final EventSource source){
 		Set<IEventGenerator> eventGenerators = eventGeneratorMap.get(event.getSession());
-		Set<IProcessObject> processes = processObjectMap.get(event.getSession());
 		boolean dirtyProcessFound = false;
-		if(processes != null){
-			for(IProcessObject o:processes){
-				if(o.isProcessDirty()){
-					ProcessInstanceInfo pii = (ProcessInstanceInfo) source.get(ProcessInstanceInfo.class, o.getProcessInstanceId());
-					pii.update();
-					dirtyProcessFound = true;
-				}
-			}
-		}
 		if(eventGenerators != null){
 			Set<EventOccurrence> dispatchEvents = saveEvents(event, source, eventGenerators);
 			Set<String> cancelledEvents = deleteEvents(event, source);

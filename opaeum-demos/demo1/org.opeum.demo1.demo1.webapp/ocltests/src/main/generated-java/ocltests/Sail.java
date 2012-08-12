@@ -137,6 +137,9 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 		if ( xml.getAttribute("sailPosition").length()>0 ) {
 			setSailPosition(SailPosition.valueOf(xml.getAttribute("sailPosition")));
 		}
+		if ( xml.getAttribute("sailPosition").length()>0 ) {
+			setSailPosition(SailPosition.valueOf(xml.getAttribute("sailPosition")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -148,10 +151,12 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 	public void copyShallowState(Sail from, Sail to) {
 		to.setSize(from.getSize());
 		to.setSailPosition(from.getSailPosition());
+		to.setSailPosition(from.getSailPosition());
 	}
 	
 	public void copyState(Sail from, Sail to) {
 		to.setSize(from.getSize());
+		to.setSailPosition(from.getSailPosition());
 		to.setSailPosition(from.getSailPosition());
 	}
 	
@@ -339,6 +344,9 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getSize()!=null ) {
 			sb.append("size=\""+ OcltestsFormatter.getInstance().formatInteger(getSize())+"\" ");
+		}
+		if ( getSailPosition()!=null ) {
+			sb.append("sailPosition=\""+ getSailPosition().name() + "\" ");
 		}
 		if ( getSailPosition()!=null ) {
 			sb.append("sailPosition=\""+ getSailPosition().name() + "\" ");

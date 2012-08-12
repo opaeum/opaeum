@@ -32,8 +32,7 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationStep;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
-import org.opaeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
-import org.opaeum.javageneration.jbpm5.Jbpm5JavaStep;
+import org.opaeum.javageneration.bpm.Jbpm5JavaStep;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.rap.RapCapabilities;
@@ -87,7 +86,6 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 			boolean isAdaptorEnvironment,Element owner){
 		SortedProperties properties = new SortedProperties();
 		HashMap<String,Object> vars = buildVars(models, isAdaptorEnvironment, owner);
-		properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, ojUtil.utilClass(owner, Jbpm5EnvironmentBuilder.JBPM_KNOWLEDGE_BASE).toJavaString());
 		properties.setProperty(Environment.DBMS, config.getDbms());
 		properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, ojUtil.utilClass(owner, JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX).toJavaString());
 		properties.setProperty(Environment.JDBC_CONNECTION_URL, config.getJdbcConnectionUrl());

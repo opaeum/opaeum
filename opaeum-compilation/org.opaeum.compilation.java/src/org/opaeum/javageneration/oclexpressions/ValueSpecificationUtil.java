@@ -57,7 +57,7 @@ public class ValueSpecificationUtil{
 		}
 			
 		ExpressionCreator ec = new ExpressionCreator(ojUtil, ojOwner);
-		expression = ec.makeExpression(oclExpression.getExpression(), isStatic, new ArrayList<OJParameter>());
+		expression = ec.makeExpression(oclExpression, isStatic, new ArrayList<OJParameter>());
 		expression = buildTypeCastIfNecessary(expression, oclExpression.getExpression(), expectedType);
 		return expression;
 	}
@@ -86,7 +86,7 @@ public class ValueSpecificationUtil{
 			ExpressionCreator ec = new ExpressionCreator(ojUtil, ojOwner);
 			List<OJParameter> parameters = buildContext(operationContext);
 			addExtendedKeywords(operationContext, value);
-			expression = ec.makeExpression(value.getExpression(), operationContext.isStatic(), parameters);
+			expression = ec.makeExpression(value, operationContext.isStatic(), parameters);
 			if(expectedType != null){
 				expression = buildTypeCastIfNecessary(expression, value.getExpression(), expectedType);
 			}

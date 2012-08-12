@@ -304,6 +304,16 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("technician") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8435746886564594669")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setTechnician((Technician)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
 		}
 	}
 	
@@ -398,6 +408,13 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 			sb.append("dateOfWork=\""+ StructuredbusinessFormatter.getInstance().formatDateTime(getDateOfWork())+"\" ");
 		}
 		sb.append(">");
+		if ( getTechnician()==null ) {
+			sb.append("\n<technician/>");
+		} else {
+			sb.append("\n<technician propertyId=\"8435746886564594669\">");
+			sb.append("\n" + getTechnician().toXmlReferenceString());
+			sb.append("\n</technician>");
+		}
 		if ( getTechnician()==null ) {
 			sb.append("\n<technician/>");
 		} else {

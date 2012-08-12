@@ -14,7 +14,6 @@ public class StateMap extends PackageableElementMap {
 		super(ojUtil,s);
 		state = s;
 	}
-
 	public String javaFieldName(){
 		return StringHelpers.replaceAllSubstrings(EmfStateMachineUtil.getStatePath( state), "::", "_").toString();
 	}
@@ -23,19 +22,11 @@ public class StateMap extends PackageableElementMap {
 		return "get" + StringHelpers.firstCharToUpper(javaFieldName());
 	}
 
-	public String setter(){
-		return "set" + StringHelpers.firstCharToUpper(javaFieldName());
-	}
 	
 	public OJPathName javaType(){
-		OJPathName result = StdlibMap.javaBooleanType;
-		return result;
+		return ojUtil.classifierPathname(state);
 	}
 	
-	public String javaDefaultValue(){
-		String result = "false";
-		return result;
-	}
 	public String getOnEntryMethod() {
 		return "onEntryOf"+state.getName();
 	}

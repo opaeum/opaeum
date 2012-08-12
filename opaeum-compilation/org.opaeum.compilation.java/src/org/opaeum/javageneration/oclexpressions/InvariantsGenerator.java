@@ -65,7 +65,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 					Collection<Element> ce = rule.getConstrainedElements();
 					if(et instanceof CollectionType){
 						if(ce.size() > 0 && ce.iterator().next() instanceof TypedElement){
-							String body = ec.makeExpression(oclExpression.getExpression(), false, new ArrayList<OJParameter>());
+							String body = ec.makeExpression(oclExpression, false, new ArrayList<OJParameter>());
 							OJAnnotatedOperation oper = new OJAnnotatedOperation("get" + NameConverter.capitalize(rule.getName()));
 							myClass.addToImports("java.util.List");
 							myClass.addToImports("java.util.ArrayList");
@@ -93,7 +93,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 						ValueSpecificationUtil.addExtendedKeywords(oper, oclExpression);
 						oper.initializeResultVariable("false");
 						oper.getBody().addToStatements(
-								"result = " + ec.makeExpression(oclExpression.getExpression(), false, new ArrayList<OJParameter>()));
+								"result = " + ec.makeExpression(oclExpression, false, new ArrayList<OJParameter>()));
 						myClass.addToOperations(oper);
 					}
 				}else{

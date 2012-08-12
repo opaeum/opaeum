@@ -40,9 +40,7 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 	private OJAnnotatedOperation buildToOpaeumId(OJEnum oje, Collection<? extends NamedElement> els){
 		OJAnnotatedOperation toOpaeumId = new OJAnnotatedOperation("toOpaeumId",new OJPathName("long"));
 		toOpaeumId.addParam("en", new OJPathName(IEnum.class.getName()));
-		OJAnnotatedField result = new OJAnnotatedField("result", new OJPathName("long"));
-		result.setInitExp("-1");
-		toOpaeumId.getBody().addToLocals(result);
+		toOpaeumId.initializeResultVariable("-1");
 		OJSwitchStatement sst= new OJSwitchStatement();
 		toOpaeumId.getBody().addToStatements(sst);
 		sst.setCondition("("+ oje.getName()+")en");
@@ -52,16 +50,13 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 			sc.getBody().addToStatements("result = "  + EmfWorkspace.getOpaeumId(l)  + "l");
 			sst.addToCases(sc);
 		}
-		toOpaeumId.getBody().addToStatements("return result");
 		return toOpaeumId;
 	}
 	protected abstract String getLiteralName(NamedElement l);
 	private OJAnnotatedOperation buildFromOpaeumId(OJEnum oje,Collection<? extends NamedElement> els){
 		OJAnnotatedOperation toOpaeumId = new OJAnnotatedOperation("fromOpaeumId", new OJPathName(IEnum.class.getName()));
 		toOpaeumId.addParam("i", new OJPathName("long"));
-		OJAnnotatedField result = new OJAnnotatedField("result", new OJPathName(IEnum.class.getName()));
-		result.setInitExp("null");
-		toOpaeumId.getBody().addToLocals(result);
+		toOpaeumId.initializeResultVariable("null");
 		OJBlock elsePart =toOpaeumId.getBody();
 		for(NamedElement l:els){
 			OJIfStatement sc = new OJIfStatement("i=="+EmfWorkspace.getOpaeumId(l) + "l","result = " + oje.getName() + "." + getLiteralName(l));
@@ -69,7 +64,6 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 			sc.setElsePart(new OJBlock());
 			elsePart=sc.getElsePart();
 		}
-		toOpaeumId.getBody().addToStatements("return result");
 		return toOpaeumId;
 	}
 }

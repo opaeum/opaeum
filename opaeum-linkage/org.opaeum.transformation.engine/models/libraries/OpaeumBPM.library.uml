@@ -709,7 +709,7 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_3lspsEvREeGmqIr8YsFD4g" name="BusinessNetwork Person" memberEnd="_3lspsUvREeGmqIr8YsFD4g _3lOvoEvREeGmqIr8YsFD4g" navigableOwnedEnd="_3lspsUvREeGmqIr8YsFD4g">
         <eAnnotations xmi:id="_JduEUGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        <ownedEnd xmi:id="_3lspsUvREeGmqIr8YsFD4g" name="collaboration" type="_NRu9QFYjEeGJUqEGX7bKSg" association="_3lspsEvREeGmqIr8YsFD4g">
+        <ownedEnd xmi:id="_3lspsUvREeGmqIr8YsFD4g" name="businessNetwork" type="_NRu9QFYjEeGJUqEGX7bKSg" association="_3lspsEvREeGmqIr8YsFD4g">
           <eAnnotations xmi:id="_Jc6MAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3lsps0vREeGmqIr8YsFD4g" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3lspskvREeGmqIr8YsFD4g" value="1"/>
@@ -874,7 +874,7 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3lcZg1YuEeGj5_I7bIwNoA" value="1"/>
         </ownedEnd>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_8YuD0FZFEeGj5_I7bIwNoA" name="Organization businessCalendar" memberEnd="_8YuD0VZFEeGj5_I7bIwNoA _8YsOoFZFEeGj5_I7bIwNoA">
+      <packagedElement xmi:type="uml:Association" xmi:id="_8YuD0FZFEeGj5_I7bIwNoA" name="Organization businessCalendar" memberEnd="_8YuD0VZFEeGj5_I7bIwNoA _8YsOoFZFEeGj5_I7bIwNoA" navigableOwnedEnd="_8YuD0VZFEeGj5_I7bIwNoA">
         <eAnnotations xmi:id="_JdeMsGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <ownedEnd xmi:id="_8YuD0VZFEeGj5_I7bIwNoA" name="organization" type="_pZdQEEtmEeGd4cpyhpib9Q" association="_8YuD0FZFEeGj5_I7bIwNoA">
           <eAnnotations xmi:id="_Jdc-kGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>

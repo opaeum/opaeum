@@ -4,7 +4,7 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.javageneration.JavaFeature;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.simpleactions.EventGeneratorImplementor;
-import org.opaeum.javageneration.jbpm5.Jbpm5JavaStep;
+import org.opaeum.javageneration.bpm.Jbpm5JavaStep;
 import org.opaeum.jbpm5.ActivityFlowStep;
 import org.opaeum.jbpm5.StateMachineFlowStep;
 import org.opaeum.pomgeneration.Jbpm5PomStep;

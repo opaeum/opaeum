@@ -24,9 +24,9 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.jbpm5.AbstractBehaviorVisitor;
-import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
+import org.opaeum.javageneration.bpm.AbstractBehaviorVisitor;
+import org.opaeum.javageneration.bpm.BpmUtil;
+import org.opaeum.javageneration.bpm.actions.Jbpm5ObjectNodeExpressor;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.runtime.domain.IActiveEntity;
@@ -61,12 +61,9 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	private void addSetReturnInfo(OJAnnotatedClass ojClass){
 		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
 		ojClass.addToOperations(setReturnInfo);
-		setReturnInfo.addParam("context", Jbpm5Util.getProcessContext());
-		setReturnInfo.getBody().addToStatements("this.callingProcessInstanceId=context.getProcessInstance().getId()");
-		setReturnInfo.getBody().addToStatements(
-				"this.callingNodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
-		OJUtil.addPersistentProperty(ojClass, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
-		ojClass.addToImports(Jbpm5Util.getNodeInstance());
+		setReturnInfo.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
+		setReturnInfo.getBody().addToStatements("this.callingToken=callingToken");
+		OJUtil.addPersistentProperty(ojClass, "callingToken", BpmUtil.ABSTRACT_TOKEN, true);
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassifier(BehavioredClassifier c){
@@ -86,13 +83,9 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 				complete.getBody().addToStatements("evaluatePostConditions()");
 				OJUtil.addFailedConstraints(complete);
 			}
-			if(map.getNamedElement() instanceof Behavior){
-				complete.getBody().addToStatements("getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED)");
-			}
 			OJAnnotatedField currentException = OJUtil.addTransientProperty(ojOperationClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"),true);
 			currentException.setVisibility(OJVisibilityKind.PROTECTED);
 			if(map.isLongRunning()){
-				Jbpm5Util.implementRelationshipWithProcess(ojOperationClass, true, "callingProcess");
 				addSetReturnInfo(ojOperationClass);
 				OJAnnotatedField callBackListener = new OJAnnotatedField("callbackListener", map.callbackListenerPath());
 				complete.getBody().addToLocals(callBackListener);

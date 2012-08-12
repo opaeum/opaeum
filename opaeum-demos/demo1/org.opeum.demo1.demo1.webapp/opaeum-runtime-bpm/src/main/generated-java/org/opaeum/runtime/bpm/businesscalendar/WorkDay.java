@@ -21,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
@@ -72,6 +73,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
+	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="workDay")
 	private TimeOfDay endTime;
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
@@ -90,6 +92,8 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 5790311637175134369l;
+	@ManyToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="start_time_id",nullable=true)
 	private TimeOfDay startTime;
 	private String uid;
 	private String z_keyOfWorkDayOnBusinessCalendar;
@@ -137,7 +141,78 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-		
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3879474800558390783")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						TimeOfDay curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setStartTime(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1916778051938121831")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						TimeOfDay curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setEndTime(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3879474800558390783")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						TimeOfDay curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setStartTime(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1916778051938121831")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						TimeOfDay curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setEndTime(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
@@ -149,6 +224,12 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 			to.setEndTime(from.getEndTime().makeShallowCopy());
 		}
 		to.setKind(from.getKind());
+		if ( from.getStartTime()!=null ) {
+			to.setStartTime(from.getStartTime().makeShallowCopy());
+		}
+		if ( from.getEndTime()!=null ) {
+			to.setEndTime(from.getEndTime().makeShallowCopy());
+		}
 	}
 	
 	public void copyState(WorkDay from, WorkDay to) {
@@ -159,6 +240,12 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 			to.setEndTime(from.getEndTime().makeCopy());
 		}
 		to.setKind(from.getKind());
+		if ( from.getStartTime()!=null ) {
+			to.setStartTime(from.getStartTime().makeCopy());
+		}
+		if ( from.getEndTime()!=null ) {
+			to.setEndTime(from.getEndTime().makeCopy());
+		}
 	}
 	
 	public void createComponents() {
@@ -168,6 +255,16 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( getEndTime()==null ) {
 			setEndTime(new TimeOfDay());
 		}
+	}
+	
+	public TimeOfDay createEndTime() {
+		TimeOfDay newInstance= new TimeOfDay();
+		return newInstance;
+	}
+	
+	public TimeOfDay createStartTime() {
+		TimeOfDay newInstance= new TimeOfDay();
+		return newInstance;
 	}
 	
 	public boolean equals(Object other) {
@@ -282,6 +379,18 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( getBusinessCalendar()!=null ) {
 			getBusinessCalendar().z_internalRemoveFromWorkDay(this.getKind(),this);
 		}
+		if ( getStartTime()!=null ) {
+			getStartTime().markDeleted();
+		}
+		if ( getEndTime()!=null ) {
+			getEndTime().markDeleted();
+		}
+		if ( getStartTime()!=null ) {
+			getStartTime().markDeleted();
+		}
+		if ( getEndTime()!=null ) {
+			getEndTime().markDeleted();
+		}
 		setDeletedOn(new Date());
 	}
 	
@@ -294,7 +403,46 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-		
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3879474800558390783")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((TimeOfDay)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1916778051938121831")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((TimeOfDay)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3879474800558390783")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((TimeOfDay)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1916778051938121831")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((TimeOfDay)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 		}
 	}
 	
@@ -399,6 +547,34 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 			sb.append("kind=\""+ getKind().name() + "\" ");
 		}
 		sb.append(">");
+		if ( getStartTime()==null ) {
+			sb.append("\n<startTime/>");
+		} else {
+			sb.append("\n<startTime propertyId=\"3879474800558390783\">");
+			sb.append("\n" + getStartTime().toXmlString());
+			sb.append("\n</startTime>");
+		}
+		if ( getEndTime()==null ) {
+			sb.append("\n<endTime/>");
+		} else {
+			sb.append("\n<endTime propertyId=\"1916778051938121831\">");
+			sb.append("\n" + getEndTime().toXmlString());
+			sb.append("\n</endTime>");
+		}
+		if ( getStartTime()==null ) {
+			sb.append("\n<startTime/>");
+		} else {
+			sb.append("\n<startTime propertyId=\"3879474800558390783\">");
+			sb.append("\n" + getStartTime().toXmlString());
+			sb.append("\n</startTime>");
+		}
+		if ( getEndTime()==null ) {
+			sb.append("\n<endTime/>");
+		} else {
+			sb.append("\n<endTime propertyId=\"1916778051938121831\">");
+			sb.append("\n" + getEndTime().toXmlString());
+			sb.append("\n</endTime>");
+		}
 		sb.append("\n</WorkDay>");
 		return sb.toString();
 	}

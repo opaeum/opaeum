@@ -159,10 +159,10 @@ public class IBusinessCollaboration_iBusinessActor_1 implements IPersistentObjec
 	}
 	
 	public void clear() {
-		getBusinessCollaboration().z_internalRemoveFromIBusinessCollaboration_iBusinessActor_1_businessCollaboration(this);
-		this.z_internalRemoveFromBusinessCollaboration(getBusinessCollaboration());
-		getBusinessActor().z_internalRemoveFromIBusinessCollaboration_iBusinessActor_1_businessActor(this);
+		getBusinessActor().z_internalRemoveFromIBusinessCollaboration_iBusinessActor_1_businessCollaboration(this);
 		this.z_internalRemoveFromBusinessActor(getBusinessActor());
+		getBusinessCollaboration().z_internalRemoveFromIBusinessCollaboration_iBusinessActor_1_businessActor(this);
+		this.z_internalRemoveFromBusinessCollaboration(getBusinessCollaboration());
 		markDeleted();
 	}
 	

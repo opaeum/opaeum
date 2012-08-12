@@ -64,7 +64,7 @@ public interface IBusinessCollaboration extends IBusinessCollaborationBase, Hibe
 	@NumlMetaInfo(uuid="252060@_4uZ-MEvREeGmqIr8YsFD4g")
 	public Set<OrganizationNode> getOrganization();
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2470938974911877691l,opposite="collaboration",uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2470938974911877691l,opposite="businessNetwork",uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
 	public Set<PersonNode> getPerson();
 	

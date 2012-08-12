@@ -71,9 +71,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		}
 	}
 	protected void visitComplexStructure(Classifier complexType){
-		if(complexType.getName().equals("CronExpression")){
-			System.out.println();
-		}
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		if(isPersistent(complexType) && OJUtil.hasOJClass(complexType)){
 			buildToString(ojClass, complexType);

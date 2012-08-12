@@ -121,14 +121,12 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 					OJAnnotatedClass owner = findJavaClass(a.getContext());
 					OperationMap am = ojUtil.buildOperationMap(a.getSpecification() == null ? a : a.getSpecification());
 					OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(am.javaOperName(), am.javaParamTypePaths());
-					implementActivityOn(a, oper);
+					implementActivityOn(a, oper,oper.getBody());
 				}
 			}
 		}
 	}
-	public void implementActivityOn(Activity a,OJAnnotatedOperation oper){
-		oper.setBody(new OJBlock());
-		OJBlock block = oper.getBody();
+	public void implementActivityOn(Activity a,OJAnnotatedOperation oper, OJBlock block){
 		ActivityNode first = getFirstNode(EmfActivityUtil.getStartNodes( a));
 		addVariables(a, a.getVariables(), oper.getBody(), oper.getOwner());
 		if(first != null){

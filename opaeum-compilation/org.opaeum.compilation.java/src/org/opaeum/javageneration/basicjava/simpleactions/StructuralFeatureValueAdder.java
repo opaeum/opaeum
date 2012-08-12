@@ -27,7 +27,8 @@ public class StructuralFeatureValueAdder extends SimpleNodeBuilder<AddStructural
 			if(node.isReplaceAll()){
 				block.addToStatements(map.clearer() + "()");
 			}	
-			if(node.getValue().isMultivalued()==false){
+			StructuralFeatureMap valueMap=ojUtil.buildStructuralFeatureMap(node.getValue());
+			if(valueMap.isOne()){
 				modifier = map.adder();
 			}else{
 				modifier = map.allAdder();

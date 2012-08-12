@@ -8,7 +8,7 @@ import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.javageneration.jbpm5.EventUtil;
+import org.opaeum.javageneration.bpm.EventUtil;
 
 public class ExpansionNodeImplementor extends SimpleNodeBuilder<ExpansionNode>{
 	protected EventUtil eventUtil;

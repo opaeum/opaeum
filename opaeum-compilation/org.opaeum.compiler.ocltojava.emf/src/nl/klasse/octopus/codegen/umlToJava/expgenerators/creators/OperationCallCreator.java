@@ -30,17 +30,20 @@ import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.ocl.uml.AbstractOclContext;
 
 @SuppressWarnings("rawtypes")
 public class OperationCallCreator{
 	private OJClass myClass = null;
 	OJUtil ojUtil;
 	ExpGeneratorHelper expGeneratorHelper;
-	public OperationCallCreator(ExpGeneratorHelper h,OJClass myClass){
+	private AbstractOclContext context;
+	public OperationCallCreator(ExpGeneratorHelper h,OJClass myClass, AbstractOclContext context){
 		super();
 		expGeneratorHelper = h;
 		this.ojUtil = h.ojUtil;
 		this.myClass = myClass;
+		this.context=context;
 	}
 	public String operationCallExp(OperationCallExp exp,StringBuffer source,boolean isStatic,List<OJParameter> params){
 		String result = "";
@@ -79,7 +82,7 @@ public class OperationCallCreator{
 	private List<String> makeArgs(OperationCallExp exp,boolean isStatic,List<OJParameter> params){
 		List<String> result = new ArrayList<String>();
 		if(exp.getArgument().size() > 0){
-			ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass);
+			ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass,context);
 			Iterator it = exp.getArgument().iterator();
 			while(it.hasNext()){
 				OCLExpression arg = (OCLExpression) it.next();

@@ -12,7 +12,6 @@ import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.event.EventService;
 import org.opaeum.runtime.event.INotificationService;
-import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.DatabaseManagementSystem;
 import org.opaeum.runtime.persistence.UmtPersistence;
@@ -121,9 +120,6 @@ public abstract class Environment{
 			throw new RuntimeException(e);
 		}
 		return properties;
-	}
-	protected AbstractJbpmKnowledgeBase createJbpmKnowledgeBase(){
-		return (AbstractJbpmKnowledgeBase) instantiateImplementation(JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
 	}
 	public abstract <T>T getComponent(Class<T> clazz);
 	public abstract <T>T getComponent(Class<T> clazz,Annotation qualifiers);

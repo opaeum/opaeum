@@ -42,13 +42,16 @@ import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.ocl.uml.AbstractOclContext;
 
 public class LiteralExpCreator{
 	private OJClass myClass = null;
 	OJUtil ojUtil;
-	public LiteralExpCreator(OJUtil ojUtil,OJClass myClass){
+	private AbstractOclContext context;
+	public LiteralExpCreator(OJUtil ojUtil,OJClass myClass, AbstractOclContext context){
 		this.myClass = myClass;
 		this.ojUtil = ojUtil;
+		this.context=context;
 	}
 	public String makeExpression(LiteralExp in,boolean isStatic,List<OJParameter> params){
 		String result = "";
@@ -98,7 +101,7 @@ public class LiteralExpCreator{
 			}else{
 				first = false;
 			}
-			ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass);
+			ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass,context);
 			// TODO find out whether the parts of the tuple type should be
 			// included in params
 			String par = myExpMaker.makeExpression((OCLExpression) decl.getInitExpression(), isStatic, params);
@@ -137,7 +140,7 @@ public class LiteralExpCreator{
 		String collectionVarName = "myList";
 		OJSimpleStatement exp1 = new OJSimpleStatement(myType + " " + collectionVarName + " = " + myDefault);
 		body.addToStatements(exp1);
-		ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass);
+		ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass,context);
 		Iterator<?> partsIter = exp.getPart().iterator();
 		while(partsIter.hasNext()){
 			CollectionLiteralPart part = (CollectionLiteralPart) partsIter.next();
