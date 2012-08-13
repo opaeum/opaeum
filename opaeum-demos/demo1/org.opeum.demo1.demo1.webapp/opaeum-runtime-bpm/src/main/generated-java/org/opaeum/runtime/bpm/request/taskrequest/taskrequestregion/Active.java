@@ -58,7 +58,7 @@ public class Active extends StateActivation {
 	public boolean onComplete() {
 		boolean result = false;
 		if ( ActiveToCompleted.onActiveCompleted() ) {
-		
+			return true;
 		}
 		return result;
 	}

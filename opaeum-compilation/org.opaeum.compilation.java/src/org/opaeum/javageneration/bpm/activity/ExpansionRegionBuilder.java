@@ -37,9 +37,8 @@ public class ExpansionRegionBuilder extends AbstractProtectedNodeBuilder<Expansi
 		OJAnnotatedField cur = new OJAnnotatedField("cur", callMap.javaBaseTypePath());
 		cur.setInitExp("new " + callMap.javaBaseType() + "(this)");
 		forEach.getBody().addToLocals(cur);
-		forEach.getBody().addToStatements("cur.setCallingNodeInstanceUniqueId(((NodeInstanceImpl)context.getNodeInstance()).getUniqueId())");
+		forEach.getBody().addToStatements("cur.setReturnInfo(callingToken)");
 		for(ExpansionNode n:node.getInputElements()){
-			Namespace container = EmfActivityUtil.getNearestNodeContainer(node);
 			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(n);
 			OJPathName collectionPath = new OJPathName("java.util.Collection");
 			collectionPath.addToElementTypes(map.javaBaseTypePath());
@@ -65,7 +64,6 @@ public class ExpansionRegionBuilder extends AbstractProtectedNodeBuilder<Expansi
 				implementHandler(oper, p, ifException.getThenPart(), "cur.getCurrentException()");
 			}
 			ifException.getThenPart().addToStatements(Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + "=cur.getCurrentException()");
-			ifException.getThenPart().addToStatements("getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED)");
 			ifException.getThenPart().addToStatements("return");
 			implementConditionalFlows(oper, oper.getBody());
 		}

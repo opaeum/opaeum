@@ -155,7 +155,6 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 	}
 	public void implementConditionalFlows(OJOperation operationContext,OJBlock block){
 		// TODO implement cases where there are conditions and forks
-		block.addToStatements("this.processDirty=true");
 		if(EmfActivityUtil.isImplicitFork( node)){
 			block.addToStatements("waitingNode.flowToNode(\"" + BpmUtil.getArtificialForkName(node) + "\")");
 		}else if(EmfActivityUtil.isImplicitDecision(node)){

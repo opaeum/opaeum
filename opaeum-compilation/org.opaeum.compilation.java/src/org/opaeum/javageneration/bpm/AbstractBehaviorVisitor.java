@@ -24,17 +24,17 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		super.initialize(pac, config, textWorkspace, workspace, ojUtil);
 		taskUtil=new TaskUtil(ojUtil);
 	}
-	protected OJAnnotatedOperation addGetCallingProcessObject(OJAnnotatedClass ojOperationClass,OJPathName type){
-		// getCAllbackLister
-		OJAnnotatedOperation getCallbackListener = new OJAnnotatedOperation("getCallingProcessObject", type);
-		ojOperationClass.addToOperations(getCallbackListener);
-		OJIfStatement processInstanceNotNull = new OJIfStatement("getCallingProcessInstance()!=null ");
-		getCallbackListener.getBody().addToStatements(processInstanceNotNull);
-		OJAnnotatedField processObject = new OJAnnotatedField("processObject", type);
-		processInstanceNotNull.getThenPart().addToLocals(processObject);
-		processObject.setInitExp("(" + type.getLast() + ")getCallingProcessInstance().getVariable(\"processObject\")");
-		processInstanceNotNull.getThenPart().addToStatements("return processObject");
-		getCallbackListener.getBody().addToStatements("return null");
-		return getCallbackListener;
+	public void addReturnInfo(OJAnnotatedClass ojOperationClass){
+		OJAnnotatedField returnInfo=new OJAnnotatedField("returnInfo", BpmUtil.RETURN_INFO);
+		ojOperationClass.addToFields(returnInfo);
+		returnInfo.setInitExp("new ReturnInfo()");
+		OJAnnotatedOperation setReturnInfo=new OJAnnotatedOperation("setReturnInfo");
+		ojOperationClass.addToOperations(setReturnInfo);
+		setReturnInfo.addParam("token", BpmUtil.ABSTRACT_TOKEN);
+		setReturnInfo.getBody().addToStatements("this.returnInfo.setValue(token)");
+		OJAnnotatedOperation getReturnInfo=new OJAnnotatedOperation("getReturnInfo",new OJPathName("org.opaeum.runtime.domain.IToken"));
+		ojOperationClass.addToOperations(getReturnInfo);
+		getReturnInfo.initializeResultVariable("this.returnInfo.getValue(persistence)");
 	}
+	
 }

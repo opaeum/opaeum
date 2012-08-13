@@ -22,6 +22,10 @@ public abstract class RegionActivation implements IStateMachineExecutionElement{
 		this.stateMachineExecution = stateMachineExecution;
 		getStateMachineExecution().getExecutionElements().put(id, this);
 	}
+	@Override
+	public String getId() {
+		return id;
+	}
 	public void linkTransitions(){
 		for (VertexActivation v : vertices) {
 			if(v instanceof StateActivation){

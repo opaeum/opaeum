@@ -29,8 +29,8 @@ import org.hibernate.annotations.Filter;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
-import org.opaeum.hibernate.domain.AbstractToken;
 import org.opaeum.hibernate.domain.InterfaceValue;
+import org.opaeum.hibernate.domain.ReturnInfo;
 import org.opaeum.runtime.bpm.request.processrequest.ProcessRequestRegion;
 import org.opaeum.runtime.bpm.requestobject.IProcessObject;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
@@ -42,6 +42,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IProcessStep;
+import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
@@ -64,7 +65,6 @@ import org.w3c.dom.NodeList;
 @DiscriminatorValue(	"process_request")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class ProcessRequest extends AbstractRequest implements IStateMachineExecution, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
-	private AbstractToken callingToken;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Transient
@@ -91,6 +91,7 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 	private InterfaceValue processObject = new InterfaceValue();
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	private ReturnInfo returnInfo = new ReturnInfo();
 	static final private long serialVersionUID = 8869913001046429952l;
 
 	/** This constructor is intended for easy initialization in unit tests
@@ -176,9 +177,9 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 	}
 	
 	public void completed() {
-		AbstractRequestListener callbackListener = getCallingProcessObject();
+		AbstractRequestListener callbackListener = getCallingBehaviorExecution();
 		if ( callbackListener!=null ) {
-			callbackListener.onAbstractRequestComplete(getCallingNodeInstanceUniqueId(),this);
+			callbackListener.onAbstractRequestComplete(getReturnInfo(),this);
 		}
 	}
 	
@@ -224,16 +225,12 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 	public void generateAbortEvent() {
 	}
 	
-	public AbstractRequestListener getCallingProcessObject() {
-		if ( getCallingProcessInstance()!=null  ) {
-			AbstractRequestListener processObject = (AbstractRequestListener)getCallingProcessInstance().getVariable("processObject");
-			return processObject;
+	public AbstractRequestListener getCallingBehaviorExecution() {
+		AbstractRequestListener result = null;
+		if ( getReturnInfo()!=null  ) {
+			result=(AbstractRequestListener)getReturnInfo().getBehaviorExecution();
 		}
-		return null;
-	}
-	
-	public AbstractToken getCallingToken() {
-		return this.callingToken;
+		return result;
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -287,6 +284,12 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 		if ( this.getProcessObject()!=null ) {
 			result=this.getProcessObject();
 		}
+		return result;
+	}
+	
+	public IToken getReturnInfo() {
+		IToken result = this.returnInfo.getValue(persistence);
+		
 		return result;
 	}
 	
@@ -376,11 +379,11 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 	}
 	
 	public void propagateException(Object exception) {
-		AbstractRequestListener callbackListener = getCallingProcessObject();
+		AbstractRequestListener callbackListener = getCallingBehaviorExecution();
 		if ( callbackListener==null ) {
 		
 		} else {
-			callbackListener.onAbstractRequestUnhandledException(getCallingNodeInstanceUniqueId(),exception, this);
+			callbackListener.onAbstractRequestUnhandledException(getReturnInfo(),exception, this);
 		}
 	}
 	
@@ -394,10 +397,6 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 	
 	public void removeToken(StateMachineToken smToken) {
 		tokens.remove((ProcessRequestToken)smToken);
-	}
-	
-	public void setCallingToken(AbstractToken callingToken) {
-		this.callingToken=callingToken;
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -451,8 +450,8 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 		}
 	}
 	
-	public void setReturnInfo(AbstractToken callingToken) {
-		this.callingToken=callingToken;
+	public void setReturnInfo(IToken token) {
+		this.returnInfo.setValue(token);
 	}
 	
 	public String toXmlReferenceString() {

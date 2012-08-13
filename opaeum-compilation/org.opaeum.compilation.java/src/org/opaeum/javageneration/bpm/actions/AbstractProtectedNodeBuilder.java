@@ -38,20 +38,19 @@ public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbp
 			for(Classifier exception:exceptionTypes){
 				OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, exception, true);
 				onException.getBody().addToStatements(Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + "=exception");
-				OJIfStatement ifAtNode = buildIfAtNode(onException);
-				ifAtNode.getThenPart().addToStatements("this.processDirty=true");
+				OJIfStatement ifAtNode = (OJIfStatement) onException.getBody().findStatement(IF_TOKEN_FOUND);
 				flowTo(ifAtNode.getThenPart(), p.getHandlerBody());
 			}
 		}
 		for(Type ex:exceptions){
 			OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, ex, true);
-			OJIfStatement ifAtNode = buildIfAtNode(onException);
+			OJIfStatement ifAtNode = (OJIfStatement) onException.getBody().findStatement(IF_TOKEN_FOUND);
 			ifAtNode.getThenPart().addToStatements("propagateException(exception)");
 			cancelAllPeers(ifAtNode.getThenPart());
 		}
 		OJAnnotatedOperation unhandledExceptionHandler = new OJAnnotatedOperation(map.unhandledExceptionOperName());
 		owner.addToOperations(unhandledExceptionHandler);
-		unhandledExceptionHandler.addParam("nodeInstanceUniqueId", new OJPathName("String"));
+		unhandledExceptionHandler.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
 		unhandledExceptionHandler.addParam("exception", new OJPathName("Object"));
 		unhandledExceptionHandler.addParam("failedProcess", map.messageStructurePath());
 		unhandledExceptionHandler.getBody().addToStatements("propagateException(exception)");
@@ -72,34 +71,28 @@ public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbp
 		if(onException == null){
 			onException = new OJAnnotatedOperation(map.exceptionOperName(exceptionPArameter));
 			owner.addToOperations(onException);
-			onException.addParam("nodeInstanceUniqueId", new OJPathName("String"));
-			if(takesException){
+			onException.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
+						if(takesException){
 				onException.addParam("exception", new OJPathName("Object"));
 			}
 			onException.addParam("failedProcess", map.messageStructurePath());
-			OJIfStatement ifTokenFound = new OJIfStatement("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId))!=null");
+			OJIfStatement ifTokenFound = new OJIfStatement("callingToken.isActive()");
 			onException.getBody().addToStatements(ifTokenFound);
 			ifTokenFound.setName(IF_TOKEN_FOUND);
 		}
 		return onException;
 	}
-	protected OJIfStatement buildIfAtNode(OJAnnotatedOperation onException){
-		OJIfStatement ifTokenFound = (OJIfStatement) onException.getBody().findStatementRecursive(IF_TOKEN_FOUND);
-		String literalExpression = onException.getOwner().getName() + "State." + BpmUtil.stepLiteralName(node);
-		OJIfStatement ifAtNode = new OJIfStatement("waitingNode.getNodeId()==" + literalExpression + ".getId()");
-		ifTokenFound.addToThenPart(ifAtNode);
-		return ifAtNode;
-	}
+
 	protected void implementCallbackOnComplete(OJClass activityClass,String completeMethodName,Classifier message){
 		OJAnnotatedOperation complete;
 		complete = (OJAnnotatedOperation) activityClass.getUniqueOperation(completeMethodName);
 		if(complete == null){
 			complete = new OJAnnotatedOperation(completeMethodName);
 			activityClass.addToOperations(complete);
-			complete.addParam("nodeInstanceUniqueId", new OJPathName("String"));
+			complete.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
 			complete.addParam("completedWorkObject", ojUtil.classifierPathname(message));
 		}
-		OJIfStatement ifFound = new OJIfStatement("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId))!=null");
+		OJIfStatement ifFound = new OJIfStatement("callingToken.isActive()");
 		complete.getBody().addToStatements(ifFound);
 		implementConditions(complete, ifFound.getThenPart(), node, false);
 		if(callMap.isOne()){

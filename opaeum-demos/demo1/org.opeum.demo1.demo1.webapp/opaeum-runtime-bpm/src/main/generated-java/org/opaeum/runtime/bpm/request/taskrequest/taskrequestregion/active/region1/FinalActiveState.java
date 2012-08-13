@@ -31,6 +31,7 @@ public class FinalActiveState extends StateActivation {
 	
 	public void onEntry(StateMachineToken token) {
 		getStateMachineExecution().setHistory(null);
+		token.setHasRunToCompletion(true);
 		token.getParentToken().fireCompletionEvent();
 	}
 

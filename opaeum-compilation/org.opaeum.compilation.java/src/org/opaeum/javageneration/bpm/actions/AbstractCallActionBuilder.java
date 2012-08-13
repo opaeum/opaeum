@@ -41,7 +41,6 @@ public abstract class AbstractCallActionBuilder<T extends CallAction> extends Po
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation){
 		delegate.implementActionOn(operation, operation.getBody());
-		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
 		if(calledElementMap.isLongRunning() && node.isSynchronous()){
 		}else{
 			OJTryStatement tryStatement = delegate.surroundWithCatchIfNecessary(operation, operation.getBody());
@@ -77,16 +76,15 @@ public abstract class AbstractCallActionBuilder<T extends CallAction> extends Po
 				exceptionParameters.remove(parameter);
 				OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, parameter, false);
 				if(p.getOutgoings().size() > 0){
-					OJIfStatement ifAtNode = buildIfAtNode(onException);
+					OJIfStatement ifAtNode = (OJIfStatement) onException.getBody().findStatement(IF_TOKEN_FOUND);
 					ActivityEdge outgoing = p.getOutgoings().iterator().next();
-					ifAtNode.getThenPart().addToStatements("this.processDirty=true");
 					flowTo(ifAtNode.getThenPart(), EmfActivityUtil.getEffectiveTarget(outgoing));
 				}
 			}
 			for(Parameter ex:exceptionParameters){
 				OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, ex, false);
 				StructuralFeatureMap exceptionMap = ojUtil.buildStructuralFeatureMap(ex);
-				OJIfStatement ifAtNode = buildIfAtNode(onException);
+				OJIfStatement ifAtNode = (OJIfStatement) onException.getBody().findStatement(IF_TOKEN_FOUND);
 				ifAtNode.getThenPart().addToStatements("propagateException(failedProcess." + exceptionMap.getter() + "())");
 			}
 		}

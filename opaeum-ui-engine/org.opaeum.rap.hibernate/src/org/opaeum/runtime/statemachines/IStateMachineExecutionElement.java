@@ -1,4 +1,6 @@
 package org.opaeum.runtime.statemachines;
 
-public interface IStateMachineExecutionElement{
+import org.opaeum.runtime.domain.IExecutionElement;
+
+public interface IStateMachineExecutionElement extends IExecutionElement{
 }

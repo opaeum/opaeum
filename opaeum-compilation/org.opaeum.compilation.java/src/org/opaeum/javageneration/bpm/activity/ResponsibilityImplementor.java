@@ -195,7 +195,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		OJAnnotatedField callingProcessObject = new OJAnnotatedField("callingProcessObject", processObject);
 		op.getBody().addToLocals(callingProcessObject);
 		if(v.getDefiningElement() instanceof Operation && EmfBehaviorUtil.isResponsibility((BehavioralFeature) v.getDefiningElement())){
-			callingProcessObject.setInitExp("getCallingProcessObject()");
+			callingProcessObject.setInitExp("getCallingBehaviorExecution()");
 		}else{
 			callingProcessObject.setInitExp("getProcessObject()");
 		}

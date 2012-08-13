@@ -4,9 +4,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.OneToMany;
 
@@ -53,6 +50,7 @@ import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -211,25 +209,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}else if(EmfClassifierUtil.isSimpleType(map.getBaseType())){
 				// TODO use strategies
 			}else if(map.getBaseType() instanceof Interface && !EmfClassifierUtil.isHelper(map.getBaseType())){
-				// if(config.shouldBeCm1Compatible()){
-				// HibernateUtil.addAny(field, map);
-				// }else{
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Embedded.class.getName())));
-				OJAnnotationValue overrides = new OJAnnotationValue(new OJPathName(AttributeOverrides.class.getName()));
-				OJAnnotationValue identifier = new OJAnnotationValue(new OJPathName(AttributeOverride.class.getName()));
-				identifier.putAttribute("name", "identifier");
-				overrides.addAnnotationValue(identifier);
-				OJAnnotationValue identifierColumn = new OJAnnotationValue(new OJPathName(Column.class.getName()));
-				identifier.putAttribute("column", identifierColumn);
-				identifierColumn.putAttribute("name", PersistentNameUtil.getPersistentName( map.getProperty()).getAsIs());
-				field.addAnnotationIfNew(overrides);
-				OJAnnotationValue classIdentifier = new OJAnnotationValue(new OJPathName(AttributeOverride.class.getName()));
-				classIdentifier.putAttribute("name", "classIdentifier");
-				OJAnnotationValue classIdentifierColumn = new OJAnnotationValue(new OJPathName(Column.class.getName()));
-				classIdentifier.putAttribute("column", classIdentifierColumn);
-				classIdentifierColumn.putAttribute("name", PersistentNameUtil.getPersistentName(map.getProperty()).getAsIs() + "_type");
-				overrides.addAnnotationValue(classIdentifier);
-				// }
+				NameWrapper persistentName = PersistentNameUtil.getPersistentName(map.getProperty());
+				HibernateUtil.overrideInterfaceValueAtributes(field, persistentName);
 				if(f.isComposite()){
 					HibernateUtil.addCascade(field, CascadeType.ALL);
 					field.removeAnnotation(new OJPathName("javax.persistence.Transient"));

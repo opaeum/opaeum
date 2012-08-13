@@ -73,21 +73,7 @@ import org.opaeum.runtime.domain.ExceptionHolder;
 },before = CodeCleanup.class)
 public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	public static final OJPathName ACTIVITY_TOKEN =new OJPathName("org.opaeum.runtime.activities.ActivityToken");
-	private void setupVariables(OJAnnotatedOperation oper,ActivityNode node){
-		if(node instanceof StructuredActivityNode){
-			Collection<Variable> variables = ((StructuredActivityNode) node).getVariables();
-			for(Variable var:variables){
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(var);
-				OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
-				field.setInitExp("(" + map.javaType() + ")context.getVariable(\"" + map.fieldname() + "\")");
-				oper.getOwner().addToImports(map.javaTypePath());
-				oper.getBody().addToLocals(field);
-			}
-		}
-		if(node.getOwner() instanceof ActivityNode){
-			setupVariables(oper, (ActivityNode) node.getOwner());
-		}
-	}
+
 	private void activityEdge(ActivityEdge edge){
 		OJAnnotatedClass c = findJavaClass(EmfActivityUtil.getContainingActivity(edge));
 		if(edge instanceof ObjectFlow && ((ObjectFlow) edge).getTransformation() != null){
@@ -98,7 +84,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			OJAnnotatedOperation oper = new OJAnnotatedOperation(BpmUtil.getGuardMethod(node, edge));
 			c.addToOperations(oper);
 			oper.setReturnType(new OJPathName("boolean"));
-			setupVariables(oper, node);
 			ActivityNode source = EmfActivityUtil.getEffectiveSource(edge);
 			if(edge instanceof ObjectFlow){
 				addObjectFlowVariable(edge, oper, (ObjectFlow) edge);
@@ -178,6 +163,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 					OJAnnotatedOperation contextGetter = (OJAnnotatedOperation) c.getUniqueOperation("getContextObject");
 					contextGetter.initializeResultVariable("getSelf().getContextObject()");
 				}
+				super.addReturnInfo(c);
 				implementVariableDelegation(container, msg, c);
 				StructuredActivityNodeMap map = ojUtil.buildStructuredActivityNodeMap(san);
 				OJUtil.addPersistentProperty(c, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
@@ -185,7 +171,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				if(isProcess){
 					propagateExceptions(map, c);
 					OJOperation completed = c.getUniqueOperation("completed");
-					completed.getBody().addToStatements("getNodeContainer()." + map.completeMethodName() + "(getCallingNodeInstanceUniqueId(),this)");
+					completed.getBody().addToStatements("getNodeContainer()." + map.completeMethodName() + "(getReturnInfo(),this)");
 				}
 			}
 		}
@@ -195,7 +181,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		ojOperationClass.addToOperations(propagateException);
 		propagateException.addParam("exception", new OJPathName("Object"));
 		propagateException.getBody().addToStatements(
-				"getNodeContainer()." + map.unhandledExceptionOperName() + "(getCallingNodeInstanceUniqueId(),exception, this)");
+				"getNodeContainer()." + map.unhandledExceptionOperName() + "(getReturnInfo(),exception, this)");
 	}
 	public void implementVariableDelegation(Namespace container,Classifier msg,OJAnnotatedClass c){
 		// NB!!! remember this is only for OCL, not for actions. We only implement getters
@@ -219,7 +205,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	private void doExecute(Classifier activity,OJAnnotatedClass activityClass,boolean isProcess){
 		OJOperation execute = implementExecute(activityClass, activity);
 		if(isProcess){
-			execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 		}else if(activity instanceof Activity){
 			activityClass.addToImports(new OJPathName(ExceptionHolder.class.getName()));
 			Activity a = (Activity) activity;

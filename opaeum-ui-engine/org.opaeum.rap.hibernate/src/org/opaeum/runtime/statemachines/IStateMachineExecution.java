@@ -3,7 +3,7 @@ package org.opaeum.runtime.statemachines;
 import java.util.Map;
 import java.util.Set;
 
-import org.opaeum.hibernate.domain.IBehaviorExecution;
+import org.opaeum.runtime.domain.IBehaviorExecution;
 
 public interface IStateMachineExecution extends IBehaviorExecution{
 	Set<? extends StateMachineToken> getTokens();

@@ -2,7 +2,7 @@ package org.opaeum.runtime.activities;
 
 import java.util.List;
 
-import org.opaeum.hibernate.domain.IBehaviorExecution;
+import org.opaeum.runtime.domain.IBehaviorExecution;
 
 
 public interface IActivityNodeContainerExecution extends IBehaviorExecution{

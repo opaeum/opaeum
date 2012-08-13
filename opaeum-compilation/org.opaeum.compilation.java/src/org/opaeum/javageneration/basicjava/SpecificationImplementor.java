@@ -25,7 +25,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.bpm.AbstractBehaviorVisitor;
-import org.opaeum.javageneration.bpm.BpmUtil;
 import org.opaeum.javageneration.bpm.actions.Jbpm5ObjectNodeExpressor;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
@@ -58,13 +57,6 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			}
 		}
 	}
-	private void addSetReturnInfo(OJAnnotatedClass ojClass){
-		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
-		ojClass.addToOperations(setReturnInfo);
-		setReturnInfo.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
-		setReturnInfo.getBody().addToStatements("this.callingToken=callingToken");
-		OJUtil.addPersistentProperty(ojClass, "callingToken", BpmUtil.ABSTRACT_TOKEN, true);
-	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassifier(BehavioredClassifier c){
 		List<Operation> operations = c.getOperations();
@@ -86,17 +78,27 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			OJAnnotatedField currentException = OJUtil.addTransientProperty(ojOperationClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"),true);
 			currentException.setVisibility(OJVisibilityKind.PROTECTED);
 			if(map.isLongRunning()){
-				addSetReturnInfo(ojOperationClass);
 				OJAnnotatedField callBackListener = new OJAnnotatedField("callbackListener", map.callbackListenerPath());
 				complete.getBody().addToLocals(callBackListener);
-				callBackListener.setInitExp("getCallingProcessObject()");
+				callBackListener.setInitExp("getCallingBehaviorExecution()");
 				OJIfStatement ifNotNull = new OJIfStatement("callbackListener!=null", "callbackListener." + map.callbackOperName()
-						+ "(getCallingNodeInstanceUniqueId(),this)");
+						+ "(getReturnInfo(),this)");
 				complete.getBody().addToStatements(ifNotNull);
 				addGetCallingProcessObject(ojOperationClass, map.callbackListenerPath());
 				propagateExceptions(map, ojOperationClass);
 			}
 		}
+	}
+	protected OJAnnotatedOperation addGetCallingProcessObject(OJAnnotatedClass ojOperationClass,OJPathName type){
+		// getCAllbackLister
+		OJAnnotatedOperation getCallbackListener = new OJAnnotatedOperation("getCallingBehaviorExecution", type);
+		ojOperationClass.addToOperations(getCallbackListener);
+		addReturnInfo(ojOperationClass);
+		getCallbackListener.initializeResultVariable("null");
+		OJIfStatement processInstanceNotNull = new OJIfStatement("getReturnInfo()!=null ");
+		getCallbackListener.getBody().addToStatements(processInstanceNotNull);
+		processInstanceNotNull.getThenPart().addToStatements("result=(" + type.getLast() + ")getReturnInfo().getBehaviorExecution()");
+		return getCallbackListener;
 	}
 	private void propagateExceptions(OperationMap map,OJAnnotatedClass ojOperationClass){
 		OJAnnotatedOperation propagateException = new OJAnnotatedOperation("propagateException");
@@ -104,7 +106,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		propagateException.addParam("exception", new OJPathName("Object"));
 		OJAnnotatedField callBackListener = new OJAnnotatedField("callbackListener", map.callbackListenerPath());
 		propagateException.getBody().addToLocals(callBackListener);
-		callBackListener.setInitExp("getCallingProcessObject()");
+		callBackListener.setInitExp("getCallingBehaviorExecution()");
 		OJIfStatement ifNull = new OJIfStatement("callbackListener==null");
 		propagateException.getBody().addToStatements(ifNull);
 		OJIfStatement previousIf = ifNull;
@@ -114,12 +116,12 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			for(Type ex:oper.getRaisedExceptions()){
 				OJIfStatement ifInstance = new OJIfStatement("exception instanceof " + ex.getName());
 				previousIf.getElsePart().addToStatements(ifInstance);
-				ifInstance.getThenPart().addToStatements("callbackListener." + map.exceptionOperName(ex) + "(getCallingNodeInstanceUniqueId(),exception,this)");
+				ifInstance.getThenPart().addToStatements("callbackListener." + map.exceptionOperName(ex) + "(getReturnInfo(),exception,this)");
 				previousIf = ifInstance;
 				previousIf.setElsePart(new OJBlock());
 			}
 		}
-		previousIf.getElsePart().addToStatements("callbackListener." + map.unhandledExceptionOperName() + "(getCallingNodeInstanceUniqueId(),exception, this)");
+		previousIf.getElsePart().addToStatements("callbackListener." + map.unhandledExceptionOperName() + "(getReturnInfo(),exception, this)");
 	}
 	private boolean requiresOperationForInvocation(Behavior behavior){
 		return behavior.getContext() != null && !EmfBehaviorUtil.isClassifierBehavior( behavior);

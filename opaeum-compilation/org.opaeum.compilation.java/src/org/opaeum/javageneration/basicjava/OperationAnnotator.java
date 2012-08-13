@@ -228,7 +228,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			}
 			List<Parameter> argumentParameters = map.getArgumentParameters();
 			if(withReturnInfo){
-				oper.addParam("context", BpmUtil.ABSTRACT_TOKEN);
+				oper.addParam("returnInfo", BpmUtil.ABSTRACT_TOKEN);
 			}
 			addParameters(context, oper, argumentParameters);
 			NamedElement o = map.getNamedElement();
@@ -242,7 +242,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 						oper.getBody().addToStatements("result." + argMap.setter() + "(" + argMap.fieldname() + ")");
 					}
 					if(withReturnInfo){
-						oper.getBody().addToStatements("result.setReturnInfo(context)");
+						oper.getBody().addToStatements("result.setReturnInfo(returnInfo)");
 					}
 					if(map.isLongRunning()){
 						OJSimpleStatement executeStatement = new OJSimpleStatement("result.execute()");
@@ -332,13 +332,13 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
 				listener.setMyPackage(pack);
 				OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
-				callBackOper.addParam("nodeInstance", new OJPathName("String"));
+				callBackOper.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
 				callBackOper.addParam("completedProcess", map.messageStructurePath());
 				listener.addToOperations(callBackOper);
 				List<? extends Parameter> exceptionParameters = map.getExceptionParameters();
 				for(Parameter e:exceptionParameters){
 					OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
-					exceptionOper.addParam("nodeInstance", new OJPathName("String"));
+					exceptionOper.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
 					exceptionOper.addParam("failedProcess", map.messageStructurePath());
 					listener.addToOperations(exceptionOper);
 				}
@@ -346,7 +346,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					Collection<Type> raisedExceptions = ((Operation) no).getRaisedExceptions();
 					for(Type e:raisedExceptions){
 						OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
-						exceptionOper.addParam("nodeInstance", new OJPathName("String"));
+						exceptionOper.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
 						exceptionOper.addParam("exception", e.getName());
 						listener.addToImports(ojUtil.classifierPathname((Classifier) e));
 						exceptionOper.addParam("failedProcess", map.messageStructurePath());
@@ -354,7 +354,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					}
 				}
 				OJAnnotatedOperation unhandledExceptionHandler = new OJAnnotatedOperation(map.unhandledExceptionOperName());
-				unhandledExceptionHandler.addParam("nodeInstance", new OJPathName("String"));
+				unhandledExceptionHandler.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
 				unhandledExceptionHandler.addParam("exception", new OJPathName("Object"));
 				unhandledExceptionHandler.addParam("completedProcess", map.messageStructurePath());
 				listener.addToOperations(unhandledExceptionHandler);

@@ -1,4 +1,4 @@
-package org.opaeum.hibernate.domain;
+package org.opaeum.runtime.domain;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
@@ -35,7 +35,7 @@ public class InterfaceValue{
 	public boolean hasValue(){
 		return getClassIdentifier() != null && (getIdentifier() != null || getValue()!=null);
 	}
-	protected Class<?> getImplementationClass(){
+	private Class<?> getImplementationClass(){
 		if(getClassIdentifier() == null){
 			return null;
 		}else{

@@ -1,5 +1,9 @@
 package org.opaeum.javageneration.hibernate;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 import org.eclipse.uml2.uml.Classifier;
@@ -14,6 +18,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.persistence.JpaUtil;
+import org.opaeum.metamodel.name.NameWrapper;
 
 public class HibernateUtil{
 	public static void addAny(OJAnnotatedField field,StructuralFeatureMap map){
@@ -60,5 +65,21 @@ public class HibernateUtil{
 		OJAnnotationValue type = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Type"));
 		type.putAttribute("type", pn.toJavaString() + "Resolver");
 		field.putAnnotation(type);
+	}
+	public static void overrideInterfaceValueAtributes(OJAnnotatedField field,NameWrapper persistentName){
+		OJAnnotationValue overrides = new OJAnnotationValue(new OJPathName(AttributeOverrides.class.getName()));
+		OJAnnotationValue identifier = new OJAnnotationValue(new OJPathName(AttributeOverride.class.getName()));
+		identifier.putAttribute("name", "identifier");
+		overrides.addAnnotationValue(identifier);
+		OJAnnotationValue identifierColumn = new OJAnnotationValue(new OJPathName(Column.class.getName()));
+		identifier.putAttribute("column", identifierColumn);
+		identifierColumn.putAttribute("name", persistentName.getAsIs());
+		field.addAnnotationIfNew(overrides);
+		OJAnnotationValue classIdentifier = new OJAnnotationValue(new OJPathName(AttributeOverride.class.getName()));
+		classIdentifier.putAttribute("name", "classIdentifier");
+		OJAnnotationValue classIdentifierColumn = new OJAnnotationValue(new OJPathName(Column.class.getName()));
+		classIdentifier.putAttribute("column", classIdentifierColumn);
+		classIdentifierColumn.putAttribute("name", persistentName.getAsIs() + "_type");
+		overrides.addAnnotationValue(classIdentifier);
 	}
 }

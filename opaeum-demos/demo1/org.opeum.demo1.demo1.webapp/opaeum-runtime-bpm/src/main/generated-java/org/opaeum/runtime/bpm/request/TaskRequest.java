@@ -34,8 +34,8 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
-import org.opaeum.hibernate.domain.AbstractToken;
 import org.opaeum.hibernate.domain.InterfaceValue;
+import org.opaeum.hibernate.domain.ReturnInfo;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.request.abstractrequest.ActivateHandler3717858776997870408;
@@ -72,6 +72,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IProcessStep;
+import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.domain.TaskDelegation;
@@ -96,7 +97,6 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class TaskRequest extends AbstractRequest implements IStateMachineExecution, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	private String History;
-	private AbstractToken callingToken;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Transient
@@ -123,6 +123,7 @@ public class TaskRequest extends AbstractRequest implements IStateMachineExecuti
 	private AbstractPersistence persistence;
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	private ReturnInfo returnInfo = new ReturnInfo();
 	static final private long serialVersionUID = 8501108023512204129l;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
@@ -309,9 +310,9 @@ public class TaskRequest extends AbstractRequest implements IStateMachineExecuti
 	}
 	
 	public void completed() {
-		AbstractRequestListener callbackListener = getCallingProcessObject();
+		AbstractRequestListener callbackListener = getCallingBehaviorExecution();
 		if ( callbackListener!=null ) {
-			callbackListener.onAbstractRequestComplete(getCallingNodeInstanceUniqueId(),this);
+			callbackListener.onAbstractRequestComplete(getReturnInfo(),this);
 		}
 	}
 	
@@ -482,6 +483,13 @@ public class TaskRequest extends AbstractRequest implements IStateMachineExecuti
 		boolean result = false;
 		result=super.consumeSuspendOccurrence();
 		for ( StateMachineToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
+				InProgress state = (InProgress)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
+					result=true;
+					break;
+				}
+			}
 			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
 				Reserved state = (Reserved)token.getCurrentExecutionElement();
 				if ( result==false &&  state.getReservedToSuspended().consumeSuspendOccurrence() ) {
@@ -492,13 +500,6 @@ public class TaskRequest extends AbstractRequest implements IStateMachineExecuti
 			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Ready ) {
 				Ready state = (Ready)token.getCurrentExecutionElement();
 				if ( result==false &&  state.getReadyToSuspended().consumeSuspendOccurrence() ) {
-					result=true;
-					break;
-				}
-			}
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
-				InProgress state = (InProgress)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
 					result=true;
 					break;
 				}
@@ -683,16 +684,12 @@ public class TaskRequest extends AbstractRequest implements IStateMachineExecuti
 		return result;
 	}
 	
-	public AbstractRequestListener getCallingProcessObject() {
-		if ( getCallingProcessInstance()!=null  ) {
-			AbstractRequestListener processObject = (AbstractRequestListener)getCallingProcessInstance().getVariable("processObject");
-			return processObject;
+	public AbstractRequestListener getCallingBehaviorExecution() {
+		AbstractRequestListener result = null;
+		if ( getReturnInfo()!=null  ) {
+			result=(AbstractRequestListener)getReturnInfo().getBehaviorExecution();
 		}
-		return null;
-	}
-	
-	public AbstractToken getCallingToken() {
-		return this.callingToken;
+		return result;
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -804,6 +801,12 @@ public class TaskRequest extends AbstractRequest implements IStateMachineExecuti
 		if ( this.getTaskObject()!=null ) {
 			result=this.getTaskObject();
 		}
+		return result;
+	}
+	
+	public IToken getReturnInfo() {
+		IToken result = this.returnInfo.getValue(persistence);
+		
 		return result;
 	}
 	
@@ -975,11 +978,11 @@ public class TaskRequest extends AbstractRequest implements IStateMachineExecuti
 	}
 	
 	public void propagateException(Object exception) {
-		AbstractRequestListener callbackListener = getCallingProcessObject();
+		AbstractRequestListener callbackListener = getCallingBehaviorExecution();
 		if ( callbackListener==null ) {
 		
 		} else {
-			callbackListener.onAbstractRequestUnhandledException(getCallingNodeInstanceUniqueId(),exception, this);
+			callbackListener.onAbstractRequestUnhandledException(getReturnInfo(),exception, this);
 		}
 	}
 	
@@ -1035,10 +1038,6 @@ public class TaskRequest extends AbstractRequest implements IStateMachineExecuti
 		generateRevokeEvent();
 	}
 	
-	public void setCallingToken(AbstractToken callingToken) {
-		this.callingToken=callingToken;
-	}
-	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -1075,8 +1074,8 @@ public class TaskRequest extends AbstractRequest implements IStateMachineExecuti
 		this.addAllToParticipationInTask(participationInTask);
 	}
 	
-	public void setReturnInfo(AbstractToken callingToken) {
-		this.callingToken=callingToken;
+	public void setReturnInfo(IToken token) {
+		this.returnInfo.setValue(token);
 	}
 	
 	public void setSubRequests(Set<AbstractRequest> subRequests) {

@@ -1,8 +1,10 @@
 package org.opaeum.runtime.bpm.request;
 
+import org.opaeum.runtime.domain.IToken;
+
 public interface AbstractRequestListener {
-	public void onAbstractRequestComplete(String nodeInstance, AbstractRequest completedProcess);
+	public void onAbstractRequestComplete(IToken callingToken, AbstractRequest completedProcess);
 	
-	public void onAbstractRequestUnhandledException(String nodeInstance, Object exception, AbstractRequest completedProcess);
+	public void onAbstractRequestUnhandledException(IToken callingToken, Object exception, AbstractRequest completedProcess);
 
 }

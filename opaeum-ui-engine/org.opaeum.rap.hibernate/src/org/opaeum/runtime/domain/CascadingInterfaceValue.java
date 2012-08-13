@@ -1,4 +1,4 @@
-package org.opaeum.hibernate.domain;
+package org.opaeum.runtime.domain;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;

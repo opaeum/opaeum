@@ -42,13 +42,12 @@ public class History extends HistoryStateActivation {
 	public boolean onComplete() {
 		boolean result = false;
 		if ( HistoryToNumberOfPotentialOwners.onHistoryCompleted() ) {
-		
+			return true;
 		}
 		return result;
 	}
 	
 	public void onEntry(StateMachineToken token) {
-		token.fireCompletionEvent();
 	}
 	
 	public void setHistoryToNumberOfPotentialOwners(HistoryToNumberOfPotentialOwners HistoryToNumberOfPotentialOwners) {

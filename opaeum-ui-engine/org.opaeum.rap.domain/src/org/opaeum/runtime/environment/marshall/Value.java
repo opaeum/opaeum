@@ -11,13 +11,14 @@ import org.opaeum.runtime.domain.EnumResolver;
 import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 public abstract class Value implements Serializable{
 	// utility method for custom developed marshalling scenarios
 	public static Object valueOf(Value value,AbstractPersistence persistence){
-		JavaMetaInfoMap map = Environment.getInstance().getInstance().getMetaInfoMap();
+		JavaMetaInfoMap map = Environment.getInstance().getMetaInfoMap();
 		if(value instanceof EntityValue){
 			return persistence.getReference(value.getValueClass(), ((EntityValue) value).getId());
 		}else if(value instanceof HelperValue){
@@ -40,7 +41,9 @@ public abstract class Value implements Serializable{
 	// utility method for custom developed marshalling scenarios
 	public static Value valueOf(Object value){
 		JavaMetaInfoMap map = Environment.getInstance().getMetaInfoMap();
-		if(value instanceof IPersistentObject){
+		if(value instanceof IToken){
+			return valueOf((IToken) value);
+		}else if(value instanceof IPersistentObject){
 			return valueOf((IPersistentObject) value);
 		}else if(value instanceof IActiveObject){
 			return valueOf((IActiveObject) value);
@@ -74,6 +77,12 @@ public abstract class Value implements Serializable{
 			throw new IllegalStateException("entity " + ((IPersistentObject) inputSource).getClass().getName() + " does not have an id");
 		}
 		return new EntityValue(Environment.getInstance().getMetaInfoMap().getUuidFor(inputSource.getClass()), inputSource);
+	}
+	private static TokenValue valueOf(IToken inputSource){
+		if(inputSource.getId() == null){
+			throw new IllegalStateException("entity " + ((IToken) inputSource).getClass().getName() + " does not have an id");
+		}
+		return new TokenValue(inputSource);
 	}
 	private static HelperValue valueOf(IActiveObject inputSource){
 		return new HelperValue(Environment.getInstance().getMetaInfoMap().getUuidFor(inputSource.getClass()));

@@ -39,8 +39,8 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
-import org.opaeum.hibernate.domain.AbstractToken;
 import org.opaeum.hibernate.domain.InterfaceValue;
+import org.opaeum.hibernate.domain.ReturnInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.request.abstractrequest.Region1;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
@@ -52,6 +52,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IProcessStep;
+import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
@@ -74,7 +75,6 @@ import org.w3c.dom.NodeList;
 @Entity(name="AbstractRequest")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 abstract public class AbstractRequest implements IStateMachineExecution, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
-	private AbstractToken callingToken;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Transient
@@ -115,6 +115,7 @@ abstract public class AbstractRequest implements IStateMachineExecution, IPersis
 		@AttributeOverride(column=
 			@Column(name="request_object_type"),name="classIdentifier")})
 	private InterfaceValue requestObject = new InterfaceValue();
+	private ReturnInfo returnInfo = new ReturnInfo();
 	static final private long serialVersionUID = 8866332427474042484l;
 	@OneToMany(mappedBy="stateMachineExecution")
 	protected Set<AbstractRequestToken> tokens;
@@ -231,9 +232,9 @@ abstract public class AbstractRequest implements IStateMachineExecution, IPersis
 	}
 	
 	public void completed() {
-		AbstractRequestListener callbackListener = getCallingProcessObject();
+		AbstractRequestListener callbackListener = getCallingBehaviorExecution();
 		if ( callbackListener!=null ) {
-			callbackListener.onAbstractRequestComplete(getCallingNodeInstanceUniqueId(),this);
+			callbackListener.onAbstractRequestComplete(getReturnInfo(),this);
 		}
 	}
 	
@@ -338,16 +339,12 @@ abstract public class AbstractRequest implements IStateMachineExecution, IPersis
 	public void generateSuspendEvent() {
 	}
 	
-	public AbstractRequestListener getCallingProcessObject() {
-		if ( getCallingProcessInstance()!=null  ) {
-			AbstractRequestListener processObject = (AbstractRequestListener)getCallingProcessInstance().getVariable("processObject");
-			return processObject;
+	public AbstractRequestListener getCallingBehaviorExecution() {
+		AbstractRequestListener result = null;
+		if ( getReturnInfo()!=null  ) {
+			result=(AbstractRequestListener)getReturnInfo().getBehaviorExecution();
 		}
-		return null;
-	}
-	
-	public AbstractToken getCallingToken() {
-		return this.callingToken;
+		return result;
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -422,6 +419,12 @@ abstract public class AbstractRequest implements IStateMachineExecution, IPersis
 	@NumlMetaInfo(uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
 	public IRequestObject getRequestObject() {
 		IRequestObject result = (IRequestObject)this.requestObject.getValue(persistence);
+		
+		return result;
+	}
+	
+	public IToken getReturnInfo() {
+		IToken result = this.returnInfo.getValue(persistence);
 		
 		return result;
 	}
@@ -510,11 +513,11 @@ abstract public class AbstractRequest implements IStateMachineExecution, IPersis
 	}
 	
 	public void propagateException(Object exception) {
-		AbstractRequestListener callbackListener = getCallingProcessObject();
+		AbstractRequestListener callbackListener = getCallingBehaviorExecution();
 		if ( callbackListener==null ) {
 		
 		} else {
-			callbackListener.onAbstractRequestUnhandledException(getCallingNodeInstanceUniqueId(),exception, this);
+			callbackListener.onAbstractRequestUnhandledException(getReturnInfo(),exception, this);
 		}
 	}
 	
@@ -554,10 +557,6 @@ abstract public class AbstractRequest implements IStateMachineExecution, IPersis
 	@NumlMetaInfo(uuid="252060@_qwWfEIoaEeCPduia_-NbFw")
 	public void resume() {
 		generateResumeEvent();
-	}
-	
-	public void setCallingToken(AbstractToken callingToken) {
-		this.callingToken=callingToken;
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -635,8 +634,8 @@ abstract public class AbstractRequest implements IStateMachineExecution, IPersis
 		}
 	}
 	
-	public void setReturnInfo(AbstractToken callingToken) {
-		this.callingToken=callingToken;
+	public void setReturnInfo(IToken token) {
+		this.returnInfo.setValue(token);
 	}
 	
 	public void setUid(String newUid) {

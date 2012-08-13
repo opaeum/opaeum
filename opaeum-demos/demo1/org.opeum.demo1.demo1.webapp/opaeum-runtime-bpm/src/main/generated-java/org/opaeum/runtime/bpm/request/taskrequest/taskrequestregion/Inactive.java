@@ -34,7 +34,7 @@ public class Inactive extends PseudoStateActivation {
 	public boolean onComplete() {
 		boolean result = false;
 		if ( InactiveToCreated.onInactiveCompleted() ) {
-		
+			return true;
 		}
 		return result;
 	}

@@ -50,11 +50,11 @@ public class ParameterNodeImplementor extends SimpleNodeBuilder<ActivityParamete
 						OperationMap map = ojUtil.buildOperationMap(getActivity());
 						OJAnnotatedField callBackListener = new OJAnnotatedField("callbackListener", map.callbackListenerPath());
 						block.addToLocals(callBackListener);
-						callBackListener.setInitExp(pathToActivity + "getCallingProcessObject()");
+						callBackListener.setInitExp(pathToActivity + "getCallingBehaviorExecution()");
 						OJIfStatement ifNotNull = new OJIfStatement("callbackListener!=null");
 						block.addToStatements(ifNotNull);
 						ifNotNull.getThenPart().addToStatements(
-								"callbackListener." + map.exceptionOperName(node.getParameter()) + "(" + pathToActivity + "getCallingNodeInstanceUniqueId()," + call
+								"callbackListener." + map.exceptionOperName(node.getParameter()) + "(" + pathToActivity + "getReturnInfo()," + call
 										+ ",this)");
 					}else if(EmfBehaviorUtil.hasExecutionInstance(getActivity())){
 						block.addToStatements(expressor.storeResults(resultMap, call, EmfActivityUtil.isMultivalued(feedingNode)));

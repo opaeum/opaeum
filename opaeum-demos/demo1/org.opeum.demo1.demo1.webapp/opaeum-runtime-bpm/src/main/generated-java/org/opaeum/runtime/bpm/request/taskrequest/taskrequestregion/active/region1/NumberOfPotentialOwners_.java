@@ -39,10 +39,10 @@ public class NumberOfPotentialOwners_ extends PseudoStateActivation {
 	public boolean onComplete() {
 		boolean result = false;
 		if ( NumberOfPotentialOwnersToReady.onNumberOfPotentialOwners_Completed() ) {
-		
+			return true;
 		}
 		if ( NumberOfPotentialOwnersToReserved.onNumberOfPotentialOwners_Completed() ) {
-		
+			return true;
 		}
 		return result;
 	}

@@ -38,7 +38,7 @@ import org.opaeum.runtime.domain.IActiveEntity;
 import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.textmetamodel.TextWorkspace;
 
-public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVisitor{
+public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor{
 	public static final OJPathName ABSTRACT_PROCESS_STEP = new OJPathName(IProcessStep.class.getName());
 	public static final OJPathName ACTIVE_ENTITY = new OJPathName(IActiveEntity.class.getName());
 	protected OperationAnnotator operationAnnotator = new OperationAnnotator();
@@ -98,9 +98,9 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 							.javaTypePath());
 					listener.addParam("source", pn);
 				}else if(event instanceof ChangeEvent){
-					listener.addParam("sourceToken", new OJPathName("String"));
+					listener.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
 				}else if(event instanceof TimeEvent){
-					listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
+					listener.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
 					listener.addParam("triggerDate", ojUtil.buildClassifierMap(workspace.getOpaeumLibrary().getDateType(), (CollectionKind) null)
 							.javaTypePath());
 				}

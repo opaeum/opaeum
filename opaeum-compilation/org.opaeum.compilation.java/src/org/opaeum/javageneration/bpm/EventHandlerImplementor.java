@@ -200,7 +200,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		handleOn.getBody()
 				.addToStatements(
 						new OJIfStatement("target." + EventUtil.evaluatorName(e) + "()", "return target." + eventUtil.getEventConsumerName(e)
-								+ "(nodeId)"));
+								+ "(returnInfo.getValue(persistence)"));
 		handleOn.getBody().addToStatements("return false");
 		addGetConsumerPoolSize(ojClass, 5);
 		OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
@@ -235,8 +235,8 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			constr.addParam("time", new OJPathName("java.util.Date"));
 			constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=time");
 		}
-		constr.addParam("nodeId", new OJPathName("String"));
-		constr.getBody().addToStatements("this.nodeId=nodeId");
+		constr.addParam("returnInfo", BpmUtil.ABSTRACT_TOKEN);
+		constr.getBody().addToStatements("this.returnInfo=returnInfo");
 		addNodeId(ojClass);
 		pkg.addToClasses(ojClass);
 		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
@@ -253,7 +253,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedField target = new OJAnnotatedField("target", behaviorPath);
 		target.setInitExp("(" + behaviorPath.getLast() + ")object");
 		handleOn.getBody().addToLocals(target);
-		handleOn.getBody().addToStatements("return target." + eventUtil.getEventConsumerName(e) + "(nodeId,firstOccurrenceScheduledFor)");
+		handleOn.getBody().addToStatements("return target." + eventUtil.getEventConsumerName(e) + "(returnInfo,firstOccurrenceScheduledFor)");
 		addGetConsumerPoolSize(ojClass, 5);
 		OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
 		ojClass.addToOperations(scheduleNextOccurrence);
@@ -263,10 +263,10 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private void addNodeId(OJAnnotatedClass ojClass){
 		ojClass.getDefaultConstructor();
 		OJConstructor constr = new OJConstructor();
-		constr.addParam("nodeId", new OJPathName("String"));
-		constr.getBody().addToStatements("this.nodeId=nodeId");
+		constr.addParam("returnInfo", new OJPathName("String"));
+		constr.getBody().addToStatements("this.returnInfo=returnInfo");
 		ojClass.addToConstructors(constr);
-		ojClass.addToFields(new OJAnnotatedField("nodeId", new OJPathName("String")));
+		ojClass.addToFields(new OJAnnotatedField("returnInfo", BpmUtil.ABSTRACT_TOKEN));
 	}
 	private void addCommonMethods(NamedElement e,OJAnnotatedClass ojClass){
 		OJAnnotatedOperation getHandlerUuid = new OJAnnotatedOperation("getHandlerUuid", new OJPathName("String"));
@@ -436,7 +436,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	private void addMarshallingImports(OJAnnotatedClass marshaller){
 	}
-	private OJAnnotatedOperation buildMarshall(Classifier parent,String target,Collection<? extends TypedElement> e,boolean includeNodeId){
+	private OJAnnotatedOperation buildMarshall(Classifier parent,String target,Collection<? extends TypedElement> e,boolean includeReturnInfo){
 		OJPathName collectionOfPropertyValues = getCollectionOfPropertyValues();
 		OJAnnotatedOperation marshall = new OJAnnotatedOperation("marshall", collectionOfPropertyValues);
 		OJBlock blo = marshall.getBody();
@@ -446,8 +446,8 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			blo.addToStatements("result.add(new PropertyValue(" + EmfWorkspace.getOpaeumId(p) + "l, Value.valueOf(" + target + "." + map.getter()
 					+ "())))");
 		}
-		if(includeNodeId){
-			marshall.getBody().addToStatements("result.add(new PropertyValue(-5l, Value.valueOf(nodeId)))");
+		if(includeReturnInfo){
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-5l, Value.valueOf(retunInfo)))");
 		}
 		return marshall;
 	}
@@ -457,7 +457,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		collectionOfPropertyValues.addToElementTypes(propertyValuePath);
 		return collectionOfPropertyValues;
 	}
-	private OJAnnotatedOperation buildUnmarshall(Classifier parent,String target,Collection<? extends TypedElement> e,boolean includeNodeId){
+	private OJAnnotatedOperation buildUnmarshall(Classifier parent,String target,Collection<? extends TypedElement> e,boolean includeReturnInfo){
 		OJPathName collectionOfPropertyValues = getCollectionOfPropertyValues();
 		OJAnnotatedOperation unmarshall = new OJAnnotatedOperation("unmarshall");
 		unmarshall.addParam("ps", collectionOfPropertyValues);
@@ -474,8 +474,8 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			sst.setElsePart(new OJBlock());
 			elseBlock = sst.getElsePart();
 		}
-		if(includeNodeId){
-			OJIfStatement sc5 = new OJIfStatement("p.getId()==-5", "this.nodeId=(String)Value.valueOf(p.getValue(),persistence)");
+		if(includeReturnInfo){
+			OJIfStatement sc5 = new OJIfStatement("p.getId()==-5", "this.returnInfo=("+BpmUtil.ABSTRACT_TOKEN.getLast()+")Value.valueOf(p.getValue(),persistence)");
 			elseBlock.addToStatements(sc5);
 		}
 		return unmarshall;

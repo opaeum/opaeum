@@ -16,6 +16,7 @@ import org.opaeum.runtime.domain.ExceptionHolder;
 
 public class BpmUtil{
 	public static final OJPathName ABSTRACT_TOKEN = new OJPathName("org.opaeum.hibernate.domain.AbstractToken");
+	public static final OJPathName RETURN_INFO = new OJPathName("org.opaeum.hibernate.domain.ReturnInfo");
 	public static String stepLiteralName(NamedElement s){
 		String result="";
 		if(s instanceof Vertex){

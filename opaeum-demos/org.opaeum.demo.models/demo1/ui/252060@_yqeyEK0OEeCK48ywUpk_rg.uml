@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_h2Zf0OScEeG5u9G4h3x7ow" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg" name="Delegate User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_h2Zf0eScEeG5u9G4h3x7ow" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg" name="Edit delegate"><actionBar xmi:id="_h2Zf1OScEeG5u9G4h3x7ow" name="ActionBar">
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2Zf1eScEeG5u9G4h3x7ow" name="Update"/>
-      <children xmi:type="uact:BuiltInActionButton" xmi:id="_h2Zf1uScEeG5u9G4h3x7ow" name="Delete" kind="delete"/>
-    </actionBar><pages xmi:id="_h2Zf0uScEeG5u9G4h3x7ow" name="Edit Delegate" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg">
-      <panel xmi:type="panel:GridPanel" xmi:id="_h2Zf0-ScEeG5u9G4h3x7ow" numberOfColumns="1"/>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_9Du88OUiEeGUzfSPg8x3oQ" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg" name="Delegate User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_9Du88eUiEeGUzfSPg8x3oQ" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg" name="Edit delegate"><actionBar xmi:id="_9DvkAOUiEeGUzfSPg8x3oQ" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_9DvkAeUiEeGUzfSPg8x3oQ" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_9DvkAuUiEeGUzfSPg8x3oQ" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_9Du88uUiEeGUzfSPg8x3oQ" name="Edit Delegate" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_9Du88-UiEeGUzfSPg8x3oQ" numberOfColumns="1"/>
     </pages></primaryEditor>
-  <newObjectWizard xmi:id="_h2Zf1-ScEeG5u9G4h3x7ow" name="Create delegate" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg">
-    <pages xmi:id="_h2Zf2OScEeG5u9G4h3x7ow" name="CreateDelegate" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg">
-      <panel xmi:type="panel:GridPanel" xmi:id="_h2Zf2eScEeG5u9G4h3x7ow" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_9DvkA-UiEeGUzfSPg8x3oQ" name="Create delegate" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg">
+    <pages xmi:id="_9DvkBOUiEeGUzfSPg8x3oQ" name="CreateDelegate" umlElementUid="252060@_yqeyEK0OEeCK48ywUpk_rg">
+      <panel xmi:type="panel:GridPanel" xmi:id="_9DvkBeUiEeGUzfSPg8x3oQ" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </uim:ClassUserInteractionModel>

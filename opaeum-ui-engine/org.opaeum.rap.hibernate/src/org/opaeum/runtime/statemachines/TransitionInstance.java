@@ -15,6 +15,9 @@ public abstract class TransitionInstance implements IStateMachineExecutionElemen
 	public VertexActivation getSource(){
 		return source;
 	}
+	public String getId() {
+		return id;
+	}
 	public IStateMachineExecution getStateMachineExecution(){
 		return regionActivation.getStateMachineExecution();
 	}
