@@ -58,11 +58,14 @@
 				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.post-update"
 				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opaeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.flush-entity"
+				value="org.hibernate.ejb.event.EJB3FlushEntityEventListener,org.opaeum.audit.AuditListener" />
+		
+			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.create-onflush"
 				value="org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.create"
 				value="org.hibernate.ejb.event.EJB3PersistEventListener,org.opaeum.audit.AuditListener" />
-			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
 #end
 		</properties>
 	</persistence-unit>
@@ -106,11 +109,14 @@
 				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.post-update"
 				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opaeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.flush-entity"
+				value="org.hibernate.ejb.event.EJB3FlushEntityEventListener,org.opaeum.audit.AuditListener" />
+		
+			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.create-onflush"
 				value="org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.create"
 				value="org.hibernate.ejb.event.EJB3PersistEventListener,org.opaeum.audit.AuditListener" />
-			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
 #end
 		</properties>
 	</persistence-unit-->
