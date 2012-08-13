@@ -91,7 +91,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		}else if(vs.getValue() instanceof Number){
 			aa.addNumberValue((Number) vs.getValue());
 		}else if(vs.getValue() instanceof String){
-			aa.addStringValue((String) vs.getValue());
+			aa.addStringValue(StringEncoder.encodeToJavaStringLiteral((String) vs.getValue()));
 		}else if(vs.getValue() instanceof INakedEnumerationLiteral){
 			INakedEnumerationLiteral l = (INakedEnumerationLiteral) vs.getValue();
 			INakedEnumeration en = (INakedEnumeration) l.getEnumeration();
