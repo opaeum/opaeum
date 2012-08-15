@@ -6,6 +6,7 @@ import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 
 /**
  * NavToAssocClassMap : This class holds all the information on how a UML association end that is part of an association class is
@@ -29,7 +30,7 @@ public class NavToAssocClassMap{
 	}
 	public String getter(){
 		String name = buildAssocEndName(assocClass, assocEnd);
-		return "get" + StringHelpers.firstCharToUpper(name);
+		return "get" + NameConverter.capitalize(name);
 	}
 
 	public String buildAssocEndName(AssociationClass assoc,Property end){

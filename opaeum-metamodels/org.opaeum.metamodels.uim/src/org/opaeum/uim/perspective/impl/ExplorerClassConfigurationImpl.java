@@ -297,7 +297,7 @@ public class ExplorerClassConfigurationImpl extends UmlReferenceImpl implements 
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isVisible: ");
 		result.append(isVisible);
 		result.append(')');

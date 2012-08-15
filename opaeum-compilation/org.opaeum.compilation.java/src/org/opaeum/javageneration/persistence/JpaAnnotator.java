@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.GenerationType;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
@@ -46,7 +46,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	public void visitEnumeration(Enumeration e){
 		if(!EmfElementUtil.isMarkedForDeletion(e)){
 			// TODO do something similar for interfaces, even without
-			if(EmfClassifierUtil.getCodeGenerationStrategy(e) == CodeGenerationStrategy.ALL){
+			if(ojUtil.getCodeGenerationStrategy(e) == CodeGenerationStrategy.ALL){
 				OJAnnotatedClass clss = new OJAnnotatedClass(e.getName() + "Class");
 				JpaUtil.addClass(clss);
 				JpaUtil.buildTableAnnotation(clss, PersistentNameUtil.getPersistentName(e).getAsIs(), config);
@@ -59,7 +59,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 				constr.getBody().addToStatements("super(e)");
 				clss.addToConstructors(constr);
 				for(Property p:e.getOwnedAttributes()){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+					PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 					if(map.isOne()){
 						constr.getBody().addToStatements("this." + map.fieldname() + "=e." + map.getter() + "()");
 						OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
@@ -72,7 +72,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	}
 	protected void visitComplexStructure(Classifier complexType){
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
-		if(isPersistent(complexType) && OJUtil.hasOJClass(complexType)){
+		if(isPersistent(complexType) && ojUtil.hasOJClass(complexType)){
 			buildToString(ojClass, complexType);
 			NameWrapper persistentName = PersistentNameUtil.getPersistentName(complexType);
 			OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, persistentName.getAsIs(), this.config, complexType.getNamespace());
@@ -84,8 +84,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 				}
 			}else if(complexType instanceof Association && (EmfAssociationUtil.isClass((Association) complexType))){
 				Association ass = (Association) complexType;
-				StructuralFeatureMap map1 = ojUtil.buildStructuralFeatureMap(ass.getMemberEnds().get(0));
-				StructuralFeatureMap map2 = ojUtil.buildStructuralFeatureMap(ass.getMemberEnds().get(1));
+				PropertyMap map1 = ojUtil.buildStructuralFeatureMap(ass.getMemberEnds().get(0));
+				PropertyMap map2 = ojUtil.buildStructuralFeatureMap(ass.getMemberEnds().get(1));
 				OJAnnotationAttributeValue uniqueConstraints = new OJAnnotationAttributeValue("uniqueConstraints");
 				table.putAttribute(uniqueConstraints);
 				if(map1.isOne()){
@@ -105,7 +105,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 						OJAnnotationAttributeValue columns1 = new OJAnnotationAttributeValue("columnNames", map2.getPersistentName()
 								.getAsIs());
 						uniquenessConstraint1.putAttribute(columns1);
-						if(map2.getProperty().getType() instanceof Interface){
+						if(map2.getBaseType() instanceof Interface){
 							columns1.addStringValue(map2.getPersistentName().getAsIs() + "_type");
 						}
 						uniqueConstraints.addAnnotationValue(uniquenessConstraint1);
@@ -115,7 +115,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 						OJAnnotationValue uniquenessConstraint2 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
 						OJAnnotationAttributeValue columns2 = new OJAnnotationAttributeValue("columnNames", map1.getPersistentName().getAsIs());
 						uniquenessConstraint2.putAttribute(columns2);
-						if(map1.getProperty().getType() instanceof Interface){
+						if(map1.getBaseType() instanceof Interface){
 							columns2.addStringValue(map1.getPersistentName().getAsIs() + "_type");
 						}
 						uniqueConstraints.addAnnotationValue(uniquenessConstraint2);
@@ -128,17 +128,10 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 						uniqueConstraints.addAnnotationValue(uniquenessConstraint1);
 					}
 				}
-				for(OJAnnotationValue v:uniqueConstraints.getAnnotationValues()){
-					OJAnnotationAttributeValue columnNames = v.findAttribute("columnNames");
-					if(columnNames==null){
-						System.out.println();
-					}
-				}
-
 			}
 			// All classes get default strategy
 			annotateInheritanceType(ojClass);
-			if(EmfClassifierUtil.getCodeGenerationStrategy(complexType) == CodeGenerationStrategy.ABSTRACT_SUPERTYPE_ONLY){
+			if(ojUtil.getCodeGenerationStrategy(complexType) == CodeGenerationStrategy.ABSTRACT_SUPERTYPE_ONLY){
 				OJAnnotationValue mappedSuperclass = new OJAnnotationValue(new OJPathName("javax.persistence.MappedSuperclass"));
 				ojClass.addAnnotationIfNew(mappedSuperclass);
 			}else{
@@ -154,10 +147,10 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 				if(complexType instanceof Class){
 					Collection<Property> primaryKeyProperties = EmfClassifierUtil.getPrimaryKeyProperties( ((Class) complexType));
 					if(primaryKeyProperties.size() == 1){
-						StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(primaryKeyProperties.iterator().next());
+						PropertyMap map = ojUtil.buildStructuralFeatureMap(primaryKeyProperties.iterator().next());
 						OJAnnotatedField field = (OJAnnotatedField) ojClass.findField(map.fieldname());
 						field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Id")));
-						if(map.getProperty().getType().conformsTo(getLibrary().getIntegerType())){
+						if(map.getBaseType().conformsTo(getLibrary().getIntegerType())){
 							OJAnnotatedOperation getId = new OJAnnotatedOperation("getId", new OJPathName("Long"));
 							ojClass.addToOperations(getId);
 							getId.initializeResultVariable(field.getName() + ".longValue()");
@@ -172,7 +165,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 						cls.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Embeddable")));
 						cls.addToImplementedInterfaces(new OJPathName("java.io.Serializable"));
 						for(Property p:primaryKeyProperties){
-							StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+							PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 							OJUtil.addPersistentProperty(cls, map.umlName(), map.javaTypePath(), true);
 							mapXToOne(map, cls);
 						}
@@ -223,8 +216,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	@VisitBefore
 	public void visitAssociationClass(Association ac){
 	}
-	protected void visitProperty(Classifier umlOwner,StructuralFeatureMap map){
-		if(isPersistent(umlOwner) && OJUtil.hasOJClass(umlOwner)){
+	protected void visitProperty(Classifier umlOwner,PropertyMap map){
+		if(isPersistent(umlOwner) && ojUtil.hasOJClass(umlOwner)){
 			if(!(map.getProperty().isDerived() || map.isStatic())){
 				if(map.isOne()){
 					mapXToOne(umlOwner, map);
@@ -234,7 +227,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			}
 		}
 	}
-	private void mapXToMany(Classifier umlOwner,StructuralFeatureMap map){
+	private void mapXToMany(Classifier umlOwner,PropertyMap map){
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		Property p = map.getProperty();
 		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
@@ -284,7 +277,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		}
 	}
-	private void implementManyForValueTypes(Property f,StructuralFeatureMap map,OJAnnotatedField field){
+	private void implementManyForValueTypes(Property f,PropertyMap map,OJAnnotatedField field){
 		if(isJpa2){
 			OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("javax.persistence.ElementCollection"));
 			OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetEntity", ojUtil.classifierPathname((Classifier) f
@@ -306,8 +299,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		joinTable.putAttribute(new OJAnnotationAttributeValue("joinColumns", joinColumn));
 		field.addAnnotationIfNew(joinTable);
 	}
-	private void implementMap(StructuralFeatureMap map,OJAnnotatedField field){
-		StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap(map.getProperty());
+	private void implementMap(PropertyMap map,OJAnnotatedField field){
+		PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(map.getProperty());
 		OJAnnotationValue mapKey = new OJAnnotationValue(new OJPathName("javax.persistence.MapKey"));
 		field.putAnnotation(mapKey);
 		mapKey.putAttribute("name", otherMap.qualifierProperty());
@@ -373,7 +366,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		// ifIdNull.addToElsePart("return getId().equals(other.getId())");
 		// equals.getBody().addToStatements(ifThis);
 	}
-	private boolean isMap(StructuralFeatureMap map){
+	private boolean isMap(PropertyMap map){
 		return super.isMap(map.getProperty());
 	}
 }

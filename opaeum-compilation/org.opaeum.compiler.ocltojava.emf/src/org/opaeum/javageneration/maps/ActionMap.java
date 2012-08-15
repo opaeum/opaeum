@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.maps;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
@@ -26,7 +26,7 @@ import org.opaeum.name.NameConverter;
 public class ActionMap extends ActivityNodeMap{
 
 	private Action action;
-	private StructuralFeatureMap targetMap;
+	private PropertyMap targetMap;
 	public ActionMap(OJUtil ojUtil,Action action){
 		super(ojUtil, action);
 		this.action = action;
@@ -42,13 +42,13 @@ public class ActionMap extends ActivityNodeMap{
 		if(targetElement instanceof ValuePin){
 			return !(((ValuePin) targetElement).getValue() instanceof OpaqueExpression);
 		}else if(targetElement instanceof InputPin){
-			return ((InputPin) targetElement).getIncomings().size() == 1;
+			return ((InputPin) targetElement).getIncomings().isEmpty();
 		}else if(targetElement != null){
 			return false;
 		}
 		return true;
 	}
-	public StructuralFeatureMap targetMap(){
+	public PropertyMap targetMap(){
 		if(targetMap == null){
 			NamedElement te = EmfActionUtil.getTargetElement(action);
 			if(te instanceof TypedElement){

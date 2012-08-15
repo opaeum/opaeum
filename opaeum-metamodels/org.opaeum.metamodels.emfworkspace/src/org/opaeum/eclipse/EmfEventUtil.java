@@ -197,7 +197,7 @@ public class EmfEventUtil{
 	}
 	public static Behavior getBehaviorContext(Event event){
 		Element o = EmfEventUtil.getTriggerSContext(event);
-		while(!(o instanceof Behavior)){
+		while(!(o instanceof Behavior || o==null)){
 			o = (Element) EmfElementFinder.getContainer(o);
 		}
 		return (Behavior) o;

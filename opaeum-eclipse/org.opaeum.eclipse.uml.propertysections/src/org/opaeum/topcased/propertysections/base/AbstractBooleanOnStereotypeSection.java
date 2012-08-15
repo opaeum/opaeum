@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
@@ -43,8 +44,9 @@ public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedP
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		this.stereotype = ProfileApplier.getAppliedProfile(getElement(getEObject()).getModel(), getProfileName()).getOwnedStereotype(
-				getStereotypeName());
+		Element element = getElement(getEObject());
+		Profile appliedProfile = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
+		this.stereotype = appliedProfile.getOwnedStereotype(getStereotypeName());
 		this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
 	}
 	@Override

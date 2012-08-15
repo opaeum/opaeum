@@ -2,7 +2,7 @@ package nl.klasse.octopus.codegen.umlToJava.othergenerators.creators;
 
 import nl.klasse.octopus.codegen.helpers.CommonNames;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.visitors.OclUtilityCreator;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.java.metamodel.OJBlock;
@@ -15,7 +15,7 @@ import org.opaeum.java.metamodel.utilities.JavaPathNames;
 import org.opaeum.javageneration.util.OJUtil;
 
 public class MultCheckCreator{
-	private StructuralFeatureMap FEATURE = null;
+	private PropertyMap FEATURE = null;
 	private OJClassifier owner = null;
 	private OJBlock body = null;
 	private OJPathName ERROR_PATH = null;
@@ -31,7 +31,7 @@ public class MultCheckCreator{
 		ERROR_PATH = OclUtilityCreator.getInvErrorPath();
 		OJPathName myTypePath = JavaPathNames.List.getCopy();
 		myTypePath.addToElementTypes(OclUtilityCreator.getInvErrorPath());
-		String myType = myTypePath.getCollectionTypeName();
+		String myType = myTypePath.getTypeNameWithTypeArguments();
 		String myDefault = "ArrayList<" + OclUtilityCreator.getInvErrorPath().getLast() + ">";
 		OJOperation myOper = null;
 		myOper = new OJOperation();

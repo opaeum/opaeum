@@ -19,7 +19,7 @@ public class OJField extends OJFieldGEN{
 		}
 		if(result.length() > 0)
 			result = result + " ";
-		result = result + getType().getCollectionTypeName();
+		result = result + getType().getTypeNameWithTypeArguments();
 		result = result + " " + getName();
 		if(getInitExp() != null && !getInitExp().equals("")){
 			result = result + " = " + getInitExp();

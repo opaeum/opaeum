@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
@@ -31,7 +31,7 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		return 1;// Works across models
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap map){
+	protected void visitProperty(Classifier owner,PropertyMap map){
 		Property p = map.getProperty();
 		if(p.isNavigable()){
 			OJClass c = findJavaClass(owner);
@@ -40,8 +40,8 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	public void implementRedefinition(StructuralFeatureMap redefiningMap,OJClass c,Property redefinedProperty){
-		StructuralFeatureMap redefinedMap = ojUtil.buildStructuralFeatureMap(redefinedProperty);
+	public void implementRedefinition(PropertyMap redefiningMap,OJClass c,Property redefinedProperty){
+		PropertyMap redefinedMap = ojUtil.buildStructuralFeatureMap(redefinedProperty);
 		OJField f = c.findField(redefinedMap.fieldname());
 		if(f != null){
 			c.removeFromFields(f);
@@ -104,8 +104,8 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		collectionType.removeAllFromElementTypes();
 		return collectionType;
 	}
-	private void convertToCorrectCollectionType(OJClass c,OJAnnotatedOperation o,StructuralFeatureMap redefiningMap,StructuralFeatureMap redefinedMap){
-		if(getLibrary().getActualType( redefinedMap.getFeature()) != getLibrary().getActualType( redefiningMap.getFeature())){
+	private void convertToCorrectCollectionType(OJClass c,OJAnnotatedOperation o,PropertyMap redefiningMap,PropertyMap redefinedMap){
+		if(getLibrary().getActualType( redefinedMap.getProperty()) != getLibrary().getActualType( redefiningMap.getProperty())){
 			OJPathName collectionType = getRawType(redefiningMap.javaTypePath());
 			o.initializeResultVariable("(" + collectionType + ")" + redefiningMap.getter() + "()");
 			c.addToImports(redefinedMap.javaTypePath());
@@ -119,7 +119,7 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		suppress.addStringValue("rawtypes");
 		o.putAnnotation(suppress);
 	}
-	private void wrapInCollection(OJClass c,OJAnnotatedOperation o,StructuralFeatureMap redefiningMap,StructuralFeatureMap redefinedMap){
+	private void wrapInCollection(OJClass c,OJAnnotatedOperation o,PropertyMap redefiningMap,PropertyMap redefinedMap){
 		o.initializeResultVariable(redefinedMap.javaDefaultValue());
 		OJIfStatement ifNotNull = new OJIfStatement((redefiningMap.getter() + "()") + "!=null", "result.add(" + (redefiningMap.getter() + "()") + ")");
 		o.getBody().addToStatements(ifNotNull);

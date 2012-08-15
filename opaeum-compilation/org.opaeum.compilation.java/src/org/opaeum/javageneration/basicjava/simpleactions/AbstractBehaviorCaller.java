@@ -1,7 +1,7 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallBehaviorAction;
@@ -21,8 +21,8 @@ public abstract class AbstractBehaviorCaller<T extends CallBehaviorAction> exten
 			operationMap=ojUtil.buildOperationMap(node.getBehavior());
 		}
 	}
-	protected abstract void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,StructuralFeatureMap resultMap);
-	protected abstract StructuralFeatureMap getResultMap();
+	protected abstract void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,PropertyMap resultMap);
+	protected abstract PropertyMap getResultMap();
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		OperationMap calledElement = ojUtil.buildOperationMap(node.getBehavior());
@@ -33,13 +33,13 @@ public abstract class AbstractBehaviorCaller<T extends CallBehaviorAction> exten
 				if(EmfBehaviorUtil.isComplectSynchronousMethod(node.getBehavior())){
 					// TODO store the results in the output pins
 				}
-				StructuralFeatureMap resultMap = getResultMap();
+				PropertyMap resultMap = getResultMap();
 				OJAnnotatedField resultField = expressor.buildResultVariable(operation, block, resultMap);
 				OJBlock fs = block;
 				if(node.getBehavior().getContext() == null && EmfBehaviorUtil.hasExecutionInstance(node.getBehavior())){
 					resultField.setInitExp("new " + resultMap.javaBaseType() + "()");
 					for(Pin p:node.getArguments()){
-						StructuralFeatureMap paramMap = ojUtil.buildStructuralFeatureMap(EmfActionUtil.getLinkedTypedElement( p));
+						PropertyMap paramMap = ojUtil.buildStructuralFeatureMap(EmfActionUtil.getLinkedTypedElement( p));
 						fs.addToStatements(resultField.getName() + "." + paramMap.setter() + "(" + readPin(operation, fs, p) + ")");
 					}
 				}else{
@@ -51,7 +51,7 @@ public abstract class AbstractBehaviorCaller<T extends CallBehaviorAction> exten
 				fs.addToLocals(resultField);
 				if(shouldStoreMessageStructureOnProcess()){
 					Behavior messageStructure = node.getBehavior();
-					StructuralFeatureMap featureMap = ojUtil.buildStructuralFeatureMap( getLibrary().getEndToComposite( messageStructure).getOtherEnd());
+					PropertyMap featureMap = ojUtil.buildStructuralFeatureMap( getLibrary().getEndToComposite( messageStructure).getOtherEnd());
 					fs.addToStatements(featureMap.adder() + "(" + resultField.getName() + ")");
 				}
 				maybeStartBehavior(operation, fs, resultMap);
@@ -70,7 +70,7 @@ public abstract class AbstractBehaviorCaller<T extends CallBehaviorAction> exten
 		return fs;
 	}
 	protected abstract boolean shouldStoreMessageStructureOnProcess();
-	private boolean resultIsMany(StructuralFeatureMap resultMap){
+	private boolean resultIsMany(PropertyMap resultMap){
 		boolean many = resultMap.isMany();
 		if(EmfBehaviorUtil.hasMessageStructure(node)){
 			many = false;

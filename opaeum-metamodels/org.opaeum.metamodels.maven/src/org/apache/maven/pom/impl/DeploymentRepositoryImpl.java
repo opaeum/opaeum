@@ -430,7 +430,7 @@ public class DeploymentRepositoryImpl extends EObjectImpl implements DeploymentR
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (uniqueVersion: ");
 		if (uniqueVersionESet) result.append(uniqueVersion); else result.append("<unset>");
 		result.append(", id: ");

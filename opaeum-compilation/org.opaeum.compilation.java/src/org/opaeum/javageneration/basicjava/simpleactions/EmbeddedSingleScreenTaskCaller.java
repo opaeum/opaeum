@@ -2,7 +2,7 @@ package org.opaeum.javageneration.basicjava.simpleactions;
 
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.OpaqueAction;
@@ -21,13 +21,13 @@ public class EmbeddedSingleScreenTaskCaller extends SimpleNodeBuilder<OpaqueActi
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(node);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(node);
 		OJAnnotatedField taskVar = expressor.buildResultVariable(operation, block, map);
 		taskVar.setInitExp("new " + map.javaType() + "()");
 		block.addToLocals(taskVar);
 		List<InputPin> inputValues = node.getInputValues();
 		for(InputPin input:inputValues){
-			StructuralFeatureMap propertyMap = ojUtil.buildStructuralFeatureMap(input);
+			PropertyMap propertyMap = ojUtil.buildStructuralFeatureMap(input);
 			operation.getBody().addToStatements(taskVar.getName()+"." + propertyMap.setter() + "(" + readPin(operation, block, input) + ")");
 		}
 		block.addToStatements(taskVar.getName()+".setReturnInfo(context)");

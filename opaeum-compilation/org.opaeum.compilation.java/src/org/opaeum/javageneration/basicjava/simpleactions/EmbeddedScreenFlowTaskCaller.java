@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.opaeum.java.metamodel.OJBlock;
@@ -16,13 +16,13 @@ public class EmbeddedScreenFlowTaskCaller extends AbstractBehaviorCaller<CallBeh
 		taskUtil=new TaskUtil(expressor.getOjUtil());
 	}
 	@Override
-	protected void maybeStartBehavior(OJAnnotatedOperation operation,OJBlock block,StructuralFeatureMap resultMap){
+	protected void maybeStartBehavior(OJAnnotatedOperation operation,OJBlock block,PropertyMap resultMap){
 		String taskName = resultMap.fieldname();
 		taskUtil.implementAssignmentsAndDeadlines(operation, block, getLibrary().getResponsibilityDefinition( node, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK), taskName);
 		block.addToStatements(taskName + ".setReturnInfo(context)");
 		block.addToStatements(taskName + ".execute()");
 	}
-	protected StructuralFeatureMap getResultMap(){
+	protected PropertyMap getResultMap(){
 		return ojUtil.buildStructuralFeatureMap(node);
 	}
 	@Override

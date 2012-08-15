@@ -1,5 +1,7 @@
 package org.opaeum.eclipse;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -165,7 +167,7 @@ public class EmfActivityUtil{
 	}
 	public static Collection<ActivityNode> getActivityNodes(Namespace ne){
 		if(ne instanceof Activity){
-			return ((Activity) ne).getOwnedNodes();
+			return getOwnedNodesForEclipseUml4((Activity) ne);
 		}else if(ne instanceof StructuredActivityNode){
 			return ((StructuredActivityNode) ne).getContainedNodes();
 		}else{
@@ -414,11 +416,11 @@ public class EmfActivityUtil{
 	}
 	public static Collection<ActivityNode> getActivityNodesRecursively(Activity containingActivity){
 		Set<ActivityNode> result = new TreeSet<ActivityNode>(new ElementComparator());
-		EList<ActivityNode> ownedNodes = containingActivity.getOwnedNodes();
+		List<ActivityNode> ownedNodes = getOwnedNodesForEclipseUml4(containingActivity);
 		for(ActivityNode activityNode:ownedNodes){
 			result.add(activityNode);
 			if(activityNode instanceof StructuredActivityNode){
-				result.addAll(getActivityNodesRecursively((Activity) activityNode));
+				result.addAll(getActivityNodesRecursively((StructuredActivityNode) activityNode));
 			}
 		}
 		return result;
@@ -473,6 +475,11 @@ public class EmfActivityUtil{
 			for(InputPin inputPin:inputs){
 				result.addAll(inputPin.getIncomings());
 			}
+			if(node instanceof ExpansionRegion){
+				for(ExpansionNode expansionNode:((ExpansionRegion) node).getInputElements()){
+					result.addAll(expansionNode.getIncomings());
+				}
+			}
 		}
 		return result;
 	}
@@ -494,6 +501,13 @@ public class EmfActivityUtil{
 			ObjectFlow of = (ObjectFlow) e;
 			if(of.getTarget() instanceof InputPin){
 				return (ActivityNode) ((InputPin) of.getTarget()).getOwner();
+			}else if(of.getTarget() instanceof ExpansionNode){
+				ExpansionNode en=(ExpansionNode) of.getTarget();
+				if(en.getRegionAsInput()!=null){
+					return en.getRegionAsInput();
+				}else{
+					return en;
+				}
 			}else{
 				return of.getTarget();
 			}
@@ -544,11 +558,10 @@ public class EmfActivityUtil{
 			return ((MultiplicityElement) n).isMultivalued();
 		}else{
 			ValueSpecification upperBound = n.getUpperBound();
-			
 			if(upperBound instanceof LiteralUnlimitedNatural){
-				return upperBound.integerValue()>1 || upperBound.integerValue()==LiteralUnlimitedNatural.UNLIMITED;
+				return upperBound.integerValue() > 1 || upperBound.integerValue() == LiteralUnlimitedNatural.UNLIMITED;
 			}else if(upperBound instanceof LiteralInteger){
-				return upperBound.integerValue()>1;
+				return upperBound.integerValue() > 1;
 			}else{
 				return false;
 			}
@@ -569,10 +582,10 @@ public class EmfActivityUtil{
 		if(edge.getTarget() instanceof ObjectNode){
 			return (ObjectNode) edge.getTarget();
 		}else if(edge.getTarget() instanceof ControlNode){
-			ControlNode c= (ControlNode) edge.getTarget();
-			Set<ActivityEdge> allEffectiveOutgoing= getAllEffectiveOutgoing(edge.getTarget());
-			if((c instanceof ForkNode ||c instanceof DecisionNode) && multipleObjectFlows(allEffectiveOutgoing)){
-				//Eliminate guess work. Under these conditions it would be misleading to return anything
+			ControlNode c = (ControlNode) edge.getTarget();
+			Set<ActivityEdge> allEffectiveOutgoing = getAllEffectiveOutgoing(edge.getTarget());
+			if((c instanceof ForkNode || c instanceof DecisionNode) && multipleObjectFlows(allEffectiveOutgoing)){
+				// Eliminate guess work. Under these conditions it would be misleading to return anything
 				return null;
 			}
 			for(ActivityEdge outgoing:allEffectiveOutgoing){
@@ -583,5 +596,35 @@ public class EmfActivityUtil{
 		}
 		return null;
 	}
-
+	public static List<ActivityNode> getOwnedNodesForEclipseUml4(Activity node){
+		Method getOwnedNodes;
+		try{
+			getOwnedNodes = node.getClass().getMethod("getOwnedNodes");
+			return (List<ActivityNode>) getOwnedNodes.invoke(node);
+		}catch(SecurityException e){
+			e.printStackTrace();
+		}catch(NoSuchMethodException e){
+			try{
+				getOwnedNodes = node.getClass().getMethod("getNodes");
+				return (List<ActivityNode>) getOwnedNodes.invoke(node);
+			}catch(SecurityException e1){
+				e1.printStackTrace();
+			}catch(NoSuchMethodException e1){
+				throw new RuntimeException(e1);
+			}catch(IllegalArgumentException e1){
+				e.printStackTrace();
+			}catch(IllegalAccessException e1){
+				e.printStackTrace();
+			}catch(InvocationTargetException e1){
+				e.printStackTrace();
+			}
+		}catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}catch(IllegalAccessException e){
+			e.printStackTrace();
+		}catch(InvocationTargetException e){
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
 }

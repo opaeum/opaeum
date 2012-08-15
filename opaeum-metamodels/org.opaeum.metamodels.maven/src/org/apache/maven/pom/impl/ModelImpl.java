@@ -2025,7 +2025,7 @@ public class ModelImpl extends EObjectImpl implements Model {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (modelVersion: ");
 		result.append(modelVersion);
 		result.append(", groupId: ");

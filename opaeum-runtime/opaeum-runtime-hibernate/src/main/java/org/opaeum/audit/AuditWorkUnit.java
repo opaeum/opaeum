@@ -57,7 +57,7 @@ public class AuditWorkUnit {
 	private Map<AuditEntryFactory<? extends IPersistentObject>, StringBuilder> auditEntryInserts = new HashMap<AuditEntryFactory<? extends IPersistentObject>, StringBuilder>();
 	private StringBuilder propertyChangeInsert;
 	private boolean firstPropertyChangeProcessed;
-	private StringBuffer auditEntryInsert;
+	private StringBuilder auditEntryInsert;
 
 	public AuditWorkUnit(EventSource session) {
 		auditSession = session;
@@ -148,7 +148,7 @@ public class AuditWorkUnit {
 	}
 
 	private void initializeAuditEntryInsert() {
-		this.auditEntryInsert = new StringBuffer(
+		this.auditEntryInsert = new StringBuilder(
 				"insert into audit_entry (id,object_version,original_id,original_type,previous_version_id, audit_date_time,action) values ");
 	}
 

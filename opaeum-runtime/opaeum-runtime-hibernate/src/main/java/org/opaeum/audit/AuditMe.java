@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 
 public @interface AuditMe {
+@SuppressWarnings("rawtypes")
 Class<? extends AuditEntryFactory> factory() default DefaultAuditEntryFactory.class; 
 }

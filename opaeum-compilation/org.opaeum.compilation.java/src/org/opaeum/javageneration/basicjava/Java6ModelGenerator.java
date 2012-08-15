@@ -5,7 +5,7 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Behavior;
@@ -84,7 +84,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		if(EmfElementUtil.isMarkedForDeletion(c)){
 			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.classifierPathname(c));
 			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.packagePathname(c));
-		}else if(OJUtil.hasOJClass(c) ){
+		}else if(ojUtil.hasOJClass(c) ){
 			if(ojUtil.requiresJavaRename( c)){
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldClassifierPathname(c));
 				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldPackagePathname(c));
@@ -138,7 +138,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			myClass.setAbstract(c.isAbstract());
 			myClass.setComment(EmfElementUtil.getDocumentation(c));
 			Package rootObject = EmfElementFinder.getRootObject(c);
-			if(EmfClassifierUtil.getCodeGenerationStrategy(c) == CodeGenerationStrategy.ABSTRACT_SUPERTYPE_ONLY){
+			if(ojUtil.getCodeGenerationStrategy(c) == CodeGenerationStrategy.ABSTRACT_SUPERTYPE_ONLY){
 				createTextPath(JavaSourceKind.ABSTRACT_SUPERCLASS, myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(true);
 				TextFile impl = createTextPath(JavaSourceKind.CONCRETE_IMPLEMENTATION, myClass, JavaSourceFolderIdentifier.DOMAIN_SRC);
 				if(rootObject instanceof Model && EmfPackageUtil.isRegeneratingLibrary(((Model) rootObject))){
@@ -198,7 +198,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	private synchronized TextFile createTextPath(JavaSourceKind kind,OJAnnotatedClass c,ISourceFolderIdentifier id){
 		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);

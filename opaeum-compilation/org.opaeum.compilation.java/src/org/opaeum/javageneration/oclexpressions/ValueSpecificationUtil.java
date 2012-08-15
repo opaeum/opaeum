@@ -5,7 +5,7 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.uml.CollectionType;
@@ -146,7 +146,7 @@ public class ValueSpecificationUtil{
 			if(iv.getInstance() instanceof EnumerationLiteral){
 				EnumerationLiteral l = (EnumerationLiteral) iv.getInstance();
 				ClassifierMap map = ojUtil.buildClassifierMap(l.getEnumeration(),(CollectionKind) null);
-				expression = map.javaType() + "." + l.getName().toUpperCase();
+				expression = map.javaType() + "." + OJUtil.toJavaLiteral(l);
 			}else{
 				expression = "";
 			}
@@ -175,7 +175,7 @@ public class ValueSpecificationUtil{
 			}
 			expression = getInstance.getName() + "(" + sb + ")";
 			for(Slot s:spec.getSlots()){
-				StructuralFeatureMap featureMap = ojUtil.buildStructuralFeatureMap((Property) s.getDefiningFeature());
+				PropertyMap featureMap = ojUtil.buildStructuralFeatureMap((Property) s.getDefiningFeature());
 				getInstance.getBody().addToStatements("result." + featureMap.setter() + "(" + expressSlot(operation, s) + ")");
 			}
 		}
@@ -240,14 +240,14 @@ public class ValueSpecificationUtil{
 	public String expressSlot(OJClass myClass,final Slot slot){
 		Property feat = (Property) slot.getDefiningFeature();
 		String init = null;
-		StructuralFeatureMap mapper = ojUtil.buildStructuralFeatureMap(feat);
+		PropertyMap mapper = ojUtil.buildStructuralFeatureMap(feat);
 		final List<ValueSpecification> values = slot.getValues();
 		if(mapper.isOne()){
 			init = expressValue(myClass, values.get(0), library.getActualType(feat), true);
 		}else{
 			StringBuilder sb = new StringBuilder(mapper.javaDefaultValue());
 			sb.deleteCharAt(sb.length() - 1);
-			StringBuffer valueExpressions = new StringBuffer();
+			StringBuilder valueExpressions = new StringBuilder();
 			for(ValueSpecification v:values){
 				String expressValue = expressValue(myClass, v, library.getActualType(feat), true);
 				if(expressValue != null){

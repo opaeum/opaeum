@@ -3,7 +3,7 @@ package org.opaeum.javageneration.persistence;
 
 
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
@@ -33,7 +33,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 	protected final boolean isOtherEndOrdered(Property f){
 		return f instanceof Property && (f).getOtherEnd() != null && (f).getOtherEnd().isOrdered();
 	}
-	protected final void mapXToOneSimpleType(StructuralFeatureMap map,OJAnnotatedClass owner,OJAnnotatedField field){
+	protected final void mapXToOneSimpleType(PropertyMap map,OJAnnotatedClass owner,OJAnnotatedField field){
 		if(this.workspace.getOpaeumLibrary().getDateType() != null
 				&& map.getBaseType().conformsTo(this.workspace.getOpaeumLibrary().getDateType())){
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"));
@@ -48,7 +48,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 			EmfClassifierUtil.getStrategy(simpleType,JpaStrategy.class).annotate(field, map.getProperty());
 		}
 	}
-	protected final void mapXToOnePersistentType(StructuralFeatureMap map,OJAnnotatedClass owner,OJAnnotatedField field){
+	protected final void mapXToOnePersistentType(PropertyMap map,OJAnnotatedClass owner,OJAnnotatedField field){
 		// Entities and behaviors
 		// Inverse is always OneToOne
 		String toOneType = map.isInverse() ? "javax.persistence.OneToOne" : "javax.persistence.ManyToOne";
@@ -64,7 +64,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 		// table.
 		if(map.isInverse() && !(f.getAssociation() != null && EmfAssociationUtil .isClass(f.getAssociation()))){
 			// Implies navigable other end and Property
-			StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap((f).getOtherEnd());
+			PropertyMap otherMap = ojUtil.buildStructuralFeatureMap((f).getOtherEnd());
 			toOne.putAttribute(new OJAnnotationAttributeValue("mappedBy", otherMap.fieldname()));
 		}else{
 			// Remember that oneToOne uniqueness will be added as a
@@ -80,11 +80,11 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 		}
 		field.addAnnotationIfNew(toOne);
 	}
-	protected final void mapXToOne(Classifier umlOwner,StructuralFeatureMap map){
+	protected final void mapXToOne(Classifier umlOwner,PropertyMap map){
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		mapXToOne(map, owner);
 	}
-	public void mapXToOne(StructuralFeatureMap map,OJAnnotatedClass owner){
+	public void mapXToOne(PropertyMap map,OJAnnotatedClass owner){
 		Property f = map.getProperty();
 		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
 		if(field != null){
@@ -99,7 +99,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 			}
 			for(Property p:EmfPropertyUtil.getPropertiesQualified( map.getProperty())){
-				StructuralFeatureMap qualifiedMap = ojUtil.buildStructuralFeatureMap(p);
+				PropertyMap qualifiedMap = ojUtil.buildStructuralFeatureMap(p);
 				OJAnnotatedField qf = (OJAnnotatedField) owner.findField(qualifiedMap.qualifierProperty());
 				if(qf != null){
 					OJAnnotationValue qColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));

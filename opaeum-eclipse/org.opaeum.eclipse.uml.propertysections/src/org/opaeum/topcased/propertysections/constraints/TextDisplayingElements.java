@@ -30,7 +30,7 @@ public class TextDisplayingElements{
 		return t;
 	}
 	public String getText(){
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		ReflectiveItemProviderAdapterFactory refFactory = new ReflectiveItemProviderAdapterFactory();
 		ReflectiveItemProvider provider = new ReflectiveItemProvider(refFactory);
 		int i = 0;

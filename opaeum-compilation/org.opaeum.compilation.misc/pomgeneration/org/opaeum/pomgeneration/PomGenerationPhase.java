@@ -48,7 +48,6 @@ import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
 import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.migration.MigrationGenerationPhase;
-import org.opaeum.jbpm5.FlowGenerationPhase;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.SourceFolder;
@@ -56,7 +55,7 @@ import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = {
-		JavaTransformationPhase.class,FlowGenerationPhase.class,BootstrapGenerationPhase.class,MigrationGenerationPhase.class
+		JavaTransformationPhase.class,BootstrapGenerationPhase.class,MigrationGenerationPhase.class
 },before = {
 	FileGenerationPhase.class
 })

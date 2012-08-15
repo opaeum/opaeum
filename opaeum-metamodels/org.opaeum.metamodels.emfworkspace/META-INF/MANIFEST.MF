@@ -21,12 +21,17 @@ Export-Package:
  org.opaeum.metamodel.workspace,
  org.opaeum.name,
  org.opaeum.ocl.uml,
+ org.opaeum.runtime.bpm.opaeumsimpletypes,
+ org.opaeum.runtime.contact,
  org.opaeum.runtime.domain,
  org.opaeum.runtime.environment,
  org.opaeum.runtime.environment.marshall,
  org.opaeum.runtime.event,
- org.opaeum.runtime.jbpm,
+ org.opaeum.runtime.organization,
  org.opaeum.runtime.persistence,
+ org.opaeum.runtime.statemachines,
+ org.opaeum.runtime.strategy,
+ org.opaeum.simulation,
  org.opaeum.util
 Require-Bundle: 
  org.eclipse.emf.ecore,

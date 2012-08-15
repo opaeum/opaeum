@@ -339,7 +339,7 @@ public abstract class UimActionImpl extends UimComponentImpl implements UimActio
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (preferredWidth: ");
 		result.append(preferredWidth);
 		result.append(", preferredHeight: ");

@@ -30,6 +30,7 @@ import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
+import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
 import org.eclipse.uml2.uml.ReadVariableAction;
 import org.eclipse.uml2.uml.ReplyAction;
 import org.eclipse.uml2.uml.SendObjectAction;
@@ -118,7 +119,7 @@ public class EmfActionUtil{
 		if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getWriteStructuralFeatureAction_Value()){
 			return ((WriteStructuralFeatureAction) action).getStructuralFeature();
 		}else if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getReadStructuralFeatureAction_Result()){
-			return ((WriteStructuralFeatureAction) action).getStructuralFeature();
+			return ((ReadStructuralFeatureAction) action).getStructuralFeature();
 		}else if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getWriteVariableAction_Value()){
 			return ((WriteVariableAction) action).getVariable();
 		}else if(pin.eContainingFeature() == UMLPackage.eINSTANCE.getReadVariableAction_Result()){

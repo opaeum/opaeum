@@ -292,7 +292,7 @@ public class RepositoryPolicyImpl extends EObjectImpl implements RepositoryPolic
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (enabled: ");
 		if (enabledESet) result.append(enabled); else result.append("<unset>");
 		result.append(", updatePolicy: ");

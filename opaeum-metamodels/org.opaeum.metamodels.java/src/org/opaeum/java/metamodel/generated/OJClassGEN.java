@@ -435,34 +435,15 @@ abstract public class OJClassGEN extends OJClassifier{
 	 */
 	private OJConstructor any1(){
 		OJConstructor result = null;
-		Iterator it = this.getConstructors().iterator();
+		Iterator<OJConstructor> it = this.getConstructors().iterator();
 		while(it.hasNext()){
-			OJConstructor c = (OJConstructor) it.next();
+			OJConstructor c = it.next();
 			if(c.getParameters().isEmpty()){
 				return c;
 			}
 		}
 		return result;
 	}
-	/**
-	 * Implements ->any( f : OJField | f.name = name )
-	 * 
-	 * @param name
-	 */
-	private OJField any2(String name){
-		OJField result = null;
-		Iterator it = this.getFields().iterator();
-		while(it.hasNext()){
-			OJField f = (OJField) it.next();
-			if(f.getName().equals(name)){
-				return f;
-			}
-		}
-		return result;
-	}
-	/**
-	 * Checks all invariants of this object and returns a list of messages about broken invariants
-	 */
 	public List<InvariantError> checkAllInvariants(){
 		List<InvariantError> result = new ArrayList<InvariantError>();
 		return result;

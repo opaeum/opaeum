@@ -1,11 +1,8 @@
 package org.opaeum.audit;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -38,6 +35,7 @@ public class AuditHistory {
 		}
 		return result;
 	}
+	@SuppressWarnings("unchecked")
 	public SortedSet<PropertyChange<?>> getPropertyHistory(String propertyName, Date fromDate, Date toDate) {
 		List<DateTimePropertyChange> list = getHistoryFromDateProperty(fromDate, toDate);
 		TreeSet<PropertyChange<?>> result = new TreeSet<PropertyChange<?>>();
@@ -68,6 +66,7 @@ public class AuditHistory {
 		String toString = new Timestamp( toDate.getTime()).toString();
 		crit.add(Restrictions.le("stringValue", toString));
 		crit.addOrder(Order.asc("stringValue"));
+		@SuppressWarnings("unchecked")
 		List<DateTimePropertyChange> list = crit.list();
 		return list;
 	}
@@ -77,12 +76,5 @@ public class AuditHistory {
 		return session;
 	}
 
-	private static boolean isInterestingField(PropertyChange pd) {
-		Set<String> ignoredFields = new HashSet<String>(Arrays.asList("objectVersion", "revision", "revisionType", "id", "deletedOn", "previousVersion",
-				"createdOn", "updatedOn"));
-
-		return !ignoredFields.contains(pd.getPropertyName());
-
-	}
 
 }

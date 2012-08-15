@@ -10,5 +10,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/gdata-client-meta-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dependencies/google-collections-1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/opaeum-runtime-domain"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/opaeum-runtime-hibernate"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

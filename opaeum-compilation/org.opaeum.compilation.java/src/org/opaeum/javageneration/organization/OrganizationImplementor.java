@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.organization;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
@@ -21,7 +21,7 @@ import org.opaeum.javageneration.basicjava.OperationAnnotator;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class})
 public class OrganizationImplementor extends AbstractStructureVisitor{
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){

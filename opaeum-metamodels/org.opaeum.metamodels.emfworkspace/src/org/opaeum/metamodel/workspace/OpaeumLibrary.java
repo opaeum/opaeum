@@ -69,6 +69,7 @@ import org.opaeum.eclipse.emulated.AbstractEmulatedProperty;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolder;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForActivity;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForAssociation;
+import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForBehavior;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForBehavioredClassifier;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForStateMachine;
 import org.opaeum.eclipse.emulated.ExpansionRegionMessageType;
@@ -117,6 +118,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private Interface businessActor;
 	private Class businessNetwork;
 	private UMLEnvironment parentEnvironment;
+	private Map<String,Operation> additionalOperations = new HashMap<String,Operation>();
 	UriToFileConverter uriToFileConverter;
 	private Map<Model,Map<String,String>> implementationCode = new HashMap<Model,Map<String,String>>();
 	public OpaeumLibrary(ResourceSet resourceSet,UriToFileConverter uriToFileConverter){
@@ -192,15 +194,21 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	@SuppressWarnings("unchecked")
 	private <T extends Classifier>T findClassifier(T c,String libName,String classifierName){
 		if(c == null){
-			Resource found=null;
+			Resource found = null;
 			for(Resource resource:resourceSet.getResources()){
-				if(libName.endsWith(resource.getURI().lastSegment())){
-					found=resource;
+				// HACK until Topcased becomes Papyris
+				String lastSegment = resource.getURI().trimFileExtension().lastSegment();
+				if(lastSegment.contains(".")){
+					lastSegment = lastSegment.substring(0, lastSegment.indexOf('.'));
+				}
+				if(libName.startsWith(lastSegment)){
+					found = resource;
 				}
 			}
-			if(found==null){
-				URI uri = URI.createURI(StereotypeNames.MODELS_PATHMAP + "libraries/" + libName);
-				found=resourceSet.getResource(uri, true);
+			if(found == null){
+				return null;
+				// URI uri = URI.createURI(StereotypeNames.MODELS_PATHMAP + "libraries/" + libName);
+				// found=resourceSet.getResource(uri, true);
 			}
 			EList<EObject> contents = found.getContents();
 			if(contents.size() >= 1 && contents.get(0) instanceof Model){
@@ -293,9 +301,6 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	public Property getArtificialEndToComposite(Classifier entity){
 		if(!(entity instanceof MessageType)){
 			IEmulatedPropertyHolder eph = getEmulatedPropertyHolder(entity);
-			if(eph == null){
-				System.out.println();
-			}
 			for(AbstractEmulatedProperty p:eph.getEmulatedAttributes()){
 				if(p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
 					return p;
@@ -386,6 +391,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		}
 	}
 	public Set<Property> getDirectlyImplementedAttributes(Classifier c){
+
 		Set<Property> propertiesInScope = EmfPropertyUtil.getDirectlyImplementedAttributes(c);
 		addAllEmulatedProperties(c, propertiesInScope);
 		return propertiesInScope;
@@ -437,6 +443,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 				holder = new EmulatedPropertyHolderForStateMachine((StateMachine) bc, this);
 			}else if(bc instanceof Association){
 				holder = new EmulatedPropertyHolderForAssociation((Association) bc, this);
+			}else if(bc instanceof Behavior){
+				holder = new EmulatedPropertyHolderForBehavior((Behavior) bc, this);
 			}else if(bc instanceof BehavioredClassifier){
 				holder = new EmulatedPropertyHolderForBehavioredClassifier((BehavioredClassifier) bc, this);
 			}else{
@@ -525,5 +533,11 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		opaqueExpressions.clear();
 		opaqueBehaviors.clear();
 		opaqueActions.clear();
+	}
+	public Map<String,Operation> getAdditionalOperations(){
+		return additionalOperations;
+	}
+	public void setAdditionalOperations(Map<String,Operation> additionalOperations){
+		this.additionalOperations = additionalOperations;
 	}
 }

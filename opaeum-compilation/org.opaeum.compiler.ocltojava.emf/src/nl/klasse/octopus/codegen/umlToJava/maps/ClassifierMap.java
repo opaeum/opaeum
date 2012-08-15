@@ -18,124 +18,48 @@ import org.opaeum.java.metamodel.utilities.JavaPathNames;
 import org.opaeum.javageneration.util.OJUtil;
 
 public class ClassifierMap extends PackageableElementMap{
-	protected Classifier modelClass;
-	private OJPathName myTypePath = null; // holds result of javaTypePath
-	private OJPathName myDefaultTypePath = null; // holds result of
-	// javaDefaultTypePath
-	private String myDefaultValue = null; // holds result of javaDefaultValue
-	private ClassifierMap elementMap = null; // used to get the results on the
-	// element type if 'modelClass'
-	// is a collection
+	protected Classifier elementType;
 	protected CollectionKind collectionKind;
-	// public ClassifierMap(Classifier modelClass,CollectionKind collectionKind){
-	// this(modelClass);
-	// if(this.collectionKind == null & collectionKind!=null){
-	// this.collectionKind = collectionKind;
-	// elementMap = newClassifierMap(modelClass);
-	// }
-	// }
 	public ClassifierMap(OJUtil ojUtil,Classifier modelClass){
 		super(ojUtil, modelClass);
 		if(modelClass instanceof CollectionType){
 			CollectionType ct = (CollectionType) modelClass;
 			this.collectionKind = ct.getKind();
-			elementMap = newClassifierMap(ct.getElementType());
+			this.elementType = ct.getElementType();
+		}else{
+			this.elementType = modelClass;
 		}
 		Check.pre("ClassifierMap constructor: modelClass is null", modelClass != null);
-		this.modelClass = modelClass;
-	}
-	public String umlType(){
-		return modelClass.getName();
 	}
 	public boolean isAbstract(){
-		return modelClass.isAbstract();
+		return elementType.isAbstract();
 	}
 	public boolean isCollection(){
 		return collectionKind != null;
 	}
 	public boolean isUmlPrimitive(){
-		return modelClass instanceof PrimitiveType;
+		return elementType instanceof PrimitiveType;
 	}
 	public boolean isJavaPrimitive(){
 		String javatype = javaType();
 		return javatype.equals("int") || javatype.equals("double") || javatype.equals("float") || javatype.equals("long")
 				|| javatype.equals("boolean");
 	}
-	/* SET OF OPERATIONS THAT RETURN JAVA TYPE INFO ON THIS CLASSIFIER */
-	/**
-	 * The java path for this class
-	 * 
-	 * @return
-	 */
 	public OJPathName javaTypePath(){
-		if(myTypePath == null){
-			myTypePath = getJavaType(modelClass, collectionKind);
-		}
-		return myTypePath;
+		return getJavaType(elementType, collectionKind);
 	}
-	/**
-	 * The java type of the default value for this class. Note that this type may be different form the java type for this class. E.g. the
-	 * java type for the default value of an OCL sequence is <code>ArrayList</code>, whereas the java type is <code>List</code>.
-	 * 
-	 * @return
-	 */
 	public OJPathName javaDefaultTypePath(){
-		if(myDefaultTypePath == null){
-			myDefaultTypePath = getJavaImplType(modelClass, collectionKind);
-		}
-		return myDefaultTypePath;
+		return getJavaImplType(elementType, collectionKind);
 	}
-	/**
-	 * The java default initial value for this class
-	 * 
-	 * @return
-	 */
 	public String javaDefaultValue(){
-		if(myDefaultValue == null){
-			myDefaultValue = getJavaDefault(modelClass, collectionKind);
-		}
-		return myDefaultValue;
+			return getJavaDefault(elementType, collectionKind);
 	}
 	public OJPathName javaElementTypePath(){
-		Check.pre("ClassMap.javaElementType called for non-collection attribute", isCollection());
-		if(elementMap != null){
-			return elementMap.javaTypePath();
+		if(collectionKind == null){
+			return null;
+		}else{
+			return ojUtil.classifierPathname(elementType);
 		}
-		return null;
-	}
-	/**
-	 * If this classifier represents a collection, this method returns the path of the java type of the default initial value of the elements
-	 * in the collection. E.g. the java element type of Sequence{Set{1,2,3}} is <code>HashSet</code>.
-	 * 
-	 * @return
-	 */
-	public OJPathName javaElementDefaultTypePath(){
-		Check.pre("ClassMap.javaElementDefaultValue called for non-collection attribute", isCollection());
-		if(elementMap != null){
-			return elementMap.javaDefaultTypePath();
-		}
-		return null;
-	}
-	/**
-	 * If this classifier represents a collection, this method returns the java default initial value of the elements in the collection. E.g.
-	 * the java default initial value of Sequence{1,2,3} is <code>0</code>.
-	 * 
-	 * @return
-	 */
-	public String javaElementDefaultValue(){
-		Check.pre("ClassMap.javaElementDefaultValue called for non-collection attribute", isCollection());
-		if(elementMap != null){
-			return elementMap.javaDefaultValue();
-		}
-		return null;
-	}
-	public OJPathName javaElementObjectTypePath(){
-		Check.pre("ClassMap.javaElementObjectTypePath called for non-collection attribute", isCollection());
-		Check.pre("ClassMap.javaElementObjectTypePath called for non-primitive element type", elementMap.isJavaPrimitive());
-		if(elementMap != null){
-			return elementMap.javaObjectTypePath();
-		}
-		return null;
 	}
 	public OJPathName javaUnmodifiableCollectionOperType(){
 		return JavaPathNames.Collections;
@@ -146,7 +70,7 @@ public class ClassifierMap extends PackageableElementMap{
 	 */
 	public OJPathName javaObjectTypePath(){
 		Check.pre("javaObjectType called for non primitive type", isUmlPrimitive());
-		PrimitiveType type = (PrimitiveType) modelClass;
+		PrimitiveType type = (PrimitiveType) elementType;
 		return getJavaObjectType(type);
 	}
 	/* SET OF OPERATIONS THAT DO THE ACTUAL WORK */
@@ -154,8 +78,6 @@ public class ClassifierMap extends PackageableElementMap{
 		OJPathName result = null;
 		if(t == null){
 			result = JavaPathNames.Void;
-		}else if(t instanceof CollectionType){
-			result = getJavaColectionType(((CollectionType) t).getElementType(), ((CollectionType) t).getKind());
 		}else if(collectionKind != null){
 			result = getJavaColectionType(t, collectionKind);
 		}else if(t instanceof Enumeration){
@@ -194,7 +116,7 @@ public class ClassifierMap extends PackageableElementMap{
 	}
 	private OJPathName getJavaType(PrimitiveType t){
 		OJPathName result = null;
-		result=ojUtil.classifierPathname(t);
+		result = ojUtil.classifierPathname(t);
 		if(t.getName().equals(IOclLibrary.StringTypeName)){
 			result = StdlibMap.javaStringType;
 		}else if(t.getName().equals(IOclLibrary.RealTypeName)){
@@ -218,9 +140,7 @@ public class ClassifierMap extends PackageableElementMap{
 	}
 	private String getJavaDefault(Classifier t,CollectionKind k){
 		String result = "null";
-		if(t instanceof CollectionType){
-			result = getJavaDefaultCollection(((CollectionType) t).getElementType(), k);
-		}else if(k != null){
+		if(k != null){
 			result = getJavaDefaultCollection(t, k);
 		}else if(t instanceof Enumeration){
 			result = getJavaDefault((Enumeration) t);
@@ -237,7 +157,7 @@ public class ClassifierMap extends PackageableElementMap{
 		OJPathName path = getJavaImplType(t, k);
 		path = path.getCopy();
 		addElementType(t, path);
-		return "new " + path.getCollectionTypeName() + "()";
+		return "new " + path.getTypeNameWithTypeArguments() + "()";
 	}
 	private String getJavaDefault(DataType t){
 		String result = "null";
@@ -327,16 +247,10 @@ public class ClassifierMap extends PackageableElementMap{
 		if(t instanceof PrimitiveType){
 			innerPath = getJavaObjectType((PrimitiveType) t);
 		}else{
-			ClassifierMap innerMap = newClassifierMap(t);
-			innerPath = innerMap.javaTypePath(); // if no facade present, this
-			// will give the same result
-			// as javaTypePath()
+			innerPath = ojUtil.classifierPathname(t);
 		}
 		if(innerPath != null)
 			path.addToElementTypes(innerPath);
-	}
-	protected ClassifierMap newClassifierMap(Classifier elementType){
-		return ojUtil.buildClassifierMap(elementType, (CollectionKind) null);
 	}
 	protected OJPathName pathname(NamedElement t){
 		if(t instanceof Classifier){
@@ -363,7 +277,7 @@ public class ClassifierMap extends PackageableElementMap{
 	 * @return String
 	 */
 	public String javaType(){
-		return javaTypePath().getCollectionTypeName();
+		return javaTypePath().getTypeNameWithTypeArguments();
 	}
 	/**
 	 * If this classifier has a facade interface, this method returns the name of the java type of that facade interface. If the classifier
@@ -372,7 +286,7 @@ public class ClassifierMap extends PackageableElementMap{
 	 * @return
 	 */
 	public String javaFacadeType(){
-		return javaTypePath().getCollectionTypeName();
+		return javaTypePath().getTypeNameWithTypeArguments();
 	}
 	/**
 	 * If this classifier represents a collection, this method returns the java type of the elements in the collection. E.g. the java element
@@ -381,16 +295,7 @@ public class ClassifierMap extends PackageableElementMap{
 	 * @return
 	 */
 	public String javaElementType(){
-		return javaElementTypePath().getCollectionTypeName();
-	}
-	/**
-	 * If this classifier represents a collection, this method returns the name of the java type of the default initial value of the elements
-	 * in the collection. E.g. the java element type of Sequence{Set{1,2,3}} is <code>HashSet</code>.
-	 * 
-	 * @return
-	 */
-	public String javaElementDefaultType(){
-		return javaElementDefaultTypePath().getCollectionTypeName();
+		return javaElementTypePath().getTypeNameWithTypeArguments();
 	}
 	/**
 	 * @return

@@ -139,7 +139,7 @@ public class ModulesType1Impl extends EObjectImpl implements ModulesType1 {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (module: ");
 		result.append(module);
 		result.append(')');

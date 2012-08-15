@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Activity;
@@ -71,7 +71,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		}
 	}
 	private void processBehavior(Behavior o){
-		if(OJUtil.hasOJClass(o.getContext()) && !EmfBehaviorUtil.isClassifierBehavior(o) && o.getOwner() instanceof Classifier){
+		if(ojUtil.hasOJClass(o.getContext()) && !EmfBehaviorUtil.isClassifierBehavior(o) && o.getOwner() instanceof Classifier){
 			// DO not do effects, state actions or classifier behavior - will be
 			// invoked elsewhere
 			if(o.getSpecification() == null || !o.getName().equals(o.getSpecification().getName())
@@ -100,7 +100,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(Classifier c){
-		if(OJUtil.hasOJClass(c)){
+		if(ojUtil.hasOJClass(c)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			Collection<Operation> directlyImplementedOperations = EmfOperationUtil.getDirectlyImplementedOperations(c);
 			for(Operation o:directlyImplementedOperations){
@@ -228,7 +228,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			}
 			List<Parameter> argumentParameters = map.getArgumentParameters();
 			if(withReturnInfo){
-				oper.addParam("returnInfo", BpmUtil.ABSTRACT_TOKEN);
+				oper.addParam("returnInfo", BpmUtil.ITOKEN);
 			}
 			addParameters(context, oper, argumentParameters);
 			NamedElement o = map.getNamedElement();
@@ -238,7 +238,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					oper.getResultVariable().setType(map.messageStructurePath());
 					List<? extends Parameter> args = map.getArgumentParameters();
 					for(Parameter arg:args){
-						StructuralFeatureMap argMap = ojUtil.buildStructuralFeatureMap(arg);
+						PropertyMap argMap = ojUtil.buildStructuralFeatureMap(arg);
 						oper.getBody().addToStatements("result." + argMap.setter() + "(" + argMap.fieldname() + ")");
 					}
 					if(withReturnInfo){
@@ -271,7 +271,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 	private  void addParameters(Classifier context,OJAnnotatedOperation oper,List<? extends Parameter> argumentParameters){
 		for(Parameter elem:argumentParameters){
 			OJAnnotatedParameter param = new OJAnnotatedParameter();
-			StructuralFeatureMap pMap = ojUtil.buildStructuralFeatureMap(elem);
+			PropertyMap pMap = ojUtil.buildStructuralFeatureMap(elem);
 			param.setName(pMap.fieldname());
 			param.setType(pMap.javaTypePath());
 			oper.addToParameters(param);
@@ -298,7 +298,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		Iterator<OJParameter> parms = ojOperation.getParameters().iterator();
 		while(parms.hasNext()){
 			OJParameter parm = parms.next();
-			if(!parm.getType().equals(BpmUtil.ABSTRACT_TOKEN)){
+			if(!parm.getType().equals(BpmUtil.ITOKEN)){
 				statement.append(parm.getName());
 				if(parms.hasNext()){
 					statement.append(",");
@@ -332,13 +332,13 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
 				listener.setMyPackage(pack);
 				OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
-				callBackOper.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
+				callBackOper.addParam("callingToken", BpmUtil.ITOKEN);
 				callBackOper.addParam("completedProcess", map.messageStructurePath());
 				listener.addToOperations(callBackOper);
 				List<? extends Parameter> exceptionParameters = map.getExceptionParameters();
 				for(Parameter e:exceptionParameters){
 					OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
-					exceptionOper.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
+					exceptionOper.addParam("callingToken", BpmUtil.ITOKEN);
 					exceptionOper.addParam("failedProcess", map.messageStructurePath());
 					listener.addToOperations(exceptionOper);
 				}
@@ -346,7 +346,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					Collection<Type> raisedExceptions = ((Operation) no).getRaisedExceptions();
 					for(Type e:raisedExceptions){
 						OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
-						exceptionOper.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
+						exceptionOper.addParam("callingToken", BpmUtil.ITOKEN);
 						exceptionOper.addParam("exception", e.getName());
 						listener.addToImports(ojUtil.classifierPathname((Classifier) e));
 						exceptionOper.addParam("failedProcess", map.messageStructurePath());
@@ -354,7 +354,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					}
 				}
 				OJAnnotatedOperation unhandledExceptionHandler = new OJAnnotatedOperation(map.unhandledExceptionOperName());
-				unhandledExceptionHandler.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
+				unhandledExceptionHandler.addParam("callingToken", BpmUtil.ITOKEN);
 				unhandledExceptionHandler.addParam("exception", new OJPathName("Object"));
 				unhandledExceptionHandler.addParam("completedProcess", map.messageStructurePath());
 				listener.addToOperations(unhandledExceptionHandler);

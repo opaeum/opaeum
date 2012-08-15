@@ -1,7 +1,7 @@
 package org.opaeum.javageneration.basicjava;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -35,7 +35,7 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 			}
 		}else if(c.getGeneralizations().size() > 1){
 		}
-		if(OJUtil.hasOJClass(c) && c instanceof BehavioredClassifier){
+		if(ojUtil.hasOJClass(c) && c instanceof BehavioredClassifier){
 			for(InterfaceRealization ir:((BehavioredClassifier)c).getInterfaceRealizations()){
 				OJAnnotatedClass myClass = findJavaClass(c);
 				myClass.addToImplementedInterfaces(ojUtil.classifierPathname(ir.getContract()));
@@ -56,7 +56,7 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 		
 	}
 }

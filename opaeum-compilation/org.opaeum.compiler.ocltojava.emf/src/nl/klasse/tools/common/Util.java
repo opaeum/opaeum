@@ -110,7 +110,7 @@ public class Util {
 	 * 	converted to the preference value
 	 */
 	static public String convertValuesToString(String[] elements, String delimiter) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < elements.length; i++) {
 			buffer.append(elements[i]);
 			buffer.append(delimiter);
@@ -118,14 +118,14 @@ public class Util {
 		return buffer.toString();
 	}
 
-	/** Reads the complete file into a StringBuffer.
+	/** Reads the complete file into a StringBuilder.
 	 * 
 	 * @param fileName
 	 * @return
 	 */
-	static public StringBuffer readFile(String  fileName) {
+	static public StringBuilder readFile(String  fileName) {
 		BufferedReader inReader;
-		StringBuffer inStringBuf = new StringBuffer();
+		StringBuilder inStringBuf = new StringBuilder();
 	      
 		// read the whole input file into the variable inString
 		try {
@@ -146,7 +146,7 @@ public class Util {
 	}
 
 	static public String toJavaString(String s){
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		for(int i = 0 ; i<s.length(); i++){
 			char ch = s.charAt(i);
 			if( (ch == '"')) { // && (i > 0) && (i != s.length()-1) ){

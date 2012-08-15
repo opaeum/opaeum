@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-
 public class NumberRangeDistribution extends ValueProvider{
 	boolean integer = false;
 	public NumberRangeDistribution(boolean integer){

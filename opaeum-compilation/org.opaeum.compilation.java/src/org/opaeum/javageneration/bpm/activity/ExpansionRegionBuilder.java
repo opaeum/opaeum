@@ -3,7 +3,7 @@ package org.opaeum.javageneration.bpm.activity;
 import java.util.Collection;
 import java.util.Collections;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.ExpansionNode;
@@ -39,7 +39,7 @@ public class ExpansionRegionBuilder extends AbstractProtectedNodeBuilder<Expansi
 		forEach.getBody().addToLocals(cur);
 		forEach.getBody().addToStatements("cur.setReturnInfo(callingToken)");
 		for(ExpansionNode n:node.getInputElements()){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(n);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(n);
 			OJPathName collectionPath = new OJPathName("java.util.Collection");
 			collectionPath.addToElementTypes(map.javaBaseTypePath());
 			OJAnnotatedField coll = new OJAnnotatedField(map.fieldname(), collectionPath);

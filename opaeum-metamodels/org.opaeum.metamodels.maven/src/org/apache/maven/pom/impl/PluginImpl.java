@@ -712,7 +712,7 @@ public class PluginImpl extends EObjectImpl implements Plugin {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (groupId: ");
 		if (groupIdESet) result.append(groupId); else result.append("<unset>");
 		result.append(", artifactId: ");

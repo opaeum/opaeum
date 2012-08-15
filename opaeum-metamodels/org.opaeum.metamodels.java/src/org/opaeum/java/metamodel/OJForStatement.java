@@ -34,7 +34,7 @@ public class OJForStatement extends OJForStatementGEN{
 		setBody(new OJBlock());
 	}
 	public String toJavaString(){
-		String result = "for ( " + getElemType().getCollectionTypeName() + " " + getElemName() + " : " + getCollection() + " ) {\n";
+		String result = "for ( " + getElemType().getTypeNameWithTypeArguments() + " " + getElemName() + " : " + getCollection() + " ) {\n";
 		result = result + JavaStringHelpers.indent(getBody().toJavaString(), 1) + "\n}";
 		return result;
 	}

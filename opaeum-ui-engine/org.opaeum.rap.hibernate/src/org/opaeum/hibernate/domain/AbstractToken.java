@@ -25,7 +25,7 @@ public abstract class AbstractToken implements  IToken{
 	public abstract IBehaviorExecution getBehaviorExecution();
 	@Override
 	public IExecutionElement getCurrentExecutionElement() {
-		return getBehaviorExecution().getExecutionElements().get(
+		return (IExecutionElement) getBehaviorExecution().getExecutionElements().get(
 				currentElementId);
 	}
 

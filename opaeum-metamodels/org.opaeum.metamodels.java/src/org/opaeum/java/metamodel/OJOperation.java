@@ -67,7 +67,7 @@ public class OJOperation extends OJOperationGEN{
 		if(this.getGenericTypeParam() != null){
 			result.append("<" + this.getGenericTypeParam().getLast() + "> ");
 		}
-		result.append(getReturnType().getCollectionTypeName());
+		result.append(getReturnType().getTypeNameWithTypeArguments());
 		result.append(" " + getName());
 		// params
 		result.append("(" + paramsToJava(this) + ")");

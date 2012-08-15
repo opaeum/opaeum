@@ -139,7 +139,7 @@ public class FiltersType1Impl extends EObjectImpl implements FiltersType1 {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (filter: ");
 		result.append(filter);
 		result.append(')');

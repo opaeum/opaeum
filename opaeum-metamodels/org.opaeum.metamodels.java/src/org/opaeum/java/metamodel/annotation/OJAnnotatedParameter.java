@@ -58,7 +58,7 @@ public class OJAnnotatedParameter extends OJParameter implements OJAnnotatedElem
 		if (sb.length() > 0) {
 			sb.append(' ');
 		}
-		sb.append(getType().getCollectionTypeName());
+		sb.append(getType().getTypeNameWithTypeArguments());
 		sb.append(' ');
 		sb.append(getName());
 		return sb.toString();

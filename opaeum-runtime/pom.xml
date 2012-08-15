@@ -155,15 +155,15 @@
 	</build>
 	<modules>
 		<module>opaeum-runtime-domain</module>
-		<module>opaeum-test-adaptor</module> 
-		<module>opaeum-test-tinker</module> 
-		<module>opaeum-runtime-hibernate</module> 
-		<module>opaeum-runtime-jpa</module> 
+		<!--module>opaeum-test-adaptor</module> 
 		<module>opaeum-runtime-cdi-hibernate</module> 
 		<module>opaeum-runtime-seam2-jpa</module> 
 		<module>opaeum-runtime-tinker-adaptor</module> 
 		<module>opaeum-runtime-tinker-domain</module> 
 		<module>opaeum-runtime-tinker-neo4j</module>
+		<module>opaeum-test-tinker</module--> 
+		<module>opaeum-runtime-hibernate</module> 
+		<module>opaeum-runtime-jpa</module> 
 	</modules>
 	<dependencyManagement>
 		<dependencies>

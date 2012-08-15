@@ -3,7 +3,7 @@ package org.opaeum.javageneration.bpm.actions;
 import java.util.Collection;
 import java.util.Iterator;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Classifier;
@@ -25,8 +25,8 @@ import org.opaeum.javageneration.util.OJUtil;
 
 public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbpm5ActionBuilder<T>{
 	static final String IF_TOKEN_FOUND = "ifTokenFound";
-	protected StructuralFeatureMap callMap;
-	public AbstractProtectedNodeBuilder(OJUtil util,T node,StructuralFeatureMap callMap){
+	protected PropertyMap callMap;
+	public AbstractProtectedNodeBuilder(OJUtil util,T node,PropertyMap callMap){
 		super(util, node);
 		this.callMap = callMap;
 	}
@@ -50,7 +50,7 @@ public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbp
 		}
 		OJAnnotatedOperation unhandledExceptionHandler = new OJAnnotatedOperation(map.unhandledExceptionOperName());
 		owner.addToOperations(unhandledExceptionHandler);
-		unhandledExceptionHandler.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
+		unhandledExceptionHandler.addParam("callingToken", BpmUtil.ITOKEN);
 		unhandledExceptionHandler.addParam("exception", new OJPathName("Object"));
 		unhandledExceptionHandler.addParam("failedProcess", map.messageStructurePath());
 		unhandledExceptionHandler.getBody().addToStatements("propagateException(exception)");
@@ -71,7 +71,7 @@ public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbp
 		if(onException == null){
 			onException = new OJAnnotatedOperation(map.exceptionOperName(exceptionPArameter));
 			owner.addToOperations(onException);
-			onException.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
+			onException.addParam("callingToken", BpmUtil.ITOKEN);
 						if(takesException){
 				onException.addParam("exception", new OJPathName("Object"));
 			}
@@ -89,7 +89,7 @@ public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbp
 		if(complete == null){
 			complete = new OJAnnotatedOperation(completeMethodName);
 			activityClass.addToOperations(complete);
-			complete.addParam("callingToken", BpmUtil.ABSTRACT_TOKEN);
+			complete.addParam("callingToken", BpmUtil.ITOKEN);
 			complete.addParam("completedWorkObject", ojUtil.classifierPathname(message));
 		}
 		OJIfStatement ifFound = new OJIfStatement("callingToken.isActive()");

@@ -11,6 +11,7 @@ import org.opaeum.java.metamodel.OJInterface;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 
 public class GenerationHelpers{
 	OJUtil ojUtil;
@@ -25,11 +26,11 @@ public class GenerationHelpers{
 		String result = "";
 		StringTokenizer st = new StringTokenizer(projectName, "-");
 		while(st.hasMoreTokens()){
-			result = result + StringHelpers.firstCharToUpper(st.nextToken());
+			result = result + NameConverter.capitalize(st.nextToken());
 		}
 		st = new StringTokenizer(addition, "-");
 		while(st.hasMoreTokens()){
-			result = result + StringHelpers.firstCharToUpper(st.nextToken());
+			result = result + NameConverter.capitalize(st.nextToken());
 		}
 		return result;
 	}
@@ -45,11 +46,11 @@ public class GenerationHelpers{
 		String result = "I";
 		StringTokenizer st = new StringTokenizer(name, "-");
 		while(st.hasMoreTokens()){
-			result = result + StringHelpers.firstCharToUpper(st.nextToken());
+			result = result + NameConverter.capitalize(st.nextToken());
 		}
 		st = new StringTokenizer(addition, "-");
 		while(st.hasMoreTokens()){
-			result = result + StringHelpers.firstCharToUpper(st.nextToken());
+			result = result + NameConverter.capitalize(st.nextToken());
 		}
 		return result;
 	}

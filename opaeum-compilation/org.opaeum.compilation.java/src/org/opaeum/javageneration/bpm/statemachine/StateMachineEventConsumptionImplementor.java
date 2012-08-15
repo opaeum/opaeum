@@ -25,6 +25,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.bpm.AbstractEventConsumptionImplementor;
+import org.opaeum.javageneration.bpm.BpmUtil;
 import org.opaeum.javageneration.bpm.ElementsWaitingForEvent;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)
@@ -56,7 +57,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 	}
 	protected void implementEventConsumer(Behavior behavior,OJAnnotatedClass ojBehavior,ElementsWaitingForEvent eventActions){
 		OJAnnotatedOperation eventConsumer = super.createEventConsumerSignature(behavior, ojBehavior, eventActions.getEvent());
-		OJForStatement forEachToken = new OJForStatement("token", StateMachineImplementor.STATE_MACHINE_TOKEN, "getTokens()");
+		OJForStatement forEachToken = new OJForStatement("token", BpmUtil.ITOKEN, "getTokens()");
 		eventConsumer.getBody().addToStatements(forEachToken);
 		for(NamedElement waitingNode:eventActions.getWaitingNodes()){
 			OJPathName waitingClass = ojUtil.classifierPathname(waitingNode);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_kxYA0MP5Ed-SNsUNWzjz5A" activeDiagram="_Hp49wMbtEd-qWtMD5IZMIA">
+  <model href="OpaeumBPMCommon.library.uml#_LgcDYF9mEeG3X_yvufTVmw"/>
+  <diagrams xmi:id="_Hp49wMbtEd-qWtMD5IZMIA" position="0,0" size="100,100" name="OpaeumSimpleTypes" viewport="19,68">
+    <property xmi:id="_HqO8AMbtEd-qWtMD5IZMIA" key="pageFormatName" value="A4"/>
+    <property xmi:id="_HqO8AcbtEd-qWtMD5IZMIA" key="diagramWidth" value="840"/>
+    <property xmi:id="_HqO8AsbtEd-qWtMD5IZMIA" key="diagramHeight" value="1188"/>
+    <property xmi:id="_HqO8A8btEd-qWtMD5IZMIA" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_HqO8BMbtEd-qWtMD5IZMIA" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_HqO8BcbtEd-qWtMD5IZMIA" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_HqO8BsbtEd-qWtMD5IZMIA" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_HqO8B8btEd-qWtMD5IZMIA" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_HqO8CMbtEd-qWtMD5IZMIA" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_5aw0odbzEeCwbYjk4vYL1w" presentation="org.topcased.modeler.uml.profilediagram">
+      <element href="OpaeumBPMCommon.library.uml#_LgcDYF9mEeG3X_yvufTVmw"/>
+    </semanticModel>
+    </diagrams>
+</diagrams:Diagrams>

@@ -188,7 +188,7 @@ public class PrerequisitesImpl extends EObjectImpl implements Prerequisites {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (maven: ");
 		if (mavenESet) result.append(maven); else result.append("<unset>");
 		result.append(')');

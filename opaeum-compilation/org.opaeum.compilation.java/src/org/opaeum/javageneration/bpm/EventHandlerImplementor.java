@@ -7,9 +7,12 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
@@ -19,8 +22,10 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Signal;
+import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfEventUtil;
@@ -235,7 +240,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			constr.addParam("time", new OJPathName("java.util.Date"));
 			constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=time");
 		}
-		constr.addParam("returnInfo", BpmUtil.ABSTRACT_TOKEN);
+		constr.addParam("returnInfo", BpmUtil.ITOKEN);
 		constr.getBody().addToStatements("this.returnInfo=returnInfo");
 		addNodeId(ojClass);
 		pkg.addToClasses(ojClass);
@@ -262,11 +267,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	private void addNodeId(OJAnnotatedClass ojClass){
 		ojClass.getDefaultConstructor();
-		OJConstructor constr = new OJConstructor();
-		constr.addParam("returnInfo", new OJPathName("String"));
-		constr.getBody().addToStatements("this.returnInfo=returnInfo");
-		ojClass.addToConstructors(constr);
-		ojClass.addToFields(new OJAnnotatedField("returnInfo", BpmUtil.ABSTRACT_TOKEN));
+		ojClass.addToFields(new OJAnnotatedField("returnInfo", BpmUtil.ITOKEN));
 	}
 	private void addCommonMethods(NamedElement e,OJAnnotatedClass ojClass){
 		OJAnnotatedOperation getHandlerUuid = new OJAnnotatedOperation("getHandlerUuid", new OJPathName("String"));
@@ -289,7 +290,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(Operation o){
 		// TODO implement async handler for behaviors
-		if(OJUtil.hasOJClass((Classifier) o.getOwner()) && !o.isQuery()){
+		if(ojUtil.hasOJClass((Classifier) o.getOwner()) && !o.isQuery()){
 			if(EmfElementUtil.isMarkedForDeletion(o)){
 				String qualifiedJavaName = ojUtil.getOldClassifierPathname(o).toJavaString();
 				qualifiedJavaName = qualifiedJavaName.substring(0, qualifiedJavaName.lastIndexOf("."));
@@ -308,7 +309,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				findOrCreatePackage(handlerPathName.getHead()).addToClasses(handler);
 				handler.getDefaultConstructor();
 				for(TypedElement p:(List<? extends TypedElement>) o.getOwnedParameters()){
-					StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
+					PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 					OJAnnotatedField field = new OJAnnotatedField(m.fieldname(), m.javaTypePath());
 					handler.addToFields(field);
 					OJAnnotatedOperation getter = new OJAnnotatedOperation(m.getter(), m.javaTypePath());
@@ -339,7 +340,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				handler.addToConstructors(argConstr);
 				argConstr.getBody().addToStatements("this.firstOccurrenceScheduledFor=new Date(System.currentTimeMillis()+1000)");
 				for(TypedElement p:(List<? extends TypedElement>) args){
-					StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
+					PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 					argConstr.addParam(m.fieldname(), m.javaTypePath());
 					argConstr.getBody().addToStatements(m.setter() + "(" + m.fieldname() + ")");
 				}
@@ -407,11 +408,11 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			result.setInitExp(call);
 			b.addToLocals(result);
 			for(Parameter p:(List<? extends Parameter>) map.getResultParameters()){
-				StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
+				PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 				b.addToStatements(m.setter() + "(result." + m.getter() + "())");
 			}
 		}else if(map.getReturnParameter() != null){
-			StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(map.getReturnParameter());
+			PropertyMap m = ojUtil.buildStructuralFeatureMap(map.getReturnParameter());
 			b.addToStatements(m.setter() + "(" + call + ")");
 		}else{
 			b.addToStatements(call);
@@ -420,7 +421,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private String argumentString(OperationMap o){
 		StringBuilder sb = new StringBuilder();
 		for(TypedElement p:(List<? extends TypedElement>) o.getArgumentParameters()){
-			StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
+			PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 			sb.append(m.getter());
 			sb.append("(),");
 		}
@@ -442,12 +443,12 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJBlock blo = marshall.getBody();
 		marshall.initializeResultVariable("new ArrayList<PropertyValue>()");
 		for(TypedElement p:e){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 			blo.addToStatements("result.add(new PropertyValue(" + EmfWorkspace.getOpaeumId(p) + "l, Value.valueOf(" + target + "." + map.getter()
 					+ "())))");
 		}
 		if(includeReturnInfo){
-			marshall.getBody().addToStatements("result.add(new PropertyValue(-5l, Value.valueOf(retunInfo)))");
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-5l, Value.valueOf(returnInfo)))");
 		}
 		return marshall;
 	}
@@ -467,7 +468,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		foreachProperty.setName(PROPERTY_ID_SWITCH);
 		OJBlock elseBlock = foreachProperty.getBody();
 		for(TypedElement p:e){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 			String setValue = target + "." + map.setter() + "((" + map.javaType() + ")Value.valueOf(p.getValue(),persistence))";
 			OJIfStatement sst = new OJIfStatement("p.getId()==" + EmfWorkspace.getOpaeumId(p) + "l", setValue);
 			elseBlock.addToStatements(sst);
@@ -475,7 +476,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			elseBlock = sst.getElsePart();
 		}
 		if(includeReturnInfo){
-			OJIfStatement sc5 = new OJIfStatement("p.getId()==-5", "this.returnInfo=("+BpmUtil.ABSTRACT_TOKEN.getLast()+")Value.valueOf(p.getValue(),persistence)");
+			OJIfStatement sc5 = new OJIfStatement("p.getId()==-5", "this.returnInfo=("+BpmUtil.ITOKEN.getLast()+")Value.valueOf(p.getValue(),persistence)");
 			elseBlock.addToStatements(sc5);
 		}
 		return unmarshall;
@@ -483,4 +484,20 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private String getter(Constraint rule){
 		return "is" + NameConverter.capitalize(rule.getName());
 	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitBehavioredClassifier(BehavioredClassifier s){
+		if(ojUtil.hasOJClass(s)){
+			OJAnnotatedClass ojClass = findJavaClass(s);
+			EventUtil.addOutgoingEventManagement(ojClass);
+			if(s instanceof Activity){
+				for(ActivityNode n:EmfActivityUtil.getActivityNodesRecursively(((Activity) s))){
+					if(n instanceof StructuredActivityNode){
+						ojClass = findJavaClass(getLibrary().getMessageStructure(((StructuredActivityNode) n)));
+						EventUtil.addOutgoingEventManagement(ojClass);
+					}
+				}
+			}
+		}
+	}
+
 }

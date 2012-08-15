@@ -1,7 +1,7 @@
 package org.nakeduml.tinker.generator;
 
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
@@ -87,7 +87,7 @@ public class TinkerGenerationUtil {
 	public static OJPathName tinkerMultiplicityPathName = new OJPathName("org.nakeduml.tinker.collection.Multiplicity");
 
 
-	public static String contructNameForQualifiedGetter(StructuralFeatureMap map) {
+	public static String contructNameForQualifiedGetter(PropertyMap map) {
 		return "getQualifierFor" + NameConverter.capitalize(map.fieldname());
 	}
 
@@ -110,7 +110,7 @@ public class TinkerGenerationUtil {
 	// return isComposite;
 	// }
 
-	public static String constructTinkerCollectionInit(OJAnnotatedClass owner, StructuralFeatureMap map, boolean jsf) {
+	public static String constructTinkerCollectionInit(OJAnnotatedClass owner, PropertyMap map, boolean jsf) {
 		if (map.getProperty().getOtherEnd() != null) {
 			return map.umlName() + " = new " + (map.getProperty().isOrdered() ? "TinkerArrayList" : jsf ? "TinkerJsfHashSet" : "TinkerHashSet") + "<"
 					+ map.javaBaseTypePath().getLast() + ">(" + map.javaBaseTypePath().getLast() + ".class, this, " + owner.getName() + ".class.getMethod(\"addTo"
@@ -124,7 +124,7 @@ public class TinkerGenerationUtil {
 		}
 	}
 
-	public static String getEdgeName(StructuralFeatureMap map) {
+	public static String getEdgeName(PropertyMap map) {
 		if (map.getProperty().getAssociation() != null) {
 			return map.getProperty().getAssociation().getName();
 		} else {
@@ -136,23 +136,23 @@ public class TinkerGenerationUtil {
 		return tinkeriseUmlName(c.getQualifiedName());
 	}
 
-	public static String constructNameForInternalCreateAuditToOne(StructuralFeatureMap map) {
+	public static String constructNameForInternalCreateAuditToOne(PropertyMap map) {
 		return "z_internalCreateAuditToOne" + NameConverter.capitalize(map.umlName());
 	}
 
-	public static String constructNameForInternalCreateAuditManies(StructuralFeatureMap map) {
+	public static String constructNameForInternalCreateAuditManies(PropertyMap map) {
 		return "z_internalCreateAuditToMany" + NameConverter.capitalize(map.umlName()) + "s";
 	}
 
-	public static String constructNameForInternalCreateAuditMany(StructuralFeatureMap map) {
+	public static String constructNameForInternalCreateAuditMany(PropertyMap map) {
 		return "z_internalCreateAuditToMany" + NameConverter.capitalize(map.umlName());
 	}
 
-	public static String constructNameForInternalManiesRemoval(StructuralFeatureMap map) {
+	public static String constructNameForInternalManiesRemoval(PropertyMap map) {
 		return "z_internalRemoveAllFrom" + NameConverter.capitalize(map.umlName());
 	}
 
-	public static OJBlock instantiateClassifier(OJBlock block, StructuralFeatureMap map) {
+	public static OJBlock instantiateClassifier(OJBlock block, PropertyMap map) {
 		OJField field = new OJField();
 		field.setName(map.umlName());
 		field.setType(map.javaBaseTypePath());
@@ -189,12 +189,12 @@ public class TinkerGenerationUtil {
 		}
 	}
 
-	public static String addSetterForSimpleType(StructuralFeatureMap map) {
+	public static String addSetterForSimpleType(PropertyMap map) {
 		return addSetterForSimpleType(map, false);
 	}
 	
-	public static String addSetterForSimpleType(StructuralFeatureMap map, boolean audit) {
-		if (map.getProperty().getType() instanceof Enumeration) {
+	public static String addSetterForSimpleType(PropertyMap map, boolean audit) {
+		if (map.getBaseType() instanceof Enumeration) {
 			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getQualifiedName())
 					+ "\", val!=null?val.name():null)";
 		} else {

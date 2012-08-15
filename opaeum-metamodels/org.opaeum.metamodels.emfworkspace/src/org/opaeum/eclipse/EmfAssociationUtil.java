@@ -7,14 +7,17 @@ import org.eclipse.uml2.uml.Property;
 
 public class EmfAssociationUtil{
 	public static boolean isClass(Association a){
-		if(a instanceof AssociationClass){
-			return true; 
+		if(a == null){
+			return false;
+		}else if(a instanceof AssociationClass){
+			return true;
 		}else{
-			if(a.getMemberEnds().size()>2){
+			if(a.getMemberEnds().size() > 2){
 				return true;
 			}
 			for(Property property:a.getMemberEnds()){
-				if(EmfPropertyUtil.isMany(property) && (property.getType() instanceof Interface || property.getOtherEnd().getType() instanceof Interface)){
+				if(EmfPropertyUtil.isMany(property)
+						&& (property.getType() instanceof Interface || property.getOtherEnd().getType() instanceof Interface)){
 					return true;
 				}
 			}

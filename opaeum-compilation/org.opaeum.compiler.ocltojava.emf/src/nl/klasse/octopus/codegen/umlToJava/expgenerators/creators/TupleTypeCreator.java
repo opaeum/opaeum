@@ -26,6 +26,7 @@ import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.utilities.JavaPathNames;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 
 
 public class TupleTypeCreator extends DataTypeCreator{
@@ -92,10 +93,10 @@ public class TupleTypeCreator extends DataTypeCreator{
 		return field;
 	}
 	private String getFieldName(Property decl){
-		return StringHelpers.firstCharToLower(decl.getName());
+		return NameConverter.decapitalize(decl.getName());
 	}
 	private String getGetterName(Property decl){
-		return "get" + StringHelpers.firstCharToUpper(decl.getName());
+		return "get" + NameConverter.capitalize(decl.getName());
 	}
 	/**
 	 * Creates the operation 'equals' for <arg>in<\arg>. See ITEM 7 in Effective Java. The operation compares all non-derived attributes.

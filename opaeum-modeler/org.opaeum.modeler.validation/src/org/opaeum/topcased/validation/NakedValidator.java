@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.metamodel.validation.BrokenElement;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 public class NakedValidator implements org.topcased.validation.core.IValidator{
 	@Override

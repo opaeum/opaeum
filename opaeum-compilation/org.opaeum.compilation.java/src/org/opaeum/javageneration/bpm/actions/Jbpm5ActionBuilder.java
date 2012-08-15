@@ -3,7 +3,7 @@ package org.opaeum.javageneration.bpm.actions;
 import java.util.Collection;
 import java.util.HashSet;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
@@ -67,7 +67,7 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 				boolean ignore = node instanceof ReplyAction && pin.equals(((ReplyAction) node).getReturnInformation());
 				if(!ignore){
 					OJBlock block = oper.getBody();
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(pin);
+					PropertyMap map = ojUtil.buildStructuralFeatureMap(pin);
 					oper.getOwner().addToImports(map.javaTypePath());
 					OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 					field.setInitExp(expressPin(oper, block, pin));
@@ -93,17 +93,17 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 	public void implementObersvations(OJOperation oper){
 		Namespace container = EmfActivityUtil.getNearestNodeContainer(node);
 		for(TimeObservation o: EmfTimeUtil.findTimeObservationsOn( container,node)){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(o);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(o);
 			oper.getBody().addToStatements(map.setter() + "(new Date())");
 		}
 		for(DurationObservation o:EmfTimeUtil.findDurationObservationsFrom(container,node)){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(o);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(o);
 			oper.getBody().addToStatements(map.setter() + "(new Duration())");
 			oper.getBody().addToStatements(map.getter() + ".setFromDate(new Date())");
 			// TODO set TimeUnit
 		}
 		for(DurationObservation o:EmfTimeUtil.findDurationObservationsTo(container,node)){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(o);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(o);
 			oper.getBody().addToStatements(map.getter() + ".setFromDate(new Date())");
 			// TODO set quantity and calculate from BusinessCalendar specified somewhere
 		}
@@ -120,7 +120,7 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 					Collection<Pin> pins = new HashSet<Pin>(action.getOutputs());
 					pins.addAll(action.getInputs());
 					for(Pin pin:pins){
-						StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap( pin);
+						PropertyMap map = ojUtil.buildStructuralFeatureMap( pin);
 						oper.getOwner().addToImports(map.javaTypePath());
 						OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 						field.setInitExp("completedWorkObject." + map.getter() + "()");

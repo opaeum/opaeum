@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -16,7 +15,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
-import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
 import org.opaeum.hibernate.domain.EventOccurrence;
 import org.opaeum.runtime.domain.IActiveObject;
@@ -24,7 +22,6 @@ import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.IEventHandler;
 import org.opaeum.runtime.event.INotificationService;
-import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.UmtPersistence;
@@ -35,9 +32,7 @@ public class StandaloneJpaEnvironment extends Environment{
 	private StandaloneJpaUmtPersistence txPersistence;
 	private StandaloneJpaCmtPersistence cmtPersistence;
 	private StandaloneJpaConversationalPersistence persistence;
-	private StandaloneJpaJbpmKnowledgeSession knowledgeSession;
 	private EntityManager entityManager;
-	private static AbstractJbpmKnowledgeBase abstractJbpmKnowledgeBase;
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T>Class<T> getImplementationClass(T o){
@@ -94,8 +89,6 @@ public class StandaloneJpaEnvironment extends Environment{
 	public <T>T getComponent(Class<T> clazz){
 		if(components.get(clazz.getName()) != null){
 			return (T) components.get(clazz.getName());
-		}else if(clazz == StatefulKnowledgeSession.class){
-			return (T) getKnowledgeSession();
 		}else if(clazz == ConversationalPersistence.class){
 			return (T) getPersistence();
 		}else if(clazz == CmtPersistence.class){
@@ -144,7 +137,6 @@ public class StandaloneJpaEnvironment extends Environment{
 		this.cmtPersistence = null;
 		this.persistence = null;
 		this.txPersistence = null;
-		this.knowledgeSession = null;
 	}
 	@Override
 	public void endRequestContext(){
@@ -159,18 +151,6 @@ public class StandaloneJpaEnvironment extends Environment{
 		EventOccurrence occurrence = new EventOccurrence(target, handler);
 		getCmtPersistence().persist(occurrence);
 		getEventService().scheduleEvent(occurrence);
-	}
-	private StatefulKnowledgeSession getKnowledgeSession(){
-		if(this.knowledgeSession == null){
-			if(abstractJbpmKnowledgeBase == null){
-				abstractJbpmKnowledgeBase = createJbpmKnowledgeBase();
-			}
-			Properties props = new Properties();
-			props.setProperty("drools.processInstanceManagerFactory", "org.jbpm.process.instance.impl.DefaultProcessInstanceManagerFactory");
-			props.setProperty("drools.processSignalManagerFactory", "org.jbpm.process.instance.event.DefaultSignalManagerFactory");
-			this.knowledgeSession = new StandaloneJpaJbpmKnowledgeSession(((StandaloneJpaUmtPersistence) getUmtPersistence()).getEntityManager());
-		}
-		return knowledgeSession.getKnowledgeSession();
 	}
 	@Override
 	public UmtPersistence newUmtPersistence(){

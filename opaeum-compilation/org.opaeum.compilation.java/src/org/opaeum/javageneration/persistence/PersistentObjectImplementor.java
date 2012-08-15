@@ -2,7 +2,7 @@ package org.opaeum.javageneration.persistence;
 
 import javax.persistence.Transient;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -44,7 +44,7 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitInterface(Interface a){
-		if(OJUtil.hasOJClass(a) && !EmfClassifierUtil.isHelper(a)){
+		if(ojUtil.hasOJClass(a) && !EmfClassifierUtil.isHelper(a)){
 			OJAnnotatedInterface asdf = (OJAnnotatedInterface) findJavaClass(a);
 			asdf.addToSuperInterfaces(new OJPathName(IPersistentObject.class.getName()));
 		}
@@ -84,7 +84,7 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 				if(EmfClassifierUtil.isPowerTypeInstanceOn(entity, powerType)){
 					Generalization generalization = entity.getGeneralizations().iterator().next();
 					String literal = ojUtil.classifierPathname(powerType) + "."
-							+ EmfClassifierUtil.getPowerTypeLiteral(generalization, powerType).getName().toUpperCase();
+							+ OJUtil.toJavaLiteral(EmfClassifierUtil.getPowerTypeLiteral(generalization, powerType));
 					ojClass.getDefaultConstructor().getBody().addToStatements("set" + NameConverter.capitalize(attr.getName()) + "(" + literal + ")");
 				}
 			}
@@ -98,7 +98,7 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 		ojClass.addToOperations(getName);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){

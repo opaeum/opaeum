@@ -1,10 +1,12 @@
 package org.opaeum.olap;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Type;
 
 public class DimensionNode{
 	private Property property;
@@ -67,5 +69,8 @@ public class DimensionNode{
 		}else{
 			return false;
 		}
+	}
+	public Type getBaseType(){
+		return property.getType();
 	}
 }

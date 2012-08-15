@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.maps;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Property;
@@ -8,10 +8,10 @@ import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForAssociation;
 import org.opaeum.javageneration.util.OJUtil;
 
 public class AssociationClassEndMap{
-	private StructuralFeatureMap map;
-	private StructuralFeatureMap assocationClassToOtherEndMap;
-	private StructuralFeatureMap endToAssocationClassMap;
-	private StructuralFeatureMap otherEndToAssocationClassMap;
+	private PropertyMap map;
+	private PropertyMap assocationClassToOtherEndMap;
+	private PropertyMap endToAssocationClassMap;
+	private PropertyMap otherEndToAssocationClassMap;
 	public AssociationClassEndMap(OJUtil ojUtil, Property p){
 		map = ojUtil.buildStructuralFeatureMap(p);
 		EmulatedPropertyHolderForAssociation ephfa=  (EmulatedPropertyHolderForAssociation) ojUtil.getLibrary().getEmulatedPropertyHolder(p.getAssociation());
@@ -23,18 +23,18 @@ public class AssociationClassEndMap{
 			otherEndToAssocationClassMap = ojUtil.buildStructuralFeatureMap(ephfa.getEndToAssociation(p.getOtherEnd()));
 		}
 	}
-	public StructuralFeatureMap getMap(){
+	public PropertyMap getMap(){
 		return map;
 	}
 
-	public StructuralFeatureMap getEndToAssocationClassMap(){
+	public PropertyMap getEndToAssocationClassMap(){
 		return endToAssocationClassMap;
 	}
-	public StructuralFeatureMap getOtherEndToAssocationClassMap(){
+	public PropertyMap getOtherEndToAssocationClassMap(){
 		return otherEndToAssocationClassMap;
 	}
 
-	public StructuralFeatureMap getAssocationClassToOtherEndMap(){
+	public PropertyMap getAssocationClassToOtherEndMap(){
 		return assocationClassToOtherEndMap;
 	}
 }

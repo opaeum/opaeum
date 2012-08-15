@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -31,7 +31,7 @@ public class ToStringBuilder extends StereotypeAnnotator{
 	public static String HASHCODE_IN_TO_STRING = "HASHCODE_IN_TO_STRING";
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(Classifier c){
-		if(OJUtil.hasOJClass(c)){
+		if(ojUtil.hasOJClass(c)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			this.buildToString(ojClass, c);
 		}
@@ -57,9 +57,9 @@ public class ToStringBuilder extends StereotypeAnnotator{
 		toString.getBody().addToStatements("sb.append(super.toString())");
 		for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
 			if(!OJUtil.isBuiltIn(f)){
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+				PropertyMap map = ojUtil.buildStructuralFeatureMap(f);
 				if(map.isOne() && !EmfPropertyUtil.isInverse(f)){
-					if(map.getProperty().getType() instanceof Class || map.getProperty().getType() instanceof Interface){
+					if(map.getBaseType() instanceof Class || map.getBaseType() instanceof Interface){
 						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"" + map.fieldname() + "=null;\")");
 						ifNull.setElsePart(new OJBlock());
 						OJSimpleStatement b = null;

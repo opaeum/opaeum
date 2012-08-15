@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Classifier;
@@ -13,7 +13,6 @@ import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.opaeum.eclipse.CodeGenerationStrategy;
-import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
@@ -38,7 +37,7 @@ import org.opaeum.name.NameConverter;
 public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void generateExtraConstructor(Enumeration c){
-		if(EmfClassifierUtil.getCodeGenerationStrategy(c) != CodeGenerationStrategy.NO_CODE){
+		if(ojUtil.getCodeGenerationStrategy(c) != CodeGenerationStrategy.NO_CODE){
 			OJEnum myClass = (OJEnum) findJavaClass(c);
 			ClassifierMap map = ojUtil.buildClassifierMap(c, CollectionKind.SET_LITERAL);
 			OJOperation values = myClass.getUniqueOperation("getValues");
@@ -69,7 +68,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 				OJUtil.addField(myClass, constr, "opaeumId", new OJPathName("long"));
 				for(EnumerationLiteral el:c.getOwnedLiterals()){
 					EnumerationLiteral nl = (EnumerationLiteral) el;
-					OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()), "uuid",
+					OJUtil.addParameter(myClass.findLiteral(OJUtil.toJavaLiteral(nl)), "uuid",
 							"\"" + EmfWorkspace.getId(nl) + "\"," + EmfWorkspace.getOpaeumId(nl) + "l");
 				}
 				if(!constr.getParameters().isEmpty()){
@@ -95,16 +94,15 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 				ojParameter.setType(ojUtil.classifierPathname((Classifier) prop.getType()));
 				staticOp.addToParameters(ojParameter);
 				List<EnumerationLiteral> literals = c.getOwnedLiterals();
-				for(EnumerationLiteral EnumerationLiteral:literals){
+				for(EnumerationLiteral el:literals){
 					OJIfStatement ifSPS = new OJIfStatement();
-					EnumerationLiteral nakedLiteral = (EnumerationLiteral) EnumerationLiteral;
-					List<Slot> slots = nakedLiteral.getSlots();
+					List<Slot> slots = el.getSlots();
 					for(Slot nakedSlot:slots){
 						if(nakedSlot.getDefiningFeature().equals(prop) && nakedSlot.getValues().size() == 1){
 							ifSPS.setCondition(prop.getName() + ".equals("
 									+ valueSpecificationUtil.expressValue(myClass, nakedSlot.getValues().get(0), getLibrary().getActualType(prop), true)
 									+ ")");
-							ifSPS.addToThenPart("return " + EnumerationLiteral.getName().toUpperCase());
+							ifSPS.addToThenPart("return " + OJUtil.toJavaLiteral(el));
 							break;
 						}
 					}
@@ -128,7 +126,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		return result;
 	}
 	private void addToConstructor(OJConstructor constr,OJClass myClass,Property feat,Enumeration c){
-		StructuralFeatureMap mapper = ojUtil.buildStructuralFeatureMap(feat);
+		PropertyMap mapper = ojUtil.buildStructuralFeatureMap(feat);
 		OJPathName type = mapper.javaTypePath();
 		myClass.addToImports(type);
 		String parname = feat.getName();
@@ -137,7 +135,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		constr.getBody().addToStatements("this." + setter + "(" + parname + ")");
 		OJEnum oje = (OJEnum) myClass;
 		for(EnumerationLiteral l:c.getOwnedLiterals()){
-			OJEnumLiteral ojl = oje.findLiteral(l.getName().toUpperCase());
+			OJEnumLiteral ojl = oje.findLiteral(OJUtil.toJavaLiteral(l));
 			OJField f = ojl.findAttributeValue(mapper.fieldname());
 			EnumerationLiteral nakedLiteral = (EnumerationLiteral) l;
 			final Slot slot = EmfValueSpecificationUtil.getSlotForFeature(nakedLiteral, feat);

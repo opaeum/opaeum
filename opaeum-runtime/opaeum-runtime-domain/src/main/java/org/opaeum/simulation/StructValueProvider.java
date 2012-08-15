@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.opaeum.runtime.domain.CompositionNode;
-
 public class StructValueProvider{
 	List<StructInstanceSimulation> buckets = new ArrayList<StructInstanceSimulation>();
 	public Object createNewInstance(){

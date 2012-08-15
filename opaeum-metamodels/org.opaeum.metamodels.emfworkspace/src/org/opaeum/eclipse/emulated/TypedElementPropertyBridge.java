@@ -7,6 +7,8 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.OutputPin;
+import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValuePin;
@@ -18,26 +20,26 @@ import org.opaeum.metamodel.workspace.IPropertyEmulation;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
 
 public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
-	private MultiplicityElement zeroToOne ;
+	private MultiplicityElement zeroToOne;
 	private TypedElement typedElement;
 	private IPropertyEmulation emulation;
 	@Deprecated
-	public TypedElementPropertyBridge(Classifier owner,TypedElement originalElement, boolean ensureLocallyUniqueName){
-		this(owner,originalElement,null);
+	public TypedElementPropertyBridge(Classifier owner,TypedElement originalElement,boolean ensureLocallyUniqueName){
+		this(owner, originalElement, null);
 	}
-	public TypedElementPropertyBridge(Classifier owner,TypedElement originalElement, IPropertyEmulation pe){
+	public TypedElementPropertyBridge(Classifier owner,TypedElement originalElement,IPropertyEmulation pe){
 		super(owner, originalElement);
 		this.typedElement = originalElement;
-		this.emulation=pe;
+		this.emulation = pe;
 	}
 	public Type getType(){
 		Type type = typedElement.getType();
-		if(type==null && typedElement instanceof ObjectNode){
-			type=EmfActionUtil.calculateType((ObjectNode) typedElement);
-			if(type ==null  && typedElement instanceof ValuePin && ((ValuePin)typedElement).getValue() instanceof OpaqueExpression){
-				OpaqueExpressionContext exp = emulation.getOclExpressionContext((OpaqueExpression) ((ValuePin)typedElement).getValue());
+		if(type == null && typedElement instanceof ObjectNode){
+			type = EmfActionUtil.calculateType((ObjectNode) typedElement);
+			if(type == null && typedElement instanceof ValuePin && ((ValuePin) typedElement).getValue() instanceof OpaqueExpression){
+				OpaqueExpressionContext exp = emulation.getOclExpressionContext((OpaqueExpression) ((ValuePin) typedElement).getValue());
 				if(!exp.hasErrors()){
-					type=exp.getExpression().getType();
+					type = exp.getExpression().getType();
 				}
 			}
 		}
@@ -83,7 +85,7 @@ public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
 	}
 	MultiplicityElement getMultiplicityElement(){
 		if(typedElement instanceof ValuePin && ((ValuePin) typedElement).getValue() instanceof OpaqueExpression){
-			OpaqueExpressionContext exp = emulation.getOclExpressionContext((OpaqueExpression) ((ValuePin)typedElement).getValue());
+			OpaqueExpressionContext exp = emulation.getOclExpressionContext((OpaqueExpression) ((ValuePin) typedElement).getValue());
 			if(!exp.hasErrors()){
 				Classifier type2 = exp.getExpression().getType();
 				if(type2 instanceof SetType){
@@ -99,13 +101,19 @@ public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
 				}
 			}
 		}
-		if(typedElement instanceof MultiplicityElement){
+		if(typedElement instanceof OutputPin){
+			if(((OutputPin) typedElement).getUpper() == 1){
+				return (MultiplicityElement) EmfActionUtil.getLinkedTypedElement((OutputPin) typedElement);
+			}else{
+				return (OutputPin)typedElement;
+			}
+		}else if(typedElement instanceof MultiplicityElement){
 			return (MultiplicityElement) typedElement;
-		}else if(typedElement instanceof ActivityParameterNode && ((ActivityParameterNode) typedElement).getParameter()!=null){
+		}else if(typedElement instanceof ActivityParameterNode && ((ActivityParameterNode) typedElement).getParameter() != null){
 			return ((ActivityParameterNode) typedElement).getParameter();
 		}else{
-			if(zeroToOne==null){
-				zeroToOne=new EmulatedMultiplicityElement(originalElement, 0, 1);
+			if(zeroToOne == null){
+				zeroToOne = new EmulatedMultiplicityElement(originalElement, 0, 1);
 			}
 			return zeroToOne;
 		}

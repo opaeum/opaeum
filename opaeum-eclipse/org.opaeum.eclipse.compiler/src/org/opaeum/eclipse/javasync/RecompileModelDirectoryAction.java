@@ -1,7 +1,9 @@
 package org.opaeum.eclipse.javasync;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
@@ -11,7 +13,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -24,6 +25,7 @@ import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
@@ -45,9 +47,10 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 		new Job("Recompiling model directory"){
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
+				TransformationProcess p = null;
 				try{
 					monitor.beginTask("Loading All Models", 1000);
-					TransformationProcess p = prepareDirectoryForTransformation(folder, monitor);
+					p = prepareDirectoryForTransformation(folder, monitor);
 					monitor.subTask("Generating Java Code");
 					p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400), false);
 					if(!(monitor.isCanceled())){
@@ -82,6 +85,9 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 					e.printStackTrace();
 					return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
 				}finally{
+					if(p != null){
+						p.release();
+					}
 					monitor.done();
 					MemoryUtil.printMemoryUsage();
 				}
@@ -95,13 +101,14 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 		final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(folder);
 		monitor.worked(5);
 		monitor.subTask("Loading Opaeum Metadata");
-		final EmfWorkspace ws=ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
+		final EmfWorkspace ws = ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
 		ws.getOpaeumLibrary().reset();
-		TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);
+		TransformationProcess p = new TransformationProcess();
+		Set<Class<? extends ITransformationStep>> steps = JavaTransformationProcessManager.getAllSteps(ctx.getConfig());
+		ctx.getConfig().calculateOutputRoot(folder.getProject().getLocation().toFile());
+		p.initialize(ctx.getConfig(), steps);
 		p.replaceModel(ws);
 		p.replaceModel(new OJUtil());
-		p.removeModel(OJWorkspace.class);
-		p.removeModel(TextWorkspace.class);
 		OpaeumConfig config = ctx.getConfig();
 		config.getSourceFolderStrategy().defineSourceFolders(config);
 		return p;

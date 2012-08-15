@@ -6,7 +6,7 @@ import java.util.Date;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Action;
@@ -130,7 +130,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		JpaUtil.addClass(ojClass);
 		JpaUtil.buildTableAnnotation(ojClass, PersistentNameUtil.getPersistentName( a).getAsIs(), super.config, activity);
 		for(Parameter p:sm.getOwnedParameters()){
-			StructuralFeatureMap pMap = ojUtil.buildStructuralFeatureMap(p);
+			PropertyMap pMap = ojUtil.buildStructuralFeatureMap(p);
 			OJAnnotatedOperation setter = new OJAnnotatedOperation(pMap.setter());
 			setter.addParam(pMap.fieldname(), pMap.javaTypePath());
 			ojClass.addToOperations(setter);
@@ -233,7 +233,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	public void visitCallAction(CallAction ca){
 		// Always order invocations of contractedProcesses or tasks by the executedOn date
 		if(EmfActionUtil.isLongRunning( ca)){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(ca);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(ca);
 			if(map.isMany()){
 				OJAnnotatedClass ojOwner = findJavaClass(EmfActivityUtil.getContainingActivity(ca));
 				OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());

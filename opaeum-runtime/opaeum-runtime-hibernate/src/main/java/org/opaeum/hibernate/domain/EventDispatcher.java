@@ -16,17 +16,14 @@ import org.hibernate.event.PostInsertEventListener;
 import org.hibernate.event.PostLoadEvent;
 import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.event.def.AbstractFlushingEventListener;
-import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.IEventGenerator;
-import org.opaeum.runtime.domain.IProcessObject;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 
 public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener, FlushEventListener, PostInsertEventListener {
 	private static final long serialVersionUID = -8583155822068850343L;
 	static Map<EventSource, Set<IEventGenerator>> eventGeneratorMap = Collections.synchronizedMap(new WeakHashMap<EventSource, Set<IEventGenerator>>());
-	static Map<EventSource, Set<IProcessObject>> processObjectMap = Collections.synchronizedMap(new WeakHashMap<EventSource, Set<IProcessObject>>());
 
 	@Override
 	public void onPostInsert(PostInsertEvent event) {
@@ -48,15 +45,6 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 			}
 			set.add((IEventGenerator) entity);
 		}
-		if (entity instanceof IProcessObject) {
-			Set<IProcessObject> set = processObjectMap.get(session);
-			if (set == null) {
-				set = new HashSet<IProcessObject>();
-				processObjectMap.put(session, set);
-			}
-			set.add((IProcessObject) entity);
-
-		}
 	}
 
 	@Override
@@ -75,17 +63,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 
 	protected void dispatchEventsAndSaveProcesses(FlushEvent event, final EventSource source) {
 		Set<IEventGenerator> eventGenerators = eventGeneratorMap.get(event.getSession());
-		Set<IProcessObject> processes = processObjectMap.get(event.getSession());
 		boolean dirtyProcessFound = false;
-		if (processes != null) {
-			for (IProcessObject o : processes) {
-				if (o.isProcessDirty()) {
-					ProcessInstanceInfo pii = (ProcessInstanceInfo) source.get(ProcessInstanceInfo.class, o.getProcessInstanceId());
-					pii.update();
-					dirtyProcessFound = true;
-				}
-			}
-		}
 		if (eventGenerators != null) {
 			Set<EventOccurrence> dispatchEvents = saveEvents(event, source, eventGenerators);
 			Set<String> cancelledEvents = deleteEvents(event, source);

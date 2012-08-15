@@ -17,7 +17,7 @@ public class NameConverter{
 		}
 	}
 	public static String deleteChar(String s,char c){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0;i < s.length();i++){
 			if(s.charAt(i) != c){
 				sb.append(s.charAt(i));
@@ -30,7 +30,7 @@ public class NameConverter{
 			return null;
 		}
 		name = separateWordsToCamelCase(name);
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0;i < name.length();i++){
 			boolean upperLower = name.length() > i + 1 && Character.isLowerCase(name.charAt(i + 1)) && Character.isUpperCase(name.charAt(i))
 					&& i > 0;
@@ -53,7 +53,7 @@ public class NameConverter{
 		if(name == null){
 			return null;
 		}
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0;i < name.length();i++){
 			if(name.charAt(i) != '_'){
 				if(i > 0 && name.charAt(i - 1) == '_' && sb.length() > 0){
@@ -74,7 +74,7 @@ public class NameConverter{
 		if(name.indexOf('_') == -1){
 			name = toUnderscoreStyle(name);
 		}
-		StringBuffer sb = new StringBuffer(name);
+		StringBuilder sb = new StringBuilder(name);
 		sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
 		for(int i = 0;i < sb.length();i++){
 			if(sb.charAt(i) == '_'){
@@ -170,8 +170,8 @@ public class NameConverter{
 		if(name == null){
 			return null;
 		}
-		StringBuffer in = new StringBuffer(name);
-		StringBuffer out = new StringBuffer();
+		StringBuilder in = new StringBuilder(name);
+		StringBuilder out = new StringBuilder();
 		out.append(in.charAt(0));
 		for(int i = 1;i < in.length();i++){
 			if(Character.isJavaIdentifierPart(in.charAt(i))){

@@ -15,7 +15,7 @@ public class AuditPerformanceChecker  {
 	}
 
 	public void testUpdates() throws Exception {
-
+System.out.println("AuditPerformanceChecker.testUpdates()");
 		EntityManager em = emf.createEntityManager();
 		ParentAuditedObject pao = null;
 		Date fromDate = new Date();

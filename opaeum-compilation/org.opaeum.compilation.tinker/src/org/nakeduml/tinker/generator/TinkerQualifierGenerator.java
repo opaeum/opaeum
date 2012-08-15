@@ -1,6 +1,6 @@
 package org.nakeduml.tinker.generator;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
@@ -20,7 +20,7 @@ import org.opaeum.name.NameConverter;
 public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 
 	@Override
-	protected void visitProperty(Classifier owner, StructuralFeatureMap map) {
+	protected void visitProperty(Classifier owner, PropertyMap map) {
 		if (!map.getProperty().getQualifiers().isEmpty()) {
 			// For each qualifier gen a method returning the default value, i.e.
 			// jippo QualifierValue
@@ -35,8 +35,8 @@ public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 		Classifier qualifiedClassifier = (Classifier) EmfElementFinder.getContainer(ownerElement);
 		OJAnnotatedClass ojClass = findJavaClass(qualifiedClassifier);
 
-		StructuralFeatureMap ownerElementMap = ojUtil.buildStructuralFeatureMap(ownerElement);
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(qualifier);
+		PropertyMap ownerElementMap = ojUtil.buildStructuralFeatureMap(ownerElement);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(qualifier);
 		OJAnnotatedOperation qualifierValue = new OJAnnotatedOperation(ownerElementMap.getter() + "For" + NameConverter.capitalize(map.fieldname()));
 		if (!qualifier.isMultivalued()) {
 			qualifierValue.setReturnType(ownerElementMap.javaTypePath().getElementTypes().get(0));

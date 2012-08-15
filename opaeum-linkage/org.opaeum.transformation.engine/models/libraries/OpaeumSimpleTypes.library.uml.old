@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:l2="http://www.eclipse.org/uml2/3.0.0/UML/Profile/L2" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+  <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="OpaeumSimpleTypes">
+    <eAnnotations xmi:id="_CVdBwM5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+      <details xmi:id="_CVdBwc5vEeCLs7vQmm8tBQ" key="uuid" value="9f50af7e_a244_4962_b89f_c0b2dcce18c8"/>
+    </eAnnotations>
+    <elementImport xmi:id="_naIU4MbwEd-qWtMD5IZMIA">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </elementImport>
+    <elementImport xmi:id="_naI78MbwEd-qWtMD5IZMIA">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </elementImport>
+    <elementImport xmi:id="_naI78cbwEd-qWtMD5IZMIA" alias="">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+    </elementImport>
+    <packageImport xmi:id="_cozrQNY6EeCzsIYqLQKrXg">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_w4cZ8MPxEd-SNsUNWzjz5A" name="DateTime">
+      <ownedOperation xmi:id="_ghKKMM5VEeC1yrA33E3a4g" name="after" isQuery="true">
+        <ownedParameter xmi:id="_hhBrwM5VEeC1yrA33E3a4g" name="in" type="_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        <ownedParameter xmi:id="_i9fCsM5VEeC1yrA33E3a4g" name="result" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_i0SLIMbwEd-qWtMD5IZMIA" name="Text">
+      <generalization xmi:id="_1JWd8MbwEd-qWtMD5IZMIA">
+        <general xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </generalization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_UjiHwMkJEeCqJJ6VBTMkzg" name="Real"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_mKrbYBW6EeGS9eDihWY8Xw" name="BinaryLargeObject"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_qJQboNcCEeCJ0dmaHEVVnw" name="Date">
+      <eAnnotations xmi:id="_JmMD0GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
+    </packagedElement>
+    <profileApplication xmi:id="_e8qRkM5VEeC1yrA33E3a4g">
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+  </uml:Model>
+  <OpaeumStandardProfile:Model xmi:id="_8D9EgNYvEeCbpsr9qtLjVA" mappedImplementationPackage="org.opaeum.runtime.bpm.opaeumsimpletypes" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_8iT0cNYvEeCbpsr9qtLjVA" base_DataType="_w4cZ8MPxEd-SNsUNWzjz5A" mappedImplementationType="java.util.Date" strategyFactory="org.opaeum.strategies.DateTimeStrategyFactory"/>
+  <OpaeumStandardProfile:PrimitiveType xmi:id="_BuhaoNYwEeCbpsr9qtLjVA" base_PrimitiveType="_i0SLIMbwEd-qWtMD5IZMIA" strategyFactory="org.opaeum.strategies.TextStrategyFactory"/>
+  <l2:ModelLibrary xmi:id="_-aUd8NY6EeCzsIYqLQKrXg" base_Package="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpaeumStandardProfile:ModelLibrary xmi:id="_cwpYoOnCEeCaZdEDdx_4Qg" mappedImplementationPackage="org.opaeum.runtime.bpm.opaeumsimpletypes" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_mOnqwBW7EeGS9eDihWY8Xw" base_DataType="_mKrbYBW6EeGS9eDihWY8Xw" mappedImplementationType="byte[]" strategyFactory="org.opaeum.strategies.BlobStrategyFactory"/>
+</xmi:XMI>

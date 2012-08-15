@@ -321,7 +321,7 @@ public class ReportingImpl extends EObjectImpl implements Reporting {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (excludeDefaults: ");
 		if (excludeDefaultsESet) result.append(excludeDefaults); else result.append("<unset>");
 		result.append(", outputDirectory: ");

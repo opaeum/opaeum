@@ -2,7 +2,7 @@ package nl.klasse.octopus.codegen.umlToJava.modelgenerators.creators;
 
 import java.util.Iterator;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.tools.common.StringHelpers;
 
@@ -20,6 +20,7 @@ import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.utilities.JavaPathNames;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 
 public class DataTypeCreator{
 	protected OJClass currentClass = null;
@@ -35,7 +36,7 @@ public class DataTypeCreator{
 		currentClass.addToFields(hashcode_field(in));
 	}
 	protected OJOperation equal_op(DataType in){
-		String param = StringHelpers.firstCharToLower(in.getName());
+		String param = NameConverter.decapitalize(in.getName());
 		String TYPE = in.getName();
 		OJOperation oper = null;
 		oper = new OJOperation();
@@ -61,7 +62,7 @@ public class DataTypeCreator{
 		Iterator<?> it = in.getAttributes().iterator();
 		while(it.hasNext()){
 			Property elem = (Property) it.next();
-			StructuralFeatureMap mapper = ojUtil.buildStructuralFeatureMap(elem);
+			PropertyMap mapper = ojUtil.buildStructuralFeatureMap(elem);
 			if(!elem.isDerived()){ // only compare the non redundant fields
 				Classifier type = (Classifier) elem.getType();
 				String name = mapper.getter() + "()";
@@ -80,7 +81,7 @@ public class DataTypeCreator{
 			stat.setCondition("Float.floatToIntBits(this." + name + ".floatValue()) != " + "Float.floatToIntBits( " + param + "." + name
 					+ ".floatValue())");
 		}else{
-			StringBuffer bodyStr = new StringBuffer();
+			StringBuilder bodyStr = new StringBuilder();
 			bodyStr.append("!(this." + name + " == null ? ");
 			bodyStr.append(param + "." + name + " == null : ");
 			bodyStr.append("this." + name + ".equals( ");
@@ -130,7 +131,7 @@ public class DataTypeCreator{
 		Iterator<?> it = in.getAttributes().iterator();
 		while(it.hasNext()){
 			Property elem = (Property) it.next();
-			StructuralFeatureMap mapper = ojUtil.buildStructuralFeatureMap(elem);
+			PropertyMap mapper = ojUtil.buildStructuralFeatureMap(elem);
 			String fieldname = mapper.fieldname();
 			if(!elem.isDerived()){ // only use the non redundant fields
 				if(EmfClassifierUtil.comformsToLibraryType(elem.getType(), IOclLibrary.IntegerTypeName)){

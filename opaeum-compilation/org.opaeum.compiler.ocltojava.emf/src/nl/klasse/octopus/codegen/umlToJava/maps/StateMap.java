@@ -6,6 +6,7 @@ import org.eclipse.uml2.uml.Vertex;
 import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 
 public class StateMap extends PackageableElementMap {
 	private Vertex state = null;
@@ -19,7 +20,7 @@ public class StateMap extends PackageableElementMap {
 	}
 
 	public String getter(){
-		return "get" + StringHelpers.firstCharToUpper(javaFieldName());
+		return "get" + NameConverter.capitalize(javaFieldName());
 	}
 
 	

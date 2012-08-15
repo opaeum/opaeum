@@ -23,6 +23,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 @AuditMe(factory=CustomAuditEntryFactory.class)
 @Table(name="parent_auditable_object")
 public class ParentAuditedObject implements IPersistentObject {
+	private static final long serialVersionUID = -6039007318273136789L;
 	@Id
 	@GeneratedValue
 	Long id;
@@ -45,7 +46,9 @@ public class ParentAuditedObject implements IPersistentObject {
 	Boolean booleanProperty;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date deletedOn;
-
+	public Date getDeletedOn(){
+		return deletedOn;
+	}
 	@PreUpdate
 	@PrePersist
 	public void onUpdate() {

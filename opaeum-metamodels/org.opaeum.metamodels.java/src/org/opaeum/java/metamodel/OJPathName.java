@@ -11,7 +11,6 @@ import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 
-	private List<OJPathName> generics = new ArrayList<OJPathName>();
 	
 	// static public OJPathName VOID = new OJPathName("java.lang.void");
 	/******************************************************
@@ -41,21 +40,6 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 		if(getNames().size() > 0) {
 			result = (String) getNames().get(getNames().size() - 1);
 		}
-		StringBuilder pathInfo = new StringBuilder();
-		if (!this.generics.isEmpty()) {
-			boolean first = true;
-			pathInfo.append("<");
-			for (OJPathName pathName : this.generics) {
-				if(first){
-					first = false;
-				}else{
-					pathInfo.append(",");
-				}
-				pathInfo.append(pathName.getLast());
-			}
-			pathInfo.append(">");
-			result += pathInfo.toString();
-		}
 		return result;
 	}
 	public OJPathName getHead(){
@@ -73,7 +57,7 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 	public String getTypeName(){
 		return getLast();
 	}
-	public String getCollectionTypeName(){
+	public String getTypeNameWithTypeArguments(){
 		if(getElementTypes().isEmpty()){
 			return getLast();
 		}else{
@@ -92,37 +76,24 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 	public String toJavaString(){
 		StringBuilder pathInfo = new StringBuilder();
 		boolean first = true;
-		Iterator it = getNames().iterator();
+		Iterator<String> it = getNames().iterator();
 		while(it.hasNext()){
 			if(first){
 				first = false;
 			}else{
 				pathInfo.append(".");
 			}
-			String elem = (String) it.next();
+			String elem = it.next();
 			pathInfo.append(elem);
-		}
-		if (!this.generics.isEmpty()) {
-			pathInfo.append("<");
-			first = true;
-			for (OJPathName pathName : this.generics) {
-				if(first){
-					first = false;
-				}else{
-					pathInfo.append(",");
-				}
-				pathInfo.append(pathName.toJavaString());
-			}
-			pathInfo.append(">");
 		}
 		return pathInfo.toString();
 	}
 	private String elementTypesToJavaString(){
 		StringBuilder result = new StringBuilder();
 		boolean first = true;
-		Iterator it = getElementTypes().iterator();
+		Iterator<OJPathName> it = getElementTypes().iterator();
 		while(it.hasNext()){
-			OJPathName elemType = (OJPathName) it.next();
+			OJPathName elemType = it.next();
 			if(!elemType.getLast().equals("void")){
 				if(first){
 					first = false;
@@ -130,29 +101,24 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 				}else{
 					result.append(", ");
 				}
-				result.append(elemType.getCollectionTypeName());
+				result.append(elemType.getTypeNameWithTypeArguments());
 			}
 		}
 		if(result.length() != 0)
 			result.append(">");
 		return result.toString();
 	}
-	//
 	public String toString(){
 		return JavaUtil.collectionToString(getNames(), ".");
 	}
-	/**
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
 	public OJPathName getCopy(){
 		OJPathName result = new OJPathName();
-		result.setNames(new ArrayList(this.getNames()));
+		result.setNames(new ArrayList<String>(this.getNames()));
 		return result;
 	}
 	public OJPathName getDeepCopy(){
 		OJPathName result = new OJPathName();
-		result.setNames(new ArrayList(this.getNames()));
+		result.setNames(new ArrayList<String>(this.getNames()));
 		List<OJPathName> elementTypes = getElementTypes();
 		for(OJPathName elementType:elementTypes){
 			OJPathName elementTypeCopy = elementType.getDeepCopy();
@@ -160,17 +126,12 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 		}
 		return result;
 	}
-	/**
-	 * @return
-	 */
 	public boolean isSingleName(){
 		return getNames().size() == 1;
 	}
-	@SuppressWarnings("unchecked")
 	public void replaceTail(String newtail){
 		getNames().set(getNames().size() - 1, newtail);
 	}
-	@SuppressWarnings("unchecked")
 	public void insertBeforeTail(String name){
 		getNames().add(getNames().size() - 1, name);
 	}
@@ -209,8 +170,4 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 		return 0;
 	}
 	
-	public OJPathName addToGenerics(OJPathName path) {
-		this.generics.add(path);
-		return this;
-	}
 }

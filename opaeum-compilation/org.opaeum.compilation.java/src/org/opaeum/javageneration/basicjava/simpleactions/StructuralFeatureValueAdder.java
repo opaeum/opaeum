@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.AddStructuralFeatureValueAction;
 import org.eclipse.uml2.uml.Property;
@@ -19,7 +19,7 @@ public class StructuralFeatureValueAdder extends SimpleNodeBuilder<AddStructural
 		String valuePinField = readPin(oper, block, node.getValue());
 		ActionMap actionMap = ojUtil.buildActionMap(node);
 		OJBlock forEach = buildLoopThroughTarget(oper, block, actionMap);
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
+		PropertyMap map = ojUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
 		String modifier = null;
 		if(map.isOne()){
 			modifier = map.setter();
@@ -27,7 +27,7 @@ public class StructuralFeatureValueAdder extends SimpleNodeBuilder<AddStructural
 			if(node.isReplaceAll()){
 				block.addToStatements(map.clearer() + "()");
 			}	
-			StructuralFeatureMap valueMap=ojUtil.buildStructuralFeatureMap(node.getValue());
+			PropertyMap valueMap=ojUtil.buildStructuralFeatureMap(node.getValue());
 			if(valueMap.isOne()){
 				modifier = map.adder();
 			}else{

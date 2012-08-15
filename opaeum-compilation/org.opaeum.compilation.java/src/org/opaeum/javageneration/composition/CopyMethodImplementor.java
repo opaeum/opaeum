@@ -3,7 +3,7 @@ package org.opaeum.javageneration.composition;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -106,7 +106,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		// maybe consider an input parameter specifying the number of levels to
 		// include in a deep copy
 		for(Property np:properties){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 			if(!(np.isDerived() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
 				if(EmfClassifierUtil.isSimpleType(map.getBaseType()) || map.getBaseType() instanceof Enumeration){
 					if(map.isMany()){
@@ -127,7 +127,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 								List<Property> qualifiers = map.getProperty().getQualifiers();
 								// Assume qualifiers are back by attributes as we are doing composition here
 								for(Property q:qualifiers){
-									StructuralFeatureMap qMap = ojUtil.buildStructuralFeatureMap(q);
+									PropertyMap qMap = ojUtil.buildStructuralFeatureMap(q);
 									sb.append("child.");
 									sb.append(qMap.getter());
 									sb.append("(),");
@@ -179,6 +179,6 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 }

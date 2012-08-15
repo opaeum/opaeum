@@ -2,7 +2,7 @@ package org.opaeum.javageneration.persistence;
 
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Enumeration;
@@ -15,6 +15,7 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.util.OJUtil;
 
 /**
  */
@@ -45,14 +46,14 @@ public class DiscriminatorImplementor extends AbstractJavaProducingVisitor {
 		for (Property attr : attributes) {
 			if (EmfPropertyUtil.isDiscriminator( attr)) {
 				OJPathName path = ojUtil.classifierPathname(entity);
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(attr);
+				PropertyMap map = ojUtil.buildStructuralFeatureMap(attr);
 				OJBlock dcBody = new OJBlock();
 				OJClass ojClass = this.javaModel.findClass(path);
 				Enumeration powerType = (Enumeration)attr.getType();
 				if (EmfClassifierUtil.isPowerTypeInstanceOn( entity,powerType)) {
 					Generalization generalization = entity.getGeneralizations().iterator().next();
 					String literal = ojUtil.classifierPathname(powerType) + "."
-							+ EmfClassifierUtil.getPowerTypeLiteral( generalization,(Enumeration)attr.getType()).getName().toUpperCase();
+							+ OJUtil.toJavaLiteral(EmfClassifierUtil.getPowerTypeLiteral( generalization,(Enumeration)attr.getType()));
 					dcBody.addToStatements(map.setter() + "(" + literal + ")");
 				}
 				ojClass.getDefaultConstructor().setBody(dcBody);

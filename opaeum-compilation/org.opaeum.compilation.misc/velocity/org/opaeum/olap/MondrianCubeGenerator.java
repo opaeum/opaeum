@@ -22,7 +22,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -119,7 +119,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
@@ -248,25 +248,25 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			Element hierarchy = doc.createElement("Hierarchy");
 			dimension.appendChild(hierarchy);
 			hierarchy.setAttribute("hasAll", "true");
-			String plural = NameConverter.toPlural(dimensionNode.linkToInnermostDetail().getProperty().getType().getName());
+			String plural = NameConverter.toPlural(dimensionNode.linkToInnermostDetail().getBaseType().getName());
 			hierarchy.setAttribute("allMemberName", "All " + NameConverter.separateWords(plural));
-			if(EmfClassifierUtil.isCompositionParticipant((Classifier) dimensionNode.getProperty().getType())
-					|| dimensionNode.getProperty().getType() instanceof Enumeration){
-				hierarchy.setAttribute("primaryKey", getIdColumn((Classifier) dimensionNode.getProperty().getType()));
-				hierarchy.setAttribute("primaryKeyTable", PersistentNameUtil.getPersistentName(dimensionNode.getProperty().getType()).getAsIs());
+			if(EmfClassifierUtil.isCompositionParticipant((Classifier) dimensionNode.getBaseType())
+					|| dimensionNode.getBaseType() instanceof Enumeration){
+				hierarchy.setAttribute("primaryKey", getIdColumn((Classifier) dimensionNode.getBaseType()));
+				hierarchy.setAttribute("primaryKeyTable", PersistentNameUtil.getPersistentName(dimensionNode.getBaseType()).getAsIs());
 			}
 			dimension.setAttribute("foreignKey", PersistentNameUtil.getPersistentName(dimensionNode.getProperty()).getAsIs());
 			dimension.setAttribute("name", dimensionNode.getName());
 			List<Element> theLevels = null;
 			if(dimensionNode.master == null
-					|| !(EmfClassifierUtil.isCompositionParticipant((Classifier) dimensionNode.master.getProperty().getType()) || dimensionNode.master
-							.getProperty().getType() instanceof Enumeration)){
+					|| !(EmfClassifierUtil.isCompositionParticipant((Classifier) dimensionNode.master.getBaseType()) || dimensionNode.master
+							.getBaseType() instanceof Enumeration)){
 				// Single table scenario
 				List<Element> theLevels1 = new ArrayList<Element>();
-				if(EmfClassifierUtil.isCompositionParticipant((Classifier) dimensionNode.getProperty().getType())
-						|| dimensionNode.getProperty().getType() instanceof Enumeration){
-					appendTable(hierarchy, (Classifier) dimensionNode.getProperty().getType());
-				}else if(isDateType((Classifier) dimensionNode.getProperty().getType())){
+				if(EmfClassifierUtil.isCompositionParticipant((Classifier) dimensionNode.getBaseType())
+						|| dimensionNode.getBaseType() instanceof Enumeration){
+					appendTable(hierarchy, (Classifier) dimensionNode.getBaseType());
+				}else if(isDateType((Classifier) dimensionNode.getBaseType())){
 					Element table = doc.createElement("Table");
 					hierarchy.appendChild(table);
 					table.setAttribute("name", "date_time_entry");
@@ -296,14 +296,14 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		DimensionNode curNode = leaf.master;
 		Element prevParent = hierarchy;
 		while(curNode != null){
-			if(EmfClassifierUtil.isCompositionParticipant((Classifier) curNode.getProperty().getType())
-					|| curNode.getProperty().getType() instanceof Enumeration){
-				Element join = appendJoin(curNode.getProperty(), (Classifier) curNode.getProperty().getType(), prevParent);
+			if(EmfClassifierUtil.isCompositionParticipant((Classifier) curNode.getBaseType())
+					|| curNode.getBaseType() instanceof Enumeration){
+				Element join = appendJoin(curNode.getProperty(), (Classifier) curNode.getBaseType(), prevParent);
 				appendTable(join, curNode.getFromClass());
 				addLevels(curNode.detail.getProperty(), levels);
 				if(curNode.master == null){
 					// Scenario where path ends in a foreignKey
-					appendTable(join, (Classifier) curNode.getProperty().getType());
+					appendTable(join, (Classifier) curNode.getBaseType());
 					addLevels(curNode.getProperty(), levels);
 				}
 				prevParent = join;

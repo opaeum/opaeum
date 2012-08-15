@@ -698,7 +698,7 @@ then5.addToStatements( exp13 );
 /* <if/> */ 
 
  
-OJSimpleStatement exp14 = new OJSimpleStatement(type.getCollectionTypeName() + " myArg = new " + implType.getCollectionTypeName() + "( arg )");
+OJSimpleStatement exp14 = new OJSimpleStatement(type.getTypeNameWithTypeArguments() + " myArg = new " + implType.getTypeNameWithTypeArguments() + "( arg )");
 body.addToStatements( exp14 );
 
  
@@ -1218,7 +1218,7 @@ OJBlock body7 = new OJBlock();
 method1.setBody(body7);
 
  
-OJSimpleStatement exp27 = new OJSimpleStatement(returnType.getCollectionTypeName() + " result = new " + myDefault + "()");
+OJSimpleStatement exp27 = new OJSimpleStatement(returnType.getTypeNameWithTypeArguments() + " result = new " + myDefault + "()");
 body7.addToStatements( exp27 );
 
  
@@ -1357,7 +1357,7 @@ body7.addToStatements( exp32 );
 		RESULT_TYPE.addToElementTypes(genericTypeParam);
 		ELEM_TYPE.addToElementTypes(genericTypeParam);
 		IMPL_TYPE.addToElementTypes(genericTypeParam);
-		String INIT_VALUE = "new " + IMPL_TYPE.getCollectionTypeName() + "()";
+		String INIT_VALUE = "new " + IMPL_TYPE.getTypeNameWithTypeArguments() + "()";
 			
 		/**<octel var="stdlibCls">
 		
@@ -1420,7 +1420,7 @@ OJBlock body9 = new OJBlock();
 method2.setBody(body9);
 
  
-OJSimpleStatement exp33 = new OJSimpleStatement(RESULT_TYPE.getCollectionTypeName() + " result = " + INIT_VALUE);
+OJSimpleStatement exp33 = new OJSimpleStatement(RESULT_TYPE.getTypeNameWithTypeArguments() + " result = " + INIT_VALUE);
 body9.addToStatements( exp33 );
 
  
@@ -1465,7 +1465,7 @@ body9.addToStatements( exp35 );
 		OJPathName IMPL_TYPE = myImplType.getCopy();
 
 		if (elementType == StdlibMap.javaCollectionType) {
-			String INIT_VALUE = "new " + IMPL_TYPE.getCollectionTypeName() + "()";
+			String INIT_VALUE = "new " + IMPL_TYPE.getTypeNameWithTypeArguments() + "()";
 			/**<octel var="stdlibCls">
 			
 	 		<method static="%true%" type="%RESULT_TYPE%" name ="%operName%">
@@ -1522,7 +1522,7 @@ OJBlock body10 = new OJBlock();
 method3.setBody(body10);
 
  
-OJSimpleStatement exp36 = new OJSimpleStatement(RESULT_TYPE.getCollectionTypeName() + " result = " + INIT_VALUE);
+OJSimpleStatement exp36 = new OJSimpleStatement(RESULT_TYPE.getTypeNameWithTypeArguments() + " result = " + INIT_VALUE);
 body10.addToStatements( exp36 );
 
  
@@ -1584,7 +1584,7 @@ body10.addToStatements( exp38 );
 				IMPL_TYPE.addToElementTypes(elementType);
 				nonPrim= true;
 			}
-			String INIT_VALUE = "new " + IMPL_TYPE.getCollectionTypeName() + "()";
+			String INIT_VALUE = "new " + IMPL_TYPE.getTypeNameWithTypeArguments() + "()";
 				
 			/**<octel var="stdlibCls">
 			
@@ -1643,7 +1643,7 @@ OJBlock body11 = new OJBlock();
 method4.setBody(body11);
 
  
-OJSimpleStatement exp39 = new OJSimpleStatement(RESULT_TYPE.getCollectionTypeName() + " result = " + INIT_VALUE);
+OJSimpleStatement exp39 = new OJSimpleStatement(RESULT_TYPE.getTypeNameWithTypeArguments() + " result = " + INIT_VALUE);
 body11.addToStatements( exp39 );
 
  
@@ -1704,7 +1704,7 @@ body11.addToStatements( exp42 );
 		OJPathName genericTypeParam = new OJPathName("T");
 		RESULT_TYPE.addToElementTypes(genericTypeParam);
 		IMPL_TYPE.addToElementTypes(genericTypeParam);
-		String INIT_VALUE = "new " + IMPL_TYPE.getCollectionTypeName() + "(mySource)";
+		String INIT_VALUE = "new " + IMPL_TYPE.getTypeNameWithTypeArguments() + "(mySource)";
 			
 		/**<octel var="stdlibCls">
 		
@@ -1784,7 +1784,7 @@ OJBlock body12 = new OJBlock();
 method5.setBody(body12);
 
  
-OJSimpleStatement exp43 = new OJSimpleStatement(RESULT_TYPE.getCollectionTypeName() + " result = " + INIT_VALUE);
+OJSimpleStatement exp43 = new OJSimpleStatement(RESULT_TYPE.getTypeNameWithTypeArguments() + " result = " + INIT_VALUE);
 body12.addToStatements( exp43 );
 
  
@@ -1836,7 +1836,7 @@ body12.addToStatements( exp45 );
 		OJPathName genericTypeParam = new OJPathName("T");
 		RESULT_TYPE.addToElementTypes(genericTypeParam);
 		IMPL_TYPE.addToElementTypes(genericTypeParam);
-		String INIT_VALUE = "new " + IMPL_TYPE.getCollectionTypeName() + "(mySource)";
+		String INIT_VALUE = "new " + IMPL_TYPE.getTypeNameWithTypeArguments() + "(mySource)";
 			
 		/**<octel var="stdlibCls">
 		
@@ -1916,7 +1916,7 @@ OJBlock body13 = new OJBlock();
 method6.setBody(body13);
 
  
-OJSimpleStatement exp46 = new OJSimpleStatement(RESULT_TYPE.getCollectionTypeName() + " result = " + INIT_VALUE);
+OJSimpleStatement exp46 = new OJSimpleStatement(RESULT_TYPE.getTypeNameWithTypeArguments() + " result = " + INIT_VALUE);
 body13.addToStatements( exp46 );
 
  
@@ -1973,7 +1973,7 @@ body13.addToStatements( exp48 );
 		RESULT_TYPE.addToElementTypes(genericTypeParam);
 		PARAM_TYPE.addToElementTypes(genericTypeParam);
 		IMPL_TYPE.addToElementTypes(genericTypeParam);
-		String INIT_VALUE = "new " + IMPL_TYPE.getCollectionTypeName() + "(mySource)";
+		String INIT_VALUE = "new " + IMPL_TYPE.getTypeNameWithTypeArguments() + "(mySource)";
 			
 		/**<octel var="stdlibCls">
 		
@@ -2053,7 +2053,7 @@ OJBlock body14 = new OJBlock();
 method7.setBody(body14);
 
  
-OJSimpleStatement exp49 = new OJSimpleStatement(RESULT_TYPE.getCollectionTypeName() + " result = " + INIT_VALUE);
+OJSimpleStatement exp49 = new OJSimpleStatement(RESULT_TYPE.getTypeNameWithTypeArguments() + " result = " + INIT_VALUE);
 body14.addToStatements( exp49 );
 
  

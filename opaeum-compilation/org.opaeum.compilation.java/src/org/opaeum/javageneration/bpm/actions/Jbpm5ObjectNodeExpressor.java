@@ -1,7 +1,7 @@
 package org.opaeum.javageneration.bpm.actions;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
@@ -46,7 +46,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 			return sb.toString();
 		}
 	}
-	public String storeResults(StructuralFeatureMap resultMap,String call,boolean isMany){
+	public String storeResults(PropertyMap resultMap,String call,boolean isMany){
 		if(resultMap.isCollection()){
 			if(isMany){
 				call = resultMap.allAdder() + "(" + call + ")";
@@ -59,7 +59,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		return call;
 	}
 	@Override
-	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,StructuralFeatureMap resultMap){
+	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,PropertyMap resultMap){
 		OJAnnotatedField outPinVar = new OJAnnotatedField(resultMap.fieldname(), resultMap.javaTypePath());
 		block.addToLocals(outPinVar);
 		return outPinVar;
@@ -84,27 +84,27 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		}else{
 			ObjectFlow edge = (ObjectFlow) pin.getIncomings().iterator().next();
 			ObjectNode feedingNode = EmfActivityUtil.getFeedingNode( pin);
-			StructuralFeatureMap feedingMap = ojUtil.buildStructuralFeatureMap(feedingNode);
+			PropertyMap feedingMap = ojUtil.buildStructuralFeatureMap(feedingNode);
 			String call = feedingMap.getter() + "()";
 			return surroundWithSelectionAndTransformation(call, edge);
 		}
 	}
-	protected String initForResultVariable(StructuralFeatureMap map){
+	protected String initForResultVariable(PropertyMap map){
 		return map.getter() + "()";
 	}
 	public String expressExceptionInput(OJBlock block,ObjectNode pin){
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(pin);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(pin);
 		return "(" + map.javaType() + ")" + EXCEPTION_FIELD;
 	}
 	@Override
 	public String expressFeedingNodeForObjectFlowGuard(OJBlock block,ObjectFlow flow){
 		ObjectNode feedingNode = (ObjectNode) EmfActivityUtil.getOriginatingObjectNode( flow);
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(feedingNode);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(feedingNode);
 		String call = map.getter() + "()";
 		return surroundWithSelectionAndTransformation(call, flow);
 	}
 	@Override
-	public String clear(StructuralFeatureMap map){
+	public String clear(PropertyMap map){
 		return map.clearer() + "()";
 	}
 }

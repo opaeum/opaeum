@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Behavior;
@@ -113,7 +113,7 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 		ojUtil.packagePathname(p);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap map){
+	protected void visitProperty(Classifier owner,PropertyMap map){
 		Property p = map.getProperty();
 		if(p.getOtherEnd() != null){
 			ojUtil.buildStructuralFeatureMap(p.getOtherEnd());

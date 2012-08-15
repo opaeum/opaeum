@@ -22,9 +22,6 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	}
 	public OJAnnotatedOperation(String string){
 		super();
-		if(string.contains("?")){
-			System.out.println();
-		}
 		setName(string);
 	}
 	@Override
@@ -79,7 +76,7 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		if(this.getGenericTypeParam() != null){
 			result.append("<" + this.getGenericTypeParam().getLast() + "> ");
 		}
-		result.append(getReturnType().getCollectionTypeName());
+		result.append(getReturnType().getTypeNameWithTypeArguments());
 		result.append(" " + getName());
 		// params
 		result.append("(" + paramsToJava(this) + ")");

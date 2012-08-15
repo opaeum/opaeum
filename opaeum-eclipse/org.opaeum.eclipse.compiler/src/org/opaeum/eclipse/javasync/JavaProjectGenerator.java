@@ -21,12 +21,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.EclipseProjectGenerationStep;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -44,18 +42,16 @@ import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 
-public final class JavaProjectGenerator extends Job{
+public final class JavaProjectGenerator {
 	private final OpaeumConfig cfg;
 	private final IWorkspaceRoot workspace;
 	private TransformationProcess process;
 	public JavaProjectGenerator(TransformationProcess process,IWorkspaceRoot workspace){
-		super("Generating java projects");
 		this.cfg = process.getConfig();
 		this.process = process;
 		this.workspace = workspace;
 	}
-	@Override
-	protected IStatus run(IProgressMonitor monitor){
+	public IStatus run(IProgressMonitor monitor){
 		try{
 			monitor.beginTask("Writing sources", 80);
 			TextWorkspace tws = process.findModel(TextWorkspace.class);

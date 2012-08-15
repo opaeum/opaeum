@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_5awNkNbzEeCwbYjk4vYL1w" activeDiagram="_5aw0oNbzEeCwbYjk4vYL1w">
+  <model href="HibernateValidation.profile.uml#_TorQYHryEeGgA7LmG6YzjA"/>
+  <diagrams xmi:id="_5aw0oNbzEeCwbYjk4vYL1w" position="0,0" size="100,100" name="JavaxValidation" viewport="0,0">
+    <property xmi:id="_5ep2INbzEeCwbYjk4vYL1w" key="pageFormatName" value="A4"/>
+    <property xmi:id="_5eqdMNbzEeCwbYjk4vYL1w" key="diagramWidth" value="840"/>
+    <property xmi:id="_5eqdMdbzEeCwbYjk4vYL1w" key="diagramHeight" value="1188"/>
+    <property xmi:id="_5eqdMtbzEeCwbYjk4vYL1w" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_5eqdM9bzEeCwbYjk4vYL1w" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_5eqdNNbzEeCwbYjk4vYL1w" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_5eqdNdbzEeCwbYjk4vYL1w" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_5eqdNtbzEeCwbYjk4vYL1w" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_5eqdN9bzEeCwbYjk4vYL1w" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_5aw0odbzEeCwbYjk4vYL1w" presentation="org.topcased.modeler.uml.profilediagram">
+      <element href="HibernateValidation.profile.uml#_TorQYHryEeGgA7LmG6YzjA"/>
+    </semanticModel>
+  </diagrams>
+</diagrams:Diagrams>

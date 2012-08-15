@@ -139,7 +139,7 @@ public class GoalsType1Impl extends EObjectImpl implements GoalsType1 {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (goal: ");
 		result.append(goal);
 		result.append(')');

@@ -2,7 +2,7 @@ package org.opaeum.javageneration.basicjava;
 
 import java.util.UUID;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
@@ -31,14 +31,14 @@ import org.opaeum.javageneration.util.OJUtil;
 public class HashcodeBuilder extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true)
 	protected void visitComplexStructure(Classifier c){
-		if(OJUtil.hasOJClass(c) && !(c instanceof Interface)){
+		if(ojUtil.hasOJClass(c) && !(c instanceof Interface)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			this.buildHashcode(ojClass, c);
 		}
 	}
 	@VisitBefore(matchSubclasses=true)
 	public void visitInterface(Interface i){
-		if(OJUtil.hasOJClass(i) && !(EmfClassifierUtil.isHelper(i))){
+		if(ojUtil.hasOJClass(i) && !(EmfClassifierUtil.isHelper(i))){
 			OJAnnotatedClass ojClass = findJavaClass(i);
 			ojClass.addToOperations(new OJAnnotatedOperation("getUid", new OJPathName("String")));
 		}
@@ -83,7 +83,7 @@ public class HashcodeBuilder extends AbstractStructureVisitor{
 		// TODO DataTypes!!!!
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 		
 	}
 }

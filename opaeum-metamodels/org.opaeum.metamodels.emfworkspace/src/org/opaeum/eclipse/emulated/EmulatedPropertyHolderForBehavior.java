@@ -13,7 +13,7 @@ import org.opaeum.metamodel.workspace.IPropertyEmulation;
 
 public class EmulatedPropertyHolderForBehavior extends EmulatedPropertyHolderForBehavioredClassifier implements StereotypeAttachable{
 	@SuppressWarnings("unchecked")
-	protected EmulatedPropertyHolderForBehavior(Behavior owner,IPropertyEmulation e){
+	public EmulatedPropertyHolderForBehavior(Behavior owner,IPropertyEmulation e){
 		super(owner, e, owner.getOwnedParameters(),EmfTimeUtil.buildObservationPropertiess(owner,e,owner));
 	}
 	protected EmulatedPropertyHolderForBehavior(Behavior owner,IPropertyEmulation e,EList<? extends TypedElement>...typedElements){

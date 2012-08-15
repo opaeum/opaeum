@@ -3,96 +3,65 @@ package org.opaeum.java.metamodel;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJClassGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 import org.opaeum.java.metamodel.utilities.JavaUtil;
 
-
-
-
-public class OJClass extends OJClassGEN {
-	/******************************************************
-	 * The constructor for this classifier.
-	*******************************************************/	
-	public OJClass() {
+public class OJClass extends OJClassGEN{
+	public OJClass(){
 		super();
 		this.setVisibility(OJVisibilityKind.PUBLIC);
 	}
-
-	/** Constructor for OJClass
-	 * 
-	 * @param name 
-	 * @param comment 
-	 * @param isStatic 
-	 * @param isFinal 
-	 * @param isVolatile 
-	 * @param uniqueNumber 
-	 * @param isAbstract 
-	 * @param isDerived 
-	 */
-	public OJClass(String name, String comment, boolean isStatic, boolean isFinal, boolean isVolatile, int uniqueNumber, boolean isAbstract, boolean isDerived) {
-//		super(name, comment, isStatic, isFinal, isVolatile, uniqueNumber, isAbstract, isDerived);
+	public OJClass(String name,String comment,boolean isStatic,boolean isFinal,boolean isVolatile,int uniqueNumber,boolean isAbstract,
+			boolean isDerived){
+		// super(name, comment, isStatic, isFinal, isVolatile, uniqueNumber, isAbstract, isDerived);
 	}
-
-	public OJClass getDeepCopy(OJPackage owner) {
+	public OJClass getDeepCopy(OJPackage owner){
 		OJClass copy = new OJClass();
 		copy.setMyPackage(owner);
 		copyDeepInfoInto(copy);
 		return copy;
 	}
-	
-	protected void copyDeepInfoInto(OJClass copy) {
+	protected void copyDeepInfoInto(OJClass copy){
 		super.copyDeepInfoInto(copy);
 		Collection<OJConstructor> constructors = getConstructors();
-		for (OJConstructor ojConstructor : constructors) {
+		for(OJConstructor ojConstructor:constructors){
 			OJConstructor copyConstructor = ojConstructor.getDeepConstructorCopy();
 			copyConstructor.setReturnType(copy.getPathName());
 			copy.addToConstructors(copyConstructor);
 		}
-		if (getSuperclass()!=null) {
+		if(getSuperclass() != null){
 			OJPathName superClassCopy = getSuperclass().getDeepCopy();
 			copy.setSuperclass(superClassCopy);
 		}
 		Collection<OJField> fields = getFields();
-		for (OJField ojField : fields) {
-			OJField ojFieldCopy = (OJField)ojField.getDeepCopy();
+		for(OJField ojField:fields){
+			OJField ojFieldCopy = (OJField) ojField.getDeepCopy();
 			ojFieldCopy.setOwner(copy);
 			copy.addToFields(ojFieldCopy);
 		}
 	}
-
-	public void calcImports() {
-		super.calcImports(); // does operations
-		// fields
-		Iterator it = getFields().iterator();
-		while( it.hasNext()) {
-			OJField f = (OJField) it.next();
+	public void calcImports(){
+		super.calcImports();
+		for(OJField f:getFields()){
 			this.addToImports(f.getType());
 		}
-		// interfaces
-		it = getImplementedInterfaces().iterator();
-		while( it.hasNext()) {
-			OJPathName intf = (OJPathName) it.next();
+		for(OJPathName intf:getImplementedInterfaces()){
 			this.addToImports(intf);
 		}
-		// constructors
-		it = getConstructors().iterator();
-		while( it.hasNext()) {
-			OJConstructor constr = (OJConstructor) it.next();
-			Iterator params = constr.getParamTypes().iterator();
-			while( params.hasNext()) {
-				this.addToImports((OJPathName)params.next());
+		for(OJConstructor constr:getConstructors()){
+			for(OJPathName pn:constr.getParamTypes()){
+				this.addToImports(pn);
 			}
 		}
-		// supertype
 		this.addToImports(this.getSuperclass());
 	}
-
-	public OJConstructor getDefaultConstructor() {
+	public OJConstructor getDefaultConstructor(){
 		OJConstructor result = super.getDefaultConstructor();
-		if (result == null) {
+		if(result == null){
 			OJConstructor constructor = new OJConstructor();
 			constructor.setBody(new OJBlock());
 			constructor.setComment("default constructor for " + this.getName());
@@ -101,46 +70,41 @@ public class OJClass extends OJClassGEN {
 		}
 		return result;
 	}
-	
 	public String toJavaString(){
 		this.calcImports();
 		StringBuilder classInfo = new StringBuilder();
-		if(getMyPackage()==null){
-			System.out.println();
-		}
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());
 		classInfo.append("\n");
-		if (!getComment().equals("")){
+		if(!getComment().equals("")){
 			addJavaDocComment(classInfo);
 		}
-		if (this.getNeedsSuppress()) {
+		if(this.getNeedsSuppress()){
 			classInfo.append("@SuppressWarnings(\"serial\")\n");
 		}
-		if (this.isAbstract()) {
+		if(this.isAbstract()){
 			classInfo.append("abstract ");
 		}
 		classInfo.append(visToJava(this) + " ");
 		classInfo.append("class " + getName());
-		if ( getSuperclass() != null) {
+		if(getSuperclass() != null){
 			classInfo.append(" extends " + getSuperclass().getLast());
 		}
 		classInfo.append(implementedInterfaces());
 		classInfo.append(" {\n");
-		classInfo.append(JavaStringHelpers.indent(fields(),1));
+		classInfo.append(JavaStringHelpers.indent(fields(), 1));
 		classInfo.append("\n\n");
-		classInfo.append(JavaStringHelpers.indent(constructors(),1));
+		classInfo.append(JavaStringHelpers.indent(constructors(), 1));
 		classInfo.append("\n");
-		classInfo.append(JavaStringHelpers.indent(operations(),1));
+		classInfo.append(JavaStringHelpers.indent(operations(), 1));
 		classInfo.append("\n}");
 		return classInfo.toString();
 	}
-	
 	/**
 	 * @return
 	 */
-	private StringBuilder constructors() {
+	private StringBuilder constructors(){
 		StringBuilder result = new StringBuilder();
 		result.append(JavaUtil.collectionToJavaString(this.getConstructors(), "\n"));
 		return result;
@@ -148,7 +112,7 @@ public class OJClass extends OJClassGEN {
 	/**
 	 * @return
 	 */
-	private StringBuilder fields() {
+	private StringBuilder fields(){
 		StringBuilder result = new StringBuilder();
 		result.append(JavaUtil.collectionToJavaString(this.getFields(), "\n"));
 		return result;
@@ -156,28 +120,29 @@ public class OJClass extends OJClassGEN {
 	/**
 	 * @return
 	 */
-	private StringBuilder implementedInterfaces() {
+	private StringBuilder implementedInterfaces(){
 		StringBuilder result = new StringBuilder();
-		if (!this.getImplementedInterfaces().isEmpty()) result.append(" implements ");
+		if(!this.getImplementedInterfaces().isEmpty())
+			result.append(" implements ");
 		Iterator it = getImplementedInterfaces().iterator();
-		while (it.hasNext()){
+		while(it.hasNext()){
 			OJPathName elem = (OJPathName) it.next();
 			result.append(elem.getLast());
-			if (it.hasNext()) result.append(", ");
-		}		
+			if(it.hasNext())
+				result.append(", ");
+		}
 		return result;
 	}
 	/**
 	 * @param string
 	 * @return
 	 */
-	public OJField findField(String name) {
+	public OJField findField(String name){
 		return f_fields.get(name);
 	}
-
 	@Override
 	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
-		super.renameAll(renamePathNames,suffix);
+		super.renameAll(renamePathNames, suffix);
 		Collection<OJConstructor> constructors = getConstructors();
 		for(OJConstructor ojConstructor:constructors){
 			ojConstructor.renameAll(renamePathNames, suffix);
@@ -205,7 +170,6 @@ public class OJClass extends OJClassGEN {
 			ojField.renameAll(renamePathNames, suffix);
 		}
 	}
-
 	public void release(){
 		setMyPackage(null);
 		f_fields.clear();

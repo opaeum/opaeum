@@ -3,7 +3,7 @@ package org.opaeum.javageneration.oclexpressions;
 import java.util.Collection;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -49,7 +49,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void visitBehavior(Behavior behavior){
-		if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwner() instanceof Classifier){
+		if(ojUtil.hasOJClass(behavior.getContext()) && behavior.getOwner() instanceof Classifier){
 			// Ignore transition effects and state actions for now
 			if(EmfBehaviorUtil.hasExecutionInstance(behavior)){
 				addEvaluationMethod(behavior.getPreconditions(), "evaluatePreconditions", behavior, "this");
@@ -81,12 +81,12 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 					result.setType(map.javaReturnTypePath());
 					result.setInitExp(map.javaReturnDefaultValue());
 					execute.getBody().addToLocals(result);
-					StructuralFeatureMap resultMap = ojUtil.buildStructuralFeatureMap(map.getReturnParameter());
+					PropertyMap resultMap = ojUtil.buildStructuralFeatureMap(map.getReturnParameter());
 					Classifier actualType = getLibrary().getActualType(map.getReturnParameter());
 					execute.getBody().addToStatements("result=" + valueSpecificationUtil.expressOcl(oclBehaviorContext, execute, actualType));
 					execute.getBody().addToStatements(resultMap.setter() + "(result)");
 				}
-			}else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwner() instanceof Classifier){
+			}else if(ojUtil.hasOJClass(behavior.getContext()) && behavior.getOwner() instanceof Classifier){
 				OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
 				OperationMap map = ojUtil.buildOperationMap(behavior);
 				OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
@@ -96,7 +96,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitClassifier(Classifier owner){
-		if(OJUtil.hasOJClass(owner) && !(owner instanceof Interface)){
+		if(ojUtil.hasOJClass(owner) && !(owner instanceof Interface)){
 			for(Operation oper:owner.getAllOperations()){
 				if(oper.getOwner() instanceof Interface || oper.getOwner() == owner){
 					processOperation(oper, owner);

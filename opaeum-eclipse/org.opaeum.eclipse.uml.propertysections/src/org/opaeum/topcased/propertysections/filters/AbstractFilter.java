@@ -16,6 +16,9 @@ public abstract class AbstractFilter implements IFilter {
 		Element element = null;
 		if (!(toTest instanceof Element)) {
 			EObject o = ObjectAdapter.adaptObject(toTest);
+			if(o.eClass().getName().equals("Diagram")){
+				return false;
+			}
 			if (o instanceof Element) {
 				toTest = o;
 			} else {

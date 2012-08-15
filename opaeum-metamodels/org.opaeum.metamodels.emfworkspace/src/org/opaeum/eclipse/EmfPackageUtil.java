@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
@@ -22,9 +23,9 @@ import org.opaeum.metamodel.core.internal.TagNames;
 public class EmfPackageUtil{
 	public static String getIdentifier(Package p){
 		for(Stereotype st:p.getAppliedStereotypes()){
-			if(st.getAttribute("artifactIdentifier", null)!=null){
-				String s=(String) p.getValue(st, "artifactIdentifier");
-				if(s!=null){
+			if(st.getAttribute("artifactIdentifier", null) != null){
+				String s = (String) p.getValue(st, "artifactIdentifier");
+				if(s != null && s.length() > 0){
 					return s;
 				}
 			}
@@ -48,8 +49,8 @@ public class EmfPackageUtil{
 		return Boolean.TRUE.equals(value);
 	}
 	public static boolean hasMappedImplementationPackage(Package p){
-			Object value = getValue(p, TagNames.MAPPED_IMPLEMENTATION_PACKAGE);
-		return value!=null && value.toString().trim().length()>0;
+		Object value = getValue(p, TagNames.MAPPED_IMPLEMENTATION_PACKAGE);
+		return value != null && value.toString().trim().length() > 0;
 	}
 	public static String getMappedImplementationPackage(Package p){
 		Object value = getValue(p, TagNames.MAPPED_IMPLEMENTATION_PACKAGE);
@@ -57,7 +58,7 @@ public class EmfPackageUtil{
 	}
 	private static Object getValue(Package p,String tagName){
 		for(EObject sa:p.getStereotypeApplications()){
-			if(sa.eClass().getEStructuralFeature(tagName)!=null){
+			if(sa.eClass().getEStructuralFeature(tagName) != null){
 				return sa.eGet(sa.eClass().getEStructuralFeature(tagName));
 			}
 		}
@@ -77,9 +78,6 @@ public class EmfPackageUtil{
 			return;
 		}else{
 			result.add(ro);
-			if(ro ==null){
-				System.out.println();
-			}
 			Collection<PackageImport> imports = ro.getPackageImports();
 			for(PackageImport imp:imports){
 				if(EmfPackageUtil.isRootObject(imp.getImportedPackage())){
@@ -95,8 +93,11 @@ public class EmfPackageUtil{
 	public static boolean isRegeneratingLibrary(Model model){
 		if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL)){
 			EObject sa = model.getStereotypeApplication(StereotypesHelper.getStereotype(model, StereotypeNames.MODEL));
-			EEnumLiteral value = (EEnumLiteral) sa.eGet(sa.eClass().getEStructuralFeature("modelType"));
-			return value.getName().equals("REGENERATING_LIBRARY");
+			EStructuralFeature f = sa.eClass().getEStructuralFeature("modelType");
+			if(f != null){
+				EEnumLiteral value = (EEnumLiteral) sa.eGet(f);
+				return value.getName().equals("REGENERATING_LIBRARY");
+			}
 		}
 		return false;
 	}
@@ -104,24 +105,26 @@ public class EmfPackageUtil{
 		return ro.eResource().getURI().lastSegment();
 	}
 	public static boolean isLibrary(Model model){
-		if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL)){
+		Set<String> ignore = new HashSet<String>();
+		ignore.add("OpaeumSimpleTypes".toLowerCase());
+		ignore.add("UMLPrimitiveTypes".toLowerCase());
+		ignore.add("PrimitiveTypes".toLowerCase());
+		ignore.add("JavaPrimitiveTypes".toLowerCase());
+		ignore.add("OpaeumSimpleTypes".toLowerCase());
+		if(ignore.contains(model.getName().toLowerCase())){
+			return true;
+		}else if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL)){
 			Stereotype st = StereotypesHelper.getStereotype(model, StereotypeNames.MODEL);
 			EObject sa = model.getStereotypeApplication(st);
-			EEnumLiteral value = (EEnumLiteral) sa.eGet(sa.eClass().getEStructuralFeature("modelType"));
-			return value.getName().equals("REFERENCED_LIBRARY");
-		}else {
-			Set<String> ignore = new HashSet<String>();
-			ignore.add("OpaeumSimpleTypes".toLowerCase());
-			ignore.add("UMLPrimitiveTypes".toLowerCase());
-			ignore.add("PrimitiveTypes".toLowerCase());
-			ignore.add("JavaPrimitiveTypes".toLowerCase());
-			ignore.add("OpaeumSimpleTypes".toLowerCase());
-			if(ignore.contains(model.getName().toLowerCase())){
-				return true;
+			EStructuralFeature f = sa.eClass().getEStructuralFeature("modelType");
+			if(f == null){
+				return false;
+			}else{
+				EEnumLiteral value = (EEnumLiteral) sa.eGet(f);
+				return value.getName().equals("REFERENCED_LIBRARY");
 			}
-			boolean hasStereotype = StereotypesHelper.hasStereotype(model, "EPackage","MetaModel");
-			return hasStereotype || "PrimitiveTypes".equals(model.getName()) || "UMLPrimitiveTypes".equals(model.getName());
-
+		}else{
+			return StereotypesHelper.hasStereotype(model, "EPackage", "MetaModel");
 		}
 	}
 }

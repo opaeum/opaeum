@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.OneToMany;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.eclipse.uml2.uml.Association;
@@ -64,11 +64,11 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitEnumeration(Enumeration e){
 		// TODO do something similar for interfaces, even without
-		if(EmfClassifierUtil.getCodeGenerationStrategy( e)==CodeGenerationStrategy.ALL){
+		if(ojUtil.getCodeGenerationStrategy( e)==CodeGenerationStrategy.ALL){
 			OJPackage pkg = findOrCreatePackage(ojUtil.packagePathname(e.getNamespace()));
 			OJAnnotatedClass clss = (OJAnnotatedClass) pkg.findClass(new OJPathName(e.getName() + "Class"));
 			for(Property p:e.getOwnedAttributes()){
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+				PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 				if(map.isOne()){
 					mapXToOne(e, map, clss);
 				}
@@ -77,13 +77,13 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitInterface(Interface cl){
-		if(!StereotypesHelper.hasStereotype(cl, StereotypeNames.HELPER) && OJUtil.hasOJClass(cl)){
+		if(!StereotypesHelper.hasStereotype(cl, StereotypeNames.HELPER) && ojUtil.hasOJClass(cl)){
 			OJAnnotatedInterface owner = (OJAnnotatedInterface) findJavaClass(cl);
 			owner.addToSuperInterfaces(new OJPathName(HibernateEntity.class.getName()));
 		}
 	}
 	protected void visitComplexStructure(Classifier complexType){
-		if(OJUtil.hasOJClass(complexType) && isPersistent(complexType)){
+		if(ojUtil.hasOJClass(complexType) && isPersistent(complexType)){
 			OJAnnotatedClass owner = findJavaClass(complexType);
 			addAllInstances(complexType, owner);
 			if(EmfClassifierUtil.isCompositionParticipant(complexType )){
@@ -137,7 +137,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			owner.addToImplementedInterfaces(new OJPathName(HibernateEntity.class.getName()));
 		}
 	}
-	protected void visitProperty(Classifier owner,StructuralFeatureMap map){
+	protected void visitProperty(Classifier owner,PropertyMap map){
 		Property f = map.getProperty();
 		if(isPersistent(owner) && !f.isDerived() && !map.isStatic()){
 			if(map.isOne()){
@@ -193,11 +193,11 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private void mapXToOne(Classifier owner,StructuralFeatureMap map){
+	private void mapXToOne(Classifier owner,PropertyMap map){
 		OJAnnotatedClass ojOwner = findJavaClass(owner);
 		mapXToOne(owner, map, ojOwner);
 	}
-	public void mapXToOne(Classifier owner,StructuralFeatureMap map,OJAnnotatedClass ojOwner){
+	public void mapXToOne(Classifier owner,PropertyMap map,OJAnnotatedClass ojOwner){
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 		if(field != null){
 			// may have been removed by custom transformation
@@ -262,7 +262,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private void implementListSemantics(StructuralFeatureMap map,OJAnnotatedField field){
+	private void implementListSemantics(PropertyMap map,OJAnnotatedField field){
 		OJAnnotationValue index = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.IndexColumn"));
 		index.putAttribute(new OJAnnotationAttributeValue("name", JpaUtil.generateIndexColumnName(map, "idx")));
 		field.addAnnotationIfNew(index);
@@ -301,9 +301,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			field.addAnnotationIfNew(collectionId);
 		}
 	}
-	private void setDeletedOn(StructuralFeatureMap map,OJAnnotatedClass ojOwner){
-		if(map.getFeature() instanceof Property){
-			Property p = (Property) map.getFeature();
+	private void setDeletedOn(PropertyMap map,OJAnnotatedClass ojOwner){
+		if(map.getProperty() instanceof Property){
+			Property p = (Property) map.getProperty();
 			if(!p.isDerived() && p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
 				OJOperation setter = ojOwner.getUniqueOperation(map.setter());
 				for(OJStatement s:setter.getBody().getStatements()){

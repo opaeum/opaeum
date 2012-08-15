@@ -13,6 +13,7 @@ import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 
 public class ExpGeneratorHelper{
 	public OJUtil ojUtil;
@@ -46,7 +47,7 @@ public class ExpGeneratorHelper{
 		return result;
 	}
 	public static String javaFieldName(Variable elem){
-		return StringHelpers.firstCharToLower(elem.getName());
+		return NameConverter.decapitalize(elem.getName());
 	}
 	public OJPathName makeListType(Classifier elementType){
 		OJPathName myType;

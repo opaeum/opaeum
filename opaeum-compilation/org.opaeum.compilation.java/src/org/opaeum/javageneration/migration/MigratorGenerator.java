@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.migration;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
@@ -172,14 +172,14 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		Property fromProperty = findMatchingProperty(ctx2.fromClass, toProperty);
 		OJPathName toBaseType = classifierPathName((Classifier) toProperty.getType(), getToVersion());
 		ctx2.migrator.addToImports(toBaseType);
-		StructuralFeatureMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
+		PropertyMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
 		String resultVarName = "result" + ctx2.prefix;
 		if(needsCustomCalculation(toProperty, fromProperty)){
 			OJAnnotatedOperation calc = addCalculator(ctx2, toProperty);
 			ctx2.migratingOperation.getBody().addToStatements(
 					resultVarName + "." + toMap.setter() + "(" + calc.getName() + "(from" + ctx2.prefix + "))");
 		}else{
-			StructuralFeatureMap fromMap = ojUtil.buildStructuralFeatureMap(fromProperty);
+			PropertyMap fromMap = ojUtil.buildStructuralFeatureMap(fromProperty);
 			String fromVarName = "from" + ctx2.prefix;
 			if(toMap.isMany()){
 				if(fromMap.isOne()){
@@ -333,10 +333,10 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		}
 	}
 	private void migrateComposites(MigratorContext ctx,Property toProperty){
-		StructuralFeatureMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
+		PropertyMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
 		Property fromProp = findMatchingProperty(ctx.fromClass, toProperty);
 		if(!needsCustomCalculation(toProperty, fromProp)){
-			StructuralFeatureMap fromMap = ojUtil.buildStructuralFeatureMap(fromProp);
+			PropertyMap fromMap = ojUtil.buildStructuralFeatureMap(fromProp);
 			OJPathName migratorPath2 = migratorPath((Classifier) toProperty.getType());
 			ctx.migrator.addToImports(migratorPath2);
 			if(toMap.isMany() && fromMap.isMany()){
@@ -386,12 +386,12 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 	private void migrateDataTypeValue(MigratorContext ctx,Property toProperty){
 		Property fromProperty = findMatchingProperty(ctx.fromClass, toProperty);
 		if(needsCustomCalculation(toProperty, fromProperty)){
-			StructuralFeatureMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
+			PropertyMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
 			OJAnnotatedOperation calc = addCalculator(ctx, toProperty);
 			ctx.migratingOperation.getBody().addToStatements("result." + toMap.setter() + "(" + calc.getName() + "(from))");
 		}else{
-			StructuralFeatureMap fromMap = ojUtil.buildStructuralFeatureMap(fromProperty);
-			StructuralFeatureMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
+			PropertyMap fromMap = ojUtil.buildStructuralFeatureMap(fromProperty);
+			PropertyMap toMap = ojUtil.buildStructuralFeatureMap(toProperty);
 			if(EmfClassifierUtil.isSimpleType(toProperty.getType())){
 				if(toMap.isOne()){
 					ctx.migratingOperation.getBody().addToStatements("result." + toMap.setter() + "(from." + fromMap.getter() + "())");
@@ -520,7 +520,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 	private OJAnnotatedOperation addCalculator(MigratorContext ctx,Property toProperty){
 		String name = "calculate" + ctx.prefix + NameConverter.capitalize(toProperty.getName());
 		OJPathName resultPath = classifierPathName(toProperty.getType(), getToVersion());
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(toProperty);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(toProperty);
 		if(map.isMany()){
 			OJPathName p = map.javaTypePath();
 			p.removeAllFromElementTypes();

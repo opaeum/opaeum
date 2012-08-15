@@ -37,7 +37,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 	public void classBefore(Classifier c){
 		if(c instanceof Interface){
 			// TODO make source populations part of contract?
-		}else if(OJUtil.hasOJClass(c)){
+		}else if(ojUtil.hasOJClass(c)){
 			OJAnnotatedClass myClass = findJavaClass(c);
 			addConstraintsTo(c, myClass);
 			if(c instanceof BehavioredClassifier){

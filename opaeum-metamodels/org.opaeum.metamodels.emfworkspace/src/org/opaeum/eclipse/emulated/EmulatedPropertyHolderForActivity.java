@@ -10,6 +10,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfTimeUtil;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
 
@@ -19,7 +20,7 @@ public class EmulatedPropertyHolderForActivity extends EmulatedPropertyHolderFor
 	public EmulatedPropertyHolderForActivity(Activity owner,IPropertyEmulation e){
 		super(owner, e, owner.getOwnedParameters(), owner.getVariables(), EmfTimeUtil.buildObservationPropertiess(owner, e, owner));
 		this.owner=owner;
-		for(ActivityNode n:owner.getOwnedNodes()){
+		for(ActivityNode n:EmfActivityUtil.getOwnedNodesForEclipseUml4(owner)){
 			addEmulatedProperty(n);
 		}
 	}

@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.ClearStructuralFeatureAction;
 import org.eclipse.uml2.uml.Property;
@@ -18,7 +18,7 @@ public class StructuralFeatureClearer extends SimpleNodeBuilder<ClearStructuralF
 	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
 		ActionMap actionMap = ojUtil.buildActionMap(node);
 		OJBlock forEach = buildLoopThroughTarget(operation, block, actionMap);
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
+		PropertyMap map = ojUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
 		if (map.isOne()) {
 			forEach.addToStatements(actionMap.targetName() + "." + map.setter() + "(null)");
 		} else {

@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
@@ -106,7 +106,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		ObjectNode origin = EmfActivityUtil.getOriginatingObjectNode( objectFlow);
 		// TODO the originatingObjectNode may not have the correct type after
 		// transformations and selections
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(origin);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(origin);
 		OJAnnotatedField sourceField = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 		oper.getBody().addToLocals(sourceField);
 		AbstractObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(ojUtil);
@@ -186,14 +186,14 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	public void implementVariableDelegation(Namespace container,Classifier msg,OJAnnotatedClass c){
 		// NB!!! remember this is only for OCL, not for actions. We only implement getters
 		for(Variable var:EmfActivityUtil.getVariables(container)){
-			StructuralFeatureMap varMap = ojUtil.buildStructuralFeatureMap(var);
+			PropertyMap varMap = ojUtil.buildStructuralFeatureMap(var);
 			OJAnnotatedOperation delegate = new OJAnnotatedOperation(varMap.getter(), varMap.javaTypePath());
 			c.addToOperations(delegate);
 			delegate.initializeResultVariable("getNodeContainer()." + varMap.getter() + "()");
 		}
 		if(container instanceof Activity){
 			for(Parameter var:((Activity) container).getOwnedParameters()){
-				StructuralFeatureMap varMap = ojUtil.buildStructuralFeatureMap(var);
+				PropertyMap varMap = ojUtil.buildStructuralFeatureMap(var);
 				OJAnnotatedOperation delegate = new OJAnnotatedOperation(varMap.getter(), varMap.javaTypePath());
 				c.addToOperations(delegate);
 				delegate.initializeResultVariable("getNodeContainer()." + varMap.getter() + "()");
@@ -210,7 +210,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			Activity a = (Activity) activity;
 			for(Parameter p:a.getOwnedParameters()){
 				if(p.isException()){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+					PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 					execute.getBody().addToStatements(
 							new OJIfStatement("this." + map.getter() + "()!=null", "throw new ExceptionHolder(this,\"" + p.getName() + "\","
 									+ map.getter() + "())"));
@@ -247,8 +247,8 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 					Classifier msg = getLibrary().getMessageStructure(region);
 					OJAnnotatedClass msgClass = findJavaClass(msg);
 					for(ExpansionNode ip:region.getOutputElements()){
-						StructuralFeatureMap propertyMap = ojUtil.buildStructuralFeatureMap(ip);
-						StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(ip);
+						PropertyMap propertyMap = ojUtil.buildStructuralFeatureMap(ip);
+						PropertyMap map = ojUtil.buildStructuralFeatureMap(ip);
 						OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
 						msgClass.addToOperations(getter);
 						getter.initializeResultVariable("getNodeContainer()." + propertyMap.getter() + "()");
@@ -259,11 +259,11 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		visitEdges(EmfActivityUtil.getEdges(activity));
 	}
 	private void implementDerivedGetter(OJAnnotatedClass activityClass,ObjectNode node2){
-		StructuralFeatureMap actionMap = ojUtil.buildStructuralFeatureMap((Action) EmfElementFinder.getContainer(node2));
+		PropertyMap actionMap = ojUtil.buildStructuralFeatureMap((Action) EmfElementFinder.getContainer(node2));
 		Namespace container = EmfActivityUtil.getNearestNodeContainer(node2);
 		Classifier parentMsg = getLibrary().getMessageStructure(container);
-		StructuralFeatureMap pinMap = ojUtil.buildStructuralFeatureMap( node2);
-		StructuralFeatureMap propertyMap = ojUtil.buildStructuralFeatureMap( node2);
+		PropertyMap pinMap = ojUtil.buildStructuralFeatureMap( node2);
+		PropertyMap propertyMap = ojUtil.buildStructuralFeatureMap( node2);
 		List<OJPathName> emptyList = Collections.emptyList();
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) activityClass.findOperation(pinMap.getter(), emptyList);
 		oper.setBody(new OJBlock());

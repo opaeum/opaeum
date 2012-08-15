@@ -2,6 +2,8 @@
  */
 package nl.klasse.tools.common;
 
+import org.opaeum.name.NameConverter;
+
 /**
  *
  * @author anneke
@@ -12,8 +14,8 @@ public class StringHelpers {
 	static public String newLine = System.getProperty("line.separator", "\n");
 	static public char newLineChar = newLine.charAt(0);
 
-	static public StringBuffer replaceAllSubstrings( StringBuffer orig, String origSub, String newSub ) {
-		StringBuffer result = new StringBuffer();
+	static public StringBuilder replaceAllSubstrings( StringBuilder orig, String origSub, String newSub ) {
+		StringBuilder result = new StringBuilder();
 		result.append(replaceAllSubstrings(orig.toString(), origSub, newSub));
 		return result;
 	}
@@ -50,24 +52,8 @@ public class StringHelpers {
     	return result;    		
     } 
   
-    static public String firstCharToUpper( String orig ) {
-    	String result = "";
-    	String origFirst = orig.substring(0, 1);
-    	result = origFirst.toUpperCase();
-    	result = result + orig.substring(1, orig.length());
-    	return result;
-    }
-    
-	static public String firstCharToLower( String orig ) {
-		String result = "";
-		String origFirst = orig.substring(0, 1);
-		result = origFirst.toLowerCase();
-		result = result + orig.substring(1, orig.length());
-		return result;
-	}
-
-	static public String indent(String in, int level) {
-		StringBuffer result = new StringBuffer();
+    static public String indent(String in, int level) {
+		StringBuilder result = new StringBuilder();
 		String newIndent = "";
 		for (int i=0; i<level; i++) {
 			newIndent = newIndent + "\t";
@@ -82,8 +68,8 @@ public class StringHelpers {
 		return result.toString();		
 	}
 	
-	static public StringBuffer indent(StringBuffer in, int level) {
-		StringBuffer result = new StringBuffer();
+	static public StringBuilder indent(StringBuilder in, int level) {
+		StringBuilder result = new StringBuilder();
 		String newIndent = "";
 		for (int i=0; i<level; i++) {
 			newIndent = newIndent + "\t";
@@ -112,7 +98,7 @@ public class StringHelpers {
 	/**
 	 * @param innerBody
 	 */
-	public static void trimTrailingWhiteSpace(StringBuffer innerBody) {
+	public static void trimTrailingWhiteSpace(StringBuilder innerBody) {
 		while (Character.isWhitespace(innerBody.charAt(innerBody.length()-1))) {
 			innerBody.deleteCharAt(innerBody.length()-1);
 		}

@@ -3,7 +3,7 @@ package org.opaeum.javageneration.composition;
 import java.util.Arrays;
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -32,7 +32,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 public class ComponentInitializer extends AbstractStructureVisitor{
 	@Override
 	protected void visitComplexStructure(Classifier entity){
-		if(OJUtil.hasOJClass(entity)){
+		if(ojUtil.hasOJClass(entity)){
 			if(entity instanceof Class){
 				OJAnnotatedClass ojClass = findJavaClass(entity);
 				OJOperation init = ojClass.findOperation("init", Arrays.asList(new OJPathName(CompositionNode.class.getName())));
@@ -46,7 +46,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 					createComponents.getBody().addToStatements("super.createComponents()");
 				}
 				for(Property np:aws){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
+					PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 					if(!np.isDerived() && (map.getBaseType() instanceof Class || EmfClassifierUtil.isStructuredDataType(map.getBaseType()))){
 						Classifier type = (Classifier) map.getBaseType();
 						if(isMap(np) && np.getLower() == 1 && np.getQualifiers().size() == 1
@@ -61,7 +61,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 							for(EnumerationLiteral l:ownedLiterals){
 								ifEmpty.getThenPart().addToStatements("new" + np.getName() + "= new " + type.getName() + "()");
 								ifEmpty.getThenPart().addToStatements(
-										map.adder() + "(" +  ojUtil.classifierPathname(en) + "." + l.getName().toUpperCase()+ ",new"
+										map.adder() + "(" +  ojUtil.classifierPathname(en) + "." + OJUtil.toJavaLiteral(l)+ ",new"
 												+ np.getName() + ")");
 							}
 							createComponents.getBody().addToStatements(ifEmpty);
@@ -85,7 +85,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 		// TODO Auto-generated method stub
 	}
 }

@@ -45,7 +45,7 @@ public class OperationCallCreator{
 		this.myClass = myClass;
 		this.context=context;
 	}
-	public String operationCallExp(OperationCallExp exp,StringBuffer source,boolean isStatic,List<OJParameter> params){
+	public String operationCallExp(OperationCallExp exp,StringBuilder source,boolean isStatic,List<OJParameter> params){
 		String result = "";
 		List<String> args = makeArgs(exp, isStatic, params);
 		Operation referedOp = exp.getReferredOperation();
@@ -92,7 +92,7 @@ public class OperationCallCreator{
 		}
 		return result;
 	}
-	private String makeOperCall(OperationCallExp exp,StringBuffer source,List args,Operation referedOp,List params){
+	private String makeOperCall(OperationCallExp exp,StringBuilder source,List args,Operation referedOp,List params){
 		String result = "";
 		if(referedOp != null){
 			if(referedOp.getName().equals("oclIsNew")){ // on OclAny
@@ -130,7 +130,7 @@ public class OperationCallCreator{
 		result = OclUtilityCreator.getStdlibPath().getTypeName() + "." + "objectAsSet(" + source + ")";
 		return result;
 	}
-	private String buildAllInstances(OperationCallExp exp,StringBuffer source,List args,Operation referedOp){
+	private String buildAllInstances(OperationCallExp exp,StringBuilder source,List args,Operation referedOp){
 		TypeType tt=(TypeType) exp.getSource().getType();
 		ClassifierMap OWNER = ojUtil.buildClassifierMap(tt.getReferredType());
 		String className = OWNER.javaType();
@@ -139,29 +139,29 @@ public class OperationCallCreator{
 		}
 		return className + ".allInstances(persistence)";
 	}
-	private String buildIsUndefined(OperationCallExp exp,StringBuffer source,List args){
+	private String buildIsUndefined(OperationCallExp exp,StringBuilder source,List args){
 		String result = "";
 		result = StringHelpers.addBrackets(source.toString()) + " == null";
 		return result;
 	}
-	private String buildAsType(OperationCallExp exp,StringBuffer source,List args){
+	private String buildAsType(OperationCallExp exp,StringBuilder source,List args){
 		Classifier argType = ((TypeExp) exp.getArgument().get(0)).getReferredType();
 		String typeStr = ojUtil.buildClassifierMap(argType).javaType();
 		String result = "((" + typeStr + ") " + StringHelpers.addBrackets(source.toString()) + ")";
 		return result;
 	}
-	private String buildIsKindOf(OperationCallExp exp,StringBuffer source,List args){
+	private String buildIsKindOf(OperationCallExp exp,StringBuilder source,List args){
 		String result = "";
 		result = StringHelpers.addBrackets(source.toString()) + " instanceof " + args.get(0);
 		return result;
 	}
-	private String buildIsTypeOf(OperationCallExp exp,StringBuffer source,List args){
+	private String buildIsTypeOf(OperationCallExp exp,StringBuilder source,List args){
 		String result = "";
 		myClass.addToImports("org.opaeum.runtime.domain.IntrospectionUtil");
 		result = StringHelpers.addBrackets("IntrospectionUtil.getOriginalClass(" + source.toString()) + ") == " + args.get(0) + ".class";
 		return result;
 	}
-	private String buildOclInState(OperationCallExp exp,StringBuffer source,List args){
+	private String buildOclInState(OperationCallExp exp,StringBuilder source,List args){
 		// exp.getReferedOp().getName() should equal 'oclInState'
 		String result = "";
 		StateExp arg = (StateExp) exp.getArgument().get(0);

@@ -206,7 +206,7 @@ public class IssueManagementImpl extends EObjectImpl implements IssueManagement 
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (system: ");
 		result.append(system);
 		result.append(", url: ");

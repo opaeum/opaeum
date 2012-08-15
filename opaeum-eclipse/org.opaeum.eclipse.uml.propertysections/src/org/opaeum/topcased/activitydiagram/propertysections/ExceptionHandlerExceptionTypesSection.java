@@ -32,11 +32,11 @@ public class ExceptionHandlerExceptionTypesSection extends AbstractReferenceLook
 		choices.addAll(types);
 		return choices;
 	}
-	@Override
-	protected Object getListValues(){
-		return getExceptionHandler().getExceptionTypes();
-	}
 	private ExceptionHandler getExceptionHandler(){
 		return (ExceptionHandler) getEObject();
+	}
+	@Override
+	protected EObject getFeatureOwner(EObject e){
+		return e;
 	}
 }

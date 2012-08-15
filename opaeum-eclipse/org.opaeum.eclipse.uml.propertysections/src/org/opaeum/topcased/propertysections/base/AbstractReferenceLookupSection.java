@@ -91,10 +91,8 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 	public AbstractReferenceLookupSection(){
 		super();
 	}
-	protected EObject getFeatureOwner(EObject e){
-		return e;
-	}
-	protected final EObject getFeatureOwner(){
+	protected abstract EObject getFeatureOwner(EObject e);
+	private  final EObject getFeatureOwner(){
 		return getFeatureOwner(getEObject());
 	}
 	protected abstract List<? extends EObject> getAvailableChoices();
@@ -206,5 +204,9 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 			}
 		});
 		getTable().setLabelProvider(getLabelProvider());
+	}
+	@Override
+	protected final Object getListValues(){
+		return null;
 	}
 }

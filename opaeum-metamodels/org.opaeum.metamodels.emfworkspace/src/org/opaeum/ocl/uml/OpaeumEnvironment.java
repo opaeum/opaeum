@@ -8,8 +8,13 @@ import java.util.Set;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.ocl.AbstractTypeChecker;
 import org.eclipse.ocl.Environment;
 import org.eclipse.ocl.EnvironmentFactory;
+import org.eclipse.ocl.TypeChecker;
+import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.ocl.types.CollectionType;
+import org.eclipse.ocl.types.TupleType;
 import org.eclipse.ocl.uml.UMLEnvironment;
 import org.eclipse.ocl.uml.UMLFactory;
 import org.eclipse.ocl.uml.Variable;
@@ -22,10 +27,11 @@ import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.EnumerationLiteral;
-import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
@@ -45,6 +51,8 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Vertex;
+import org.eclipse.uml2.uml.internal.impl.OperationImpl;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
@@ -57,6 +65,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	OpaeumLibrary library;
 	Element context;
 	private Collection<Variable> variables;
+	private Operation toString;
 	public OpaeumEnvironment(
 			Element context,
 			Environment<Package,Classifier,Operation,Property,EnumerationLiteral,Parameter,State,CallOperationAction,SendSignalAction,Constraint,Class,EObject> parent,
@@ -64,8 +73,19 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		super(parent);
 		Variable self = UMLFactory.eINSTANCE.createVariable();
 		self.setName("self");
-		self.setType(EmfBehaviorUtil.getSelf(context));
+		Classifier selfClassifier = EmfBehaviorUtil.getSelf(context);
+		self.setType(selfClassifier);
 		setSelfVariable(self);
+		if(selfClassifier instanceof Behavior){
+			
+			Classifier contextObject = EmfBehaviorUtil.getContext(context);
+			if(contextObject != null && contextObject!=selfClassifier){
+				Variable var = UMLFactory.eINSTANCE.createVariable();
+				var.setType(contextObject);
+				var.setName("contextObject");
+				addElement("contextObject", var, false);
+			}
+		}
 		this.context = context;
 		this.library = library;
 		this.variables = variables;
@@ -103,7 +123,6 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	}
 	@Override
 	public Classifier lookupClassifier(List<String> names){
-
 		Classifier cls = getContextClassifier();
 		if(cls.getOwner() instanceof Namespace){
 			// Try the owner's nestedClassifier/ownedBehavior containment hierarchy first
@@ -252,6 +271,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		if(c instanceof org.eclipse.uml2.uml.Enumeration){
 			Property p = org.eclipse.uml2.uml.UMLFactory.eINSTANCE.createProperty();
 			p.setName("values");
+			p.setUpper(-1);
 			p.setType(c);
 			p.setIsStatic(true);
 			additionalAttributes.add(p);
@@ -264,53 +284,54 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	}
 	private void addSpecialVariables(Collection<org.eclipse.ocl.expressions.Variable<Classifier,Parameter>> variables){
 		Classifier nearestClassifier = EmfElementFinder.getNearestClassifier(context);
-		Model simpleTypes = library.findLibrary(StereotypeNames.OPAEUM_SIMPLE_TYPES);
-		Model bpmLib = library.findLibrary(StereotypeNames.OPAEUM_BPM_LIBRARY);
-		Model organizationLib = library.findLibrary(StereotypeNames.OPAEUM_ORGANIZATION_LIBRARY);
-		if(simpleTypes != null){
-			Type dateTime = simpleTypes.getOwnedType("DateTime");
-			if(dateTime != null){
-				if(nearestClassifier instanceof StateMachine){
-					addTimeObservations(variables, nearestClassifier, dateTime, StereotypeNames.BUSINES_STATE_MACHINE);
-				}else if(nearestClassifier instanceof Activity){
-					addTimeObservations(variables, nearestClassifier, dateTime, StereotypeNames.BUSINES_PROCESS);
-				}else{
-					Element element = context;
-					while(!(element instanceof Activity || element == null)){
-						if(element instanceof StructuredActivityNode){
-							addTimeObservations(variables, element, dateTime, StereotypeNames.STRUCTURED_BUSINESS_PROCESS_NODE);
-						}
-						element = (Element) EmfElementFinder.getContainer(element);
+		if(nearestClassifier instanceof Activity){
+			Element element = context;
+			while(!(element instanceof Activity || element == null)){
+				element = (Element) EmfElementFinder.getContainer(element);
+				if(element instanceof Namespace){
+					List<org.eclipse.uml2.uml.Variable> activityVars = EmfActivityUtil.getVariables((Namespace) element);
+					for(org.eclipse.uml2.uml.Variable activityVariable:activityVars){
+						Variable var = new EmulatedVariable(activityVariable);
+						var.setType(activityVariable.getType());
+						var.setName(activityVariable.getName());
+						variables.add(var);
 					}
 				}
 			}
 		}
-		if(bpmLib != null){
-			Type duration = bpmLib.getNestedPackage("businesscalendar").getOwnedType("Duration");
-			if(duration != null){
-				if(nearestClassifier instanceof StateMachine){
-					addDurationObservations(variables, nearestClassifier, duration, StereotypeNames.BUSINES_STATE_MACHINE);
-				}else if(nearestClassifier instanceof Activity){
-					addDurationObservations(variables, nearestClassifier, duration, StereotypeNames.BUSINES_PROCESS);
-				}else{
-					Element element = context;
-					while(!(element instanceof Activity || element == null)){
-						if(element instanceof StructuredActivityNode){
-							addTimeObservations(variables, element, duration, StereotypeNames.STRUCTURED_BUSINESS_PROCESS_NODE);
-						}
-						element = (Element) EmfElementFinder.getContainer(element);
+		Type dateTime = library.getDateTimeType();
+		if(dateTime != null){
+			if(nearestClassifier instanceof StateMachine){
+				addTimeObservations(variables, nearestClassifier, dateTime, StereotypeNames.BUSINES_STATE_MACHINE);
+			}else if(nearestClassifier instanceof Activity){
+				addTimeObservations(variables, nearestClassifier, dateTime, StereotypeNames.BUSINES_PROCESS);
+			}else{
+				Element element = context;
+				while(!(element instanceof Activity || element == null)){
+					if(element instanceof StructuredActivityNode){
+						addTimeObservations(variables, element, dateTime, StereotypeNames.STRUCTURED_BUSINESS_PROCESS_NODE);
 					}
+					element = (Element) EmfElementFinder.getContainer(element);
+				}
+			}
+		}
+		Type duration = library.getDurationType();
+		if(duration != null){
+			if(nearestClassifier instanceof StateMachine){
+				addDurationObservations(variables, nearestClassifier, duration, StereotypeNames.BUSINES_STATE_MACHINE);
+			}else if(nearestClassifier instanceof Activity){
+				addDurationObservations(variables, nearestClassifier, duration, StereotypeNames.BUSINES_PROCESS);
+			}else{
+				Element element = context;
+				while(!(element instanceof Activity || element == null)){
+					if(element instanceof StructuredActivityNode){
+						addDurationObservations(variables, element, duration, StereotypeNames.STRUCTURED_BUSINESS_PROCESS_NODE);
+					}
+					element = (Element) EmfElementFinder.getContainer(element);
 				}
 			}
 		}
 		if(nearestClassifier instanceof Behavior){
-			Classifier contextObject = EmfBehaviorUtil.getContext(context);
-			if(contextObject != null){
-				Variable var = UMLFactory.eINSTANCE.createVariable();
-				var.setType(contextObject);
-				var.setName("contextObject");
-				variables.add(var);
-			}
 		}else if(!(nearestClassifier == null || nearestClassifier.isAbstract())){
 			if(library.getEndToComposite(nearestClassifier) == null){
 				Classifier owningObject = null;
@@ -327,19 +348,21 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		for(TypedElement te:tes){
 			if(te instanceof org.eclipse.uml2.uml.Variable || te instanceof Parameter || te instanceof Pin){
 				Variable var = new EmulatedVariable(te);
+//				if(te instanceof Parameter){
+//					setContextOperation(org.eclipse.uml2.uml.UMLFactory.eINSTANCE.createOperation());
+//					getContextOperation().getOwnedParameters().add((Parameter) te);
+//				}
 				var.setType(te.getType());
 				var.setName(te.getName());
 				variables.add(var);
 			}
 		}
-		if(bpmLib != null){
-			Type br = bpmLib.getNestedPackage("organization").getOwnedType("IBusinessRole");
-			if(br != null){
-				Variable var = UMLFactory.eINSTANCE.createVariable();
-				var.setType(br);
-				var.setName("currentBusinessRole");
-				variables.add(var);
-			}
+		Type br = library.getBusinessRole();
+		if(br != null){
+			Variable var = UMLFactory.eINSTANCE.createVariable();
+			var.setType(br);
+			var.setName("currentBusinessRole");
+			variables.add(var);
 		}
 		if(library.getPersonNode() != null){
 			Variable var = UMLFactory.eINSTANCE.createVariable();
@@ -353,14 +376,11 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 			var.setName("currentRole");
 			variables.add(var);
 		}
-		if(simpleTypes != null){
-			Type br = simpleTypes.getOwnedType("DateTime");
-			if(br != null){
-				Variable var = UMLFactory.eINSTANCE.createVariable();
-				var.setType(br);
-				var.setName("now");
-				variables.add(var);
-			}
+		if(dateTime != null){
+			Variable var = UMLFactory.eINSTANCE.createVariable();
+			var.setType(dateTime);
+			var.setName("now");
+			variables.add(var);
 		}
 		variables.addAll(this.variables);
 	}
@@ -405,23 +425,83 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	@Override
 	public Operation lookupOperation(Classifier owner,String name,List<? extends org.eclipse.ocl.utilities.TypedElement<Classifier>> args){
 		Operation o = super.lookupOperation(owner, name, args);
-		if(o == null && owner instanceof PrimitiveType){
-			PrimitiveType pt = EmfClassifierUtil.getRootClass((PrimitiveType) owner);
-			Classifier oclType = getTypeResolver().resolve(pt);
-			if(oclType != null){
-				if(name.length() > 2){
-					o = super.lookupOperation(oclType, name, args);
-				}else{
-					List<Operation> operations = getTypeChecker().getOperations(oclType);
-					for(Operation operation:operations){
-						if(operation.getName().equals(name)){
-							o = operation;
-							break;
+		if(o == null){
+			if(name.equals("toString")){
+				Operation ao = library.getAdditionalOperations().get(owner.getQualifiedName() + "::" + name);
+				if(ao==null){
+					ao = new StdlLibOperation(){
+						@Override
+						public Element getOwner(){
+							return getOCLStandardLibrary().getOclAny();
 						}
+					};
+					ao.setIsQuery(true);
+					ao.setName("toString");
+					ao.setType(library.getStringType());
+					library.getAdditionalOperations().put(owner.getQualifiedName() + "::" + name, ao);
+				}
+				o = ao;
+			}else if(owner instanceof PrimitiveType){
+				PrimitiveType pt = EmfClassifierUtil.getRootClass((PrimitiveType) owner);
+				Classifier oclType = getTypeResolver().resolve(pt);
+				if(oclType != null){
+					if(name.length() > 2){
+						o = super.lookupOperation(oclType, name, args);
+					}else{
+						List<Operation> operations = getTypeChecker().getOperations(oclType);
+						for(Operation operation:operations){
+							if(operation.getName().equals(name)){
+								o = operation;
+								break;
+							}
+						}
+					}
+				}
+			}else if(owner instanceof BehavioredClassifier){
+				BehavioredClassifier bc = (BehavioredClassifier) owner;
+				for(Interface intf:bc.getImplementedInterfaces()){
+					o = super.lookupOperation(intf, name, args);
+					if(o != null){
+						break;
 					}
 				}
 			}
 		}
 		return o;
+	}
+	@Override
+	protected TypeChecker<Classifier,Operation,Property> createTypeChecker(){
+		return new AbstractTypeChecker<Classifier,Operation,Property,Parameter>(this){
+			@Override
+			protected Classifier resolve(Classifier type){
+				return getTypeResolver().resolve(type);
+			}
+			@Override
+			protected CollectionType<Classifier,Operation> resolveCollectionType(CollectionKind kind,Classifier elementType){
+				return getTypeResolver().resolveCollectionType(kind, elementType);
+			}
+			@Override
+			protected TupleType<Operation,Property> resolveTupleType(EList<? extends org.eclipse.ocl.utilities.TypedElement<Classifier>> parts){
+				return getTypeResolver().resolveTupleType(parts);
+			}
+			@Override
+			public Classifier commonSuperType(Object problemObject,Classifier type1,Classifier type2){
+				Classifier commonSuperType = super.commonSuperType(problemObject, type1, type2);
+				if(commonSuperType.equals(getOCLStandardLibrary().getOclAny())){
+					Classifier c = EmfClassifierUtil.findCommonSuperType(type1, type2);
+					if(c != null){
+						commonSuperType = c;
+					}
+				}
+				return commonSuperType;
+			}
+			@Override
+			public boolean isStandardLibraryFeature(Classifier owner,Object feature){
+				if(feature instanceof Operation && ((Operation) feature).getName().equals("toString")){
+					return false;
+				}
+				return super.isStandardLibraryFeature(owner, feature);
+			}
+		};
 	}
 }

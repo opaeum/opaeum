@@ -126,10 +126,10 @@ public class TransformationProcess{
 			boolean start = false;
 			for(TransformationPhase phase:phaseList){
 				if(!log.isCanceled() && (start || (start = fromPhase.isInstance(phase)))){
-						setInputModelsFor(phase);
-						phase.initializeSteps();
-						changedElements.addAll(phase.processElements(context, findElementsFor(phase, changedElements)));
-						phase.release();
+					setInputModelsFor(phase);
+					phase.initializeSteps();
+					changedElements.addAll(phase.processElements(context, findElementsFor(phase, changedElements)));
+					phase.release();
 				}
 			}
 			log.endLastTask();
@@ -267,9 +267,14 @@ public class TransformationProcess{
 		return this.config;
 	}
 	public void release(){
-		config=null;
+		config = null;
+		if(phases != null){
+			for(TransformationPhase<? extends ITransformationStep,?> transformationPhase:phases.getExecutionUnits()){
+				transformationPhase.release();
+			}
+		}
 		this.models.clear();
 		this.actualClasses.clear();
-		this.phases=null;
+		this.phases = null;
 	}
 }

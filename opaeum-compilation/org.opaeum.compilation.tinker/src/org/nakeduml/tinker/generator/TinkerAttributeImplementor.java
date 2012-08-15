@@ -2,7 +2,7 @@ package org.nakeduml.tinker.generator;
 
 import java.util.Arrays;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -57,7 +57,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	public static final String ITER_HAS_NEXT = "ITER_HAS_NEXT";
 
 	@Override
-	protected OJOperation buildAdder(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	protected OJOperation buildAdder(OJAnnotatedClass owner, PropertyMap map) {
 		OJOperation adder = new OJAnnotatedOperation(map.adder());
 		adder.addParam(map.fieldname(), map.javaBaseTypePath());
 		if (!(owner instanceof OJAnnotatedInterface)) {
@@ -65,9 +65,9 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 			adder.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
 			if (!(p.getOtherEnd() == null || p.getOtherEnd().isDerived()) && p.getOtherEnd().isNavigable()) {
-				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap((p).getOtherEnd());
+				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap((p).getOtherEnd());
 				if (otherMap.isMany()) {
-					if (!OJUtil.hasOJClass((Classifier) p.getAssociation())) {
+					if (!ojUtil.hasOJClass((Classifier) p.getAssociation())) {
 						adder.getBody().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
 					}
 					adder.getBody().addToStatements(map.internalAdder() + "(" + map.fieldname() + ")");
@@ -104,7 +104,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	 * Tinker uses TinkerSet and TinkerList that are initiated in constructors
 	 */
 	@Override
-	protected OJAnnotatedField buildField(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	protected OJAnnotatedField buildField(OJAnnotatedClass owner, PropertyMap map) {
 		OJAnnotatedField field = super.buildField(owner, map);
 		if (map.isMany()) {
 			OJPathName fieldType;
@@ -149,12 +149,12 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	}
 
 	@Override
-	protected void buildInitExpression(OJAnnotatedClass owner, StructuralFeatureMap map, OJAnnotatedField field) {
+	protected void buildInitExpression(OJAnnotatedClass owner, PropertyMap map, OJAnnotatedField field) {
 		// This method call seems superfluous
 	}
 
 	@Override
-	protected OJAnnotatedOperation buildGetter(Classifier umlOwner, OJAnnotatedClass owner, StructuralFeatureMap map, boolean derived) {
+	protected OJAnnotatedOperation buildGetter(Classifier umlOwner, OJAnnotatedClass owner, PropertyMap map, boolean derived) {
 		owner.addToImports(TinkerGenerationUtil.vertexPathName);
 		Property prop = map.getProperty();
 		OJAnnotatedOperation getter;
@@ -190,7 +190,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		return getter;
 	}
 
-	private OJAnnotatedOperation buildBagGetter(OJAnnotatedClass owner, StructuralFeatureMap map, boolean derived) {
+	private OJAnnotatedOperation buildBagGetter(OJAnnotatedClass owner, PropertyMap map, boolean derived) {
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		if (map.getProperty().getQualifiers().size()>0) {
 			getter.setReturnType(TinkerGenerationUtil.tinkerQualifiedBag.getCopy());
@@ -212,7 +212,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		return getter;
 	}
 
-	private OJAnnotatedOperation buildOrderedSetGetter(OJAnnotatedClass owner, StructuralFeatureMap map, boolean derived) {
+	private OJAnnotatedOperation buildOrderedSetGetter(OJAnnotatedClass owner, PropertyMap map, boolean derived) {
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		if (map.getProperty().getQualifiers().size()>0) {
 			getter.setReturnType(TinkerGenerationUtil.tinkerQualifiedOrderedSet.getCopy());
@@ -247,7 +247,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	}
 
 	@Override
-	protected OJOperation buildRemover(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	protected OJOperation buildRemover(OJAnnotatedClass owner, PropertyMap map) {
 		OJOperation remover = new OJAnnotatedOperation(map.remover());
 		remover.addParam(map.fieldname(), map.javaBaseTypePath());
 		Property p = map.getProperty();
@@ -257,8 +257,8 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 			OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null");
 			remover.getBody().addToStatements(ifNotNull);
 			if (p.getOtherEnd() != null && p.getOtherEnd().isNavigable()) {
-				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap((p).getOtherEnd());
-				if (!OJUtil.hasOJClass((Classifier) map.getProperty().getAssociation())) {
+				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap((p).getOtherEnd());
+				if (!ojUtil.hasOJClass((Classifier) map.getProperty().getAssociation())) {
 					ifNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(this)");
 				}
 				ifNotNull.getThenPart().addToStatements(map.internalRemover() + "(" + map.fieldname() + ")");
@@ -271,12 +271,12 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	}
 
 	@Override
-	protected void buildInternalRemover(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	protected void buildInternalRemover(OJAnnotatedClass owner, PropertyMap map) {
 		Property prop = map.getProperty();
-		Classifier umlOwner = (Classifier) map.getFeature().getOwner();
+		Classifier umlOwner = (Classifier) map.getProperty().getOwner();
 		if (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
 			if (map.isOne()) {
-				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
+				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
 				buildTinkerToOneRemover(umlOwner, map, otherMap, owner, buildBasicRemover(owner, map));
 			} else {
 				builTinkerManyRemover(owner, map);
@@ -287,7 +287,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	}
 
 	@Override
-	protected void buildInternalAdder(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	protected void buildInternalAdder(OJAnnotatedClass owner, PropertyMap map) {
 		if (map.getProperty().getOwner() instanceof Interface) {
 			super.buildInternalAdder(owner, map);
 		} else {
@@ -295,13 +295,13 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		}
 	}
 
-	private void buildTinkerInternalAdder(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	private void buildTinkerInternalAdder(OJAnnotatedClass owner, PropertyMap map) {
 		owner.addToImports(TinkerGenerationUtil.TINKER_NODE);
 		Property prop = map.getProperty();
-		Classifier umlOwner = (Classifier) map.getFeature().getOwner();
+		Classifier umlOwner = (Classifier) map.getProperty().getOwner();
 		if (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
 			if (map.isOne()) {
-				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
+				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
 				buildTinkerToOneAdder(umlOwner, map, otherMap, owner, buildBasicAdder(owner, map));
 			} else {
 				builTinkerManyAdder(owner, map);
@@ -311,7 +311,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		}
 	}
 
-	private void builTinkerManyAdder(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	private void builTinkerManyAdder(OJAnnotatedClass owner, PropertyMap map) {
 		// super.buildInternalAdder(owner, map);
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
@@ -320,7 +320,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		OJSimpleStatement s = new OJSimpleStatement(getReferencePrefix(owner, map) + map.fieldname() + ".add(val)");
 		adder.getBody().addToStatements(s);
 		owner.addToOperations(adder);
-		if (!(!(map.getProperty().getType() instanceof Enumeration) || !map.isJavaPrimitive()) && !EmfPropertyUtil.isInverse( map.getProperty())) {
+		if (!(!(map.getBaseType() instanceof Enumeration) || !map.isJavaPrimitive()) && !EmfPropertyUtil.isInverse( map.getProperty())) {
 			// Do not create an edge
 			s.setExpression(s.getExpression().replace(".add(", ".tinkerAdd("));
 		}
@@ -329,17 +329,17 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		}
 	}
 
-	private void builTinkerManyRemover(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	private void builTinkerManyRemover(OJAnnotatedClass owner, PropertyMap map) {
 		super.buildInternalRemover(owner, map);
 		OJOperation remover = owner.findOperation(map.internalRemover(), Arrays.asList(map.javaBaseTypePath()));
 		OJSimpleStatement s = (OJSimpleStatement) remover.getBody().findStatementRecursive(AttributeImplementor.MANY_INTERNAL_REMOVE_FROM_COLLECTION);
-		if (!(!(map.getProperty().getType() instanceof Enumeration) || !map.isJavaPrimitive()) && !EmfPropertyUtil.isInverse(map.getProperty())) {
+		if (!(!(map.getBaseType() instanceof Enumeration) || !map.isJavaPrimitive()) && !EmfPropertyUtil.isInverse(map.getProperty())) {
 			// Do not create an edge
 			s.setExpression(s.getExpression().replace(".remove(", ".tinkerRemove("));
 		}
 	}
 
-	private OJAnnotatedOperation buildBasicAdder(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	private OJAnnotatedOperation buildBasicAdder(OJAnnotatedClass owner, PropertyMap map) {
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 		adder.addParam("val", map.javaBaseTypePath());
@@ -350,7 +350,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		return adder;
 	}
 
-	private OJAnnotatedOperation buildBasicRemover(OJAnnotatedClass owner, StructuralFeatureMap map) {
+	private OJAnnotatedOperation buildBasicRemover(OJAnnotatedClass owner, PropertyMap map) {
 		OJAnnotatedOperation remover = new OJAnnotatedOperation(map.internalRemover());
 		remover.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 		remover.addParam("val", map.javaBaseTypePath());
@@ -361,8 +361,8 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		return remover;
 	}
 
-	public void addSimpleInternalAdderBody(Classifier umlOwner, StructuralFeatureMap map, OJAnnotatedClass owner, OJOperation adder) {
-		if (map.getProperty().getType() instanceof Class) {
+	public void addSimpleInternalAdderBody(Classifier umlOwner, PropertyMap map, OJAnnotatedClass owner, OJOperation adder) {
+		if (map.getBaseType() instanceof Class) {
 			if (map.isOne()) {
 				buildTinkerToOneAdder(umlOwner, map, null, owner, adder);
 			}
@@ -375,8 +375,8 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		}
 	}
 
-	public void addSimpleInternalRemoverBody(Classifier umlOwner, StructuralFeatureMap map, OJAnnotatedClass owner, OJOperation remover) {
-		if (map.getProperty().getType() instanceof Class && map.isOne()) {
+	public void addSimpleInternalRemoverBody(Classifier umlOwner, PropertyMap map, OJAnnotatedClass owner, OJOperation remover) {
+		if (map.getBaseType() instanceof Class && map.isOne()) {
 			buildTinkerToOneRemover(umlOwner, map, null, owner, remover);
 		}
 	}
@@ -386,7 +386,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		setter.getOwner().addToImports(TinkerGenerationUtil.transactionThreadEntityVar);
 	}
 
-	public void buildTinkerToOneAdder(Classifier umlOwner, StructuralFeatureMap map, StructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
+	public void buildTinkerToOneAdder(Classifier umlOwner, PropertyMap map, PropertyMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
 		if (EmfClassifierUtil.isCompositionParticipant(umlOwner )) {
 			addEntityToTransactionThreadEntityVar(setter);
 		}
@@ -409,7 +409,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		setter.getBody().addToStatements(map.umlName() + " = val");
 	}
 
-	public void buildTinkerToOneRemover(Classifier umlOwner, StructuralFeatureMap map, StructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation remover) {
+	public void buildTinkerToOneRemover(Classifier umlOwner, PropertyMap map, PropertyMap otherMap, OJAnnotatedClass owner, OJOperation remover) {
 		if (EmfClassifierUtil.isCompositionParticipant(umlOwner )) {
 			addEntityToTransactionThreadEntityVar(remover);
 		}
@@ -424,7 +424,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		remover.getBody().addToStatements(ifEquals);
 	}
 
-	private void removePolymorphicToOneRelationship(StructuralFeatureMap map, OJAnnotatedClass owner, OJOperation remover) {
+	private void removePolymorphicToOneRelationship(PropertyMap map, OJAnnotatedClass owner, OJOperation remover) {
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite =EmfPropertyUtil.isInverse( map.getProperty());
 		String relationshipName = TinkerGenerationUtil.getEdgeName(map);
@@ -436,7 +436,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		remover.getBody().addToStatements(ifNotNull);
 	}
 
-	private void createPolymorphicToOneRelationship(Classifier umlOwner, StructuralFeatureMap map, OJOperation setter) {
+	private void createPolymorphicToOneRelationship(Classifier umlOwner, PropertyMap map, OJOperation setter) {
 		boolean isComposite = map.getProperty().isComposite();
 		// isComposite = TinkerGenerationUtil.calculateDirection(map,
 		// isComposite);
@@ -462,13 +462,13 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		setter.getBody().addToStatements(ifParamNotNull);
 	}
 
-	private void buildTinkerGetterForOne(OJAnnotatedClass owner, StructuralFeatureMap map, OJAnnotatedOperation getter) {
+	private void buildTinkerGetterForOne(OJAnnotatedClass owner, PropertyMap map, OJAnnotatedOperation getter) {
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = EmfPropertyUtil.isInverse( map.getProperty());
 		Classifier otherClassifier;
 		String otherClassName;
 		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map);
-		otherClassifier = (Classifier) map.getProperty().getType();
+		otherClassifier = (Classifier) map.getBaseType();
 		otherClassName = otherClassifier.getName();
 		OJBlock block = new OJBlock();
 		if (isComposite) {
@@ -503,7 +503,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		getter.getBody().addToStatements(ifResultNull);
 	}
 
-	public static void buildGetterForToOneEnumeration(StructuralFeatureMap map, OJOperation getter, Property prop) {
+	public static void buildGetterForToOneEnumeration(PropertyMap map, OJOperation getter, Property prop) {
 		getter.getBody().addToStatements(
 				"String enumValue = (String)this.vertex.getProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\")");
 		OJIfStatement ifNotNull = new OJIfStatement("enumValue !=null");
@@ -511,11 +511,11 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		getter.getBody().addToStatements(ifNotNull);
 	}
 
-	public static void buildGetterForManyEnumeration(OJAnnotatedClass owner, StructuralFeatureMap map, OJOperation getter, Property prop) {
+	public static void buildGetterForManyEnumeration(OJAnnotatedClass owner, PropertyMap map, OJOperation getter, Property prop) {
 		OJField result = new OJField();
 		result.setName(EMBEDDED_MANY_RESULT);
 		result.setType(map.javaTypePath());
-		result.setInitExp("(" + map.javaTypePath().getCollectionTypeName() + ") " + TinkerGenerationUtil.tinkerUtil + ".convertEnumsFromPersistence(this.vertex.getProperty(\""
+		result.setInitExp("(" + map.javaTypePath().getTypeNameWithTypeArguments() + ") " + TinkerGenerationUtil.tinkerUtil + ".convertEnumsFromPersistence(this.vertex.getProperty(\""
 				+ TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\"), " + map.javaBaseTypePath().getLast() + ".class, "
 				+ map.getProperty().isOrdered() + " )");
 		owner.addToImports(new OJPathName("java.util.Collection"));
@@ -523,7 +523,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		getter.getBody().addToStatements("return " + EMBEDDED_MANY_RESULT);
 	}
 
-	public static void buildGetterForToManyEmbbedded(OJAnnotatedClass owner, StructuralFeatureMap map, OJOperation getter, Property prop) {
+	public static void buildGetterForToManyEmbbedded(OJAnnotatedClass owner, PropertyMap map, OJOperation getter, Property prop) {
 		OJField result = new OJField();
 		result.setName(EMBEDDED_MANY_RESULT);
 		result.setType(map.javaTypePath());

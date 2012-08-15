@@ -2,7 +2,7 @@ package org.opaeum.javageneration.basicjava;
 
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityParameterNode;
@@ -28,12 +28,12 @@ public abstract class AbstractObjectNodeExpressor{
 		this.library = ojUtil.getLibrary();
 		this.ojUtil=ojUtil;
 	}
-	public abstract String storeResults(StructuralFeatureMap resultMap,String call,boolean isMany);
+	public abstract String storeResults(PropertyMap resultMap,String call,boolean isMany);
 	abstract public boolean pinsAvailableAsVariables();
-	public abstract String clear(StructuralFeatureMap map);
+	public abstract String clear(PropertyMap map);
 	public abstract String expressFeedingNodeForObjectFlowGuard(OJBlock block,ObjectFlow flow);
 	abstract public String expressInputPinOrOutParamOrExpansionNode(OJBlock block,ObjectNode pin);
-	abstract public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,StructuralFeatureMap map);
+	abstract public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,PropertyMap map);
 	public abstract String pathToVariableContext(VariableAction action);
 	protected abstract String surroundWithBehaviorCall(String expression,Behavior b, ObjectFlow flow);
 	public OJUtil getOjUtil(){
@@ -67,7 +67,7 @@ public abstract class AbstractObjectNodeExpressor{
 				// TODO need to take the transformations and selections of intermediary object flows into account
 				if(target.isMultivalued() && EmfActivityUtil.isMultivalued( source)
 						&& (isOrdered(source) != target.isOrdered() || isUnique(source) != target.isUnique())){
-					StructuralFeatureMap targetMap = ojUtil.buildStructuralFeatureMap(target);
+					PropertyMap targetMap = ojUtil.buildStructuralFeatureMap(target);
 					expression = "new " + targetMap.javaDefaultTypePath().getLast() + "<" + targetMap.javaDefaultTypePath().getElementTypes().get(0).getLast() + ">("
 							+ expression + ")";
 				}
@@ -82,7 +82,7 @@ public abstract class AbstractObjectNodeExpressor{
 		 return source instanceof Pin && ((Pin) source).isUnique();
 	}
 	public String expressExceptionInput(OJBlock block,ObjectNode pin){
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(pin);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(pin);
 		return "(" + map.javaType() + ")e.getValue()";
 	}
 	protected IPropertyEmulation getLibrary(){

@@ -73,8 +73,8 @@ public class EmfBehaviorUtil{
 		}
 		if(behavioralElement instanceof Behavior){
 			Behavior behavior = (Behavior) behavioralElement;
-			if(behavioralElement.getOwner() instanceof Transition || behavioralElement.getOwner() instanceof State){
-				return getContext(behavioralElement.getOwner());
+			if(behavior.getOwner() instanceof Transition || behavior.getOwner() instanceof State){
+				return getContext(behavior.getOwner());
 			}else if(behavior.getContext() != null){
 				return behavior.getContext();
 			}

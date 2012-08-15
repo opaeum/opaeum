@@ -303,7 +303,7 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (mimumWidth: ");
 		result.append(mimumWidth);
 		result.append(", minimumHeight: ");

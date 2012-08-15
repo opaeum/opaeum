@@ -1,5 +1,6 @@
 package org.opaeum.topcased.propertysections.property;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -7,10 +8,6 @@ import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.topcased.propertysections.base.AbstractPropertyLookupSection;
 
 public class PropertyRedefinedPropertySection extends AbstractPropertyLookupSection{
-	@Override
-	protected Object getListValues(){
-		return getProperty().getRedefinedProperties();
-	}
 	protected boolean isMultiplicityCompatible(Property thisProperty,Property potentialProperty){
 		return EmfPropertyUtil.isMany(potentialProperty) == EmfPropertyUtil.isMany(thisProperty);
 	}
@@ -21,5 +18,9 @@ public class PropertyRedefinedPropertySection extends AbstractPropertyLookupSect
 	@Override
 	protected String getLabelText(){
 		return "Redefined types";
+	}
+	@Override
+	protected EObject getFeatureOwner(EObject e){
+		return e;
 	}
 }

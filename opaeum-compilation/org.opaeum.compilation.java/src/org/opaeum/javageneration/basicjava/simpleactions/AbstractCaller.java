@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.InputPin;
@@ -23,7 +23,7 @@ import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.runtime.domain.ExceptionHolder;
 
 public abstract class AbstractCaller<T extends CallAction> extends SimpleNodeBuilder<T>{
-	protected StructuralFeatureMap callMap;
+	protected PropertyMap callMap;
 	protected OperationMap operationMap;
 	public AbstractCaller(T action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(action, objectNodeExpressor);

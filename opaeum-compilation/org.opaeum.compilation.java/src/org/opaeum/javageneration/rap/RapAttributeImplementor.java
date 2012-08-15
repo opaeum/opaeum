@@ -3,7 +3,7 @@ package org.opaeum.javageneration.rap;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.opaeum.feature.StepDependency;
@@ -20,7 +20,7 @@ import org.opaeum.javageneration.hibernate.HibernateAttributeImplementor;
 @StepDependency(phase = JavaTransformationPhase.class,replaces = HibernateAttributeImplementor.class)
 public class RapAttributeImplementor extends HibernateAttributeImplementor{
 	@Override
-	protected OJOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,StructuralFeatureMap map){
+	protected OJOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map){
 		OJOperation setter = super.buildSetter(umlOwner, owner, map);
 		if(owner.findField("propertyChangeSupport") != null){
 			setter.getBody().addToStatements(

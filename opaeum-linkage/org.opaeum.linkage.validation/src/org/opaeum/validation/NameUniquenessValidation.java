@@ -17,6 +17,7 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.Variable;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfStateMachineUtil;
@@ -84,7 +85,7 @@ public class NameUniquenessValidation extends AbstractValidator{
 	}
 	@VisitBefore(matchSubclasses=true)
 	public void visitActivity(Activity a){
-		ensureUniqueness(a, "activity nodes", a.getOwnedNodes());
+		ensureUniqueness(a, "activity nodes", EmfActivityUtil.getActivityNodes(a));
 	}
 	@VisitBefore(matchSubclasses=true)
 	public void visitStructuredActivityNode(StructuredActivityNode a){

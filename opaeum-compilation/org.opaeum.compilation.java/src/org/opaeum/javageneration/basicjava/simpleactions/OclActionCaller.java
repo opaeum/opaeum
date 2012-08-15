@@ -2,7 +2,7 @@ package org.opaeum.javageneration.basicjava.simpleactions;
 
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.OpaqueAction;
@@ -28,7 +28,7 @@ public class OclActionCaller extends SimpleNodeBuilder<OpaqueAction>{
 			for(InputPin arg:args){
 				// Make args available as vars to OCL
 				// Will lead to duplicate variables in simple synchronous methods
-				StructuralFeatureMap argMap = ojUtil.buildStructuralFeatureMap(arg);
+				PropertyMap argMap = ojUtil.buildStructuralFeatureMap(arg);
 				OJAnnotatedField argField = new OJAnnotatedField(argMap.fieldname(), argMap.javaTypePath());
 				argField.setInitExp(super.readPin(operation, block, arg));
 				block.addToLocals(argField);
@@ -36,7 +36,7 @@ public class OclActionCaller extends SimpleNodeBuilder<OpaqueAction>{
 			OpaqueActionActionContext oclActionContext = getLibrary().getOclActionContext(node);
 			if(!oclActionContext.hasErrors()){
 				String expr = valueSpecificationUtil.expressOcl(oclActionContext, operation, getLibrary().getActualType(returnPin));
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(returnPin);
+				PropertyMap map = ojUtil.buildStructuralFeatureMap(returnPin);
 				expressor.buildResultVariable(operation, block, map);
 				expr = expressor.storeResults(map, expr, returnPin.isMultivalued());
 				block.addToStatements(expr);

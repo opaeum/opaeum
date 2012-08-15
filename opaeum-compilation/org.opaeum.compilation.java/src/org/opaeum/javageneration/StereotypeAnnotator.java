@@ -3,7 +3,7 @@ package org.opaeum.javageneration;
 import java.util.Collection;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Classifier;
@@ -14,7 +14,6 @@ import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
-import org.eclipse.uml2.uml.LiteralReal;
 import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
@@ -22,6 +21,7 @@ import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.StringEncoder;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.java.metamodel.OJElement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -29,6 +29,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.javageneration.util.OJUtil;
 
 public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 	protected void annotate(Element umlElement,OJAnnotatedClass ojClass,String stereotypeName,OJElement javaElement){
@@ -48,7 +49,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		OJAnnotationValue an = new OJAnnotationValue(map.javaTypePath());
 		for(Property property:stereotype.getAllAttributes()){
 			if(!property.getName().startsWith("base_")){
-				StructuralFeatureMap sfm = ojUtil.buildStructuralFeatureMap(property);
+				PropertyMap sfm = ojUtil.buildStructuralFeatureMap(property);
 				OJAnnotationAttributeValue aa = new OJAnnotationAttributeValue(sfm.umlName());
 				an.putAttribute(aa);
 				Object o = element.getValue(stereotype, property.getName());
@@ -86,12 +87,12 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		}else if(object instanceof Number){
 			aa.addNumberValue((Number) object);
 		}else if(object instanceof String){
-			aa.addStringValue((String) object);
+			aa.addStringValue(StringEncoder.encodeToJavaStringLiteral((String) object));
 		}else if(object instanceof EnumerationLiteral){
 			EnumerationLiteral l = (EnumerationLiteral) object;
 			Enumeration en = (Enumeration) l.getEnumeration();
 			ClassifierMap ecm = ojUtil.buildClassifierMap(en, (CollectionKind) null);
-			OJEnumValue ev = new OJEnumValue(ecm.javaTypePath(), l.getName().toUpperCase());
+			OJEnumValue ev = new OJEnumValue(ecm.javaTypePath(), OJUtil.toJavaLiteral(l));
 			aa.addEnumValue(ev);
 		}else if(object instanceof InstanceSpecification){
 			aa.addAnnotationValue(buildAnnotation((InstanceSpecification) object));
@@ -104,6 +105,9 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		}
 	}
 	protected void applyStereotypesAsAnnotations(Element umlElement,OJAnnotatedElement javaElement){
+		if(umlElement==null){
+			System.out.println();
+		}
 		applyStereotypesAsAnnotations(umlElement, javaElement, umlElement.getAppliedStereotypes());
 	}
 	protected void applyStereotypesAsAnnotations(Element umlElement,OJAnnotatedElement javaElement,Collection<Stereotype> stereotypes){
@@ -119,7 +123,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 			OJAnnotationValue an = new OJAnnotationValue(map.javaTypePath());
 			for(Slot slot:stereotypeApplication.getSlots()){
 				Property property = (Property) slot.getDefiningFeature();
-				StructuralFeatureMap sfm = ojUtil.buildStructuralFeatureMap(property);
+				PropertyMap sfm = ojUtil.buildStructuralFeatureMap(property);
 				OJAnnotationAttributeValue aa = new OJAnnotationAttributeValue(sfm.umlName());
 				an.putAttribute(aa);
 				if(slot.getValues().isEmpty() && sfm.isOne()){
@@ -158,17 +162,18 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 			aa.addBooleanValue(vs.booleanValue());
 		}else if(vs instanceof LiteralInteger){
 			aa.addNumberValue(vs.integerValue());
-		}else if(vs instanceof LiteralReal){
-			aa.addNumberValue(vs.realValue());
+//TODO uncomment
+			//		}else if(vs instanceof LiteralReal){
+//			aa.addNumberValue(vs.realValue());
 		}else if(vs instanceof LiteralString){
-			aa.addStringValue(vs.stringValue());
+			aa.addStringValue(StringEncoder.encodeToJavaStringLiteral(vs.stringValue()));
 		}else if(vs instanceof InstanceValue){
 			InstanceValue iv = (InstanceValue) vs;
 			if(iv.getInstance() instanceof EnumerationLiteral){
 				EnumerationLiteral l = (EnumerationLiteral) iv.getInstance();
 				Enumeration en = (Enumeration) l.getEnumeration();
 				ClassifierMap ecm = ojUtil.buildClassifierMap(en, (CollectionKind) null);
-				OJEnumValue ev = new OJEnumValue(ecm.javaTypePath(), l.getName().toUpperCase());
+				OJEnumValue ev = new OJEnumValue(ecm.javaTypePath(), OJUtil.toJavaLiteral(l));
 				aa.addEnumValue(ev);
 			}else{
 				aa.addAnnotationValue(buildAnnotation(((InstanceValue) vs).getInstance()));

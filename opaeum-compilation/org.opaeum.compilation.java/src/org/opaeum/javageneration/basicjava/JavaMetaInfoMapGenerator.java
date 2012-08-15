@@ -18,8 +18,10 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -65,13 +67,13 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 					initBlock.addToStatements("putClass(" + ojUtil.classifierPathname(c) + ".class,\"" + EmfWorkspace.getId(c) + "\")");
 					if(EmfElementFinder.getRootObject( c) == m){
 						for(Operation o:c.getOperations()){
-							initBlock.addToStatements("putMethod(" + ojUtil.classifierPathname(c) + ".class,\"" + EmfWorkspace.getId(m) + "\"," + EmfWorkspace.getOpaeumId(m) + "l)");
+							initBlock.addToStatements("putMethod(" + ojUtil.classifierPathname(c) + ".class,\"" + EmfWorkspace.getId(o) + "\"," + EmfWorkspace.getOpaeumId(o) + "l)");
 						}
 					}
 				}
 			}
 			for(Event e:getElementsOfType(Event.class, Collections.singletonList((Package) m))){
-				if(e instanceof TimeEvent || e instanceof ChangeEvent){
+				if((e instanceof TimeEvent || e instanceof ChangeEvent) && EmfEventUtil.getBehaviorContext(e)!=null){
 					initBlock.addToStatements("putEventHandler(" + eventUtil.handlerPathName(e) + ".class,\"" + EmfWorkspace.getId(e) + "\")");
 				}
 			}

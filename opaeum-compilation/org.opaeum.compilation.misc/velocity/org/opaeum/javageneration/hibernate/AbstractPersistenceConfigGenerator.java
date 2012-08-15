@@ -32,7 +32,7 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationStep;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
-import org.opaeum.javageneration.bpm.Jbpm5JavaStep;
+import org.opaeum.javageneration.bpm.BpmJavaStep;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.rap.RapCapabilities;
@@ -97,13 +97,11 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		findOrCreateTextFile(properties, outputRootId, Environment.PROPERTIES_FILE_NAME);
 		processTemplate(workspace, getTemplateName(), getOutputPath(owner), outputRootId, vars);
 	}
-	@SuppressWarnings("unchecked")
 	private HashMap<String,Object> buildVars(Collection<? extends Element> models,boolean isAdaptorEnvironment,Element owner){
 		HashMap<String,Object> vars = new HashMap<String,Object>();
 		vars.put("requiresAuditing", true);
 		vars.put("config", this.config);
 		vars.put("isAdaptorEnvironment", isAdaptorEnvironment);
-		vars.put("requiresJbpm", transformationContext.isAnyOfFeaturesSelected(Jbpm5JavaStep.class));
 		vars.put("persistenceConfigName", getConfigName(owner));
 		Collection<OJPathName> persistentClasses = new HashSet<OJPathName>();
 		for(String string:config.getAdditionalPersistentClasses()){
@@ -122,7 +120,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 					}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
 						persistentClasses.add(ojUtil.classifierPathname((Operation) e));
 					}else if(e instanceof Enumeration && isGeneratingElement(e)
-							&& EmfClassifierUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
+							&& ojUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
 							&& !(EmfElementFinder.getRootObject(e) instanceof Profile)){
 						persistentClasses.add(new OJPathName(ojUtil.classifierPathname((Enumeration) e) + "Entity"));
 					}else if(e instanceof Action && EmfActionUtil.isEmbeddedTask((ActivityNode) e) && isGeneratingElement(e)){

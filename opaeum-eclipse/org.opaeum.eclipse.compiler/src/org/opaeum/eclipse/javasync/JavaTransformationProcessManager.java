@@ -20,11 +20,11 @@ import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
-import org.opaeum.generation.features.BpmUsingJbpm5;
 import org.opaeum.generation.features.ExtendedCompositionSemantics;
 import org.opaeum.generation.features.OclExpressionExecution;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
+import org.opaeum.javageneration.bpm.BpmJavaStep;
 import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextWorkspace;
@@ -127,7 +127,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	}
 	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends ITransformationStep>> getBasicSteps(){
-		Set<Class<? extends ITransformationStep>> result = toSet(ExtendedCompositionSemantics.class, OclExpressionExecution.class, BpmUsingJbpm5.class);
+		Set<Class<? extends ITransformationStep>> result = toSet(ExtendedCompositionSemantics.class, OclExpressionExecution.class, BpmJavaStep.class);
 		return result;
 	}
 	@Override

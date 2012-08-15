@@ -3,7 +3,7 @@ package org.opaeum.javageneration.basicjava.simpleactions;
 import java.util.Iterator;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.uml.CollectionType;
@@ -16,6 +16,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPathName;
@@ -45,7 +46,7 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 			if(EmfActionUtil.getLinkedTypedElement( pin) == null){
 				block.addToStatements(signalName + "couldNotLinkPinToProperty!!!");
 			}else{
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap((Property) EmfActionUtil.getLinkedTypedElement( pin));
+				PropertyMap map = ojUtil.buildStructuralFeatureMap((Property) EmfActionUtil.getLinkedTypedElement( pin));
 				block.addToStatements(signalName + "." + map.setter() + "(" + readPin(operation, block, pin) + ")");
 			}
 		}
@@ -94,6 +95,9 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 		}
 		//NB!!! signals are always sent to a collection of targets
 		if(actionMap.targetMap().isOne()){
+			OJPathName copy = ojUtil.utilPackagePath(EmfElementFinder.getRootObject(node)).getCopy();
+			copy.addToNames("Stdlib");
+			operationContext.getOwner().addToImports(copy);
 			return "Stdlib.objectAsSet(" + expression + ")";
 		}else if(!actionMap.targetMap().isUnique()){
 			return "new HashSet<INotificationReceiver>(" + expression + ")";
@@ -107,6 +111,9 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 			if(oclExpressionContext.getExpression().getType() instanceof CollectionType){
 				return valueSpecificationUtil.expressOcl(oclExpressionContext,operation, null);
 			}else{
+				OJPathName copy = ojUtil.utilPackagePath(EmfElementFinder.getRootObject(node)).getCopy();
+				copy.addToNames("Stdlib");
+				operation.getOwner().addToImports(copy);
 				return "Stdlib.objectAsSet("  + valueSpecificationUtil.expressOcl(oclExpressionContext, operation, null) + ")";
 			}
 		}else{

@@ -2,7 +2,7 @@ package org.opaeum.javageneration.composition;
 
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.uml.MessageType;
 import org.eclipse.uml2.uml.Association;
@@ -46,7 +46,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	protected static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 	protected void visitClass(Classifier c){
-		if(OJUtil.hasOJClass(c)){
+		if(ojUtil.hasOJClass(c)){
 			OJPathName path = ojUtil.classifierPathname(c);
 			OJClassifier ojClassifier = this.javaModel.findClass(path);
 			if(ojClassifier instanceof OJAnnotatedClass){
@@ -77,7 +77,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 					testConstructor.addParam("owningObject", ojUtil.classifierPathname(owningType));
 					if(isMap(endToComposite.getOtherEnd())){
 						for(Property p:endToComposite.getOtherEnd().getQualifiers()){
-							StructuralFeatureMap qMap = ojUtil.buildStructuralFeatureMap(p);
+							PropertyMap qMap = ojUtil.buildStructuralFeatureMap(p);
 							testConstructor.addParam(qMap.fieldname(), qMap.javaTypePath());
 							testConstructor.getBody().addToStatements(qMap.setter() + "(" + qMap.fieldname() + ")");
 						}
@@ -103,8 +103,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 							aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "("
 									+ aMap.getEndToAssocationClassMap().getter() + "())");
 				}else{
-					StructuralFeatureMap featureMap = ojUtil.buildStructuralFeatureMap(endToComposite);
-					StructuralFeatureMap otherFeatureMap = ojUtil.buildStructuralFeatureMap(endToComposite.getOtherEnd());
+					PropertyMap featureMap = ojUtil.buildStructuralFeatureMap(endToComposite);
+					PropertyMap otherFeatureMap = ojUtil.buildStructuralFeatureMap(endToComposite.getOtherEnd());
 					if(isMap(otherFeatureMap.getProperty())){
 						String qArgs = ojUtil.addQualifierArguments(otherFeatureMap.getProperty().getQualifiers(), "this");
 						addToOwningObject.getBody().addToStatements(
@@ -144,8 +144,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		for(Property np:getLibrary().getEffectiveAttributes(sc)){
 			if(!np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !np.isDerived()
 					&& !np.getOtherEnd().isDerived() && (isPersistent(np.getType()) || np.getType() instanceof Interface)){
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
-				StructuralFeatureMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
+				PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
+				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
 				if(map.isManyToMany()){
 					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
 				}else if(map.isManyToOne()){
@@ -169,7 +169,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitInterface(Interface i){
-		if(!EmfClassifierUtil.isHelper(i) && OJUtil.hasOJClass(i)){
+		if(!EmfClassifierUtil.isHelper(i) && ojUtil.hasOJClass(i)){
 			OJPathName path = ojUtil.classifierPathname(i);
 			OJClassifier ojClassifier = this.javaModel.findClass(path);
 			((OJAnnotatedInterface) ojClassifier).addToSuperInterfaces(COMPOSITION_NODE);
@@ -208,7 +208,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		}
 		Property etc = getLibrary().getEndToComposite(c);
 		if(etc != null && !etc.isDerived()){
-			StructuralFeatureMap compositeFeatureMap = ojUtil.buildStructuralFeatureMap(etc);
+			PropertyMap compositeFeatureMap = ojUtil.buildStructuralFeatureMap(etc);
 			ojClass.addToImports(compositeFeatureMap.javaBaseTypePath());
 			init.getBody()
 					.getStatements()
@@ -230,7 +230,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		getOwner.setBody(new OJBlock());
 		Property endToComposite = getLibrary().getEndToComposite(c);
 		if(endToComposite != null){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(endToComposite);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(endToComposite);
 			getOwner.getBody().addToStatements("return " + map.getter() + "()");
 		}else{
 			getOwner.getBody().addToStatements("return null");
@@ -238,7 +238,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		ojClass.addToOperations(getOwner);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 		// TODO Auto-generated method stub
 	}
 	@Override
@@ -250,9 +250,9 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			addMarkDeleted(findJavaClass(umlOwner), umlOwner);
 		}
 	}
-	private void invokeOperationRecursively(Classifier ew,OJOperation markDeleted,String operationName){
+	public void invokeOperationRecursively(Classifier ew,OJOperation markDeleted,String operationName){
 		for(Property np:getLibrary().getEffectiveAttributes(ew)){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(np);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !np.isDerived()){
 				Classifier type = (Classifier) np.getType();
 				if(map.isMany()){

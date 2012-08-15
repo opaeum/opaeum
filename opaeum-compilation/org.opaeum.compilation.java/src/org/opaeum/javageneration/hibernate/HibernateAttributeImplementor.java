@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.hibernate;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
@@ -22,7 +22,7 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 @StepDependency(phase = JavaTransformationPhase.class,replaces = AttributeImplementor.class)
 public class HibernateAttributeImplementor extends AttributeImplementor{
 	@Override
-	protected OJAnnotatedOperation buildGetter(Classifier umlOwner, OJAnnotatedClass owner,StructuralFeatureMap map,boolean derived){
+	protected OJAnnotatedOperation buildGetter(Classifier umlOwner, OJAnnotatedClass owner,PropertyMap map,boolean derived){
 		if(isInterfaceValue(owner, map)){
 			OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 			getter.setReturnType(map.javaTypePath());
@@ -39,7 +39,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 		}
 	}
 	@Override
-	protected void buildInternalRemover(OJAnnotatedClass owner,StructuralFeatureMap map){
+	protected void buildInternalRemover(OJAnnotatedClass owner,PropertyMap map){
 		if(isInterfaceValue(owner, map)){
 			OJAnnotatedOperation remover = new OJAnnotatedOperation(map.internalRemover());
 			String condition = map.getter() + "()!=null && val!=null && val.equals(" + map.getter() + "())";
@@ -53,7 +53,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 		}
 	}
 	@Override
-	protected void buildInternalAdder(OJAnnotatedClass owner,StructuralFeatureMap map){
+	protected void buildInternalAdder(OJAnnotatedClass owner,PropertyMap map){
 		if(isInterfaceValue(owner, map)){
 			OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 			adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
@@ -65,7 +65,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 		}
 	}
 	@Override
-	protected OJAnnotatedField buildField(OJAnnotatedClass owner,StructuralFeatureMap map){
+	protected OJAnnotatedField buildField(OJAnnotatedClass owner,PropertyMap map){
 		if(isInterfaceValue(owner, map)){
 			OJAnnotatedField field=null;
 			if(map.getProperty().isComposite()){
@@ -82,9 +82,9 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 			return super.buildField(owner, map);
 		}
 	}
-	private boolean isInterfaceValue(OJAnnotatedClass c,StructuralFeatureMap map){
+	private boolean isInterfaceValue(OJAnnotatedClass c,PropertyMap map){
 		return !(c instanceof OJAnnotatedInterface) && !map.getProperty().isDerived() && map.isOne()
-				&& map.getProperty().getType() instanceof Interface
-				&& ! StereotypesHelper.hasStereotype(map.getProperty().getType(),StereotypeNames.HELPER);
+				&& map.getBaseType() instanceof Interface
+				&& ! StereotypesHelper.hasStereotype(map.getBaseType(),StereotypeNames.HELPER);
 	}
 }

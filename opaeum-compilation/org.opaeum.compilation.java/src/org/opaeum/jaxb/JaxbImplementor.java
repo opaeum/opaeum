@@ -3,7 +3,7 @@ package org.opaeum.jaxb;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Class;
@@ -23,18 +23,17 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.basicjava.simpleactions.EventGeneratorImplementor;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {
-	EventGeneratorImplementor.class
+	
 })
 public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(Class  c){
-		if(OJUtil.hasOJClass(c) ){
+		if(ojUtil.hasOJClass(c) ){
 			OJAnnotatedClass owner = findJavaClass(c);
 			addXmlRootElement(owner);
 			OJOperation outgoingEvents = owner.getUniqueOperation("getOutgoingEvents");
@@ -46,12 +45,11 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) cancelledEvents);
 			}
 			for(Property p:getLibrary().getDirectlyImplementedAttributes( c)){
-				if(StereotypesHelper.hasStereotype(p.getType(),StereotypeNames.HELPER)){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+				PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
+				if(StereotypesHelper.hasStereotype(map.getBaseType(),StereotypeNames.HELPER)){
 					OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<Classifier>());
 					JaxbAnnotator.addXmlTransient(getter);
-				}else if(p.getType() instanceof Class && !EmfPropertyUtil.isInverse( p)){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+				}else if(p.getType() instanceof Class && !map.isInverse()){
 					OJAnnotatedOperation o = (OJAnnotatedOperation) owner.findOperation(map.getter(), Collections.EMPTY_LIST);
 					JaxbAnnotator.addXmlTransient(o);
 				}else if(p.getType() instanceof Interface){
@@ -65,7 +63,9 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 		if(behavior.getContext() != null && EmfBehaviorUtil.hasExecutionInstance(behavior)){
 			OJAnnotatedClass ojContext = findJavaClass(behavior.getContext());
 			if(EmfBehaviorUtil.isClassifierBehavior(behavior)){
-				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.getUniqueOperation("getClassifierBehavior");
+				Property ea = getLibrary().getEmulatedPropertyHolder(behavior.getContext()).getEmulatedAttribute(behavior);
+				String getter = ojUtil.buildStructuralFeatureMap(ea).getter();
+				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.getUniqueOperation(getter);
 				JaxbAnnotator.addXmlTransient(oper);
 				// OJAnnotatedOperation getCurrentState= (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getCurrentState");
 				// getCurrentState.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlTransient")));
@@ -76,7 +76,7 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void addXmlAnyElement(OJAnnotatedClass clazz,Class c,Property p){
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) clazz.findOperation(map.getter(), Collections.EMPTY_LIST);
 		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAnyElement")));
 	}

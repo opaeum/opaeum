@@ -149,29 +149,7 @@ public class OJUtill{
 		execute.addToThrows("org.opaeum.runtime.domain.FailedConstraintsException");
 	}
 
-	/**
-	 * Some classifiers in UML would not necessarily be generated as Java classes. Returns false for NakedBehaviors that have one or less
-	 * resulting parameters
-	 * 
-	 */
-	public static boolean hasOJClass(Classifier c){
-		if(c == null || c instanceof Stereotype || c instanceof Collaboration || c instanceof UseCase){
-			return false;
-		}else if(EmfElementUtil.isMarkedForDeletion(c) || EmfClassifierUtil.getCodeGenerationStrategy(c) == CodeGenerationStrategy.NO_CODE){
-			return false;
-		}else if(c instanceof DataType){
-			return !EmfClassifierUtil.isSimpleType(c);
-		}else if(c instanceof Behavior){
-			return EmfBehaviorUtil.hasExecutionInstance((Behavior) c);
-		}else if(c instanceof Association){
-			return EmfAssociationUtil.isClass((Association) c);
-		}else if(c instanceof IEmulatedElement){
-			return ((IEmulatedElement) c).shouldEmulate();
-		}else{
-			return true;
-		}
-	}
-
+	
 	public static void removeReturnStatement(OJOperation javaMethod){
 		List<OJStatement> sts = new ArrayList<OJStatement>(javaMethod.getBody().getStatements());
 		OJStatement last = sts.get(sts.size() - 1);
@@ -206,7 +184,7 @@ public class OJUtill{
 	}
 
 	public static String toJavaLiteral(EnumerationLiteral l){
-		return l.getName().toUpperCase();
+		return NameConverter.toJavaVariableName(l.getName().toUpperCase());
 	}
 
 	public static boolean isJavaKeyword(String name){

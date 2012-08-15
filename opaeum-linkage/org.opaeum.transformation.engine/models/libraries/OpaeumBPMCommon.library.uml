@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg">
   <uml:Model xmi:id="_LgcDYF9mEeG3X_yvufTVmw" name="OpaeumBPMCommon">
     <eAnnotations xmi:id="_Mdik0F9mEeG3X_yvufTVmw" source="http://www.opaeum.org"/>
     <packagedElement xmi:type="uml:Enumeration" xmi:id="_7zLcgNb-EeCJ0dmaHEVVnw" name="BusinessTimeUnit">
@@ -70,9 +70,9 @@
     </packagedElement>
     <profileApplication xmi:id="_fKXksGFFEeG2AvOqZt1NZQ">
       <eAnnotations xmi:id="_fK4iEGFFEeG2AvOqZt1NZQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="../profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+        <references xmi:type="ecore:EPackage" href="../profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
       </eAnnotations>
-      <appliedProfile href="../profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+      <appliedProfile href="../profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
   <OpaeumStandardProfile:Model xmi:id="_fLEvUGFFEeG2AvOqZt1NZQ" base_Model="_LgcDYF9mEeG3X_yvufTVmw" modelType="REFERENCED_LIBRARY"/>

@@ -15,6 +15,7 @@ public class SimpleTypeRuntimeStrategyFactory{
 		return typeUuid;
 	}
 	private String typeUuid;
+	@SuppressWarnings("unchecked")
 	public SimpleTypeRuntimeStrategyFactory(){
 		this(String.class);
 	}

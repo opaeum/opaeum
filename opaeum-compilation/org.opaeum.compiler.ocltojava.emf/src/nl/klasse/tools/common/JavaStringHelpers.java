@@ -25,7 +25,7 @@ public class JavaStringHelpers {
 	}
 
 	static public String convertValuesToString(String[] elements, String delimiter) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < elements.length; i++) {
 			buffer.append(elements[i]);
 			buffer.append(delimiter);

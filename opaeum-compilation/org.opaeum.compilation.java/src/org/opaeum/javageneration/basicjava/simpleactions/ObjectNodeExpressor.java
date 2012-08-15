@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.ObjectFlow;
@@ -22,7 +22,7 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 	}
 	public String expressFeedingNodeForObjectFlowGuard(OJBlock block,ObjectFlow flow){
 		ObjectNode feedingNode = (ObjectNode) EmfActivityUtil.getOriginatingObjectNode( flow);
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(feedingNode);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(feedingNode);
 		String call = map.fieldname();// ActivityParameterNode or top level output
 		return surroundWithSelectionAndTransformation(call, flow);
 	}
@@ -30,12 +30,12 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		// Either an outputpin or parameterNode
 		ObjectFlow edge = (ObjectFlow) pin.getIncomings().iterator().next();
 		ObjectNode feedingNode = EmfActivityUtil.getFeedingNode( pin);
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(feedingNode);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(feedingNode);
 		String call = map.fieldname();// ActivityParameterNode or top level output
 										// pin or expansion node
 		return surroundWithSelectionAndTransformation(call, edge);
 	}
-	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,StructuralFeatureMap map){
+	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,PropertyMap map){
 		OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 		field.setInitExp(map.javaDefaultValue());
 		block.addToLocals(field);
@@ -43,7 +43,7 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		operation.getOwner().addToImports(map.javaDefaultTypePath());
 		return field;
 	}
-	public String storeResults(StructuralFeatureMap resultMap,String call,boolean isMany){
+	public String storeResults(PropertyMap resultMap,String call,boolean isMany){
 		if(resultMap.isCollection()){
 			if(isMany){
 				call = resultMap.fieldname() + ".addAll(" + call + ")";
@@ -56,7 +56,7 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		return call;
 	}
 	@Override
-	public String clear(StructuralFeatureMap map){
+	public String clear(PropertyMap map){
 		return map.fieldname() + ".clear()";
 	}
 	@Override

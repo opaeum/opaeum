@@ -29,7 +29,7 @@
 <!-- 			<property name="hibernate.connection.username" value="sa"/> -->
 <!-- 			<property name="hibernate.connection.password" value=""/> -->
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-			<property name="hibernate.connection.url" value="dbc:postgresql://127.0.0.1:5432/test"/>
+			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/test"/>
 			<property name="hibernate.connection.username" value="test"/>
 			<property name="hibernate.connection.password" value="test"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

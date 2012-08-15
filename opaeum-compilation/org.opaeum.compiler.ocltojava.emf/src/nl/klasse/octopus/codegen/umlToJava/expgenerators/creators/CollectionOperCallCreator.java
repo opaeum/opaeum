@@ -13,6 +13,7 @@ import nl.klasse.tools.common.StringHelpers;
 import nl.klasse.tools.common.Util;
 
 import org.eclipse.ocl.expressions.CollectionKind;
+import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.ocl.uml.OperationCallExp;
 import org.eclipse.uml2.uml.Classifier;
@@ -28,6 +29,8 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.OJWhileStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.utilities.JavaPathNames;
 import org.opaeum.javageneration.util.OJUtil;
 
@@ -96,8 +99,7 @@ public class CollectionOperCallCreator{
 			}else if(referedOp.getName().equals("intersection")){
 				result = buildIntersection(exp, source, args, isStatic, params);
 			}else if(referedOp.getName().equals("last")){
-				// TODO last werkt niet goed!
-				return makeGet(exp, source, "0", source + ".size()-1");
+				return makeGet(exp, source, "0", "source.size()-1");
 			}else if(referedOp.getName().equals("prepend")){
 				result = buildPrepend(exp, source, args, isStatic, params);
 			}else if(referedOp.getName().equals("subOrderedSet")){
@@ -162,36 +164,26 @@ public class CollectionOperCallCreator{
 		myClass.addToImports(OclUtilityCreator.getStdlibPath());
 		return "Stdlib." + operName + "(" + source + ", " + args.get(0) + ")";
 	}
-	private String makeGet(OperationCallExp exp,String source,String collSize,String index){
-		Classifier elementType = exp.getSource().getType();
-		String myType;
-		String result = source + ".size() > " + collSize + " ?";
-		ClassifierMap elementMap = ojUtil.buildClassifierMap(elementType);
-		if(elementType instanceof PrimitiveType){
-			myType = elementMap.javaObjectType();
-			myClass.addToImports(elementMap.javaObjectTypePath());
-			if(myType.equals(StdlibMap.javaIntegerObjectType.getLast())){
-				result = result + "((" + myType + ")" + source + ".get( " + index + " )).intValue()";
-			}else if(myType.equals(StdlibMap.javaBooleanObjectType.getLast())){
-				result = result + "((" + myType + ")" + source + ".get( " + index + " )).booleanValue()";
-			}else if(myType.equals(StdlibMap.javaRealObjectType.getLast())){
-				result = result + "((" + myType + ")" + source + ".get( " + index + " )).floatValue()";
-			}else{
-				result = result + "((" + myType + ")" + source + ".get( " + index + " ))";
-			}
-		}else{
-			myType = elementMap.javaType();
-			myClass.addToImports(elementMap.javaTypePath());
-			result = result + "((" + myType + ")" + source + ".get( " + index + " ))";
-		}
-		return result + " : " + elementMap.javaDefaultValue();
+	private String makeGet(OperationCallExp exp,String source,String minSize, String index){
+		CollectionType elementType = (CollectionType) exp.getSource().getType();
+		ClassifierMap elementMap = ojUtil.buildClassifierMap(elementType.getElementType());
+		ClassifierMap collectionMap = ojUtil.buildClassifierMap(elementType);
+		OJAnnotatedOperation getAtIndex = new OJAnnotatedOperation("getAtIndex" + myClass.getUniqueNumber(),collectionMap.javaElementTypePath());
+		myClass.addToOperations(getAtIndex);
+		getAtIndex.setVisibility(OJVisibilityKind.PRIVATE);
+		getAtIndex.addParam("source", collectionMap.javaTypePath());
+		getAtIndex.initializeResultVariable(elementMap.javaDefaultValue());
+		OJIfStatement ifInSize=new OJIfStatement("source.size()>" + minSize, "result=source.get("+index+")");
+		getAtIndex.getBody().addToStatements(ifInSize);
+		return getAtIndex.getName()+"(" + source + ")";
+				
 	}
 	// make copy of source => no side effects allowed
 	private String makeCopyOfSource(OperationCallExp exp,String source){
 		Classifier sourceType = exp.getSource().getType();
 		ClassifierMap sourceMap = ojUtil.buildClassifierMap(sourceType);
 		OJPathName implType = sourceMap.javaDefaultTypePath();
-		source = "new " + implType.getCollectionTypeName() + "(" + source + ")";
+		source = "new " + implType.getTypeNameWithTypeArguments() + "(" + source + ")";
 		myClass.addToImports(implType);
 		return source;
 	}
@@ -265,13 +257,6 @@ public class CollectionOperCallCreator{
 		OJOperation oper = null;
 		// make copy of source => no side effects allowed
 		source = makeCopyOfSource(exp, source);
-		/**
-		 * <octel var="myClass"> <method type="%returnTypePath%" name="%operName%" visibility="%OJVisibilityKind.PRIVATE%" static="%isStatic%"
-		 * var="oper"> <paramlist> %params% </paramlist> <comment> implements %exp.toString()% on %exp.getSource().toString()% </comment> <body>
-		 * %returnType% result = %source%; result.removeAll( %argument% ); return result; </body> </method> </octel>
-		 */
-		
-		/* <method> */
 		oper = new OJOperation();
 		myClass.addToOperations(oper);
 		oper.setReturnType(returnTypePath);
@@ -408,14 +393,9 @@ public class CollectionOperCallCreator{
 		return oper.getName() + "(" + OJOperation.paramsToActuals(oper) + ")";
 	}
 	private String buildUnion(OperationCallExp exp,String source,List<String> args,boolean isStatic,List<OJParameter> params){
-		boolean isUnique = exp.getReferredOperation().isUnique();
 		ClassifierMap sourceMap = ojUtil.buildClassifierMap(exp.getType());
-		String returnType = sourceMap.javaType();
-		OJPathName returnTypePath = sourceMap.javaTypePath();
 		// myClass.addToImports(returnTypePath);
-		OJPathName elementTypePath = null;
-		elementTypePath = sourceMap.javaElementDefaultTypePath();
-		myClass.addToImports(elementTypePath);
+		myClass.addToImports(sourceMap.javaElementTypePath());
 		String operName = exp.getReferredOperation().getName() + myClass.getUniqueNumber();
 		String argStr = StringHelpers.addBrackets((String) args.get(0));
 		OJOperation oper = null;
@@ -423,35 +403,32 @@ public class CollectionOperCallCreator{
 		source = makeCopyOfSource(exp, source);
 		oper = new OJOperation();
 		myClass.addToOperations(oper);
-		oper.setReturnType(returnTypePath);
+		oper.setReturnType(sourceMap.javaTypePath());
 		oper.setName(operName);
 		oper.setVisibility(OJVisibilityKind.PRIVATE);
 		oper.setStatic(isStatic);
 		oper.setParameters(params);
 		oper.setComment("implements " + exp.toString() + " on " + exp.getSource().toString());
-		if(!isUnique){
-			OJBlock body9 = new OJBlock();
-			oper.setBody(body9);
-			OJSimpleStatement exp22 = new OJSimpleStatement(returnType + " result = " + source);
-			body9.addToStatements(exp22);
+		if(!exp.getReferredOperation().isUnique()){
+			OJBlock body = new OJBlock();
+			oper.setBody(body);
+			OJSimpleStatement exp22 = new OJSimpleStatement(sourceMap.javaType() + " result = " + source);
+			body.addToStatements(exp22);
 			OJSimpleStatement exp23 = new OJSimpleStatement("result.addAll( " + argStr + " )");
-			body9.addToStatements(exp23);
+			body.addToStatements(exp23);
 			OJSimpleStatement exp24 = new OJSimpleStatement("return result");
-			body9.addToStatements(exp24);
+			body.addToStatements(exp24);
 		}
-		if(isUnique){
+		if(exp.getReferredOperation().isUnique()){
 			OJBlock body10 = new OJBlock();
 			oper.setBody(body10);
-			OJSimpleStatement exp25 = new OJSimpleStatement(returnType + " result = " + source);
+			OJSimpleStatement exp25 = new OJSimpleStatement(sourceMap.javaType() + " result = " + source);
 			body10.addToStatements(exp25);
-			/* <for> */
 			OJForStatement for1 = new OJForStatement();
 			body10.addToStatements(for1);
 			for1.setElemName("elem");
-			for1.setElemType(elementTypePath);
-			/* <collection> */
+			for1.setElemType(sourceMap.javaElementTypePath());
 			for1.setCollection(argStr);
-			/* <collection/> */
 			OJBlock body11 = new OJBlock();
 			for1.setBody(body11);
 			OJIfStatement if2 = new OJIfStatement();
@@ -459,13 +436,8 @@ public class CollectionOperCallCreator{
 			body11.addToStatements(if2);
 			OJBlock then2 = new OJBlock();
 			if2.setThenPart(then2);
-			OJSimpleStatement exp26 = new OJSimpleStatement("result.add(elem)");
-			then2.addToStatements(exp26);
-			/* <then/> */
-			/* <if/> */
-			/* <for/> */
-			OJSimpleStatement exp27 = new OJSimpleStatement("return result");
-			body10.addToStatements(exp27);
+			then2.addToStatements("result.add(elem)");
+			body10.addToStatements("return result");
 		}
 		// generate call to new oper
 		return oper.getName() + "(" + OJOperation.paramsToActuals(oper) + ")";
@@ -708,7 +680,6 @@ public class CollectionOperCallCreator{
 		 * </paramlist> <body> int result = 0; <for name="elem" type="%myType%"> <collection>%source%</collection> <body> <if> elem.equals(
 		 * %argStr% ) <then> result = result + 1; </then></if> </body></for> return result; </body> </method> </octel>
 		 */
-		
 		/* <method> */
 		oper = new OJOperation();
 		myClass.addToOperations(oper);

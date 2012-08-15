@@ -57,27 +57,6 @@ public class EmfClassifierUtil{
 	public static void setClassRegistry(Map<String,java.lang.Class<?>> reg){
 		classRegistry = reg;
 	}
-	public static CodeGenerationStrategy getCodeGenerationStrategy(NamedElement c){
-		CodeGenerationStrategy codeGenerationStrategy = CodeGenerationStrategy.ALL;
-		if(c instanceof Classifier){
-			Classifier cl = (Classifier) c;
-			String s = (String) getTagValue(cl, TagNames.MAPPED_IMPLEMENTATION_TYPE);
-			if(s != null){
-				codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
-			}
-			//TODO this bit is obsolete
-			EEnumLiteral l = (EEnumLiteral) getTagValue(cl, TagNames.CODE_GENERATION_STRATEGY);
-			if(l != null){
-				codeGenerationStrategy = Enum.valueOf(CodeGenerationStrategy.class, l.getName().toUpperCase());
-			}
-			if(Boolean.TRUE.equals(getTagValue(cl, "generateAbstractSupertype"))){
-				codeGenerationStrategy=CodeGenerationStrategy.ABSTRACT_SUPERTYPE_ONLY;
-			}
-		}else if(c instanceof Package && EmfPackageUtil.hasMappedImplementationPackage((Package) c)){
-			codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
-		}
-		return codeGenerationStrategy;
-	}
 	public static boolean hasMappedImplementationType(Classifier classifier){
 		String mit = getMappedImplementationType(classifier);
 		return mit != null && mit.trim().length() > 0;
@@ -92,7 +71,7 @@ public class EmfClassifierUtil{
 	public static String getMappedImplementationType(Classifier classifier){
 		return (String) getTagValue(classifier, TagNames.MAPPED_IMPLEMENTATION_TYPE);
 	}
-	private static Object getTagValue(Classifier dt,String mappedImplementationType){
+	public static Object getTagValue(Classifier dt,String mappedImplementationType){
 		EList<Stereotype> appliedStereotypes = dt.getAppliedStereotypes();
 		for(Stereotype st:appliedStereotypes){
 			if(st.getDefinition().getEStructuralFeature(mappedImplementationType) != null){
@@ -149,14 +128,30 @@ public class EmfClassifierUtil{
 	}
 	public static Classifier findCommonSuperType(Classifier from,Classifier to){
 		Classifier result = null;
-		if(from.conformsTo(to)){
+		if(conformsTo(from, to)){
 			result = to;
-		}else if(to.conformsTo(from)){
+		}else if(conformsTo(to, from)){
 			result = from;
 		}
 		if(result == null){
 			for(Generalization supr:from.getGeneralizations()){
 				result = findCommonSuperType(supr.getGeneral(), to);
+				if(result != null){
+					break;
+				}
+			}
+		}
+		if(result == null && from instanceof BehavioredClassifier){
+			for(Interface supr:((BehavioredClassifier) from).getImplementedInterfaces()){
+				result = findCommonSuperType(supr, to);
+				if(result != null){
+					break;
+				}
+			}
+		}
+		if(result == null && to instanceof BehavioredClassifier){
+			for(Interface supr:((BehavioredClassifier) to).getImplementedInterfaces()){
+				result = findCommonSuperType(supr, from);
 				if(result != null){
 					break;
 				}
@@ -255,7 +250,7 @@ public class EmfClassifierUtil{
 		return result;
 	}
 	public static boolean isHelper(Type type){
-		return StereotypesHelper.hasKeyword(type, StereotypeNames.HELPER);
+		return StereotypesHelper.hasStereotype(type, StereotypeNames.HELPER);
 	}
 	public static boolean isSchema(Classifier ns){
 		return Boolean.TRUE.equals(getTagValue(ns, TagNames.IS_SCHEMA));
@@ -297,7 +292,8 @@ public class EmfClassifierUtil{
 			}
 		}else{
 			return type instanceof Class || type instanceof Actor || EmfClassifierUtil.isBusinessCollaboration(type)
-					|| (type instanceof Association && EmfAssociationUtil.isClass((Association) type)) || EmfClassifierUtil.isStructuredDataType(type);
+					|| (type instanceof Association && EmfAssociationUtil.isClass((Association) type))
+					|| EmfClassifierUtil.isStructuredDataType(type);
 		}
 	}
 	public static boolean isComplexStructure(Type type){
@@ -394,10 +390,10 @@ public class EmfClassifierUtil{
 		}
 		return c.eClass().getName();
 	}
-	public static <T extends Classifier> T getRootClass(T classifier){
+	public static <T extends Classifier>T getRootClass(T classifier){
 		for(Classifier c:classifier.getGenerals()){
 			if(classifier.eClass().isInstance(c)){
-				return getRootClass((T)c);
+				return getRootClass((T) c);
 			}
 		}
 		return classifier;

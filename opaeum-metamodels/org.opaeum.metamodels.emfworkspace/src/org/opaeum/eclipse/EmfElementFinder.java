@@ -239,10 +239,11 @@ public class EmfElementFinder{
 	}
 	// TODO rename to getEffectiveProperties
 	public static List<Property> getPropertiesInScope(Classifier c){
+		System.out.println();
 		List<Property> result = new ArrayList<Property>(c.getAttributes());
 		for(Association a:c.getAssociations()){
 			for(Property end:a.getMemberEnds()){
-				if(end.getOtherEnd().getType().equals(c) && end.isNavigable()){
+				if(end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner()==a){
 					result.add(end);
 				}
 			}
@@ -277,7 +278,6 @@ public class EmfElementFinder{
 		}else if(s instanceof Event){
 			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s;
 			ECrossReferenceAdapter cra = ECrossReferenceAdapter.getCrossReferenceAdapter(s);
-			Collection<Setting> nonNavigableInverseReferences = cra.getNonNavigableInverseReferences(event);
 			// Contained by an annotation inside another element?
 			if(event.eContainer() instanceof EAnnotation){
 				// Skip event AND annotation straight to the containing element
@@ -294,7 +294,12 @@ public class EmfElementFinder{
 					}
 				}
 			}
-			return null;
+			for(Setting setting:cra.getNonNavigableInverseReferences(event)){
+				if(setting.getEObject() instanceof Trigger){
+					return setting.getEObject();
+				}
+			}
+			return event.getOwner();
 			// throw new IllegalStateException("No context could be found for Event:" + event.getQualifiedName());
 		}else if(s.eContainer() instanceof EAnnotation){
 			return ((EAnnotation) s.eContainer()).getEModelElement();

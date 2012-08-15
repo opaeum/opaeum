@@ -1,7 +1,7 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityParameterNode;
@@ -31,7 +31,7 @@ public class ParameterNodeImplementor extends SimpleNodeBuilder<ActivityParamete
 			String call = super.expressor.expressInputPinOrOutParamOrExpansionNode(block, node);
 			String pathToActivity = getPathToActivity();
 			if(node.getParameter().getDirection()==ParameterDirectionKind.RETURN_LITERAL){
-				StructuralFeatureMap resultMap;
+				PropertyMap resultMap;
 				if(EmfBehaviorUtil.getLinkedParameter( node.getParameter()) == null){
 					resultMap = ojUtil.buildStructuralFeatureMap(node.getParameter());
 				}else{

@@ -54,7 +54,7 @@ public class GeneratorGenerator extends AbstractJavaProducingVisitor implements 
 	private void addGetSteps(OJAnnotatedClass c,OJPathName setOfSteps,Set<Class<? extends ITransformationStep>> set,String operNAme){
 		OJAnnotatedOperation getSteps = new OJAnnotatedOperation(operNAme, setOfSteps);
 		c.addToOperations(getSteps);
-		StringBuffer sb = new StringBuffer("return toSet(");
+		StringBuilder sb = new StringBuilder("return toSet(");
 		for(Class<? extends ITransformationStep> class1:set){
 			sb.append(class1.getName() + ".class,");
 		}
@@ -77,7 +77,7 @@ public class GeneratorGenerator extends AbstractJavaProducingVisitor implements 
 		OJBlock block2 = new OJBlock();
 		oper.getBody().addToStatements(block2);
 		OJAnnotatedField instance = new OJAnnotatedField("instance", c.getPathName());
-		StringBuffer str = new StringBuffer("new " + c.getName() + "(");
+		StringBuilder str = new StringBuilder("new " + c.getName() + "(");
 		str.append("workspaceFile.getAbsolutePath() +\"/");
 		str.append(workspace.getIdentifier());
 		str.append("\",workspaceFile.getAbsolutePath()+\"");

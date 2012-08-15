@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -164,7 +164,7 @@ public class JpaUtil{
 		entity.putAttribute(new OJAnnotationAttributeValue("name", ojClass.getName()));
 		ojClass.addAnnotationIfNew(entity);
 	}
-	public static void addJoinTable(Classifier umlOwner,StructuralFeatureMap map,OJAnnotatedField field,OpaeumConfig config){
+	public static void addJoinTable(Classifier umlOwner,PropertyMap map,OJAnnotatedField field,OpaeumConfig config){
 		// ManyToMany or non-navigable XToMany
 		Property f = map.getProperty();
 		String tableName = calculateTableName(umlOwner, f);
@@ -177,7 +177,7 @@ public class JpaUtil{
 		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
 		joinColumn.putAttribute(new OJAnnotationAttributeValue("name", keyToParentTable));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("joinColumns", joinColumn));
-		if(map.isOneToMany() && !(map.getProperty().getType() instanceof Interface)){
+		if(map.isOneToMany() && !(map.getBaseType() instanceof Interface)){
 			// NB!!! unique==true messes the manyToAny mapping up
 			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("unique", Boolean.TRUE));
 			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
@@ -212,11 +212,11 @@ public class JpaUtil{
 	public static void addNamedQueryForUniquenessConstraints(OJAnnotatedClass ojClass,Class entity,OJUtil ojUtil){
 		for(Property p:EmfPropertyUtil.getUniquenessConstraints(entity)){
 			if(!p.getOtherEnd().getQualifiers().isEmpty()){
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+				PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 				String queryString = "from " + entity.getName() + " a where a." + map.fieldname() + " = :" + map.fieldname();
 				String queryName = "Query" + entity.getName() + "With";
 				for(Property q:p.getOtherEnd().getQualifiers()){
-					StructuralFeatureMap qualifiedMap = ojUtil.buildStructuralFeatureMap(q);
+					PropertyMap qualifiedMap = ojUtil.buildStructuralFeatureMap(q);
 					queryString += " and a." + qualifiedMap.fieldname() + " = :" + qualifiedMap.fieldname();
 					queryName += NameConverter.capitalize(qualifiedMap.fieldname());
 				}
@@ -252,7 +252,7 @@ public class JpaUtil{
 		filter.putAttribute("name", "noDeletedObjects");
 		return filter;
 	}
-	public static String generateIndexColumnName(StructuralFeatureMap map,String prefix){
+	public static String generateIndexColumnName(PropertyMap map,String prefix){
 		String columnName;
 		if(map.isManyToMany()){
 			// simple column name - no requirement for uniqueness

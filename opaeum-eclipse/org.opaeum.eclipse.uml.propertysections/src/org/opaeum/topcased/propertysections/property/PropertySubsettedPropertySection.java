@@ -1,5 +1,6 @@
 package org.opaeum.topcased.propertysections.property;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -8,10 +9,6 @@ import org.opaeum.topcased.propertysections.base.AbstractPropertyLookupSection;
 
 public class PropertySubsettedPropertySection extends AbstractPropertyLookupSection{
 
-	@Override
-	protected Object getListValues(){
-		return getProperty().getSubsettedProperties();
-	}
 
 	@Override
 	protected EStructuralFeature getFeature(){
@@ -25,6 +22,10 @@ public class PropertySubsettedPropertySection extends AbstractPropertyLookupSect
 
 	@Override
 	protected String getLabelText(){
-		return "Subsetted types";
+		return "Subsetted Properties";
+	}
+	@Override
+	protected EObject getFeatureOwner(EObject e){
+		return e;
 	}
 }

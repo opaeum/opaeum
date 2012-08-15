@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
@@ -69,14 +69,14 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 					OJAnnotatedOperation oper = operationAnnotator.findOrCreateOperation(activity, activityClass, map, true);
 					OJBlock mainBlock = oper.getBody();
 					if(EmfBehaviorUtil.hasExecutionInstance(no)){
-						StructuralFeatureMap actionMap = ojUtil.buildStructuralFeatureMap(acc);
+						PropertyMap actionMap = ojUtil.buildStructuralFeatureMap(acc);
 						final String EXECUTE_STATEMENT = "executeStatement";
 						oper.getBody().removeFromStatements(oper.getBody().findStatementRecursive(EXECUTE_STATEMENT));
 						mainBlock.addToStatements(actionMap.setter() + "(result)");
 					}else{
 						for(OutputPin pin:acc.getResults()){
-							StructuralFeatureMap pinMap = ojUtil.buildStructuralFeatureMap(pin);
-							StructuralFeatureMap parameterMap = ojUtil.buildStructuralFeatureMap(EmfActionUtil.getLinkedTypedElement(pin));
+							PropertyMap pinMap = ojUtil.buildStructuralFeatureMap(pin);
+							PropertyMap parameterMap = ojUtil.buildStructuralFeatureMap(EmfActionUtil.getLinkedTypedElement(pin));
 							mainBlock.addToStatements(pinMap.setter() + "(" + parameterMap.fieldname() + ")");
 						}
 					}
@@ -122,7 +122,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		// TODO implement validation
 		for(ActivityEdge edge:EmfActivityUtil.getDefaultOutgoing(node)){
 			if(edge.getSource() instanceof OutputPin){
-				StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap((OutputPin) edge.getSource());
+				PropertyMap map = ojUtil.buildStructuralFeatureMap((OutputPin) edge.getSource());
 				if(edge.getWeight() != null){
 					if(map.isCollection()){
 						Classifier integerType = getLibrary().getIntegerType();
@@ -153,7 +153,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(ojUtil);
 		for(int i = 0;i < result.size();i++){
 			OutputPin argument = result.get(i);
-			StructuralFeatureMap pinMap = ojUtil.buildStructuralFeatureMap(argument);
+			PropertyMap pinMap = ojUtil.buildStructuralFeatureMap(argument);
 			TypedElement parm = EmfActionUtil.getLinkedTypedElement(argument);
 			if(parm == null){
 				String param = "unknown";
@@ -164,7 +164,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 				}
 				ifTokenFound.getThenPart().addToStatements(expressor.storeResults(pinMap, param, false));
 			}else{
-				StructuralFeatureMap parmMap = ojUtil.buildStructuralFeatureMap(parm);
+				PropertyMap parmMap = ojUtil.buildStructuralFeatureMap(parm);
 				String expression = parmMap.fieldname();
 				if(parm instanceof Property){
 					// signal

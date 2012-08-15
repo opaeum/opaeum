@@ -4,7 +4,7 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
@@ -21,7 +21,7 @@ import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.metamodel.name.NameWrapper;
 
 public class HibernateUtil{
-	public static void addAny(OJAnnotatedField field,StructuralFeatureMap map){
+	public static void addAny(OJAnnotatedField field,PropertyMap map){
 		Property p = map.getProperty();
 		String column = PersistentNameUtil.getPersistentName( p).getAsIs();
 		JpaUtil.addJoinColumn(field, column, false);
@@ -47,7 +47,7 @@ public class HibernateUtil{
 		cascade.putAttribute(value);
 		field.addAnnotationIfNew(cascade);
 	}
-	public static void addManyToAny(Classifier umlOwner,OJAnnotatedField field,StructuralFeatureMap map,OpaeumConfig config){
+	public static void addManyToAny(Classifier umlOwner,OJAnnotatedField field,PropertyMap map,OpaeumConfig config){
 		JpaUtil.addJoinTable(umlOwner, map, field, config);
 		OJAnnotationValue any = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.ManyToAny"));
 		OJAnnotationValue metaColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));

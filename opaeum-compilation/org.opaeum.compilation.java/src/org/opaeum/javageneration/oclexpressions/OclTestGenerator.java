@@ -1,7 +1,7 @@
 package org.opaeum.javageneration.oclexpressions;
 
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -21,6 +21,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
@@ -82,7 +83,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 		if(!entity.isAbstract()){
 			Property endToComposite = getLibrary().getEndToComposite(entity);
 			if(endToComposite != null && !((Classifier) endToComposite.getType()).isAbstract()){
-				StructuralFeatureMap compositeEndMap = ojUtil.buildStructuralFeatureMap(endToComposite);
+				PropertyMap compositeEndMap = ojUtil.buildStructuralFeatureMap(endToComposite);
 				test.addToImports(compositeEndMap.javaBaseTypePath());
 				OJAnnotatedField compositionalOwner = new OJAnnotatedField("parent", compositeEndMap.javaBaseTypePath());
 				compositionalOwner.setInitExp("new " + compositeEndMap.javaBaseType() + "()");
@@ -95,7 +96,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 							Enumeration en=(Enumeration) endToComposite.getOtherEnd().getQualifiers().get(0).getType();
 							if(en.getOwnedLiterals().size()>0){
 								test.addToImports(ojUtil.classifierPathname(en));
-								object.setInitExp("new " + pn.getLast() + "("+en.getName() +"."+ en.getOwnedLiterals().get(0).getName().toUpperCase() +",parent)");
+								object.setInitExp("new " + pn.getLast() + "("+en.getName() +"."+ OJUtil.toJavaLiteral(en.getOwnedLiterals().get(0)) +",parent)");
 							}
 						}
 					}

@@ -51,7 +51,11 @@ public abstract class AbstractOclContext extends AdapterImpl{
 			this.expressionString = retrieveBody();
 			this.parseException = null;
 			if(expressionString != null && expressionString.length() > 0){
-				this.expression = (OCLExpression) helper.createQuery(expressionString);
+//				if(helper.getEnvironment().getContextOperation() != null){
+//					this.expression = (OCLExpression) helper.createBodyCondition(expressionString);
+//				}else{
+					this.expression = (OCLExpression) helper.createQuery(expressionString);
+//				}
 			}
 		}catch(ParserException e){
 			e.printStackTrace();

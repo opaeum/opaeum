@@ -59,7 +59,7 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement{
 		if(sb.length() > 0){
 			sb.append(' ');
 		}
-		sb.append(getType().getCollectionTypeName());
+		sb.append(getType().getTypeNameWithTypeArguments());
 		sb.append(' ');
 		sb.append(getName());
 		if(getInitExp() != null && !getInitExp().equals("")){

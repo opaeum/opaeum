@@ -2,7 +2,7 @@ package org.nakeduml.tinker.generator;
 
 import java.util.Set;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -22,11 +22,11 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitProperty(Class c) {
-		if (OJUtil.hasOJClass(c)) {
+		if (ojUtil.hasOJClass(c)) {
 			Set<Property> directlyImplementedAttributes = getLibrary().getDirectlyImplementedAttributes( c);
 			for (Property p : directlyImplementedAttributes) {
 				if (p.isNavigable()) {
-					if (OJUtil.hasOJClass((Classifier) p.getAssociation())) {
+					if (ojUtil.hasOJClass((Classifier) p.getAssociation())) {
 						// visitAssociationClassProperty(c, new
 						// AssociationClassEndMap(p));
 					} else {
@@ -37,7 +37,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 		}
 	}
 
-	private void visitProperty(Class c, StructuralFeatureMap map) {
+	private void visitProperty(Class c, PropertyMap map) {
 		if (!map.getProperty().isDerived() && map.isMany()) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			for (OJConstructor constructor : ojClass.getConstructors()) {
@@ -78,7 +78,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 				collectionPathName.addToElementTypes(map.javaBaseTypePath());
 
 				OJSimpleStatement initCollection;
-				OJSimpleStatement ojSimpleStatement = initCollection = new OJSimpleStatement(map.umlName() + " = new " + collectionPathName.getCollectionTypeName() + "(this, \""
+				OJSimpleStatement ojSimpleStatement = initCollection = new OJSimpleStatement(map.umlName() + " = new " + collectionPathName.getTypeNameWithTypeArguments() + "(this, \""
 						+ TinkerGenerationUtil.getEdgeName(map) + "\"");
 				if (map.getProperty().getQualifiers().isEmpty() && map.getProperty().isOrdered()) {
 					ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", getUid()");

@@ -3,6 +3,7 @@ package org.opaeum.simulation;
 import org.apache.commons.math3.distribution.AbstractIntegerDistribution;
 
 public class FixedDistribution extends AbstractIntegerDistribution{
+	private static final long serialVersionUID = 9066081230255679319L;
 	int value =0;
 	public FixedDistribution(int value){
 		super();

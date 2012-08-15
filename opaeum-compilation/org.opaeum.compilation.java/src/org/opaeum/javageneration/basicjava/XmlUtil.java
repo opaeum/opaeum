@@ -1,12 +1,13 @@
 package org.opaeum.javageneration.basicjava;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
+import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.emulated.AssociationClassToEnd;
@@ -14,10 +15,10 @@ import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.javageneration.util.OJUtil;
 
 public class XmlUtil{
-	public static boolean isXmlAttribute(StructuralFeatureMap map){
+	public static boolean isXmlAttribute(PropertyMap map){
 		return (EmfClassifierUtil.isSimpleType(map.getBaseType()) || map.getBaseType() instanceof Enumeration) && !(OJUtil.isBuiltIn(map.getProperty()) || map.getProperty().isDerived());
 	}
-	public static boolean isXmlSubElement(StructuralFeatureMap map){
+	public static boolean isXmlSubElement(PropertyMap map){
 		if(isXmlElement(map)){
 			if( map.getProperty() instanceof EndToAssociationClass){
 				return ((EndToAssociationClass) map.getProperty()).getIndexInAssocation() == 0;
@@ -34,7 +35,7 @@ public class XmlUtil{
 	private static boolean isPersistent(Type nakedBaseType){
 		return EmfClassifierUtil.isComplexStructure(nakedBaseType) && EmfClassifierUtil.isPersistent(nakedBaseType);
 	}
-	public static boolean isXmlReference(StructuralFeatureMap map){
+	public static boolean isXmlReference(PropertyMap map){
 		if(isXmlElement(map)){
 			Property f=map.getProperty();
 			if(f instanceof EndToAssociationClass){
@@ -46,9 +47,9 @@ public class XmlUtil{
 			return false;
 		}
 	}
-	private static boolean isXmlElement(StructuralFeatureMap map){
+	private static boolean isXmlElement(PropertyMap map){
 		Property f=map.getProperty();
-		boolean realizedThroughAssocationClass = OJUtil.hasOJClass((Classifier) f.getAssociation());
+		boolean realizedThroughAssocationClass = EmfAssociationUtil.isClass(f.getAssociation());
 		boolean classIsElement = isPersistent(map.getBaseType()) || (map.getBaseType() instanceof Interface && !(EmfClassifierUtil.isHelper(map.getBaseType())));
 		return classIsElement && !(f.isDerived() || isContainmentFeature(f) || realizedThroughAssocationClass);
 	}

@@ -8,6 +8,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 
 @Entity
 public class UnauditedObject implements IPersistentObject{
+	private static final long serialVersionUID = 2695909610108474592L;
 	@Id
 	@GeneratedValue
 	Long id;

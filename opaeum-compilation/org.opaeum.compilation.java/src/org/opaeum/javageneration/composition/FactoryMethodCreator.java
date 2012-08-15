@@ -2,8 +2,7 @@ package org.opaeum.javageneration.composition;
 
 import java.util.Iterator;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
@@ -18,7 +17,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
 /**
@@ -31,10 +29,10 @@ import org.opaeum.name.NameConverter;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class})
 public class FactoryMethodCreator extends AbstractStructureVisitor{
 	private void createFactoryMethod(Property pw,OJClass owner){
-		StructuralFeatureMap map=ojUtil.buildStructuralFeatureMap(pw);
+		PropertyMap map=ojUtil.buildStructuralFeatureMap(pw);
 		Iterator<OJOperation> ops = owner.getOperations().iterator();
 		OJOperation creator = null;
-		String createOperName = "create" + NameConverter.capitalize(pw.getName());
+		String createOperName = "create" + NameConverter.capitalize(NameConverter.toJavaVariableName(pw.getName()));
 		while(ops.hasNext()){
 			OJOperation op = (OJOperation) ops.next();
 			if(op.getParameters().size() == pw.getQualifiers().size() && op.getName().equals(createOperName)){
@@ -46,7 +44,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 			creator = new OJAnnotatedOperation(createOperName);
 			owner.addToOperations(creator);
 			for(Property p:pw.getQualifiers()){
-				StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
+				PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 				creator.addParam(m.fieldname(), m.javaTypePath());
 			}
 		}
@@ -54,7 +52,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		OJBlock body = new OJBlock();
 		body.addToStatements(map.javaBaseType()+ " newInstance= new " + map.javaBaseType() + "()");
 		for(Property p:pw.getQualifiers()){
-			StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
+			PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 			body.addToStatements("newInstance." + m.setter() + "(" + m.fieldname() + ")");
 		}
 		// if(pw.getOtherEnd() != null && pw.getOtherEnd().isNavigable()){
@@ -72,7 +70,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		creator.setBody(body);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap map){
+	protected void visitProperty(Classifier owner,PropertyMap map){
 		Property aw = map.getProperty();
 		OJAnnotatedClass myOwner = findJavaClass(owner);
 		if(!aw.isDerived() && isPersistent(map.getBaseType()) && aw.isComposite() && !((Classifier) map.getBaseType()).isAbstract()){
@@ -81,7 +79,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
-		if(OJUtil.hasOJClass(umlOwner)){
+		if(ojUtil.hasOJClass(umlOwner)){
 			for(Property p:getLibrary().getEffectiveAttributes(umlOwner)){
 				if(p.getOwner() instanceof Interface){
 					visitProperty(umlOwner, ojUtil.buildStructuralFeatureMap(p));

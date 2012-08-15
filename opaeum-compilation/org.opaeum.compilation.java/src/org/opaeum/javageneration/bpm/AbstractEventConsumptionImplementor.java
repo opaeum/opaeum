@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -109,9 +109,9 @@ public abstract class AbstractEventConsumptionImplementor extends AbstractJavaPr
 			OJAnnotatedClass ojContext,IMessageMap map1){
 		OJOperation consumer = operationAnnotator.findOrCreateEventConsumer(context, ojContext, map1);
 		OJStatement statement;
-		StructuralFeatureMap mapToBehavior = ojUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite(behavior).getOtherEnd());
+		PropertyMap mapToBehavior = ojUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite(behavior).getOtherEnd());
 		if(EmfBehaviorUtil.isClassifierBehavior(behavior)){
-			statement = new OJSimpleStatement("getClassifierBehavior()." + callToEventConsumer(map1, consumer));
+			statement = new OJSimpleStatement(mapToBehavior.getter() +"()."+ callToEventConsumer(map1, consumer));
 		}else{
 			OJIfStatement ifNotConsumed = new OJIfStatement("!result");
 			OJForStatement forEach = new OJForStatement("behavior", mapToBehavior.javaBaseTypePath(), mapToBehavior.getter() + "()");
@@ -123,7 +123,7 @@ public abstract class AbstractEventConsumptionImplementor extends AbstractJavaPr
 			ifConsumedNow.getThenPart().addToStatements("break");
 			statement = ifNotConsumed;
 		}
-		consumer.getBody().addToStatements(consumer.getBody().getStatements().size() - 1, statement);
+		consumer.getBody().addToStatements(statement);
 	}
 	private String callToEventConsumer(IMessageMap map,OJOperation ojOperation){
 		StringBuilder statement = new StringBuilder(map.eventConsumerMethodName());

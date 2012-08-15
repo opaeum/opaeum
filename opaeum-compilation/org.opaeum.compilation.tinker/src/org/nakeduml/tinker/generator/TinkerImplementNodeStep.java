@@ -2,7 +2,7 @@ package org.nakeduml.tinker.generator;
 
 import java.util.Collections;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -31,7 +31,7 @@ import org.opaeum.javageneration.util.OJUtil;
 public class TinkerImplementNodeStep extends StereotypeAnnotator{
 	@VisitAfter(matchSubclasses = true)
 	public void visitSignal(Signal c){
-		if(OJUtil.hasOJClass(c)){
+		if(ojUtil.hasOJClass(c)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			ojClass.addToImports(TinkerGenerationUtil.graphDbPathName);
 			ojClass.addToImports(TinkerGenerationUtil.edgePathName);
@@ -52,7 +52,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(Classifier c){
-		if(OJUtil.hasOJClass(c) && EmfClassifierUtil.isComplexStructure(c) && !(c instanceof Interface)){
+		if(ojUtil.hasOJClass(c) && EmfClassifierUtil.isComplexStructure(c) && !(c instanceof Interface)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			ojClass.addToImports(TinkerGenerationUtil.graphDbPathName);
 			ojClass.addToImports(TinkerGenerationUtil.edgePathName);
@@ -153,7 +153,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator{
 				.add(0, new OJSimpleStatement("super( " + TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_PARAM_NAME + " )"));
 	}
 	private void addInitVertexToConstructorWithOwningObject(OJAnnotatedClass ojClass,Classifier c){
-		StructuralFeatureMap compositeEndMap = ojUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite(c));
+		PropertyMap compositeEndMap = ojUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite(c));
 		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
 		if(c.getGeneralizations().isEmpty()){
 			constructor

@@ -2,7 +2,7 @@ package org.opaeum.javageneration.basicjava;
 
 import java.util.Set;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.Action;
@@ -29,6 +29,7 @@ import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.feature.visit.VisitBefore;
@@ -43,13 +44,12 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	protected boolean ignoreDeletedElements(){
 		return true;
 	}
-	protected abstract void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap);
+	protected abstract void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap);
 	protected abstract void visitComplexStructure(Classifier umlOwner);
 	@VisitBefore(matchSubclasses = true,match = {Class.class,DataType.class,Association.class,Signal.class,Component.class,Enumeration.class,
 			Behavior.class,Actor.class,Collaboration.class})
 	public void visitFeaturesOf(Classifier c){
-
-		if(OJUtil.hasOJClass(c) || (EmfElementUtil.isMarkedForDeletion(c) && !ignoreDeletedElements())){
+		if(ojUtil.hasOJClass(c) || (EmfElementUtil.isMarkedForDeletion(c) && !ignoreDeletedElements())){
 			if(EmfClassifierUtil.isComplexStructure(c)){
 				visitComplexStructure((Classifier) c);
 				if(c instanceof Behavior){
@@ -65,10 +65,10 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			Set<Property> directlyImplementedAttributes = getLibrary().getDirectlyImplementedAttributes(c);
 			for(Property p:directlyImplementedAttributes){
 				if(p.isNavigable()){
-					if( OJUtil.hasOJClass((Classifier) p.getAssociation())){
+					if( ojUtil.hasOJClass((Classifier) p.getAssociation())){
 						visitAssociationClassProperty(c, new AssociationClassEndMap(ojUtil, p));
 					}else{
-						StructuralFeatureMap buildStructuralFeatureMap = ojUtil.buildStructuralFeatureMap(p);
+						PropertyMap buildStructuralFeatureMap = ojUtil.buildStructuralFeatureMap(p);
 						visitProperty(c, buildStructuralFeatureMap);
 					}
 				}
@@ -133,6 +133,6 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		}
 	}
 	protected final boolean isMap(Property property){
-		return property.getQualifiers().size() > 0 && (property.getName().equals("updateChangeLog") || !config.shouldBeCm1Compatible());
+		return property.getQualifiers().size() > 0 && (property.getName().equals("updateChangeLog") || !getCurrentRootObject().getName().equals("com"));
 	}
 }

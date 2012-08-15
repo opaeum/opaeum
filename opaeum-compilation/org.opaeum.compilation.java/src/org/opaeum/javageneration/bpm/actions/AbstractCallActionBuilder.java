@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.CallAction;
@@ -83,7 +83,7 @@ public abstract class AbstractCallActionBuilder<T extends CallAction> extends Po
 			}
 			for(Parameter ex:exceptionParameters){
 				OJAnnotatedOperation onException = findOrCreateExceptionListener(owner, map, ex, false);
-				StructuralFeatureMap exceptionMap = ojUtil.buildStructuralFeatureMap(ex);
+				PropertyMap exceptionMap = ojUtil.buildStructuralFeatureMap(ex);
 				OJIfStatement ifAtNode = (OJIfStatement) onException.getBody().findStatement(IF_TOKEN_FOUND);
 				ifAtNode.getThenPart().addToStatements("propagateException(failedProcess." + exceptionMap.getter() + "())");
 			}

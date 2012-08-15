@@ -148,7 +148,7 @@ public class GridPanelImpl extends CollapsiblePanelImpl implements GridPanel {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (numberOfColumns: ");
 		result.append(numberOfColumns);
 		result.append(')');

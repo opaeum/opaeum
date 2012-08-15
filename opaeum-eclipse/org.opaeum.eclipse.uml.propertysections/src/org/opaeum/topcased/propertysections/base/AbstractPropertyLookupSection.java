@@ -21,11 +21,8 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferenceLoo
 	public boolean shouldUseExtraSpace(){
 		return false;
 	}
-	protected Property getProperty(){
-		return (Property) getEObject();
-	}
 	protected List<EObject> getAvailableChoices(){
-		Property p = (Property) getProperty();
+		Property p=(Property) getFeatureOwner(getEObject());
 		List<EObject> choiceOfValues = new ArrayList<EObject>();
 		if(p.eContainer() instanceof Classifier && p.eContainer() != p.getAssociation()){
 			choiceOfValues.addAll(EmfElementFinder.getPropertiesInScope((Classifier) p.eContainer()));

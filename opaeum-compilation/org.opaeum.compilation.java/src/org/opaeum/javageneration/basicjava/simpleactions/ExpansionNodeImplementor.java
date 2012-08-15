@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ObjectNode;
@@ -20,7 +20,7 @@ public class ExpansionNodeImplementor extends SimpleNodeBuilder<ExpansionNode>{
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		if(node.getRegionAsOutput()!=null){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(node);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(node);
 			// expressor.maybeBuildResultVariable(operation, block, map);
 			ObjectNode feedingNode = EmfActivityUtil.getFeedingNode( node);
 			if(feedingNode !=null){

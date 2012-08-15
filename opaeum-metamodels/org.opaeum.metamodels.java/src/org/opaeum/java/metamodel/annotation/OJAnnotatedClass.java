@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import java.util.TreeSet;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
-import org.opaeum.java.metamodel.OJElement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJParameter;
@@ -95,9 +93,6 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	public String toJavaString(){
 		calcImports();
 		StringBuilder classInfo = new StringBuilder();
-		if(getMyPackage()==null){
-			System.out.println();
-		}
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());
@@ -126,7 +121,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 			}
 		}
 		if(getSuperclass() != null){
-			classInfo.append(" extends " + getSuperclass().getLast());
+			classInfo.append(" extends " + getSuperclass().getTypeNameWithTypeArguments());
 		}
 		classInfo.append(implementedInterfaces());
 		classInfo.append(" {\n");
@@ -231,7 +226,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	}
 	public String toAbstractSuperclassJavaString(){
 		String concreteName = getName();
-		String oldName = f_name;
+		String oldName = name;
 		setName(oldName + "Generated");
 		String result = toJavaString();
 		result = result.replaceAll("[\\(]this[\\)]", "((" + concreteName + ")this)");
@@ -262,7 +257,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		if(suffix == null){
 			classInfo.append(" extends " + this.getName() + "Generated");
 		}else{
-			classInfo.append(" extends " + f_name + "Generated" + suffix);
+			classInfo.append(" extends " + name + "Generated" + suffix);
 		}
 		classInfo.append(" {\n");
 		final Set<OJConstructor> constructors = getConstructors();

@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.RemoveStructuralFeatureValueAction;
@@ -19,11 +19,11 @@ public class StructuralFeatureValueRemover extends SimpleNodeBuilder<RemoveStruc
 		String valuePinField = readPin(operation, block, node.getValue());
 		ActionMap actionMap = ojUtil.buildActionMap(node);
 		OJBlock forEach = buildLoopThroughTarget(operation, block, actionMap);
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
+		PropertyMap map = ojUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
 		if(map.isOne()){
 			forEach.addToStatements(actionMap.targetName() + "." + map.setter() + "(" + valuePinField + ")");
 		}else{
-			StructuralFeatureMap valueMap=ojUtil.buildStructuralFeatureMap(node.getValue());
+			PropertyMap valueMap=ojUtil.buildStructuralFeatureMap(node.getValue());
 			if(valueMap.isOne()){
 				forEach.addToStatements(actionMap.targetName() + "." + map.remover() + "(" + valuePinField + ")");
 			}else{

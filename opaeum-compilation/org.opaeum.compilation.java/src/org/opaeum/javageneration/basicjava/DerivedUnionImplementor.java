@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
@@ -19,7 +19,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 	protected int getThreadPoolSize(){
 		return 1;// Does work across multiple models
 	}
-	public void visitProperty(Classifier owner,StructuralFeatureMap map){
+	public void visitProperty(Classifier owner,PropertyMap map){
 		Property p = map.getProperty();
 		if(p.isNavigable()){
 			OJClass c = findJavaClass(owner);
@@ -28,7 +28,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private OJAnnotatedOperation findOrCreateDerivedUnionGetter(Classifier owner,StructuralFeatureMap derivedUnionMap,OJClass c){
+	private OJAnnotatedOperation findOrCreateDerivedUnionGetter(Classifier owner,PropertyMap derivedUnionMap,OJClass c){
 		// just a default implementation so that all subclasses are not required
 		// to implement it. Remember this getter may have been implemented in the superclass only.
 		OJAnnotatedOperation getter = (OJAnnotatedOperation) c.getUniqueOperation(derivedUnionMap.getter());
@@ -48,8 +48,8 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 		}
 		return getter;
 	}
-	private void addSubsetToUnion(Classifier owner,StructuralFeatureMap subsettingMap,OJClass c,Property derivedUnion){
-		StructuralFeatureMap derivedUnionMap = ojUtil.buildStructuralFeatureMap(derivedUnion);
+	private void addSubsetToUnion(Classifier owner,PropertyMap subsettingMap,OJClass c,Property derivedUnion){
+		PropertyMap derivedUnionMap = ojUtil.buildStructuralFeatureMap(derivedUnion);
 		if(!isNormalPropertyOverride(subsettingMap, derivedUnionMap)){
 			OJAnnotatedOperation sgetter = findOrCreateDerivedUnionGetter(owner, derivedUnionMap, c);
 			// TODO when property override occurs on a many property, the getter needs to be changed
@@ -74,17 +74,17 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	protected boolean isNormalPropertyOverride(StructuralFeatureMap subsettingMap,StructuralFeatureMap derivedUnionMap){
+	protected boolean isNormalPropertyOverride(PropertyMap subsettingMap,PropertyMap derivedUnionMap){
 		return(subsettingMap.getter().equals(derivedUnionMap.getter()) && subsettingMap.isOne() && derivedUnionMap.isOne());
 	}
-	private String buildExpression(StructuralFeatureMap mapOfSubsettingProperty,Property derivedUnionProperty){
+	private String buildExpression(PropertyMap mapOfSubsettingProperty,Property derivedUnionProperty){
 		String expression = "this." + mapOfSubsettingProperty.getter() + "()";
 		if(derivedUnionProperty.getName().equals(mapOfSubsettingProperty.fieldname())){
 			// we need to avoid recursion now
-			if(((Property) mapOfSubsettingProperty.getFeature()).isDerived()){
+			if(mapOfSubsettingProperty.getProperty().isDerived()){
 				// do nothing the derivation rule will apply to the init
 				// expression
-			}else if(((Property) mapOfSubsettingProperty.getFeature()).isDerivedUnion()){
+			}else if( mapOfSubsettingProperty.getProperty().isDerivedUnion()){
 				// TODO leverage the derivation here
 				throw new IllegalStateException("A DerivedUnion subsetting another DerivedUnion must have a different name as the subsetted DerivedUnion");
 			}else{

@@ -10,14 +10,9 @@ Require-Bundle: org.eclipse.ui,
  org.topcased.validation.core,
  org.topcased.modeler,
  org.opaeum.eclipse.core,
- org.opaeum.linkage.core,
- org.opaeum.linkage.emfextraction,
- org.opaeum.linkage.namegeneration,
  org.opaeum.linkage.validation,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.metamodels.java,
- org.opaeum.metamodels.ocl,
- org.opaeum.metamodels.opaeum,
  org.opaeum.transformation.engine
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

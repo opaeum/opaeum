@@ -2,7 +2,7 @@ package org.opaeum.javageneration.hibernate;
 
 import java.util.Collection;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -31,7 +31,7 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(Classifier c){
-		if((isPersistent(c) /* || c instanceof Interface */) && OJUtil.hasOJClass(c)){
+		if((isPersistent(c) /* || c instanceof Interface */) && ojUtil.hasOJClass(c)){
 			if(ojUtil.requiresJavaRename( c)){
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, new OJPathName(ojUtil.classifierPathname(c) + "PersistenceTest"));
 			}
@@ -71,7 +71,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 			populate.getBody().addToStatements(superType.getLast() + ".populate(instance)");
 		}
 		for(Property f:getLibrary().getEffectiveAttributes(c)){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(f);
 			boolean isReadOnly = (f instanceof Property && (f).isReadOnly());
 			if(f.getOwner() == c || (c instanceof BehavioredClassifier && ((BehavioredClassifier) c).getImplementedInterfaces().contains(f.getOwner()))){
 				// do properties for directly implemented interfaces too.
@@ -165,7 +165,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 			ifResetting.getThenPart().addToStatements(featureTest.getLast() + ".reset()");
 		}
 		for(Property f:c.getAttributes()){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(f);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(f);
 			boolean isReadOnly = (f instanceof Property && (f).isReadOnly());
 			if(map.isOne() && !(f.isDerived() || isReadOnly || EmfPropertyUtil.isInverse(f)) && f.getType() instanceof Class){
 				OJPathName featureTest = new OJPathName(ojUtil.classifierPathname(f.getType()) + "PersistenceTest");
@@ -214,7 +214,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().begin()");
 		testOptionalFields.getBody().addToStatements("instance=getInstance()");
 		for(Property p:getLibrary().getEffectiveAttributes(c)){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 			if(map.isOne() && !(p.isDerived() || p.isReadOnly() || EmfPropertyUtil.isInverse(p)) && !EmfPropertyUtil.isRequired(p)){
 				testOptionalFields.getBody().addToStatements(
 						"instance." + map.setter() + "(" + calculateDefaultValue(test, testOptionalFields.getBody(), p) + ")");
@@ -223,7 +223,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator{
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().commit()");
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().begin()");
 		for(Property p:getLibrary().getEffectiveAttributes(c)){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 			if(map.isOne() && !(p.isDerived() || p.isReadOnly() || EmfPropertyUtil.isInverse(p)) && !EmfPropertyUtil.isRequired(p)){
 				testOptionalFields.getBody().addToStatements("instance." + map.setter() + "(null)");
 			}

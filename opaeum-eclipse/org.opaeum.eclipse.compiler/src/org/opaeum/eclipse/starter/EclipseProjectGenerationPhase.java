@@ -12,10 +12,9 @@ import org.opaeum.feature.PhaseDependency;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.jbpm5.FlowGenerationPhase;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
-@PhaseDependency(after={JavaTransformationPhase.class, FlowGenerationPhase.class, BootstrapGenerationPhase.class})
+@PhaseDependency(after={JavaTransformationPhase.class,  BootstrapGenerationPhase.class})
 public class EclipseProjectGenerationPhase implements TransformationPhase<EclipseProjectGenerationStep,TextOutputNode>{
 	IWorkspaceRoot workspaceRoot;
 	@InputModel

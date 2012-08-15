@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Property;
@@ -18,11 +18,11 @@ public class StructuralFeatureReader extends SimpleNodeBuilder<ReadStructuralFea
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		OutputPin result = node.getResult();
-		StructuralFeatureMap resultMap = ojUtil.buildStructuralFeatureMap(result);
+		PropertyMap resultMap = ojUtil.buildStructuralFeatureMap(result);
 		expressor.buildResultVariable(operation, block, resultMap);
 		ActionMap actionMap = ojUtil.buildActionMap(node);
 		OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
-		StructuralFeatureMap featureMap = ojUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
+		PropertyMap featureMap = ojUtil.buildStructuralFeatureMap((Property) node.getStructuralFeature());
 		String call = actionMap.targetName() + "." + featureMap.getter() + "()";
 		call=expressor.storeResults(resultMap, call, featureMap.isMany());
 		fs.addToStatements(call);

@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.ClearVariableAction;
 import org.opaeum.java.metamodel.OJBlock;
@@ -13,7 +13,7 @@ public class VariableClearer extends SimpleNodeBuilder<ClearVariableAction>{
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(node.getVariable());
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(node.getVariable());
 		if(map.isOne()){
 			block.addToStatements(map.fieldname() + "=null");
 		}else{

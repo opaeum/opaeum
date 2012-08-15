@@ -2,7 +2,7 @@ package org.opaeum.javageneration.oclexpressions;
 
 import java.util.Collections;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
@@ -24,7 +24,7 @@ import org.opaeum.javageneration.basicjava.OperationAnnotator;
 },before = CodeCleanup.class)
 public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap mapper){
+	protected void visitProperty(Classifier owner,PropertyMap mapper){
 		Property attr = mapper.getProperty();
 		ValueSpecification cont = attr.getDefaultValue();
 		if(cont != null){
@@ -47,12 +47,12 @@ public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
 	}
-	private void addDerivationRule(Classifier c,OJClass myClass,StructuralFeatureMap mapper,ValueSpecification vs){
+	private void addDerivationRule(Classifier c,OJClass myClass,PropertyMap mapper,ValueSpecification vs){
 		String getterName = mapper.getter();
 		OJAnnotatedOperation getterOp = (OJAnnotatedOperation) myClass.findOperation(getterName, Collections.emptyList());
 		getterOp.initializeResultVariable(valueSpecificationUtil.expressValue(getterOp, vs, mapper.getDefiningClassifier(), getLibrary().getActualType( mapper.getProperty())));
 	}
-	private void addInitToStaticField(OJClass myClass,StructuralFeatureMap mapper,ValueSpecification vs){
+	private void addInitToStaticField(OJClass myClass,PropertyMap mapper,ValueSpecification vs){
 		String initStr = valueSpecificationUtil.expressValue(myClass, vs,  getLibrary().getActualType( mapper.getProperty()), true);
 		if(initStr.length() > 0){
 			OJAnnotatedField myField = (OJAnnotatedField) myClass.findField(mapper.fieldname());
@@ -61,7 +61,7 @@ public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private void addInitToConstructor(OJClass myClass,StructuralFeatureMap mapper,ValueSpecification vs){
+	private void addInitToConstructor(OJClass myClass,PropertyMap mapper,ValueSpecification vs){
 		String initStr = valueSpecificationUtil.expressValue(myClass.getDefaultConstructor(), vs, mapper.getDefiningClassifier(), getLibrary().getActualType( mapper.getProperty()));
 		if(initStr.length() > 0){
 			String statement = "this." + mapper.setter() + "( " + initStr + " )";

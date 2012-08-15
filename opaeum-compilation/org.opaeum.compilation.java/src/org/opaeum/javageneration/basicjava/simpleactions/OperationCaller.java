@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.MultiplicityElement;
@@ -31,7 +31,7 @@ public class OperationCaller extends AbstractCaller<CallOperationAction>{
 		}else{
 			StringBuilder args = populateArgumentPinsAndBuildArgumentString(operation, EmfBehaviorUtil.isLongRunning( node.getOperation()), node.getArguments());
 			if(node.isSynchronous()){
-				StructuralFeatureMap resultMap = null;
+				PropertyMap resultMap = null;
 				Pin returnPin = EmfActionUtil.getReturnPin( node);
 				ActionMap actionMap = ojUtil.buildActionMap(node);
 				String call = actionMap.targetName() + "." + operationMap.javaOperName() + "(" + args + ")";

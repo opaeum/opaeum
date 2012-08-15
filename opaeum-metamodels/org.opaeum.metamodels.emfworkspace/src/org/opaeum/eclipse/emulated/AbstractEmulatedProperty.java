@@ -33,7 +33,9 @@ public abstract class AbstractEmulatedProperty extends PropertyImpl implements A
 		this.owner = owner;
 		this.originalElement = originalElement;
 	}
-	
+	public boolean isNavigable(){
+		return true;
+	}
 	public EList<EAnnotation> getEAnnotations(){
 		return originalElement.getEAnnotations();
 	}

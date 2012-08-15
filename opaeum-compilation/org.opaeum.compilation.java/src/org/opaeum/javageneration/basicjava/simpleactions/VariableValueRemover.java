@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.RemoveVariableValueAction;
 import org.opaeum.java.metamodel.OJBlock;
@@ -14,7 +14,7 @@ public class VariableValueRemover extends SimpleNodeBuilder<RemoveVariableValueA
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		String valuePinField = readPin(operation, block, node.getValue());
-		StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(node.getVariable());
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(node.getVariable());
 		if(map.isOne()){
 			// TODO what if node.getValue().isMany()?
 			block.addToStatements(node.getVariable().getName() + "=" + valuePinField);

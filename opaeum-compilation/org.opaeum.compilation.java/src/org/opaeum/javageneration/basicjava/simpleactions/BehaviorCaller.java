@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.opaeum.eclipse.EmfActionUtil;
@@ -13,13 +13,13 @@ public class BehaviorCaller extends AbstractBehaviorCaller<CallBehaviorAction>{
 	public BehaviorCaller(CallBehaviorAction action,AbstractObjectNodeExpressor expressor){
 		super(action, expressor);
 	}
-	protected void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,StructuralFeatureMap resultMap){
+	protected void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,PropertyMap resultMap){
 		if(EmfBehaviorUtil.isProcess(node.getBehavior())){
 			block.addToStatements(resultMap.fieldname() + ".execute()");
 		}
 	}
-	protected StructuralFeatureMap getResultMap(){
-		StructuralFeatureMap resultMap = null;
+	protected PropertyMap getResultMap(){
+		PropertyMap resultMap = null;
 		if(EmfBehaviorUtil.hasExecutionInstance(node.getBehavior())){
 			resultMap = ojUtil.buildStructuralFeatureMap(node);
 		}else{

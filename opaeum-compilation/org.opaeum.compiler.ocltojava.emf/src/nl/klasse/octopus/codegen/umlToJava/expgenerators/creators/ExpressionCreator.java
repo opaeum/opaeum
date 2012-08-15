@@ -16,12 +16,15 @@ import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.ocl.uml.TypeExp;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.ocl.uml.VariableExp;
+import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Parameter;
-import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
+import org.eclipse.uml2.uml.ValuePin;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
@@ -30,8 +33,8 @@ import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.AbstractOclContext;
 
 public class ExpressionCreator{
@@ -56,7 +59,7 @@ public class ExpressionCreator{
 		return makeExpression(in.getExpression(), isStatic, params);
 	}
 	String makeExpression(OCLExpression in,boolean isStatic,List<OJParameter> params){
-		StringBuffer thisNode = new StringBuffer();
+		StringBuilder thisNode = new StringBuilder();
 		if(in instanceof TypeExp){
 			Classifier type = ((TypeExp) in).getReferredType();
 			OJPathName javaType = ojUtil.classifierPathname(type);
@@ -78,7 +81,7 @@ public class ExpressionCreator{
 			if(ce.getSource() == null){
 				thisNode.append(maker.makeExpressionNode((CallExp) in, isStatic, params));
 			}else{
-				StringBuffer source = new StringBuffer();
+				StringBuilder source = new StringBuilder();
 				if(ce.getSource() instanceof TypeExp){
 					TypeExp typeExp = (TypeExp) ce.getSource();
 					ClassifierMap map = ojUtil.buildClassifierMap(typeExp.getReferredType());
@@ -104,12 +107,20 @@ public class ExpressionCreator{
 				if(context.getBodyContainer() instanceof OpaqueExpression){
 					if(context.getBodyContainer().getOwner().getOwner() instanceof Transition){
 						result = "getStateMachineExecution()";
+					}else if(context.getBodyContainer().getOwner() instanceof ValuePin){
+						ValuePin vp=(ValuePin) context.getBodyContainer().getOwner();
+						Activity a = EmfActivityUtil.getContainingActivity(vp);
+						if(a.getOwner() instanceof State||a.getOwner() instanceof Transition){
+							result = "getStateMachineExecution()";
+						}
 					}
 				}
 			}
 			if(result == null){
 				result = "this";
 			}
+		}else if(in.getName().equals("contextObject")){
+			result="getContextObject()";
 		}else{
 			Variable varDecl = (Variable) in.getReferredVariable();
 			Classifier type = varDecl.getType();
@@ -123,7 +134,7 @@ public class ExpressionCreator{
 				result = in.getName();
 			}
 		}
-		return StringHelpers.firstCharToLower(result);
+		return NameConverter.decapitalize(result);
 	}
 	public String makeVarDecl(Variable exp,boolean isStatic,List<OJParameter> params){
 		OCLExpression initExpression = (OCLExpression) exp.getInitExpression();
@@ -138,7 +149,7 @@ public class ExpressionCreator{
 		//
 		return (myType == null ? "void" : myType.getTypeName()) + " " + ExpGeneratorHelper.javaFieldName(exp) + " = " + myInitExp;
 	}
-	private StringBuffer makeLetExpression(LetExp in,boolean isStatic,List<OJParameter> params){
+	private StringBuilder makeLetExpression(LetExp in,boolean isStatic,List<OJParameter> params){
 		// generate a separate operation
 		ClassifierMap inMap = ojUtil.buildClassifierMap(in.getType());
 		String myType = inMap.javaType();
@@ -169,12 +180,12 @@ public class ExpressionCreator{
 		body1.addToStatements(exp4);
 		oper.setParameters(params);
 		// generate the call to the created operation
-		StringBuffer callOper = new StringBuffer();
+		StringBuilder callOper = new StringBuilder();
 		callOper.append(operName + "(" + OJOperation.paramsToActuals(oper) + ")");
 		return callOper;
 	}
-	private StringBuffer makeIfExpression(IfExp in,boolean isStatic,List<OJParameter> params){
-		StringBuffer created = new StringBuffer();
+	private StringBuilder makeIfExpression(IfExp in,boolean isStatic,List<OJParameter> params){
+		StringBuilder created = new StringBuilder();
 		ExpressionCreator myExpMaker = new ExpressionCreator(ojUtil, myClass, context);
 		Classifier thenType = in.getThenExpression().getType();
 		Classifier elseType = in.getElseExpression().getType();
@@ -186,8 +197,8 @@ public class ExpressionCreator{
 			myClass.addToImports(mapper.javaTypePath());
 		}
 		String condition = StringHelpers.addBrackets(myExpMaker.makeExpression((OCLExpression) in.getCondition(), isStatic, params));
-		StringBuffer thenPart = new StringBuffer();
-		StringBuffer elsePart = new StringBuffer();
+		StringBuilder thenPart = new StringBuilder();
+		StringBuilder elsePart = new StringBuilder();
 		thenPart.append(typecast);
 		elsePart.append(typecast);
 		thenPart.append(StringHelpers.addBrackets(myExpMaker.makeExpression((OCLExpression) in.getThenExpression(), isStatic, params)));

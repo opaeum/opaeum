@@ -2,7 +2,7 @@ package org.opaeum.javageneration.migration;
 
 import java.util.HashSet;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Type;
@@ -39,14 +39,14 @@ public abstract class AbstractMigrationCodeGenerator extends AbstractStructureVi
 		return workspace.getWorkspaceMappingInfo().getVersion();
 	}
 	protected final OJPathName classifierPathName(Type a,VersionNumber version){
-		if(EmfClassifierUtil.isSimpleType(a ) || EmfClassifierUtil.getCodeGenerationStrategy( (Classifier) a)==CodeGenerationStrategy.NO_CODE){
+		if(EmfClassifierUtil.isSimpleType(a ) || ojUtil.getCodeGenerationStrategy( (Classifier) a)==CodeGenerationStrategy.NO_CODE){
 			return ojUtil.classifierPathname(a);
 		}else{
 			return new OJPathName(ojUtil.classifierPathname(a).toJavaString()+ version.getSuffix());
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,StructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	public void initialize(OpaeumConfig config,OJWorkspace javaModel,TextWorkspace textWorkspace,MigrationWorkspace workspace){
 		super.javaModel = javaModel;

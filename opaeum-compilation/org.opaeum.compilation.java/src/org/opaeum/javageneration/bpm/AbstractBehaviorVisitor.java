@@ -30,7 +30,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		returnInfo.setInitExp("new ReturnInfo()");
 		OJAnnotatedOperation setReturnInfo=new OJAnnotatedOperation("setReturnInfo");
 		ojOperationClass.addToOperations(setReturnInfo);
-		setReturnInfo.addParam("token", BpmUtil.ABSTRACT_TOKEN);
+		setReturnInfo.addParam("token", BpmUtil.ITOKEN);
 		setReturnInfo.getBody().addToStatements("this.returnInfo.setValue(token)");
 		OJAnnotatedOperation getReturnInfo=new OJAnnotatedOperation("getReturnInfo",new OJPathName("org.opaeum.runtime.domain.IToken"));
 		ojOperationClass.addToOperations(getReturnInfo);

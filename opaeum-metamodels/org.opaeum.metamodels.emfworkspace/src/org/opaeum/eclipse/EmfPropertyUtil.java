@@ -51,7 +51,9 @@ public class EmfPropertyUtil{
 		Set<String> inheritedConcretePropertyNames = new TreeSet<String>();
 		for(Generalization g:c.getGeneralizations()){
 			for(Property p:getDirectlyImplementedAttributes(g.getGeneral())){
-				inheritedConcretePropertyNames.add(p.getName());
+				if(!p.isDerivedUnion()){
+					inheritedConcretePropertyNames.add(p.getName());
+				}
 			}
 		}
 		Set<Property> results = new TreeSet<Property>(new ElementComparator());
@@ -195,9 +197,11 @@ public class EmfPropertyUtil{
 		Classifier c = (Classifier) EmfElementFinder.getContainer(p);
 		List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(c);
 		for(Property property:propertiesInScope){
-			for(Property q:property.getQualifiers()){
-				if(p.getName().equals(q.getName())){
-					return true;
+			if(property.getOtherEnd() != null){
+				for(Property q:property.getOtherEnd().getQualifiers()){
+					if(p.getName().equals(q.getName())){
+						return true;
+					}
 				}
 			}
 		}

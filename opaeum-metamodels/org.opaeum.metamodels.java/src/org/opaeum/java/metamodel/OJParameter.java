@@ -30,7 +30,7 @@ public class OJParameter extends OJParameterGEN {
 		if (isFinal) {
 			result.append("final ");
 		}
-		result.append(getType().getCollectionTypeName());
+		result.append(getType().getTypeNameWithTypeArguments());
 		result.append(" ");
 		result.append(getName());
 		return result.toString();

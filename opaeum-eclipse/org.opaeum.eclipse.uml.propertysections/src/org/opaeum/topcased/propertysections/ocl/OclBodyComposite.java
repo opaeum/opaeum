@@ -25,6 +25,8 @@ import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
@@ -36,13 +38,9 @@ import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.commands.SetOclBodyCommand;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
-import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.linkage.CoreValidationRule;
-import org.opaeum.metamodel.validation.BrokenElement;
-import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.ocl.uml.AbstractOclContext;
 import org.opaeum.ocl.uml.OpaeumDiagnostic;
-import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.topcased.modeler.uml.oclinterpreter.ColorManager;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.NakedOclViewer;
@@ -227,9 +225,18 @@ public abstract class OclBodyComposite extends Composite{
 	}
 	public void highlightError(){
 		StyledText t = viewer.getTextWidget();
-		if(!(oclBodyOwner == null || t == null || t.isDisposed() ||OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner)==null)){
+		if(!(oclBodyOwner == null || t == null || t.isDisposed() || OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner) == null)){
 			OpenUmlFile ouf = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner);
-			OpaqueExpressionContext ctx = ouf.getEmfWorkspace().getOpaeumLibrary().getOclExpressionContext((OpaqueExpression) oclBodyOwner);
+			OpaeumLibrary lib = ouf.getEmfWorkspace().getOpaeumLibrary();
+			AbstractOclContext ctx = null;
+			if(oclBodyOwner instanceof OpaqueExpression){
+				ctx = lib.getOclExpressionContext((OpaqueExpression) oclBodyOwner);
+			}else if(oclBodyOwner instanceof OpaqueBehavior){
+				ctx = lib.getOclBehaviorContext((OpaqueBehavior) oclBodyOwner);
+			}else{
+				ctx = lib.getOclActionContext((OpaqueAction) oclBodyOwner);
+
+			}
 			if(ctx.hasErrors()){
 				OpaeumDiagnostic od = (OpaeumDiagnostic) ctx.getHelper().getProblems();
 				StyleRange[] srs = t.getStyleRanges();

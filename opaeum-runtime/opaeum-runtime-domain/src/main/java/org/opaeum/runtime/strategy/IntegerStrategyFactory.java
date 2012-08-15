@@ -19,6 +19,7 @@ public class IntegerStrategyFactory extends SimpleTypeRuntimeStrategyFactory{
 			return Integer.valueOf(val);
 		}
 	}
+	@SuppressWarnings("unchecked")
 	public IntegerStrategyFactory(){
 		super(Integer.class, IntegerToStringConversionStrategy.class,StringToIntegerConversionStrategy.class);
 	}

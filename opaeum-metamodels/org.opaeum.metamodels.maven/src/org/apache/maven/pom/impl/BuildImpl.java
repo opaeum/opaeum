@@ -934,7 +934,7 @@ public class BuildImpl extends EObjectImpl implements Build {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (sourceDirectory: ");
 		result.append(sourceDirectory);
 		result.append(", scriptSourceDirectory: ");

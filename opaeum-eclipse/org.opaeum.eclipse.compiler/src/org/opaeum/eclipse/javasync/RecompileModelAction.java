@@ -82,6 +82,8 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p,true);
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
+								p.removeModel(OJWorkspace.class);
+								p.removeModel(TextWorkspace.class);
 							}
 						}catch(Exception e){
 							e.printStackTrace();

@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.bpm.actions;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Action;
 import org.opaeum.eclipse.EmfActionUtil;
@@ -15,8 +15,8 @@ public abstract class PotentialTaskActionBuilder<A extends Action> extends Abstr
 	protected PotentialTaskActionBuilder(OJUtil util,A node){
 		super(util, node, maybeBuildCallMap(node, util));
 	}
-	private static StructuralFeatureMap maybeBuildCallMap(Action node,OJUtil ojUtil){
-		StructuralFeatureMap callMap = null;
+	private static PropertyMap maybeBuildCallMap(Action node,OJUtil ojUtil){
+		PropertyMap callMap = null;
 		if(EmfActionUtil.getTargetElement(node)!=null && EmfActionUtil.hasMessageStructure(node)){
 			callMap = ojUtil.buildStructuralFeatureMap(node);
 		}

@@ -1,7 +1,7 @@
 package org.opaeum.javageneration.basicjava.simpleactions;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.CreateObjectAction;
@@ -18,7 +18,7 @@ public class ObjectCreator extends SimpleNodeBuilder<CreateObjectAction>{
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		ClassifierMap map = ojUtil.buildClassifierMap(node.getClassifier(),(CollectionKind)null);
-		StructuralFeatureMap resultMap = ojUtil.buildStructuralFeatureMap(node.getResult());
+		PropertyMap resultMap = ojUtil.buildStructuralFeatureMap(node.getResult());
 		expressor.buildResultVariable(operation, block, resultMap);
 		// TODO create for loop to create enough until the minimum multiplicity has been satisfied
 		String call = "new " + map.javaType() + "()";

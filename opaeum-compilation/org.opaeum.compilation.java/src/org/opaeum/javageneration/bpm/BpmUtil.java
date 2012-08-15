@@ -1,6 +1,8 @@
 package org.opaeum.javageneration.bpm;
 
 
+import lpg.runtime.AbstractToken;
+
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
@@ -9,14 +11,21 @@ import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.hibernate.domain.ReturnInfo;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.JavaNameGenerator;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.ExceptionHolder;
+import org.opaeum.runtime.domain.IActiveEntity;
+import org.opaeum.runtime.domain.IExecutionElement;
+import org.opaeum.runtime.domain.IProcessStep;
+import org.opaeum.runtime.domain.IToken;
 
 public class BpmUtil{
-	public static final OJPathName ABSTRACT_TOKEN = new OJPathName("org.opaeum.hibernate.domain.AbstractToken");
-	public static final OJPathName RETURN_INFO = new OJPathName("org.opaeum.hibernate.domain.ReturnInfo");
+	public static final OJPathName ITOKEN = new OJPathName(IToken.class.getName());
+	public static final OJPathName ABSTRACT_TOKEN = new OJPathName(AbstractToken.class.getName());
+	public static final OJPathName RETURN_INFO = new OJPathName(ReturnInfo.class.getName());
+	public static final OJPathName IEXECUTION_ELEMENT = new OJPathName(IExecutionElement.class.getName());
 	public static String stepLiteralName(NamedElement s){
 		String result="";
 		if(s instanceof Vertex){
@@ -48,4 +57,6 @@ public class BpmUtil{
 	public static String getArtificialChoiceName(ActivityNode node){
 		return PersistentNameUtil.getPersistentName( node).getAsIs() + "_choice";
 	}
+	public static final OJPathName ABSTRACT_PROCESS_STEP = new OJPathName(IProcessStep.class.getName());
+	public static final OJPathName ACTIVE_ENTITY = new OJPathName(IActiveEntity.class.getName());
 }

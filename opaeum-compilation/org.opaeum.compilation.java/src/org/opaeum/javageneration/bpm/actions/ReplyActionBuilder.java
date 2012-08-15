@@ -2,7 +2,7 @@ package org.opaeum.javageneration.bpm.actions;
 
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.InputPin;
@@ -27,10 +27,10 @@ public class ReplyActionBuilder extends Jbpm5ActionBuilder<ReplyAction>{
 			if(EmfBehaviorUtil.hasExecutionInstance(oper)){
 				OJAnnotatedField invocation = new OJAnnotatedField("invocation", ojUtil.classifierPathname(oper));
 				operation.getBody().addToLocals(invocation);
-				StructuralFeatureMap actionMap = ojUtil.buildStructuralFeatureMap(cause);
+				PropertyMap actionMap = ojUtil.buildStructuralFeatureMap(cause);
 				invocation.setInitExp(actionMap.getter() + "()");
 				for(InputPin pin:replyValues){
-					StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(EmfActionUtil.getLinkedTypedElement(pin));
+					PropertyMap map = ojUtil.buildStructuralFeatureMap(EmfActionUtil.getLinkedTypedElement(pin));
 					String pinExpression = expressor.expressInputPinOrOutParamOrExpansionNode(operation.getBody(), pin);
 					operation.getBody().addToStatements("invocation." + map.setter() + "(" + pinExpression + ")");
 				}
