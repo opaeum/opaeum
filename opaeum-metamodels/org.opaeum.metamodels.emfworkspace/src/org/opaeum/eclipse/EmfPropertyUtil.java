@@ -36,6 +36,9 @@ import org.opaeum.eclipse.emulated.NonInverseArtificialProperty;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class EmfPropertyUtil{
+	public static boolean isDerived(Property p){
+		return p.isDerived() || p.isDerivedUnion();
+	}
 	public static Set<Property> getUniquenessConstraints(Classifier c){
 		Set<Property> result = new TreeSet<Property>(new ElementComparator());
 		for(Property property:getDirectlyImplementedAttributes(c)){

@@ -24,12 +24,7 @@ public class OJEnumLiteral extends OJElement  implements OJAnnotatedElement{
 	Map<OJPathName, OJAnnotationValue> f_annotations = new TreeMap<OJPathName, OJAnnotationValue>();
 
 	public OJEnumLiteral(String name) {
-		super();
-		super.setName(name);
-	}
-
-	public OJEnumLiteral() {
-		super();
+		super(name);
 	}
 
 	@Override
@@ -60,8 +55,7 @@ public class OJEnumLiteral extends OJElement  implements OJAnnotatedElement{
 				return f;
 			}
 		}
-		OJField value=new OJField();
-		value.setName(fieldName);
+		OJField value=new OJField(fieldName);
 		this.attributeValues.add(value);
 		return value;
 	}

@@ -1,7 +1,5 @@
 package org.opaeum.javageneration.composition;
 
-import java.util.List;
-
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.uml.MessageType;
@@ -10,9 +8,9 @@ import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.StateMachine;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -33,7 +31,6 @@ import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.oclexpressions.AttributeExpressionGenerator;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.runtime.domain.CompositionNode;
 
 /**
@@ -96,7 +93,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 				.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
 		if(!isInterfaceOrAssociationClass(entity)){
 			Property endToComposite = getLibrary().getEndToComposite(entity);
-			if(endToComposite != null && !endToComposite.isDerived()){
+			if(endToComposite != null && !EmfPropertyUtil.isDerived( endToComposite)){
 				if(endToComposite.getAssociation() != null && EmfAssociationUtil.isClass(endToComposite.getAssociation())){
 					AssociationClassEndMap aMap = new AssociationClassEndMap(ojUtil, endToComposite);
 					addToOwningObject.getBody().addToStatements(
@@ -142,8 +139,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	protected void markChildrenForDeletion(Classifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(Property np:getLibrary().getEffectiveAttributes(sc)){
-			if(!np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !np.isDerived()
-					&& !np.getOtherEnd().isDerived() && (isPersistent(np.getType()) || np.getType() instanceof Interface)){
+			if(!np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !EmfPropertyUtil.isDerived( np)
+					&& !EmfPropertyUtil.isDerived( np.getOtherEnd()) && (isPersistent(np.getType()) || np.getType() instanceof Interface)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
 				if(map.isManyToMany()){
@@ -207,7 +204,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			start++;
 		}
 		Property etc = getLibrary().getEndToComposite(c);
-		if(etc != null && !etc.isDerived()){
+		if(etc != null && !EmfPropertyUtil.isDerived( etc)){
 			PropertyMap compositeFeatureMap = ojUtil.buildStructuralFeatureMap(etc);
 			ojClass.addToImports(compositeFeatureMap.javaBaseTypePath());
 			init.getBody()
@@ -253,12 +250,12 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	public void invokeOperationRecursively(Classifier ew,OJOperation markDeleted,String operationName){
 		for(Property np:getLibrary().getEffectiveAttributes(ew)){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
-			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !np.isDerived()){
+			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !EmfPropertyUtil.isDerived( np)){
 				Classifier type = (Classifier) np.getType();
 				if(map.isMany()){
 					markDeleted.getOwner().addToImports("java.util.ArrayList");
 					OJForStatement forEach = new OJForStatement();
-					forEach.setCollection("new ArrayList<" + map.javaBaseDefaultType() + ">(" + map.getter() + "())");
+					forEach.setCollectionExpression("new ArrayList<" + map.javaBaseDefaultType() + ">(" + map.getter() + "())");
 					forEach.setElemType(ojUtil.classifierPathname(type));
 					forEach.setElemName("child");
 					forEach.setBody(new OJBlock());

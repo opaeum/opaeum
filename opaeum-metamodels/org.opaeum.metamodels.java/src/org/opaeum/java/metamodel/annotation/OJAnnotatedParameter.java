@@ -14,12 +14,8 @@ import org.opaeum.java.metamodel.utilities.JavaUtil;
 public class OJAnnotatedParameter extends OJParameter implements OJAnnotatedElement {
 	Map<OJPathName, OJAnnotationValue> f_annotations = new TreeMap<OJPathName, OJAnnotationValue>();
 	public OJAnnotatedParameter(String string, OJPathName ojPathName) {
-		this.setName(string);
-		this.setType(ojPathName);
+		super(string,ojPathName);
 	}
-	public OJAnnotatedParameter() {
-	}
-
 	public Collection<OJAnnotationValue> getAnnotations() {
 		return f_annotations.values();
 	}
@@ -65,7 +61,7 @@ public class OJAnnotatedParameter extends OJParameter implements OJAnnotatedElem
 	}
 
 	public OJAnnotatedParameter getDeepCopy() {
-		OJAnnotatedParameter copy = new OJAnnotatedParameter();
+		OJAnnotatedParameter copy = new OJAnnotatedParameter(getName(),getType());
 		copyDeepInfoInto(copy);
 		return copy;
 	}

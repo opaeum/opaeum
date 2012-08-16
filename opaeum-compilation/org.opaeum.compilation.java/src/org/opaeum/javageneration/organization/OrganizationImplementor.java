@@ -65,7 +65,6 @@ public class OrganizationImplementor extends AbstractStructureVisitor{
 			c.addToOperations(setRepresentedPerson);
 			setRepresentedPerson.addParam("p", new OJPathName("org.opaeum.runtime.organization.IPersonNode"));
 			setRepresentedPerson.getBody().addToStatements("setRepresentedPerson((PersonNode)p)");
-			OJAnnotationValue br = c.findAnnotation(new OJPathName("org.opaeum.annotation.BusinessRole"));
 		}else if(EmfClassifierUtil.isBusinessComponent(umlOwner)){
 			OJAnnotatedOperation setRepresentedOrganization = new OJAnnotatedOperation("setRepresentedOrganization");
 			c.addToOperations(setRepresentedOrganization);

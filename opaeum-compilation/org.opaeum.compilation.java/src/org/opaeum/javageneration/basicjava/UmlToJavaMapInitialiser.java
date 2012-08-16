@@ -3,14 +3,13 @@ package org.opaeum.javageneration.basicjava;
 import java.util.Collection;
 import java.util.List;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;

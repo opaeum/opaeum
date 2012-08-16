@@ -11,6 +11,7 @@ import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJForStatement;
@@ -47,7 +48,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 				}
 				for(Property np:aws){
 					PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
-					if(!np.isDerived() && (map.getBaseType() instanceof Class || EmfClassifierUtil.isStructuredDataType(map.getBaseType()))){
+					if(!EmfPropertyUtil.isDerived( np) && (map.getBaseType() instanceof Class || EmfClassifierUtil.isStructuredDataType(map.getBaseType()))){
 						Classifier type = (Classifier) map.getBaseType();
 						if(isMap(np) && np.getLower() == 1 && np.getQualifiers().size() == 1
 								&& (np.getQualifiers().get(0)).getType() instanceof Enumeration){

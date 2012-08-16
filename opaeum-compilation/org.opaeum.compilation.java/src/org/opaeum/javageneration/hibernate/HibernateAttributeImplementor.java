@@ -5,6 +5,7 @@ import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interface;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -83,7 +84,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 		}
 	}
 	private boolean isInterfaceValue(OJAnnotatedClass c,PropertyMap map){
-		return !(c instanceof OJAnnotatedInterface) && !map.getProperty().isDerived() && map.isOne()
+		return !(c instanceof OJAnnotatedInterface) && !EmfPropertyUtil.isDerived( map.getProperty()) && map.isOne()
 				&& map.getBaseType() instanceof Interface
 				&& ! StereotypesHelper.hasStereotype(map.getBaseType(),StereotypeNames.HELPER);
 	}

@@ -69,7 +69,7 @@ public class SourcePopulationResolver extends AbstractValidator{
 		Constraint constr = null;
 		boolean isComposition = p.isComposite() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite());
 		constr = getSourcePopulationConstraint(p, owner);
-		if(!isComposition && shouldResolve(p, owner) && !p.isDerived() && !p.isReadOnly()){
+		if(!isComposition && shouldResolve(p, owner) && !EmfPropertyUtil.isDerived( p) && !p.isReadOnly()){
 			String expression = null;
 			if(constr == null){
 				if(StereotypesHelper.hasStereotype(owner, HIERARCHY)){

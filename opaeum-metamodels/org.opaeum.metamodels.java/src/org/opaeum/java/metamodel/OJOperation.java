@@ -8,15 +8,9 @@ import java.util.Set;
 import org.opaeum.java.metamodel.generated.OJOperationGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
-@SuppressWarnings({
-	"rawtypes"
-})
 public class OJOperation extends OJOperationGEN{
-	/******************************************************
-	 * The constructor for this classifier.
-	 *******************************************************/
-	public OJOperation(){
-		super();
+	public OJOperation(String name){
+		super(name);
 		this.setBody(new OJBlock());
 		this.setVisibility(OJVisibilityKind.PUBLIC);
 		this.setReturnType(new OJPathName("void"));
@@ -31,12 +25,8 @@ public class OJOperation extends OJOperationGEN{
 		sb.setCharAt(sb.length() - 1, ')');
 		return sb.toString();
 	}
-	/******************************************************
-	 * The following operations are the implementations of the operations defined for this classifier.
-	 *******************************************************/
 	public void addParam(String name,OJPathName type){
-		OJParameter param = new OJParameter();
-		param.setName(name);
+		OJParameter param = new OJParameter(name,type);
 		param.setType(type);
 		this.addToParameters(param);
 	}
@@ -48,16 +38,10 @@ public class OJOperation extends OJOperationGEN{
 		OJPathName path = new OJPathName(type);
 		this.addToThrows(path);
 	}
-	/******************************************************
-	 * End of implemented operations.
-	 *******************************************************/
 	public String toJavaString(){
 		StringBuilder result = new StringBuilder();
 		if(!getComment().equals("")){
 			addJavaDocComment(result);
-		}
-		if(this.getNeedsSuppress()){
-			result.append("@SuppressWarnings(\"unchecked\")\n");
 		}
 		// signature
 		if(this.isAbstract()){
@@ -94,15 +78,12 @@ public class OJOperation extends OJOperationGEN{
 		}
 		return result.toString();
 	}
-	/**
-	 * @param result
-	 */
 	protected void addJavaDocComment(StringBuilder result){
 		String comment = JavaStringHelpers.firstCharToUpper(getComment());
 		comment = JavaStringHelpers.replaceAllSubstrings(comment, "\n", "\n * ");
 		result.append("/** " + comment);
 		boolean first = true;
-		Iterator it = getParameters().iterator();
+		Iterator<OJParameter> it = getParameters().iterator();
 		while(it.hasNext()){
 			OJParameter par = (OJParameter) it.next();
 			String paramStr = "@param " + par.getName() + " " + par.getComment();
@@ -116,7 +97,7 @@ public class OJOperation extends OJOperationGEN{
 	}
 	protected StringBuilder paramsToJava(OJOperation op){
 		StringBuilder result = new StringBuilder();
-		Iterator it = op.getParameters().iterator();
+		Iterator<OJParameter> it = op.getParameters().iterator();
 		boolean first = true;
 		while(it.hasNext()){
 			OJParameter elem = (OJParameter) it.next();
@@ -131,7 +112,7 @@ public class OJOperation extends OJOperationGEN{
 	}
 	protected StringBuilder exceptionsToJava(OJOperation op){
 		StringBuilder result = new StringBuilder();
-		Iterator it = op.getThrows().iterator();
+		Iterator<OJPathName> it = op.getThrows().iterator();
 		boolean first = true;
 		while(it.hasNext()){
 			OJPathName elem = (OJPathName) it.next();
@@ -146,7 +127,7 @@ public class OJOperation extends OJOperationGEN{
 	}
 	public static StringBuilder paramsToActuals(OJOperation op){
 		StringBuilder result = new StringBuilder();
-		Iterator it = op.getParameters().iterator();
+		Iterator<OJParameter> it = op.getParameters().iterator();
 		boolean first = true;
 		while(it.hasNext()){
 			OJParameter elem = (OJParameter) it.next();
@@ -159,14 +140,8 @@ public class OJOperation extends OJOperationGEN{
 		}
 		return result;
 	}
-	// TODO find out whether we can use the generated copy method
-	public OJOperation getCopy(){
-		OJOperation result = new OJOperation();
-		copyValues(result);
-		return result;
-	}
 	public OJOperation getDeepCopy(){
-		OJOperation result = new OJOperation();
+		OJOperation result = new OJOperation(getName());
 		copyValuesDeep(result);
 		return result;
 	}
@@ -177,7 +152,6 @@ public class OJOperation extends OJOperationGEN{
 		result.setFinal(this.isFinal());
 		result.setStatic(this.isStatic());
 		result.setVolatile(this.isVolatile());
-		result.setName(this.getName());
 		result.setAbstract(isAbstract());
 		for(OJParameter ojParameter:this.getParameters()){
 			result.addToParameters(ojParameter.getDeepCopy());
@@ -191,12 +165,11 @@ public class OJOperation extends OJOperationGEN{
 		result.setFinal(this.isFinal());
 		result.setStatic(this.isStatic());
 		result.setVolatile(this.isVolatile());
-		result.setName(this.getName());
 		List<OJParameter> params = new ArrayList<OJParameter>(this.getParameters());
 		result.setParameters(params);
 		result.setVisibility(this.getVisibility());
 	}
-	public boolean isEqual(String name,List /* (OJPathName) */types){
+	public boolean isEqual(String name,List<OJPathName> types){
 		boolean result = false;
 		if(this.getName().equals(name)){
 			List<OJParameter> myPars = this.getParameters();
@@ -204,14 +177,15 @@ public class OJOperation extends OJOperationGEN{
 				result = true;
 			}else{
 				if(myPars.size() == types.size()){
-					Iterator parsIt = myPars.iterator();
-					Iterator typesIt = types.iterator();
+					Iterator<OJParameter> parsIt = myPars.iterator();
+					Iterator<OJPathName> typesIt = types.iterator();
 					boolean loopResult = true;
 					while(parsIt.hasNext()){
 						OJParameter par = (OJParameter) parsIt.next();
 						OJPathName type = (OJPathName) typesIt.next();
 						if(!(par.getType().equals(type))){
 							loopResult = false;
+							break;
 						}
 					}
 					result = loopResult;
@@ -222,7 +196,7 @@ public class OJOperation extends OJOperationGEN{
 	}
 	public List<OJPathName> getParamTypes(){
 		List<OJPathName> result = new ArrayList<OJPathName>();
-		Iterator it = this.getParameters().iterator();
+		Iterator<OJParameter> it = this.getParameters().iterator();
 		while(it.hasNext()){
 			OJParameter par = (OJParameter) it.next();
 			result.add(par.getType());

@@ -33,7 +33,7 @@ public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator
 	public void visitFeature(Property p) {
 		boolean isComposition = p.isComposite() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite());
 		Classifier umlOwner=EmfPropertyUtil.getOwningClassifier(p);
-		if (!isComposition && shouldResolve(p, umlOwner) && !p.isDerived() && !p.isReadOnly() && StereotypesHelper.hasStereotype((Element) umlOwner,StereotypeNames.HIERARCHY)) {
+		if (!isComposition && shouldResolve(p, umlOwner) && !EmfPropertyUtil.isDerived( p) && !p.isReadOnly() && StereotypesHelper.hasStereotype((Element) umlOwner,StereotypeNames.HIERARCHY)) {
 			
 			Class entityOwner = (Class)p.getOwner();
 			Property endToComposite = EmfPropertyUtil.getEndToComposite( entityOwner, getLibrary());

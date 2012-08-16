@@ -39,16 +39,10 @@
       <import plugin="org.eclipse.ocl.uml"/>
       <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render.awt" version="1.4.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render" version="1.4.1" match="greaterOrEqual"/>
-      <import plugin="org.opaeum.linkage.core"/>
-      <import plugin="org.opaeum.linkage.emfextraction"/>
-      <import plugin="org.opaeum.linkage.namegeneration"/>
       <import plugin="org.opaeum.linkage.validation"/>
-      <import plugin="org.opaeum.metamodels.drools"/>
       <import plugin="org.opaeum.metamodels.emfworkspace"/>
       <import plugin="org.opaeum.metamodels.java"/>
       <import plugin="org.opaeum.metamodels.maven"/>
-      <import plugin="org.opaeum.metamodels.ocl"/>
-      <import plugin="org.opaeum.metamodels.opaeum"/>
       <import plugin="org.opaeum.metamodels.text"/>
       <import plugin="org.opaeum.metamodels.uim"/>
       <import plugin="org.opaeum.transformation.engine"/>
@@ -99,14 +93,6 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="org.opaeum.modeler.validation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
    <plugin
          id="org.opaeum.modeler.componentdiagram"
          download-size="0"

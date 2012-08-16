@@ -10,7 +10,6 @@ import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.EmbeddedSingleScreenTaskCaller;
-import org.opaeum.javageneration.bpm.BpmUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 

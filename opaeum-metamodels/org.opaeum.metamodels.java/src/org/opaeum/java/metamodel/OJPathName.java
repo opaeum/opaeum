@@ -11,11 +11,6 @@ import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 
-	
-	// static public OJPathName VOID = new OJPathName("java.lang.void");
-	/******************************************************
-	 * The constructor for this classifier.
-	 *******************************************************/
 	public OJPathName(){
 		super();
 	}
@@ -26,9 +21,6 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 			this.addToNames(st.nextToken());
 		}
 	}
-	/******************************************************
-	 * The following operations are the implementations of the operations defined for this classifier.
-	 *******************************************************/
 	public String getFirst(){
 		String result = "";
 		if(getNames().size() > 0)

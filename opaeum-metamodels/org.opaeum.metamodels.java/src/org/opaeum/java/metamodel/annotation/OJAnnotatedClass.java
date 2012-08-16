@@ -26,7 +26,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	Map<OJPathName,OJAnnotationValue> f_annotations = new TreeMap<OJPathName,OJAnnotationValue>();
 	private List<String> genericTypeParams = new ArrayList<String>();
 	public OJAnnotatedClass(String string){
-		setName(string);
+		super(string);
 	}
 	public OJAnnotationValue findAnnotation(OJPathName path){
 		return AnnotationHelper.getAnnotation(this, path);
@@ -222,15 +222,15 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		}
 	}
 	public void removeFromFields(String name){
-		super.f_fields.remove(name);
+		super.fields.remove(name);
 	}
 	public String toAbstractSuperclassJavaString(){
 		String concreteName = getName();
 		String oldName = name;
-		setName(oldName + "Generated");
+		name=oldName + "Generated";
 		String result = toJavaString();
 		result = result.replaceAll("[\\(]this[\\)]", "((" + concreteName + ")this)");
-		setName(oldName);
+		name=oldName;
 		return result;
 	}
 	public static void main(String[] args){

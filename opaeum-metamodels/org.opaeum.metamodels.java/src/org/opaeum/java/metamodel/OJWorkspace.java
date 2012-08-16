@@ -5,15 +5,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
-
-import org.opaeum.java.metamodel.utilities.InvariantError;
 
 public class OJWorkspace extends OJElement{
 	private Set<OJPackage> f_rootPackages = new HashSet<OJPackage>();
 	public OJWorkspace(){
-		super();
+		super("root");
 	}
 	public void release(){
 		for(OJPackage p:this.getRootPackages()){
@@ -81,45 +78,32 @@ public class OJWorkspace extends OJElement{
 		this.f_rootPackages.remove(element);
 	}
 	public void addToRootPackages(Collection<OJPackage> newElems){
-		Iterator it = newElems.iterator();
+		Iterator<OJPackage> it = newElems.iterator();
 		while((it.hasNext())){
-			Object item = it.next();
-			if(item instanceof OJPackage){
-				this.addToRootPackages((OJPackage) item);
-			}
+			this.addToRootPackages((OJPackage) it.next());
 		}
 	}
 	public void removeFromRootPackages(Collection<OJPackage> oldElems){
-		Iterator it = oldElems.iterator();
+		Iterator<OJPackage> it = oldElems.iterator();
 		while((it.hasNext())){
-			Object item = it.next();
-			if(item instanceof OJPackage){
-				this.removeFromRootPackages((OJPackage) item);
-			}
+			this.removeFromRootPackages((OJPackage) it.next());
 		}
 	}
 	public void removeAllFromRootPackages(){
-		Iterator it = new HashSet<OJPackage>(getRootPackages()).iterator();
+		Iterator<OJPackage> it = new HashSet<OJPackage>(getRootPackages()).iterator();
 		while((it.hasNext())){
-			Object item = it.next();
-			if(item instanceof OJPackage){
-				this.removeFromRootPackages((OJPackage) item);
-			}
+			this.removeFromRootPackages((OJPackage) it.next());
 		}
 	}
 	private OJPackage any2(String name){
 		OJPackage result = null;
-		Iterator it = this.getRootPackages().iterator();
+		Iterator<OJPackage> it = this.getRootPackages().iterator();
 		while(it.hasNext()){
 			OJPackage c = (OJPackage) it.next();
 			if(c.getName().equals(name)){
 				return c;
 			}
 		}
-		return result;
-	}
-	public List<InvariantError> checkAllInvariants(){
-		List<InvariantError> result = new ArrayList<InvariantError>();
 		return result;
 	}
 	public String toString(){

@@ -25,7 +25,7 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 	}
 	@Override
 	public void createContributionItems(IServiceLocator serviceLocator,IContributionRoot additions){
-		org.opaeum.generation.features.PersistenceUsingJpa a = new org.opaeum.generation.features.PersistenceUsingJpa();
+		new org.opaeum.generation.features.PersistenceUsingJpa();
 		MenuManager menuManager = new MenuManager("Opaeum");
 		additions.addContributionItem(menuManager, new Expression(){
 			@Override

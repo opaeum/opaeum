@@ -105,9 +105,6 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		}
 	}
 	protected void applyStereotypesAsAnnotations(Element umlElement,OJAnnotatedElement javaElement){
-		if(umlElement==null){
-			System.out.println();
-		}
 		applyStereotypesAsAnnotations(umlElement, javaElement, umlElement.getAppliedStereotypes());
 	}
 	protected void applyStereotypesAsAnnotations(Element umlElement,OJAnnotatedElement javaElement,Collection<Stereotype> stereotypes){

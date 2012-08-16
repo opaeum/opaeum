@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.persistence;
 
+import java.util.ArrayList;
+
 import javax.persistence.Transient;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
@@ -66,7 +68,7 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 					persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
 					ojClass.addToFields(persistence);
 					ojClass.addToImports(ABSTRACT_ENTITY);
-					if(c.getAttribute("name", null) == null){
+					if(ojClass.findOperation("getName", new ArrayList<OJPathName>()) == null){
 						addGetName(c, ojClass);
 					}
 					ojClass.addToImplementedInterfaces(ABSTRACT_ENTITY);

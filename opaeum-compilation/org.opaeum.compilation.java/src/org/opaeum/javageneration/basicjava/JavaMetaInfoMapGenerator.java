@@ -3,8 +3,6 @@ package org.opaeum.javageneration.basicjava;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.uml2.uml.ChangeEvent;
@@ -18,7 +16,6 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.TimeEvent;
-import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfEventUtil;

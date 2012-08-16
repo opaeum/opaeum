@@ -67,7 +67,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		forAll.setBody(new OJBlock());
 		forAll.setElemName("s");
 		forAll.setElemType(e.getPathName());
-		forAll.setCollection("values()");
+		forAll.setCollectionExpression("values()");
 		resolve.getBody().addToStatements(forAll);
 		OJIfStatement ifEquals = new OJIfStatement("s.getId()==id", "return s");
 		forAll.getBody().addToStatements(ifEquals);
@@ -76,8 +76,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		return e;
 	}
 	protected void buildLiteral(NamedElement step,OJEnum e,String parentLiteral){
-		OJEnumLiteral l = new OJEnumLiteral();
-		l.setName(BpmUtil.stepLiteralName(step));
+		OJEnumLiteral l = new OJEnumLiteral(BpmUtil.stepLiteralName(step));
 		e.addToLiterals(l);
 		if(getEnclosingElement(step) != null){
 			OJUtil.addParameter(l, "parentState", parentLiteral);

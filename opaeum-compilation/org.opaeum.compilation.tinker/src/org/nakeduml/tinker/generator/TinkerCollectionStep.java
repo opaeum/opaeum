@@ -16,7 +16,6 @@ import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
-import org.opaeum.javageneration.util.OJUtil;
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerImplementNodeStep.class }, after = { TinkerImplementNodeStep.class })
 public class TinkerCollectionStep extends StereotypeAnnotator {
 
@@ -38,7 +37,7 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 	}
 
 	private void visitProperty(Class c, PropertyMap map) {
-		if (!map.getProperty().isDerived() && map.isMany()) {
+		if (!EmfPropertyUtil.isDerived( map.getProperty()) && map.isMany()) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			for (OJConstructor constructor : ojClass.getConstructors()) {
 				if (constructor.getParameters().isEmpty()) {

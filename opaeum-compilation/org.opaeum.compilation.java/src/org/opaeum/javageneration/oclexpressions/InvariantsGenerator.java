@@ -27,7 +27,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.AbstractOclContext;
 
@@ -111,8 +110,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 	// TODO make this optional - may not be required when hibernate validator is
 	// used
 	private void addConstraintChecks(OJAnnotatedClass context,Classifier cc){
-		OJOperation oper = new OJOperation();
-		oper.setName("getFailedInvariants");// as in the Constrained interface
+		OJOperation oper = new OJOperation("getFailedInvariants");
 		oper.setReturnType(new OJPathName("Set<String>"));
 		context.addToImports("java.util.Set");
 		context.addToImports("java.util.HashSet");

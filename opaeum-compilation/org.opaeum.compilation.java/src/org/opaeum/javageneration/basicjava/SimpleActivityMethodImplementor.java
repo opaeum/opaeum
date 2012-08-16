@@ -138,9 +138,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 	private void addVariables(Activity a,Collection<Variable> vars,OJBlock body,OJClassifier owner){
 		for(Variable var:vars){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(var);
-			OJField field = new OJField();
-			field.setName(map.fieldname());
-			field.setType(map.javaTypePath());
+			OJField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 			field.setInitExp(map.javaDefaultValue());
 			body.addToLocals(field);
 			owner.addToImports(map.javaBaseTypePath());
@@ -235,7 +233,6 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			for(ActivityEdge edge:EmfActivityUtil.getConditionalOutgoing(cn)){
 				ifStatement = new OJIfStatement();
 				elseBlock.addToStatements(ifStatement);
-				BehavioredClassifier ctx = EmfActivityUtil.getContainingActivity(cn).getContext();
 				if(edge.getGuard() instanceof OpaqueExpression){
 					OpaqueExpressionContext oclExpressionContext = getLibrary().getOclExpressionContext((OpaqueExpression) edge.getGuard());
 					ifStatement.setCondition(valueSpecificationUtil.expressOcl(oclExpressionContext, operation, getLibrary().getBooleanType()));
@@ -401,9 +398,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 				operation.getOwner().addToImports(pathName);
 				OJIfStatement statement = new OJIfStatement();
 				statement.setCondition("e.isParameter(\"" + EmfActionUtil.getLinkedTypedElement(e).getName() + "\")");
-				OJField parm = new OJField();
-				parm.setName(pinMap.fieldname());
-				parm.setType(pinMap.javaTypePath());
+				OJField parm = new OJAnnotatedField(pinMap.fieldname(), pinMap.javaTypePath());
 				parm.setInitExp("(" + pinMap.javaType() + ")e.getValue()");
 				statement.getThenPart().addToLocals(parm);
 				tryStatement.getCatchPart().addToStatements(statement);

@@ -32,7 +32,6 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationStep;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
-import org.opaeum.javageneration.bpm.BpmJavaStep;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.rap.RapCapabilities;

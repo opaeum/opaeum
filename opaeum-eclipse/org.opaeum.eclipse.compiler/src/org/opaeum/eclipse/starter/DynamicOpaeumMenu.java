@@ -19,7 +19,6 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.GenerateBusinessIntelligenceSchemaAction;
-import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
 import org.opaeum.eclipse.javasync.RecompileElementAction;
 import org.opaeum.eclipse.javasync.RecompileIntegrationCodeAction;
 import org.opaeum.eclipse.javasync.RecompileModelAction;

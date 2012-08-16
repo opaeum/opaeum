@@ -1,7 +1,6 @@
 package org.opaeum.javageneration.bpm;
 
 import java.util.Collection;
-import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
@@ -10,7 +9,6 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.opaeum.eclipse.EmfBehaviorUtil;
@@ -18,7 +16,6 @@ import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
-import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;

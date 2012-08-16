@@ -21,5 +21,7 @@ public interface IToken<BE extends IBehaviorExecution> extends IPersistentObject
 
 	BE  getBehaviorExecution();
 
+	IToken<BE> getInnermostNonParallelToken();
+
 
 }

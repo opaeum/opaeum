@@ -47,7 +47,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		if(!EmfElementUtil.isMarkedForDeletion(e)){
 			// TODO do something similar for interfaces, even without
 			if(ojUtil.getCodeGenerationStrategy(e) == CodeGenerationStrategy.ALL){
-				OJAnnotatedClass clss = new OJAnnotatedClass(e.getName() + "Class");
+				OJAnnotatedClass clss = new OJAnnotatedClass(e.getName() + "Entity");
 				JpaUtil.addClass(clss);
 				JpaUtil.buildTableAnnotation(clss, PersistentNameUtil.getPersistentName(e).getAsIs(), config);
 				clss.setSuperclass(new OJPathName("org.opaeum.audit.AbstractPersistentEnum"));
@@ -218,7 +218,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	}
 	protected void visitProperty(Classifier umlOwner,PropertyMap map){
 		if(isPersistent(umlOwner) && ojUtil.hasOJClass(umlOwner)){
-			if(!(map.getProperty().isDerived() || map.isStatic())){
+			if(!(EmfPropertyUtil.isDerived( map.getProperty()) || map.isStatic())){
 				if(map.isOne()){
 					mapXToOne(umlOwner, map);
 				}else{

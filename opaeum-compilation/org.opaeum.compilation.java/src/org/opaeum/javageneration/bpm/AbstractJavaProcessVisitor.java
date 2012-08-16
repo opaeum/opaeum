@@ -1,6 +1,10 @@
 package org.opaeum.javageneration.bpm;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.ActivityNode;
@@ -12,16 +16,20 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.MessageEvent;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.Trigger;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.eclipse.EmfTimeUtil;
+import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJConstructor;
@@ -40,6 +48,7 @@ import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.maps.IMessageMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -134,6 +143,13 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 			copy.getBody().addToStatements("return " + getter2 + "()!=null && " + getter2 + "()." + copy.getName() + "(clss)");
 			context.addToOperations(copy);
 		}
+		OJAnnotatedOperation getInnermostNonParallelStep = new OJAnnotatedOperation("getInnermostNonParallelStep", BpmUtil.IPROCESS_STEP);
+		ojStateMachine.addToOperations(getInnermostNonParallelStep);
+		getInnermostNonParallelStep.initializeResultVariable("null");
+		OJForStatement forEachToken2 = new OJForStatement("token", BpmUtil.ITOKEN, "getTokens()");
+		getInnermostNonParallelStep.getBody().addToStatements(forEachToken2);
+		OJIfStatement ifIsParentNull = new OJIfStatement("token.getParentToken()==null", "return ("+BpmUtil.IPROCESS_STEP.getLast()+")token.getInnermostNonParallelToken().getCurrentExecutionElement()");
+		forEachToken2.getBody().addToStatements(ifIsParentNull);
 	}
 	protected void implementIBehaviorExecution(Behavior behavior,OJAnnotatedClass ojStateMachine,OJPathName tokenSuperClass){
 		buildGetExecutionElements(behavior, ojStateMachine);
@@ -233,6 +249,34 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 		initializeExecutionElements(behavior, ojStateMachine, ifNull);
 		ojStateMachine.addToOperations(getExecutionElement);
 	}
+	protected void implementIProcessStep(OJAnnotatedClass ojStep, NamedElement ne, Collection<Trigger> methodTriggers){
+		OJAnnotatedOperation getHumanName = new OJAnnotatedOperation("getHumanName", new OJPathName("String"));
+		ojStep.addToOperations(getHumanName);
+		getHumanName.initializeResultVariable("\""+EmfElementUtil.getHumanName(ne) +"\"");
+		ojStep.addToImports(BpmUtil.TRIGGER_METHOD);
+		OJAnnotatedOperation op = new OJAnnotatedOperation("getTriggerMethods", new OJPathName("TriggerMethod[]"));
+		ojStep.addToOperations(op);
+		SortedSet<Trigger> sortedSet = new TreeSet<Trigger>(new DefaultOpaeumComparator());
+		sortedSet.addAll(methodTriggers);
+		StringBuilder sb = new StringBuilder("new TriggerMethod[]{");
+		Iterator<Trigger> iter = sortedSet.iterator();
+		while(iter.hasNext()){
+			Trigger t = iter.next();
+			sb.append("new TriggerMethod(");
+			sb.append(EmfBehaviorUtil.isHumanTrigger(t));
+			sb.append(",\"");
+			sb.append( NameConverter.separateWords(NameConverter.capitalize(t.getEvent().getName())));
+			sb.append("\",\"");
+			sb.append(t.getEvent().getName());
+			sb.append("\")");
+			if(iter.hasNext()){
+				sb.append(',');
+			}
+		}
+		sb.append('}');
+		op.initializeResultVariable(sb.toString());
+	}
+
 	protected void initializeExecutionElements(Behavior behavior,OJAnnotatedClass ojStateMachine,OJIfStatement ifNull){
 		// TODO Auto-generated method stub
 	}

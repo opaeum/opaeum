@@ -16,13 +16,9 @@ import org.opaeum.java.metamodel.utilities.OJOperationComparator;
 import org.opaeum.java.metamodel.utilities.OJPathNameComparator;
 
 public class OJClassifier extends OJClassifierGEN{
-	protected OJPackage f_myPackage;
 	protected String suffix;
-	/******************************************************
-	 * The constructor for this classifier.
-	 *******************************************************/
-	public OJClassifier(){
-		super();
+	public OJClassifier(String name){
+		super(name);
 	}
 	public void calcImports(){
 		// operations
@@ -129,46 +125,11 @@ public class OJClassifier extends OJClassifierGEN{
 		super.setUniqueNumber(i);
 		return i;
 	}
-	/**
-	 * 
-	 */
-	public OJOperation findToString(){
-		OJOperation result = null;
-		Iterator it = getOperations().iterator();
-		while(it.hasNext()){
-			OJOperation oper = (OJOperation) it.next();
-			if(oper.getName().equals("toString"))
-				result = oper;
-		}
-		return result;
-	}
-	/**
-	 * 
-	 */
-	public OJOperation findIdentOper(){
-		OJOperation result = null;
-		Iterator it = getOperations().iterator();
-		while(it.hasNext()){
-			OJOperation oper = (OJOperation) it.next();
-			if(oper.getName().equals("getIdentifyingString"))
-				result = oper;
-		}
-		return result;
-	}
-	/******************************************************
-	 * End of getters and setters.
-	 *******************************************************/
-	/**
-	 * @param result
-	 */
 	protected void addJavaDocComment(StringBuilder result){
 		String comment = JavaStringHelpers.firstCharToUpper(getComment());
 		result.append("/** " + comment);
 		result.append("\n */\n");
 	}
-	/**
-	 * @return
-	 */
 	protected StringBuilder operations(){
 		// sort the operations on visibilityKind, then name
 		List<OJOperation> temp = new ArrayList<OJOperation>(this.getOperations());
@@ -179,17 +140,13 @@ public class OJClassifier extends OJClassifierGEN{
 		// if ( result.length() > 0) result.append("\n");
 		return result;
 	}
-	/**
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
 	protected StringBuilder imports(){
 		// sort the imports by alphabeth
-		Set myImports = new TreeSet(new OJPathNameComparator());
+		Set<OJPathName> myImports = new TreeSet<OJPathName>(new OJPathNameComparator());
 		myImports.addAll(this.getImports());
 		//
 		StringBuilder result = new StringBuilder();
-		Iterator it = myImports.iterator();
+		Iterator<OJPathName> it = myImports.iterator();
 		String prevPackageName = "";
 		while(it.hasNext()){
 			OJPathName path = (OJPathName) it.next();
@@ -205,27 +162,19 @@ public class OJClassifier extends OJClassifierGEN{
 		}
 		return result;
 	}
-	public OJOperation findOperation(String name,List /* (OJPathName) */types){
-		OJOperation result = null;
-		Iterator it = getOperations().iterator();
-		while(it.hasNext()){
-			OJOperation elem = (OJOperation) it.next();
-			if(elem.isEqual(name, types))
-				return elem;
-		}
-		return result;
+	public OJOperation findOperation(String name,List<OJPathName> types){
+		return super.findOperation(name, types);
 	}
 	public void copyDeepInfoInto(OJClassifier copy){
 		super.copyDeepInfoInto(copy);
 		copy.setUniqueNumber(getUniqueNumber());
-		copy.setDerived(isDerived());
 		copy.setAbstract(isAbstract());
-		Iterator operationsIt = new ArrayList<OJOperation>(getOperations()).iterator();
+		Iterator<OJOperation> operationsIt = new ArrayList<OJOperation>(getOperations()).iterator();
 		while(operationsIt.hasNext()){
 			OJOperation elem = (OJOperation) operationsIt.next();
 			copy.addToOperations(elem.getDeepCopy());
 		}
-		Iterator importsIt = new ArrayList<OJPathName>(getImports()).iterator();
+		Iterator<OJPathName> importsIt = new ArrayList<OJPathName>(getImports()).iterator();
 		while(importsIt.hasNext()){
 			OJPathName elem = (OJPathName) importsIt.next();
 			copy.addToImports(elem.getCopy());

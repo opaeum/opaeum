@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.metamodels.java,
  org.opaeum.metamodels.emfworkspace,
  org.eclipse.ocl.uml,
- org.opaeum.compilation.ocltojava.emf,
+ org.opaeum.compilation.ocltojava,
  org.opaeum.metamodels.text,
  org.opaeum.linkage.validation
 Bundle-ActivationPolicy: lazy

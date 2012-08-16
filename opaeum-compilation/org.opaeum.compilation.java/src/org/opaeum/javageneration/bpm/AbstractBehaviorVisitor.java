@@ -2,13 +2,13 @@ package org.opaeum.javageneration.bpm;
 
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.hibernate.HibernateUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -25,7 +25,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		taskUtil=new TaskUtil(ojUtil);
 	}
 	public void addReturnInfo(OJAnnotatedClass ojOperationClass){
-		OJAnnotatedField returnInfo=new OJAnnotatedField("returnInfo", BpmUtil.RETURN_INFO);
+		OJAnnotatedField returnInfo=new OJAnnotatedField("returnInfo", HibernateUtil.RETURN_INFO);
 		ojOperationClass.addToFields(returnInfo);
 		returnInfo.setInitExp("new ReturnInfo()");
 		OJAnnotatedOperation setReturnInfo=new OJAnnotatedOperation("setReturnInfo");

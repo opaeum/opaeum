@@ -24,12 +24,8 @@ import org.opaeum.java.metamodel.OJClassifier;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJTryStatement;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.AbstractCaller;
-import org.opaeum.javageneration.bpm.AbstractEventConsumptionImplementor;
-import org.opaeum.javageneration.bpm.BpmUtil;
 
 public abstract class AbstractCallActionBuilder<T extends CallAction> extends PotentialTaskActionBuilder<T>{
 	private AbstractCaller<T> delegate;

@@ -1,11 +1,13 @@
 package org.opaeum.validation.activities;
 
+import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.CallOperationAction;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.CreateObjectAction;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
@@ -13,6 +15,7 @@ import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
 import org.eclipse.uml2.uml.ReadVariableAction;
@@ -20,6 +23,8 @@ import org.eclipse.uml2.uml.ReplyAction;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.StructuralFeatureAction;
+import org.eclipse.uml2.uml.ValuePin;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.VariableAction;
 import org.eclipse.uml2.uml.WriteStructuralFeatureAction;
 import org.eclipse.uml2.uml.WriteVariableAction;
@@ -29,6 +34,7 @@ import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.validation.AbstractValidator;
 import org.opaeum.validation.ValidationPhase;
 
@@ -86,16 +92,32 @@ public class ActionValidation extends AbstractValidator{
 			getErrorMap().putError(a, ActionValidationRule.SEND_SIGNAL_ACTION_REQUIRES_SIGNAL);
 		}
 		if(EmfActionUtil.getTargetElement( a) != null){
-			if(EmfActionUtil.getTargetType(a) instanceof BehavioredClassifier){
-				BehavioredClassifier bc = (BehavioredClassifier) EmfActionUtil.getTargetType(a);
+			Classifier targetType = EmfActionUtil.getTargetType(a);
+			if(targetType ==null && a.getTarget() instanceof ValuePin){
+				//TODO put this in OPaeumLibrary
+				ValueSpecification value= ((ValuePin)a.getTarget()).getValue();
+				if(value instanceof OpaqueExpression){
+					OpaqueExpressionContext ctx = getLibrary().getOclExpressionContext((OpaqueExpression) value);
+					if(!ctx.hasErrors()){
+						Classifier type = ctx.getExpression().getType();
+						if(type instanceof CollectionType){
+							targetType=((CollectionType) type).getElementType();
+						}else{
+							targetType=type;
+						}
+					}
+				}
+			}
+			if(targetType instanceof BehavioredClassifier){
+				BehavioredClassifier bc = (BehavioredClassifier) targetType;
 				if(a.getSignal() != null && !EmfEventUtil.hasReceptionOrTriggerFor( bc,a.getSignal())){
-					getErrorMap().putError(EmfActionUtil.getTargetElement( a), ActionValidationRule.SEND_SIGNAL_TARGET_MUST_RECEIVE_SIGNAL, a, EmfActionUtil.getTargetType(a),
+					getErrorMap().putError(EmfActionUtil.getTargetElement( a), ActionValidationRule.SEND_SIGNAL_TARGET_MUST_RECEIVE_SIGNAL, a, targetType,
 							a.getSignal());
 				}
-			}else if(EmfActionUtil.getTargetType(a) instanceof Interface){
-				Interface i = (Interface) EmfActionUtil.getTargetType(a);
+			}else if(targetType instanceof Interface){
+				Interface i = (Interface) targetType;
 				if(a.getSignal() != null && !EmfEventUtil.hasReceptionFor( i, a.getSignal())){
-					getErrorMap().putError(EmfActionUtil.getTargetElement( a), ActionValidationRule.SEND_SIGNAL_TARGET_MUST_RECEIVE_SIGNAL, a, EmfActionUtil.getTargetType(a),
+					getErrorMap().putError(EmfActionUtil.getTargetElement( a), ActionValidationRule.SEND_SIGNAL_TARGET_MUST_RECEIVE_SIGNAL, a, targetType,
 							a.getSignal());
 				}
 			}else{

@@ -10,6 +10,6 @@ public interface IActivityNodeContainerExecution extends IBehaviorExecution{
 	IActivityEdgeInstance getActivityEdgeInstance(String id);
 	<AE extends IActivityNodeContainerExecution,T extends IActivityToken<AE>> List<T> getTokensHeldBy(IActivityNodeActivation<AE,T> node);
 	<AE extends IActivityNodeContainerExecution,T extends IActivityToken<AE>>  List<T> getTokensOfferedTo(IActivityEdgeInstance<AE,T> edge);
-	IActivityToken createToken(TokenKind kind);
+//	IActivityToken createToken(TokenKind kind);
 	void terminateAll();
 }

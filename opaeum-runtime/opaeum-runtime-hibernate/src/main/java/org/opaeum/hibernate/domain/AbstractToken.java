@@ -28,6 +28,13 @@ public abstract class AbstractToken <BE extends IBehaviorExecution >implements  
 		return behaviorExecution.getExecutionElements().get(
 				currentElementId);
 	}
+	public IToken<BE> getInnermostNonParallelToken(){
+		if(getChildTokens().size()>1 || getChildTokens().isEmpty()){
+			return this;
+		}else{
+			return getChildTokens().iterator().next().getInnermostNonParallelToken();
+		}
+	}
 
 	@Override
 	public void transferTo(@SuppressWarnings("rawtypes") IExecutionElement vertexActivation) {

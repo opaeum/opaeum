@@ -127,7 +127,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 			migrateInheritedCompositeProperties(ctx2);
 		}
 		for(Property toProperty: getLibrary().getDirectlyImplementedAttributes( toClass)){
-			if(!(toProperty.isDerived() || toProperty.isReadOnly()) && isPersistent(toProperty.getType())){
+			if(!(EmfPropertyUtil.isDerived( toProperty) || toProperty.isReadOnly()) && isPersistent(toProperty.getType())){
 				if(toProperty.isComposite() && EmfClassifierUtil.isCompositionParticipant((Classifier) toProperty.getType())){
 					migrateComposites(ctx2, toProperty);
 				}
@@ -165,7 +165,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 	private boolean isReference(Property toProperty){
 		boolean participatesInComposition = toProperty.isComposite()
 				|| (toProperty.getOtherEnd() != null && toProperty.getOtherEnd().isComposite());
-		return !(toProperty.isDerived() || toProperty.isReadOnly() || participatesInComposition || EmfPropertyUtil.isInverse(toProperty))
+		return !(EmfPropertyUtil.isDerived( toProperty) || toProperty.isReadOnly() || participatesInComposition || EmfPropertyUtil.isInverse(toProperty))
 				&& isPersistent(toProperty.getType());
 	}
 	private void migrateReference(MigratorContext ctx2,Property toProperty){
@@ -210,7 +210,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 			migrateInheritedDataTypeProperties(ctx);
 		}
 		for(Property toProperty: getLibrary().getDirectlyImplementedAttributes( toClass)){
-			if(!(toProperty.isDerived() || toProperty.isReadOnly())){
+			if(!(EmfPropertyUtil.isDerived( toProperty) || toProperty.isReadOnly())){
 				if(toProperty.getType() instanceof DataType){
 					migrateDataTypeValue(ctx, toProperty);
 				}
@@ -459,7 +459,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		MigratorContext childCtx = new MigratorContext(fromStruct, toStruct, ctx.migrator, convertStruct, ctx.prefix
 				+ NameConverter.capitalize(toProperty.getName()));
 		for(Property toProp:getLibrary().getEffectiveAttributes(toStruct)){
-			if(toProp.getType() instanceof DataType && !toProp.isDerived() && !toProp.isReadOnly()){
+			if(toProp.getType() instanceof DataType && !EmfPropertyUtil.isDerived( toProp) && !toProp.isReadOnly()){
 				migrateDataTypeValue(childCtx, toProp);
 			}
 		}

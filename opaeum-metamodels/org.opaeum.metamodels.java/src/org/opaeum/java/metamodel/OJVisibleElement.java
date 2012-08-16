@@ -3,12 +3,8 @@ package org.opaeum.java.metamodel;
 import org.opaeum.java.metamodel.generated.OJVisibleElementGEN;
 
 public abstract class OJVisibleElement extends OJVisibleElementGEN {
-	
-	/******************************************************
-	 * The constructor for this classifier.
-	*******************************************************/	
-	public OJVisibleElement() {
-		super();
+	public OJVisibleElement(String name) {
+		super(name);
 	}
 
 	public String visToJava(OJVisibleElement elem){

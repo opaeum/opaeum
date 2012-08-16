@@ -33,7 +33,6 @@
 		<module>org.opaeum.modeler.product</module>
 		<module>org.opaeum.modeler.compositestructurediagram</module>
 		<module>org.opaeum.modeler.componentdiagram</module>
-		<module>org.opaeum.modeler.validation</module>
 	</modules>
 	<build>
 		<plugins>

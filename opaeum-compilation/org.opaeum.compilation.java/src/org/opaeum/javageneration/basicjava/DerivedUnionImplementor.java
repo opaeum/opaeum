@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.basicjava;
 
+import java.util.ArrayList;
+
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
@@ -8,6 +10,7 @@ import org.eclipse.uml2.uml.Property;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 
@@ -31,7 +34,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 	private OJAnnotatedOperation findOrCreateDerivedUnionGetter(Classifier owner,PropertyMap derivedUnionMap,OJClass c){
 		// just a default implementation so that all subclasses are not required
 		// to implement it. Remember this getter may have been implemented in the superclass only.
-		OJAnnotatedOperation getter = (OJAnnotatedOperation) c.getUniqueOperation(derivedUnionMap.getter());
+		OJAnnotatedOperation getter = (OJAnnotatedOperation) c.findOperation(derivedUnionMap.getter(), new ArrayList<OJPathName>());
 		if(getter == null){
 			getter = new OJAnnotatedOperation(derivedUnionMap.getter());
 			getter.setReturnType(derivedUnionMap.javaTypePath());

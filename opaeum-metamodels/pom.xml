@@ -21,14 +21,11 @@
 	</repositories>
 
 	<modules>
-		<module>org.opaeum.metamodels.drools</module>
 		<module>org.opaeum.metamodels.emfworkspace</module>
 		<module>org.opaeum.metamodels.java</module>
 		<module>org.opaeum.metamodels.feature</module>
 		<module>org.opaeum.metamodels.source.feature</module>
 		<module>org.opaeum.metamodels.maven</module>
-		<module>org.opaeum.metamodels.ocl</module>
-		<module>org.opaeum.metamodels.opaeum</module>
 		<module>org.opaeum.metamodels.text</module>
 		<module>org.opaeum.metamodels.uim</module>
 		<!--module>org.opaeum.metamodels.simulation</module-->

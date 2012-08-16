@@ -1,6 +1,6 @@
 package org.nakeduml.tinker.generator;
 
-import java.util.Collections;
+import java.util.ArrayList;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
@@ -24,7 +24,6 @@ import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.basicjava.HashcodeBuilder;
 import org.opaeum.javageneration.basicjava.ToXmlStringBuilder;
 import org.opaeum.javageneration.composition.CompositionNodeImplementor;
-import org.opaeum.javageneration.util.OJUtil;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {TinkerAttributeImplementor.class,HashcodeBuilder.class},after = {
 		HashcodeBuilder.class,ToXmlStringBuilder.class,CompositionNodeImplementor.class})
@@ -81,7 +80,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator{
 		}
 	}
 	private void persistUid(OJAnnotatedClass ojClass){
-		OJAnnotatedOperation getUid = (OJAnnotatedOperation) ojClass.findOperation("getUid", Collections.emptyList());
+		OJAnnotatedOperation getUid = (OJAnnotatedOperation) ojClass.findOperation("getUid", new ArrayList<OJPathName>());
 		getUid.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		getUid.getBody().removeAllFromStatements();
 		getUid.getBody().addToStatements("String uid = (String) this.vertex.getProperty(\"uid\")");
@@ -133,7 +132,6 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator{
 	}
 	private void addPersistentConstructor(OJAnnotatedClass ojClass){
 		OJConstructor persistentConstructor = new OJConstructor();
-		persistentConstructor.setName(TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_NAME);
 		persistentConstructor.addParam(TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_PARAM_NAME, new OJPathName("java.lang.Boolean"));
 		ojClass.addToConstructors(persistentConstructor);
 	}

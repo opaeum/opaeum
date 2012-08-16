@@ -84,8 +84,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 						for(InputPin pin:EmfActionUtil.getReplyAction(acc).getReplyValues()){
 							if(((Parameter) EmfActionUtil.getLinkedTypedElement(pin)).getDirection() == ParameterDirectionKind.RETURN_LITERAL){
 								Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(ojUtil);
-								mainBlock.addToStatements(
-										"result=" + expressor.expressInputPinOrOutParamOrExpansionNode(mainBlock, pin));
+								mainBlock.addToStatements("result=" + expressor.expressInputPinOrOutParamOrExpansionNode(mainBlock, pin));
 							}
 						}
 					}
@@ -186,9 +185,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 							eventActions = new ElementsWaitingForEvent(trigger.getEvent());
 							results.put(trigger.getEvent(), eventActions);
 						}
-						for(ActivityEdge flow:EmfActivityUtil.getAllEffectiveOutgoing(action)){
-							eventActions.addWaitingNode(action);
-						}
+						eventActions.addWaitingNode(action);
 					}
 				}
 			}
@@ -200,16 +197,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		super.release();
 		actionBuilder = null;
 	}
-	private Jbpm5ActionBuilder<ActivityNode> getActionBuilder(){
-		if(actionBuilder == null){
-			actionBuilder = new Jbpm5ActionBuilder<ActivityNode>(ojUtil, null){
-				@Override
-				public void implementActionOn(OJAnnotatedOperation oper){
-				}
-			};
-		}
-		return actionBuilder;
-	}
+
 	@Override
 	protected void implementEventConsumer(Behavior behavior,OJAnnotatedClass ojBehavior,ElementsWaitingForEvent eventActions){
 		OJAnnotatedOperation eventConsumer = super.createEventConsumerSignature(behavior, ojBehavior, eventActions.getEvent());

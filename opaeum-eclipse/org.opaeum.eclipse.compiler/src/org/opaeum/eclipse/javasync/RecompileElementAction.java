@@ -34,7 +34,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.filegeneration.TextFileDeleter;
 import org.opaeum.filegeneration.TextFileGenerator;
-import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.textmetamodel.TextOutputNode;
@@ -83,7 +83,7 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 								});
 							}else{
 								monitor.beginTask("Generating Java Code", 90);
-								p.replaceModel(new OJPackage());
+								p.replaceModel(new OJWorkspace());
 								p.replaceModel(new TextWorkspace());
 								OpaeumConfig cfg = currentContext.getConfig();
 								Collection<Element> allDescendants = (Collection)element.eAllContents();

@@ -14,11 +14,8 @@ import org.opaeum.java.metamodel.utilities.JavaUtil;
 public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElement {
 	private OJPackage myPackage;
 	Map<OJPathName, OJAnnotationValue> f_annotations = new TreeMap<OJPathName, OJAnnotationValue>();
-	public OJAnnotatedPackageInfo(String string) {
-		setName(string);
-	}
 	public OJAnnotatedPackageInfo() {
-		setName("");
+		super("");
 	}
 
 	public boolean addAnnotationIfNew(OJAnnotationValue value){
@@ -71,7 +68,7 @@ public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElem
 		return results;
 	}
 	public OJAnnotatedPackageInfo getDeepCopy(OJAnnotatedPackageInfo owner) {
-		OJAnnotatedPackageInfo copy = new OJAnnotatedPackageInfo(getName());
+		OJAnnotatedPackageInfo copy = new OJAnnotatedPackageInfo();
 		copyDeepInfoInto(owner, copy);
 		return copy;
 	}

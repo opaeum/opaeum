@@ -9,18 +9,14 @@ import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
 
 public class OJInterface extends OJInterfaceGEN {
-	/******************************************************
-	 * The constructor for this classifier.
-	*******************************************************/	
-	public OJInterface() {
-		super();
+	public OJInterface(String name) {
+		super(name);
 		setVisibility(OJVisibilityKind.PUBLIC);
 	}
 
 	public void calcImports() {
 		super.calcImports(); // does operations
-		// super interfaces
-		Iterator it = getSuperInterfaces().iterator();
+		Iterator<OJPathName> it = getSuperInterfaces().iterator();
 		while( it.hasNext()) {
 			OJPathName intf = (OJPathName) it.next();
 			this.addToImports(intf);
@@ -53,7 +49,7 @@ public class OJInterface extends OJInterfaceGEN {
 	private StringBuilder superInterfaces() {
 		StringBuilder result = new StringBuilder();
 		if (this.getSuperInterfaces().size() > 0) {
-			Iterator it = this.getSuperInterfaces().iterator();
+			Iterator<OJPathName> it = this.getSuperInterfaces().iterator();
 			boolean first = true;
 			while (it.hasNext()) {
 				OJPathName elem = (OJPathName) it.next();
@@ -70,14 +66,14 @@ public class OJInterface extends OJInterfaceGEN {
 	}
 	
 	public OJInterface getDeepCopy(OJPackage owner) {
-		OJInterface copy = new OJInterface();
+		OJInterface copy = new OJInterface(getName());
 		copy.setMyPackage(owner);
 		copyDeepInfoInto(copy);
 		return copy;
 	}
 	protected void copyDeepInfoInto(OJInterface copy) {
 		super.copyDeepInfoInto(copy);
-		Iterator superInterfacesIt = new ArrayList<OJPathName>(getSuperInterfaces()).iterator();
+		Iterator<OJPathName> superInterfacesIt = new ArrayList<OJPathName>(getSuperInterfaces()).iterator();
 		while ( superInterfacesIt.hasNext() ) {
 			OJPathName elem = (OJPathName) superInterfacesIt.next();
 			copy.addToSuperInterfaces(elem.getDeepCopy());

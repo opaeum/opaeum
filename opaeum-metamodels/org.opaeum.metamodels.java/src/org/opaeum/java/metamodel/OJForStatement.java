@@ -34,7 +34,7 @@ public class OJForStatement extends OJForStatementGEN{
 		setBody(new OJBlock());
 	}
 	public String toJavaString(){
-		String result = "for ( " + getElemType().getTypeNameWithTypeArguments() + " " + getElemName() + " : " + getCollection() + " ) {\n";
+		String result = "for ( " + getElemType().getTypeNameWithTypeArguments() + " " + getElemName() + " : " + getCollectionExpression() + " ) {\n";
 		result = result + JavaStringHelpers.indent(getBody().toJavaString(), 1) + "\n}";
 		return result;
 	}
@@ -46,7 +46,7 @@ public class OJForStatement extends OJForStatementGEN{
 	public void copyDeepInfoInto(OJForStatement copy){
 		super.copyDeepInfoInto(copy);
 		copy.setElemName(getElemName());
-		copy.setCollection(getCollection());
+		copy.setCollectionExpression(getCollectionExpression());
 		if(getElemType() != null){
 			copy.setElemType(getElemType().getDeepCopy());
 		}
@@ -58,7 +58,7 @@ public class OJForStatement extends OJForStatementGEN{
 		if(getElemType() != null){
 			getElemType().renameAll(renamePathNames, suffix);
 		}
-		setCollection(replaceAll(getCollection(), renamePathNames, suffix));
+		setCollectionExpression(replaceAll(getCollectionExpression(), renamePathNames, suffix));
 		if(getBody() != null){
 			getBody().renameAll(renamePathNames, suffix);
 		}

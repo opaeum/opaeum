@@ -21,10 +21,8 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		setReturnType(ojPathName);
 	}
 	public OJAnnotatedOperation(String string){
-		super();
-		setName(string);
+		super(string);
 	}
-	@Override
 	public OJAnnotatedOperation getCopy(){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation(getName());
 		super.copyValues(oper);
@@ -35,7 +33,6 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		for(OJAnnotationValue v:getAnnotations()){
 			oper.addAnnotationIfNew(v.getCopy());
 		}
-		// TODO copy exception
 		return oper;
 	}
 	public boolean addAnnotationIfNew(OJAnnotationValue value){
@@ -60,9 +57,6 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		StringBuilder result = new StringBuilder();
 		if(!getComment().equals("")){
 			addJavaDocComment(result);
-		}
-		if(this.getNeedsSuppress()){
-			result.append("@SuppressWarnings(\"unchecked\")\n");
 		}
 		if(getAnnotations().size() > 0){
 			result.append(JavaStringHelpers.indent(JavaUtil.collectionToJavaString(getAnnotations(), "\n"), 0));

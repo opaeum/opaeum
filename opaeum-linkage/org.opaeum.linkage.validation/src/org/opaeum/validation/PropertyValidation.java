@@ -40,6 +40,7 @@ public class PropertyValidation extends AbstractValidator{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitProperty(Property p){
+		//TODO property cannot be derivedUnion AND have defaultVAlue
 		if(p.getAssociationEnd() == null){
 			Classifier owner = (Classifier) EmfElementFinder.getContainer(p);
 			if(p.isStatic() && owner instanceof Interface){

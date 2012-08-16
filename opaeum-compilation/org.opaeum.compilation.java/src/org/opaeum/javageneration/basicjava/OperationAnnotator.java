@@ -47,7 +47,6 @@ import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedParameter;
@@ -270,10 +269,8 @@ public class OperationAnnotator extends StereotypeAnnotator{
 	}
 	private  void addParameters(Classifier context,OJAnnotatedOperation oper,List<? extends Parameter> argumentParameters){
 		for(Parameter elem:argumentParameters){
-			OJAnnotatedParameter param = new OJAnnotatedParameter();
 			PropertyMap pMap = ojUtil.buildStructuralFeatureMap(elem);
-			param.setName(pMap.fieldname());
-			param.setType(pMap.javaTypePath());
+			OJAnnotatedParameter param = new OJAnnotatedParameter(pMap.fieldname(),pMap.javaTypePath());
 			oper.addToParameters(param);
 			OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.ParameterMetaInfo"));
 			param.putAnnotation(ap);

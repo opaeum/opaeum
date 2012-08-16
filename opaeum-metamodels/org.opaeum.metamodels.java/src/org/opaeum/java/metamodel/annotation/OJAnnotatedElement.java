@@ -1,6 +1,5 @@
 package org.opaeum.java.metamodel.annotation;
 import java.util.Collection;
-import java.util.Set;
 
 import org.opaeum.java.metamodel.OJPathName;
 

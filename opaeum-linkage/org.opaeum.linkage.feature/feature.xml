@@ -30,27 +30,6 @@
    </requires>
 
    <plugin
-         id="org.opaeum.linkage.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.linkage.emfextraction"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.linkage.namegeneration"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.opaeum.linkage.validation"
          download-size="0"
          install-size="0"

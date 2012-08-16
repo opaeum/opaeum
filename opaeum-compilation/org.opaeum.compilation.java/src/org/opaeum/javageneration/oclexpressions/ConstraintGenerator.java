@@ -16,7 +16,6 @@ import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.util.OJUtil;
@@ -53,16 +52,12 @@ public class ConstraintGenerator{
 		// use all the local fields
 		List<OJParameter> parameters = new ArrayList<OJParameter>(operation.getParameters());
 		for(OJField l:operation.getBody().getLocals()){
-			OJParameter parameter = new OJParameter();
-			parameter.setName(l.getName());
-			parameter.setType(l.getType());
+			OJParameter parameter = new OJParameter(l.getName(),l.getType());
 			parameters.add(parameter);
 		}
 		if(sourceBlock != null && sourceBlock != operation.getBody()){
 			for(OJField l:sourceBlock.getLocals()){
-				OJParameter parameter = new OJParameter();
-				parameter.setName(l.getName());
-				parameter.setType(l.getType());
+				OJParameter parameter = new OJParameter(l.getName(),l.getType());
 				parameters.add(parameter);
 			}
 		}

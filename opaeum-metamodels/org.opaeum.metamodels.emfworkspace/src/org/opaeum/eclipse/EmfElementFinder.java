@@ -151,7 +151,7 @@ public class EmfElementFinder{
 		}
 	}
 	public static org.eclipse.uml2.uml.Package getRootObject(Element e){
-		if(e instanceof Model || e instanceof Profile || (e instanceof Package && e.eContainer()==null)){
+		if(e instanceof Model || e instanceof Profile || (e instanceof Package && e.eContainer() == null)){
 			return (org.eclipse.uml2.uml.Package) e;
 		}else if(e == null){
 			return null;
@@ -239,22 +239,25 @@ public class EmfElementFinder{
 	}
 	// TODO rename to getEffectiveProperties
 	public static List<Property> getPropertiesInScope(Classifier c){
-		System.out.println();
 		List<Property> result = new ArrayList<Property>(c.getAttributes());
 		for(Association a:c.getAssociations()){
 			for(Property end:a.getMemberEnds()){
-				if(end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner()==a){
+				if(end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner() == a){
 					result.add(end);
 				}
 			}
 		}
 		for(Generalization ir:c.getGeneralizations()){
-			result.addAll(getPropertiesInScope(ir.getGeneral()));
+			for(Property p:getPropertiesInScope(ir.getGeneral())){
+				result.add(p);
+			}
 		}
 		if(c instanceof BehavioredClassifier){
 			BehavioredClassifier cls = (BehavioredClassifier) c;
 			for(InterfaceRealization ir:cls.getInterfaceRealizations()){
-				result.addAll(getPropertiesInScope(ir.getContract()));
+				for(Property p:getPropertiesInScope(ir.getContract())){
+					result.add(p);
+				}
 			}
 		}
 		return result;
@@ -357,7 +360,7 @@ public class EmfElementFinder{
 	}
 	protected static Collection<Element> getCorrectOwnedElementsAndRetryIfFailed(Element root,int count){
 		if(root instanceof TemplateSignature){
-			//TODO add other elements we do not wish to traverse
+			// TODO add other elements we do not wish to traverse
 			return new TreeSet<Element>(new ElementComparator());
 		}else{
 			Collection<Element> elements = new TreeSet<Element>(new ElementComparator());
@@ -483,9 +486,9 @@ public class EmfElementFinder{
 		return result;
 	}
 	public static Namespace getNearestNamespace(Element ns){
-		Element parent=(Element) getContainer(ns);
-		while(!(parent instanceof Namespace || parent==null) ){
-			parent=(Element) getContainer(parent);
+		Element parent = (Element) getContainer(ns);
+		while(!(parent instanceof Namespace || parent == null)){
+			parent = (Element) getContainer(parent);
 		}
 		return (Namespace) parent;
 	}

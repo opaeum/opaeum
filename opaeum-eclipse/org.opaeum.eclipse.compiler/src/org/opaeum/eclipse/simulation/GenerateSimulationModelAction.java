@@ -11,13 +11,15 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
-import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 
 public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 	public GenerateSimulationModelAction(IStructuredSelection selection){
-		super(selection, "Generate Simulation Model");
+		super(selection, "Generate Simulation Model");//					monitor.beginTask("Loading All Models", 1000);
+//	EmfWorkspace ew = prepareDirectoryForTransformation(folder, monitor);
+//	monitor.subTask("Generating Java Code");
+
 	}
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
@@ -25,10 +27,10 @@ public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
 				try{
-					monitor.beginTask("Loading All Models", 1000);
-					EmfWorkspace ew = prepareDirectoryForTransformation(folder, monitor);
-					monitor.subTask("Generating Java Code");
 					throw new UnsupportedOperationException();
+//					monitor.beginTask("Loading All Models", 1000);
+//					EmfWorkspace ew = prepareDirectoryForTransformation(folder, monitor);
+//					monitor.subTask("Generating Java Code");
 //					new SimulationModelGenerator(ew).run();
 //					return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");
 				}catch(Exception e){

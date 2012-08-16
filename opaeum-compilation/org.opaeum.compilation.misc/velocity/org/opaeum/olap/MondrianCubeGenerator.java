@@ -199,6 +199,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 		return valid;
 	}
+	@SuppressWarnings("unchecked")
 	protected void addMeasures(Classifier cp,Element cube){
 		List<Element> measures = new ArrayList<Element>();
 		for(Property p:getLibrary().getEffectiveAttributes(cp)){

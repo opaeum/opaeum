@@ -10,7 +10,6 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSwitchCase;
 import org.opaeum.java.metamodel.OJSwitchStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;

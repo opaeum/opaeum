@@ -12,6 +12,8 @@ import org.hibernate.annotations.CascadeType;
 import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.SqlDialect;
+import org.opaeum.hibernate.domain.ReturnInfo;
+import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
@@ -21,6 +23,8 @@ import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.metamodel.name.NameWrapper;
 
 public class HibernateUtil{
+	public static final OJPathName RETURN_INFO = new OJPathName(ReturnInfo.class.getName());
+	public static final OJPathName STATE_MACHINE_TOKEN = new OJPathName(StateMachineToken.class.getName());
 	public static void addAny(OJAnnotatedField field,PropertyMap map){
 		Property p = map.getProperty();
 		String column = PersistentNameUtil.getPersistentName( p).getAsIs();

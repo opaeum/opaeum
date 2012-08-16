@@ -15,7 +15,7 @@ public class OJEnumValue extends OJElement{
 	private OJPathName type;
 	private String literalName;
 	public OJEnumValue(OJPathName type,String literalName){
-		super();
+		super(literalName);
 		this.type = type;
 		this.literalName = literalName;
 	}

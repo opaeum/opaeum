@@ -5,11 +5,8 @@ import java.util.Set;
 import org.opaeum.java.metamodel.generated.OJFieldGEN;
 
 public class OJField extends OJFieldGEN{
-	/******************************************************
-	 * The constructor for this classifier.
-	 *******************************************************/
-	public OJField(){
-		super();
+	public OJField(String name){
+		super(name);
 		setVisibility(OJVisibilityKind.PRIVATE);
 	}
 	public String toJavaString(){
@@ -31,7 +28,7 @@ public class OJField extends OJFieldGEN{
 		return result;
 	}
 	public OJField getDeepCopy(){
-		OJField copy = new OJField();
+		OJField copy = new OJField(getName());
 		copyDeepInfoInto(copy);
 		return copy;
 	}

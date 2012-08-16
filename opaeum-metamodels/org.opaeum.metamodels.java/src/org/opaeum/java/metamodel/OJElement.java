@@ -6,21 +6,13 @@ import java.util.Set;
 import org.opaeum.java.metamodel.generated.OJElementGEN;
 
 public abstract class OJElement extends OJElementGEN{
-	/******************************************************
-	 * The constructor for this classifier.
-	 *******************************************************/
-	public OJElement(){
+	public OJElement(String name){
 		super();
+		super.name=name;
 	}
-	/******************************************************
-	 * The following operations are the implementations of the operations defined for this classifier.
-	 *******************************************************/
 	public String toJavaString(){
 		return "";
 	}
-	/******************************************************
-	 * End of getters and setters.
-	 *******************************************************/
 	public void copyDeepInfoInto(OJElement copy){
 		super.copyInfoInto(copy);
 	}

@@ -13,6 +13,7 @@ import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.opaeum.eclipse.CodeGenerationStrategy;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
@@ -57,7 +58,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 			boolean hasDuplicates = hasDuplicates(allAttributes);
 			if(!hasDuplicates){
 				for(Property attr:allAttributes){
-					if(!(attr.isDerived())){
+					if(!(EmfPropertyUtil.isDerived( attr))){
 						addToConstructor(constr, myClass, attr, c);
 					}
 				}
@@ -83,15 +84,13 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		// Does lookups on arbitrary string properties
 		List<? extends Property> allAttributes = getLibrary().getEffectiveAttributes(c);
 		for(Property prop:allAttributes){
-			if(prop.getType().getName().equals("String") && prop.getUpper() == 1 && !prop.isDerived()){
+			if(prop.getType().getName().equals("String") && prop.getUpper() == 1 && !EmfPropertyUtil.isDerived( prop)){
 				// TODO support for other types??
 				OJAnnotatedOperation staticOp = new OJAnnotatedOperation("from" + NameConverter.capitalize(prop.getName()));
 				staticOp.setStatic(true);
 				OJPathName path = ojUtil.classifierPathname(c);
 				staticOp.setReturnType(path);
-				OJParameter ojParameter = new OJParameter();
-				ojParameter.setName(prop.getName());
-				ojParameter.setType(ojUtil.classifierPathname((Classifier) prop.getType()));
+				OJParameter ojParameter = new OJParameter(prop.getName(),ojUtil.classifierPathname((Classifier) prop.getType()));
 				staticOp.addToParameters(ojParameter);
 				List<EnumerationLiteral> literals = c.getOwnedLiterals();
 				for(EnumerationLiteral el:literals){

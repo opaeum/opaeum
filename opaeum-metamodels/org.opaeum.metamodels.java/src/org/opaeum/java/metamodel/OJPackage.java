@@ -1,7 +1,6 @@
 package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -13,19 +12,12 @@ import org.opaeum.java.metamodel.generated.OJPackageGEN;
 
 public class OJPackage extends OJPackageGEN {
 	private List<OJAnnotatedPackageInfo> packageInfos = new ArrayList<OJAnnotatedPackageInfo>();
-	/******************************************************
-	 * The constructor for this classifier.
-	*******************************************************/	
-	public OJPackage() {
-		super();
-	}
-	
 	@Override
 	public void finalize(){
 		super.finalize();
 	}
 	public OJPackage(String name){
-		this.setName(name);
+		super(name);
 	}
 	public void addToPackageInfo(OJAnnotatedPackageInfo pk){
 		packageInfos.add(pk);
@@ -99,7 +91,7 @@ public class OJPackage extends OJPackageGEN {
 	 */
 	private OJInterface findLocalInterface(String string) {
 		OJInterface result = null;
-		Iterator it = getInterfaces().iterator();
+		Iterator<OJInterface> it = getInterfaces().iterator();
 		while (it.hasNext()){
 			OJInterface elem = (OJInterface) it.next();
 			if (elem.getName().equals(string)){
@@ -131,7 +123,7 @@ public class OJPackage extends OJPackageGEN {
 	 */
 	protected OJClass findLocalClass(String string) {
 		OJClass result = null;
-		Iterator it = getClasses().iterator();
+		Iterator<OJClass> it = getClasses().iterator();
 		while (it.hasNext()){
 			OJClass elem = (OJClass) it.next();
 			if (elem.getName().equals(string)){
@@ -157,7 +149,7 @@ public class OJPackage extends OJPackageGEN {
 	}
 	
 	public OJPackage getDeepCopy(OJPackage owner) {
-		OJPackage copy = new OJPackage();
+		OJPackage copy = new OJPackage(getName());
 		copyDeepInfoInto(owner, copy);
 		return copy;		
 	}

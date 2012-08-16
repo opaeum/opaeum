@@ -33,6 +33,7 @@ import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.EclipseProjectGenerationStep;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.textmetamodel.SourceFolder;
@@ -154,7 +155,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 				nakedUmlChanges.clear();
 			}
 			if(clss.size() > 0){
-				process.replaceModel(new OJPackage());
+				process.replaceModel(new OJWorkspace());
 				process.replaceModel(new TextWorkspace());
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(
 						monitor, 400));

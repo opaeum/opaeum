@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Behavior;
@@ -20,7 +20,6 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Signal;
 import org.opaeum.eclipse.CodeGenerationStrategy;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPackageUtil;

@@ -10,7 +10,7 @@ Require-Bundle: org.opaeum.compilation.java,
  org.opaeum.metamodels.maven,
  org.opaeum.metamodels.java,
  org.opaeum.compilation.filegeneration,
- org.opaeum.compilation.ocltojava.emf,
+ org.opaeum.compilation.ocltojava,
  org.opaeum.linkage.validation,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.compilation.runtimedependencies

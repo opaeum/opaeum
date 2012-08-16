@@ -1,5 +1,3 @@
-/** (c) Copyright 2002, Klasse Objecten
- */
 package org.opaeum.java.metamodel.utilities;
 
 import java.util.Collection;

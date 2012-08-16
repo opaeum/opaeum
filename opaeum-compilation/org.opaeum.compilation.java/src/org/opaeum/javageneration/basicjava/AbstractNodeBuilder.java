@@ -15,7 +15,6 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.javageneration.util.OJUtill;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractNodeBuilder {
@@ -68,7 +67,7 @@ public abstract class AbstractNodeBuilder {
 				operationContext.getOwner().addToImports("java.util.Collection");
 				expression = "(Collection<" + targetPath.getLast() + ">)" + expression;
 				OJForStatement fs = new OJForStatement();
-				fs.setCollection(expression);
+				fs.setCollectionExpression(expression);
 				fs.setElemName(actionMap.targetName());
 				fs.setElemType(targetPath);
 				fs.setBody(new OJBlock());

@@ -18,15 +18,14 @@ import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
-import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.basicjava.SpecificationImplementor;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.ocl.uml.AbstractOclContext;
 import org.opaeum.ocl.uml.OpaqueBehaviorContext;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
@@ -76,9 +75,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 					execute.getBody().addToStatements(
 							valueSpecificationUtil.expressOcl(oclBehaviorContext, execute, oclBehaviorContext.getExpression().getType()));
 				}else{
-					OJField result = new OJField();
-					result.setName("result");
-					result.setType(map.javaReturnTypePath());
+					OJAnnotatedField result = new OJAnnotatedField("result",map.javaReturnTypePath());
 					result.setInitExp(map.javaReturnDefaultValue());
 					execute.getBody().addToLocals(result);
 					PropertyMap resultMap = ojUtil.buildStructuralFeatureMap(map.getReturnParameter());

@@ -25,7 +25,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -126,7 +125,7 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 						toString.getBody().addToStatements(forEach);
 						forEach.setElemType(map.javaBaseTypePath());
 						forEach.setElemName(map.fieldname());
-						forEach.setCollection(map.getter() + "()");
+						forEach.setCollectionExpression(map.getter() + "()");
 						forEach.setBody(new OJBlock());
 						if(XmlUtil.isXmlSubElement(map)){
 							forEach.getBody().addToStatements("sb.append(\"\\n\" + " + map.fieldname() + ".toXmlString())");

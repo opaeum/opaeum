@@ -13,6 +13,7 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.CallBehaviorAction;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Component;
@@ -23,19 +24,16 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
-import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
-import org.opaeum.javageneration.util.OJUtil;
 
 public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	public AbstractStructureVisitor(){
@@ -70,6 +68,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 					}else{
 						PropertyMap buildStructuralFeatureMap = ojUtil.buildStructuralFeatureMap(p);
 						visitProperty(c, buildStructuralFeatureMap);
+						
 					}
 				}
 			}

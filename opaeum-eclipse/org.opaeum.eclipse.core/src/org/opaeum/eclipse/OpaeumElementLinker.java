@@ -1190,14 +1190,14 @@ public class OpaeumElementLinker extends EContentAdapter{
 		List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(en);
 		outer:for(Slot slot:new ArrayList<Slot>(newValue.getSlots())){
 			for(Property a:propertiesInScope){
-				if(a.equals(slot.getDefiningFeature()) && !(a.isDerived() || a.isDerivedUnion())){
+				if(a.equals(slot.getDefiningFeature()) && !(EmfPropertyUtil.isDerived( a))){
 					continue outer;
 				}
 			}
 			newValue.getSlots().remove(slot);
 		}
 		for(Property a:propertiesInScope){
-			if(!(a.isDerived() || a.isDerivedUnion())){
+			if(!(EmfPropertyUtil.isDerived( a) )){
 				ensureSlotsPresence(newValue, a);
 			}
 		}

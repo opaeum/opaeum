@@ -21,7 +21,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.workspace.MappedType;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.AbstractFormatter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;

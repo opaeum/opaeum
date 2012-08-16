@@ -55,6 +55,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	protected ValueSpecificationUtil valueSpecificationUtil;
 	protected EventUtil eventUtil;
 	protected OJUtil ojUtil;
+	@SuppressWarnings("unchecked")
 	public <T extends NamedElement>Set<T> getElementsOfType(Class<T> type,Collection<? extends Package> roots){
 		SortedSet<T> result = new TreeSet<T>(new Comparator<T>(){
 			@Override

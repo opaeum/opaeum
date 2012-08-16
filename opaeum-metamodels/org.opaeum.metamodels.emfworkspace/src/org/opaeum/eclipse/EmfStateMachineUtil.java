@@ -165,7 +165,7 @@ public class EmfStateMachineUtil{
 		Collection<Transition>  result = new ArrayList<Transition>();
 		EList<Transition> outgoings = state.getOutgoings();
 		for(Transition transition:outgoings){
-			if(!hasGuard(transition)){
+			if(transition.getTriggers().isEmpty()){
 				result.add(transition);
 			}
 		}

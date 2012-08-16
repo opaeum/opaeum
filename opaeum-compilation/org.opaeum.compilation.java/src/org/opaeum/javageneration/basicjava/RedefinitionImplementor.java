@@ -1,10 +1,14 @@
 package org.opaeum.javageneration.basicjava;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfAssociationUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
@@ -46,14 +50,14 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		if(f != null){
 			c.removeFromFields(f);
 		}
-		if(!(redefiningMap.getProperty().isReadOnly() || redefiningMap.getProperty().isDerived() || redefinedProperty.isReadOnly() || redefinedProperty.isDerived())){
+		if(!(redefiningMap.getProperty().isReadOnly() || EmfPropertyUtil.isDerived( redefiningMap.getProperty()) || redefinedProperty.isReadOnly() || EmfPropertyUtil.isDerived( redefinedProperty))){
 			redefineOperation(c, redefinedMap.setter(), redefiningMap.setter(), redefinedMap.javaTypePath());
 			redefineOperation(c, redefinedMap.adder(), redefiningMap.adder(), redefinedMap.javaBaseTypePath());
 			redefineOperation(c, redefinedMap.remover(), redefiningMap.remover(), redefinedMap.javaBaseTypePath());
 			redefineOperation(c, redefinedMap.internalAdder(), redefiningMap.internalAdder(), redefinedMap.javaBaseTypePath());
 			redefineOperation(c, redefinedMap.internalRemover(), redefiningMap.internalRemover(), redefinedMap.javaBaseTypePath());
 		}
-		OJAnnotatedOperation o = (OJAnnotatedOperation) c.getUniqueOperation(redefinedMap.getter());
+		OJAnnotatedOperation o = (OJAnnotatedOperation) c.findOperation(redefinedMap.getter(), new ArrayList<OJPathName>());
 		// might exist if the modeler defined an
 		// attribute with the same name
 		if(o == null){
@@ -78,8 +82,8 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		}
 	}
 	private void redefineOperation(OJClass c,String redefinedOperationName,String redefiningOperationName,OJPathName paramType){
-		OJAnnotatedOperation redefinedOperation = (OJAnnotatedOperation) c.getUniqueOperation(redefinedOperationName);
-		OJAnnotatedOperation redefiningOperation = (OJAnnotatedOperation) c.getUniqueOperation(redefiningOperationName);
+		OJAnnotatedOperation redefinedOperation = (OJAnnotatedOperation) c.findOperation(redefinedOperationName, Arrays.asList(paramType));
+		OJAnnotatedOperation redefiningOperation = (OJAnnotatedOperation) c.findOperation(redefiningOperationName, Arrays.asList(paramType));
 		if(redefiningOperation != null){
 			if(redefinedOperation == null){
 				redefinedOperation = new OJAnnotatedOperation(redefinedOperationName);

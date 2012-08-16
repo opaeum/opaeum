@@ -1,7 +1,5 @@
 package org.opaeum.java.metamodel;
 
-import java.util.List;
-
 import org.opaeum.java.metamodel.generated.OJConstructorGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 import org.opaeum.java.metamodel.utilities.JavaUtil;

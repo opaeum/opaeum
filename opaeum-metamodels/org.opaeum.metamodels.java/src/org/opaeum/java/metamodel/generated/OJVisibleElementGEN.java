@@ -10,20 +10,11 @@ abstract public class OJVisibleElementGEN extends OJElement {
 	private boolean isVolatile = false;
 	private OJVisibilityKind visibility = OJVisibilityKind.lookup(0);
 
-	protected OJVisibleElementGEN() {
-		super();
+	protected OJVisibleElementGEN(String name) {
+		super(name);
 		this.setVisibility( OJVisibilityKind.PUBLIC );
 	}
 	
-	protected OJVisibleElementGEN(String name, String comment, boolean isStatic, boolean isFinal, boolean isVolatile) {
-		super();
-		super.setName(name);
-		super.setComment(comment);
-		this.setStatic(isStatic);
-		this.setFinal(isFinal);
-		this.setVolatile(isVolatile);
-		this.setVisibility( OJVisibilityKind.PUBLIC );
-	}
 
 	public boolean isStatic() {
 		return isStatic;

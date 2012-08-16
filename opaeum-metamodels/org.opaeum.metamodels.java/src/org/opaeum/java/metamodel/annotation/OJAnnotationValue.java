@@ -28,32 +28,32 @@ public class OJAnnotationValue extends OJMetaValue{
 	}
 	public OJAnnotationValue(OJPathName type,Boolean value){
 		super(value);
-		super.setName(type.getLast());
+		super.name=type.getLast();
 		this.type = type;
 	}
 	public OJAnnotationValue(OJPathName type,Number value){
 		super(value);
-		super.setName(type.getLast());
+		super.name=type.getLast();
 		this.type = type;
 	}
 	public OJAnnotationValue(OJPathName type,OJAnnotationValue value){
 		super(value);
-		super.setName(type.getLast());
+		super.name=type.getLast();
 		this.type = type;
 	}
 	public OJAnnotationValue(OJPathName type,OJPathName value){
 		super(value);
-		super.setName(type.getLast());
+		super.name=type.getLast();
 		this.type = type;
 	}
 	public OJAnnotationValue(OJPathName type,String value){
 		super(value);
-		super.setName(type.getLast());
+		super.name=type.getLast();
 		this.type = type;
 	}
 	public OJAnnotationValue(OJPathName type,OJEnumValue value){
 		super(value);
-		super.setName(type.getLast());
+		super.name=type.getLast();
 		this.type = type;
 	}
 	public OJAnnotationAttributeValue putAttribute(String name,Boolean booleanValue){

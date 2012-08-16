@@ -3,7 +3,6 @@ package org.opaeum.java.metamodel;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJClassGEN;
@@ -11,16 +10,11 @@ import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 public class OJClass extends OJClassGEN{
-	public OJClass(){
-		super();
-		this.setVisibility(OJVisibilityKind.PUBLIC);
-	}
-	public OJClass(String name,String comment,boolean isStatic,boolean isFinal,boolean isVolatile,int uniqueNumber,boolean isAbstract,
-			boolean isDerived){
-		// super(name, comment, isStatic, isFinal, isVolatile, uniqueNumber, isAbstract, isDerived);
+	public OJClass(String name){
+		super(name);
 	}
 	public OJClass getDeepCopy(OJPackage owner){
-		OJClass copy = new OJClass();
+		OJClass copy = new OJClass(getName());
 		copy.setMyPackage(owner);
 		copyDeepInfoInto(copy);
 		return copy;
@@ -80,9 +74,6 @@ public class OJClass extends OJClassGEN{
 		if(!getComment().equals("")){
 			addJavaDocComment(classInfo);
 		}
-		if(this.getNeedsSuppress()){
-			classInfo.append("@SuppressWarnings(\"serial\")\n");
-		}
 		if(this.isAbstract()){
 			classInfo.append("abstract ");
 		}
@@ -117,14 +108,11 @@ public class OJClass extends OJClassGEN{
 		result.append(JavaUtil.collectionToJavaString(this.getFields(), "\n"));
 		return result;
 	}
-	/**
-	 * @return
-	 */
 	private StringBuilder implementedInterfaces(){
 		StringBuilder result = new StringBuilder();
 		if(!this.getImplementedInterfaces().isEmpty())
 			result.append(" implements ");
-		Iterator it = getImplementedInterfaces().iterator();
+		Iterator<OJPathName> it = getImplementedInterfaces().iterator();
 		while(it.hasNext()){
 			OJPathName elem = (OJPathName) it.next();
 			result.append(elem.getLast());
@@ -133,12 +121,8 @@ public class OJClass extends OJClassGEN{
 		}
 		return result;
 	}
-	/**
-	 * @param string
-	 * @return
-	 */
 	public OJField findField(String name){
-		return f_fields.get(name);
+		return fields.get(name);
 	}
 	@Override
 	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
@@ -172,7 +156,7 @@ public class OJClass extends OJClassGEN{
 	}
 	public void release(){
 		setMyPackage(null);
-		f_fields.clear();
+		fields.clear();
 		f_operations.clear();
 		super.removeAllFromConstructors();
 		super.removeAllFromImports();

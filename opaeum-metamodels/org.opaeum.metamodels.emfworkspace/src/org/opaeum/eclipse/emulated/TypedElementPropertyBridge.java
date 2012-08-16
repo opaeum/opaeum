@@ -84,6 +84,7 @@ public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
 		return true;
 	}
 	MultiplicityElement getMultiplicityElement(){
+		
 		if(typedElement instanceof ValuePin && ((ValuePin) typedElement).getValue() instanceof OpaqueExpression){
 			OpaqueExpressionContext exp = emulation.getOclExpressionContext((OpaqueExpression) ((ValuePin) typedElement).getValue());
 			if(!exp.hasErrors()){
@@ -103,7 +104,12 @@ public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
 		}
 		if(typedElement instanceof OutputPin){
 			if(((OutputPin) typedElement).getUpper() == 1){
-				return (MultiplicityElement) EmfActionUtil.getLinkedTypedElement((OutputPin) typedElement);
+				TypedElement lte = EmfActionUtil.getLinkedTypedElement((OutputPin) typedElement);
+				if(lte instanceof MultiplicityElement){
+					//May need to force an Upper of *
+					return (MultiplicityElement) lte;
+				}
+				return (OutputPin)typedElement;
 			}else{
 				return (OutputPin)typedElement;
 			}

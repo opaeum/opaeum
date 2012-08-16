@@ -1,6 +1,6 @@
 package org.opaeum.javageneration.oclexpressions;
 
-import java.util.Collections;
+import java.util.ArrayList;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
@@ -49,7 +49,7 @@ public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 	}
 	private void addDerivationRule(Classifier c,OJClass myClass,PropertyMap mapper,ValueSpecification vs){
 		String getterName = mapper.getter();
-		OJAnnotatedOperation getterOp = (OJAnnotatedOperation) myClass.findOperation(getterName, Collections.emptyList());
+		OJAnnotatedOperation getterOp = (OJAnnotatedOperation) myClass.findOperation(getterName, new ArrayList<OJPathName>());
 		getterOp.initializeResultVariable(valueSpecificationUtil.expressValue(getterOp, vs, mapper.getDefiningClassifier(), getLibrary().getActualType( mapper.getProperty())));
 	}
 	private void addInitToStaticField(OJClass myClass,PropertyMap mapper,ValueSpecification vs){

@@ -8,30 +8,30 @@ public class OJAnnotationAttributeValue extends OJMetaValue{
 	}
 	public OJAnnotationAttributeValue(String name,Boolean value){
 		super(value);
-		super.setName(name);
+		super.name=name;
 	}
 	public OJAnnotationAttributeValue(String name,Number value){
 		super(value);
-		super.setName(name);
+		super.name=name;
 	}
 	public OJAnnotationAttributeValue(String name,OJAnnotationValue value){
 		super(value);
-		super.setName(name);
+		super.name=name;
 	}
 	public OJAnnotationAttributeValue(String name,OJPathName value){
 		super(value);
-		super.setName(name);
+		super.name=name;
 	}
 	public OJAnnotationAttributeValue(String name,OJEnumValue value){
 		super(value);
-		super.setName(name);
+		super.name=name;
 	}
 	public OJAnnotationAttributeValue(String name,String value){
 		super(value);
-		super.setName(name);
+		super.name=name;
 	}
 	public OJAnnotationAttributeValue(String name){
-		super.setName(name);
+		super.name=name;
 	}
 	@Override
 	public String toJavaString(){

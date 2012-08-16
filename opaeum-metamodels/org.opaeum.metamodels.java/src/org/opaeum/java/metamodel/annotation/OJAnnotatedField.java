@@ -1,7 +1,6 @@
 package org.opaeum.java.metamodel.annotation;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -15,7 +14,7 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement{
 	Map<OJPathName,OJAnnotationValue> f_annotations = new TreeMap<OJPathName,OJAnnotationValue>();
 	private boolean isTransient = false;
 	public OJAnnotatedField(String string,OJPathName ojPathName){
-		this.setName(string);
+		super(string);
 		this.setType(ojPathName);
 	}
 	public void setTransient(boolean a){

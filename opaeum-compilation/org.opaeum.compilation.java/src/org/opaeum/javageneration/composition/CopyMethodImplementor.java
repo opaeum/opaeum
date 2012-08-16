@@ -107,7 +107,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		// include in a deep copy
 		for(Property np:properties){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
-			if(!(np.isDerived() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
+			if(!(EmfPropertyUtil.isDerived( np) || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
 				if(EmfClassifierUtil.isSimpleType(map.getBaseType()) || map.getBaseType() instanceof Enumeration){
 					if(map.isMany()){
 						body.addToStatements("to." + map.getter() + "().addAll(from." + map.getter() + "())");

@@ -8,7 +8,6 @@ import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.bpm.EventUtil;
-import org.opaeum.javageneration.bpm.BpmUtil;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.util.OJUtil;
 

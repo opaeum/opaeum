@@ -103,9 +103,7 @@ public class ValueSpecificationUtil{
 		for(OJField f:body.getLocals()){
 			if(!f.getName().equals("result")){// Standard result variable for
 				// operations
-				OJParameter fake = new OJParameter();
-				fake.setName(f.getName());
-				fake.setType(f.getType());
+				OJParameter fake = new OJParameter(f.getName(), f.getType());
 				parameters.add(fake);
 			}
 		}

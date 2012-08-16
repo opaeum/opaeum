@@ -32,10 +32,9 @@ import org.opaeum.javageneration.composition.ComponentInitializer;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.util.OJUtil;
 
-@StepDependency(phase = JavaTransformationPhase.class, replaces = AttributeImplementor.class, after = { TinkerImplementNodeStep.class, 
-		ComponentInitializer.class })
-public class TinkerAttributeImplementor extends AttributeImplementor {
-
+@StepDependency(phase = JavaTransformationPhase.class,replaces = AttributeImplementor.class,after = {TinkerImplementNodeStep.class,
+		ComponentInitializer.class})
+public class TinkerAttributeImplementor extends AttributeImplementor{
 	public static final String POLYMORPHIC_GETTER_FOR_TO_ONE_IF = "buildPolymorphicGetterForToOneIf";
 	public static final String POLYMORPHIC_GETTER_FOR_TO_ONE_TRY = "buildPolymorphicGetterForToOneTry";
 	public static final String POLYMORPHIC_GETTER_FOR_TO_MANY_FOR = "buildPolymorphicGetterForToManyFor";
@@ -55,28 +54,28 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	public static final String EMBEDDED_MANY_RESULT_IFNOTNULL = "embeddedManyResultifNotNull";
 	public static final String EMBEDDED_MANY_PROPERTY_RESULT = "embeddedManyPropertyResult";
 	public static final String ITER_HAS_NEXT = "ITER_HAS_NEXT";
-
 	@Override
-	protected OJOperation buildAdder(OJAnnotatedClass owner, PropertyMap map) {
+	protected OJOperation buildAdder(OJAnnotatedClass owner,PropertyMap map){
 		OJOperation adder = new OJAnnotatedOperation(map.adder());
 		adder.addParam(map.fieldname(), map.javaBaseTypePath());
-		if (!(owner instanceof OJAnnotatedInterface)) {
+		if(!(owner instanceof OJAnnotatedInterface)){
 			Property p = map.getProperty();
 			adder.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
-			if (!(p.getOtherEnd() == null || p.getOtherEnd().isDerived()) && p.getOtherEnd().isNavigable()) {
+			if(!(p.getOtherEnd() == null || EmfPropertyUtil.isDerived( p.getOtherEnd())) && p.getOtherEnd().isNavigable()){
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap((p).getOtherEnd());
-				if (otherMap.isMany()) {
-					if (!ojUtil.hasOJClass((Classifier) p.getAssociation())) {
+				if(otherMap.isMany()){
+					if(!ojUtil.hasOJClass((Classifier) p.getAssociation())){
 						adder.getBody().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
 					}
 					adder.getBody().addToStatements(map.internalAdder() + "(" + map.fieldname() + ")");
-				} else {
+				}else{
 					OJIfStatement ifNotNul2 = new OJIfStatement(map.fieldname() + "!=null");
 					adder.getBody().addToStatements(ifNotNul2);
 					// Only remote the elements if it needs to be unique
-					if (map.getProperty().isUnique()) {
-						ifNotNul2.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(" + map.fieldname() + "." + otherMap.getter() + "())");
+					if(map.getProperty().isUnique()){
+						ifNotNul2.getThenPart().addToStatements(
+								map.fieldname() + "." + otherMap.internalRemover() + "(" + map.fieldname() + "." + otherMap.getter() + "())");
 					}
 					ifNotNul2.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
 					ifNotNul2.getThenPart().addToStatements(map.internalAdder() + "(" + map.fieldname() + ")");
@@ -85,124 +84,117 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 					// otherMap.getter() + "().add(this)");
 					// }
 				}
-			} else {
+			}else{
 				adder.getBody().addToStatements(map.internalAdder() + "(" + map.fieldname() + ")");
 			}
 		}
 		owner.addToOperations(adder);
 		return adder;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * net.sf.nakeduml.javageneration.basicjava.AttributeImplementor#buildField
-	 * (org.nakeduml.java.metamodel.annotation.OJAnnotatedClass,
+	 * @see net.sf.nakeduml.javageneration.basicjava.AttributeImplementor#buildField (org.nakeduml.java.metamodel.annotation.OJAnnotatedClass,
 	 * net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap)
 	 * 
 	 * Tinker uses TinkerSet and TinkerList that are initiated in constructors
 	 */
 	@Override
-	protected OJAnnotatedField buildField(OJAnnotatedClass owner, PropertyMap map) {
+	protected OJAnnotatedField buildField(OJAnnotatedClass owner,PropertyMap map){
 		OJAnnotatedField field = super.buildField(owner, map);
-		if (map.isMany()) {
+		if(map.isMany()){
 			OJPathName fieldType;
-
-			if (map.getProperty().isOrdered() && map.getProperty().isUnique()) {
-				if (map.getProperty().getQualifiers().size()>0) {
+			if(map.getProperty().isOrdered() && map.getProperty().isUnique()){
+				if(map.getProperty().getQualifiers().size() > 0){
 					fieldType = TinkerGenerationUtil.tinkerQualifiedOrderedSet.getCopy();
-				} else {
+				}else{
 					fieldType = TinkerGenerationUtil.tinkerOrderedSet.getCopy();
 				}
-			} else if (map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
-				if (map.getProperty().getQualifiers().size()>0) {
+			}else if(map.getProperty().isOrdered() && !map.getProperty().isUnique()){
+				if(map.getProperty().getQualifiers().size() > 0){
 					fieldType = TinkerGenerationUtil.tinkerQualifiedSequence.getCopy();
-				} else {
+				}else{
 					fieldType = TinkerGenerationUtil.tinkerSequence.getCopy();
 				}
-			} else if (!map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
-				if (map.getProperty().getQualifiers().size()>0) {
+			}else if(!map.getProperty().isOrdered() && !map.getProperty().isUnique()){
+				if(map.getProperty().getQualifiers().size() > 0){
 					fieldType = TinkerGenerationUtil.tinkerQualifiedBag.getCopy();
-				} else {
+				}else{
 					fieldType = TinkerGenerationUtil.tinkerBag.getCopy();
 				}
-			} else if (!map.getProperty().isOrdered() && map.getProperty().isUnique()) {
-				if (map.getProperty().getQualifiers().size()>0) {
+			}else if(!map.getProperty().isOrdered() && map.getProperty().isUnique()){
+				if(map.getProperty().getQualifiers().size() > 0){
 					fieldType = TinkerGenerationUtil.tinkerQualifiedSet.getCopy();
-				} else {
+				}else{
 					fieldType = TinkerGenerationUtil.tinkerSet.getCopy();
 				}
-			} else {
+			}else{
 				throw new RuntimeException("wtf");
 			}
-
 			// This line removes HashSet import required for other methods, add
 			// it back in
 			owner.addToImports(map.javaDefaultTypePath());
-
 			fieldType.addToElementTypes(map.javaBaseTypePath());
 			field.setType(fieldType);
 			field.setInitExp(null);
 		}
 		return field;
 	}
-
 	@Override
-	protected void buildInitExpression(OJAnnotatedClass owner, PropertyMap map, OJAnnotatedField field) {
+	protected void buildInitExpression(OJAnnotatedClass owner,PropertyMap map,OJAnnotatedField field){
 		// This method call seems superfluous
 	}
-
 	@Override
-	protected OJAnnotatedOperation buildGetter(Classifier umlOwner, OJAnnotatedClass owner, PropertyMap map, boolean derived) {
+	protected OJAnnotatedOperation buildGetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map,boolean derived){
 		owner.addToImports(TinkerGenerationUtil.vertexPathName);
 		Property prop = map.getProperty();
 		OJAnnotatedOperation getter;
-		if (!derived) {
-			if (map.isOne()) {
-				getter = super.buildGetter(umlOwner,owner, map, derived);
-				if ((prop.getType() instanceof Class)
-						|| (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly()))) {
+		if(!derived){
+			if(map.isOne()){
+				getter = super.buildGetter(umlOwner, owner, map, derived);
+				if((prop.getType() instanceof Class)
+						|| (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(EmfPropertyUtil.isDerived( prop.getOtherEnd()) || prop.getOtherEnd()
+								.isReadOnly()))){
 					buildTinkerGetterForOne(owner, map, getter);
-				} else {
-					if (prop.getType() instanceof Enumeration) {
+				}else{
+					if(prop.getType() instanceof Enumeration){
 						buildGetterForToOneEnumeration(map, getter, prop);
-					} else {
+					}else{
 						OJIfStatement ifResultNull = new OJIfStatement("result == null");
 						ifResultNull.addToThenPart("result = (" + map.javaTypePath().getLast() + ") this.vertex.getProperty(\""
 								+ TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\")");
-						ifResultNull.addToThenPart("result = (result==null || result.equals(\"" + TinkerGenerationUtil.TINKER_DB_NULL + "\"))?null:result");
+						ifResultNull.addToThenPart("result = (result==null || result.equals(\"" + TinkerGenerationUtil.TINKER_DB_NULL
+								+ "\"))?null:result");
 						getter.getBody().addToStatements(ifResultNull);
 					}
 				}
-			} else {
-				if (map.getProperty().isOrdered() && map.getProperty().isUnique()) {
+			}else{
+				if(map.getProperty().isOrdered() && map.getProperty().isUnique()){
 					getter = buildOrderedSetGetter(owner, map, derived);
-				} else if (!map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
+				}else if(!map.getProperty().isOrdered() && !map.getProperty().isUnique()){
 					getter = buildBagGetter(owner, map, derived);
-				} else {
-					getter = super.buildGetter(umlOwner,owner, map, derived);
+				}else{
+					getter = super.buildGetter(umlOwner, owner, map, derived);
 				}
 			}
-		} else {
-			getter = super.buildGetter(umlOwner,owner, map, derived);
+		}else{
+			getter = super.buildGetter(umlOwner, owner, map, derived);
 		}
 		return getter;
 	}
-
-	private OJAnnotatedOperation buildBagGetter(OJAnnotatedClass owner, PropertyMap map, boolean derived) {
+	private OJAnnotatedOperation buildBagGetter(OJAnnotatedClass owner,PropertyMap map,boolean derived){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
-		if (map.getProperty().getQualifiers().size()>0) {
+		if(map.getProperty().getQualifiers().size() > 0){
 			getter.setReturnType(TinkerGenerationUtil.tinkerQualifiedBag.getCopy());
-		} else {
+		}else{
 			getter.setReturnType(TinkerGenerationUtil.tinkerBag.getCopy());
 		}
 		getter.getReturnType().addToElementTypes(map.javaBaseTypePath());
 		owner.addToOperations(getter);
-		if (!(owner instanceof OJAnnotatedInterface)) {
-			if (derived) {
+		if(!(owner instanceof OJAnnotatedInterface)){
+			if(derived){
 				getter.initializeResultVariable(map.javaDefaultValue());
-			} else {
+			}else{
 				getter.initializeResultVariable("this." + map.fieldname());
 			}
 		}
@@ -211,20 +203,19 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		OJUtil.addMetaInfo(getter, property);
 		return getter;
 	}
-
-	private OJAnnotatedOperation buildOrderedSetGetter(OJAnnotatedClass owner, PropertyMap map, boolean derived) {
+	private OJAnnotatedOperation buildOrderedSetGetter(OJAnnotatedClass owner,PropertyMap map,boolean derived){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
-		if (map.getProperty().getQualifiers().size()>0) {
+		if(map.getProperty().getQualifiers().size() > 0){
 			getter.setReturnType(TinkerGenerationUtil.tinkerQualifiedOrderedSet.getCopy());
-		} else {
+		}else{
 			getter.setReturnType(TinkerGenerationUtil.tinkerOrderedSet.getCopy());
 		}
 		getter.getReturnType().addToElementTypes(map.javaBaseTypePath());
 		owner.addToOperations(getter);
-		if (!(owner instanceof OJAnnotatedInterface)) {
-			if (derived) {
+		if(!(owner instanceof OJAnnotatedInterface)){
+			if(derived){
 				getter.initializeResultVariable(map.javaDefaultValue());
-			} else {
+			}else{
 				getter.initializeResultVariable("this." + map.fieldname());
 			}
 		}
@@ -233,85 +224,80 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		OJUtil.addMetaInfo(getter, property);
 		return getter;
 	}
-
 	@Override
-	protected void buildInternalAdder(OJAnnotatedClass owner, AssociationClassEndMap aMap) {
+	protected void buildInternalAdder(OJAnnotatedClass owner,AssociationClassEndMap aMap){
 		// TODO Auto-generated method stub
 		super.buildInternalAdder(owner, aMap);
 	}
-
 	@Override
-	protected void buildInternalRemover(OJAnnotatedClass owner, AssociationClassEndMap aMap) {
+	protected void buildInternalRemover(OJAnnotatedClass owner,AssociationClassEndMap aMap){
 		// TODO Auto-generated method stub
 		super.buildInternalRemover(owner, aMap);
 	}
-
 	@Override
-	protected OJOperation buildRemover(OJAnnotatedClass owner, PropertyMap map) {
+	protected OJOperation buildRemover(OJAnnotatedClass owner,PropertyMap map){
 		OJOperation remover = new OJAnnotatedOperation(map.remover());
 		remover.addParam(map.fieldname(), map.javaBaseTypePath());
 		Property p = map.getProperty();
-		if (!(owner instanceof OJAnnotatedInterface)) {
+		if(!(owner instanceof OJAnnotatedInterface)){
 			remover.setStatic(map.isStatic());
 			remover.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null");
 			remover.getBody().addToStatements(ifNotNull);
-			if (p.getOtherEnd() != null && p.getOtherEnd().isNavigable()) {
+			if(p.getOtherEnd() != null && p.getOtherEnd().isNavigable()){
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap((p).getOtherEnd());
-				if (!ojUtil.hasOJClass((Classifier) map.getProperty().getAssociation())) {
+				if(!ojUtil.hasOJClass((Classifier) map.getProperty().getAssociation())){
 					ifNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(this)");
 				}
 				ifNotNull.getThenPart().addToStatements(map.internalRemover() + "(" + map.fieldname() + ")");
-			} else {
+			}else{
 				ifNotNull.getThenPart().addToStatements(map.internalRemover() + "(" + map.fieldname() + ")");
 			}
 			owner.addToOperations(remover);
 		}
 		return remover;
 	}
-
 	@Override
-	protected void buildInternalRemover(OJAnnotatedClass owner, PropertyMap map) {
+	protected void buildInternalRemover(OJAnnotatedClass owner,PropertyMap map){
 		Property prop = map.getProperty();
 		Classifier umlOwner = (Classifier) map.getProperty().getOwner();
-		if (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
-			if (map.isOne()) {
+		if(map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()
+				&& !(EmfPropertyUtil.isDerived( prop.getOtherEnd()) || prop.getOtherEnd().isReadOnly())){
+			if(map.isOne()){
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
 				buildTinkerToOneRemover(umlOwner, map, otherMap, owner, buildBasicRemover(owner, map));
-			} else {
+			}else{
 				builTinkerManyRemover(owner, map);
 			}
-		} else {
+		}else{
 			addSimpleInternalRemoverBody(umlOwner, map, owner, buildBasicRemover(owner, map));
 		}
 	}
-
 	@Override
-	protected void buildInternalAdder(OJAnnotatedClass owner, PropertyMap map) {
-		if (map.getProperty().getOwner() instanceof Interface) {
+	protected void buildInternalAdder(OJAnnotatedClass owner,PropertyMap map){
+		if(map.getProperty().getOwner() instanceof Interface){
 			super.buildInternalAdder(owner, map);
-		} else {
+		}else{
 			buildTinkerInternalAdder(owner, map);
 		}
 	}
-
-	private void buildTinkerInternalAdder(OJAnnotatedClass owner, PropertyMap map) {
+	private void buildTinkerInternalAdder(OJAnnotatedClass owner,PropertyMap map){
 		owner.addToImports(TinkerGenerationUtil.TINKER_NODE);
 		Property prop = map.getProperty();
 		Classifier umlOwner = (Classifier) map.getProperty().getOwner();
-		if (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
-			if (map.isOne()) {
+		if(map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()
+				&& !(EmfPropertyUtil.isDerived( prop.getOtherEnd()) || prop.getOtherEnd().isReadOnly())){
+			if(map.isOne()){
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
 				buildTinkerToOneAdder(umlOwner, map, otherMap, owner, buildBasicAdder(owner, map));
-			} else {
+			}else{
 				builTinkerManyAdder(owner, map);
 			}
-		} else {
+		}else{
 			addSimpleInternalAdderBody(umlOwner, map, owner, buildBasicAdder(owner, map));
 		}
 	}
-
-	private void builTinkerManyAdder(OJAnnotatedClass owner, PropertyMap map) {
+	private void builTinkerManyAdder(OJAnnotatedClass owner,PropertyMap map){
 		// super.buildInternalAdder(owner, map);
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
@@ -320,86 +306,77 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		OJSimpleStatement s = new OJSimpleStatement(getReferencePrefix(owner, map) + map.fieldname() + ".add(val)");
 		adder.getBody().addToStatements(s);
 		owner.addToOperations(adder);
-		if (!(!(map.getBaseType() instanceof Enumeration) || !map.isJavaPrimitive()) && !EmfPropertyUtil.isInverse( map.getProperty())) {
+		if(!(!(map.getBaseType() instanceof Enumeration) || !map.isJavaPrimitive()) && !EmfPropertyUtil.isInverse(map.getProperty())){
 			// Do not create an edge
 			s.setExpression(s.getExpression().replace(".add(", ".tinkerAdd("));
 		}
-		if (!map.getProperty().getQualifiers().isEmpty()) {
+		if(!map.getProperty().getQualifiers().isEmpty()){
 			s.setExpression(s.getExpression().replace("val)", "val, " + TinkerGenerationUtil.contructNameForQualifiedGetter(map) + "(val))"));
 		}
 	}
-
-	private void builTinkerManyRemover(OJAnnotatedClass owner, PropertyMap map) {
+	private void builTinkerManyRemover(OJAnnotatedClass owner,PropertyMap map){
 		super.buildInternalRemover(owner, map);
 		OJOperation remover = owner.findOperation(map.internalRemover(), Arrays.asList(map.javaBaseTypePath()));
-		OJSimpleStatement s = (OJSimpleStatement) remover.getBody().findStatementRecursive(AttributeImplementor.MANY_INTERNAL_REMOVE_FROM_COLLECTION);
-		if (!(!(map.getBaseType() instanceof Enumeration) || !map.isJavaPrimitive()) && !EmfPropertyUtil.isInverse(map.getProperty())) {
+		OJSimpleStatement s = (OJSimpleStatement) remover.getBody().findStatementRecursive(
+				AttributeImplementor.MANY_INTERNAL_REMOVE_FROM_COLLECTION);
+		if(!(!(map.getBaseType() instanceof Enumeration) || !map.isJavaPrimitive()) && !EmfPropertyUtil.isInverse(map.getProperty())){
 			// Do not create an edge
 			s.setExpression(s.getExpression().replace(".remove(", ".tinkerRemove("));
 		}
 	}
-
-	private OJAnnotatedOperation buildBasicAdder(OJAnnotatedClass owner, PropertyMap map) {
+	private OJAnnotatedOperation buildBasicAdder(OJAnnotatedClass owner,PropertyMap map){
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 		adder.addParam("val", map.javaBaseTypePath());
-		if (!(owner instanceof OJAnnotatedInterface)) {
+		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
 		}
 		owner.addToOperations(adder);
 		return adder;
 	}
-
-	private OJAnnotatedOperation buildBasicRemover(OJAnnotatedClass owner, PropertyMap map) {
+	private OJAnnotatedOperation buildBasicRemover(OJAnnotatedClass owner,PropertyMap map){
 		OJAnnotatedOperation remover = new OJAnnotatedOperation(map.internalRemover());
 		remover.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 		remover.addParam("val", map.javaBaseTypePath());
-		if (!(owner instanceof OJAnnotatedInterface)) {
+		if(!(owner instanceof OJAnnotatedInterface)){
 			remover.setStatic(map.isStatic());
 		}
 		owner.addToOperations(remover);
 		return remover;
 	}
-
-	public void addSimpleInternalAdderBody(Classifier umlOwner, PropertyMap map, OJAnnotatedClass owner, OJOperation adder) {
-		if (map.getBaseType() instanceof Class) {
-			if (map.isOne()) {
+	public void addSimpleInternalAdderBody(Classifier umlOwner,PropertyMap map,OJAnnotatedClass owner,OJOperation adder){
+		if(map.getBaseType() instanceof Class){
+			if(map.isOne()){
 				buildTinkerToOneAdder(umlOwner, map, null, owner, adder);
 			}
-		} else {
+		}else{
 			adder.getBody().addToStatements(TinkerGenerationUtil.addSetterForSimpleType(map));
 			adder.getBody().addToStatements("this." + map.umlName() + " = val");
-			if ( EmfClassifierUtil.isCompositionParticipant( umlOwner )) {
+			if(EmfClassifierUtil.isCompositionParticipant(umlOwner)){
 				addEntityToTransactionThreadEntityVar(adder);
 			}
 		}
 	}
-
-	public void addSimpleInternalRemoverBody(Classifier umlOwner, PropertyMap map, OJAnnotatedClass owner, OJOperation remover) {
-		if (map.getBaseType() instanceof Class && map.isOne()) {
+	public void addSimpleInternalRemoverBody(Classifier umlOwner,PropertyMap map,OJAnnotatedClass owner,OJOperation remover){
+		if(map.getBaseType() instanceof Class && map.isOne()){
 			buildTinkerToOneRemover(umlOwner, map, null, owner, remover);
 		}
 	}
-
-	private void addEntityToTransactionThreadEntityVar(OJOperation setter) {
+	private void addEntityToTransactionThreadEntityVar(OJOperation setter){
 		setter.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
 		setter.getOwner().addToImports(TinkerGenerationUtil.transactionThreadEntityVar);
 	}
-
-	public void buildTinkerToOneAdder(Classifier umlOwner, PropertyMap map, PropertyMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
-		if (EmfClassifierUtil.isCompositionParticipant(umlOwner )) {
+	public void buildTinkerToOneAdder(Classifier umlOwner,PropertyMap map,PropertyMap otherMap,OJAnnotatedClass owner,OJOperation setter){
+		if(EmfClassifierUtil.isCompositionParticipant(umlOwner)){
 			addEntityToTransactionThreadEntityVar(setter);
 		}
-		if (EmfPropertyUtil.isInverse( map.getProperty()) || map.getProperty().getOtherEnd() == null) {
+		if(EmfPropertyUtil.isInverse(map.getProperty()) || map.getProperty().getOtherEnd() == null){
 			// Create an edge
-			if (map.getProperty().getOtherEnd() != null) {
-				OJField oldValue = new OJField();
-				oldValue.setName("oldValue");
-				oldValue.setType(map.javaBaseTypePath());
+			if(map.getProperty().getOtherEnd() != null){
+				OJField oldValue = new OJAnnotatedField("oldValue", map.javaBaseTypePath());
 				oldValue.setInitExp(map.getter() + "()");
 				setter.getBody().addToLocals(oldValue);
 				setter.getBody().addToStatements(map.internalRemover() + "(oldValue)");
-
 				OJIfStatement ifOldValueNotNull = new OJIfStatement("oldValue != null");
 				ifOldValueNotNull.addToThenPart("oldValue." + otherMap.internalRemover() + "(this)");
 				setter.getBody().addToStatements(ifOldValueNotNull);
@@ -408,13 +385,12 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		}
 		setter.getBody().addToStatements(map.umlName() + " = val");
 	}
-
-	public void buildTinkerToOneRemover(Classifier umlOwner, PropertyMap map, PropertyMap otherMap, OJAnnotatedClass owner, OJOperation remover) {
-		if (EmfClassifierUtil.isCompositionParticipant(umlOwner )) {
+	public void buildTinkerToOneRemover(Classifier umlOwner,PropertyMap map,PropertyMap otherMap,OJAnnotatedClass owner,OJOperation remover){
+		if(EmfClassifierUtil.isCompositionParticipant(umlOwner)){
 			addEntityToTransactionThreadEntityVar(remover);
 		}
 		// Manies gets removed in the collection
-		if (map.isOneToOne() && (!EmfPropertyUtil.isInverse( map.getProperty()) || map.getProperty().getOtherEnd() == null)) {
+		if(map.isOneToOne() && (!EmfPropertyUtil.isInverse(map.getProperty()) || map.getProperty().getOtherEnd() == null)){
 			// Remove the edge
 			removePolymorphicToOneRelationship(map, owner, remover);
 		}
@@ -423,25 +399,23 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		OJIfStatement ifEquals = new OJIfStatement(condition, remove);
 		remover.getBody().addToStatements(ifEquals);
 	}
-
-	private void removePolymorphicToOneRelationship(PropertyMap map, OJAnnotatedClass owner, OJOperation remover) {
+	private void removePolymorphicToOneRelationship(PropertyMap map,OJAnnotatedClass owner,OJOperation remover){
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite =EmfPropertyUtil.isInverse( map.getProperty());
+		isComposite = EmfPropertyUtil.isInverse(map.getProperty());
 		String relationshipName = TinkerGenerationUtil.getEdgeName(map);
-		remover.getBody().addToStatements("Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
+		remover.getBody().addToStatements(
+				"Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
 		OJIfStatement ifNotNull = new OJIfStatement();
 		ifNotNull.setName(ITER_HAS_NEXT);
 		ifNotNull.setCondition("iter.iterator().hasNext()");
 		ifNotNull.getThenPart().addToStatements(TinkerGenerationUtil.graphDbAccess + ".removeEdge(iter.iterator().next())");
 		remover.getBody().addToStatements(ifNotNull);
 	}
-
-	private void createPolymorphicToOneRelationship(Classifier umlOwner, PropertyMap map, OJOperation setter) {
+	private void createPolymorphicToOneRelationship(Classifier umlOwner,PropertyMap map,OJOperation setter){
 		boolean isComposite = map.getProperty().isComposite();
 		// isComposite = TinkerGenerationUtil.calculateDirection(map,
 		// isComposite);
-		isComposite = EmfPropertyUtil.isInverse( map.getProperty());
-
+		isComposite = EmfPropertyUtil.isInverse(map.getProperty());
 		OJIfStatement ifParamNotNull = new OJIfStatement();
 		ifParamNotNull.setName(AttributeImplementor.IF_PARAM_NOT_NULL);
 		ifParamNotNull.setCondition("val != null");
@@ -452,30 +426,29 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 						+ ".addEdge(null, "
 						+ (!isComposite ? "((" + TinkerGenerationUtil.TINKER_NODE.getLast() + ")val).getVertex(), this.vertex," : "this.vertex, (("
 								+ TinkerGenerationUtil.TINKER_NODE.getLast() + ")val).getVertex(),") + "\"" + relationshipName + "\")"));
-		if (isComposite) {
+		if(isComposite){
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"inClass\", val.getClass().getName())");
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"outClass\", " + TinkerGenerationUtil.TINKER_GET_CLASSNAME + ")");
-		} else {
+		}else{
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"outClass\", val.getClass().getName())");
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"inClass\", " + TinkerGenerationUtil.TINKER_GET_CLASSNAME + ")");
 		}
 		setter.getBody().addToStatements(ifParamNotNull);
 	}
-
-	private void buildTinkerGetterForOne(OJAnnotatedClass owner, PropertyMap map, OJAnnotatedOperation getter) {
+	private void buildTinkerGetterForOne(OJAnnotatedClass owner,PropertyMap map,OJAnnotatedOperation getter){
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = EmfPropertyUtil.isInverse( map.getProperty());
+		isComposite = EmfPropertyUtil.isInverse(map.getProperty());
 		Classifier otherClassifier;
 		String otherClassName;
 		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map);
 		otherClassifier = (Classifier) map.getBaseType();
 		otherClassName = otherClassifier.getName();
 		OJBlock block = new OJBlock();
-		if (isComposite) {
+		if(isComposite){
 			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");
 			iter.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_ITER);
 			block.addToStatements(iter);
-		} else {
+		}else{
 			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getInEdges(\"" + otherAssociationName + "\")");
 			iter.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_ITER);
 			block.addToStatements(iter);
@@ -486,75 +459,63 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		OJTryStatement ojTryStatement = new OJTryStatement();
 		ojTryStatement.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
 		ojTryStatement.getTryPart().addToStatements(
-				"Class<?> c = org.util.OrgJavaMetaInfoMap.INSTANCE.getClass(\"" + TinkerGenerationUtil.getClassMetaId(findJavaClass(otherClassifier)) + "\")");
-		if (isComposite) {
-			ojTryStatement.getTryPart().addToStatements("this." + map.fieldname() + " = (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
-		} else {
-			ojTryStatement.getTryPart().addToStatements("this." + map.fieldname() + " = (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
+				"Class<?> c = org.util.OrgJavaMetaInfoMap.INSTANCE.getClass(\""
+						+ TinkerGenerationUtil.getClassMetaId(findJavaClass(otherClassifier)) + "\")");
+		if(isComposite){
+			ojTryStatement.getTryPart().addToStatements(
+					"this." + map.fieldname() + " = (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
+		}else{
+			ojTryStatement.getTryPart().addToStatements(
+					"this." + map.fieldname() + " = (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 		}
 		ojTryStatement.getTryPart().addToStatements("result = this." + map.fieldname());
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
 		ifStatement.addToThenPart(ojTryStatement);
 		block.addToStatements(ifStatement);
-
 		OJIfStatement ifResultNull = new OJIfStatement("result == null");
 		ifResultNull.addToThenPart(block);
 		getter.getBody().addToStatements(ifResultNull);
 	}
-
-	public static void buildGetterForToOneEnumeration(PropertyMap map, OJOperation getter, Property prop) {
+	public static void buildGetterForToOneEnumeration(PropertyMap map,OJOperation getter,Property prop){
 		getter.getBody().addToStatements(
 				"String enumValue = (String)this.vertex.getProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\")");
 		OJIfStatement ifNotNull = new OJIfStatement("enumValue !=null");
 		ifNotNull.addToThenPart("result = " + map.javaTypePath().getLast() + ".valueOf(enumValue)");
 		getter.getBody().addToStatements(ifNotNull);
 	}
-
-	public static void buildGetterForManyEnumeration(OJAnnotatedClass owner, PropertyMap map, OJOperation getter, Property prop) {
-		OJField result = new OJField();
-		result.setName(EMBEDDED_MANY_RESULT);
-		result.setType(map.javaTypePath());
-		result.setInitExp("(" + map.javaTypePath().getTypeNameWithTypeArguments() + ") " + TinkerGenerationUtil.tinkerUtil + ".convertEnumsFromPersistence(this.vertex.getProperty(\""
-				+ TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\"), " + map.javaBaseTypePath().getLast() + ".class, "
-				+ map.getProperty().isOrdered() + " )");
+	public static void buildGetterForManyEnumeration(OJAnnotatedClass owner,PropertyMap map,OJOperation getter,Property prop){
+		OJField result = new OJAnnotatedField(EMBEDDED_MANY_RESULT, map.javaTypePath());
+		result.setInitExp("(" + map.javaTypePath().getTypeNameWithTypeArguments() + ") " + TinkerGenerationUtil.tinkerUtil
+				+ ".convertEnumsFromPersistence(this.vertex.getProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName())
+				+ "\"), " + map.javaBaseTypePath().getLast() + ".class, " + map.getProperty().isOrdered() + " )");
 		owner.addToImports(new OJPathName("java.util.Collection"));
 		getter.getBody().addToLocals(result);
 		getter.getBody().addToStatements("return " + EMBEDDED_MANY_RESULT);
 	}
-
-	public static void buildGetterForToManyEmbbedded(OJAnnotatedClass owner, PropertyMap map, OJOperation getter, Property prop) {
-		OJField result = new OJField();
-		result.setName(EMBEDDED_MANY_RESULT);
-		result.setType(map.javaTypePath());
+	public static void buildGetterForToManyEmbbedded(OJAnnotatedClass owner,PropertyMap map,OJOperation getter,Property prop){
+		OJField result = new OJAnnotatedField(EMBEDDED_MANY_RESULT, map.javaTypePath());
 		getter.getBody().addToLocals(result);
-
-		OJField property = new OJField();
-		property.setType(new OJPathName("java.lang.Object"));
+		OJField property = new OJAnnotatedField(EMBEDDED_MANY_PROPERTY_RESULT, new OJPathName("java.lang.Object"));
 		property.setInitExp("this.vertex.getProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(prop.getQualifiedName()) + "\")");
-		property.setName(EMBEDDED_MANY_PROPERTY_RESULT);
 		getter.getBody().addToLocals(property);
-
 		OJIfStatement ifNull = new OJIfStatement(EMBEDDED_MANY_PROPERTY_RESULT + " != null");
 		ifNull.setName(EMBEDDED_MANY_RESULT_IFNOTNULL);
-
 		OJIfStatement ifList = new OJIfStatement(EMBEDDED_MANY_PROPERTY_RESULT + " instanceof List");
 		ifNull.addToThenPart(ifList);
-
-		if (map.getProperty().isOrdered()) {
+		if(map.getProperty().isOrdered()){
 			ifList.addToThenPart(result.getName() + " = " + " (List)" + EMBEDDED_MANY_PROPERTY_RESULT);
-			ifList.addToElsePart(result.getName() + " = " + "Arrays.asList( (" + map.javaBaseTypePath().getLast() + "[])" + EMBEDDED_MANY_PROPERTY_RESULT + ")");
-		} else {
-			ifList.addToThenPart(result.getName() + " = " + "new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseTypePath().getLast() + ">((List)"
+			ifList.addToElsePart(result.getName() + " = " + "Arrays.asList( (" + map.javaBaseTypePath().getLast() + "[])"
 					+ EMBEDDED_MANY_PROPERTY_RESULT + ")");
-			ifList.addToElsePart(result.getName() + " = " + "new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseTypePath().getLast() + ">(Arrays.asList(("
-					+ map.javaBaseTypePath().getLast() + "[])" + EMBEDDED_MANY_PROPERTY_RESULT + "))");
+		}else{
+			ifList.addToThenPart(result.getName() + " = " + "new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseTypePath().getLast()
+					+ ">((List)" + EMBEDDED_MANY_PROPERTY_RESULT + ")");
+			ifList.addToElsePart(result.getName() + " = " + "new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseTypePath().getLast()
+					+ ">(Arrays.asList((" + map.javaBaseTypePath().getLast() + "[])" + EMBEDDED_MANY_PROPERTY_RESULT + "))");
 		}
-
 		ifNull.addToElsePart(result.getName() + " = " + map.javaDefaultValue());
 		getter.getBody().addToStatements(ifNull);
 		getter.getBody().addToStatements("return " + EMBEDDED_MANY_RESULT);
 		owner.addToImports(new OJPathName("java.util.Arrays"));
 	}
-
 }

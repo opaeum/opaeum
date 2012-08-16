@@ -23,16 +23,10 @@ from the Opaeum Metamodel to the various implementation platforms.
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.opaeum.transformation.engine"/>
       <import plugin="org.opaeum.metamodels.text"/>
-      <import plugin="org.opaeum.metamodels.opaeum"/>
       <import plugin="org.opaeum.metamodels.java"/>
-      <import plugin="org.opaeum.metamodels.ocl"/>
-      <import plugin="org.opaeum.linkage.core"/>
-      <import plugin="org.opaeum.linkage.namegeneration"/>
       <import plugin="org.opaeum.linkage.validation"/>
       <import plugin="org.opaeum.metamodels.maven"/>
-      <import plugin="org.opaeum.metamodels.drools"/>
       <import plugin="org.opaeum.metamodels.emfworkspace"/>
-      <import plugin="org.opaeum.linkage.emfextraction"/>
       <import plugin="org.eclipse.swt"/>
       <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
       <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>

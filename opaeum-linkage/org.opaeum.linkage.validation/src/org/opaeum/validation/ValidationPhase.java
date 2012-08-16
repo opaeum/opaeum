@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
@@ -37,6 +38,8 @@ import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.linkage.MappedTypeLoader;
 import org.opaeum.linkage.SourcePopulationResolver;
+import org.opaeum.metamodel.validation.BrokenElement;
+import org.opaeum.metamodel.validation.BrokenRule;
 import org.opaeum.validation.activities.ActionValidation;
 import org.opaeum.validation.activities.ActivityValidator;
 import org.opaeum.validation.commonbehavior.BehaviorValidator;
@@ -51,7 +54,33 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,El
 	private List<AbstractValidator> validators;
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
+		Collection<Element> actualElements = new HashSet<Element>(elements);
 		for(Element element:elements){
+			String elementId = EmfWorkspace.getId(element);
+			for(Entry<String,BrokenElement> entry:emfWorkspace.getErrorMap().getErrors().entrySet()){
+				boolean match = entry.getKey().equals(elementId);
+				for(BrokenRule br:entry.getValue().getBrokenRules().values()){
+					Object[] parameters = br.getParameters();
+					if(!match){
+						for(Object object:parameters){
+							if(object == element){
+								match = true;
+								actualElements.add(emfWorkspace.getModelElement(entry.getKey()));
+								break;
+							}
+						}
+					}
+					if(match){
+						for(Object object2:parameters){
+							if(object2 instanceof Element){
+								actualElements.add((Element) object2);
+							}
+						}
+					}
+				}
+			}
+		}
+		for(Element element:actualElements){
 			emfWorkspace.getErrorMap().getErrors().remove(EmfWorkspace.getId(element));
 			for(AbstractValidator v:validators){
 				v.visitOnly(element);
@@ -89,7 +118,8 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,El
 	public static Set<Class<? extends AbstractValidator>> getAllValidationSteps(){
 		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(OperationValidation.class, ActionValidation.class,
 				ReservedWordValidator.class, NameUniquenessValidation.class, PropertyValidation.class, GeneralizationValidator.class,
-				PrimitiveValidator.class, BehaviorValidator.class, ActivityValidator.class, OclValidator.class, SourcePopulationResolver.class, MappedTypeLoader.class));
+				PrimitiveValidator.class, BehaviorValidator.class, ActivityValidator.class, OclValidator.class, SourcePopulationResolver.class,
+				MappedTypeLoader.class));
 	}
 	@Override
 	public void release(){

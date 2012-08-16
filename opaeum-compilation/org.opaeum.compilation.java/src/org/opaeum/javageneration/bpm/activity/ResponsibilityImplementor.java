@@ -43,7 +43,6 @@ import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.bpm.AbstractBehaviorVisitor;
 import org.opaeum.javageneration.bpm.EventUtil;
-import org.opaeum.javageneration.bpm.BpmUtil;
 import org.opaeum.javageneration.bpm.statemachine.StateMachineImplementor;
 import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.javageneration.util.OJUtil;
@@ -93,7 +92,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 				OperationMap map = ojUtil.buildOperationMap(o);
 				EventUtil.addOutgoingEventManagement(ojClass);
 				Collection<TimeEvent> deadlines = taskDefinition.getDeadlines();
-				OJOperation completed = ojClass.findOperation("completed", Collections.emptyList());
+				OJOperation completed = ojClass.getUniqueOperation("completed");
 				ojClass.addToImports(new OJPathName("java.util.Date"));
 				for(TimeEvent d:deadlines){
 					// TODO ensure uniqueness of deadline names

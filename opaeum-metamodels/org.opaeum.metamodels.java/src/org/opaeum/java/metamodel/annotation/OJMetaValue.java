@@ -29,7 +29,7 @@ public abstract class OJMetaValue extends OJElement{
 		this.values = values;
 	}
 	public OJMetaValue(){
-		super();
+		super("");
 	}
 	/**
 	 * Value is a Java class
@@ -37,6 +37,7 @@ public abstract class OJMetaValue extends OJElement{
 	 * @param value
 	 */
 	public OJMetaValue(OJPathName value){
+		this();
 		addValue(value);
 	}
 	/**
@@ -45,6 +46,7 @@ public abstract class OJMetaValue extends OJElement{
 	 * @param value
 	 */
 	public OJMetaValue(OJAnnotationValue value){
+		this();
 		addValue(value);
 	}
 	/**
@@ -53,12 +55,15 @@ public abstract class OJMetaValue extends OJElement{
 	 * @param value
 	 */
 	public OJMetaValue(Boolean value){
+		this();
 		addValue(value);
 	}
 	public OJMetaValue(String value){
+		this();
 		addValue(value);
 	}
 	public OJMetaValue(Number value){
+		this();
 		addValue(value);
 	}
 	/**
@@ -67,6 +72,7 @@ public abstract class OJMetaValue extends OJElement{
 	 * @param value
 	 */
 	public OJMetaValue(OJEnumValue value){
+		this();
 		addValue(value);
 	}
 	public void addTypesUsed(Set<OJPathName> s){

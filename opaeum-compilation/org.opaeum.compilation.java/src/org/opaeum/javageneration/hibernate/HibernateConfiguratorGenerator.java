@@ -63,9 +63,7 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 		tryIt.setCatchPart(new OJBlock());
 		tryIt.getTryPart().addToStatements(ifNull);
 		tryIt.getTryPart().addToStatements("this.entityManager=null");
-		OJParameter exception = new OJParameter();
-		exception.setName("e");
-		exception.setType(new OJPathName("Exception"));
+		OJParameter exception = new OJParameter("e",new OJPathName("Exception"));
 		tryIt.setCatchParam(exception);
 		closeClassManager.getBody().addToStatements(tryIt);
 	}

@@ -68,8 +68,7 @@ public abstract class AbstractCaller<T extends CallAction> extends SimpleNodeBui
 			// tryStatement.getTryPart().addToLocals(locals);
 			tryStatement.getTryPart().addToStatements(statements);
 			operationContext.getOwner().addToImports(ExceptionHolder.class.getName());
-			tryStatement.setCatchParam(new OJParameter());
-			tryStatement.getCatchParam().setType(new OJPathName("ExceptionHolder"));
+			tryStatement.setCatchParam(new OJParameter("e",new OJPathName("ExceptionHolder")));
 			tryStatement.getCatchParam().setName("e");
 			originalBlock.addToStatements(tryStatement);
 			return tryStatement;

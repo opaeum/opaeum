@@ -21,9 +21,6 @@
 	</repositories>
 
 	<modules>
-		<module>org.opaeum.linkage.core</module>
-		<module>org.opaeum.linkage.emfextraction</module>
-		<module>org.opaeum.linkage.namegeneration</module>
 		<module>org.opaeum.linkage.validation</module>
 		<module>org.opaeum.linkage.feature</module>
 		<module>org.opaeum.linkage.source.feature</module>

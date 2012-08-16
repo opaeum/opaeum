@@ -1,10 +1,10 @@
 package org.opaeum.validation.composition;
 
-import org.eclipse.uml2.uml.Behavior;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.validation.AbstractValidator;
@@ -32,7 +32,7 @@ public class CompositionValidator extends AbstractValidator{
 					for(Property f:workspace.getOpaeumLibrary().getEffectiveAttributes(st)){
 						if(f instanceof Property){
 							Property p = f;
-							if(!p.isDerived() && !p.isDerivedUnion() && p.getOtherEnd() != null && p.getOtherEnd().isComposite() &&!p.getOtherEnd().isDerived() && !p.getOtherEnd().isDerivedUnion()){
+							if(!EmfPropertyUtil.isDerived( p) && p.getOtherEnd() != null && p.getOtherEnd().isComposite() &&!EmfPropertyUtil.isDerived( p.getOtherEnd()) ){
 								composites++;
 							}
 						}

@@ -24,18 +24,8 @@ abstract public class OJElementGEN{
 	protected OJElementGEN(){
 		counts.put(getClass(), getCount() + 1);
 	}
-	protected OJElementGEN(String name,String comment){
-		super();
-		this.setName(name);
-		this.setComment(comment);
-	}
 	public String getName(){
 		return name;
-	}
-	public void setName(String element){
-		if(name != element){
-			name = element;
-		}
 	}
 	public String getComment(){
 		return comment;
@@ -70,7 +60,7 @@ abstract public class OJElementGEN{
 	 * @param copy
 	 */
 	public void copyInfoInto(OJElement copy){
-		copy.setName(getName());
+		copy.name=getName();
 		copy.setComment(getComment());
 	}
 }

@@ -1,6 +1,5 @@
 package org.opaeum.javageneration.bpm.activity;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +20,6 @@ import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.DecisionNode;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.ObjectNode;
@@ -128,7 +126,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		implementNodeMethods(container);
 		doExecute(msg, activityClass, isProcess);
 		if(isProcess){
-			OJOperation init = activityClass.findOperation("init", Collections.emptyList());
+			OJOperation init = activityClass.getUniqueOperation("init");
 			eventUtil.requestEvents((OJAnnotatedOperation) init, EmfActivityUtil.getActivityNodes(container),
 					getLibrary().getBusinessRole() != null);
 		}
@@ -260,8 +258,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	}
 	private void implementDerivedGetter(OJAnnotatedClass activityClass,ObjectNode node2){
 		PropertyMap actionMap = ojUtil.buildStructuralFeatureMap((Action) EmfElementFinder.getContainer(node2));
-		Namespace container = EmfActivityUtil.getNearestNodeContainer(node2);
-		Classifier parentMsg = getLibrary().getMessageStructure(container);
 		PropertyMap pinMap = ojUtil.buildStructuralFeatureMap( node2);
 		PropertyMap propertyMap = ojUtil.buildStructuralFeatureMap( node2);
 		List<OJPathName> emptyList = Collections.emptyList();

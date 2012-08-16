@@ -26,12 +26,6 @@
       <import plugin="org.eclipse.emf.ecore.xmi"/>
    </requires>
 
-   <plugin
-         id="org.opaeum.metamodels.drools"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="org.opaeum.metamodels.java"
@@ -42,13 +36,6 @@
 
    <plugin
          id="org.opaeum.metamodels.maven"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.metamodels.ocl"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -74,10 +61,5 @@
          install-size="0"
          version="0.0.0"/>
 
-   <plugin
-         id="org.opaeum.metamodels.opaeum"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
 </feature>
