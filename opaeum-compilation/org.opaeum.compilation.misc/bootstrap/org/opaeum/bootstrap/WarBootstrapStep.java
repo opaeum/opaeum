@@ -14,9 +14,6 @@ public class WarBootstrapStep extends AbstractBootstrapStep{
 		createConfig("beans.xml", TextSourceFolderIdentifier.WEBAPP_RESOURCE, "WEB-INF");
 		createConfig("faces-config.xml", TextSourceFolderIdentifier.WEBAPP_RESOURCE, "WEB-INF");
 		createConfig("web.xml", TextSourceFolderIdentifier.WEBAPP_RESOURCE, "WEB-INF");
-		createConfig("arquillian.xml", TextSourceFolderIdentifier.WEB_TEST_RESOURCE);
-		createConfig("log4j.properties", TextSourceFolderIdentifier.WEB_TEST_RESOURCE);
-		createConfig("jndi.properties", TextSourceFolderIdentifier.WEB_TEST_RESOURCE_JBOSSAS);
 		createDefaultHtmlPages("home.xhtml");
 		createDefaultHtmlPages("index.html");
 		createDefaultHtmlPages("template.xhtml");

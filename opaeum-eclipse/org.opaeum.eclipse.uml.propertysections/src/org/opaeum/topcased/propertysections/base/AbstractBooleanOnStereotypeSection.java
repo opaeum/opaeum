@@ -46,35 +46,42 @@ public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedP
 		super.setInput(part, selection);
 		Element element = getElement(getEObject());
 		Profile appliedProfile = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
-		this.stereotype = appliedProfile.getOwnedStereotype(getStereotypeName());
-		this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+		if(appliedProfile != null){
+			this.stereotype = appliedProfile.getOwnedStereotype(getStereotypeName());
+			this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+		}
 	}
 	@Override
 	public void refresh(){
 		super.refresh();
-		List<EObject> eObjectList = getEObjectList();
-		Boolean isGreyed = Boolean.FALSE;
-		Boolean selection = null;
-		for(EObject eObject:eObjectList){
-			Boolean value = null;
-			if(getElement(eObject).isStereotypeApplied(stereotype)){
-				value = (Boolean) getElement(eObject).getValue(stereotype, getAttributeName());
-			}
-			if(value == null){
-				value = getDefaultValue();
-			}
-			if(selection == null){
-				selection = value;
-			}else if(!selection.equals(value)){
-				isGreyed = true;
-				break;
-			}
-		}
-		if(isGreyed){
-			check.setGrayed(true);
-			check.setSelection(true);
+		if(stereotype == null){
+			check.setEnabled(false);
 		}else{
-			check.setSelection(selection);
+			check.setEnabled(true);
+			List<EObject> eObjectList = getEObjectList();
+			Boolean isGreyed = Boolean.FALSE;
+			Boolean selection = null;
+			for(EObject eObject:eObjectList){
+				Boolean value = null;
+				if(getElement(eObject).isStereotypeApplied(stereotype)){
+					value = (Boolean) getElement(eObject).getValue(stereotype, getAttributeName());
+				}
+				if(value == null){
+					value = getDefaultValue();
+				}
+				if(selection == null){
+					selection = value;
+				}else if(!selection.equals(value)){
+					isGreyed = true;
+					break;
+				}
+			}
+			if(isGreyed){
+				check.setGrayed(true);
+				check.setSelection(true);
+			}else{
+				check.setSelection(selection);
+			}
 		}
 	}
 	@Override

@@ -19,4 +19,8 @@ public class ObservationPropertyBridge extends AbstractEmulatedProperty{
 	public boolean shouldEmulate(){
 		return true;
 	}
+	@Override
+	public int getUpper(){
+		return 1;
+	}
 }

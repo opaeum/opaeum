@@ -36,12 +36,12 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		return false;
 	}
 	public void appendVersionSuffix(boolean b){
-		this.shouldAppendVersionSuffix=b;
+		this.shouldAppendVersionSuffix = b;
 	}
-	public void initialize(OpaeumConfig config,ModelWorkspace workspace, MigrationWorkspace migrationWorkspace){
+	public void initialize(OpaeumConfig config,ModelWorkspace workspace,MigrationWorkspace migrationWorkspace){
 		this.config = config;
 		this.workspace = workspace;
-		this.migrationWorkspace=migrationWorkspace;
+		this.migrationWorkspace = migrationWorkspace;
 	}
 	public String getVersionVariable(){
 		return "${" + workspace.getIdentifier() + ".version}";
@@ -63,28 +63,13 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*IntegrationTest.java");
 		return sureFire;
 	}
-	public boolean useWorkspaceName(){
-		return this.getExampleTargetDir().isOneProjectPerWorkspace();
-	}
 	public final String getProjectName(){
-		String suffix = getExampleTargetDir().getProjectSuffix();
+		String projectName = getExampleTargetDir().generateProjectName(workspace.getIdentifier(), config.getMavenGroupId(),
+				EmfPackageUtil.getIdentifier(this.model));
 		if(shouldAppendVersionSuffix){
-			suffix=suffix+config.getMavenGroupVersionSuffix();
+			projectName = projectName + config.getMavenGroupVersionSuffix();
 		}
-		switch(getExampleTargetDir().getProjectNameStrategy()){
-		case MODEL_NAME_AND_SUFFIX:
-			return EmfPackageUtil.getIdentifier(this.model) + suffix;
-		case SUFFIX_ONLY:
-			return suffix;
-		case WORKSPACE_NAME_AND_SUFFIX:
-			return this.workspace.getIdentifier() + suffix;
-		case WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
-			return this.workspace.getIdentifier() + suffix;
-		case QUALIFIED_WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
-			return config.getMavenGroupId() + "." + workspace.getIdentifier();
-		default:
-			return "";
-		}
+		return projectName;
 	}
 	public boolean hasFinalName(){
 		return false;
@@ -269,8 +254,8 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		}else{
 			Collection<Package> imports = this.model.getImportedPackages();
 			for(Package imp:imports){
-				if(EmfPackageUtil.isRootObject(imp) ){
-					addDependencyToRootObject(identifier,imp, result);
+				if(EmfPackageUtil.isRootObject(imp)){
+					addDependencyToRootObject(identifier, imp, result);
 				}
 			}
 		}
@@ -279,14 +264,14 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	protected void addDependencyToRootObject(ISourceFolderIdentifier identifier,Package rootObject,Collection<Dependency> result){
 		if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
 			SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(identifier);
-			String versionSuffix = shouldAppendVersionSuffix?config.getMavenGroupVersionSuffix():"";
+			String versionSuffix = shouldAppendVersionSuffix ? config.getMavenGroupVersionSuffix() : "";
 			if(sourceFolderDefinition.isOneProjectPerWorkspace()){
 				Dependency d = POMFactory.eINSTANCE.createDependency();
 				d.setGroupId(config.getMavenGroupId());
 				d.setVersion(getVersionVariable());
 				d.setScope("compile");
 				d.setType("jar");
-				d.setArtifactId(workspace.getIdentifier() + sourceFolderDefinition.getProjectSuffix()+versionSuffix);
+				d.setArtifactId(workspace.getIdentifier() + sourceFolderDefinition.getProjectQualifier() + versionSuffix);
 				result.add(d);
 			}else{
 				if(workspace.isPrimaryModel(rootObject)){
@@ -295,7 +280,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 					d.setVersion(getVersionVariable());
 					d.setScope("compile");
 					d.setType("jar");
-					d.setArtifactId(EmfPackageUtil.getIdentifier(rootObject) + sourceFolderDefinition.getProjectSuffix()+versionSuffix);
+					d.setArtifactId(EmfPackageUtil.getIdentifier(rootObject) + sourceFolderDefinition.getProjectQualifier() + versionSuffix);
 					result.add(d);
 				}else{
 					// TODO Model level stereotype, or opaeumconfig.properties get group
@@ -387,7 +372,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		return plugin;
 	}
 	public void release(){
-		this.migrationWorkspace=null;
-		this.workspace=null;
+		this.migrationWorkspace = null;
+		this.workspace = null;
 	}
 }

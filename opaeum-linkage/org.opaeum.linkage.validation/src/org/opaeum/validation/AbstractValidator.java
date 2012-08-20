@@ -21,18 +21,15 @@ import org.opaeum.EmfElementVisitor;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.visit.VisitSpec;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.IPropertyEmulation;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractValidator extends EmfElementVisitor implements ITransformationStep{
-	private final ThreadLocal<Package> currentRootObject = new ThreadLocal<Package>();
 	protected ModelWorkspace workspace;
 	protected OpaeumConfig config;
 	protected TransformationContext transformationContext;
@@ -104,15 +101,9 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	public final void setTransformationContext(TransformationContext c){
 		this.transformationContext = c;
 	}
-	protected Package getCurrentRootObject(){
-		return currentRootObject.get();
-	}
-	protected void setCurrentRootObject(Package currentRootObject){
-		this.currentRootObject.set(currentRootObject);
-	}
 	public void release(){
 		this.workspace = null;
-		this.currentRootObject.set(null);// NB! Not enough. Needs to be done from every thread
+		setCurrentRootObject(null);// NB! Not enough. Needs to be done from every thread
 	}
 	@Override
 	public Collection<Element> getChildren(Element root){

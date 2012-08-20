@@ -114,16 +114,6 @@ public class ValueSpecificationUtil{
 			now.setInitExp("new Date()");
 			operationContext.getBody().addToLocals(now);
 		}
-		if(expression.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
-			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.opaeum.runtime.organization.IPersonNode"));
-			now.setInitExp("null");
-			operationContext.getBody().addToLocals(now);
-		}
-		if(expression.getExpressionString().contains("currentRole") && !hasLocal(operationContext, "currentRole")){
-			OJAnnotatedField now = new OJAnnotatedField("currentRole", new OJPathName("org.opaeum.runtime.bpm.organization.Participant"));
-			now.setInitExp("null");
-			operationContext.getBody().addToLocals(now);
-		}
 	}
 	private static boolean hasLocal(OJOperation o,String name){
 		for(OJField ojField:o.getBody().getLocals()){

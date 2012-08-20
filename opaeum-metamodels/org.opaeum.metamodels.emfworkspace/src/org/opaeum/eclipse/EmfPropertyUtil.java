@@ -29,6 +29,7 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.emulated.AbstractEmulatedProperty;
 import org.opaeum.eclipse.emulated.AssociationClassToEnd;
 import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.eclipse.emulated.InverseArtificialProperty;
@@ -62,7 +63,11 @@ public class EmfPropertyUtil{
 		Set<Property> results = new TreeSet<Property>(new ElementComparator());
 		List<Property> effectiveAttributes = getEffectiveAttributes(c);
 		for(Property p:effectiveAttributes){
-			if(p.getOwner() == c || !inheritedConcretePropertyNames.contains(p.getName())){
+			if(p.getOwner() == c || !inheritedConcretePropertyNames.contains(p.getName()) ){
+				for(Property rp:p.getRedefinedProperties()){
+					//We need to redeclare the redefined properties to ensure that their accessors are available in the subclass for redefinition
+					results.add(rp);
+				}
 				results.add(p);
 			}
 		}
@@ -128,11 +133,21 @@ public class EmfPropertyUtil{
 		return null;
 	}
 	private static Property getImmediateEndToComposite(Classifier c){
+		System.out.println();
 		Property result = null;
 		for(Association association:c.getAssociations()){
 			for(Property property:association.getMemberEnds()){
 				if(property.getType() == c && property.isComposite() && property.getOtherEnd().isNavigable()){
 					result = property.getOtherEnd();
+					break;
+				}
+			}
+		}
+		if(result==null){
+			for(Property p:c.getAttributes()){
+				if(p.getOtherEnd()!=null && p.getOtherEnd().isComposite()){
+					result= p;
+					break;
 				}
 			}
 		}
@@ -238,6 +253,9 @@ public class EmfPropertyUtil{
 		}
 	}
 	public static Classifier getOwningClassifier(Property p){
+		if(p instanceof AbstractEmulatedProperty){
+			return (Classifier) p.getOwner();
+		}
 		return (Classifier) EmfElementFinder.getContainer(p);
 	}
 	public static boolean isMarkedAsPrimaryKey(Property property){
@@ -296,5 +314,9 @@ public class EmfPropertyUtil{
 		}else{
 			return !(isMany(p) || isMany(p.getOtherEnd()));
 		}
+	}
+	public static Property getBackingPropertyForQualifier(Property q){
+		Classifier type = (Classifier) q.getAssociationEnd().getType();
+		return (Property) type.getFeature(q.getName());
 	}
 }

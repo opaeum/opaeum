@@ -57,8 +57,9 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		IExtensionRegistry r = Platform.getExtensionRegistry();
 		addCreateChildActions(r.getConfigurationElementsFor("org.opaeum.eclipse", CREATE_CHILD_ACTION));
 		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
-		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID), sourceFolderStrategies);
-		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse",STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
+		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID),
+				sourceFolderStrategies);
+		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
 		addModelLibraries(r.getConfigurationElementsFor("org.opaeum.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID));
 		addProfiles(r.getConfigurationElementsFor("org.opaeum.eclipse", PROFILE_EXTENSION_POINT_ID));
 		r.addRegistryChangeListener(this);
@@ -96,7 +97,8 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 	@Override
 	public void registryChanged(IRegistryChangeEvent event){
 		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
-		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID), sourceFolderStrategies);
+		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID),
+				sourceFolderStrategies);
 		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
 		IExtensionDelta[] extensionDeltas = event.getExtensionDeltas("org.opaeum.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID);
 		for(IExtensionDelta delta:extensionDeltas){
@@ -114,9 +116,9 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 			IConfigurationElement[] configurationElements = ed.getExtension().getConfigurationElements();
 			addCreateChildActions(configurationElements);
 		}
-
 	}
-	public void registerExtensionDeltas(IExtensionDelta[] extensionDeltas,@SuppressWarnings("rawtypes") Set transformationSteps2){
+	public void registerExtensionDeltas(IExtensionDelta[] extensionDeltas,@SuppressWarnings("rawtypes")
+	Set transformationSteps2){
 		for(IExtensionDelta delta:extensionDeltas){
 			if(delta.getKind() == IExtensionDelta.ADDED){
 				registerExtensions(delta.getExtension().getConfigurationElements(), transformationSteps2);
@@ -136,19 +138,17 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 	public Set<Class<? extends ISourceFolderStrategy>> getSourceFolderStrategies(){
 		return sourceFolderStrategies;
 	}
-	@SuppressWarnings({
-			"unchecked","rawtypes"
-	})
+	@SuppressWarnings({"unchecked","rawtypes"})
 	private void registerExtensions(IConfigurationElement[] configurationElements,Set classes){
-		try{
-			for(IConfigurationElement ce:configurationElements){
+		for(IConfigurationElement ce:configurationElements){
+			try{
 				Class<? extends Object> clz = ce.createExecutableExtension("className").getClass();
 				classes.add(clz);
 				OpaeumConfig.registerClass(clz);
 				getDefault().getLog().log(new Status(IStatus.INFO, PLUGIN_ID, clz.getName() + " registered with Opaeum"));
+			}catch(CoreException e){
+				logError(e.getMessage(), e);
 			}
-		}catch(CoreException e){
-			logError(e.getMessage(), e);
 		}
 	}
 	public Set<Class<? extends ITransformationStep>> getTransformationSteps(){

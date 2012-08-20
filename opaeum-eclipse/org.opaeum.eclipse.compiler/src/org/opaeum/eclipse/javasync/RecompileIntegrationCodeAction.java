@@ -14,7 +14,7 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.feature.TransformationProcess;
 
-public class RecompileIntegrationCodeAction extends RecompileModelDirectoryAction{
+public class RecompileIntegrationCodeAction extends AbstractDirectoryReadingAction{
 	public RecompileIntegrationCodeAction(IStructuredSelection selection2){
 		super(selection2, "Recompile Integration Code");
 		// TODO Auto-generated constructor stub

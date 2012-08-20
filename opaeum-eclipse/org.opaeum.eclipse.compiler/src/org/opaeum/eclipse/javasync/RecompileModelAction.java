@@ -45,19 +45,19 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 			Object element = it.next();
 			if(element instanceof Model){
 			}else if(element instanceof IAdaptable){
-				element=((IAdaptable) element).getAdapter(EObject.class);
+				element = ((IAdaptable) element).getAdapter(EObject.class);
 			}
 			if(element instanceof Model){
 				model = (Model) element;
 				new Job("Recompiling model"){
 					@Override
 					protected IStatus run(final IProgressMonitor monitor){
+						TransformationProcess p = null;
 						try{
 							OpaeumEclipseContext.selectContext(model);
-							OpaeumEclipseContext currentContext =OpaeumEclipseContext.getCurrentContext();
-
-							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getEditingContextFor(model));
-							if(p == null||currentContext.isLoading()){
+							OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
+							p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getEditingContextFor(model));
+							if(p == null || currentContext.isLoading()){
 								Display.getDefault().syncExec(new Runnable(){
 									public void run(){
 										MessageDialog.openError(Display.getCurrent().getActiveShell(), "Opaeum is still initializing",
@@ -77,21 +77,23 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 										}
 									}
 								}
-								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60),false);
-								//TODO add features to SourceFolderStrategy to determine if this should be true, ie shouldCleanDirectoriesWhenGeneratingSingleModel
-								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p,true);
+								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60), false);
+								// TODO add features to SourceFolderStrategy to determine if this should be true, ie
+								// shouldCleanDirectoriesWhenGeneratingSingleModel
+								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, true);
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
-								p.removeModel(OJWorkspace.class);
-								p.removeModel(TextWorkspace.class);
 							}
 						}catch(Exception e){
 							e.printStackTrace();
-							return new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Recompilation Failed",e);
+							return new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Recompilation Failed", e);
 						}finally{
+							if(p != null){
+								p.removeModel(OJWorkspace.class);
+								p.removeModel(TextWorkspace.class);
+							}
 							monitor.done();
-									MemoryUtil.printMemoryUsage();
-
+							MemoryUtil.printMemoryUsage();
 						}
 						return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");
 					}

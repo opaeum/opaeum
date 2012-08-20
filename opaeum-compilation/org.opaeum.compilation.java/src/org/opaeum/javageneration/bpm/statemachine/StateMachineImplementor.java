@@ -15,6 +15,7 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.FinalState;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueBehavior;
@@ -39,10 +40,12 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
@@ -92,9 +95,13 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.tokenPathName(behavior));
 			}
 			ojStateMachine.addToImplementedInterfaces(STATE_MACHINE_EXECUTION);
-			implementExecute(ojStateMachine, behavior);
+			OJOperation exec = implementExecute(ojStateMachine, behavior);
+			for(Region region:umlStateMachine.getRegions()){
+				String regionName = ojUtil.classifierPathname(region).getLast();
+				exec.getBody().addToStatements("((" + regionName + ")getExecutionElements().get(" + regionName + ".ID)).initiate(null)");
+			}
 			implementIProcess(umlStateMachine, ojStateMachine);
-			implementIBehaviorExecution(behavior, ojStateMachine, HibernateUtil. STATE_MACHINE_TOKEN);
+			implementIBehaviorExecution(behavior, ojStateMachine, HibernateUtil.STATE_MACHINE_TOKEN);
 			OJUtil.addTransientProperty(ojStateMachine, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
 					OJVisibilityKind.PROTECTED);
 			addImports(ojStateMachine, umlStateMachine);
@@ -121,15 +128,16 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			}
 			OJAnnotatedClass stateClass = new OJAnnotatedClass(javaType.getLast());
 			if(vertex instanceof State){
-				implementIProcessStep(stateClass,vertex, getOperationTriggers(vertex));
+				implementIProcessStep(stateClass, vertex, getOperationTriggers(vertex));
 			}
 			findOrCreatePackage(javaType.getHead()).addToClasses(stateClass);
 			createTextPath(stateClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			stateClass.setSuperclass(vertex instanceof State ? STATE_ACTIVATION.getCopy() : PSEUDO_STATE_ACTIVATION.getCopy());
 			stateClass.addToImports(ojUtil.statePathname(umlStateMachine));
+			addId(vertex, stateClass);
 			OJConstructor c = new OJConstructor();
 			stateClass.addToConstructors(c);
-			c.setDelegateConstructor("super(\"" + EmfWorkspace.getId(vertex) + "\",region)");
+			c.setDelegateConstructor("super(ID,region)");
 			c.addParam("region", ojUtil.classifierPathname(vertex.getContainer()));
 			if(vertex instanceof Pseudostate){
 				Pseudostate pseudostate = (Pseudostate) vertex;
@@ -163,7 +171,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			}
 			implementOnEntryIfRequired(ojStateMachine, stateClass, vertex, map);
 			implementOnExitIfRequired(ojStateMachine, stateClass, vertex, map);
-			OJAnnotatedOperation onCompletion = new OJAnnotatedOperation("onComplete", new OJPathName("boolean"));
+			OJAnnotatedOperation onCompletion = new OJAnnotatedOperation("onCompletion", new OJPathName("boolean"));
 			stateClass.addToOperations(onCompletion);
 			onCompletion.initializeResultVariable("false");
 			for(Transition transition:vertex.getOutgoings()){
@@ -183,6 +191,13 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 				}
 			}
 		}
+	}
+	private void addId(Element vertex,OJAnnotatedClass stateClass){
+		OJAnnotatedField id = new OJAnnotatedField("ID", new OJPathName("String"));
+		id.setStatic(true);
+		id.setVisibility(OJVisibilityKind.PUBLIC);
+		id.setInitExp("\"" + EmfWorkspace.getId(vertex) + "\"");
+		stateClass.addToFields(id);
 	}
 	private void implementOnExitIfRequired(OJAnnotatedClass ojStateMachine,OJAnnotatedClass stateClass,Vertex vertex,StateMap map){
 		if(vertex instanceof State && EmfStateMachineUtil.doesWorkOnExit((State) vertex)){
@@ -222,7 +237,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 					if(state instanceof FinalState){
 						onEntry.getBody().addToStatements(setter + "(null)");
 					}else{
-						onEntry.getBody().addToStatements(setter + "(\"" + EmfWorkspace.getId(state) + "\")");
+						onEntry.getBody().addToStatements(setter + "(ID)");
 					}
 				}
 				if(state.getDoActivity() != null){
@@ -231,7 +246,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 				isComplexState = state.isComposite() || state.isOrthogonal();
 			}
 			Collection<Transition> completionTransitions = EmfStateMachineUtil.getCompletionTransitions(vertex);
-			if(!EmfStateMachineUtil.isShallowHistory(vertex) && completionTransitions.size() > 0 && !isComplexState){
+			if(completionTransitions.size() > 0 && !isComplexState){
 				onEntry.getBody().addToStatements("token.fireCompletionEvent()");
 			}
 			boolean hasEvents = false;
@@ -254,9 +269,11 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 				stateClass.addToImports(new OJPathName(OutgoingEvent.class.getName()));
 				stateClass.addToImports(new OJPathName(CancelledEvent.class.getName()));
 			}
-			if(vertex instanceof FinalState && vertex.getContainer().getOwner() instanceof State){
+			if(vertex instanceof FinalState){
 				onEntry.getBody().addToStatements("token.setHasRunToCompletion(true)");
-				onEntry.getBody().addToStatements("(("+tokenPathName.getLast() +")token.getParentToken()).fireCompletionEvent()");
+				if(vertex.getContainer().getOwner() instanceof State){
+					onEntry.getBody().addToStatements("((" + tokenPathName.getLast() + ")token.getParentToken()).fireCompletionEvent()");
+				}
 			}
 		}
 	}
@@ -294,11 +311,12 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			transitionInstance.setSuperclass(superClass);
 			transitionInstance.getSuperclass().addToElementTypes(ojUtil.classifierPathname(umlStateMachine));
 			transitionInstance.getSuperclass().addToElementTypes(ojUtil.tokenPathName(umlStateMachine));
+			addId(transition, transitionInstance);
 			OJConstructor c = new OJConstructor();
 			transitionInstance.addToConstructors(c);
 			c.addParam("regionActivation", ojUtil.classifierPathname(transition.getContainer()));
-			c.setDelegateConstructor("super(\"" + EmfWorkspace.getId(transition) + "\",regionActivation,\""
-					+ EmfWorkspace.getId(transition.getSource()) + "\",\"" + EmfWorkspace.getId(transition.getSource()) + "\")");
+			c.setDelegateConstructor("super(ID,regionActivation,\"" + EmfWorkspace.getId(transition.getSource()) + "\",\""
+					+ EmfWorkspace.getId(transition.getTarget()) + "\")");
 			OJPathName sourcePathName = ojUtil.classifierPathname(transition.getSource());
 			transitionInstance.addToImports(sourcePathName);
 			c.getBody().addToStatements("((" + sourcePathName.getLast() + ")getSource()).set" + transitionInstance.getName() + "(this)");
@@ -368,10 +386,11 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			regionActivation.setSuperclass(REGION_ACTIVATION.getCopy());
 			regionActivation.getSuperclass().addToElementTypes(ojUtil.classifierPathname(umlStateMachine));
 			OJPathName tokenPathName = ojUtil.tokenPathName(umlStateMachine);
-			if(EmfClassifierUtil.getSubClasses(umlStateMachine).size()>0){
+			if(EmfClassifierUtil.getSubClasses(umlStateMachine).size() > 0){
 				tokenPathName.addToElementTypes(ojUtil.classifierPathname(umlStateMachine));
 			}
 			regionActivation.getSuperclass().addToElementTypes(tokenPathName);
+			addId(r, regionActivation);
 			OJConstructor c = new OJConstructor();
 			regionActivation.addToConstructors(c);
 			OJPathName ownerType = ojUtil.classifierPathname((NamedElement) r.getOwner());
@@ -418,5 +437,4 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		}
 		return result;
 	}
-
 }

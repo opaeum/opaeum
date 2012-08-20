@@ -4,12 +4,22 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
+import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.name.NameConverter;
 
 public class EmfElementUtil{
 	public static boolean isMarkedForDeletion(Element e){
-		return !(e instanceof EmfWorkspace) && e.eResource() == null;
+		if(e.eResource()==null){
+			if(e instanceof EmfWorkspace){
+				return false;
+			}else if(e instanceof IEmulatedElement){
+				return isMarkedForDeletion(((IEmulatedElement) e).getOriginalElement());
+			}else{
+				return false;
+			}
+		}
+		return false;
 	}
 	public static String getDocumentation(Element elem){
 		if(elem.getOwnedComments().size() > 0){

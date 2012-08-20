@@ -12,6 +12,10 @@ import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.event.EventService;
 import org.opaeum.runtime.event.INotificationService;
+import org.opaeum.runtime.organization.IBusinessRoleBase;
+import org.opaeum.runtime.organization.IParticipantBase;
+import org.opaeum.runtime.organization.IPersonNode;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.DatabaseManagementSystem;
 import org.opaeum.runtime.persistence.UmtPersistence;
@@ -32,6 +36,9 @@ public abstract class Environment{
 	protected Properties properties;
 	protected static Class<? extends Environment> defaultImplementation;
 	private DatabaseManagementSystem dbms;
+	private IPersonNode currentUser;
+	private IParticipantBase currentRole;
+	private AbstractPersistence currentPersistence;
 	static private Map<String,Class<?>> classes = new HashMap<String,Class<?>>();
 	public static Environment buildInstanceForRelease(VersionNumber n){
 		Environment env = (Environment) instantiateImplementation(ENVIRONMENT_IMPLEMENTATION, loadProperties(propertiesFileName(n)));
@@ -121,6 +128,18 @@ public abstract class Environment{
 		}
 		return properties;
 	}
+	public IPersonNode getCurrentUser(){
+		return currentUser;
+	}
+	public IParticipantBase getCurrentRole(){
+		return currentRole;
+	}
+	public void setCurrentUser(IPersonNode currentUser){
+		this.currentUser = currentUser;
+	}
+	public void setCurrentRole(IParticipantBase currentRole){
+		this.currentRole = currentRole;
+	}
 	public abstract <T>T getComponent(Class<T> clazz);
 	public abstract <T>T getComponent(Class<T> clazz,Annotation qualifiers);
 	public abstract void reset();
@@ -133,5 +152,11 @@ public abstract class Environment{
 	public abstract UmtPersistence newUmtPersistence();
 	public abstract ConversationalPersistence createConversationalPersistence();
 	public abstract UmtPersistence getUmtPersistence();
+	public AbstractPersistence getCurrentPersistence(){
+		return currentPersistence;
+	}
+	public void setCurrentPersistence(AbstractPersistence currentPersistence){
+		this.currentPersistence = currentPersistence;
+	}
 
 }

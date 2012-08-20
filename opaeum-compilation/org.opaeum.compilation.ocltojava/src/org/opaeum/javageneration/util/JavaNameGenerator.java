@@ -70,11 +70,13 @@ public class JavaNameGenerator{
 		}
 		Namespace container = EmfElementFinder.getNearestNamespace(ne);
 		String path = packagePathname(container);
-		String name =NameConverter.toJavaVariableName(ne.getName());
+		if(ne.getName()==null){
+			System.out.println();
+		}
+		String name = NameConverter.toJavaVariableName(ne.getName());
 		return path + "." + NameConverter.capitalize(name);
 	}
 	private static void addParentsToPath(Namespace c,StringBuilder path){
-
 		Namespace parent = (Namespace) c.getOwner();
 		if(parent != null){
 			if(parent instanceof Package && EmfPackageUtil.hasMappedImplementationPackage((Package) parent)){

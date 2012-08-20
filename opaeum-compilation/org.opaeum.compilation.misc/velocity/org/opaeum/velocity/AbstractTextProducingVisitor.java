@@ -123,12 +123,6 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 			return super.getChildren(root);
 		}
 	}
-	protected SourceFolder getSourceFolder(SourceFolderDefinition outputRoot){
-		String projectPrefix = getProjectName(outputRoot);
-		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix);
-		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
-		return or;
-	}
 	public void findOrCreateTextFile(CharArrayWriter outputBuilder,ISourceFolderIdentifier outputRootId,String...names){
 		createTextPath(outputRootId, Arrays.asList(names)).setTextSource(new CharArrayTextSource(outputBuilder));
 	}

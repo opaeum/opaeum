@@ -3,11 +3,9 @@ package org.opaeum.eclipse.javasync;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -21,19 +19,15 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.feature.ITransformationStep;
-import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextWorkspace;
 
-public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
+public class RecompileModelDirectoryAction extends AbstractDirectoryReadingAction{
 	public RecompileModelDirectoryAction(IStructuredSelection selection2){
 		super(selection2, "Recompile Model Directory");
 	}
@@ -94,23 +88,5 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 				return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");
 			}
 		}.schedule();
-	}
-	protected TransformationProcess prepareDirectoryForTransformation(final IContainer folder,final IProgressMonitor monitor)
-			throws CoreException{
-		monitor.subTask("Saving Open Models");
-		final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(folder);
-		monitor.worked(5);
-		monitor.subTask("Loading Opaeum Metadata");
-		final EmfWorkspace ws = ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
-		ws.getOpaeumLibrary().reset();
-		TransformationProcess p = new TransformationProcess();
-		Set<Class<? extends ITransformationStep>> steps = JavaTransformationProcessManager.getAllSteps(ctx.getConfig());
-		ctx.getConfig().calculateOutputRoot(folder.getProject().getLocation().toFile());
-		p.initialize(ctx.getConfig(), steps);
-		p.replaceModel(ws);
-		p.replaceModel(new OJUtil());
-		OpaeumConfig config = ctx.getConfig();
-		config.getSourceFolderStrategy().defineSourceFolders(config);
-		return p;
 	}
 }

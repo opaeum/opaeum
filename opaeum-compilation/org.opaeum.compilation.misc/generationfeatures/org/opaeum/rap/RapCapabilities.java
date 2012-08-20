@@ -12,7 +12,7 @@ import org.opaeum.javageneration.rap.RapAttributeImplementor;
 import org.opaeum.olap.MondrianCubeGenerator;
 
 @StepDependency(phase = BootstrapGenerationPhase.class,requires = {RapProjectBuilder.class,EnumResolverImplementor.class,
-		ProcessStepResolverImplementor.class,RapAttributeImplementor.class,FactoryMethodCreator.class,OrganizationImplementor.class,
+		ProcessStepResolverImplementor.class,RapAttributeImplementor.class,FactoryMethodCreator.class,
 		MondrianCubeGenerator.class})
 public class RapCapabilities extends AbstractBootstrapStep implements ITransformationStep{
 	public RapCapabilities(){

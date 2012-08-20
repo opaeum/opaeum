@@ -236,4 +236,7 @@ public class OJOperation extends OJOperationGEN{
 		}
 		return b;
 	}
+	protected void setName(String multiName){
+		this.name=multiName;
+	}
 }

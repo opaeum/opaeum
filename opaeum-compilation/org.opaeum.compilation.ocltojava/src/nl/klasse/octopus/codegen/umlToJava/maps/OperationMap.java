@@ -285,4 +285,7 @@ public class OperationMap extends PackageableElementMap implements IMessageMap,E
 	public NamedElement getNamedElement(){
 		return operation;
 	}
+	public String multiName(){
+		return javaOperName() + "WithMultiplePotentialOwners";
+	}
 }

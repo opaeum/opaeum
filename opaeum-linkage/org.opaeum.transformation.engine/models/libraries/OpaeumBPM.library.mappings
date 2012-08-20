@@ -1,8 +1,0 @@
-OpaeumLibraryForBPM\:\:organization:\:\IOpaeumPerson=org.opaeum.runtime.organization.IOpaeumPerson
-OpaeumLibraryForBPM\:\:IOpaeumPersonPhoneNumber=org.opaeum.runtime.organization.IOpaeumPersonPhoneNumber
-OpaeumLibraryForBPM\:\:IOpaeumPersonEMailAddres=org.opaeum.runtime.organization.IOpaeumPersonEMailAddress
-OpaeumLibraryForBPM\:\:organization:\:\IOpaeumOrganization=org.opaeum.runtime.organization.IOpaeumOrganization
-OpaeumLibraryForBPM\:\:IOpaeumOrganizationPhoneNumber=org.opaeum.runtime.organization.IOpaeumOrganizationPhoneNumber
-OpaeumLibraryForBPM\:\:IOpaeumOrganizationEMailAddress=org.opaeum.runtime.organization.IOpaeumOrganizationEMailAddress
-OpaeumLibraryForBPM\:\:contact:\:\PersonPhonNumberType=org.opaeum.runtime.contact.PersonPhoneNumberType
-OpaeumLibraryForBPM\:\:contact:\:\PersonEMailAddressType=org.opaeum.runtime.contact.PersonEMailAddressType

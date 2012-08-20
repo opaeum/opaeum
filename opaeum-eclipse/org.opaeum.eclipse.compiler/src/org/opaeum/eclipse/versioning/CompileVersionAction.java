@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.javasync.AbstractDirectoryReadingAction;
 import org.opaeum.eclipse.javasync.JavaProjectGenerator;
 import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
 import org.opaeum.eclipse.starter.Activator;
@@ -28,12 +29,12 @@ import org.opaeum.javageneration.JavaTextSource;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.JavaStringTextSource;
 import org.opaeum.pomgeneration.PomGenerationPhase;
-import org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy;
+import org.opaeum.sourcefolderstrategies.SingleProjectMavenSourceFolderStrategy;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextWorkspace;
 
-public class CompileVersionAction extends RecompileModelDirectoryAction{
+public class CompileVersionAction extends AbstractDirectoryReadingAction{
 	public static String reg = "[0-9]+(\\.[0-9]+){0,2}";
 	public CompileVersionAction(IStructuredSelection selection2){
 		super(selection2, "Compile Version");

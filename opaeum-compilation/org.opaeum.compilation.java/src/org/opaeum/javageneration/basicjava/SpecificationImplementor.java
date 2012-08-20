@@ -148,7 +148,6 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		OJAnnotatedOperation ojAnnotatedOperation = (OJAnnotatedOperation) javaMethod;
 		ojAnnotatedOperation.initializeResultVariable("new " + ojBehavior.getLast() + "(this)");
 		ojAnnotatedOperation.getResultVariable().setType(ojBehavior);
-		javaMethod.getBody().addToStatements("this." + featureMap.adder() + "(result)");
 		javaMethod.setReturnType(ojBehavior);
 	}
 	private void implementStartClassifierBehavior(Behavior behavior){

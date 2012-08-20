@@ -230,6 +230,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		name=oldName + "Generated";
 		String result = toJavaString();
 		result = result.replaceAll("[\\(]this[\\)]", "((" + concreteName + ")this)");
+		result = result.replaceAll("[\\=]this;", "=(" + concreteName + ")this;");
 		name=oldName;
 		return result;
 	}

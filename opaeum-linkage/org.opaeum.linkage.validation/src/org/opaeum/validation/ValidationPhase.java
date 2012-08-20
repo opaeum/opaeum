@@ -40,6 +40,7 @@ import org.opaeum.linkage.MappedTypeLoader;
 import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.BrokenRule;
+import org.opaeum.metamodel.validation.ErrorMap;
 import org.opaeum.validation.activities.ActionValidation;
 import org.opaeum.validation.activities.ActivityValidator;
 import org.opaeum.validation.commonbehavior.BehaviorValidator;
@@ -55,9 +56,10 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,El
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		Collection<Element> actualElements = new HashSet<Element>(elements);
+		ErrorMap errorMap = emfWorkspace.getErrorMap();
 		for(Element element:elements){
 			String elementId = EmfWorkspace.getId(element);
-			for(Entry<String,BrokenElement> entry:emfWorkspace.getErrorMap().getErrors().entrySet()){
+			for(Entry<String,BrokenElement> entry:errorMap.getErrors().entrySet()){
 				boolean match = entry.getKey().equals(elementId);
 				for(BrokenRule br:entry.getValue().getBrokenRules().values()){
 					Object[] parameters = br.getParameters();
@@ -81,7 +83,7 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,El
 			}
 		}
 		for(Element element:actualElements){
-			emfWorkspace.getErrorMap().getErrors().remove(EmfWorkspace.getId(element));
+			errorMap.getErrors().remove(EmfWorkspace.getId(element));
 			for(AbstractValidator v:validators){
 				v.visitOnly(element);
 			}

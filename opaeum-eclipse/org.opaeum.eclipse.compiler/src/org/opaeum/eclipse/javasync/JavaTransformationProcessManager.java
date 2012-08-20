@@ -39,8 +39,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			// Continuously associate new contexts with transformation processes
 			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 			if(currentContext != null && !currentContext.isLoading()){
-				getTransformationProcess(currentContext);
-				for(OpenUmlFile openUmlFile:currentContext.getEditingContexts()){
+				for(OpenUmlFile openUmlFile:currentContext.getOpenUmlFiles()){
 					getTransformationProcess(openUmlFile);
 					
 				}
@@ -56,19 +55,6 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 				// Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));
 			}
 		}
-	}
-	private static synchronized TransformationProcess getTransformationProcess(final OpaeumEclipseContext ne){
-		//For transformations running on the entire directory of models
-		TransformationProcess process = processes.get(ne.getUmlDirectory());
-		if(process == null){
-			process = new TransformationProcess();
-			process.replaceModel(new OJUtil());
-			// Load classes for config
-			OpaeumEclipsePlugin.getDefault();
-			reinitializeProcess(process, ne.getConfig(), ne.getUmlDirectory());
-			processes.put(ne.getUmlDirectory(), process);
-		}
-		return process;
 	}
 	private static synchronized TransformationProcess getTransformationProcess(final OpenUmlFile ouf){
 		//For transformations running on a single model
@@ -91,14 +77,10 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 				}
 			});
 		}
-		//TODO listen to the closing of files  and remove the process
-		process.replaceModel(ouf.getOJUtil());
-		process.replaceModel(ouf.getEmfWorkspace());
 		return process;
 	}
 	public static void reinitializeProcess(TransformationProcess process, OpaeumConfig cfg, IContainer umlDir){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps(cfg);
-		cfg.calculateOutputRoot(umlDir.getProject().getLocation().toFile());
 		if(cfg.getOutputRoot().exists()){
 			for(File file:cfg.getOutputRoot().listFiles()){
 				if(file.getName().equals(".project") || file.getName().equals(".classpath")){
@@ -142,9 +124,6 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends ITransformationStep>> getBasicIntegrationSteps(){
 		return toSet(HibernatePackageAnnotator.class, JavaMetaInfoMapGenerator.class);
-	}
-	public static TransformationProcess getTransformationProcessFor(IContainer folder){
-		return getTransformationProcess(OpaeumEclipseContext.findOrCreateContextFor(folder));
 	}
 	public static TransformationProcess getTransformationProcessFor(OpenUmlFile file){
 		

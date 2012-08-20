@@ -1,5 +1,9 @@
 package nl.klasse.octopus.codegen.umlToJava.maps;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
@@ -20,16 +24,16 @@ public final class PropertyMap extends PackageableElementMap{
 		super(ojUtil, property);
 		if(property.getAssociationEnd() != null){
 			// qualifier - might have backing attribute
-			Classifier c= (Classifier) EmfElementFinder.getContainer(property.getAssociationEnd());
-			Property attribute = c.getAttribute(property.getName(),null);
-			if(attribute!=null){
-				property=attribute;
+			Classifier c = (Classifier) EmfElementFinder.getContainer(property.getAssociationEnd());
+			Property attribute = c.getAttribute(property.getName(), null);
+			if(attribute != null){
+				property = attribute;
 			}
 		}
 		this.setProperty(property);
 		Classifier type = (Classifier) property.getType();
 		if(type == null){
-				type = ojUtil.getLibrary().getStringType();
+			type = ojUtil.getLibrary().getStringType();
 		}
 		baseTypeMap = ojUtil.buildClassifierMap(type);
 		if(EmfPropertyUtil.isMany(property)){
@@ -248,5 +252,25 @@ public final class PropertyMap extends PackageableElementMap{
 	}
 	protected void setProperty(Property property){
 		this.property = property;
+	}
+	public List<OJPathName> qualifiedArgumentsForWriter(){
+		List<OJPathName> result = qualifiedArgsForReader();
+		result.add(javaBaseTypePath());
+		return result;
+	}
+	public List<OJPathName> qualifiedArgsForReader(){
+		List<OJPathName> result = new ArrayList<OJPathName>();
+		for(Property q:property.getQualifiers()){
+			Property bp = EmfPropertyUtil.getBackingPropertyForQualifier(q);
+			if(bp == null){
+				bp = q;
+			}
+			if(bp.getType() == null){
+				result.add(StdlibMap.javaStringType);
+			}else{
+				result.add(ojUtil.classifierPathname(bp.getType()));
+			}
+		}
+		return result;
 	}
 }

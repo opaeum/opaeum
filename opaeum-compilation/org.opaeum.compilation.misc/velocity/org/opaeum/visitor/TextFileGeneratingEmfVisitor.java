@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.EmfElementVisitor;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
@@ -20,51 +22,28 @@ public abstract class TextFileGeneratingEmfVisitor extends EmfElementVisitor{
 	protected Set<TextOutputNode> textFiles;
 	protected OpaeumConfig config;
 	protected ModelWorkspace workspace;
-	protected String getProjectName(SourceFolderDefinition outputRoot, Element p){
-		String projectPrefix = null;
-		switch(outputRoot.getProjectNameStrategy()){
-		case QUALIFIED_WORKSPACE_NAME_AND_SUFFIX:
-			projectPrefix = config.getMavenGroupId() + "." + workspace.getIdentifier();
-			break;
-		case SUFFIX_ONLY:
-			projectPrefix = "";
-			break;
-		case MODEL_NAME_AND_SUFFIX:
-			projectPrefix = getRootObjectIdentifier(p);
-		case WORKSPACE_NAME_AND_SUFFIX:
-			projectPrefix = workspace.getIdentifier();
-			break;
-		case QUALIFIED_WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
-			projectPrefix = config.getMavenGroupId() + "." + workspace.getIdentifier();
-			break;
-		case WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
-			projectPrefix = workspace.getIdentifier();
-			break;
-		}
-		return projectPrefix + outputRoot.getProjectSuffix();
+	protected String getProjectName(SourceFolderDefinition outputRoot,Element p){
+		return outputRoot.generateProjectName(workspace.getIdentifier(), config.getMavenGroupId(),
+				getRootObjectIdentifier(p));
 	}
 	public Set<TextOutputNode> getTextFiles(){
 		return textFiles;
 	}
-	protected TextFile createTextPath(ISourceFolderIdentifier id,List<String> names, Element e){
+	protected TextFile createTextPath(ISourceFolderIdentifier id,List<String> names,Element e){
 		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);
-		SourceFolder or = getSourceFolder(outputRoot,e);
+		SourceFolder or = getSourceFolder(outputRoot, e);
 		TextFile file = or.findOrCreateTextFile(names, outputRoot.overwriteFiles());
-//		this.textFiles.add(file);
+		// this.textFiles.add(file);
 		return file;
 	}
-	protected synchronized SourceFolder getSourceFolder(SourceFolderDefinition outputRoot, Element p){
-		TextProject textProject = textWorkspace.findOrCreateTextProject(getProjectName(outputRoot,p));
-		String sourceFolder = outputRoot.getSourceFolder();
-		if(outputRoot.prefixModelIdentifierToSourceFolder()){
-			// force multiple source folders per model
-			sourceFolder = getRootObjectIdentifier(p) + "/" + outputRoot.getSourceFolder();
-		}
+	protected synchronized SourceFolder getSourceFolder(SourceFolderDefinition outputRoot,Element p){
+		TextProject textProject = textWorkspace.findOrCreateTextProject(getProjectName(outputRoot, p));
+		String sourceFolder = outputRoot.generateSourceFolderName(getRootObjectIdentifier(p));
 		SourceFolder or = textProject.findOrCreateSourceFolder(sourceFolder, outputRoot.cleanDirectories());
 		return or;
 	}
 	private String getRootObjectIdentifier(Element p){
-		return p.eResource().getURI().trimFileExtension().lastSegment();
+		return EmfPackageUtil.getIdentifier(EmfElementFinder.getRootObject(p));
 	}
 	public void release(){
 		textFiles = null;

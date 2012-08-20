@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
@@ -86,10 +85,11 @@ public class OpenUmlFile extends EContentAdapter{
 		this.resourceHelper = new EclipseUriToFileConverter();
 		this.cfg = cfg;
 		this.ojUtil = new OJUtil();
-		reinitializeProcess();
 		emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier(), cfg.getMavenGroupId());
 		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
 		emfWorkspace.setName(cfg.getWorkspaceName());
+		this.transformationProcess=new TransformationProcess();
+		this.transformationProcess.initialize(cfg, getTransformationSteps(cfg));
 		this.transformationProcess.replaceModel(ojUtil);
 		this.transformationProcess.replaceModel(emfWorkspace);
 		this.transformationProcess.execute(new DefaultTransformationLog());
@@ -152,11 +152,6 @@ public class OpenUmlFile extends EContentAdapter{
 	}
 	public UriToFileConverter getResourceHelper(){
 		return resourceHelper;
-	}
-	public void reinitializeProcess(){
-		this.transformationProcess = new TransformationProcess();
-		cfg.reset();
-		this.transformationProcess.initialize(cfg, getTransformationSteps(cfg));
 	}
 	@SuppressWarnings("unchecked")
 	public static HashSet<Class<? extends ITransformationStep>> getTransformationSteps(OpaeumConfig cfg){
@@ -365,6 +360,7 @@ public class OpenUmlFile extends EContentAdapter{
 						if(emfChanges.size() > 0){
 							long start = System.currentTimeMillis();
 							Set<Element> changedElements = new HashSet<Element>();
+							
 							for(Object object:transformationProcess.processElements(emfChanges, ValidationPhase.class,
 									new ProgressMonitorTransformationLog(monitor, 50))){
 								if(object instanceof Element){

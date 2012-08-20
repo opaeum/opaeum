@@ -68,11 +68,11 @@ public abstract class RegionActivation<SME extends IStateMachineExecution,T exte
 	@SuppressWarnings("unchecked")
 	public void enter(T token,VertexActivation<SME,T> target){
 		token = ((T) getStateMachineExecution().createToken(token));
+		
 		for(VertexActivation<SME,T> v:vertices){
 			if(v == target){
-				token.transferTo(target);
+				((VertexActivation<SME,T>) v).enter(token, target);
 			}else if(v.contains(target)){
-				token.transferTo(target);
 				((StateActivation<SME,T>) v).enter(token, target);
 			}
 		}

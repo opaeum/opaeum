@@ -30,8 +30,8 @@ public class TaskUtil{
 	}
 	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opaeum.runtime.bpm.BusinessRole");
 	public void implementAssignmentsAndDeadlines(OJAnnotatedOperation operation,OJBlock block,ResponsibilityDefinition td,String taskName){
-		operation.getOwner().addToImports(new OJPathName("org.opaeum.runtime.bpm.TaskParticipationKind"));
-		operation.getOwner().addToImports(new OJPathName("org.opaeum.runtime.bpm.RequestParticipationKind"));
+		operation.getOwner().addToImports(new OJPathName("org.opaeum.runtime.bpm.request.TaskParticipationKind"));
+		operation.getOwner().addToImports(new OJPathName("org.opaeum.runtime.bpm.request.RequestParticipationKind"));
 		if(td.getPotentialOwners() != null){
 			PluralNameWrapper name = new PluralNameWrapper("potentialOwners", "potentialOwner");
 			implementTaskRequestAssignment(operation, block, td, taskName, td.getPotentialOwners(), name, "POTENTIALOWNER");
@@ -46,9 +46,9 @@ public class TaskUtil{
 		}
 		operation.getOwner().addToImports(TaskDelegation.class.getName());
 		if(td.getDelegation() == null){
-			block.addToStatements(taskName + ".getTaskRequest().setDelegation(TaskDelegation.ANYBODY)");
+			block.addToStatements("((TaskRequest)" + taskName + ".getRequest()).setDelegation(TaskDelegation.ANYBODY)");
 		}else{
-			block.addToStatements(taskName + ".getTaskRequest().setDelegation(TaskDelegation." + td.getDelegation().name() + ")");
+			block.addToStatements("((TaskRequest)" + taskName + ".getRequest()).setDelegation(TaskDelegation." + td.getDelegation().name() + ")");
 		}
 		Collection<TimeEvent> deadlines = td.getDeadlines();
 		for(TimeEvent d:deadlines){
@@ -60,17 +60,17 @@ public class TaskUtil{
 		OpaqueExpressionContext oclExpressionContext = library.getOclExpressionContext(potentialOwners);
 		if(!oclExpressionContext.hasErrors()){
 			String expr = valueSpecificationUtil.expressOcl(oclExpressionContext, operation, null);
-			OJIfStatement ifEmpty = new OJIfStatement(taskName + ".getTaskRequest().get" + name.getCapped() + "().isEmpty()");
+			OJIfStatement ifEmpty = new OJIfStatement("((TaskRequest)" + taskName + ".getRequest()).get" + name.getCapped() + "().isEmpty()");
 			block.addToStatements(ifEmpty);
 			if(oclExpressionContext.getExpression().getType() instanceof CollectionType){
 				operation.getOwner().addToImports(BUSINESS_ROLE);
 				OJForStatement forEach = new OJForStatement("participant", BUSINESS_ROLE, expr);
 				ifEmpty.getThenPart().addToStatements(forEach);
 				forEach.getBody().addToStatements(
-						taskName + ".getTaskRequest().addTaskRequestParticipant(participant,TaskParticipationKind." + kind + ")");
+						"((TaskRequest)" + taskName + ".getRequest()).addTaskRequestParticipant(participant,TaskParticipationKind." + kind + ")");
 			}else{
 				ifEmpty.getThenPart().addToStatements(
-						taskName + ".getTaskRequest().addTaskRequestParticipant(" + expr + ",TaskParticipationKind." + kind + ")");
+						"((TaskRequest)" + taskName + ".getRequest()).addTaskRequestParticipant(" + expr + ",TaskParticipationKind." + kind + ")");
 			}
 		}
 	}
@@ -79,17 +79,17 @@ public class TaskUtil{
 		OpaqueExpressionContext oclExpressionContext = library.getOclExpressionContext(potentialOwners);
 		if(!oclExpressionContext.hasErrors()){
 			String expr = valueSpecificationUtil.expressOcl(oclExpressionContext,operation, null);
-			OJIfStatement ifEmpty = new OJIfStatement(taskName + ".getTaskRequest().get" + name.getCapped() + "().isEmpty()");
+			OJIfStatement ifEmpty = new OJIfStatement("((TaskRequest)" + taskName + ".getRequest()).get" + name.getCapped() + "().isEmpty()");
 			block.addToStatements(ifEmpty);
 			if(oclExpressionContext.getExpression().getType() instanceof CollectionType){
 				operation.getOwner().addToImports(BUSINESS_ROLE);
 				OJForStatement forEach = new OJForStatement("participant", BUSINESS_ROLE, expr);
 				ifEmpty.getThenPart().addToStatements(forEach);
 				forEach.getBody().addToStatements(
-						taskName + ".getTaskRequest().addRequestParticipant(participant,RequestParticipationKind." + kind + ")");
+						"((TaskRequest)" + taskName + ".getRequest()).addRequestParticipant(participant,RequestParticipationKind." + kind + ")");
 			}else{
 				ifEmpty.getThenPart().addToStatements(
-						taskName + ".getTaskRequest().addRequestParticipant(" + expr + ",RequestParticipationKind." + kind + ")");
+						"((TaskRequest)" + taskName + ".getRequest()).addRequestParticipant(" + expr + ",RequestParticipationKind." + kind + ")");
 			}
 		}
 	}

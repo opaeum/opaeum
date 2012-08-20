@@ -13,6 +13,7 @@ import org.opaeum.feature.TransformationPhase;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.ProjectNameStrategy;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = {},before = {})
@@ -28,8 +29,8 @@ public class MigrationGenerationPhase implements TransformationPhase<AbstractMig
 	@Override
 	public void execute(TransformationContext context){
 		String versionString = workspace.getToWorkspace().getWorkspaceMappingInfo().getVersion().getSuffix();
-		config.defineSourceFolder(JavaSourceFolderIdentifier.MIGRATION_GEN_SRC, true, versionString + "-migrator", "src/main/generated-java");
-		config.defineSourceFolder(JavaSourceFolderIdentifier.MIGRATION_SRC, true, versionString + "-migrator", "src/main/java").dontCleanDirectoriesOrOverwriteFiles();
+		config.defineSourceFolder(JavaSourceFolderIdentifier.MIGRATION_GEN_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, versionString + "-migrator", "src/main/generated-java");
+		config.defineSourceFolder(JavaSourceFolderIdentifier.MIGRATION_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, versionString + "-migrator", "src/main/java").dontCleanDirectoriesOrOverwriteFiles();
 		for(AbstractMigrationCodeGenerator s:this.steps){
 			s.startVisiting(workspace.getToWorkspace());
 		}

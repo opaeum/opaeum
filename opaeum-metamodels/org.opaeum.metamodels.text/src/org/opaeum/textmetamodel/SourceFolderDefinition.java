@@ -4,26 +4,39 @@ public class SourceFolderDefinition{
 	private boolean overwriteFiles = true;
 	private boolean cleanDirectories = true;
 	private ProjectNameStrategy projectNameStrategy;
-	private String sourceFolder;
-	private String projectSuffix;
+	private String sourceFolderQualifier;
+	private String projectQualifier;
+	private String projectNameOverride;
 	public SourceFolderDefinition(ProjectNameStrategy pns,String projectSuffix,String sourceFolder){
 		super();
 		this.projectNameStrategy = pns;
-		this.projectSuffix = projectSuffix;
-		this.sourceFolder = sourceFolder;
+		this.projectQualifier = projectSuffix;
+		this.sourceFolderQualifier = sourceFolder;
+	}
+	public void clearProjectNameOverride(){
+		projectNameOverride = null;
+	}
+	public void overrideProjectName(String name){
+		projectNameOverride = name;
+	}
+	public String generateProjectName(String workspaceIdentifier,String qualifiedWorkspaceIdentifier,String modelIdentifier){
+		if(projectNameOverride == null){
+			return projectNameStrategy.generateProjectName(projectQualifier, workspaceIdentifier, qualifiedWorkspaceIdentifier, modelIdentifier);
+		}else{
+			return projectNameOverride;
+		}
+	}
+	public String generateSourceFolderName(String modelIdentifier){
+		return projectNameStrategy.sourceFolderName(sourceFolderQualifier, modelIdentifier);
 	}
 	public boolean isOneProjectPerWorkspace(){
-		return projectNameStrategy != ProjectNameStrategy.MODEL_NAME_AND_SUFFIX;
-	}
-	public ProjectNameStrategy getProjectNameStrategy(){
-		return projectNameStrategy;
+		return projectNameStrategy.isOneProjectPerWorkspace();
 	}
 	public void dontCleanDirectories(){
 		cleanDirectories = false;
 	}
 	public boolean prefixModelIdentifierToSourceFolder(){
-		return projectNameStrategy == ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER
-				|| projectNameStrategy == ProjectNameStrategy.QUALIFIED_WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER;
+		return projectNameStrategy.definesSeparateSourceFoldersForModels();
 	}
 	public void dontCleanDirectoriesOrOverwriteFiles(){
 		dontCleanDirectories();
@@ -38,10 +51,7 @@ public class SourceFolderDefinition{
 	public boolean cleanDirectories(){
 		return cleanDirectories;
 	}
-	public String getSourceFolder(){
-		return sourceFolder;
-	}
-	public String getProjectSuffix(){
-		return projectSuffix;
+	public String getProjectQualifier(){
+		return projectQualifier;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Set;
 import org.opaeum.runtime.domain.IExecutionElement;
 import org.opaeum.runtime.domain.IToken;
 
-public class VertexActivation<SME extends IStateMachineExecution,T extends IStateMachineToken<SME> > extends StateMachineExecutionElement<SME,T> {
+public class VertexActivation<SME extends IStateMachineExecution,T extends IStateMachineToken<SME>> extends StateMachineExecutionElement<SME,T>{
 	private RegionActivation<SME,T> containingRegionActivation;
 	public VertexActivation(String id,RegionActivation<SME,T> region){
 		super(id);
@@ -44,7 +44,7 @@ public class VertexActivation<SME extends IStateMachineExecution,T extends IStat
 		for(IToken<SME> childToken:childTokens){
 			IExecutionElement<SME> childActivation = childToken.getCurrentExecutionElement();
 			if(childActivation instanceof VertexActivation){
-				 ((VertexActivation<SME,T>) childActivation).exit((T)childToken);
+				((VertexActivation<SME,T>) childActivation).exit((T) childToken);
 			}
 		}
 		for(IToken<SME> childToken:childTokens){
@@ -55,15 +55,13 @@ public class VertexActivation<SME extends IStateMachineExecution,T extends IStat
 	public String getId(){
 		return id;
 	}
-	public void enter(T token, VertexActivation<SME,T> target) {
-		
+	public void enter(T token,VertexActivation<SME,T> target){
+		token.transferTo(this);
+		onEntry(token);
 	}
-	public void onCompletion() {
-		// TODO Auto-generated method stub
-		
+	public boolean onCompletion(){
+		return true;
 	}
-	public void onEntry(T token) {
-
+	public void onEntry(T token){
 	}
-
 }

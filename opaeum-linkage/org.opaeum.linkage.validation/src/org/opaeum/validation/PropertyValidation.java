@@ -1,7 +1,6 @@
 package org.opaeum.validation;
 
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfElementFinder;
@@ -15,7 +14,10 @@ public class PropertyValidation extends AbstractValidator{
 		INTERFACE_PROPERTIES_CANNOT_BE_STATIC("Interface properties cannot be static","{0} is marked as static but belongs to an interface"),
 		REDEFINED_ASSOCIATION_END_ON_BIDIRECTIONAL_ASSOCATION(
 				"One end of a bidirectional cannot be redefined as it breaks to two-way semantics.",
-				"{0} redefines {1} which participates in a bidirectional relationship"),
+				"{0} redefines {1} which participates in a bidirectional association. Redefine both ends of the association."),
+				REDEFINED_ASSOCIATION_END_SAME_NO_OF_QUALIFIERS(
+						"Qualifiers of an association end must correspond with qualifiers of the redefined association end.",
+						"{0} redefines {1} but their qualifiers do not correspond in number and/or type."),
 		DERIVED_UNION_NOT_BIDIRECTIONAL(
 				"When an association end on a bidirectional association is marked as a derived union, the opposite end should be marked as a derived union too.",
 				"{0} is marked as a derived union, but its opposite end {1} is not."),
@@ -40,7 +42,7 @@ public class PropertyValidation extends AbstractValidator{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitProperty(Property p){
-		//TODO property cannot be derivedUnion AND have defaultVAlue
+		// TODO property cannot be derivedUnion AND have defaultVAlue
 		if(p.getAssociationEnd() == null){
 			Classifier owner = (Classifier) EmfElementFinder.getContainer(p);
 			if(p.isStatic() && owner instanceof Interface){
@@ -65,8 +67,14 @@ public class PropertyValidation extends AbstractValidator{
 					if(workspace.getOpaeumLibrary().findEffectiveAttribute(owner, rp.getName()) == null){
 						getErrorMap().putError(p, PropertyValidationRule.REDEFINED_PROPERTY_NOT_IN_CONTEXT, rp, owner);
 					}
+					if(rp.getQualifiers().size()!=p.getQualifiers().size()){
+						//TODO check for type of qualifiers
+						getErrorMap().putError(p, PropertyValidationRule.REDEFINED_ASSOCIATION_END_SAME_NO_OF_QUALIFIERS, rp);
+					}
 					if(rp.isNavigable() && rp.getAssociation() != null && rp.getOtherEnd().isNavigable()){
-						getErrorMap().putError(p, PropertyValidationRule.REDEFINED_ASSOCIATION_END_ON_BIDIRECTIONAL_ASSOCATION, rp);
+						if(p.getAssociation() == null || !p.getOtherEnd().getRedefinedProperties().contains(rp.getOtherEnd())){
+							getErrorMap().putError(p, PropertyValidationRule.REDEFINED_ASSOCIATION_END_ON_BIDIRECTIONAL_ASSOCATION, rp);
+						}
 					}
 				}
 			}

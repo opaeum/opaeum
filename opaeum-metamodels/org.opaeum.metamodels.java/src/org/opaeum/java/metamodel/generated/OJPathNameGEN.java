@@ -39,6 +39,11 @@ abstract public class OJPathNameGEN extends OJElement{
 		return(this.getNames().size() == 1);
 	}
 	public boolean equals(OJPathName other){
+		if(other == this){
+			return true;
+		}else if(other == null){
+			return false;
+		}
 		return(sequenceEquals(this.getNames(), other.getNames()));
 	}
 	private boolean sequenceEquals(List<?> source,List<?> arg){

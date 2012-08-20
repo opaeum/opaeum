@@ -106,9 +106,9 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private DataType booleanType;
 	private Interface businessRole;
 	private Interface taskObject;
+	private Interface requestObject;
+	private Interface responsibilityObject;
 	private Class opaeumPerson;
-	private Interface processResponsibilityObject;
-	private Interface taskResponsibilityObject;
 	private StateMachine taskRequest;
 	private StateMachine processRequest;
 	private Interface processObject;
@@ -121,6 +121,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private Map<String,Operation> additionalOperations = new HashMap<String,Operation>();
 	UriToFileConverter uriToFileConverter;
 	private Map<Model,Map<String,String>> implementationCode = new HashMap<Model,Map<String,String>>();
+	private Interface participant;
 	public OpaeumLibrary(ResourceSet resourceSet,UriToFileConverter uriToFileConverter){
 		super();
 		UMLEnvironmentFactory factory = new UMLEnvironmentFactory(resourceSet);
@@ -191,6 +192,12 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	public Interface getTaskObject(){
 		return taskObject = findClassifier(taskObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "ITaskObject");
 	}
+	public Interface getRequestObject(){
+		return requestObject=findClassifier(requestObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "IRequestObject");
+	}
+	public Interface getResponsibilityObject(){
+		return responsibilityObject=findClassifier(responsibilityObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "IResponsibilityObject");
+	}
 	@SuppressWarnings("unchecked")
 	private <T extends Classifier>T findClassifier(T c,String libName,String classifierName){
 		if(c == null){
@@ -232,14 +239,6 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	}
 	public Class getPersonNode(){
 		return opaeumPerson = findClassifier(opaeumPerson, StereotypeNames.OPAEUM_BPM_LIBRARY, "PersonNode");
-	}
-	public Interface getResponsibilityProcessObject(){
-		return processResponsibilityObject = findClassifier(processResponsibilityObject, StereotypeNames.OPAEUM_BPM_LIBRARY,
-				"IResponsibilityProcessObject");
-	}
-	public Interface getTaskResponsibilityObject(){
-		return taskResponsibilityObject = findClassifier(taskResponsibilityObject, StereotypeNames.OPAEUM_BPM_LIBRARY,
-				"IResponsibilityTaskObject");
 	}
 	public Interface getProcessObject(){
 		return this.processObject = findClassifier(processObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "IProcessObject");
@@ -292,6 +291,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		return type;
 	}
 	public Property getEndToComposite(Classifier entity){
+		System.out.println();
 		Property etc = EmfPropertyUtil.getEndToComposite(entity, this);
 		if(etc == null && !(entity instanceof IEmulatedElement)){
 			return getArtificialEndToComposite(entity);
@@ -375,8 +375,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 			if(classifier == null){
 				if(container instanceof Operation){
 					classifier = new OperationMessageType((Operation) container, this);
-					if(getTaskObject() != null){
-						((OperationMessageType) classifier).createInterfaceRealization(getTaskObject().getName(), getTaskObject());
+					if(getRequestObject() != null){
+						((OperationMessageType) classifier).createInterfaceRealization(getResponsibilityObject().getName(), getResponsibilityObject());
 					}
 				}else if(container instanceof ExpansionRegion){
 					classifier = new ExpansionRegionMessageType((ExpansionRegion) container, this);
@@ -393,7 +393,13 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	public Set<Property> getDirectlyImplementedAttributes(Classifier c){
 
 		Set<Property> propertiesInScope = EmfPropertyUtil.getDirectlyImplementedAttributes(c);
-		addAllEmulatedProperties(c, propertiesInScope);
+		addEmulatedProperties(c, propertiesInScope);
+		if(c instanceof BehavioredClassifier){
+			for(Interface intf:((BehavioredClassifier) c).getImplementedInterfaces()){
+				//TODO filter out emulated properties that may already have been implemented by the superclass
+				addAllEmulatedProperties(intf, propertiesInScope);
+			}
+		}
 		return propertiesInScope;
 	}
 	public List<Property> getEffectiveAttributes(Classifier bc){
@@ -414,6 +420,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		}
 	}
 	private void addEmulatedProperties(Classifier bc,Collection<Property> propertiesInScope){
+
 		IEmulatedPropertyHolder holder = getEmulatedPropertyHolder(bc);
 		if(holder != null){
 			for(AbstractEmulatedProperty aep:holder.getEmulatedAttributes()){
@@ -539,5 +546,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	}
 	public void setAdditionalOperations(Map<String,Operation> additionalOperations){
 		this.additionalOperations = additionalOperations;
+	}
+	public Interface getParticipant(){
+		return this.participant=findClassifier(this.participant, StereotypeNames.OPAEUM_BPM_LIBRARY, "IParticipant");
 	}
 }

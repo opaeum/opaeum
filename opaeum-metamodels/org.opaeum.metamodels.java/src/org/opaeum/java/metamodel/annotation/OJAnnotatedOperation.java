@@ -138,4 +138,9 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		}
 		return null;
 	}
+	public OJOperation getDeepCopy(String multiName){
+		OJAnnotatedOperation result = (OJAnnotatedOperation) getDeepCopy();
+		result.setName(multiName);
+		return result;
+	}
 }

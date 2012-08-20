@@ -1,6 +1,5 @@
 package org.opaeum.eclipse;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,7 +17,6 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.metamodel.validation.BrokenElement;

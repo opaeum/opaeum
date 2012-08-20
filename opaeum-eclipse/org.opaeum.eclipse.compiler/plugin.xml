@@ -10,16 +10,16 @@
        id="lkjl"
        point="org.opaeum.eclipse.sourceFolderStrategy">
     <sourceFolderStrategy
-          className="org.opaeum.pomgeneration.MultiProjectMavenSourceFolderStrategy">
+          className="org.opaeum.sourcefolderstrategies.MultiProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
     <sourceFolderStrategy
-          className="org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy">
+          className="org.opaeum.sourcefolderstrategies.SingleProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
     <sourceFolderStrategy
-          className="org.opaeum.pomgeneration.SingleProjectRapSourceFolderStrategy">
+          className="org.opaeum.sourcefolderstrategies.SingleProjectRapSourceFolderStrategy">
     </sourceFolderStrategy>
     <sourceFolderStrategy
-          className="org.opaeum.pomgeneration.TestSourceFolderStrategy">
+          className="org.opaeum.sourcefolderstrategies.TestSourceFolderStrategy">
     </sourceFolderStrategy>
  </extension>
  <extension

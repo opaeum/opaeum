@@ -98,14 +98,12 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		owner.addToOperations(toString);
 		if(!(owner instanceof OJAnnotatedInterface)){
 			toString.getBody().addToStatements("setUid(xml.getAttribute(\"uid\"))");
-			//TODO rather leverage AbstracStructureVisitor.visitProperty
 			for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(f);
 				if(XmlUtil.isXmlAttribute(map)){
 					populateAttributes(owner, rootObjectName, toString, f);
 				}
 			}
-			//TODO rather leverage AbstracStructureVisitor.visitProperty
 			OJWhileStatement whileItems = iterateThroughProperties(toString);
 			for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(f);

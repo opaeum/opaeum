@@ -118,6 +118,7 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 							OpaeumEclipsePlugin.logError("Recompilation Failed", e);
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+							return new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Elements not compiled",e);
 						}finally{
 							monitor.done();
 						}

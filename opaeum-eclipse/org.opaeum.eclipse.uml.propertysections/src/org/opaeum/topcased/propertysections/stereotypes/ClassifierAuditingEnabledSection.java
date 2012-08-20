@@ -9,7 +9,7 @@ import org.opaeum.topcased.propertysections.base.AbstractBooleanOnStereotypeSect
 public abstract class ClassifierAuditingEnabledSection extends AbstractBooleanOnStereotypeSection{
 	abstract protected String getStereotypeName();
 	@Override
-	protected Element getElement(EObject e ){
+	protected Element getElement(EObject e){
 		return (Element) e;
 	}
 	@Override
@@ -18,11 +18,7 @@ public abstract class ClassifierAuditingEnabledSection extends AbstractBooleanOn
 	}
 	@Override
 	protected String getProfileName(){
-		if(OpaeumEclipseContext.shouldBeCm1Compatible()){
-			return StereotypeNames.OPAEUM_STANDARD_PROFILE_TOPCASED;
-		}else{
-			return StereotypeNames.OPAEUM_STANDARD_PROFILE_PAPYRUS;
-		}
+		return StereotypeNames.OPAEUM_STANDARD_PROFILE_TOPCASED;
 	}
 	@Override
 	protected String getLabelText(){

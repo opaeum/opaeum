@@ -55,6 +55,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
+import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
@@ -265,6 +266,9 @@ public class EmfElementFinder{
 	public static EObject getContainer(EObject s){
 		if(s == null){
 			return null;
+		}else if(s instanceof IEmulatedElement){{
+			return getContainer(((IEmulatedElement) s).getOriginalElement());
+		}
 		}else if(s.eContainer() instanceof DynamicEObjectImpl){
 			while(!(s.eContainer() == null)){
 				// find top level stereotype

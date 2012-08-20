@@ -592,6 +592,16 @@
 				<input type="org.eclipse.uml2.uml.TypedElement">
 				</input>
 			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.EntityGenerateAbstractSuperclassSection"
+				id="org.opaeum.topcased.propertysections.EntityGenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Class">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.EntityMappedImplementationTypeSection"
+				id="org.opaeum.topcased.propertysections.EntityGenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Class">
+				</input>
+			</propertySection>
 			<propertySection afterSection="org.topcased.modeler.uml.NamedElementSection" class="org.opaeum.topcased.propertysections.ReceptionSignalSection"
 				id="org.opaeum.topcased.propertysections.ReceptionSignalSection" tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.Reception" />

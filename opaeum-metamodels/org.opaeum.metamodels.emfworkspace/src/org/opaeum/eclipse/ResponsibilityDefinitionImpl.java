@@ -18,9 +18,9 @@ public final class ResponsibilityDefinitionImpl implements ResponsibilityDefinit
 	private final Element node;
 	private final Stereotype stereotype;
 	IPropertyEmulation emulation;
-	public ResponsibilityDefinitionImpl(IPropertyEmulation emulation, Element node,Stereotype stereotype){
+	public ResponsibilityDefinitionImpl(IPropertyEmulation emulation,Element node,Stereotype stereotype){
 		this.node = node;
-		this.emulation=emulation;
+		this.emulation = emulation;
 		this.stereotype = stereotype;
 	}
 	@Override
@@ -29,11 +29,19 @@ public final class ResponsibilityDefinitionImpl implements ResponsibilityDefinit
 	}
 	@Override
 	public OpaqueExpression getPotentialOwners(){
-		return (OpaqueExpression) node.getValue(stereotype, "potentialOwners");
+		if(stereotype.getFeature("potentialOwners") != null){
+			return (OpaqueExpression) node.getValue(stereotype, "potentialOwners");
+		}else{
+			return null;
+		}
 	}
 	@Override
 	public OpaqueExpression getPotentialBusinessAdministrators(){
-		return (OpaqueExpression) node.getValue(stereotype, "potentialBusinessAdministrators");
+		if(stereotype.getFeature("potentialBusinessAdministrators") != null){
+			return (OpaqueExpression) node.getValue(stereotype, "potentialBusinessAdministrators");
+		}else{
+			return null;
+		}
 	}
 	@Override
 	public Classifier getExpressionContext(){
@@ -49,9 +57,11 @@ public final class ResponsibilityDefinitionImpl implements ResponsibilityDefinit
 	}
 	@Override
 	public TaskDelegation getDelegation(){
-		Object value = node.getValue(stereotype, "taskDelegation");
-		if(value instanceof EnumerationLiteral){
-			return TaskDelegation.valueOf(((EnumerationLiteral) value).getName().toUpperCase());
+		if(stereotype.getFeature("taskDelegation") != null){
+			Object value = node.getValue(stereotype, "taskDelegation");
+			if(value instanceof EnumerationLiteral){
+				return TaskDelegation.valueOf(((EnumerationLiteral) value).getName().toUpperCase());
+			}
 		}
 		return null;
 	}

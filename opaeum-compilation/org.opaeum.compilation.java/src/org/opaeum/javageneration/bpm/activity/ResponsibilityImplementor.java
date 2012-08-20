@@ -88,7 +88,10 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 				 * if the port has other assignement expressions assign these too
 				 */
 				ResponsibilityDefinition taskDefinition = getLibrary().getResponsibilityDefinition(o,StereotypeNames.RESPONSIBILITY);
-				taskUtil.implementAssignmentsAndDeadlines(exec, exec.getBody(), taskDefinition, "this");
+				OJIfStatement ifTask = new OJIfStatement("getRequest() instanceof TaskRequest");
+				exec.getBody().addToStatements(ifTask);
+				ojClass.addToImports(ojUtil.classifierPathname(getLibrary().getTaskRequest()));
+				taskUtil.implementAssignmentsAndDeadlines(exec, ifTask.getThenPart(), taskDefinition, "this");
 				OperationMap map = ojUtil.buildOperationMap(o);
 				EventUtil.addOutgoingEventManagement(ojClass);
 				Collection<TimeEvent> deadlines = taskDefinition.getDeadlines();

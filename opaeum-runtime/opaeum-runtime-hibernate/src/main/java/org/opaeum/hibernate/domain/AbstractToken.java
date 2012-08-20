@@ -16,7 +16,7 @@ public abstract class AbstractToken <BE extends IBehaviorExecution >implements  
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
 	@Basic
-	private boolean isActive;
+	private boolean isActive=true;
 	@Basic
 	private String currentElementId;
 	@Basic

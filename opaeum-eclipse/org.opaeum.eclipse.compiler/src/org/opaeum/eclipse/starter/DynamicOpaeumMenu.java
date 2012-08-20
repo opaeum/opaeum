@@ -56,13 +56,17 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 					EditOpaeumConfigAction action = new EditOpaeumConfigAction(selection);
 					actions.add(new ActionContributionItem(action));
 					if(hasConfigFile(selection)){
-						if(!OpaeumEclipseContext.findOrCreateContextFor((IContainer) firstElement).isLoading()){
+						OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor((IContainer) firstElement);
+						if(!ctx.isLoading()){
 							action.setText("Edit Opaeum Settings");
+							if(ctx.getConfig().getSourceFolderStrategy().isSingleProjectStrategy()){
+								actions.add(new ActionContributionItem(new SelectOutputProjectAction(selection)));
+							}
 							actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
 							actions.add(new ActionContributionItem(new RecompileIntegrationCodeAction(selection)));
 							actions.add(new ActionContributionItem(new ToggleAutomaticSynchronization(selection)));
-							actions.add(new ActionContributionItem(new RegenerateUuids(selection)));
-							actions.add(new ActionContributionItem(new UpdateClasspathAction(selection)));
+//							actions.add(new ActionContributionItem(new RegenerateUuids(selection)));
+//							actions.add(new ActionContributionItem(new UpdateClasspathAction(selection)));
 							actions.add(new ActionContributionItem(new VersionAction(selection)));
 							actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
 							actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));

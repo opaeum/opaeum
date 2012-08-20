@@ -17,7 +17,9 @@ import org.eclipse.ocl.uml.TypeExp;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.ocl.uml.VariableExp;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.State;
@@ -36,6 +38,7 @@ import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.AbstractOclContext;
+import org.opaeum.ocl.uml.EmulatedVariable;
 
 public class ExpressionCreator{
 	private OJClass myClass = null;
@@ -118,6 +121,22 @@ public class ExpressionCreator{
 			}
 			if(result == null){
 				result = "this";
+			}
+		}else if(in.getName().equals("currentUser")){
+			result="Environment.getInstance().getCurrentUser()";
+			Class pn = this.ojUtil.getLibrary().getPersonNode();
+			if(pn!=null){
+				OJPathName pnpn = ojUtil.classifierPathname(pn);
+				myClass.addToImports(pnpn);
+				result="(" + pnpn.getLast() +")" + result;
+			}
+		}else if(in.getName().equals("currentRole")){
+			result="Environment.getInstance().getCurrentRole()";
+			Interface pn = this.ojUtil.getLibrary().getParticipant();
+			if(pn!=null){
+				OJPathName pnpn = ojUtil.classifierPathname(pn);
+				myClass.addToImports(pnpn);
+				result="(" + pnpn.getLast() +")" + result;
 			}
 		}else if(in.getName().equals("contextObject")){
 			result="getContextObject()";

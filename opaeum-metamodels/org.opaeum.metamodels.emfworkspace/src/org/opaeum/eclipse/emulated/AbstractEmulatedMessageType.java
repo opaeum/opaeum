@@ -11,6 +11,8 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.ocl.uml.MessageType;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
@@ -23,6 +25,7 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.internal.impl.BehavioredClassifierImpl;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
+import org.opaeum.name.NameConverter;
 
 @SuppressWarnings("restriction")
 public abstract class AbstractEmulatedMessageType extends BehavioredClassifierImpl implements MessageType,Adapter,IEmulatedElement,BehavioredClassifier{
@@ -40,6 +43,20 @@ public abstract class AbstractEmulatedMessageType extends BehavioredClassifierIm
 				addTypedElementPropertyBridge(typedElement);
 			}
 		}
+	}
+	@Override
+	public EList<Property> getAttributes(){
+		return getOwnedAttributes();
+	}
+	@Override
+	public Resource eResource(){
+		return getOriginalElement().eResource();
+	}
+	public String getName(){
+		return NameConverter.capitalize(originalElement.getName());
+	}
+	public EObject eContainer(){
+		return originalElement.eContainer();
 	}
 	@Override
 	public Element getOwner(){

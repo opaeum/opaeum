@@ -66,10 +66,6 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 			selfAndDependencies.add(model);
 			TextSourceFolderIdentifier domainGenTestResource = TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE;
 			generateConfigAndEnvironment(selfAndDependencies, domainGenTestResource, false, model);
-			TextSourceFolderIdentifier adaptorGenTestResource = TextSourceFolderIdentifier.ADAPTOR_GEN_TEST_RESOURCE;
-			if(!adaptorGenTestResource.equals(domainGenTestResource)){
-				generateConfigAndEnvironment(selfAndDependencies, adaptorGenTestResource, true, model);
-			}
 		}
 	}
 	protected boolean shouldProcessModel(){

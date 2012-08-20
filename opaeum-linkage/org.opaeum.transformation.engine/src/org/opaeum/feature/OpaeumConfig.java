@@ -10,15 +10,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.runtime.environment.VersionNumber;
+import org.opaeum.runtime.persistence.DatabaseManagementSystem;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.ProjectNameStrategy;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
-import org.opaeum.runtime.environment.VersionNumber;
-import org.opaeum.runtime.persistence.DatabaseManagementSystem;
 import org.opaeum.util.SortedProperties;
 
 public class OpaeumConfig{
@@ -44,6 +45,7 @@ public class OpaeumConfig{
 	private static final String WORKSPACE_NAME = "opaeum.workspace.name";
 	private static final String ADDITIONAL_PERSISTENT_CLASSES = "opaeum.additional.persistent.classes";
 	private static final String AUTO_SYNC = "opaeum.eclipse.autosync";
+	private static final String PROJECT_NAME_OVERRIDE = "opaeum.projectname.override";
 	private static final String DBMS = "opaeum.dbms";
 	private static final String JDBC_CONNECTION_URL = "opaeum.jdbc.connection.url";
 	private static final String DB_PASSWORD = "opaeum.database.password";
@@ -78,12 +80,13 @@ public class OpaeumConfig{
 	}
 	public ISourceFolderStrategy getSourceFolderStrategy(){
 		try{
-			String name = props.getProperty(SOURCE_FOLDER_STRATEGY, "org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy");
+			String name = props.getProperty(SOURCE_FOLDER_STRATEGY, "org.opaeum.sourcefolderstrategies.SingleProjectRapSourceFolderStrategy");
 			Class<?> c = getClass(name);
 			return (ISourceFolderStrategy) c.newInstance();
 		}catch(Exception e){
+			
 			try{
-				Class<?> c = getClass("org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy");
+				Class<?> c = getClass("org.opaeum.sourcefolderstrategies.SingleProjectRapSourceFolderStrategy");
 				return (ISourceFolderStrategy) c.newInstance();
 			}catch(Exception e1){
 				return null;
@@ -92,12 +95,19 @@ public class OpaeumConfig{
 	}
 	public static Class<?> getClass(String name){
 		Class<?> c;
+		
 		if(classRegistry.containsKey(name)){
+			System.out.println("OpaeumConfig.getClass()1");
 			c = classRegistry.get(name);
 		}else{
 			try{
+				for(Entry<String,Class<?>> entry:classRegistry.entrySet()){
+					System.out.println(entry.getKey() + "=" + entry.getValue().getName());
+				}
 				c = Thread.currentThread().getContextClassLoader().loadClass(name);
+				System.out.println("OpaeumConfig.getClass()2");
 			}catch(ClassNotFoundException e){
+				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
 		}
@@ -166,7 +176,7 @@ public class OpaeumConfig{
 		return this.props.getProperty(EMAIL_ADDRESS_TYPE);
 	}
 	public void calculateOutputRoot(File modelProjectDir){
-		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(file, modelProjectDir, getWorkspaceIdentifier()));
+		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(modelProjectDir, getWorkspaceIdentifier()));
 	}
 	public void setOutputRoot(File destination){
 		this.outputRoot = destination;
@@ -223,18 +233,18 @@ public class OpaeumConfig{
 	public SourceFolderDefinition getSourceFolderDefinition(ISourceFolderIdentifier id){
 		return sourceFolderDefinitions.get(id);
 	}
-	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,boolean useWorkspaceName,String projectSuffix,
-			String relativeSourceFolder){
-		SourceFolderDefinition value = new SourceFolderDefinition(useWorkspaceName ? ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX
-				: ProjectNameStrategy.MODEL_NAME_AND_SUFFIX, projectSuffix, relativeSourceFolder);
-		sourceFolderDefinitions.put(id, value);
-		return value;
-	}
-	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,ProjectNameStrategy pns,String projectSuffix,
-			String relativeSourceFolder){
-		SourceFolderDefinition value = new SourceFolderDefinition(pns, projectSuffix, relativeSourceFolder);
-		sourceFolderDefinitions.put(id, value);
-		return value;
+	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,ProjectNameStrategy pns,String projectQualifier,
+			String sourceFolderQualifier){
+
+		SourceFolderDefinition sfd = new SourceFolderDefinition(pns, projectQualifier, sourceFolderQualifier);
+		sourceFolderDefinitions.put(id, sfd);
+		String p=getProjectNameOverride();
+		if(p == null||p.length()==1){
+			sfd.clearProjectNameOverride();
+		}else{
+			sfd.overrideProjectName(p);
+		}
+		return sfd;
 	}
 	public String getScmTool(){
 		return this.props.getProperty(SCM_TOOL);
@@ -309,7 +319,6 @@ public class OpaeumConfig{
 	public void reset(){
 		workspaceMappingInfo = null;
 		this.sqlDialect = null;
-		this.sqlDialect = null;
 	}
 	public void setWorkspaceName(String name){
 		this.props.setProperty(WORKSPACE_NAME, name);
@@ -383,13 +392,30 @@ public class OpaeumConfig{
 		OpaeumConfig result = new OpaeumConfig(getConfigFile());
 		return result;
 	}
+	public String getProjectNameOverride(){
+		return props.getProperty(PROJECT_NAME_OVERRIDE);
+	}
+	public void setProjectNameOverride(String p){
+		for(SourceFolderDefinition sfd:sourceFolderDefinitions.values()){
+			if(p == null || p.length()==0){
+				sfd.clearProjectNameOverride();
+			}else{
+				sfd.overrideProjectName(p);
+			}
+		}
+		props.setProperty(PROJECT_NAME_OVERRIDE, p);
+	}
 	public String getDbms(){
-		return props.getProperty(DBMS,DatabaseManagementSystem.POSTGRESQL.name());
+		return props.getProperty(DBMS, DatabaseManagementSystem.POSTGRESQL.name());
 	}
 	public String getJdbcConnectionUrl(){
-		return props.getProperty(JDBC_CONNECTION_URL,"jdbc:postgresql://localhost:5433/"+getWorkspaceIdentifier());
+		return props.getProperty(JDBC_CONNECTION_URL, "jdbc:postgresql://localhost:5433/" + getWorkspaceIdentifier());
 	}
 	public String getDbPassword(){
-		return props.getProperty(DB_PASSWORD,"postgres");
+		return props.getProperty(DB_PASSWORD, "postgres");
+	}
+	public boolean hasOutputProjectOverride(){
+		String projectNameOverride = getProjectNameOverride();
+		return projectNameOverride!=null&&projectNameOverride.length()>0;
 	}
 }

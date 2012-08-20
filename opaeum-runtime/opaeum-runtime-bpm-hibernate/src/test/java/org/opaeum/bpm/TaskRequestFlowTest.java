@@ -1,19 +1,28 @@
 package org.opaeum.bpm;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.opaeum.runtime.bpm.BusinessRole;
-import org.opaeum.runtime.bpm.Participant;
-import org.opaeum.runtime.bpm.ParticipationInTask;
-import org.opaeum.runtime.bpm.TaskParticipationKind;
-import org.opaeum.runtime.bpm.TaskRequest;
+import org.opaeum.runtime.bpm.organization.IBusinessRole;
+import org.opaeum.runtime.bpm.organization.Participant;
+import org.opaeum.runtime.bpm.request.ParticipationInTask;
+import org.opaeum.runtime.bpm.request.TaskParticipationKind;
+import org.opaeum.runtime.bpm.request.TaskRequest;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.Active;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.Completed;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.Created;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.Suspended;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.region1.InProgress;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.region1.Ready;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.region1.Reserved;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.suspended.region1.InProgressButSuspended;
+import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.suspended.region1.ReadyButSuspended;
+import org.opaeum.runtime.bpm.requestobject.ITaskObject;
+import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.MockEnvironment;
 
@@ -23,35 +32,42 @@ public class TaskRequestFlowTest{
 		MockEnvironment.getInstance();
 		Mockery mockery = new Mockery();
 		TaskRequest tr = new TaskRequest();
+		final ITaskObject taskObject = mockery.mock(ITaskObject.class);
+		final Participant participant1 = mockery.mock(Participant.class, "p1");
+		final Participant participant2 = mockery.mock(Participant.class, "p2");
+		mockery.checking(new Expectations(){
+			{
+				ignoring(participant1);
+				ignoring(participant2);
+				one(taskObject).on
+			}
+		});
+		tr.setTaskObject(taskObject);
 		tr.execute();
-		Collection<NodeInstanceImpl> nodeInstancesRecursively = tr.getNodeInstancesRecursively();
-		Assert.assertTrue(tr.getCreated());
+		Assert.assertTrue(tr.isStepActive(Created.class));
 		ParticipationInTask p1 = new ParticipationInTask(tr);
 		p1.setKind(TaskParticipationKind.POTENTIALOWNER);
-		p1.z_internalAddToParticipant(mockery.mock(Participant.class, "p1"));
+		p1.z_internalAddToParticipant(participant1);
 		ParticipationInTask p2 = new ParticipationInTask(tr);
 		p2.setKind(TaskParticipationKind.POTENTIALOWNER);
-		p2.z_internalAddToParticipant(mockery.mock(Participant.class, "p2"));
+		p2.z_internalAddToParticipant(participant2);
 		tr.activate();
 		deliverEvents(tr.getOutgoingEvents());
-		for(NodeInstanceImpl nodeInstanceImpl:nodeInstancesRecursively){
-			System.out.println(nodeInstanceImpl.getNodeName());
-		}
-		Assert.assertTrue(tr.getActive());
-		Assert.assertTrue(tr.getActive_Ready());
+		Assert.assertTrue(tr.isStepActive(Active.class));
+		Assert.assertTrue(tr.isStepActive(Ready.class));
 		tr.suspend();
 		deliverEvents(tr.getOutgoingEvents());
-		Assert.assertTrue(tr.getSuspended());
-		Assert.assertTrue(tr.getSuspended_ReadyButSuspended());
+		Assert.assertTrue(tr.isStepActive(Suspended.class));
+		Assert.assertTrue(tr.isStepActive(ReadyButSuspended.class));
 		tr.resume();
 		deliverEvents(tr.getOutgoingEvents());
-		Assert.assertTrue(tr.getActive());
-		Assert.assertTrue(tr.getActive_Ready());
+		Assert.assertTrue(tr.isStepActive(Active.class));
+		Assert.assertTrue(tr.isStepActive(Ready.class));
 		tr.claim();
 		deliverEvents(tr.getOutgoingEvents());
-		Assert.assertTrue(tr.getActive());
-		Assert.assertTrue(tr.getActive_Reserved());
-		final BusinessRole br = mockery.mock(BusinessRole.class, "br1");
+		Assert.assertTrue(tr.isStepActive(Active.class));
+		Assert.assertTrue(tr.isStepActive(Reserved.class));
+		final IBusinessRole br = mockery.mock(IBusinessRole.class, "br1");
 		mockery.checking(new Expectations(){
 			{
 				super.allowing(br);
@@ -59,20 +75,20 @@ public class TaskRequestFlowTest{
 		});
 		tr.forward(br);
 		deliverEvents(tr.getOutgoingEvents());
-		Assert.assertTrue(tr.getActive_Ready());
+		Assert.assertTrue(tr.isStepActive(Ready.class));
 		tr.start();
 		deliverEvents(tr.getOutgoingEvents());
-		Assert.assertTrue(tr.getActive_InProgress());
+		Assert.assertTrue(tr.isStepActive(InProgress.class));
 		tr.suspend();
 		deliverEvents(tr.getOutgoingEvents());
-		Assert.assertTrue(tr.getSuspended());
-		Assert.assertTrue(tr.getSuspended_InProgressButSuspended());
+		Assert.assertTrue(tr.isStepActive(Suspended.class));
+		Assert.assertTrue(tr.isStepActive(InProgressButSuspended.class));
 		tr.resume();
 		deliverEvents(tr.getOutgoingEvents());
-		Assert.assertTrue(tr.getActive_InProgress());
+		Assert.assertTrue(tr.isStepActive(InProgress.class));
 		tr.complete();
 		deliverEvents(tr.getOutgoingEvents());
-		Assert.assertTrue(tr.getCompleted());
+		Assert.assertTrue(tr.isStepActive(Completed.class));
 	}
 	private void deliverEvents(Set<OutgoingEvent> outgoingEvents){
 		Set<OutgoingEvent> outgoingEvents2 = new HashSet<OutgoingEvent>(outgoingEvents);
@@ -80,6 +96,5 @@ public class TaskRequestFlowTest{
 		for(OutgoingEvent entry:outgoingEvents2){
 			entry.getHandler().handleOn(entry.getTarget());
 		}
-		// TODO Auto-generated method stub
 	}
 }

@@ -16,6 +16,7 @@ import java.util.WeakHashMap;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -88,18 +89,25 @@ public class OpaeumEclipseContext{
 		}else{
 			this.errorMarker = (OpaeumErrorMarker) IntrospectionUtil.newInstance(cfg.getErrorMarker());
 		}
+		reinitialize();
+
 	}
 	public boolean isNewlyCreated(){
 		return newlyCreated;
 	}
 	public void reinitialize(){
+		if(config.hasOutputProjectOverride()){
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			File projectDir = root.getProject(config.getProjectNameOverride()).getLocation().toFile();
+			config.setOutputRoot(projectDir.getParentFile());
+		}else{
+			config.calculateOutputRoot(umlDirectory.getProject().getLocation().toFile());
+		}
+		config.getSourceFolderStrategy().defineSourceFolders(config);
 		this.dew = null;
 		this.directoryEditingDomain = null;
 		ArrayList<OpenUmlFile> arrayList = new ArrayList<OpenUmlFile>(openUmlFiles.values());
 		this.openUmlFiles.clear();
-		for(OpenUmlFile editingContext:arrayList){
-			editingContext.reinitializeProcess();
-		}
 		for(OpenUmlFile editingContext:arrayList){
 			startSynch(editingContext.getEditingDomain(), editingContext.getFile());
 		}
@@ -193,21 +201,21 @@ public class OpaeumEclipseContext{
 			ResourceSet rst;
 			rst = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
-//			if(dew == null){
-				dew = new EmfWorkspace(uri, rst, getConfig().getWorkspaceMappingInfo(), getConfig().getWorkspaceIdentifier(), getConfig()
-						.getMavenGroupId());
-				dew.setUriToFileConverter(new EclipseUriToFileConverter());
-				dew.setName(getConfig().getWorkspaceName());
-				for(IResource r:umlDirectory.members()){
-					monitor.subTask("Loading " + r.getName());
-					if(r instanceof IFile && r.getFileExtension().equals("uml")){
-						final Resource resource = dew.getResourceSet().getResource(
-								URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
-						EcoreUtil.resolveAll(resource);
-					}
-					monitor.worked(100 / umlDirectory.members().length);
+			// if(dew == null){
+			dew = new EmfWorkspace(uri, rst, getConfig().getWorkspaceMappingInfo(), getConfig().getWorkspaceIdentifier(), getConfig()
+					.getMavenGroupId());
+			dew.setUriToFileConverter(new EclipseUriToFileConverter());
+			dew.setName(getConfig().getWorkspaceName());
+			for(IResource r:umlDirectory.members()){
+				monitor.subTask("Loading " + r.getName());
+				if(r instanceof IFile && r.getFileExtension().equals("uml")){
+					final Resource resource = dew.getResourceSet().getResource(
+							URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
+					EcoreUtil.resolveAll(resource);
 				}
-//			}
+				monitor.worked(100 / umlDirectory.members().length);
+			}
+			// }
 			dew.guessGeneratingModelsAndProfiles(URI.createPlatformResourceURI(umlDirectory.getFullPath().toString(), true));
 			return dew;
 		}catch(CoreException e){
@@ -278,7 +286,6 @@ public class OpaeumEclipseContext{
 				OpaeumEclipsePlugin.getDefault();
 				cfg = new OpaeumConfig(propsFile.getLocation().toFile());
 			}
-			cfg.calculateOutputRoot(umlDir.getProject().getLocation().toFile());
 			final OpaeumEclipseContext newOne = new OpaeumEclipseContext(cfg, umlDir, newContext);
 			contexts.put(umlDir, newOne);
 			result = newOne;
@@ -396,7 +403,7 @@ public class OpaeumEclipseContext{
 		}
 		return null;
 	}
-	public Collection<OpenUmlFile> getEditingContexts(){
+	public Collection<OpenUmlFile> getOpenUmlFiles(){
 		return this.openUmlFiles.values();
 	}
 }

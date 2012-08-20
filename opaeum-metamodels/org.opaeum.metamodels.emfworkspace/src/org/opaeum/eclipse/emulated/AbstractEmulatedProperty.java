@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
@@ -19,6 +20,8 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StringExpression;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.VisibilityKind;
 import org.eclipse.uml2.uml.internal.impl.PropertyImpl;
 
@@ -33,6 +36,7 @@ public abstract class AbstractEmulatedProperty extends PropertyImpl implements A
 		this.owner = owner;
 		this.originalElement = originalElement;
 	}
+	public abstract int getUpper();
 	public boolean isNavigable(){
 		return true;
 	}
@@ -67,7 +71,18 @@ public abstract class AbstractEmulatedProperty extends PropertyImpl implements A
 	public String getQualifiedName(){
 		return originalElement.getQualifiedName();
 	}
-
+	@Override
+	public boolean isMultivalued(){
+		return getUpper()==LiteralUnlimitedNatural.UNLIMITED || getUpper()>1;
+	}
+	public ValueSpecification getUpperValue(){
+		ValueSpecification result = super.getUpperValue();
+		if(!(result instanceof LiteralUnlimitedNatural)){
+			setUpperValue(result=createUpperValue("", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural()));
+		}
+		((LiteralUnlimitedNatural)result).setValue(getUpper());
+		return result;
+	}
 	public EObject getStereotypeApplication(Stereotype stereotype){
 		return originalElement.getStereotypeApplication(stereotype);
 	}

@@ -29,6 +29,7 @@ import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.feature.visit.VisitBefore;
@@ -132,6 +133,6 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		}
 	}
 	protected final boolean isMap(Property property){
-		return property.getQualifiers().size() > 0 && (property.getName().equals("updateChangeLog") || !getCurrentRootObject().getName().equals("com"));
+		return property.getQualifiers().size() > 0 && (property.getName().equals("updateChangeLog") || property.getName().equals("user") || !EmfElementFinder.getRootObject(property).getName().equals("com"));
 	}
 }

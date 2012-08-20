@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 import org.opaeum.java.metamodel.utilities.JavaUtil;
 
@@ -90,5 +91,9 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement{
 	}
 	public OJAnnotationValue findAnnotation(OJPathName path){
 		return AnnotationHelper.getAnnotation(this, path);
+	}
+	@Override
+	public void setVisibility(OJVisibilityKind element){
+		super.setVisibility(element);
 	}
 }

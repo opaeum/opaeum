@@ -17,11 +17,7 @@ public class EntityMappedImplementationTypeSection extends AbstractStringOnStere
 	}
 	@Override
 	protected String getProfileName(){
-		if(OpaeumEclipseContext.shouldBeCm1Compatible()){
-			return StereotypeNames.OPAEUM_STANDARD_PROFILE_TOPCASED;
-		}else{
-			return StereotypeNames.OPAEUM_STANDARD_PROFILE_PAPYRUS;
-		}
+		return StereotypeNames.OPAEUM_STANDARD_PROFILE_TOPCASED;
 	}
 	@Override
 	protected String getStereotypeName(){

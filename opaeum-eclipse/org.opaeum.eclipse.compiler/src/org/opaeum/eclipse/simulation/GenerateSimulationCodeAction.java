@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.javasync.AbstractDirectoryReadingAction;
 import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.feature.OpaeumConfig;
@@ -13,7 +14,7 @@ import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.textmetamodel.TextWorkspace;
 
-public class GenerateSimulationCodeAction extends AbstractOpaeumAction{
+public class GenerateSimulationCodeAction extends AbstractDirectoryReadingAction{
 	public GenerateSimulationCodeAction(IStructuredSelection selection2){
 		super(selection2, "Generate Simulation Code");
 	}
@@ -85,19 +86,5 @@ public class GenerateSimulationCodeAction extends AbstractOpaeumAction{
 //				}
 //			}.schedule();
 //		}
-	}
-	protected TransformationProcess prepareDirectoryForTransformation(final IContainer folder,final IProgressMonitor monitor)
-			throws CoreException{
-		monitor.subTask("Saving Open Models");
-		final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(folder);
-		monitor.worked(5);
-		monitor.subTask("Loading Opaeum Metadata");
-		TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);
-		p.replaceModel(new OJWorkspace());
-		p.replaceModel(new TextWorkspace());
-		p.replaceModel(ctx.loadDirectory(new SubProgressMonitor(monitor, 200)));
-		OpaeumConfig config = ctx.getConfig();
-		config.getSourceFolderStrategy().defineSourceFolders(config);
-		return p;
 	}
 }

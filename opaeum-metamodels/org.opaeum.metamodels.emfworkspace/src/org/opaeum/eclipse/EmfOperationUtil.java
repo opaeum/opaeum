@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Generalization;
@@ -60,5 +61,14 @@ public class EmfOperationUtil{
 				addOperations(result, (Interface) classifier);
 			}
 		}
+	}
+	public static boolean hasImplementingMethodIn(Operation o, Classifier c){
+		EList<Behavior> methods = o.getMethods();
+		for(Behavior behavior:methods){
+			if(behavior.getContext()==c){
+				return true;
+			}
+		}
+		return false;
 	}
 }

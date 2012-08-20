@@ -21,9 +21,6 @@ public class BasicIntegratedAdaptorPomStep extends PomGenerationStep{
 	@Override
 	public Dependency[] getDependencies(){
 		Collection<Dependency> dependencies = getTestDepedencies();
-		for(Package rootObject:workspace.getPrimaryRootObjects()){
-			addDependencyToRootObject(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, rootObject, dependencies);
-		}
 		addHibernate(dependencies);
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
