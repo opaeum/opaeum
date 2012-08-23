@@ -92,22 +92,7 @@ public class ActionValidation extends AbstractValidator{
 			getErrorMap().putError(a, ActionValidationRule.SEND_SIGNAL_ACTION_REQUIRES_SIGNAL);
 		}
 		if(EmfActionUtil.getTargetElement( a) != null){
-			Classifier targetType = EmfActionUtil.getTargetType(a);
-			if(targetType ==null && a.getTarget() instanceof ValuePin){
-				//TODO put this in OPaeumLibrary
-				ValueSpecification value= ((ValuePin)a.getTarget()).getValue();
-				if(value instanceof OpaqueExpression){
-					OpaqueExpressionContext ctx = getLibrary().getOclExpressionContext((OpaqueExpression) value);
-					if(!ctx.hasErrors()){
-						Classifier type = ctx.getExpression().getType();
-						if(type instanceof CollectionType){
-							targetType=((CollectionType) type).getElementType();
-						}else{
-							targetType=type;
-						}
-					}
-				}
-			}
+			Classifier targetType = getLibrary().getTargetType(a);
 			if(targetType instanceof BehavioredClassifier){
 				BehavioredClassifier bc = (BehavioredClassifier) targetType;
 				if(a.getSignal() != null && !EmfEventUtil.hasReceptionOrTriggerFor( bc,a.getSignal())){

@@ -8,50 +8,71 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.runtime.bpm.businesscalendar.BusinessCalendarGenerated;
-import org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit;
-import org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday;
-import org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday;
-import org.opaeum.runtime.bpm.businesscalendar.TimeOfDay;
-import org.opaeum.runtime.bpm.businesscalendar.WorkDay;
-import org.opaeum.runtime.bpm.businesscalendar.WorkDayKind;
+import org.opaeum.audit.AuditMe;
+import org.opaeum.runtime.bpm.organization.OrganizationNode;
+import org.opaeum.runtime.domain.BusinessTimeUnit;
+import org.opaeum.runtime.domain.CompositionNode;
 
 //This class is timezone agnostic. It assumes that all the Calendar objects
 // that it is being passed
 // are correctly timezoned.
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
-@Filter(name = "noDeletedObjects")
 @Entity(name = "BusinessCalendar")
 @DiscriminatorColumn(name = "type_descriminator",discriminatorType = javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy = javax.persistence.InheritanceType.JOINED)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {
-		"business_component","deleted_on"
-}),name = "business_calendar")
-@NumlMetaInfo(uuid = "65a77c10_1db1_40f2_9bc5_e3306b228731")
+@AuditMe
+@NumlMetaInfo(uuid = "252060@_x9fmQNb9EeCJ0dmaHEVVnw")
+@Filter(name = "noDeletedObjects")
+@org.hibernate.annotations.Entity(dynamicUpdate = true)
 @AccessType("field")
+@XmlRootElement
+@TableGenerator(allocationSize = 20,name = "id_generator",pkColumnName = "type",pkColumnValue = "",table = "hi_value")
 public class BusinessCalendar extends BusinessCalendarGenerated{
 	private static final long serialVersionUID = -161618913396793066L;
-	private static ThreadLocal<BusinessCalendar> instance = new ThreadLocal<BusinessCalendar>();
+	private static ThreadLocal<BusinessCalendar> threadLocalInstance = new ThreadLocal<BusinessCalendar>();
 	public static BusinessCalendar getInstance(){
-		if(instance.get() == null){
+		if(threadLocalInstance.get() == null){
 			BusinessCalendar whc = new BusinessCalendar();
-			instance.set(whc);
+			threadLocalInstance.set(whc);
 			whc.init(null);
-			whc.getWeekDay().setStartTime(new TimeOfDay());
-			whc.getWeekDay().setEndTime(new TimeOfDay());
+			TimeOfDay st = new TimeOfDay();
+			st.setHours(8);
+			whc.getWeekDay().setStartTime(st);
+			TimeOfDay et = new TimeOfDay();
+			et.setHours(16);
+			whc.getWeekDay().setEndTime(et);
 		}
-		return (BusinessCalendar) instance.get();
+		return (BusinessCalendar) threadLocalInstance.get();
+	}
+	
+	public BusinessCalendar(){
+		super();
+	}
+
+	public BusinessCalendar(OrganizationNode owningObject){
+		super(owningObject);
+	}
+	@Override
+	public void init(CompositionNode owner){
+		super.init(owner);
+		TimeOfDay st = new TimeOfDay();
+		st.setHours(8);
+		getWeekDay().setStartTime(st);
+		TimeOfDay et = new TimeOfDay();
+		et.setHours(16);
+		getWeekDay().setEndTime(et);
+
 	}
 	public Date addTimeTo(Date fromDate,BusinessTimeUnit timeUnit,double numberOfUnits){
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(fromDate);
 		cal = addTimeTo(cal, timeUnit, numberOfUnits);
-		goToStartOfThisDay(cal);
 		return cal.getTime();
 	}
 	// For testing purposes only
@@ -275,14 +296,6 @@ public class BusinessCalendar extends BusinessCalendarGenerated{
 	private int timeOfDayInMinutes(Calendar c){
 		return c.get(Calendar.HOUR_OF_DAY) * 60 + c.get(Calendar.MINUTE);
 	}
-	private WorkDay getWorkDay(WorkDayKind type){
-		for(WorkDay element:getWorkDay()){
-			if(element.getKind().equals(type)){
-				return element;
-			}
-		}
-		return null;
-	}
 	public WorkDay getWeekDay(){
 		return getWorkDay(WorkDayKind.WEEKDAY);
 	}
@@ -337,24 +350,23 @@ public class BusinessCalendar extends BusinessCalendarGenerated{
 	}
 	@Override
 	public Integer getBusinessDaysPerMonth(){
-		if(super.getBusinessDaysPerMonth() == 0){
+		if(super.getBusinessDaysPerMonth() == null){
 			super.setBusinessDaysPerMonth(21);
 		}
 		return super.getBusinessDaysPerMonth();
 	}
 	public Double getBusinessHoursPerDay(){
-		if(super.getBusinessHoursPerDay() == 0){
+		if(super.getBusinessHoursPerDay() == null){
 			super.setBusinessHoursPerDay(getWorkDay(WorkDayKind.WEEKDAY).getMinutesPerDay().doubleValue() / 60);
 		}
 		return super.getBusinessHoursPerDay();
 	}
 	@Override
 	public Double getBusinessHoursPerWeek(){
-		if(super.getBusinessHoursPerWeek() == 0){
+		if(super.getBusinessHoursPerWeek() == null){
 			super.setBusinessHoursPerWeek(getBusinessHoursPerDay() * 5 + (getWorkDay(WorkDayKind.SATURDAY).getMinutesPerDay())
 					+ getWorkDay(WorkDayKind.SUNDAY).getMinutesPerDay());
 		}
 		return super.getBusinessHoursPerWeek();
 	}
-
 }

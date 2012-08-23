@@ -195,7 +195,7 @@ public class ParameterComposite extends Composite{
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
 		Collection<EObject> types = TypeCacheAdapter.getExistingTypeCacheAdapter(parameter).getReachableObjectsOfType(parameter,
-				UMLPackage.eINSTANCE.getType());
+				UMLPackage.eINSTANCE.getClassifier());
 		choices.addAll(UmlMetaTypeRemover.removeAll(types));
 		return choices.toArray();
 	}

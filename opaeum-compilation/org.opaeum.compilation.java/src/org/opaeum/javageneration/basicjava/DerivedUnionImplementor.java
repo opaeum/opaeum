@@ -27,6 +27,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 		if(p.isNavigable()){
 			OJClass c = findJavaClass(owner);
 			for(Property derivedUnion:p.getSubsettedProperties()){
+
 				addSubsetToUnion(owner, map, c, derivedUnion);
 			}
 		}

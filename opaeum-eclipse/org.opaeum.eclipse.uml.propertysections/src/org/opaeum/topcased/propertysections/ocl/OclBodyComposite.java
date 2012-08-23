@@ -29,6 +29,7 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.ValuePin;
@@ -119,7 +120,7 @@ public abstract class OclBodyComposite extends Composite{
 		private void maybeFireOclChanged(){
 			if(viewer != null && viewer.getTextWidget() != null){
 				String text = viewer.getTextWidget().getText();
-				if(text != null && !text.trim().equals(lastVal.trim())){
+				if(text != null && !text.equals(lastVal)){
 					lastVal = text;
 					updating = true;
 					fireOclChanged(text);
@@ -237,7 +238,7 @@ public abstract class OclBodyComposite extends Composite{
 				ctx = lib.getOclActionContext((OpaqueAction) oclBodyOwner);
 
 			}
-			if(ctx.hasErrors()){
+			if(ctx.hasErrors() && ctx.getHelper().getProblems()!=null){
 				OpaeumDiagnostic od = (OpaeumDiagnostic) ctx.getHelper().getProblems();
 				StyleRange[] srs = t.getStyleRanges();
 				if(srs.length <= 0){
@@ -283,7 +284,7 @@ public abstract class OclBodyComposite extends Composite{
 	protected boolean isOclContext(EObject container){
 		return(container instanceof Operation || container instanceof Property || container instanceof Classifier
 				|| container instanceof Action || container instanceof InstanceSpecification || container instanceof ValuePin
-				|| container instanceof Transition || container instanceof ActivityEdge || container instanceof JoinNode || container instanceof Constraint);
+				|| container instanceof Transition || container instanceof ActivityEdge || container instanceof JoinNode || container instanceof Constraint || container instanceof Package);
 	}
 	public abstract EStructuralFeature getBodiesFeature();
 	public abstract EStructuralFeature getLanguagesFeature();

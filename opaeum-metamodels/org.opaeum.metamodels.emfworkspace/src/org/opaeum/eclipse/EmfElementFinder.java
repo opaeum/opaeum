@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
@@ -49,6 +50,8 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TemplateSignature;
+import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
@@ -192,31 +195,31 @@ public class EmfElementFinder{
 					}
 				}
 			}
-			while(!(a == null || a instanceof Classifier)){
+			do{
 				if(a instanceof StructuredActivityNode){
 					result.addAll(((StructuredActivityNode) a).getVariables());
 				}
 				if(a instanceof Transition){
 					addTransitionParameters(result, (Transition) a);
 				}
-				a = a.getOwner();
-			}
-			if(a instanceof Behavior){
-				result.addAll(((Behavior) a).getOwnedParameters());
-				if(a instanceof Activity){
-					Activity activity = (Activity) a;
-					result.addAll(activity.getVariables());
+				if(a instanceof Behavior){
+					result.addAll(((Behavior) a).getOwnedParameters());
+					if(a instanceof Activity){
+						Activity activity = (Activity) a;
+						result.addAll(activity.getVariables());
+					}
+					if(a.getOwner() instanceof Transition){
+						Transition owner = (Transition) a.getOwner();
+						addTransitionParameters(result, owner);
+						a = EmfStateMachineUtil.getStateMachine(a.getOwner());
+					}else if(a.getOwner() instanceof State){
+						a = EmfStateMachineUtil.getStateMachine(a.getOwner());
+					}
 				}
-				if(a.getOwner() instanceof Transition){
-					Transition owner = (Transition) a.getOwner();
-					addTransitionParameters(result, owner);
-					a = EmfStateMachineUtil.getStateMachine(a.getOwner());
-				}else if(a.getOwner() instanceof State){
-					a = EmfStateMachineUtil.getStateMachine(a.getOwner());
-				}
-			}
+				a = (Element) EmfElementFinder.getContainer(a);
+			}while(!(a == null || a instanceof Classifier || a instanceof Operation));
 			if(a != null){
-				result.addAll(getTypedElementsInScope((Classifier) a));
+				result.addAll(getTypedElementsInScope(a));
 			}
 		}
 		return result;
@@ -266,9 +269,10 @@ public class EmfElementFinder{
 	public static EObject getContainer(EObject s){
 		if(s == null){
 			return null;
-		}else if(s instanceof IEmulatedElement){{
-			return getContainer(((IEmulatedElement) s).getOriginalElement());
-		}
+		}else if(s instanceof IEmulatedElement){
+			{
+				return getContainer(((IEmulatedElement) s).getOriginalElement());
+			}
 		}else if(s.eContainer() instanceof DynamicEObjectImpl){
 			while(!(s.eContainer() == null)){
 				// find top level stereotype
@@ -396,20 +400,20 @@ public class EmfElementFinder{
 				if(e.getWeight() != null){
 					elements.add(e.getWeight());
 				}
+			}else if(root instanceof TimeExpression){
+				elements.add(((TimeExpression) root).getExpr());
 			}
 			try{
-				for(Stereotype stereotype:root.getAppliedStereotypes()){
-					for(Property property:stereotype.getOwnedAttributes()){
-						if(property.getAggregation() == AggregationKind.COMPOSITE_LITERAL){
-							Object v = root.getValue(stereotype, property.getName());
-							if(v instanceof Element){
-								elements.add((Element) v);
-							}else if(v instanceof EList){
-								EList<?> c = (EList<?>) v;
-								for(Object element:c){
-									if(element instanceof Element){
-										elements.add((Element) element);
-									}
+				for(EObject stereotype:root.getStereotypeApplications()){
+					for(EReference property:stereotype.eClass().getEAllContainments()){
+						Object v = stereotype.eGet(property);
+						if(v instanceof Element){
+							elements.add((Element) v);
+						}else if(v instanceof EList){
+							EList<?> c = (EList<?>) v;
+							for(Object element:c){
+								if(element instanceof Element){
+									elements.add((Element) element);
 								}
 							}
 						}

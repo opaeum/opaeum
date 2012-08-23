@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.validation.marker.MarkerUtil;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
@@ -113,7 +114,8 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 		}
 	}
 	private void markFiles(BrokenElement entry,final EObject o,OpenUmlFile file){
-		for(final BrokenRule brokenRule:getBrokenRulesToAdd(entry)){
+		Set<BrokenRule> brokenRulesToAdd = getBrokenRulesToAdd(entry);
+		for(final BrokenRule brokenRule:brokenRulesToAdd){
 			try{
 				String messagePattern = brokenRule.getRule().getMessagePattern();
 				String message = EmfValidationUtil.replaceArguments(o, brokenRule, messagePattern);
@@ -142,9 +144,11 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 				marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
 				marker.setAttribute(RULE_ATTRIBUTE, brokenRule.getRule().name());
 				marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(o).toString());
+				marker.setAttribute("BROKEN_ELEMENT_ID", brokenRule.getElementId());
 			}
-			marker.setAttribute("BROKEN_ELEMENT_ID", brokenRule.getElementId());
-			marker.setAttribute(IMarker.MESSAGE, message);
+			if(!message.equals(marker.getAttribute(IMarker.MESSAGE))){
+				marker.setAttribute(IMarker.MESSAGE, message);
+			}
 		}
 	}
 	@Override

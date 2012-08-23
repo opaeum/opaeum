@@ -38,6 +38,7 @@ public class OpaqueExpressionBodySection extends AbstractOclBodyBodySection{
 		return new OclComposite(parent, getWidgetFactory());
 	}
 	protected void setOclContext(OclBodyComposite c){
+		
 		((OclComposite)c).setOclContext((OpaqueExpression)getEObject());
 	}
 }

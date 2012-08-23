@@ -4,18 +4,16 @@ import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -27,22 +25,23 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
-import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.eclipse.ImageManager;
+import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public class DeadlinesTableComposite extends Composite{
 	private Stereotype deadlinesStereotype;
 	private boolean isRefreshing = false;
-	protected Action action;
+	protected NamedElement element;
 	private EditingDomain mixedEditDomain;
 	private TabbedPropertySheetWidgetFactory widgetFactory;
 	private TableViewer deadlinesTableViewer;
@@ -53,7 +52,7 @@ public class DeadlinesTableComposite extends Composite{
 	private Button addRelativeButton;
 	private Button addAbsoluteButton;
 	private Button removeButton;
-	private Stereotype taskStereotype;
+	private Stereotype stereotype;
 	DeadlinesTableComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
 		super(parent, style);
 		this.widgetFactory = widgetFactory;
@@ -61,10 +60,10 @@ public class DeadlinesTableComposite extends Composite{
 		widgetFactory.adapt(this);
 		createContents(this);
 	}
-	public void setAction(Action action, Stereotype s, Stereotype taskStereotype){
-		this.action = action;
+	public void setOwningElement(NamedElement element, Stereotype s, Stereotype taskStereotype){
+		this.element = element;
 		this.deadlinesStereotype=s;
-		this.taskStereotype=taskStereotype;
+		this.stereotype=taskStereotype;
 		refresh();
 	}
 	public void setMixedEditDomain(EditingDomain mixedEditDomain){
@@ -73,11 +72,15 @@ public class DeadlinesTableComposite extends Composite{
 	protected void createContents(Composite parent){
 		deadlinesTable = widgetFactory.createTable(parent, SWT.BORDER);
 		addRelativeButton = widgetFactory.createButton(parent, "Add Relative", SWT.NONE);
+		addRelativeButton.setImage(ImageManager.IMG_ADD);
+
 		addRelativeButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		addAbsoluteButton = widgetFactory.createButton(parent, "Add Absolute", SWT.NONE);
 		addAbsoluteButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+		addAbsoluteButton.setImage(ImageManager.IMG_ADD);
 		removeButton = widgetFactory.createButton(parent, "Delete", SWT.NONE);
 		removeButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+		removeButton.setImage(ImageManager.IMG_DELETE);
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.verticalSpan = 3;
 		deadlinesTable.setLayoutData(gridData);
@@ -96,7 +99,7 @@ public class DeadlinesTableComposite extends Composite{
 		deadlinesTable.setHeaderVisible(true);
 		deadlinesTable.setLinesVisible(true);
 		deadlinesTableViewer = new TableViewer(deadlinesTable);
-		deadlinesTableViewer.setContentProvider(new ParameterContentProvider());
+		deadlinesTableViewer.setContentProvider(new ArrayContentProvider());
 		deadlinesTableViewer.setLabelProvider(new DeadlineLabelProvider());
 		deadlinesTableViewer.addSelectionChangedListener(new ISelectionChangedListener(){
 			public void selectionChanged(SelectionChangedEvent event){
@@ -122,10 +125,9 @@ public class DeadlinesTableComposite extends Composite{
 		removeButton.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent event){
 				Object object = deadlinesTable.getSelection()[0].getData();
-				EObject sa = action.getStereotypeApplication(taskStereotype);
+				EObject sa = element.getStereotypeApplication(stereotype);
 				Command removeFromSteretoype = RemoveCommand.create(mixedEditDomain, sa, sa.eClass().getEStructuralFeature("deadlines"),object);
 				mixedEditDomain.getCommandStack().execute(removeFromSteretoype);
-				mixedEditDomain.getCommandStack().execute(RemoveCommand.create(mixedEditDomain, object));
 				refresh();
 				if(getDeadlines().size() > 0){
 					deadlinesTableViewer.setSelection(new StructuredSelection(getDeadlines().get(0)));
@@ -142,7 +144,7 @@ public class DeadlinesTableComposite extends Composite{
 		isRefreshing = false;
 	}
 	private List<TimeEvent> getDeadlines(){
-		return (List<TimeEvent>) action.getValue(taskStereotype, "deadlines");
+		return (List<TimeEvent>) element.getValue(stereotype, "deadlines");
 	}
 	protected TimeEvent getNewChild(boolean b){
 		TimeEvent newDeadline = UMLFactory.eINSTANCE.createTimeEvent();
@@ -151,33 +153,20 @@ public class DeadlinesTableComposite extends Composite{
 		oa.getBodies().add(OclBodyComposite.DEFAULT_TEXT);
 		oa.getLanguages().add("ocl");
 		newDeadline.setIsRelative(b);
-		StereotypesHelper.getNumlAnnotation(newDeadline).getDetails().put(StereotypeNames.DEADLINE, "");
 		newDeadline.setName("NewDeadline");
 		return newDeadline;
 	}
 	public void updateSelectedDeadlines(TimeEvent newDeadline){
 	}
 	private void addDeadline(TimeEvent newChild){
-		Command addCommand = AddCommand.create(mixedEditDomain, StereotypesHelper.getNumlAnnotation(action), EcorePackage.eINSTANCE.getEAnnotation_Contents(), newChild);
-		EObject sa = action.getStereotypeApplication(taskStereotype);
+		EObject sa = element.getStereotypeApplication(stereotype);
 		Command addToSteretoype = AddCommand.create(mixedEditDomain, sa, sa.eClass().getEStructuralFeature("deadlines"),newChild);
-		mixedEditDomain.getCommandStack().execute(addCommand);
 		mixedEditDomain.getCommandStack().execute(addToSteretoype);
+		mixedEditDomain.getCommandStack().execute(new ApplyStereotypeCommand(newChild, deadlinesStereotype));
 		refresh();
 		deadlinesTableViewer.setSelection(new StructuredSelection(getDeadlines().get(getDeadlines().size() - 1)));
 	}
-	class ParameterContentProvider implements IStructuredContentProvider{
-		public Object[] getElements(Object inputElement){
-			if(inputElement instanceof List){
-				return ((List<?>) inputElement).toArray();
-			}
-			return new Object[0];
-		}
-		public void dispose(){
-		}
-		public void inputChanged(Viewer viewer,Object oldInput,Object newInput){
-		}
-	}
+
 	class DeadlineLabelProvider extends LabelProvider implements ITableLabelProvider{
 		public Image getColumnImage(Object element,int columnIndex){
 			return null;

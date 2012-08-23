@@ -17,9 +17,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.AccessType;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
@@ -29,30 +31,44 @@ import org.opaeum.runtime.event.AbstractEventOccurrence;
 import org.opaeum.runtime.event.EventOccurrenceStatus;
 import org.opaeum.runtime.event.IEventHandler;
 
-@Entity()
+@Entity(name="EventOccurrence")
+@org.hibernate.annotations.Entity(dynamicUpdate=true, dynamicInsert=true)
 @Table(name = "opaeum_abstract_event")
+@AccessType(	"field")
+@TableGenerator(allocationSize=20,name="id_generator",pkColumnName="type",pkColumnValue="event_occurrence",table="hi_value")
+
 public class EventOccurrence extends AbstractEventOccurrence{
 	private static final long serialVersionUID = 8920092390485701533L;
 	@Enumerated(EnumType.STRING)
 	private EventOccurrenceStatus status;
 	@Id
-	@GeneratedValue()
+	@GeneratedValue(generator="id_generator",strategy=javax.persistence.GenerationType.TABLE)
 	Long id;
 	@Basic
-	@Column(name = "event_target_id")
-	private Long eventTargetId;
+	@Column(name = "event_target_uuid")
+	private String eventTargetUuid;
 	@Basic
 	@Column(name = "event_target_class_id")
 	private String eventTargetClassId;
+	@Column(name="retry_count")
 	private int retryCount;
 	@Basic
+	@Column(name="trigger_uuid")
+
 	private String triggerUuid;
 	@Lob
+	@Column(name="property_values")
 	private byte[] propertyValues;
 	@Lob
+	@Column(name="target_value")
 	private byte[] targetValue;
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="first_occurrence_scheduled_for")
 	private Date firstOccurrenceScheduledFor;
+	@Column(name="next_occurrence_scheduled_for")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date nextOccurrenceScheduledFor;
+
 	public EventOccurrence(){
 		super();
 	}
@@ -62,16 +78,16 @@ public class EventOccurrence extends AbstractEventOccurrence{
 			Collection<?> targets = (Collection<?>) target;
 			for(Object object:targets){
 				if(object instanceof IPersistentObject){
-					this.eventTargetId += ((IPersistentObject) object).getId();//Just used to generate a uuid
+					this.eventTargetUuid= ((IPersistentObject) object).getUid();//Just used to generate a uuid
 				}
 				if(eventTargetClassId == null){
-					this.eventTargetClassId = Environment.getInstance(). getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
+					this.eventTargetClassId = Environment.getInstance(). getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(object.getClass()));
 				}
 			}
 		}else{
 			this.eventTargetClassId = Environment.getInstance().getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
 			if(target instanceof IPersistentObject){
-				this.eventTargetId = ((IPersistentObject) target).getId();
+				this.eventTargetUuid = ((IPersistentObject) target).getUid();
 			}
 		}
 		this.triggerUuid = handler.getHandlerUuid();
@@ -80,8 +96,8 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	public Date getFirstOccurrenceScheduledFor(){
 		return firstOccurrenceScheduledFor;
 	}
-	public Long getEventTargetId(){
-		return eventTargetId;
+	public String getEventTargetUuid(){
+		return eventTargetUuid;
 	}
 	public String getEventTargetClassId(){
 		return this.eventTargetClassId;
@@ -120,6 +136,8 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	}
 	@Override
 	protected Collection<PropertyValue> getPropertyValues(){
+		System.out.println(getEventHandler().getClass());
+		System.out.println(propertyValues[0] + "," +propertyValues[1]);
 		return read(propertyValues);
 	}
 	@Override
@@ -148,5 +166,14 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	@Override
 	protected void setPropertyValues(Collection<PropertyValue> collection){
 		propertyValues = write(collection).toByteArray();
+		System.out.println(getEventHandler().getClass());
+		System.out.println(propertyValues[0] + "," +propertyValues[1]);
+		getPropertyValues();
+	}
+	public Date getNextOccurrenceScheduledFor(){
+		return nextOccurrenceScheduledFor;
+	}
+	public void setNextOccurrenceScheduledFor(Date nextOccurrenceScheduledFor){
+		this.nextOccurrenceScheduledFor = nextOccurrenceScheduledFor;
 	}
 }

@@ -132,10 +132,10 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}
 		OJUtil.addTransientProperty(activityClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
 				OJVisibilityKind.PROTECTED);
-		OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
+		OJAnnotatedOperation complete = new OJAnnotatedOperation("complete");
 		activityClass.addToOperations(complete);
 		if(EmfActivityUtil.getPostconditions(container).size() > 0){
-			complete.getBody().addToStatements("evaluatePostConditions()");
+			complete.getBody().addToStatements("evaluatePostconditions()");
 			OJUtil.addFailedConstraints(complete);
 		}
 		for(ActivityNode n:EmfActivityUtil.getActivityNodes(container)){
@@ -168,7 +168,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				implementContainer(isProcess, stateClass, san, childMsg);
 				if(isProcess){
 					propagateExceptions(map, c);
-					OJOperation completed = c.getUniqueOperation("completed");
+					OJOperation completed = c.getUniqueOperation("complete");
 					completed.getBody().addToStatements("getNodeContainer()." + map.completeMethodName() + "(getReturnInfo(),this)");
 				}
 			}

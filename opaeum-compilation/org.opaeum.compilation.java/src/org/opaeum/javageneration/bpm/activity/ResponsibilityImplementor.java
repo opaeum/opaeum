@@ -1,7 +1,6 @@
 package org.opaeum.javageneration.bpm.activity;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
@@ -42,6 +41,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.bpm.AbstractBehaviorVisitor;
+import org.opaeum.javageneration.bpm.BpmUtil;
 import org.opaeum.javageneration.bpm.EventUtil;
 import org.opaeum.javageneration.bpm.statemachine.StateMachineImplementor;
 import org.opaeum.javageneration.persistence.JpaUtil;
@@ -91,11 +91,15 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 				OJIfStatement ifTask = new OJIfStatement("getRequest() instanceof TaskRequest");
 				exec.getBody().addToStatements(ifTask);
 				ojClass.addToImports(ojUtil.classifierPathname(getLibrary().getTaskRequest()));
+				OJAnnotatedField token = new OJAnnotatedField("token", BpmUtil.ITOKEN);
+				token.setInitExp("getReturnInfo()");
+				ifTask.getThenPart().addToLocals(token);
 				taskUtil.implementAssignmentsAndDeadlines(exec, ifTask.getThenPart(), taskDefinition, "this");
+				exec.getBody().addToStatements("getRequest().execute()");
 				OperationMap map = ojUtil.buildOperationMap(o);
 				EventUtil.addOutgoingEventManagement(ojClass);
 				Collection<TimeEvent> deadlines = taskDefinition.getDeadlines();
-				OJOperation completed = ojClass.getUniqueOperation("completed");
+				OJOperation completed = ojClass.getUniqueOperation("complete");
 				ojClass.addToImports(new OJPathName("java.util.Date"));
 				for(TimeEvent d:deadlines){
 					// TODO ensure uniqueness of deadline names
@@ -108,6 +112,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 					}
 					// Repeat if not Null because a previous event may cause the process to end
 				}
+				completed.getBody().addToStatements("getRequest().complete()");
 //				addGetName(oa, ojClass);
 			}
 		}
@@ -151,7 +156,8 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		implementEmbeddedTask(oa, ojClass,taskDefinition);
 	}
 	private void implementEmbeddedTask(Action oa,OJAnnotatedClass ojClass, ResponsibilityDefinition rd){
-		implementExecute(oa, ojClass);
+		OJAnnotatedOperation exec = implementExecute(oa, ojClass);
+		exec.getBody().addToStatements("getRequest().execute()");
 		String callbackMethodName = "on" + NameConverter.capitalize(oa.getName()) + "Completed";
 		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
 		ojClass.addToOperations(setReturnInfo);
@@ -162,7 +168,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		isComplete.initializeResultVariable("getTaskRequest().getCompleted()");
 	}
 	private void implementTask(ResponsibilityDefinition oa,OJAnnotatedClass ojClass,String callbackMethodName,OJPathName processObject){
-		OJAnnotatedOperation completed = new OJAnnotatedOperation("completed");
+		OJAnnotatedOperation completed = new OJAnnotatedOperation("complete");
 		ojClass.addToOperations(completed);
 		completed.getBody().addToStatements("getProcessObject()." + callbackMethodName + "(getNodeInstanceUniqueId(), this)");
 		Collection<TimeEvent> deadlines = oa.getDeadlines();
@@ -184,14 +190,14 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	private void implementTimeEventCallback(OJAnnotatedClass ojClass,TimeEvent d,ResponsibilityDefinition a,OJPathName processObject){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation(eventUtil.getEventConsumerName(d), new OJPathName("boolean"));
 		ojClass.addToOperations(oper);
-		oper.addParam("nodeInstanceUniqueId", new OJPathName("String"));
+		oper.addParam("callingToken", BpmUtil.ITOKEN);
 		oper.addParam("date", new OJPathName("java.util.Date"));
 		addCallingProcessObjectField(oper, processObject, a);
 		OJIfStatement ifNotNullCallback = new OJIfStatement("callingProcessObject!=null");
 		oper.getBody().addToStatements(ifNotNullCallback);
 		ifNotNullCallback.getThenPart().addToStatements("return callingProcessObject." + eventUtil.getEventConsumerName(d) + "(date,this)");
 		ifNotNullCallback.setElsePart(new OJBlock());
-		ifNotNullCallback.getElsePart().addToStatements("return false");
+		ifNotNullCallback.getElsePart().addToStatements("return true");
 	}
 	private void addCallingProcessObjectField(OJAnnotatedOperation op,OJPathName processObject,ResponsibilityDefinition v){
 		OJAnnotatedField callingProcessObject = new OJAnnotatedField("callingProcessObject", processObject);
@@ -207,7 +213,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		ojClass.addToOperations(execute);
 		if(element instanceof Operation && ((Operation) element).getPreconditions() .size() > 0){
 			OJUtil.addFailedConstraints(execute);
-			execute.getBody().addToStatements("evaluatePreConditions()");
+			execute.getBody().addToStatements("evaluatePreconditions()");
 		}
 		// add executedOn property for sorting purposes
 		OJUtil.addPersistentProperty(ojClass, "executedOn", new OJPathName(Date.class.getName()), true);

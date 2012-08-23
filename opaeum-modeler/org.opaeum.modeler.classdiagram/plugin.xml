@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
 	<extension-point id="operationBodyLanguage" name="Language for operation body" schema="schema/operationBodyLanguage.exsd" />
@@ -595,6 +594,21 @@
 			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.EntityGenerateAbstractSuperclassSection"
 				id="org.opaeum.topcased.propertysections.EntityGenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.Class">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.ElementImportImportedElementSection"
+				id="org.opaeum.topcased.propertysections.ElementImportImportedElementSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.ElementImport">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.ElementImportAliasSection"
+				id="org.opaeum.topcased.propertysections.ElementImportAliasSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.ElementImport">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.PackageImportImportedPackageSection"
+				id="org.opaeum.topcased.propertysections.PackageImportImportedPackageSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.PackageImport">
 				</input>
 			</propertySection>
 			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.EntityMappedImplementationTypeSection"

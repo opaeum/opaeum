@@ -3,6 +3,7 @@ package org.opaeum.javageneration.hibernate;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
@@ -71,6 +72,7 @@ public class HibernateUtil{
 		field.putAnnotation(type);
 	}
 	public static void overrideInterfaceValueAtributes(OJAnnotatedField field,NameWrapper persistentName){
+		field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Embedded.class.getName())));
 		OJAnnotationValue overrides = new OJAnnotationValue(new OJPathName(AttributeOverrides.class.getName()));
 		OJAnnotationValue identifier = new OJAnnotationValue(new OJPathName(AttributeOverride.class.getName()));
 		identifier.putAttribute("name", "identifier");

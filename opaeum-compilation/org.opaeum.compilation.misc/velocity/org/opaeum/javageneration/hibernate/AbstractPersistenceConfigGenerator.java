@@ -57,7 +57,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		}
 	}
 	protected boolean shouldProcessWorkspace(){
-		return transformationContext.isIntegrationPhase();
+		return transformationContext.isIntegrationPhase() && false;
 	}
 	@VisitBefore
 	public void visitModel(Model model){

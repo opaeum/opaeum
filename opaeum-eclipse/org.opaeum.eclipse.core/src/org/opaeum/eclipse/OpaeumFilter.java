@@ -73,6 +73,8 @@ public class OpaeumFilter extends ViewerFilter{
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getReception());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getTimeExpression());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getObservation());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getTimeEvent());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getChangeEvent());
 	}
 	public boolean select(Viewer viewer,Object parentElement,Object element){
 		if(element.getClass().getSimpleName().equals("AdditionalResources") || element instanceof Resource){

@@ -3,8 +3,10 @@ package org.opaeum.topcased.propertysections;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -17,17 +19,19 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
+import org.opaeum.eclipse.LibraryImporter;
+import org.opaeum.eclipse.ProfileApplier;
 import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
-import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsComposite{
 	private CLabel timeUnitLabel;
-	private Combo timeUnitCombo;
+	private CCombo timeUnitCombo;
 	private Enumeration timeUnit;
 	private Stereotype stereotype;
 	private String stereotypeName;
@@ -35,7 +39,8 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		super(toolkit, parent, standardLabelWidth);
 		this.stereotypeName = "RelativeTimeEvent";
 	}
-	public RelativeTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory widgetFactory,Composite details,int i,TimeEventListener listener,String stereotypeName){
+	public RelativeTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory widgetFactory,Composite details,int i,
+			TimeEventListener listener,String stereotypeName){
 		super(widgetFactory, details, i, listener);
 		this.stereotypeName = stereotypeName;
 	}
@@ -56,15 +61,16 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		FormData data = new FormData();
 		data.top = new FormAttachment(c[c.length - 2], 4, 0);
 		timeUnitLabel.setLayoutData(data);
-		timeUnitCombo = new Combo(this, SWT.BORDER|SWT.DROP_DOWN|SWT.READ_ONLY);
+		timeUnitCombo = toolkit.createCCombo(this,SWT.BORDER | SWT.FLAT);
 		timeUnitCombo.setBackground(getBackground());
-		toolkit.adapt(timeUnitCombo);
 		timeUnitCombo.addSelectionListener(new SelectionListener(){
 			public void widgetSelected(SelectionEvent e){
 				Combo s = (Combo) e.getSource();
 				for(EnumerationLiteral el:timeUnit.getOwnedLiterals()){
 					if(el.getName().equals(s.getText())){
-						event.setValue(stereotype, "timeUnit", el);
+						Command cmd = SetCommand.create(getEditingDomain(), event.getStereotypeApplication(stereotype), stereotype.getDefinition()
+								.getEStructuralFeature("timeUnit"), el);
+						getEditingDomain().getCommandStack().execute(cmd);
 						break;
 					}
 				}
@@ -76,8 +82,9 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		data.top = new FormAttachment(c[c.length - 2], 4, 0);
 		data.left = new FormAttachment(0, standardLabelWidth);
 		data.right = new FormAttachment(100, 0);
+		data.height=15;
 		timeUnitCombo.setLayoutData(data);
-		toolkit.adapt(timeUnitCombo , true, true);
+		toolkit.adapt(timeUnitCombo, true, true);
 	}
 	protected boolean isRelative(){
 		return true;
@@ -89,9 +96,6 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 	protected void setTimeEvent(TimeEvent timeEvent){
 		super.setTimeEvent(timeEvent);
 		if(event != null){
-			if(!event.isStereotypeApplied(stereotype)){
-				StereotypesHelper.applyStereotype(event, stereotype);
-			}
 			EnumerationLiteral currentTImeUnitValue = (EnumerationLiteral) event.getValue(stereotype, "timeUnit");
 			timeUnitCombo.setText(currentTImeUnitValue.getName());
 		}else{
@@ -104,13 +108,11 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 	}
 	protected void initProfileElements(Element e){
 		if(e.eResource() != null){
-			for(Resource resource:e.eResource().getResourceSet().getResources()){
-				if(resource.getURI().toString().contains(StereotypeNames.OPAEUM_BPM_PROFILE)){
-					Profile p = (Profile) resource.getContents().get(0);
-					stereotype = (Stereotype) p.getOwnedType(stereotypeName);
-					timeUnit = (Enumeration) p.getOwnedType("BusinessTimeUnit");
-					break;
-				}
+			Profile p = ProfileApplier.getAppliedProfile(e.getModel(), StereotypeNames.OPAEUM_BPM_PROFILE);
+			if(p!=null){
+				stereotype = (Stereotype) p.getOwnedType(stereotypeName);
+				Model m=LibraryImporter.findLibrary(e.getModel(), "OpaeumBPMCommon.library.uml");
+				timeUnit = (Enumeration) m.getOwnedType("BusinessTimeUnit");
 			}
 		}
 		if(this.stereotype == null || this.timeUnit == null){

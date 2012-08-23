@@ -20,7 +20,8 @@ public class PersistentNameUtil{
 		String generatedName = null;
 		String existingSqlName=null;
 		for(EObject eObject:nme.getStereotypeApplications()){
-			for(EStructuralFeature sf:eObject.eClass().getEStructuralFeatures()){
+			EStructuralFeature sf = eObject.eClass().getEStructuralFeature("persistentName");
+			if(sf!=null){
 				if(sf.getName().equals("persistentName")){
 					existingSqlName=(String)eObject.eGet(sf);
 				}

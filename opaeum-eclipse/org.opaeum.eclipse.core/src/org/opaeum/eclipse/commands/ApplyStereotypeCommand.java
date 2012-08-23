@@ -25,6 +25,7 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.LibraryImporter;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
@@ -72,11 +73,7 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 		}
 	}
 	private Element getOwner(){
-		Element owner = element;
-		while(owner.getOwner() != null){
-			owner = owner.getOwner();
-		}
-		return owner;
+		return EmfElementFinder.getRootObject(element);
 	}
 	@Override
 	public boolean canUndo(){

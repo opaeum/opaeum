@@ -164,10 +164,7 @@ public class OperationCallCreator{
 	private String buildOclInState(OperationCallExp exp,StringBuilder source,List args){
 		// exp.getReferedOp().getName() should equal 'oclInState'
 		String result = "";
-		StateExp arg = (StateExp) exp.getArgument().get(0);
-		State usedState = arg.getReferredState();
-		StateMap STATE = ojUtil.buildStateMap(usedState);
-		result = source + "." + STATE.getter() + "() == true";
+		result = source + "." + args.get(0);
 		return result;
 	}
 	private String buildModelOp(OperationCallExp exp,String source,List args,Operation referedOp){

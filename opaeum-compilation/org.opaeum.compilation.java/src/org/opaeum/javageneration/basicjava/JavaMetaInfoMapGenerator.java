@@ -70,7 +70,7 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 				}
 			}
 			for(Event e:getElementsOfType(Event.class, Collections.singletonList((Package) m))){
-				if((e instanceof TimeEvent || e instanceof ChangeEvent) && EmfEventUtil.getBehaviorContext(e)!=null){
+				if((e instanceof TimeEvent || e instanceof ChangeEvent) &&( EmfEventUtil.getBehaviorContext(e)!=null || EmfEventUtil.isDeadline(e))){
 					initBlock.addToStatements("putEventHandler(" + eventUtil.handlerPathName(e) + ".class,\"" + EmfWorkspace.getId(e) + "\")");
 				}
 			}

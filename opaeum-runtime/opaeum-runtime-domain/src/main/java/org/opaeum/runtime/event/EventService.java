@@ -1,6 +1,10 @@
 package org.opaeum.runtime.event;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,50 +21,60 @@ import org.opaeum.runtime.persistence.UmtPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EventService {
-	private final class EventOccurenceRunner implements Runnable {
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
+import freemarker.template.TemplateHashModel;
+
+public class EventService{
+	private final class EventOccurenceRunner implements Runnable{
 		private AbstractEventOccurrence event;
 		private Logger logger = LoggerFactory.getLogger(getClass());
-
-		private EventOccurenceRunner(AbstractEventOccurrence event) {
+		private EventOccurenceRunner(AbstractEventOccurrence event){
 			this.event = event;
 		}
-
 		@Override
-		public void run() {
-			try {
+		public void run(){
+			try{
 				Environment.getInstance().startRequestContext();
 				UmtPersistence umtPersistence = Environment.getInstance().getComponent(UmtPersistence.class);
 				handleInTryBlock(umtPersistence);
 				Environment.getInstance().endRequestContext();
-			} catch (Exception e) {
+			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
-
-		private void handleInTryBlock(UmtPersistence umtPersistence) {
-			try {
+		private void handleInTryBlock(UmtPersistence umtPersistence){
+			try{
 				umtPersistence.beginTransaction();
-				event=umtPersistence.find(IntrospectionUtil.getOriginalClass(event) , event.getId());
+				if(event.getId() != null){// null unlikely but possible
+					event = umtPersistence.find(IntrospectionUtil.getOriginalClass(event), event.getId());
+				}
 				event.prepareForDelivery(umtPersistence);
 				actions.remove(event.getUuid());
-				if (event.maybeTrigger()) {
+				if(event.getEventHandler() instanceof INotificationHandler){
+					INotificationHandler nh = (INotificationHandler) event.getEventHandler();
+					Emailler emailler = new Emailler(event.getEventTarget(), nh);
+					emailler.sendMail();
+				}
+				if(event.maybeTrigger()){
 					umtPersistence.remove(event);
-				} else {
+				}else{
 					ScheduledThreadPoolExecutor queue = getQueue(event.getEventHandler().getQueueName(), event.getEventHandler().getConsumerPoolSize());
-					long delay = event.getEventHandler().scheduleNextOccurrence().getTime() - System.currentTimeMillis();
+					long delay = event.scheduleNextOccurrence().getTime() - System.currentTimeMillis();
 					ScheduledFuture<?> schedule = queue.schedule(new EventOccurenceRunner(event), delay, TimeUnit.MILLISECONDS);
 					actions.put(event.getUuid(), schedule);
 				}
 				umtPersistence.commitTransaction();
-			} catch (Throwable e) {
-				try {
+			}catch(Throwable e){
+				try{
 					umtPersistence.rollbackTransaction();
-				} catch (Exception e2) {
+				}catch(Exception e2){
 				}
 				event.incrementRetryCount();
 				ExceptionAnalyser ea = new ExceptionAnalyser(e);
-				if (ea.isResourceAllocationTimeout()) {
+				if(ea.isResourceAllocationTimeout()){
 					// NB!!! it seems that when a Resource Timeout occurs in
 					// JBoss the bean's environment becomes unstable and ejb
 					// references can't
@@ -74,24 +88,23 @@ public class EventService {
 					// [:1.6.0_24]
 					// Redeliver immediately and hope for the best
 					getQueue(event.getEventHandler().getQueueName(), event.getEventHandler().getConsumerPoolSize()).schedule(this, 0, TimeUnit.MILLISECONDS);
-				} else if (ea.isStaleStateException() || ea.isDeadlockException()) {
-					if (event.getRetryCount() < 20) {
+				}else if(ea.isStaleStateException() || ea.isDeadlockException()){
+					if(event.getRetryCount() < 20){
 						logger.debug("Retrying {0} because of {1}", event.getDescription(), ea.getRootCause().toString());
-						getQueue(event.getEventHandler().getQueueName(), event.getEventHandler().getConsumerPoolSize()).schedule(this, 1000,
-								TimeUnit.MILLISECONDS);
-					} else {
+						getQueue(event.getEventHandler().getQueueName(), event.getEventHandler().getConsumerPoolSize()).schedule(this, 1000, TimeUnit.MILLISECONDS);
+					}else{
 						Throwable rootCause = ea.getRootCause();
-						if (rootCause instanceof SQLException && ea.getStackTrace(rootCause).contains("Call getNextException to see the cause")) {
+						if(rootCause instanceof SQLException && ea.getStackTrace(rootCause).contains("Call getNextException to see the cause")){
 							logger.debug("Unresolved exception found {0}", rootCause.toString());
 						}
 						logger.debug("RetryCount exceeded for signal {0}", event.getDescription());
 						ea.throwRootCause();
 					}
-				} else {
-					if (ea.stringOccurs("getNodeInstancesRecursively") && ea.stringOccurs("java.lang.NullPointerException")) {
+				}else{
+					if(ea.stringOccurs("getNodeInstancesRecursively") && ea.stringOccurs("java.lang.NullPointerException")){
 						// swallow this
 						logger.debug("Process had already completed on delivery of {0}", event.getDescription());
-					} else {
+					}else{
 						Throwable rootCause = ea.getRootCause();
 						logger.debug("Exception {0} can not be retried", rootCause);
 						event.markDead();
@@ -100,33 +113,29 @@ public class EventService {
 				}
 			}
 		}
-
 	}
-
-	Map<String, ScheduledThreadPoolExecutor> queues = Collections.synchronizedMap(new HashMap<String, ScheduledThreadPoolExecutor>());
-	Map<String, ScheduledFuture<?>> actions = Collections.synchronizedMap(new HashMap<String, ScheduledFuture<?>>());
+	Map<String,ScheduledThreadPoolExecutor> queues = Collections.synchronizedMap(new HashMap<String,ScheduledThreadPoolExecutor>());
+	Map<String,ScheduledFuture<?>> actions = Collections.synchronizedMap(new HashMap<String,ScheduledFuture<?>>());
 	CmtPersistence persistence;
-
-	public synchronized void startUp(Collection<AbstractEventOccurrence> events) {
-		for (final AbstractEventOccurrence event : events) {
+	public EventService(){
+	}
+	public synchronized void startUp(Collection<AbstractEventOccurrence> events){
+		for(final AbstractEventOccurrence event:events){
 			scheduleEvent(event);
 		}
 	}
-
-	public synchronized void cancelEvent(String uuid) {
+	public synchronized void cancelEvent(String uuid){
 		actions.get(uuid).cancel(true);
 	}
-
-	public synchronized void scheduleEvent(final AbstractEventOccurrence event) {
+	public synchronized void scheduleEvent(final AbstractEventOccurrence event){
 		ScheduledThreadPoolExecutor queue = getQueue(event.getEventHandler().getQueueName(), event.getEventHandler().getConsumerPoolSize());
-		long delay = event.getEventHandler().getFirstOccurrenceScheduledFor().getTime() - System.currentTimeMillis();
+		long delay = event.getScheduledDate().getTime() - System.currentTimeMillis();
 		ScheduledFuture<?> schedule = queue.schedule(new EventOccurenceRunner(event), Math.max(delay, 10), TimeUnit.MILLISECONDS);
 		actions.put(event.getUuid(), schedule);
 	}
-
-	private ScheduledThreadPoolExecutor getQueue(String name, int poolSize) {
+	private ScheduledThreadPoolExecutor getQueue(String name,int poolSize){
 		ScheduledThreadPoolExecutor result = queues.get(name);
-		if (result == null) {
+		if(result == null){
 			result = new ScheduledThreadPoolExecutor(poolSize);
 			queues.put(name, result);
 		}

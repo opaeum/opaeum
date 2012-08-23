@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Opaeum Java Generator
 Bundle-SymbolicName: org.opaeum.compilation.java
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.opaeum.compilation.runtimedependencies,
- org.opaeum.metamodels.java,
+Require-Bundle: org.opaeum.metamodels.java,
  org.opaeum.metamodels.text,
  org.opaeum.transformation.engine,
  org.opaeum.compilation.ocltojava,

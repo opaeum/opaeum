@@ -27,6 +27,7 @@ public abstract class AbstractDirectoryReadingAction extends AbstractOpaeumActio
 		monitor.subTask("Loading Opaeum Metadata");
 		final EmfWorkspace ws = ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
 		ws.getOpaeumLibrary().reset();
+		ws.calculatePrimaryModels();
 		TransformationProcess p = new TransformationProcess();
 		Set<Class<? extends ITransformationStep>> steps = JavaTransformationProcessManager.getAllSteps(ctx.getConfig());
 		p.initialize(ctx.getConfig(), steps);

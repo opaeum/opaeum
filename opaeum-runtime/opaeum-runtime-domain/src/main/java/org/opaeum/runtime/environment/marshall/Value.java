@@ -31,7 +31,7 @@ public abstract class Value implements Serializable{
 			for(Value value2:collectionValue.getCollection()){
 				r.add(valueOf(value2, persistence));
 			}
-			return collectionValue;
+			return r;
 		}else if(value instanceof SerializableValue){
 			return ((SerializableValue) value).getValue();
 		}else{

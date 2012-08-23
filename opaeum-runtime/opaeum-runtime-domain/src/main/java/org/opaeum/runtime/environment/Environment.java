@@ -11,8 +11,6 @@ import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.event.EventService;
-import org.opaeum.runtime.event.INotificationService;
-import org.opaeum.runtime.organization.IBusinessRoleBase;
 import org.opaeum.runtime.organization.IParticipantBase;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -103,7 +101,6 @@ public abstract class Environment{
 			return properties.getProperty(name[0], name[1]);
 		}
 	}
-	public abstract INotificationService getNotificationService();
 	public static Properties loadProperties(){
 		String propertiesFileName = PROPERTIES_FILE_NAME;
 		return loadProperties(propertiesFileName);

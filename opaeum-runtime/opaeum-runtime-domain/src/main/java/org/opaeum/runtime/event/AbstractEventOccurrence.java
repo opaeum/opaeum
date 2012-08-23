@@ -35,10 +35,12 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 	public abstract void setId(Long id);
 	protected abstract void setTargetValue(Value valueOf);
 	protected abstract void setPropertyValues(Collection<PropertyValue> collection);
+	public abstract Date getNextOccurrenceScheduledFor();
+	public abstract void setNextOccurrenceScheduledFor(Date nextOccurrenceScheduledFor);
 	public String getUuid(){
-		return getHandlerUuid() + "$" + getEventTargetId() + "$" + getEventTargetClassId();
+		return getHandlerUuid() + "$" + getEventTargetUuid() + "$" + getEventTargetClassId();
 	}
-	public abstract Long getEventTargetId();
+	public abstract String getEventTargetUuid();
 	public boolean maybeTrigger(){
 		return handler.handleOn(eventTarget);
 	}
@@ -48,7 +50,6 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 	public void expire(){
 		this.setStatus(EventOccurrenceStatus.EXPIRED);
 	}
-
 	protected abstract void setStatus(EventOccurrenceStatus expired);
 	public IEventHandler getEventHandler(){
 		return handler;
@@ -60,7 +61,7 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 	public boolean equals(Object other){
 		if(other instanceof AbstractEventOccurrence){
 			AbstractEventOccurrence te = (AbstractEventOccurrence) other;
-			return te.getEventSourceClass().equals(getEventSourceClass()) && te.getEventTargetId().equals(getEventTargetId()) && getUuid().equals(te.getUuid());
+			return te.getEventSourceClass().equals(getEventSourceClass()) && te.getEventTargetUuid().equals(getEventTargetUuid()) && getUuid().equals(te.getUuid());
 		}else{
 			return false;
 		}
@@ -71,9 +72,9 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 	public void prepareForDelivery(AbstractPersistence session){
 		JavaMetaInfoMap map = Environment.getInstance().getMetaInfoMap();
 		this.handler = map.getEventHandler(getHandlerUuid());
-		if(handler==null){
+		if(handler == null){
 			Class<? extends IEventHandler> clss = IntrospectionUtil.classForName(getHandlerUuid());
-			handler=IntrospectionUtil.newInstance(clss);
+			handler = IntrospectionUtil.newInstance(clss);
 		}
 		handler.unmarshall(this.getPropertyValues(), session);
 		eventTarget = Value.valueOf(getTargetValue(), session);
@@ -98,7 +99,7 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		}
 		Class<? extends Object> originalClass = IntrospectionUtil.getOriginalClass(target.getClass());
 		NumlMetaInfo annotation = originalClass.getAnnotation(NumlMetaInfo.class);
-		String eventTargetClassId =annotation==null?originalClass.getName(): annotation.uuid();
+		String eventTargetClassId = annotation == null ? originalClass.getName() : annotation.uuid();
 		return uuid + "$" + id + "$" + eventTargetClassId;
 	}
 	public void prepareForDispatch(){
@@ -107,5 +108,16 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 	}
 	public String getDescription(){
 		return handler.getClass().getSimpleName();
+	}
+	public Date getScheduledDate(){
+		if(getNextOccurrenceScheduledFor() == null){
+			return getFirstOccurrenceScheduledFor();
+		}
+		return getNextOccurrenceScheduledFor();
+	}
+	public Date scheduleNextOccurrence(){
+		Date d = getEventHandler().scheduleNextOccurrence();
+		setNextOccurrenceScheduledFor(d);
+		return d;
 	}
 }

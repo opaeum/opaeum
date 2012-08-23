@@ -67,15 +67,6 @@ public class LiteralExpCreator{
 			myClass.addToImports(mapper.javaTypePath());
 		}else if(in instanceof NullLiteralExp){
 			result = "null";
-		}else if(in instanceof StateExp){
-			StateMap stateMap = ojUtil.buildStateMap(((StateExp) in).getReferredState());
-			myClass.addToImports(stateMap.javaType());
-			result="isStepActive(" + stateMap.javaType().getLast() + ".class)";
-			result = stateMap.getter();
-		}else if(in instanceof TypeExp){
-			ClassifierMap mapper = ojUtil.buildClassifierMap(((TypeExp) in).getReferredType());
-			myClass.addToImports(mapper.javaTypePath());
-			result = mapper.javaType();
 		}else if(in instanceof BooleanLiteralExp){
 			result = ((BooleanLiteralExp) in).toString();
 		}else if(in instanceof NumericLiteralExp){

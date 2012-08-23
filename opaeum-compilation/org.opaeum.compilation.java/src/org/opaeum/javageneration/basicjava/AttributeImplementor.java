@@ -93,13 +93,13 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 			if(c.getSpecification() instanceof OpaqueExpression && isLookupConstraint){
 				AbstractOclContext oclContext = opaeumLibrary.getOclExpressionContext((OpaqueExpression) c.getSpecification());
-				if(oclContext.getExpression().getType() instanceof CollectionType){
+				if( oclContext.getExpression()!=null && oclContext.getExpression().getType() instanceof CollectionType){
 					ap.putAttribute("lookupMethod", "get" + NameConverter.capitalize(c.getName()));
 					// Lookup method
 				}else{
 					// Associated constraint
 					OJAnnotationValue constraint = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyConstraint"));
-					constraint.putAttribute("name", NameConverter.capitalize(c.getName()));
+					constraint.putAttribute("method", "is" + NameConverter.capitalize(c.getName()));
 					constraint.putAttribute("message", NameConverter.separateWords(NameConverter.capitalize(c.getName())));
 					constraints.addAnnotationValue(constraint);
 				}
@@ -169,6 +169,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected void visitProperty(Classifier umlOwner,PropertyMap map){
+
 		Property p = map.getProperty();
 		if(!OJUtil.isBuiltIn(p)){
 			if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
@@ -195,19 +196,21 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
+		
 		if(!(owner instanceof OJAnnotatedInterface)){
 			if(derived){
+
 				getter.initializeResultVariable(map.javaDefaultValue());
 			}else if(map.isMany() && isMap(map.getProperty())){
 				String defaultValue = map.javaDefaultValue();
-				getter.initializeResultVariable(defaultValue.substring(0, defaultValue.length() - 1) + "this." + map.fieldname() + ".values())");
+				getter.initializeResultVariable(defaultValue.substring(0, defaultValue.length() - 1) + getReferencePrefix(owner, map) + map.fieldname() + ".values())");
 				OJAnnotatedOperation getterFor = new OJAnnotatedOperation(map.getter(), map.javaBaseTypePath());
 				addQualifierParams(getterFor, map.getProperty().getQualifiers());
 				getterFor.initializeResultVariable("null");
 				getterFor.getBody().addToStatements("result=" + getReferencePrefix(owner, map) + map.fieldname() + ".get(key.toString())");
 				owner.addToOperations(getterFor);
 			}else{
-				getter.initializeResultVariable("this." + map.fieldname());
+				getter.initializeResultVariable(getReferencePrefix(owner, map) + map.fieldname());
 			}
 		}
 		getter.setStatic(map.isStatic());

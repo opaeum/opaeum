@@ -129,6 +129,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 			if(complexType instanceof Association){
 				OJOperation clear = owner.getUniqueOperation("clear");
+				if(clear==null){
+					System.out.println();
+				}
 				clear.getBody().addToStatements("markDeleted()");
 			}
 			enableHibernateProxy(complexType, owner);
@@ -149,11 +152,15 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && f.getOtherEnd().getType() instanceof Interface){
 					OJAnnotationValue oneToMany = field.findAnnotation(new OJPathName(OneToMany.class.getName()));
 					oneToMany.removeAttribute("mappedBy");
-					JpaUtil.addJoinColumn(field, PersistentNameUtil.getPersistentName(f).getAsIs(), true);
+					NameWrapper name = PersistentNameUtil.getPersistentName(f.getOtherEnd());
+					if(config.shouldBeCm1Compatible()){
+						name=name.getWithoutId();
+					}
+					JpaUtil.addJoinColumn(field, name.getAsIs(), true);
 					OJAnnotationValue where = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Where"));
 					where.putAttribute("clause",
-							PersistentNameUtil.getPersistentName(f.getOtherEnd()) + "_type=" + "'"
-									+ (config.shouldBeCm1Compatible() ? ojOwner.getPathName().toString() : EmfWorkspace.getId(owner) + "'"));
+							name + "_type='"
+									+ (config.shouldBeCm1Compatible() ? ojOwner.getPathName().toString() : EmfWorkspace.getId(owner)) + "'");
 					field.addAnnotationIfNew(where);
 				}
 				if(f.isOrdered()){
@@ -207,7 +214,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}else if(EmfClassifierUtil.isSimpleType(map.getBaseType())){
 				// TODO use strategies
 			}else if(map.getBaseType() instanceof Interface && !EmfClassifierUtil.isHelper(map.getBaseType())){
-				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Embedded.class.getName())));
 				NameWrapper persistentName = PersistentNameUtil.getPersistentName(map.getProperty());
 				HibernateUtil.overrideInterfaceValueAtributes(field, persistentName);
 				if(f.isComposite()){
@@ -303,6 +309,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		Property p = (Property) map.getProperty();
 		if(!EmfPropertyUtil.isDerived(p) && p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
 			OJOperation setter = ojOwner.findOperation(map.setter(), Arrays.asList(map.javaTypePath()));
+			if(setter==null){
+				System.out.println();
+			}
 			OJIfStatement st = (OJIfStatement) setter.getBody().findStatementRecursive(AttributeImplementor.IF_PARAM_NOT_NULL);
 			if(st == null){
 			}else{

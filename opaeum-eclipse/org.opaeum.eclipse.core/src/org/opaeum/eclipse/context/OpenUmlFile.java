@@ -28,6 +28,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
@@ -193,7 +194,7 @@ public class OpenUmlFile extends EContentAdapter{
 				|| notification.getEventType() == Notification.SET){
 			final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
 					&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
-			if(!annotationCreated){
+			if(!(annotationCreated )){
 				if(notification.getNotifier() instanceof DynamicEObjectImpl){
 					scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
 				}else{

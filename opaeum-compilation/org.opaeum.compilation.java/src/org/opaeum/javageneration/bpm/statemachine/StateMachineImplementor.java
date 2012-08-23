@@ -62,7 +62,7 @@ import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.OpaqueBehaviorContext;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.runtime.domain.CancelledEvent;
-import org.opaeum.runtime.domain.IProcessObject;
+import org.opaeum.runtime.domain.IProcessObjectBase;
 import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.statemachines.HistoryStateActivation;
@@ -174,6 +174,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			OJAnnotatedOperation onCompletion = new OJAnnotatedOperation("onCompletion", new OJPathName("boolean"));
 			stateClass.addToOperations(onCompletion);
 			onCompletion.initializeResultVariable("false");
+			
 			for(Transition transition:vertex.getOutgoings()){
 				OJPathName cn = ojUtil.classifierPathname(transition);
 				OJUtil.addTransientProperty(stateClass, cn.getLast(), cn, true);
@@ -190,7 +191,18 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 					c.getBody().addToStatements("regions.add(new " + rpn.getLast() + "(this))");
 				}
 			}
+			OJPathName setOfOutgoingEvents = new OJPathName("java.util.Set");
+			setOfOutgoingEvents .addToElementTypes(new OJPathName(OutgoingEvent.class.getName()));
+			OJAnnotatedOperation getOutgoingEvents = new OJAnnotatedOperation("getOutgoingEvents",setOfOutgoingEvents);
+			getOutgoingEvents.initializeResultVariable("getBehaviorExecution().getOutgoingEvents()");
+			stateClass.addToOperations(getOutgoingEvents);
+			OJPathName setOfCancelledEvents = new OJPathName("java.util.Set");
+			setOfCancelledEvents.addToElementTypes(new OJPathName(CancelledEvent.class.getName()));
+			OJAnnotatedOperation getCancelledEvents = new OJAnnotatedOperation("getCancelledEvents",setOfCancelledEvents);
+			getCancelledEvents.initializeResultVariable("getBehaviorExecution().getCancelledEvents()");
+			stateClass.addToOperations(getCancelledEvents);
 		}
+		
 	}
 	private void addId(Element vertex,OJAnnotatedClass stateClass){
 		OJAnnotatedField id = new OJAnnotatedField("ID", new OJPathName("String"));
@@ -419,7 +431,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		javaStateMachine.addToImports(new OJPathName(ArrayList.class.getName()));
 		javaStateMachine.addToImports(new OJPathName(Timestamp.class.getName()));
 		if(!sm.conformsTo(getLibrary().getAbstractRequest())){
-			javaStateMachine.addToImports(IProcessObject.class.getName());
+			javaStateMachine.addToImports(IProcessObjectBase.class.getName());
 		}
 		javaStateMachine.addToImports(IProcessStep.class.getName());
 	}

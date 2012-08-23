@@ -4,15 +4,18 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.common.ExpGeneratorHelper;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StateMap;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.tools.common.StringHelpers;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ocl.uml.CallExp;
 import org.eclipse.ocl.uml.IfExp;
 import org.eclipse.ocl.uml.LetExp;
 import org.eclipse.ocl.uml.LiteralExp;
 import org.eclipse.ocl.uml.MessageExp;
 import org.eclipse.ocl.uml.OCLExpression;
+import org.eclipse.ocl.uml.StateExp;
 import org.eclipse.ocl.uml.TypeExp;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.ocl.uml.VariableExp;
@@ -21,13 +24,17 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.ValuePin;
 import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJOperation;
@@ -38,7 +45,6 @@ import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.AbstractOclContext;
-import org.opaeum.ocl.uml.EmulatedVariable;
 
 public class ExpressionCreator{
 	private OJClass myClass = null;
@@ -97,6 +103,14 @@ public class ExpressionCreator{
 			}
 		}else if(in instanceof VariableExp){
 			thisNode.append(makeVariableExp((VariableExp) in));
+		}else if(in instanceof StateExp){
+			StateMap stateMap = ojUtil.buildStateMap(((StateExp) in).getReferredState());
+			myClass.addToImports(stateMap.javaType());
+			thisNode.append("isStepActive(" + stateMap.javaType().getLast() + ".class)");
+		}else if(in instanceof TypeExp){
+			ClassifierMap mapper = ojUtil.buildClassifierMap(((TypeExp) in).getReferredType());
+			myClass.addToImports(mapper.javaTypePath());
+			thisNode.append(mapper.javaType());
 		}else{
 			System.err.println("unspecified option in ExpressionGenerator.makeExpression");
 		}
@@ -116,8 +130,19 @@ public class ExpressionCreator{
 						if(a.getOwner() instanceof State||a.getOwner() instanceof Transition){
 							result = "getStateMachineExecution()";
 						}
+					}else if(context.getBodyContainer().getOwner() instanceof TimeExpression){
+						result = "getStateMachineExecution()";
 					}
 				}
+			}
+			EObject element=context.getBodyContainer();
+			while(!(element ==null ||  element instanceof Operation)){
+				element=EmfElementFinder.getContainer(element) ;
+				//OCL Expressions on stereotype attributes
+			}
+			
+			if(element instanceof Operation && EmfBehaviorUtil.hasExecutionInstance((Operation)element)){
+				result="getContextObject()";
 			}
 			if(result == null){
 				result = "this";

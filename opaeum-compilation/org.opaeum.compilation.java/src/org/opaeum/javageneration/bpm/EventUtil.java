@@ -37,6 +37,7 @@ import org.opaeum.javageneration.util.JavaNameGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.name.NameConverter;
+import org.opaeum.runtime.domain.BusinessTimeUnit;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.OutgoingEvent;
@@ -61,7 +62,7 @@ public class EventUtil{
 		}else if(e instanceof Vertex){
 			return JavaNameGenerator.toJavaName("on" + NameConverter.capitalize(e.getName()) + "Completed");
 		}else if(e instanceof Event){
-			return JavaNameGenerator.toJavaName(NameConverter.capitalize(e.getName()) + "Occurred");
+			return JavaNameGenerator.toJavaName("onOccurrenceOf" + NameConverter.capitalize(e.getName()));
 		}else{
 			return JavaNameGenerator.toJavaName("on" + NameConverter.capitalize(e.getName()));
 		}
@@ -128,19 +129,19 @@ public class EventUtil{
 		implementTimerRequest(operation, block, event, taskName, true);
 	}
 	private void implementTimerRequest(OJOperation operation,OJBlock block,TimeEvent event,String targetExpression,boolean businessTime){
-		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
-		ValueSpecification when = event.getWhen();
-		OJPathName eventHandler = handlerPathName(event);
-		owner.addToImports(eventHandler);
-		if(when != null){
+		if(event.getWhen() != null && event.getWhen().getExpr() != null){
+			OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
+			ValueSpecification when = event.getWhen().getExpr();
+			OJPathName eventHandler = handlerPathName(event);
+			owner.addToImports(eventHandler);
 			String whenExpr = valueSpecificationUtil.expressValue(operation, when, library.getEventContext(event), null);
 			// TODO add the timeSpecification INstanceSpecification values
 			if(event.isRelative()){
 				EnumerationLiteral timeUnit = EmfEventUtil.getTimeUnit(event);
 				if(businessTime){
 					String timeUnitConstant = timeUnit == null ? "BUSINESSDAY" : OJUtil.toJavaLiteral(timeUnit);
-					owner.addToImports("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit");
-					block.addToStatements("getBehaviorExecution().getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
+					owner.addToImports(BusinessTimeUnit.class.getName());
+					block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
 							+ whenExpr + ",BusinessTimeUnit." + timeUnitConstant + ",token)))");
 				}else{
 					owner.addToImports(TimeUnit.class.getName());
@@ -148,22 +149,20 @@ public class EventUtil{
 					if(timeUnit != null && TimeUnit.lookup(OJUtil.toJavaLiteral(timeUnit)) != null){
 						timeUnitConstant = OJUtil.toJavaLiteral(timeUnit);
 					}
-					block.addToStatements("getBehaviorExecution().getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
+					block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
 							+ whenExpr + ",TimeUnit." + timeUnitConstant + ",token)))");
 				}
 			}else{
-				block.addToStatements("getBehaviorExecution().getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
+				block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
 						+ whenExpr + ",token)))");
 			}
-		}else{
-			block.addToStatements("NO_WHEN_EXPRESSION_SPECIFIED");
 		}
 	}
 	public static void cancelTimer(OJBlock block,TimeEvent event,String targetExpression){
-		block.addToStatements("getBehaviorExecution().getCancelledEvents().add(new CancelledEvent(" + targetExpression + ",\"" + EmfWorkspace.getId(event) + "\"))");
+		block.addToStatements("getCancelledEvents().add(new CancelledEvent(" + targetExpression + ",\"" + EmfWorkspace.getId(event) + "\"))");
 	}
 	public static void cancelChangeEvent(OJBlock block,ChangeEvent event){
-		block.addToStatements("getBehaviorExecution().getCancelledEvents().add(new CancelledEvent(this,\"" + EmfWorkspace.getId(event) + "\"))");
+		block.addToStatements("getCancelledEvents().add(new CancelledEvent(this,\"" + EmfWorkspace.getId(event) + "\"))");
 	}
 	public static String getInvokerName(Operation o){
 		return ((NamedElement) o.getOwner()).getName() + NameConverter.capitalize(o.getName()) + EmfWorkspace.getOpaeumId(o) + "Invoker";

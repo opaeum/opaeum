@@ -77,7 +77,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 					v.startVisiting(modelWorkspace);
 				}else{
 					for(Element element:realChanges){
-						v.visitOnly(element);
+						v.visitRecursively(element);
 					}
 				}
 				files.addAll(f.getTextFiles());
@@ -117,9 +117,6 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		if(ne != null){
 			Element processibleElement = getProcessibleElement(ne);
 			result.add(processibleElement);
-			if(EmfElementFinder.getContainer(ne) instanceof Element){
-				addProcessibleElementsRecursively(result, (Element) EmfElementFinder.getContainer(ne));
-			}
 		}
 	}
 	private Element getProcessibleElement(Element ne){

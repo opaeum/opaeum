@@ -74,9 +74,6 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	private void addXmlAnyElement(OJAnnotatedClass clazz,Class c,Property p){
 		PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) clazz.findOperation(map.getter(), new ArrayList<OJPathName>());
-		if(oper==null){
-			System.out.println();
-		}
 		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAnyElement")));
 	}
 	private void addXmlRootElement(OJAnnotatedClass owner){

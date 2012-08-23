@@ -27,6 +27,7 @@ import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
+import org.opaeum.runtime.event.INotificationReceiver;
 
 public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 	private ActionMap actionMap;
@@ -39,14 +40,14 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 		SignalMap signalMap = ojUtil.buildSignalMap(node.getSignal());
 		Iterator<InputPin> args = node.getArguments().iterator();
 		String signalName = "_signal" + node.getName();
-		ClassifierMap cm = ojUtil.buildClassifierMap(node.getSignal(),(CollectionKind)null);
+		ClassifierMap cm = ojUtil.buildClassifierMap(node.getSignal(), (CollectionKind) null);
 		operation.getOwner().addToImports(cm.javaTypePath());
 		while(args.hasNext()){
 			Pin pin = args.next();
-			if(EmfActionUtil.getLinkedTypedElement( pin) == null){
+			if(EmfActionUtil.getLinkedTypedElement(pin) == null){
 				block.addToStatements(signalName + "couldNotLinkPinToProperty!!!");
 			}else{
-				PropertyMap map = ojUtil.buildStructuralFeatureMap((Property) EmfActionUtil.getLinkedTypedElement( pin));
+				PropertyMap map = ojUtil.buildStructuralFeatureMap((Property) EmfActionUtil.getLinkedTypedElement(pin));
 				block.addToStatements(signalName + "." + map.setter() + "(" + readPin(operation, block, pin) + ")");
 			}
 		}
@@ -62,26 +63,30 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 		handler.setInitExp("new " + handlerPathName.getLast() + "(" + signalName + ",false)");
 		operation.getOwner().addToImports(handlerPathName);
 		block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + "," + signalName + "Handler))");
-		if(EmfActionUtil.getTargetType( node) instanceof BehavioredClassifier){
-			BehavioredClassifier target = (BehavioredClassifier)EmfActionUtil.getTargetType( node);
-			if(EmfClassifierUtil.isNotification( node.getSignal()) && isNotificationReceiver(target)){
-				if(EmfActionUtil.getFromExpression( node) != null){
-					block.addToStatements(handler.getName() + ".setFrom(new HashSet<INotificationReceiver>(" + expressDestination(operation, EmfActionUtil.getFromExpression( node))
-							+ ")");
+		Classifier targetType = getLibrary().getTargetType(node);
+		if(targetType instanceof BehavioredClassifier){
+			BehavioredClassifier target = (BehavioredClassifier) targetType;
+			if(EmfClassifierUtil.isNotification(node.getSignal()) && isNotificationReceiver(target)){
+				if(EmfActionUtil.getFromExpression(node) != null){
+					OpaqueExpressionContext fromExp = getLibrary().getOclExpressionContext(EmfActionUtil.getFromExpression(node));
+					if(!fromExp.hasErrors()){
+						block.addToStatements(handler.getName() + ".setFrom(" + valueSpecificationUtil.expressOcl(fromExp, operation, null) + ")");
+					}
 				}
 				if(EmfActionUtil.getCcExpression(node) != null){
-					block.addToStatements(handler.getName() + ".setCc(new HashSet<INotificationReceiver>(" + expressDestination(operation, EmfActionUtil.getCcExpression(node)) + ")");
+					block.addToStatements(handler.getName() + ".setCc("
+							+ expressDestination(operation, EmfActionUtil.getCcExpression(node)) + ")");
 				}
 				if(EmfActionUtil.getBccExpression(node) != null){
-					block.addToStatements(handler.getName() + ".setBcc(new HashSet<INotificationReceiver>(" + expressDestination(operation, EmfActionUtil.getBccExpression(node))
-							+ ")");
+					block.addToStatements(handler.getName() + ".setBcc("
+							+ expressDestination(operation, EmfActionUtil.getBccExpression(node)) + ")");
 				}
 			}
 		}
 	}
 	protected String expressTarget(OJAnnotatedOperation operationContext,OJBlock block){
 		String expression = null;
-		if(node.getInPartitions().size()==1){
+		if(node.getInPartitions().size() == 1){
 			if(node.getInPartitions().get(0).getRepresents() instanceof Property){
 				expression = actionMap.targetMap().getter() + "()";
 			}else if(node.getInPartitions().get(0).getRepresents() instanceof Classifier){
@@ -93,7 +98,7 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 		}else{
 			expression = "this";
 		}
-		//NB!!! signals are always sent to a collection of targets
+		// NB!!! signals are always sent to a collection of targets
 		if(actionMap.targetMap().isOne()){
 			OJPathName copy = ojUtil.utilPackagePath(EmfElementFinder.getRootObject(node)).getCopy();
 			copy.addToNames("Stdlib");
@@ -108,22 +113,25 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 	protected String expressDestination(OJAnnotatedOperation operation,OpaqueExpression fromExpression){
 		OpaqueExpressionContext oclExpressionContext = getLibrary().getOclExpressionContext(fromExpression);
 		if(!oclExpressionContext.hasErrors()){
+			operation.getOwner().addToImports("java.util.HashSet");
+			operation.getOwner().addToImports(INotificationReceiver.class.getName());
 			if(oclExpressionContext.getExpression().getType() instanceof CollectionType){
-				return valueSpecificationUtil.expressOcl(oclExpressionContext,operation, null);
+				return "new HashSet<INotificationReceiver>("+valueSpecificationUtil.expressOcl(oclExpressionContext, operation, null) +")";
 			}else{
 				OJPathName copy = ojUtil.utilPackagePath(EmfElementFinder.getRootObject(node)).getCopy();
 				copy.addToNames("Stdlib");
 				operation.getOwner().addToImports(copy);
-				return "Stdlib.objectAsSet("  + valueSpecificationUtil.expressOcl(oclExpressionContext, operation, null) + ")";
+				return "new HashSet<INotificationReceiver>(Stdlib.objectAsSet(" + valueSpecificationUtil.expressOcl(oclExpressionContext, operation, null) + "))";
 			}
 		}else{
 			return "";
 		}
 	}
 	private boolean isNotificationReceiver(BehavioredClassifier target){
-		if(StereotypesHelper.hasStereotype(target, StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.BUSINESS_ROLE, StereotypeNames.BUSINESS_SERVICE)){
+		if(StereotypesHelper.hasStereotype(target, StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.BUSINESS_ROLE,
+				StereotypeNames.BUSINESS_SERVICE) || EmfClassifierUtil.conformsTo(target, getLibrary().getPersonNode())){
 			for(Property p:getLibrary().getEffectiveAttributes(target)){
-				if(getLibrary().getEmailAddressType().equals(p.getType())){
+				if(EmfClassifierUtil.conformsTo((Classifier) p.getType(), getLibrary().getEmailAddressType())){
 					return true;
 				}
 			}

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ocl.AbstractTypeChecker;
 import org.eclipse.ocl.Environment;
 import org.eclipse.ocl.EnvironmentFactory;
+import org.eclipse.ocl.LookupException;
 import org.eclipse.ocl.TypeChecker;
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.types.CollectionType;
@@ -36,6 +37,7 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.PrimitiveType;
@@ -77,9 +79,8 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		self.setType(selfClassifier);
 		setSelfVariable(self);
 		if(selfClassifier instanceof Behavior){
-			
 			Classifier contextObject = EmfBehaviorUtil.getContext(context);
-			if(contextObject != null && contextObject!=selfClassifier){
+			if(contextObject != null && contextObject != selfClassifier){
 				Variable var = UMLFactory.eINSTANCE.createVariable();
 				var.setType(contextObject);
 				var.setName("contextObject");
@@ -124,7 +125,10 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	@Override
 	public Classifier lookupClassifier(List<String> names){
 		Classifier cls = getContextClassifier();
-		if(cls.getOwner() instanceof Namespace){
+		Namespace namespace = cls;
+		if(cls == null){
+			namespace=EmfElementFinder.getNearestNamespace(context);
+		}else if(cls.getOwner() instanceof Namespace){
 			// Try the owner's nestedClassifier/ownedBehavior containment hierarchy first
 			Namespace ns = (Namespace) cls.getOwner();
 			for(String string:names){
@@ -137,28 +141,34 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 			}
 		}
 		// Try the nestedClassifier/ownedBehavior containment hierarchy first
-		Namespace ns = cls;
 		for(String string:names){
-			if(ns != null){
-				ns = (Namespace) ns.getMember(string, false, UMLPackage.eINSTANCE.getClassifier());
+			if(namespace != null){
+				namespace = (Namespace) namespace.getMember(string, false, UMLPackage.eINSTANCE.getClassifier());
 			}
 		}
-		if(ns instanceof Behavior){
-			if(EmfBehaviorUtil.hasExecutionInstance((Behavior) ns)){
-				return (Behavior) ns;
+		if(namespace instanceof Behavior){
+			if(EmfBehaviorUtil.hasExecutionInstance((Behavior) namespace)){
+				return (Behavior) namespace;
 			}else{
 				return null;
 			}
-		}else if(ns instanceof Classifier){
-			return (Classifier) ns;
+		}else if(namespace instanceof Classifier){
+			return (Classifier) namespace;
 		}
 		Classifier result = super.lookupClassifier(names);
-		if(result == null){
+		if(result == null && cls!=null){
 			// try to resolve from imports
 			if(names.size() == 1){
-				result = (Classifier) cls.getImportedMember(names.get(0), false, UMLPackage.eINSTANCE.getClassifier());
-				if(result == null && cls.getOwner() instanceof Namespace){
-					result = (Classifier) ((Namespace) cls.getOwner()).getImportedMember(names.get(0), false, UMLPackage.eINSTANCE.getClassifier());
+				for(PackageableElement pe:cls.getImportedElements()){
+					if(pe.getName().equals(names.get(0)) && pe instanceof Classifier){
+						return (Classifier) pe;
+					}
+				}
+				for(Package pk:cls.getImportedPackages()){
+					Type type = pk.getOwnedType(names.get(0));
+					if(type instanceof Classifier){
+						return (Classifier) type;
+					}
 				}
 			}
 		}
@@ -348,10 +358,10 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		for(TypedElement te:tes){
 			if(te instanceof org.eclipse.uml2.uml.Variable || te instanceof Parameter || te instanceof Pin){
 				Variable var = new EmulatedVariable(te);
-//				if(te instanceof Parameter){
-//					setContextOperation(org.eclipse.uml2.uml.UMLFactory.eINSTANCE.createOperation());
-//					getContextOperation().getOwnedParameters().add((Parameter) te);
-//				}
+				// if(te instanceof Parameter){
+				// setContextOperation(org.eclipse.uml2.uml.UMLFactory.eINSTANCE.createOperation());
+				// getContextOperation().getOwnedParameters().add((Parameter) te);
+				// }
 				var.setType(te.getType());
 				var.setName(te.getName());
 				variables.add(var);
@@ -428,7 +438,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		if(o == null){
 			if(name.equals("toString")){
 				Operation ao = library.getAdditionalOperations().get(owner.getQualifiedName() + "::" + name);
-				if(ao==null){
+				if(ao == null){
 					ao = new StdlLibOperation(){
 						@Override
 						public Element getOwner(){
@@ -503,5 +513,9 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 				return super.isStandardLibraryFeature(owner, feature);
 			}
 		};
+	}
+	@Override
+	public State lookupState(Classifier owner,List<String> path) throws LookupException{
+		return super.lookupState(owner, path);
 	}
 }

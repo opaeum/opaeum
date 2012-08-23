@@ -34,7 +34,6 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	protected OpaeumConfig config;
 	protected TransformationContext transformationContext;
 	protected OpaeumLibrary getLibrary(){
-
 		return workspace.getOpaeumLibrary();
 	}
 	protected String getPathNameInModel(Classifier stereotype){
@@ -67,10 +66,9 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	}
 	@Override
 	public void visitRecursively(Element o){
-		
-		boolean b =!(o instanceof Profile);
-		if(o instanceof Model && !(workspace.getGeneratingModelsOrProfiles().contains(o)||EmfPackageUtil.isRegeneratingLibrary((Model)o))){
-			b=false;
+		boolean b = !(o instanceof Profile);
+		if(o instanceof Model && !(workspace.getGeneratingModelsOrProfiles().contains(o) || EmfPackageUtil.isRegeneratingLibrary((Model) o))){
+			b = false;
 		}
 		if(!EmfElementUtil.isMarkedForDeletion(o) && b){
 			if(EmfPackageUtil.isRootObject(o)){
@@ -87,11 +85,13 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	}
 	@Override
 	public void visitOnly(Element o){
-		if(o instanceof Element){
-			setCurrentRootObject(EmfElementFinder.getRootObject((Element) o));
+		if(!EmfElementUtil.isMarkedForDeletion(o)){
+			if(o instanceof Element){
+				setCurrentRootObject(EmfElementFinder.getRootObject((Element) o));
+			}
+			super.visitOnly(o);
+			setCurrentRootObject(null);
 		}
-		super.visitOnly(o);
-		setCurrentRootObject(null);
 	}
 	protected Collection<Package> getModelInScope(){
 		Set<Package> result = new HashSet<Package>(EmfPackageUtil.getAllDependencies(getCurrentRootObject()));

@@ -83,7 +83,7 @@ public class EmfBehaviorUtil{
 	}
 	public static Classifier getSelf(Element behavioralElement){
 		while(!(behavioralElement instanceof Classifier || behavioralElement == null)){
-			behavioralElement = behavioralElement.getOwner();
+			behavioralElement = (Element) EmfElementFinder.getContainer( behavioralElement);
 		}
 		if(behavioralElement instanceof Behavior){
 			Behavior behavior = (Behavior) behavioralElement;

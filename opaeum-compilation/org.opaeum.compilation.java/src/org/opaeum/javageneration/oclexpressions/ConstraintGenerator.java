@@ -34,8 +34,8 @@ public class ConstraintGenerator{
 		this.element = element;
 		expressionCreator = new ExpressionCreator(ojUtil,context);
 	}
-	public void addConstraintChecks(OJOperation operation,Collection<Constraint> constraints,boolean pre,String selfExpression){
-		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre, selfExpression);
+	public void addConstraintChecks(OJOperation operation,Collection<Constraint> constraints,boolean pre){
+		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre);
 		if(pre){
 			operation.getBody().getStatements().add(0, block);
 		}else if(operation.getReturnType() == null || operation.getReturnType().equals(new OJPathName("void"))
@@ -45,8 +45,7 @@ public class ConstraintGenerator{
 			operation.getBody().getStatements().add(operation.getBody().getStatements().size() - 1, block);
 		}
 	}
-	public OJBlock buildConstraintsBlock(OJOperation operation,OJBlock sourceBlock,Collection<Constraint> constraints,boolean pre,
-			String deleteThisParam){
+	public OJBlock buildConstraintsBlock(OJOperation operation,OJBlock sourceBlock,Collection<Constraint> constraints,boolean pre){
 		OJBlock result = new OJBlock();
 		// Assume that there could be a last statement to return a value
 		// use all the local fields

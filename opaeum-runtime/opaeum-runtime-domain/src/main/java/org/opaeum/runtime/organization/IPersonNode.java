@@ -9,8 +9,9 @@ import org.opaeum.runtime.contact.PersonEMailAddressType;
 import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.event.INotificationReceiver;
 
-public interface IPersonNode extends CompositionNode,IPersistentObject{
+public interface IPersonNode extends CompositionNode,IPersistentObject,INotificationReceiver{
 	String getAuthenticationToken();
 	void setUsername(String username);
 	void setSurname(String surname);

@@ -15,6 +15,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
@@ -51,8 +52,8 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		if(ojUtil.hasOJClass(behavior.getContext()) && behavior.getOwner() instanceof Classifier){
 			// Ignore transition effects and state actions for now
 			if(EmfBehaviorUtil.hasExecutionInstance(behavior)){
-				addEvaluationMethod(behavior.getPreconditions(), "evaluatePreconditions", behavior, "this");
-				addEvaluationMethod(behavior.getPostconditions(), "evaluatePostconditions", behavior, "this");
+				addEvaluationMethod(behavior.getPreconditions(), "evaluatePreconditions", behavior);
+				addEvaluationMethod(behavior.getPostconditions(), "evaluatePostconditions", behavior);
 			}else{
 				OperationMap mapper = ojUtil.buildOperationMap(behavior);
 				addLocalConditions(behavior.getContext(), mapper, behavior.getPreconditions(), true);
@@ -94,7 +95,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitClassifier(Classifier owner){
 		if(ojUtil.hasOJClass(owner) && !(owner instanceof Interface)){
-			for(Operation oper:owner.getAllOperations()){
+			for(Operation oper:EmfOperationUtil.getEffectiveOperations(owner)){
 				if(oper.getOwner() instanceof Interface || oper.getOwner() == owner){
 					processOperation(oper, owner);
 				}
@@ -120,8 +121,8 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		//
 		if(EmfBehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()){
 			Classifier messageClass = getLibrary().getMessageStructure(oper);
-			addEvaluationMethod(oper.getPreconditions(), "evaluatePreconditions", messageClass, "getContextObject()");
-			addEvaluationMethod(oper.getPostconditions(), "evaluatePostconditions", messageClass, "getContextObject()");
+			addEvaluationMethod(oper.getPreconditions(), "evaluatePreconditions", messageClass);
+			addEvaluationMethod(oper.getPostconditions(), "evaluatePostconditions", messageClass);
 		}else{
 			addLocalConditions(owner, mapper, oper.getPreconditions(), true);
 			if(!EmfBehaviorUtil.isLongRunning(oper)){
@@ -135,18 +136,17 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 		ConstraintGenerator cg = new ConstraintGenerator(ojUtil, myOwner, mapper.getNamedElement());
 		if(conditions.size() > 0){
-			cg.addConstraintChecks(myOper1, conditions, pre, "this");
+			cg.addConstraintChecks(myOper1, conditions, pre);
 		}
 	}
-	public void addEvaluationMethod(Collection<Constraint> conditions,String evaluationMethodName,Classifier messageClass,
-			String selfExpression){
+	public void addEvaluationMethod(Collection<Constraint> conditions,String evaluationMethodName,Classifier messageClass){
 		if(conditions.size() > 0){
 			OJClass myOwner = findJavaClass(messageClass);
 			OJOperation myOper1 = new OJAnnotatedOperation(evaluationMethodName);
 			myOwner.addToOperations(myOper1);
 			ConstraintGenerator cg = new ConstraintGenerator(ojUtil, myOwner, messageClass);
 			if(conditions.size() > 0){
-				cg.addConstraintChecks(myOper1, conditions, true, selfExpression);
+				cg.addConstraintChecks(myOper1, conditions, true);
 				// true because they can sit anywhere in the method
 			}
 		}

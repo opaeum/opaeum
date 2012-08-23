@@ -24,13 +24,6 @@ public class ErrorMap{
 	public void putError(Element holder,IValidationRule rule,Object...objects){
 		BrokenElement errorListFor = getErrorListFor(holder);
 		errorListFor.addMessage(rule, objects);
-		// Events have difference containment structure:
-		while(!(holder == null || holder instanceof Event)){
-			holder = (Element) EmfElementFinder.getContainer(holder);
-		}
-		if(holder instanceof Event){
-			putError((Element) EmfElementFinder.getContainer(holder), rule, objects);
-		}
 	}
 	private BrokenElement getErrorListFor(Element holder){
 		return getErrorListFor(EmfWorkspace.getId(holder));

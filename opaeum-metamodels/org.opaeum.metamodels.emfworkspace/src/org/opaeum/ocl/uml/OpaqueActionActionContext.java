@@ -28,8 +28,8 @@ public class OpaqueActionActionContext extends AbstractOclContext{
 	}
 	@Override
 	public void notifyChanged(Notification notification){
-		if(notification.getNotifier() instanceof OpaqueExpression){
-			switch(notification.getFeatureID(OpaqueExpression.class)){
+		if(notification.getNotifier() instanceof OpaqueAction){
+			switch(notification.getFeatureID(OpaqueAction.class)){
 			case UMLPackage.OPAQUE_ACTION__BODY:
 				reParse();
 				break;

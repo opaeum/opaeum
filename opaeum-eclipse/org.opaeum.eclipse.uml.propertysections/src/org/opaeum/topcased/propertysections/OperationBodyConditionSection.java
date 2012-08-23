@@ -26,7 +26,7 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 	}
 	@Override
 	protected OpaqueExpression beforeOclChanged(String text){
-		if(OclBodyComposite.containsExpression(text) && getOperation().getBodyCondition() == null){
+		if(OclBodyComposite.containsExpression(text) && (getOperation().getBodyCondition() == null||getOperation().getBodyCondition().getSpecification()==null)){
 			createBodyCondition();
 		}
 		return getSpecification();
@@ -96,9 +96,15 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 	private void createBodyCondition(){
 		if(getOperation().getBodyCondition() == null){
 			Constraint cnstr = UMLFactory.eINSTANCE.createConstraint();
-			// Specification created by OpaeumElementLinker
+			// Specification created by OpaeumElementLinker//This does not always work
 			cnstr.setName(getOperation().getName() + "Body");
 			getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getOperation_BodyCondition(), cnstr));
+		}
+		if(getOperation().getBodyCondition().getSpecification() == null){
+			OpaqueExpression cnstr = UMLFactory.eINSTANCE.createOpaqueExpression();
+			// Specification created by OpaeumElementLinker
+			cnstr.setName(getOperation().getName() + "BodySpecification");
+			getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), getOperation().getBodyCondition(), UMLPackage.eINSTANCE.getConstraint_Specification(), cnstr));
 		}
 	}
 	@Override

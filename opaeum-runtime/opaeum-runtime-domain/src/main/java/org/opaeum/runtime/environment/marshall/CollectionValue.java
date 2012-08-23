@@ -17,7 +17,7 @@ public class CollectionValue extends Value{
 		this("asdf", newValue);
 	}
 	public Collection<Value> getCollection(){
-		return this.getCollection();
+		return this.values;
 	}
 	public Collection<Object> instantiate(){
 		if(values instanceof Set){

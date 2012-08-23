@@ -32,6 +32,7 @@ import org.hibernate.event.def.AbstractFlushingEventListener;
 import org.hibernate.persister.entity.EntityPersister;
 import org.opaeum.hibernate.domain.AbstractHibernatePersistence;
 import org.opaeum.hibernate.domain.CascadingInterfaceValue;
+import org.opaeum.hibernate.domain.EventDispatcher;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -39,7 +40,7 @@ import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AuditListener extends AbstractFlushingEventListener implements PostInsertEventListener,PostLoadEventListener,
+public class AuditListener extends EventDispatcher implements PostInsertEventListener,PostLoadEventListener,
 		PostUpdateEventListener,FlushEventListener,Initializable,PersistEventListener,FlushEntityEventListener{
 	private static Map<EventSource,AbstractHibernatePersistence> persistenceMap = Collections
 			.synchronizedMap(new WeakHashMap<EventSource,AbstractHibernatePersistence>());
@@ -63,6 +64,7 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 	}
 	@Override
 	public void onPostInsert(PostInsertEvent event){
+		super.onPostInsert(event);
 		Object entity = event.getEntity();
 		EntityPersister persister = event.getPersister();
 		EventSource session = event.getSession();
@@ -82,14 +84,9 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 	}
 	@Override
 	public void onFlush(FlushEvent event) throws HibernateException{
+		super.onFlush(event);
 		final EventSource source = event.getSession();
 		if(source.getPersistenceContext().hasNonReadOnlyEntities()){
-			flushEverythingToExecutions(event);
-			performExecutions(source);
-			postFlush(source);
-			if(source.getFactory().getStatistics().isStatisticsEnabled()){
-				source.getFactory().getStatisticsImplementor().flush();
-			}
 			getWorkUnitForSession(source).flush();
 		}
 		entries.remove(source);
@@ -167,6 +164,7 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 	}
 	@Override
 	public void onPostLoad(PostLoadEvent event){
+		super.onPostLoad(event);
 		// NB!!! Don't touch this code - copied from hibernate
 		if(event.getPersister().implementsLifecycle(event.getSession().getEntityMode())){
 			// log.debug( "calling onLoad()" );

@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -24,6 +26,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.ocl.TypeResolver;
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.types.OCLStandardLibrary;
+import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.ocl.uml.MessageType;
 import org.eclipse.ocl.uml.OCL;
 import org.eclipse.ocl.uml.OCL.Helper;
@@ -43,6 +46,7 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.ExpansionRegion;
+import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
@@ -53,9 +57,12 @@ import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TypedElement;
+import org.eclipse.uml2.uml.ValuePin;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.Variable;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.opaeum.eclipse.EmfActionUtil;
@@ -79,6 +86,7 @@ import org.opaeum.eclipse.emulated.OpaqueActionMessageType;
 import org.opaeum.eclipse.emulated.OperationMessageType;
 import org.opaeum.eclipse.emulated.StructuredActivityNodeMessageType;
 import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 import org.opaeum.emf.workspace.UriToFileConverter;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.ocl.uml.AbstractOclContext;
@@ -96,7 +104,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private Map<OpaqueBehavior,OpaqueBehaviorContext> opaqueBehaviors = new HashMap<OpaqueBehavior,OpaqueBehaviorContext>();
 	private Map<OpaqueAction,OpaqueActionActionContext> opaqueActions = new HashMap<OpaqueAction,OpaqueActionActionContext>();
 	// Built in types
-	private DataType emailAddressType;
+	private Interface emailAddressType;
 	private DataType dateType;
 	private DataType dateTimeType;
 	private DataType durationType;
@@ -122,6 +130,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	UriToFileConverter uriToFileConverter;
 	private Map<Model,Map<String,String>> implementationCode = new HashMap<Model,Map<String,String>>();
 	private Interface participant;
+	private TreeSet<IEmulatedElement> emulatedElements = new TreeSet<IEmulatedElement>(new DefaultOpaeumComparator());
 	public OpaeumLibrary(ResourceSet resourceSet,UriToFileConverter uriToFileConverter){
 		super();
 		UMLEnvironmentFactory factory = new UMLEnvironmentFactory(resourceSet);
@@ -138,8 +147,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	public DataType getDefaultType(){
 		return getStringType();
 	}
-	public DataType getEmailAddressType(){
-		return emailAddressType = findClassifier(emailAddressType, StereotypeNames.OPAEUM_SIMPLE_TYPES, "EMailAddress");
+	public Interface getEmailAddressType(){
+		return emailAddressType = findClassifier(emailAddressType, StereotypeNames.OPAEUM_BPM_LIBRARY, "IPersonEMailAddress");
 	}
 	public DataType getBooleanType(){
 		return booleanType = findPrimitiveType("Boolean", booleanType);
@@ -193,10 +202,10 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		return taskObject = findClassifier(taskObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "ITaskObject");
 	}
 	public Interface getRequestObject(){
-		return requestObject=findClassifier(requestObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "IRequestObject");
+		return requestObject = findClassifier(requestObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "IRequestObject");
 	}
 	public Interface getResponsibilityObject(){
-		return responsibilityObject=findClassifier(responsibilityObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "IResponsibilityObject");
+		return responsibilityObject = findClassifier(responsibilityObject, StereotypeNames.OPAEUM_BPM_LIBRARY, "IResponsibilityObject");
 	}
 	@SuppressWarnings("unchecked")
 	private <T extends Classifier>T findClassifier(T c,String libName,String classifierName){
@@ -291,7 +300,6 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		return type;
 	}
 	public Property getEndToComposite(Classifier entity){
-		System.out.println();
 		Property etc = EmfPropertyUtil.getEndToComposite(entity, this);
 		if(etc == null && !(entity instanceof IEmulatedElement)){
 			return getArtificialEndToComposite(entity);
@@ -384,6 +392,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 					classifier = new StructuredActivityNodeMessageType((StructuredActivityNode) container, this);
 				}
 				emulatedClassifiers.put(container, classifier);
+				emulatedElements.add((IEmulatedElement) classifier);
 			}
 			return classifier;
 		}else{
@@ -391,12 +400,11 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		}
 	}
 	public Set<Property> getDirectlyImplementedAttributes(Classifier c){
-
 		Set<Property> propertiesInScope = EmfPropertyUtil.getDirectlyImplementedAttributes(c);
 		addEmulatedProperties(c, propertiesInScope);
 		if(c instanceof BehavioredClassifier){
 			for(Interface intf:((BehavioredClassifier) c).getImplementedInterfaces()){
-				//TODO filter out emulated properties that may already have been implemented by the superclass
+				// TODO filter out emulated properties that may already have been implemented by the superclass
 				addAllEmulatedProperties(intf, propertiesInScope);
 			}
 		}
@@ -420,7 +428,6 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		}
 	}
 	private void addEmulatedProperties(Classifier bc,Collection<Property> propertiesInScope){
-
 		IEmulatedPropertyHolder holder = getEmulatedPropertyHolder(bc);
 		if(holder != null){
 			for(AbstractEmulatedProperty aep:holder.getEmulatedAttributes()){
@@ -548,6 +555,30 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		this.additionalOperations = additionalOperations;
 	}
 	public Interface getParticipant(){
-		return this.participant=findClassifier(this.participant, StereotypeNames.OPAEUM_BPM_LIBRARY, "IParticipant");
+		return this.participant = findClassifier(this.participant, StereotypeNames.OPAEUM_BPM_LIBRARY, "IParticipant");
+	}
+	public SortedSet<IEmulatedElement> getAllEmulatedElements(){
+		return emulatedElements;
+	}
+	public Classifier getTargetType(SendSignalAction a){
+		InputPin pin = EmfActionUtil.getTargetPin(a);
+		if(pin instanceof ValuePin){
+			// TODO put this in OPaeumLibrary
+			ValueSpecification value = ((ValuePin) a.getTarget()).getValue();
+			if(value instanceof OpaqueExpression){
+				OpaqueExpressionContext ctx = getOclExpressionContext((OpaqueExpression) value);
+				if(!ctx.hasErrors()){
+					Classifier type = ctx.getExpression().getType();
+					if(type instanceof CollectionType){
+						return ((CollectionType) type).getElementType();
+					}else{
+						return type;
+					}
+				}
+			}
+			return null;
+		}else{
+			return EmfActionUtil.getTargetType(a);
+		}
 	}
 }

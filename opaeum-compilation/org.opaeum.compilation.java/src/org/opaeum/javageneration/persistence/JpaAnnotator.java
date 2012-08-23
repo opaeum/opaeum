@@ -216,7 +216,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	public void visitAssociationClass(Association ac){
 	}
 	protected void visitProperty(Classifier umlOwner,PropertyMap map){
-		System.out.println();
 		if(isPersistent(umlOwner) && ojUtil.hasOJClass(umlOwner)){
 			if(!(EmfPropertyUtil.isDerived(map.getProperty()) || map.isStatic())){
 				if(map.isOne()){

@@ -43,7 +43,7 @@ public class TypedElementTypeSection extends OpaeumChooserPropertySection{
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
 		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(element);
-		Collection<EObject> types = typeCacheAdapter.getReachableObjectsOfType(element, UMLPackage.eINSTANCE.getType());
+		Collection<EObject> types = typeCacheAdapter.getReachableObjectsOfType(element, UMLPackage.eINSTANCE.getClassifier());
 		if(((TypedElement) element).getModel() != null){
 			types = UmlMetaTypeRemover.removeAll(types);
 		}
@@ -85,12 +85,6 @@ public class TypedElementTypeSection extends OpaeumChooserPropertySection{
 		}
 		choices.addAll(types);
 		return choices.toArray();
-	}
-	protected ILabelProvider getLabelProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
-	}
-	protected ILabelProvider getAdvancedLabeProvider(){
-		return new OpaeumQualifiedNameLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
 	protected Object getFeatureValue(){
 		return ((TypedElement) getEObject()).getType();

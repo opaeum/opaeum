@@ -2,6 +2,7 @@ package org.opaeum.javageneration.bpm;
 
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -10,6 +11,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.hibernate.HibernateUtil;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 /**
@@ -20,21 +22,24 @@ import org.opaeum.textmetamodel.TextWorkspace;
 public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisitor{
 	protected TaskUtil taskUtil;
 	@Override
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace, OJUtil ojUtil){
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace,OJUtil ojUtil){
 		super.initialize(pac, config, textWorkspace, workspace, ojUtil);
-		taskUtil=new TaskUtil(ojUtil);
+		taskUtil = new TaskUtil(ojUtil);
 	}
 	public void addReturnInfo(OJAnnotatedClass ojOperationClass){
-		OJAnnotatedField returnInfo=new OJAnnotatedField("returnInfo", HibernateUtil.RETURN_INFO);
+		OJAnnotatedField returnInfo = new OJAnnotatedField("returnInfo", HibernateUtil.RETURN_INFO);
+		HibernateUtil.overrideInterfaceValueAtributes(returnInfo, new SingularNameWrapper("return_info", null));
 		ojOperationClass.addToFields(returnInfo);
 		returnInfo.setInitExp("new ReturnInfo()");
-		OJAnnotatedOperation setReturnInfo=new OJAnnotatedOperation("setReturnInfo");
+		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
 		ojOperationClass.addToOperations(setReturnInfo);
 		setReturnInfo.addParam("token", BpmUtil.ITOKEN);
+		setReturnInfo.getBody().addToStatements(new OJIfStatement("this.returnInfo==null", "this.returnInfo=new ReturnInfo()"));
 		setReturnInfo.getBody().addToStatements("this.returnInfo.setValue(token)");
-		OJAnnotatedOperation getReturnInfo=new OJAnnotatedOperation("getReturnInfo",new OJPathName("org.opaeum.runtime.domain.IToken"));
+		OJAnnotatedOperation getReturnInfo = new OJAnnotatedOperation("getReturnInfo", new OJPathName("org.opaeum.runtime.domain.IToken"));
 		ojOperationClass.addToOperations(getReturnInfo);
-		getReturnInfo.initializeResultVariable("this.returnInfo.getValue(persistence)");
+		getReturnInfo.initializeResultVariable("null");
+		getReturnInfo.getBody().addToStatements(new OJIfStatement("this.returnInfo==null", "this.returnInfo=new ReturnInfo()"));
+		getReturnInfo.getBody().addToStatements("result=this.returnInfo.getValue(persistence)");
 	}
-	
 }

@@ -357,11 +357,10 @@
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
-		         class="org.opaeum.topcased.activitydiagram.propertysections.ActionDeadlinesSection"
-		         filter="org.opaeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
-		         id="org.opaeum.topcased.activitydiagram.ActionDeadlineSection"
+		         class="org.opaeum.topcased.activitydiagram.propertysections.DeadlinesSection"
+		         filter="org.opaeum.topcased.activitydiagram.filters.DeadlineContainerFilter"
+		         id="org.opaeum.topcased.activitydiagram.propertysections.DeadlinesSection"
 		         tab="org.opaeum.topcased.activitydiagram.deadlinesTab">
-				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
 				id="org.opaeum.topcased.activitydiagram.AcceptDeadlineDeadlineSection"

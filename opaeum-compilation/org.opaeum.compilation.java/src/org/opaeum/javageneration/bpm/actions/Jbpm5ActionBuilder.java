@@ -129,8 +129,7 @@ public abstract class Jbpm5ActionBuilder<A extends ActivityNode> extends Abstrac
 				}
 			}
 			ConstraintGenerator cg = new ConstraintGenerator(ojUtil, (OJClass) oper.getOwner(), constrained);
-			String selfExpr = EmfElementFinder.getContainer(node) instanceof Activity ? "this" : "getContainingActivity()";
-			block.addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre, selfExpr));
+			block.addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre));
 		}
 	}
 	protected Activity getContainingActivity(){

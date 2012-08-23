@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Package;
@@ -25,7 +26,9 @@ import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJClass;
@@ -57,19 +60,36 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	protected OJUtil ojUtil;
 	@SuppressWarnings("unchecked")
 	public <T extends NamedElement>Set<T> getElementsOfType(Class<T> type,Collection<? extends Package> roots){
-		SortedSet<T> result = new TreeSet<T>(new Comparator<T>(){
-			@Override
-			public int compare(T o1,T o2){
-				return o1.getQualifiedName().compareTo(o2.getQualifiedName());
-			}
-		});
-		for(Package r:roots){
-			TreeIterator<EObject> iter = r.eAllContents();
-			while(iter.hasNext()){
-				EObject eObject = (EObject) iter.next();
-				if(type.isInstance(eObject)){
-					result.add((T) eObject);
+		class ElementCollector{
+			SortedSet<T> collection = new TreeSet<T>(new Comparator<T>(){
+				@Override
+				public int compare(T o1,T o2){
+					return o1.getQualifiedName().compareTo(o2.getQualifiedName());
 				}
+			});
+			public SortedSet<T> collect(Class<T> type,Collection<? extends Package> roots){
+				for(Package package1:roots){
+					if(type.isInstance(package1)){
+						collection.add((T) package1);
+					}
+					collectRecursively(type, package1);
+				}
+				return collection;
+			}
+			protected  void collectRecursively(Class<T> type,Element container){
+				for(Element element:EmfElementFinder.getCorrectOwnedElements(container)){
+					if(type.isInstance(element)){
+						collection.add((T) element);
+					}
+					collectRecursively(type, element);
+				}
+			}
+		}
+
+		SortedSet<T> result = new ElementCollector().collect(type, roots);
+		for(IEmulatedElement ee:getLibrary().getAllEmulatedElements()){
+			if(type.isInstance(ee)){
+				result.add((T) ee);
 			}
 		}
 		final Iterator<T> iterator = result.iterator();
@@ -91,7 +111,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		this.workspace = workspace;
 		this.eventUtil = new EventUtil(ojUtil);
 		this.valueSpecificationUtil = new ValueSpecificationUtil(ojUtil);
-		this.ojUtil=ojUtil;
+		this.ojUtil = ojUtil;
 	}
 	public OpaeumLibrary getLibrary(){
 		return workspace.getOpaeumLibrary();
@@ -118,7 +138,16 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			setCurrentRootObject(null);// NB!! needs to be cleared from every thread
 			UtilityCreator.setUtilPackage(null);
 		}else{
+			if(o instanceof EmfWorkspace){
+				setWorkspaceUtilPackage();
+			}else{
+				Element nakedElement = (Element) o;
+				Package rootObject = EmfElementFinder.getRootObject(nakedElement);
+				this.setCurrentRootObject(rootObject);
+				setRootObjectUtilPackage(rootObject);
+			}
 			super.visitRecursively(o);
+			UtilityCreator.setUtilPackage(null);
 		}
 	}
 	protected void setRootObjectUtilPackage(Package pkg){

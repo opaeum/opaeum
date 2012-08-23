@@ -44,7 +44,7 @@ public class EmfTimeUtil{
 		Collection<TimeObservation> result = new TreeSet<TimeObservation>(new ElementComparator());
 		Collection<TimeObservation> value = getTimeObservations(container);
 		for(TimeObservation timeObservation:value){
-			if(timeObservation.getEvent()==node){
+			if(timeObservation.getEvent() == node){
 				result.add(timeObservation);
 			}
 		}
@@ -54,54 +54,53 @@ public class EmfTimeUtil{
 		Collection<TimeObservation> value = getObservations(container, "timeObservations");
 		return value;
 	}
-	private static <T extends Observation> Collection<T> getObservations(Namespace container,String propName){
+	private static <T extends Observation>Collection<T> getObservations(Namespace container,String propName){
 		@SuppressWarnings("unchecked")
 		Collection<T> value = (Collection<T>) container.getValue(getObservationStereotype(container), propName);
-		if(value ==null){
-			value=Collections.emptySet();
+		if(value == null){
+			value = Collections.emptySet();
 		}
 		return value;
 	}
-
 	public static Collection<DurationObservation> findDurationObservationsFrom(Namespace container,Element node){
 		Collection<DurationObservation> result = new TreeSet<DurationObservation>(new ElementComparator());
 		Collection<DurationObservation> value = getDurationObservations(container);
 		for(DurationObservation durObservation:value){
-			if(durObservation.getEvents().size()==2 && durObservation.getEvents().get(0) ==node){
+			if(durObservation.getEvents().size() == 2 && durObservation.getEvents().get(0) == node){
 				result.add(durObservation);
 			}
 		}
 		return result;
 	}
 	public static Collection<DurationObservation> getDurationObservations(Namespace container){
-		Collection<DurationObservation> value = getObservations(container,"durationObservations");
+		Collection<DurationObservation> value = getObservations(container, "durationObservations");
 		return value;
 	}
-
 	public static Collection<DurationObservation> findDurationObservationsTo(Namespace container,Element node){
 		Collection<DurationObservation> result = new TreeSet<DurationObservation>(new ElementComparator());
 		Collection<DurationObservation> value = getDurationObservations(container);
 		for(DurationObservation durObservation:value){
-			if(durObservation.getEvents().size()==2 && durObservation.getEvents().get(1) ==node){
+			if(durObservation.getEvents().size() == 2 && durObservation.getEvents().get(1) == node){
 				result.add(durObservation);
 			}
 		}
 		return result;
 	}
-	public static EList<ObservationPropertyBridge> buildObservationPropertiess(Classifier owner, IPropertyEmulation e, Namespace element){
-		EList<ObservationPropertyBridge> result=new BasicEList<ObservationPropertyBridge>();
+	public static EList<ObservationPropertyBridge> buildObservationPropertiess(Classifier owner,IPropertyEmulation e,Namespace element){
+		EList<ObservationPropertyBridge> result = new BasicEList<ObservationPropertyBridge>();
 		for(EObject eObject:element.getStereotypeApplications()){
-			for(EStructuralFeature f:eObject.eClass().getEStructuralFeatures()){
-				if(f.getName().equals("timeObservations")){
-					EList<TimeObservation> obs = (EList<TimeObservation>) eObject.eGet(f);
-					for(TimeObservation to:obs){
-						result.add(new ObservationPropertyBridge(owner, to, e.getDateTimeType()));
-					}
-				}else if(f.getName().equals("durationObservations")){
-					EList<DurationObservation> obs = (EList<DurationObservation>) eObject.eGet(f);
-					for(DurationObservation to:obs){
-						result.add(new ObservationPropertyBridge(owner, to, e.getDurationType()));
-					}
+			EStructuralFeature feature = eObject.eClass().getEStructuralFeature("timeObservations");
+			if(feature != null){
+				EList<TimeObservation> obs = (EList<TimeObservation>) eObject.eGet(feature);
+				for(TimeObservation to:obs){
+					result.add(new ObservationPropertyBridge(owner, to, e.getDateTimeType()));
+				}
+			}
+			feature = eObject.eClass().getEStructuralFeature("durationObservations");
+			if(feature != null){
+				EList<DurationObservation> obs = (EList<DurationObservation>) eObject.eGet(feature);
+				for(DurationObservation to:obs){
+					result.add(new ObservationPropertyBridge(owner, to, e.getDurationType()));
 				}
 			}
 		}

@@ -21,7 +21,6 @@ import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.IEventHandler;
-import org.opaeum.runtime.event.INotificationService;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.UmtPersistence;
@@ -159,11 +158,7 @@ public class StandaloneJpaEnvironment extends Environment{
 		return new StandaloneJpaUmtPersistence(result);
 	}
 	@Override
-	public INotificationService getNotificationService(){
-		return null;
-	}
-	@Override
 	public ConversationalPersistence createConversationalPersistence(){
-		return new StandaloneJpaConversationalPersistence(getEntityManager());
+		return new StandaloneJpaConversationalPersistence(openHibernateSession());
 	}
 }

@@ -9,9 +9,9 @@ public class PostgresDialect extends PostgreSQLDialect{
 		super();
 		registerColumnType(Types.BLOB, "bytea");
 	}
-	public boolean useInputStreamToInsertBlob(){
-		return false;
-	}
+//	public boolean useInputStreamToInsertBlob(){
+//		return false;
+//	}
 //	public static class PostgresqlMateralizedBlobType extends AbstractSingleColumnStandardBasicType<byte[]>{
 //		private static final long serialVersionUID = -2492144303884252721L;
 //		public static final PostgresqlMateralizedBlobType INSTANCE = new PostgresqlMateralizedBlobType();

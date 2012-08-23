@@ -55,18 +55,24 @@ public class EmfPropertyUtil{
 		Set<String> inheritedConcretePropertyNames = new TreeSet<String>();
 		for(Generalization g:c.getGeneralizations()){
 			for(Property p:getDirectlyImplementedAttributes(g.getGeneral())){
-				if(!p.isDerivedUnion()){
-					inheritedConcretePropertyNames.add(p.getName());
-				}
+				inheritedConcretePropertyNames.add(p.getName());
 			}
 		}
 		Set<Property> results = new TreeSet<Property>(new ElementComparator());
 		List<Property> effectiveAttributes = getEffectiveAttributes(c);
 		for(Property p:effectiveAttributes){
-			if(p.getOwner() == c || !inheritedConcretePropertyNames.contains(p.getName()) ){
+			if(EmfPropertyUtil.getOwningClassifier(p) == c || !inheritedConcretePropertyNames.contains(p.getName())){
 				for(Property rp:p.getRedefinedProperties()){
-					//We need to redeclare the redefined properties to ensure that their accessors are available in the subclass for redefinition
-					results.add(rp);
+					if(!rp.getName().equals(p.getName())){
+						// We need to redeclare the redefined properties to ensure that their accessors are available in the subclass for redefinition
+						results.add(rp);
+					}
+				}
+				for(Property rp:p.getSubsettedProperties()){
+					if(!rp.getName().equals(p.getName()) && !inheritedConcretePropertyNames.contains(rp.getName())){
+						// We need to redeclare the subsetted properties to ensure that their getters are available in the subclass for subsetting
+						results.add(rp);
+					}
 				}
 				results.add(p);
 			}
@@ -133,7 +139,6 @@ public class EmfPropertyUtil{
 		return null;
 	}
 	private static Property getImmediateEndToComposite(Classifier c){
-		System.out.println();
 		Property result = null;
 		for(Association association:c.getAssociations()){
 			for(Property property:association.getMemberEnds()){
@@ -143,10 +148,10 @@ public class EmfPropertyUtil{
 				}
 			}
 		}
-		if(result==null){
+		if(result == null){
 			for(Property p:c.getAttributes()){
-				if(p.getOtherEnd()!=null && p.getOtherEnd().isComposite()){
-					result= p;
+				if(p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
+					result = p;
 					break;
 				}
 			}

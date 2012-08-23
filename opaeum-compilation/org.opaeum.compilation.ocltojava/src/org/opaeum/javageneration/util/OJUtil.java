@@ -339,7 +339,8 @@ public class OJUtil extends OJUtill{
 		}
 	}
 	public boolean requiresJavaRename(NamedElement a){
-		return oldClassifierPaths != null && oldClassifierPaths.containsKey(a) && !oldClassifierPaths.get(a).equals(classifierPaths.get(a));
+		return oldClassifierPaths != null && oldClassifierPaths.containsKey(a) &&  classifierPaths.containsKey(a)&&!oldClassifierPaths.get(a).equals(classifierPaths.get(a));
+		
 	}
 	public OJPathName getOldPackagePathname(Namespace c){
 		if(oldPackagePaths != null){
