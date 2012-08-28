@@ -1,6 +1,7 @@
 package org.opaeum.eclipse;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -9,6 +10,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.opaeum.eclipse.newchild.CreateChildAndSelectAction;
@@ -44,9 +47,11 @@ public class CreateStereotypedChildAction extends CreateChildAndSelectAction{
 			for(Object object:command.getResult()){
 				if(object instanceof Element){
 					Element element = (Element) object;
-					for(String string:stereotypes){
-						for(Stereotype stereotype:element.getApplicableStereotypes()){
-							if(stereotype.getName().equalsIgnoreCase(string)){
+					Package nearestPackage = EmfElementFinder.getNearestClassifier(element).getNearestPackage();
+					for(Profile profile:nearestPackage.getAllAppliedProfiles()){
+						for(String string:stereotypes){
+							Stereotype stereotype = profile.getOwnedStereotype(string);
+							if(stereotype != null){
 								editingDomain.getCommandStack().execute(new ApplyStereotypeCommand(element, !firstStereotypeApplied, stereotype));
 								firstStereotypeApplied = true;
 							}

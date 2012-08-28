@@ -1,5 +1,6 @@
 package org.opaeum.runtime.event;
 
+import java.io.CharArrayReader;
 import java.io.CharArrayWriter;
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,8 +42,17 @@ public class Emailler{
 	}
 	public boolean sendMail(){
 		try{
-			String templateLocation = handler.getClass().getName().replaceAll("Handler", "").replaceAll("\\.", "/") + ".ftl";
-			Template temp = cfg.getTemplate(templateLocation);
+			String templateLocation = handler.getClass().getName().replaceAll("Handler", "").replaceAll("\\.", "/");
+			Template temp = null;
+			try{
+				temp = cfg.getTemplate(templateLocation + ".ftl");
+			}catch(Exception e){
+				try{
+					temp = cfg.getTemplate(templateLocation + "Default.ftl");
+				}catch(Exception e2){
+					temp=new Template("dummy", new CharArrayReader("A Notification was send without a body".toCharArray()), cfg);
+				}
+			}
 			CharArrayWriter out = new CharArrayWriter();
 			BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
 			TemplateHashModel staticModels = wrapper.getStaticModels();
@@ -68,7 +78,7 @@ public class Emailler{
 			if(target instanceof INotificationReceiver){
 				addTo(htmlEmail, (INotificationReceiver) target);
 			}else if(target instanceof Collection){
-				Collection<?> c=(Collection<?>) target;
+				Collection<?> c = (Collection<?>) target;
 				for(Object object:c){
 					if(object instanceof INotificationReceiver){
 						addTo(htmlEmail, (INotificationReceiver) object);

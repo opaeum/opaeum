@@ -64,6 +64,7 @@ public class StereotypeNames{
 	public static String TRIGGER="Trigger";
 	public static String POWER_TYPE="PowerType";
 	public static String OPERATION="Operation";
+	public static String ESCALATION="Escalation";
 	// BPM
 	public static final String BUSINES_PROCESS = "BusinessProcess";
 	public static final String BUSINES_STATE_MACHINE = "BusinessStateMachine";
@@ -83,7 +84,6 @@ public class StereotypeNames{
 	public static final String OPAEUM_STANDARD_PROFILE_PAPYRUS = "OpaeumStandardProfile.papyrus.uml";
 	public static final String OPAEUM_STANDARD_PROFILE_TOPCASED = "OpaeumStandardProfile.uml";
 	public static final String ACCEPT_TASK_EVENT_ACTION = "AcceptTaskEventAction";
-	public static final String RELATIVE_TIME_EVENT = "RelativeTimeEvent";
 	public static final String SCREEN_FLOW = "ScreenFlow";
 	public static final String CALL_BUSINESS_STATE_MACHINE_ACTION = "CallBusinessStateMachineAction";
 	public static final String SCREEN = "Screen";
@@ -106,14 +106,18 @@ public class StereotypeNames{
 	public static final String RESPONSIBILITY_DELEGATION = "ResponsibilityDelegation";
 	public static final String PARTICIPANT_REFERENCE = "ParticipantReference";
 	public static final String BUSINESS_ROLE_CONTAINMENT = "BusinessRoleContainment";
-	public static final String BUSINESS_TIME_EVENT="BusinessTimeEvent";
-	public static final String BUSINESS_CHANGE_EVENT="BusinessChangeEvent";
-	public static final String CONTEXTUAL_TIME_EVENT="ContextualTimeEvent";
 	public static final String CONTEXTUAL_CHANGE_EVENT="ContextualChangeEvent";
+	public static final String CONTEXTUAL_BUSINESS_TIME_EVENT="ContextBusinessTimeEvent";
 	public static final String BUSINESS_USE_CASE = "BusinessUseCase";
 	public static final String BUSINESS = "Business";
 	public static final String BUSINESS_DOCUMENT = "BusinessDocument";
 	public static final String ENUMERATION = "Enumeration";
 	public static final String DELEGATION = "Delegation";
 	public static final String BUSINESS_COLLABORATION = "BusinessCollaboration";
+	public static final String PARTICIPANT_EXPRESSION="ParticipantExpression";
+	public static final String RECIPIENT_EXPRESSION="RecipientExpression";
+	public static final String DURATION_EXPRESSION ="DurationExpression";
+	public static final String BUSINESS_CALENDAR_EXPRESSION ="BusinessCalendarExpression";
+	public static final String STANDALONE_SIMPLE_TASK = "StandaloneSimpleTask";
+	public static final String STANDALONE_SCREENFLOW_TASK = "StandaloneSimpleScreenflowTask";
 }

@@ -1257,6 +1257,22 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XLHkUY6NEeCrtavWRHwoHg" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XLHkUo6NEeCrtavWRHwoHg" value="2"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_lw17UO6QEeGtc9wBJ1VReA" name="initiator" type="_YgstsI29EeCrtavWRHwoHg" isDerived="true">
+          <eAnnotations xmi:id="_ohsSUO6QEeGtc9wBJ1VReA" source="http://www.opaeum.org"/>
+          <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_pa5yQO6QEeGtc9wBJ1VReA" name="abc">
+            <language>OCL</language>
+            <body>self.participationInRequest->any(p:ParticipationInRequest|p.kind=RequestParticipationKind::initiator)->collect(participant)</body>
+          </defaultValue>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_ROT18O6REeGtc9wBJ1VReA" name="stakeholders" type="_YgstsI29EeCrtavWRHwoHg" isDerived="true">
+          <eAnnotations xmi:id="_VOu-cO6REeGtc9wBJ1VReA" source="http://www.opaeum.org"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_IsBvAO6VEeGtc9wBJ1VReA" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_I-y6AO6VEeGtc9wBJ1VReA"/>
+          <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_Ufi9MO6REeGtc9wBJ1VReA" name="abc">
+            <language>OCL</language>
+            <body>self.participationInRequest->select(kind=RequestParticipationKind::stakeholder)->collect(participant)</body>
+          </defaultValue>
+        </ownedAttribute>
         <ownedBehavior xmi:type="uml:Activity" xmi:id="_911hoI6NEeCrtavWRHwoHg" name="addRequestParticipant" specification="_Qo338I6QEeCrtavWRHwoHg">
           <eAnnotations xmi:id="_JfiCMGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <ownedParameter xmi:id="_CpdosI6OEeCrtavWRHwoHg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg">
@@ -1937,7 +1953,7 @@
   <OpaeumStandardProfile:Entity xmi:id="_YU654FPeEeGqgJxtJrI3sQ" base_Class="_5rW3kNcCEeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:Entity xmi:id="_j9WVkFPeEeGqgJxtJrI3sQ" base_Class="_Jn9QcNb-EeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:Entity xmi:id="_DZP7wFPfEeGqgJxtJrI3sQ" base_Class="_zFmsEIoVEeCLqpffVZYAlw" generateAbstractSupertype="true"/>
-  <OpaeumStandardProfile:Entity xmi:id="_EYADAFPfEeGqgJxtJrI3sQ" base_Class="_6MA8UI2-EeCrtavWRHwoHg"/>
+  <OpaeumStandardProfile:Entity xmi:id="_EYADAFPfEeGqgJxtJrI3sQ" base_Class="_6MA8UI2-EeCrtavWRHwoHg" generateAbstractSupertype="true"/>
   <OpaeumStandardProfile:Entity xmi:id="_REQ6QFPfEeGqgJxtJrI3sQ" base_Class="_GVhgMI6NEeCrtavWRHwoHg"/>
   <OpaeumStandardProfile:Entity xmi:id="_bQ4fQFPfEeGqgJxtJrI3sQ" base_Class="_jRjnII6MEeCrtavWRHwoHg"/>
   <OpaeumStandardProfile:Entity xmi:id="_sBCpwFPfEeGqgJxtJrI3sQ" base_Class="_vZOC4I6UEeCne5ArYLDbiA"/>
@@ -1994,4 +2010,6 @@
   <OpaeumStandardProfile:Attribute xmi:id="_0ohQoO0kEeGN-aZ7URyUbw" base_Property="_nqIHkO0kEeGN-aZ7URyUbw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_9yMK4O0kEeGN-aZ7URyUbw" base_Property="_5anGoO0kEeGN-aZ7URyUbw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_m3wkkO0mEeGN-aZ7URyUbw" base_Property="_jUSd0O0mEeGN-aZ7URyUbw"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_oh6UwO6QEeGtc9wBJ1VReA" base_Property="_lw17UO6QEeGtc9wBJ1VReA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_VOwMkO6REeGtc9wBJ1VReA" base_Property="_ROT18O6REeGtc9wBJ1VReA"/>
 </xmi:XMI>

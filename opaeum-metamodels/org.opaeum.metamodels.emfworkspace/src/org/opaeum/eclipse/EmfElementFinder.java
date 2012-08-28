@@ -58,6 +58,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -401,7 +402,10 @@ public class EmfElementFinder{
 					elements.add(e.getWeight());
 				}
 			}else if(root instanceof TimeExpression){
-				elements.add(((TimeExpression) root).getExpr());
+				ValueSpecification expr = ((TimeExpression) root).getExpr();
+				if(expr != null){
+					elements.add(expr);
+				}
 			}
 			try{
 				for(EObject stereotype:root.getStereotypeApplications()){

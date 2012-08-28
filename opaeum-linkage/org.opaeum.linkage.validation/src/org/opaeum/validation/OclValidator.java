@@ -12,9 +12,11 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
@@ -28,19 +30,44 @@ import org.opaeum.ocl.uml.OpaqueExpressionContext;
 public class OclValidator extends AbstractValidator{
 	@VisitBefore
 	public void visitOpaqueExpression(OpaqueExpression p){
-		OpaqueExpressionContext ctx = getLibrary().getOclExpressionContext(p);
-		putErrors(p, ctx);
-		if(!ctx.hasErrors()){
-			if(p.eContainer().eContainer() instanceof TimeEvent){
-				visitTimeEvent((TimeEvent) p.eContainer().eContainer());
-			}else if(p.eContainingFeature().getName().equals("potentialStakeholders")){
-				Type type = ctx.getExpression().getType();
-				if(type instanceof CollectionType){
-					type = ((CollectionType) type).getElementType();
-				}
-				if(!EmfClassifierUtil.conformsTo((Classifier) type, getLibrary().getParticipant())){
-					workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, 
-							getLibrary().getParticipant(),type);
+		if(!EmfElementUtil.isMarkedForDeletion(p)){
+			OpaqueExpressionContext ctx = getLibrary().getOclExpressionContext(p);
+			putErrors(p, ctx);
+			if(!ctx.hasErrors()){
+				Classifier type = ctx.getExpression().getType();
+				Classifier baseType=type instanceof CollectionType?((CollectionType) type).getElementType():type;
+				if(p.eContainer() instanceof TimeExpression && p.eContainer().eContainer() instanceof TimeEvent){
+					TimeEvent te = (TimeEvent) p.eContainer().eContainer();
+					ValueSpecification expr = te.getWhen().getExpr();
+					if(te.isRelative()
+							&& !(EmfClassifierUtil.comformsToLibraryType(type, "Integer") || EmfClassifierUtil.comformsToLibraryType(type, "Real"))){
+						workspace.getErrorMap().putError(expr, CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getIntegerType(), type);
+					}else if(!te.isRelative()
+							&& !(EmfClassifierUtil.conformsTo(type, getLibrary().getDateTimeType()) || EmfClassifierUtil.conformsTo(type, getLibrary()
+									.getDateType()))){
+						workspace.getErrorMap().putError(expr, CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getDateTimeType(), type);
+					}
+				}else if( StereotypesHelper.hasStereotype(p, StereotypeNames.PARTICIPANT_EXPRESSION)){
+					if(!EmfClassifierUtil.conformsTo((Classifier) type, getLibrary().getParticipant())){
+						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getParticipant(),
+								baseType);
+					}
+				}else if( StereotypesHelper.hasStereotype(p, StereotypeNames.RECIPIENT_EXPRESSION)){
+					if(!EmfClassifierUtil.conformsTo((Classifier) type, getLibrary().getNotificationReceiver())){
+						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE,
+								getLibrary().getNotificationReceiver(), type);
+					}
+				}else if(p.eContainingFeature().getName().equals("defaultValue")){
+					Property prop = (Property) p.getOwner();
+					if(prop.getType() != null){
+						Classifier elementType = type;
+						if(type instanceof CollectionType){
+							elementType = ((CollectionType) type).getElementType();
+						}
+						if(!EmfClassifierUtil.conformsTo(elementType, (Classifier) prop.getType())){
+							workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, prop.getType(), type);
+						}
+					}
 				}
 			}
 		}
@@ -60,25 +87,6 @@ public class OclValidator extends AbstractValidator{
 		}
 	}
 	@VisitAfter
-	public void visitTimeEvent(TimeEvent te){
-		ValueSpecification expr = te.getWhen().getExpr();
-		if(expr instanceof OpaqueExpression){
-			OpaqueExpressionContext ctx = getLibrary().getOclExpressionContext((OpaqueExpression) expr);
-			if(!ctx.hasErrors()){
-				Classifier type = ctx.getExpression().getType();
-				if(te.isRelative()
-						&& !(EmfClassifierUtil.comformsToLibraryType(type, "Integer") || EmfClassifierUtil.comformsToLibraryType(type, "Real"))){
-					workspace.getErrorMap().putError(expr, CoreValidationRule.OCL_EXPECTED_TYPE,  getLibrary().getIntegerType(),type);
-				}else if(!te.isRelative()
-						&& !(EmfClassifierUtil.conformsTo(type, getLibrary().getDateTimeType()) || EmfClassifierUtil.conformsTo(type, getLibrary()
-								.getDateType()))){
-					workspace.getErrorMap().putError(expr, CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getDateTimeType(),type);
-				}
-			}
-		}
-	}
-	@VisitAfter
 	public void visitResponsibility(Operation o){
-
 	}
 }

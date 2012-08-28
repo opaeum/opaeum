@@ -84,6 +84,7 @@ public class OpaeumNavigator extends UMLNavigator{
 		return false;
 	}
 	public void setSelection(ISelection s){
+		refreshViewer();
 		Object e = ((IStructuredSelection) s).getFirstElement();
 		getTreeViewer().setSelection(s, true);
 		if(!(e instanceof Element || e == null)){

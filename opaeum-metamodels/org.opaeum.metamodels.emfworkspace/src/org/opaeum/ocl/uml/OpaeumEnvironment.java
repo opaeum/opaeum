@@ -23,6 +23,7 @@ import org.eclipse.ocl.uml.impl.TypeTypeImpl;
 import org.eclipse.ocl.uml.internal.UMLForeignMethods;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Class;
@@ -58,6 +59,7 @@ import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
@@ -67,7 +69,6 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	OpaeumLibrary library;
 	Element context;
 	private Collection<Variable> variables;
-	private Operation toString;
 	public OpaeumEnvironment(
 			Element context,
 			Environment<Package,Classifier,Operation,Property,EnumerationLiteral,Parameter,State,CallOperationAction,SendSignalAction,Constraint,Class,EObject> parent,
@@ -390,6 +391,13 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 			Variable var = UMLFactory.eINSTANCE.createVariable();
 			var.setType(dateTime);
 			var.setName("now");
+			variables.add(var);
+			
+		}
+		if(library.getAbstractRequest()!=null && context instanceof Operation && EmfBehaviorUtil.isResponsibility((Operation) context)){
+			Variable var = UMLFactory.eINSTANCE.createVariable();
+			var.setType(library.getAbstractRequest());
+			var.setName("request");
 			variables.add(var);
 		}
 		variables.addAll(this.variables);

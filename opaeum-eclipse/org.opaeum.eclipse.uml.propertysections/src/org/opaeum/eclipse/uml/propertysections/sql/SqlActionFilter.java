@@ -3,7 +3,7 @@ package org.opaeum.eclipse.uml.propertysections.sql;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.OpaqueAction;
-import org.opaeum.topcased.propertysections.filters.AbstractFilter;
+import org.opaeum.eclipse.uml.filters.core.AbstractFilter;
 
 public class SqlActionFilter extends AbstractFilter{
 	@Override

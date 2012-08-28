@@ -3,14 +3,17 @@ package org.opaeum.eclipse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.uml2.uml.AcceptCallAction;
@@ -92,6 +95,7 @@ import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
+//TODO!!!!! Get rid of unneccessary references - use CrossReferenceAdapter 
 public class OpaeumElementLinker extends EContentAdapter{
 	public void notifyChanged(final Notification not){
 		if(not.getEventType() == Notification.ADD || not.getEventType() == Notification.ADD_MANY || not.getEventType() == Notification.REMOVE
@@ -444,7 +448,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 					if(newValue.getDirection() == null){
 						newValue.setDirection(ParameterDirectionKind.IN_LITERAL);
 					}
-					for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(behavior).getReferences()){
+					for(EObject e:getReferences(behavior, UMLPackage.eINSTANCE.getCallBehaviorAction_Behavior())){
 						if(e instanceof CallBehaviorAction){
 							synchronizeParameters(behavior.getOwnedParameters(), (CallAction) e);
 						}
@@ -463,7 +467,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}else if(notification.getNewValue() == null && notification.getOldValue() != null){
 					oper = (Operation) notification.getOldValue();
 					for(Parameter parameter:oper.getOwnedParameters()){
-						EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(parameter).getReferences();
+						Collection<EObject> references = StereotypesHelper.getReferencesOnAnnotation(parameter);
 						references.removeAll(behavior.getOwnedParameters());
 					}
 				}
@@ -509,7 +513,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 					Association a = (Association) notification.getOldValue();
 					for(Property property:new ArrayList<Property>(a.getMemberEnds())){
 						if(property.getOwner() != null && property.getOwner() != notification.getOldValue()){
-							EList<Property> r = (EList<Property>) property.getOwner().eGet(property.eContainmentFeature());
+							// EList<Property> r = (EList<Property>) property.getOwner().eGet(property.eContainmentFeature());
 							// r.remove(property);
 						}
 					}
@@ -539,7 +543,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}
 			}
 			if(newValue instanceof TimeEvent){
-				applyRelativeTimeEventStereotype((TimeEvent) newValue, p);
 				TimeEvent te = (TimeEvent) newValue;
 				if(te.getWhen() == null){
 					te.setWhen(UMLFactory.eINSTANCE.createTimeExpression());
@@ -615,35 +618,22 @@ public class OpaeumElementLinker extends EContentAdapter{
 			return null;
 		}
 		private void synchronizeSignalPins(Signal s){
-			clearReferencesOfType(EmfParameterUtil.getArguments(s), Pin.class);
-			EList<EObject> origReferences = StereotypesHelper.findOrCreateNumlAnnotation(s).getReferences();
-			List<EObject> references = new ArrayList<EObject>(origReferences);
-			for(EObject r:references){
-				if(r instanceof SendSignalAction){
-					SendSignalAction ssa = (SendSignalAction) r;
-					if(ssa.getSignal().conformsTo(s)){
-						synchronizeArguments(EmfParameterUtil.getArguments(ssa), (SendSignalAction) r);
-					}else{
-						origReferences.remove(ssa);
+			Collection<Classifier> subClasses = EmfClassifierUtil.getAllSubClassifiers(s, getModelsInScope(s.eResource().getResourceSet()));
+			subClasses.add(s);
+			for(Classifier subSignal:subClasses){
+				if(subSignal instanceof Signal){
+					for(EObject r:getReferences(subSignal, UMLPackage.eINSTANCE.getSendSignalAction_Signal())){
+						if(r instanceof SendSignalAction){
+							SendSignalAction ssa = (SendSignalAction) r;
+							synchronizeArguments(EmfParameterUtil.getArguments(ssa), (SendSignalAction) r);
+						}
 					}
-				}else if(r instanceof Trigger && r.eContainer() instanceof AcceptEventAction){
-					Trigger tr = (Trigger) r;
-					Signal eventSignal = ((SignalEvent) tr.getEvent()).getSignal();
-					if(eventSignal.conformsTo(s)){
-						synchronizeResults(EmfParameterUtil.getArguments(eventSignal), (AcceptEventAction) r.eContainer());
-					}else{
-						origReferences.remove(tr);
-					}
-				}
-			}
-		}
-		private void clearReferencesOfType(List<? extends TypedElement> args,java.lang.Class<? extends TypedElement> cls){
-			for(TypedElement property:args){
-				Iterator<EObject> iterator = StereotypesHelper.findOrCreateNumlAnnotation(property).getReferences().iterator();
-				while(iterator.hasNext()){
-					EObject eObject = (EObject) iterator.next();
-					if(cls.isInstance(eObject)){
-						iterator.remove();
+					for(EObject event:getReferences(subSignal, UMLPackage.eINSTANCE.getSignalEvent_Signal())){
+						for(EObject r:getReferences((Element) event, UMLPackage.eINSTANCE.getTrigger_Event())){
+							if(r instanceof Trigger && r.eContainer() instanceof AcceptEventAction){
+								synchronizeResults(EmfParameterUtil.getArguments(subSignal), (AcceptEventAction) r.eContainer());
+							}
+						}
 					}
 				}
 			}
@@ -705,48 +695,49 @@ public class OpaeumElementLinker extends EContentAdapter{
 				switch(notification.getEventType()){
 				case Notification.ADD:
 					EnumerationLiteral literal = (EnumerationLiteral) notification.getNewValue();
-					StereotypesHelper.findOrCreateNumlAnnotation(en).getReferences().add(literal);
 					synchronizeSlots(en, literal);
 					break;
 				case Notification.ADD_MANY:
 					break;
 				default:
 				}
+			case UMLPackage.ENUMERATION__OWNED_ATTRIBUTE:
+				EList<EnumerationLiteral> ownedLiterals = en.getOwnedLiterals();
+				for(EnumerationLiteral literal:ownedLiterals){
+					synchronizeSlots(en, literal);
+				}
 				break;
 			}
 			return null;
 		}
 		private void synchronizeSlotsOnReferringInstances(Classifier en){
-			Collection<Setting> refs = getRefs(en);
-			for(Setting setting:refs){
-				if(setting.getEObject() instanceof EnumerationLiteral){
-					EnumerationLiteral instanceSpecification = (EnumerationLiteral) setting.getEObject();
-					linkGenerals(en, instanceSpecification);
-					synchronizeSlots(instanceSpecification.getEnumeration(), instanceSpecification);
-				}else if(setting.getEObject() instanceof InstanceSpecification){
-					InstanceSpecification instanceSpecification = (InstanceSpecification) setting.getEObject();
-					linkGenerals(en, instanceSpecification);
-					EList<Classifier> classifiers = instanceSpecification.getClassifiers();
-					if(classifiers.size() == 1 && classifiers.get(0).conformsTo(en)){
-						synchronizeSlots(classifiers.get(0), instanceSpecification);
+			Collection<Classifier> subClasses = EmfClassifierUtil.getAllSubClassifiers(en, getModelsInScope(en.eResource().getResourceSet()));
+			subClasses.add(en);
+			for(Classifier classifier:subClasses){
+				Collection<EObject> references = getReferences(classifier, UMLPackage.eINSTANCE.getInstanceSpecification_Classifier());
+				for(EObject eObject:references){
+					InstanceSpecification is = (InstanceSpecification) eObject;
+					EList<Classifier> classifiers = is.getClassifiers();
+					if(classifiers.size() == 1){
+						synchronizeSlots(classifiers.get(0), is);
 					}
 				}
 			}
+		}
+		private Collection<Package> getModelsInScope(ResourceSet resourceSet){
+			Collection<Package> result = new HashSet<Package>();
+			for(Resource resource:resourceSet.getResources()){
+				if(resource.getContents().size() > 0 && resource.getContents().get(0) instanceof Package){
+					result.add((Package) resource.getContents().get(0));
+				}
+			}
+			return result;
 		}
 		private Collection<Setting> getRefs(Element en){
 			if(this.crossReferenceAdapter == null){
 				crossReferenceAdapter = ECrossReferenceAdapter.getCrossReferenceAdapter(en);
 			}
 			return crossReferenceAdapter.getInverseReferences(en);
-		}
-		private void linkGenerals(Classifier en,InstanceSpecification instanceSpecification){
-			for(Classifier classifier:en.getGenerals()){
-				EList<EObject> origRef = StereotypesHelper.findOrCreateNumlAnnotation(classifier).getReferences();
-				if(!origRef.contains(instanceSpecification)){
-					origRef.add(instanceSpecification);
-				}
-				linkGenerals(classifier, instanceSpecification);
-			}
 		}
 		public EObject caseOperation(Operation oper){
 			switch(notification.getFeatureID(Operation.class)){
@@ -772,16 +763,17 @@ public class OpaeumElementLinker extends EContentAdapter{
 			return null;
 		}
 		private void synchronizeOperationPins(Operation oper){
-			clearReferencesOfType(oper.getOwnedParameters(), Pin.class);
 			EList<Parameter> ownedParameters = oper.getOwnedParameters();
-			for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(oper).getReferences()){
-				if(e instanceof Trigger && e.eContainer() instanceof AcceptEventAction){
-					synchronizeResults(ownedParameters, (AcceptEventAction) e.eContainer());
-				}else if(e instanceof CallAction){
-					synchronizeParameters(ownedParameters, (CallAction) e);
+			for(EObject e:getReferences(oper, UMLPackage.eINSTANCE.getCallOperationAction_Operation())){
+				synchronizeParameters(ownedParameters, (CallAction) e);
+			}
+			for(EObject event:getReferences(oper, UMLPackage.eINSTANCE.getCallEvent_Operation())){
+				for(EObject e:getReferences((Element) event, UMLPackage.eINSTANCE.getTrigger_Event())){
+					if(e instanceof Trigger && e.eContainer() instanceof AcceptEventAction){
+						synchronizeResults(ownedParameters, (AcceptEventAction) e.eContainer());
+					}
 				}
 			}
-			clearReferencesOfType(oper.getOwnedParameters(), Parameter.class);
 			for(Behavior b:oper.getMethods()){
 				synchronizeBehaviorParameters(b, oper);
 			}
@@ -790,7 +782,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			switch(notification.getFeatureID(Parameter.class)){
 			case UMLPackage.PARAMETER__DIRECTION:
 				ParameterDirectionKind newDirection = (ParameterDirectionKind) notification.getNewValue();
-				for(EObject eObject:StereotypesHelper.findOrCreateNumlAnnotation(p).getReferences()){
+				for(EObject eObject:StereotypesHelper.getReferencesOnAnnotation(p)){
 					if(eObject instanceof Parameter){
 						((Parameter) eObject).setDirection(newDirection);
 					}
@@ -798,7 +790,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				Element owner = (Element) p.eContainer();
 				EList<Parameter> parms = owner instanceof Behavior ? ((Behavior) owner).getOwnedParameters() : ((Operation) owner)
 						.getOwnedParameters();
-				for(EObject eObject:StereotypesHelper.findOrCreateNumlAnnotation(owner).getReferences()){
+				for(EObject eObject:StereotypesHelper.getReferencesOnAnnotation(owner)){
 					if(eObject instanceof CallAction){
 						synchronizeParameters(parms, (CallAction) eObject);
 					}else if(eObject instanceof Trigger && eObject.eContainer() instanceof AcceptEventAction){
@@ -821,9 +813,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 			switch(notification.getFeatureID(Trigger.class)){
 			case UMLPackage.TRIGGER__EVENT:
 				Element origin = getOrigin(notification.getOldValue());
-				if(origin != null){
-					removeFromReferences(origin, trigger);
-				}
 				if(trigger.getOwner() instanceof AcceptEventAction){
 					AcceptEventAction aea = (AcceptEventAction) trigger.getOwner();
 					if(trigger.getEvent() instanceof TimeEvent){
@@ -893,11 +882,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 					}else{
 						origin = getOrigin(notification.getNewValue());
 						if(origin != null){
-							if(origin instanceof Signal){
-								addSignalActionReferences(trigger, (Signal) origin);
-							}else{
-								StereotypesHelper.findOrCreateNumlAnnotation(origin).getReferences().add(trigger);
-							}
 							AcceptEventAction a = (AcceptEventAction) trigger.getOwner();
 							synchronizeResults(EmfParameterUtil.getArguments(origin), a);
 						}
@@ -918,7 +902,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 		public EObject caseCallOperationAction(CallOperationAction a){
 			switch(notification.getFeatureID(CallOperationAction.class)){
 			case UMLPackage.CALL_OPERATION_ACTION__OPERATION:
-				manageReferences(notification);
 				Operation oper = (Operation) notification.getNewValue();
 				List<Parameter> emptyList = Collections.emptyList();
 				synchronizeParameters(oper == null ? emptyList : oper.getOwnedParameters(), a);
@@ -933,24 +916,11 @@ public class OpaeumElementLinker extends EContentAdapter{
 		public EObject caseSendSignalAction(SendSignalAction a){
 			switch(notification.getFeatureID(SendSignalAction.class)){
 			case UMLPackage.SEND_SIGNAL_ACTION__SIGNAL:
-				manageReferences(notification);
 				Signal s = (Signal) notification.getNewValue();
-				addSignalActionReferences(a, s);
 				synchronizeArguments(EmfParameterUtil.getArguments(s), a);
 				break;
 			}
 			return null;
-		}
-		private void addSignalActionReferences(Element a,Signal curSignal){
-			EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(curSignal).getReferences();
-			if(!references.contains(a)){
-				references.add(a);
-			}
-			for(Classifier classifier:curSignal.getGenerals()){
-				if(classifier instanceof Signal){
-					addSignalActionReferences(a, (Signal) classifier);
-				}
-			}
 		}
 		private void synchronizeArguments(List<? extends TypedElement> args,SendSignalAction a){
 			for(TypedElement p:args){
@@ -963,7 +933,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 		public EObject caseCallBehaviorAction(CallBehaviorAction a){
 			switch(notification.getFeatureID(CallBehaviorAction.class)){
 			case UMLPackage.CALL_BEHAVIOR_ACTION__BEHAVIOR:
-				manageReferences(notification);
 				Behavior oper = (Behavior) notification.getNewValue();
 				if(oper != null){
 					synchronizeParameters(oper.getOwnedParameters(), a);
@@ -981,7 +950,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		public EObject caseTypedElement(TypedElement te){
 			switch(notification.getFeatureID(TypedElement.class)){
 			case UMLPackage.NAMED_ELEMENT__NAME:
-				for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(te).getReferences()){
+				for(EObject e:StereotypesHelper.getReferencesOnAnnotation(te)){
 					if(e instanceof Pin){
 						((Pin) e).setName(te.getName());
 					}else if(e instanceof Parameter){
@@ -990,7 +959,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}
 				break;
 			case UMLPackage.TYPED_ELEMENT__TYPE:
-				for(EObject e:StereotypesHelper.findOrCreateNumlAnnotation(te).getReferences()){
+				for(EObject e:StereotypesHelper.getReferencesOnAnnotation(te)){
 					if(e instanceof Pin){
 						Pin pin = (Pin) e;
 						pin.setType(te.getType());
@@ -1124,38 +1093,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 			}
 			return origin;
 		}
-		private void manageReferences(Notification notification){
-			Object notifier = notification.getNotifier();
-			if(notification.getOldValue() != null){
-				removeFromReferences((Element) notification.getOldValue(), notifier);
-			}
-			if(notification.getNewValue() != null){
-				StereotypesHelper.findOrCreateNumlAnnotation((Element) notification.getNewValue()).getReferences().add((EObject) notifier);
-			}
-		}
-		private void removeFromReferences(Element targetElement,Object interestedElement){
-			if(targetElement != null){
-				EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(targetElement).getReferences();
-				ArrayList<EObject> arrayList = new ArrayList<EObject>(references);
-				for(EObject eObject:arrayList){
-					if(eObject == interestedElement){
-						references.remove(eObject);
-						break;
-					}
-				}
-			}
-		}
-		private static void applyRelativeTimeEventStereotype(TimeEvent te,Element eModelElement){
-			if(te.isRelative()){
-				Profile pr = ProfileApplier.getAppliedProfile(eModelElement.getModel(), StereotypeNames.OPAEUM_STANDARD_PROFILE_PAPYRUS);
-				if(pr != null){
-					Stereotype st = pr.getOwnedStereotype(StereotypeNames.RELATIVE_TIME_EVENT);
-					if(!te.isStereotypeApplied(st)){
-						StereotypesHelper.applyStereotype(te, st);
-					}
-				}
-			}
-		}
 		public static void setOutputpin(TypedElement newValue,EList<OutputPin> results,boolean insertAtIndex){
 			int idx = EmfParameterUtil.calculateIndex(newValue, EmfParameterUtil.RESULT);
 			EList<EObject> references = StereotypesHelper.findOrCreateNumlAnnotation(newValue).getReferences();
@@ -1190,14 +1127,14 @@ public class OpaeumElementLinker extends EContentAdapter{
 		List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(en);
 		outer:for(Slot slot:new ArrayList<Slot>(newValue.getSlots())){
 			for(Property a:propertiesInScope){
-				if(a.equals(slot.getDefiningFeature()) && !(EmfPropertyUtil.isDerived( a))){
+				if(a.equals(slot.getDefiningFeature()) && !(EmfPropertyUtil.isDerived(a))){
 					continue outer;
 				}
 			}
 			newValue.getSlots().remove(slot);
 		}
 		for(Property a:propertiesInScope){
-			if(!(EmfPropertyUtil.isDerived( a) )){
+			if(!(EmfPropertyUtil.isDerived(a))){
 				ensureSlotsPresence(newValue, a);
 			}
 		}
@@ -1251,5 +1188,15 @@ public class OpaeumElementLinker extends EContentAdapter{
 	}
 	private static boolean isUnInitialised(OpaqueExpression oe){
 		return oe.getBodies().isEmpty() || oe.getBodies().get(0).equals(EmfValidationUtil.TYPE_EXPRESSION_HERE);
+	}
+	public static Collection<EObject> getReferences(Element e,EReference feature){
+		Collection<Setting> refs = ECrossReferenceAdapter.getCrossReferenceAdapter(e).getNonNavigableInverseReferences(e);
+		Set<EObject> result = new HashSet<EObject>();
+		for(Setting setting:refs){
+			if(setting.getEStructuralFeature().equals(feature)){
+				result.add(setting.getEObject());
+			}
+		}
+		return result;
 	}
 }

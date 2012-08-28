@@ -78,7 +78,7 @@
         </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EEnum" xmi:id="_o3x3s-bDEeGNKpQwlq3KEA" name="TimeUnit">
-        <eAnnotations xmi:id="_o3x3tObDEeGNKpQwlq3KEA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_y0TnkPPyEd-dN_RbXTlVPA"/>
+        <eAnnotations xmi:id="_o3x3tObDEeGNKpQwlq3KEA" source="http://www.eclipse.org/uml2/2.0.0/UML"/>
         <eLiterals xmi:id="_o3x3tebDEeGNKpQwlq3KEA" name="HOUR"/>
         <eLiterals xmi:id="_o3x3tubDEeGNKpQwlq3KEA" name="MINUTE" value="1"/>
         <eLiterals xmi:id="_o3x3t-bDEeGNKpQwlq3KEA" name="SECOND" value="2"/>
@@ -88,7 +88,7 @@
         <eLiterals xmi:id="_o3x3u-bDEeGNKpQwlq3KEA" name="YEAR" value="6"/>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_o3x3vObDEeGNKpQwlq3KEA" name="RelativeTimeEvent">
-        <eAnnotations xmi:id="_o3x3vebDEeGNKpQwlq3KEA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_Fd9DQPPzEd-dN_RbXTlVPA"/>
+        <eAnnotations xmi:id="_o3x3vebDEeGNKpQwlq3KEA" source="http://www.eclipse.org/uml2/2.0.0/UML"/>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_o3x3vubDEeGNKpQwlq3KEA" name="timeUnit" ordered="false" lowerBound="1" eType="_o3x3s-bDEeGNKpQwlq3KEA"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_o3x3wObDEeGNKpQwlq3KEA" name="base_TimeEvent" ordered="false" lowerBound="1">
           <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
@@ -403,46 +403,7 @@
       <eAnnotations xmi:id="_3-eoQGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
     </ownedEnd>
   </packagedElement>
-  <packagedElement xmi:type="uml:Enumeration" xmi:id="_y0TnkPPyEd-dN_RbXTlVPA" name="TimeUnit">
-    <eAnnotations xmi:id="_3hr-kGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    <ownedLiteral xmi:id="_y0U1sPPyEd-dN_RbXTlVPA" name="HOUR">
-      <eAnnotations xmi:id="_3hmfAGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0VcwPPyEd-dN_RbXTlVPA" name="MINUTE">
-      <eAnnotations xmi:id="_3hiNkGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0VcwfPyEd-dN_RbXTlVPA" name="SECOND">
-      <eAnnotations xmi:id="_3hqwcGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0XR8fPyEd-dN_RbXTlVPA" name="DAY">
-      <eAnnotations xmi:id="_3hkp0GEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0X5APPyEd-dN_RbXTlVPA" name="MONTH">
-      <eAnnotations xmi:id="_3hntIGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0X5AfPyEd-dN_RbXTlVPA" name="WEEK">
-      <eAnnotations xmi:id="_3hjbsGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0YgEPPyEd-dN_RbXTlVPA" name="YEAR">
-      <eAnnotations xmi:id="_3hpiUGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-  </packagedElement>
-  <packagedElement xmi:type="uml:Stereotype" xmi:id="_Fd9DQPPzEd-dN_RbXTlVPA" name="RelativeTimeEvent">
-    <eAnnotations xmi:id="_3igd8GEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    <ownedAttribute xmi:id="_SI7hEPPzEd-dN_RbXTlVPA" name="timeUnit" type="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_3ifP0GEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_qbee8vPzEd-dN_RbXTlVPA" name="base_TimeEvent" association="_qbee8PPzEd-dN_RbXTlVPA">
-      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeEvent"/>
-    </ownedAttribute>
-  </packagedElement>
-  <packagedElement xmi:type="uml:Extension" xmi:id="_qbee8PPzEd-dN_RbXTlVPA" name="E_RelativeTimeEvent_TimeEvent1" memberEnd="_qbee8fPzEd-dN_RbXTlVPA _qbee8vPzEd-dN_RbXTlVPA" navigableOwnedEnd="_qbee8fPzEd-dN_RbXTlVPA">
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_qbee8fPzEd-dN_RbXTlVPA" name="extension_RelativeTimeEvent" type="_Fd9DQPPzEd-dN_RbXTlVPA" aggregation="composite" association="_qbee8PPzEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_4HYFkGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
-    </ownedEnd>
-  </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_TeX_UP3eEd-uA4oh6NA2Cw" name="Trigger">
-    <eAnnotations xmi:id="_3ijhQGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
     <ownedAttribute xmi:id="_Xh44EP3eEd-uA4oh6NA2Cw" name="isHumanTrigger">
       <eAnnotations xmi:id="_3ii6MGEpEeGMYcMyfOkDfw" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>

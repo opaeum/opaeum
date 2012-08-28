@@ -269,12 +269,6 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					if(withReturnInfo){
 						oper.getBody().addToStatements("result.setReturnInfo(returnInfo)");
 					}
-					if(map.isLongRunning()){
-						OJSimpleStatement executeStatement = new OJSimpleStatement("result.execute()");
-						final String EXECUTE_STATEMENT = "executeStatement";
-						executeStatement.setName(EXECUTE_STATEMENT);
-						oper.getBody().addToStatements(executeStatement);
-					}
 					if(o instanceof Operation && !((Operation) o).isQuery()){
 						oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 					}

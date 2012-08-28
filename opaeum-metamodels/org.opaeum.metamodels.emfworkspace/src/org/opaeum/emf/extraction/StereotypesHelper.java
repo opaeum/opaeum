@@ -1,5 +1,7 @@
 package org.opaeum.emf.extraction;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EAnnotation;
@@ -64,6 +66,13 @@ public class StereotypesHelper{
 			}
 		}
 		return false;
+	}
+	public static Collection<EObject> getReferencesOnAnnotation(Element v){
+		if(getNumlAnnotation(v)==null){
+			return Collections.emptySet();
+		}else{
+			return getNumlAnnotation(v).getReferences();
+		}
 	}
 	public static EAnnotation findOrCreateNumlAnnotation(Element v){
 		for(EAnnotation eAnnotation:v.getEAnnotations()){

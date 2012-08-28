@@ -1,6 +1,7 @@
 package org.opaeum.javageneration.bpm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -66,7 +67,10 @@ import org.opaeum.runtime.event.IChangeEventHandler;
 import org.opaeum.runtime.event.ISignalEventHandler;
 import org.opaeum.runtime.event.ITimeEventHandler;
 import org.opaeum.runtime.persistence.AbstractPersistence;
+import org.opaeum.textmetamodel.CharArrayTextSource;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 
 @StepDependency(after = Java6ModelGenerator.class,phase = JavaTransformationPhase.class)
 public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
@@ -98,6 +102,14 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			OJAnnotatedOperation marshall = buildMarshall(s, "signal", effectiveAttributes, false);
 			handler.addToOperations(marshall);
 			if(EmfClassifierUtil.isNotification(s)){
+				Stereotype st = StereotypesHelper.getStereotype(s, StereotypeNames.NOTIFICATION); 
+				String template = (String) s.getValue(st, "template");
+				if(template!=null && template.trim().length()>0){
+					List<String> names = new ArrayList<String>( handler.getPathName().getHead().getNames());
+					names.add(map.javaType() + "Default.ftl");
+					TextFile templateFile = createTextPath(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE, names);
+					templateFile.setTextSource(new CharArrayTextSource(template.toCharArray()));
+				}
 				handler.addToImplementedInterfaces(new OJPathName("org.opaeum.runtime.event.INotificationHandler"));
 				marshall.getBody().addToStatements("result.add(new PropertyValue(-20l, Value.valueOf(from)))");
 				OJPathName setOfReceiver = new OJPathName("java.util.Set");
@@ -148,14 +160,6 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			ifIsEvent.getElsePart().addToStatements(
 					"((" + map.receiverContractTypePath().getLast() + ")target)." + map.receiveMethodName() + "(signal)");
 			ifIsEvent.getElsePart().addToStatements("result = true");
-			if(EmfClassifierUtil.isNotification(s)){
-				handleOn
-						.getBody()
-						.addToStatements(
-								new OJIfStatement(
-										"isEvent",
-										"Environment.getInstance().getNotificationService().sendNotification(signal, from,(Collection<? extends INotificationReceiver>)targets,cc,bcc)"));
-			}
 			OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
 			handler.addToOperations(scheduleNextOccurrence);
 			handler.addToImports(new OJPathName(Date.class.getName()));

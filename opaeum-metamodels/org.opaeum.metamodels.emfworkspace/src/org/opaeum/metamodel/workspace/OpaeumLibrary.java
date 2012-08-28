@@ -131,6 +131,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private Map<Model,Map<String,String>> implementationCode = new HashMap<Model,Map<String,String>>();
 	private Interface participant;
 	private TreeSet<IEmulatedElement> emulatedElements = new TreeSet<IEmulatedElement>(new DefaultOpaeumComparator());
+	private Interface notificationReceiver;
 	public OpaeumLibrary(ResourceSet resourceSet,UriToFileConverter uriToFileConverter){
 		super();
 		UMLEnvironmentFactory factory = new UMLEnvironmentFactory(resourceSet);
@@ -580,5 +581,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		}else{
 			return EmfActionUtil.getTargetType(a);
 		}
+	}
+	public Interface getNotificationReceiver(){
+		return this.notificationReceiver=findClassifier(this.notificationReceiver,StereotypeNames.OPAEUM_BPM_LIBRARY, "INotificationReceiver");
 	}
 }

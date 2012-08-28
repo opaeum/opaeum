@@ -25,6 +25,7 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.util.UMLUtil.StereotypeApplicationHelper;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.LibraryImporter;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -58,7 +59,7 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 						pkg.applyProfile(stereotype.getProfile());
 					}
 					applied.add(stereotype);
-					element.applyStereotype(stereotype);
+					StereotypeApplicationHelper.INSTANCE.applyStereotype(element, stereotype.getDefinition());
 					if(!(element instanceof Pin) && element instanceof NamedElement && owner instanceof Namespace){
 						NamedElement ne = (NamedElement) element;
 						if(stereotypeIsKeyword && ne.getName().startsWith(ne.eClass().getName())

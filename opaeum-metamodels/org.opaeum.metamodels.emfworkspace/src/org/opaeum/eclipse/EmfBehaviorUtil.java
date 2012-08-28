@@ -83,7 +83,7 @@ public class EmfBehaviorUtil{
 	}
 	public static Classifier getSelf(Element behavioralElement){
 		while(!(behavioralElement instanceof Classifier || behavioralElement == null)){
-			behavioralElement = (Element) EmfElementFinder.getContainer( behavioralElement);
+			behavioralElement = (Element) EmfElementFinder.getContainer(behavioralElement);
 		}
 		if(behavioralElement instanceof Behavior){
 			Behavior behavior = (Behavior) behavioralElement;
@@ -160,7 +160,6 @@ public class EmfBehaviorUtil{
 			addPotentialSpecifications(behaviors, c);
 		}
 	}
-	
 	private static void addPotentialSpecifications(TreeSet<Operation> behaviors,Classifier c){
 		if(c instanceof Class){
 			behaviors.addAll(((Class) c).getOperations());
@@ -200,7 +199,7 @@ public class EmfBehaviorUtil{
 		return results;
 	}
 	public static boolean isClassifierBehavior(Behavior behavior){
-		return behavior.getContext() != null && 	 behavior.getContext().getClassifierBehavior() == behavior;
+		return behavior.getContext() != null && behavior.getContext().getClassifierBehavior() == behavior;
 	}
 	public static boolean isHumanTrigger(Trigger t){
 		Stereotype st = StereotypesHelper.getStereotype(t, StereotypeNames.TRIGGER);
@@ -361,7 +360,8 @@ public class EmfBehaviorUtil{
 				for(AcceptCallAction aca:acas){
 					Set<ActivityEdge> allEffectiveOutgoing = EmfActivityUtil.getAllEffectiveOutgoing(aca);
 					for(ActivityEdge edge:allEffectiveOutgoing){
-						if(leadsTo(edge, EmfActionUtil.getReplyAction(aca)) && requiresExternalInput(aca.getActivity(), EmfActivityUtil.getEffectiveTarget(edge))){
+						if(leadsTo(edge, EmfActionUtil.getReplyAction(aca))
+								&& requiresExternalInput(aca.getActivity(), EmfActivityUtil.getEffectiveTarget(edge))){
 							return true;
 						}
 					}
@@ -374,7 +374,7 @@ public class EmfBehaviorUtil{
 		if(replyAction == null){
 			return false;
 		}
-		if(EmfActivityUtil.getEffectiveTarget(prevEdge).equals(EmfActionUtil.getCause( replyAction))){
+		if(EmfActivityUtil.getEffectiveTarget(prevEdge).equals(EmfActionUtil.getCause(replyAction))){
 			// Loopbacks
 			return false;
 		}
@@ -535,12 +535,14 @@ public class EmfBehaviorUtil{
 	public static boolean isProcess(Behavior o){
 		if(o instanceof StateMachine){
 			return true;
-		}else if(StereotypesHelper.hasStereotype(o, StereotypeNames.BUSINES_PROCESS)){
-			return true;
-		}else if(StereotypesHelper.hasStereotype(o, StereotypeNames.METHOD)){
-			return false;
 		}else if(o instanceof Activity){
-			return requiresExternalInput((Activity) o);
+			if(StereotypesHelper.hasStereotype(o, StereotypeNames.BUSINES_PROCESS)){
+				return true;
+			}else if(StereotypesHelper.hasStereotype(o, StereotypeNames.METHOD)){
+				return false;
+			}else{
+				return requiresExternalInput((Activity) o);
+			}
 		}else{
 			return false;
 		}

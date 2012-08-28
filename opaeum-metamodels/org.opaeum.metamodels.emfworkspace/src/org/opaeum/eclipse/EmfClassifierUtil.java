@@ -41,6 +41,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.Substitution;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
@@ -160,6 +161,9 @@ public class EmfClassifierUtil{
 		return result;
 	}
 	public static boolean conformsTo(Classifier from,Classifier to){
+		if(from instanceof PrimitiveType && to instanceof PrimitiveType){
+			return comformsToLibraryType(from, to.getName());
+		}
 		if(from.equals(to)){
 			return true;
 		}else if(from.allParents().contains(to)){
@@ -225,14 +229,15 @@ public class EmfClassifierUtil{
 			}
 		}
 	}
-	public static Collection<Classifier> getSubClasses(Classifier c){
-		Set<Classifier> result = new TreeSet<Classifier>(new ElementComparator());
+	@SuppressWarnings("unchecked")
+	public static <T extends Classifier> Collection<T> getSubClasses(T c){
+		Set<T> result = new TreeSet<T>(new ElementComparator());
 		Collection<Setting> refs = ECrossReferenceAdapter.getCrossReferenceAdapter(c.eResource().getResourceSet())
 				.getNonNavigableInverseReferences(c);
 		for(Setting setting:refs){
 			if(setting.getEObject() instanceof Generalization
 					&& setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getGeneralization_General())){
-				result.add(((Generalization) setting.getEObject()).getSpecific());
+				result.add((T)((Generalization) setting.getEObject()).getSpecific());
 			}
 		}
 		return result;

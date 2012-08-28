@@ -38,27 +38,31 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 		Display.getDefault().syncExec(new Runnable(){
 			@Override
 			public void run(){
-				existingMarkers = new HashMap<String,IMarker>();
-				brokenElements = new HashMap<EObject,BrokenElement>();
-				Set<String> brokenUris = calcBrokenElements(file);
-				try{
-					calcExistingMarkers(brokenUris, file);
-					Set<Entry<EObject,BrokenElement>> entrySet = brokenElements.entrySet();
-					for(Entry<EObject,BrokenElement> entry:entrySet){
-						markFiles(entry.getValue(), entry.getKey(), file);
-					}
-				}catch(CoreException e){
-					e.printStackTrace();
-				}finally{
-					// if(lastMarked < System.currentTimeMillis() - 3000 && file.getFile().exists()){
-					// lastMarked = System.currentTimeMillis();
-					// Display.getDefault().timerExec(3001, this);
-					// }else{
-					// }
-				}
+				runImpl(file);
 			}
+
 		});
 		// }
+	}
+	protected void runImpl(final OpenUmlFile file){
+		existingMarkers = new HashMap<String,IMarker>();
+		brokenElements = new HashMap<EObject,BrokenElement>();
+		Set<String> brokenUris = calcBrokenElements(file);
+		try{
+			calcExistingMarkers(brokenUris, file);
+			Set<Entry<EObject,BrokenElement>> entrySet = brokenElements.entrySet();
+			for(Entry<EObject,BrokenElement> entry:entrySet){
+				markFiles(entry.getValue(), entry.getKey(), file);
+			}
+		}catch(CoreException e){
+			e.printStackTrace();
+		}finally{
+			// if(lastMarked < System.currentTimeMillis() - 3000 && file.getFile().exists()){
+			 lastMarked = System.currentTimeMillis();
+			// Display.getDefault().timerExec(3001, this);
+			// }else{
+			// }
+		}
 	}
 	protected void calcExistingMarkers(Set<String> brokenUris,OpenUmlFile file) throws CoreException{
 		IMarker[] mrks = file.getFile().findMarkers(EValidator.MARKER, true, IResource.DEPTH_INFINITE);
