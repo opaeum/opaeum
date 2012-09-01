@@ -10,13 +10,13 @@ import org.opaeum.name.NameConverter;
 
 public class EmfElementUtil{
 	public static boolean isMarkedForDeletion(Element e){
-		if(e.eResource()==null){
+		if(e.eResource()==null||(!EmfPackageUtil.isRootObject(e) && e.eContainer()==null)){
 			if(e instanceof EmfWorkspace){
 				return false;
 			}else if(e instanceof IEmulatedElement){
 				return isMarkedForDeletion(((IEmulatedElement) e).getOriginalElement());
 			}else{
-				return false;
+				return true;
 			}
 		}
 		return false;

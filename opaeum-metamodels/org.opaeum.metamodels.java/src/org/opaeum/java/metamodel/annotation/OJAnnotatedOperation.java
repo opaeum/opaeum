@@ -120,6 +120,9 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		return AnnotationHelper.getAnnotation(this, ojPathName);
 	}
 	public void initializeResultVariable(String initialValue){
+		if(initialValue.equals("new ApplyUserWorkspace(this)")){
+			System.out.println(); 
+		}
 		if(initialValue == null){
 			resultVariable = null;
 		}else{

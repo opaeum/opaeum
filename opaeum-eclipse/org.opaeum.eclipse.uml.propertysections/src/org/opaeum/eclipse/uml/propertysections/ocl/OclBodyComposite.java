@@ -1,5 +1,7 @@
 package org.opaeum.eclipse.uml.propertysections.ocl;
 
+import java.util.Map.Entry;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -17,6 +19,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
@@ -39,9 +42,15 @@ import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.commands.SetOclBodyCommand;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.linkage.CoreValidationRule;
+import org.opaeum.metamodel.validation.BrokenElement;
+import org.opaeum.metamodel.validation.BrokenRule;
+import org.opaeum.metamodel.validation.IValidationRule;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.ocl.uml.AbstractOclContext;
 import org.opaeum.ocl.uml.OpaeumDiagnostic;
+import org.opaeum.validation.OclValidator;
 import org.topcased.modeler.uml.oclinterpreter.ColorManager;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.OCLDocument;
@@ -235,9 +244,8 @@ public abstract class OclBodyComposite extends Composite{
 				ctx = lib.getOclBehaviorContext((OpaqueBehavior) oclBodyOwner);
 			}else{
 				ctx = lib.getOclActionContext((OpaqueAction) oclBodyOwner);
-
 			}
-			if(ctx.hasErrors() && ctx.getHelper().getProblems()!=null){
+			if(ctx.hasErrors() && ctx.getHelper().getProblems() != null){
 				OpaeumDiagnostic od = (OpaeumDiagnostic) ctx.getHelper().getProblems();
 				StyleRange[] srs = t.getStyleRanges();
 				if(srs.length <= 0){
@@ -254,12 +262,48 @@ public abstract class OclBodyComposite extends Composite{
 				String msg = od.getMessage();
 				t.setToolTipText(msg);
 			}else{
-				StyleRange[] srs = t.getStyleRanges();
-				for(StyleRange s:srs){
-					s.underline = false;
+				String id = EmfWorkspace.getId(ctx.getBodyContainer());
+				ouf.getEmfWorkspace().getErrorMap().getErrors().remove(id);
+				OclValidator v= new OclValidator();
+				v.initialize(ouf.getEmfWorkspace(), ouf.getConfig());
+				v.visitRecursively(oclBodyOwner);
+				BrokenElement brokenElement = ouf.getEmfWorkspace().getErrorMap().getErrors().get(id);
+				if(brokenElement != null){
+					StyleRange[] srs = t.getStyleRanges();
+					if(srs.length <= 0){
+						srs = new StyleRange[]{new StyleRange(0, t.getText().length(), null, null, SWT.NORMAL)};
+					}
+					for(StyleRange sr:srs){
+						sr.underline = true;
+						sr.underlineStyle = SWT.UNDERLINE_ERROR;
+						sr.underlineColor = ColorConstants.red;
+					}
+					t.setStyleRanges(srs);
+					String message = "";
+					Entry<IValidationRule,BrokenRule> brokenRule = brokenElement.getBrokenRules().entrySet().iterator().next();
+					String[] split = brokenRule.getKey().getMessagePattern().split("[\\{\\}]");
+					if(split.length == 1 && split[0].length() == 0){
+						message = brokenRule.getKey().name();
+					}else{
+						Object[] parameters = brokenRule.getValue().getParameters();
+						message = split[0] + " "+oclBodyOwner.getName()  +" ";
+						for(int i = 2;i < split.length;i++){
+							if(i % 2 == 0){
+								message += split[i];
+							}else if(parameters.length > (i / 2) - 1 && parameters[(i / 2) - 1] instanceof NamedElement){
+								message += ((NamedElement) parameters[(i / 2) - 1]).getName();
+							}
+						}
+					}
+					t.setToolTipText(message);
+				}else{
+					StyleRange[] srs = t.getStyleRanges();
+					for(StyleRange s:srs){
+						s.underline = false;
+					}
+					t.setStyleRanges(srs);
+					t.setToolTipText("");
 				}
-				t.setStyleRanges(srs);
-				t.setToolTipText("");
 			}
 			t.redraw();
 		}
@@ -283,7 +327,8 @@ public abstract class OclBodyComposite extends Composite{
 	protected boolean isOclContext(EObject container){
 		return(container instanceof Operation || container instanceof Property || container instanceof Classifier
 				|| container instanceof Action || container instanceof InstanceSpecification || container instanceof ValuePin
-				|| container instanceof Transition || container instanceof ActivityEdge || container instanceof JoinNode || container instanceof Constraint || container instanceof Package);
+				|| container instanceof Transition || container instanceof ActivityEdge || container instanceof JoinNode
+				|| container instanceof Constraint || container instanceof Package);
 	}
 	public abstract EStructuralFeature getBodiesFeature();
 	public abstract EStructuralFeature getLanguagesFeature();
@@ -292,5 +337,8 @@ public abstract class OclBodyComposite extends Composite{
 	}
 	public void addVariable(String name,Classifier type){
 		factory.addVariable(name, type);
+	}
+	public NamedElement getBodyOwner(){
+		return oclBodyOwner;
 	}
 }

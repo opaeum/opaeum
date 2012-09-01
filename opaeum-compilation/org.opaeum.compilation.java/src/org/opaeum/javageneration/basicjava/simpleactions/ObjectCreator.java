@@ -25,7 +25,7 @@ public class ObjectCreator extends SimpleNodeBuilder<CreateObjectAction>{
 		if(resultMap.isCollection()){
 			int lower = node.getResult().getLower();
 			if(lower > 1){
-				OJForStatement forLower = new OJForStatement("", "", "i", "new int[" + lower + "]");
+				OJForStatement forLower = new OJForStatement( "i",new OJPathName("int"),  "new int[" + lower + "]");
 				forLower.setElemType(new OJPathName("int"));
 				forLower.setBody(new OJBlock());
 				forLower.getBody().addToStatements(expressor.storeResults(resultMap, call, false));

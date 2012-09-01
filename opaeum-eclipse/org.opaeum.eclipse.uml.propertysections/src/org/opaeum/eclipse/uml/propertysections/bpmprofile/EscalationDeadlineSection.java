@@ -3,7 +3,9 @@ package org.opaeum.eclipse.uml.propertysections.bpmprofile;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
@@ -40,10 +42,13 @@ public class EscalationDeadlineSection extends ChooserPropertyOnStereotypeSectio
 	@Override
 	protected Object[] getComboFeatureValues(){
 		Element o=(Element) getEObject().eContainer();
-		Stereotype rst = StereotypesHelper.getStereotype(o, StereotypeNames.RESPONSIBILITY);
 		List<Object> result=new ArrayList<Object>();
-		if(rst!=null){
-			result.addAll((List<Object>) o.getValue(rst, TagNames.DEADLINES));
+		for(EObject eObject:o.getStereotypeApplications()){
+			EStructuralFeature f = eObject.eClass().getEStructuralFeature(TagNames.DEADLINES);
+			if(f!=null){
+				result.addAll((List<Object>) eObject.eGet(f));
+				
+			}
 		}
 		result.add("");
 		return result.toArray();

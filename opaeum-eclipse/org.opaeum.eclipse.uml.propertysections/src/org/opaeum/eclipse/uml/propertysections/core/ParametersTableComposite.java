@@ -49,6 +49,8 @@ import org.opaeum.eclipse.uml.editingsupport.EditingDomainEditingSupport;
 import org.opaeum.eclipse.uml.editingsupport.NamedElementNameEditingSupport;
 import org.opaeum.eclipse.uml.editingsupport.ParameterDirectionEditingSupport;
 import org.opaeum.eclipse.uml.editingsupport.TypedElementTypeEditingSupport;
+import org.opaeum.eclipse.uml.editingsupport.UmlElementImageProvider;
+import org.opaeum.eclipse.uml.propertysections.RecursiveAdapter;
 
 public class ParametersTableComposite extends Composite{
 	private boolean isRefreshing = false;
@@ -62,7 +64,7 @@ public class ParametersTableComposite extends Composite{
 	private Button moveDownButton;
 	private EStructuralFeature feature;
 	private List<EditingDomainEditingSupport> viewerColumns = new ArrayList<EditingDomainEditingSupport>();
-	EContentAdapter adaptor = new EContentAdapter(){
+	RecursiveAdapter adaptor = new RecursiveAdapter(){
 		@Override
 		public void notifyChanged(Notification notification){
 			super.notifyChanged(notification);
@@ -101,16 +103,13 @@ public class ParametersTableComposite extends Composite{
 		if(this.owner != null){
 			EList<Parameter> op = getOwnedParameters();
 			for(Parameter parameter:op){
-				parameter.eAdapters().add(adaptor);
+				adaptor.subscribeTo(parameter, 1);
 			}
 		}
 	}
 	private void removeAdaptor(){
 		if(this.owner != null){
-			EList<Parameter> op = getOwnedParameters();
-			for(Parameter parameter:op){
-				parameter.eAdapters().remove(adaptor);
-			}
+			adaptor.unsubscribe();
 		}
 	}
 	public void setEditingDomain(EditingDomain mixedEditDomain){
@@ -219,22 +218,7 @@ public class ParametersTableComposite extends Composite{
 	// This will create the columns for the table
 	private void createColumns(){
 		TableViewerColumn col = createTableViewerColumn("", 20,0);
-		col.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return null;
-			}
-
-			@Override
-			public Image getImage(Object element) {
-				URL url = (URL)UMLEditPlugin.getPlugin().getImage("full/obj16/Parameter.gif");
-				try{
-					return new Image(Display.getDefault(), url.openStream());
-				}catch(IOException e){
-					return null;
-				}
-			}
-		});
+		col.setLabelProvider(new UmlElementImageProvider());
 		TableViewerColumn name = createTableViewerColumn("Name", 200,1);
 		NamedElementNameEditingSupport e = new NamedElementNameEditingSupport(parametersTableViewer);
 		name.setLabelProvider(e.getLabelProvider());

@@ -16,6 +16,7 @@ import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityFinalNode;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.ActivityParameterNode;
+import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -50,6 +51,11 @@ import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmfBehaviorUtil{
+	public static boolean canContainStandaloneTasks(Classifier selectedObject){
+		return (selectedObject instanceof Class && EmfClassifierUtil.isBusinessRole(selectedObject))
+				|| (selectedObject instanceof Actor && EmfClassifierUtil.isBusinessActor(selectedObject))
+				|| (selectedObject instanceof Component && EmfClassifierUtil.isBusinessComponent(selectedObject));
+	}
 	public static Parameter getLinkedParameter(Parameter p){
 		if(p.getOwner() instanceof Behavior){
 			Behavior b = (Behavior) p.getOwner();
@@ -69,7 +75,7 @@ public class EmfBehaviorUtil{
 	}
 	public static BehavioredClassifier getContext(Element behavioralElement){
 		while(!(behavioralElement instanceof Behavior || behavioralElement == null)){
-			behavioralElement = behavioralElement.getOwner();
+			behavioralElement = EmfElementFinder.getContainer(behavioralElement);
 		}
 		if(behavioralElement instanceof Behavior){
 			Behavior behavior = (Behavior) behavioralElement;
@@ -116,7 +122,9 @@ public class EmfBehaviorUtil{
 		return false;
 	}
 	public static boolean hasExecutionInstance(Behavior b){
-		if(b.getAllAttributes().size() > 0 || b.getOperations().size() > 0 || b instanceof StateMachine
+		if(isProcess(b) || isStandaloneTask(b)){
+			return true;
+		}else if(b.getAllAttributes().size() > 0 || b.getOperations().size() > 0 || b instanceof StateMachine
 				|| hasMultipleConcurrentResults(b.getOwnedParameters())){
 			return true;
 		}else if(b instanceof Activity){
@@ -125,6 +133,9 @@ public class EmfBehaviorUtil{
 		}else{
 			return false;
 		}
+	}
+	public static boolean isStandaloneTask(Behavior b){
+		return StereotypesHelper.hasStereotype(b, StereotypeNames.STANDALONE_SCREENFLOW_TASK,StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK);
 	}
 	protected static boolean isLongRunning(EList<ActivityNode> nodes){
 		boolean is = false;
@@ -186,6 +197,7 @@ public class EmfBehaviorUtil{
 		addBehaviors(operations, context);
 		return operations;
 	}
+	@Deprecated
 	public static boolean isTask(Operation op){
 		return StereotypesHelper.hasStereotype(op, "userresponsibility", "task", "responsibility");
 	}
@@ -332,7 +344,7 @@ public class EmfBehaviorUtil{
 		return false;
 	}
 	public static boolean isLongRunning(Behavior o){
-		if(o instanceof StateMachine){
+		if(isProcess(o) || isStandaloneTask(o)){
 			return true;
 		}else if(o instanceof Activity){
 			return requiresExternalInput((Activity) o);

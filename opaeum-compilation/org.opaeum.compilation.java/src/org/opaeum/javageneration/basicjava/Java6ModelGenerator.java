@@ -23,6 +23,7 @@ import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.eclipse.emulated.OperationMessageType;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
@@ -130,6 +131,11 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				receiver.addToOperations(receiverMethod);
 				myClass.addToImplementedInterfaces(new OJPathName(ISignal.class.getName()));
 				createTextPath(receiver, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+			}else if(c instanceof OperationMessageType){
+				Operation oper = ((OperationMessageType) c).getOperation();
+				if(EmfBehaviorUtil.isResponsibility(oper)){
+					myClass.setAbstract(true);
+				}
 			}
 			myClass.addToImports(new OJPathName("java.util.ArrayList"));// Octopus bug
 			pack.addToClasses(myClass);

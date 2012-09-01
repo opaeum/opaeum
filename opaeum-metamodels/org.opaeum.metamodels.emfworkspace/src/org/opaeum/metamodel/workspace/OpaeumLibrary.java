@@ -132,6 +132,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private Interface participant;
 	private TreeSet<IEmulatedElement> emulatedElements = new TreeSet<IEmulatedElement>(new DefaultOpaeumComparator());
 	private Interface notificationReceiver;
+	private Class businessCalendar;
 	public OpaeumLibrary(ResourceSet resourceSet,UriToFileConverter uriToFileConverter){
 		super();
 		UMLEnvironmentFactory factory = new UMLEnvironmentFactory(resourceSet);
@@ -486,6 +487,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 				return getMessageStructure((CallBehaviorAction) container);
 			}else if(container instanceof OpaqueAction){
 				return getMessageStructure((OpaqueAction) container);
+			}else if(container instanceof Behavior){
+				return (Behavior)container;
 			}
 		}else{
 			return EmfEventUtil.getBehaviorContext(event);
@@ -584,5 +587,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	}
 	public Interface getNotificationReceiver(){
 		return this.notificationReceiver=findClassifier(this.notificationReceiver,StereotypeNames.OPAEUM_BPM_LIBRARY, "INotificationReceiver");
+	}
+	public Class getBusinessCalendar(){
+		return this.businessCalendar=findClassifier(this.businessCalendar,StereotypeNames.OPAEUM_BPM_LIBRARY, "BusinessCalendar");
 	}
 }

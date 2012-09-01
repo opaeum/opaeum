@@ -231,9 +231,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				switch(notification.getEventType()){
 				case Notification.ADD:
 					p = (Constraint) notification.getNewValue();
-					if(p.getSpecification() == null){
-						p.setSpecification(createOclExpression(p.getName()));
-					}
+					forceConstraintSpecification(p);
 					break;
 				}
 				break;
@@ -381,7 +379,9 @@ public class OpaeumElementLinker extends EContentAdapter{
 			return null;
 		}
 		protected void forceConstraintSpecification(Constraint cc){
-			if(cc instanceof TimeConstraint){
+			if(StereotypesHelper.hasStereotype(cc, StereotypeNames.ESCALATION)){
+				// skip - not required
+			}else if(cc instanceof TimeConstraint){
 				if(cc.getSpecification() == null){
 					cc.setSpecification(UMLFactory.eINSTANCE.createTimeInterval());
 				}
@@ -756,9 +756,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}
 				break;
 			case UMLPackage.OPERATION__OWNED_RULE:
-				if(notification.getNewValue() instanceof Constraint){
-					this.forceConstraintSpecification((Constraint) notification.getNewValue());
-				}
+				break;
 			}
 			return null;
 		}
@@ -937,7 +935,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				if(oper != null){
 					synchronizeParameters(oper.getOwnedParameters(), a);
 				}
-				if(StereotypesHelper.hasKeyword(oper, StereotypeNames.BUSINES_STATE_MACHINE)
+				if(StereotypesHelper.hasKeyword(oper, StereotypeNames.BUSINESS_STATE_MACHINE)
 						|| StereotypesHelper.hasKeyword(oper, StereotypeNames.BUSINES_PROCESS)
 						|| StereotypesHelper.hasKeyword(oper, StereotypeNames.SCREEN_FLOW)
 						&& !StereotypesHelper.hasKeyword(EmfElementFinder.getNearestClassifier(a), StereotypeNames.BUSINES_PROCESS)){

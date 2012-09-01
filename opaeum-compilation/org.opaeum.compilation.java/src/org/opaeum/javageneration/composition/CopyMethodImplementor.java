@@ -118,10 +118,9 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 					OJBlock forBlock = new OJBlock();
 					if(EmfClassifierUtil.isStructuredDataType(map.getBaseType()) || (deep && np.isComposite())){
 						if(map.isMany()){
-							OJForStatement ws = new OJForStatement("", "", "child", "from." + map.getter() + "()");
+							OJForStatement ws = new OJForStatement("child", map.javaBaseTypePath(),"from." + map.getter() + "()");
 							OJBlock whileBody = forBlock;
 							ws.setBody(whileBody);
-							ws.setElemType(map.javaBaseTypePath());
 							if(isMap(map.getProperty())){
 								StringBuilder sb = new StringBuilder();
 								List<Property> qualifiers = map.getProperty().getQualifiers();
@@ -167,7 +166,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 							owner.addToImports(map.javaDefaultTypePath());
 							copyMany.initializeResultVariable("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">()");
 							// copyMany.getResultVariable().setType(owner.getPathName());
-							OJForStatement forS = new OJForStatement("", "", "entity", "from");
+							OJForStatement forS = new OJForStatement("entity", map.javaBaseTypePath(),"from");
 							forS.setElemType(map.javaBaseTypePath());
 							forS.setBody(forBlock);
 							forBlock.addToStatements(new OJSimpleStatement("result.add(entity." + copyMethodName + "())"));

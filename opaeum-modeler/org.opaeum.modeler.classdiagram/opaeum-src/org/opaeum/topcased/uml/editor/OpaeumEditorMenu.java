@@ -158,7 +158,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 							if(!(descriptor.getValue() instanceof ExtensionEnd || descriptor.getValue() instanceof Port)){
 								if((selectedObject instanceof Activity && StereotypesHelper.hasStereotype((Element) selectedObject, StereotypeNames.BUSINES_PROCESS))
 										|| (selectedObject instanceof StateMachine && StereotypesHelper.hasStereotype((Element) selectedObject,
-												StereotypeNames.BUSINES_STATE_MACHINE))){
+												StereotypeNames.BUSINESS_STATE_MACHINE))){
 									actions.add(actio);
 									Property fact = UMLFactory.eINSTANCE.createProperty();
 									CreateChildAction actio1 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()

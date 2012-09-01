@@ -67,7 +67,10 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,El
 						for(Object object:parameters){
 							if(object == element){
 								match = true;
-								actualElements.add(emfWorkspace.getModelElement(entry.getKey()));
+								Element broken = emfWorkspace.getModelElement(entry.getKey());
+								if(broken != null){
+									actualElements.add(broken);
+								}
 								break;
 							}
 						}

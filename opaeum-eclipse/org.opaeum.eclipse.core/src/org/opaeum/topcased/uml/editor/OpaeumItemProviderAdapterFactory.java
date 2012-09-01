@@ -38,6 +38,7 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.OutputPin;
@@ -85,6 +86,7 @@ import org.eclipse.uml2.uml.edit.providers.TimeEventItemProvider;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.eclipse.uml2.uml.edit.providers.ValuePinItemProvider;
 import org.eclipse.uml2.uml.util.UMLUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
@@ -98,7 +100,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			opaqueExpressionItemProvider = new OpaqueExpressionItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -109,7 +111,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 					if(StereotypesHelper.hasStereotype(oe, StereotypeNames.PARTICIPANT_EXPRESSION)){
 						return "<Paricipant Expression> " + oe.getName();
 					}
-					return "<Opaque Expression> "+ oe.getName();
+					return "<Opaque Expression> " + oe.getName();
 				}
 			};
 		}
@@ -121,7 +123,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			receptionItemProvider = new ReceptionItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -179,7 +181,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			connectorItemProvider = new ConnectorItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -208,7 +210,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			propertyItemProvider = new PropertyItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -249,7 +251,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			portItemProvider = new PortItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -316,7 +318,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			activityItemProvider = new ActivityItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -378,7 +380,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			classItemProvider = new ClassItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object){
@@ -423,7 +425,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			modelItemProvider = new ModelItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -448,7 +450,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			associationItemProvider = new AssociationItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -477,7 +479,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			interfaceItemProvider = new InterfaceItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -508,7 +510,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			componentItemProvider = new ComponentItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -535,7 +537,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			valuePinItemProvider = new ValuePinItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -590,8 +592,22 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 		if(opaqueBehaviorItemProvider == null){
 			opaqueBehaviorItemProvider = new OpaqueBehaviorItemProvider(this){
 				@Override
+				public String getText(Object object){
+					OpaqueBehavior ob = (OpaqueBehavior) object;
+					if(StereotypesHelper.hasStereotype(ob, StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK)){
+						return "<Standalone Task> " + ob.getName();
+					}else{
+						return "<Opaque Behavior> " + ob.getName();
+					}
+				}
+				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
 				}
 			};
 		}
@@ -739,7 +755,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			stateMachineItemProvider = new StateMachineItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -747,6 +763,8 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 						StateMachine c = (StateMachine) object;
 						if(StereotypesHelper.hasStereotype(c, StereotypeNames.SCREEN_FLOW)){
 							return "<Screen Flow> " + c.getName();
+						}else if(StereotypesHelper.hasStereotype(c, StereotypeNames.STANDALONE_SCREENFLOW_TASK)){
+							return "<Standalone Task> " + c.getName();
 						}else{
 							return "<Business Statemachine>" + c.getName();
 						}
@@ -780,7 +798,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				}
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
@@ -797,7 +815,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			sendSignalActionItemProvider = new SendSignalActionItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
 				@Override
 				public String getText(Object object){
@@ -822,9 +840,8 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			timeEventItemProvider = new TimeEventItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
-
 				@Override
 				public String getText(Object object){
 					TimeEvent te = (TimeEvent) object;
@@ -850,9 +867,8 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			signalItemProvider = new SignalItemProvider(this){
 				@Override
 				public Collection<?> getChildren(Object object){
-					return getChildrenToDisplay(super.getChildren(object),(Element)object);
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
 				}
-
 				@Override
 				public String getText(Object object){
 					if(object instanceof Signal){

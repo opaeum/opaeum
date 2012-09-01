@@ -54,7 +54,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	public OJAnnotationValue removeAnnotation(OJPathName type){
 		return f_annotations.remove(type);
 	}
-	public OJConstructor findConstructor(OJPathName ... parameter1){
+	public OJConstructor findConstructor(OJPathName...parameter1){
 		List<OJPathName> pathNames = Arrays.asList(parameter1);
 		return findConstructor(pathNames);
 	}
@@ -121,7 +121,11 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 			}
 		}
 		if(getSuperclass() != null){
-			classInfo.append(" extends " + getSuperclass().getTypeNameWithTypeArguments());
+			if(getSuperclass().getLast().equals(getName())){
+				classInfo.append(" extends " + getSuperclass().getHead().toJavaString() + "." + getSuperclass().getTypeNameWithTypeArguments());
+			}else{
+				classInfo.append(" extends " + getSuperclass().getTypeNameWithTypeArguments());
+			}
 		}
 		classInfo.append(implementedInterfaces());
 		classInfo.append(" {\n");
@@ -227,10 +231,10 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	public String toAbstractSuperclassJavaString(){
 		String concreteName = getName();
 		String oldName = name;
-		name=oldName + "Generated";
+		name = oldName + "Generated";
 		String result = toJavaString();
 		result = result.replaceAll("([\\(\\=\\,\\s])(this)([\\;\\)\\,\\s])", "$1(" + concreteName + ")this$3");
-		name=oldName;
+		name = oldName;
 		return result;
 	}
 	public static void main(String[] args){

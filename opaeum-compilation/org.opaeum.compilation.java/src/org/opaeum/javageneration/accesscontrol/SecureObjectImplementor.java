@@ -55,7 +55,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 			canBeOwnedByUser.addParam("user", NUML_USER);
 			canBeOwnedByUser.setBody(new OJBlock());
 			canBeOwnedByUser.setReturnType(new OJPathName("boolean"));
-			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
+			OJForStatement forRoles = new OJForStatement("role", BUSINESS_ROLE,"user.getRoles()");
 			forRoles.setBody(new OJBlock());
 			forRoles.setElemType(BUSINESS_ROLE);
 			OJIfStatement ifEquals = new OJIfStatement("role instanceof " + entity.getName(), "return true");
@@ -76,7 +76,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 			isOwnedByUser.addParam("user", NUML_USER);
 			isOwnedByUser.setBody(new OJBlock());
 			isOwnedByUser.setReturnType(new OJPathName("boolean"));
-			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
+			OJForStatement forRoles = new OJForStatement("role", BUSINESS_ROLE,"user.getRoles()");
 			forRoles.setBody(new OJBlock());
 			forRoles.setElemType(BUSINESS_ROLE);
 			OJIfStatement ifEquals = new OJIfStatement("this.equals(role)", "return true");
@@ -95,12 +95,11 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		if(isGroupOwnershipValid == null || isGroupOwnershipValid.getParameters().size() > 0){
 			isGroupOwnershipValid = new OJAnnotatedOperation("isGroupOwnershipValid");
 			isGroupOwnershipValid.addParam("user", NUML_USER);
-			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
+			OJForStatement forRoles = new OJForStatement("role",BUSINESS_ROLE, "user.getRoles()");
 			forRoles.setBody(new OJBlock());
 			forRoles.setElemType(BUSINESS_ROLE);
-			OJForStatement forGroups = new OJForStatement("", "", "group", "role.getGroupsForSecurity()");
+			OJForStatement forGroups = new OJForStatement("group", ReflectionUtil.getUtilInterface(CompositionNode.class),"role.getGroupsForSecurity()");
 			forGroups.setBody(new OJBlock());
-			forGroups.setElemType(ReflectionUtil.getUtilInterface(CompositionNode.class));
 			forRoles.getBody().addToStatements(forGroups);
 			OJIfStatement ifEquals = new OJIfStatement("group.equals(this)", "return true");
 			forGroups.getBody().addToStatements(ifEquals);

@@ -26,7 +26,7 @@ public class CreateStateMachineDiagramFromCallBehaviorAction extends CreateSTMDi
 			if(StereotypesHelper.hasStereotype(callBehaviorAction, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK)){
 				StereotypesHelper.getNumlAnnotation(sm).getDetails().put(StereotypeNames.SCREEN_FLOW, "");
 			}else if(StereotypesHelper.hasStereotype(callBehaviorAction, StereotypeNames.CALL_BUSINESS_STATE_MACHINE_ACTION)){
-				StereotypesHelper.getNumlAnnotation(sm).getDetails().put(StereotypeNames.BUSINES_STATE_MACHINE, "");
+				StereotypesHelper.getNumlAnnotation(sm).getDetails().put(StereotypeNames.BUSINESS_STATE_MACHINE, "");
 			}
 			return sm;
 		}

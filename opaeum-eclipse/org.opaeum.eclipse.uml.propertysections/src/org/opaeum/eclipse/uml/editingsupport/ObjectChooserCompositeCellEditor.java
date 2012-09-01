@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.facilities.dialogs.ChooseDialog;
 
 public abstract class ObjectChooserCompositeCellEditor extends DialogCellEditor{
@@ -24,10 +24,10 @@ public abstract class ObjectChooserCompositeCellEditor extends DialogCellEditor{
 	}
 	protected abstract Object[] getChoices();
 	protected ILabelProvider getLabelProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
+		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
 	protected ILabelProvider getAdvancedLabeProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()){
+		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory()){
 			public String getText(Object object){
 				IItemQualifiedTextProvider itemQualifiedTextProvider = (IItemQualifiedTextProvider) adapterFactory.adapt(object,
 						IItemQualifiedTextProvider.class);

@@ -51,7 +51,9 @@ public class OJClass extends OJClassGEN{
 				this.addToImports(pn);
 			}
 		}
-		this.addToImports(this.getSuperclass());
+		if(this.getSuperclass()!=null&& !this.getSuperclass().getLast().equals(this.getName())){
+			this.addToImports(this.getSuperclass());
+		}
 	}
 	public OJConstructor getDefaultConstructor(){
 		OJConstructor result = super.getDefaultConstructor();
@@ -80,7 +82,11 @@ public class OJClass extends OJClassGEN{
 		classInfo.append(visToJava(this) + " ");
 		classInfo.append("class " + getName());
 		if(getSuperclass() != null){
-			classInfo.append(" extends " + getSuperclass().getLast());
+			if(getSuperclass().getName().equals(getName())){
+				classInfo.append(" extends " + getSuperclass().toJavaString());
+			}else{
+				classInfo.append(" extends " + getSuperclass().getLast());
+			}
 		}
 		classInfo.append(implementedInterfaces());
 		classInfo.append(" {\n");

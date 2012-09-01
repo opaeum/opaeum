@@ -23,13 +23,11 @@ import org.eclipse.ocl.uml.impl.TypeTypeImpl;
 import org.eclipse.ocl.uml.internal.UMLForeignMethods;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
-import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
-import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -54,12 +52,10 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Vertex;
-import org.eclipse.uml2.uml.internal.impl.OperationImpl;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
@@ -87,6 +83,13 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 				var.setName("contextObject");
 				addElement("contextObject", var, false);
 			}
+		}
+		Operation nearestOp=EmfElementFinder.findNearestElementOfType(Operation.class, context);
+		if(nearestOp!=null && EmfBehaviorUtil.isResponsibility(nearestOp) && library.getResponsibilityObject()!=null){
+			Variable var = UMLFactory.eINSTANCE.createVariable();
+			var.setType(library.getResponsibilityObject());
+			var.setName("responsibility");
+			addElement("responsibility", var, false);
 		}
 		this.context = context;
 		this.library = library;
@@ -313,7 +316,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		Type dateTime = library.getDateTimeType();
 		if(dateTime != null){
 			if(nearestClassifier instanceof StateMachine){
-				addTimeObservations(variables, nearestClassifier, dateTime, StereotypeNames.BUSINES_STATE_MACHINE);
+				addTimeObservations(variables, nearestClassifier, dateTime, StereotypeNames.BUSINESS_STATE_MACHINE);
 			}else if(nearestClassifier instanceof Activity){
 				addTimeObservations(variables, nearestClassifier, dateTime, StereotypeNames.BUSINES_PROCESS);
 			}else{
@@ -329,7 +332,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		Type duration = library.getDurationType();
 		if(duration != null){
 			if(nearestClassifier instanceof StateMachine){
-				addDurationObservations(variables, nearestClassifier, duration, StereotypeNames.BUSINES_STATE_MACHINE);
+				addDurationObservations(variables, nearestClassifier, duration, StereotypeNames.BUSINESS_STATE_MACHINE);
 			}else if(nearestClassifier instanceof Activity){
 				addDurationObservations(variables, nearestClassifier, duration, StereotypeNames.BUSINES_PROCESS);
 			}else{
@@ -394,13 +397,21 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 			variables.add(var);
 			
 		}
-		if(library.getAbstractRequest()!=null && context instanceof Operation && EmfBehaviorUtil.isResponsibility((Operation) context)){
-			Variable var = UMLFactory.eINSTANCE.createVariable();
-			var.setType(library.getAbstractRequest());
-			var.setName("request");
-			variables.add(var);
+		for(int i = 0; i < super.getElementsSize();i++){
+			VariableEntry element = super.getElement(i);
+			if(!element.isExplicit()){
+				List<Property> props = EmfElementFinder.getPropertiesInScope((Classifier) element.getVariable().getType());
+				for(Property property:props){
+					PropertyOfImplicitObject var = new PropertyOfImplicitObject((Variable) element.getVariable(), property);
+					var.setName(property.getName());
+					var.setType(property.getType());
+					variables.add(var);
+				}
+			}
 		}
+
 		variables.addAll(this.variables);
+		
 	}
 	private void addDurationObservations(Collection<org.eclipse.ocl.expressions.Variable<Classifier,Parameter>> variables,Element element,
 			Type duration,String businesStateMachine){

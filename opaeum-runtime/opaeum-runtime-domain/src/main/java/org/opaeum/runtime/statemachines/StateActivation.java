@@ -9,10 +9,12 @@ public abstract class StateActivation<SME extends IStateMachineExecution,T exten
 		IProcessStep{
 	private Set<TransitionInstance<SME,T>> outgoing = new HashSet<TransitionInstance<SME,T>>();
 	protected Set<RegionActivation<SME,T>> regions = new HashSet<RegionActivation<SME,T>>();
-	public StateActivation(String id,RegionActivation<SME,T> region){
+	@SuppressWarnings({"rawtypes","unchecked"})
+	public StateActivation(String id,RegionActivation region){
 		super(id, region);
 	}
-	public boolean contains(VertexActivation<SME,T> other){
+	@SuppressWarnings({"rawtypes","unchecked"})
+	public boolean contains(VertexActivation other){
 		for(RegionActivation<SME,T> r:regions){
 			if(r.contains(other)){
 				return true;
@@ -20,7 +22,8 @@ public abstract class StateActivation<SME extends IStateMachineExecution,T exten
 		}
 		return false;
 	}
-	public void enter(T token,VertexActivation<SME,T> target){
+	@SuppressWarnings({"rawtypes","unchecked"})
+	public void enter(T token,VertexActivation target){
 		super.enter(token, target);
 		for(RegionActivation<SME,T> ra:regions){
 			if(ra.contains(target)){

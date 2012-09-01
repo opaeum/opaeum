@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -25,6 +24,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.uml.propertysections.RecursiveAdapter;
 import org.opaeum.eclipse.uml.propertysections.common.OpaeumQualifiedNameLabelProvider;
 import org.opaeum.eclipse.uml.propertysections.common.TextChangeHelper;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
@@ -39,7 +39,7 @@ public class ParameterComposite extends Composite{
 	private CSingleObjectChooser parameterType;
 	private CCombo parameterDirectionCb;
 	private Button isExceptionBtn;
-	private EContentAdapter adaptor = new EContentAdapter(){
+	private RecursiveAdapter adaptor = new RecursiveAdapter(){
 		public void notifyChanged(Notification notification){
 			if(notification.getNotifier().equals(parameter)){
 				switch(notification.getFeatureID(Parameter.class)){
@@ -76,9 +76,7 @@ public class ParameterComposite extends Composite{
 		removeAdaptor();
 	}
 	private void removeAdaptor(){
-		if(parameter != null){
-			parameter.eAdapters().remove(adaptor);
-		}
+		adaptor.unsubscribe();
 	}
 	public void setParameter(Parameter parameter){
 		removeAdaptor();
@@ -88,8 +86,8 @@ public class ParameterComposite extends Composite{
 		loadData();
 	}
 	private void addAdaptor(){
-		if(this.parameter != null && !this.parameter.eAdapters().contains(adaptor)){
-			this.parameter.eAdapters().add(adaptor);
+		if(this.parameter != null){
+			adaptor.subscribeTo(parameter, 3);
 		}
 	}
 	public void setEditingDomain(EditingDomain mixedEditDomain){

@@ -1,6 +1,7 @@
 package org.opaeum.eclipse.uml.propertysections.event;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
@@ -11,14 +12,11 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Element;
@@ -29,6 +27,8 @@ import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.commands.SetOclBodyCommand;
+import org.opaeum.eclipse.uml.propertysections.RecursiveAdapter;
 import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
 import org.opaeum.eclipse.uml.propertysections.ocl.OpaqueExpressionComposite;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -36,45 +36,38 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class AbsoluteTimeEventDetailsComposite extends Composite{
-	public static interface TimeEventListener{
-		void timeEventChanged(TimeEvent t);
-	}
 	protected CLabel expressionLabel;
 	private OpaqueExpressionComposite expressionComposite;
 	protected TimeEvent event;
 	Element trigger;
 	protected Text nameTxt;
-	private TimeEventListener listener;
-	private EditingDomain editingDomain;
-	public AbsoluteTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth,
-			TimeEventListener listener){
-		this(toolkit, parent, standardLabelWidth);
-		this.listener = listener;
-	}
+	protected EditingDomain editingDomain;
+	protected RecursiveAdapter adapter = new RecursiveAdapter(){
+		public void notifyChanged(Notification msg){
+			if(nameTxt.isDisposed()){
+				adapter.unsubscribe();
+			}else{
+				setContext((NamedElement) trigger, event);
+			}
+		};
+	};
 	public AbsoluteTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
 		super(parent, SWT.NONE);
 		setBackground(parent.getBackground());
 		super.setLayout(new FormLayout());
-		Label createLabel = toolkit.createLabel(this, "Timer Name");
-		createLabel.setLayoutData(new FormData());
+		CLabel createLabel = toolkit.createCLabel(this, "Timer Name");
+		FormData labelData = new FormData();
+		createLabel.setLayoutData(labelData);
 		this.nameTxt = toolkit.createText(this, "", SWT.BORDER);
 		FormData nameData = new FormData();
 		nameData.left = new FormAttachment(0, standardLabelWidth);
 		nameData.right = new FormAttachment(100, 0);
 		nameData.height = 12;
 		nameTxt.setLayoutData(nameData);
-		nameTxt.addFocusListener(new FocusListener(){
-			public void focusLost(FocusEvent e){
-				event.setName(nameTxt.getText());
-				maybeFire();
-			}
-			public void focusGained(FocusEvent e){
-			}
-		});
 		TextChangeListener textChangeListener = new TextChangeListener(){
 			public void textChanged(Control control){
-				event.setName(nameTxt.getText());
-				maybeFire();
+				editingDomain.getCommandStack().execute(
+						SetCommand.create(editingDomain, event, UMLPackage.eINSTANCE.getNamedElement_Name(), nameTxt.getText()));
 			}
 			public void focusOut(Control control){
 			}
@@ -86,11 +79,6 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		addOclComposite(toolkit, parent, standardLabelWidth);
 		addChildrenAfterOclComposite(toolkit, parent, standardLabelWidth);
 		toolkit.adapt(this);
-	}
-	public void maybeFire(){
-		if(listener != null){
-			listener.timeEventChanged(event);
-		}
 	}
 	protected void addChildrenAfterOclComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
 	}
@@ -113,9 +101,8 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		expressionComposite = new OpaqueExpressionComposite(this, toolkit){
 			@Override
 			public void fireOclChanged(String value){
-				super.oclBodyOwner = getOpaqueExpression();
+				super.oclBodyOwner = getWhenExpression();
 				super.fireOclChanged(value);
-				maybeFire();
 			}
 			@Override
 			protected EditingDomain getEditingDomain(){
@@ -124,12 +111,11 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		};
 		expData.left = new FormAttachment(0, standardLabelWidth);
 		expData.right = new FormAttachment(100, 0);
-		expData.bottom = new FormAttachment(100, 0);
 		expData.height = 50;
 		expressionComposite.setBackground(getBackground());
 		expressionComposite.setLayoutData(expData);
 	}
-	protected OpaqueExpression getOpaqueExpression(){
+	protected OpaqueExpression getWhenExpression(){
 		return (OpaqueExpression) event.getWhen().getExpr();
 	}
 	protected TimeEvent findOrCreateTimeEvent(Trigger t){
@@ -181,11 +167,17 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		}
 	}
 	public void setContext(NamedElement context,TimeEvent te){
+		if(this.event != te){
+			adapter.unsubscribe();
+			if(te != null){
+				adapter.subscribeTo(te, 4);
+			}
+		}
 		if(context != null && context.eResource() != null){
 			trigger = context;
 			initProfileElements(context);
 			setTimeEvent(te);
-			expressionComposite.setOclContext(context, getOpaqueExpression());
+			expressionComposite.setOclContext(context, getWhenExpression());
 		}else{
 			setTimeEvent(null);
 		}
@@ -217,7 +209,9 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			}
 			EList<String> bodies = ((OpaqueExpression) timeEvent.getWhen().getExpr()).getBodies();
 			if(bodies.size() == 0){
-				bodies.add(OclBodyComposite.DEFAULT_TEXT);
+				editingDomain.getCommandStack().execute(
+						new SetOclBodyCommand(editingDomain, timeEvent.getWhen().getExpr(), UMLPackage.eINSTANCE.getOpaqueExpression_Body(),
+								UMLPackage.eINSTANCE.getOpaqueExpression_Language(), OclBodyComposite.DEFAULT_TEXT));
 			}
 			expressionComposite.setOclContext(timeEvent, (OpaqueExpression) timeEvent.getWhen().getExpr());
 			nameTxt.setText(timeEvent.getName());

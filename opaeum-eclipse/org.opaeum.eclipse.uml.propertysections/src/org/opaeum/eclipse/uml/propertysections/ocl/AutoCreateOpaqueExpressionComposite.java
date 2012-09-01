@@ -13,6 +13,9 @@ public abstract class AutoCreateOpaqueExpressionComposite extends OpaqueExpressi
 	public AutoCreateOpaqueExpressionComposite(Composite parent,FormToolkit toolkit){
 		super(parent, toolkit);
 	}
+	public AutoCreateOpaqueExpressionComposite(Composite parent,FormToolkit toolkit, int style){
+		super(parent, toolkit,style);
+	}
 	public abstract EReference getValueSpecificationFeature();
 	@Override
 	protected void fireOclChanged(String text){

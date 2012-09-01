@@ -61,7 +61,7 @@
 	
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
-         <propertyTab
+         <!--propertyTab
                afterTab="org.topcased.modeler.modelTab"
                category="model"
                id="org.topcased.modeler.modelTab.triggersTab"
@@ -81,7 +81,7 @@
                id="org.topcased.modeler.modelTab.effectTab"
                image="icons/properties/effectTab.gif"
                indented="true"
-               label="Effect"/>
+               label="Effect"/-->
          <propertyTab
                id="org.topcased.modeler.modelTab.entryPoints"
                afterTab="org.topcased.modeler.modelTab"
@@ -124,17 +124,38 @@
                afterSection="org.opaeum.topcased.statemachinediagram.TransitionGuardSection"
              class="org.opaeum.eclipse.uml.propertysections.statemachine.TransitionTriggerSection"
              id="org.opaeum.topcased.statemachinediagram.TransitionTriggerSection"
-             tab="org.opaeum.eclipse.opaeumTab">
+             tab="org.opaeum.eclipse.triggersTab">
           <input type="org.eclipse.uml2.uml.Transition"/>
        </propertySection>
          <propertySection
-               id="org.topcased.modeler.uml.transitionKindSection"
+               id="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionKindSection"
                class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionKindSection"
                afterSection="org.topcased.modeler.uml.NamedElementSection"
-               tab="org.topcased.modeler.modelTab">
+               tab="org.opaeum.eclipse.opaeumTab">
                <input type="org.eclipse.uml2.uml.Transition"/>
          </propertySection>
-      	<propertySection
+         <propertySection
+               id="org.opaeum.eclipse.uml.propertysections.statemachine.TransitionRedefinedTransitionSection"
+               class="org.opaeum.eclipse.uml.propertysections.statemachine.TransitionRedefinedTransitionSection"
+               afterSection="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionKindSection"
+               tab="org.opaeum.eclipse.opaeumTab">
+               <input type="org.eclipse.uml2.uml.Transition"/>
+         </propertySection>
+         <propertySection
+               id="org.opaeum.eclipse.uml.propertysections.statemachine.StateRedefinedStateSection"
+               class="org.opaeum.eclipse.uml.propertysections.statemachine.StateRedefinedStateSection"
+               afterSection="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionKindSection"
+               tab="org.opaeum.eclipse.opaeumTab">
+               <input type="org.eclipse.uml2.uml.State"/>
+         </propertySection>
+         <propertySection
+               id="org.opaeum.eclipse.uml.propertysections.statemachine.RegionExtendedRegionSection"
+               class="org.opaeum.eclipse.uml.propertysections.statemachine.RegionExtendedRegionSection"
+               afterSection="org.topcased.modeler.uml.NamedElementSection"
+               tab="org.opaeum.eclipse.opaeumTab">
+               <input type="org.eclipse.uml2.uml.Region"/>
+         </propertySection>
+      	<!--propertySection
 				id="org.topcased.modeler.uml.triggersSection"
 				class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionTriggersSection"
 				tab="org.topcased.modeler.modelTab.triggersTab">
@@ -160,7 +181,7 @@
              id="org.topcased.modeler.uml.TriggersEventSection"
              tab="org.topcased.modeler.modelTab">
           <input type="org.eclipse.uml2.uml.Trigger"/>
-       </propertySection>
+       </propertySection-->
        <propertySection
              afterSection="org.topcased.modeler.uml.NamedElementSection"
              class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.EntrySection"
@@ -171,7 +192,7 @@
        </propertySection>
        
        
-       <propertySection
+       <!--propertySection
              afterSection="org.topcased.modeler.uml.entrySection"
              class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.ExitSection"
              filter="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters.StateFilter"
@@ -186,13 +207,13 @@
              id="org.topcased.modeler.uml.doActivitySection"
              tab="org.topcased.modeler.modelTab">
           <input type="org.eclipse.uml2.uml.State"/>
-		</propertySection>
+		</propertySection-->
 		<propertySection
 			afterSection="org.topcased.modeler.uml.doActivitySection"
 			class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.DeferrableTriggersSection"
 			filter="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters.StateFilter"
 			id="org.topcased.modeler.uml.deferredTriggersSection"
-			tab="org.topcased.modeler.modelTab">
+			tab="org.opaeum.eclipse.opaeumTab">
 			<input type="org.eclipse.uml2.uml.State"/>
 		</propertySection>
        <propertySection

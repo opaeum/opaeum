@@ -19,6 +19,7 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
@@ -133,19 +134,44 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			// Behaviours without
 			// specifications are given an emulated specification
 			List<OJPathName> parmTypes = EmfBehaviorUtil.isLongRunning(o) ? map.javaParamTypePathsWithReturnInfo() : map.javaParamTypePaths();
-			OJOperation javaMethod = ojContext.findOperation(map.javaOperName(), parmTypes);
+			OJAnnotatedOperation javaMethod = (OJAnnotatedOperation) ojContext.findOperation(map.javaOperName(), parmTypes);
+//			if(javaMethod==null){
+//				javaMethod = (OJAnnotatedOperation) ojContext.findOperation(map.javaOperName(), parmTypes);
+//				System.err.println();
+//			}
 			if(EmfBehaviorUtil.isProcess(o)){
 				implementProcessCreation(o, ojContext, javaMethod);
+			}else if(EmfBehaviorUtil.isStandaloneTask(o)){
+				implementTaskCreation(o, ojContext, javaMethod,map);
 			}else{
 				invokeSimpleBehavior(o, javaMethod);
 			}
 		}
 	}
+	private void implementTaskCreation(Behavior o,OJAnnotatedClass ojClass,OJAnnotatedOperation oper1, OperationMap operationMap){
+		ojClass.addToImports("java.util.Arrays");
+		oper1.getBody().addToStatements(0, new OJSimpleStatement("result.setRequest(new TaskRequest())"));
+		OJAnnotatedOperation deepCopy = (OJAnnotatedOperation) oper1.getDeepCopy(operationMap.multiName());
+		deepCopy.setStatic(true);
+		deepCopy.initializeResultVariable("new " + ojUtil.classifierPathname(o).getLast() + "()");
+		ojClass.addToImports(ojUtil.classifierPathname(getLibrary().getTaskRequest()));
+		deepCopy.getBody().addToStatements(
+				0,
+				new OJSimpleStatement(
+						"((TaskRequest)result.getRequest()).setPotentialOwners(Environment.getInstance().getCurrentPersistence().readAll("
+								+ ojClass.getName() + ".class))"));
+		deepCopy.getBody().removeFromStatements(deepCopy.getBody().getStatements().get(deepCopy.getBody().getStatements().size() - 1));// remove
+																																																																		// event
+		deepCopy.getBody().addToStatements("Environment.getInstance().getCurrentPersistence().persist(result)"); // generator
+		ojClass.addToOperations(deepCopy);
+		oper1.getBody().addToStatements(1, new OJSimpleStatement("((TaskRequest)result.getRequest()).setPotentialOwners(Arrays.asList(this))"));
+		oper1.initializeResultVariable("new " + ojUtil.classifierPathname(o).getLast() + "(this)");
+		oper1.getResultVariable().setType(ojUtil.classifierPathname(o));
+	}
 	private void implementProcessCreation(Behavior o,OJAnnotatedClass ojContext,OJOperation javaMethod){
 		OJPathName ojBehavior = ojUtil.classifierPathname(o);
 		javaMethod.getOwner().addToImports(ojBehavior);
 		// Leave preconditions in tact
-		PropertyMap featureMap = ojUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite(o).getOtherEnd());
 		ojContext.addToImports(ojBehavior);
 		OJAnnotatedOperation ojAnnotatedOperation = (OJAnnotatedOperation) javaMethod;
 		ojAnnotatedOperation.initializeResultVariable("new " + ojBehavior.getLast() + "(this)");

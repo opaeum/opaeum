@@ -21,7 +21,7 @@ public class StructuralFeatureActionFeatureSection extends OpaeumChooserProperty
 		return UMLPackage.eINSTANCE.getStructuralFeatureAction_StructuralFeature();
 	}
 	protected String getLabelText(){
-		return "Feature :";
+		return "Feature:";
 	}
 	protected Object[] getComboFeatureValues(){
 		List<Object> result = new ArrayList<Object>();
@@ -39,17 +39,6 @@ public class StructuralFeatureActionFeatureSection extends OpaeumChooserProperty
 			}
 		}
 		return result.toArray();
-	}
-	protected ILabelProvider getLabelProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
-	}
-	protected ILabelProvider getAdvancedLabeProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()){
-			public String getText(Object object){
-				IItemQualifiedTextProvider itemQualifiedTextProvider = (IItemQualifiedTextProvider) adapterFactory.adapt(object, IItemQualifiedTextProvider.class);
-				return itemQualifiedTextProvider != null ? itemQualifiedTextProvider.getQualifiedText(object) : super.getText(object);
-			}
-		};
 	}
 	protected Object getFeatureValue(){
 		return ((StructuralFeatureAction) getEObject()).getStructuralFeature();

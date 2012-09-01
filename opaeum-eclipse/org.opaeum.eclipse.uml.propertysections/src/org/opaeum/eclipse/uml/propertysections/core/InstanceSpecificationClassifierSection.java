@@ -11,14 +11,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
-import org.opaeum.eclipse.uml.propertysections.common.OpaeumQualifiedNameLabelProvider;
-import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.internal.utils.Messages;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
@@ -48,12 +43,6 @@ public class InstanceSpecificationClassifierSection extends OpaeumChooserPropert
 		}
 		choices.addAll(types);
 		return choices.toArray();
-	}
-	protected ILabelProvider getLabelProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
-	}
-	protected ILabelProvider getAdvancedLabeProvider(){
-		return new OpaeumQualifiedNameLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
 	protected Object getFeatureValue(){
 		InstanceSpecification instanceSpecification = getInstanceSpecification();

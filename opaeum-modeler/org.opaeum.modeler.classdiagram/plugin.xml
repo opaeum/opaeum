@@ -559,7 +559,8 @@
 	</extension>
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
 		<propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
-			<propertyTab id="org.opaeum.eclipse.opaeumTab" category="model" label="UML" indented="false" />
+			<propertyTab id="org.opaeum.eclipse.opaeumTab" category="model" label="Core" indented="false" />
+			<propertyTab id="org.opaeum.eclipse.extendedTab" category="model" label="Extended" indented="true" afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.opaeum.eclipse.interfacesTab" category="model" label="Interfaces" indented="true" afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.opaeum.eclipse.redefinitionsTab" category="model" label="Redefinitions and Unions" indented="true" afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.opaeum.eclipse.qualifiersTab" category="model" label="Qualifiers" indented="true" afterTab="org.opaeum.eclipse.opaeumTab" />
@@ -577,6 +578,13 @@
 			<propertyTab id="org.topcased.modeler.advancedTab.behaviorTab" category="advanced" label="Behavior" afterTab="org.topcased.modeler.advancedTab"
 				indented="true" />
 			<propertyTab id="org.opaeum.eclipse.templateTab" category="model" label="Notification Text" afterTab="org.opaeum.eclipse.opaeumTab" indented="true" />
+         <propertyTab
+               afterTab="org.topcased.modeler.modelTab"
+               category="model"
+               id="org.opaeum.eclipse.triggersTab"
+               image="icons/properties/triggersTab.gif"
+               indented="true"
+               label="Triggers"/>
 		</propertyTabs>
 	</extension>
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
@@ -626,8 +634,11 @@
 			<propertySection afterSection="org.opaeum.eclipse.uml.propertysections.bpmprofile.DurationExpressionBusinessCalendarToUseSection" class="org.opaeum.eclipse.uml.propertysections.bpmprofile.DurationExpressionTimeUnitSection"
 				id="org.opaeum.eclipse.uml.propertysections.bpmprofile.DurationExpressionTimeUnitSection" tab="org.opaeum.eclipse.opaeumTab" filter="org.opaeum.eclipse.uml.filters.bpm.DurationExpressionFilter">
 			</propertySection>
-			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.eclipse.uml.propertysections.bpmprofile.DeadlineTimeUnitSection"
-				id="org.opaeum.eclipse.uml.propertysections.event.DeadlineTimeUnitSection" tab="org.opaeum.eclipse.opaeumTab" filter="org.opaeum.eclipse.uml.filters.bpm.DeadlineFilter">
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.eclipse.uml.propertysections.bpmprofile.DeadlineDeadlineKindSection"
+				id="org.opaeum.eclipse.uml.propertysections.bpmprofile.DeadlineDeadlineKindSection" tab="org.opaeum.eclipse.opaeumTab" filter="org.opaeum.eclipse.uml.filters.bpm.DeadlineFilter">
+			</propertySection>
+			<propertySection afterSection="org.opaeum.eclipse.uml.propertysections.bpmprofile.DeadlineDeadlineKindSection" class="org.opaeum.eclipse.uml.propertysections.bpmprofile.DeadlineTimeUnitSection"
+				id="org.opaeum.eclipse.uml.propertysections.bpmprofile.DeadlineTimeUnitSection" tab="org.opaeum.eclipse.opaeumTab" filter="org.opaeum.eclipse.uml.filters.bpm.DeadlineFilter">
 			</propertySection>
 			<propertySection afterSection="org.opaeum.eclipse.uml.propertysections.bpmprofile.DeadlineTimeUnitSection" class="org.opaeum.eclipse.uml.propertysections.bpmprofile.BusinessDurationObservationBusinessCalendarToUseSection"
 				id="org.opaeum.eclipse.uml.propertysections.event.DeadlineBusinessCalendarToUseSection" tab="org.opaeum.eclipse.opaeumTab" filter="org.opaeum.eclipse.uml.filters.bpm.DeadlineFilter">
@@ -660,12 +671,27 @@
 		         id="org.opaeum.eclipse.uml.propertysections.activitydiagram.DeadlinesSection"
 		         tab="org.opaeum.topcased.activitydiagram.deadlinesTab">
 			</propertySection>
-			<!--Standard Profile-->
-			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.eclipse.uml.propertysections.core.EntityGenerateAbstractSuperclassSection"
-				id="org.opaeum.eclipse.uml.propertysections.core.EntityGenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.opaeumTab">
-				<input type="org.eclipse.uml2.uml.Class">
-				</input>
+			<!--Opaeum Standard Profile-->
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.EntityGenerateAbstractSuperclassSection"
+				id="org.opaeum.eclipse.uml.propertysections.standardprofile.EntityGenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.extendedTab" 
+				filter="org.opaeum.eclipse.uml.filters.core.ClassNotInProfileFilter">
 			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection"
+				tab="org.opaeum.eclipse.extendedTab" afterSection="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection"
+				filter="org.opaeum.eclipse.uml.filters.core.ClassNotInProfileFilter">
+			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.EntityMappedImplementationTypeSection"
+				id="org.opaeum.eclipse.uml.propertysections.standardprofile.EntityGenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.extendedTab"
+				filter="org.opaeum.eclipse.uml.filters.core.ClassNotInProfileFilter">
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassAuditingEnabled" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassAuditingEnabled"
+				tab="org.opaeum.eclipse.extendedTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" filter="org.opaeum.eclipse.uml.filters.core.ClassNotInProfileFilter">
+			</propertySection>
+			
 			<!--Core -->
 			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.eclipse.uml.propertysections.core.ElementImportImportedElementSection"
 				id="org.opaeum.eclipse.uml.propertysections.core.ElementImportImportedElementSection" tab="org.opaeum.eclipse.opaeumTab">
@@ -680,11 +706,6 @@
 			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.eclipse.uml.propertysections.core.PackageImportImportedPackageSection"
 				id="org.opaeum.eclipse.uml.propertysections.core.PackageImportImportedPackageSection" tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.PackageImport">
-				</input>
-			</propertySection>
-			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.eclipse.uml.propertysections.standardprofile.EntityMappedImplementationTypeSection"
-				id="org.opaeum.eclipse.uml.propertysections.core.EntityGenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.opaeumTab">
-				<input type="org.eclipse.uml2.uml.Class">
 				</input>
 			</propertySection>
 			<propertySection afterSection="org.topcased.modeler.uml.NamedElementSection" class="org.opaeum.eclipse.uml.propertysections.core.ReceptionSignalSection"
@@ -825,12 +846,12 @@
 				<input type="org.eclipse.uml2.uml.Behavior" />
 			</propertySection>
 			<propertySection id="org.opaeum.eclipse.uml.propertysections.core.OperationIsQuerySection" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-				class="org.opaeum.eclipse.uml.propertysections.core.OperationBooleanFeaturesSection" tab="org.opaeum.eclipse.opaeumTab">
-				<input type="org.eclipse.uml2.uml.Operation" />
+				class="org.opaeum.eclipse.uml.propertysections.core.OperationBooleanFeaturesSection" tab="org.opaeum.eclipse.opaeumTab"
+				filter ="org.opaeum.eclipse.uml.filters.core.NonResponsibilityOperationFilter">
 			</propertySection>
 			<propertySection id="org.opaeum.eclipse.uml.propertysections.core.OperationBodyConditionSection" afterSection="org.opaeum.eclipse.uml.propertysections.core.OperationIsQuerySection"
-				class="org.opaeum.eclipse.uml.propertysections.core.OperationBodyConditionSection" tab="org.opaeum.eclipse.opaeumTab">
-				<input type="org.eclipse.uml2.uml.Operation" />
+				class="org.opaeum.eclipse.uml.propertysections.core.OperationBodyConditionSection" tab="org.opaeum.eclipse.opaeumTab"
+				filter ="org.opaeum.eclipse.uml.filters.core.NonResponsibilityOperationFilter">
 			</propertySection>
 			<propertySection id="org.opaeum.eclipse.uml.propertysections.constraints.OperationPostconditionsSection" class="org.opaeum.eclipse.uml.propertysections.constraints.OperationPostconditionsSection"
 				tab="org.opaeum.eclipse.postconditionsTab">
@@ -881,11 +902,6 @@
 				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.InstanceSpecification" />
 			</propertySection>
-			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassAuditingEnabled" 
-			class="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassAuditingEnabled"
-				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
-				<input type="org.eclipse.uml2.uml.Class" />
-			</propertySection>
 			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection" class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
 				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.Slot" />
@@ -894,13 +910,8 @@
 				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection">
 				<input type="org.eclipse.uml2.uml.Slot" />
 			</propertySection>
-			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection" class="org.opaeum.eclipse.uml.propertysections.core.ClassifierIsAbstractSection"
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.core.ClassifierIsAbstractSection" class="org.opaeum.eclipse.uml.propertysections.core.ClassifierIsAbstractSection"
 				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
-				<input type="org.eclipse.uml2.uml.Classifier" />
-			</propertySection>
-			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection" class="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection"
-				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection"
-				filter="org.opaeum.eclipse.uml.filters.core.ClassNotInProfileFilter">
 			</propertySection>
 			<propertySection afterSection="org.topcased.modeler.BackgroundColorSection" class="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilityPropertySection"
 				filter="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilitySectionFilter" id="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilityPropertySection"
@@ -911,11 +922,12 @@
 				<input type="org.eclipse.uml2.uml.OpaqueExpression" />
 			</propertySection>
 			<propertySection id="org.opaeum.eclipse.uml.propertysections.core.OpaqueBehaviorBodySection" class="org.opaeum.eclipse.uml.propertysections.core.OpaqueBehaviorBodySection"
-				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
-				<input type="org.eclipse.uml2.uml.OpaqueBehavior" />
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
+				filter ="org.opaeum.eclipse.uml.filters.core.OclBehaviorFilter" >
 			</propertySection>
 			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection" class="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
-				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection" filter="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSectionFilter">
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection" 
+				filter="org.opaeum.eclipse.uml.filters.core.NonResponsibilityOperationFilter">
 			</propertySection>
 			<propertySection id="org.opaeum.eclipse.uml.propertysections.core.OperationParametersSection" class="org.opaeum.eclipse.uml.propertysections.core.OperationParametersSection"
 				tab="org.topcased.modeler.modelTab.parametersTab">
@@ -927,10 +939,6 @@
 			</propertySection>
 			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection" class="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection"
 				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection">
-				<input type="org.eclipse.uml2.uml.Parameter" />
-			</propertySection>
-			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection" class="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection"
-				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection">
 				<input type="org.eclipse.uml2.uml.Parameter" />
 			</propertySection>
 			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection" class="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection"

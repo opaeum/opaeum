@@ -4,6 +4,7 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.common.ExpGeneratorHelper;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StateMap;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.tools.common.StringHelpers;
@@ -26,6 +27,7 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TimeExpression;
@@ -45,6 +47,7 @@ import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.AbstractOclContext;
+import org.opaeum.ocl.uml.PropertyOfImplicitObject;
 
 public class ExpressionCreator{
 	private OJClass myClass = null;
@@ -119,15 +122,23 @@ public class ExpressionCreator{
 	private String makeVariableExp(VariableExp in){
 		String result = null;
 		org.eclipse.ocl.expressions.Variable<Classifier,Parameter> referredVariable = in.getReferredVariable();
-		if(in.getName().equals("self")){
+		if(referredVariable instanceof PropertyOfImplicitObject){
+			PropertyOfImplicitObject poio = (PropertyOfImplicitObject) referredVariable;
+			PropertyMap map = ojUtil.buildStructuralFeatureMap((Property) poio.getOriginalElement());
+			if(poio.getImplicitVar().getName().equals("responsibility") || poio.getImplicitVar().getName().equals("contextObject")){
+				result = "get" + NameConverter.capitalize(poio.getImplicitVar().getName()) + "()." + map.getter() + "()";
+			}else{
+				result = poio.getImplicitVar().getName() + "." + map.getter() + "()";
+			}
+		}else if(in.getName().equals("self")){
 			if(in.getType() instanceof StateMachine){
 				if(context.getBodyContainer() instanceof OpaqueExpression){
 					if(context.getBodyContainer().getOwner().getOwner() instanceof Transition){
 						result = "getStateMachineExecution()";
 					}else if(context.getBodyContainer().getOwner() instanceof ValuePin){
-						ValuePin vp=(ValuePin) context.getBodyContainer().getOwner();
+						ValuePin vp = (ValuePin) context.getBodyContainer().getOwner();
 						Activity a = EmfActivityUtil.getContainingActivity(vp);
-						if(a.getOwner() instanceof State||a.getOwner() instanceof Transition){
+						if(a.getOwner() instanceof State || a.getOwner() instanceof Transition){
 							result = "getStateMachineExecution()";
 						}
 					}else if(context.getBodyContainer().getOwner() instanceof TimeExpression){
@@ -135,36 +146,35 @@ public class ExpressionCreator{
 					}
 				}
 			}
-			EObject element=context.getBodyContainer();
-			while(!(element ==null ||  element instanceof Operation)){
-				element=EmfElementFinder.getContainer(element) ;
-				//OCL Expressions on stereotype attributes
+			EObject element = context.getBodyContainer();
+			while(!(element == null || element instanceof Operation)){
+				element = EmfElementFinder.getContainer(element);
+				// OCL Expressions on stereotype attributes
 			}
-			
-			if(element instanceof Operation && EmfBehaviorUtil.hasExecutionInstance((Operation)element)){
-				result="getContextObject()";
+			if(element instanceof Operation && EmfBehaviorUtil.hasExecutionInstance((Operation) element)){
+				result = "getContextObject()";
 			}
 			if(result == null){
 				result = "this";
 			}
 		}else if(in.getName().equals("currentUser")){
-			result="Environment.getInstance().getCurrentUser()";
+			result = "Environment.getInstance().getCurrentUser()";
 			Class pn = this.ojUtil.getLibrary().getPersonNode();
-			if(pn!=null){
+			if(pn != null){
 				OJPathName pnpn = ojUtil.classifierPathname(pn);
 				myClass.addToImports(pnpn);
-				result="(" + pnpn.getLast() +")" + result;
+				result = "(" + pnpn.getLast() + ")" + result;
 			}
 		}else if(in.getName().equals("currentRole")){
-			result="Environment.getInstance().getCurrentRole()";
+			result = "Environment.getInstance().getCurrentRole()";
 			Interface pn = this.ojUtil.getLibrary().getParticipant();
-			if(pn!=null){
+			if(pn != null){
 				OJPathName pnpn = ojUtil.classifierPathname(pn);
 				myClass.addToImports(pnpn);
-				result="(" + pnpn.getLast() +")" + result;
+				result = "(" + pnpn.getLast() + ")" + result;
 			}
 		}else if(in.getName().equals("contextObject")){
-			result="getContextObject()";
+			result = "getContextObject()";
 		}else{
 			Variable varDecl = (Variable) in.getReferredVariable();
 			Classifier type = varDecl.getType();
@@ -208,7 +218,6 @@ public class ExpressionCreator{
 		oper = new OJOperation(operName);
 		myClass.addToOperations(oper);
 		oper.setReturnType(inMap.javaTypePath());
-		
 		oper.setStatic(isStatic);
 		oper.setVisibility(OJVisibilityKind.PRIVATE);
 		oper.setComment("implements " + in.toString());

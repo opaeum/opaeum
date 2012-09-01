@@ -40,6 +40,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 				OJAnnotatedClass ojClass = findJavaClass(entity);
 				OJOperation init = ojClass.findOperation("init", Arrays.asList(new OJPathName(CompositionNode.class.getName())));
 				Set<? extends Property> aws = getLibrary().getDirectlyImplementedAttributes(entity);
+
 				init.getBody().addToStatements("createComponents()");
 				OJOperation createComponents = new OJAnnotatedOperation("createComponents");
 				init.getOwner().addToOperations(createComponents);

@@ -1,15 +1,12 @@
 package org.opaeum.eclipse;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.TreeSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.ocl.expressions.CollectionKind;
@@ -41,7 +38,6 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
-import org.eclipse.uml2.uml.Substitution;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
@@ -161,6 +157,9 @@ public class EmfClassifierUtil{
 		return result;
 	}
 	public static boolean conformsTo(Classifier from,Classifier to){
+		if(from.getName().equals("OclVoid")){
+			return true;
+		}
 		if(from instanceof PrimitiveType && to instanceof PrimitiveType){
 			return comformsToLibraryType(from, to.getName());
 		}
@@ -169,8 +168,8 @@ public class EmfClassifierUtil{
 		}else if(from.allParents().contains(to)){
 			return true;
 		}else if(from instanceof BehavioredClassifier){
-			for(InterfaceRealization i:((BehavioredClassifier) from).getInterfaceRealizations()){
-				if(i.getContract().equals(to) || i.getContract().allParents().contains(to)){
+			for(Interface i:((BehavioredClassifier) from).getAllImplementedInterfaces()){
+				if(i.equals(to) || i.allParents().contains(to)){
 					return true;
 				}
 			}
@@ -281,7 +280,7 @@ public class EmfClassifierUtil{
 		if(!isComplexStructure(type)){
 			return false;
 		}else if(type instanceof Behavior){
-			return EmfBehaviorUtil.isProcess((Behavior) type);
+			return EmfBehaviorUtil.isProcess((Behavior) type) || EmfBehaviorUtil.isStandaloneTask((Behavior) type);
 		}else if(type instanceof IEmulatedElement){
 			Element element = ((IEmulatedElement) type).getOriginalElement();
 			if(element instanceof Operation){
@@ -395,6 +394,7 @@ public class EmfClassifierUtil{
 		}
 		return c.eClass().getName();
 	}
+	@SuppressWarnings("unchecked")
 	public static <T extends Classifier>T getRootClass(T classifier){
 		for(Classifier c:classifier.getGenerals()){
 			if(classifier.eClass().isInstance(c)){
@@ -402,5 +402,11 @@ public class EmfClassifierUtil{
 			}
 		}
 		return classifier;
+	}
+	public static boolean isBusinessService(Type type){
+		return type instanceof Interface && StereotypesHelper.hasStereotype(type, StereotypeNames.BUSINESS_SERVICE);
+	}
+	public static boolean isBusinessActor(Classifier selectedObject){
+		return selectedObject instanceof Actor && StereotypesHelper.hasStereotype(selectedObject, StereotypeNames.BUSINESS_ACTOR);
 	}
 }

@@ -1,5 +1,7 @@
 package org.opaeum.eclipse.uml.propertysections.bpmprofile;
 
+import java.util.Set;
+
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -23,6 +25,8 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
+import org.opaeum.eclipse.newchild.CreateChildActions;
+import org.opaeum.eclipse.newchild.DefaultCreateChildAction;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractOclBodyBodySection;
 import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -73,8 +77,16 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends Abstract
 							ccmd.append(AddCommand.create(getEditingDomain(), element, EcorePackage.eINSTANCE.getEModelElement_EAnnotations(), ann));
 						}
 						ccmd.append(AddCommand.create(getEditingDomain(), ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), vs));
-						if(TagNames.COMPOSITE_ATTRIBUTES.get(feature.getName())!=null){
-							ccmd.append(new ApplyStereotypeCommand(vs, st.getProfile().getOwnedStereotype(TagNames.COMPOSITE_ATTRIBUTES.get(feature.getName()))));
+						if(CreateChildActions.FEATURES.get(feature.getName()) != null){
+							for(DefaultCreateChildAction cc:CreateChildActions.FEATURES.get(feature.getName())){
+								if(cc.isPotentialParent(eObject) && cc.stereotypeOfChild != null){
+									Stereotype asdf = st.getProfile().getOwnedStereotype(cc.stereotypeOfChild);
+									if(asdf != null){
+										ccmd.append(new ApplyStereotypeCommand(vs, asdf));
+										break;
+									}
+								}
+							}
 						}
 						ccmd.append(SetCommand.create(getEditingDomain(), stereotypeApplication, feature, vs));
 					}
@@ -122,11 +134,10 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends Abstract
 	}
 	private Stereotype getStereotype(Element element){
 		for(Stereotype s:element.getAppliedStereotypes()){
-			if(s.getDefinition().getEStructuralFeature(getExpressionName())!=null){
+			if(s.getDefinition().getEStructuralFeature(getExpressionName()) != null){
 				return s;
 			}
 		}
 		return null;
 	}
-
 }

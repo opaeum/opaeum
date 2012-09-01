@@ -67,7 +67,7 @@ public class StereotypeNames{
 	public static String ESCALATION="Escalation";
 	// BPM
 	public static final String BUSINES_PROCESS = "BusinessProcess";
-	public static final String BUSINES_STATE_MACHINE = "BusinessStateMachine";
+	public static final String BUSINESS_STATE_MACHINE = "BusinessStateMachine";
 	public static final String CALL_BUSINES_PROCESS_ACTION = "CallBusinessProcessAction";
 	public static final String CALL_METHOD_ACTION = "CallMethodAction";
 	public static final String METHOD = "Method";
@@ -118,6 +118,6 @@ public class StereotypeNames{
 	public static final String RECIPIENT_EXPRESSION="RecipientExpression";
 	public static final String DURATION_EXPRESSION ="DurationExpression";
 	public static final String BUSINESS_CALENDAR_EXPRESSION ="BusinessCalendarExpression";
-	public static final String STANDALONE_SIMPLE_TASK = "StandaloneSimpleTask";
+	public static final String STANDALONE_SINGLE_SCREEN_TASK = "StandaloneSingleScreenTask";
 	public static final String STANDALONE_SCREENFLOW_TASK = "StandaloneSimpleScreenflowTask";
 }

@@ -5,9 +5,12 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Operation;
@@ -15,6 +18,13 @@ import org.eclipse.uml2.uml.Operation;
 public class EmfOperationUtil{
 	public static boolean isPrefix(Operation o){
 		return o.getName().equals("++") || o.getName().equals("--");
+	}
+	public static boolean canContainResponsibilities(Classifier selectedObject){
+		return (selectedObject instanceof Class && EmfClassifierUtil.isBusinessRole(selectedObject) )
+				|| (selectedObject instanceof Interface && EmfClassifierUtil.isBusinessService(selectedObject))
+				||(selectedObject instanceof Actor && EmfClassifierUtil.isBusinessActor(selectedObject))
+				|| (selectedObject instanceof Component && EmfClassifierUtil.isBusinessComponent(selectedObject));
+
 	}
 	public static Collection<Operation> getDirectlyImplementedOperations(Classifier bc){
 		Set<String> inheritedConcreteOperationNames = new TreeSet<String>();
@@ -62,10 +72,10 @@ public class EmfOperationUtil{
 			}
 		}
 	}
-	public static boolean hasImplementingMethodIn(Operation o, Classifier c){
+	public static boolean hasImplementingMethodIn(Operation o,Classifier c){
 		EList<Behavior> methods = o.getMethods();
 		for(Behavior behavior:methods){
-			if(behavior.getContext()==c){
+			if(behavior.getContext() == c){
 				return true;
 			}
 		}

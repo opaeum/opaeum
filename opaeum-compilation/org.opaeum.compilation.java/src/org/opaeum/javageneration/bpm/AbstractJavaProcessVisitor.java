@@ -191,12 +191,8 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 		OJUtil.addMetaInfo(tokenClass, behavior);
 		if(behavior.getGenerals().size() > 0 && behavior.getGenerals().get(0) instanceof StateMachine){
 			tokenClass.setSuperclass(ojUtil.tokenPathName((Behavior) behavior.getGenerals().get(0)).getCopy());
-			if(behavior.isAbstract() || EmfClassifierUtil.getAllConcreteSubClassifiers(behavior, getModelInScope()).size() > 0){
-				tokenClass.addGenericTypeParam("SME extends " + ojStateMachine.getName());
-				tokenClass.getSuperclass().addToElementTypes(new OJPathName("SME"));
-			}else{
-				tokenClass.getSuperclass().addToElementTypes(ojUtil.classifierPathname(behavior));
-			}
+			tokenClass.addGenericTypeParam("SME extends " + ojStateMachine.getName());
+			tokenClass.getSuperclass().addToElementTypes(new OJPathName("SME"));
 			OJConstructor c = new OJConstructor();
 			tokenClass.addToConstructors(c);
 			c.addParam("parentToken", tokenClass.getPathName());
@@ -204,28 +200,22 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 		}else{
 			tokenClass.setSuperclass(tokenSuperClass.getCopy());
 			OJPathName iTokenPath = BpmUtil.ITOKEN.getCopy();
-			if(behavior.isAbstract() || EmfClassifierUtil.getAllConcreteSubClassifiers(behavior, getModelInScope()).size() > 0){
-				tokenClass.addGenericTypeParam("SME extends " + ojStateMachine.getName());
-				tokenClass.getSuperclass().addToElementTypes(new OJPathName("SME"));
-				iTokenPath.addToElementTypes(new OJPathName("SME"));
-				OJAnnotatedField behaviorExecution = new OJAnnotatedField("behaviorExecution", ojUtil.classifierPathname(behavior));
-				tokenClass.addToFields(behaviorExecution);
-				if(isPersistent(behavior)){
-					behaviorExecution.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
-					JpaUtil.addJoinColumn(behaviorExecution, "behavior_execution_id", false);
-				}
-				OJAnnotatedOperation setBehaviorExecution = new OJAnnotatedOperation("setBehaviorExecution");
-				setBehaviorExecution.addParam("behaviorExecution", ojUtil.classifierPathname(behavior));
-				setBehaviorExecution.getBody().addToStatements("this.behaviorExecution=behaviorExecution");
-				tokenClass.addToOperations(setBehaviorExecution);
-				OJAnnotatedOperation getBehaviorExecution = new OJAnnotatedOperation("getBehaviorExecution", new OJPathName("SME"));
-				tokenClass.addToOperations(getBehaviorExecution);
-				getBehaviorExecution.initializeResultVariable("(SME)behaviorExecution");
-			}else{
-				tokenClass.getSuperclass().addToElementTypes(ojUtil.classifierPathname(behavior));
-				iTokenPath.addToElementTypes(ojUtil.classifierPathname(behavior));
-				OJUtil.addPersistentProperty(tokenClass, "behaviorExecution", ojUtil.classifierPathname(behavior), true);
+			tokenClass.addGenericTypeParam("SME extends " + ojStateMachine.getName());
+			tokenClass.getSuperclass().addToElementTypes(new OJPathName("SME"));
+			iTokenPath.addToElementTypes(new OJPathName("SME"));
+			OJAnnotatedField behaviorExecution = new OJAnnotatedField("behaviorExecution", ojUtil.classifierPathname(behavior));
+			tokenClass.addToFields(behaviorExecution);
+			if(isPersistent(behavior)){
+				behaviorExecution.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
+				JpaUtil.addJoinColumn(behaviorExecution, "behavior_execution_id", false);
 			}
+			OJAnnotatedOperation setBehaviorExecution = new OJAnnotatedOperation("setBehaviorExecution");
+			setBehaviorExecution.addParam("behaviorExecution", ojUtil.classifierPathname(behavior));
+			setBehaviorExecution.getBody().addToStatements("this.behaviorExecution=behaviorExecution");
+			tokenClass.addToOperations(setBehaviorExecution);
+			OJAnnotatedOperation getBehaviorExecution = new OJAnnotatedOperation("getBehaviorExecution", new OJPathName("SME"));
+			tokenClass.addToOperations(getBehaviorExecution);
+			getBehaviorExecution.initializeResultVariable("(SME)behaviorExecution");
 			OJConstructor c = new OJConstructor();
 			tokenClass.addToConstructors(c);
 			c.addParam("parentToken", tokenClass.getPathName());
@@ -292,8 +282,8 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 		ojStateMachine.addToFields(executionElements);
 		OJAnnotatedOperation getExecutionElement = new OJAnnotatedOperation("getExecutionElements", map);
 		getExecutionElement.initializeResultVariable("executionElements");
-		OJIfStatement ifNull = new OJIfStatement("executionElements==null", "result=executionElements=new HashMap<String,"
-				+ BpmUtil.IEXECUTION_ELEMENT + ">()");
+		String newExecutionElements = "result=executionElements=new HashMap<String," + BpmUtil.IEXECUTION_ELEMENT + ">()";
+		OJIfStatement ifNull = new OJIfStatement("executionElements==null", newExecutionElements);
 		getExecutionElement.getBody().addToStatements(ifNull);
 		initializeExecutionElements(behavior, ojStateMachine, ifNull);
 		ojStateMachine.addToOperations(getExecutionElement);

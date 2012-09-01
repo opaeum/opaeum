@@ -24,7 +24,6 @@ import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityEdge;
-import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -50,7 +49,6 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TemplateSignature;
-import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
@@ -59,6 +57,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.eclipse.uml2.uml.util.UMLUtil;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -75,6 +74,17 @@ public class EmfElementFinder{
 			}
 		}
 		return result;
+	}
+	@SuppressWarnings("unchecked")
+	public static <T> T findNearestElementOfType(java.lang.Class<T> cls, EObject e){
+		EObject container = getContainer(e);
+		if(cls.isInstance(e)){
+			return (T)e;
+		}else if(container!=null){
+			return findNearestElementOfType(cls, (Element)container);
+		}else{
+			return null;
+		}
 	}
 	public static boolean isMeasure(Property p){
 		for(Stereotype s:p.getAppliedStereotypes()){
@@ -267,26 +277,17 @@ public class EmfElementFinder{
 		}
 		return result;
 	}
-	public static EObject getContainer(EObject s){
+	public static Element getContainer(EObject s){
 		if(s == null){
 			return null;
 		}else if(s instanceof IEmulatedElement){
 			{
 				return getContainer(((IEmulatedElement) s).getOriginalElement());
 			}
+		}else if(s instanceof DynamicEObjectImpl){
+			return UMLUtil.getBaseElement(s);
 		}else if(s.eContainer() instanceof DynamicEObjectImpl){
-			while(!(s.eContainer() == null)){
-				// find top level stereotype
-				s = s.eContainer();
-			}
-			for(EObject eObject:s.eCrossReferences()){
-				if(eObject instanceof Element){
-					if(((Element) eObject).getStereotypeApplications().contains(s)){
-						return eObject;
-					}
-				}
-			}
-			return s.eContainer();
+			return UMLUtil.getBaseElement(s.eContainer());
 		}else if(s instanceof Event){
 			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s;
 			ECrossReferenceAdapter cra = ECrossReferenceAdapter.getCrossReferenceAdapter(s);
@@ -294,40 +295,40 @@ public class EmfElementFinder{
 			if(event.eContainer() instanceof EAnnotation){
 				// Skip event AND annotation straight to the containing element
 				EAnnotation ea = (EAnnotation) event.eContainer();
-				return ea.getEModelElement();
+				return (Element)ea.getEModelElement();
 			}else{
 				// Old strategy - could be problematic if the event is referenced from multiple triggers
 				EAnnotation ann = event.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
 				if(ann != null){
 					for(EObject eObject:ann.getReferences()){
 						if(eObject instanceof Trigger){
-							return eObject;
+							return (Trigger)eObject;
 						}
 					}
 				}
 			}
 			for(Setting setting:cra.getNonNavigableInverseReferences(event)){
 				if(setting.getEObject() instanceof Trigger){
-					return setting.getEObject();
+					return (Trigger)setting.getEObject();
 				}
 			}
 			return event.getOwner();
 			// throw new IllegalStateException("No context could be found for Event:" + event.getQualifiedName());
 		}else if(s.eContainer() instanceof EAnnotation){
-			return ((EAnnotation) s.eContainer()).getEModelElement();
+			return (Element) ((EAnnotation) s.eContainer()).getEModelElement();
 		}else if(s instanceof Property && s.eContainer() instanceof Association){
 			Property p = (Property) s;
 			if(p.getOtherEnd() != null && p.isNavigable()){
 				return p.getOtherEnd().getType();
 			}else{
-				return s.eContainer();
+				return (Element) s.eContainer();
 			}
 		}else if(s instanceof InterfaceRealization){
 			return ((InterfaceRealization) s).getImplementingClassifier();
 		}else if(s instanceof Generalization){
 			return ((Generalization) s).getSpecific();
 		}
-		return s.eContainer();
+		return (Element) s.eContainer();
 	}
 	public static void main(String[] args) throws Exception{
 		System.out.println(toId("862713@_6M9kh9EyEd-XueQF87eovw"));
@@ -438,6 +439,15 @@ public class EmfElementFinder{
 					}
 				}else{
 					throw e;
+				}
+			}
+			EAnnotation ann = StereotypesHelper.getNumlAnnotation(root);
+			if(ann!=null){
+				EList<EObject> contents = ann.getContents();
+				for(EObject eObject:contents){
+					if(eObject instanceof Element){
+						elements.add((Element) eObject);
+					}
 				}
 			}
 			return elements;

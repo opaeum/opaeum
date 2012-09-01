@@ -6,9 +6,10 @@ import java.util.Set;
 public abstract class RegionActivation<SME extends IStateMachineExecution,T extends IStateMachineToken<SME> > extends StateMachineExecutionElement<SME,T>{
 	private SME stateMachineExecution;
 	private StateActivation<SME,T> owningState;
-	protected Set<VertexActivation<SME,T>> vertices = new HashSet<VertexActivation<SME,T>>();
-	protected Set<TransitionInstance<SME,T>> transitions = new HashSet<TransitionInstance<SME,T>>();
-	public RegionActivation(String id,StateActivation<SME,T> owningState){
+	protected Set<VertexActivation<? extends SME,? extends T>> vertices = new HashSet<VertexActivation<? extends SME,? extends T>>();
+	protected Set<TransitionInstance<? extends SME,? extends T>> transitions = new HashSet<TransitionInstance<? extends SME,? extends T>>();
+	@SuppressWarnings({"rawtypes","unchecked"})
+	public RegionActivation(String id,StateActivation owningState){
 		super(id);
 		this.owningState = owningState;
 		getStateMachineExecution().getExecutionElements().put(id, this);
@@ -20,8 +21,9 @@ public abstract class RegionActivation<SME extends IStateMachineExecution,T exte
 		getStateMachineExecution().getExecutionElements().put(id, this);
 	}
 	public void linkTransitions(){
-		for(VertexActivation<SME,T> v:vertices){
+		for(VertexActivation<? extends SME,? extends T> v:vertices){
 			if(v instanceof StateActivation){
+				@SuppressWarnings("unchecked")
 				StateActivation<SME,T> sa = (StateActivation<SME,T>) v;
 				for(RegionActivation<SME,T> ra:sa.getRegions()){
 					ra.linkTransitions();
@@ -39,8 +41,8 @@ public abstract class RegionActivation<SME extends IStateMachineExecution,T exte
 	public StateActivation<SME,T> getContainingState(){
 		return owningState;
 	}
-	public boolean contains(VertexActivation<SME,T> other){
-		for(VertexActivation<SME,T> v:vertices){
+	public boolean contains(VertexActivation<? extends SME,? extends T> other){
+		for(VertexActivation<? extends SME,? extends T> v:vertices){
 			if(v == other || v.contains(other)){
 				return true;
 			}
@@ -49,7 +51,7 @@ public abstract class RegionActivation<SME extends IStateMachineExecution,T exte
 	}
 	@SuppressWarnings("unchecked")
 	public void initiate(T token){
-		for(VertexActivation<SME,T>  v:vertices){
+		for(VertexActivation<? extends SME,? extends T>  v:vertices){
 			if(v instanceof PseudoStateActivation && ((PseudoStateActivation<SME,T>) v).isInitial()){
 				if(v instanceof HistoryStateActivation){
 					HistoryStateActivation<SME,T> h = (HistoryStateActivation<SME,T>) v;
@@ -66,10 +68,10 @@ public abstract class RegionActivation<SME extends IStateMachineExecution,T exte
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public void enter(T token,VertexActivation<SME,T> target){
+	public void enter(T token,VertexActivation<? extends SME,? extends T> target){
 		token = ((T) getStateMachineExecution().createToken(token));
 		
-		for(VertexActivation<SME,T> v:vertices){
+		for(VertexActivation<? extends SME,? extends T> v:vertices){
 			if(v == target){
 				((VertexActivation<SME,T>) v).enter(token, target);
 			}else if(v.contains(target)){

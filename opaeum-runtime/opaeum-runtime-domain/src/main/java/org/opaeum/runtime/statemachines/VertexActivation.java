@@ -7,7 +7,8 @@ import org.opaeum.runtime.domain.IToken;
 
 public class VertexActivation<SME extends IStateMachineExecution,T extends IStateMachineToken<SME>> extends StateMachineExecutionElement<SME,T>{
 	private RegionActivation<SME,T> containingRegionActivation;
-	public VertexActivation(String id,RegionActivation<SME,T> region){
+	@SuppressWarnings({"rawtypes","unchecked"})
+	public VertexActivation(String id,RegionActivation  region){
 		super(id);
 		this.setContainingRegionActivation(region);
 		getBehaviorExecution().getExecutionElements().put(id, this);
@@ -18,7 +19,7 @@ public class VertexActivation<SME extends IStateMachineExecution,T extends IStat
 	private void setContainingRegionActivation(RegionActivation<SME,T> containingRegionActivation){
 		this.containingRegionActivation = containingRegionActivation;
 	}
-	public boolean contains(VertexActivation<SME,T> other){
+	public boolean contains(@SuppressWarnings("rawtypes") VertexActivation other){
 		return false;
 	}
 	@Override
@@ -55,7 +56,7 @@ public class VertexActivation<SME extends IStateMachineExecution,T extends IStat
 	public String getId(){
 		return id;
 	}
-	public void enter(T token,VertexActivation<SME,T> target){
+	public void enter(T token,@SuppressWarnings("rawtypes") VertexActivation  target){
 		token.transferTo(this);
 		onEntry(token);
 	}

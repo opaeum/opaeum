@@ -6,7 +6,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 
 public abstract class EditingDomainEditingSupport extends EditingSupport{
 	protected EditingDomain editingDomain;
-	ColumnViewer viewer;
+	protected ColumnViewer viewer;
 
 	public EditingDomainEditingSupport(ColumnViewer viewer){
 		super(viewer);

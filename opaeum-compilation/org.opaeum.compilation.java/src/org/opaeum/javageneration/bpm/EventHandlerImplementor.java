@@ -10,6 +10,9 @@ import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCrea
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Behavior;
@@ -55,6 +58,7 @@ import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.TagNames;
 import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.ocl.uml.ResponsibilityDefinition;
@@ -180,6 +184,15 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitTriggerContainer(Behavior c){
+		for(EObject sa:c.getStereotypeApplications()){
+			EStructuralFeature f = sa.eClass().getEStructuralFeature(TagNames.DEADLINES);
+			if(f!=null){
+				List<TimeEvent> tes= (List<TimeEvent>) sa.eGet(f);
+				for(TimeEvent timeEvent:tes){
+					visitTimer(timeEvent);
+				}
+			}
+		}
 		for(Event event:EmfEventUtil.getEventsInScopeForClassAsBehavior(c)){
 			if(event instanceof ChangeEvent){
 				visitChangeEvent((ChangeEvent) event);

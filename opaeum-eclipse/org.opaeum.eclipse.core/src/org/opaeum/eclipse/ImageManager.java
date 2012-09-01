@@ -8,6 +8,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class ImageManager{
 	private static final String DEFAULT_IMAGE = "resources/icons/default.gif";
 	public static final String IMAGE_PATH = "resources/icons/";
+	public static final Image IMG_CHECKED = getImage(IMAGE_PATH + "checked.gif");
+	public static final Image IMG_UNCHECKED = getImage(IMAGE_PATH + "unchecked.gif");
 	public static final Image IMG_ADD = getImage(IMAGE_PATH + "Add.gif");
 	public static final Image IMG_ADDREG = getImage(IMAGE_PATH + "AddReg.gif");
 	public static final Image IMG_DELETE = getImage(IMAGE_PATH + "Delete.gif");

@@ -49,13 +49,15 @@ public abstract class ChooserPropertyOnStereotypeSection extends OpaeumChooserPr
 		super.setInput(part, selection);
 		Element element = getElement(getEObject());
 		Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
-		if(p == null){
+		if(p == null && element != null){
 			Package pkg = element.getModel() == null ? element.getNearestPackage() : element.getModel();
 			getEditingDomain().getCommandStack().execute(
 					new ApplyProfileCommand(pkg, p = ProfileApplier.getProfile(element, getProfileName()), false));
 		}
-		this.stereotype = p.getOwnedStereotype(getStereotypeName());
-		this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+		if(p != null){
+			this.stereotype = p.getOwnedStereotype(getStereotypeName());
+			this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+		}
 	}
 	@Override
 	public void refresh(){

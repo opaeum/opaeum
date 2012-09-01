@@ -182,6 +182,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	 * Removes initialization logic from the default constructor and adds it to the init method which takes the
 	 */
 	protected void addInit(Classifier c,OJClass ojClass){
+		
 		OJOperation init = new OJAnnotatedOperation("init");
 		if(isPersistent(c)){
 			init.addParam("owner", COMPOSITION_NODE);
@@ -240,7 +241,6 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	@Override
 	protected void visitComplexStructure(Classifier umlOwner){
-	
 		if(EmfClassifierUtil.isCompositionParticipant(umlOwner)){
 			visitClass((Classifier) umlOwner);
 		}else if(EmfClassifierUtil.isStructuredDataType(umlOwner)){

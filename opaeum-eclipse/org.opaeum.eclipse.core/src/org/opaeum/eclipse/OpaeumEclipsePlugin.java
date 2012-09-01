@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.opaeum.eclipse.newchild.CreateChildActions;
 import org.opaeum.eclipse.newchild.ICreateChildAction;
 import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
@@ -164,6 +165,8 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		return PLUGIN_ID;
 	}
 	public Set<ICreateChildAction> getCreateChildActions(){
-		return createChildActions;
+		HashSet<ICreateChildAction> result = new HashSet<ICreateChildAction>(createChildActions);
+		result.addAll(CreateChildActions.ACTIONS);
+		return result;
 	}
 }

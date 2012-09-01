@@ -31,7 +31,7 @@ public class EmfTimeUtil{
 	}
 	private static Stereotype getObservationStereotype(Namespace container){
 		if(container instanceof StateMachine){
-			return StereotypesHelper.getStereotype(container, StereotypeNames.BUSINES_STATE_MACHINE);
+			return StereotypesHelper.getStereotype(container, StereotypeNames.BUSINESS_STATE_MACHINE);
 		}else if(container instanceof Activity){
 			return StereotypesHelper.getStereotype(container, StereotypeNames.BUSINES_PROCESS);
 		}else if(container instanceof StructuredActivityNode){

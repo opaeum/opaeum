@@ -3,7 +3,7 @@ package org.opaeum.eclipse.uml.propertysections.constraints;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
@@ -37,8 +37,10 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.uml.propertysections.RecursiveAdapter;
 import org.opaeum.eclipse.uml.propertysections.ocl.OpaqueExpressionComposite;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 
 public class OclConstraintDetailsComposite extends Composite{
 	private TabbedPropertySheetWidgetFactory theFactory;
@@ -50,10 +52,25 @@ public class OclConstraintDetailsComposite extends Composite{
 	private Constraint selectedConstraint;
 	private EditingDomain currentEditDomain = null;
 	private boolean reinit = false;
-	private EStructuralFeature feature;
-	public OclConstraintDetailsComposite(TabbedPropertySheetWidgetFactory factory,Composite parent,EStructuralFeature feature){
+	private RecursiveAdapter adapter = new RecursiveAdapter(){
+		public void notifyChanged(Notification msg){
+			if(oclComposite.isDisposed()){
+				adapter.unsubscribe();
+			}else{
+				super.notifyChanged(msg);
+				if(msg.getNotifier() instanceof EObject && msg.getFeature() instanceof EStructuralFeature){
+					if(msg.getNotifier() instanceof EObject){
+						Constraint c = EmfElementFinder.findNearestElementOfType(Constraint.class, (EObject) msg.getNotifier());
+						if(c == selectedConstraint){
+							setSelectedConstraint(c);
+						}
+					}
+				}
+			}
+		};
+	};
+	public OclConstraintDetailsComposite(TabbedPropertySheetWidgetFactory factory,Composite parent){
 		super(parent, SWT.NONE);
-		this.feature = feature;
 		theFactory = factory;
 		setBackground(parent.getBackground());
 		this.setLayout(new FillLayout(SWT.VERTICAL));
@@ -101,8 +118,6 @@ public class OclConstraintDetailsComposite extends Composite{
 		ta.setHeaderVisible(true);
 		ta.setLinesVisible(true);
 	}
-	public void constraintUpdated(Constraint a){
-	}
 	private void createAreaForNameOfConstraintAndConstrainedElement(Composite group){
 		Label l = getWidgetFactory().createLabel(group, "Constraint Name : ", SWT.BOLD);
 		l.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false, 1, 1));
@@ -110,21 +125,21 @@ public class OclConstraintDetailsComposite extends Composite{
 		textForConstraintName.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false, 1, 1));
 		textForConstraintName.addModifyListener(new ModifyListener(){
 			public void modifyText(ModifyEvent e){
-				if(Utils.notNull(context, currentEditDomain, selectedConstraint) && !textForConstraintName.getText().equals(selectedConstraint.getName()) && !reinit){
+				if(Utils.notNull(context, currentEditDomain, selectedConstraint)
+						&& !textForConstraintName.getText().equals(selectedConstraint.getName()) && !reinit){
 					currentEditDomain.getCommandStack().execute(
 							SetCommand.create(currentEditDomain, selectedConstraint, getFeature(selectedConstraint, UMLPackage.CONSTRAINT__NAME),
 									textForConstraintName.getText()));
 					if(selectedOpaqueExpression == null){
 						OpaqueExpression expression = createExpression(selectedConstraint);
 						currentEditDomain.getCommandStack().execute(
-								SetCommand
-										.create(currentEditDomain, selectedConstraint, getFeature(selectedConstraint, UMLPackage.CONSTRAINT__SPECIFICATION), expression));
+								SetCommand.create(currentEditDomain, selectedConstraint,
+										getFeature(selectedConstraint, UMLPackage.CONSTRAINT__SPECIFICATION), expression));
 						selectedOpaqueExpression = expression;
 					}
 					currentEditDomain.getCommandStack().execute(
-							SetCommand.create(currentEditDomain, selectedOpaqueExpression, getFeature(selectedOpaqueExpression, UMLPackage.OPAQUE_EXPRESSION__NAME),
-									textForConstraintName.getText() + "_body"));
-					constraintUpdated(selectedConstraint);
+							SetCommand.create(currentEditDomain, selectedOpaqueExpression,
+									getFeature(selectedOpaqueExpression, UMLPackage.OPAQUE_EXPRESSION__NAME), textForConstraintName.getText() + "_body"));
 				}
 			}
 		});
@@ -152,9 +167,7 @@ public class OclConstraintDetailsComposite extends Composite{
 			}
 		}
 		return eContents;
-		
 	}
-	
 	private void createGroupOCLRule(Composite group){
 		Label l = getWidgetFactory().createLabel(group, "OCL Rule Code : ", SWT.BOLD);
 		l.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 3, 1));
@@ -163,10 +176,8 @@ public class OclConstraintDetailsComposite extends Composite{
 			public void fireOclChanged(String value){
 				if(context != null && currentEditDomain != null && selectedConstraint != null && !reinit){
 					super.fireOclChanged(value);
-					constraintUpdated(selectedConstraint);
 				}
 			}
-
 			@Override
 			protected EditingDomain getEditingDomain(){
 				return currentEditDomain;
@@ -184,9 +195,6 @@ public class OclConstraintDetailsComposite extends Composite{
 	public void setContext(Element theContext){
 		context = theContext;
 	}
-	private EList<Constraint> getConstraints(){
-		return((EList<Constraint>) context.eGet(feature));
-	}
 	private void setEnabled(Composite control,boolean enable){
 		for(Control c:control.getChildren()){
 			c.setEnabled(enable);
@@ -197,8 +205,12 @@ public class OclConstraintDetailsComposite extends Composite{
 		}
 	}
 	public void setSelectedConstraint(Constraint theConstraint){
+		if(this.selectedConstraint != null){
+			adapter.unsubscribe();
+		}
 		if(theConstraint != null){
-			oclComposite.setOclContext(theConstraint,(OpaqueExpression) theConstraint.getSpecification());
+			adapter.subscribeTo(theConstraint, 4);
+			oclComposite.setOclContext(theConstraint, (OpaqueExpression) theConstraint.getSpecification());
 			selectedConstraint = theConstraint;
 			String constraintName = theConstraint.getName();
 			if(constraintName == null){
@@ -220,26 +232,25 @@ public class OclConstraintDetailsComposite extends Composite{
 	private void askForConstrainedElements(){
 		if(selectedConstraint != null){
 			FeatureEditorDialog dialog = new FeatureEditorDialog(Display.getDefault().getActiveShell(), new AdapterFactoryLabelProvider(
-					new UMLItemProviderAdapterFactory()), selectedConstraint, getFeature(selectedConstraint, UMLPackage.CONSTRAINT__CONSTRAINED_ELEMENT),
-					"Choose Constrained Element", getAllElements());
+					new OpaeumItemProviderAdapterFactory()), selectedConstraint, getFeature(selectedConstraint,
+					UMLPackage.CONSTRAINT__CONSTRAINED_ELEMENT), "Choose Constrained Element", getAllElements());
 			if(dialog.open() == FeatureEditorDialog.OK){
 				List elements = dialog.getResult();
 				if(currentEditDomain != null){
 					if(!selectedConstraint.getConstrainedElements().isEmpty()){
 						currentEditDomain.getCommandStack().execute(
-								new RemoveCommand(currentEditDomain, selectedConstraint, getFeature(selectedConstraint, UMLPackage.CONSTRAINT__CONSTRAINED_ELEMENT),
-										selectedConstraint.getConstrainedElements()));
+								new RemoveCommand(currentEditDomain, selectedConstraint, getFeature(selectedConstraint,
+										UMLPackage.CONSTRAINT__CONSTRAINED_ELEMENT), selectedConstraint.getConstrainedElements()));
 					}
 					currentEditDomain.getCommandStack().execute(
-							new AddCommand(currentEditDomain, selectedConstraint, getFeature(selectedConstraint, UMLPackage.CONSTRAINT__CONSTRAINED_ELEMENT), elements));
+							new AddCommand(currentEditDomain, selectedConstraint, getFeature(selectedConstraint,
+									UMLPackage.CONSTRAINT__CONSTRAINED_ELEMENT), elements));
 					textElementChoosen.setCollectionElements(elements);
 				}
 			}
 		}
 	}
-	
 	public void setEditDomain(EditingDomain editingDomain){
-		currentEditDomain=editingDomain;
-		
+		currentEditDomain = editingDomain;
 	}
 }

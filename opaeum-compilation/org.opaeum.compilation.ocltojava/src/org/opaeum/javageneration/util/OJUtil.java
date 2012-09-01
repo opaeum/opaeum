@@ -249,9 +249,9 @@ public class OJUtil extends OJUtill{
 					qn = "java.lang.String";
 				}
 			}else if(classifier instanceof CollectionType){
-				//may never be called - monitor this
+				// may never be called - monitor this
 				System.out.println("OJUtil.classifierPathname(with collection type)");
-				CollectionType t=(CollectionType) classifier;
+				CollectionType t = (CollectionType) classifier;
 				switch(t.getKind()){
 				case BAG_LITERAL:
 				case COLLECTION_LITERAL:
@@ -339,8 +339,8 @@ public class OJUtil extends OJUtill{
 		}
 	}
 	public boolean requiresJavaRename(NamedElement a){
-		return oldClassifierPaths != null && oldClassifierPaths.containsKey(a) &&  classifierPaths.containsKey(a)&&!oldClassifierPaths.get(a).equals(classifierPaths.get(a));
-		
+		return oldClassifierPaths != null && oldClassifierPaths.containsKey(a) && classifierPaths.containsKey(a)
+				&& !oldClassifierPaths.get(a).equals(classifierPaths.get(a));
 	}
 	public OJPathName getOldPackagePathname(Namespace c){
 		if(oldPackagePaths != null){
@@ -433,7 +433,9 @@ public class OJUtil extends OJUtill{
 	 * 
 	 */
 	public boolean hasOJClass(Classifier c){
-		if(c == null || c instanceof Stereotype || c instanceof Collaboration || c instanceof UseCase){
+		if(c instanceof Collaboration && EmfClassifierUtil.isBusinessCollaboration(c)){
+			return true;
+		}else if(c == null || c instanceof Stereotype || c instanceof Collaboration || c instanceof UseCase){
 			return false;
 		}else if(EmfElementUtil.isMarkedForDeletion(c) || getCodeGenerationStrategy(c) == CodeGenerationStrategy.NO_CODE){
 			return false;
@@ -452,11 +454,11 @@ public class OJUtil extends OJUtill{
 	public CodeGenerationStrategy getCodeGenerationStrategy(NamedElement c){
 		CodeGenerationStrategy codeGenerationStrategy = CodeGenerationStrategy.ALL;
 		if(getTypeMap(EmfElementFinder.getRootObject(c)).containsKey(c.getQualifiedName())){
-			codeGenerationStrategy=CodeGenerationStrategy.NO_CODE;
-		}else		if(c instanceof Classifier){
+			codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
+		}else if(c instanceof Classifier){
 			Classifier cl = (Classifier) c;
 			String s = (String) EmfClassifierUtil.getTagValue(cl, TagNames.MAPPED_IMPLEMENTATION_TYPE);
-			if(s != null && s.length()>0){
+			if(s != null && s.length() > 0){
 				codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
 			}
 			// TODO this bit is obsolete
@@ -470,7 +472,6 @@ public class OJUtil extends OJUtill{
 		}else if(c instanceof Package && EmfPackageUtil.hasMappedImplementationPackage((Package) c)){
 			codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
 		}
-		
 		return codeGenerationStrategy;
 	}
 }

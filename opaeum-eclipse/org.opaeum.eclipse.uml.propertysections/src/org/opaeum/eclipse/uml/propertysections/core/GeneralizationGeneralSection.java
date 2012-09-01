@@ -47,17 +47,6 @@ public class GeneralizationGeneralSection extends OpaeumChooserPropertySection{
 		choices.addAll(UmlMetaTypeRemover.removeAll(types));
 		return choices.toArray();
 	}
-	protected ILabelProvider getLabelProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
-	}
-	protected ILabelProvider getAdvancedLabeProvider(){
-		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory()){
-			public String getText(Object object){
-				IItemQualifiedTextProvider itemQualifiedTextProvider = (IItemQualifiedTextProvider) adapterFactory.adapt(object, IItemQualifiedTextProvider.class);
-				return itemQualifiedTextProvider != null ? itemQualifiedTextProvider.getQualifiedText(object) : super.getText(object);
-			}
-		};
-	}
 	protected Object getFeatureValue(){
 		return ((Generalization)getEObject()).getGeneral();
 	}

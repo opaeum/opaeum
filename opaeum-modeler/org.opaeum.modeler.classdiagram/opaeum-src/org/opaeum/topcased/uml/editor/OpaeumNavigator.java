@@ -133,7 +133,7 @@ public class OpaeumNavigator extends UMLNavigator{
 							if(!aci.getAction().getText().equals("Business Process Diagram")){
 								mm.remove(addAction);
 							}
-						}else if(StereotypesHelper.hasStereotype((Element) selection, StereotypeNames.BUSINES_STATE_MACHINE)){
+						}else if(StereotypesHelper.hasStereotype((Element) selection, StereotypeNames.BUSINESS_STATE_MACHINE)){
 							ActionContributionItem aci = (ActionContributionItem) addAction;
 							if(!aci.getAction().getText().equals("Business State Machine Diagram")){
 								mm.remove(addAction);

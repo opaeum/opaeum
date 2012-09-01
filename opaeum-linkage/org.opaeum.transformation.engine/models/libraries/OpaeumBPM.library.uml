@@ -477,6 +477,18 @@
         </generalization>
       </packagedElement>
       <packagedElement xmi:type="uml:Interface" xmi:id="_q9boQOxcEeGCIZA5C6q3Tg" name="IProcessObjectBase"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_nSqy4PNQEeGhGoYzbfvy4A" name="IBusinessStateMachine">
+        <generalization xmi:id="_we4q0PNQEeGhGoYzbfvy4A" general="_5DVD4I3oEeCfQedkc0TCdA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_pD_mkPNQEeGhGoYzbfvy4A" name="IBusinessProcess">
+        <generalization xmi:id="_wLktQPNQEeGhGoYzbfvy4A" general="_5DVD4I3oEeCfQedkc0TCdA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_qDCBsPNQEeGhGoYzbfvy4A" name="IStandaloneSingleScreenTask">
+        <generalization xmi:id="_vT3CIPNQEeGhGoYzbfvy4A" general="_2tdYsI3oEeCfQedkc0TCdA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_rpwH4PNQEeGhGoYzbfvy4A" name="IStandaloneScreenflowTask">
+        <generalization xmi:id="_vnH8YPNQEeGhGoYzbfvy4A" general="_2tdYsI3oEeCfQedkc0TCdA"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_U_Vd0Et9EeGElKTCe2jfDw" name="organization">
       <eAnnotations xmi:id="_Jd0K8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -1047,18 +1059,18 @@
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XHBTwOnFEeG9QYQmxH5fMQ"/>
           </ownedParameter>
         </ownedOperation>
-        <region xmi:id="_zFmsEYoVEeCLqpffVZYAlw" name="TaskRequestRegion">
+        <region xmi:id="_zFmsEYoVEeCLqpffVZYAlw" name="TaskRequestRegion" extendedRegion="_FgGnMI6lEeCFsPOcAnk69Q">
           <eAnnotations xmi:id="_JhtMcGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_PGwF0IoaEeCPduia_-NbFw" name="Inactive">
             <eAnnotations xmi:id="_Jgtt8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           </subvertex>
-          <subvertex xmi:type="uml:State" xmi:id="_Qtk5sIoaEeCPduia_-NbFw" name="Created">
+          <subvertex xmi:type="uml:State" xmi:id="_Qtk5sIoaEeCPduia_-NbFw" name="Created" redefinedState="_TfNaAPNREeGhGoYzbfvy4A">
             <eAnnotations xmi:id="_Jg57MGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           </subvertex>
-          <subvertex xmi:type="uml:FinalState" xmi:id="_dAgD4IoaEeCPduia_-NbFw" name="Completed">
+          <subvertex xmi:type="uml:FinalState" xmi:id="_dAgD4IoaEeCPduia_-NbFw" name="Completed" redefinedState="_U2MbEPNREeGhGoYzbfvy4A">
             <eAnnotations xmi:id="_JhFhYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           </subvertex>
-          <subvertex xmi:type="uml:State" xmi:id="_XwDj4KCVEeCmJqvPP4zbUw" name="Active">
+          <subvertex xmi:type="uml:State" xmi:id="_XwDj4KCVEeCmJqvPP4zbUw" name="Active" redefinedState="_KHZWEPNREeGhGoYzbfvy4A">
             <eAnnotations xmi:id="_JhrXQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <region xmi:id="_XwDj4aCVEeCmJqvPP4zbUw" name="Region1">
               <eAnnotations xmi:id="_JhqJIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -1137,7 +1149,7 @@
               </transition>
             </region>
           </subvertex>
-          <subvertex xmi:type="uml:State" xmi:id="_eXmqMKCWEeCmJqvPP4zbUw" name="Suspended">
+          <subvertex xmi:type="uml:State" xmi:id="_eXmqMKCWEeCmJqvPP4zbUw" name="Suspended" redefinedState="_O2wBIPNREeGhGoYzbfvy4A">
             <eAnnotations xmi:id="_JhB3AGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <region xmi:id="_eXmqMaCWEeCmJqvPP4zbUw" name="Region1">
               <eAnnotations xmi:id="_JhAo4GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -1506,6 +1518,11 @@
         </ownedOperation>
         <region xmi:id="_FgGnMI6lEeCFsPOcAnk69Q" name="Region1">
           <eAnnotations xmi:id="_JerGkGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_JKNVEPNREeGhGoYzbfvy4A" name="InitialNode"/>
+          <subvertex xmi:type="uml:State" xmi:id="_KHZWEPNREeGhGoYzbfvy4A" name="Active"/>
+          <subvertex xmi:type="uml:State" xmi:id="_O2wBIPNREeGhGoYzbfvy4A" name="Suspended"/>
+          <subvertex xmi:type="uml:State" xmi:id="_TfNaAPNREeGhGoYzbfvy4A" name="Created"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_U2MbEPNREeGhGoYzbfvy4A" name="Complete"/>
         </region>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_JY15wI3pEeCfQedkc0TCdA" name="ProcessRequest OperationProcess" isAbstract="true" memberEnd="_JY15wY3pEeCfQedkc0TCdA _JY15xI3pEeCfQedkc0TCdA" isDerived="true" navigableOwnedEnd="_JY15xI3pEeCfQedkc0TCdA _JY15wY3pEeCfQedkc0TCdA">
@@ -2012,4 +2029,5 @@
   <OpaeumStandardProfile:Attribute xmi:id="_m3wkkO0mEeGN-aZ7URyUbw" base_Property="_jUSd0O0mEeGN-aZ7URyUbw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_oh6UwO6QEeGtc9wBJ1VReA" base_Property="_lw17UO6QEeGtc9wBJ1VReA"/>
   <OpaeumStandardProfile:Attribute xmi:id="_VOwMkO6REeGtc9wBJ1VReA" base_Property="_ROT18O6REeGtc9wBJ1VReA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_9EKJQPNQEeGhGoYzbfvy4A"/>
 </xmi:XMI>

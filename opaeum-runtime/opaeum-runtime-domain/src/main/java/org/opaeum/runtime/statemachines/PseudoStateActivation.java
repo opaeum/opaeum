@@ -2,7 +2,8 @@ package org.opaeum.runtime.statemachines;
 
 public class PseudoStateActivation<SME extends IStateMachineExecution, T extends IStateMachineToken<SME>> extends VertexActivation<SME,T>{
 	boolean isInitial;
-	public PseudoStateActivation(String id,RegionActivation<SME,T> region){
+	@SuppressWarnings("rawtypes")
+	public PseudoStateActivation(String id,RegionActivation region){
 		super(id, region);
 	}
 	

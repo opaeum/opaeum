@@ -5,13 +5,13 @@ import org.opaeum.javageneration.JavaFeature;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.bpm.activity.ActivityEventConsumptionImplementor;
 import org.opaeum.javageneration.bpm.activity.ActivityNodeEnumerationImplementor;
-import org.opaeum.javageneration.bpm.activity.ResponsibilityImplementor;
+import org.opaeum.javageneration.bpm.activity.TaskImplementor;
 import org.opaeum.javageneration.bpm.statemachine.StateEnumerationImplementor;
 import org.opaeum.javageneration.bpm.statemachine.StateMachineEventConsumptionImplementor;
 import org.opaeum.javageneration.organization.OrganizationImplementor;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		ActivityNodeEnumerationImplementor.class,StateEnumerationImplementor.class,ResponsibilityImplementor.class,
+		ActivityNodeEnumerationImplementor.class,StateEnumerationImplementor.class,TaskImplementor.class,
 		ActivityEventConsumptionImplementor.class,StateMachineEventConsumptionImplementor.class,EventHandlerImplementor.class,OrganizationImplementor.class,
 })
 public class BpmJavaStep extends JavaFeature{

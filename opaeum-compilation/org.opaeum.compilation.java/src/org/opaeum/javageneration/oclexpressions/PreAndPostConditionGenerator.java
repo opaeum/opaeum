@@ -119,16 +119,13 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 			}
 		}
 		//
-		if(EmfBehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()){
+		if(EmfBehaviorUtil.hasExecutionInstance(oper)){
 			Classifier messageClass = getLibrary().getMessageStructure(oper);
 			addEvaluationMethod(oper.getPreconditions(), "evaluatePreconditions", messageClass);
 			addEvaluationMethod(oper.getPostconditions(), "evaluatePostconditions", messageClass);
 		}else{
 			addLocalConditions(owner, mapper, oper.getPreconditions(), true);
-			if(!EmfBehaviorUtil.isLongRunning(oper)){
-				// implement on Operation Message Structure instead
-				addLocalConditions(owner, mapper, oper.getPostconditions(), false);
-			}
+			addLocalConditions(owner, mapper, oper.getPostconditions(), false);
 		}
 	}
 	public void addLocalConditions(Classifier owner,OperationMap mapper,Collection<Constraint> conditions,boolean pre){

@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Class;
@@ -19,10 +20,12 @@ import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Signal;
+import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.util.UMLUtil.StereotypeApplicationHelper;
@@ -94,6 +97,16 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 		}
 	}
 	private void implementInterfacesIfNecessary(Object newValue){
+		if(newValue instanceof Activity){
+			implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINES_PROCESS, StereotypeNames.PKG_REQUEST);
+		}
+		if(newValue instanceof OpaqueBehavior){
+			implementAppropriateInterface((Element) newValue, StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK, StereotypeNames.PKG_REQUEST);
+		}
+		if(newValue instanceof StateMachine){
+			implementAppropriateInterface((Element) newValue, StereotypeNames.STANDALONE_SCREENFLOW_TASK, StereotypeNames.PKG_REQUEST);
+			implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS_STATE_MACHINE, StereotypeNames.PKG_REQUEST);
+		}
 		if(newValue instanceof Signal){
 			implementAppropriateInterface((Element) newValue, StereotypeNames.NOTIFICATION, StereotypeNames.PKG_DOCUMENT);
 		}

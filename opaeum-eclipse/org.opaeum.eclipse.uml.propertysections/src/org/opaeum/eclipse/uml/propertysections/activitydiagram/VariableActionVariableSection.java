@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Variable;
 import org.eclipse.uml2.uml.VariableAction;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
 
 public class VariableActionVariableSection extends OpaeumChooserPropertySection{
@@ -21,9 +18,6 @@ public class VariableActionVariableSection extends OpaeumChooserPropertySection{
 	}
 	protected String getLabelText(){
 		return "Variable :";
-	}
-	protected ILabelProvider getLabelProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
 	}
 	private VariableAction getAction(){
 		return((VariableAction) getEObject());

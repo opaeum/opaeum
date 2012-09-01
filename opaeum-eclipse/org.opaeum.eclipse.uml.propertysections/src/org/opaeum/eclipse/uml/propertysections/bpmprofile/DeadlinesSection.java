@@ -9,6 +9,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -19,7 +20,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
@@ -59,7 +59,7 @@ public class DeadlinesSection extends AbstractTabbedPropertySection{
 					((StackLayout) details.getLayout()).topControl = null;
 				}
 				details.layout();
-				refresh();
+				
 			}
 		};
 		groupDetails = getWidgetFactory().createGroup(composite, "Details of the Deadline");
@@ -68,12 +68,7 @@ public class DeadlinesSection extends AbstractTabbedPropertySection{
 		details.setBackground(composite.getBackground());
 		details.setLayoutData(new GridData(GridData.FILL_BOTH));
 		details.setLayout(new StackLayout());
-		AbsoluteTimeEventDetailsComposite.TimeEventListener listener = new AbsoluteTimeEventDetailsComposite.TimeEventListener(){
-			public void timeEventChanged(TimeEvent t){
-				table.refresh();
-			}
-		};
-		absoluteComposite = new AbsoluteTimeEventDetailsComposite(getWidgetFactory(), details, 200, listener){
+		absoluteComposite = new AbsoluteTimeEventDetailsComposite(getWidgetFactory(), details, 200){
 			CCombo deadlineKindsCombo;
 			@Override
 			public void setContext(NamedElement context,TimeEvent te){
@@ -85,14 +80,25 @@ public class DeadlinesSection extends AbstractTabbedPropertySection{
 				deadlineKindsCombo = addDeadlineKind(toolkit, standardLabelWidth, this);
 				super.addChildrenAfterName(toolkit, parent, standardLabelWidth);
 			}
+			@Override
+			public void setEnabled(boolean b){
+				super.setEnabled(b);
+				deadlineKindsCombo.setEnabled(b);
+			}
 		};
-		relativeComposite = new RelativeTimeEventDetailsComposite(getWidgetFactory(), details, 200, listener, StereotypeNames.DEADLINE){
+		relativeComposite = new RelativeTimeEventDetailsComposite(getWidgetFactory(), details, 200,  StereotypeNames.DEADLINE){
 			CCombo deadlineKindsCombo;
 			@Override
 			public void setContext(NamedElement context,TimeEvent te){
 				super.setContext(context, te);
 				updateCombo(te, deadlineKindsCombo);
 			}
+			@Override
+			public void setEnabled(boolean b){
+				super.setEnabled(b);
+				deadlineKindsCombo.setEnabled(b);
+			}
+
 			@Override
 			protected void addChildrenAfterName(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
 				deadlineKindsCombo = addDeadlineKind(toolkit, standardLabelWidth, this);
@@ -123,7 +129,7 @@ public class DeadlinesSection extends AbstractTabbedPropertySection{
 	private CCombo addDeadlineKind(TabbedPropertySheetWidgetFactory toolkit,int standardLabelWidth,
 			final AbsoluteTimeEventDetailsComposite composite){
 		Control[] children = composite.getChildren();
-		Label l = toolkit.createLabel(composite, "Deadline Type");
+		CLabel l = toolkit.createCLabel(composite, "Deadline Type");
 		FormData labelData = new FormData();
 		labelData.top = new FormAttachment(children[children.length - 1]);
 		l.setLayoutData(labelData);
@@ -137,9 +143,8 @@ public class DeadlinesSection extends AbstractTabbedPropertySection{
 		deadlineKindsCombo.addSelectionListener(new SelectionListener(){
 			public void widgetSelected(SelectionEvent e){
 				EEnumLiteral newValue = deadlineKinds.get(deadlineKindsCombo.getSelectionIndex());
-				Command cmd = SetCommand.create(getEditingDomain(), composite.getTimeEvent(), deadlineStereotype.getDefinition().getEStructuralFeature(TagNames.DEADLINE_KIND), newValue);
+				Command cmd = SetCommand.create(getEditingDomain(), composite.getTimeEvent().getStereotypeApplication(deadlineStereotype), deadlineStereotype.getDefinition().getEStructuralFeature(TagNames.DEADLINE_KIND), newValue);
 				getEditingDomain().getCommandStack().execute(cmd);
-				composite.maybeFire();
 			}
 			public void widgetDefaultSelected(SelectionEvent e){
 			}

@@ -159,11 +159,8 @@ public class BasicTypeOperCallCreator {
 						+ ".boolAsSet(" + source + ")";
 			} else if (referedOp.getName().equals("toString")) {
 				result = "new Boolean(" + source + ").toString()";
-			} else if (referedOp.getName().equals("oclIsUndefined")) {
-				result = "false";
-				// TODO better error message mechanism
-				System.err
-						.println("Operation oclIsUndefined called for a Boolean value. This always results in 'false'.");
+			} else if (referedOp.getName().equals("oclIsUndefined") || referedOp.getName().equals("oclIsInvalid")) {
+				result = source + " == null";
 			} else {
 				System.err
 						.println("unspecified option in BasicTypeOperCallGenerator.booleanOperCall:");
@@ -231,11 +228,8 @@ public class BasicTypeOperCallCreator {
 				} else {
 					result = source + " - " + argStr;
 				}
-			} else if (referedOp.getName().equals("oclIsUndefined")) {
-				result = "false";
-				// TODO better error message mechanism
-				System.err
-						.println("Operation oclIsUndefined called for an Integer value. This always results in 'false'.");
+			} else if (referedOp.getName().equals("oclIsUndefined") || referedOp.getName().equals("oclIsInvalid")) {
+				result = source + " == null";
 			} else {
 				System.err
 						.println("unspecified option in BasicTypeOperCallGenerator.numericOperCall:");
@@ -307,7 +301,7 @@ public class BasicTypeOperCallCreator {
 				myClass.addToImports(OclUtilityCreator.getStdlibPath());
 				result = OclUtilityCreator.getStdlibPath().getLast()
 						+ ".stringAsSet(" + source + ")";
-			} else if (referedOp.getName().equals("oclIsUndefined")) {
+			} else if (referedOp.getName().equals("oclIsUndefined") || referedOp.getName().equals("oclIsInvalid")) {
 				result = StringHelpers.addBrackets(source) + " == null";
 			} else {
 				System.err

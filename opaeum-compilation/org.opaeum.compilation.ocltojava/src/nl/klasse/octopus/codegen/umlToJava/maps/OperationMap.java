@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.plaf.basic.BasicPopupMenuUI;
+
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
@@ -28,6 +30,7 @@ import org.opaeum.javageneration.maps.ExceptionRaisingMap;
 import org.opaeum.javageneration.maps.IMessageMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
+import org.opaeum.runtime.domain.IToken;
 
 public class OperationMap extends PackageableElementMap implements IMessageMap,ExceptionRaisingMap{
 	private NamedElement operation = null;
@@ -58,7 +61,7 @@ public class OperationMap extends PackageableElementMap implements IMessageMap,E
 	public List<OJPathName> javaParamTypePathsWithReturnInfo(){
 		List<OJPathName> javaParamTypePaths = new ArrayList<OJPathName>();
 		if(isLongRunning()){
-			javaParamTypePaths.add(new OJPathName("org.opaeum.runtime.activities.Token"));
+			javaParamTypePaths.add(new OJPathName(IToken.class.getName()));
 		}
 		javaParamTypePaths.addAll(javaParamTypePaths());
 		return javaParamTypePaths;
@@ -150,7 +153,7 @@ public class OperationMap extends PackageableElementMap implements IMessageMap,E
 	}
 	public OJPathName callbackListenerPath(){
 		if(callbackListenerPath == null){
-			this.callbackListenerPath = ojUtil.packagePathname(getContractDefiningElement().getNamespace()).getCopy();
+			this.callbackListenerPath = ojUtil.packagePathname(operation.getNamespace()).getCopy();
 			callbackListenerPath.addToNames(callbackListener());
 		}
 		return callbackListenerPath;
@@ -197,7 +200,7 @@ public class OperationMap extends PackageableElementMap implements IMessageMap,E
 		return handlerPath;
 	}
 	public String callbackListener(){
-		return NameConverter.capitalize(getContractDefiningElement().getName()) + "Listener";
+		return NameConverter.capitalize(operation.getName()) + "Listener";
 	}
 	public String callbackOperName(){
 		return baseMethodName() + "Complete";

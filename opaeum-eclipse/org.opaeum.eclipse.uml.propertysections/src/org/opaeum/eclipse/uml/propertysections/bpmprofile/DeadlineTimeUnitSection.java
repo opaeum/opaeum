@@ -3,6 +3,7 @@ package org.opaeum.eclipse.uml.propertysections.bpmprofile;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractEnumerationOnStereotypeSection;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.TagNames;
 
 public class DeadlineTimeUnitSection extends AbstractEnumerationOnStereotypeSection{
 	@Override
@@ -11,7 +12,7 @@ public class DeadlineTimeUnitSection extends AbstractEnumerationOnStereotypeSect
 	}
 	@Override
 	protected String getAttributeName(){
-		return "timeUnit";
+		return TagNames.TIME_UNIT;
 	}
 	@Override
 	protected String getProfileName(){

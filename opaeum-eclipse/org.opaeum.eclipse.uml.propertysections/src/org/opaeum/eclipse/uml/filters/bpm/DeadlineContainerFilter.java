@@ -19,7 +19,7 @@ public class DeadlineContainerFilter extends AbstractFilter{
 		}else if(e instanceof Operation){
 			return StereotypesHelper.hasStereotype(e, StereotypeNames.RESPONSIBILITY);
 		}else if(e instanceof OpaqueBehavior){
-			return StereotypesHelper.hasStereotype(e, StereotypeNames.STANDALONE_SIMPLE_TASK);
+			return StereotypesHelper.hasStereotype(e, StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK);
 		}else if(e instanceof StateMachine){
 			return StereotypesHelper.hasStereotype(e, StereotypeNames.STANDALONE_SCREENFLOW_TASK);
 		}else{
