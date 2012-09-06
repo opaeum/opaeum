@@ -45,9 +45,13 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 	@SuppressWarnings({"unchecked","rawtypes"})
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace){
-		if(shouldProcessWorkspace()){
+		if(shouldProcessWorkspace() && !config.shouldBeCm1Compatible()){
 			Collection<INakedRootObject> rootObjects = (Collection) workspace.getOwnedElements();
-			generateConfigAndEnvironment(rootObjects, TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, workspace);
+			TextSourceFolderIdentifier sfid = TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE;
+			if(config.getSourceFolderStrategy().isSingleProjectStrategy()){
+				sfid=TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_RESOURCE;
+			}
+			generateConfigAndEnvironment(rootObjects, sfid, true, workspace);
 		}
 	}
 	protected boolean shouldProcessWorkspace(){

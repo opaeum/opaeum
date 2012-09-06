@@ -24,6 +24,7 @@ import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.strategies.BlobStrategyFactory;
 import org.opaeum.strategies.DateTimeStrategyFactory;
 import org.opaeum.strategies.TextStrategyFactory;
+import org.osgi.framework.BundleContext;
 
 public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryChangeListener{
 	public static final String PLUGIN_ID = "org.opaeum.eclipse.core";
@@ -52,6 +53,10 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		OpaeumConfig.registerClass(DateTimeStrategyFactory.class);
 		OpaeumConfig.registerClass(TextStrategyFactory.class);
 		OpaeumConfig.registerClass(BlobStrategyFactory.class);
+	}
+	@Override
+	public void start(BundleContext context) throws Exception{
+		super.start(context);
 		IExtensionRegistry r = Platform.getExtensionRegistry();
 		addCreateChildActions(r.getConfigurationElementsFor("org.opaeum.eclipse", CREATE_CHILD_ACTION));
 		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);

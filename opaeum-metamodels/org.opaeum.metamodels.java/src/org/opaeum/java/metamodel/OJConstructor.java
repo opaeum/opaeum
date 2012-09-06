@@ -7,14 +7,25 @@ import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 public class OJConstructor extends OJConstructorGEN{
+	private boolean isDefault;
 	/******************************************************
 	 * The constructor for this classifier.
 	 *******************************************************/
 	public OJConstructor(){
 		super();
 	}
+	public OJConstructor(boolean b){
+		this.isDefault=b;
+	}
 	public OJClassifier getOwner(){
 		return this.getOwningClass();
+	}
+	@Override
+	public void addToParameters(OJParameter element){
+		if(isDefault){
+			throw new IllegalStateException("Default parameter may not have parameters");
+		}
+		super.addToParameters(element);
 	}
 	public OJConstructor getDeepCopy(){
 		OJConstructor result = new OJConstructor();

@@ -93,7 +93,7 @@ public class OJClass extends OJClassGEN {
 	public OJConstructor getDefaultConstructor() {
 		OJConstructor result = super.getDefaultConstructor();
 		if (result == null) {
-			OJConstructor constructor = new OJConstructor();
+			OJConstructor constructor = new OJConstructor(true);
 			constructor.setBody(new OJBlock());
 			constructor.setComment("default constructor for " + this.getName());
 			this.addToConstructors(constructor);
