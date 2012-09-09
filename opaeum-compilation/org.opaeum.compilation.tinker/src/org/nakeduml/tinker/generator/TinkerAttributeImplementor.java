@@ -62,7 +62,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor{
 			Property p = map.getProperty();
 			adder.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
-			if(!(p.getOtherEnd() == null || EmfPropertyUtil.isDerived( p.getOtherEnd())) && p.getOtherEnd().isNavigable()){
+			if(!(p.getOtherEnd() == null || EmfPropertyUtil.isDerived(p.getOtherEnd())) && p.getOtherEnd().isNavigable()){
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap((p).getOtherEnd());
 				if(otherMap.isMany()){
 					if(!ojUtil.hasOJClass((Classifier) p.getAssociation())){
@@ -153,8 +153,8 @@ public class TinkerAttributeImplementor extends AttributeImplementor{
 			if(map.isOne()){
 				getter = super.buildGetter(umlOwner, owner, map, derived);
 				if((prop.getType() instanceof Class)
-						|| (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(EmfPropertyUtil.isDerived( prop.getOtherEnd()) || prop.getOtherEnd()
-								.isReadOnly()))){
+						|| (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(EmfPropertyUtil.isDerived(prop.getOtherEnd()) || prop
+								.getOtherEnd().isReadOnly()))){
 					buildTinkerGetterForOne(owner, map, getter);
 				}else{
 					if(prop.getType() instanceof Enumeration){
@@ -258,44 +258,48 @@ public class TinkerAttributeImplementor extends AttributeImplementor{
 		return remover;
 	}
 	@Override
-	protected void buildInternalRemover(OJAnnotatedClass owner,PropertyMap map){
+	protected OJAnnotatedOperation buildInternalRemover(OJAnnotatedClass owner,PropertyMap map){
 		Property prop = map.getProperty();
 		Classifier umlOwner = (Classifier) map.getProperty().getOwner();
+		OJAnnotatedOperation buildBasicRemover = buildBasicRemover(owner, map);
 		if(map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()
-				&& !(EmfPropertyUtil.isDerived( prop.getOtherEnd()) || prop.getOtherEnd().isReadOnly())){
+				&& !(EmfPropertyUtil.isDerived(prop.getOtherEnd()) || prop.getOtherEnd().isReadOnly())){
 			if(map.isOne()){
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
-				buildTinkerToOneRemover(umlOwner, map, otherMap, owner, buildBasicRemover(owner, map));
+				buildTinkerToOneRemover(umlOwner, map, otherMap, owner, buildBasicRemover);
 			}else{
 				builTinkerManyRemover(owner, map);
 			}
 		}else{
-			addSimpleInternalRemoverBody(umlOwner, map, owner, buildBasicRemover(owner, map));
+			addSimpleInternalRemoverBody(umlOwner, map, owner, buildBasicRemover);
 		}
+		return buildBasicRemover;
 	}
 	@Override
-	protected void buildInternalAdder(OJAnnotatedClass owner,PropertyMap map){
+	protected OJAnnotatedOperation buildInternalAdder(OJAnnotatedClass owner,PropertyMap map){
 		if(map.getProperty().getOwner() instanceof Interface){
-			super.buildInternalAdder(owner, map);
+			return super.buildInternalAdder(owner, map);
 		}else{
-			buildTinkerInternalAdder(owner, map);
+			return buildTinkerInternalAdder(owner, map);
 		}
 	}
-	private void buildTinkerInternalAdder(OJAnnotatedClass owner,PropertyMap map){
+	private OJAnnotatedOperation buildTinkerInternalAdder(OJAnnotatedClass owner,PropertyMap map){
 		owner.addToImports(TinkerGenerationUtil.TINKER_NODE);
 		Property prop = map.getProperty();
 		Classifier umlOwner = (Classifier) map.getProperty().getOwner();
+		OJAnnotatedOperation adder = buildBasicAdder(owner, map);
 		if(map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()
-				&& !(EmfPropertyUtil.isDerived( prop.getOtherEnd()) || prop.getOtherEnd().isReadOnly())){
+				&& !(EmfPropertyUtil.isDerived(prop.getOtherEnd()) || prop.getOtherEnd().isReadOnly())){
 			if(map.isOne()){
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
-				buildTinkerToOneAdder(umlOwner, map, otherMap, owner, buildBasicAdder(owner, map));
+				buildTinkerToOneAdder(umlOwner, map, otherMap, owner, adder);
 			}else{
 				builTinkerManyAdder(owner, map);
 			}
 		}else{
-			addSimpleInternalAdderBody(umlOwner, map, owner, buildBasicAdder(owner, map));
+			addSimpleInternalAdderBody(umlOwner, map, owner, adder);
 		}
+		return adder;
 	}
 	private void builTinkerManyAdder(OJAnnotatedClass owner,PropertyMap map){
 		// super.buildInternalAdder(owner, map);

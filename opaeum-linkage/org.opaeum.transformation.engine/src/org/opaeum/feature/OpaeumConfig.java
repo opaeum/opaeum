@@ -4,11 +4,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -49,6 +54,8 @@ public class OpaeumConfig{
 	private static final String DBMS = "opaeum.dbms";
 	private static final String JDBC_CONNECTION_URL = "opaeum.jdbc.connection.url";
 	private static final String DB_PASSWORD = "opaeum.database.password";
+	private static final String SUPPORTED_LOCALES = "opaeum.supported.locales";
+	private static final String DEFAULT_CURRENCY = "opaeum.default.currency";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -84,7 +91,6 @@ public class OpaeumConfig{
 			Class<?> c = getClass(name);
 			return (ISourceFolderStrategy) c.newInstance();
 		}catch(Exception e){
-			
 			try{
 				Class<?> c = getClass("org.opaeum.sourcefolderstrategies.SingleProjectRapSourceFolderStrategy");
 				return (ISourceFolderStrategy) c.newInstance();
@@ -93,9 +99,40 @@ public class OpaeumConfig{
 			}
 		}
 	}
+	public Currency getDefaultCurrency(){
+		return Currency.getInstance(props.getProperty(DEFAULT_CURRENCY, "ZAR"));
+	}
+	public void setDefaultCurrency(Currency c){
+		if(c == null){
+			props.remove(DEFAULT_CURRENCY);
+		}else{
+			props.put(DEFAULT_CURRENCY, c.getCurrencyCode());
+		}
+	}
+	public void setSupportedLocales(Collection<Locale> locales){
+		StringBuilder sb = new StringBuilder();
+		for(Locale locale:locales){
+			sb.append(locale.toString());
+			sb.append(";");
+		}
+		props.put(SUPPORTED_LOCALES, sb.toString());
+	}
+	public Collection<Locale> getSupportedLocales(){
+		Collection<String> s = new HashSet<String>();
+		for(String l:props.getProperty(SUPPORTED_LOCALES, "").split("\\;")){
+			s.add(l);
+		}
+		List<Locale> availableLocales = getAvailableLocales();
+		Collection<Locale> result = new ArrayList<Locale>();
+		for(Locale locale:availableLocales){
+			if(s.contains(locale.toString())){
+				result.add(locale);
+			}
+		}
+		return result;
+	}
 	public static Class<?> getClass(String name){
 		Class<?> c;
-		
 		if(classRegistry.containsKey(name)){
 			System.out.println("OpaeumConfig.getClass()1");
 			c = classRegistry.get(name);
@@ -235,11 +272,10 @@ public class OpaeumConfig{
 	}
 	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,ProjectNameStrategy pns,String projectQualifier,
 			String sourceFolderQualifier){
-
 		SourceFolderDefinition sfd = new SourceFolderDefinition(pns, projectQualifier, sourceFolderQualifier);
 		sourceFolderDefinitions.put(id, sfd);
-		String p=getProjectNameOverride();
-		if(p == null||p.length()==1){
+		String p = getProjectNameOverride();
+		if(p == null || p.length() == 1){
 			sfd.clearProjectNameOverride();
 		}else{
 			sfd.overrideProjectName(p);
@@ -397,7 +433,7 @@ public class OpaeumConfig{
 	}
 	public void setProjectNameOverride(String p){
 		for(SourceFolderDefinition sfd:sourceFolderDefinitions.values()){
-			if(p == null || p.length()==0){
+			if(p == null || p.length() == 0){
 				sfd.clearProjectNameOverride();
 			}else{
 				sfd.overrideProjectName(p);
@@ -416,6 +452,25 @@ public class OpaeumConfig{
 	}
 	public boolean hasOutputProjectOverride(){
 		String projectNameOverride = getProjectNameOverride();
-		return projectNameOverride!=null&&projectNameOverride.length()>0;
+		return projectNameOverride != null && projectNameOverride.length() > 0;
+	}
+	public static java.util.List<Locale> getAvailableLocales(){
+		java.util.List<Locale> availableLocales = new ArrayList<Locale>(Arrays.asList(Locale.getAvailableLocales()));
+		availableLocales.add(new Locale("af","za"));
+		availableLocales.add(new Locale("zu","za"));
+		availableLocales.add(new Locale("xh","za"));
+		availableLocales.add(new Locale("nso","za"));
+		
+		Collections.sort(availableLocales, new Comparator<Locale>(){
+			@Override
+			public int compare(Locale o1,Locale o2){
+				int c = o1.getDisplayCountry().compareTo(o2.getDisplayCountry());
+				if(c == 0){
+					return o1.getDisplayLanguage().compareTo(o2.getDisplayLanguage());
+				}
+				return c;
+			}
+		});
+		return availableLocales;
 	}
 }

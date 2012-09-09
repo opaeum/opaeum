@@ -28,7 +28,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
@@ -309,7 +308,7 @@ public class OpenUmlFile extends EContentAdapter{
 		return transformationProcess;
 	}
 	public void removeSynchronizationListener(OpaeumSynchronizationListener editingContext){
-		this.synchronizationListener.remove(editingContext); // TODO Auto-generated method stub
+		this.synchronizationListener.remove(editingContext);
 	}
 	public void release(){
 		for(OpaeumSynchronizationListener l:this.synchronizationListener){
@@ -342,7 +341,7 @@ public class OpenUmlFile extends EContentAdapter{
 	private class ValidationRunner extends Job{
 		private Set<EObject> emfChanges;
 		public ValidationRunner(){
-			super("Synchronizing Opaeum Metadata with UML");
+			super("Executing Opaeum validations");
 			synchronized(OpenUmlFile.this.emfChanges){
 				this.emfChanges = new HashSet<EObject>(OpenUmlFile.this.emfChanges);
 				OpenUmlFile.this.emfChanges.clear();
@@ -357,7 +356,7 @@ public class OpenUmlFile extends EContentAdapter{
 					}
 					@Override
 					public void execute(){
-						monitor.beginTask("Synchronizing Opaeum Metadata", 50);
+						monitor.beginTask("Executing Opaeum validations", 50);
 						if(emfChanges.size() > 0){
 							long start = System.currentTimeMillis();
 							Set<Element> changedElements = new HashSet<Element>();
@@ -371,7 +370,7 @@ public class OpenUmlFile extends EContentAdapter{
 							for(OpaeumSynchronizationListener listener:synchronizationListener){
 								listener.synchronizationComplete(OpenUmlFile.this, changedElements);
 							}
-							System.out.println("Synchronization took " + (System.currentTimeMillis() - start));
+							System.out.println("Validation took " + (System.currentTimeMillis() - start));
 						}
 					}
 					@Override
@@ -379,10 +378,10 @@ public class OpenUmlFile extends EContentAdapter{
 						// TODO Auto-generated method stub
 					}
 				}.execute();
-				return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Opaeum Metadata Synchronized Successfully");
+				return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Opaeum validations executed");
 			}catch(Exception e){
 				e.printStackTrace();
-				return new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Synchronization Failed", e);
+				return new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Opaeum validations not executed!", e);
 			}finally{
 				monitor.done();
 			}

@@ -11,6 +11,7 @@ import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
@@ -23,21 +24,26 @@ import org.opaeum.name.NameConverter;
 
 public class CreateChildAndSelectAction extends CreateChildAction{
 	private EObjectSelectorUI selector;
+	private ISelection selection;
 	public CreateChildAndSelectAction(EditingDomain editingDomain,ISelection selection,CommandParameter descriptor){
 		super(editingDomain, selection, descriptor);
 		setText(descriptor);
+		this.selection=selection;
 	}
 	public CreateChildAndSelectAction(IEditorPart editorPart,ISelection selection,CommandParameter descriptor){
 		super(editorPart, selection, descriptor);
 		setText(descriptor);
+		this.selection=selection;
 	}
 	public CreateChildAndSelectAction(IWorkbenchPart workbenchPart,ISelection selection,CommandParameter descriptor){
 		super(workbenchPart, selection, descriptor);
 		setText(descriptor);
+		this.selection=selection;
 	}
 	private void setText(CommandParameter descriptor){
 		String name = descriptor.getEStructuralFeature().getName();
 		setText(toWords(name) + "|" + toWords(descriptor.getEValue().eClass().getName()));
+		setEnabled(true);
 	}
 	private String toWords(String name){
 		return NameConverter.separateWords(NameConverter.capitalize(name));
@@ -72,6 +78,7 @@ public class CreateChildAndSelectAction extends CreateChildAction{
 			}
 			editingDomain.getCommandStack().execute(
 					AddCommand.create(editingDomain, ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), getCommandParameter().getValue()));
+//			configureAction(new StructuredSelection(element));
 		}
 		super.run();
 		gotoNewObject();

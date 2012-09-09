@@ -9,6 +9,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
@@ -23,8 +25,8 @@ import org.opaeum.metamodel.core.internal.TagNames;
 public class EmfPackageUtil{
 	public static String getIdentifier(Package p){
 		for(Stereotype st:p.getAppliedStereotypes()){
-			if(st.getAttribute("artifactIdentifier", null) != null){
-				String s = (String) p.getValue(st, "artifactIdentifier");
+			if(st.getMember(TagNames.ARTIFACT_IDENTIFIER) != null){
+				String s = (String) p.getValue(st, TagNames.ARTIFACT_IDENTIFIER);
 				if(s != null && s.length() > 0){
 					return s;
 				}
@@ -64,15 +66,7 @@ public class EmfPackageUtil{
 		}
 		return null;
 	}
-	private static Stereotype getAppropriateStereotype(Package p){
-		Stereotype st = null;
-		if(p instanceof Model && StereotypesHelper.hasStereotype(p, StereotypeNames.MODEL)){
-			st = StereotypesHelper.getStereotype(p, StereotypeNames.MODEL);
-		}else if(StereotypesHelper.hasStereotype(p, StereotypeNames.PACKAGE)){
-			st = StereotypesHelper.getStereotype(p, StereotypeNames.PACKAGE);
-		}
-		return st;
-	}
+
 	private static void addImports(Set<Package> result,Package ro){
 		if(result.contains(ro)){
 			return;
@@ -93,7 +87,7 @@ public class EmfPackageUtil{
 	public static boolean isRegeneratingLibrary(Model model){
 		if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL)){
 			EObject sa = model.getStereotypeApplication(StereotypesHelper.getStereotype(model, StereotypeNames.MODEL));
-			EStructuralFeature f = sa.eClass().getEStructuralFeature("modelType");
+			EStructuralFeature f = sa.eClass().getEStructuralFeature(TagNames.MODEL_TYPE);
 			if(f != null){
 				EEnumLiteral value = (EEnumLiteral) sa.eGet(f);
 				return value.getName().equals("REGENERATING_LIBRARY");
@@ -126,5 +120,17 @@ public class EmfPackageUtil{
 		}else{
 			return StereotypesHelper.hasStereotype(model, "EPackage", "MetaModel");
 		}
+	}
+	public static Collection<Package> getRootObjects(ResourceSet resourceSet){
+		EList<Resource> resources = resourceSet.getResources();
+		Collection<Package> result=new HashSet<Package>();
+		for(Resource resource:resources){
+			for(EObject eObject:resource.getContents()){
+				if(eObject instanceof Package && isRootObject((Element) eObject) ){
+					result.add((Package) eObject);
+				}
+			}
+		}
+		return result;
 	}
 }

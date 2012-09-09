@@ -7,8 +7,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.CommonPlugin;
@@ -60,6 +62,7 @@ import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class OpaeumEditorMenu extends UMLEditorMenu{
 	private EditingDomain domain;
@@ -93,13 +96,20 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 				}
 			}
 			Collection<IAction> createChildActions = generateCreateChildActions(descriptors, ss);
-			for(ICreateChildAction cca:OpaeumEclipsePlugin.getDefault().getCreateChildActions()){
+			Set<ICreateChildAction> customCreateChildActions = OpaeumEclipsePlugin.getDefault().getCreateChildActions();
+			OpaeumLibrary lib = null;
+			if(selectedObject instanceof Element){
+				lib = OpaeumEclipseContext.getContextFor((Element) selectedObject).getEditingContextFor(selectedObject).getEmfWorkspace()
+						.getOpaeumLibrary();
+			}
+			for(ICreateChildAction cca:customCreateChildActions){
 				if(cca.isPotentialParent(selectedObject)){
-					CreateChildAction createAction = cca.createAction(activeWorkbenchWindow.getActivePage().getActivePart(), ss);
-					if(createAction==null){
-						System.out.println(cca.getClass());
+					CreateChildAction createAction = cca.createAction(activeWorkbenchWindow.getActivePage().getActivePart(), ss, lib);
+					if(createAction == null){
+						OpaeumEclipsePlugin.logError("Null CreateChildAction produced by :" + cca.getClass(), new IllegalStateException());
+					}else{
+						createChildActions.add(createAction);
 					}
-					createChildActions.add(createAction);
 				}
 			}
 			Map<String,Collection<IAction>> createChildSubmenuActions = extractSubmenuActions(createChildActions);
@@ -120,7 +130,8 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		if(theDescriptors != null){
 			IWorkbenchPart activePart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart();
 			for(CommandParameter descriptor:(Collection<CommandParameter>) theDescriptors){
-				if(!(descriptor.getValue() instanceof Model || descriptor.getValue() instanceof Profile ||CreateChildActions.CONTROLLED_FEATURES.contains(descriptor.getFeature()) )){
+				if(!(descriptor.getValue() instanceof Model || descriptor.getValue() instanceof Profile || CreateChildActions.CONTROLLED_FEATURES
+						.contains(descriptor.getFeature()))){
 					CreateChildAction actio = new CreateChildAndSelectAction(activePart, selection, descriptor);
 					if(descriptor.getValue() instanceof InterfaceRealization || descriptor.getValue() instanceof Generalization
 							|| descriptor.getValue() instanceof Dependency || descriptor.getValue() instanceof ElementImport
@@ -182,7 +193,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 						actions.add(actio);
 					}
 					for(IAction iAction:actions){
-						if(iAction==null){
+						if(iAction == null){
 							System.out.println(descriptor);
 						}
 					}
@@ -215,7 +226,15 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 	}
 	protected void populateManager(IContributionManager manager,Collection<? extends IAction> actions,String contributionID){
 		if(actions != null){
-			for(IAction action:actions){
+			Set<IAction> set = new TreeSet<IAction>(new Comparator<IAction>(){
+
+				@Override
+				public int compare(IAction o1,IAction o2){
+					return o1.getText().compareTo(o2.getText());
+				}
+			});
+			set.addAll(actions);
+			for(IAction action:set){
 				if(action instanceof CreateChildAndSelectAction){
 					((CreateChildAndSelectAction) action).setSelector(selector);
 				}

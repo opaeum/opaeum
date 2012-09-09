@@ -14,12 +14,12 @@ import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
-import org.opaeum.java.metamodel.OJClassifier;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opaeum.javageneration.JavaTransformationPhase;
@@ -30,19 +30,15 @@ import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class})
 public class CopyMethodImplementor extends AbstractStructureVisitor{
-	protected void visitComplexStructure(Classifier c){
-		OJPathName path = ojUtil.classifierPathname(c);
-		OJClassifier myOwner = this.javaModel.findClass(path);
-		// NakedModelElement mew = (NakedModelElement)
-		// nakedModel.lookup(c.getPathName());
-		if(myOwner instanceof OJClass && (c instanceof Class || EmfClassifierUtil.isStructuredDataType(c))){
-			Classifier nc = (Classifier) c;
-			OJClass ojClass = (OJClass) myOwner;
-			implementCopyMethod(ojClass, nc);
-			addCopyStateMethod(nc, ojClass);
-			addShallowMakeCopyMethod(ojClass, nc);
-			addShallowCopyStateMethod(nc, ojClass);
+	@Override
+	protected boolean visitComplexStructure(OJAnnotatedClass ojClass, Classifier c){
+		if(c instanceof Class || EmfClassifierUtil.isStructuredDataType(c)){
+			implementCopyMethod(ojClass, c);
+			addCopyStateMethod(c, ojClass);
+			addShallowMakeCopyMethod(ojClass, c);
+			addShallowCopyStateMethod(c, ojClass);
 		}
+		return false;
 	}
 	private void addShallowMakeCopyMethod(OJClass owner,Classifier classifier){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation("makeShallowCopy");
@@ -178,6 +174,6 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
+	protected void visitProperty(OJAnnotatedClass c, Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_kxYA0MP5Ed-SNsUNWzjz5A" activeDiagram="_Hp49wMbtEd-qWtMD5IZMIA">
   <model href="OpaeumSimpleTypes.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
-  <diagrams xmi:id="_Hp49wMbtEd-qWtMD5IZMIA" position="0,0" size="100,100" name="OpaeumSimpleTypes" viewport="19,68">
+  <diagrams xmi:id="_Hp49wMbtEd-qWtMD5IZMIA" position="0,0" size="100,100" name="OpaeumSimpleTypes" viewport="0,68">
     <property xmi:id="_HqO8AMbtEd-qWtMD5IZMIA" key="pageFormatName" value="A4"/>
     <property xmi:id="_HqO8AcbtEd-qWtMD5IZMIA" key="diagramWidth" value="840"/>
     <property xmi:id="_HqO8AsbtEd-qWtMD5IZMIA" key="diagramHeight" value="1188"/>

@@ -19,9 +19,9 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
-import org.opaeum.java.metamodel.OJClassifier;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
@@ -51,30 +51,22 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 			asdf.addToSuperInterfaces(new OJPathName(IPersistentObject.class.getName()));
 		}
 	}
-	private void visitClass(Classifier c){
-		OJClassifier ojClassifier = super.findJavaClass(c);
-		if(ojClassifier instanceof OJAnnotatedInterface){
-			if(!EmfClassifierUtil.isHelper(c)){
-				((OJAnnotatedInterface) ojClassifier).addToSuperInterfaces(ABSTRACT_ENTITY);
-				ojClassifier.addToImports(ABSTRACT_ENTITY);
-			}
-		}else if(ojClassifier instanceof OJClass){
-			if(c instanceof Class && EmfClassifierUtil.getPrimaryKeyProperties((Class) c).size() > 0){
-				return;
-			}else{
-				OJClass ojClass = (OJClass) ojClassifier;
-				if(isPersistent(c)){
-					OJAnnotatedField persistence = new OJAnnotatedField("persistence", new OJPathName(AbstractPersistence.class.getName()));
-					persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
-					ojClass.addToFields(persistence);
-					ojClass.addToImports(ABSTRACT_ENTITY);
-					if(ojClass.findOperation("getName", new ArrayList<OJPathName>()) == null){
-						addGetName(c, ojClass);
-					}
-					ojClass.addToImplementedInterfaces(ABSTRACT_ENTITY);
-					if(c instanceof Class){
-						addDiscriminatorInitialization((Class) c, ojClass);
-					}
+	private void visitClass(OJAnnotatedClass ojClassifier,Classifier c){
+		if(c instanceof Class && EmfClassifierUtil.getPrimaryKeyProperties((Class) c).size() > 0){
+			return;
+		}else{
+			OJClass ojClass = (OJClass) ojClassifier;
+			if(isPersistent(c)){
+				OJAnnotatedField persistence = new OJAnnotatedField("persistence", new OJPathName(AbstractPersistence.class.getName()));
+				persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
+				ojClass.addToFields(persistence);
+				ojClass.addToImports(ABSTRACT_ENTITY);
+				if(ojClass.findOperation("getName", new ArrayList<OJPathName>()) == null){
+					addGetName(c, ojClass);
+				}
+				ojClass.addToImplementedInterfaces(ABSTRACT_ENTITY);
+				if(c instanceof Class){
+					addDiscriminatorInitialization((Class) c, ojClass);
 				}
 			}
 		}
@@ -100,10 +92,11 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 		ojClass.addToOperations(getName);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
+	protected void visitProperty(OJAnnotatedClass c,Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
-		visitClass(umlOwner);
+	protected boolean visitComplexStructure(OJAnnotatedClass c,Classifier umlOwner){
+		visitClass(c, umlOwner);
+		return false;
 	}
 }

@@ -9,16 +9,20 @@ import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 
 public class OJAnnonymousInnerClass extends OJAnnotatedField {
-	private OJAnnotatedClass classDeclaration = new OJAnnotatedClass("");
-	private OJPathName outer;
+	private OJAnnotatedClass classDeclaration = new OJAnnotatedClass(""){
+		public void addToImports(OJPathName path) {
+			outer.addToImports(path);
+		}
+	};
+	private OJAnnotatedClass outer;
 
-	public OJAnnonymousInnerClass(OJPathName outer, String string, OJPathName ojPathName) {
+	public OJAnnonymousInnerClass(OJAnnotatedClass outer, String string, OJPathName ojPathName) {
 		super(string, ojPathName);
 		classDeclaration.setSuperclass(ojPathName);
 		this.outer = outer;
 	}
 	public OJPathName getPathName(){
-		return outer.getCopy().append("Anonymous");
+		return outer.getPathName().getCopy().append("Anonymous");
 	}
 	@Override
 	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
@@ -65,7 +69,7 @@ public class OJAnnonymousInnerClass extends OJAnnotatedField {
 		sb.append(JavaStringHelpers.indent(classDeclaration.operations(), 2));
 		sb.append("};");
 		// TODO bit aggressive
-		return sb.toString().replaceAll("this", outer.getLast() + ".this");
+		return sb.toString().replaceAll("this", outer.getName() + ".this");
 	}
 
 	public OJAnnotatedField getDeepCopy() {
@@ -76,7 +80,7 @@ public class OJAnnonymousInnerClass extends OJAnnotatedField {
 
 	public void copyDeepInto(OJAnnonymousInnerClass copy) {
 		copy.classDeclaration = this.classDeclaration.getDeepCopy(copy.classDeclaration.getMyPackage());
-		copy.outer = this.outer.getDeepCopy();
+		copy.outer = this.outer;
 		super.copyDeepInfoInto(copy);
 	}
 }

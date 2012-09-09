@@ -11,23 +11,24 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {
 		OperationAnnotator.class,AttributeImplementor.class
 })
+//TODO change this code to start from the derivedUnion property
 public class DerivedUnionImplementor extends AbstractStructureVisitor{
 	@Override
 	protected int getThreadPoolSize(){
 		return 1;// Does work across multiple models
 	}
-	public void visitProperty(Classifier owner,PropertyMap map){
+	@Override
+	public void visitProperty(OJAnnotatedClass c, Classifier owner,PropertyMap map){
 		Property p = map.getProperty();
 		if(p.isNavigable()){
-			OJClass c = findJavaClass(owner);
 			for(Property derivedUnion:p.getSubsettedProperties()){
-
 				addSubsetToUnion(owner, map, c, derivedUnion);
 			}
 		}
@@ -99,6 +100,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 		return expression;
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass c,  Classifier umlOwner){
+		return true;
 	}
 }

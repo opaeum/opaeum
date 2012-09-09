@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>opaeum-runtime</artifactId>
 		<groupId>org.opaeum</groupId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -11,7 +11,6 @@
 	<artifactId>opaeum-runtime-jpa</artifactId>
 	<packaging>jar</packaging>
 	<name>Opaeum JPA/Hibernate Runtime</name>
-	<version>1.0.0-SNAPSHOT</version>
 	<url>http://github.com/opaeum</url>
 	<properties>
 	</properties>

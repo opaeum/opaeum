@@ -7,7 +7,6 @@ import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.opaeum.feature.StepDependency;
-import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -20,8 +19,8 @@ import org.opaeum.javageneration.hibernate.HibernateAttributeImplementor;
 @StepDependency(phase = JavaTransformationPhase.class,replaces = HibernateAttributeImplementor.class)
 public class RapAttributeImplementor extends HibernateAttributeImplementor{
 	@Override
-	protected OJOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map){
-		OJOperation setter = super.buildSetter(umlOwner, owner, map);
+	protected OJAnnotatedOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map){
+		OJAnnotatedOperation setter = super.buildSetter(umlOwner, owner, map);
 		if(owner.findField("propertyChangeSupport") != null){
 			setter.getBody().addToStatements(
 					0,
@@ -31,9 +30,8 @@ public class RapAttributeImplementor extends HibernateAttributeImplementor{
 		return setter;
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass ojClass, Classifier umlOwner){
 		OJAnnotatedField support = new OJAnnotatedField("propertyChangeSupport", new OJPathName(PropertyChangeSupport.class.getName()));
-		OJAnnotatedClass ojClass = findJavaClass(umlOwner);
 		ojClass.addToFields(support);
 		support.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		support.setInitExp("new PropertyChangeSupport(this)");
@@ -47,7 +45,6 @@ public class RapAttributeImplementor extends HibernateAttributeImplementor{
 		add.addParam("property", new OJPathName("String"));
 		add.addParam("listener", new OJPathName(PropertyChangeListener.class.getName()));
 		add.getBody().addToStatements("propertyChangeSupport.addPropertyChangeListener(property,listener)");
-		// TODO Auto-generated method stub
-		super.visitComplexStructure(umlOwner);
+		return super.visitComplexStructure(ojClass, umlOwner);
 	}
 }

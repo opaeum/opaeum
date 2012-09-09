@@ -406,4 +406,7 @@ public class OpaeumEclipseContext{
 	public Collection<OpenUmlFile> getOpenUmlFiles(){
 		return this.openUmlFiles.values();
 	}
+	public static OpenUmlFile findOpenUmlFileFor(Element element){
+		return getContextFor(element).getEditingContextFor(element);
+	}
 }

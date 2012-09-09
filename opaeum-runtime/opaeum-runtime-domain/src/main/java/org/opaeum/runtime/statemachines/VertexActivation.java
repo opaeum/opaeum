@@ -52,17 +52,19 @@ public class VertexActivation<SME extends IStateMachineExecution,T extends IStat
 			getStateMachineExecution().removeToken(childToken);
 		}
 		childTokens.clear();
+		onExit(token);
 	}
 	public String getId(){
 		return id;
 	}
 	public void enter(T token,@SuppressWarnings("rawtypes") VertexActivation  target){
-		token.transferTo(this);
 		onEntry(token);
+		token.transferTo(this);
 	}
 	public boolean onCompletion(){
 		return true;
 	}
 	public void onEntry(T token){
+		super.onEntry(token);
 	}
 }

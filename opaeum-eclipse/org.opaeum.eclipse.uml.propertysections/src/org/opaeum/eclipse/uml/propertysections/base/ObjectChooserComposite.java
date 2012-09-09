@@ -16,7 +16,7 @@ import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.Trigger;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 
 public abstract class ObjectChooserComposite extends Composite{
@@ -63,10 +63,10 @@ public abstract class ObjectChooserComposite extends Composite{
 		return org;
 	}
 	protected ILabelProvider getLabelProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
+		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
 	protected ILabelProvider getAdvancedLabeProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()){
+		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory()){
 			public String getText(Object object){
 				IItemQualifiedTextProvider itemQualifiedTextProvider = (IItemQualifiedTextProvider) adapterFactory.adapt(object, IItemQualifiedTextProvider.class);
 				return itemQualifiedTextProvider != null ? itemQualifiedTextProvider.getQualifiedText(object) : super.getText(object);

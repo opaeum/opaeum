@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;

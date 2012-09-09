@@ -15,4 +15,5 @@ public interface IPropertyEmulation{
 	Classifier getMessageStructure(Namespace operation);
 	Classifier getMessageStructure(OpaqueAction n);
 	OpaqueExpressionContext getOclExpressionContext(OpaqueExpression valueSpec);
+	public abstract DataType getCumulativeDurationType();
 }

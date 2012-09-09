@@ -48,6 +48,7 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.AbstractOclContext;
 import org.opaeum.ocl.uml.PropertyOfImplicitObject;
+import org.opaeum.runtime.environment.Environment;
 
 public class ExpressionCreator{
 	private OJClass myClass = null;
@@ -158,6 +159,7 @@ public class ExpressionCreator{
 				result = "this";
 			}
 		}else if(in.getName().equals("currentUser")){
+			myClass.addToImports(new OJPathName(Environment.class.getName()));
 			result = "Environment.getInstance().getCurrentUser()";
 			Class pn = this.ojUtil.getLibrary().getPersonNode();
 			if(pn != null){
@@ -166,6 +168,7 @@ public class ExpressionCreator{
 				result = "(" + pnpn.getLast() + ")" + result;
 			}
 		}else if(in.getName().equals("currentRole")){
+			myClass.addToImports(new OJPathName(Environment.class.getName()));
 			result = "Environment.getInstance().getCurrentRole()";
 			Interface pn = this.ojUtil.getLibrary().getParticipant();
 			if(pn != null){

@@ -16,7 +16,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public abstract class AbstractComboPropertySection extends AbstractTabbedPropertySection{
@@ -60,7 +60,7 @@ public abstract class AbstractComboPropertySection extends AbstractTabbedPropert
 		});
 	}
 	protected ILabelProvider getLabelProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
+		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
 	protected void handleComboModified(){
 		int index = combo.getSelectionIndex();

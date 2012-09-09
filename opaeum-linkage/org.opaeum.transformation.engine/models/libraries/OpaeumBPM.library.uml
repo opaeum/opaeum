@@ -332,6 +332,28 @@
         <ownedAttribute xmi:id="_f6z9oASUEeGb9qsDxKJdSA" name="fromDate">
           <eAnnotations xmi:id="_JmxSoGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+          <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_nFG38PaFEeGCbPhtTNZUDg" name="fromDateDefault Value">
+            <language>OCL</language>
+            <body>now</body>
+          </defaultValue>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:DataType" xmi:id="_6K68EPdSEeGBr9eGBfKdJw" name="CumulativeDuration">
+        <ownedAttribute xmi:id="_UZwngPdTEeGBr9eGBfKdJw" name="timeUnit">
+          <type xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_cWGzAPdTEeGBr9eGBfKdJw" name="cumulativeQuantity">
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_iAlpkPdTEeGBr9eGBfKdJw" name="lastFromDate">
+          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+          <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_nrc6oPdTEeGBr9eGBfKdJw" name="lastFromDateDefault Value">
+            <language>OCL</language>
+            <body>now</body>
+          </defaultValue>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_9uV-gPddEeGasbwTjGXa0w" name="measurementCount">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedAttribute>
       </packagedElement>
     </packagedElement>
@@ -351,12 +373,6 @@
             <body>self.request.oclAsType(TaskRequest )</body>
           </defaultValue>
         </ownedAttribute>
-        <ownedOperation xmi:id="_iBCwEK0NEeCK48ywUpk_rg" name="onStarted">
-          <eAnnotations xmi:id="_Jd5qgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <ownedParameter xmi:id="_mYTrQK0NEeCK48ywUpk_rg" name="startedBy" type="_YgstsI29EeCrtavWRHwoHg">
-            <eAnnotations xmi:id="_Jd4cYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          </ownedParameter>
-        </ownedOperation>
         <ownedOperation xmi:id="_qTa18K0NEeCK48ywUpk_rg" name="onClaimed">
           <eAnnotations xmi:id="_JeDbgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <ownedParameter xmi:id="_roekYK0NEeCK48ywUpk_rg" name="claimedBy" type="_YgstsI29EeCrtavWRHwoHg">
@@ -405,18 +421,6 @@
             <eAnnotations xmi:id="_Jd_KEGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_XbPZkK0OEeCK48ywUpk_rg" name="onActivated">
-          <eAnnotations xmi:id="_JeKwQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <ownedParameter xmi:id="_YslssK0OEeCK48ywUpk_rg" name="activatedBy" type="_YgstsI29EeCrtavWRHwoHg">
-            <eAnnotations xmi:id="_JeJiIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          </ownedParameter>
-        </ownedOperation>
-        <ownedOperation xmi:id="_a_82cK0OEeCK48ywUpk_rg" name="onCompleted">
-          <eAnnotations xmi:id="_JeI7EGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <ownedParameter xmi:id="_cHSR8K0OEeCK48ywUpk_rg" name="completedBy" type="_YgstsI29EeCrtavWRHwoHg">
-            <eAnnotations xmi:id="_JeIUAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          </ownedParameter>
-        </ownedOperation>
         <ownedOperation xmi:id="_fdkRQK0OEeCK48ywUpk_rg" name="onSkipped">
           <eAnnotations xmi:id="_Jd7fsGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <ownedParameter xmi:id="_hELpwK0OEeCK48ywUpk_rg" name="skippedBy" type="_YgstsI29EeCrtavWRHwoHg">
@@ -460,6 +464,36 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Interface" xmi:id="_Wd2QoI53EeCfQedkc0TCdA" name="IRequestObject">
         <eAnnotations xmi:id="_JeWWcGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
+        <ownedOperation xmi:id="_XbPZkK0OEeCK48ywUpk_rg" name="onActivated">
+          <eAnnotations xmi:id="_JeKwQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org">
+            <details xmi:id="_gmo2EPc9EeG7Vf-BTeDIOA" key="opaeumId" value="252060@_XbPZkK0OEeCK48ywUpk_rg"/>
+          </eAnnotations>
+          <ownedParameter xmi:id="_YslssK0OEeCK48ywUpk_rg" name="activatedBy" type="_YgstsI29EeCrtavWRHwoHg">
+            <eAnnotations xmi:id="_JeJiIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org">
+              <details xmi:id="_gmo2Efc9EeG7Vf-BTeDIOA" key="opaeumId" value="252060@_YslssK0OEeCK48ywUpk_rg"/>
+            </eAnnotations>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_a_82cK0OEeCK48ywUpk_rg" name="onCompleted">
+          <eAnnotations xmi:id="_JeI7EGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org">
+            <details xmi:id="_gmpdIPc9EeG7Vf-BTeDIOA" key="opaeumId" value="252060@_a_82cK0OEeCK48ywUpk_rg"/>
+          </eAnnotations>
+          <ownedParameter xmi:id="_cHSR8K0OEeCK48ywUpk_rg" name="completedBy" type="_YgstsI29EeCrtavWRHwoHg">
+            <eAnnotations xmi:id="_JeIUAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org" references="_ctuT0PXJEeGY5orcShN2sQ">
+              <details xmi:id="_gmpdIfc9EeG7Vf-BTeDIOA" key="opaeumId" value="252060@_cHSR8K0OEeCK48ywUpk_rg"/>
+            </eAnnotations>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_iBCwEK0NEeCK48ywUpk_rg" name="onStarted">
+          <eAnnotations xmi:id="_Jd5qgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org">
+            <details xmi:id="_gmpdIvc9EeG7Vf-BTeDIOA" key="opaeumId" value="252060@_iBCwEK0NEeCK48ywUpk_rg"/>
+          </eAnnotations>
+          <ownedParameter xmi:id="_mYTrQK0NEeCK48ywUpk_rg" name="startedBy" type="_YgstsI29EeCrtavWRHwoHg">
+            <eAnnotations xmi:id="_Jd4cYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org" references="_Pf1vUPWfEeG8fKbjAPXynw">
+              <details xmi:id="_gmpdI_c9EeG7Vf-BTeDIOA" key="opaeumId" value="252060@_mYTrQK0NEeCK48ywUpk_rg"/>
+            </eAnnotations>
+          </ownedParameter>
+        </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Interface" xmi:id="_w0UdIEt8EeGElKTCe2jfDw" name="IResponsibilityProcessObject">
         <eAnnotations xmi:id="_Jd31UGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -689,6 +723,9 @@
             <language>OCL</language>
             <body>fullName</body>
           </defaultValue>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_HGMIcPjvEeGEN6Fz86uBYA" name="preferredLocale">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedAttribute>
         <interfaceRealization xmi:id="_-KmUIF13EeGKRdKItFLDfg" name="InterfaceRealization1" supplier="_7c1tYF13EeGKRdKItFLDfg" client="_k23OoEtmEeGd4cpyhpib9Q" contract="_7c1tYF13EeGKRdKItFLDfg">
           <eAnnotations xmi:id="_Jc3vwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -974,8 +1011,15 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_8wYxEEt9EeGElKTCe2jfDw" name="request">
       <eAnnotations xmi:id="_JjlbwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
+      <packageImport xmi:id="_ZBcK8PWrEeGs78CxgisLhA" importedPackage="_O7GqgEt9EeGElKTCe2jfDw"/>
       <packagedElement xmi:type="uml:StateMachine" xmi:id="_zFmsEIoVEeCLqpffVZYAlw" name="TaskRequest">
-        <eAnnotations xmi:id="_Ji4RIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
+        <eAnnotations xmi:id="_Ji4RIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org">
+          <contents xmi:type="uml:DurationObservation" xmi:id="_IvOywPaSEeGIlLxE5lYjPg" name="delayBeforeProgress" event="_XwDj4KCVEeCmJqvPP4zbUw _RMUEIIoaEeCPduia_-NbFw">
+            <firstEvent>false</firstEvent>
+            <firstEvent>true</firstEvent>
+          </contents>
+          <contents xmi:type="uml:TimeObservation" xmi:id="__jbNsPaVEeGzc-zRlu1Zfg" name="completionDate" event="_dAgD4IoaEeCPduia_-NbFw"/>
+        </eAnnotations>
         <generalization xmi:id="_qMfygI3oEeCfQedkc0TCdA" general="_6MA8UI2-EeCrtavWRHwoHg">
           <eAnnotations xmi:id="_Jfov4GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </generalization>
@@ -1007,6 +1051,12 @@
             <eAnnotations xmi:id="_JfpW8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <language>OCL</language>
             <body>self.participationInTask->select(p|p.kind=TaskParticipationKind::owner)->collect(participant)->any(true)</body>
+          </defaultValue>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_sLVasPWwEeG3AqMTRXQUEA" name="taskObject" type="_2tdYsI3oEeCfQedkc0TCdA" isReadOnly="true" isDerived="true">
+          <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_mfFgMPXJEeGY5orcShN2sQ" name="abc">
+            <language>OCL</language>
+            <body>requestObject.oclAsType(ITaskObject)</body>
           </defaultValue>
         </ownedAttribute>
         <ownedOperation xmi:id="_0lAQAIoaEeCPduia_-NbFw" name="delegate">
@@ -1069,6 +1119,24 @@
           </subvertex>
           <subvertex xmi:type="uml:FinalState" xmi:id="_dAgD4IoaEeCPduia_-NbFw" name="Completed" redefinedState="_U2MbEPNREeGhGoYzbfvy4A">
             <eAnnotations xmi:id="_JhFhYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
+            <entry xmi:type="uml:Activity" xmi:id="_LozjoPWwEeGs78CxgisLhA" name="onCompleted">
+              <node xmi:type="uml:CallOperationAction" xmi:id="_Pd8CIPWwEeGs78CxgisLhA" name="CallOperationAction1" operation="_a_82cK0OEeCK48ywUpk_rg">
+                <argument xmi:type="uml:ValuePin" xmi:id="_ctuT0PXJEeGY5orcShN2sQ" name="completedBy" type="_YgstsI29EeCrtavWRHwoHg">
+                  <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ctuT0fXJEeGY5orcShN2sQ" name="ub"/>
+                  <value xmi:type="uml:OpaqueExpression" xmi:id="_ctu64PXJEeGY5orcShN2sQ" name="completedBySpecification">
+                    <language>OCL</language>
+                    <body>currentRole</body>
+                  </value>
+                </argument>
+                <target xmi:type="uml:ValuePin" xmi:id="_iBsH0PXJEeGY5orcShN2sQ" name="target">
+                  <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_iBsu4PXJEeGY5orcShN2sQ" value="*"/>
+                  <value xmi:type="uml:OpaqueExpression" xmi:id="_iBtV8PXJEeGY5orcShN2sQ" name="nullSpecification">
+                    <language>OCL</language>
+                    <body>taskObject</body>
+                  </value>
+                </target>
+              </node>
+            </entry>
           </subvertex>
           <subvertex xmi:type="uml:State" xmi:id="_XwDj4KCVEeCmJqvPP4zbUw" name="Active" redefinedState="_KHZWEPNREeGhGoYzbfvy4A">
             <eAnnotations xmi:id="_JhrXQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -1137,7 +1205,25 @@
               </transition>
               <transition xmi:id="_f0sNUIobEeCPduia_-NbFw" name="ReservedToInProgress" source="_Q6NAcIoaEeCPduia_-NbFw" target="_RMUEIIoaEeCPduia_-NbFw">
                 <eAnnotations xmi:id="_Jhns4GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-                <trigger xmi:id="_z45KIKDSEeCi16HgBnUGFw" name="Transition4Trigger" event="_wozuQJTxEeChgI0v02SJHQ">
+                <effect xmi:type="uml:Activity" xmi:id="_yswlgPWeEeG8fKbjAPXynw" name="ReservedToInProgressEffect">
+                  <node xmi:type="uml:CallOperationAction" xmi:id="_3lVeAPWeEeG8fKbjAPXynw" name="CallOperationAction1" operation="_iBCwEK0NEeCK48ywUpk_rg">
+                    <argument xmi:type="uml:ValuePin" xmi:id="_Pf1vUPWfEeG8fKbjAPXynw" name="startedBy" type="_YgstsI29EeCrtavWRHwoHg">
+                      <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PgCjoPWfEeG8fKbjAPXynw" name="ub"/>
+                      <value xmi:type="uml:OpaqueExpression" xmi:id="_Pf29cPWfEeG8fKbjAPXynw" name="startedBySpecification" type="_YgstsI29EeCrtavWRHwoHg">
+                        <language>OCL</language>
+                        <body>currentRole</body>
+                      </value>
+                    </argument>
+                    <target xmi:type="uml:ValuePin" xmi:id="_UIsJwPWfEeG8fKbjAPXynw" name="target">
+                      <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UIsw0PWfEeG8fKbjAPXynw" value="*"/>
+                      <value xmi:type="uml:OpaqueExpression" xmi:id="_UItX4PWfEeG8fKbjAPXynw" name="nullSpecification">
+                        <language>OCL</language>
+                        <body>self.requestObject.oclAsType(ITaskObject)</body>
+                      </value>
+                    </target>
+                  </node>
+                </effect>
+                <trigger xmi:id="_z45KIKDSEeCi16HgBnUGFw" name="onStarted" event="_wozuQJTxEeChgI0v02SJHQ">
                   <eAnnotations xmi:id="_JhmewGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 </trigger>
               </transition>
@@ -1559,14 +1645,8 @@
         <ownedLiteral xmi:id="_2HekQI6MEeCrtavWRHwoHg" name="businessOwner">
           <eAnnotations xmi:id="_Ji_l4GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </ownedLiteral>
-        <ownedLiteral xmi:id="_2-CY0I6MEeCrtavWRHwoHg" name="potentialBusinessOwner">
-          <eAnnotations xmi:id="_JjDQQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        </ownedLiteral>
         <ownedLiteral xmi:id="_4YwDUI6MEeCrtavWRHwoHg" name="stakeholder">
           <eAnnotations xmi:id="_JjA0AGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        </ownedLiteral>
-        <ownedLiteral xmi:id="_8OBEsI6MEeCrtavWRHwoHg" name="potentialStakeholder">
-          <eAnnotations xmi:id="_JjCCIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </ownedLiteral>
         <ownedLiteral xmi:id="_DQXGEI6NEeCrtavWRHwoHg" name="initiator">
           <eAnnotations xmi:id="_Ji-XwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -1931,6 +2011,177 @@
         <eAnnotations xmi:id="_JjswgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
       </packagedElement>
     </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_nOMKMPjwEeGEN6Fz86uBYA" name="costing">
+      <packagedElement xmi:type="uml:Class" xmi:id="_zQphYPjuEeGEN6Fz86uBYA" name="RatePerTimeUnit" clientDependency="_TRzpYPjyEeGEN6Fz86uBYA">
+        <interfaceRealization xmi:id="_TRzpYPjyEeGEN6Fz86uBYA" name="InterfaceRealization1" supplier="_mV8wEPjvEeGEN6Fz86uBYA" client="_zQphYPjuEeGEN6Fz86uBYA" contract="_mV8wEPjvEeGEN6Fz86uBYA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_mV8wEPjvEeGEN6Fz86uBYA" name="IRatePerTimeUnit">
+        <eAnnotations xmi:id="_uGthMPjwEeGEN6Fz86uBYA" source="http://www.opaeum.org">
+          <details xmi:id="_uGthMfjwEeGEN6Fz86uBYA" key="opaeumId" value="252060@_mV8wEPjvEeGEN6Fz86uBYA"/>
+        </eAnnotations>
+        <ownedAttribute xmi:id="_7PmU8PjuEeGEN6Fz86uBYA" name="additionalCostToCompany">
+          <eAnnotations xmi:id="_p_mh5PjwEeGEN6Fz86uBYA" source="http://www.opaeum.org">
+            <details xmi:id="_p_mh5fjwEeGEN6Fz86uBYA" key="opaeumId" value="252060@_7PmU8PjuEeGEN6Fz86uBYA"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.library.uml#_T_WMMPjvEeGEN6Fz86uBYA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_5KnlcPjuEeGEN6Fz86uBYA" name="ratePaidByCustomer">
+          <eAnnotations xmi:id="_p_mh4vjwEeGEN6Fz86uBYA" source="http://www.opaeum.org">
+            <details xmi:id="_p_mh4_jwEeGEN6Fz86uBYA" key="opaeumId" value="252060@_5KnlcPjuEeGEN6Fz86uBYA"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.library.uml#_T_WMMPjvEeGEN6Fz86uBYA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_a_NhUPjvEeGEN6Fz86uBYA" name="effectiveFrom">
+          <eAnnotations xmi:id="_p_mh6PjwEeGEN6Fz86uBYA" source="http://www.opaeum.org">
+            <details xmi:id="_p_mh6fjwEeGEN6Fz86uBYA" key="opaeumId" value="252060@_a_NhUPjvEeGEN6Fz86uBYA"/>
+          </eAnnotations>
+          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_rjhC4Pl4EeGYn9aDKdPmKA" name="ratePaidByCompany">
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.library.uml#_T_WMMPjvEeGEN6Fz86uBYA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_s4gDYPl5EeGYn9aDKdPmKA" name="timeUnit">
+          <type xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_aCyDYPjxEeGEN6Fz86uBYA" name="ITimedResource">
+        <elementImport xmi:id="_9lI_0Pl5EeGYn9aDKdPmKA" importedElement="_x9fmQNb9EeCJ0dmaHEVVnw"/>
+        <generalization xmi:id="_xVB-k_p1EeGJLNuVcmxRow" general="_skjSIPp1EeGJLNuVcmxRow"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_dIQKEPjyEeGEN6Fz86uBYA" name="TimedResourceRatePerTimeUnit" memberEnd="_dIQKEfjyEeGEN6Fz86uBYA _dIQKFPjyEeGEN6Fz86uBYA" navigableOwnedEnd="_dIQKEfjyEeGEN6Fz86uBYA _dIQKFPjyEeGEN6Fz86uBYA">
+        <ownedEnd xmi:id="_dIQKEfjyEeGEN6Fz86uBYA" name="timedResource" type="_aCyDYPjxEeGEN6Fz86uBYA" association="_dIQKEPjyEeGEN6Fz86uBYA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dIQKEvjyEeGEN6Fz86uBYA" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dIQKE_jyEeGEN6Fz86uBYA" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:id="_dIQKFPjyEeGEN6Fz86uBYA" name="ratePerTimeUnit" type="_zQphYPjuEeGEN6Fz86uBYA" isOrdered="true" aggregation="composite" association="_dIQKEPjyEeGEN6Fz86uBYA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dIQKFfjyEeGEN6Fz86uBYA" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dIQKFvjyEeGEN6Fz86uBYA"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_mKcP8Pl5EeGYn9aDKdPmKA" name="IQuantifiedResource">
+        <generalization xmi:id="_pSwxQPp1EeGJLNuVcmxRow" general="_lrcFQPp1EeGJLNuVcmxRow"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_p2yl4Pl5EeGYn9aDKdPmKA" name="PricePerUnit" clientDependency="_F4NMwPl7EeGYn9aDKdPmKA">
+        <interfaceRealization xmi:id="_F4NMwPl7EeGYn9aDKdPmKA" name="InterfaceRealization1" supplier="_J8GVcPl6EeGYn9aDKdPmKA" client="_p2yl4Pl5EeGYn9aDKdPmKA" contract="_J8GVcPl6EeGYn9aDKdPmKA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_J8GVcPl6EeGYn9aDKdPmKA" name="IPricePerUnit">
+        <ownedAttribute xmi:id="_Gm8XgPl6EeGYn9aDKdPmKA" name="additionalCostToCompany">
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.library.uml#_T_WMMPjvEeGEN6Fz86uBYA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_PCPI0Pl6EeGYn9aDKdPmKA" name="pricePaidByCustomer">
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.library.uml#_T_WMMPjvEeGEN6Fz86uBYA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_R4yfMPl6EeGYn9aDKdPmKA" name="pricePaidByCompany">
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.library.uml#_T_WMMPjvEeGEN6Fz86uBYA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_bQkG4Pl6EeGYn9aDKdPmKA" name="effectiveFrom">
+          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_gDOkoPl6EeGYn9aDKdPmKA" name="QuantifiedResourcePricePerUnit" memberEnd="_gDOkofl6EeGYn9aDKdPmKA _gDOkpPl6EeGYn9aDKdPmKA" navigableOwnedEnd="_gDOkofl6EeGYn9aDKdPmKA _gDOkpPl6EeGYn9aDKdPmKA">
+        <ownedEnd xmi:id="_gDOkofl6EeGYn9aDKdPmKA" name="quantifiedResource" type="_mKcP8Pl5EeGYn9aDKdPmKA" association="_gDOkoPl6EeGYn9aDKdPmKA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gDOkovl6EeGYn9aDKdPmKA" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gDOko_l6EeGYn9aDKdPmKA" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:id="_gDOkpPl6EeGYn9aDKdPmKA" name="pricePerUnit" type="_p2yl4Pl5EeGYn9aDKdPmKA" isOrdered="true" aggregation="composite" association="_gDOkoPl6EeGYn9aDKdPmKA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gDOkpfl6EeGYn9aDKdPmKA" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gDOkpvl6EeGYn9aDKdPmKA"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:DataType" xmi:id="_V5lzcPmAEeGYn9aDKdPmKA" name="MoneyInGivenCurrency">
+        <ownedAttribute xmi:id="_mX6AAPmAEeGYn9aDKdPmKA" name="currency" type="_qvNXcPmAEeGYn9aDKdPmKA"/>
+        <ownedAttribute xmi:id="_0oVYsPmAEeGYn9aDKdPmKA" name="amount">
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        </ownedAttribute>
+        <ownedOperation xmi:id="_iqRQoPmAEeGYn9aDKdPmKA" name="toDefaultCurrency" isQuery="true">
+          <ownedParameter xmi:id="_j8SSIPmAEeGYn9aDKdPmKA" name="return" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.library.uml#_T_WMMPjvEeGEN6Fz86uBYA"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:DataType" xmi:id="_qvNXcPmAEeGYn9aDKdPmKA" name="Currency">
+        <ownedAttribute xmi:id="_AdnkoPmBEeGYn9aDKdPmKA" name="symbol">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_Cbsa4PmBEeGYn9aDKdPmKA" name="currencyCode">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:DataType" xmi:id="_7PehcPmkEeGxt5NCaDcqzA" name="DurationBasedCost"/>
+      <packagedElement xmi:type="uml:DataType" xmi:id="_CdJCAPmlEeGxt5NCaDcqzA" name="QuantityBasedCost"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_lrcFQPp1EeGJLNuVcmxRow" name="IQuantifiedResourceBase">
+        <ownedOperation xmi:id="_4At4gPl6EeGYn9aDKdPmKA" name="getPriceEffectiveOn" isQuery="true" bodyCondition="__6nM8Pl6EeGYn9aDKdPmKA">
+          <eAnnotations xmi:id="_oiULwPp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+            <details xmi:id="_oiVZ4Pp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+          </eAnnotations>
+          <ownedRule xmi:id="__6nM8Pl6EeGYn9aDKdPmKA" name="getPriceEffectiveOnBody">
+            <eAnnotations xmi:id="_oiWA8_p1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+              <details xmi:id="_oiWA9Pp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+            </eAnnotations>
+            <specification xmi:type="uml:OpaqueExpression" xmi:id="__6q3UPl6EeGYn9aDKdPmKA" name="getPriceEffectiveOnBodySpecification">
+              <eAnnotations xmi:id="_oiWoAPp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+                <details xmi:id="_oiWoAfp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+              </eAnnotations>
+              <language>OCL</language>
+              <body>self.pricePerUnit->select(date.after(effectiveFrom))->first()</body>
+            </specification>
+          </ownedRule>
+          <ownedParameter xmi:id="_6XlpQPl6EeGYn9aDKdPmKA" name="date">
+            <eAnnotations xmi:id="_oiVZ4fp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+              <details xmi:id="_oiWA8Pp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+            </eAnnotations>
+            <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_74KrMPl6EeGYn9aDKdPmKA" name="result" type="_J8GVcPl6EeGYn9aDKdPmKA" direction="return">
+            <eAnnotations xmi:id="_oiWA8fp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+              <details xmi:id="_oiWA8vp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+            </eAnnotations>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_skjSIPp1EeGJLNuVcmxRow" name="ITimedResourceBase">
+        <ownedAttribute xmi:id="_6BkycPl5EeGYn9aDKdPmKA" name="businessCalendarToUse" type="_x9fmQNb9EeCJ0dmaHEVVnw" isDerived="true">
+          <eAnnotations xmi:id="_x_cNgPp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+            <details xmi:id="_x_c0kPp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+          </eAnnotations>
+          <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_7neZQPl5EeGYn9aDKdPmKA" name="abc">
+            <eAnnotations xmi:id="_x_c0kfp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+              <details xmi:id="_x_dboPp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+            </eAnnotations>
+            <language>OCL</language>
+            <body>BusinessCalendar::instance</body>
+          </defaultValue>
+        </ownedAttribute>
+        <ownedOperation xmi:id="_V3n1EPjyEeGEN6Fz86uBYA" name="getRateEffectiveOn" isQuery="true" bodyCondition="_iRvzcPjyEeGEN6Fz86uBYA">
+          <eAnnotations xmi:id="_xsqbcPp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+            <details xmi:id="_xsrCgPp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+          </eAnnotations>
+          <ownedRule xmi:id="_iRvzcPjyEeGEN6Fz86uBYA" name="getRateEffectiveOnBody">
+            <eAnnotations xmi:id="_xsrpkPp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+              <details xmi:id="_xsrpkfp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+            </eAnnotations>
+            <specification xmi:type="uml:OpaqueExpression" xmi:id="_iRxBkPjyEeGEN6Fz86uBYA" name="getRateEffectiveOnBodySpecification">
+              <eAnnotations xmi:id="_xsrpkvp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+                <details xmi:id="_xsrpk_p1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+              </eAnnotations>
+              <language>OCL</language>
+              <body>ratePerTimeUnit->select(date.after(effectiveFrom))->first()</body>
+            </specification>
+          </ownedRule>
+          <ownedParameter xmi:id="_YTvSMPjyEeGEN6Fz86uBYA" name="return" type="_mV8wEPjvEeGEN6Fz86uBYA" direction="return">
+            <eAnnotations xmi:id="_xsrCgfp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+              <details xmi:id="_xsrCgvp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+            </eAnnotations>
+          </ownedParameter>
+          <ownedParameter xmi:id="_nQHK4PjyEeGEN6Fz86uBYA" name="date">
+            <eAnnotations xmi:id="_xsrplPp1EeGJLNuVcmxRow" source="http://www.opaeum.org">
+              <details xmi:id="_xssQoPp1EeGJLNuVcmxRow" key="opaeumId" value="252060@null"/>
+            </eAnnotations>
+            <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+    </packagedElement>
     <profileApplication xmi:id="_oIbTsNb_EeCJ0dmaHEVVnw">
       <eAnnotations xmi:id="_oy074HRNEeG1_5E5y7GYlw" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw"/>
@@ -2030,4 +2281,29 @@
   <OpaeumStandardProfile:Attribute xmi:id="_oh6UwO6QEeGtc9wBJ1VReA" base_Property="_lw17UO6QEeGtc9wBJ1VReA"/>
   <OpaeumStandardProfile:Attribute xmi:id="_VOwMkO6REeGtc9wBJ1VReA" base_Property="_ROT18O6REeGtc9wBJ1VReA"/>
   <OpaeumStandardProfile:Attribute xmi:id="_9EKJQPNQEeGhGoYzbfvy4A"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_mJbZQPXJEeGY5orcShN2sQ" base_Property="_sLVasPWwEeG3AqMTRXQUEA"/>
+  <OpaeumStandardProfile:Observed xmi:id="_u71qAPaNEeGIwo4R2Tpntg" timeObservations="__jbNsPaVEeGzc-zRlu1Zfg" durationObservations="_IvOywPaSEeGIlLxE5lYjPg" base_StateMachine="_zFmsEIoVEeCLqpffVZYAlw"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_bdCdAPdTEeGBr9eGBfKdJw" base_Property="_UZwngPdTEeGBr9eGBfKdJw"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_mlO5cPdTEeGBr9eGBfKdJw" base_Property="_iAlpkPdTEeGBr9eGBfKdJw"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_thxNwPdTEeGBr9eGBfKdJw" base_DataType="_mkwNcASREeGb9qsDxKJdSA" mappedImplementationType="org.opaeum.hibernate.domain.Duration" strategyFactory="org.opaeum.strategies.DurationStrategyFactory"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_uNAjIPdTEeGBr9eGBfKdJw" base_DataType="_6K68EPdSEeGBr9eGBfKdJw" mappedImplementationType="org.opaeum.hibernate.domain.CumulativeDuration" strategyFactory="org.opaeum.strategies.CumulativeDurationStrategyFactory"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_I7ePEPjvEeGEN6Fz86uBYA" base_Property="_HGMIcPjvEeGEN6Fz86uBYA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_ca6DQPjvEeGEN6Fz86uBYA" base_Property="_a_NhUPjvEeGEN6Fz86uBYA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_xZPqsPl5EeGYn9aDKdPmKA" base_Property="_s4gDYPl5EeGYn9aDKdPmKA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_8YYRwPl5EeGYn9aDKdPmKA" base_Property="_6BkycPl5EeGYn9aDKdPmKA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_JO7tcPl6EeGYn9aDKdPmKA" base_Property="_Gm8XgPl6EeGYn9aDKdPmKA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_cioywPl6EeGYn9aDKdPmKA" base_Property="_bQkG4Pl6EeGYn9aDKdPmKA"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_V5r6EPmAEeGYn9aDKdPmKA" base_DataType="_V5lzcPmAEeGYn9aDKdPmKA" mappedImplementationType="org.opaeum.runtime.costing.MoneyInGivenCurrency" strategyFactory="org.opaeum.strategies.MoneyInGivenCurrencyStrategyFactory"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_qvUFIPmAEeGYn9aDKdPmKA" base_DataType="_qvNXcPmAEeGYn9aDKdPmKA" mappedImplementationType="java.util.Currency" strategyFactory="org.opaeum.strategies.CurrencyStrategyFactory"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_Bu4YMPmBEeGYn9aDKdPmKA" base_Property="_AdnkoPmBEeGYn9aDKdPmKA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_FbX4EPmBEeGYn9aDKdPmKA" base_Property="_Cbsa4PmBEeGYn9aDKdPmKA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_fubnQPmkEeGxt5NCaDcqzA" base_Property="_mX6AAPmAEeGYn9aDKdPmKA"/>
+  <OpaeumStandardProfile:Interface xmi:id="_jHqz8PmkEeGxt5NCaDcqzA" mappedImplementationType="org.opaeum.runtime.costing.IPricePerUnit" base_Interface="_J8GVcPl6EeGYn9aDKdPmKA"/>
+  <OpaeumStandardProfile:Interface xmi:id="_jsUZIPmkEeGxt5NCaDcqzA" mappedImplementationType="" base_Interface="_mKcP8Pl5EeGYn9aDKdPmKA"/>
+  <OpaeumStandardProfile:Interface xmi:id="_kBSjkPmkEeGxt5NCaDcqzA" mappedImplementationType="org.opaeum.runtime.costing.IRatePerTimeUnit" base_Interface="_mV8wEPjvEeGEN6Fz86uBYA"/>
+  <OpaeumStandardProfile:Interface xmi:id="_kZ8UIPmkEeGxt5NCaDcqzA" mappedImplementationType="" base_Interface="_aCyDYPjxEeGEN6Fz86uBYA"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_7P2U4PmkEeGxt5NCaDcqzA" base_DataType="_7PehcPmkEeGxt5NCaDcqzA" mappedImplementationType="org.opaeum.runtime.costing.DurationBasedCost" strategyFactory="org.opaeum.strategies.DurationBasedCostStrategyFactory"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_CdPIoPmlEeGxt5NCaDcqzA" base_DataType="_CdJCAPmlEeGxt5NCaDcqzA" mappedImplementationType="org.opaeum.runtime.costing.QuantityBasedCost" strategyFactory="org.opaeum.strategies.QuantityBasedCostStrategyFactory"/>
+  <OpaeumStandardProfile:Interface xmi:id="_m8NwoPp1EeGJLNuVcmxRow" mappedImplementationType="org.opaeum.runtime.costing.IQuantifiedResourceBase" base_Interface="_lrcFQPp1EeGJLNuVcmxRow"/>
+  <OpaeumStandardProfile:Interface xmi:id="_tk0cUPp1EeGJLNuVcmxRow" mappedImplementationType="org.opaeum.runtime.costing.ITimedResourceBase" base_Interface="_skjSIPp1EeGJLNuVcmxRow"/>
 </xmi:XMI>

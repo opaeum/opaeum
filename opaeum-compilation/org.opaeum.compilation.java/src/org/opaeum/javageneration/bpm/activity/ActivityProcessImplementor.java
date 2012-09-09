@@ -70,8 +70,7 @@ import org.opaeum.runtime.domain.ExceptionHolder;
 		OperationAnnotator.class,SimpleActivityMethodImplementor.class /* Needs repeatable sequence in the ocl generating steps */
 },before = CodeCleanup.class)
 public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
-	public static final OJPathName ACTIVITY_TOKEN =new OJPathName("org.opaeum.runtime.activities.ActivityToken");
-
+	public static final OJPathName ACTIVITY_TOKEN = new OJPathName("org.opaeum.runtime.activities.ActivityToken");
 	private void activityEdge(ActivityEdge edge){
 		OJAnnotatedClass c = findJavaClass(EmfActivityUtil.getContainingActivity(edge));
 		if(edge instanceof ObjectFlow && ((ObjectFlow) edge).getTransformation() != null){
@@ -101,7 +100,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}
 	}
 	private void addObjectFlowVariable(ActivityEdge edge,OJAnnotatedOperation oper,ObjectFlow objectFlow){
-		ObjectNode origin = EmfActivityUtil.getOriginatingObjectNode( objectFlow);
+		ObjectNode origin = EmfActivityUtil.getOriginatingObjectNode(objectFlow);
 		// TODO the originatingObjectNode may not have the correct type after
 		// transformations and selections
 		PropertyMap map = ojUtil.buildStructuralFeatureMap(origin);
@@ -118,16 +117,32 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			OJAnnotatedOperation getSelf = new OJAnnotatedOperation("getSelf", activityClasss.getPathName());
 			getSelf.initializeResultVariable("this");
 			activityClasss.addToOperations(getSelf);
-			implementContainer(EmfBehaviorUtil.isProcess(activity), stateClass, activity, activity);
+			OJAnnotatedOperation exec = implementContainer(EmfBehaviorUtil.isProcess(activity), stateClass, activity, activity,
+					EmfBehaviorUtil.hasSuperClass(activity));
+			if(!EmfBehaviorUtil.isProcess(activity)){
+				// Throw exceptions immediately
+				for(Parameter p:activity.getOwnedParameters()){
+					if(p.isException()){
+						PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
+						exec.getBody().addToStatements(
+								new OJIfStatement("this." + map.getter() + "()!=null", "throw new ExceptionHolder(this,\"" + p.getName() + "\","
+										+ map.getter() + "())"));
+					}
+				}
+				exec.getBody().addToStatements(
+						new OJIfStatement("this." + Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + "!=null", "throw new ExceptionHolder(this,\"_raised\","
+								+ Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + ")"));
+			}
 		}
 	}
-	private void implementContainer(boolean isProcess,OJPathName stateClass,Namespace container,Classifier msg){
+	private OJAnnotatedOperation implementContainer(boolean isProcess,OJPathName stateClass,Namespace container,Classifier msg,
+			boolean hasSuperClass){
 		OJAnnotatedClass activityClass = findJavaClass(msg);
 		implementNodeMethods(container);
-		doExecute(msg, activityClass, isProcess);
+		activityClass.addToImports(new OJPathName(ExceptionHolder.class.getName()));
+		OJAnnotatedOperation execute = super.implementExecute(activityClass, isProcess, hasSuperClass);
 		if(isProcess){
-			OJOperation init = activityClass.getUniqueOperation("init");
-			eventUtil.requestEvents((OJAnnotatedOperation) init, EmfActivityUtil.getActivityNodes(container),
+			eventUtil.requestTokenCreatingEvents(execute, EmfActivityUtil.getActivityNodes(container),
 					getLibrary().getBusinessRole() != null);
 		}
 		OJUtil.addTransientProperty(activityClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
@@ -165,7 +180,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				implementVariableDelegation(container, msg, c);
 				StructuredActivityNodeMap map = ojUtil.buildStructuredActivityNodeMap(san);
 				OJUtil.addPersistentProperty(c, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
-				implementContainer(isProcess, stateClass, san, childMsg);
+				implementContainer(isProcess, stateClass, san, childMsg, EmfBehaviorUtil.hasSuperClass(san));
 				if(isProcess){
 					propagateExceptions(map, c);
 					OJOperation completed = c.getUniqueOperation("complete");
@@ -173,6 +188,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				}
 			}
 		}
+		return execute;
 	}
 	private void propagateExceptions(StructuredActivityNodeMap map,OJAnnotatedClass ojOperationClass){
 		OJAnnotatedOperation propagateException = new OJAnnotatedOperation("propagateException");
@@ -198,25 +214,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			}
 		}else if(container.getOwner() instanceof Activity || container.getOwner() instanceof StructuredActivityNode){
 			implementVariableDelegation((Namespace) container.getOwner(), msg, c);
-		}
-	}
-	private void doExecute(Classifier activity,OJAnnotatedClass activityClass,boolean isProcess){
-		OJOperation execute = implementExecute(activityClass, activity);
-		if(isProcess){
-		}else if(activity instanceof Activity){
-			activityClass.addToImports(new OJPathName(ExceptionHolder.class.getName()));
-			Activity a = (Activity) activity;
-			for(Parameter p:a.getOwnedParameters()){
-				if(p.isException()){
-					PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
-					execute.getBody().addToStatements(
-							new OJIfStatement("this." + map.getter() + "()!=null", "throw new ExceptionHolder(this,\"" + p.getName() + "\","
-									+ map.getter() + "())"));
-				}
-			}
-			execute.getBody().addToStatements(
-					new OJIfStatement("this." + Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + "!=null", "throw new ExceptionHolder(this,\"_raised\","
-							+ Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + ")"));
 		}
 	}
 	private void implementNodeMethods(Namespace activity){
@@ -258,8 +255,8 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	}
 	private void implementDerivedGetter(OJAnnotatedClass activityClass,ObjectNode node2){
 		PropertyMap actionMap = ojUtil.buildStructuralFeatureMap((Action) EmfElementFinder.getContainer(node2));
-		PropertyMap pinMap = ojUtil.buildStructuralFeatureMap( node2);
-		PropertyMap propertyMap = ojUtil.buildStructuralFeatureMap( node2);
+		PropertyMap pinMap = ojUtil.buildStructuralFeatureMap(node2);
+		PropertyMap propertyMap = ojUtil.buildStructuralFeatureMap(node2);
 		List<OJPathName> emptyList = Collections.emptyList();
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) activityClass.findOperation(pinMap.getter(), emptyList);
 		oper.setBody(new OJBlock());
@@ -346,5 +343,4 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			}
 		}
 	}
-
 }

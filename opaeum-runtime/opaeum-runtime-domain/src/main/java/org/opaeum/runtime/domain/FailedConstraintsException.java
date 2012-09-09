@@ -1,19 +1,19 @@
 package org.opaeum.runtime.domain;
 
-import java.util.Collection;
+import java.util.Map;
 
 public class FailedConstraintsException extends RuntimeException {
 	private static final long serialVersionUID = 9146993200774829479L;
-	Collection<String> failedConstraints;
+	Map<String,String> failedConstraints;
 	boolean pre;
 
-	public FailedConstraintsException(boolean pre, Collection<String> failedConstraints) {
+	public FailedConstraintsException(boolean pre, Map<String,String> failedConstraints) {
 		super();
 		this.failedConstraints = failedConstraints;
 		this.pre=pre;
 	}
 
-	public Collection<String> getFailedConstraints() {
+	public Map<String,String> getFailedConstraints() {
 		return failedConstraints;
 	}
 	public boolean getPre(){

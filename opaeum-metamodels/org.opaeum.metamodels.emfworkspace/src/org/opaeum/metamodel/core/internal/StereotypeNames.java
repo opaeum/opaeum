@@ -81,8 +81,7 @@ public class StereotypeNames{
 	public static final String ACCEPT_DEADLINE_ACTION = "AcceptDeadlineAction";
 	public static final String SEND_NOTIFICATION_ACTION = "SendNotificationAction";
 	public static final String NOTIFICATION = "Notification";
-	public static final String OPAEUM_STANDARD_PROFILE_PAPYRUS = "OpaeumStandardProfile.papyrus.uml";
-	public static final String OPAEUM_STANDARD_PROFILE_TOPCASED = "OpaeumStandardProfile.uml";
+	public static final String OPAEUM_STANDARD_PROFILE = "OpaeumStandardProfile.uml";
 	public static final String ACCEPT_TASK_EVENT_ACTION = "AcceptTaskEventAction";
 	public static final String SCREEN_FLOW = "ScreenFlow";
 	public static final String CALL_BUSINESS_STATE_MACHINE_ACTION = "CallBusinessStateMachineAction";
@@ -114,10 +113,10 @@ public class StereotypeNames{
 	public static final String ENUMERATION = "Enumeration";
 	public static final String DELEGATION = "Delegation";
 	public static final String BUSINESS_COLLABORATION = "BusinessCollaboration";
-	public static final String PARTICIPANT_EXPRESSION="ParticipantExpression";
-	public static final String RECIPIENT_EXPRESSION="RecipientExpression";
-	public static final String DURATION_EXPRESSION ="DurationExpression";
-	public static final String BUSINESS_CALENDAR_EXPRESSION ="BusinessCalendarExpression";
 	public static final String STANDALONE_SINGLE_SCREEN_TASK = "StandaloneSingleScreenTask";
 	public static final String STANDALONE_SCREENFLOW_TASK = "StandaloneSimpleScreenflowTask";
+	public static final String INTERNATIONALIZATION_URI = "http://opaum.org/i8n";
+	public static final String DURATION_BASED_COST_OBSERVATION = "DurationBasedCostObservation";
+	public static final String QUANTITY_BASED_COST_OBSERVATION = "QuantityBasedCostObservation";
+	public static final String DURATION_EXPRESSION = "DurationExpression";
 }

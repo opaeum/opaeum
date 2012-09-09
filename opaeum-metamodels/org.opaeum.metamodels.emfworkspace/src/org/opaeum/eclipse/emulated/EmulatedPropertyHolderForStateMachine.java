@@ -5,8 +5,7 @@ import org.opaeum.eclipse.EmfTimeUtil;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
 
 public class EmulatedPropertyHolderForStateMachine extends EmulatedPropertyHolderForBehavior{
-	@SuppressWarnings("unchecked")
 	public EmulatedPropertyHolderForStateMachine(StateMachine owner,IPropertyEmulation e){
-		super(owner, e, owner.getOwnedParameters(),EmfTimeUtil.buildObservationPropertiess(owner,e,owner));
+		super(owner, e);
 	}
 }

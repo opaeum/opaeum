@@ -32,16 +32,6 @@
       <ownedAttribute xmi:id="_tW5h8JTkEeG7rsbp1O_4ow" name="second" type="_uctTcJTkEeG7rsbp1O_4ow">
         <eAnnotations xmi:id="_tW6wEJTkEeG7rsbp1O_4ow" source="http://www.opaeum.org"/>
       </ownedAttribute>
-      <ownedOperation xmi:id="_ghKKMM5VEeC1yrA33E3a4g" name="after" isQuery="true">
-        <eAnnotations xmi:id="_P5QAUGEfEeGff9Jee87ugA" source="http://www.opaeum.org"/>
-        <ownedParameter xmi:id="_hhBrwM5VEeC1yrA33E3a4g" name="in" type="_w4cZ8MPxEd-SNsUNWzjz5A">
-          <eAnnotations xmi:id="_P5OyMGEfEeGff9Jee87ugA" source="http://www.opaeum.org"/>
-        </ownedParameter>
-        <ownedParameter xmi:id="_i9fCsM5VEeC1yrA33E3a4g" name="result" direction="return">
-          <eAnnotations xmi:id="_P5PZQGEfEeGff9Jee87ugA" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-        </ownedParameter>
-      </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_i0SLIMbwEd-qWtMD5IZMIA" name="Text">
       <eAnnotations xmi:id="_P5SckGEfEeGff9Jee87ugA" source="http://www.opaeum.org"/>
@@ -73,15 +63,50 @@
       <ownedAttribute xmi:id="_TXcWUJTkEeG7rsbp1O_4ow" name="year" type="_a66u0JTkEeG7rsbp1O_4ow">
         <eAnnotations xmi:id="_TXdkcJTkEeG7rsbp1O_4ow" source="http://www.opaeum.org"/>
       </ownedAttribute>
-    </packagedElement>
-    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_z-ek0JTiEeG7rsbp1O_4ow" name="Rand">
-      <generalization xmi:id="_1_T0IJTiEeG7rsbp1O_4ow" general="_UjiHwMkJEeCqJJ6VBTMkzg"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_2ta3UJTiEeG7rsbp1O_4ow" name="Dollar">
-      <generalization xmi:id="_3yNVIJTiEeG7rsbp1O_4ow" general="_UjiHwMkJEeCqJJ6VBTMkzg"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_4qiEQJTiEeG7rsbp1O_4ow" name="Euro">
-      <generalization xmi:id="_53IaQJTiEeG7rsbp1O_4ow" general="_UjiHwMkJEeCqJJ6VBTMkzg"/>
+      <ownedOperation xmi:id="_ghKKMM5VEeC1yrA33E3a4g" name="after" isQuery="true">
+        <eAnnotations xmi:id="_P5QAUGEfEeGff9Jee87ugA" source="http://www.opaeum.org"/>
+        <ownedParameter xmi:id="_hhBrwM5VEeC1yrA33E3a4g" name="in" type="_w4cZ8MPxEd-SNsUNWzjz5A">
+          <eAnnotations xmi:id="_P5OyMGEfEeGff9Jee87ugA" source="http://www.opaeum.org"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_i9fCsM5VEeC1yrA33E3a4g" name="result" direction="return">
+          <eAnnotations xmi:id="_P5PZQGEfEeGff9Jee87ugA" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_De-9gPl5EeGYn9aDKdPmKA" name="before" isQuery="true">
+        <eAnnotations xmi:id="_De_kkPl5EeGYn9aDKdPmKA" source="http://www.opaeum.org"/>
+        <ownedParameter xmi:id="_De_kkfl5EeGYn9aDKdPmKA" name="in" type="_w4cZ8MPxEd-SNsUNWzjz5A">
+          <eAnnotations xmi:id="_De_kkvl5EeGYn9aDKdPmKA" source="http://www.opaeum.org"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_De_kk_l5EeGYn9aDKdPmKA" name="result" direction="return">
+          <eAnnotations xmi:id="_De_klPl5EeGYn9aDKdPmKA" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="__wylwPl-EeGYn9aDKdPmKA" name=">=" isQuery="true">
+        <ownedParameter xmi:id="_AmVGoPl_EeGYn9aDKdPmKA" name="return" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_B-X3oPl_EeGYn9aDKdPmKA" name="param1" type="_qJQboNcCEeCJ0dmaHEVVnw"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_D19rYPl_EeGYn9aDKdPmKA" name=">" isQuery="true">
+        <ownedParameter xmi:id="_D19rYfl_EeGYn9aDKdPmKA" name="return" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_D19rYvl_EeGYn9aDKdPmKA" name="param1" type="_qJQboNcCEeCJ0dmaHEVVnw"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_GSk3wPl_EeGYn9aDKdPmKA" name="&lt;" isQuery="true">
+        <ownedParameter xmi:id="_GSk3wfl_EeGYn9aDKdPmKA" name="return" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_GSk3wvl_EeGYn9aDKdPmKA" name="param1" type="_qJQboNcCEeCJ0dmaHEVVnw"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_Ha-DMPl_EeGYn9aDKdPmKA" name="&lt;=" isQuery="true">
+        <ownedParameter xmi:id="_Ha-DMfl_EeGYn9aDKdPmKA" name="return" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_Ha-DMvl_EeGYn9aDKdPmKA" name="param1" type="_qJQboNcCEeCJ0dmaHEVVnw"/>
+      </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Enumeration" xmi:id="_jbPmkJTjEeG7rsbp1O_4ow" name="DayOfWeek">
       <eAnnotations xmi:id="_-1490JTjEeG7rsbp1O_4ow" source="http://www.opaeum.org" references="_-13vsJTjEeG7rsbp1O_4ow __lyJsJTjEeG7rsbp1O_4ow _AN6gsJTkEeG7rsbp1O_4ow _DPjswJTkEeG7rsbp1O_4ow _EgWmQJTkEeG7rsbp1O_4ow _F8BTAJTkEeG7rsbp1O_4ow _G5irMJTkEeG7rsbp1O_4ow"/>
@@ -206,6 +231,9 @@
         </eAnnotations>
       </ownedLiteral>
     </packagedElement>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_T_WMMPjvEeGEN6Fz86uBYA" name="MoneyInDefaultCurrency">
+      <generalization xmi:id="_iGylkPl_EeGYn9aDKdPmKA" general="_UjiHwMkJEeCqJJ6VBTMkzg"/>
+    </packagedElement>
     <profileApplication xmi:id="_Kd6y8HRNEeG1_5E5y7GYlw">
       <eAnnotations xmi:id="_KeMfwHRNEeG1_5E5y7GYlw" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
@@ -237,4 +265,6 @@
   <JavaxValidation:Max xmi:id="_h_p84JTkEeG7rsbp1O_4ow" value="2200" base_DataType="_a66u0JTkEeG7rsbp1O_4ow" base_PrimitiveType="_a66u0JTkEeG7rsbp1O_4ow"/>
   <JavaxValidation:Min xmi:id="_xyOdwJTkEeG7rsbp1O_4ow" base_DataType="_uctTcJTkEeG7rsbp1O_4ow" base_PrimitiveType="_uctTcJTkEeG7rsbp1O_4ow"/>
   <JavaxValidation:Max xmi:id="_xzTb0JTkEeG7rsbp1O_4ow" value="59" base_DataType="_uctTcJTkEeG7rsbp1O_4ow" base_PrimitiveType="_uctTcJTkEeG7rsbp1O_4ow"/>
+  <OpaeumStandardProfile:PrimitiveType xmi:id="_LLHiwPl5EeGYn9aDKdPmKA" base_PrimitiveType="_T_WMMPjvEeGEN6Fz86uBYA" strategyFactory="org.opaeum.strategies.MoneyInDefaultCurrencyStrategyFactory"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_N9e4gPmAEeGYn9aDKdPmKA" mappedImplementationType="org.opaeum.runtime"/>
 </xmi:XMI>

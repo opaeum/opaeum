@@ -23,8 +23,15 @@ import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.strategies.BlobStrategyFactory;
+import org.opaeum.strategies.CumulativeDurationStrategyFactory;
+import org.opaeum.strategies.CurrencyStrategyFactory;
 import org.opaeum.strategies.DateStrategyFactory;
 import org.opaeum.strategies.DateTimeStrategyFactory;
+import org.opaeum.strategies.DurationBasedCostStrategyFactory;
+import org.opaeum.strategies.DurationStrategyFactory;
+import org.opaeum.strategies.MoneyInDefaultCurrencyStrategyFactory;
+import org.opaeum.strategies.MoneyInGivenCurrencyStrategyFactory;
+import org.opaeum.strategies.QuantityBasedCostStrategyFactory;
 import org.opaeum.strategies.TextStrategyFactory;
 
 public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryChangeListener{
@@ -51,10 +58,17 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		}catch(MissingResourceException x){
 			resourceBundle = null;
 		}
+		OpaeumConfig.registerClass(QuantityBasedCostStrategyFactory.class);
+		OpaeumConfig.registerClass(DurationBasedCostStrategyFactory.class);
+		OpaeumConfig.registerClass(CurrencyStrategyFactory.class);
+		OpaeumConfig.registerClass(MoneyInDefaultCurrencyStrategyFactory.class);
+		OpaeumConfig.registerClass(MoneyInGivenCurrencyStrategyFactory.class);
 		OpaeumConfig.registerClass(DateTimeStrategyFactory.class);
 		OpaeumConfig.registerClass(TextStrategyFactory.class);
 		OpaeumConfig.registerClass(BlobStrategyFactory.class);
 		OpaeumConfig.registerClass(DateStrategyFactory.class);
+		OpaeumConfig.registerClass(DurationStrategyFactory.class);
+		OpaeumConfig.registerClass(CumulativeDurationStrategyFactory.class);
 		IExtensionRegistry r = Platform.getExtensionRegistry();
 		addCreateChildActions(r.getConfigurationElementsFor("org.opaeum.eclipse", CREATE_CHILD_ACTION));
 		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);

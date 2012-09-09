@@ -10,7 +10,6 @@ import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.feature.StepDependency;
-import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJField;
@@ -22,20 +21,14 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-	Java6ModelGenerator.class
-},after = {
-	Java6ModelGenerator.class
-})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class},after = {Java6ModelGenerator.class})
 public class HashcodeBuilder extends AbstractStructureVisitor{
-	@VisitAfter(matchSubclasses = true)
-	protected void visitComplexStructure(Classifier c){
-		if(ojUtil.hasOJClass(c) && !(c instanceof Interface)){
-			OJAnnotatedClass ojClass = findJavaClass(c);
-			this.buildHashcode(ojClass, c);
-		}
+	@Override
+	protected boolean visitComplexStructure(OJAnnotatedClass ojClass, Classifier c){
+		this.buildHashcode(ojClass, c);
+		return false;
 	}
-	@VisitBefore(matchSubclasses=true)
+	@VisitBefore(matchSubclasses = true)
 	public void visitInterface(Interface i){
 		if(ojUtil.hasOJClass(i) && !(EmfClassifierUtil.isHelper(i))){
 			OJAnnotatedClass ojClass = findJavaClass(i);
@@ -64,7 +57,8 @@ public class HashcodeBuilder extends AbstractStructureVisitor{
 				}
 				getUid.setBody(new OJBlock());
 				owner.addToImports(new OJPathName(UUID.class.getName()));
-				getUid.getBody().addToStatements(new OJIfStatement("this.uid==null || this.uid.trim().length()==0", "uid=UUID.randomUUID().toString()"));
+				getUid.getBody().addToStatements(
+						new OJIfStatement("this.uid==null || this.uid.trim().length()==0", "uid=UUID.randomUUID().toString()"));
 				getUid.getBody().addToStatements("return this.uid");
 			}
 		}
@@ -72,7 +66,8 @@ public class HashcodeBuilder extends AbstractStructureVisitor{
 			OJOperation equals = new OJAnnotatedOperation("equals", new OJPathName("boolean"));
 			equals.addParam("other", new OJPathName("Object"));
 			equals.getBody().addToStatements(
-					new OJIfStatement("other instanceof " + owner.getName(), "return other==this || ((" + owner.getName() + ")other).getUid().equals(this.getUid())"));
+					new OJIfStatement("other instanceof " + owner.getName(), "return other==this || ((" + owner.getName()
+							+ ")other).getUid().equals(this.getUid())"));
 			equals.getBody().addToStatements("return false");
 			owner.addToOperations(equals);
 			OJOperation hashCode = new OJAnnotatedOperation("hashCode", new OJPathName("int"));
@@ -82,7 +77,6 @@ public class HashcodeBuilder extends AbstractStructureVisitor{
 		// TODO DataTypes!!!!
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
-		
+	protected void visitProperty(OJAnnotatedClass c, Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 }

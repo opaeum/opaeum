@@ -24,12 +24,14 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
+import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
@@ -201,6 +203,13 @@ public class EmfEventUtil{
 			o = (Element) EmfElementFinder.getContainer(o);
 		}
 		return (Behavior) o;
+	}
+	public static Namespace getBehavioralNamespaceContext(Event event){
+		Element o = EmfEventUtil.getTriggerSContext(event);
+		while(!(o instanceof Behavior || o instanceof StructuredActivityNode || o==null)){
+			o = (Element) EmfElementFinder.getContainer(o);
+		}
+		return (Namespace) o;
 	}
 	public static Collection<Event> getEventsInScopeForClassAsBehavior(Behavior c){
 		if(c instanceof Activity){

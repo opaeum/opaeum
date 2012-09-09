@@ -6,7 +6,6 @@ import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
-import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -34,10 +33,8 @@ import org.opaeum.runtime.domain.CompositionNode;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {CompositionNodeImplementor.class},after = {CompositionNodeImplementor.class})
 public class ComponentInitializer extends AbstractStructureVisitor{
 	@Override
-	protected void visitComplexStructure(Classifier entity){
-		if(ojUtil.hasOJClass(entity)){
+	protected boolean visitComplexStructure(OJAnnotatedClass ojClass, Classifier entity){
 			if(EmfClassifierUtil.isCompositionParticipant(entity) && !(entity instanceof Interface)){
-				OJAnnotatedClass ojClass = findJavaClass(entity);
 				OJOperation init = ojClass.findOperation("init", Arrays.asList(new OJPathName(CompositionNode.class.getName())));
 				Set<? extends Property> aws = getLibrary().getDirectlyImplementedAttributes(entity);
 
@@ -89,10 +86,9 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 					}
 				}
 			}
-		}
+		return false;
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
-		// TODO Auto-generated method stub
+	protected void visitProperty(OJAnnotatedClass c, Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 }

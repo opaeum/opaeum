@@ -42,24 +42,17 @@ import org.opaeum.runtime.domain.CompositionNode;
 public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	protected static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
-	protected void visitClass(Classifier c){
-		if(ojUtil.hasOJClass(c)){
-			OJPathName path = ojUtil.classifierPathname(c);
-			OJClassifier ojClassifier = this.javaModel.findClass(path);
-			if(ojClassifier instanceof OJAnnotatedClass){
-				OJAnnotatedClass ojClass = (OJAnnotatedClass) ojClassifier;
-				boolean isTransientMessageStructure = c instanceof MessageType && !(EmfClassifierUtil.isPersistent(c));
-				if(!isTransientMessageStructure){
-					ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
-					addGetOwningObject(c, ojClass);
-					addRemoveFromOwner(ojClass);
-					addMarkDeleted(ojClass, c);
-				}
-				addAddToOwningObject(ojClass, c);
-				addInit(c, ojClass);
-				addConstructorForTests(c, ojClass);
-			}
+	protected void visitClass(OJAnnotatedClass ojClass,Classifier c){
+		boolean isTransientMessageStructure = c instanceof MessageType && !(EmfClassifierUtil.isPersistent(c));
+		if(!isTransientMessageStructure){
+			ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
+			addGetOwningObject(c, ojClass);
+			addRemoveFromOwner(ojClass);
+			addMarkDeleted(ojClass, c);
 		}
+		addAddToOwningObject(ojClass, c);
+		addInit(c, ojClass);
+		addConstructorForTests(c, ojClass);
 	}
 	public void addConstructorForTests(Classifier entity,OJAnnotatedClass ojClass){
 		if(!isInterfaceOrAssociationClass(entity)){
@@ -93,7 +86,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 				.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
 		if(!isInterfaceOrAssociationClass(entity)){
 			Property endToComposite = getLibrary().getEndToComposite(entity);
-			if(endToComposite != null && !EmfPropertyUtil.isDerived( endToComposite)){
+			if(endToComposite != null && !EmfPropertyUtil.isDerived(endToComposite)){
 				if(endToComposite.getAssociation() != null && EmfAssociationUtil.isClass(endToComposite.getAssociation())){
 					AssociationClassEndMap aMap = new AssociationClassEndMap(ojUtil, endToComposite);
 					addToOwningObject.getBody().addToStatements(
@@ -139,8 +132,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	protected void markChildrenForDeletion(Classifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(Property np:getLibrary().getEffectiveAttributes(sc)){
-			if(!np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !EmfPropertyUtil.isDerived( np)
-					&& !EmfPropertyUtil.isDerived( np.getOtherEnd()) && (isPersistent(np.getType()) || np.getType() instanceof Interface)){
+			if(!np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !EmfPropertyUtil.isDerived(np)
+					&& !EmfPropertyUtil.isDerived(np.getOtherEnd()) && (isPersistent(np.getType()) || np.getType() instanceof Interface)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
 				if(map.isManyToMany()){
@@ -182,7 +175,6 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	 * Removes initialization logic from the default constructor and adds it to the init method which takes the
 	 */
 	protected void addInit(Classifier c,OJClass ojClass){
-		
 		OJOperation init = new OJAnnotatedOperation("init");
 		if(isPersistent(c)){
 			init.addParam("owner", COMPOSITION_NODE);
@@ -205,7 +197,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			start++;
 		}
 		Property etc = getLibrary().getEndToComposite(c);
-		if(etc != null && !EmfPropertyUtil.isDerived( etc)){
+		if(etc != null && !EmfPropertyUtil.isDerived(etc)){
 			PropertyMap compositeFeatureMap = ojUtil.buildStructuralFeatureMap(etc);
 			ojClass.addToImports(compositeFeatureMap.javaBaseTypePath());
 			init.getBody()
@@ -236,21 +228,21 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		ojClass.addToOperations(getOwner);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
-		// TODO Auto-generated method stub
+	protected void visitProperty(OJAnnotatedClass ojOwner,Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass ojOwner,Classifier umlOwner){
 		if(EmfClassifierUtil.isCompositionParticipant(umlOwner)){
-			visitClass((Classifier) umlOwner);
+			visitClass(ojOwner, (Classifier) umlOwner);
 		}else if(EmfClassifierUtil.isStructuredDataType(umlOwner)){
-			addMarkDeleted(findJavaClass(umlOwner), umlOwner);
+			addMarkDeleted(ojOwner, umlOwner);
 		}
+		return false;
 	}
 	public void invokeOperationRecursively(Classifier ew,OJOperation markDeleted,String operationName){
 		for(Property np:getLibrary().getEffectiveAttributes(ew)){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
-			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !EmfPropertyUtil.isDerived( np)){
+			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !EmfPropertyUtil.isDerived(np)){
 				Classifier type = (Classifier) np.getType();
 				if(map.isMany()){
 					markDeleted.getOwner().addToImports("java.util.ArrayList");

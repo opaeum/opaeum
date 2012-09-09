@@ -28,8 +28,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.internal.sections.TableObjectManager;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
@@ -126,7 +126,7 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 	}
 	protected IBaseLabelProvider getLabelProvider(){
 		List<AdapterFactory> f = new ArrayList<AdapterFactory>();
-		f.add(new UMLItemProviderAdapterFactory());
+		f.add(new OpaeumItemProviderAdapterFactory());
 		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f)){
 			@Override

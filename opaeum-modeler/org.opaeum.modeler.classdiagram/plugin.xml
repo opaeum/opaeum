@@ -578,6 +578,7 @@
 			<propertyTab id="org.topcased.modeler.advancedTab.behaviorTab" category="advanced" label="Behavior" afterTab="org.topcased.modeler.advancedTab"
 				indented="true" />
 			<propertyTab id="org.opaeum.eclipse.templateTab" category="model" label="Notification Text" afterTab="org.opaeum.eclipse.opaeumTab" indented="true" />
+			<propertyTab id="org.opaeum.eclipse.i8nTab" category="model" label="UI Text" afterTab="org.opaeum.eclipse.opaeumTab" indented="false" />
          <propertyTab
                afterTab="org.topcased.modeler.modelTab"
                category="model"
@@ -628,6 +629,9 @@
 			<propertySection afterSection="org.opaeum.eclipse.uml.propertysections.bpmprofile.BusinessDurationObservationBusinessCalendarToUseSection" class="org.opaeum.eclipse.uml.propertysections.bpmprofile.BusinessDurationObservationTimeUnitSection"
 				id="org.opaeum.eclipse.uml.propertysections.bpmprofile.BusinessDurationObservationTimeUnitSection" tab="org.opaeum.eclipse.opaeumTab" filter="org.opaeum.eclipse.uml.filters.bpm.BusinessDurationObservationFilter">
 			</propertySection>
+			<propertySection afterSection="org.opaeum.eclipse.uml.propertysections.bpmprofile.BusinessDurationObservationTimeUnitSection" class="org.opaeum.eclipse.uml.propertysections.bpmprofile.BusinessDurationObservationIsCumulativeSection"
+				id="org.opaeum.eclipse.uml.propertysections.bpmprofile.BusinessDurationObservationIsCumulativeSection" tab="org.opaeum.eclipse.opaeumTab" filter="org.opaeum.eclipse.uml.filters.bpm.BusinessDurationObservationFilter">
+			</propertySection>
 			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.eclipse.uml.propertysections.bpmprofile.DurationExpressionBusinessCalendarToUseSection"
 				id="org.opaeum.eclipse.uml.propertysections.bpmprofile.DurationExpressionBusinessCalendarToUseSection" tab="org.opaeum.eclipse.opaeumTab" filter="org.opaeum.eclipse.uml.filters.bpm.DurationExpressionFilter">
 			</propertySection>
@@ -672,24 +676,68 @@
 		         tab="org.opaeum.topcased.activitydiagram.deadlinesTab">
 			</propertySection>
 			<!--Opaeum Standard Profile-->
-			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" 
-				class="org.opaeum.eclipse.uml.propertysections.standardprofile.EntityGenerateAbstractSuperclassSection"
-				id="org.opaeum.eclipse.uml.propertysections.standardprofile.EntityGenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.extendedTab" 
-				filter="org.opaeum.eclipse.uml.filters.core.ClassNotInProfileFilter">
+			<propertySection class="org.opaeum.eclipse.uml.propertysections.standardprofile.GenerateAbstractSuperclassSection"
+				id="org.opaeum.eclipse.uml.propertysections.standardprofile.GenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.extendedTab" 
+				filter="org.opaeum.eclipse.uml.filters.core.PersistentClassNotInProfileFilter">
 			</propertySection>
-			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection" 
-				class="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection"
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassifierNamePropertySection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassifierNamePropertySection"
 				tab="org.opaeum.eclipse.extendedTab" afterSection="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassNamePropertySection"
-				filter="org.opaeum.eclipse.uml.filters.core.ClassNotInProfileFilter">
+				filter="org.opaeum.eclipse.uml.filters.core.PersistentClassNotInProfileFilter">
 			</propertySection>
-			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" 
-				class="org.opaeum.eclipse.uml.propertysections.standardprofile.EntityMappedImplementationTypeSection"
-				id="org.opaeum.eclipse.uml.propertysections.standardprofile.EntityGenerateAbstractSuperclassSection" tab="org.opaeum.eclipse.extendedTab"
-				filter="org.opaeum.eclipse.uml.filters.core.ClassNotInProfileFilter">
+			<propertySection  
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.MappedImplementationTypeSection"
+				id="org.opaeum.eclipse.uml.propertysections.standardprofile.MappedImplementationTypeSection" tab="org.opaeum.eclipse.extendedTab"
+				filter="org.opaeum.eclipse.uml.filters.core.PersistentClassNotInProfileFilter">
 			</propertySection>
 			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassAuditingEnabled" 
-				class="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassAuditingEnabled"
-				tab="org.opaeum.eclipse.extendedTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" filter="org.opaeum.eclipse.uml.filters.core.ClassNotInProfileFilter">
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.AuditingEnabledSection"
+				tab="org.opaeum.eclipse.extendedTab" 
+				 filter="org.opaeum.eclipse.uml.filters.core.PersistentClassNotInProfileFilter">
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.UserInterfaceTextSection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.UserInterfaceTextSection"
+				tab="org.opaeum.eclipse.i8nTab"  >
+								<input type="org.eclipse.uml2.uml.Element" />
+				
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ModelModelTypeSection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.ModelModelTypeSection" 
+				tab="org.opaeum.eclipse.extendedTab"  filter="org.opaeum.eclipse.uml.filters.core.ModelFilter">
+				
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ModelArtifactIdentifierSection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.ModelArtifactIdentifierSection" 
+				tab="org.opaeum.eclipse.extendedTab"  filter="org.opaeum.eclipse.uml.filters.core.ModelFilter">
+				
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.PackageMappedImplementationPackageSection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.PackageMappedImplementationPackageSection"
+				afterSection="org.opaeum.eclipse.uml.propertysections.standardprofile.ModelModelTypeSection"
+				tab="org.opaeum.eclipse.extendedTab"  filter="org.opaeum.eclipse.uml.filters.core.PackageNoProfileFilter">
+				
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.PackagePersistentNameSection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.PersistentNameSection"
+				tab="org.opaeum.eclipse.extendedTab"  filter="org.opaeum.eclipse.uml.filters.core.PackageNoProfileFilter">
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.ClassifierPersistentNameSection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.PersistentNameSection"
+				tab="org.opaeum.eclipse.extendedTab"  filter="org.opaeum.eclipse.uml.filters.core.PersistentClassNotInProfileFilter">
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.PropertyPersistentNameSection" 
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.PersistentNameSection"
+				tab="org.opaeum.eclipse.extendedTab"  filter="org.opaeum.eclipse.uml.filters.core.PropertyNotInProfileFilter">
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.PackageIsSchemaSection" 
+				afterSection="org.opaeum.eclipse.uml.propertysections.standardprofile.PackageMappedImplementationPackageSection"
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.PackageIsSchemaSection"
+				tab="org.opaeum.eclipse.extendedTab"  filter="org.opaeum.eclipse.uml.filters.core.PackageNoProfileFilter">
+			</propertySection>
+			<propertySection id="org.opaeum.eclipse.uml.propertysections.standardprofile.PersistentNameSection" 
+				afterSection="org.opaeum.eclipse.uml.propertysections.standardprofile.PackageMappedImplementationPackageSection"
+				class="org.opaeum.eclipse.uml.propertysections.standardprofile.PersistentNameSection"
+				tab="org.opaeum.eclipse.extendedTab"  filter="org.opaeum.eclipse.uml.filters.core.PackageNoProfileFilter">
 			</propertySection>
 			
 			<!--Core -->

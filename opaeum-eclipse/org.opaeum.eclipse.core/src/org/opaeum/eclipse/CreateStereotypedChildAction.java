@@ -47,7 +47,7 @@ public class CreateStereotypedChildAction extends CreateChildAndSelectAction{
 			for(Object object:command.getResult()){
 				if(object instanceof Element){
 					Element element = (Element) object;
-					Package nearestPackage = EmfElementFinder.getNearestClassifier(element).getNearestPackage();
+					Package nearestPackage = EmfElementFinder.findNearestElementOfType(Package.class,element);
 					for(Profile profile:nearestPackage.getAllAppliedProfiles()){
 						for(String string:stereotypes){
 							Stereotype stereotype = profile.getOwnedStereotype(string);

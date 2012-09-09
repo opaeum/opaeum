@@ -21,8 +21,10 @@ public class BpmUtil{
 	public static final OJPathName IPROCESS_STEP = new OJPathName(IProcessStep.class.getName());
 	public static final OJPathName IACTIVE_ENTITY = new OJPathName(IActiveEntity.class.getName());
 	public static final OJPathName ITOKEN = new OJPathName(IToken.class.getName());
+	public static final OJPathName IOBSERVER = new OJPathName("org.opaeum.runtime.domain.IObserver");
 	public static final OJPathName IEXECUTION_ELEMENT = new OJPathName(IExecutionElement.class.getName());
 	public static final OJPathName TRIGGER_METHOD = new OJPathName(org.opaeum.runtime.domain.TriggerMethod.class.getName());
+	public static final OJPathName IOBSERVATION = new OJPathName("org.opaeum.runtime.domain.IObservation");;
 	public static String stepLiteralName(NamedElement s){
 		String result = "";
 		if(s instanceof Vertex){

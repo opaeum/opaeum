@@ -18,7 +18,7 @@ import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 public class TextStrategyFactory extends AbstractStrategyFactory{
 	public static class MyJpaStrategy implements JpaStrategy{
 		@Override
-		public void annotate(OJAnnotatedField f,Property p){
+		public void annotate(OJAnnotatedClass c, OJAnnotatedField f,Property p){
 			OJAnnotationValue type = new OJAnnotationValue(new OJPathName(Lob.class.getName()));
 			f.putAnnotation(type);
 		}

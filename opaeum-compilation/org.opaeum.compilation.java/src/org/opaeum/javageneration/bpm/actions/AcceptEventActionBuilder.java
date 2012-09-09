@@ -2,6 +2,7 @@ package org.opaeum.javageneration.bpm.actions;
 
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.ChangeEvent;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.opaeum.eclipse.EmfActionUtil;
@@ -28,8 +29,11 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<AcceptEventActi
 							getLibrary().getBusinessRole() != null);
 					EventUtil.cancelTimer(cancel.getBody(), (TimeEvent) t.getEvent(), "this");
 				}else if(t.getEvent() instanceof ChangeEvent){
-					eventUtil.implementChangeEventRequest(operation, (ChangeEvent) t.getEvent());
-					EventUtil.cancelChangeEvent(cancel.getBody(), (ChangeEvent) t.getEvent());
+					ChangeEvent ce = (ChangeEvent) t.getEvent();
+					if(ce.getChangeExpression() instanceof OpaqueExpression){
+						eventUtil.implementChangeEventRequest(operation, ce, (OpaqueExpression) ce.getChangeExpression());
+						EventUtil.cancelChangeEvent(cancel.getBody(), ce);
+					}
 				}
 			}
 		}

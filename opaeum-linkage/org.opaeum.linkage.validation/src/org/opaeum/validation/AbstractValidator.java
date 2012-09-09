@@ -26,6 +26,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.visit.VisitSpec;
 import org.opaeum.metamodel.validation.ErrorMap;
+import org.opaeum.metamodel.workspace.IPropertyEmulation;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 

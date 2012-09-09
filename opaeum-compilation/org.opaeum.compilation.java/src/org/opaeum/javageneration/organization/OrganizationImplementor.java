@@ -21,31 +21,30 @@ import org.opaeum.javageneration.basicjava.OperationAnnotator;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class})
 public class OrganizationImplementor extends AbstractStructureVisitor{
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
+	protected void visitProperty(OJAnnotatedClass c,Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
-		//TODO find another place for this
-		OJAnnotatedClass c = findJavaClass(umlOwner);
+	protected boolean visitComplexStructure(OJAnnotatedClass c,Classifier umlOwner){
+		// TODO find another place for this
 		if(c != null){
 			c.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.opaeum.audit.AuditMe")));
 		}
-		if(EmfClassifierUtil.isBusinessComponent(umlOwner )){
+		if(EmfClassifierUtil.isBusinessComponent(umlOwner)){
 			Component bc = (Component) umlOwner;
 			OJAnnotationValue an = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.BusinessComponent"));
 			c.addAnnotationIfNew(an);
 			OJAnnotationAttributeValue br = new OJAnnotationAttributeValue("businessRoles");
 			an.putAttribute(br);
-			for(Property p:getLibrary().getEffectiveAttributes( bc)){
+			for(Property p:getLibrary().getEffectiveAttributes(bc)){
 				if(p.isComposite() && EmfClassifierUtil.isBusinessRole(p.getType())){
 					br.addClassValue(ojUtil.classifierPathname(p.getType()));
 				}
 			}
 			Property endToComposite = getLibrary().getEndToComposite(bc);
-			if (endToComposite!=null&& EmfClassifierUtil.isBusinessCollaboration(endToComposite.getType() )){
+			if(endToComposite != null && EmfClassifierUtil.isBusinessCollaboration(endToComposite.getType())){
 				an.putAttribute("isRoot", true);
 			}
-			Class adminRole = EmfClassifierUtil.getAdminRole( bc);
+			Class adminRole = EmfClassifierUtil.getAdminRole(bc);
 			if(adminRole != null){
 				an.putAttribute("adminRole", ojUtil.classifierPathname(adminRole));
 			}
@@ -72,5 +71,6 @@ public class OrganizationImplementor extends AbstractStructureVisitor{
 			setRepresentedOrganization.getBody().addToStatements("setRepresentedOrganization((OrganizationNode)p)");
 			// Set Orgnization
 		}
+		return false;
 	}
 }

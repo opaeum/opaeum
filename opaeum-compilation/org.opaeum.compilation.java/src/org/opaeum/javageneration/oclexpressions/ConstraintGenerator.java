@@ -6,9 +6,15 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
+import org.opaeum.eclipse.EmfConstraintUtil;
+import org.opaeum.eclipse.EmfElementUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;
@@ -19,20 +25,21 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.metamodel.workspace.IPropertyEmulation;
 import org.opaeum.ocl.uml.AbstractOclContext;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 
 public class ConstraintGenerator{
 	OJClass context;
 	NamedElement element;
 	private ExpressionCreator expressionCreator;
-	private OpaeumLibrary library;
+	private IPropertyEmulation library;
 	public ConstraintGenerator(OJUtil ojUtil,OJClass context,NamedElement element){
 		super();
 		this.library = ojUtil.getLibrary();
 		this.context = context;
 		this.element = element;
-		expressionCreator = new ExpressionCreator(ojUtil,context);
+		expressionCreator = new ExpressionCreator(ojUtil, context);
 	}
 	public void addConstraintChecks(OJOperation operation,Collection<Constraint> constraints,boolean pre){
 		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre);
@@ -51,24 +58,25 @@ public class ConstraintGenerator{
 		// use all the local fields
 		List<OJParameter> parameters = new ArrayList<OJParameter>(operation.getParameters());
 		for(OJField l:operation.getBody().getLocals()){
-			OJParameter parameter = new OJParameter(l.getName(),l.getType());
+			OJParameter parameter = new OJParameter(l.getName(), l.getType());
 			parameters.add(parameter);
 		}
 		if(sourceBlock != null && sourceBlock != operation.getBody()){
 			for(OJField l:sourceBlock.getLocals()){
-				OJParameter parameter = new OJParameter(l.getName(),l.getType());
+				OJParameter parameter = new OJParameter(l.getName(), l.getType());
 				parameters.add(parameter);
 			}
 		}
 		OJPathName failedConstraintsException = new OJPathName("org.opaeum.runtime.domain.FailedConstraintsException");
+		context.addToImports(new OJPathName("org.opaeum.runtime.domain.FailedConstraints"));
 		if(!operation.getThrows().contains(failedConstraintsException)){
 			context.addToImports(failedConstraintsException);
 			operation.addToThrows(failedConstraintsException);
-			OJAnnotatedField failedConstraints = new OJAnnotatedField("failedConstraints", new OJPathName("List<String>"));
-			failedConstraints.setInitExp("new ArrayList<String>()");
+			OJAnnotatedField failedConstraints = new OJAnnotatedField("failedConstraints", new OJPathName("Set<FailedConstraint>"));
+			failedConstraints.setInitExp("new HashSet<FailedConstraint>()");
 			operation.getBody().addToLocals(failedConstraints);
-			context.addToImports("java.util.ArrayList");
-			context.addToImports("java.util.List");
+			context.addToImports("java.util.HashSet");
+			context.addToImports("java.util.Set");
 		}
 		for(Constraint post:constraints){
 			OJIfStatement ifBroken = new OJIfStatement();
@@ -79,11 +87,27 @@ public class ConstraintGenerator{
 					ValueSpecificationUtil.addExtendedKeywords(operation, oclExpression);
 					String expr = expressionCreator.makeExpression(oclExpression, operation.isStatic(), parameters);
 					ifBroken.setCondition("!" + expr);
-					String qname = element.getQualifiedName() + "::" + post.getName();
-					ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");
+					OJAnnotatedField message = new OJAnnotatedField("message", new OJPathName("String"));
+					ifBroken.getThenPart().addToLocals(message);
+					StringBuilder sb = new StringBuilder(" ");
+					for(OpaqueExpression opaqueExpression:EmfConstraintUtil.getMessageArguments(post)){
+						OpaqueExpressionContext argExp = library.getOclExpressionContext(opaqueExpression);
+						sb.append(expressionCreator.makeExpression(argExp, false, parameters));
+						sb.append(",");
+					}
+					sb.setCharAt(sb.length() - 1, ')');
+					message.setInitExp("Environment.getInstance().getMessage(\"" + EmfElementUtil.getQualifiedName(post) + "\"," + sb.toString());
+					for(Element element:post.getConstrainedElements()){
+						if(element instanceof NamedElement){
+							ifBroken.getThenPart().addToStatements(
+									"failedConstraints.add(new FailedConstraint(\"" + ((NamedElement) element).getName() + "\" ,message)");
+						}
+					}
+					if(post.getConstrainedElements().isEmpty()){
+						ifBroken.getThenPart().addToStatements("failedConstraints.add(new FailedConstraint(null, message)");
+					}
 					result.addToStatements(ifBroken);
 				}
-				;
 			}
 		}
 		OJIfStatement ifFailed = new OJIfStatement();

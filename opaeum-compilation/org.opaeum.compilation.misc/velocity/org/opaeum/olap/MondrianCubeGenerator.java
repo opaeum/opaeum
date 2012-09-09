@@ -43,6 +43,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJWorkspace;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.persistence.JpaUtil;
@@ -119,10 +120,10 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
+	protected void visitProperty( OJAnnotatedClass c, Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass c, Classifier umlOwner){
 		if(EmfClassifierUtil.isCompositionParticipant(umlOwner)){
 			Classifier cp = umlOwner;
 			if(EmfClassifierUtil.isFact( cp)){
@@ -152,6 +153,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 			}
 		}
 		afterWorkspace(workspace);
+		return false;
 	}
 	protected void addCalculatedMeasures(Classifier cp,Element cube){
 		for(Property p:EmfElementFinder.getPropertiesInScope(cp)){

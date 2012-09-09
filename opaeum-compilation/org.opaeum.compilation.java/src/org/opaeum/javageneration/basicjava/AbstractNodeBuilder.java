@@ -49,21 +49,20 @@ public abstract class AbstractNodeBuilder {
 			} else if(EmfActionUtil.getLogicalTarget(action)!=null){
 				expression = readPin(operationContext, block, EmfActionUtil.getLogicalTarget(action));
 			}
+			OJPathName targetPath = actionMap.targetMap().javaBaseTypePath();
+			operationContext.getOwner().addToImports(targetPath);
 			if (actionMap.targetMap().isOne()) {
-				OJPathName targetPath = actionMap.targetMap().javaBaseTypePath();
 				String targetVar = targetPath.getLast() + " " + actionMap.targetName() + "=" + expression;
 				block.addToStatements(targetVar);
 				if (actionMap.targetMap().isOptional()) {
 					OJIfStatement fs = new OJIfStatement();
 					fs.setCondition(actionMap.targetName() + "!=null");
 					block.addToStatements(fs);
-					operationContext.getOwner().addToImports(targetPath);
 					return fs.getThenPart();
 				} else {
 					return block;
 				}
 			} else {
-				OJPathName targetPath = actionMap.targetMap().javaBaseTypePath();
 				operationContext.getOwner().addToImports("java.util.Collection");
 				expression = "(Collection<" + targetPath.getLast() + ">)" + expression;
 				OJForStatement fs = new OJForStatement();
@@ -72,7 +71,6 @@ public abstract class AbstractNodeBuilder {
 				fs.setElemType(targetPath);
 				fs.setBody(new OJBlock());
 				block.addToStatements(fs);
-				operationContext.getOwner().addToImports(targetPath);
 				return fs.getBody();
 			}
 		}

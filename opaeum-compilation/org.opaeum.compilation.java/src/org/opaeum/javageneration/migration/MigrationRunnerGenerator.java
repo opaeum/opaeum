@@ -66,7 +66,8 @@ public class MigrationRunnerGenerator extends AbstractMigrationCodeGenerator{
 		runner.addToImports(VersionNumber.class.getName());
 		context.setInitExp("new MigrationContext(new VersionNumber(\"" + fromVersion + "\"),new VersionNumber(\"" + toVersion + "\"),args[0])");
 	}
-	protected void visitComplexStructure(Classifier to){
+	@Override
+	protected boolean visitComplexStructure(OJAnnotatedClass ojTo, Classifier to){
 		if(EmfClassifierUtil.isCompositionParticipant(to) && isPersistent(to)){
 			if(!(to instanceof Interface)){
 				Classifier toClass = (Classifier) to;
@@ -80,5 +81,6 @@ public class MigrationRunnerGenerator extends AbstractMigrationCodeGenerator{
 				}
 			}
 		}
+		return false;
 	}
 }

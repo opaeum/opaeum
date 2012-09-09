@@ -2,6 +2,7 @@ package org.opaeum.runtime.organization;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 
 import org.opaeum.runtime.contact.IPersonEMailAddress;
 import org.opaeum.runtime.contact.IPersonPhoneNumber;
@@ -26,4 +27,6 @@ public interface IPersonNode extends CompositionNode,IPersistentObject,INotifica
 	String getRefreshToken();
 	Date getTokenExpiryDateTime();
 	void setTokenExpiryDateTime(Date date);
+	Locale getLocale();
+	
 }

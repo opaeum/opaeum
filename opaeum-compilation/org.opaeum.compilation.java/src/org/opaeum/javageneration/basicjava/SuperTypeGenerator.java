@@ -20,12 +20,11 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class},after = {Java6ModelGenerator.class})
 public class SuperTypeGenerator extends AbstractStructureVisitor{
 	@VisitBefore(matchSubclasses = true)
-	protected void visitComplexStructure(Classifier c){
+	protected boolean visitComplexStructure(OJAnnotatedClass myClass,Classifier c){
 		if(c.getGeneralizations().size() == 1){
-			OJAnnotatedClass myClass = findJavaClass(c);
 			if(myClass != null){
 				for(Generalization g:c.getGeneralizations()){
-					ClassifierMap map = ojUtil.buildClassifierMap(g.getGeneral(),(CollectionKind)null);
+					ClassifierMap map = ojUtil.buildClassifierMap(g.getGeneral(), (CollectionKind) null);
 					myClass.setSuperclass(map.javaTypePath());
 					myClass.addToImports(map.javaTypePath());
 					OJConstructor constructor = myClass.getDefaultConstructor();
@@ -34,12 +33,12 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 			}
 		}else if(c.getGeneralizations().size() > 1){
 		}
-		if(ojUtil.hasOJClass(c) && c instanceof BehavioredClassifier){
-			for(InterfaceRealization ir:((BehavioredClassifier)c).getInterfaceRealizations()){
-				OJAnnotatedClass myClass = findJavaClass(c);
+		if(c instanceof BehavioredClassifier){
+			for(InterfaceRealization ir:((BehavioredClassifier) c).getInterfaceRealizations()){
 				myClass.addToImplementedInterfaces(ojUtil.classifierPathname(ir.getContract()));
 			}
 		}
+		return false;
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitInterface(Interface c){
@@ -55,7 +54,6 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
-		
+	protected void visitProperty(OJAnnotatedClass c, Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 }

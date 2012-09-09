@@ -4,7 +4,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.eclipse.uml.propertysections.common.OpaeumQualifiedNameLabelProvider;
 import org.opaeum.eclipse.uml.propertysections.core.EObjectNavigationSource;
 import org.opaeum.eclipse.uml.propertysections.core.NavigationDecorator;

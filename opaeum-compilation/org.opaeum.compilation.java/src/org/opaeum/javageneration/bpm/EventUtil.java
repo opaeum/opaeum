@@ -5,15 +5,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.ChangeEvent;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TimeEvent;
@@ -35,13 +37,14 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.JavaNameGenerator;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.internal.TagNames;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.name.NameConverter;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.runtime.domain.BusinessTimeUnit;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.OutgoingEvent;
-import org.opaeum.runtime.domain.TimeUnit;
 
 //TODO refactor into an EventMap
 public class EventUtil{
@@ -70,35 +73,38 @@ public class EventUtil{
 	public OJPathName handlerPathName(Operation s){
 		return ojUtil.buildOperationMap(s).handlerPath();
 	}
-	public OJPathName handlerPathName(Event e){
+	public OJPathName handlerPathName(NamedElement ne){
 		Namespace ctx;
-		if(EmfEventUtil.isDeadline(e)){
-			ctx = (Namespace) EmfElementFinder.getContainer(e);
+		if(ne instanceof Event){
+			Event e = (Event) ne;
+			if(EmfEventUtil.isDeadline(e)){
+				ctx = (Namespace) EmfElementFinder.getContainer(e);
+			}else{
+				ctx = EmfEventUtil.getBehavioralNamespaceContext(e);
+			}
+			if(ctx == null){
+				ctx = EmfElementFinder.getNearestNamespace(e);
+			}
 		}else{
-			ctx = EmfEventUtil.getBehaviorContext(e);
+			ctx = EmfElementFinder.getNearestNamespace(ne);
 		}
-		if(ctx == null){
-			ctx = EmfElementFinder.getNearestNamespace(e);
-		}
-		return ojUtil.packagePathname(ctx).getCopy().append(NameConverter.capitalize(e.getName()) + "Handler");
+		return ojUtil.packagePathname(ctx).getCopy().append(NameConverter.capitalize(ne.getName()) + "Handler");
 	}
-	public void implementChangeEventRequest(OJOperation operation,ChangeEvent event){
+	public void implementChangeEventRequest(OJOperation operation,NamedElement ne,OpaqueExpression when){
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
-		ValueSpecification when = event.getChangeExpression();
 		if(when != null){
-			String changeExpr = valueSpecificationUtil.expressValue(operation, when, EmfEventUtil.getBehaviorContext(event),
-					(Classifier) when.getType());
-			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation(evaluatorName(event), new OJPathName("boolean"));
+			String changeExpr = valueSpecificationUtil.expressOcl(library.getOclExpressionContext(when), operation, library.getBooleanType());
+			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation(evaluatorName(ne), new OJPathName("boolean"));
 			evaluationMethod.getBody().addToStatements("return " + changeExpr);
 			owner.addToOperations(evaluationMethod);
-			OJPathName handler = handlerPathName(event);
+			OJPathName handler = handlerPathName(ne);
 			owner.addToImports(handler);
 			operation.getBody().addToStatements("getOutgoingEvents().add(new OutgoingEvent(this, new " + handler.getLast() + "(token))");
 		}else{
 			operation.getBody().addToStatements("NO_CHANGE_EXPRESSION_SPECIFIED");
 		}
 	}
-	public static String evaluatorName(ChangeEvent event){
+	public static String evaluatorName(NamedElement event){
 		return "evaluate" + NameConverter.capitalize(event.getName());
 	}
 	public static void addOutgoingEventManagement(OJClass ojClass){
@@ -134,25 +140,22 @@ public class EventUtil{
 			ValueSpecification when = event.getWhen().getExpr();
 			OJPathName eventHandler = handlerPathName(event);
 			owner.addToImports(eventHandler);
-			String whenExpr = valueSpecificationUtil.expressValue(operation, when, library.getEventContext(event), null);
-			// TODO add the timeSpecification INstanceSpecification values
+			String whenExpr = valueSpecificationUtil.expressValue(operation, when, library.getEventGeneratingClassifier(event), null);
 			if(event.isRelative()){
 				EnumerationLiteral timeUnit = EmfEventUtil.getTimeUnit(event);
-				if(businessTime){
-					String timeUnitConstant = timeUnit == null ? "BUSINESSDAY" : OJUtil.toJavaLiteral(timeUnit);
-					owner.addToImports(BusinessTimeUnit.class.getName());
-					block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
-							+ whenExpr + ",BusinessTimeUnit." + timeUnitConstant + ",token)))");
+				OpaqueExpressionContext businessCalendarToUse = library.getArtificationExpression(event, TagNames.BUSINESS_CALENDAR_TO_USE);
+				if(businessCalendarToUse == null || businessCalendarToUse.hasErrors()){
+					block.addToStatements("this.firstOccurrenceScheduledFor=BusinessCalendar.getInstance().addTimeTo(new Date(), timeUnit,delay)");
 				}else{
-					owner.addToImports(TimeUnit.class.getName());
-					String timeUnitConstant = "DAY";
-					if(timeUnit != null && TimeUnit.lookup(OJUtil.toJavaLiteral(timeUnit)) != null){
-						timeUnitConstant = OJUtil.toJavaLiteral(timeUnit);
-					}
-					block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
-							+ whenExpr + ",TimeUnit." + timeUnitConstant + ",token)))");
+					block.addToStatements("this.firstOccurrenceScheduledFor="
+							+ valueSpecificationUtil.expressOcl(businessCalendarToUse, operation, null) + ".addTimeTo(new Date(), timeUnit,delay)");
 				}
+				String timeUnitConstant = timeUnit == null ? "BUSINESSDAY" : OJUtil.toJavaLiteral(timeUnit);
+				owner.addToImports(BusinessTimeUnit.class.getName());
+				block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
+						+ whenExpr + ",BusinessTimeUnit." + timeUnitConstant + ",token)))");
 			}else{
+				// TODO add the timeSpecification INstanceSpecification values
 				block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
 						+ whenExpr + ",token)))");
 			}
@@ -167,7 +170,7 @@ public class EventUtil{
 	public static String getInvokerName(Operation o){
 		return ((NamedElement) o.getOwner()).getName() + NameConverter.capitalize(o.getName()) + EmfWorkspace.getOpaeumId(o) + "Invoker";
 	}
-	public void requestEvents(OJAnnotatedOperation operation,Collection<ActivityNode> activityNodes,boolean businessCalendarAvailable){
+	public void requestTokenCreatingEvents(OJAnnotatedOperation operation,Collection<ActivityNode> activityNodes,boolean businessCalendarAvailable){
 		for(ActivityNode node:activityNodes){
 			if(node instanceof AcceptEventAction && EmfActivityUtil.getAllEffectiveIncoming(node).isEmpty()){
 				AcceptEventAction acceptEventAction = (AcceptEventAction) node;
@@ -175,7 +178,10 @@ public class EventUtil{
 					if(t.getEvent() instanceof TimeEvent){
 						implementTimeEventRequest(operation, operation.getBody(), (TimeEvent) t.getEvent(), businessCalendarAvailable);
 					}else if(t.getEvent() instanceof ChangeEvent){
-						implementChangeEventRequest(operation, (ChangeEvent) t.getEvent());
+						ChangeEvent ce = (ChangeEvent) t.getEvent();
+						if(ce.getChangeExpression() instanceof OpaqueExpression){
+							implementChangeEventRequest(operation, ce, (OpaqueExpression) ce.getChangeExpression());
+						}
 					}
 				}
 			}
@@ -195,5 +201,8 @@ public class EventUtil{
 				}
 			}
 		}
+	}
+	public static String intervalCalculatorName(NamedElement e){
+		return "calculateNextOccurrenceOf" + NameConverter.capitalize(e.getName());
 	}
 }

@@ -56,7 +56,8 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 	protected int getThreadPoolSize(){
 		return 0;
 	}
-	protected void visitComplexStructure(Classifier to){
+	@Override
+	protected boolean visitComplexStructure(OJAnnotatedClass ojTo, Classifier to){
 		if(EmfClassifierUtil.isCompositionParticipant(to )){
 			if(to instanceof Interface){
 				generateMigratorContractForInterface(to);
@@ -76,6 +77,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 				}
 			}
 		}
+		return false;
 	}
 	private OJAnnotatedClass generateMigrationContract(Classifier toClass,OJPathName migratorPath,OJPackage pkg){
 		OJAnnotatedClass migratorGen = new OJAnnotatedClass(migratorPath.getLast() + "GEN");

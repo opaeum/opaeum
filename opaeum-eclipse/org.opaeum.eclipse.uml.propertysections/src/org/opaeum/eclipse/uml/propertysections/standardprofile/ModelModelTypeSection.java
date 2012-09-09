@@ -2,9 +2,9 @@ package org.opaeum.eclipse.uml.propertysections.standardprofile;
 
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractEnumerationOnStereotypeSection;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.TagNames;
 
 public class ModelModelTypeSection extends AbstractEnumerationOnStereotypeSection{
 	@Override
@@ -20,15 +20,11 @@ public class ModelModelTypeSection extends AbstractEnumerationOnStereotypeSectio
 	}
 	@Override
 	protected String getAttributeName(){
-		return "modelType";
+		return TagNames.MODEL_TYPE;
 	}
 	@Override
 	protected String getProfileName(){
-		if(OpaeumEclipseContext.shouldBeCm1Compatible()){
-			return StereotypeNames.OPAEUM_STANDARD_PROFILE_TOPCASED;
-		}else{
-			return StereotypeNames.OPAEUM_STANDARD_PROFILE_PAPYRUS;
-		}
+		return StereotypeNames.OPAEUM_STANDARD_PROFILE;
 	}
 	@Override
 	protected String getStereotypeName(){

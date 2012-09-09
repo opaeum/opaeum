@@ -8,12 +8,17 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Component;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -23,9 +28,12 @@ import org.opaeum.topcased.classdiagram.edit.BusinessRoleEditPart;
 import org.opaeum.topcased.classdiagram.edit.BusinessServiceEditPart;
 import org.opaeum.topcased.classdiagram.edit.EditPartUtil;
 import org.opaeum.topcased.classdiagram.figure.Gradient;
+import org.topcased.draw2d.figures.ComposedLabel;
+import org.topcased.draw2d.figures.ILabelFigure;
 import org.topcased.modeler.ModelerPropertyConstants;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphEdge;
+import org.topcased.modeler.di.model.GraphElement;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.SimpleSemanticModelElement;
 import org.topcased.modeler.di.model.util.DIUtils;
@@ -33,6 +41,8 @@ import org.topcased.modeler.edit.EListEditPart;
 import org.topcased.modeler.edit.EMFGraphEdgeEditPart;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 import org.topcased.modeler.editor.ModelerEditPartFactory;
+import org.topcased.modeler.uml.UMLLabel;
+import org.topcased.modeler.uml.UMLTools;
 import org.topcased.modeler.uml.alldiagram.AllSimpleObjectConstants;
 import org.topcased.modeler.uml.alldiagram.edit.CommentEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.CommentLinkEditPart;
@@ -104,10 +114,12 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new EdgeUMLSwitch(edge).doSwitch(element);
 			}
 			if(edge.getSemanticModel() instanceof SimpleSemanticModelElement){
-				if(ClassSimpleObjectConstants.SIMPLE_OBJECT_COMMENTLINK.equals(((SimpleSemanticModelElement) edge.getSemanticModel()).getTypeInfo())){
+				if(ClassSimpleObjectConstants.SIMPLE_OBJECT_COMMENTLINK
+						.equals(((SimpleSemanticModelElement) edge.getSemanticModel()).getTypeInfo())){
 					return new CommentLinkEditPart(edge);
 				}
-				if(AllSimpleObjectConstants.SIMPLE_OBJECT_CONSTRAINTLINK.equals(((SimpleSemanticModelElement) edge.getSemanticModel()).getTypeInfo())){
+				if(AllSimpleObjectConstants.SIMPLE_OBJECT_CONSTRAINTLINK.equals(((SimpleSemanticModelElement) edge.getSemanticModel())
+						.getTypeInfo())){
 					return new ConstraintLinkEditPart(edge);
 				}
 			}
@@ -187,8 +199,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 					}
 				}
 				return new EListEditPart(node, features);
-			}else if(StereotypesHelper.hasKeyword(object, StereotypeNames.BUSINESS_ROLE)){
-				return new BusinessRoleEditPart(node);
 			}else{
 				return createClassEditPart();
 			}
@@ -208,6 +218,22 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				protected void createEditPolicies(){
 					super.createEditPolicies();
 					EditPartUtil.installEditPolicies(this);
+				}
+				protected void refreshHeaderLabel(){
+					ClassFigure fig = (ClassFigure) getFigure();
+					ComposedLabel lbl = (ComposedLabel) fig.getLabel();
+					Class clazz = (Class) Utils.getElement(getGraphNode());
+					if(StereotypesHelper.hasStereotype(clazz, StereotypeNames.BUSINESS_DOCUMENT)){
+						lbl.setPrefix("<Business Document>");
+					}else if(StereotypesHelper.hasStereotype(clazz, StereotypeNames.BUSINESS_ROLE)){
+						lbl.setPrefix("<Business Role>");
+					}else{
+						lbl.setPrefix("<Business Entity>");
+					}
+					if(clazz.getName() != null){
+						lbl.setMain(clazz.getName());
+					}
+					lbl.setSuffix(UMLTools.getFromPackageNotation(clazz, (Element) Utils.getElement((GraphElement) getParent().getModel())));
 				}
 			};
 		}
@@ -264,7 +290,41 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 			};
 		}
 		public EditPart caseProperty(org.eclipse.uml2.uml.Property object){
-			return new PropertyEditPart(node);
+			return new PropertyEditPart(node){
+				@Override
+				protected void refreshHeaderLabel(){
+					ComposedLabel lbl = (ComposedLabel) ((ILabelFigure) getFigure()).getLabel();
+					Property property = (Property) Utils.getElement(getGraphNode());
+					if(property.getName() != null){
+						StringBuffer prefix = new StringBuffer();
+						prefix.append(UMLLabel.getVisibilityNotation(property.getVisibility()));
+						if(property.isDerived()){
+							prefix.append('/');
+						}
+						lbl.setPrefix(prefix.toString());
+						lbl.setMain(property.getName());
+						lbl.setSuffix(getPropertySuffix(property));
+					}
+					// Underline the label when the Property is declared as static
+					((WrappingLabel) lbl.getMain()).setTextUnderline(property.isStatic());
+				}
+				private String getPropertySuffix(Property property){
+					StringBuffer suffix = new StringBuffer();
+					Type type = property.getType();
+					if(type != null){
+						suffix.append(" : ");
+						suffix.append(type.getName());
+					}
+					suffix.append(UMLLabel.getMultiplicityText(property));
+					String modifiersText = UMLLabel.getPropertyModifiersText(property);
+					if(property.isMultivalued() && modifiersText != null && !"".equals(modifiersText)){
+						suffix.append(" { ");
+						suffix.append(modifiersText);
+						suffix.append(" }");
+					}
+					return suffix.toString();
+				}
+			};
 		}
 		public EditPart caseInstanceSpecification(org.eclipse.uml2.uml.InstanceSpecification object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);

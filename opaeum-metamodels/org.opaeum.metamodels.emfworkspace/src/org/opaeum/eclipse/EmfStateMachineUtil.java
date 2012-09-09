@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.ChangeEvent;
@@ -25,6 +27,7 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Vertex;
 
 public class EmfStateMachineUtil{
@@ -135,7 +138,14 @@ public class EmfStateMachineUtil{
 	public static boolean doesWorkOnEntry(Vertex state){
 		if(state instanceof State){
 			State s = (State) state;
-			if( s.getEntry() != null || s.getDoActivity() != null || s instanceof FinalState){
+			if(s.getEntry() != null || s.getDoActivity() != null || s instanceof FinalState){
+				return true;
+			}
+		}
+		Collection<Setting> refs = ECrossReferenceAdapter.getCrossReferenceAdapter(state).getNonNavigableInverseReferences(state);
+		for(Setting setting:refs){
+			if(setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getTimeObservation_Event())
+					|| setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getDurationObservation_Event())){
 				return true;
 			}
 		}
@@ -146,9 +156,9 @@ public class EmfStateMachineUtil{
 		return getHistoryPeer(state) != null;
 	}
 	private static boolean hasImmediateCompletionTransitions(Vertex state){
-		if(getCompletionTransitions(state).size()>0){
+		if(getCompletionTransitions(state).size() > 0){
 			if(state instanceof State){
-				State s =(State) state;
+				State s = (State) state;
 				if(s.isOrthogonal() || s.isComposite()){
 					return false;
 				}else{
@@ -162,7 +172,7 @@ public class EmfStateMachineUtil{
 		}
 	}
 	public static Collection<Transition> getCompletionTransitions(Vertex state){
-		Collection<Transition>  result = new ArrayList<Transition>();
+		Collection<Transition> result = new ArrayList<Transition>();
 		EList<Transition> outgoings = state.getOutgoings();
 		for(Transition transition:outgoings){
 			if(transition.getTriggers().isEmpty()){
@@ -172,7 +182,7 @@ public class EmfStateMachineUtil{
 		return result;
 	}
 	public static boolean hasGuard(Transition transition){
-		return transition.getGuard()!=null && transition.getGuard().getSpecification() instanceof OpaqueExpression;
+		return transition.getGuard() != null && transition.getGuard().getSpecification() instanceof OpaqueExpression;
 	}
 	public static boolean requestsEvents(Vertex state){
 		for(Transition t:state.getOutgoings()){
@@ -184,13 +194,24 @@ public class EmfStateMachineUtil{
 		}
 		return false;
 	}
-	public static boolean doesWorkOnExit(State state){
-		return state.getExit() != null || requestsEvents(state);
+	public static boolean doesWorkOnExit(Vertex state){
+		if((state instanceof State && ((State) state).getExit() != null) || requestsEvents(state)){
+			return true;
+		}else{
+			for(Setting setting:ECrossReferenceAdapter.getCrossReferenceAdapter(state).getNonNavigableInverseReferences(state)){
+				if(setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getTimeObservation_Event())
+						|| setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getDurationObservation_Event())){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	public static boolean isStartingVertex(Vertex v){
 		if(v instanceof Pseudostate){
-			Pseudostate state =(Pseudostate) v;
-			return state.getKind() == PseudostateKind.INITIAL_LITERAL || state.getKind()==PseudostateKind.DEEP_HISTORY_LITERAL || state.getKind()==PseudostateKind.SHALLOW_HISTORY_LITERAL;
+			Pseudostate state = (Pseudostate) v;
+			return state.getKind() == PseudostateKind.INITIAL_LITERAL || state.getKind() == PseudostateKind.DEEP_HISTORY_LITERAL
+					|| state.getKind() == PseudostateKind.SHALLOW_HISTORY_LITERAL;
 		}
 		return false;
 	}

@@ -47,17 +47,25 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 				visitOpaqueBehavior((OpaqueBehavior) b);
 			}
 		}
+		if(bc instanceof Behavior && ((Behavior) bc).getContext()==null &&EmfBehaviorUtil.hasExecutionInstance((Behavior) bc)){
+			Behavior behavior=(Behavior) bc;
+			boolean hasSuperClass = EmfBehaviorUtil.hasSuperClass(behavior);
+			addEvaluationMethod(behavior.getPreconditions(), "evaluatePreconditions", behavior, hasSuperClass);
+			addEvaluationMethod(behavior.getPostconditions(), "evaluatePostconditions", behavior, hasSuperClass);
+		}
 	}
 	private void visitBehavior(Behavior behavior){
 		if(ojUtil.hasOJClass(behavior.getContext()) && behavior.getOwner() instanceof Classifier){
 			// Ignore transition effects and state actions for now
 			if(EmfBehaviorUtil.hasExecutionInstance(behavior)){
-				addEvaluationMethod(behavior.getPreconditions(), "evaluatePreconditions", behavior);
-				addEvaluationMethod(behavior.getPostconditions(), "evaluatePostconditions", behavior);
+				boolean hasSuperClass = EmfBehaviorUtil.hasSuperClass(behavior);
+				addEvaluationMethod(behavior.getPreconditions(), "evaluatePreconditions", behavior, hasSuperClass);
+				addEvaluationMethod(behavior.getPostconditions(), "evaluatePostconditions", behavior, hasSuperClass);
 			}else{
 				OperationMap mapper = ojUtil.buildOperationMap(behavior);
-				addLocalConditions(behavior.getContext(), mapper, behavior.getPreconditions(), true);
-				addLocalConditions(behavior.getContext(), mapper, behavior.getPostconditions(), false);
+				OJAnnotatedClass myOwner = findJavaClass(behavior.getContext());
+				addLocalConditions(myOwner, mapper, behavior.getPreconditions(), true);
+				addLocalConditions(myOwner, mapper, behavior.getPostconditions(), false);
 			}
 		}
 	}
@@ -76,7 +84,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 					execute.getBody().addToStatements(
 							valueSpecificationUtil.expressOcl(oclBehaviorContext, execute, oclBehaviorContext.getExpression().getType()));
 				}else{
-					OJAnnotatedField result = new OJAnnotatedField("result",map.javaReturnTypePath());
+					OJAnnotatedField result = new OJAnnotatedField("result", map.javaReturnTypePath());
 					result.setInitExp(map.javaReturnDefaultValue());
 					execute.getBody().addToLocals(result);
 					PropertyMap resultMap = ojUtil.buildStructuralFeatureMap(map.getReturnParameter());
@@ -110,7 +118,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 				OJAnnotatedOperation myOper = (OJAnnotatedOperation) myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 				ValueSpecification specification = oper.getBodyCondition().getSpecification();
 				if(specification instanceof OpaqueExpression){
-					OpaqueExpression oe =(OpaqueExpression) specification;
+					OpaqueExpression oe = (OpaqueExpression) specification;
 					OpaqueExpressionContext oclExpressionContext = getLibrary().getOclExpressionContext(oe);
 					if(!oclExpressionContext.hasErrors()){
 						addBody(myOper, mapper, oclExpressionContext);
@@ -121,31 +129,41 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		//
 		if(EmfBehaviorUtil.hasExecutionInstance(oper)){
 			Classifier messageClass = getLibrary().getMessageStructure(oper);
-			addEvaluationMethod(oper.getPreconditions(), "evaluatePreconditions", messageClass);
-			addEvaluationMethod(oper.getPostconditions(), "evaluatePostconditions", messageClass);
+			boolean hasSuperClass = oper.getRedefinedOperations().size() > 0
+					&& EmfBehaviorUtil.hasExecutionInstance(oper.getRedefinedOperations().get(0));
+			addEvaluationMethod(oper.getPreconditions(), "evaluatePreconditions", messageClass, hasSuperClass);
+			addEvaluationMethod(oper.getPostconditions(), "evaluatePostconditions", messageClass, hasSuperClass);
 		}else{
-			addLocalConditions(owner, mapper, oper.getPreconditions(), true);
-			addLocalConditions(owner, mapper, oper.getPostconditions(), false);
+			OJClass myOwner = findJavaClass(owner);
+			addConditionsForImmediateOperationRecursively(oper, myOwner, mapper);
 		}
 	}
-	public void addLocalConditions(Classifier owner,OperationMap mapper,Collection<Constraint> conditions,boolean pre){
-		OJClass myOwner = findJavaClass(owner);
+	protected void addConditionsForImmediateOperationRecursively(Operation oper,OJClass owner,OperationMap mapper){
+		if(oper.getRedefinedOperations().size() > 0){
+			addConditionsForImmediateOperationRecursively(oper.getRedefinedOperations().get(0), owner, mapper);
+		}
+		addLocalConditions(owner, mapper, oper.getPreconditions(), true);
+		addLocalConditions(owner, mapper, oper.getPostconditions(), false);
+	}
+	public void addLocalConditions(OJClass myOwner,OperationMap mapper,Collection<Constraint> conditions,boolean pre){
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 		ConstraintGenerator cg = new ConstraintGenerator(ojUtil, myOwner, mapper.getNamedElement());
 		if(conditions.size() > 0){
 			cg.addConstraintChecks(myOper1, conditions, pre);
 		}
 	}
-	public void addEvaluationMethod(Collection<Constraint> conditions,String evaluationMethodName,Classifier messageClass){
+	public void addEvaluationMethod(Collection<Constraint> conditions,String evaluationMethodName,Classifier messageClass,
+			boolean hasSuperClass){
+		OJClass myOwner = findJavaClass(messageClass);
+		OJOperation myOper1 = new OJAnnotatedOperation(evaluationMethodName);
+		myOwner.addToOperations(myOper1);
+		if(hasSuperClass){
+			myOper1.getBody().addToStatements("super." + evaluationMethodName+"()");
+		}
+		ConstraintGenerator cg = new ConstraintGenerator(ojUtil, myOwner, messageClass);
 		if(conditions.size() > 0){
-			OJClass myOwner = findJavaClass(messageClass);
-			OJOperation myOper1 = new OJAnnotatedOperation(evaluationMethodName);
-			myOwner.addToOperations(myOper1);
-			ConstraintGenerator cg = new ConstraintGenerator(ojUtil, myOwner, messageClass);
-			if(conditions.size() > 0){
-				cg.addConstraintChecks(myOper1, conditions, true);
-				// true because they can sit anywhere in the method
-			}
+			cg.addConstraintChecks(myOper1, conditions, true);
+			// true because they can sit anywhere in the method
 		}
 	}
 	private void addBody(OJAnnotatedOperation ojOper,OperationMap map,AbstractOclContext specification){

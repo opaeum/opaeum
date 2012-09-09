@@ -585,4 +585,13 @@ public class EmfBehaviorUtil{
 		return parameter.getDirection() == ParameterDirectionKind.IN_LITERAL
 				|| parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL;
 	}
+	public static boolean hasSuperClass(Behavior umlStateMachine){
+		return (umlStateMachine.getSpecification() != null)
+				|| (umlStateMachine.getGenerals().size() > 0 && umlStateMachine.eClass().isInstance(umlStateMachine.getGenerals().get(0)))
+				|| (umlStateMachine.getRedefinedBehaviors().size() > 0 && umlStateMachine.eClass().isInstance(
+						umlStateMachine.getRedefinedBehaviors().get(0)));
+	}
+	public static boolean hasSuperClass(Action a){
+		return a.getRedefinedNodes().size()>0 && a.eClass().isInstance(a.getRedefinedNodes().get(0));
+	}
 }

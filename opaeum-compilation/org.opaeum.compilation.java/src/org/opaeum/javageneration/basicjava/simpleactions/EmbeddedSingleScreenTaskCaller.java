@@ -31,7 +31,7 @@ public class EmbeddedSingleScreenTaskCaller extends SimpleNodeBuilder<OpaqueActi
 			operation.getBody().addToStatements(taskVar.getName()+"." + propertyMap.setter() + "(" + readPin(operation, block, input) + ")");
 		}
 		block.addToStatements(taskVar.getName()+".setReturnInfo(context)");
-		taskUtil.implementAssignmentsAndDeadlines(operation, block, getLibrary().getResponsibilityDefinition( node, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK), taskVar.getName());
+		taskUtil.implementAssignmentsAndEventGeneration(operation, block, getLibrary().getResponsibilityDefinition( node, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK), taskVar.getName());
 		//Add to containment tree
 		block.addToStatements(ojUtil.buildStructuralFeatureMap(node).adder()+"("+ taskVar.getName() + ")");
 		//Store invocation in process

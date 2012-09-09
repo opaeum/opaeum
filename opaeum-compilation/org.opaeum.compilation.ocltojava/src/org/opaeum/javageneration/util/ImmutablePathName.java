@@ -1,6 +1,7 @@
 package org.opaeum.javageneration.util;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.opaeum.java.metamodel.OJPathName;
@@ -15,6 +16,14 @@ class ImmutablePathName extends OJPathName{
 	public ImmutablePathName(OJPathName classifierPathname,String string){
 		this(classifierPathname.toJavaString());
 		super.getNames().add(string);
+	}
+	@Override
+	public void setNames(List<String> element){
+		throw new UnsupportedOperationException();
+	}
+	@Override
+	public void setElementTypes(List<OJPathName> element){
+		throw new UnsupportedOperationException();
 	}
 	@Override
 	public void addToElementTypes(OJPathName element){

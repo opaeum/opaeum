@@ -273,6 +273,8 @@ public class EmfClassifierUtil{
 			return !isHelper(umlOwner);
 		}else if(umlOwner instanceof Association){
 			return EmfAssociationUtil.isClass((Association) umlOwner);
+		}else if(umlOwner instanceof Collaboration){
+			return EmfClassifierUtil.isBusinessCollaboration(umlOwner);
 		}
 		return false;
 	}
@@ -301,7 +303,7 @@ public class EmfClassifierUtil{
 		}
 	}
 	public static boolean isComplexStructure(Type type){
-		if(type instanceof Signal || type instanceof Class || type instanceof Actor || type instanceof Collaboration
+		if(type instanceof Signal || type instanceof Enumeration || type instanceof Class || type instanceof Actor || type instanceof Collaboration
 				|| type instanceof MessageType || isStructuredDataType(type)
 				|| (type instanceof Association && EmfAssociationUtil.isClass((Association) type))){
 			return true;

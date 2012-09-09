@@ -6,9 +6,10 @@ import org.eclipse.uml2.uml.Parameter;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
-
+//TODO implement as Interface instead
 public class OperationMessageType extends AbstractEmulatedMessageType{
 	Operation operation;
+	@SuppressWarnings("unchecked")
 	public OperationMessageType(Operation node,IPropertyEmulation e){
 		super(node, e, node.getOwnedParameters());
 		this.operation=node;

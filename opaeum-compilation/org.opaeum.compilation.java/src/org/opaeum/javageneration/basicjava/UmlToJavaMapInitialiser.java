@@ -24,6 +24,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.strategies.BlobStrategyFactory;
@@ -52,10 +53,11 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 		return super.getChildren(root);
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass oc, Classifier umlOwner){
 		if(umlOwner instanceof IEmulatedElement){
 			visitClass(umlOwner);
 		}
+		return true;
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitObjectNode(ObjectNode on){
@@ -112,7 +114,7 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 		ojUtil.packagePathname(p);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap map){
+	protected void visitProperty(OJAnnotatedClass c, Classifier owner,PropertyMap map){
 		Property p = map.getProperty();
 		if(p.getOtherEnd() != null){
 			ojUtil.buildStructuralFeatureMap(p.getOtherEnd());

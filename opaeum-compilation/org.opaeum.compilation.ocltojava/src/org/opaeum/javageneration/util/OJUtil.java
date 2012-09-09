@@ -384,14 +384,15 @@ public class OJUtil extends OJUtill{
 		}
 		return map;
 	}
-	public OJPathName utilClass(Element owner,String suffix){
-		OJPathName result = utilPackagePath(owner).getCopy();
-		if(owner instanceof Namespace){
+	public OJPathName utilClass(Element e,String suffix){
+		if(e instanceof EmfWorkspace){
+			OJPathName result = utilPackagePath(e).getCopy();
+			return result.append(NameConverter.capitalize(((EmfWorkspace) e).getName()) + suffix);
+		}else{
+			Package owner=EmfElementFinder.getRootObject(e);
+			OJPathName result = utilPackagePath(owner).getCopy();
 			return result.append(NameConverter.capitalize(((Namespace) owner).getName()) + suffix);
-		}else if(owner instanceof EmfWorkspace){
-			return result.append(NameConverter.capitalize(((EmfWorkspace) owner).getName()) + suffix);
 		}
-		return null;
 	}
 	@Override
 	protected void finalize() throws Throwable{

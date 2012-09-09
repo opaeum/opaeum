@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -17,6 +18,9 @@ import org.eclipse.uml2.uml.util.UMLUtil.StereotypeApplicationHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class StereotypesHelper{
+	public static EAnnotation getInternationalization(EModelElement e){
+		return e.getEAnnotation(StereotypeNames.INTERNATIONALIZATION_URI);
+	}
 	public static boolean hasStereotype(Element c,String string){
 		String lowerCase = string.toLowerCase();
 		if(getStereotype(c, lowerCase) != null){

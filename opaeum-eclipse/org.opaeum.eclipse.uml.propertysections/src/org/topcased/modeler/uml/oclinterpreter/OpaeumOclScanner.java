@@ -15,6 +15,7 @@ public class OpaeumOclScanner extends OCLScanner{
         OCLKeywordRule kwr = new OCLKeywordRule();
         kwr.addWord("now", token);
         kwr.addWord("contextObject", token);
+        kwr.addWord("currentRole", token);
         kwr.addWord("ownerObject", token);
         kwr.addWord("currentUser", token);
 		rules[1] = kwr;

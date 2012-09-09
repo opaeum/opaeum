@@ -6,7 +6,7 @@ import javax.persistence.Transient;
 import org.opaeum.runtime.domain.IPersistentObject;
 
 @Embeddable()
-public class CascadingInterfaceValue extends InterfaceValue{
+public class CascadingInterfaceValue extends AbstractInterfaceValue{
 	//HACK!! duplicated the state as Hibernate does not seem to handle inheritance in embedabbles
 	private Long identifier;
 	private String classIdentifier;

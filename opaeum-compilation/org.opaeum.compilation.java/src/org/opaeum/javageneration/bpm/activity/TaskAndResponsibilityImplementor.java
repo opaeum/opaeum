@@ -1,7 +1,6 @@
 package org.opaeum.javageneration.bpm.activity;
 
 import java.util.Collection;
-import java.util.Date;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
@@ -11,21 +10,25 @@ import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
-import org.eclipse.uml2.uml.BehavioralFeature;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfEventUtil;
+import org.opaeum.eclipse.EmfTimeUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.eclipse.ResponsibilityDefinitionImpl;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -39,25 +42,26 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.simpleactions.ObjectNodeExpressor;
+import org.opaeum.javageneration.basicjava.simpleactions.SignalSender;
 import org.opaeum.javageneration.bpm.AbstractBehaviorVisitor;
 import org.opaeum.javageneration.bpm.BpmUtil;
 import org.opaeum.javageneration.bpm.EventUtil;
 import org.opaeum.javageneration.bpm.statemachine.StateMachineImplementor;
 import org.opaeum.javageneration.persistence.JpaUtil;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.TagNames;
 import org.opaeum.name.NameConverter;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.ocl.uml.ResponsibilityDefinition;
 import org.opaeum.runtime.domain.DeadlineKind;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {ActivityProcessImplementor.class,StateMachineImplementor.class},after = {
 		StateMachineImplementor.class,ActivityProcessImplementor.class})
-public class TaskImplementor extends AbstractBehaviorVisitor{
+public class TaskAndResponsibilityImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
 	public void visitActivity(Activity activity){
 		if(activity.getSpecification() != null && EmfBehaviorUtil.isResponsibility(activity.getSpecification())
@@ -78,8 +82,8 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 	public void visitClassifier(Classifier nc){
 		for(Operation o:nc.getOperations()){
 			if(EmfBehaviorUtil.isResponsibility(o)){
-				OJAnnotatedClass ojClass = findJavaClass(getLibrary().getMessageStructure(o));
-				OJAnnotatedOperation exec = implementExecute(o, ojClass);
+				Classifier msg = getLibrary().getMessageStructure(o);
+				OJAnnotatedClass ojClass = findJavaClass(msg);
 				/**
 				 * If contextObject instanceof BusinessRole then create task, assign to user,kick off events IF contextObject instanceof
 				 * BusinessGateway on a Business Component then see if there is an implementing process contained by the Business Component If there
@@ -87,33 +91,12 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 				 * correlations Else if there is a delegation to a property of type BusinessRole, create assignees for each business role if the
 				 * port has other assignement expressions assign these too
 				 */
-				ResponsibilityDefinition taskDefinition = getLibrary().getResponsibilityDefinition(o, StereotypeNames.RESPONSIBILITY);
-				OJIfStatement ifTask = new OJIfStatement("getRequest() instanceof TaskRequest");
-				exec.getBody().addToStatements(ifTask);
+				ResponsibilityDefinition rd = getLibrary().getResponsibilityDefinition(o, StereotypeNames.RESPONSIBILITY);
 				ojClass.addToImports(ojUtil.classifierPathname(getLibrary().getTaskRequest()));
-				OJAnnotatedField token = new OJAnnotatedField("token", BpmUtil.ITOKEN);
-				token.setInitExp("getReturnInfo()");
-				ifTask.getThenPart().addToLocals(token);
-				taskUtil.implementAssignmentsAndDeadlines(exec, ifTask.getThenPart(), taskDefinition, "this");
-				exec.getBody().addToStatements("getRequest().execute()");
 				OperationMap map = ojUtil.buildOperationMap(o);
-				EventUtil.addOutgoingEventManagement(ojClass);
-				Collection<TimeEvent> deadlines = taskDefinition.getDeadlines();
-				OJOperation completed = ojClass.getUniqueOperation("complete");
-				ojClass.addToImports(new OJPathName("java.util.Date"));
-				for(TimeEvent d:deadlines){
-					// TODO ensure uniqueness of deadline names
-					implementTimeEventCallback(ojClass, d, taskDefinition, map.callbackListenerPath(),"getCallingBehaviorExecution()");
-					if(EmfEventUtil.getDeadlineKind(d) == DeadlineKind.COMPLETE){
-						EventUtil.cancelTimer(completed.getBody(), d, "this");
-					}else{
-						// TODO
-						// EventUtil.cancelTimer(started.getBody(), d, "this");
-					}
-					// Repeat if not Null because a previous event may cause the process to end
-				}
-				completed.getBody().addToStatements("getRequest().complete()");
-				// addGetName(oa, ojClass);
+				implementStandaloneTaskOrResponsibility(rd, ojClass, map, o.getRedefinedOperations().size() > 0);
+				implementIObserver(ojClass , EmfTimeUtil.getTimeObservations(nc), EmfTimeUtil.getDurationObservations(nc));
+
 			}
 		}
 	}
@@ -122,23 +105,16 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 		if(EmfBehaviorUtil.isStandaloneTask(ob)){
 			ResponsibilityDefinitionImpl rd = new ResponsibilityDefinitionImpl(getLibrary(), ob, StereotypesHelper.getStereotype(ob,
 					StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK));
-			OJAnnotatedClass ojBehavior = findJavaClass(ob);
-			implementTask(rd, ojBehavior, ojUtil.buildOperationMap(ob).callbackListenerPath(),"getCallingBehaviorExecution()");
+			implementStandaloneTask(ob, rd);
 		}
 	}
 	@VisitBefore
 	public void visitStateMachine(StateMachine sm){
-		if(sm.getSpecification() != null && EmfBehaviorUtil.isResponsibility(sm.getSpecification()) && EmfBehaviorUtil.hasExecutionInstance(sm)){
-			// TODO distinguish between tasks and contractedProcesses
-		}
 		if(EmfBehaviorUtil.isStandaloneTask(sm)){
 			ResponsibilityDefinitionImpl rd = new ResponsibilityDefinitionImpl(getLibrary(), sm, StereotypesHelper.getStereotype(sm,
 					StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK));
-			OJAnnotatedClass ojBehavior = findJavaClass(sm);
-			OperationMap map = ojUtil.buildOperationMap(sm);
-			implementTask(rd, ojBehavior, map.callbackListenerPath(),"getCallingBehaviorExecution()");
+			implementStandaloneTask(sm, rd);
 		}
-
 	}
 	private void visitScreenFlowTask(CallBehaviorAction a){
 		StateMachine sm = (StateMachine) a.getBehavior();
@@ -173,35 +149,67 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 		implementEmbeddedTask(oa, ojClass, taskDefinition);
 	}
 	private void implementEmbeddedTask(Action oa,OJAnnotatedClass ojClass,ResponsibilityDefinition rd){
-		OJAnnotatedOperation exec = implementExecute(oa, ojClass);
-		exec.getBody().addToStatements("getRequest().execute()");
+		OJAnnotatedOperation exec = implementExecute(ojClass, true, EmfBehaviorUtil.hasSuperClass(oa));
+		exec.getBody().addToStatements("getTaskRequest().execute()");
 		String callbackMethodName = "on" + NameConverter.capitalize(oa.getName()) + "Completed";
-		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
-		ojClass.addToOperations(setReturnInfo);
-		OJUtil.addPersistentProperty(ojClass, "nodeInstanceUniqueId", new OJPathName("String"), true);
-		OJAnnotatedOperation completed = implementTask(rd, ojClass, ojUtil.classifierPathname(EmfActivityUtil.getContainingActivity(oa)),"getProcessObject()");
-		completed.getBody().addToStatements("getProcessObject()." + callbackMethodName + "(getNodeInstanceUniqueId(), this)");
-		OJAnnotatedOperation isComplete = new OJAnnotatedOperation("isComplete", new OJPathName("boolean"));
-		ojClass.addToOperations(isComplete);
-		isComplete.initializeResultVariable("getTaskRequest().getCompleted()");
+		super.addReturnInfo(ojClass);
+		OJAnnotatedOperation completed = implementOnCompletedAndOnStarted(rd, ojClass,
+				ojUtil.classifierPathname(EmfActivityUtil.getContainingActivity(oa)), "getProcessObject()", EmfBehaviorUtil.hasSuperClass(oa));
+		completed.getBody().addToStatements("getProcessObject()." + callbackMethodName + "(getReturnInfo(), this)");
+		implementIObserver(ojClass , EmfTimeUtil.getTimeObservations(oa), EmfTimeUtil.getDurationObservations(oa));
+
+		// OJAnnotatedOperation isComplete = new OJAnnotatedOperation("isComplete", new OJPathName("boolean"));
+		// ojClass.addToOperations(isComplete);
+		// isComplete.initializeResultVariable("getTaskRequest().getCompleted()");
 	}
-	protected OJAnnotatedOperation implementTask(ResponsibilityDefinition oa,OJAnnotatedClass ojClass,OJPathName processObject, String callingObjectExpression){
-		OJAnnotatedOperation completed = new OJAnnotatedOperation("complete");
+	private void implementStandaloneTask(Behavior ob,ResponsibilityDefinition rd){
+		OJAnnotatedClass ojClass = findJavaClass(ob);
+		OperationMap map = ojUtil.buildOperationMap(ob);
+		implementStandaloneTaskOrResponsibility(rd, ojClass, map, EmfBehaviorUtil.hasSuperClass(ob));
+	}
+	protected void implementStandaloneTaskOrResponsibility(ResponsibilityDefinition rd,OJAnnotatedClass ojClass,OperationMap map,
+			boolean hasSuperClass){
+		OJAnnotatedOperation completed = implementOnCompletedAndOnStarted(rd, ojClass, map.callbackListenerPath(),
+				"getCallingBehaviorExecution()", hasSuperClass);
+		OJAnnotatedOperation exec = implementExecute(ojClass, true, hasSuperClass);
+		exec.getBody().addToStatements("getRequest().execute()");
+		if(!hasSuperClass){
+			super.addReturnInfo(ojClass);
+		}
+		// THere must be a field called "token" available
+		OJAnnotatedField token = new OJAnnotatedField("token", BpmUtil.ITOKEN);
+		token.setInitExp("getReturnInfo()");
+		exec.getBody().addToLocals(token);
+		taskUtil.implementAssignmentsAndEventGeneration(exec, exec.getBody(), rd, "this");
+		EventUtil.addOutgoingEventManagement(ojClass);
+		ojClass.addToImports(new OJPathName("java.util.Date"));
+		if(!hasSuperClass){
+			completed.getBody().addToStatements("getCallingBehaviorExecution()." + map.callbackOperName() + "(getReturnInfo(), this)");
+		}
+	}
+	protected OJAnnotatedOperation implementOnCompletedAndOnStarted(ResponsibilityDefinition oa,OJAnnotatedClass ojClass,
+			OJPathName processObject,String callingObjectExpression,boolean hasSuperClass){
+		OJAnnotatedOperation completed = new OJAnnotatedOperation("onCompleted");
+		completed.addParam("participant", ojUtil.classifierPathname(getLibrary().getParticipant()));
 		ojClass.addToOperations(completed);
 		Collection<TimeEvent> deadlines = oa.getDeadlines();
-		OJAnnotatedOperation started = new OJAnnotatedOperation("started");
+		OJAnnotatedOperation started = new OJAnnotatedOperation("onStarted");
 		ojClass.addToOperations(started);
+		started.addParam("participant", ojUtil.classifierPathname(getLibrary().getParticipant()));
 		EventUtil.addOutgoingEventManagement(ojClass);
 		ojClass.addToImports(new OJPathName("java.util.Date"));
 		for(TimeEvent d:deadlines){
 			// TODO ensure uniqueness of deadline names
-			implementTimeEventCallback(ojClass, d, oa, processObject,"("+processObject.getLast() +")"+ callingObjectExpression);
+			implementTimeEventCallback(ojClass, d, oa, processObject, callingObjectExpression);
 			if(EmfEventUtil.getDeadlineKind(d) == DeadlineKind.COMPLETE){
 				EventUtil.cancelTimer(completed.getBody(), d, "this");
 			}else{
 				EventUtil.cancelTimer(started.getBody(), d, "this");
 			}
-			// Repeat if not Null because a previous event may cause the process to end
+		}
+		if(hasSuperClass){
+			completed.getBody().addToStatements("super.onCompleted(participant)");
+			started.getBody().addToStatements("super.onStarted(participant)");
 		}
 		return completed;
 	}
@@ -211,38 +219,31 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 		ojClass.addToOperations(oper);
 		oper.addParam("callingToken", BpmUtil.ITOKEN);
 		oper.addParam("date", new OJPathName("java.util.Date"));
-		OJAnnotatedField callingProcessObject = new OJAnnotatedField("callingProcessObject", processObject);
-		oper.getBody().addToLocals(callingProcessObject);
-		callingProcessObject.setInitExp(callingObjectExpression);
-		// if(v.getDefiningElement() instanceof Operation && EmfBehaviorUtil.isResponsibility((BehavioralFeature) v.getDefiningElement())){
-		// callingProcessObject.setInitExp("getCallingBehaviorExecution()");
-		// }else{
-		// callingProcessObject.setInitExp("getProcessObject()");
-		// }
-		OJIfStatement ifNotNullCallback = new OJIfStatement("callingProcessObject!=null");
-		oper.getBody().addToStatements(ifNotNullCallback);
-		ifNotNullCallback.getThenPart().addToStatements("return callingProcessObject." + eventUtil.getEventConsumerName(d) + "(date,this)");
-		ifNotNullCallback.setElsePart(new OJBlock());
-		ifNotNullCallback.getElsePart().addToStatements("return true");
-	}
-	private OJAnnotatedOperation implementExecute(NamedElement element,OJAnnotatedClass ojClass){
-		OJAnnotatedOperation execute = new OJAnnotatedOperation("execute");
-		ojClass.addToOperations(execute);
-		if(element instanceof Operation && ((Operation) element).getPreconditions().size() > 0){
-			OJUtil.addFailedConstraints(execute);
-			execute.getBody().addToStatements("evaluatePreconditions()");
+		for(Constraint constraint:a.getTimeEscalations(d)){
+			OJBlock block = oper.getBody();
+			if(constraint.getSpecification() instanceof OpaqueExpression){
+				OpaqueExpressionContext ctx = getLibrary().getOclExpressionContext((OpaqueExpression) constraint.getSpecification());
+				if(!ctx.hasErrors()){
+					OJIfStatement ifTrue = new OJIfStatement(valueSpecificationUtil.expressOcl(ctx, oper, getLibrary().getBooleanType()));
+					oper.getBody().addToStatements(ifTrue);
+					block = ifTrue.getThenPart();
+				}
+			}
+			Collection<SendSignalAction> ssas = (Collection<SendSignalAction>) constraint.getValue(
+					StereotypesHelper.getStereotype(constraint, StereotypeNames.ESCALATION), TagNames.NOTIFICATIONS);
+			for(SendSignalAction ssa:ssas){
+				SignalSender signalSender = new SignalSender(ssa, new ObjectNodeExpressor(ojUtil));
+				signalSender.implementActionOn(oper, block);
+			}
 		}
-		// add executedOn property for sorting purposes
-		OJUtil.addPersistentProperty(ojClass, "executedOn", new OJPathName(Date.class.getName()), true);
-		OJAnnotatedField f = (OJAnnotatedField) ojClass.findField("executedOn");
-		OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
-		column.putAttribute(new OJAnnotationAttributeValue("name", "executed_on"));
-		f.putAnnotation(column);
-		OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"), new OJEnumValue(new OJPathName(
-				"javax.persistence.TemporalType"), "TIMESTAMP"));
-		f.putAnnotation(temporal);
-		execute.getBody().addToStatements("setExecutedOn(new Date())");
-		return execute;
+		OJIfStatement ifInstance = new OJIfStatement(callingObjectExpression + " instanceof " + processObject.getLast());
+		oper.getBody().addToStatements(ifInstance);
+		OJAnnotatedField callingProcessObject = new OJAnnotatedField("callingProcessObject", processObject);
+		ifInstance.getThenPart().addToLocals(callingProcessObject);
+		callingProcessObject.setInitExp("(" + processObject.getLast() + ")" + callingObjectExpression);
+		ifInstance.getThenPart().addToStatements("return callingProcessObject." + eventUtil.getEventConsumerName(d) + "(date,this)");
+		ifInstance.setElsePart(new OJBlock());
+		ifInstance.getElsePart().addToStatements("return true");
 	}
 	private void addGetName(NamedElement c,OJAnnotatedClass ojOperationClass){
 		OJOperation getName = ojOperationClass.getUniqueOperation("getName");

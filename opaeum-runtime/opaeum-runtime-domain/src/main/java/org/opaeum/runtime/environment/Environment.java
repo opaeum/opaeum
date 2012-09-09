@@ -3,6 +3,7 @@ package org.opaeum.runtime.environment;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.net.URL;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -27,6 +28,7 @@ public abstract class Environment{
 	public static final String DB_USER = "opaeum.database.user";
 	public static final String DB_PASSWORD = "opaeum.database.pwd";
 	public static final String JDBC_CONNECTION_URL = "opaeum.jdbc.connection.url";
+	public static final String DEFAULT_CURRENCY = "opaeum.default.currency";
 	public static final String DBMS = "opaeum.database.management.system";
 	private static final EventService EVENT_SERVICE = new EventService();
 	protected static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
@@ -154,6 +156,9 @@ public abstract class Environment{
 	}
 	public void setCurrentPersistence(AbstractPersistence currentPersistence){
 		this.currentPersistence = currentPersistence;
+	}
+	public Currency getDefaultCurrency(){
+		return Currency.getInstance(getProperty(DEFAULT_CURRENCY, "ZAR"));
 	}
 
 }

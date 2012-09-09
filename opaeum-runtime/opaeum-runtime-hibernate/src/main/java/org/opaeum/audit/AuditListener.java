@@ -33,7 +33,7 @@ import org.hibernate.persister.entity.EntityPersister;
 import org.opaeum.hibernate.domain.AbstractHibernatePersistence;
 import org.opaeum.hibernate.domain.CascadingInterfaceValue;
 import org.opaeum.hibernate.domain.EventDispatcher;
-import org.opaeum.hibernate.domain.InterfaceValue;
+import org.opaeum.hibernate.domain.AbstractInterfaceValue;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -127,8 +127,8 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 	private void doInterfaceValues(Map createdAlready,EventSource session,Object[] propertyValues){
 		session.getSessionFactory().getAllClassMetadata();
 		for(Object object2:propertyValues){
-			if(object2 instanceof InterfaceValue){
-				InterfaceValue iv = (InterfaceValue) object2;
+			if(object2 instanceof AbstractInterfaceValue){
+				AbstractInterfaceValue iv = (AbstractInterfaceValue) object2;
 				if(iv.hasValue() && iv.getIdentifier() == null){
 					IPersistentObject value = iv.getValue(getPersistence(session));
 					if(iv instanceof CascadingInterfaceValue){

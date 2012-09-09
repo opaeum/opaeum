@@ -9,7 +9,7 @@ public abstract class StateActivation<SME extends IStateMachineExecution,T exten
 		IProcessStep{
 	private Set<TransitionInstance<SME,T>> outgoing = new HashSet<TransitionInstance<SME,T>>();
 	protected Set<RegionActivation<SME,T>> regions = new HashSet<RegionActivation<SME,T>>();
-	@SuppressWarnings({"rawtypes","unchecked"})
+	@SuppressWarnings({"rawtypes"})
 	public StateActivation(String id,RegionActivation region){
 		super(id, region);
 	}
@@ -38,9 +38,6 @@ public abstract class StateActivation<SME extends IStateMachineExecution,T exten
 	}
 	protected void exit(T token){
 		super.exit(token);
-		onExit();
-	}
-	public void onExit(){
 	}
 	public Set<RegionActivation<SME,T>> getRegions(){
 		return regions;

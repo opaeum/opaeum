@@ -30,10 +30,10 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.internal.sections.TableObjectManager;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
@@ -132,7 +132,7 @@ public abstract class PortInterfacesSection extends AbstractReferencePropertySec
 	}
 	protected final IBaseLabelProvider getLabelProvider(){
 		List<AdapterFactory> f = new ArrayList<AdapterFactory>();
-		f.add(new UMLItemProviderAdapterFactory());
+		f.add(new OpaeumItemProviderAdapterFactory());
 		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f)){
 			@Override

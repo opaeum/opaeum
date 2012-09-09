@@ -3,7 +3,7 @@ package org.opaeum.runtime.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ActivityNodeActivation<AE extends IActivityNodeContainerExecution, T extends IActivityToken<AE>> implements IActivityNodeActivation<AE,T>{
+public abstract class ActivityNodeActivation<AE extends IActivityNodeContainerExecution, T extends IActivityToken<AE>> extends ActivityExecutionElement implements IActivityNodeActivation<AE,T>{
 	protected AE group;
 	private String id;
 	public List<ActivityEdgeInstance<AE,T>> incomingEdges = new ArrayList<ActivityEdgeInstance<AE,T>>();

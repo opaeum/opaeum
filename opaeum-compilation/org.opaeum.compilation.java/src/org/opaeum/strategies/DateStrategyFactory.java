@@ -23,7 +23,7 @@ import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 public class DateStrategyFactory extends AbstractStrategyFactory{
 	public static class MyJpaStrategy implements JpaStrategy{
 		@Override
-		public void annotate(OJAnnotatedField f,Property p){
+		public void annotate(OJAnnotatedClass c,OJAnnotatedField f,Property p){
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName(Temporal.class.getName()));
 			temporal.addEnumValue(new OJEnumValue(new OJPathName(TemporalType.class.getName()), "DATE"));
 			f.putAnnotation(temporal);

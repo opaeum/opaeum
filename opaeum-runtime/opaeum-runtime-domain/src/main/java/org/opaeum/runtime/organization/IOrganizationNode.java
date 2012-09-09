@@ -1,4 +1,6 @@
 package org.opaeum.runtime.organization;
 
-public interface IOrganizationNode{
+import org.opaeum.runtime.domain.IPersistentObject;
+
+public interface IOrganizationNode extends IPersistentObject{
 }

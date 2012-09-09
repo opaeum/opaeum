@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.PrimitiveType;
+import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.utilities.JavaPathNames;
@@ -117,13 +118,13 @@ public class ClassifierMap extends PackageableElementMap{
 	private OJPathName getJavaType(PrimitiveType t){
 		OJPathName result = null;
 		result = ojUtil.classifierPathname(t);
-		if(t.getName().equals(IOclLibrary.StringTypeName)){
+		if(EmfClassifierUtil.comformsToLibraryType(t, IOclLibrary.StringTypeName)){
 			result = StdlibMap.javaStringType;
-		}else if(t.getName().equals(IOclLibrary.RealTypeName)){
+		}else if(EmfClassifierUtil.comformsToLibraryType(t,IOclLibrary.RealTypeName)){
 			result = StdlibMap.javaRealObjectType;
-		}else if(t.getName().equals(IOclLibrary.IntegerTypeName)){
+		}else if(EmfClassifierUtil.comformsToLibraryType(t,IOclLibrary.IntegerTypeName)){
 			result = StdlibMap.javaIntegerObjectType;
-		}else if(t.getName().equals(IOclLibrary.BooleanTypeName)){
+		}else if(EmfClassifierUtil.comformsToLibraryType(t,IOclLibrary.BooleanTypeName)){
 			result = StdlibMap.javaBooleanObjectType;
 		}else{
 			result = pathname(t);

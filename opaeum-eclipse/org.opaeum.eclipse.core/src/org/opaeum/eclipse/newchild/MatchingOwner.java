@@ -30,18 +30,4 @@ public class MatchingOwner{
 		}
 		return false;
 	}
-	public EStructuralFeature getEStructuralFeature(EObject owner, String featureName){
-		EStructuralFeature result = eClass.getEStructuralFeature(featureName);
-		if(result==null && owner instanceof Element){
-			for(EObject st:((Element) owner).getStereotypeApplications()){
-				EStructuralFeature f = st.eClass().getEStructuralFeature(featureName);
-				if(f!=null){
-					result=f;
-					break;
-				}
-			}
-			
-		}
-		return result;
-	}
 }

@@ -322,6 +322,6 @@ public class EmfPropertyUtil{
 	}
 	public static Property getBackingPropertyForQualifier(Property q){
 		Classifier type = (Classifier) q.getAssociationEnd().getType();
-		return (Property) type.getFeature(q.getName());
+		return (Property) type.getMember(q.getName());
 	}
 }

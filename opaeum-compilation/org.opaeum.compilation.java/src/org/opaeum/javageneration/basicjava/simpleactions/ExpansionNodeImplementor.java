@@ -33,7 +33,7 @@ public class ExpansionNodeImplementor extends SimpleNodeBuilder<ExpansionNode>{
 			}
 			EventUtil.cancelEvents(block, this.node.getRegionAsOutput().getContainedNodes());
 		}else if(node.getRegionAsInput()!=null){
-			eventUtil.requestEvents(operation, this.node.getRegionAsInput().getContainedNodes(), getLibrary().getBusinessRole() != null);
+			eventUtil.requestTokenCreatingEvents(operation, this.node.getRegionAsInput().getContainedNodes(), getLibrary().getBusinessRole() != null);
 		}
 	}
 }

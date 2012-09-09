@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Event;
@@ -20,6 +21,7 @@ import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
@@ -34,6 +36,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
@@ -70,7 +73,12 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 				}
 			}
 			for(Event e:getElementsOfType(Event.class, Collections.singletonList((Package) m))){
-				if((e instanceof TimeEvent || e instanceof ChangeEvent) &&( EmfEventUtil.getBehaviorContext(e)!=null || EmfEventUtil.isDeadline(e))){
+				if((e instanceof TimeEvent || e instanceof ChangeEvent) &&( EmfEventUtil.getBehavioralNamespaceContext(e)!=null || EmfEventUtil.isDeadline(e))){
+					initBlock.addToStatements("putEventHandler(" + eventUtil.handlerPathName(e) + ".class,\"" + EmfWorkspace.getId(e) + "\")");
+				}
+			}
+			for(Constraint e:getElementsOfType(Constraint.class, Collections.singletonList((Package) m))){
+				if(e.getSpecification()==null && StereotypesHelper.hasStereotype(e, StereotypeNames.ESCALATION) ){
 					initBlock.addToStatements("putEventHandler(" + eventUtil.handlerPathName(e) + ".class,\"" + EmfWorkspace.getId(e) + "\")");
 				}
 			}

@@ -45,7 +45,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 		}
 	}
 	@Override
-	protected void buildInternalRemover(OJAnnotatedClass owner,PropertyMap map){
+	protected OJAnnotatedOperation buildInternalRemover(OJAnnotatedClass owner,PropertyMap map){
 		if(isInterfaceValue(owner, map)){
 			OJAnnotatedOperation remover = new OJAnnotatedOperation(map.internalRemover());
 			String condition = map.getter() + "()!=null && " + map.fieldname() + "!=null && " + map.fieldname() + ".equals(" + map.getter()
@@ -55,12 +55,13 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 			ifEquals.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".setValue(null)");
 			remover.addParam(map.fieldname(), map.javaBaseTypePath());
 			owner.addToOperations(remover);
+			return remover;
 		}else{
-			super.buildInternalRemover(owner, map);
+			return super.buildInternalRemover(owner, map);
 		}
 	}
 	@Override
-	protected void buildInternalAdder(OJAnnotatedClass owner,PropertyMap map){
+	protected OJAnnotatedOperation buildInternalAdder(OJAnnotatedClass owner,PropertyMap map){
 		if(isInterfaceValue(owner, map)){
 			OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 			adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
@@ -70,8 +71,9 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 			adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".setValue(" + map.fieldname() + ")");
 			adder.addParam(map.fieldname(), map.javaBaseTypePath());
 			owner.addToOperations(adder);
+			return adder;
 		}else{
-			super.buildInternalAdder(owner, map);
+			return super.buildInternalAdder(owner, map);
 		}
 	}
 	@Override

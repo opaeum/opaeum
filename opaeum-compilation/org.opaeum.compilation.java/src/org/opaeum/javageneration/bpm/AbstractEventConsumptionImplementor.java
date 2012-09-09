@@ -5,17 +5,28 @@ import java.util.Collection;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallEvent;
+import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SignalEvent;
+import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.Type;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfEventUtil;
+import org.opaeum.eclipse.EmfTimeUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -23,6 +34,9 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.maps.IMessageMap;
 import org.opaeum.javageneration.maps.SignalMap;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.TagNames;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
 
 public abstract class AbstractEventConsumptionImplementor extends AbstractJavaProcessVisitor{
 	protected void implementEventConsumption(OJAnnotatedClass ojBehavior,Behavior behavior,Collection<ElementsWaitingForEvent> ea){
@@ -30,10 +44,30 @@ public abstract class AbstractEventConsumptionImplementor extends AbstractJavaPr
 		for(ElementsWaitingForEvent eventActions:ea){
 			// Only one method will be generated per class
 			implementEventConsumer(behavior, ojBehavior, eventActions);
+			if(eventActions.getEvent() instanceof ChangeEvent){
+				Classifier cls = getLibrary().getEventGeneratingClassifier(eventActions.getEvent());
+				OJAnnotatedOperation intervalCalculator = new OJAnnotatedOperation(EventUtil.intervalCalculatorName(eventActions.getEvent()),
+						new OJPathName("java.util.Date"));
+				findJavaClass(cls).addToOperations(intervalCalculator);
+				OpaqueExpressionContext oec = getLibrary().getArtificationExpression(eventActions.getEvent(), TagNames.EVALUATION_INTERVAL);
+				if(oec == null || oec.hasErrors()){
+					intervalCalculator.initializeResultVariable("new Date(System.currentTimeMillis()+1000*60*60*4");// 4 hours
+				}else{
+					intervalCalculator.initializeResultVariable(valueSpecificationUtil.expressOcl(oec, intervalCalculator, null));
+				}
+			}else if(eventActions.getEvent() instanceof TimeEvent){
+			}
 		}
+		// TODO move this to a
 		BehavioredClassifier context = behavior.getContext();
 		if(context != null){
 			activateEventGenerationInContextAndDelegateConsumptionToOwnedBehavior(behavior, ea, context);
+		}
+		Property endToComposite = getLibrary().getEndToComposite(behavior);
+		if(endToComposite != null){
+			Classifier composite = (Classifier) endToComposite.getType();
+			implementIObserver(findJavaClass(composite), EmfTimeUtil.getTimeObservations(composite),
+					EmfTimeUtil.getDurationObservations(composite));
 		}
 		activitateEventGenerationInBehavior(ojBehavior, behavior, ea);
 	}
@@ -108,7 +142,7 @@ public abstract class AbstractEventConsumptionImplementor extends AbstractJavaPr
 		OJStatement statement;
 		PropertyMap mapToBehavior = ojUtil.buildStructuralFeatureMap(getLibrary().getEndToComposite(behavior).getOtherEnd());
 		if(EmfBehaviorUtil.isClassifierBehavior(behavior)){
-			statement = new OJSimpleStatement(mapToBehavior.getter() +"()."+ callToEventConsumer(map1, consumer));
+			statement = new OJSimpleStatement(mapToBehavior.getter() + "()." + callToEventConsumer(map1, consumer));
 		}else{
 			OJIfStatement ifNotConsumed = new OJIfStatement("!result");
 			OJForStatement forEach = new OJForStatement("behavior", mapToBehavior.javaBaseTypePath(), mapToBehavior.getter() + "()");
@@ -129,5 +163,4 @@ public abstract class AbstractEventConsumptionImplementor extends AbstractJavaPr
 		statement.append(")");
 		return statement.toString();
 	}
-
 }

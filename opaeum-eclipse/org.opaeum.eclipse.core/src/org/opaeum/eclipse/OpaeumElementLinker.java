@@ -11,7 +11,9 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -45,6 +47,7 @@ import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
+import org.eclipse.uml2.uml.Extension;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.GeneralizationSet;
 import org.eclipse.uml2.uml.InputPin;
@@ -92,6 +95,8 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.util.UMLSwitch;
+import org.eclipse.uml2.uml.util.UMLUtil;
+import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
@@ -103,6 +108,10 @@ public class OpaeumElementLinker extends EContentAdapter{
 			if(not.getNotifier() instanceof Element){
 				EmfUmlElementLinker emfUmlElementLinker = new EmfUmlElementLinker(not);
 				emfUmlElementLinker.doSwitch((Element) not.getNotifier());
+				
+			}else if(not.getNotifier() instanceof DynamicEObjectImpl && ((EStructuralFeature) not.getFeature()).getName().startsWith(Extension.METACLASS_ROLE_PREFIX)){
+				Element element = UMLUtil.getBaseElement((EObject) not.getNotifier());
+				ApplyStereotypeCommand.implementInterfacesIfNecessary(element);
 			}
 		}
 	}

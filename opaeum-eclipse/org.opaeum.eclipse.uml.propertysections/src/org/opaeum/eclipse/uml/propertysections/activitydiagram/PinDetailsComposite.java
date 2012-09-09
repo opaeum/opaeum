@@ -22,10 +22,10 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.eclipse.uml.propertysections.common.TextChangeHelper;
 import org.opaeum.eclipse.uml.propertysections.core.UmlMetaTypeRemover;
 import org.opaeum.eclipse.uml.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
@@ -62,7 +62,7 @@ public class PinDetailsComposite extends Composite{
 		parameterNameTxt.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.createLabel(parent, "Type : ");
 		parameterType = new CSingleObjectChooser(parent, widgetFactory, SWT.NONE);
-		parameterType.setLabelProvider(new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()));
+		parameterType.setLabelProvider(new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory()));
 		parameterType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.createLabel(parent, "Value : ");
 		this.oclValue = new AutoCreateOpaqueExpressionComposite(parent, widgetFactory){

@@ -59,7 +59,7 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 	}
 	protected void buildToXmlString(OJAnnotatedClass owner,Classifier umlClass){
 		String rootObjectName = NameConverter.capitalize(EmfElementFinder.getRootObject( umlClass).getName());
-		owner.addToImports(UtilityCreator.getUtilPathName() + "." + rootObjectName + "Formatter");
+		owner.addToImports(ojUtil.utilClass(umlClass, "Formatter"));
 		OJOperation toString = new OJAnnotatedOperation("toXmlString");
 		toString.setReturnType(new OJPathName("String"));
 		owner.addToOperations(toString);
@@ -141,11 +141,11 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
-		// TODO Auto-generated method stub
+	protected void visitProperty(OJAnnotatedClass oc, Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass oc, Classifier umlOwner){
 		visitClass(umlOwner);
+		return false;
 	}
 }

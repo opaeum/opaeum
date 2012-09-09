@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
@@ -35,30 +34,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		Java6ModelGenerator.class,ToXmlStringBuilder.class
-},after = {
-	Java6ModelGenerator.class
-})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class,ToXmlStringBuilder.class},after = {Java6ModelGenerator.class})
 public class FromXmlBuilder extends AbstractStructureVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitInterface(Interface i){
-		if(ojUtil.hasOJClass(i) && !(EmfClassifierUtil.isHelper(i ))){
+		if(ojUtil.hasOJClass(i) && !(EmfClassifierUtil.isHelper(i))){
 			OJAnnotatedClass ojClass = findJavaClass(i);
 			this.buildBuildTreeFromXml(ojClass, i);
 			this.buildPopulateReferencesFromXml(ojClass, i);
-		}
-	}
-	private void visitClass(Classifier c){
-		if(ojUtil.hasOJClass(c) && !(c instanceof Enumeration) && !EmfClassifierUtil.isHelper(c)){
-			OJAnnotatedClass ojClass = findJavaClass(c);
-			ojClass.addToImports(Environment.class.getName());
-			ojClass.addToImports(Node.class.getName());
-			ojClass.addToImports(NodeList.class.getName());
-			ojClass.addToImports(Element.class.getName());
-			ojClass.addToImports(IntrospectionUtil.class.getName());
-			this.buildBuildTreeFromXml(ojClass, c);
-			this.buildPopulateReferencesFromXml(ojClass, c);
 		}
 	}
 	protected void buildPopulateReferencesFromXml(OJAnnotatedClass owner,Classifier umlClass){
@@ -67,7 +50,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		addParameters(toString);
 		if(!(owner instanceof OJAnnotatedInterface)){
 			OJWhileStatement whileItems = iterateThroughProperties(toString);
-			//TODO rather leverage AbstracStructureVisitor.visitProperty
+			// TODO rather leverage AbstracStructureVisitor.visitProperty
 			for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(f);
 				if(XmlUtil.isXmlReference(map)){
@@ -77,7 +60,8 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 							+ ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\")))");
 				}else if(XmlUtil.isXmlSubElement(map)){
 					OJBlock then = iterateThroughPropertyValues(map, whileItems);
-					then.addToStatements("((" + map.javaBaseType()
+					then.addToStatements("(("
+							+ map.javaBaseType()
 							+ ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\"))).populateReferencesFromXml((Element)currentPropertyValueNode, map)");
 				}
 			}
@@ -92,7 +76,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 	}
 	protected void buildBuildTreeFromXml(OJAnnotatedClass owner,Classifier umlClass){
 		String rootObjectName = NameConverter.capitalize(EmfElementFinder.getRootObject(umlClass).getName());
-		owner.addToImports(UtilityCreator.getUtilPathName() + "." + rootObjectName + "Formatter");
+		owner.addToImports(ojUtil.utilClass(umlClass, "Formatter"));
 		OJOperation toString = new OJAnnotatedOperation("buildTreeFromXml");
 		addParameters(toString);
 		owner.addToOperations(toString);
@@ -139,16 +123,19 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		if(map.isOne()){
 			if(EmfClassifierUtil.isSimpleType(map.getBaseType())){
 				ifNotNull.getThenPart().addToStatements(
-						map.setter() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(xml.getAttribute(\"" + map.fieldname()
-								+ "\")))");
+						map.setter() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(xml.getAttribute(\""
+								+ map.fieldname() + "\")))");
 			}else{
-				ifNotNull.getThenPart().addToStatements(map.setter() + "(" + map.javaType() + ".valueOf(" + "xml.getAttribute(\"" + map.fieldname() + "\")))");
+				ifNotNull.getThenPart().addToStatements(
+						map.setter() + "(" + map.javaType() + ".valueOf(" + "xml.getAttribute(\"" + map.fieldname() + "\")))");
 			}
 		}else{
-			OJForStatement forEach = new OJForStatement("val", new OJPathName("String"), "xml.getAttribute(\"" + map.fieldname() + "\").split(\";\")");
+			OJForStatement forEach = new OJForStatement("val", new OJPathName("String"), "xml.getAttribute(\"" + map.fieldname()
+					+ "\").split(\";\")");
 			ifNotNull.getThenPart().addToStatements(forEach);
 			if(EmfClassifierUtil.isSimpleType(map.getBaseType())){
-				forEach.getBody().addToStatements(map.adder() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(val))");
+				forEach.getBody().addToStatements(
+						map.adder() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(val))");
 			}else{
 				forEach.getBody().addToStatements(map.adder() + "(" + map.javaBaseType() + ".valueOf(val))");
 			}
@@ -160,9 +147,11 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		thenPart.addToLocals(curVal);
 		OJTryStatement tryNewInstance = new OJTryStatement();
 		thenPart.addToStatements(tryNewInstance);
-		tryNewInstance.getTryPart().addToStatements("curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute(\"className\"))");
+		tryNewInstance.getTryPart().addToStatements(
+				"curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute(\"className\"))");
 		tryNewInstance.setCatchParam(new OJParameter("e", new OJPathName("Exception")));
-		tryNewInstance.getCatchPart().addToStatements("curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
+		tryNewInstance.getCatchPart().addToStatements(
+				"curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
 		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyValueNode,map)");
 		if(isMap(map.getProperty())){
 			List<Property> qualifiers = map.getProperty().getQualifiers();
@@ -176,8 +165,9 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		thenPart.addToStatements("map.put(curVal.getUid(), curVal)");
 	}
 	protected OJBlock iterateThroughPropertyValues(PropertyMap map,OJWhileStatement w){
-		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals(\"" + map.fieldname()
-				+ "\") || ((Element)currentPropertyNode).getAttribute(\"propertyId\").equals(\"" + EmfWorkspace.getOpaeumId(map.getProperty()) + "\"))");
+		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals(\""
+				+ map.fieldname() + "\") || ((Element)currentPropertyNode).getAttribute(\"propertyId\").equals(\""
+				+ EmfWorkspace.getOpaeumId(map.getProperty()) + "\"))");
 		OJAnnotatedField propertyValueNodes = new OJAnnotatedField("propertyValueNodes", new OJPathName(NodeList.class.getName()));
 		ifInstance.getThenPart().addToLocals(propertyValueNodes);
 		propertyValueNodes.setInitExp("currentPropertyNode.getChildNodes()");
@@ -197,13 +187,22 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		return thenPart;
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
-		//TODO find fromXml method
+	protected void visitProperty(OJAnnotatedClass c,Classifier owner,PropertyMap buildStructuralFeatureMap){
+		// TODO find fromXml method
 		//
 		// TODO Auto-generated method stub
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
-		visitClass(umlOwner);
+	protected boolean visitComplexStructure(OJAnnotatedClass ojClass,Classifier umlOwner){
+		if(!(umlOwner instanceof Enumeration)){
+			ojClass.addToImports(Environment.class.getName());
+			ojClass.addToImports(Node.class.getName());
+			ojClass.addToImports(NodeList.class.getName());
+			ojClass.addToImports(Element.class.getName());
+			ojClass.addToImports(IntrospectionUtil.class.getName());
+			this.buildBuildTreeFromXml(ojClass, umlOwner);
+			this.buildPopulateReferencesFromXml(ojClass, umlOwner);
+		}
+		return false;
 	}
 }

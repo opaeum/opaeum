@@ -29,6 +29,8 @@ import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Connector;
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.ExpansionNode;
@@ -50,7 +52,6 @@ import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
-import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
@@ -61,6 +62,8 @@ import org.eclipse.uml2.uml.edit.providers.ClassItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ComponentItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ConnectorItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ConstraintItemProvider;
+import org.eclipse.uml2.uml.edit.providers.DataTypeItemProvider;
+import org.eclipse.uml2.uml.edit.providers.DurationObservationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ElementImportItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ExpansionNodeItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ExpansionRegionItemProvider;
@@ -74,6 +77,7 @@ import org.eclipse.uml2.uml.edit.providers.OpaqueExpressionItemProvider;
 import org.eclipse.uml2.uml.edit.providers.OperationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.OutputPinItemProvider;
 import org.eclipse.uml2.uml.edit.providers.PortItemProvider;
+import org.eclipse.uml2.uml.edit.providers.PrimitiveTypeItemProvider;
 import org.eclipse.uml2.uml.edit.providers.PropertyItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ReceptionItemProvider;
 import org.eclipse.uml2.uml.edit.providers.SendSignalActionItemProvider;
@@ -86,13 +90,84 @@ import org.eclipse.uml2.uml.edit.providers.TimeEventItemProvider;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.eclipse.uml2.uml.edit.providers.ValuePinItemProvider;
 import org.eclipse.uml2.uml.util.UMLUtil;
-import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
-//TODO Topcased Legacy
 public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFactory{
 	public OpaeumItemProviderAdapterFactory(){
+	}
+	@Override
+	public Adapter createDurationObservationAdapter(){
+		if(durationObservationItemProvider == null){
+			durationObservationItemProvider = new DurationObservationItemProvider(this){
+				@Override
+				public Collection<?> getChildren(Object object){
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
+				}
+				@Override
+				public String getText(Object object){
+					DurationObservation te = (DurationObservation) object;
+					return "<Duration Observation> " + te.getName();
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return durationObservationItemProvider;
+	}
+	@Override
+	public Adapter createDataTypeAdapter(){
+		if(dataTypeItemProvider == null){
+			dataTypeItemProvider = new DataTypeItemProvider(this){
+				@Override
+				public Collection<?> getChildren(Object object){
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
+				}
+				@Override
+				public String getText(Object object){
+					DataType pt = (DataType) object;
+					if(EmfClassifierUtil.isSimpleType(pt)){
+						return "<Value Type> " + pt.getName();
+					}else{
+						return "<Data Type> " + pt.getName();
+					}
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return dataTypeItemProvider;
+	}
+	public Adapter createPrimitiveTypeAdapter(){
+		if(primitiveTypeItemProvider == null){
+			primitiveTypeItemProvider = new PrimitiveTypeItemProvider(this){
+				@Override
+				public Collection<?> getChildren(Object object){
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
+				}
+				@Override
+				public String getText(Object object){
+					org.eclipse.uml2.uml.PrimitiveType pt = (org.eclipse.uml2.uml.PrimitiveType) object;
+					return "<Primitive Type> " + pt.getName();
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return primitiveTypeItemProvider;
 	}
 	@Override
 	public Adapter createOpaqueExpressionAdapter(){
@@ -105,13 +180,28 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				@Override
 				public String getText(Object object){
 					OpaqueExpression oe = (OpaqueExpression) object;
-					if(StereotypesHelper.hasStereotype(oe, StereotypeNames.RECIPIENT_EXPRESSION)){
-						return "<Recipient Expression> " + oe.getName();
-					}
-					if(StereotypesHelper.hasStereotype(oe, StereotypeNames.PARTICIPANT_EXPRESSION)){
-						return "<Paricipant Expression> " + oe.getName();
+					OpaeumLibrary lib = OpaeumEclipseContext.findOpenUmlFileFor(oe).getEmfWorkspace().getOpaeumLibrary();
+					if(oe.getType() != null){
+						if(lib.getNotificationReceiver().equals(oe.getType())){
+							return "<Recipient Expression> " + oe.getName();
+						}else if(lib.getParticipant().equals(oe.getType())){
+							return "<Participant Expression> " + oe.getName();
+						}else if(lib.getBusinessRole().equals(oe.getType())){
+							return "<Business Role Expression> " + oe.getName();
+						}else if(lib.getBusinessCalendar().equals(oe.getType())){
+							return "<Calendar Expression> " + oe.getName();
+						}else if(lib.getTimedResource().equals(oe.getType())){
+							return "<Timed Resource Expression> " + oe.getName();
+						}else if(lib.getQuantifiedResource().equals(oe.getType())){
+							return "<Quantified Resource Expression> " + oe.getName();
+						}
 					}
 					return "<Opaque Expression> " + oe.getName();
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
 				}
 			};
 		}
@@ -134,6 +224,11 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 						return "<Receives> " + reception.getSignal().getName();
 					}
 				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
 			};
 		}
 		return receptionItemProvider;
@@ -150,6 +245,11 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 					}else{
 						return "<Imports> " + e.getImportedElement().getName();
 					}
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
 				}
 			};
 		}
@@ -214,27 +314,40 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				}
 				@Override
 				public String getText(Object object){
-					if(object instanceof Property){
-						Property a = (Property) object;
-						if(StereotypesHelper.hasStereotype(a, "CmParameter")){
-							return "<CmParameter>" + a.getName();
-						}else if(StereotypesHelper.hasStereotype(a, "CmRelation")){
-							return "<CmRelation>" + a.getName() + ":" + a.getType().getName();
-						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.PARTICIPANT_REFERENCE)){
-							return "<Participant Reference> " + a.getName();
+					Property a = (Property) object;
+					if(StereotypesHelper.hasStereotype(a, "CmParameter")){
+						return "<CmParameter>" + a.getName();
+					}else if(StereotypesHelper.hasStereotype(a, "CmRelation")){
+						return "<CmRelation>" + a.getName() + ":" + a.getType().getName();
+					}else{
+						String result = null;
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.PARTICIPANT_REFERENCE)){
+							result = "<Participant Reference> " + a.getName();
 						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.BUSINESS_ROLE_CONTAINMENT)){
-							return "<Business Role Containment> " + a.getName();
-						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.ATTRIBUTE)){
-							Stereotype st = StereotypesHelper.getStereotype(a, StereotypeNames.ATTRIBUTE);
-							Object value = a.getValue(st, "roleInCube");
-							return a.getName();
-						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.ASSOCIATION_END)){
-							Stereotype st = StereotypesHelper.getStereotype(a, StereotypeNames.ASSOCIATION_END);
-							Object value = a.getValue(st, "roleInCube");
-							return a.getName();
+							result = "<Business Role Containment> " + a.getName();
+						}else if(a.getAssociation() == null){
+							if(StereotypesHelper.hasStereotype(a, StereotypeNames.ATTRIBUTE)){
+								if(EmfPropertyUtil.isMeasure(a)){
+									result = "<Measure> " + a.getName();
+								}else if(EmfPropertyUtil.isDimension(a)){
+									result = "<Dimension> " + a.getName();
+								}
+								result = "<Attribute> " + a.getName();
+							}
+						}else{
+							if(StereotypesHelper.hasStereotype(a, StereotypeNames.ASSOCIATION_END)){
+								if(EmfPropertyUtil.isDimension(a)){
+									result = "<Dimension>" + a.getName();
+								}
+								result = "<Assocation End> " + a.getName();
+							}
+						}
+						if(a.getType() == null){
+							return result + " : untyped";
+						}else{
+							return result + " : " + a.getType().getName();
 						}
 					}
-					return super.getText(object);
 				}
 				@Override
 				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){

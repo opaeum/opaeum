@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_l7yWkI59EeCrtavWRHwoHg" activeDiagram="_l7yWkY59EeCrtavWRHwoHg">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_l7yWkI59EeCrtavWRHwoHg" activeDiagram="_8v2yQPc3EeG7Vf-BTeDIOA">
   <model href="OpaeumBPMProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
-  <diagrams xmi:id="_l7yWkY59EeCrtavWRHwoHg" position="0,0" size="100,100" name="OpaeumProfileForBPM" zoom="0.75" viewport="0,350">
+  <diagrams xmi:id="_l7yWkY59EeCrtavWRHwoHg" position="0,0" size="100,100" name="OpaeumProfileForBPM" zoom="0.75" viewport="0,593">
     <property xmi:id="_mBWMAI59EeCrtavWRHwoHg" key="pageFormatName" value="A3"/>
     <property xmi:id="_mBWMAY59EeCrtavWRHwoHg" key="diagramWidth" value="1188"/>
     <property xmi:id="_mBWMAo59EeCrtavWRHwoHg" key="diagramHeight" value="1680"/>
@@ -44,7 +44,7 @@
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_pLKcoI59EeCrtavWRHwoHg" position="324,277" size="256,-1">
-      <anchorage xmi:id="_v5U9wY59EeCrtavWRHwoHg" graphEdge="_v5XaAI59EeCrtavWRHwoHg _XlPK8I6BEeCrtavWRHwoHg _YzJRAASMEeGb9qsDxKJdSA _Jf8kYPG4EeGoQ4M-oJgF7A"/>
+      <anchorage xmi:id="_v5U9wY59EeCrtavWRHwoHg" graphEdge="_v5XaAI59EeCrtavWRHwoHg _XlPK8I6BEeCrtavWRHwoHg _YzJRAASMEeGb9qsDxKJdSA"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_pLKcoY59EeCrtavWRHwoHg" presentation="default">
         <element href="OpaeumBPMProfile.uml#_pLd-oI59EeCrtavWRHwoHg"/>
       </semanticModel>
@@ -594,7 +594,7 @@
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_rqa5MUt-EeGElKTCe2jfDw" id="requiredFieldEdgeObject"/>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_HFsh4PArEeGhr7iScWp_IQ" position="507,1346" size="120,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_HFsh4PArEeGhr7iScWp_IQ" position="507,1346" size="232,-1">
       <anchorage xmi:id="_L8IFUPArEeGhr7iScWp_IQ" graphEdge="_L8LIoPArEeGhr7iScWp_IQ"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HFsh4fArEeGhr7iScWp_IQ" presentation="default">
         <element href="OpaeumBPMProfile.uml#_HHTrcPArEeGhr7iScWp_IQ"/>
@@ -633,49 +633,13 @@
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_L8LIovArEeGhr7iScWp_IQ" id="requiredFieldEdgeObject"/>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_mzceEPDQEeGPmqhi8pc-AQ" position="25,1172" size="120,-1">
-      <anchorage xmi:id="_s1xM4PDQEeGPmqhi8pc-AQ" graphEdge="_s103QPDQEeGPmqhi8pc-AQ"/>
-      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_mzdFIPDQEeGPmqhi8pc-AQ" presentation="default">
-        <element href="OpaeumBPMProfile.uml#_m1H5EPDQEeGPmqhi8pc-AQ"/>
-      </semanticModel>
-      <contained xsi:type="di:GraphNode" xmi:id="_mzdFIfDQEeGPmqhi8pc-AQ">
-        <property xmi:id="_mzdFIvDQEeGPmqhi8pc-AQ" key="eStructuralFeatureID" value="37"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_mzdFI_DQEeGPmqhi8pc-AQ" presentation="default">
-          <element href="OpaeumBPMProfile.uml#_m1H5EPDQEeGPmqhi8pc-AQ"/>
-        </semanticModel>
-      </contained>
-    </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_qWH6oPDQEeGPmqhi8pc-AQ" position="101,1071" size="120,-1">
-      <anchorage xmi:id="_s1xM4fDQEeGPmqhi8pc-AQ" graphEdge="_s103QPDQEeGPmqhi8pc-AQ _v_ORIPDQEeGPmqhi8pc-AQ _JfiCoPDREeGPmqhi8pc-AQ _4r6CgPDSEeGPmqhi8pc-AQ"/>
+      <anchorage xmi:id="_s1xM4fDQEeGPmqhi8pc-AQ" graphEdge="_JfiCoPDREeGPmqhi8pc-AQ"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_qWH6ofDQEeGPmqhi8pc-AQ" presentation="default">
         <element href="OpaeumBPMProfile.uml#_qXgasPDQEeGPmqhi8pc-AQ"/>
       </semanticModel>
     </contained>
-    <contained xsi:type="di:GraphEdge" xmi:id="_s103QPDQEeGPmqhi8pc-AQ" anchor="_s1xM4PDQEeGPmqhi8pc-AQ _s1xM4fDQEeGPmqhi8pc-AQ">
-      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_s103QfDQEeGPmqhi8pc-AQ" presentation="default">
-        <element href="OpaeumBPMProfile.uml#_s24nMPDQEeGPmqhi8pc-AQ"/>
-      </semanticModel>
-      <contained xsi:type="di:EdgeObjectUV" xmi:id="_s103QvDQEeGPmqhi8pc-AQ" id="requiredFieldEdgeObject"/>
-    </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_tWxBIPDQEeGPmqhi8pc-AQ" position="137,1289" size="120,-1">
-      <anchorage xmi:id="_v_L04PDQEeGPmqhi8pc-AQ" graphEdge="_v_ORIPDQEeGPmqhi8pc-AQ"/>
-      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tWxBIfDQEeGPmqhi8pc-AQ" presentation="default">
-        <element href="OpaeumBPMProfile.uml#_tX30YPDQEeGPmqhi8pc-AQ"/>
-      </semanticModel>
-      <contained xsi:type="di:GraphNode" xmi:id="_tWxBIvDQEeGPmqhi8pc-AQ">
-        <property xmi:id="_tWxBI_DQEeGPmqhi8pc-AQ" key="eStructuralFeatureID" value="37"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tWxBJPDQEeGPmqhi8pc-AQ" presentation="default">
-          <element href="OpaeumBPMProfile.uml#_tX30YPDQEeGPmqhi8pc-AQ"/>
-        </semanticModel>
-      </contained>
-    </contained>
-    <contained xsi:type="di:GraphEdge" xmi:id="_v_ORIPDQEeGPmqhi8pc-AQ" anchor="_v_L04PDQEeGPmqhi8pc-AQ _s1xM4fDQEeGPmqhi8pc-AQ">
-      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_v_ORIfDQEeGPmqhi8pc-AQ" presentation="default">
-        <element href="OpaeumBPMProfile.uml#_wAQy8PDQEeGPmqhi8pc-AQ"/>
-      </semanticModel>
-      <contained xsi:type="di:EdgeObjectUV" xmi:id="_v_ORIvDQEeGPmqhi8pc-AQ" id="requiredFieldEdgeObject"/>
-    </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_G2rxEPDREeGPmqhi8pc-AQ" position="306,1238" size="120,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_G2rxEPDREeGPmqhi8pc-AQ" position="288,1238" size="204,-1">
       <anchorage xmi:id="_Jfe_UPDREeGPmqhi8pc-AQ" graphEdge="_JfiCoPDREeGPmqhi8pc-AQ"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_G2rxEfDREeGPmqhi8pc-AQ" presentation="default">
         <element href="OpaeumBPMProfile.uml#_G355EPDREeGPmqhi8pc-AQ"/>
@@ -702,24 +666,6 @@
         <element href="OpaeumBPMProfile.uml#_JgqEAPDREeGPmqhi8pc-AQ"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_JfiCovDREeGPmqhi8pc-AQ" id="requiredFieldEdgeObject"/>
-    </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_29gnAPDSEeGPmqhi8pc-AQ" position="64,1346" size="120,-1">
-      <anchorage xmi:id="_4r2_MPDSEeGPmqhi8pc-AQ" graphEdge="_4r6CgPDSEeGPmqhi8pc-AQ"/>
-      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_29gnAfDSEeGPmqhi8pc-AQ" presentation="default">
-        <element href="OpaeumBPMProfile.uml#_2-qdkPDSEeGPmqhi8pc-AQ"/>
-      </semanticModel>
-      <contained xsi:type="di:GraphNode" xmi:id="_29gnAvDSEeGPmqhi8pc-AQ">
-        <property xmi:id="_29gnA_DSEeGPmqhi8pc-AQ" key="eStructuralFeatureID" value="37"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_29gnBPDSEeGPmqhi8pc-AQ" presentation="default">
-          <element href="OpaeumBPMProfile.uml#_2-qdkPDSEeGPmqhi8pc-AQ"/>
-        </semanticModel>
-      </contained>
-    </contained>
-    <contained xsi:type="di:GraphEdge" xmi:id="_4r6CgPDSEeGPmqhi8pc-AQ" anchor="_4r2_MPDSEeGPmqhi8pc-AQ _s1xM4fDQEeGPmqhi8pc-AQ">
-      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_4r6CgfDSEeGPmqhi8pc-AQ" presentation="default">
-        <element href="OpaeumBPMProfile.uml#_4s_noPDSEeGPmqhi8pc-AQ"/>
-      </semanticModel>
-      <contained xsi:type="di:EdgeObjectUV" xmi:id="_4r6CgvDSEeGPmqhi8pc-AQ" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_E4ocEPDpEeGcpZPTfU1MEw" position="878,973" size="216,-1">
       <anchorage xmi:id="_HUVpgPDpEeGcpZPTfU1MEw" graphEdge="_HUbJEPDpEeGcpZPTfU1MEw _Oa-T8PG4EeGoQ4M-oJgF7A"/>
@@ -763,8 +709,8 @@
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_Lrxj0vDpEeGcpZPTfU1MEw" id="requiredFieldEdgeObject"/>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_Dl618PG4EeGoQ4M-oJgF7A" position="833,825" size="120,-1">
-      <anchorage xmi:id="_IrSNQPG4EeGoQ4M-oJgF7A" graphEdge="_IrV3oPG4EeGoQ4M-oJgF7A _Jf8kYPG4EeGoQ4M-oJgF7A _Oa-T8PG4EeGoQ4M-oJgF7A _OsPqIPG4EeGoQ4M-oJgF7A"/>
+    <contained xsi:type="di:GraphNode" xmi:id="_Dl618PG4EeGoQ4M-oJgF7A" position="779,825" size="172,-1">
+      <anchorage xmi:id="_IrSNQPG4EeGoQ4M-oJgF7A" graphEdge="_IrV3oPG4EeGoQ4M-oJgF7A _Oa-T8PG4EeGoQ4M-oJgF7A _OsPqIPG4EeGoQ4M-oJgF7A"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Dl618fG4EeGoQ4M-oJgF7A" presentation="default">
         <element href="OpaeumBPMProfile.uml#_DmCxwPG4EeGoQ4M-oJgF7A"/>
       </semanticModel>
@@ -780,11 +726,6 @@
         <element href="OpaeumBPMProfile.uml#_Iscq4PG4EeGoQ4M-oJgF7A"/>
       </semanticModel>
     </contained>
-    <contained xsi:type="di:GraphEdge" xmi:id="_Jf8kYPG4EeGoQ4M-oJgF7A" anchor="_IrSNQPG4EeGoQ4M-oJgF7A _v5U9wY59EeCrtavWRHwoHg">
-      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Jf8kYfG4EeGoQ4M-oJgF7A" presentation="default">
-        <element href="OpaeumBPMProfile.uml#_JhHpEPG4EeGoQ4M-oJgF7A"/>
-      </semanticModel>
-    </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_Oa-T8PG4EeGoQ4M-oJgF7A" anchor="_HUVpgPDpEeGcpZPTfU1MEw _IrSNQPG4EeGoQ4M-oJgF7A">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Oa-T8fG4EeGoQ4M-oJgF7A" presentation="default">
         <element href="OpaeumBPMProfile.uml#_OcFuQPG4EeGoQ4M-oJgF7A"/>
@@ -796,7 +737,7 @@
       </semanticModel>
     </contained>
   </diagrams>
-  <diagrams xmi:id="_t33kcPWYEeCXsN5I0bTlhg" position="0,0" size="100,100" name="OpaeumBPMProfile" viewport="0,0">
+  <diagrams xmi:id="_t33kcPWYEeCXsN5I0bTlhg" position="0,0" size="100,100" name="OpaeumBPMProfile" viewport="435,301">
     <property xmi:id="_t6k6MPWYEeCXsN5I0bTlhg" key="pageFormatName" value="A3"/>
     <property xmi:id="_t65DQPWYEeCXsN5I0bTlhg" key="diagramWidth" value="1188"/>
     <property xmi:id="_t7LXIPWYEeCXsN5I0bTlhg" key="diagramHeight" value="1680"/>
@@ -1098,6 +1039,331 @@
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_yi0JEfDtEeGcpZPTfU1MEw" presentation="default">
         <element href="OpaeumBPMProfile.uml#_yj1cwPDtEeGcpZPTfU1MEw"/>
       </semanticModel>
+    </contained>
+  </diagrams>
+  <diagrams xmi:id="_8v2yQPc3EeG7Vf-BTeDIOA" position="0,0" size="100,100" name="Observed" viewport="0,616">
+    <property xmi:id="_82ygsPc3EeG7Vf-BTeDIOA" key="pageFormatName" value="A4"/>
+    <property xmi:id="_838XQPc3EeG7Vf-BTeDIOA" key="diagramWidth" value="840"/>
+    <property xmi:id="_85AuQPc3EeG7Vf-BTeDIOA" key="diagramHeight" value="1188"/>
+    <property xmi:id="_86HhgPc3EeG7Vf-BTeDIOA" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_87KDUPc3EeG7Vf-BTeDIOA" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_88L-EPc3EeG7Vf-BTeDIOA" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_89XCwPc3EeG7Vf-BTeDIOA" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_8-mY4Pc3EeG7Vf-BTeDIOA" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_8_nFgPc3EeG7Vf-BTeDIOA" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_8v2yQfc3EeG7Vf-BTeDIOA" presentation="org.topcased.modeler.uml.profilediagram">
+      <element href="OpaeumBPMProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="__DXtAPc3EeG7Vf-BTeDIOA" position="347,62" size="408,-1">
+      <anchorage xmi:id="_A7gTUfc4EeG7Vf-BTeDIOA" graphEdge="_A7hhcPc4EeG7Vf-BTeDIOA _A8kDQPc4EeG7Vf-BTeDIOA _CjUlsPc4EeG7Vf-BTeDIOA _LQGv0PddEeGasbwTjGXa0w _N9rJUPddEeGasbwTjGXa0w"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__DYUEPc3EeG7Vf-BTeDIOA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_LY-x8ASMEeGb9qsDxKJdSA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="__DYUEfc3EeG7Vf-BTeDIOA">
+        <property xmi:id="__DYUEvc3EeG7Vf-BTeDIOA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__DYUE_c3EeG7Vf-BTeDIOA" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_LY-x8ASMEeGb9qsDxKJdSA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="__EtJwPc3EeG7Vf-BTeDIOA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__EtJwfc3EeG7Vf-BTeDIOA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_T7p9oASMEeGb9qsDxKJdSA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="__Etw0Pc3EeG7Vf-BTeDIOA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__Etw0fc3EeG7Vf-BTeDIOA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_T7qksASMEeGb9qsDxKJdSA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_01VQsPlxEeGYn9aDKdPmKA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_01V3wPlxEeGYn9aDKdPmKA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_01Xs8PlxEeGYn9aDKdPmKA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_HRNgsPlzEeGYn9aDKdPmKA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HRNgsflzEeGYn9aDKdPmKA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_HRPV4PlzEeGYn9aDKdPmKA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_A5SFwPc4EeG7Vf-BTeDIOA" position="237,330" size="140,-1">
+      <anchorage xmi:id="_A7gTUPc4EeG7Vf-BTeDIOA" graphEdge="_A7hhcPc4EeG7Vf-BTeDIOA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_A5SFwfc4EeG7Vf-BTeDIOA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_eOUnkF-iEeGSPaWW9iQb9Q"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_A5SFwvc4EeG7Vf-BTeDIOA">
+        <property xmi:id="_A5SFw_c4EeG7Vf-BTeDIOA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_A5SFxPc4EeG7Vf-BTeDIOA" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_eOUnkF-iEeGSPaWW9iQb9Q"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_A7co8Pc4EeG7Vf-BTeDIOA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_A7co8fc4EeG7Vf-BTeDIOA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_gH0f0F-iEeGSPaWW9iQb9Q"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_A6ZgEPc4EeG7Vf-BTeDIOA" position="437,330" size="182,-1">
+      <anchorage xmi:id="_A8i1IPc4EeG7Vf-BTeDIOA" graphEdge="_A8kDQPc4EeG7Vf-BTeDIOA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_A6ZgEfc4EeG7Vf-BTeDIOA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_bh3ZMPcnEeCHK5d0Neg7jw"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_A6ZgEvc4EeG7Vf-BTeDIOA">
+        <property xmi:id="_A6ZgE_c4EeG7Vf-BTeDIOA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_A6ZgFPc4EeG7Vf-BTeDIOA" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_bh3ZMPcnEeCHK5d0Neg7jw"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_A7co8vc4EeG7Vf-BTeDIOA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_A7co8_c4EeG7Vf-BTeDIOA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_cfDaMPcnEeCHK5d0Neg7jw"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_A7hhcPc4EeG7Vf-BTeDIOA" anchor="_A7gTUPc4EeG7Vf-BTeDIOA _A7gTUfc4EeG7Vf-BTeDIOA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_A7hhcfc4EeG7Vf-BTeDIOA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_p5GMoF-iEeGSPaWW9iQb9Q"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_A8kDQPc4EeG7Vf-BTeDIOA" anchor="_A8i1IPc4EeG7Vf-BTeDIOA _A7gTUfc4EeG7Vf-BTeDIOA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_A8kDQfc4EeG7Vf-BTeDIOA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_yj1cwPDtEeGcpZPTfU1MEw"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_B8lV0Pc4EeG7Vf-BTeDIOA" position="309,455" size="140,-1">
+      <anchorage xmi:id="_CjSJcPc4EeG7Vf-BTeDIOA" graphEdge="_CjUlsPc4EeG7Vf-BTeDIOA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_B8lV0fc4EeG7Vf-BTeDIOA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_DmCxwPG4EeGoQ4M-oJgF7A"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_B8lV0vc4EeG7Vf-BTeDIOA">
+        <property xmi:id="_B8lV0_c4EeG7Vf-BTeDIOA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_B8lV1Pc4EeG7Vf-BTeDIOA" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_DmCxwPG4EeGoQ4M-oJgF7A"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_CjUlsPc4EeG7Vf-BTeDIOA" anchor="_CjSJcPc4EeG7Vf-BTeDIOA _A7gTUfc4EeG7Vf-BTeDIOA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_CjUlsfc4EeG7Vf-BTeDIOA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_CkitsPc4EeG7Vf-BTeDIOA"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_DL7d0Pc4EeG7Vf-BTeDIOA" position="457,496" size="215,-1">
+      <anchorage xmi:id="_N9oGAPddEeGasbwTjGXa0w" graphEdge="_N9rJUPddEeGasbwTjGXa0w"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DL7d0fc4EeG7Vf-BTeDIOA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_vCvzsI6AEeCrtavWRHwoHg"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_DL7d0vc4EeG7Vf-BTeDIOA">
+        <property xmi:id="_DL7d0_c4EeG7Vf-BTeDIOA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DL7d1Pc4EeG7Vf-BTeDIOA" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_vCvzsI6AEeCrtavWRHwoHg"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_DNBqAPc4EeG7Vf-BTeDIOA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DNBqAfc4EeG7Vf-BTeDIOA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_Apv8EI6AEeCrtavWRHwoHg"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_DNCREPc4EeG7Vf-BTeDIOA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DNCREfc4EeG7Vf-BTeDIOA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_q4u4EI6FEeCrtavWRHwoHg"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_-TJKIPdcEeGasbwTjGXa0w" position="32,155" size="319,-1">
+      <anchorage xmi:id="_Ja7p4Pj9EeGYn9aDKdPmKA" graphEdge="_JbAiYPj9EeGYn9aDKdPmKA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-TMNcPdcEeGasbwTjGXa0w" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_zX6o0ASPEeGb9qsDxKJdSA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_-TM0gPdcEeGasbwTjGXa0w">
+        <property xmi:id="_-TM0gfdcEeGasbwTjGXa0w" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-TM0gvdcEeGasbwTjGXa0w" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_zX6o0ASPEeGb9qsDxKJdSA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_-Vf6kPdcEeGasbwTjGXa0w" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-Vf6kfdcEeGasbwTjGXa0w" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_0jRosASPEeGb9qsDxKJdSA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_-VghoPdcEeGasbwTjGXa0w" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-VghofdcEeGasbwTjGXa0w" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_2oUpoASPEeGb9qsDxKJdSA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_-VhvwPdcEeGasbwTjGXa0w" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-VhvwfdcEeGasbwTjGXa0w" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_6gF_4ASkEeGE-ZX-dluNDw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_-sCLQPdcEeGasbwTjGXa0w" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-sCLQfdcEeGasbwTjGXa0w" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_-sHDwPdcEeGasbwTjGXa0w"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_KgU4sPddEeGasbwTjGXa0w" position="33,431" size="249,-1">
+      <anchorage xmi:id="_LQDsgPddEeGasbwTjGXa0w" graphEdge="_LQGv0PddEeGasbwTjGXa0w"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KgU4sfddEeGasbwTjGXa0w" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_n2V-wI59EeCrtavWRHwoHg"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_KgU4svddEeGasbwTjGXa0w">
+        <property xmi:id="_KgU4s_ddEeGasbwTjGXa0w" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KgU4tPddEeGasbwTjGXa0w" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_n2V-wI59EeCrtavWRHwoHg"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_Kh5mAPddEeGasbwTjGXa0w" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Kh5mAfddEeGasbwTjGXa0w" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_dNWKUo5-EeCrtavWRHwoHg"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_Kh5mAvddEeGasbwTjGXa0w" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Kh5mA_ddEeGasbwTjGXa0w" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_zAcGYI6CEeCrtavWRHwoHg"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_LQGv0PddEeGasbwTjGXa0w" anchor="_LQDsgPddEeGasbwTjGXa0w _A7gTUfc4EeG7Vf-BTeDIOA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_LQGv0fddEeGasbwTjGXa0w" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_LRR0gPddEeGasbwTjGXa0w"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_N9rJUPddEeGasbwTjGXa0w" anchor="_N9oGAPddEeGasbwTjGXa0w _A7gTUfc4EeG7Vf-BTeDIOA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_N9rJUfddEeGasbwTjGXa0w" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_N-54YPddEeGasbwTjGXa0w"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_olNxEPj8EeGYn9aDKdPmKA" position="9,300" size="224,-1">
+      <anchorage xmi:id="_J-PLQPj9EeGYn9aDKdPmKA" graphEdge="_J-S1oPj9EeGYn9aDKdPmKA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_olOYIPj8EeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_olXiEPj8EeGYn9aDKdPmKA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_olOYIfj8EeGYn9aDKdPmKA">
+        <property xmi:id="_olOYIvj8EeGYn9aDKdPmKA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_olOYI_j8EeGYn9aDKdPmKA" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_olXiEPj8EeGYn9aDKdPmKA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_XtzSkPj9EeGYn9aDKdPmKA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_XtzSkfj9EeGYn9aDKdPmKA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_Xt1HwPj9EeGYn9aDKdPmKA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_QihUAPlzEeGYn9aDKdPmKA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Qih7EPlzEeGYn9aDKdPmKA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_QijwQPlzEeGYn9aDKdPmKA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_JZiiwPj9EeGYn9aDKdPmKA" position="59,93" size="145,-1">
+      <anchorage xmi:id="_Ja7p4fj9EeGYn9aDKdPmKA" graphEdge="_JbAiYPj9EeGYn9aDKdPmKA _J-S1oPj9EeGYn9aDKdPmKA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JZiiwfj9EeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_x5m3wASPEeGb9qsDxKJdSA"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_JbAiYPj9EeGYn9aDKdPmKA" anchor="_Ja7p4Pj9EeGYn9aDKdPmKA _Ja7p4fj9EeGYn9aDKdPmKA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JbAiYfj9EeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_0jRBoASPEeGb9qsDxKJdSA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_JbAiYvj9EeGYn9aDKdPmKA" id="requiredFieldEdgeObject"/>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_J-S1oPj9EeGYn9aDKdPmKA" anchor="_J-PLQPj9EeGYn9aDKdPmKA _Ja7p4fj9EeGYn9aDKdPmKA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_J-TcsPj9EeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_J_g9oPj9EeGYn9aDKdPmKA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_J-Tcsfj9EeGYn9aDKdPmKA" id="requiredFieldEdgeObject"/>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_52vfoPlyEeGYn9aDKdPmKA" position="166,745" size="251,-1">
+      <anchorage xmi:id="_EHFHAPlzEeGYn9aDKdPmKA" graphEdge="_EHJYcPlzEeGYn9aDKdPmKA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_52vfoflyEeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_53_c0PlyEeGYn9aDKdPmKA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_52vfovlyEeGYn9aDKdPmKA">
+        <property xmi:id="_52vfo_lyEeGYn9aDKdPmKA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_52vfpPlyEeGYn9aDKdPmKA" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_53_c0PlyEeGYn9aDKdPmKA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_7z_2gPlyEeGYn9aDKdPmKA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_7z_2gflyEeGYn9aDKdPmKA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_70BrsPlyEeGYn9aDKdPmKA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_TRNH0PlzEeGYn9aDKdPmKA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_TRNH0flzEeGYn9aDKdPmKA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_TRO9APlzEeGYn9aDKdPmKA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_RSmvgPmnEeGxt5NCaDcqzA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_RSmvgfmnEeGxt5NCaDcqzA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_RS5DYPmnEeGxt5NCaDcqzA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_CJpJ8PlzEeGYn9aDKdPmKA" position="187,547" size="120,-1">
+      <anchorage xmi:id="_EHFHAflzEeGYn9aDKdPmKA" graphEdge="_EHJYcPlzEeGYn9aDKdPmKA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_CJpJ8flzEeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_CLF7cPlzEeGYn9aDKdPmKA"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_EHJYcPlzEeGYn9aDKdPmKA" anchor="_EHFHAPlzEeGYn9aDKdPmKA _EHFHAflzEeGYn9aDKdPmKA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_EHJYcflzEeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_EIajwPlzEeGYn9aDKdPmKA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_EHJYcvlzEeGYn9aDKdPmKA" id="requiredFieldEdgeObject"/>
+    </contained>
+  </diagrams>
+  <diagrams xmi:id="_oCUmUPlzEeGYn9aDKdPmKA" position="0,0" size="100,100" name="Expressions" viewport="0,0">
+    <property xmi:id="_oJuO0PlzEeGYn9aDKdPmKA" key="pageFormatName" value="A3"/>
+    <property xmi:id="_oK1pIPlzEeGYn9aDKdPmKA" key="diagramWidth" value="1188"/>
+    <property xmi:id="_oL6nMPlzEeGYn9aDKdPmKA" key="diagramHeight" value="1680"/>
+    <property xmi:id="_oNAMUPlzEeGYn9aDKdPmKA" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_oOJb0PlzEeGYn9aDKdPmKA" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_oPPoAPlzEeGYn9aDKdPmKA" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_oQWbQPlzEeGYn9aDKdPmKA" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_oRd1kPlzEeGYn9aDKdPmKA" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_oSjasPlzEeGYn9aDKdPmKA" key="orientation" value="landscape"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oCUmUflzEeGYn9aDKdPmKA" presentation="org.topcased.modeler.uml.profilediagram">
+      <element href="OpaeumBPMProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_qP4DAPlzEeGYn9aDKdPmKA" position="208,84" size="131,-1">
+      <anchorage xmi:id="_uh21kflzEeGYn9aDKdPmKA" graphEdge="_uiPQEPlzEeGYn9aDKdPmKA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_qP4DAflzEeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_qXgasPDQEeGPmqhi8pc-AQ"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_ugMosPlzEeGYn9aDKdPmKA" position="562,200" size="319,-1">
+      <anchorage xmi:id="_uiNa4PlzEeGYn9aDKdPmKA" graphEdge="_uiPQEPlzEeGYn9aDKdPmKA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ugMosflzEeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_G355EPDREeGPmqhi8pc-AQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_ugMosvlzEeGYn9aDKdPmKA">
+        <property xmi:id="_ugMos_lzEeGYn9aDKdPmKA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ugMotPlzEeGYn9aDKdPmKA" presentation="default">
+          <element href="OpaeumBPMProfile.uml#_G355EPDREeGPmqhi8pc-AQ"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_uhWfQvlzEeGYn9aDKdPmKA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uhWfQ_lzEeGYn9aDKdPmKA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_JgqEAvDREeGPmqhi8pc-AQ"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_uhWfRPlzEeGYn9aDKdPmKA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uhWfRflzEeGYn9aDKdPmKA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_J1fEgPDREeGPmqhi8pc-AQ"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_uhXGUPlzEeGYn9aDKdPmKA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uhXGUflzEeGYn9aDKdPmKA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_Mq5LYPDREeGPmqhi8pc-AQ"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_uiPQEPlzEeGYn9aDKdPmKA" anchor="_uiNa4PlzEeGYn9aDKdPmKA _uh21kflzEeGYn9aDKdPmKA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uiPQEflzEeGYn9aDKdPmKA" presentation="default">
+        <element href="OpaeumBPMProfile.uml#_JgqEAPDREeGPmqhi8pc-AQ"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_uiPQEvlzEeGYn9aDKdPmKA" id="requiredFieldEdgeObject"/>
     </contained>
   </diagrams>
 </diagrams:Diagrams>

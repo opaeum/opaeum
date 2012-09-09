@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.ocl.TypeResolver;
@@ -33,6 +34,7 @@ import org.eclipse.ocl.uml.OCL.Helper;
 import org.eclipse.ocl.uml.UMLEnvironment;
 import org.eclipse.ocl.uml.UMLEnvironmentFactory;
 import org.eclipse.uml2.uml.AcceptCallAction;
+import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
@@ -42,6 +44,7 @@ import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
@@ -52,20 +55,23 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.Variable;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.opaeum.eclipse.EmfActionUtil;
+import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfActivityUtil.TypeAndMultiplicity;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfEventUtil;
@@ -108,12 +114,15 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private DataType dateType;
 	private DataType dateTimeType;
 	private DataType durationType;
+	private DataType cumulativeDurationType;
 	private DataType realType;
 	private DataType stringType;
 	private DataType integerType;
 	private DataType booleanType;
 	private Interface businessRole;
 	private Interface taskObject;
+	private Interface timedResource;
+	private Interface quantifiedResource;
 	private Interface requestObject;
 	private Interface responsibilityObject;
 	private Class opaeumPerson;
@@ -133,6 +142,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private TreeSet<IEmulatedElement> emulatedElements = new TreeSet<IEmulatedElement>(new DefaultOpaeumComparator());
 	private Interface notificationReceiver;
 	private Class businessCalendar;
+	private Class durationBasedCost;
+	private Class quantityBasedCost;
 	public OpaeumLibrary(ResourceSet resourceSet,UriToFileConverter uriToFileConverter){
 		super();
 		UMLEnvironmentFactory factory = new UMLEnvironmentFactory(resourceSet);
@@ -247,6 +258,10 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	}
 	public DataType getDurationType(){
 		return durationType = findClassifier(durationType, StereotypeNames.OPAEUM_BPM_LIBRARY, "Duration");
+	}
+	@Override
+	public DataType getCumulativeDurationType(){
+		return cumulativeDurationType = findClassifier(cumulativeDurationType, StereotypeNames.OPAEUM_BPM_LIBRARY, "CumulativeDuration");
 	}
 	public Class getPersonNode(){
 		return opaeumPerson = findClassifier(opaeumPerson, StereotypeNames.OPAEUM_BPM_LIBRARY, "PersonNode");
@@ -478,8 +493,9 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		}
 		return null;
 	}
-	public Classifier getEventContext(Event event){
-		if(EmfEventUtil.isDeadline(event)){
+	public Classifier getEventGeneratingClassifier(NamedElement event){
+		if((event instanceof Constraint && StereotypesHelper.hasStereotype(event, StereotypeNames.ESCALATION))
+				|| (event instanceof Event && EmfEventUtil.isDeadline((Event) event))){
 			EObject container = EmfElementFinder.getContainer(event);
 			if(container instanceof Operation){
 				return getMessageStructure((Operation) container);
@@ -488,10 +504,10 @@ public class OpaeumLibrary implements IPropertyEmulation{
 			}else if(container instanceof OpaqueAction){
 				return getMessageStructure((OpaqueAction) container);
 			}else if(container instanceof Behavior){
-				return (Behavior)container;
+				return (Behavior) container;
 			}
 		}else{
-			return EmfEventUtil.getBehaviorContext(event);
+			return getMessageStructure(EmfEventUtil.getBehavioralNamespaceContext((Event) event));
 		}
 		return null;
 	}
@@ -504,8 +520,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		}
 		return classifier;
 	}
-	public ResponsibilityDefinition getResponsibilityDefinition(NamedElement node,String embeddedScreenFlowTask){
-		return new ResponsibilityDefinitionImpl(this, node, StereotypesHelper.getStereotype(node, embeddedScreenFlowTask));
+	public ResponsibilityDefinition getResponsibilityDefinition(NamedElement node,String...deadlineOper){
+		return new ResponsibilityDefinitionImpl(this, node, StereotypesHelper.getStereotype(node, deadlineOper));
 	}
 	public String getImplementationCodeFor(Model m,String artefactName){
 		Map<String,String> map = implementationCode.get(m);
@@ -564,31 +580,103 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	public SortedSet<IEmulatedElement> getAllEmulatedElements(){
 		return emulatedElements;
 	}
-	public Classifier getTargetType(SendSignalAction a){
+	public Classifier getTargetType(Action a){
 		InputPin pin = EmfActionUtil.getTargetPin(a);
+		Classifier type = calculateType(pin);
+		if(type == null){
+			type = EmfActionUtil.getTargetType(a);
+		}
+		if(type instanceof CollectionType){
+			type = ((CollectionType) type).getElementType();
+		}
+		return (Classifier) type;
+	}
+	protected Classifier calculateType(InputPin pin){
+		Type type = null;
 		if(pin instanceof ValuePin){
-			// TODO put this in OPaeumLibrary
-			ValueSpecification value = ((ValuePin) a.getTarget()).getValue();
+			ValueSpecification value = ((ValuePin) pin).getValue();
 			if(value instanceof OpaqueExpression){
 				OpaqueExpressionContext ctx = getOclExpressionContext((OpaqueExpression) value);
 				if(!ctx.hasErrors()){
-					Classifier type = ctx.getExpression().getType();
+					type = ctx.getExpression().getType();
 					if(type instanceof CollectionType){
-						return ((CollectionType) type).getElementType();
-					}else{
-						return type;
+						type = ((CollectionType) type).getElementType();
 					}
 				}
 			}
-			return null;
-		}else{
-			return EmfActionUtil.getTargetType(a);
 		}
+		if(type == null && pin != null && pin.getIncomings().size() > 0 && pin.getIncomings().get(0) instanceof ObjectFlow){
+			ObjectFlow of = (ObjectFlow) pin.getIncomings().get(0);
+			TypeAndMultiplicity mt = EmfActivityUtil.findSourceType(of);
+			if(mt != null){
+				type = mt.getType();
+			}
+		}
+		return (Classifier) type;
 	}
 	public Interface getNotificationReceiver(){
-		return this.notificationReceiver=findClassifier(this.notificationReceiver,StereotypeNames.OPAEUM_BPM_LIBRARY, "INotificationReceiver");
+		return this.notificationReceiver = findClassifier(this.notificationReceiver, StereotypeNames.OPAEUM_BPM_LIBRARY,
+				"INotificationReceiver");
+	}
+	public Interface getTimedResource(){
+		return this.timedResource = findClassifier(this.timedResource, StereotypeNames.OPAEUM_BPM_LIBRARY, "ITimedResource");
+	}
+	public Interface getQuantifiedResource(){
+		return this.quantifiedResource = findClassifier(this.quantifiedResource, StereotypeNames.OPAEUM_BPM_LIBRARY, "IQuantifiedResource");
 	}
 	public Class getBusinessCalendar(){
-		return this.businessCalendar=findClassifier(this.businessCalendar,StereotypeNames.OPAEUM_BPM_LIBRARY, "BusinessCalendar");
+		return this.businessCalendar = findClassifier(this.businessCalendar, StereotypeNames.OPAEUM_BPM_LIBRARY, "BusinessCalendar");
+	}
+	public OpaqueExpressionContext getArtificationExpression(NamedElement ne,String tagName){
+		for(EObject e:ne.getStereotypeApplications()){
+			EStructuralFeature f = e.eClass().getEStructuralFeature(tagName);
+			if(f != null){
+				return getOclExpressionContext((OpaqueExpression) e.eGet(f));
+			}
+		}
+		return null;
+	}
+	public Collection<OpaqueExpressionContext> getArtificialExpressions(NamedElement ne,String tagName){
+		Collection<OpaqueExpressionContext> result = new HashSet<OpaqueExpressionContext>();
+		for(EObject e:ne.getStereotypeApplications()){
+			EStructuralFeature f = e.eClass().getEStructuralFeature(tagName);
+			if(f != null){
+				Collection<OpaqueExpression> val = (Collection<OpaqueExpression>) e.eGet(f);
+				for(OpaqueExpression oe:val){
+					result.add(getOclExpressionContext(oe));
+				}
+			}
+		}
+		return result;
+	}
+	public Type getLibraryType(LibraryType typeOfChild){
+		switch(typeOfChild){
+		case BUSINESS_CALENDAR:
+			return getBusinessCalendar();
+		case BUSINESS_ROLE:
+			return getBusinessRole();
+		case TIMED_RESOURCE:
+			return getTimedResource();
+		case PARTICIPANT:
+			return getParticipant();
+		case REAL:
+			return getRealType();
+		case RECIPIENT:
+			return getNotificationReceiver();
+		case QUANTIFIED_RESOURCE:
+			return getQuantifiedResource();
+		case DURATION:
+			return getDurationType();
+		case STRING:
+			return getStringType();
+		default:
+			return null;
+		}
+	}
+	public Class getDurationBasedCost(){
+		return this.durationBasedCost = findClassifier(this.durationBasedCost, StereotypeNames.OPAEUM_BPM_LIBRARY, "DurationBasedCost");
+	}
+	public Class getQuantityBasedCost(){
+		return this.quantityBasedCost = findClassifier(this.quantityBasedCost, StereotypeNames.OPAEUM_BPM_LIBRARY, "QuantityBasedCost");
 	}
 }

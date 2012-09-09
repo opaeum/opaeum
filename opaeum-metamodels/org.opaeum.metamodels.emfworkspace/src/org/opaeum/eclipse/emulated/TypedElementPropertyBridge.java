@@ -1,5 +1,7 @@
 package org.opaeum.eclipse.emulated;
 
+import org.eclipse.ocl.types.OrderedSetType;
+import org.eclipse.ocl.uml.BagType;
 import org.eclipse.ocl.uml.SequenceType;
 import org.eclipse.ocl.uml.SetType;
 import org.eclipse.uml2.uml.ActivityParameterNode;
@@ -8,13 +10,11 @@ import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.OutputPin;
-import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfActionUtil;
-import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
@@ -98,6 +98,15 @@ public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
 					EmulatedMultiplicityElement result = new EmulatedMultiplicityElement(typedElement, 0, -1);
 					result.setIsUnique(false);
 					result.setIsOrdered(true);
+				}else if(type2 instanceof OrderedSetType){
+					EmulatedMultiplicityElement result = new EmulatedMultiplicityElement(typedElement, 0, -1);
+					result.setIsUnique(true);
+					result.setIsOrdered(true);
+					return result;
+				}else if(type2 instanceof BagType){
+					EmulatedMultiplicityElement result = new EmulatedMultiplicityElement(typedElement, 0, -1);
+					result.setIsUnique(false);
+					result.setIsOrdered(false);
 					return result;
 				}
 			}

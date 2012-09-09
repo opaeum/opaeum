@@ -12,7 +12,7 @@
 	<artifactId>opaeum-runtime</artifactId>
 	<packaging>pom</packaging>
 	<name>Opaeum Runtime</name>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<licenses>
 		<license>
 			<name>Apache 2</name>
@@ -341,6 +341,6 @@
 		</dependencies>
 	</dependencyManagement>
 	<properties>
-		<opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
+		<opaeum.version>1.0.1-SNAPSHOT</opaeum.version>
 	</properties>
 </project>

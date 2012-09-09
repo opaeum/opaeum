@@ -124,7 +124,8 @@ public class OJUtill{
 	private static OJAnnotatedField addProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
 		ojClass.addToImports(type);
 		String capped = NameConverter.capitalize(name);
-		OJOperation set = new OJAnnotatedOperation("set" + capped);
+		String setPrefix = type.getLast().equals("boolean")?"is": "set";
+		OJOperation set = new OJAnnotatedOperation(setPrefix + capped);
 		set.addParam(name, type);
 		set.setBody(new OJBlock());
 		ojClass.addToOperations(set);

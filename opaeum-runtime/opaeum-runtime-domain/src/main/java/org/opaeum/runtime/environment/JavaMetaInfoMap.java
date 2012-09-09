@@ -131,7 +131,7 @@ public abstract class JavaMetaInfoMap{
 			}
 		}
 	}
-	private void addSecondaryClass(Class<?> secondaryClassSuperclass,Class<? extends Object> c,String string,boolean singleton){
+	public void addSecondaryClass(Class<?> secondaryClassSuperclass,Class<? extends Object> c,String string,boolean singleton){
 		try{
 			Class<?> secondaryClass = c.getClassLoader().loadClass(c.getName() + string);
 			Map<Class<?>,Object> map = secondaryClassMap.get(secondaryClassSuperclass);

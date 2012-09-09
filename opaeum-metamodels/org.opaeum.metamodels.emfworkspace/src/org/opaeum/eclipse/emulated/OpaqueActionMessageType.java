@@ -13,6 +13,9 @@ public class OpaqueActionMessageType extends AbstractEmulatedMessageType{
 	public OpaqueActionMessageType(OpaqueAction node,IPropertyEmulation e){
 		super(node, e, node.getInputValues(), node.getOutputValues());
 		this.node=node;
+		if(node.getRedefinedNodes().size() > 0 && node.getRedefinedNodes().get(0) instanceof OpaqueAction){
+			addGeneral(e.getMessageStructure((OpaqueAction) node.getRedefinedNodes().get(0)));
+		}
 	}
 	protected boolean couldBeEmulated(Object o){
 		return o instanceof Pin;

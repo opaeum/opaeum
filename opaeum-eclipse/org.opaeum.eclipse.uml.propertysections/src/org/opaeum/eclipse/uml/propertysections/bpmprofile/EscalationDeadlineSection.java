@@ -3,15 +3,11 @@ package org.opaeum.eclipse.uml.propertysections.bpmprofile;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.uml.propertysections.base.ChooserPropertyOnStereotypeSection;
-import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
 

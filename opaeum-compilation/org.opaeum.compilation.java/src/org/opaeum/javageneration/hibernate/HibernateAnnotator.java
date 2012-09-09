@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Embedded;
 import javax.persistence.OneToMany;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
@@ -80,13 +79,14 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			owner.addToSuperInterfaces(new OJPathName(HibernateEntity.class.getName()));
 		}
 	}
-	protected void visitComplexStructure(Classifier complexType){
-		if(ojUtil.hasOJClass(complexType) && isPersistent(complexType)){
-			OJAnnotatedClass owner = findJavaClass(complexType);
+	@Override
+	protected boolean visitComplexStructure(OJAnnotatedClass owner,Classifier complexType){
+		if(isPersistent(complexType)){
 			addAllInstances(complexType, owner);
 			if(EmfClassifierUtil.isCompositionParticipant(complexType)){
 				Property endToComposite = getLibrary().getEndToComposite(complexType);
-				if(endToComposite != null && (EmfPropertyUtil.getOwningClassifier(endToComposite) == complexType || EmfPropertyUtil.getOwningClassifier(endToComposite) instanceof Interface)){
+				if(endToComposite != null
+						&& (EmfPropertyUtil.getOwningClassifier(endToComposite) == complexType || EmfPropertyUtil.getOwningClassifier(endToComposite) instanceof Interface)){
 					setDeletedOn(ojUtil.buildStructuralFeatureMap(endToComposite), owner);
 				}
 			}
@@ -129,22 +129,21 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 			if(complexType instanceof Association){
 				OJOperation clear = owner.getUniqueOperation("clear");
-				if(clear==null){
-					System.out.println();
-				}
 				clear.getBody().addToStatements("markDeleted()");
 			}
 			enableHibernateProxy(complexType, owner);
 			owner.addToImplementedInterfaces(new OJPathName(HibernateEntity.class.getName()));
+			return true;
 		}
+		return false;
 	}
-	protected void visitProperty(Classifier owner,PropertyMap map){
+	@Override
+	protected void visitProperty(OJAnnotatedClass ojOwner, Classifier owner,PropertyMap map){
 		Property f = map.getProperty();
 		if(isPersistent(owner) && !EmfPropertyUtil.isDerived(f) && !map.isStatic()){
 			if(map.isOne()){
-				mapXToOne(owner, map);
+				mapXToOne(owner, map, ojOwner);
 			}else{
-				OJAnnotatedClass ojOwner = findJavaClass(owner);
 				OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 				OJEnumValue TRUE = new OJEnumValue(new OJPathName("org.hibernate.annotations.LazyCollectionOption"), "TRUE");
 				OJAnnotationValue lazyCollection = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.LazyCollection"), TRUE);
@@ -154,13 +153,12 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					oneToMany.removeAttribute("mappedBy");
 					NameWrapper name = PersistentNameUtil.getPersistentName(f.getOtherEnd());
 					if(config.shouldBeCm1Compatible()){
-						name=name.getWithoutId();
+						name = name.getWithoutId();
 					}
 					JpaUtil.addJoinColumn(field, name.getAsIs(), true);
 					OJAnnotationValue where = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Where"));
 					where.putAttribute("clause",
-							name + "_type='"
-									+ (config.shouldBeCm1Compatible() ? ojOwner.getPathName().toString() : EmfWorkspace.getId(owner)) + "'");
+							name + "_type='" + (config.shouldBeCm1Compatible() ? ojOwner.getPathName().toString() : EmfWorkspace.getId(owner)) + "'");
 					field.addAnnotationIfNew(where);
 				}
 				if(f.isOrdered()){
@@ -197,10 +195,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 			}
 		}
-	}
-	private void mapXToOne(Classifier owner,PropertyMap map){
-		OJAnnotatedClass ojOwner = findJavaClass(owner);
-		mapXToOne(owner, map, ojOwner);
 	}
 	public void mapXToOne(Classifier owner,PropertyMap map,OJAnnotatedClass ojOwner){
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
@@ -309,7 +303,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		Property p = (Property) map.getProperty();
 		if(!EmfPropertyUtil.isDerived(p) && p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
 			OJOperation setter = ojOwner.findOperation(map.setter(), Arrays.asList(map.javaTypePath()));
-			if(setter==null){
+			if(setter == null){
 				System.out.println();
 			}
 			OJIfStatement st = (OJIfStatement) setter.getBody().findStatementRecursive(AttributeImplementor.IF_PARAM_NOT_NULL);

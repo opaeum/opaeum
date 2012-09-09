@@ -18,7 +18,7 @@ public class EmulatedPropertyHolderForActivity extends EmulatedPropertyHolderFor
 	Activity owner;
 	@SuppressWarnings("unchecked")
 	public EmulatedPropertyHolderForActivity(Activity owner,IPropertyEmulation e){
-		super(owner, e, owner.getOwnedParameters(), owner.getVariables(), EmfTimeUtil.buildObservationPropertiess(owner, e, owner));
+		super(owner, e, owner.getOwnedParameters(), owner.getVariables());
 		this.owner=owner;
 		for(ActivityNode n:EmfActivityUtil.getOwnedNodesForEclipseUml4(owner)){
 			addEmulatedProperty(n);

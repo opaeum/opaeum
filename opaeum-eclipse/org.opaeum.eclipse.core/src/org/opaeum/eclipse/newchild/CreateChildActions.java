@@ -1,18 +1,6 @@
 package org.opaeum.eclipse.newchild;
 
-import static org.opaeum.metamodel.core.internal.TagNames.BCC_EXPRESSION;
-import static org.opaeum.metamodel.core.internal.TagNames.BUSINESS_ADMINISTRATORS;
-import static org.opaeum.metamodel.core.internal.TagNames.BUSINESS_CALENDAR_TO_USE;
-import static org.opaeum.metamodel.core.internal.TagNames.CC_EXPRESSION;
-import static org.opaeum.metamodel.core.internal.TagNames.DURATION_OBSERVATIONS;
-import static org.opaeum.metamodel.core.internal.TagNames.EVALUATION_INTERVAL;
-import static org.opaeum.metamodel.core.internal.TagNames.FROM_EXPRESSION;
-import static org.opaeum.metamodel.core.internal.TagNames.NOTIFICATIONS;
-import static org.opaeum.metamodel.core.internal.TagNames.POTENTIAL_OWNERS;
-import static org.opaeum.metamodel.core.internal.TagNames.REASSIGNMENT;
-import static org.opaeum.metamodel.core.internal.TagNames.STAKEHOLDERS;
-import static org.opaeum.metamodel.core.internal.TagNames.TEMPLATE_EXPRESSION;
-import static org.opaeum.metamodel.core.internal.TagNames.TIME_OBSERVATIONS;
+import static org.opaeum.metamodel.core.internal.TagNames.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,11 +11,15 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.TagNames;
+import org.opaeum.metamodel.workspace.LibraryType;
 
 public class CreateChildActions{
 	private static UMLPackage pkg = UMLPackage.eINSTANCE;
-	public static Set<DefaultCreateChildAction> ACTIONS = new HashSet<DefaultCreateChildAction>();
+	public static Set<AbstractCreateChildAction> ACTIONS = new HashSet<AbstractCreateChildAction>();
 	public static Set<EReference> CONTROLLED_FEATURES = new HashSet<EReference>();
+	private static MatchingOwner DURATION_BASED_COST_OBSERVATION=new MatchingOwner(pkg.getDurationObservation(), StereotypeNames.DURATION_BASED_COST_OBSERVATION);
+	private static MatchingOwner QUANTITY_BASED_COST_OBSERVATION=new MatchingOwner(pkg.getTimeObservation(), StereotypeNames.QUANTITY_BASED_COST_OBSERVATION);
 	private static MatchingOwner DEADLINE = new MatchingOwner(pkg.getTimeEvent(), StereotypeNames.DEADLINE);
 	private static MatchingOwner CONTEXTUAL_BUSINESS_TIME_EVENT = new MatchingOwner(pkg.getTimeEvent(),
 			StereotypeNames.CONTEXTUAL_BUSINESS_TIME_EVENT);
@@ -57,18 +49,20 @@ public class CreateChildActions{
 	private static final MatchingOwner PACKAGE = new MatchingOwner(pkg.getPackage());
 	private static final MatchingOwner PROFILE = new MatchingOwner(pkg.getProfile());
 	private static final MatchingOwner MODEL = new MatchingOwner(pkg.getModel());
-	public static final Map<String,Set<DefaultCreateChildAction>> FEATURES = new HashMap<String,Set<DefaultCreateChildAction>>();
+	public static final Map<String,Set<AbstractCreateChildAction>> FEATURES = new HashMap<String,Set<AbstractCreateChildAction>>();
 	private static final MatchingOwner OPERATION = new MatchingOwner(pkg.getOperation());
+	private static final MatchingOwner STATEMACHINE = new MatchingOwner(pkg.getStateMachine());
 	private static MatchingOwner[] PACKAGES = {PACKAGE,MODEL};
 	private static MatchingOwner[] DEADLINE_OWNERS = {RESPONSIBILITY,STANDALONE_SINGLSCREEN_TASK,STANDALONE_SCREENFLOW_TASL,BUSINESS_PROCESS};
-	private static MatchingOwner[] NOTIFICATION_OWNERS = {STANDALONE_SINGLSCREEN_TASK,STANDALONE_SCREENFLOW_TASL,BUSINESS_PROCESS};
-	private static MatchingOwner[] OBSERVED = {BUSINESS_STATEMACHINE,STANDALONE_SINGLSCREEN_TASK,STANDALONE_SCREENFLOW_TASL,BUSINESS_PROCESS,
-			STRUCTURED_BUSINESS_NODE};
+	private static MatchingOwner[] NOTIFICATION_OWNERS = {BUSINESS_STATEMACHINE,STANDALONE_SINGLSCREEN_TASK,STANDALONE_SCREENFLOW_TASL,
+			BUSINESS_PROCESS};
+	private static MatchingOwner[] OBSERVED = {new MatchingOwner(pkg.getStateMachine(), "Observed"),BUSINESS_STATEMACHINE,
+			STANDALONE_SINGLSCREEN_TASK,STANDALONE_SCREENFLOW_TASL,BUSINESS_PROCESS,STRUCTURED_BUSINESS_NODE};
 	private static MatchingOwner[] TASKS = {STANDALONE_SINGLSCREEN_TASK,STANDALONE_SCREENFLOW_TASL,BUSINESS_PROCESS};
 	private static MatchingOwner[] INTERVAL_EVALUATED = {CONTEXTUAL_CHANGE_EVENT};
 	private static MatchingOwner[] BUSINESS_CALENDAR_USERS = {DURATION_OBSERVATION,DURATION_EXPRESSION,CONTEXTUAL_BUSINESS_TIME_EVENT,
 			DEADLINE};
-	private static MatchingOwner[] ATTRIBUTE_OWNERS = {BUSINESS_PROCESS,BUSINESS_STATEMACHINE,STANDALONE_SCREENFLOW_TASL,
+	private static MatchingOwner[] ATTRIBUTE_OWNERS = {BUSINESS_PROCESS,BUSINESS_STATEMACHINE,STANDALONE_SCREENFLOW_TASL,STATEMACHINE,
 			STANDALONE_SINGLSCREEN_TASK,ENTITY,BUSINESS_COMPONENT,BUSINESS_DOCUMENT};
 	private static MatchingOwner[] OPERATION_OWNERS = {BUSINESS_PROCESS,BUSINESS_STATEMACHINE,STANDALONE_SCREENFLOW_TASL,
 			STANDALONE_SINGLSCREEN_TASK,ENTITY,BUSINESS_COMPONENT,BUSINESS_DOCUMENT};
@@ -77,8 +71,8 @@ public class CreateChildActions{
 	private static MatchingOwner[] PROCESS_OWNERS = {BUSINESS_PROCESS,BUSINESS_STATEMACHINE,STANDALONE_SCREENFLOW_TASL,ENTITY,
 			BUSINESS_COMPONENT,BUSINESS_DOCUMENT};
 	private static MatchingOwner[] TASK_OWNERS = {BUSINESS_ROLE,BUSINESS_ACTOR,BUSINESS_COMPONENT};
-	private static MatchingOwner[] INVARIANT_OWNERS = {BUSINESS_ROLE,BUSINESS_ACTOR,BUSINESS_COMPONENT,ENTITY,OPERATION,
-		BUSINESS_PROCESS,BUSINESS_STATEMACHINE,STANDALONE_SCREENFLOW_TASL,STANDALONE_SINGLSCREEN_TASK};
+	private static MatchingOwner[] INVARIANT_OWNERS = {BUSINESS_ROLE,BUSINESS_ACTOR,BUSINESS_COMPONENT,ENTITY,OPERATION,BUSINESS_PROCESS,
+			BUSINESS_STATEMACHINE,STANDALONE_SCREENFLOW_TASL,STANDALONE_SINGLSCREEN_TASK};
 	private static MatchingOwner[] CLASSIFIER_BEHAVIOR_OWNERS = {BUSINESS_ROLE,BUSINESS_ACTOR,BUSINESS_COMPONENT,ENTITY};
 	static{
 		CONTROLLED_FEATURES.add(pkg.getClass_NestedClassifier());
@@ -103,10 +97,13 @@ public class CreateChildActions{
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getDataType(), StereotypeNames.STRUCTURED_DATA_TYPE);
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getPrimitiveType());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getDataType(), StereotypeNames.VALUE_TYPE);
+		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getSignal(), StereotypeNames.NOTIFICATION);
 		add(INVARIANT_OWNERS, pkg.getNamespace_OwnedRule().getName(), pkg.getConstraint());
 		add(ATTRIBUTE_OWNERS, pkg.getStructuredClassifier_OwnedAttribute().getName(), pkg.getProperty());
-		add(CLASSIFIER_BEHAVIOR_OWNERS, pkg.getBehavioredClassifier_ClassifierBehavior().getName(), pkg.getStateMachine(), StereotypeNames.BUSINESS_STATE_MACHINE);
-		add(CLASSIFIER_BEHAVIOR_OWNERS, pkg.getBehavioredClassifier_ClassifierBehavior().getName(), pkg.getActivity(), StereotypeNames.BUSINES_PROCESS);
+		add(CLASSIFIER_BEHAVIOR_OWNERS, pkg.getBehavioredClassifier_ClassifierBehavior().getName(), pkg.getStateMachine(),
+				StereotypeNames.BUSINESS_STATE_MACHINE);
+		add(CLASSIFIER_BEHAVIOR_OWNERS, pkg.getBehavioredClassifier_ClassifierBehavior().getName(), pkg.getActivity(),
+				StereotypeNames.BUSINES_PROCESS);
 		add(METHOD_OWNERS, pkg.getBehavioredClassifier_OwnedBehavior().getName(), pkg.getOpaqueBehavior());
 		add(METHOD_OWNERS, pkg.getBehavioredClassifier_OwnedBehavior().getName(), pkg.getActivity(), StereotypeNames.METHOD);
 		add(TASK_OWNERS, pkg.getBehavioredClassifier_OwnedBehavior().getName(), pkg.getOpaqueBehavior(),
@@ -119,24 +116,36 @@ public class CreateChildActions{
 				StereotypeNames.BUSINESS_STATE_MACHINE);
 		add(PROCESS_OWNERS, pkg.getBehavioredClassifier_OwnedBehavior().getName(), pkg.getActivity(), StereotypeNames.BUSINES_PROCESS);
 		add(NOTIFICATION_OWNERS, pkg.getClass_NestedClassifier().getName(), pkg.getSignal(), StereotypeNames.NOTIFICATION);
-		add(SEND_NOTIFICATION_ACTION, FROM_EXPRESSION, pkg.getOpaqueExpression(), StereotypeNames.RECIPIENT_EXPRESSION);
-		add(SEND_NOTIFICATION_ACTION, CC_EXPRESSION, pkg.getOpaqueExpression(), StereotypeNames.RECIPIENT_EXPRESSION);
-		add(SEND_NOTIFICATION_ACTION, BCC_EXPRESSION, pkg.getOpaqueExpression(), StereotypeNames.RECIPIENT_EXPRESSION);
-		add(SEND_NOTIFICATION_ACTION, TEMPLATE_EXPRESSION, pkg.getOpaqueExpression(), StereotypeNames.RECIPIENT_EXPRESSION);
-		add(NOTIFICATION, TEMPLATE_EXPRESSION, pkg.getOpaqueExpression());
-		add(ESCALATION, REASSIGNMENT, pkg.getOpaqueExpression(), StereotypeNames.PARTICIPANT_EXPRESSION);
-		add(DEADLINE_OWNERS, StereotypeNames.DEADLINE, pkg.getTimeEvent());
+		add(SEND_NOTIFICATION_ACTION, FROM_EXPRESSION,  LibraryType.RECIPIENT);
+		add(SEND_NOTIFICATION_ACTION, CC_EXPRESSION, LibraryType.RECIPIENT);
+		add(SEND_NOTIFICATION_ACTION, BCC_EXPRESSION, LibraryType.RECIPIENT);
+		add(NOTIFICATION, TEMPLATE_EXPRESSION, LibraryType.STRING);
+		add(ESCALATION, REASSIGNMENT, LibraryType.PARTICIPANT);
+		add(DEADLINE_OWNERS, TagNames.DEADLINES, pkg.getTimeEvent(), StereotypeNames.DEADLINE);
 		add(ESCALATION, NOTIFICATIONS, pkg.getSendSignalAction(), StereotypeNames.SEND_NOTIFICATION_ACTION);
-		add(DEADLINE_OWNERS, STAKEHOLDERS, pkg.getOpaqueExpression(), StereotypeNames.PARTICIPANT_EXPRESSION);
-		add(TASKS, POTENTIAL_OWNERS, pkg.getOpaqueExpression(), StereotypeNames.PARTICIPANT_EXPRESSION);
-		add(TASKS, BUSINESS_ADMINISTRATORS, pkg.getOpaqueExpression(), StereotypeNames.PARTICIPANT_EXPRESSION);
+		add(DEADLINE_OWNERS, STAKEHOLDERS, LibraryType.PARTICIPANT);
+		add(TASKS, POTENTIAL_OWNERS, LibraryType.PARTICIPANT);
+		add(TASKS, BUSINESS_ADMINISTRATORS, LibraryType.PARTICIPANT);
 		add(OBSERVED, TIME_OBSERVATIONS, pkg.getTimeObservation());
 		add(OBSERVED, DURATION_OBSERVATIONS, pkg.getDurationObservation(), StereotypeNames.BUSINESS_DURATION_OBSERVATION);
-		add(INTERVAL_EVALUATED, EVALUATION_INTERVAL, pkg.getOpaqueExpression(), StereotypeNames.DURATION_EXPRESSION);
-		add(BUSINESS_CALENDAR_USERS, BUSINESS_CALENDAR_TO_USE, pkg.getOpaqueExpression(), StereotypeNames.BUSINESS_CALENDAR_EXPRESSION);
+		add(OBSERVED, DURATION_BASED_COST_OBSERVATIONS, pkg.getDurationObservation(), StereotypeNames.DURATION_BASED_COST_OBSERVATION);
+		add(OBSERVED, QUANTITY_BASED_COST_OBSERVATIONS, pkg.getDurationObservation(), StereotypeNames.QUANTITY_BASED_COST_OBSERVATION);
+		add(INTERVAL_EVALUATED, EVALUATION_INTERVAL, LibraryType.DURATION);
+		add(BUSINESS_CALENDAR_USERS, BUSINESS_CALENDAR_TO_USE, LibraryType.BUSINESS_CALENDAR);
+		add(DURATION_BASED_COST_OBSERVATION,RESOURCES_PAID_FOR, LibraryType.TIMED_RESOURCE);
+		add(DURATION_BASED_COST_OBSERVATION,CONTROLLED_BY, LibraryType.BUSINESS_ROLE);
+		add(QUANTITY_BASED_COST_OBSERVATION,RESOURCES_PAID_FOR, LibraryType.QUANTIFIED_RESOURCE);
+		add(QUANTITY_BASED_COST_OBSERVATION,QUANTITY_EXPRESSION, LibraryType.REAL);
+		add(QUANTITY_BASED_COST_OBSERVATION,CONTROLLED_BY, LibraryType.BUSINESS_ROLE);
 	}
 	private static void add(MatchingOwner[] mo,String f,EClass type,String stereotype){
 		add(new DefaultCreateChildAction(mo, f, type, stereotype));
+	}
+	private static void add(MatchingOwner[] mo,String f,LibraryType libType){
+		add(new CreateTypedExpressionAction(mo, f, libType));
+	}
+	private static void add(MatchingOwner mo,String f,LibraryType libType){
+		add(new CreateTypedExpressionAction(mo, f, libType));
 	}
 	private static void add(MatchingOwner mo,String f,EClass type,String st){
 		add(new DefaultCreateChildAction(mo, f, type, st));
@@ -147,11 +156,11 @@ public class CreateChildActions{
 	private static void add(MatchingOwner[] mo,String f,EClass type){
 		add(new DefaultCreateChildAction(mo, f, type));
 	}
-	private static void add(DefaultCreateChildAction defaultCreateChildAction){
+	private static void add(AbstractCreateChildAction defaultCreateChildAction){
 		ACTIONS.add(defaultCreateChildAction);
-		Set<DefaultCreateChildAction> s = FEATURES.get(defaultCreateChildAction.featureName);
+		Set<AbstractCreateChildAction> s = FEATURES.get(defaultCreateChildAction.featureName);
 		if(s == null){
-			s = new HashSet<DefaultCreateChildAction>();
+			s = new HashSet<AbstractCreateChildAction>();
 			FEATURES.put(defaultCreateChildAction.featureName, s);
 		}
 		s.add(defaultCreateChildAction);

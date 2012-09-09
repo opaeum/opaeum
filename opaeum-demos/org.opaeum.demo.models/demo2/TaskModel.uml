@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+  <uml:Model xmi:id="idModel" name="taskmodel">
+    <eAnnotations xmi:id="_zFzBUPpkEeG_JO94e3r79g" source="http://opaum.org/i8n">
+      <details xmi:id="_3JhVcPpkEeG_JO94e3r79g" key="en_PH" value="Taskmodel"/>
+      <details xmi:id="_-x4N8PpkEeG_JO94e3r79g" key="en_ZA" value="Taskmodel"/>
+      <details xmi:id="_A5qZ0PplEeG_JO94e3r79g" key="xh_ZA" value="ITaskModel"/>
+    </eAnnotations>
+    <packageImport xmi:id="_1CLxIPpGEeG9O5uP0di_pg">
+      <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="idPackage" name="TaskModelPackage">
+      <packagedElement xmi:type="uml:Class" xmi:id="idClass" name="TaskModelClass">
+        <eAnnotations xmi:id="_PggcgPpnEeGZypPs4r0csQ" source="http://opaum.org/i8n">
+          <details xmi:id="_JyGSwPpoEeGZypPs4r0csQ" key="en_ZA" value="Task model class"/>
+        </eAnnotations>
+        <ownedAttribute xmi:id="_F2YLcPplEeG_JO94e3r79g" name="namel">
+          <eAnnotations xmi:id="_l8LYUPpnEeGZypPs4r0csQ" source="http://opaum.org/i8n">
+            <details xmi:id="_l8LYUfpnEeGZypPs4r0csQ" key="en_ZA" value="Name"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:id="_4fEuwPpGEeG9O5uP0di_pg">
+      <eAnnotations xmi:id="_4fIZIPpGEeG9O5uP0di_pg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+    <profileApplication xmi:id="_KnTfcPpHEeG9O5uP0di_pg">
+      <eAnnotations xmi:id="_KnVUoPpHEeG9O5uP0di_pg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+  </uml:Model>
+  <OpaeumStandardProfile:Model xmi:id="_fO4WsPpjEeGO3OiQn0c_YA" persistentName="task_model" mappedImplementationPackage="org.opaeum.taskmodel" isSchema="true" artifactIdentifier="task-model" base_Model="idModel"/>
+  <OpaeumStandardProfile:Entity xmi:id="_E6ACwPplEeG_JO94e3r79g" mappedImplementationType="" base_Class="idClass" persistentName="task_model_class" nameProperty="_F2YLcPplEeG_JO94e3r79g"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_GQpFkPplEeG_JO94e3r79g" base_Property="_F2YLcPplEeG_JO94e3r79g" persistentName="name"/>
+</xmi:XMI>

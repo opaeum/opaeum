@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Type;
 import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfTimeUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
@@ -57,6 +58,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassifier(BehavioredClassifier c){
+		implementIObserver(findJavaClass(c) , EmfTimeUtil.getTimeObservations(c), EmfTimeUtil.getDurationObservations(c));
 		List<Operation> operations = c.getOperations();
 		for(Operation o:operations){
 			if(o.getOwner() == c || o.getOwner() instanceof Interface){

@@ -30,16 +30,16 @@ import org.opaeum.javageneration.persistence.JpaAnnotator;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {DerivedUnionImplementor.class,JpaAnnotator.class,HibernateAnnotator.class})
 // NB!!! needs to execute after all Steps that expect the OJField's presence since it removes the redefined field
+//TODO reverse this logic to only calculate the redefined property
 public class RedefinitionImplementor extends AbstractStructureVisitor{
 	@Override
 	protected int getThreadPoolSize(){
 		return 1;// Works across models
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap map){
+	protected void visitProperty(OJAnnotatedClass c, Classifier owner,PropertyMap map){
 		Property p = map.getProperty();
 		if(p.isNavigable()){
-			OJClass c = findJavaClass(owner);
 			for(Property redefinedProperty:p.getRedefinedProperties()){
 				implementRedefinition(owner, map, c, redefinedProperty);
 			}
@@ -145,6 +145,7 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		o.getBody().addToStatements(ifNotNull);
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass c, Classifier umlOwner){
+		return true;
 	}
 }

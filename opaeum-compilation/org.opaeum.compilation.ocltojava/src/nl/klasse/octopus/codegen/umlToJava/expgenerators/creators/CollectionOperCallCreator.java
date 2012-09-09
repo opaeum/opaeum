@@ -132,22 +132,7 @@ public class CollectionOperCallCreator{
 		return result;
 	}
 	CollectionKind getCollectionKind(OperationCallExp exp){
-		if(exp.getReferredOperation().getUpper() == -1 || exp.getReferredOperation().getUpper() > 1){
-			if(exp.getReferredOperation().isOrdered()){
-				if(exp.getReferredOperation().isUnique()){
-					return CollectionKind.ORDERED_SET_LITERAL;
-				}else{
-					return CollectionKind.SEQUENCE_LITERAL;
-				}
-			}else{
-				if(exp.getReferredOperation().isUnique()){
-					return CollectionKind.SET_LITERAL;
-				}else{
-					return CollectionKind.BAG_LITERAL;
-				}
-			}
-		}
-		return null;
+		return ((CollectionType) exp.getType()).getKind();
 	}
 	private String buildEquals(OperationCallExp exp,String source,List<String> args,boolean isStatic,List<OJParameter> params){
 		CollectionKind collectionKind = getCollectionKind(exp);

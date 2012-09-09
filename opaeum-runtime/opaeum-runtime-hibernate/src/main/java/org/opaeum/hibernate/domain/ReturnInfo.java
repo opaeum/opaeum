@@ -11,7 +11,7 @@ import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable
-public class ReturnInfo extends InterfaceValue{
+public class ReturnInfo extends AbstractInterfaceValue{
 	// HACK!! duplicated the state as Hibernate does not seem to handle
 	// inheritance in embedabbles
 	private Long identifier;

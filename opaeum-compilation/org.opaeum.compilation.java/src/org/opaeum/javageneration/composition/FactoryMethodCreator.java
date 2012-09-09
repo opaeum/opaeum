@@ -30,7 +30,7 @@ import org.opaeum.name.NameConverter;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class})
 public class FactoryMethodCreator extends AbstractStructureVisitor{
 	private void createFactoryMethod(Property pw,OJClass owner){
-		PropertyMap map=ojUtil.buildStructuralFeatureMap(pw);
+		PropertyMap map = ojUtil.buildStructuralFeatureMap(pw);
 		Iterator<OJOperation> ops = owner.getOperations().iterator();
 		OJOperation creator = null;
 		String createOperName = "create" + NameConverter.capitalize(NameConverter.toJavaVariableName(pw.getName()));
@@ -51,7 +51,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		}
 		creator.setReturnType(map.javaBaseTypePath());
 		OJBlock body = new OJBlock();
-		body.addToStatements(map.javaBaseType()+ " newInstance= new " + map.javaBaseType() + "()");
+		body.addToStatements(map.javaBaseType() + " newInstance= new " + map.javaBaseType() + "()");
 		for(Property p:pw.getQualifiers()){
 			PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 			body.addToStatements("newInstance." + m.setter() + "(" + m.fieldname() + ")");
@@ -71,21 +71,19 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		creator.setBody(body);
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap map){
+	protected void visitProperty(OJAnnotatedClass myOwner,Classifier owner,PropertyMap map){
 		Property aw = map.getProperty();
-		OJAnnotatedClass myOwner = findJavaClass(owner);
-		if(!EmfPropertyUtil.isDerived( aw) && isPersistent(map.getBaseType()) && aw.isComposite() && !((Classifier) map.getBaseType()).isAbstract()){
+		if(!EmfPropertyUtil.isDerived(aw) && isPersistent(map.getBaseType()) && aw.isComposite()
+				&& !((Classifier) map.getBaseType()).isAbstract()){
 			createFactoryMethod(aw, myOwner);
 		}
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
-		if(ojUtil.hasOJClass(umlOwner)){
-			for(Property p:getLibrary().getEffectiveAttributes(umlOwner)){
-				if(p.getOwner() instanceof Interface){
-					visitProperty(umlOwner, ojUtil.buildStructuralFeatureMap(p));
-				}
-			}
-		}
+	protected void visitInterfaceProperty(OJAnnotatedClass oj,Interface owner,PropertyMap map){
+		visitProperty(oj, owner, map);
+	}
+	@Override
+	protected boolean visitComplexStructure(OJAnnotatedClass c, Classifier umlOwner){
+		return true;
 	}
 }

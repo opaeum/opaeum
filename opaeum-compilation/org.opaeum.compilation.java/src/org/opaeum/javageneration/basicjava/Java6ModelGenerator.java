@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Signal;
+import org.eclipse.uml2.uml.StateMachine;
 import org.opaeum.eclipse.CodeGenerationStrategy;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;
@@ -69,8 +70,9 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		return 1;// adds too many entries to shared non-synchronized collections;
 	}
 	@Override
-	protected void visitComplexStructure(Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass oc, Classifier umlOwner){
 		visitClass(umlOwner);
+		return false;
 	}
 	protected boolean ignoreDeletedElements(){
 		return false;
@@ -203,7 +205,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
+	protected void visitProperty(OJAnnotatedClass c, Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	private synchronized TextFile createTextPath(JavaSourceKind kind,OJAnnotatedClass c,ISourceFolderIdentifier id){
 		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);

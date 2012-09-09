@@ -20,16 +20,17 @@ import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.SignalEvent;
-import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Type;
 import org.opaeum.eclipse.EmfActionUtil;
@@ -40,7 +41,6 @@ import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.eclipse.EmfReceptionUtil;
-import org.opaeum.eclipse.ResponsibilityDefinitionImpl;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -50,7 +50,6 @@ import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
@@ -67,6 +66,7 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.ocl.uml.ResponsibilityDefinition;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeImplementor.class,SuperTypeGenerator.class},after = {
@@ -78,30 +78,47 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			processBehavior(o);
 		}
 	}
-	private void processBehavior(Behavior o){
-		if(o.getName().equals("ApplyUserWorkspaceTask")){
-			System.out.println();
-		}
-		if(ojUtil.hasOJClass(o.getContext()) && !EmfBehaviorUtil.isClassifierBehavior(o) && o.getOwner() instanceof Classifier){
+	private void processBehavior(Behavior b){
+		OperationMap map = ojUtil.buildOperationMap(b);
+		if(ojUtil.hasOJClass(b.getContext()) && !EmfBehaviorUtil.isClassifierBehavior(b) && b.getOwner() instanceof Classifier){
 			// DO not do effects, state actions or classifier behavior - will be
 			// invoked elsewhere
-			if(o.getSpecification() == null || !o.getName().equals(o.getSpecification().getName())
-					|| !o.getContext().equals(o.getSpecification().getOwner())){
+			if(b.getSpecification() == null || !b.getName().equals(b.getSpecification().getName())
+					|| !b.getContext().equals(b.getSpecification().getOwner())){
 				// if the specification has a different name to to behavior or the specificatoin is in a
 				// superclass/interface,
 				// we need to create a matching OJOperation
-				OJAnnotatedOperation oper = createOperation(o.getContext(), o, findJavaClass(o.getContext()));
-				if(EmfBehaviorUtil.hasExecutionInstance(o)){
-					ClassifierMap cmap = ojUtil.buildClassifierMap(o, (CollectionKind) null);
+				OJAnnotatedOperation oper = createOperation(b.getContext(), b, findJavaClass(b.getContext()));
+				if(EmfBehaviorUtil.hasExecutionInstance(b)){
+					ClassifierMap cmap = ojUtil.buildClassifierMap(b, (CollectionKind) null);
 					oper.setReturnType(cmap.javaTypePath());
 				}
 			}
+			for(Behavior rb:b.getRedefinedBehaviors()){
+				if(rb.getContext() != b.getContext()){
+					OJAnnotatedOperation oper = createOperation(b.getContext(), rb, findJavaClass(b.getContext()));
+					if(oper.getReturnType() == null){
+						oper.getBody().addToStatements(map.javaOperName() + "(" + delegateParameters(oper) + ")");
+					}else{
+						oper.initializeResultVariable(map.javaOperName() + "(" + delegateParameters(oper) + ")");
+					}
+					if(EmfBehaviorUtil.hasExecutionInstance(b)){
+						ClassifierMap cmap = ojUtil.buildClassifierMap(b, (CollectionKind) null);
+						oper.setReturnType(cmap.javaTypePath());
+					}
+				}
+			}
 		}
-		if((EmfBehaviorUtil.isProcess(o) || EmfBehaviorUtil.isStandaloneTask(o))){
-			createCallbackListener(o, o);
+		if((EmfBehaviorUtil.isProcess(b) || EmfBehaviorUtil.isStandaloneTask(b))){
+			OJAnnotatedInterface listener = createCallbackListener(b, b);
+			if(b.getSpecification() != null){
+				listener.addToSuperInterfaces(ojUtil.buildOperationMap(b.getSpecification()).callbackListenerPath());
+			}else if(b.getGenerals().size() > 0 && b.getGenerals().get(0) instanceof Behavior){
+				listener.addToSuperInterfaces(ojUtil.buildOperationMap(b.getGenerals().get(0)).callbackListenerPath());
+			}
 		}
-		if(o instanceof Activity){
-			Activity a = (Activity) o;
+		if(b instanceof Activity){
+			Activity a = (Activity) b;
 			for(ActivityNode n:EmfActivityUtil.getActivityNodesRecursively(a)){
 				if(EmfActionUtil.isSingleScreenTask(n)){
 					visitClass(getLibrary().getMessageStructure((OpaqueAction) n));
@@ -123,11 +140,10 @@ public class OperationAnnotator extends StereotypeAnnotator{
 						getSelf.setVisibility(OJVisibilityKind.PRIVATE);
 						getSelf.initializeResultVariable("getContextObject()");
 						visitClass(getLibrary().getMessageStructure(o));// why???
-						createCallbackListener(o, getLibrary().getMessageStructure(o));
+						if(EmfBehaviorUtil.isLongRunning(o)){
+							createCallbackListener(o, getLibrary().getMessageStructure(o));
+						}
 					}
-				}
-				if(o.getName().equals("applyUserWorkspace")){
-					System.out.println();
 				}
 				OperationMap operationMap = ojUtil.buildOperationMap(o);
 				OJAnnotatedOperation oper1 = findOrCreateOperation(c, ojClass, operationMap, operationMap.isLongRunning());
@@ -168,6 +184,13 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			eventGenerator = new OJAnnotatedOperation(operationMap.eventGeratorMethodName());
 			ojClass.addToOperations(eventGenerator);
 			addParameters(c, eventGenerator, operationMap.getArgumentParameters());
+			if(operationMap.getNamedElement() instanceof Operation){
+				Operation oper = (Operation) operationMap.getNamedElement();
+				for(Operation rd:oper.getRedefinedOperations()){
+					OperationMap rdom = ojUtil.buildOperationMap(rd);
+					eventGenerator.getBody().addToStatements(rdom.eventGeratorMethodName() + "(" + delegateParameters(eventGenerator) + ")");
+				}
+			}
 		}
 		return eventGenerator;
 	}
@@ -331,60 +354,53 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	private void createCallbackListener(NamedElement no,Classifier message){
+	private OJAnnotatedInterface createCallbackListener(Namespace no,Classifier message){
 		OperationMap map = ojUtil.buildOperationMap(no);
-		if(map.isLongRunning()){
-			if(!map.hasContract()){
-				OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
-				if(no instanceof Behavior && ((Behavior) no).getSpecification()!=null){
-					listener.addToSuperInterfaces(ojUtil.buildOperationMap(((Behavior) no).getSpecification()).callbackListenerPath());
-				}
-				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
-				listener.setMyPackage(pack);
-				OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
-				callBackOper.addParam("callingToken", BpmUtil.ITOKEN);
-				callBackOper.addParam("completedProcess", map.messageStructurePath());
-				listener.addToOperations(callBackOper);
-				List<? extends Parameter> exceptionParameters = map.getExceptionParameters();
-				for(Parameter e:exceptionParameters){
-					OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
-					exceptionOper.addParam("callingToken", BpmUtil.ITOKEN);
-					exceptionOper.addParam("failedProcess", map.messageStructurePath());
-					listener.addToOperations(exceptionOper);
-				}
-				Collection<TimeEvent> deadlines=null;
-				for(EObject sa:no.getStereotypeApplications()){
-					EStructuralFeature f = sa.eClass().getEStructuralFeature(TagNames.DEADLINES);
-					if(f!=null){
-						deadlines=(Collection<TimeEvent>) sa.eGet(f);
-					}
-				}
-				if(deadlines!=null){
-					for(TimeEvent timeEvent:deadlines){
-						OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(eventUtil.getEventConsumerName(timeEvent), new OJPathName("boolean"));
-						exceptionOper.addParam("date", new OJPathName("java.util.Date"));
-						exceptionOper.addParam("responsibility", map.messageStructurePath());
-						listener.addToOperations(exceptionOper);
-					}
-				}
-				if(no instanceof Operation){
-					Collection<Type> raisedExceptions = ((Operation) no).getRaisedExceptions();
-					for(Type e:raisedExceptions){
-						OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
-						exceptionOper.addParam("callingToken", BpmUtil.ITOKEN);
-						exceptionOper.addParam("exception", e.getName());
-						listener.addToImports(ojUtil.classifierPathname((Classifier) e));
-						exceptionOper.addParam("failedProcess", map.messageStructurePath());
-						listener.addToOperations(exceptionOper);
-					}
-				}
-				OJAnnotatedOperation unhandledExceptionHandler = new OJAnnotatedOperation(map.unhandledExceptionOperName());
-				unhandledExceptionHandler.addParam("callingToken", BpmUtil.ITOKEN);
-				unhandledExceptionHandler.addParam("exception", new OJPathName("Object"));
-				unhandledExceptionHandler.addParam("completedProcess", map.messageStructurePath());
-				listener.addToOperations(unhandledExceptionHandler);
-				super.createTextPath(listener, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+		OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
+		OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
+		listener.setMyPackage(pack);
+		OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
+		callBackOper.addParam("callingToken", BpmUtil.ITOKEN);
+		callBackOper.addParam("completedProcess", map.messageStructurePath());
+		listener.addToOperations(callBackOper);
+		List<? extends Parameter> exceptionParameters = map.getExceptionParameters();
+		for(Parameter e:exceptionParameters){
+			OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
+			exceptionOper.addParam("callingToken", BpmUtil.ITOKEN);
+			exceptionOper.addParam("failedProcess", map.messageStructurePath());
+			listener.addToOperations(exceptionOper);
+		}
+		ResponsibilityDefinition rd = getLibrary().getResponsibilityDefinition(no, StereotypeNames.STANDALONE_SCREENFLOW_TASK,
+				StereotypeNames.RESPONSIBILITY, StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK);
+		for(TimeEvent timeEvent:rd.getDeadlines()){
+			OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(eventUtil.getEventConsumerName(timeEvent), new OJPathName("boolean"));
+			exceptionOper.addParam("date", new OJPathName("java.util.Date"));
+			exceptionOper.addParam("responsibility", map.messageStructurePath());
+			listener.addToOperations(exceptionOper);
+		}
+		for(Constraint constraint:rd.getConditionEscalations()){
+			OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(eventUtil.getEventConsumerName(constraint), new OJPathName("boolean"));
+			exceptionOper.addParam("date", new OJPathName("java.util.Date"));
+			exceptionOper.addParam("responsibility", map.messageStructurePath());
+			listener.addToOperations(exceptionOper);
+		}
+		if(no instanceof Operation){
+			Collection<Type> raisedExceptions = ((Operation) no).getRaisedExceptions();
+			for(Type e:raisedExceptions){
+				OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
+				exceptionOper.addParam("callingToken", BpmUtil.ITOKEN);
+				exceptionOper.addParam("exception", e.getName());
+				listener.addToImports(ojUtil.classifierPathname((Classifier) e));
+				exceptionOper.addParam("failedProcess", map.messageStructurePath());
+				listener.addToOperations(exceptionOper);
 			}
 		}
+		OJAnnotatedOperation unhandledExceptionHandler = new OJAnnotatedOperation(map.unhandledExceptionOperName());
+		unhandledExceptionHandler.addParam("callingToken", BpmUtil.ITOKEN);
+		unhandledExceptionHandler.addParam("exception", new OJPathName("Object"));
+		unhandledExceptionHandler.addParam("completedProcess", map.messageStructurePath());
+		listener.addToOperations(unhandledExceptionHandler);
+		super.createTextPath(listener, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+		return listener;
 	}
 }

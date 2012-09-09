@@ -208,7 +208,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 			OJPathName waitingClass = ojUtil.classifierPathname(action);
 			ojBehavior.addToImports(waitingClass);
 			if(EmfActivityUtil.getAllEffectiveIncoming(action).isEmpty()){
-				// check if the activityNodeContainer of this action is active and create a new token
+				// TODO check if the activityNodeContainer of this action is active and create a new token
 			}else{
 				String condition = "result==false && token.isActive() && token.getCurrentExecutionElement() instanceof " + waitingClass.getName();
 				OJIfStatement ifMatchFound = new OJIfStatement(condition);

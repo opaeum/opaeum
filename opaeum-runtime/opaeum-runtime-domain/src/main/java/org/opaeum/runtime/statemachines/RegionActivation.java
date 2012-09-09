@@ -70,6 +70,7 @@ public abstract class RegionActivation<SME extends IStateMachineExecution,T exte
 	@SuppressWarnings("unchecked")
 	public void enter(T token,VertexActivation<? extends SME,? extends T> target){
 		token = ((T) getStateMachineExecution().createToken(token));
+		super.onEntry(token);
 		
 		for(VertexActivation<? extends SME,? extends T> v:vertices){
 			if(v == target){

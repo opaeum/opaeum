@@ -96,16 +96,16 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 			}
 		}
 	}
-	private void implementInterfacesIfNecessary(Object newValue){
+	public static void implementInterfacesIfNecessary(Object newValue){
 		if(newValue instanceof Activity){
-			implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINES_PROCESS, StereotypeNames.PKG_REQUEST);
+			implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINES_PROCESS, StereotypeNames.PKG_REQUEST_OBJECT);
 		}
 		if(newValue instanceof OpaqueBehavior){
-			implementAppropriateInterface((Element) newValue, StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK, StereotypeNames.PKG_REQUEST);
+			implementAppropriateInterface((Element) newValue, StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK, StereotypeNames.PKG_REQUEST_OBJECT);
 		}
 		if(newValue instanceof StateMachine){
-			implementAppropriateInterface((Element) newValue, StereotypeNames.STANDALONE_SCREENFLOW_TASK, StereotypeNames.PKG_REQUEST);
-			implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS_STATE_MACHINE, StereotypeNames.PKG_REQUEST);
+			implementAppropriateInterface((Element) newValue, StereotypeNames.STANDALONE_SCREENFLOW_TASK, StereotypeNames.PKG_REQUEST_OBJECT);
+			implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS_STATE_MACHINE, StereotypeNames.PKG_REQUEST_OBJECT);
 		}
 		if(newValue instanceof Signal){
 			implementAppropriateInterface((Element) newValue, StereotypeNames.NOTIFICATION, StereotypeNames.PKG_DOCUMENT);

@@ -18,17 +18,18 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.eclipse.commands.ApplyProfileCommand;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedPropertySection{
-	private Stereotype stereotype;
 	private Button check;
 	private Label label;
-	private EStructuralFeature feature;
 	public AbstractBooleanOnStereotypeSection(){
 		super();
 	}
@@ -36,7 +37,7 @@ public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedP
 	protected abstract Element getElement(EObject eObject);
 	protected abstract String getAttributeName();
 	protected abstract String getProfileName();
-	protected abstract String getStereotypeName();
+	protected abstract String getStereotypeName(Element element);
 	@Override
 	protected EStructuralFeature getFeature(){
 		return null;
@@ -44,44 +45,35 @@ public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedP
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		Element element = getElement(getEObject());
-		Profile appliedProfile = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
-		if(appliedProfile != null){
-			this.stereotype = appliedProfile.getOwnedStereotype(getStereotypeName());
-			this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
-		}
 	}
 	@Override
 	public void refresh(){
 		super.refresh();
-		if(stereotype == null){
-			check.setEnabled(false);
+		List<EObject> eObjectList = getEObjectList();
+		Boolean isGreyed = Boolean.FALSE;
+		Boolean selection = null;
+		for(EObject eObject:eObjectList){
+			Boolean value = null;
+			Element element = getElement(eObject);
+			Stereotype stereotype = StereotypesHelper.getStereotype(element, getStereotypeName(element));
+			if(stereotype != null){
+				value = (Boolean) element.getValue(stereotype, getAttributeName());
+			}
+			if(value == null){
+				value = getDefaultValue();
+			}
+			if(selection == null){
+				selection = value;
+			}else if(!selection.equals(value)){
+				isGreyed = true;
+				break;
+			}
+		}
+		if(isGreyed){
+			check.setGrayed(true);
+			check.setSelection(true);
 		}else{
-			check.setEnabled(true);
-			List<EObject> eObjectList = getEObjectList();
-			Boolean isGreyed = Boolean.FALSE;
-			Boolean selection = null;
-			for(EObject eObject:eObjectList){
-				Boolean value = null;
-				if(getElement(eObject).isStereotypeApplied(stereotype)){
-					value = (Boolean) getElement(eObject).getValue(stereotype, getAttributeName());
-				}
-				if(value == null){
-					value = getDefaultValue();
-				}
-				if(selection == null){
-					selection = value;
-				}else if(!selection.equals(value)){
-					isGreyed = true;
-					break;
-				}
-			}
-			if(isGreyed){
-				check.setGrayed(true);
-				check.setSelection(true);
-			}else{
-				check.setSelection(selection);
-			}
+			check.setSelection(selection);
 		}
 	}
 	@Override
@@ -111,11 +103,19 @@ public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedP
 				CompoundCommand cc = new CompoundCommand();
 				List<EObject> list = getEObjectList();
 				for(EObject eObject:list){
-					if(!getElement(eObject).isStereotypeApplied(stereotype)){
-						cc.append(new ApplyStereotypeCommand(getElement(eObject), stereotype));
+					Element element = getElement(eObject);
+					Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
+					if(p == null){
+						Package pkg = element.getModel() == null ? element.getNearestPackage() : element.getModel();
+						getEditingDomain().getCommandStack().execute(
+								new ApplyProfileCommand(pkg, p = ProfileApplier.getProfile(element, getProfileName()), false));
 					}
-					cc.append(SetCommand.create(getEditingDomain(), getElement(eObject).getStereotypeApplication(stereotype), feature,
-							check.getSelection()));
+					Stereotype stereotype = p.getOwnedStereotype(getStereotypeName(element));
+					EStructuralFeature feature = stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+					if(!element.isStereotypeApplied(stereotype)){
+						getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(element, stereotype));
+					}
+					cc.append(SetCommand.create(getEditingDomain(), element.getStereotypeApplication(stereotype), feature, check.getSelection()));
 				}
 				getEditingDomain().getCommandStack().execute(cc);
 			}

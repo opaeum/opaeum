@@ -1,12 +1,27 @@
 package org.opaeum.eclipse;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Currency;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.layout.GridData;
@@ -17,6 +32,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
@@ -33,6 +51,8 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	private List lstTransformationSteps;
 	private OpaeumConfig config;
 	private VersionText txtNewVersionNumber;
+	private CheckboxTableViewer localeTableViewer;
+	private ComboViewer currencyComboViewer;
 	public OpaeumConfigDialog(Shell shell,OpaeumConfig config){
 		super(shell);
 		this.config = config;
@@ -46,6 +66,86 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	}
 	protected Control createDialogArea(Composite parent){
 		Composite composite = (Composite) super.createDialogArea(parent);
+		TabFolder tabFolder = new TabFolder(composite, SWT.BOTTOM);
+		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		TabItem generalItem = new TabItem(tabFolder, SWT.NONE);
+		generalItem.setControl(createGeneralTab(tabFolder));
+		generalItem.setText("General");
+		TabItem i8nItem = new TabItem(tabFolder, SWT.NONE);
+		i8nItem.setControl(createI8nTab(tabFolder));
+		i8nItem.setText("Internationalization");
+		return composite;
+	}
+	private Control createI8nTab(TabFolder composite){
+		Composite panel = new Composite(composite, 0);
+		panel.setLayout(new GridLayout(2, true));
+		new Label(panel, 0).setText("Supported Locales");
+		this.localeTableViewer = new CheckboxTableViewer(new Table(panel, SWT.CHECK));
+		this.localeTableViewer.getTable().setHeaderVisible(true);
+		this.localeTableViewer.getTable().setLinesVisible(true);
+		TableViewerColumn country = new TableViewerColumn(localeTableViewer, SWT.NONE);
+		country.getColumn().setResizable(true);
+		country.getColumn().setText("Country");
+		country.getColumn().setWidth(200);
+		country.setLabelProvider(new CellLabelProvider(){
+			@Override
+			public void update(ViewerCell cell){
+				cell.setText(((Locale) cell.getElement()).getDisplayCountry());
+			}
+		});
+		TableViewerColumn language = new TableViewerColumn(localeTableViewer, SWT.NONE);
+		language.setLabelProvider(new CellLabelProvider(){
+			@Override
+			public void update(ViewerCell cell){
+				cell.setText(((Locale) cell.getElement()).getDisplayLanguage());
+			}
+		});
+		language.getColumn().setText("Language");
+		language.getColumn().setWidth(200);
+		localeTableViewer.addCheckStateListener(new ICheckStateListener(){
+			@Override
+			public void checkStateChanged(CheckStateChangedEvent event){
+				updateCurrencyCombo();
+			}
+		});
+		localeTableViewer.setContentProvider(new ArrayContentProvider());
+		java.util.List<Locale> availableLocales = OpaeumConfig.getAvailableLocales();
+		localeTableViewer.setInput(availableLocales);
+		localeTableViewer.setCheckedElements(config.getSupportedLocales().toArray());
+		localeTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		localeTableViewer.setInput(availableLocales);
+		new Label(panel, 0).setText("Default Currency");
+		this.currencyComboViewer = new ComboViewer(new CCombo(panel, SWT.BORDER));
+		this.currencyComboViewer.setContentProvider(new ArrayContentProvider());
+		updateCurrencyCombo();
+		currencyComboViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		return panel;
+	}
+	protected void updateCurrencyCombo(){
+		Object[] checkedElements = localeTableViewer.getCheckedElements();
+		java.util.SortedSet<Currency> cc = new TreeSet<Currency>(new Comparator<Currency>(){
+
+			@Override
+			public int compare(Currency o1,Currency o2){
+				return o1.getCurrencyCode().compareTo(o2.getCurrencyCode());
+			}
+		});
+		for(Object object:checkedElements){
+			Currency c = Currency.getInstance((Locale) object);
+			if(c != null){
+				cc.add(c);
+			}
+		}
+		ISelection selection;
+		if(this.currencyComboViewer.getSelection().isEmpty()){
+			selection=new StructuredSelection(config.getDefaultCurrency());
+		}else{
+			selection=this.currencyComboViewer.getSelection();
+		}
+		this.currencyComboViewer.setInput(cc);
+		this.currencyComboViewer.setSelection(selection);
+	}
+	protected Composite createGeneralTab(TabFolder composite){
 		Composite panel = new Composite(composite, 0);
 		panel.setLayout(new GridLayout(2, true));
 		new Label(panel, 0).setText("Project Name");
@@ -91,7 +191,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 				lstTransformationSteps.select(i);
 			}
 		}
-		return composite;
+		return panel;
 	}
 	private String getDomainName(){
 		if(config.getMavenGroupId().length() == 0){
@@ -108,6 +208,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 			return sb.toString();
 		}
 	}
+	@SuppressWarnings({"rawtypes","unchecked"})
 	public void okPressed(){
 		config.loadDefaults(txtWorkspaceIdentifier.getText());
 		String domain = txtCompanyDomain.getText();
@@ -131,6 +232,8 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		config.setWorkspaceIdentifier(txtWorkspaceIdentifier.getText());
 		config.setGenerateMavenPoms(this.chkGeneratePoms.getSelection());
 		config.setAutoSync(this.chkAutoSync.getSelection());
+		config.setDefaultCurrency((Currency) ((IStructuredSelection) currencyComboViewer.getSelection()).getFirstElement());
+		config.setSupportedLocales((java.util.List) Arrays.asList(localeTableViewer.getCheckedElements()));
 		config.store();
 		super.okPressed();
 	}

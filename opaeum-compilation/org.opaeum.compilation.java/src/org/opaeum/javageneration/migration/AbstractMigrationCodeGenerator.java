@@ -12,6 +12,7 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.runtime.environment.VersionNumber;
@@ -26,7 +27,7 @@ public abstract class AbstractMigrationCodeGenerator extends AbstractStructureVi
 	}
 	protected EmfWorkspace fromWorkspace;
 	@Override
-	protected abstract void visitComplexStructure(Classifier umlOwner);
+	protected abstract boolean visitComplexStructure(OJAnnotatedClass oj, Classifier umlOwner);
 	protected final OJPathName migratorPath(Classifier toClass){
 		OJPathName pkg = ojUtil.packagePathname(toClass.getNamespace()).getCopy();
 		pkg.addToNames(toClass.getName() + getFromVersion().getSuffix() + "Migrator");
@@ -46,7 +47,7 @@ public abstract class AbstractMigrationCodeGenerator extends AbstractStructureVi
 		}
 	}
 	@Override
-	protected void visitProperty(Classifier owner,PropertyMap buildStructuralFeatureMap){
+	protected void visitProperty(OJAnnotatedClass oj, Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	public void initialize(OpaeumConfig config,OJWorkspace javaModel,TextWorkspace textWorkspace,MigrationWorkspace workspace){
 		super.javaModel = javaModel;

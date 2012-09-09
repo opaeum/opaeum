@@ -111,7 +111,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 			for(Control control:group.getChildren()){
 				control.dispose();
 			}
-			OpaeumEclipseContext ctx = OpaeumEclipseContext.getCurrentContext();
+			OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(file.getParent());
 			if(markers.isEmpty() || ctx == null || ctx.getCurrentEmfWorkspace() == null){
 				hide();
 			}else{

@@ -1,7 +1,6 @@
 package org.opaeum.javageneration.bpm;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -15,33 +14,40 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
+
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.ChangeEvent;
-import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.MessageEvent;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Observation;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.TimeObservation;
 import org.eclipse.uml2.uml.Trigger;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.eclipse.EmfTimeUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.java.metamodel.OJAnnonymousInnerClass;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -52,14 +58,17 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.maps.IMessageMap;
 import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.TagNames;
 import org.opaeum.name.NameConverter;
+import org.opaeum.ocl.uml.OpaqueExpressionContext;
+import org.opaeum.runtime.domain.BusinessTimeUnit;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -69,26 +78,6 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace,OJUtil ojUtil){
 		super.initialize(pac, config, textWorkspace, workspace, ojUtil);
 		operationAnnotator.initialize(pac, config, textWorkspace, workspace, ojUtil);
-	}
-	protected OJOperation implementExecute(OJAnnotatedClass ojClass,Classifier oc){
-		OJOperation execute = new OJAnnotatedOperation("execute");
-		ojClass.addToOperations(execute);
-		// add executedOn property for sorting purposes
-		OJAnnotatedField f = OJUtil.addPersistentProperty(ojClass, "executedOn", new OJPathName(Date.class.getName()), true);
-		if(isPersistent(oc)){
-			OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
-			column.putAttribute(new OJAnnotationAttributeValue("name", "executed_on"));
-			f.putAnnotation(column);
-			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"), new OJEnumValue(new OJPathName(
-					"javax.persistence.TemporalType"), "TIMESTAMP"));
-			f.putAnnotation(temporal);
-		}
-		execute.getBody().addToStatements("setExecutedOn(new Date())");
-		if(oc instanceof Behavior && ((Behavior) oc).getPreconditions().size() > 0){
-			execute.getBody().addToStatements("evaluatePreconditions()");
-			OJUtil.addFailedConstraints(execute);
-		}
-		return execute;
 	}
 	protected OJAnnotatedOperation createEventConsumerSignature(Behavior behavior,OJAnnotatedClass activityClass,Event event){
 		if(event instanceof MessageEvent){
@@ -274,9 +263,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 		tokensOneToMany.putAttribute("mappedBy", "behaviorExecution");
 	}
 	private void buildGetExecutionElements(Behavior behavior,OJAnnotatedClass ojStateMachine){
-		OJPathName map = new OJPathName("java.util.Map");
-		map.addToElementTypes(new OJPathName("String"));
-		map.addToElementTypes(BpmUtil.IEXECUTION_ELEMENT);
+		OJPathName map = mapOfExecutionElements();
 		OJAnnotatedField executionElements = new OJAnnotatedField("executionElements", map);
 		executionElements.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
 		ojStateMachine.addToFields(executionElements);
@@ -286,6 +273,13 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 		OJIfStatement ifNull = new OJIfStatement("executionElements==null", newExecutionElements);
 		getExecutionElement.getBody().addToStatements(ifNull);
 		initializeExecutionElements(behavior, ojStateMachine, ifNull);
+		if(EmfTimeUtil.getTimeObservations(behavior).size()+EmfTimeUtil.getDurationObservations(behavior).size()>0){
+			ifNull.getThenPart().addToStatements("registerObservations(executionElements)");
+		}
+		ojStateMachine.addToImports(BpmUtil.IOBSERVER);
+		OJIfStatement ifObserver = new OJIfStatement("getOwningObject() instanceof " + BpmUtil.IOBSERVER.getLast(), "(("
+				+ BpmUtil.IOBSERVER.getLast() + ")getOwningObject()).registerObservations(executionElements)");
+		ifNull.getThenPart().addToStatements(ifObserver);
 		ojStateMachine.addToOperations(getExecutionElement);
 	}
 	protected void implementIProcessStep(OJAnnotatedClass ojStep,NamedElement ne,Collection<Trigger> methodTriggers){

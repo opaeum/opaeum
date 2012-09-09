@@ -11,16 +11,19 @@ import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.CallAction;
+import org.eclipse.uml2.uml.CallBehaviorAction;
+import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.ControlNode;
+import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
-import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
@@ -184,9 +187,14 @@ public class ActivityValidator extends AbstractValidator{
 			getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS, action.getActivity());
 		}else if(action instanceof AcceptEventAction){
 			getErrorMap().putError(action, ActivityValidationRule.ACCEPT_EVENT_ACTION_ONLY_IN_PROCESS, action.getActivity());
-		}else if(action instanceof CallAction){
-			CallAction callAction = (CallAction) action;
-			if(EmfActionUtil.isLongRunning(callAction)){
+		}else if(action instanceof CallBehaviorAction){
+			CallBehaviorAction callAction = (CallBehaviorAction) action;
+			if( callAction.getBehavior()!=null &&  EmfBehaviorUtil.isLongRunning(callAction.getBehavior())){
+				getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS);
+			}
+		}else if(action instanceof CallOperationAction){
+			CallOperationAction callAction = (CallOperationAction) action;
+			if( callAction.getOperation()!=null && EmfBehaviorUtil.isLongRunning(callAction.getOperation())){
 				getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS);
 			}
 		}

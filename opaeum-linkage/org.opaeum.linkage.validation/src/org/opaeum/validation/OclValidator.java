@@ -48,8 +48,7 @@ public class OclValidator extends AbstractValidator{
 						Type expectedType = o.getReturnResult().getType();
 						if(o.getReturnResult() != null && expectedType != null)
 							if(!EmfClassifierUtil.conformsTo(baseType, (Classifier) expectedType)){
-								workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE,
-										expectedType, baseType);
+								workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, expectedType, baseType);
 							}
 					}else if(!EmfClassifierUtil.comformsToLibraryType(baseType, "Boolean")){
 						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getBooleanType(),
@@ -65,21 +64,6 @@ public class OclValidator extends AbstractValidator{
 							&& !(EmfClassifierUtil.conformsTo(type, getLibrary().getDateTimeType()) || EmfClassifierUtil.conformsTo(type, getLibrary()
 									.getDateType()))){
 						workspace.getErrorMap().putError(expr, CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getDateTimeType(), type);
-					}
-				}else if(StereotypesHelper.hasStereotype(p, StereotypeNames.PARTICIPANT_EXPRESSION)){
-					if(!EmfClassifierUtil.conformsTo((Classifier) baseType, getLibrary().getParticipant())){
-						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getParticipant(),
-								baseType);
-					}
-				}else if(StereotypesHelper.hasStereotype(p, StereotypeNames.RECIPIENT_EXPRESSION)){
-					if(!EmfClassifierUtil.conformsTo((Classifier) baseType, getLibrary().getNotificationReceiver())){
-						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE,
-								getLibrary().getNotificationReceiver(), baseType);
-					}
-				}else if(StereotypesHelper.hasStereotype(p, StereotypeNames.BUSINESS_CALENDAR_EXPRESSION)){
-					if(!EmfClassifierUtil.conformsTo((Classifier) baseType, getLibrary().getBusinessCalendar())){
-						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE,
-								getLibrary().getBusinessCalendar(), baseType);
 					}
 				}else if(p.eContainingFeature().getName().equals("defaultValue")){
 					Property prop = (Property) p.getOwner();
@@ -104,6 +88,11 @@ public class OclValidator extends AbstractValidator{
 							workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, linkedTypedElement.getType(),
 									baseType);
 						}
+					}
+				}else if(p.getType() != null){
+					if(!EmfClassifierUtil.conformsTo(baseType, (Classifier) p.getType())){
+						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, p.getType(),
+								baseType);
 					}
 				}
 			}

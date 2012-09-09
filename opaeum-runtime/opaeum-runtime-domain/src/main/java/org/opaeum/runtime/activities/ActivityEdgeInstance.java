@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ActivityEdgeInstance<AE extends IActivityNodeContainerExecution,T extends IActivityToken<AE>> implements
+public class ActivityEdgeInstance<AE extends IActivityNodeContainerExecution,T extends IActivityToken<AE>> extends ActivityExecutionElement implements
 		IActivityEdgeInstance<AE,T>{
 	public AE group = null;
 	public ActivityNodeActivation<AE,T> source = null;

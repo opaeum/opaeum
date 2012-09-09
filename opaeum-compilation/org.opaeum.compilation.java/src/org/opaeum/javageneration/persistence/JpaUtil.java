@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Class;
@@ -29,6 +32,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.name.NameConverter;
 
 public class JpaUtil{
@@ -287,5 +291,13 @@ public class JpaUtil{
 			}
 		}
 		return sb.toString();
+	}
+	public static OJAnnotationValue createOverride(String overriddePropertyName,NameWrapper persistentName){
+		OJAnnotationValue timeUnitOverride = new OJAnnotationValue(new OJPathName(AttributeOverride.class.getName()));
+		timeUnitOverride.putAttribute("name", overriddePropertyName);
+		OJAnnotationValue timeUnitColumn = new OJAnnotationValue(new OJPathName(Column.class.getName()));
+		timeUnitOverride.putAttribute("column", timeUnitColumn);
+		timeUnitColumn.putAttribute("name", persistentName + "_" + NameConverter.toUnderscoreStyle(overriddePropertyName));
+		return timeUnitOverride;
 	}
 }

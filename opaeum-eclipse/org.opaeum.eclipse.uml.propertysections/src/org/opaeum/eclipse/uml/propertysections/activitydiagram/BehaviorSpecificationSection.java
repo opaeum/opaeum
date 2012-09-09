@@ -47,11 +47,6 @@ public class BehaviorSpecificationSection extends OpaeumChooserPropertySection{
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		if(couldImplementResponsibility()){
-			super.labelCombo.setText("Responsibility implemented");
-		}else{
-			super.labelCombo.setText("Operation implemented");
-		}
 	}
 	protected boolean couldImplementResponsibility(){
 		return StereotypesHelper.hasStereotype(getBehavior(), StereotypeNames.STANDALONE_SCREENFLOW_TASK,StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK,StereotypeNames.BUSINES_PROCESS );
@@ -62,6 +57,6 @@ public class BehaviorSpecificationSection extends OpaeumChooserPropertySection{
 	}
 	@Override
 	protected String getLabelText(){
-		return "Contract:";
+		return "Implements:";
 	}
 }

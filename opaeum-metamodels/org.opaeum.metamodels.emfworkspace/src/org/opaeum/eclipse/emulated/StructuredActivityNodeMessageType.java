@@ -9,6 +9,7 @@ import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.CallAction;
+import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
@@ -34,15 +35,16 @@ public class StructuredActivityNodeMessageType extends AbstractEmulatedMessageTy
 		for(ObservationPropertyBridge b:EmfTimeUtil.buildObservationPropertiess(this, e, node)){
 			getOwnedAttributes().add(b);
 		}
+		if(node.getRedefinedNodes().size() > 0 && node.getRedefinedNodes().get(0) instanceof StructuredActivityNode){
+			addGeneral(e.getMessageStructure((StructuredActivityNode) node.getRedefinedNodes().get(0)));
+		}
 	}
-	
 	protected StructuredActivityNodeMessageType(NamedElement node,IPropertyEmulation e,Collection<? extends TypedElement>...typedElements){
 		super(node, e, typedElements);
 	}
 	protected boolean couldBeEmulated(Object o){
 		return o instanceof Variable;
 	}
-
 	protected void addEmulatedProperty(ActivityNode n){
 		AbstractEmulatedMessageType msg = null;
 		if(n instanceof StructuredActivityNode){
@@ -55,7 +57,7 @@ public class StructuredActivityNodeMessageType extends AbstractEmulatedMessageTy
 			msg.addNonInverseArtificialProperty(iap.initialiseOtherEnd());
 			getOwnedAttributes().add(iap);
 		}else if(n instanceof AcceptCallAction || n instanceof CallAction){
-			getOwnedAttributes().add(new ActionFeatureBridge(this, (Action)n, super.propertyEmulation));
+			getOwnedAttributes().add(new ActionFeatureBridge(this, (Action) n, super.propertyEmulation));
 		}
 	}
 	@Override
@@ -65,16 +67,16 @@ public class StructuredActivityNodeMessageType extends AbstractEmulatedMessageTy
 			if(msg.getEventType() == Notification.ADD && msg.getNewValue() instanceof Observation){
 				Observation obs = (Observation) msg.getNewValue();
 				if(obs instanceof TimeObservation && propertyEmulation.getDateTimeType() != null){
-					getOwnedAttributes().add (new ObservationPropertyBridge(this, obs, propertyEmulation.getDateTimeType()));
-				}else if(obs instanceof TimeObservation && propertyEmulation.getDurationType() != null){
-					getOwnedAttributes().add(new ObservationPropertyBridge(this, obs, propertyEmulation.getDurationType()));
+					getOwnedAttributes().add(new ObservationPropertyBridge(this, obs, propertyEmulation));
+				}else if(obs instanceof DurationObservation && propertyEmulation.getDurationType() != null){
+					getOwnedAttributes().add(new ObservationPropertyBridge(this, obs, propertyEmulation));
 				}
 			}else if(msg.getEventType() == Notification.REMOVE && msg.getOldValue() instanceof Observation){
 				removeEmulatedProperty((Observation) msg.getOldValue());
 			}
-		}else if(msg.getEventType() ==Notification.ADD && msg.getNewValue() instanceof Action){
+		}else if(msg.getEventType() == Notification.ADD && msg.getNewValue() instanceof Action){
 			addEmulatedProperty((ActivityNode) msg.getNewValue());
-		}else if(msg.getEventType()==Notification.REMOVE && msg.getOldValue() instanceof Action){
+		}else if(msg.getEventType() == Notification.REMOVE && msg.getOldValue() instanceof Action){
 			removeEmulatedProperty((Element) msg.getOldValue());
 		}
 	}
