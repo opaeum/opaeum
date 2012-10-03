@@ -29,25 +29,25 @@ import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 
 public class CurrencyStrategyFactory extends AbstractStrategyFactory{
 	public static class MyFormatterStrategy implements FormatterStrategy{
-
 		@Override
 		public void implementParse(OJAnnotatedOperation parse){
 			parse.initializeResultVariable("value==null||value.length()==0?null:Currency.getInstance(value)");
-			
 		}
-
 		@Override
 		public void implementFormat(OJAnnotatedOperation format){
 			format.initializeResultVariable("value==null?\"\":value.getCurrencyCode()");
-			
 		}
-		
 	}
 	public static class MyAttributeStrategy implements AttributeStrategy{
 		@Override
 		public void applyTo(OJAnnotatedClass owner,AttributeInJava a,PropertyMap property){
 			a.field.setType(new OJPathName("String"));
-			a.getter.initializeResultVariable("Currency.getInstance(" + a.field.getName() + ")");
+			a.getter.initializeResultVariable(a.field.getName() + "==null?null:Currency.getInstance(" + a.field.getName() + ")");
+			a.internalAdder.getBody().getStatements().clear();
+			a.internalAdder.getBody().addToStatements(
+					"this." + a.field.getName() + " = " + a.field.getName() + "==null?null:" + a.field.getName() + ".getCurrencyCode()");
+			a.internalRemover.getBody().getStatements().clear();
+			a.internalRemover.getBody().addToStatements("this." + a.field.getName() + " = null");
 		}
 	}
 	public static class MyJpaStrategy implements JpaStrategy{
@@ -74,7 +74,7 @@ public class CurrencyStrategyFactory extends AbstractStrategyFactory{
 	public static class DateTestModelValueStrategy implements TestModelValueStrategy{
 		@Override
 		public String getDefaultStringValue(int seed){
-			switch(seed%3){
+			switch(seed % 3){
 			case 1:
 				return "USD";
 			case 2:
@@ -87,11 +87,11 @@ public class CurrencyStrategyFactory extends AbstractStrategyFactory{
 	}
 	@SuppressWarnings("unchecked")
 	public CurrencyStrategyFactory(){
-		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class, MyFormatterStrategy.class);
+		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class, MyFormatterStrategy.class,MyAttributeStrategy.class);
 	}
 	@Override
 	public boolean appliesTo(DataType st){
-		return st.getName().equals("DateTime");
+		return st.getName().equals("Currency");
 	}
 	@Override
 	public String getRuntimeStrategyFactory(){

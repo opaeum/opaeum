@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Event;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.workspace.EmfWorkspace;
 
 

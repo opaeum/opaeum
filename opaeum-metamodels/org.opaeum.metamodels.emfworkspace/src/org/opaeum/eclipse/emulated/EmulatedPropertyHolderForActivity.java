@@ -11,7 +11,6 @@ import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.opaeum.eclipse.EmfActivityUtil;
-import org.opaeum.eclipse.EmfTimeUtil;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
 
 public class EmulatedPropertyHolderForActivity extends EmulatedPropertyHolderForBehavior{

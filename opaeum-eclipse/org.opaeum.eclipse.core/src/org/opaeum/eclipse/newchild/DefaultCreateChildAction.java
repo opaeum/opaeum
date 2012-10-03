@@ -44,6 +44,9 @@ public class DefaultCreateChildAction extends AbstractCreateChildAction implemen
 		}else{
 			result.setText(name);
 		}
+		if(!descriptor.getEStructuralFeature().isMany() && descriptor.getEOwner().eGet(descriptor.getEStructuralFeature())!=null){
+			result.setEnabled(false);
+		}
 		return result;
 	}
 }

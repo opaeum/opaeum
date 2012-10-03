@@ -72,4 +72,9 @@ public abstract class AbstractCreateChildAction implements ICreateChildAction{
 		return result;
 	}
 
+	public void setName(String string){
+		this.name=string;
+		
+	}
+
 }

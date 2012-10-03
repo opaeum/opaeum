@@ -8,6 +8,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
@@ -26,6 +27,9 @@ public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedProp
 		this.owner = owner;
 		this.propertyEmulation = e;
 		owner.eAdapters().add(this);
+		for(EObject sa:owner.getStereotypeApplications()){
+			sa.eAdapters().add(this);
+		}
 		for(EList<? extends TypedElement> eList:typedElements){
 			for(TypedElement typedElement:eList){
 				addTypedElementBridge(typedElement);

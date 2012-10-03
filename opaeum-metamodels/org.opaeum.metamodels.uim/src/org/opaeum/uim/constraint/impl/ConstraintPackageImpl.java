@@ -13,6 +13,8 @@ import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.impl.ActionPackageImpl;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.component.ComponentPackage;
+import org.opaeum.uim.component.impl.ComponentPackageImpl;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
@@ -28,6 +30,8 @@ import org.opaeum.uim.cube.impl.CubePackageImpl;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
+import org.opaeum.uim.model.ModelPackage;
+import org.opaeum.uim.model.impl.ModelPackageImpl;
 import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uim.panel.impl.PanelPackageImpl;
 import org.opaeum.uim.perspective.PerspectivePackage;
@@ -143,6 +147,8 @@ public class ConstraintPackageImpl extends EPackageImpl implements ConstraintPac
 		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
 		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
 		CubePackageImpl theCubePackage = (CubePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) instanceof CubePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) : CubePackage.eINSTANCE);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) : ModelPackage.eINSTANCE);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) : ComponentPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theConstraintPackage.createPackageContents();
@@ -155,6 +161,8 @@ public class ConstraintPackageImpl extends EPackageImpl implements ConstraintPac
 		theWizardPackage.createPackageContents();
 		thePerspectivePackage.createPackageContents();
 		theCubePackage.createPackageContents();
+		theModelPackage.createPackageContents();
+		theComponentPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theConstraintPackage.initializePackageContents();
@@ -167,6 +175,8 @@ public class ConstraintPackageImpl extends EPackageImpl implements ConstraintPac
 		theWizardPackage.initializePackageContents();
 		thePerspectivePackage.initializePackageContents();
 		theCubePackage.initializePackageContents();
+		theModelPackage.initializePackageContents();
+		theComponentPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theConstraintPackage.freeze();

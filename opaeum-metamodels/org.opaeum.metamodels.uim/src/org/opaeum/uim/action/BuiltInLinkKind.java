@@ -36,7 +36,9 @@ public enum BuiltInLinkKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	BUSINESS_INTELLIGENCE(1, "businessIntelligence", "businessIntelligence"), /**
+	BUSINESS_INTELLIGENCE(1, "businessIntelligence", "businessIntelligence"),
+
+	/**
 	 * The '<em><b>Edit</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -44,7 +46,9 @@ public enum BuiltInLinkKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	EDIT(2, "edit", "edit"), /**
+	EDIT(2, "edit", "edit"),
+
+	/**
 	 * The '<em><b>View</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

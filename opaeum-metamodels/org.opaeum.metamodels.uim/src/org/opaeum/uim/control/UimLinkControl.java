@@ -2,12 +2,11 @@
  */
 package org.opaeum.uim.control;
 
-import org.opaeum.uim.editor.ClassEditor;
-
+import org.opaeum.uim.editor.ObjectEditor;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Uim Link</b></em>'.
+ * A representation of the model object '<em><b>Uim Link Control</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -22,7 +21,6 @@ import org.opaeum.uim.editor.ClassEditor;
  * @generated
  */
 public interface UimLinkControl extends UimControl {
-
 	/**
 	 * Returns the value of the '<em><b>Editor To Open</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -32,12 +30,12 @@ public interface UimLinkControl extends UimControl {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Editor To Open</em>' reference.
-	 * @see #setEditorToOpen(ClassEditor)
+	 * @see #setEditorToOpen(ObjectEditor)
 	 * @see org.opaeum.uim.control.ControlPackage#getUimLinkControl_EditorToOpen()
 	 * @model
 	 * @generated
 	 */
-	ClassEditor getEditorToOpen();
+	ObjectEditor getEditorToOpen();
 
 	/**
 	 * Sets the value of the '{@link org.opaeum.uim.control.UimLinkControl#getEditorToOpen <em>Editor To Open</em>}' reference.
@@ -47,5 +45,6 @@ public interface UimLinkControl extends UimControl {
 	 * @see #getEditorToOpen()
 	 * @generated
 	 */
-	void setEditorToOpen(ClassEditor value);
+	void setEditorToOpen(ObjectEditor value);
+
 } // UimLinkControl

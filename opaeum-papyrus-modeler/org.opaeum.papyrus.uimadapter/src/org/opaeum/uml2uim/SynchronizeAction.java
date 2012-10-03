@@ -1,10 +1,7 @@
 package org.opaeum.uml2uim;
 
 import java.io.IOException;
-import java.util.HashMap;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.emf.workspace.EmfWorkspace;

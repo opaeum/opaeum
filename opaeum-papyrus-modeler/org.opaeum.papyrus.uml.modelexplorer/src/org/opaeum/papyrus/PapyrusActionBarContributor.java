@@ -22,7 +22,7 @@ import org.eclipse.ui.IEditorActionBarContributor;
 
 
 /**
- * EditorActionBarContributor suitable to Papyrus multi editor.
+ * ActionBarContributor suitable to Papyrus multi editor.
  * This ActionBarContributor is composed of ActionBarContributor described in extension.
  * It also implements interfaces requested by some well knowns Papyrus nested
  * editors (EMF, GMF, ...)

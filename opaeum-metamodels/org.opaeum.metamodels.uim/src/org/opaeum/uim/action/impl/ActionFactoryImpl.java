@@ -16,9 +16,7 @@ import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;
 import org.opaeum.uim.action.LinkToQuery;
-import org.opaeum.uim.action.OperationButton;
-import org.opaeum.uim.action.OperationPopup;
-import org.opaeum.uim.action.OperationPopupPage;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.action.TransitionButton;
 
 /**
@@ -68,9 +66,7 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 			case ActionPackage.BUILT_IN_ACTION_BUTTON: return createBuiltInActionButton();
 			case ActionPackage.TRANSITION_BUTTON: return createTransitionButton();
 			case ActionPackage.LINK_TO_QUERY: return createLinkToQuery();
-			case ActionPackage.OPERATION_BUTTON: return createOperationButton();
-			case ActionPackage.OPERATION_POPUP: return createOperationPopup();
-			case ActionPackage.OPERATION_POPUP_PAGE: return createOperationPopupPage();
+			case ActionPackage.INVOCATION_BUTTON: return createInvocationButton();
 			case ActionPackage.BUILT_IN_LINK: return createBuiltInLink();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -146,29 +142,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OperationButton createOperationButton() {
-		OperationButtonImpl operationButton = new OperationButtonImpl();
-		return operationButton;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public OperationPopup createOperationPopup() {
-		OperationPopupImpl operationPopup = new OperationPopupImpl();
-		return operationPopup;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public OperationPopupPage createOperationPopupPage() {
-		OperationPopupPageImpl operationPopupPage = new OperationPopupPageImpl();
-		return operationPopupPage;
+	public InvocationButton createInvocationButton() {
+		InvocationButtonImpl invocationButton = new InvocationButtonImpl();
+		return invocationButton;
 	}
 
 	/**

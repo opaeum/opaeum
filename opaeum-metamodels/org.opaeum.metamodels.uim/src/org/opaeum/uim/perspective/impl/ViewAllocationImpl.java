@@ -3,17 +3,12 @@
 package org.opaeum.uim.perspective.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.PositionInPerspective;
-import org.opaeum.uim.perspective.UimPerspective;
 import org.opaeum.uim.perspective.ViewAllocation;
-import org.opaeum.uim.perspective.ViewKind;
 
 /**
  * <!-- begin-user-doc -->
@@ -260,7 +255,7 @@ public abstract class ViewAllocationImpl extends EObjectImpl implements ViewAllo
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (width: ");
 		result.append(width);
 		result.append(", height: ");

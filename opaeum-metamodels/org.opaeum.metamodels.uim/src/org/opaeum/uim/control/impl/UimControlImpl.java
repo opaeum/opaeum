@@ -9,8 +9,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opaeum.uim.UimField;
-import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.component.ComponentPackage;
+import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimControl;
 
@@ -143,7 +143,7 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newField != null)
-				msgs = ((InternalEObject)newField).eInverseAdd(this, UimPackage.UIM_FIELD__CONTROL, UimField.class, msgs);
+				msgs = ((InternalEObject)newField).eInverseAdd(this, ComponentPackage.UIM_FIELD__CONTROL, UimField.class, msgs);
 			msgs = basicSetField(newField, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -211,7 +211,7 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case ControlPackage.UIM_CONTROL__FIELD:
-				return eInternalContainer().eInverseRemove(this, UimPackage.UIM_FIELD__CONTROL, UimField.class, msgs);
+				return eInternalContainer().eInverseRemove(this, ComponentPackage.UIM_FIELD__CONTROL, UimField.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -303,7 +303,7 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (mimumWidth: ");
 		result.append(mimumWidth);
 		result.append(", minimumHeight: ");

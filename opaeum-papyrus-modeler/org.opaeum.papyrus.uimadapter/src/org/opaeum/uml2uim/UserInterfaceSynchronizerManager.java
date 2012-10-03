@@ -15,7 +15,6 @@ import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
 import org.opaeum.eclipse.context.OpenUmlFile;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 public class UserInterfaceSynchronizerManager implements IStartup,Runnable{
 	Map<OpaeumEclipseContext,UserInterfaceSynchronizer> synchronizers = new HashMap<OpaeumEclipseContext,UserInterfaceSynchronizerManager.UserInterfaceSynchronizer>();
@@ -52,7 +51,7 @@ public class UserInterfaceSynchronizerManager implements IStartup,Runnable{
 			// Continuously associate new contexts with transformation processes
 			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 			if(currentContext != null && !currentContext.isLoading()){
-				for(OpenUmlFile openUmlFile:currentContext.getEditingContexts()){
+				for(OpenUmlFile openUmlFile:currentContext.getOpenUmlFiles()){
 					if(synchronizers.get(currentContext) == null){
 						UserInterfaceSynchronizer uis = new UserInterfaceSynchronizer();
 						synchronizers.put(currentContext, uis);

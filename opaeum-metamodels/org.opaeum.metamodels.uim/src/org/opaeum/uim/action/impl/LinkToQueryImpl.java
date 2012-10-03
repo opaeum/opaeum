@@ -3,14 +3,16 @@
 package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.opaeum.uim.LabeledElement;
+import org.opaeum.uim.Labels;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.LinkToQuery;
-import org.opaeum.uim.editor.QueryInvocationEditor;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,12 +22,13 @@ import org.opaeum.uim.editor.QueryInvocationEditor;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.action.impl.LinkToQueryImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.LinkToQueryImpl#getLabelOverride <em>Label Override</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
+public class LinkToQueryImpl extends AbstractLinkImpl implements LinkToQuery {
 	/**
 	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -45,6 +48,16 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 	 * @ordered
 	 */
 	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabelOverride()
+	 * @generated
+	 * @ordered
+	 */
+	protected Labels labelOverride;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -91,11 +104,70 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Labels getLabelOverride() {
+		return labelOverride;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetLabelOverride(Labels newLabelOverride, NotificationChain msgs) {
+		Labels oldLabelOverride = labelOverride;
+		labelOverride = newLabelOverride;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE, oldLabelOverride, newLabelOverride);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLabelOverride(Labels newLabelOverride) {
+		if (newLabelOverride != labelOverride) {
+			NotificationChain msgs = null;
+			if (labelOverride != null)
+				msgs = ((InternalEObject)labelOverride).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE, null, msgs);
+			if (newLabelOverride != null)
+				msgs = ((InternalEObject)newLabelOverride).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE, null, msgs);
+			msgs = basicSetLabelOverride(newLabelOverride, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE, newLabelOverride, newLabelOverride));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE:
+				return basicSetLabelOverride(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ActionPackage.LINK_TO_QUERY__UML_ELEMENT_UID:
 				return getUmlElementUid();
+			case ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE:
+				return getLabelOverride();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -110,6 +182,9 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 		switch (featureID) {
 			case ActionPackage.LINK_TO_QUERY__UML_ELEMENT_UID:
 				setUmlElementUid((String)newValue);
+				return;
+			case ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE:
+				setLabelOverride((Labels)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -126,6 +201,9 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 			case ActionPackage.LINK_TO_QUERY__UML_ELEMENT_UID:
 				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
+			case ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE:
+				setLabelOverride((Labels)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -140,6 +218,8 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 		switch (featureID) {
 			case ActionPackage.LINK_TO_QUERY__UML_ELEMENT_UID:
 				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
+			case ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE:
+				return labelOverride != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -154,6 +234,12 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 		if (baseClass == UmlReference.class) {
 			switch (derivedFeatureID) {
 				case ActionPackage.LINK_TO_QUERY__UML_ELEMENT_UID: return UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabeledElement.class) {
+			switch (derivedFeatureID) {
+				case ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE: return UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -173,6 +259,12 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 				default: return -1;
 			}
 		}
+		if (baseClass == LabeledElement.class) {
+			switch (baseFeatureID) {
+				case UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE: return ActionPackage.LINK_TO_QUERY__LABEL_OVERRIDE;
+				default: return -1;
+			}
+		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
@@ -185,7 +277,7 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (umlElementUid: ");
 		result.append(umlElementUid);
 		result.append(')');

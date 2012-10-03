@@ -172,7 +172,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 		}
 		if(event.getEntity() instanceof AuditEntry){
 			AuditEntry ae = (AuditEntry) event.getEntity();
-			ae.setOriginal((IPersistentObject) event.getSession().load(ae.getOriginalClass(), ae.getOriginalId()));
+			ae.setSession(event.getSession());
 		}else if(event.getEntity() instanceof PropertyChange){
 			PropertyChange<?> c = (PropertyChange<?>) event.getEntity();
 			c.resolve(event.getSession());

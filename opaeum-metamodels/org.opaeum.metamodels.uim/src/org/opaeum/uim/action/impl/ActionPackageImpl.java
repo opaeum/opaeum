@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.action.AbstractActionButton;
+import org.opaeum.uim.action.AbstractLink;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.ActionPackage;
@@ -17,14 +19,12 @@ import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;
 import org.opaeum.uim.action.LinkToQuery;
-import org.opaeum.uim.action.OperationButton;
-import org.opaeum.uim.action.OperationPopup;
-import org.opaeum.uim.action.OperationPopupPage;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.action.TransitionButton;
-import org.opaeum.uim.action.UimAction;
-import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.component.ComponentPackage;
+import org.opaeum.uim.component.impl.ComponentPackageImpl;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlPackage;
@@ -34,6 +34,8 @@ import org.opaeum.uim.cube.impl.CubePackageImpl;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
+import org.opaeum.uim.model.ModelPackage;
+import org.opaeum.uim.model.impl.ModelPackageImpl;
 import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uim.panel.impl.PanelPackageImpl;
 import org.opaeum.uim.perspective.PerspectivePackage;
@@ -60,7 +62,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uimActionEClass = null;
+	private EClass abstractActionButtonEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -81,28 +83,14 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass operationButtonEClass = null;
+	private EClass invocationButtonEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uimLinkEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass operationPopupEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass operationPopupPageEClass = null;
+	private EClass abstractLinkEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -184,6 +172,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
 		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
 		CubePackageImpl theCubePackage = (CubePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) instanceof CubePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) : CubePackage.eINSTANCE);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) : ModelPackage.eINSTANCE);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) : ComponentPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theActionPackage.createPackageContents();
@@ -196,6 +186,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		theWizardPackage.createPackageContents();
 		thePerspectivePackage.createPackageContents();
 		theCubePackage.createPackageContents();
+		theModelPackage.createPackageContents();
+		theComponentPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theActionPackage.initializePackageContents();
@@ -208,6 +200,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		theWizardPackage.initializePackageContents();
 		thePerspectivePackage.initializePackageContents();
 		theCubePackage.initializePackageContents();
+		theModelPackage.initializePackageContents();
+		theComponentPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theActionPackage.freeze();
@@ -241,8 +235,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUimAction() {
-		return uimActionEClass;
+	public EClass getAbstractActionButton() {
+		return abstractActionButtonEClass;
 	}
 
 	/**
@@ -268,8 +262,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getOperationButton() {
-		return operationButtonEClass;
+	public EClass getInvocationButton() {
+		return invocationButtonEClass;
 	}
 
 	/**
@@ -277,8 +271,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOperationButton_Popup() {
-		return (EReference)operationButtonEClass.getEStructuralFeatures().get(0);
+	public EReference getInvocationButton_Popup() {
+		return (EReference)invocationButtonEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -286,44 +280,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUimLink() {
-		return uimLinkEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getOperationPopup() {
-		return operationPopupEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getOperationPopup_OperationAction() {
-		return (EReference)operationPopupEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getOperationPopup_Pages() {
-		return (EReference)operationPopupEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getOperationPopupPage() {
-		return operationPopupPageEClass;
+	public EClass getAbstractLink() {
+		return abstractLinkEClass;
 	}
 
 	/**
@@ -393,22 +351,16 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		builtInActionButtonEClass = createEClass(BUILT_IN_ACTION_BUTTON);
 		createEAttribute(builtInActionButtonEClass, BUILT_IN_ACTION_BUTTON__KIND);
 
-		uimActionEClass = createEClass(UIM_ACTION);
+		abstractActionButtonEClass = createEClass(ABSTRACT_ACTION_BUTTON);
 
 		transitionButtonEClass = createEClass(TRANSITION_BUTTON);
 
 		linkToQueryEClass = createEClass(LINK_TO_QUERY);
 
-		operationButtonEClass = createEClass(OPERATION_BUTTON);
-		createEReference(operationButtonEClass, OPERATION_BUTTON__POPUP);
+		invocationButtonEClass = createEClass(INVOCATION_BUTTON);
+		createEReference(invocationButtonEClass, INVOCATION_BUTTON__POPUP);
 
-		uimLinkEClass = createEClass(UIM_LINK);
-
-		operationPopupEClass = createEClass(OPERATION_POPUP);
-		createEReference(operationPopupEClass, OPERATION_POPUP__OPERATION_ACTION);
-		createEReference(operationPopupEClass, OPERATION_POPUP__PAGES);
-
-		operationPopupPageEClass = createEClass(OPERATION_POPUP_PAGE);
+		abstractLinkEClass = createEClass(ABSTRACT_LINK);
 
 		builtInLinkEClass = createEClass(BUILT_IN_LINK);
 		createEAttribute(builtInLinkEClass, BUILT_IN_LINK__KIND);
@@ -442,50 +394,43 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
+		ComponentPackage theComponentPackage = (ComponentPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
 		PanelPackage thePanelPackage = (PanelPackage)EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI);
+		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
+		WizardPackage theWizardPackage = (WizardPackage)EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI);
 
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		builtInActionButtonEClass.getESuperTypes().add(this.getUimAction());
-		uimActionEClass.getESuperTypes().add(theUimPackage.getUimComponent());
-		uimActionEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
-		transitionButtonEClass.getESuperTypes().add(this.getUimAction());
-		transitionButtonEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		linkToQueryEClass.getESuperTypes().add(this.getUimLink());
-		linkToQueryEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		operationButtonEClass.getESuperTypes().add(this.getUimAction());
-		operationButtonEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		uimLinkEClass.getESuperTypes().add(theUimPackage.getUimComponent());
-		uimLinkEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
-		operationPopupEClass.getESuperTypes().add(theUimPackage.getPageContainer());
-		operationPopupEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		operationPopupPageEClass.getESuperTypes().add(theUimPackage.getPage());
-		builtInLinkEClass.getESuperTypes().add(this.getUimLink());
+		builtInActionButtonEClass.getESuperTypes().add(this.getAbstractActionButton());
+		abstractActionButtonEClass.getESuperTypes().add(theComponentPackage.getUimComponent());
+		abstractActionButtonEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
+		transitionButtonEClass.getESuperTypes().add(this.getAbstractActionButton());
+		transitionButtonEClass.getESuperTypes().add(theUimPackage.getLabeledElement());
+		linkToQueryEClass.getESuperTypes().add(this.getAbstractLink());
+		linkToQueryEClass.getESuperTypes().add(theUimPackage.getLabeledElement());
+		invocationButtonEClass.getESuperTypes().add(this.getAbstractActionButton());
+		invocationButtonEClass.getESuperTypes().add(theUimPackage.getLabeledElement());
+		abstractLinkEClass.getESuperTypes().add(theComponentPackage.getUimComponent());
+		abstractLinkEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
+		builtInLinkEClass.getESuperTypes().add(this.getAbstractLink());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(builtInActionButtonEClass, BuiltInActionButton.class, "BuiltInActionButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBuiltInActionButton_Kind(), this.getActionKind(), "kind", null, 0, 1, BuiltInActionButton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(uimActionEClass, UimAction.class, "UimAction", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(abstractActionButtonEClass, AbstractActionButton.class, "AbstractActionButton", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(transitionButtonEClass, TransitionButton.class, "TransitionButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(linkToQueryEClass, LinkToQuery.class, "LinkToQuery", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(operationButtonEClass, OperationButton.class, "OperationButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOperationButton_Popup(), this.getOperationPopup(), this.getOperationPopup_OperationAction(), "popup", null, 0, 1, OperationButton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(invocationButtonEClass, InvocationButton.class, "InvocationButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getInvocationButton_Popup(), theWizardPackage.getInvocationWizard(), null, "popup", null, 0, 1, InvocationButton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(uimLinkEClass, UimLink.class, "UimLink", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(operationPopupEClass, OperationPopup.class, "OperationPopup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOperationPopup_OperationAction(), this.getOperationButton(), this.getOperationButton_Popup(), "operationAction", null, 0, 1, OperationPopup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOperationPopup_Pages(), this.getOperationPopupPage(), null, "pages", null, 0, -1, OperationPopup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(operationPopupPageEClass, OperationPopupPage.class, "OperationPopupPage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(abstractLinkEClass, AbstractLink.class, "AbstractLink", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(builtInLinkEClass, BuiltInLink.class, "BuiltInLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBuiltInLink_Kind(), this.getBuiltInLinkKind(), "kind", null, 0, 1, BuiltInLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -494,15 +439,17 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		initEEnum(actionKindEEnum, ActionKind.class, "ActionKind");
 		addEEnumLiteral(actionKindEEnum, ActionKind.UPDATE);
 		addEEnumLiteral(actionKindEEnum, ActionKind.DELETE);
-		addEEnumLiteral(actionKindEEnum, ActionKind.EXECUTE_OPERATION);
+		addEEnumLiteral(actionKindEEnum, ActionKind.EXECUTE);
 		addEEnumLiteral(actionKindEEnum, ActionKind.DELEGATE_TASK);
 		addEEnumLiteral(actionKindEEnum, ActionKind.COMPLETE_TASK);
-		addEEnumLiteral(actionKindEEnum, ActionKind.SUSPEND_TASK);
+		addEEnumLiteral(actionKindEEnum, ActionKind.SUSPEND);
 		addEEnumLiteral(actionKindEEnum, ActionKind.FORWARD_TASK);
 		addEEnumLiteral(actionKindEEnum, ActionKind.CLAIM_TASK);
 		addEEnumLiteral(actionKindEEnum, ActionKind.ADD);
 		addEEnumLiteral(actionKindEEnum, ActionKind.REFRESH);
 		addEEnumLiteral(actionKindEEnum, ActionKind.REVERT);
+		addEEnumLiteral(actionKindEEnum, ActionKind.ABORT);
+		addEEnumLiteral(actionKindEEnum, ActionKind.SKIP);
 
 		initEEnum(builtInLinkKindEEnum, BuiltInLinkKind.class, "BuiltInLinkKind");
 		addEEnumLiteral(builtInLinkKindEEnum, BuiltInLinkKind.AUDIT_TRAIL);

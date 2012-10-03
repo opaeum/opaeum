@@ -102,6 +102,7 @@ import org.opaeum.ocl.uml.OpaqueBehaviorContext;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.ocl.uml.ResponsibilityDefinition;
 
+@SuppressWarnings("restriction")
 public class OpaeumLibrary implements IPropertyEmulation{
 	private Map<NamedElement,Classifier> emulatedClassifiers = new HashMap<NamedElement,Classifier>();
 	private Map<Classifier,IEmulatedPropertyHolder> classifierAttributes = new HashMap<Classifier,IEmulatedPropertyHolder>();
@@ -142,8 +143,8 @@ public class OpaeumLibrary implements IPropertyEmulation{
 	private TreeSet<IEmulatedElement> emulatedElements = new TreeSet<IEmulatedElement>(new DefaultOpaeumComparator());
 	private Interface notificationReceiver;
 	private Class businessCalendar;
-	private Class durationBasedCost;
-	private Class quantityBasedCost;
+	private DataType durationBasedCost;
+	private DataType quantityBasedCost;
 	public OpaeumLibrary(ResourceSet resourceSet,UriToFileConverter uriToFileConverter){
 		super();
 		UMLEnvironmentFactory factory = new UMLEnvironmentFactory(resourceSet);
@@ -317,7 +318,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		return type;
 	}
 	public Property getEndToComposite(Classifier entity){
-		Property etc = EmfPropertyUtil.getEndToComposite(entity, this);
+		Property etc = EmfPropertyUtil.getEndToComposite(entity);
 		if(etc == null && !(entity instanceof IEmulatedElement)){
 			return getArtificialEndToComposite(entity);
 		}
@@ -636,6 +637,7 @@ public class OpaeumLibrary implements IPropertyEmulation{
 		}
 		return null;
 	}
+	@SuppressWarnings("unchecked")
 	public Collection<OpaqueExpressionContext> getArtificialExpressions(NamedElement ne,String tagName){
 		Collection<OpaqueExpressionContext> result = new HashSet<OpaqueExpressionContext>();
 		for(EObject e:ne.getStereotypeApplications()){
@@ -673,10 +675,10 @@ public class OpaeumLibrary implements IPropertyEmulation{
 			return null;
 		}
 	}
-	public Class getDurationBasedCost(){
+	public DataType getDurationBasedCost(){
 		return this.durationBasedCost = findClassifier(this.durationBasedCost, StereotypeNames.OPAEUM_BPM_LIBRARY, "DurationBasedCost");
 	}
-	public Class getQuantityBasedCost(){
+	public DataType getQuantityBasedCost(){
 		return this.quantityBasedCost = findClassifier(this.quantityBasedCost, StereotypeNames.OPAEUM_BPM_LIBRARY, "QuantityBasedCost");
 	}
 }

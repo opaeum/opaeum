@@ -3,8 +3,7 @@
 package org.opaeum.uim.wizard;
 
 import org.eclipse.emf.common.util.EList;
-import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.UserInterfaceRoot;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,7 +21,7 @@ import org.opaeum.uim.UserInterfaceEntryPoint;
  * @model abstract="true"
  * @generated
  */
-public interface AbstractWizard extends UserInterfaceEntryPoint, UmlReference {
+public interface AbstractWizard extends UserInterfaceRoot {
 	/**
 	 * Returns the value of the '<em><b>Pages</b></em>' containment reference list.
 	 * The list contents are of type {@link org.opaeum.uim.wizard.WizardPage}.

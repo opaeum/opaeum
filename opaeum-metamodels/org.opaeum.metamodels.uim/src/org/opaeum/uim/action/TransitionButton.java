@@ -2,11 +2,11 @@
  */
 package org.opaeum.uim.action;
 
-import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.LabeledElement;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Transition Action</b></em>'.
+ * A representation of the model object '<em><b>Transition Button</b></em>'.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
@@ -18,5 +18,5 @@ import org.opaeum.uim.UmlReference;
  * @model
  * @generated
  */
-public interface TransitionButton extends UimAction, UmlReference {
+public interface TransitionButton extends AbstractActionButton, LabeledElement {
 } // TransitionButton

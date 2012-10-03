@@ -22,24 +22,6 @@ public interface UimFactory extends EFactory {
 	UimFactory eINSTANCE = org.opaeum.uim.impl.UimFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Field</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Field</em>'.
-	 * @generated
-	 */
-	UimField createUimField();
-
-	/**
-	 * Returns a new object of class '<em>Data Table</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Data Table</em>'.
-	 * @generated
-	 */
-	UimDataTable createUimDataTable();
-
-	/**
 	 * Returns a new object of class '<em>Uml Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -49,85 +31,49 @@ public interface UimFactory extends EFactory {
 	UmlReference createUmlReference();
 
 	/**
-	 * Returns a new object of class '<em>Object Selector Tree</em>'.
+	 * Returns a new object of class '<em>User Interface Root</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Object Selector Tree</em>'.
+	 * @return a new object of class '<em>User Interface Root</em>'.
 	 * @generated
 	 */
-	ObjectSelectorTree createObjectSelectorTree();
+	UserInterfaceRoot createUserInterfaceRoot();
 
 	/**
-	 * Returns a new object of class '<em>Detail Component</em>'.
+	 * Returns a new object of class '<em>Page</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Detail Component</em>'.
+	 * @return a new object of class '<em>Page</em>'.
 	 * @generated
 	 */
-	DetailComponent createDetailComponent();
+	Page createPage();
 
 	/**
-	 * Returns a new object of class '<em>User Interface Entry Point</em>'.
+	 * Returns a new object of class '<em>Labels</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>User Interface Entry Point</em>'.
+	 * @return a new object of class '<em>Labels</em>'.
 	 * @generated
 	 */
-	UserInterfaceEntryPoint createUserInterfaceEntryPoint();
+	Labels createLabels();
 
 	/**
-	 * Returns a new object of class '<em>User Interface</em>'.
+	 * Returns a new object of class '<em>Labeled Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>User Interface</em>'.
+	 * @return a new object of class '<em>Labeled Element</em>'.
 	 * @generated
 	 */
-	UserInterface createUserInterface();
+	LabeledElement createLabeledElement();
 
 	/**
-	 * Returns a new object of class '<em>Panel Class</em>'.
+	 * Returns a new object of class '<em>Ignored Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Panel Class</em>'.
+	 * @return a new object of class '<em>Ignored Element</em>'.
 	 * @generated
 	 */
-	PanelClass createPanelClass();
-
-	/**
-	 * Returns a new object of class '<em>Class User Interaction Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Class User Interaction Model</em>'.
-	 * @generated
-	 */
-	ClassUserInteractionModel createClassUserInteractionModel();
-
-	/**
-	 * Returns a new object of class '<em>Responsibility User Interaction Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Responsibility User Interaction Model</em>'.
-	 * @generated
-	 */
-	ResponsibilityUserInteractionModel createResponsibilityUserInteractionModel();
-
-	/**
-	 * Returns a new object of class '<em>Abstract Action Bar</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Abstract Action Bar</em>'.
-	 * @generated
-	 */
-	AbstractActionBar createAbstractActionBar();
-
-	/**
-	 * Returns a new object of class '<em>Page Container</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Page Container</em>'.
-	 * @generated
-	 */
-	PageContainer createPageContainer();
+	IgnoredElement createIgnoredElement();
 
 	/**
 	 * Returns the package supported by this factory.

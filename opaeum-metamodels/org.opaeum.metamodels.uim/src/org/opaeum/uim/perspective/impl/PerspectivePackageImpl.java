@@ -14,6 +14,8 @@ import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.impl.ActionPackageImpl;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.component.ComponentPackage;
+import org.opaeum.uim.component.impl.ComponentPackageImpl;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlPackage;
@@ -23,22 +25,25 @@ import org.opaeum.uim.cube.impl.CubePackageImpl;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
+import org.opaeum.uim.model.ModelPackage;
+import org.opaeum.uim.model.impl.ModelPackageImpl;
 import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uim.panel.impl.PanelPackageImpl;
 import org.opaeum.uim.perspective.EditorConfiguration;
-import org.opaeum.uim.perspective.ExplorerClassConfiguration;
+import org.opaeum.uim.perspective.ExplorerBehaviorConstraint;
+import org.opaeum.uim.perspective.ExplorerClassConstraint;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
-import org.opaeum.uim.perspective.ExplorerPropertyConfiguration;
-import org.opaeum.uim.perspective.HiddenClass;
-import org.opaeum.uim.perspective.HiddenCompositeProperty;
+import org.opaeum.uim.perspective.ExplorerConstraint;
+import org.opaeum.uim.perspective.ExplorerOperationConstraint;
+import org.opaeum.uim.perspective.ExplorerPropertyConstraint;
+import org.opaeum.uim.perspective.InboxConfiguration;
+import org.opaeum.uim.perspective.OutboxConfiguration;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectiveFactory;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.PositionInPerspective;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
-import org.opaeum.uim.perspective.UimPerspective;
 import org.opaeum.uim.perspective.ViewAllocation;
-import org.opaeum.uim.perspective.ViewKind;
-import org.opaeum.uim.perspective.VisibleNonCompositeProperty;
 import org.opaeum.uim.wizard.WizardPackage;
 import org.opaeum.uim.wizard.impl.WizardPackageImpl;
 
@@ -54,7 +59,7 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uimPerspectiveEClass = null;
+	private EClass perspectiveConfigurationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -75,14 +80,14 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass explorerClassConfigurationEClass = null;
+	private EClass explorerClassConstraintEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass explorerPropertyConfigurationEClass = null;
+	private EClass explorerPropertyConstraintEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -97,6 +102,41 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * @generated
 	 */
 	private EClass propertiesConfigurationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass explorerConstraintEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass explorerOperationConstraintEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass explorerBehaviorConstraintEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass inboxConfigurationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass outboxConfigurationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -164,6 +204,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
 		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
 		CubePackageImpl theCubePackage = (CubePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) instanceof CubePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) : CubePackage.eINSTANCE);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) : ModelPackage.eINSTANCE);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) : ComponentPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		thePerspectivePackage.createPackageContents();
@@ -176,6 +218,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		thePanelPackage.createPackageContents();
 		theWizardPackage.createPackageContents();
 		theCubePackage.createPackageContents();
+		theModelPackage.createPackageContents();
+		theComponentPackage.createPackageContents();
 
 		// Initialize created meta-data
 		thePerspectivePackage.initializePackageContents();
@@ -188,6 +232,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		thePanelPackage.initializePackageContents();
 		theWizardPackage.initializePackageContents();
 		theCubePackage.initializePackageContents();
+		theModelPackage.initializePackageContents();
+		theComponentPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		thePerspectivePackage.freeze();
@@ -203,8 +249,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUimPerspective() {
-		return uimPerspectiveEClass;
+	public EClass getPerspectiveConfiguration() {
+		return perspectiveConfigurationEClass;
 	}
 
 	/**
@@ -212,8 +258,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUimPerspective_ExplorerConfiguration() {
-		return (EReference)uimPerspectiveEClass.getEStructuralFeatures().get(0);
+	public EReference getPerspectiveConfiguration_Explorer() {
+		return (EReference)perspectiveConfigurationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -221,8 +267,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUimPerspective_EditorConfiguration() {
-		return (EReference)uimPerspectiveEClass.getEStructuralFeatures().get(1);
+	public EReference getPerspectiveConfiguration_Editor() {
+		return (EReference)perspectiveConfigurationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -230,8 +276,26 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUimPerspective_PropertiesConfiguration() {
-		return (EReference)uimPerspectiveEClass.getEStructuralFeatures().get(2);
+	public EReference getPerspectiveConfiguration_Properties() {
+		return (EReference)perspectiveConfigurationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPerspectiveConfiguration_Inbox() {
+		return (EReference)perspectiveConfigurationEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPerspectiveConfiguration_Outbox() {
+		return (EReference)perspectiveConfigurationEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -284,7 +348,7 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExplorerConfiguration_ConfiguredClasses() {
+	public EReference getExplorerConfiguration_Classes() {
 		return (EReference)explorerConfigurationEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -293,8 +357,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getExplorerClassConfiguration() {
-		return explorerClassConfigurationEClass;
+	public EClass getExplorerClassConstraint() {
+		return explorerClassConstraintEClass;
 	}
 
 	/**
@@ -302,8 +366,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExplorerClassConfiguration_ExplorerConfiguration() {
-		return (EReference)explorerClassConfigurationEClass.getEStructuralFeatures().get(0);
+	public EReference getExplorerClassConstraint_ExplorerConfiguration() {
+		return (EReference)explorerClassConstraintEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -311,8 +375,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getExplorerClassConfiguration_IsVisible() {
-		return (EAttribute)explorerClassConfigurationEClass.getEStructuralFeatures().get(1);
+	public EReference getExplorerClassConstraint_Properties() {
+		return (EReference)explorerClassConstraintEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -320,8 +384,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExplorerClassConfiguration_ConfiguredProperties() {
-		return (EReference)explorerClassConfigurationEClass.getEStructuralFeatures().get(2);
+	public EReference getExplorerClassConstraint_NewObjectConstraint() {
+		return (EReference)explorerClassConstraintEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -329,8 +393,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getExplorerPropertyConfiguration() {
-		return explorerPropertyConfigurationEClass;
+	public EReference getExplorerClassConstraint_Behaviors() {
+		return (EReference)explorerClassConstraintEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -338,8 +402,26 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getExplorerPropertyConfiguration_IsVisible() {
-		return (EAttribute)explorerPropertyConfigurationEClass.getEStructuralFeatures().get(0);
+	public EReference getExplorerClassConstraint_Operations() {
+		return (EReference)explorerClassConstraintEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExplorerPropertyConstraint() {
+		return explorerPropertyConstraintEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExplorerPropertyConstraint_Owner() {
+		return (EReference)explorerPropertyConstraintEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -358,6 +440,87 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 */
 	public EClass getPropertiesConfiguration() {
 		return propertiesConfigurationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExplorerConstraint() {
+		return explorerConstraintEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getExplorerConstraint_Hidden() {
+		return (EAttribute)explorerConstraintEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExplorerOperationConstraint() {
+		return explorerOperationConstraintEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExplorerOperationConstraint_Owner() {
+		return (EReference)explorerOperationConstraintEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExplorerBehaviorConstraint() {
+		return explorerBehaviorConstraintEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExplorerBehaviorConstraint_InvocationConstraint() {
+		return (EReference)explorerBehaviorConstraintEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExplorerBehaviorConstraint_Owner() {
+		return (EReference)explorerBehaviorConstraintEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInboxConfiguration() {
+		return inboxConfigurationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOutboxConfiguration() {
+		return outboxConfigurationEClass;
 	}
 
 	/**
@@ -397,10 +560,12 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		isCreated = true;
 
 		// Create classes and their features
-		uimPerspectiveEClass = createEClass(UIM_PERSPECTIVE);
-		createEReference(uimPerspectiveEClass, UIM_PERSPECTIVE__EXPLORER_CONFIGURATION);
-		createEReference(uimPerspectiveEClass, UIM_PERSPECTIVE__EDITOR_CONFIGURATION);
-		createEReference(uimPerspectiveEClass, UIM_PERSPECTIVE__PROPERTIES_CONFIGURATION);
+		perspectiveConfigurationEClass = createEClass(PERSPECTIVE_CONFIGURATION);
+		createEReference(perspectiveConfigurationEClass, PERSPECTIVE_CONFIGURATION__EXPLORER);
+		createEReference(perspectiveConfigurationEClass, PERSPECTIVE_CONFIGURATION__EDITOR);
+		createEReference(perspectiveConfigurationEClass, PERSPECTIVE_CONFIGURATION__PROPERTIES);
+		createEReference(perspectiveConfigurationEClass, PERSPECTIVE_CONFIGURATION__INBOX);
+		createEReference(perspectiveConfigurationEClass, PERSPECTIVE_CONFIGURATION__OUTBOX);
 
 		viewAllocationEClass = createEClass(VIEW_ALLOCATION);
 		createEAttribute(viewAllocationEClass, VIEW_ALLOCATION__WIDTH);
@@ -408,19 +573,35 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		createEAttribute(viewAllocationEClass, VIEW_ALLOCATION__POSITION);
 
 		explorerConfigurationEClass = createEClass(EXPLORER_CONFIGURATION);
-		createEReference(explorerConfigurationEClass, EXPLORER_CONFIGURATION__CONFIGURED_CLASSES);
+		createEReference(explorerConfigurationEClass, EXPLORER_CONFIGURATION__CLASSES);
 
-		explorerClassConfigurationEClass = createEClass(EXPLORER_CLASS_CONFIGURATION);
-		createEReference(explorerClassConfigurationEClass, EXPLORER_CLASS_CONFIGURATION__EXPLORER_CONFIGURATION);
-		createEAttribute(explorerClassConfigurationEClass, EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE);
-		createEReference(explorerClassConfigurationEClass, EXPLORER_CLASS_CONFIGURATION__CONFIGURED_PROPERTIES);
+		explorerClassConstraintEClass = createEClass(EXPLORER_CLASS_CONSTRAINT);
+		createEReference(explorerClassConstraintEClass, EXPLORER_CLASS_CONSTRAINT__EXPLORER_CONFIGURATION);
+		createEReference(explorerClassConstraintEClass, EXPLORER_CLASS_CONSTRAINT__PROPERTIES);
+		createEReference(explorerClassConstraintEClass, EXPLORER_CLASS_CONSTRAINT__NEW_OBJECT_CONSTRAINT);
+		createEReference(explorerClassConstraintEClass, EXPLORER_CLASS_CONSTRAINT__BEHAVIORS);
+		createEReference(explorerClassConstraintEClass, EXPLORER_CLASS_CONSTRAINT__OPERATIONS);
 
-		explorerPropertyConfigurationEClass = createEClass(EXPLORER_PROPERTY_CONFIGURATION);
-		createEAttribute(explorerPropertyConfigurationEClass, EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE);
+		explorerPropertyConstraintEClass = createEClass(EXPLORER_PROPERTY_CONSTRAINT);
+		createEReference(explorerPropertyConstraintEClass, EXPLORER_PROPERTY_CONSTRAINT__OWNER);
 
 		editorConfigurationEClass = createEClass(EDITOR_CONFIGURATION);
 
 		propertiesConfigurationEClass = createEClass(PROPERTIES_CONFIGURATION);
+
+		explorerConstraintEClass = createEClass(EXPLORER_CONSTRAINT);
+		createEAttribute(explorerConstraintEClass, EXPLORER_CONSTRAINT__HIDDEN);
+
+		explorerOperationConstraintEClass = createEClass(EXPLORER_OPERATION_CONSTRAINT);
+		createEReference(explorerOperationConstraintEClass, EXPLORER_OPERATION_CONSTRAINT__OWNER);
+
+		explorerBehaviorConstraintEClass = createEClass(EXPLORER_BEHAVIOR_CONSTRAINT);
+		createEReference(explorerBehaviorConstraintEClass, EXPLORER_BEHAVIOR_CONSTRAINT__INVOCATION_CONSTRAINT);
+		createEReference(explorerBehaviorConstraintEClass, EXPLORER_BEHAVIOR_CONSTRAINT__OWNER);
+
+		inboxConfigurationEClass = createEClass(INBOX_CONFIGURATION);
+
+		outboxConfigurationEClass = createEClass(OUTBOX_CONFIGURATION);
 
 		// Create enums
 		positionInPerspectiveEEnum = createEEnum(POSITION_IN_PERSPECTIVE);
@@ -452,6 +633,7 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		// Obtain other dependent packages
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
+		ConstraintPackage theConstraintPackage = (ConstraintPackage)EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -459,16 +641,24 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 
 		// Add supertypes to classes
 		explorerConfigurationEClass.getESuperTypes().add(this.getViewAllocation());
-		explorerClassConfigurationEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		explorerPropertyConfigurationEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		explorerClassConstraintEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		explorerPropertyConstraintEClass.getESuperTypes().add(this.getExplorerConstraint());
 		editorConfigurationEClass.getESuperTypes().add(this.getViewAllocation());
 		propertiesConfigurationEClass.getESuperTypes().add(this.getViewAllocation());
+		explorerConstraintEClass.getESuperTypes().add(theConstraintPackage.getUserInteractionConstraint());
+		explorerConstraintEClass.getESuperTypes().add(theUimPackage.getLabeledElement());
+		explorerOperationConstraintEClass.getESuperTypes().add(this.getExplorerConstraint());
+		explorerBehaviorConstraintEClass.getESuperTypes().add(this.getExplorerConstraint());
+		inboxConfigurationEClass.getESuperTypes().add(this.getViewAllocation());
+		outboxConfigurationEClass.getESuperTypes().add(this.getViewAllocation());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(uimPerspectiveEClass, UimPerspective.class, "UimPerspective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUimPerspective_ExplorerConfiguration(), this.getExplorerConfiguration(), null, "explorerConfiguration", null, 0, 1, UimPerspective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUimPerspective_EditorConfiguration(), this.getEditorConfiguration(), null, "editorConfiguration", null, 0, 1, UimPerspective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUimPerspective_PropertiesConfiguration(), this.getPropertiesConfiguration(), null, "propertiesConfiguration", null, 0, 1, UimPerspective.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(perspectiveConfigurationEClass, PerspectiveConfiguration.class, "PerspectiveConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPerspectiveConfiguration_Explorer(), this.getExplorerConfiguration(), null, "explorer", null, 0, 1, PerspectiveConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPerspectiveConfiguration_Editor(), this.getEditorConfiguration(), null, "editor", null, 0, 1, PerspectiveConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPerspectiveConfiguration_Properties(), this.getPropertiesConfiguration(), null, "properties", null, 0, 1, PerspectiveConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPerspectiveConfiguration_Inbox(), this.getInboxConfiguration(), null, "inbox", null, 0, 1, PerspectiveConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPerspectiveConfiguration_Outbox(), this.getOutboxConfiguration(), null, "outbox", null, 0, 1, PerspectiveConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(viewAllocationEClass, ViewAllocation.class, "ViewAllocation", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getViewAllocation_Width(), ecorePackage.getEIntegerObject(), "width", null, 0, 1, ViewAllocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -476,19 +666,35 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		initEAttribute(getViewAllocation_Position(), this.getPositionInPerspective(), "position", null, 0, 1, ViewAllocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(explorerConfigurationEClass, ExplorerConfiguration.class, "ExplorerConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExplorerConfiguration_ConfiguredClasses(), this.getExplorerClassConfiguration(), this.getExplorerClassConfiguration_ExplorerConfiguration(), "configuredClasses", null, 0, -1, ExplorerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExplorerConfiguration_Classes(), this.getExplorerClassConstraint(), this.getExplorerClassConstraint_ExplorerConfiguration(), "classes", null, 0, -1, ExplorerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(explorerClassConfigurationEClass, ExplorerClassConfiguration.class, "ExplorerClassConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExplorerClassConfiguration_ExplorerConfiguration(), this.getExplorerConfiguration(), this.getExplorerConfiguration_ConfiguredClasses(), "explorerConfiguration", null, 1, 1, ExplorerClassConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExplorerClassConfiguration_IsVisible(), theEcorePackage.getEBooleanObject(), "isVisible", null, 0, 1, ExplorerClassConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExplorerClassConfiguration_ConfiguredProperties(), this.getExplorerPropertyConfiguration(), null, "configuredProperties", null, 0, -1, ExplorerClassConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(explorerClassConstraintEClass, ExplorerClassConstraint.class, "ExplorerClassConstraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExplorerClassConstraint_ExplorerConfiguration(), this.getExplorerConfiguration(), this.getExplorerConfiguration_Classes(), "explorerConfiguration", null, 1, 1, ExplorerClassConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExplorerClassConstraint_Properties(), this.getExplorerPropertyConstraint(), this.getExplorerPropertyConstraint_Owner(), "properties", null, 0, -1, ExplorerClassConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExplorerClassConstraint_NewObjectConstraint(), theConstraintPackage.getUserInteractionConstraint(), null, "newObjectConstraint", null, 0, 1, ExplorerClassConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExplorerClassConstraint_Behaviors(), this.getExplorerBehaviorConstraint(), this.getExplorerBehaviorConstraint_Owner(), "behaviors", null, 0, -1, ExplorerClassConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExplorerClassConstraint_Operations(), this.getExplorerOperationConstraint(), this.getExplorerOperationConstraint_Owner(), "operations", null, 0, -1, ExplorerClassConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(explorerPropertyConfigurationEClass, ExplorerPropertyConfiguration.class, "ExplorerPropertyConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getExplorerPropertyConfiguration_IsVisible(), theEcorePackage.getEBooleanObject(), "isVisible", null, 0, 1, ExplorerPropertyConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(explorerPropertyConstraintEClass, ExplorerPropertyConstraint.class, "ExplorerPropertyConstraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExplorerPropertyConstraint_Owner(), this.getExplorerClassConstraint(), this.getExplorerClassConstraint_Properties(), "owner", null, 0, 1, ExplorerPropertyConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(editorConfigurationEClass, EditorConfiguration.class, "EditorConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(propertiesConfigurationEClass, PropertiesConfiguration.class, "PropertiesConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(explorerConstraintEClass, ExplorerConstraint.class, "ExplorerConstraint", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getExplorerConstraint_Hidden(), theEcorePackage.getEBoolean(), "hidden", null, 0, 1, ExplorerConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(explorerOperationConstraintEClass, ExplorerOperationConstraint.class, "ExplorerOperationConstraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExplorerOperationConstraint_Owner(), this.getExplorerClassConstraint(), this.getExplorerClassConstraint_Operations(), "owner", null, 0, 1, ExplorerOperationConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(explorerBehaviorConstraintEClass, ExplorerBehaviorConstraint.class, "ExplorerBehaviorConstraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExplorerBehaviorConstraint_InvocationConstraint(), theConstraintPackage.getUserInteractionConstraint(), null, "invocationConstraint", null, 0, 1, ExplorerBehaviorConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExplorerBehaviorConstraint_Owner(), this.getExplorerClassConstraint(), this.getExplorerClassConstraint_Behaviors(), "owner", null, 0, 1, ExplorerBehaviorConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(inboxConfigurationEClass, InboxConfiguration.class, "InboxConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(outboxConfigurationEClass, OutboxConfiguration.class, "OutboxConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(positionInPerspectiveEEnum, PositionInPerspective.class, "PositionInPerspective");

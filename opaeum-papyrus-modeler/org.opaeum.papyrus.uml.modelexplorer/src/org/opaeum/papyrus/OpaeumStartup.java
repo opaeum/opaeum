@@ -1,6 +1,5 @@
 package org.opaeum.papyrus;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 import org.eclipse.core.resources.IFile;
@@ -8,8 +7,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
 import org.eclipse.papyrus.infra.core.lifecycleevents.ISaveAndDirtyService;
 import org.eclipse.papyrus.infra.core.services.ServiceException;

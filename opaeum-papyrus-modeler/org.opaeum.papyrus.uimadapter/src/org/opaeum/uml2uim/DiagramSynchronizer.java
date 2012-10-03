@@ -12,11 +12,11 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.uim.ClassUserInteractionModel;
-import org.opaeum.uim.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.editor.ActionTaskEditor;
-import org.opaeum.uim.editor.QueryInvocationEditor;
+import org.opaeum.uim.model.ClassUserInteractionModel;
+import org.opaeum.uim.model.EmbeddedTaskEditor;
+import org.opaeum.uim.model.QueryInvoker;
+import org.opaeum.uim.model.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.uml2uim.AbstractUimSynchronizer;
 import org.opaeum.uim.uml2uim.UimSynchronizationPhase;
 
@@ -30,7 +30,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	@VisitBefore(matchSubclasses = false)
 	public void beforeAction(OpaqueAction a){
 		String resourceUri = OpaeumEclipseContext.getCurrentContext().getId(a);
-		ActionTaskEditor form = (ActionTaskEditor) getResourceRoot(resourceUri, "uml");
+		EmbeddedTaskEditor form = (EmbeddedTaskEditor) getResourceRoot(resourceUri, "uml");
 		if(form != null){
 			Resource resource = recreateDiagrams(resourceUri);
 			SashWindowsMngr sashWindowsManager = recreateWindowsManager(resourceUri);
@@ -76,11 +76,11 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 				SashWindowsMngr sashWindowsManager = recreateWindowsManager(resourceUri);
 				DiagramCreator fc = new DiagramCreator(model.getInvocationWizard(), resource, sashWindowsManager);
 				fc.createDiagrams();
-				fc = new DiagramCreator(model.getTaskEditor(), resource, sashWindowsManager);
+				fc = new DiagramCreator(model.getViewer(), resource, sashWindowsManager);
 				fc.createDiagrams();
 			}
 		}else{
-			QueryInvocationEditor form = (QueryInvocationEditor) getResourceRoot(resourceUri, "uml");
+			QueryInvoker form = (QueryInvoker) getResourceRoot(resourceUri, "uml");
 			if(form != null){
 				Resource resource = recreateDiagrams(resourceUri);
 				SashWindowsMngr sashWindowsManager = recreateWindowsManager(resourceUri);

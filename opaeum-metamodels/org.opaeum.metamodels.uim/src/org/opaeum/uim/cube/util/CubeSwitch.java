@@ -6,15 +6,24 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
+import org.opaeum.uim.LabeledElement;
+import org.opaeum.uim.Page;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.binding.UimBinding;
-
 import org.opaeum.uim.constraint.ConstrainedObject;
-
+import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.cube.*;
+import org.opaeum.uim.cube.AxisEntry;
+import org.opaeum.uim.cube.ColumnAxisEntry;
+import org.opaeum.uim.cube.CubePackage;
+import org.opaeum.uim.cube.CubeQuery;
+import org.opaeum.uim.cube.CubeQueryEditor;
+import org.opaeum.uim.cube.DimensionBinding;
+import org.opaeum.uim.cube.LevelProperty;
+import org.opaeum.uim.cube.MeasureProperty;
+import org.opaeum.uim.cube.RowAxisEntry;
 
 /**
  * <!-- begin-user-doc -->
@@ -93,9 +102,12 @@ public class CubeSwitch<T> {
 			case CubePackage.CUBE_QUERY: {
 				CubeQuery cubeQuery = (CubeQuery)theEObject;
 				T result = caseCubeQuery(cubeQuery);
-				if (result == null) result = caseUserInteractionElement(cubeQuery);
+				if (result == null) result = casePage(cubeQuery);
+				if (result == null) result = caseEditableConstrainedObject(cubeQuery);
+				if (result == null) result = caseLabeledElement(cubeQuery);
 				if (result == null) result = caseConstrainedObject(cubeQuery);
 				if (result == null) result = caseUmlReference(cubeQuery);
+				if (result == null) result = caseUserInteractionElement(cubeQuery);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -116,7 +128,9 @@ public class CubeSwitch<T> {
 			case CubePackage.LEVEL_PROPERTY: {
 				LevelProperty levelProperty = (LevelProperty)theEObject;
 				T result = caseLevelProperty(levelProperty);
+				if (result == null) result = caseLabeledElement(levelProperty);
 				if (result == null) result = caseUmlReference(levelProperty);
+				if (result == null) result = caseUserInteractionElement(levelProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -144,8 +158,10 @@ public class CubeSwitch<T> {
 			case CubePackage.CUBE_QUERY_EDITOR: {
 				CubeQueryEditor cubeQueryEditor = (CubeQueryEditor)theEObject;
 				T result = caseCubeQueryEditor(cubeQueryEditor);
-				if (result == null) result = caseUserInteractionElement(cubeQueryEditor);
+				if (result == null) result = caseUserInterfaceRoot(cubeQueryEditor);
+				if (result == null) result = caseLabeledElement(cubeQueryEditor);
 				if (result == null) result = caseUmlReference(cubeQueryEditor);
+				if (result == null) result = caseUserInteractionElement(cubeQueryEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -289,6 +305,21 @@ public class CubeSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>User Interface Root</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>User Interface Root</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUserInterfaceRoot(UserInterfaceRoot object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Constrained Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -304,6 +335,21 @@ public class CubeSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Editable Constrained Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Editable Constrained Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEditableConstrainedObject(EditableConstrainedObject object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -315,6 +361,36 @@ public class CubeSwitch<T> {
 	 * @generated
 	 */
 	public T caseUmlReference(UmlReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabeledElement(LabeledElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Page</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Page</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePage(Page object) {
 		return null;
 	}
 

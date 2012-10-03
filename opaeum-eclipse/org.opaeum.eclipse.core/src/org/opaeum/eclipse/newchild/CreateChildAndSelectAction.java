@@ -11,7 +11,6 @@ import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
@@ -78,7 +77,6 @@ public class CreateChildAndSelectAction extends CreateChildAction{
 			}
 			editingDomain.getCommandStack().execute(
 					AddCommand.create(editingDomain, ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), getCommandParameter().getValue()));
-//			configureAction(new StructuredSelection(element));
 		}
 		super.run();
 		gotoNewObject();

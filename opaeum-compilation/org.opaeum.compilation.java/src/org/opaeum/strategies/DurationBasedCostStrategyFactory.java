@@ -1,6 +1,6 @@
 package org.opaeum.strategies;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
@@ -8,14 +8,12 @@ import javax.persistence.Embedded;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Property;
-import org.hibernate.annotations.IndexColumn;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.java.metamodel.OJBlock;
@@ -57,7 +55,7 @@ public class DurationBasedCostStrategyFactory extends AbstractStrategyFactory{
 			owner.addToOperations(fromEventOccurred);
 			OJAnnotatedOperation toEventOccurred = new OJAnnotatedOperation(map.fieldname() + "ToEventOccurred");
 			OJPathName setOfResources = new OJPathName("java.util.Set");
-			setOfResources.addToElementTypes(new OJPathName("org.opaeum.runtime.costing.ITimedResource"));
+			setOfResources.addToElementTypes(new OJPathName("org.opaeum.runtime.bpm.costing.ITimedResource"));
 			toEventOccurred.addParam("resources", setOfResources);
 			toEventOccurred.addParam("firstEvent", new OJPathName("Boolean"));
 			toEventOccurred.getBody().addToStatements(new OJIfStatement(map.getter() + "()==null", map.setter() + "(new DurationBasedCost())"));
@@ -67,10 +65,10 @@ public class DurationBasedCostStrategyFactory extends AbstractStrategyFactory{
 			OJAnnotatedOperation addCostEntry = new OJAnnotatedOperation(map.adder() + "Entry");
 			addCostEntry.addParam("fromDate", new OJPathName(Date.class.getName()));
 			addCostEntry.addParam("toDate", new OJPathName(Date.class.getName()));
-			addCostEntry.addParam("resource", new OJPathName("org.opaeum.runtime.costing.ITimedResource"));
+			addCostEntry.addParam("resource", new OJPathName("org.opaeum.runtime.bpm.costing.ITimedResource"));
 			addCostEntry.getBody().addToStatements(new OJIfStatement(map.getter() + "()==null", map.setter() + "(new DurationBasedCost())"));
 			addCostEntry.getBody().addToStatements(
-					a.getter.getName() + "Entry.add(" + map.getter() + "().addCostEntry(fromDate,toDate, resource))");
+					a.getter.getName() + "Entry().add(" + map.getter() + "().addCostEntry(fromDate,toDate, resource))");
 			owner.addToOperations(addCostEntry);
 		}
 	}
@@ -98,8 +96,8 @@ public class DurationBasedCostStrategyFactory extends AbstractStrategyFactory{
 			overrides.addAnnotationValue(JpaUtil.createOverride("measurementCount", persistentName));
 			OJAnnotatedField entriesField = (OJAnnotatedField) c.findField(f.getName() + "Entries");
 			OJAnnotationValue oneToMany = new OJAnnotationValue(new OJPathName(OneToMany.class.getName()));
-			oneToMany.putAttribute("orphanRemoval", Boolean.TRUE);
-			oneToMany.putAttribute("cascadeType", new OJEnumValue(new OJPathName(CascadeType.class.getName()), "ALL"));
+//			oneToMany.putAttribute("orphanRemoval", Boolean.TRUE);
+			oneToMany.putAttribute("cascade", new OJEnumValue(new OJPathName(CascadeType.class.getName()), "ALL"));
 			entriesField.addAnnotationIfNew(oneToMany);
 			OJAnnotationValue index = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.IndexColumn"));
 			index.putAttribute(new OJAnnotationAttributeValue("name", "index"));
@@ -144,7 +142,7 @@ public class DurationBasedCostStrategyFactory extends AbstractStrategyFactory{
 	}
 	@SuppressWarnings("unchecked")
 	public DurationBasedCostStrategyFactory(){
-		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, MyTestValueStrategy.class, MyFormattingStrategy.class);
+		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, MyTestValueStrategy.class, MyFormattingStrategy.class, MyAttributeStrategy.class);
 	}
 	@Override
 	public boolean appliesTo(DataType st){

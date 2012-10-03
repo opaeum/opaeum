@@ -1,15 +1,19 @@
 package org.opaeum.runtime.environment;
 
 import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
+import org.opaeum.annotation.ParameterMetaInfo;
+import org.opaeum.annotation.PropertyConstraint;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class JavaTypedElement{
 	long opaeumId;
@@ -23,14 +27,17 @@ public class JavaTypedElement{
 	Class<?> type;
 	private Class<?> declaringClass;
 	private Method readMethod;
-	private Method lookupMethod;
+	private String lookupMethod;
 	private Method writeMethod;
+	private PropertyDescriptor propertyDescriptor;
+	private Method addMethod;
+	private PropertyConstraint[] constraints;
 	// TODO extract method and move to new class
 	public JavaTypedElement(Method getter){
 		super();
 		buildTypedElementOnGetter(getter);
 		declaringClass = getter.getDeclaringClass();
-		this.readMethod=getter;
+		this.readMethod = getter;
 	}
 	protected void buildJavaTypedElement(PropertyDescriptor descriptor){
 		Method readMethod = descriptor.getReadMethod();
@@ -38,25 +45,32 @@ public class JavaTypedElement{
 		buildTypedElementOnGetter(readMethod);
 	}
 	public void buildTypedElementOnGetter(Method readMethod){
-		this.readMethod=readMethod;
+		this.readMethod = readMethod;
 		String setterName = readMethod.getName();
-		setterName = "set" + setterName.substring(3);
+		if(readMethod.getName().startsWith("is")){
+			name = NameConverter.decapitalize(readMethod.getName().substring(2));
+		}else{
+			name = NameConverter.decapitalize(readMethod.getName().substring(3));
+		}
+		setterName = "set" + NameConverter.capitalize(name);
 		try{
 			this.writeMethod = readMethod.getDeclaringClass().getMethod(setterName, readMethod.getReturnType());
+		}catch(SecurityException e1){
+		}catch(NoSuchMethodException e1){
+		}
+		try{
+			this.addMethod = readMethod.getDeclaringClass().getMethod("addTo" + NameConverter.capitalize(name), readMethod.getReturnType());
 		}catch(SecurityException e1){
 		}catch(NoSuchMethodException e1){
 		}
 		Class<PropertyMetaInfo> annotationClass = PropertyMetaInfo.class;
 		PropertyMetaInfo annotation = readMethod.getAnnotation(annotationClass);
 		if(annotation != null){
-			try{
-				lookupMethod = readMethod.getDeclaringClass().getMethod(annotation.lookupMethod());
-			}catch(SecurityException e1){
-			}catch(NoSuchMethodException e1){
-			}
+			this.isComposite = annotation.isComposite();
 			this.opaeumId = annotation.opaeumId();
 			this.uuid = annotation.uuid();
 			this.opposite = null;// ???
+			this.lookupMethod = annotation.lookupMethod();
 			try{
 				this.strategyFactory = annotation.strategyFactory().newInstance();
 			}catch(InstantiationException e){
@@ -66,9 +80,9 @@ public class JavaTypedElement{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			setConstraints(annotation.constraints());
 			this.shortDescription = annotation.shortDescription();
 		}
-		name = NameConverter.decapitalize(readMethod.getName().substring(3));
 		this.type = readMethod.getReturnType();
 		Type genericReturnType = readMethod.getGenericReturnType();
 		calcBaseType(genericReturnType);
@@ -126,10 +140,10 @@ public class JavaTypedElement{
 		return declaringClass;
 	}
 	public boolean isReadOnly(){
-		return writeMethod==null;
+		return writeMethod == null;
 	}
 	public Object invokeGetter(Object target){
-		if(readMethod==null){
+		if(readMethod == null){
 			return null;
 		}else{
 			try{
@@ -142,16 +156,64 @@ public class JavaTypedElement{
 		}
 	}
 	public Object invokeLookupMethod(IPersistentObject target){
-		if(lookupMethod==null){
-			return null;
-		}else{
-			try{
-				return lookupMethod.invoke(target);
-			}catch(InvocationTargetException e){
-				throw new RuntimeException(e.getTargetException());
-			}catch(Exception e){
+		try{
+			if(lookupMethod == null || lookupMethod.length() == 0){
+				Method method = IntrospectionUtil.getOriginalClass(target).getMethod(readMethod.getName());
+				PropertyMetaInfo annotation = method.getAnnotation(PropertyMetaInfo.class);
+				if(annotation != null && annotation.lookupMethod().length() > 0){
+					return target.getClass().getMethod(annotation.lookupMethod()).invoke(target);
+				}
 				return null;
+			}else{
+				Method lookupMethod = target.getClass().getMethod(this.lookupMethod);
+				return lookupMethod.invoke(target);
 			}
+		}catch(SecurityException e1){
+		}catch(NoSuchMethodException e1){
+		}catch(InvocationTargetException e){
+			throw new RuntimeException(e.getTargetException());
+		}catch(Exception e){
 		}
+		return null;
+	}
+	public boolean isMany(){
+		return Collection.class.isAssignableFrom(readMethod.getReturnType());
+	}
+	public Class<?> getType(){
+		return readMethod.getReturnType();
+	}
+	public void invokeSetter(Object target,Object value){
+		try{
+			writeMethod.invoke(target, value);
+		}catch(IllegalArgumentException e){
+			throw new RuntimeException(e);
+		}catch(IllegalAccessException e){
+			throw new RuntimeException(e);
+		}catch(InvocationTargetException e){
+			throw new RuntimeException(e.getTargetException());
+		}
+	}
+	public PropertyDescriptor getPropertyDescriptor(){
+		if(propertyDescriptor == null){
+			propertyDescriptor = IntrospectionUtil.getProperty(this.name, readMethod.getDeclaringClass());
+		}
+		return propertyDescriptor;
+	}
+	public void invokeAdder(Object target,IPersistentObject ni){
+		try{
+			addMethod.invoke(target, ni);
+		}catch(IllegalArgumentException e){
+			throw new RuntimeException(e);
+		}catch(IllegalAccessException e){
+			throw new RuntimeException(e);
+		}catch(InvocationTargetException e){
+			throw new RuntimeException(e.getTargetException());
+		}
+	}
+	public PropertyConstraint[] getConstraints(){
+		return constraints;
+	}
+	public void setConstraints(PropertyConstraint[] constraints){
+		this.constraints = constraints;
 	}
 }

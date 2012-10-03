@@ -49,31 +49,13 @@ public interface ActionFactory extends EFactory {
 	LinkToQuery createLinkToQuery();
 
 	/**
-	 * Returns a new object of class '<em>Operation Button</em>'.
+	 * Returns a new object of class '<em>Invocation Button</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Operation Button</em>'.
+	 * @return a new object of class '<em>Invocation Button</em>'.
 	 * @generated
 	 */
-	OperationButton createOperationButton();
-
-	/**
-	 * Returns a new object of class '<em>Operation Popup</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Operation Popup</em>'.
-	 * @generated
-	 */
-	OperationPopup createOperationPopup();
-
-	/**
-	 * Returns a new object of class '<em>Operation Popup Page</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Operation Popup Page</em>'.
-	 * @generated
-	 */
-	OperationPopupPage createOperationPopupPage();
+	InvocationButton createInvocationButton();
 
 	/**
 	 * Returns a new object of class '<em>Built In Link</em>'.

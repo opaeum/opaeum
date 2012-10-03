@@ -29,6 +29,7 @@ import org.opaeum.strategies.DateStrategyFactory;
 import org.opaeum.strategies.DateTimeStrategyFactory;
 import org.opaeum.strategies.DurationBasedCostStrategyFactory;
 import org.opaeum.strategies.DurationStrategyFactory;
+import org.opaeum.strategies.LocaleStrategyFactory;
 import org.opaeum.strategies.MoneyInDefaultCurrencyStrategyFactory;
 import org.opaeum.strategies.MoneyInGivenCurrencyStrategyFactory;
 import org.opaeum.strategies.QuantityBasedCostStrategyFactory;
@@ -61,6 +62,7 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		OpaeumConfig.registerClass(QuantityBasedCostStrategyFactory.class);
 		OpaeumConfig.registerClass(DurationBasedCostStrategyFactory.class);
 		OpaeumConfig.registerClass(CurrencyStrategyFactory.class);
+		OpaeumConfig.registerClass(LocaleStrategyFactory.class);
 		OpaeumConfig.registerClass(MoneyInDefaultCurrencyStrategyFactory.class);
 		OpaeumConfig.registerClass(MoneyInGivenCurrencyStrategyFactory.class);
 		OpaeumConfig.registerClass(DateTimeStrategyFactory.class);

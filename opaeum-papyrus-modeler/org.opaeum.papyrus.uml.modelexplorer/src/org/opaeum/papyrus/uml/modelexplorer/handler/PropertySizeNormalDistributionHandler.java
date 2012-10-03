@@ -3,7 +3,6 @@ package org.opaeum.papyrus.uml.modelexplorer.handler;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 

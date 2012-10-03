@@ -2,7 +2,7 @@
  */
 package org.opaeum.uim.binding;
 
-import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.component.UimDataTable;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.opaeum.uim.UimDataTable;
 public interface TableBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Table</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UimDataTable#getBinding <em>Binding</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.component.UimDataTable#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Table</em>' container reference isn't clear,
@@ -33,7 +33,7 @@ public interface TableBinding extends UimBinding {
 	 * @return the value of the '<em>Table</em>' container reference.
 	 * @see #setTable(UimDataTable)
 	 * @see org.opaeum.uim.binding.BindingPackage#getTableBinding_Table()
-	 * @see org.opaeum.uim.UimDataTable#getBinding
+	 * @see org.opaeum.uim.component.UimDataTable#getBinding
 	 * @model opposite="binding" required="true" transient="false"
 	 * @generated
 	 */

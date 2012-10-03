@@ -3,17 +3,12 @@
 package org.opaeum.uim.cube.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.opaeum.uim.cube.AggregationFormula;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.MeasureProperty;
-
 import org.opaeum.uim.impl.UmlReferenceImpl;
-import org.opaeum.uim.impl.UserInteractionElementImpl;
 
 /**
  * <!-- begin-user-doc -->

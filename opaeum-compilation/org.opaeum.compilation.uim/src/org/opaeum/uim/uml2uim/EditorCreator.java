@@ -6,41 +6,32 @@ import org.eclipse.uml2.uml.Operation;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
-import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.BuiltInActionButton;
-import org.opaeum.uim.action.OperationButton;
-import org.opaeum.uim.action.OperationPopup;
-import org.opaeum.uim.action.OperationPopupPage;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.editor.AbstractEditor;
-import org.opaeum.uim.editor.EditorActionBar;
+import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.EditorPage;
+import org.opaeum.uim.editor.InstanceEditor;
 
 public class EditorCreator extends AbstractUserInterfaceCreator{
-	private AbstractEditor formPanel;
-	public EditorCreator(EmfWorkspace w,AbstractEditor cf){
-		super(w);
-		this.formPanel = cf;
+	private AbstractEditor editor;
+	public EditorCreator(UserInterfaceResourceFactory rf,AbstractEditor cf){
+		super(rf);
+		this.editor = cf;
 	}
-	protected Page addPage(PageContainer pc){
-		if(pc instanceof AbstractEditor){
-			EditorPage page = EditorFactory.eINSTANCE.createEditorPage();
-			((AbstractEditor) pc).getPages().add(page);
-			return page;
-		}else{
-			OperationPopup popup = (OperationPopup) pc;
-			OperationPopupPage page = ActionFactory.eINSTANCE.createOperationPopupPage();
-			popup.getPages().add(page);
-			return page;
-		}
+	protected Page addPage(UserInterfaceRoot pc){
+		EditorPage page = EditorFactory.eINSTANCE.createEditorPage();
+		((AbstractEditor) pc).getPages().add(page);
+		return page;
 	}
 	public void addButtonBar(Collection<Operation> operations,ActionKind...updateCurrentEntity){
-		if(formPanel.getActionBar() == null || !formPanel.getActionBar().isUnderUserControl()){
-			EditorActionBar panel = EditorFactory.eINSTANCE.createEditorActionBar();
-			formPanel.setActionBar(panel);
+		if(editor instanceof InstanceEditor &&  ((InstanceEditor)editor).getActionBar() == null || !((InstanceEditor)editor).getActionBar().isUnderUserControl()){
+			ActionBar panel = EditorFactory.eINSTANCE.createActionBar();
+			((InstanceEditor)editor).setActionBar(panel);
 			panel.setName("ActionBar");
 			for(ActionKind actionKind:updateCurrentEntity){
 				BuiltInActionButton bia = ActionFactory.eINSTANCE.createBuiltInActionButton();
@@ -49,20 +40,18 @@ public class EditorCreator extends AbstractUserInterfaceCreator{
 				panel.getChildren().add(bia);
 			}
 			for(Operation operation:operations){
-				if(!operation.isQuery() && operation.getReturnResult() == null){
-					OperationButton button = ActionFactory.eINSTANCE.createOperationButton();
+				if(!operation.isQuery()){
+					InvocationButton button = ActionFactory.eINSTANCE.createInvocationButton();
 					button.setUmlElementUid(EmfWorkspace.getId(operation));
 					button.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
 					panel.getChildren().add(button);
-					OperationPopup popup = ActionFactory.eINSTANCE.createOperationPopup();
-					button.setPopup(popup);
-					addFormPanel(operation, button.getPopup(), button.getName(), operation.getOwnedParameters());
+					button.setPopup(getInvocationWizard(operation));
 				}
 			}
 		}
 	}
 	@Override
-	protected UserInterfaceEntryPoint getUserInterfaceEntryPoint(){
-		return formPanel;
+	protected UserInterfaceRoot getUserInterfaceRoot(){
+		return editor;
 	}
 }

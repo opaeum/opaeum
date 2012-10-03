@@ -15,7 +15,6 @@ import org.opaeum.uim.binding.UimBinding;
  * @generated
  */
 public interface DimensionBinding extends UimBinding {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -30,7 +29,7 @@ public interface DimensionBinding extends UimBinding {
 	 * @model
 	 * @generated
 	 */
-	int hashCode();
+	boolean equals(Object o);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -38,5 +37,6 @@ public interface DimensionBinding extends UimBinding {
 	 * @model
 	 * @generated
 	 */
-	boolean equals(Object o);
+	int hashCode();
+
 } // DimensionBinding

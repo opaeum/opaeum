@@ -3,7 +3,7 @@
 package org.opaeum.uim.editor;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.UserInteractionElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.opaeum.uim.editor.MenuConfiguration#getEditor <em>Editor</em>}</li>
- *   <li>{@link org.opaeum.uim.editor.MenuConfiguration#getVisibleOperations <em>Visible Operations</em>}</li>
+ *   <li>{@link org.opaeum.uim.editor.MenuConfiguration#getOperations <em>Operations</em>}</li>
  * </ul>
  * </p>
  *
@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface MenuConfiguration extends EObject {
+public interface MenuConfiguration extends UserInteractionElement {
 	/**
 	 * Returns the value of the '<em><b>Editor</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.editor.AbstractEditor#getMenuConfiguration <em>Menu Configuration</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.editor.InstanceEditor#getMenuConfiguration <em>Menu Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Editor</em>' container reference isn't clear,
@@ -33,13 +33,13 @@ public interface MenuConfiguration extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Editor</em>' container reference.
-	 * @see #setEditor(AbstractEditor)
+	 * @see #setEditor(InstanceEditor)
 	 * @see org.opaeum.uim.editor.EditorPackage#getMenuConfiguration_Editor()
-	 * @see org.opaeum.uim.editor.AbstractEditor#getMenuConfiguration
+	 * @see org.opaeum.uim.editor.InstanceEditor#getMenuConfiguration
 	 * @model opposite="menuConfiguration" required="true" transient="false"
 	 * @generated
 	 */
-	AbstractEditor getEditor();
+	InstanceEditor getEditor();
 
 	/**
 	 * Sets the value of the '{@link org.opaeum.uim.editor.MenuConfiguration#getEditor <em>Editor</em>}' container reference.
@@ -49,24 +49,24 @@ public interface MenuConfiguration extends EObject {
 	 * @see #getEditor()
 	 * @generated
 	 */
-	void setEditor(AbstractEditor value);
+	void setEditor(InstanceEditor value);
 
 	/**
-	 * Returns the value of the '<em><b>Visible Operations</b></em>' containment reference list.
-	 * The list contents are of type {@link org.opaeum.uim.editor.VisibleOperation}.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.editor.VisibleOperation#getMenuConfiguration <em>Menu Configuration</em>}'.
+	 * Returns the value of the '<em><b>Operations</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.editor.OperationMenuItem}.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.editor.OperationMenuItem#getMenuConfiguration <em>Menu Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Visible Operations</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Operations</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Visible Operations</em>' containment reference list.
-	 * @see org.opaeum.uim.editor.EditorPackage#getMenuConfiguration_VisibleOperations()
-	 * @see org.opaeum.uim.editor.VisibleOperation#getMenuConfiguration
+	 * @return the value of the '<em>Operations</em>' containment reference list.
+	 * @see org.opaeum.uim.editor.EditorPackage#getMenuConfiguration_Operations()
+	 * @see org.opaeum.uim.editor.OperationMenuItem#getMenuConfiguration
 	 * @model opposite="menuConfiguration" containment="true"
 	 * @generated
 	 */
-	EList<VisibleOperation> getVisibleOperations();
+	EList<OperationMenuItem> getOperations();
 
 } // MenuConfiguration

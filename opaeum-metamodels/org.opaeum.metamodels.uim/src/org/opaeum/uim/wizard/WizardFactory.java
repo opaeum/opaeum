@@ -31,15 +31,6 @@ public interface WizardFactory extends EFactory {
 	NewObjectWizard createNewObjectWizard();
 
 	/**
-	 * Returns a new object of class '<em>Invoke Responsibility Wizard</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Invoke Responsibility Wizard</em>'.
-	 * @generated
-	 */
-	InvokeResponsibilityWizard createInvokeResponsibilityWizard();
-
-	/**
 	 * Returns a new object of class '<em>Page</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -47,6 +38,33 @@ public interface WizardFactory extends EFactory {
 	 * @generated
 	 */
 	WizardPage createWizardPage();
+
+	/**
+	 * Returns a new object of class '<em>Responsibility Invocation Wizard</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Responsibility Invocation Wizard</em>'.
+	 * @generated
+	 */
+	ResponsibilityInvocationWizard createResponsibilityInvocationWizard();
+
+	/**
+	 * Returns a new object of class '<em>Behavior Invocation Wizard</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Behavior Invocation Wizard</em>'.
+	 * @generated
+	 */
+	BehaviorInvocationWizard createBehaviorInvocationWizard();
+
+	/**
+	 * Returns a new object of class '<em>Operation Result Page</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operation Result Page</em>'.
+	 * @generated
+	 */
+	OperationResultPage createOperationResultPage();
 
 	/**
 	 * Returns the package supported by this factory.

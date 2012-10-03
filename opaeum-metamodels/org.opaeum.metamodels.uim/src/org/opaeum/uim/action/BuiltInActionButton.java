@@ -5,7 +5,7 @@ package org.opaeum.uim.action;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Built In Action</b></em>'.
+ * A representation of the model object '<em><b>Built In Action Button</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -19,7 +19,7 @@ package org.opaeum.uim.action;
  * @model
  * @generated
  */
-public interface BuiltInActionButton extends UimAction {
+public interface BuiltInActionButton extends AbstractActionButton {
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.opaeum.uim.action.ActionKind}.

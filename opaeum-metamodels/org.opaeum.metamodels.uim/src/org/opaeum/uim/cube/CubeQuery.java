@@ -3,11 +3,7 @@
 package org.opaeum.uim.cube;
 
 import org.eclipse.emf.common.util.EList;
-
-import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.UserInteractionElement;
-
-import org.opaeum.uim.constraint.ConstrainedObject;
+import org.opaeum.uim.Page;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,7 +23,7 @@ import org.opaeum.uim.constraint.ConstrainedObject;
  * @model
  * @generated
  */
-public interface CubeQuery extends UserInteractionElement, ConstrainedObject, UmlReference {
+public interface CubeQuery extends Page {
 	/**
 	 * Returns the value of the '<em><b>Column Axis</b></em>' containment reference list.
 	 * The list contents are of type {@link org.opaeum.uim.cube.ColumnAxisEntry}.

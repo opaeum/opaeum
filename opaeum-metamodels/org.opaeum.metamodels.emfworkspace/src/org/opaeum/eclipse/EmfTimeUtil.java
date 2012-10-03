@@ -2,12 +2,11 @@ package org.opaeum.eclipse;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.Element;
@@ -28,9 +27,9 @@ public class EmfTimeUtil{
 	public static boolean isDeadline(Event e){
 		return e instanceof TimeEvent && StereotypesHelper.hasKeyword(e, StereotypeNames.DEADLINE);
 	}
-	private static Stereotype getObservationStereotype(NamedElement container){
+	private static Stereotype getObservationStereotype(NamedElement container, String propName){
 		for(Stereotype st:container.getAppliedStereotypes()){
-			if(st.getMember(TagNames.DURATION_OBSERVATIONS) != null){
+			if(st.getMember(propName) != null){
 				return st;
 			}
 		}
@@ -47,12 +46,13 @@ public class EmfTimeUtil{
 		return result;
 	}
 	public static Collection<TimeObservation> getTimeObservations(NamedElement container){
-		Collection<TimeObservation> value = getObservations(container, "timeObservations");
+		Collection<TimeObservation> value = getObservations(container, TagNames.TIME_OBSERVATIONS);
+		value.addAll(EmfTimeUtil.<TimeObservation>getObservations(container, TagNames.QUANTITY_BASED_COST_OBSERVATIONS));
 		return value;
 	}
 	@SuppressWarnings("unchecked")
 	private static <T extends Observation>Collection<T> getObservations(NamedElement container,String propName){
-		Stereotype st = getObservationStereotype(container);
+		Stereotype st = getObservationStereotype(container,propName);
 		Collection<T> value = null;
 		if(st == null){
 			value = Collections.emptySet();
@@ -75,7 +75,8 @@ public class EmfTimeUtil{
 		return result;
 	}
 	public static Collection<DurationObservation> getDurationObservations(NamedElement container){
-		Collection<DurationObservation> value = getObservations(container, "durationObservations");
+		Collection<DurationObservation> value = getObservations(container, TagNames.DURATION_OBSERVATIONS);
+		value.addAll(EmfTimeUtil.<DurationObservation>getObservations(container, TagNames.DURATION_BASED_COST_OBSERVATIONS));
 		return value;
 	}
 	public static Collection<DurationObservation> findDurationObservationsTo(Namespace container,Element node){
@@ -90,21 +91,10 @@ public class EmfTimeUtil{
 	}
 	public static EList<ObservationPropertyBridge> buildObservationPropertiess(Classifier owner,IPropertyEmulation e,Namespace element){
 		EList<ObservationPropertyBridge> result = new BasicEList<ObservationPropertyBridge>();
-		for(EObject eObject:element.getStereotypeApplications()){
-			EStructuralFeature feature = eObject.eClass().getEStructuralFeature("timeObservations");
-			if(feature != null){
-				EList<TimeObservation> obs = (EList<TimeObservation>) eObject.eGet(feature);
-				for(TimeObservation to:obs){
-					result.add(new ObservationPropertyBridge(owner, to, e));
-				}
-			}
-			feature = eObject.eClass().getEStructuralFeature("durationObservations");
-			if(feature != null){
-				EList<DurationObservation> obs = (EList<DurationObservation>) eObject.eGet(feature);
-				for(DurationObservation to:obs){
-						result.add(new ObservationPropertyBridge(owner, to, e));
-				}
-			}
+		Collection<Observation> obss = new HashSet<Observation>(getTimeObservations(owner));
+		obss.addAll(getDurationObservations(owner));
+		for(Observation obs:obss){
+			result.add(new ObservationPropertyBridge(owner, obs, e));
 		}
 		return result;
 	}

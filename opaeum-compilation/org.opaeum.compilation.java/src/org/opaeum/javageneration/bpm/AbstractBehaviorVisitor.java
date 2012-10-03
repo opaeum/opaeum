@@ -100,7 +100,11 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 					createIObserver(register, dob, dob.getEvents().get(0));
 				}
 				if(dob.getEvents().size() > 1){
-					createIObserver(register, dob, dob.getEvents().get(1));
+					if(dob.getEvents().get(0) == dob.getEvents().get(1)){
+						//IGnore, already done 
+					}else{
+						createIObserver(register, dob, dob.getEvents().get(1));
+					}
 				}
 			}
 			for(TimeObservation to:tos){
@@ -134,36 +138,41 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		iobservation.getClassDeclaration().addToOperations(onExit);
 		implementObservationCallback(dob, vertex, onExit, false);
 	}
-	protected void implementObservationCallback(Observation ob,NamedElement event,OJAnnotatedOperation onEntry,boolean isFirstEvent){
+	protected void implementObservationCallback(Observation ob,NamedElement event,OJAnnotatedOperation oper,boolean isOnEntryMethod){
 		PropertyMap map = ojUtil.buildStructuralFeatureMap(ob);
 		if(ob instanceof DurationObservation){
 			DurationObservation dob = (DurationObservation) ob;
+			boolean startEventFiresOnEntry = dob.getFirstEvents().size() > 0 ? dob.getFirstEvents().get(0) : true;
+			boolean endEventFiresOnEntry = dob.getFirstEvents().size() > 1 ? dob.getFirstEvents().get(1) : true;
+			boolean shouldFireFromEvent = dob.getEvents().size() > 0 && dob.getEvents().get(0) == event
+					&& startEventFiresOnEntry == isOnEntryMethod;
+			boolean shouldFireToEvent = dob.getEvents().size() > 1 && dob.getEvents().get(1) == event && endEventFiresOnEntry == isOnEntryMethod;
 			if(EmfTimeUtil.isDurationBasedCostObservation(dob)){
-				if(dob.getEvents().indexOf(event) == 0 && (dob.getFirstEvents().size() > 0 ? dob.getFirstEvents().get(0) : true) == isFirstEvent){
-					onEntry.getBody().addToStatements(map.fieldname() + "FromEventOccurred(" + isFirstEvent + ")");
+				if(shouldFireFromEvent){
+					oper.getBody().addToStatements(map.fieldname() + "FromEventOccurred(" + startEventFiresOnEntry + ")");
 				}
-				if(dob.getEvents().indexOf(event) == 1 && (dob.getFirstEvents().size() > 1 ? dob.getFirstEvents().get(1) : true) == isFirstEvent){
+				if(shouldFireToEvent){
 					OJPathName setOfResources = new OJPathName("java.util.Set");
 					setOfResources.addToElementTypes(ojUtil.classifierPathname(getLibrary().getTimedResource()));
 					OJAnnotatedField resources = new OJAnnotatedField("resources", setOfResources);
-					onEntry.getBody().addToLocals(resources);
+					oper.getBody().addToLocals(resources);
 					resources.setInitExp("new HashSet<ITimedResource>()");
-					onEntry.getOwner().addToImports(new OJPathName("java.util.HashSet"));
+					oper.getOwner().addToImports(new OJPathName("java.util.HashSet"));
 					Collection<OpaqueExpressionContext> exps = ojUtil.getLibrary().getArtificialExpressions(dob, TagNames.RESOURCES_PAID_FOR);
 					if(exps.isEmpty()){
-						onEntry.getBody().addToStatements("resources.add((ITimedResource)getTaskRequest().getOwner()))");
+						oper.getBody().addToStatements("resources.add((ITimedResource)getTaskRequest().getOwner())");
 					}
 					for(OpaqueExpressionContext bctu:exps){
 						if(!bctu.hasErrors()){
-							String expression = valueSpecificationUtil.expressOcl(bctu, onEntry, null);
+							String expression = valueSpecificationUtil.expressOcl(bctu, oper, null);
 							if(bctu.getExpression().getType() instanceof CollectionType){
-								onEntry.getBody().addToStatements("resources.addAll(" + expression + ")");
+								oper.getBody().addToStatements("resources.addAll(" + expression + ")");
 							}else{
-								onEntry.getBody().addToStatements("resources.add(" + expression + ")");
+								oper.getBody().addToStatements("resources.add(" + expression + ")");
 							}
 						}
 					}
-					onEntry.getBody().addToStatements(map.fieldname() + "ToEventOccurred(resources," + isFirstEvent + ")");
+					oper.getBody().addToStatements(map.fieldname() + "ToEventOccurred(resources," + endEventFiresOnEntry + ")");
 				}
 			}else{
 				Stereotype st = StereotypesHelper.getStereotype(dob, StereotypeNames.BUSINESS_DURATION_OBSERVATION);
@@ -172,45 +181,45 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 				if(l != null){
 					btu = BusinessTimeUnit.valueOf(OJUtil.toJavaLiteral(l));
 				}
-				if(dob.getEvents().indexOf(event) == 0 && (dob.getFirstEvents().size() > 0 ? dob.getFirstEvents().get(0) : true) == isFirstEvent){
+				if(shouldFireFromEvent){
 					String newValue = EmfTimeUtil.isCumulative(dob) ? "(new CumulativeDuration(" : "(new Duration(";
 					OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", map.setter() + newValue + "BusinessTimeUnit." + btu.name()
 							+ "))");
-					onEntry.getBody().addToStatements(ifNull);
-					onEntry.getBody().addToStatements(map.getter() + "().fromEventOccurred(" + isFirstEvent + ")");
+					oper.getBody().addToStatements(ifNull);
+					oper.getBody().addToStatements(map.getter() + "().fromEventOccurred(" + startEventFiresOnEntry + ")");
 				}
-				if(dob.getEvents().indexOf(event) == 1 && (dob.getFirstEvents().size() > 1 ? dob.getFirstEvents().get(1) : true) == isFirstEvent){
+				if(shouldFireToEvent){
 					String expression = "BusinessCalendar.getInstance()";
 					OpaqueExpressionContext bctu = ojUtil.getLibrary().getArtificationExpression(dob, TagNames.BUSINESS_CALENDAR_TO_USE);
 					if(bctu != null && !bctu.hasErrors()){
-						expression = valueSpecificationUtil.expressOcl(bctu, onEntry, null);
+						expression = valueSpecificationUtil.expressOcl(bctu, oper, null);
 					}
-					onEntry.getBody().addToStatements(
-							map.getter() + "().toEventOccurred(" + expression + ",BusinessTimeUnit." + btu.name() + "," + isFirstEvent + ")");
+					oper.getBody().addToStatements(
+							map.getter() + "().toEventOccurred(" + expression + ",BusinessTimeUnit." + btu.name() + "," + endEventFiresOnEntry + ")");
 				}
 			}
 		}else{
 			TimeObservation tob = (TimeObservation) ob;
-			if(tob.getEvent() != null && tob.isFirstEvent() == isFirstEvent){
+			if(tob.getEvent() != null && tob.isFirstEvent() == isOnEntryMethod){
 				Stereotype st = StereotypesHelper.getStereotype(tob, StereotypeNames.QUANTITY_BASED_COST_OBSERVATION);
 				if(st == null){
-					onEntry.getBody().addToStatements(map.setter() + "(new Date())");
+					oper.getBody().addToStatements(map.setter() + "(new Date())");
 				}else{
 					OJPathName setOfResources = new OJPathName("java.util.Set");
 					setOfResources.addToElementTypes(ojUtil.classifierPathname(getLibrary().getQuantifiedResource()));
 					OpaqueExpressionContext resourceExpression = getLibrary().getArtificationExpression(tob, TagNames.RESOURCES_PAID_FOR);
 					OpaqueExpressionContext quantityExpression = getLibrary().getArtificationExpression(tob, TagNames.QUANTITY_EXPRESSION);
-					if(resourceExpression != null && !resourceExpression.hasErrors() ){
+					if(resourceExpression != null && !resourceExpression.hasErrors()){
 						String quantity;
 						if(quantityExpression == null || quantityExpression.hasErrors()){
-							quantity="1d";
+							quantity = "1d";
 						}else{
-							quantity = valueSpecificationUtil.expressOcl(quantityExpression, onEntry, null);
+							quantity = valueSpecificationUtil.expressOcl(quantityExpression, oper, null);
 						}
-						String resource = valueSpecificationUtil.expressOcl(resourceExpression, onEntry, null);
+						String resource = valueSpecificationUtil.expressOcl(resourceExpression, oper, null);
 						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", map.setter() + "(new QuantityBasedCost())");
-						onEntry.getBody().addToStatements(ifNull);
-						onEntry.getBody().addToStatements(map.getter() + "().eventOccurred(" + resource + "," + isFirstEvent + "," +quantity +")");
+						oper.getBody().addToStatements(ifNull);
+						oper.getBody().addToStatements(map.getter() + "().eventOccurred(" + resource + "," + isOnEntryMethod + "," + quantity + ")");
 					}
 				}
 			}

@@ -3,11 +3,8 @@
 package org.opaeum.uim.cube.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
-import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.impl.UimBindingImpl;
-
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.DimensionBinding;
 

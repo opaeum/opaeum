@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -62,7 +63,8 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 						pkg.applyProfile(stereotype.getProfile());
 					}
 					applied.add(stereotype);
-					StereotypeApplicationHelper.INSTANCE.applyStereotype(element, stereotype.getDefinition());
+					EObject sa = StereotypeApplicationHelper.INSTANCE.applyStereotype(element, stereotype.getDefinition());
+					element.eResource().getContents().add(sa);
 					if(!(element instanceof Pin) && element instanceof NamedElement && owner instanceof Namespace){
 						NamedElement ne = (NamedElement) element;
 						if(stereotypeIsKeyword && ne.getName().startsWith(ne.eClass().getName())

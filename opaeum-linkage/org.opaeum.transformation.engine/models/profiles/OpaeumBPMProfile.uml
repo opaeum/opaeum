@@ -34,7 +34,7 @@
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_TzR8l_mnEeGxt5NCaDcqzA" name="durationBasedCostObservations" ordered="false" upperBound="-1">
           <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//DurationObservation"/>
         </eStructuralFeatures>
-        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_TzR8mfmnEeGxt5NCaDcqzA" name="quantityBasedCostObservations" ordered="false" lowerBound="1">
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_TzR8mfmnEeGxt5NCaDcqzA" name="quantityBasedCostObservations" ordered="false" upperBound="-1">
           <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeObservation"/>
         </eStructuralFeatures>
       </eClassifiers>
@@ -370,7 +370,7 @@
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_TzSkZ_mnEeGxt5NCaDcqzA" name="controlledBy" ordered="false" lowerBound="1">
           <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//OpaqueExpression"/>
         </eStructuralFeatures>
-        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_TzSkafmnEeGxt5NCaDcqzA" name="resourcesPaidFor" ordered="false" upperBound="-1">
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_TzSkafmnEeGxt5NCaDcqzA" name="resourcePaidFor" ordered="false" upperBound="1">
           <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//OpaqueExpression"/>
         </eStructuralFeatures>
       </eClassifiers>
@@ -778,6 +778,8 @@
     </ownedAttribute>
     <ownedAttribute xmi:id="_HRPV4PlzEeGYn9aDKdPmKA" name="quantityBasedCostObservations">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeObservation"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3pQw4PlxEeGYn9aD1234KA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4FQJU123459aDKdPmKA"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_YaW9kASMEeGb9qsDxKJdSA" name="E_StructureBusinessProcessN_StructuredActivityNode1" memberEnd="_YaW9kQSMEeGb9qsDxKJdSA _oDv0kF-iEeGSPaWW9iQb9Q">
@@ -966,9 +968,9 @@
     <ownedAttribute xmi:id="_TRO9APlzEeGYn9aDKdPmKA" name="controlledBy">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#OpaqueExpression"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_RS5DYPmnEeGxt5NCaDcqzA" name="resourcesPaidFor">
+    <ownedAttribute xmi:id="_RS5DYPmnEeGxt5NCaDcqzA" name="resourcePaidFor">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#OpaqueExpression"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_THKdYPmnEeGxt5NCaDcqzA" value="*"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_THKdYPmnEeGxt5NCaDcqzA" value="1"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_TRKt8PmnEeGxt5NCaDcqzA"/>
     </ownedAttribute>
   </packagedElement>

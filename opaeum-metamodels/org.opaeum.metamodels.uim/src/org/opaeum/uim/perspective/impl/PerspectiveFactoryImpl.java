@@ -9,16 +9,19 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.opaeum.uim.perspective.*;
+import org.opaeum.uim.perspective.EditorConfiguration;
+import org.opaeum.uim.perspective.ExplorerBehaviorConstraint;
+import org.opaeum.uim.perspective.ExplorerClassConstraint;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
-import org.opaeum.uim.perspective.HiddenClass;
-import org.opaeum.uim.perspective.HiddenCompositeProperty;
+import org.opaeum.uim.perspective.ExplorerOperationConstraint;
+import org.opaeum.uim.perspective.ExplorerPropertyConstraint;
+import org.opaeum.uim.perspective.InboxConfiguration;
+import org.opaeum.uim.perspective.OutboxConfiguration;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectiveFactory;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.PositionInPerspective;
-import org.opaeum.uim.perspective.UimPerspective;
-import org.opaeum.uim.perspective.ViewAllocation;
-import org.opaeum.uim.perspective.ViewKind;
-import org.opaeum.uim.perspective.VisibleNonCompositeProperty;
+import org.opaeum.uim.perspective.PropertiesConfiguration;
 
 /**
  * <!-- begin-user-doc -->
@@ -64,12 +67,16 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case PerspectivePackage.UIM_PERSPECTIVE: return createUimPerspective();
+			case PerspectivePackage.PERSPECTIVE_CONFIGURATION: return createPerspectiveConfiguration();
 			case PerspectivePackage.EXPLORER_CONFIGURATION: return createExplorerConfiguration();
-			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION: return createExplorerClassConfiguration();
-			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION: return createExplorerPropertyConfiguration();
+			case PerspectivePackage.EXPLORER_CLASS_CONSTRAINT: return createExplorerClassConstraint();
+			case PerspectivePackage.EXPLORER_PROPERTY_CONSTRAINT: return createExplorerPropertyConstraint();
 			case PerspectivePackage.EDITOR_CONFIGURATION: return createEditorConfiguration();
 			case PerspectivePackage.PROPERTIES_CONFIGURATION: return createPropertiesConfiguration();
+			case PerspectivePackage.EXPLORER_OPERATION_CONSTRAINT: return createExplorerOperationConstraint();
+			case PerspectivePackage.EXPLORER_BEHAVIOR_CONSTRAINT: return createExplorerBehaviorConstraint();
+			case PerspectivePackage.INBOX_CONFIGURATION: return createInboxConfiguration();
+			case PerspectivePackage.OUTBOX_CONFIGURATION: return createOutboxConfiguration();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -110,9 +117,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimPerspective createUimPerspective() {
-		UimPerspectiveImpl uimPerspective = new UimPerspectiveImpl();
-		return uimPerspective;
+	public PerspectiveConfiguration createPerspectiveConfiguration() {
+		PerspectiveConfigurationImpl perspectiveConfiguration = new PerspectiveConfigurationImpl();
+		return perspectiveConfiguration;
 	}
 
 	/**
@@ -130,9 +137,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExplorerClassConfiguration createExplorerClassConfiguration() {
-		ExplorerClassConfigurationImpl explorerClassConfiguration = new ExplorerClassConfigurationImpl();
-		return explorerClassConfiguration;
+	public ExplorerClassConstraint createExplorerClassConstraint() {
+		ExplorerClassConstraintImpl explorerClassConstraint = new ExplorerClassConstraintImpl();
+		return explorerClassConstraint;
 	}
 
 	/**
@@ -140,9 +147,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExplorerPropertyConfiguration createExplorerPropertyConfiguration() {
-		ExplorerPropertyConfigurationImpl explorerPropertyConfiguration = new ExplorerPropertyConfigurationImpl();
-		return explorerPropertyConfiguration;
+	public ExplorerPropertyConstraint createExplorerPropertyConstraint() {
+		ExplorerPropertyConstraintImpl explorerPropertyConstraint = new ExplorerPropertyConstraintImpl();
+		return explorerPropertyConstraint;
 	}
 
 	/**
@@ -163,6 +170,46 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	public PropertiesConfiguration createPropertiesConfiguration() {
 		PropertiesConfigurationImpl propertiesConfiguration = new PropertiesConfigurationImpl();
 		return propertiesConfiguration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExplorerOperationConstraint createExplorerOperationConstraint() {
+		ExplorerOperationConstraintImpl explorerOperationConstraint = new ExplorerOperationConstraintImpl();
+		return explorerOperationConstraint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExplorerBehaviorConstraint createExplorerBehaviorConstraint() {
+		ExplorerBehaviorConstraintImpl explorerBehaviorConstraint = new ExplorerBehaviorConstraintImpl();
+		return explorerBehaviorConstraint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InboxConfiguration createInboxConfiguration() {
+		InboxConfigurationImpl inboxConfiguration = new InboxConfigurationImpl();
+		return inboxConfiguration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OutboxConfiguration createOutboxConfiguration() {
+		OutboxConfigurationImpl outboxConfiguration = new OutboxConfigurationImpl();
+		return outboxConfiguration;
 	}
 
 	/**

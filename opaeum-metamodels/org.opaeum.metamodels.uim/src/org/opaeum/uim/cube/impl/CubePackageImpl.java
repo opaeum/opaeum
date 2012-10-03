@@ -9,27 +9,18 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.opaeum.uim.UimPackage;
-
 import org.opaeum.uim.action.ActionPackage;
-
 import org.opaeum.uim.action.impl.ActionPackageImpl;
-
 import org.opaeum.uim.binding.BindingPackage;
-
 import org.opaeum.uim.binding.impl.BindingPackageImpl;
-
+import org.opaeum.uim.component.ComponentPackage;
+import org.opaeum.uim.component.impl.ComponentPackageImpl;
 import org.opaeum.uim.constraint.ConstraintPackage;
-
 import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
-
 import org.opaeum.uim.control.ControlPackage;
-
 import org.opaeum.uim.control.impl.ControlPackageImpl;
-
 import org.opaeum.uim.cube.AggregationFormula;
 import org.opaeum.uim.cube.AxisEntry;
 import org.opaeum.uim.cube.ColumnAxisEntry;
@@ -39,25 +30,18 @@ import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.cube.CubeQueryEditor;
 import org.opaeum.uim.cube.DimensionBinding;
 import org.opaeum.uim.cube.LevelProperty;
-
 import org.opaeum.uim.cube.MeasureProperty;
 import org.opaeum.uim.cube.RowAxisEntry;
 import org.opaeum.uim.editor.EditorPackage;
-
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
-
 import org.opaeum.uim.impl.UimPackageImpl;
-
+import org.opaeum.uim.model.ModelPackage;
+import org.opaeum.uim.model.impl.ModelPackageImpl;
 import org.opaeum.uim.panel.PanelPackage;
-
 import org.opaeum.uim.panel.impl.PanelPackageImpl;
-
 import org.opaeum.uim.perspective.PerspectivePackage;
-
 import org.opaeum.uim.perspective.impl.PerspectivePackageImpl;
-
 import org.opaeum.uim.wizard.WizardPackage;
-
 import org.opaeum.uim.wizard.impl.WizardPackageImpl;
 
 /**
@@ -189,6 +173,8 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
 		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
 		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) : ModelPackage.eINSTANCE);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) : ComponentPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theCubePackage.createPackageContents();
@@ -201,6 +187,8 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		thePanelPackage.createPackageContents();
 		theWizardPackage.createPackageContents();
 		thePerspectivePackage.createPackageContents();
+		theModelPackage.createPackageContents();
+		theComponentPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theCubePackage.initializePackageContents();
@@ -213,6 +201,8 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		thePanelPackage.initializePackageContents();
 		theWizardPackage.initializePackageContents();
 		thePerspectivePackage.initializePackageContents();
+		theModelPackage.initializePackageContents();
+		theComponentPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theCubePackage.freeze();
@@ -302,15 +292,6 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 	 */
 	public EClass getLevelProperty() {
 		return levelPropertyEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getLevelProperty_Name() {
-		return (EAttribute)levelPropertyEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -416,7 +397,6 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		dimensionBindingEClass = createEClass(DIMENSION_BINDING);
 
 		levelPropertyEClass = createEClass(LEVEL_PROPERTY);
-		createEAttribute(levelPropertyEClass, LEVEL_PROPERTY__NAME);
 
 		rowAxisEntryEClass = createEClass(ROW_AXIS_ENTRY);
 
@@ -457,7 +437,6 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 
 		// Obtain other dependent packages
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
-		ConstraintPackage theConstraintPackage = (ConstraintPackage)EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI);
 		BindingPackage theBindingPackage = (BindingPackage)EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
@@ -466,16 +445,14 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		cubeQueryEClass.getESuperTypes().add(theUimPackage.getUserInteractionElement());
-		cubeQueryEClass.getESuperTypes().add(theConstraintPackage.getConstrainedObject());
-		cubeQueryEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		cubeQueryEClass.getESuperTypes().add(theUimPackage.getPage());
 		dimensionBindingEClass.getESuperTypes().add(theBindingPackage.getUimBinding());
-		levelPropertyEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		levelPropertyEClass.getESuperTypes().add(theUimPackage.getLabeledElement());
 		rowAxisEntryEClass.getESuperTypes().add(this.getAxisEntry());
 		columnAxisEntryEClass.getESuperTypes().add(this.getAxisEntry());
 		measurePropertyEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		cubeQueryEditorEClass.getESuperTypes().add(theUimPackage.getUserInteractionElement());
 		cubeQueryEditorEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		cubeQueryEditorEClass.getESuperTypes().add(theUimPackage.getUserInterfaceRoot());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(cubeQueryEClass, CubeQuery.class, "CubeQuery", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -483,7 +460,7 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		initEReference(getCubeQuery_RowAxis(), this.getRowAxisEntry(), null, "rowAxis", null, 0, -1, CubeQuery.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCubeQuery_Measures(), this.getMeasureProperty(), null, "measures", null, 0, -1, CubeQuery.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(axisEntryEClass, AxisEntry.class, "AxisEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(axisEntryEClass, AxisEntry.class, "AxisEntry", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAxisEntry_DimensionBinding(), this.getDimensionBinding(), null, "dimensionBinding", null, 0, 1, AxisEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAxisEntry_LevelProperty(), this.getLevelProperty(), null, "levelProperty", null, 0, -1, AxisEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -497,7 +474,6 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		addEOperation(dimensionBindingEClass, theEcorePackage.getEInt(), "hashCode", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(levelPropertyEClass, LevelProperty.class, "LevelProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLevelProperty_Name(), ecorePackage.getEString(), "name", null, 0, 1, LevelProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rowAxisEntryEClass, RowAxisEntry.class, "RowAxisEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

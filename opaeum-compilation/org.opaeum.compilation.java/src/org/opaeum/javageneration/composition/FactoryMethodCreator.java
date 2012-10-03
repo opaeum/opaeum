@@ -18,6 +18,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
+import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.name.NameConverter;
 
 /**
@@ -71,6 +72,10 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		creator.setBody(body);
 	}
 	@Override
+	public void visitAssociationClassProperty(Classifier c,AssociationClassEndMap map){
+		visitProperty(findJavaClass(c), c, map.getMap());
+	}
+	@Override
 	protected void visitProperty(OJAnnotatedClass myOwner,Classifier owner,PropertyMap map){
 		Property aw = map.getProperty();
 		if(!EmfPropertyUtil.isDerived(aw) && isPersistent(map.getBaseType()) && aw.isComposite()
@@ -83,7 +88,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		visitProperty(oj, owner, map);
 	}
 	@Override
-	protected boolean visitComplexStructure(OJAnnotatedClass c, Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass c,Classifier umlOwner){
 		return true;
 	}
 }

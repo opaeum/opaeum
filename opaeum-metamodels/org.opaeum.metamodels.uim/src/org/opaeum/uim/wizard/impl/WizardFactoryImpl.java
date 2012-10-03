@@ -8,8 +8,10 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.opaeum.uim.wizard.*;
-import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
+import org.opaeum.uim.wizard.BehaviorInvocationWizard;
 import org.opaeum.uim.wizard.NewObjectWizard;
+import org.opaeum.uim.wizard.OperationResultPage;
+import org.opaeum.uim.wizard.ResponsibilityInvocationWizard;
 import org.opaeum.uim.wizard.WizardFactory;
 import org.opaeum.uim.wizard.WizardPackage;
 import org.opaeum.uim.wizard.WizardPage;
@@ -59,8 +61,10 @@ public class WizardFactoryImpl extends EFactoryImpl implements WizardFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case WizardPackage.NEW_OBJECT_WIZARD: return createNewObjectWizard();
-			case WizardPackage.INVOKE_RESPONSIBILITY_WIZARD: return createInvokeResponsibilityWizard();
 			case WizardPackage.WIZARD_PAGE: return createWizardPage();
+			case WizardPackage.RESPONSIBILITY_INVOCATION_WIZARD: return createResponsibilityInvocationWizard();
+			case WizardPackage.BEHAVIOR_INVOCATION_WIZARD: return createBehaviorInvocationWizard();
+			case WizardPackage.OPERATION_RESULT_PAGE: return createOperationResultPage();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -81,9 +85,9 @@ public class WizardFactoryImpl extends EFactoryImpl implements WizardFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public InvokeResponsibilityWizard createInvokeResponsibilityWizard() {
-		InvokeResponsibilityWizardImpl invokeResponsibilityWizard = new InvokeResponsibilityWizardImpl();
-		return invokeResponsibilityWizard;
+	public WizardPage createWizardPage() {
+		WizardPageImpl wizardPage = new WizardPageImpl();
+		return wizardPage;
 	}
 
 	/**
@@ -91,9 +95,29 @@ public class WizardFactoryImpl extends EFactoryImpl implements WizardFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public WizardPage createWizardPage() {
-		WizardPageImpl wizardPage = new WizardPageImpl();
-		return wizardPage;
+	public ResponsibilityInvocationWizard createResponsibilityInvocationWizard() {
+		ResponsibilityInvocationWizardImpl responsibilityInvocationWizard = new ResponsibilityInvocationWizardImpl();
+		return responsibilityInvocationWizard;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BehaviorInvocationWizard createBehaviorInvocationWizard() {
+		BehaviorInvocationWizardImpl behaviorInvocationWizard = new BehaviorInvocationWizardImpl();
+		return behaviorInvocationWizard;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationResultPage createOperationResultPage() {
+		OperationResultPageImpl operationResultPage = new OperationResultPageImpl();
+		return operationResultPage;
 	}
 
 	/**

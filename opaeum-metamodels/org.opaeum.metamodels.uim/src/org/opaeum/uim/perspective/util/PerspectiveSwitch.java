@@ -6,15 +6,25 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.constraint.RootUserInteractionConstraint;
+import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.perspective.*;
+import org.opaeum.uim.perspective.EditorConfiguration;
+import org.opaeum.uim.perspective.ExplorerBehaviorConstraint;
+import org.opaeum.uim.perspective.ExplorerClassConstraint;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
-import org.opaeum.uim.perspective.HiddenClass;
-import org.opaeum.uim.perspective.HiddenCompositeProperty;
+import org.opaeum.uim.perspective.ExplorerConstraint;
+import org.opaeum.uim.perspective.ExplorerOperationConstraint;
+import org.opaeum.uim.perspective.ExplorerPropertyConstraint;
+import org.opaeum.uim.perspective.InboxConfiguration;
+import org.opaeum.uim.perspective.OutboxConfiguration;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectivePackage;
-import org.opaeum.uim.perspective.UimPerspective;
+import org.opaeum.uim.perspective.PropertiesConfiguration;
 import org.opaeum.uim.perspective.ViewAllocation;
-import org.opaeum.uim.perspective.VisibleNonCompositeProperty;
 
 /**
  * <!-- begin-user-doc -->
@@ -90,9 +100,9 @@ public class PerspectiveSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case PerspectivePackage.UIM_PERSPECTIVE: {
-				UimPerspective uimPerspective = (UimPerspective)theEObject;
-				T result = caseUimPerspective(uimPerspective);
+			case PerspectivePackage.PERSPECTIVE_CONFIGURATION: {
+				PerspectiveConfiguration perspectiveConfiguration = (PerspectiveConfiguration)theEObject;
+				T result = casePerspectiveConfiguration(perspectiveConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -109,17 +119,22 @@ public class PerspectiveSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION: {
-				ExplorerClassConfiguration explorerClassConfiguration = (ExplorerClassConfiguration)theEObject;
-				T result = caseExplorerClassConfiguration(explorerClassConfiguration);
-				if (result == null) result = caseUmlReference(explorerClassConfiguration);
+			case PerspectivePackage.EXPLORER_CLASS_CONSTRAINT: {
+				ExplorerClassConstraint explorerClassConstraint = (ExplorerClassConstraint)theEObject;
+				T result = caseExplorerClassConstraint(explorerClassConstraint);
+				if (result == null) result = caseUmlReference(explorerClassConstraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION: {
-				ExplorerPropertyConfiguration explorerPropertyConfiguration = (ExplorerPropertyConfiguration)theEObject;
-				T result = caseExplorerPropertyConfiguration(explorerPropertyConfiguration);
-				if (result == null) result = caseUmlReference(explorerPropertyConfiguration);
+			case PerspectivePackage.EXPLORER_PROPERTY_CONSTRAINT: {
+				ExplorerPropertyConstraint explorerPropertyConstraint = (ExplorerPropertyConstraint)theEObject;
+				T result = caseExplorerPropertyConstraint(explorerPropertyConstraint);
+				if (result == null) result = caseExplorerConstraint(explorerPropertyConstraint);
+				if (result == null) result = caseUserInteractionConstraint(explorerPropertyConstraint);
+				if (result == null) result = caseLabeledElement(explorerPropertyConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(explorerPropertyConstraint);
+				if (result == null) result = caseUmlReference(explorerPropertyConstraint);
+				if (result == null) result = caseUserInteractionElement(explorerPropertyConstraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -137,22 +152,71 @@ public class PerspectiveSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case PerspectivePackage.EXPLORER_CONSTRAINT: {
+				ExplorerConstraint explorerConstraint = (ExplorerConstraint)theEObject;
+				T result = caseExplorerConstraint(explorerConstraint);
+				if (result == null) result = caseUserInteractionConstraint(explorerConstraint);
+				if (result == null) result = caseLabeledElement(explorerConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(explorerConstraint);
+				if (result == null) result = caseUmlReference(explorerConstraint);
+				if (result == null) result = caseUserInteractionElement(explorerConstraint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerspectivePackage.EXPLORER_OPERATION_CONSTRAINT: {
+				ExplorerOperationConstraint explorerOperationConstraint = (ExplorerOperationConstraint)theEObject;
+				T result = caseExplorerOperationConstraint(explorerOperationConstraint);
+				if (result == null) result = caseExplorerConstraint(explorerOperationConstraint);
+				if (result == null) result = caseUserInteractionConstraint(explorerOperationConstraint);
+				if (result == null) result = caseLabeledElement(explorerOperationConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(explorerOperationConstraint);
+				if (result == null) result = caseUmlReference(explorerOperationConstraint);
+				if (result == null) result = caseUserInteractionElement(explorerOperationConstraint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerspectivePackage.EXPLORER_BEHAVIOR_CONSTRAINT: {
+				ExplorerBehaviorConstraint explorerBehaviorConstraint = (ExplorerBehaviorConstraint)theEObject;
+				T result = caseExplorerBehaviorConstraint(explorerBehaviorConstraint);
+				if (result == null) result = caseExplorerConstraint(explorerBehaviorConstraint);
+				if (result == null) result = caseUserInteractionConstraint(explorerBehaviorConstraint);
+				if (result == null) result = caseLabeledElement(explorerBehaviorConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(explorerBehaviorConstraint);
+				if (result == null) result = caseUmlReference(explorerBehaviorConstraint);
+				if (result == null) result = caseUserInteractionElement(explorerBehaviorConstraint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerspectivePackage.INBOX_CONFIGURATION: {
+				InboxConfiguration inboxConfiguration = (InboxConfiguration)theEObject;
+				T result = caseInboxConfiguration(inboxConfiguration);
+				if (result == null) result = caseViewAllocation(inboxConfiguration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerspectivePackage.OUTBOX_CONFIGURATION: {
+				OutboxConfiguration outboxConfiguration = (OutboxConfiguration)theEObject;
+				T result = caseOutboxConfiguration(outboxConfiguration);
+				if (result == null) result = caseViewAllocation(outboxConfiguration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uim Perspective</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uim Perspective</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Configuration</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUimPerspective(UimPerspective object) {
+	public T casePerspectiveConfiguration(PerspectiveConfiguration object) {
 		return null;
 	}
 
@@ -187,32 +251,32 @@ public class PerspectiveSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Explorer Class Configuration</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Explorer Class Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Explorer Class Configuration</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Explorer Class Constraint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExplorerClassConfiguration(ExplorerClassConfiguration object) {
+	public T caseExplorerClassConstraint(ExplorerClassConstraint object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Explorer Property Configuration</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Explorer Property Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Explorer Property Configuration</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Explorer Property Constraint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExplorerPropertyConfiguration(ExplorerPropertyConfiguration object) {
+	public T caseExplorerPropertyConstraint(ExplorerPropertyConstraint object) {
 		return null;
 	}
 
@@ -247,6 +311,81 @@ public class PerspectiveSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Explorer Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Explorer Constraint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExplorerConstraint(ExplorerConstraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Explorer Operation Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Explorer Operation Constraint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExplorerOperationConstraint(ExplorerOperationConstraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Explorer Behavior Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Explorer Behavior Constraint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExplorerBehaviorConstraint(ExplorerBehaviorConstraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Inbox Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Inbox Configuration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInboxConfiguration(InboxConfiguration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Outbox Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Outbox Configuration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOutboxConfiguration(OutboxConfiguration object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -258,6 +397,66 @@ public class PerspectiveSwitch<T> {
 	 * @generated
 	 */
 	public T caseUmlReference(UmlReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Root User Interaction Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Root User Interaction Constraint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRootUserInteractionConstraint(RootUserInteractionConstraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>User Interaction Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>User Interaction Constraint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUserInteractionConstraint(UserInteractionConstraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>User Interaction Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>User Interaction Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUserInteractionElement(UserInteractionElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabeledElement(LabeledElement object) {
 		return null;
 	}
 

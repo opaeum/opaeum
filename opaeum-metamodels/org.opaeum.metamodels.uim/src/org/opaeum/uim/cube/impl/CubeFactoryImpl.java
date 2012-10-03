@@ -6,12 +6,19 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.opaeum.uim.cube.*;
+import org.opaeum.uim.cube.AggregationFormula;
+import org.opaeum.uim.cube.ColumnAxisEntry;
+import org.opaeum.uim.cube.CubeFactory;
+import org.opaeum.uim.cube.CubePackage;
+import org.opaeum.uim.cube.CubeQuery;
+import org.opaeum.uim.cube.CubeQueryEditor;
+import org.opaeum.uim.cube.DimensionBinding;
+import org.opaeum.uim.cube.LevelProperty;
+import org.opaeum.uim.cube.MeasureProperty;
+import org.opaeum.uim.cube.RowAxisEntry;
 
 /**
  * <!-- begin-user-doc -->
@@ -58,7 +65,6 @@ public class CubeFactoryImpl extends EFactoryImpl implements CubeFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case CubePackage.CUBE_QUERY: return createCubeQuery();
-			case CubePackage.AXIS_ENTRY: return createAxisEntry();
 			case CubePackage.DIMENSION_BINDING: return createDimensionBinding();
 			case CubePackage.LEVEL_PROPERTY: return createLevelProperty();
 			case CubePackage.ROW_AXIS_ENTRY: return createRowAxisEntry();
@@ -108,16 +114,6 @@ public class CubeFactoryImpl extends EFactoryImpl implements CubeFactory {
 	public CubeQuery createCubeQuery() {
 		CubeQueryImpl cubeQuery = new CubeQueryImpl();
 		return cubeQuery;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public AxisEntry createAxisEntry() {
-		AxisEntryImpl axisEntry = new AxisEntryImpl();
-		return axisEntry;
 	}
 
 	/**

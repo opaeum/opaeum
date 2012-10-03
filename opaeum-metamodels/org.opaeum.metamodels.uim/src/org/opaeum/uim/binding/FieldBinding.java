@@ -2,7 +2,7 @@
  */
 package org.opaeum.uim.binding;
 
-import org.opaeum.uim.UimField;
+import org.opaeum.uim.component.UimField;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.opaeum.uim.UimField;
 public interface FieldBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Field</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UimField#getBinding <em>Binding</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.component.UimField#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Field</em>' container reference isn't clear,
@@ -33,7 +33,7 @@ public interface FieldBinding extends UimBinding {
 	 * @return the value of the '<em>Field</em>' container reference.
 	 * @see #setField(UimField)
 	 * @see org.opaeum.uim.binding.BindingPackage#getFieldBinding_Field()
-	 * @see org.opaeum.uim.UimField#getBinding
+	 * @see org.opaeum.uim.component.UimField#getBinding
 	 * @model opposite="binding" transient="false"
 	 * @generated
 	 */

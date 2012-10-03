@@ -3,23 +3,20 @@
 package org.opaeum.uim.cube.impl;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.opaeum.uim.cube.AxisEntry;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.DimensionBinding;
 import org.opaeum.uim.cube.LevelProperty;
-import org.opaeum.uim.impl.UserInteractionElementImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,7 +32,7 @@ import org.opaeum.uim.impl.UserInteractionElementImpl;
  *
  * @generated
  */
-public class AxisEntryImpl extends EObjectImpl implements AxisEntry {
+public abstract class AxisEntryImpl extends EObjectImpl implements AxisEntry {
 	/**
 	 * The cached value of the '{@link #getDimensionBinding() <em>Dimension Binding</em>}' containment reference.
 	 * <!-- begin-user-doc -->

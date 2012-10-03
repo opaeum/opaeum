@@ -45,6 +45,11 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
+	@Override
+	public void visitAssociationClassProperty(Classifier c,AssociationClassEndMap map){
+		visitProperty(findJavaClass(c), c, map.getMap());
+	}
+
 	public void implementRedefinition(Classifier owner,PropertyMap redefiningMap,OJClass c,Property redefinedProperty){
 		PropertyMap redefinedMap = ojUtil.buildStructuralFeatureMap(redefinedProperty);
 		if(!(redefiningMap.getProperty().isReadOnly() || EmfPropertyUtil.isDerived(redefiningMap.getProperty())

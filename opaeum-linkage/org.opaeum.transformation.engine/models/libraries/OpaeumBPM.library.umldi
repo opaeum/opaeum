@@ -3741,7 +3741,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_r8N_kPjwEeGEN6Fz86uBYA">
     <model href="OpaeumBPM.library.uml#_nOMKMPjwEeGEN6Fz86uBYA"/>
-    <diagrams xmi:id="_r8OmoPjwEeGEN6Fz86uBYA" position="0,0" size="100,100" name="costing" viewport="0,301">
+    <diagrams xmi:id="_r8OmoPjwEeGEN6Fz86uBYA" position="0,0" size="100,100" name="costing" viewport="0,80">
       <property xmi:id="_r9BQ0PjwEeGEN6Fz86uBYA" key="pageFormatName" value="A4"/>
       <property xmi:id="_r9BQ0fjwEeGEN6Fz86uBYA" key="diagramWidth" value="840"/>
       <property xmi:id="_r9BQ0vjwEeGEN6Fz86uBYA" key="diagramHeight" value="1188"/>

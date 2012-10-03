@@ -6,9 +6,9 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.opaeum.uim.UimComponent;
-import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.component.UimComponent;
+import org.opaeum.uim.component.UimContainer;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.panel.*;
@@ -253,13 +253,13 @@ public class PanelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimComponent <em>Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.component.UimComponent <em>Uim Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimComponent
+	 * @see org.opaeum.uim.component.UimComponent
 	 * @generated
 	 */
 	public Adapter createUimComponentAdapter() {
@@ -281,13 +281,13 @@ public class PanelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimContainer <em>Container</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.component.UimContainer <em>Uim Container</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimContainer
+	 * @see org.opaeum.uim.component.UimContainer
 	 * @generated
 	 */
 	public Adapter createUimContainerAdapter() {

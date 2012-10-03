@@ -22,7 +22,7 @@ import org.opaeum.uim.action.BuiltInLinkKind;
  *
  * @generated
  */
-public class BuiltInLinkImpl extends UimLinkImpl implements BuiltInLink {
+public class BuiltInLinkImpl extends AbstractLinkImpl implements BuiltInLink {
 	/**
 	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -150,7 +150,7 @@ public class BuiltInLinkImpl extends UimLinkImpl implements BuiltInLink {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (kind: ");
 		result.append(kind);
 		result.append(')');

@@ -46,7 +46,7 @@ public interface ConstraintPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "usec";
+	String eNS_PREFIX = "constr";
 
 	/**
 	 * The singleton instance of the package.

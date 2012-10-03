@@ -53,6 +53,7 @@ import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.TimeObservation;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.edit.providers.ActivityItemProvider;
@@ -87,6 +88,7 @@ import org.eclipse.uml2.uml.edit.providers.StateMachineItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StereotypeApplicationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StructuredActivityNodeItemProvider;
 import org.eclipse.uml2.uml.edit.providers.TimeEventItemProvider;
+import org.eclipse.uml2.uml.edit.providers.TimeObservationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.eclipse.uml2.uml.edit.providers.ValuePinItemProvider;
 import org.eclipse.uml2.uml.util.UMLUtil;
@@ -101,6 +103,31 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 	public OpaeumItemProviderAdapterFactory(){
 	}
 	@Override
+	public Adapter createTimeObservationAdapter(){
+		if(timeObservationItemProvider == null){
+			timeObservationItemProvider = new TimeObservationItemProvider(this){
+				@Override
+				public Collection<?> getChildren(Object object){
+					return getChildrenToDisplay(super.getChildren(object), (Element) object);
+				}
+				@Override
+				public String getText(Object object){
+					TimeObservation te = (TimeObservation) object;
+					if(StereotypesHelper.hasStereotype(te, StereotypeNames.QUANTITY_BASED_COST_OBSERVATION)){
+						return "<Quantity Based Cost Observation> " + te.getName();
+					}
+					return "<Time Observation> " + te.getName();
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return timeObservationItemProvider;
+	}
+	@Override
 	public Adapter createDurationObservationAdapter(){
 		if(durationObservationItemProvider == null){
 			durationObservationItemProvider = new DurationObservationItemProvider(this){
@@ -111,6 +138,9 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				@Override
 				public String getText(Object object){
 					DurationObservation te = (DurationObservation) object;
+					if(StereotypesHelper.hasStereotype(te, StereotypeNames.DURATION_BASED_COST_OBSERVATION)){
+						return "<Duration Based Cost Observation> " + te.getName();
+					}
 					return "<Duration Observation> " + te.getName();
 				}
 				@Override
@@ -331,14 +361,20 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 									result = "<Measure> " + a.getName();
 								}else if(EmfPropertyUtil.isDimension(a)){
 									result = "<Dimension> " + a.getName();
+								}else{
+									result = "<Attribute> " + a.getName();
 								}
+							}else{
 								result = "<Attribute> " + a.getName();
 							}
 						}else{
 							if(StereotypesHelper.hasStereotype(a, StereotypeNames.ASSOCIATION_END)){
 								if(EmfPropertyUtil.isDimension(a)){
 									result = "<Dimension>" + a.getName();
+								}else{
+									result = "<Assocation End> " + a.getName();
 								}
+							}else{
 								result = "<Assocation End> " + a.getName();
 							}
 						}

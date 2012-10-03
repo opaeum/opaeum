@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface PropertyConstraint{
 	String message() default "";
 	String method() default "";
+	String name() default "";
 }

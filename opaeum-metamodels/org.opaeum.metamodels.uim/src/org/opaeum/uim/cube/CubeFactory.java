@@ -31,15 +31,6 @@ public interface CubeFactory extends EFactory {
 	CubeQuery createCubeQuery();
 
 	/**
-	 * Returns a new object of class '<em>Axis Entry</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Axis Entry</em>'.
-	 * @generated
-	 */
-	AxisEntry createAxisEntry();
-
-	/**
 	 * Returns a new object of class '<em>Dimension Binding</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

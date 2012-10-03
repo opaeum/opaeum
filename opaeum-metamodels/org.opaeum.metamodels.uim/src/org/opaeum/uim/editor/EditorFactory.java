@@ -31,42 +31,6 @@ public interface EditorFactory extends EFactory {
 	AbstractEditor createAbstractEditor();
 
 	/**
-	 * Returns a new object of class '<em>Action Task Editor</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Action Task Editor</em>'.
-	 * @generated
-	 */
-	ActionTaskEditor createActionTaskEditor();
-
-	/**
-	 * Returns a new object of class '<em>Class Editor</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Class Editor</em>'.
-	 * @generated
-	 */
-	ClassEditor createClassEditor();
-
-	/**
-	 * Returns a new object of class '<em>Responsibility Task Editor</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Responsibility Task Editor</em>'.
-	 * @generated
-	 */
-	ResponsibilityTaskEditor createResponsibilityTaskEditor();
-
-	/**
-	 * Returns a new object of class '<em>Query Invocation Editor</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Query Invocation Editor</em>'.
-	 * @generated
-	 */
-	QueryInvocationEditor createQueryInvocationEditor();
-
-	/**
 	 * Returns a new object of class '<em>Page</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -82,7 +46,7 @@ public interface EditorFactory extends EFactory {
 	 * @return a new object of class '<em>Action Bar</em>'.
 	 * @generated
 	 */
-	EditorActionBar createEditorActionBar();
+	ActionBar createActionBar();
 
 	/**
 	 * Returns a new object of class '<em>Menu Configuration</em>'.
@@ -94,13 +58,40 @@ public interface EditorFactory extends EFactory {
 	MenuConfiguration createMenuConfiguration();
 
 	/**
-	 * Returns a new object of class '<em>Visible Operation</em>'.
+	 * Returns a new object of class '<em>Operation Menu Item</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Visible Operation</em>'.
+	 * @return a new object of class '<em>Operation Menu Item</em>'.
 	 * @generated
 	 */
-	VisibleOperation createVisibleOperation();
+	OperationMenuItem createOperationMenuItem();
+
+	/**
+	 * Returns a new object of class '<em>Responsibility Viewer</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Responsibility Viewer</em>'.
+	 * @generated
+	 */
+	ResponsibilityViewer createResponsibilityViewer();
+
+	/**
+	 * Returns a new object of class '<em>Query Result Page</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Query Result Page</em>'.
+	 * @generated
+	 */
+	QueryResultPage createQueryResultPage();
+
+	/**
+	 * Returns a new object of class '<em>Object Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Object Editor</em>'.
+	 * @generated
+	 */
+	ObjectEditor createObjectEditor();
 
 	/**
 	 * Returns the package supported by this factory.

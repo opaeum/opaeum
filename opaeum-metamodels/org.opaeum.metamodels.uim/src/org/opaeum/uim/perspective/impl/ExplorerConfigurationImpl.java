@@ -4,24 +4,15 @@ package org.opaeum.uim.perspective.impl;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.opaeum.uim.perspective.ExplorerClassConfiguration;
+import org.opaeum.uim.perspective.ExplorerClassConstraint;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
-import org.opaeum.uim.perspective.ExplorerPropertyConfiguration;
-import org.opaeum.uim.perspective.HiddenClass;
-import org.opaeum.uim.perspective.HiddenCompositeProperty;
 import org.opaeum.uim.perspective.PerspectivePackage;
-import org.opaeum.uim.perspective.UimPerspective;
-import org.opaeum.uim.perspective.VisibleNonCompositeProperty;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,7 +21,7 @@ import org.opaeum.uim.perspective.VisibleNonCompositeProperty;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl#getConfiguredClasses <em>Configured Classes</em>}</li>
+ *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl#getClasses <em>Classes</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,15 +29,14 @@ import org.opaeum.uim.perspective.VisibleNonCompositeProperty;
  */
 public class ExplorerConfigurationImpl extends ViewAllocationImpl implements ExplorerConfiguration {
 	/**
-	 * The cached value of the '{@link #getConfiguredClasses() <em>Configured Classes</em>}' containment reference list.
+	 * The cached value of the '{@link #getClasses() <em>Classes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getConfiguredClasses()
+	 * @see #getClasses()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ExplorerClassConfiguration> configuredClasses;
-
+	protected EList<ExplorerClassConstraint> classes;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -71,11 +61,11 @@ public class ExplorerConfigurationImpl extends ViewAllocationImpl implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ExplorerClassConfiguration> getConfiguredClasses() {
-		if (configuredClasses == null) {
-			configuredClasses = new EObjectContainmentWithInverseEList<ExplorerClassConfiguration>(ExplorerClassConfiguration.class, this, PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES, PerspectivePackage.EXPLORER_CLASS_CONFIGURATION__EXPLORER_CONFIGURATION);
+	public EList<ExplorerClassConstraint> getClasses() {
+		if (classes == null) {
+			classes = new EObjectContainmentWithInverseEList<ExplorerClassConstraint>(ExplorerClassConstraint.class, this, PerspectivePackage.EXPLORER_CONFIGURATION__CLASSES, PerspectivePackage.EXPLORER_CLASS_CONSTRAINT__EXPLORER_CONFIGURATION);
 		}
-		return configuredClasses;
+		return classes;
 	}
 
 	/**
@@ -87,8 +77,8 @@ public class ExplorerConfigurationImpl extends ViewAllocationImpl implements Exp
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getConfiguredClasses()).basicAdd(otherEnd, msgs);
+			case PerspectivePackage.EXPLORER_CONFIGURATION__CLASSES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getClasses()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -101,8 +91,8 @@ public class ExplorerConfigurationImpl extends ViewAllocationImpl implements Exp
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES:
-				return ((InternalEList<?>)getConfiguredClasses()).basicRemove(otherEnd, msgs);
+			case PerspectivePackage.EXPLORER_CONFIGURATION__CLASSES:
+				return ((InternalEList<?>)getClasses()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -115,8 +105,8 @@ public class ExplorerConfigurationImpl extends ViewAllocationImpl implements Exp
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES:
-				return getConfiguredClasses();
+			case PerspectivePackage.EXPLORER_CONFIGURATION__CLASSES:
+				return getClasses();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -130,9 +120,9 @@ public class ExplorerConfigurationImpl extends ViewAllocationImpl implements Exp
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES:
-				getConfiguredClasses().clear();
-				getConfiguredClasses().addAll((Collection<? extends ExplorerClassConfiguration>)newValue);
+			case PerspectivePackage.EXPLORER_CONFIGURATION__CLASSES:
+				getClasses().clear();
+				getClasses().addAll((Collection<? extends ExplorerClassConstraint>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -146,8 +136,8 @@ public class ExplorerConfigurationImpl extends ViewAllocationImpl implements Exp
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES:
-				getConfiguredClasses().clear();
+			case PerspectivePackage.EXPLORER_CONFIGURATION__CLASSES:
+				getClasses().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -161,8 +151,8 @@ public class ExplorerConfigurationImpl extends ViewAllocationImpl implements Exp
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES:
-				return configuredClasses != null && !configuredClasses.isEmpty();
+			case PerspectivePackage.EXPLORER_CONFIGURATION__CLASSES:
+				return classes != null && !classes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

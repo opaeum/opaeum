@@ -36,7 +36,8 @@ public class TagNames{
 	public static final String TASK_DELEGATION = "taskDelegation";
 	public static final String IS_CUMULATIVE = "isCumulative";
 	public static final String MESSAGE_ARGUMENTS = "messageArguments";
-	public static final String RESOURCES_PAID_FOR = "resourcePaidFor";
+	public static final String RESOURCES_PAID_FOR = "resourcesPaidFor";
+	public static final String RESOURCE_PAID_FOR = "resourcePaidFor";
 	public static final String CONTROLLED_BY = "controlledBy";
 	public static final String QUANTITY_EXPRESSION = "quantityExpression";
 	public static final String MODEL_TYPE = "modelType";

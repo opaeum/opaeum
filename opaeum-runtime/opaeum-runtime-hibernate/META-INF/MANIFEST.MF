@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: opaeum-runtime-hibernate
+Bundle-SymbolicName: opaeum-runtime-hibernate
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.opaeum.audit,
+ org.opaeum.hibernate.domain,
+ org.opaeum.runtime.bpm.opaeumsimpletypes,
+ org.opaeum.runtime.contact,
+ org.opaeum.runtime.costing
+Require-Bundle: opaeum-runtime-dependencies,
+ opaeum-runtime-domain

@@ -14,24 +14,24 @@ import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
 import org.eclipse.papyrus.infra.core.sashwindows.di.TabFolder;
 import org.eclipse.papyrus.infra.core.sashwindows.di.Window;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
-import org.opaeum.uim.UimComponent;
-import org.opaeum.uim.UimDataTable;
-import org.opaeum.uim.UimField;
-import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.LinkToQuery;
-import org.opaeum.uim.action.OperationButton;
-import org.opaeum.uim.action.OperationPopup;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.action.TransitionButton;
+import org.opaeum.uim.component.UimComponent;
+import org.opaeum.uim.component.UimDataTable;
+import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.editor.AbstractEditor;
-import org.opaeum.uim.editor.EditorActionBar;
+import org.opaeum.uim.editor.ActionBar;
+import org.opaeum.uim.editor.InstanceEditor;
+import org.opaeum.uim.model.OperationInvocationWizard;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarActionBarChildrenCompartmentEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.ActionBarActionBarChildrenCompartmentEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.ActionBarEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.ActionBarNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
@@ -41,9 +41,9 @@ import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.InvocationButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.InvocationButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.InvocationButtonEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
@@ -55,11 +55,11 @@ import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UserInterfaceEditPa
 
 @SuppressWarnings("unchecked")
 public class DiagramCreator{
-	private PageContainer pageContainer;
+	private UserInterfaceRoot pageContainer;
 	private Resource resource;
 	SashWindowsMngr windowsManager;
 	private TabFolder folder;
-	public DiagramCreator(PageContainer cf,Resource diagramsResource,SashWindowsMngr windowsManager){
+	public DiagramCreator(UserInterfaceRoot cf,Resource diagramsResource,SashWindowsMngr windowsManager){
 		this.pageContainer = cf;
 		this.resource = diagramsResource;
 		this.windowsManager = windowsManager;
@@ -78,9 +78,9 @@ public class DiagramCreator{
 		}
 		windowsManager.getSashModel().setCurrentSelection(folder);
 		addPages(pageContainer);
-		if(pageContainer instanceof AbstractEditor){
-			AbstractEditor e = (AbstractEditor) pageContainer;
-			EditorActionBar actionBar = e.getActionBar();
+		if(pageContainer instanceof InstanceEditor){
+			InstanceEditor e = (InstanceEditor) pageContainer;
+			ActionBar actionBar = e.getActionBar();
 			
 			Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
 			diagram.setElement(e);
@@ -91,15 +91,15 @@ public class DiagramCreator{
 			diagram.setVisible(true);
 			Shape panelShape = NotationFactory.eINSTANCE.createShape();
 			panelShape.setElement(actionBar);
-			panelShape.setType(EditorActionBarEditPart.VISUAL_ID + "");
+			panelShape.setType(ActionBarEditPart.VISUAL_ID + "");
 			panelShape.setFontName("Sans");
 			panelShape.setFontHeight(8);
 			panelShape.setLineColor(0);
 			DecorationNode labelNode = NotationFactory.eINSTANCE.createDecorationNode();
-			labelNode.setType(EditorActionBarNameEditPart.VISUAL_ID + "");
+			labelNode.setType(ActionBarNameEditPart.VISUAL_ID + "");
 			panelShape.getPersistedChildren().add(labelNode);
 			DecorationNode compartmentDecoration = NotationFactory.eINSTANCE.createDecorationNode();
-			compartmentDecoration.setType(EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID + "");
+			compartmentDecoration.setType(ActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID + "");
 			panelShape.getPersistedChildren().add(compartmentDecoration);
 			Bounds bounds = NotationFactory.eINSTANCE.createBounds();
 			bounds.setX(0);
@@ -113,9 +113,9 @@ public class DiagramCreator{
 				if(uimComponent instanceof BuiltInActionButton){
 					addComponent(compartmentDecoration, uimComponent,
 							org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionButtonEditPart.VISUAL_ID + "", null);
-				}else if(uimComponent instanceof OperationButton){
+				}else if(uimComponent instanceof InvocationButton){
 					addComponent(compartmentDecoration, uimComponent,
-							org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationButtonEditPart.VISUAL_ID + "", null);
+							org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.InvocationButtonEditPart.VISUAL_ID + "", null);
 				}else if(uimComponent instanceof TransitionButton){
 					addComponent(compartmentDecoration, uimComponent,
 							org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionButtonEditPart.VISUAL_ID + "", null);
@@ -136,7 +136,7 @@ public class DiagramCreator{
 			folder.getChildren().add(pageRef2);
 		}
 	}
-	protected void addPages(PageContainer userInterface2){
+	protected void addPages(UserInterfaceRoot userInterface2){
 		for(Page page:userInterface2.getPages()){
 			Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
 			diagram.setElement(page);
@@ -174,7 +174,7 @@ public class DiagramCreator{
 		compartmentDecoration.setType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID + "");
 		panelShape.getPersistedChildren().add(compartmentDecoration);
 		Bounds bounds = NotationFactory.eINSTANCE.createBounds();
-		if(panel.eContainer() instanceof UserInterface){
+		if(panel.eContainer() instanceof Page){
 			// TODO Irrelevant really- should be the size of the diagram
 			bounds.setX(0);
 			bounds.setY(0);
@@ -193,8 +193,8 @@ public class DiagramCreator{
 				populateDataTable(compartmentDecoration, (UimDataTable) uimComponent);
 			}else if(uimComponent instanceof BuiltInActionButton){
 				addComponent(compartmentDecoration, uimComponent, BuiltInActionButtonEditPart.VISUAL_ID + "", null);
-			}else if(uimComponent instanceof OperationButton){
-				addComponent(compartmentDecoration, uimComponent, OperationButtonEditPart.VISUAL_ID + "", null);
+			}else if(uimComponent instanceof InvocationButton){
+				addComponent(compartmentDecoration, uimComponent, InvocationButtonEditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof TransitionButton){
 				addComponent(compartmentDecoration, uimComponent, TransitionButtonEditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof BuiltInLink){
@@ -241,8 +241,8 @@ public class DiagramCreator{
 				addComponent(columnsCompartment, uimComponent, BuiltInLink2EditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof BuiltInActionButton){
 				addComponent(columnsCompartment, uimComponent, BuiltInActionButton2EditPart.VISUAL_ID + "", null);
-			}else if(uimComponent instanceof OperationButton){
-				addComponent(columnsCompartment, uimComponent, OperationButton2EditPart.VISUAL_ID + "", null);
+			}else if(uimComponent instanceof InvocationButton){
+				addComponent(columnsCompartment, uimComponent, InvocationButton2EditPart.VISUAL_ID + "", null);
 			}
 		}
 		for(UimComponent uimComponent:panel.getActionsOnMultipleSelection()){
@@ -251,13 +251,11 @@ public class DiagramCreator{
 				actionBarCompartment.getPersistedChildren().add(fieldShape);
 				fieldShape.setElement(uimComponent);
 				fieldShape.setType(BuiltInActionButton3EditPart.VISUAL_ID + "");
-			}else if(uimComponent instanceof OperationButton){
+			}else if(uimComponent instanceof InvocationButton){
 				Shape fieldShape = NotationFactory.eINSTANCE.createShape();
 				actionBarCompartment.getPersistedChildren().add(fieldShape);
 				fieldShape.setElement(uimComponent);
-				fieldShape.setType(OperationButton3EditPart.VISUAL_ID + "");
-				OperationPopup popup = ((OperationButton) uimComponent).getPopup();
-				addPages(popup);
+				fieldShape.setType(InvocationButton3EditPart.VISUAL_ID + "");
 			}
 		}
 	}

@@ -6,25 +6,20 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
-import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.*;
+import org.opaeum.uim.action.AbstractActionButton;
+import org.opaeum.uim.action.AbstractLink;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.LinkToQuery;
-import org.opaeum.uim.action.OperationButton;
-import org.opaeum.uim.action.OperationPopup;
-import org.opaeum.uim.action.OperationPopupPage;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.action.TransitionButton;
-import org.opaeum.uim.action.UimAction;
-import org.opaeum.uim.action.UimLink;
+import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.constraint.ConstrainedObject;
-import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.panel.Outlayable;
 
 /**
@@ -104,7 +99,7 @@ public class ActionSwitch<T> {
 			case ActionPackage.BUILT_IN_ACTION_BUTTON: {
 				BuiltInActionButton builtInActionButton = (BuiltInActionButton)theEObject;
 				T result = caseBuiltInActionButton(builtInActionButton);
-				if (result == null) result = caseUimAction(builtInActionButton);
+				if (result == null) result = caseAbstractActionButton(builtInActionButton);
 				if (result == null) result = caseUimComponent(builtInActionButton);
 				if (result == null) result = caseOutlayable(builtInActionButton);
 				if (result == null) result = caseUserInteractionElement(builtInActionButton);
@@ -112,23 +107,24 @@ public class ActionSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ActionPackage.UIM_ACTION: {
-				UimAction uimAction = (UimAction)theEObject;
-				T result = caseUimAction(uimAction);
-				if (result == null) result = caseUimComponent(uimAction);
-				if (result == null) result = caseOutlayable(uimAction);
-				if (result == null) result = caseUserInteractionElement(uimAction);
-				if (result == null) result = caseConstrainedObject(uimAction);
+			case ActionPackage.ABSTRACT_ACTION_BUTTON: {
+				AbstractActionButton abstractActionButton = (AbstractActionButton)theEObject;
+				T result = caseAbstractActionButton(abstractActionButton);
+				if (result == null) result = caseUimComponent(abstractActionButton);
+				if (result == null) result = caseOutlayable(abstractActionButton);
+				if (result == null) result = caseUserInteractionElement(abstractActionButton);
+				if (result == null) result = caseConstrainedObject(abstractActionButton);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ActionPackage.TRANSITION_BUTTON: {
 				TransitionButton transitionButton = (TransitionButton)theEObject;
 				T result = caseTransitionButton(transitionButton);
-				if (result == null) result = caseUimAction(transitionButton);
-				if (result == null) result = caseUmlReference(transitionButton);
+				if (result == null) result = caseAbstractActionButton(transitionButton);
+				if (result == null) result = caseLabeledElement(transitionButton);
 				if (result == null) result = caseUimComponent(transitionButton);
 				if (result == null) result = caseOutlayable(transitionButton);
+				if (result == null) result = caseUmlReference(transitionButton);
 				if (result == null) result = caseUserInteractionElement(transitionButton);
 				if (result == null) result = caseConstrainedObject(transitionButton);
 				if (result == null) result = defaultCase(theEObject);
@@ -137,61 +133,43 @@ public class ActionSwitch<T> {
 			case ActionPackage.LINK_TO_QUERY: {
 				LinkToQuery linkToQuery = (LinkToQuery)theEObject;
 				T result = caseLinkToQuery(linkToQuery);
-				if (result == null) result = caseUimLink(linkToQuery);
-				if (result == null) result = caseUmlReference(linkToQuery);
+				if (result == null) result = caseAbstractLink(linkToQuery);
+				if (result == null) result = caseLabeledElement(linkToQuery);
 				if (result == null) result = caseUimComponent(linkToQuery);
 				if (result == null) result = caseOutlayable(linkToQuery);
+				if (result == null) result = caseUmlReference(linkToQuery);
 				if (result == null) result = caseUserInteractionElement(linkToQuery);
 				if (result == null) result = caseConstrainedObject(linkToQuery);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ActionPackage.OPERATION_BUTTON: {
-				OperationButton operationButton = (OperationButton)theEObject;
-				T result = caseOperationButton(operationButton);
-				if (result == null) result = caseUimAction(operationButton);
-				if (result == null) result = caseUmlReference(operationButton);
-				if (result == null) result = caseUimComponent(operationButton);
-				if (result == null) result = caseOutlayable(operationButton);
-				if (result == null) result = caseUserInteractionElement(operationButton);
-				if (result == null) result = caseConstrainedObject(operationButton);
+			case ActionPackage.INVOCATION_BUTTON: {
+				InvocationButton invocationButton = (InvocationButton)theEObject;
+				T result = caseInvocationButton(invocationButton);
+				if (result == null) result = caseAbstractActionButton(invocationButton);
+				if (result == null) result = caseLabeledElement(invocationButton);
+				if (result == null) result = caseUimComponent(invocationButton);
+				if (result == null) result = caseOutlayable(invocationButton);
+				if (result == null) result = caseUmlReference(invocationButton);
+				if (result == null) result = caseUserInteractionElement(invocationButton);
+				if (result == null) result = caseConstrainedObject(invocationButton);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ActionPackage.UIM_LINK: {
-				UimLink uimLink = (UimLink)theEObject;
-				T result = caseUimLink(uimLink);
-				if (result == null) result = caseUimComponent(uimLink);
-				if (result == null) result = caseOutlayable(uimLink);
-				if (result == null) result = caseUserInteractionElement(uimLink);
-				if (result == null) result = caseConstrainedObject(uimLink);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ActionPackage.OPERATION_POPUP: {
-				OperationPopup operationPopup = (OperationPopup)theEObject;
-				T result = caseOperationPopup(operationPopup);
-				if (result == null) result = casePageContainer(operationPopup);
-				if (result == null) result = caseUmlReference(operationPopup);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ActionPackage.OPERATION_POPUP_PAGE: {
-				OperationPopupPage operationPopupPage = (OperationPopupPage)theEObject;
-				T result = caseOperationPopupPage(operationPopupPage);
-				if (result == null) result = casePage(operationPopupPage);
-				if (result == null) result = caseUserInterface(operationPopupPage);
-				if (result == null) result = caseEditableConstrainedObject(operationPopupPage);
-				if (result == null) result = caseUserInteractionElement(operationPopupPage);
-				if (result == null) result = caseUmlReference(operationPopupPage);
-				if (result == null) result = caseConstrainedObject(operationPopupPage);
+			case ActionPackage.ABSTRACT_LINK: {
+				AbstractLink abstractLink = (AbstractLink)theEObject;
+				T result = caseAbstractLink(abstractLink);
+				if (result == null) result = caseUimComponent(abstractLink);
+				if (result == null) result = caseOutlayable(abstractLink);
+				if (result == null) result = caseUserInteractionElement(abstractLink);
+				if (result == null) result = caseConstrainedObject(abstractLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ActionPackage.BUILT_IN_LINK: {
 				BuiltInLink builtInLink = (BuiltInLink)theEObject;
 				T result = caseBuiltInLink(builtInLink);
-				if (result == null) result = caseUimLink(builtInLink);
+				if (result == null) result = caseAbstractLink(builtInLink);
 				if (result == null) result = caseUimComponent(builtInLink);
 				if (result == null) result = caseOutlayable(builtInLink);
 				if (result == null) result = caseUserInteractionElement(builtInLink);
@@ -219,17 +197,17 @@ public class ActionSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uim Action</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Action Button</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uim Action</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Action Button</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUimAction(UimAction object) {
+	public T caseAbstractActionButton(AbstractActionButton object) {
 		return null;
 	}
 
@@ -264,62 +242,32 @@ public class ActionSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Operation Button</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Invocation Button</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Operation Button</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Invocation Button</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseOperationButton(OperationButton object) {
+	public T caseInvocationButton(InvocationButton object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uim Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Link</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uim Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Link</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUimLink(UimLink object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Operation Popup</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Operation Popup</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseOperationPopup(OperationPopup object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Operation Popup Page</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Operation Popup Page</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseOperationPopupPage(OperationPopupPage object) {
+	public T caseAbstractLink(AbstractLink object) {
 		return null;
 	}
 
@@ -369,13 +317,13 @@ public class ActionSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Component</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Component</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -414,62 +362,17 @@ public class ActionSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Page Container</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Page Container</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T casePageContainer(PageContainer object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>User Interface</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>User Interface</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseUserInterface(UserInterface object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Editable Constrained Object</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Editable Constrained Object</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseEditableConstrainedObject(EditableConstrainedObject object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Page</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Page</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T casePage(Page object) {
+	public T caseLabeledElement(LabeledElement object) {
 		return null;
 	}
 

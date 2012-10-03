@@ -11,12 +11,10 @@ import org.opaeum.EmfElementVisitor;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.visit.VisitSpec;
-import org.opaeum.uim.util.UmlUimLinks;
 
-public class AbstractUimSynchronizer extends EmfElementVisitor implements ITransformationStep{
+public class AbstractUimSynchronizer extends EmfElementVisitor implements ITransformationStep,UserInterfaceResourceFactory{
 	protected ResourceSet uimRst;
 	protected boolean regenerate;
-	protected UmlUimLinks links;
 	protected EmfWorkspace workspace;
 	public AbstractUimSynchronizer(){
 	}
@@ -53,17 +51,16 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 			return super.getChildren(root);
 		}
 	}
-	protected final Resource getResource(String id,String extenstion){
+	@Override
+	public final Resource getResource(String id,String extenstion){
 		URI formUri = workspace.getDirectoryUri().appendSegment("ui");
-		String formId = id;
-		formUri = formUri.appendSegment(formId);
+		formUri = formUri.appendSegment(id);
 		formUri = formUri.appendFileExtension(extenstion);
 		Resource resource = null;
 		resource = uimRst.getResource(formUri, false);
 		if(resource == null){
 			resource = uimRst.createResource(formUri);
 		}
-		links = new UmlUimLinks(resource, workspace);
 		return resource;
 	}
 	@Override

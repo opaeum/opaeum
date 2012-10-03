@@ -45,7 +45,7 @@ public interface BindingPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "ubnd";
+	String eNS_PREFIX = "bind";
 
 	/**
 	 * The singleton instance of the package.

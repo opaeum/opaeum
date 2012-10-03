@@ -267,7 +267,7 @@ public class JpaUtil{
 			String withoutId = PersistentNameUtil.getPersistentName(map.getProperty()).getWithoutId().getAsIs();
 			// complex column name - has to be unique across all usages of the
 			// entity
-			columnName += shortenName(withoutId, 8);
+			columnName += shortenName(withoutId, 16);
 			columnName += "_on_";
 			columnName += shortenName(PersistentNameUtil.getPersistentName(map.getProperty().getOwner()).getAsIs(), 8);
 		}

@@ -20,28 +20,27 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.uim.AbstractActionBar;
-import org.opaeum.uim.UimComponent;
-import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.UserInterfaceRoot;
+import org.opaeum.uim.action.AbstractActionButton;
+import org.opaeum.uim.action.AbstractLink;
 import org.opaeum.uim.action.LinkToQuery;
-import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.action.TransitionButton;
-import org.opaeum.uim.action.UimAction;
-import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.LookupBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.binding.UimBinding;
+import org.opaeum.uim.component.UimComponent;
+import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.editor.AbstractEditor;
-import org.opaeum.uim.editor.ActionTaskEditor;
-import org.opaeum.uim.editor.ClassEditor;
-import org.opaeum.uim.editor.OperationInvocationEditor;
-import org.opaeum.uim.editor.OperationTaskEditor;
-import org.opaeum.uim.editor.QueryInvocationEditor;
+import org.opaeum.uim.editor.BehaviorExecutionEditor;
+import org.opaeum.uim.editor.ObjectEditor;
+import org.opaeum.uim.model.EmbeddedTaskEditor;
+import org.opaeum.uim.model.OperationInvocationWizard;
+import org.opaeum.uim.model.QueryInvoker;
 
 public class UmlUimLinks{
 	private EmfWorkspace primaryEmfWorkspace;
@@ -70,7 +69,7 @@ public class UmlUimLinks{
 		}
 		return null;
 	}
-	public Operation getOperation(OperationButton eObject){
+	public Operation getOperation(InvocationButton eObject){
 		return (Operation) getUmlElement(eObject);
 	}
 	public Operation getOperation(LinkToQuery eObject){
@@ -79,16 +78,16 @@ public class UmlUimLinks{
 	public Transition getTransition(TransitionButton eObject){
 		return (Transition) getUmlElement(eObject);
 	}
-	public Operation getOperation(OperationInvocationEditor form){
+	public Operation getOperation(QueryInvoker form){
 		return (Operation) getUmlElement(form);
 	}
-	public Operation getOperation(OperationTaskEditor oif){
+	public Operation getOperation(OperationInvocationWizard oif){
 		return (Operation) getUmlElement(oif);
 	}
-	public OpaqueAction getAction(ActionTaskEditor oif){
+	public OpaqueAction getAction(EmbeddedTaskEditor oif){
 		return (OpaqueAction) getUmlElement(oif);
 	}
-	public Class getClass(ClassEditor nearestForm){
+	public Class getClass(ObjectEditor nearestForm){
 		return (Class) getUmlElement(nearestForm);
 	}
 	public String getId(Element e){
@@ -116,7 +115,7 @@ public class UmlUimLinks{
 //		}else{
 			UimDataTable nearestTable = getNearestTable(uc);
 			if(nearestTable == null){
-				UserInterface uf = getNearestForm(uc);
+				UserInterfaceRoot uf = getNearestForm(uc);
 				return getRepresentedClass(uf);
 			}else if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
 				return (Classifier) getBindingType(nearestTable.getBinding());
@@ -152,29 +151,29 @@ public class UmlUimLinks{
 		}
 		return null;
 	}
-	public static UserInterface getNearestForm(EObject uc){
-		while(!(uc.eContainer() instanceof UserInterface)){
+	public static UserInterfaceRoot getNearestForm(EObject uc){
+		while(!(uc.eContainer() instanceof UserInterfaceRoot)){
 			uc = uc.eContainer();
 		}
-		return (UserInterface) uc.eContainer();
+		return (UserInterfaceRoot) uc.eContainer();
 	}
-	public static UmlReference getNearestForm(UimAction ab){
+	public static UmlReference getNearestForm(AbstractActionButton ab){
 		EObject uc = ab;
-		while(!(uc.eContainer() instanceof UserInterface || uc.eContainer() instanceof AbstractEditor)){
+		while(!(uc.eContainer() instanceof UserInterfaceRoot || uc.eContainer() instanceof AbstractEditor)){
 			uc = uc.eContainer();
 		}
 		return (UmlReference) uc.eContainer();
 	}
-	public static UmlReference getNearestForm(UimLink ab){
+	public static UmlReference getNearestForm(AbstractLink ab){
 		EObject uc = ab;
-		while(!(uc.eContainer() instanceof UserInterface || uc.eContainer() instanceof AbstractEditor)){
+		while(!(uc.eContainer() instanceof UserInterfaceRoot || uc.eContainer() instanceof AbstractEditor)){
 			uc = uc.eContainer();
 		}
 		return (UmlReference) uc.eContainer();
 	}
-	public List<Operation> getValidOperationsFor(UserInterface ui){
-		if(ui.eContainer() instanceof ClassEditor){
-			ClassEditor cf = (ClassEditor) ui.eContainer();
+	public List<Operation> getValidOperationsFor(UserInterfaceRoot ui){
+		if(ui.eContainer() instanceof ObjectEditor){
+			ObjectEditor cf = (ObjectEditor) ui.eContainer();
 			Class representedClass = getRepresentedClass(cf);
 			if(representedClass != null){
 				if(representedClass instanceof Behavior){
@@ -240,9 +239,6 @@ public class UmlUimLinks{
 	public static UmlUimLinks getCurrentUmlLinks(EObject e){
 		return linksMap.get(e.eResource());
 	}
-	public Operation getOperation(QueryInvocationEditor form){
-		return (Operation) getUmlElement(form);
-	}
 	public Element getNearestUmlElement(UserInteractionElement ui){
 		while(ui != null){
 			if(ui instanceof UmlReference){
@@ -260,5 +256,8 @@ public class UmlUimLinks{
 	}
 	public EmfWorkspace getEmfWorkspace(){
 		return primaryEmfWorkspace;
+	}
+	public Behavior getBehavior(BehaviorExecutionEditor eContainer){
+		return (Behavior) getLink(eContainer);
 	}
 }

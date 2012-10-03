@@ -411,4 +411,7 @@ public class EmfClassifierUtil{
 	public static boolean isBusinessActor(Classifier selectedObject){
 		return selectedObject instanceof Actor && StereotypesHelper.hasStereotype(selectedObject, StereotypeNames.BUSINESS_ACTOR);
 	}
+	public static boolean isPersistentComplexStructure(Type type){
+		return isPersistent(type) && isComplexStructure(type);
+	}
 }

@@ -3,7 +3,6 @@
 package org.opaeum.uim.cube;
 
 import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.UserInteractionElement;
 
 /**
  * <!-- begin-user-doc -->

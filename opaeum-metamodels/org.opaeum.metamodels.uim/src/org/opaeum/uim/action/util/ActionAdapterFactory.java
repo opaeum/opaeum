@@ -6,25 +6,20 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
-import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.*;
+import org.opaeum.uim.action.AbstractActionButton;
+import org.opaeum.uim.action.AbstractLink;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.LinkToQuery;
-import org.opaeum.uim.action.OperationButton;
-import org.opaeum.uim.action.OperationPopup;
-import org.opaeum.uim.action.OperationPopupPage;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.action.TransitionButton;
-import org.opaeum.uim.action.UimAction;
-import org.opaeum.uim.action.UimLink;
+import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.constraint.ConstrainedObject;
-import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.panel.Outlayable;
 
 /**
@@ -88,8 +83,8 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 				return createBuiltInActionButtonAdapter();
 			}
 			@Override
-			public Adapter caseUimAction(UimAction object) {
-				return createUimActionAdapter();
+			public Adapter caseAbstractActionButton(AbstractActionButton object) {
+				return createAbstractActionButtonAdapter();
 			}
 			@Override
 			public Adapter caseTransitionButton(TransitionButton object) {
@@ -100,20 +95,12 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 				return createLinkToQueryAdapter();
 			}
 			@Override
-			public Adapter caseOperationButton(OperationButton object) {
-				return createOperationButtonAdapter();
+			public Adapter caseInvocationButton(InvocationButton object) {
+				return createInvocationButtonAdapter();
 			}
 			@Override
-			public Adapter caseUimLink(UimLink object) {
-				return createUimLinkAdapter();
-			}
-			@Override
-			public Adapter caseOperationPopup(OperationPopup object) {
-				return createOperationPopupAdapter();
-			}
-			@Override
-			public Adapter caseOperationPopupPage(OperationPopupPage object) {
-				return createOperationPopupPageAdapter();
+			public Adapter caseAbstractLink(AbstractLink object) {
+				return createAbstractLinkAdapter();
 			}
 			@Override
 			public Adapter caseBuiltInLink(BuiltInLink object) {
@@ -140,20 +127,8 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 				return createUmlReferenceAdapter();
 			}
 			@Override
-			public Adapter casePageContainer(PageContainer object) {
-				return createPageContainerAdapter();
-			}
-			@Override
-			public Adapter caseUserInterface(UserInterface object) {
-				return createUserInterfaceAdapter();
-			}
-			@Override
-			public Adapter caseEditableConstrainedObject(EditableConstrainedObject object) {
-				return createEditableConstrainedObjectAdapter();
-			}
-			@Override
-			public Adapter casePage(Page object) {
-				return createPageAdapter();
+			public Adapter caseLabeledElement(LabeledElement object) {
+				return createLabeledElementAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -190,16 +165,16 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.UimAction <em>Uim Action</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.AbstractActionButton <em>Abstract Action Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.UimAction
+	 * @see org.opaeum.uim.action.AbstractActionButton
 	 * @generated
 	 */
-	public Adapter createUimActionAdapter() {
+	public Adapter createAbstractActionButtonAdapter() {
 		return null;
 	}
 
@@ -232,58 +207,30 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationButton <em>Operation Button</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.InvocationButton <em>Invocation Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.OperationButton
+	 * @see org.opaeum.uim.action.InvocationButton
 	 * @generated
 	 */
-	public Adapter createOperationButtonAdapter() {
+	public Adapter createInvocationButtonAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.UimLink <em>Uim Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.AbstractLink <em>Abstract Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.UimLink
+	 * @see org.opaeum.uim.action.AbstractLink
 	 * @generated
 	 */
-	public Adapter createUimLinkAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationPopup <em>Operation Popup</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.OperationPopup
-	 * @generated
-	 */
-	public Adapter createOperationPopupAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationPopupPage <em>Operation Popup Page</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.OperationPopupPage
-	 * @generated
-	 */
-	public Adapter createOperationPopupPageAdapter() {
+	public Adapter createAbstractLinkAdapter() {
 		return null;
 	}
 
@@ -330,13 +277,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimComponent <em>Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.component.UimComponent <em>Uim Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimComponent
+	 * @see org.opaeum.uim.component.UimComponent
 	 * @generated
 	 */
 	public Adapter createUimComponentAdapter() {
@@ -372,58 +319,16 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PageContainer <em>Page Container</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.LabeledElement <em>Labeled Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.PageContainer
+	 * @see org.opaeum.uim.LabeledElement
 	 * @generated
 	 */
-	public Adapter createPageContainerAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterface <em>User Interface</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UserInterface
-	 * @generated
-	 */
-	public Adapter createUserInterfaceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.constraint.EditableConstrainedObject <em>Editable Constrained Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.constraint.EditableConstrainedObject
-	 * @generated
-	 */
-	public Adapter createEditableConstrainedObjectAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.Page <em>Page</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.Page
-	 * @generated
-	 */
-	public Adapter createPageAdapter() {
+	public Adapter createLabeledElementAdapter() {
 		return null;
 	}
 

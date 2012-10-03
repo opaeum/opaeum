@@ -24,10 +24,10 @@ import org.eclipse.ui.menus.IContributionRoot;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.uml2.uml.Operation;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.Page;
 import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.editor.AbstractEditor;
-import org.opaeum.uim.perspective.UimPerspective;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uml2uim.OpenUserInterfaceAction;
 import org.opaeum.uml2uim.RegenerateRecursivelyAction;
 import org.opaeum.uml2uim.SynchronizeAction;
@@ -57,8 +57,8 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 					ISelectionService s = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
 					if(s.getSelection() instanceof IStructuredSelection){
 						IStructuredSelection ss = (IStructuredSelection) s.getSelection();
-						if(hasConfigFile(ss) || eobject instanceof UserInterface || eobject instanceof AbstractEditor
-								|| eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation || eobject instanceof CubeQuery || eobject instanceof UimPerspective
+						if(hasConfigFile(ss) || eobject instanceof Page || eobject instanceof AbstractEditor
+								|| eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation || eobject instanceof CubeQuery || eobject instanceof PerspectiveConfiguration
 								|| eobject instanceof org.eclipse.uml2.uml.Package || eobject instanceof EmfWorkspace){
 							// TODO add SingleScreenTasks
 							return EvaluationResult.TRUE;
@@ -67,7 +67,7 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 					return EvaluationResult.FALSE;
 				}
 			});
-			if(eobject instanceof UserInterface){
+			if(eobject instanceof Page){
 				menuManager.add(new CompoundContributionItem(){
 					@Override
 					protected IContributionItem[] getContributionItems(){
@@ -95,7 +95,7 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 					}
 				});
 			}
-			if(eobject instanceof UimPerspective){
+			if(eobject instanceof PerspectiveConfiguration){
 				menuManager.add(new CompoundContributionItem(){
 					@Override
 					protected IContributionItem[] getContributionItems(){

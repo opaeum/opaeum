@@ -3,11 +3,9 @@
  */
 package org.eclipse.papyrus.uml.modelexplorer.queries;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.facet.infra.query.core.exception.ModelQueryExecutionException;
 import org.eclipse.emf.facet.infra.query.core.java.IJavaModelQuery;
 import org.eclipse.emf.facet.infra.query.core.java.ParameterValueList;
-import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.NamedElement;

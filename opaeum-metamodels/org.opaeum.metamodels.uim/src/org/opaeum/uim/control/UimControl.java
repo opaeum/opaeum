@@ -3,7 +3,7 @@
 package org.opaeum.uim.control;
 
 import org.eclipse.emf.ecore.EObject;
-import org.opaeum.uim.UimField;
+import org.opaeum.uim.component.UimField;
 
 /**
  * <!-- begin-user-doc -->
@@ -52,7 +52,7 @@ public interface UimControl extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Field</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UimField#getControl <em>Control</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.component.UimField#getControl <em>Control</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Field</em>' container reference isn't clear,
@@ -62,7 +62,7 @@ public interface UimControl extends EObject {
 	 * @return the value of the '<em>Field</em>' container reference.
 	 * @see #setField(UimField)
 	 * @see org.opaeum.uim.control.ControlPackage#getUimControl_Field()
-	 * @see org.opaeum.uim.UimField#getControl
+	 * @see org.opaeum.uim.component.UimField#getControl
 	 * @model opposite="control" transient="false"
 	 * @generated
 	 */

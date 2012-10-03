@@ -2,8 +2,7 @@
  */
 package org.opaeum.uim.action;
 
-import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.editor.QueryInvocationEditor;
+import org.opaeum.uim.LabeledElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,6 +18,5 @@ import org.opaeum.uim.editor.QueryInvocationEditor;
  * @model
  * @generated
  */
-public interface LinkToQuery extends UimLink, UmlReference {
-
+public interface LinkToQuery extends AbstractLink, LabeledElement {
 } // LinkToQuery

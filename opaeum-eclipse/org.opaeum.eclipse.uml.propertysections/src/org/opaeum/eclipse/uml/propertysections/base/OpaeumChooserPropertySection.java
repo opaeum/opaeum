@@ -27,10 +27,10 @@ public abstract class OpaeumChooserPropertySection extends AbstractChooserProper
 		}
 	}
 	
-	final protected ILabelProvider getLabelProvider(){
+	protected ILabelProvider getLabelProvider(){
 		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
-	final protected ILabelProvider getAdvancedLabeProvider(){
+	protected ILabelProvider getAdvancedLabeProvider(){
 		return new OpaeumQualifiedNameLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
 

@@ -36,27 +36,16 @@ public class DurationObservationFromEventSection extends AbstractObsercationEven
 	protected void handleComboModified(){
 		if(!isRefreshing()){
 			EditingDomain editingDomain = getEditingDomain();
-			CompoundCommand compoundCommand = new CompoundCommand("Stuff");
-			if(getObservation().getEvents().size() == 0){
-				compoundCommand.append(AddCommand.create(editingDomain, getObservation(), getFeature(), cSingleObjectChooser.getSelection()));
-			}else{
-				compoundCommand.append(SetCommand.create(editingDomain, getObservation(), getFeature(), cSingleObjectChooser.getSelection(), 0));
-			}
-			editingDomain.getCommandStack().execute(compoundCommand);
+			EStructuralFeature feature = UMLPackage.eINSTANCE.getDurationObservation_Event();
+			editingDomain.getCommandStack().execute(new DurationCommand(getObservation(), feature, cSingleObjectChooser.getSelection(), 0));
 		}
 	}
 	@Override
 	public void handleFirstEvent(boolean a){
 		if(!isRefreshing()){
 			EditingDomain editingDomain = getEditingDomain();
-			CompoundCommand compoundCommand = new CompoundCommand("Stuff");
 			EStructuralFeature feature = UMLPackage.eINSTANCE.getDurationObservation_FirstEvent();
-			if(getObservation().getEvents().size() == 0){
-				compoundCommand.append(AddCommand.create(editingDomain, getObservation(), feature, a));
-			}else{
-				compoundCommand.append(SetCommand.create(editingDomain, getObservation(), feature, a, 0));
-			}
-			editingDomain.getCommandStack().execute(compoundCommand);
+			editingDomain.getCommandStack().execute(new DurationCommand(getObservation(), feature, a, 0));
 		}
 		
 	}
@@ -64,7 +53,7 @@ public class DurationObservationFromEventSection extends AbstractObsercationEven
 	public boolean isFirstEvent(){
 		DurationObservation durationObservation = getObservation();
 		if(durationObservation.getFirstEvents().size() >= 1){
-			return durationObservation.getFirstEvents().get(0);
+			return Boolean.TRUE.equals(durationObservation.getFirstEvents().get(0));
 		}else{
 			return false;
 		}

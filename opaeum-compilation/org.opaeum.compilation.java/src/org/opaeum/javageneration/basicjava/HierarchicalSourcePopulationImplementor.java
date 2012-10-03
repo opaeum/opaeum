@@ -36,7 +36,7 @@ public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator
 		if (!isComposition && shouldResolve(p, umlOwner) && !EmfPropertyUtil.isDerived( p) && !p.isReadOnly() && StereotypesHelper.hasStereotype((Element) umlOwner,StereotypeNames.HIERARCHY)) {
 			
 			Class entityOwner = (Class)p.getOwner();
-			Property endToComposite = EmfPropertyUtil.getEndToComposite( entityOwner, getLibrary());
+			Property endToComposite = getLibrary().getEndToComposite(entityOwner);
 			
 			OJAnnotatedClass owner = findJavaClass(umlOwner);
 			OJOperation sourcePopulation = new OJAnnotatedOperation("get" + NameConverter.capitalize(p.getName()) + "SourcePopulation");

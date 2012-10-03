@@ -306,7 +306,7 @@ public abstract class OutlayableImpl extends EObjectImpl implements Outlayable {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (preferredWidth: ");
 		result.append(preferredWidth);
 		result.append(", preferredHeight: ");

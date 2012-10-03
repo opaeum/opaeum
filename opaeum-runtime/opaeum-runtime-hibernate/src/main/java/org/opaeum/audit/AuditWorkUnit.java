@@ -290,13 +290,13 @@ public class AuditWorkUnit {
 	}
 
 	public void logInsertedProperties(Object[] newState, String[] propertyNames, IPersistentObject entity, int version) {
-//		AuditEntryFactory<?> factory = getFactory(entity);
-//		AuditEntry entry = factory.createAuditEntry(entity, version);
-//		entry.setAction(AuditedAction.CREATE);
-//		entriesByEntityId.put(toEntityId(entity), entry);
-//		for (int i = 0; i < newState.length; i++) {
-//			entry.putPropertyChange(propertyNames[i], null, newState[i]);
-//		}
+		AuditEntryFactory<?> factory = getFactory(entity);
+		AuditEntry entry = factory.createAuditEntry(entity, version);
+		entry.setAction(AuditedAction.CREATE);
+		entriesByEntityId.put(toEntityId(entity), entry);
+		for (int i = 0; i < newState.length; i++) {
+			entry.putPropertyChange(propertyNames[i], null, newState[i]);
+		}
 	}
 
 }

@@ -31,15 +31,17 @@ public class CreateTypedExpressionAction extends AbstractCreateChildAction imple
 		}
 		Type type = library.getLibraryType(typeOfChild);
 		((OpaqueExpression) descriptor.getValue()).setType(type);
-		CreateChildAction result;
-		String childName = null;
-		result = new CreateChildAndSelectAction(workbenchPart, selection, descriptor);
-		childName = NameConverter.capitalize(NameConverter.separateWords(type.getName() + "Expression"));
+		CreateChildAndSelectAction result = new CreateChildAndSelectAction(workbenchPart, selection, descriptor);
+		String childName = NameConverter.capitalize(NameConverter.separateWords(type.getName() + "Expression"));
 		if(name == null){
 			result.setText(NameConverter.capitalize(NameConverter.separateWords(featureName)) + "|" + childName);
 		}else{
 			result.setText(name);
 		}
+		if(!descriptor.getEStructuralFeature().isMany() && descriptor.getEOwner().eGet(descriptor.getEStructuralFeature())!=null){
+			result.setEnabled(false);
+		}
+
 		return result;
 	}
 	public LibraryType getExpressionType(){

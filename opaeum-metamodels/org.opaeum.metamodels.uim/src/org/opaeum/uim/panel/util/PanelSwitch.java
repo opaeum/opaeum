@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.opaeum.uim.UimComponent;
-import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.component.UimComponent;
+import org.opaeum.uim.component.UimContainer;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.panel.*;
@@ -291,13 +291,13 @@ public class PanelSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Component</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Component</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -321,13 +321,13 @@ public class PanelSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Container</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Container</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Container</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Container</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */

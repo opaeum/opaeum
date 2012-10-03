@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.component.ComponentPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -47,7 +47,7 @@ public interface ActionPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "uact";
+	String eNS_PREFIX = "action";
 
 	/**
 	 * The singleton instance of the package.
@@ -58,14 +58,14 @@ public interface ActionPackage extends EPackage {
 	ActionPackage eINSTANCE = org.opaeum.uim.action.impl.ActionPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.action.impl.UimActionImpl <em>Uim Action</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.AbstractActionButtonImpl <em>Abstract Action Button</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.action.impl.UimActionImpl
-	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getUimAction()
+	 * @see org.opaeum.uim.action.impl.AbstractActionButtonImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getAbstractActionButton()
 	 * @generated
 	 */
-	int UIM_ACTION = 1;
+	int ABSTRACT_ACTION_BUTTON = 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -74,7 +74,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_ACTION__NAME = UimPackage.UIM_COMPONENT__NAME;
+	int ABSTRACT_ACTION_BUTTON__NAME = ComponentPackage.UIM_COMPONENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -83,7 +83,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_ACTION__UNDER_USER_CONTROL = UimPackage.UIM_COMPONENT__UNDER_USER_CONTROL;
+	int ABSTRACT_ACTION_BUTTON__UNDER_USER_CONTROL = ComponentPackage.UIM_COMPONENT__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -92,7 +92,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_ACTION__VISIBILITY = UimPackage.UIM_COMPONENT__VISIBILITY;
+	int ABSTRACT_ACTION_BUTTON__VISIBILITY = ComponentPackage.UIM_COMPONENT__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -101,7 +101,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_ACTION__PREFERRED_WIDTH = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 0;
+	int ABSTRACT_ACTION_BUTTON__PREFERRED_WIDTH = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -110,7 +110,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_ACTION__PREFERRED_HEIGHT = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 1;
+	int ABSTRACT_ACTION_BUTTON__PREFERRED_HEIGHT = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -119,7 +119,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_ACTION__FILL_HORIZONTALLY = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 2;
+	int ABSTRACT_ACTION_BUTTON__FILL_HORIZONTALLY = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -128,16 +128,16 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_ACTION__FILL_VERTICALLY = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 3;
+	int ABSTRACT_ACTION_BUTTON__FILL_VERTICALLY = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>Uim Action</em>' class.
+	 * The number of structural features of the '<em>Abstract Action Button</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_ACTION_FEATURE_COUNT = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 4;
+	int ABSTRACT_ACTION_BUTTON_FEATURE_COUNT = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.BuiltInActionButtonImpl <em>Built In Action Button</em>}' class.
@@ -156,7 +156,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON__NAME = UIM_ACTION__NAME;
+	int BUILT_IN_ACTION_BUTTON__NAME = ABSTRACT_ACTION_BUTTON__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -165,7 +165,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON__UNDER_USER_CONTROL = UIM_ACTION__UNDER_USER_CONTROL;
+	int BUILT_IN_ACTION_BUTTON__UNDER_USER_CONTROL = ABSTRACT_ACTION_BUTTON__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -174,7 +174,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON__VISIBILITY = UIM_ACTION__VISIBILITY;
+	int BUILT_IN_ACTION_BUTTON__VISIBILITY = ABSTRACT_ACTION_BUTTON__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -183,7 +183,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON__PREFERRED_WIDTH = UIM_ACTION__PREFERRED_WIDTH;
+	int BUILT_IN_ACTION_BUTTON__PREFERRED_WIDTH = ABSTRACT_ACTION_BUTTON__PREFERRED_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -192,7 +192,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON__PREFERRED_HEIGHT = UIM_ACTION__PREFERRED_HEIGHT;
+	int BUILT_IN_ACTION_BUTTON__PREFERRED_HEIGHT = ABSTRACT_ACTION_BUTTON__PREFERRED_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -201,7 +201,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON__FILL_HORIZONTALLY = UIM_ACTION__FILL_HORIZONTALLY;
+	int BUILT_IN_ACTION_BUTTON__FILL_HORIZONTALLY = ABSTRACT_ACTION_BUTTON__FILL_HORIZONTALLY;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -210,7 +210,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON__FILL_VERTICALLY = UIM_ACTION__FILL_VERTICALLY;
+	int BUILT_IN_ACTION_BUTTON__FILL_VERTICALLY = ABSTRACT_ACTION_BUTTON__FILL_VERTICALLY;
 
 	/**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -219,7 +219,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON__KIND = UIM_ACTION_FEATURE_COUNT + 0;
+	int BUILT_IN_ACTION_BUTTON__KIND = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Built In Action Button</em>' class.
@@ -228,7 +228,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 1;
+	int BUILT_IN_ACTION_BUTTON_FEATURE_COUNT = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.TransitionButtonImpl <em>Transition Button</em>}' class.
@@ -247,7 +247,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON__NAME = UIM_ACTION__NAME;
+	int TRANSITION_BUTTON__NAME = ABSTRACT_ACTION_BUTTON__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -256,7 +256,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON__UNDER_USER_CONTROL = UIM_ACTION__UNDER_USER_CONTROL;
+	int TRANSITION_BUTTON__UNDER_USER_CONTROL = ABSTRACT_ACTION_BUTTON__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -265,7 +265,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON__VISIBILITY = UIM_ACTION__VISIBILITY;
+	int TRANSITION_BUTTON__VISIBILITY = ABSTRACT_ACTION_BUTTON__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -274,7 +274,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON__PREFERRED_WIDTH = UIM_ACTION__PREFERRED_WIDTH;
+	int TRANSITION_BUTTON__PREFERRED_WIDTH = ABSTRACT_ACTION_BUTTON__PREFERRED_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -283,7 +283,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON__PREFERRED_HEIGHT = UIM_ACTION__PREFERRED_HEIGHT;
+	int TRANSITION_BUTTON__PREFERRED_HEIGHT = ABSTRACT_ACTION_BUTTON__PREFERRED_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -292,7 +292,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON__FILL_HORIZONTALLY = UIM_ACTION__FILL_HORIZONTALLY;
+	int TRANSITION_BUTTON__FILL_HORIZONTALLY = ABSTRACT_ACTION_BUTTON__FILL_HORIZONTALLY;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -301,7 +301,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON__FILL_VERTICALLY = UIM_ACTION__FILL_VERTICALLY;
+	int TRANSITION_BUTTON__FILL_VERTICALLY = ABSTRACT_ACTION_BUTTON__FILL_VERTICALLY;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -310,7 +310,16 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON__UML_ELEMENT_UID = UIM_ACTION_FEATURE_COUNT + 0;
+	int TRANSITION_BUTTON__UML_ELEMENT_UID = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION_BUTTON__LABEL_OVERRIDE = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Transition Button</em>' class.
@@ -319,17 +328,17 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 1;
+	int TRANSITION_BUTTON_FEATURE_COUNT = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.action.impl.UimLinkImpl <em>Uim Link</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.AbstractLinkImpl <em>Abstract Link</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.action.impl.UimLinkImpl
-	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getUimLink()
+	 * @see org.opaeum.uim.action.impl.AbstractLinkImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getAbstractLink()
 	 * @generated
 	 */
-	int UIM_LINK = 5;
+	int ABSTRACT_LINK = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -338,7 +347,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LINK__NAME = UimPackage.UIM_COMPONENT__NAME;
+	int ABSTRACT_LINK__NAME = ComponentPackage.UIM_COMPONENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -347,7 +356,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LINK__UNDER_USER_CONTROL = UimPackage.UIM_COMPONENT__UNDER_USER_CONTROL;
+	int ABSTRACT_LINK__UNDER_USER_CONTROL = ComponentPackage.UIM_COMPONENT__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -356,7 +365,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LINK__VISIBILITY = UimPackage.UIM_COMPONENT__VISIBILITY;
+	int ABSTRACT_LINK__VISIBILITY = ComponentPackage.UIM_COMPONENT__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -365,7 +374,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LINK__PREFERRED_WIDTH = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 0;
+	int ABSTRACT_LINK__PREFERRED_WIDTH = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -374,7 +383,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LINK__PREFERRED_HEIGHT = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 1;
+	int ABSTRACT_LINK__PREFERRED_HEIGHT = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -383,7 +392,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LINK__FILL_HORIZONTALLY = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 2;
+	int ABSTRACT_LINK__FILL_HORIZONTALLY = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -392,16 +401,16 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LINK__FILL_VERTICALLY = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 3;
+	int ABSTRACT_LINK__FILL_VERTICALLY = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>Uim Link</em>' class.
+	 * The number of structural features of the '<em>Abstract Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LINK_FEATURE_COUNT = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 4;
+	int ABSTRACT_LINK_FEATURE_COUNT = ComponentPackage.UIM_COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.LinkToQueryImpl <em>Link To Query</em>}' class.
@@ -420,7 +429,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY__NAME = UIM_LINK__NAME;
+	int LINK_TO_QUERY__NAME = ABSTRACT_LINK__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -429,7 +438,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY__UNDER_USER_CONTROL = UIM_LINK__UNDER_USER_CONTROL;
+	int LINK_TO_QUERY__UNDER_USER_CONTROL = ABSTRACT_LINK__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -438,7 +447,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY__VISIBILITY = UIM_LINK__VISIBILITY;
+	int LINK_TO_QUERY__VISIBILITY = ABSTRACT_LINK__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -447,7 +456,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY__PREFERRED_WIDTH = UIM_LINK__PREFERRED_WIDTH;
+	int LINK_TO_QUERY__PREFERRED_WIDTH = ABSTRACT_LINK__PREFERRED_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -456,7 +465,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY__PREFERRED_HEIGHT = UIM_LINK__PREFERRED_HEIGHT;
+	int LINK_TO_QUERY__PREFERRED_HEIGHT = ABSTRACT_LINK__PREFERRED_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -465,7 +474,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY__FILL_HORIZONTALLY = UIM_LINK__FILL_HORIZONTALLY;
+	int LINK_TO_QUERY__FILL_HORIZONTALLY = ABSTRACT_LINK__FILL_HORIZONTALLY;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -474,7 +483,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY__FILL_VERTICALLY = UIM_LINK__FILL_VERTICALLY;
+	int LINK_TO_QUERY__FILL_VERTICALLY = ABSTRACT_LINK__FILL_VERTICALLY;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -483,7 +492,16 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY__UML_ELEMENT_UID = UIM_LINK_FEATURE_COUNT + 0;
+	int LINK_TO_QUERY__UML_ELEMENT_UID = ABSTRACT_LINK_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_TO_QUERY__LABEL_OVERRIDE = ABSTRACT_LINK_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Link To Query</em>' class.
@@ -492,17 +510,17 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY_FEATURE_COUNT = UIM_LINK_FEATURE_COUNT + 1;
+	int LINK_TO_QUERY_FEATURE_COUNT = ABSTRACT_LINK_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.action.impl.OperationButtonImpl <em>Operation Button</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.InvocationButtonImpl <em>Invocation Button</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.action.impl.OperationButtonImpl
-	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationButton()
+	 * @see org.opaeum.uim.action.impl.InvocationButtonImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getInvocationButton()
 	 * @generated
 	 */
-	int OPERATION_BUTTON = 4;
+	int INVOCATION_BUTTON = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -511,7 +529,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON__NAME = UIM_ACTION__NAME;
+	int INVOCATION_BUTTON__NAME = ABSTRACT_ACTION_BUTTON__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -520,7 +538,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON__UNDER_USER_CONTROL = UIM_ACTION__UNDER_USER_CONTROL;
+	int INVOCATION_BUTTON__UNDER_USER_CONTROL = ABSTRACT_ACTION_BUTTON__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -529,7 +547,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON__VISIBILITY = UIM_ACTION__VISIBILITY;
+	int INVOCATION_BUTTON__VISIBILITY = ABSTRACT_ACTION_BUTTON__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -538,7 +556,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON__PREFERRED_WIDTH = UIM_ACTION__PREFERRED_WIDTH;
+	int INVOCATION_BUTTON__PREFERRED_WIDTH = ABSTRACT_ACTION_BUTTON__PREFERRED_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -547,7 +565,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON__PREFERRED_HEIGHT = UIM_ACTION__PREFERRED_HEIGHT;
+	int INVOCATION_BUTTON__PREFERRED_HEIGHT = ABSTRACT_ACTION_BUTTON__PREFERRED_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -556,7 +574,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON__FILL_HORIZONTALLY = UIM_ACTION__FILL_HORIZONTALLY;
+	int INVOCATION_BUTTON__FILL_HORIZONTALLY = ABSTRACT_ACTION_BUTTON__FILL_HORIZONTALLY;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -565,7 +583,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON__FILL_VERTICALLY = UIM_ACTION__FILL_VERTICALLY;
+	int INVOCATION_BUTTON__FILL_VERTICALLY = ABSTRACT_ACTION_BUTTON__FILL_VERTICALLY;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -574,144 +592,34 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON__UML_ELEMENT_UID = UIM_ACTION_FEATURE_COUNT + 0;
+	int INVOCATION_BUTTON__UML_ELEMENT_UID = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Popup</b></em>' containment reference.
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON__POPUP = UIM_ACTION_FEATURE_COUNT + 1;
+	int INVOCATION_BUTTON__LABEL_OVERRIDE = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Operation Button</em>' class.
+	 * The feature id for the '<em><b>Popup</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_BUTTON_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 2;
+	int INVOCATION_BUTTON__POPUP = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.action.impl.OperationPopupImpl <em>Operation Popup</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.action.impl.OperationPopupImpl
-	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationPopup()
-	 * @generated
-	 */
-	int OPERATION_POPUP = 6;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * The number of structural features of the '<em>Invocation Button</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_POPUP__UML_ELEMENT_UID = UimPackage.PAGE_CONTAINER_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Operation Action</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP__OPERATION_ACTION = UimPackage.PAGE_CONTAINER_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP__PAGES = UimPackage.PAGE_CONTAINER_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of structural features of the '<em>Operation Popup</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP_FEATURE_COUNT = UimPackage.PAGE_CONTAINER_FEATURE_COUNT + 3;
-
-	/**
-	 * The meta object id for the '{@link org.opaeum.uim.action.impl.OperationPopupPageImpl <em>Operation Popup Page</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.action.impl.OperationPopupPageImpl
-	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationPopupPage()
-	 * @generated
-	 */
-	int OPERATION_POPUP_PAGE = 7;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP_PAGE__NAME = UimPackage.PAGE__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP_PAGE__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Panel</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP_PAGE__PANEL = UimPackage.PAGE__PANEL;
-
-	/**
-	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP_PAGE__VISIBILITY = UimPackage.PAGE__VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP_PAGE__EDITABILITY = UimPackage.PAGE__EDITABILITY;
-
-	/**
-	 * The number of structural features of the '<em>Operation Popup Page</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_POPUP_PAGE_FEATURE_COUNT = UimPackage.PAGE_FEATURE_COUNT + 0;
+	int INVOCATION_BUTTON_FEATURE_COUNT = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.BuiltInLinkImpl <em>Built In Link</em>}' class.
@@ -721,7 +629,7 @@ public interface ActionPackage extends EPackage {
 	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getBuiltInLink()
 	 * @generated
 	 */
-	int BUILT_IN_LINK = 8;
+	int BUILT_IN_LINK = 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -730,7 +638,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK__NAME = UIM_LINK__NAME;
+	int BUILT_IN_LINK__NAME = ABSTRACT_LINK__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -739,7 +647,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK__UNDER_USER_CONTROL = UIM_LINK__UNDER_USER_CONTROL;
+	int BUILT_IN_LINK__UNDER_USER_CONTROL = ABSTRACT_LINK__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -748,7 +656,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK__VISIBILITY = UIM_LINK__VISIBILITY;
+	int BUILT_IN_LINK__VISIBILITY = ABSTRACT_LINK__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -757,7 +665,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK__PREFERRED_WIDTH = UIM_LINK__PREFERRED_WIDTH;
+	int BUILT_IN_LINK__PREFERRED_WIDTH = ABSTRACT_LINK__PREFERRED_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -766,7 +674,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK__PREFERRED_HEIGHT = UIM_LINK__PREFERRED_HEIGHT;
+	int BUILT_IN_LINK__PREFERRED_HEIGHT = ABSTRACT_LINK__PREFERRED_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -775,7 +683,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK__FILL_HORIZONTALLY = UIM_LINK__FILL_HORIZONTALLY;
+	int BUILT_IN_LINK__FILL_HORIZONTALLY = ABSTRACT_LINK__FILL_HORIZONTALLY;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -784,7 +692,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK__FILL_VERTICALLY = UIM_LINK__FILL_VERTICALLY;
+	int BUILT_IN_LINK__FILL_VERTICALLY = ABSTRACT_LINK__FILL_VERTICALLY;
 
 	/**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -793,7 +701,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK__KIND = UIM_LINK_FEATURE_COUNT + 0;
+	int BUILT_IN_LINK__KIND = ABSTRACT_LINK_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Built In Link</em>' class.
@@ -802,7 +710,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK_FEATURE_COUNT = UIM_LINK_FEATURE_COUNT + 1;
+	int BUILT_IN_LINK_FEATURE_COUNT = ABSTRACT_LINK_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}' enum.
@@ -812,8 +720,7 @@ public interface ActionPackage extends EPackage {
 	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getActionKind()
 	 * @generated
 	 */
-	int ACTION_KIND = 9;
-
+	int ACTION_KIND = 7;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.BuiltInLinkKind <em>Built In Link Kind</em>}' enum.
@@ -823,7 +730,7 @@ public interface ActionPackage extends EPackage {
 	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getBuiltInLinkKind()
 	 * @generated
 	 */
-	int BUILT_IN_LINK_KIND = 10;
+	int BUILT_IN_LINK_KIND = 8;
 
 
 	/**
@@ -848,14 +755,14 @@ public interface ActionPackage extends EPackage {
 	EAttribute getBuiltInActionButton_Kind();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.action.UimAction <em>Uim Action</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.AbstractActionButton <em>Abstract Action Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Uim Action</em>'.
-	 * @see org.opaeum.uim.action.UimAction
+	 * @return the meta object for class '<em>Abstract Action Button</em>'.
+	 * @see org.opaeum.uim.action.AbstractActionButton
 	 * @generated
 	 */
-	EClass getUimAction();
+	EClass getAbstractActionButton();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.action.TransitionButton <em>Transition Button</em>}'.
@@ -878,77 +785,35 @@ public interface ActionPackage extends EPackage {
 	EClass getLinkToQuery();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.action.OperationButton <em>Operation Button</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.InvocationButton <em>Invocation Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Operation Button</em>'.
-	 * @see org.opaeum.uim.action.OperationButton
+	 * @return the meta object for class '<em>Invocation Button</em>'.
+	 * @see org.opaeum.uim.action.InvocationButton
 	 * @generated
 	 */
-	EClass getOperationButton();
+	EClass getInvocationButton();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.action.OperationButton#getPopup <em>Popup</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.action.InvocationButton#getPopup <em>Popup</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Popup</em>'.
-	 * @see org.opaeum.uim.action.OperationButton#getPopup()
-	 * @see #getOperationButton()
+	 * @return the meta object for the reference '<em>Popup</em>'.
+	 * @see org.opaeum.uim.action.InvocationButton#getPopup()
+	 * @see #getInvocationButton()
 	 * @generated
 	 */
-	EReference getOperationButton_Popup();
+	EReference getInvocationButton_Popup();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.action.UimLink <em>Uim Link</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.AbstractLink <em>Abstract Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Uim Link</em>'.
-	 * @see org.opaeum.uim.action.UimLink
+	 * @return the meta object for class '<em>Abstract Link</em>'.
+	 * @see org.opaeum.uim.action.AbstractLink
 	 * @generated
 	 */
-	EClass getUimLink();
-
-	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.action.OperationPopup <em>Operation Popup</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Operation Popup</em>'.
-	 * @see org.opaeum.uim.action.OperationPopup
-	 * @generated
-	 */
-	EClass getOperationPopup();
-
-	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.action.OperationPopup#getOperationAction <em>Operation Action</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Operation Action</em>'.
-	 * @see org.opaeum.uim.action.OperationPopup#getOperationAction()
-	 * @see #getOperationPopup()
-	 * @generated
-	 */
-	EReference getOperationPopup_OperationAction();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.action.OperationPopup#getPages <em>Pages</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Pages</em>'.
-	 * @see org.opaeum.uim.action.OperationPopup#getPages()
-	 * @see #getOperationPopup()
-	 * @generated
-	 */
-	EReference getOperationPopup_Pages();
-
-	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.action.OperationPopupPage <em>Operation Popup Page</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Operation Popup Page</em>'.
-	 * @see org.opaeum.uim.action.OperationPopupPage
-	 * @generated
-	 */
-	EClass getOperationPopupPage();
+	EClass getAbstractLink();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.action.BuiltInLink <em>Built In Link</em>}'.
@@ -1032,14 +897,14 @@ public interface ActionPackage extends EPackage {
 		EAttribute BUILT_IN_ACTION_BUTTON__KIND = eINSTANCE.getBuiltInActionButton_Kind();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.UimActionImpl <em>Uim Action</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.AbstractActionButtonImpl <em>Abstract Action Button</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.action.impl.UimActionImpl
-		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getUimAction()
+		 * @see org.opaeum.uim.action.impl.AbstractActionButtonImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getAbstractActionButton()
 		 * @generated
 		 */
-		EClass UIM_ACTION = eINSTANCE.getUimAction();
+		EClass ABSTRACT_ACTION_BUTTON = eINSTANCE.getAbstractActionButton();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.TransitionButtonImpl <em>Transition Button</em>}' class.
@@ -1062,68 +927,32 @@ public interface ActionPackage extends EPackage {
 		EClass LINK_TO_QUERY = eINSTANCE.getLinkToQuery();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.OperationButtonImpl <em>Operation Button</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.InvocationButtonImpl <em>Invocation Button</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.action.impl.OperationButtonImpl
-		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationButton()
+		 * @see org.opaeum.uim.action.impl.InvocationButtonImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getInvocationButton()
 		 * @generated
 		 */
-		EClass OPERATION_BUTTON = eINSTANCE.getOperationButton();
+		EClass INVOCATION_BUTTON = eINSTANCE.getInvocationButton();
 
 		/**
-		 * The meta object literal for the '<em><b>Popup</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Popup</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference OPERATION_BUTTON__POPUP = eINSTANCE.getOperationButton_Popup();
+		EReference INVOCATION_BUTTON__POPUP = eINSTANCE.getInvocationButton_Popup();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.UimLinkImpl <em>Uim Link</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.AbstractLinkImpl <em>Abstract Link</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.action.impl.UimLinkImpl
-		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getUimLink()
+		 * @see org.opaeum.uim.action.impl.AbstractLinkImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getAbstractLink()
 		 * @generated
 		 */
-		EClass UIM_LINK = eINSTANCE.getUimLink();
-
-		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.OperationPopupImpl <em>Operation Popup</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.action.impl.OperationPopupImpl
-		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationPopup()
-		 * @generated
-		 */
-		EClass OPERATION_POPUP = eINSTANCE.getOperationPopup();
-
-		/**
-		 * The meta object literal for the '<em><b>Operation Action</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference OPERATION_POPUP__OPERATION_ACTION = eINSTANCE.getOperationPopup_OperationAction();
-
-		/**
-		 * The meta object literal for the '<em><b>Pages</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference OPERATION_POPUP__PAGES = eINSTANCE.getOperationPopup_Pages();
-
-		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.OperationPopupPageImpl <em>Operation Popup Page</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.action.impl.OperationPopupPageImpl
-		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationPopupPage()
-		 * @generated
-		 */
-		EClass OPERATION_POPUP_PAGE = eINSTANCE.getOperationPopupPage();
+		EClass ABSTRACT_LINK = eINSTANCE.getAbstractLink();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.BuiltInLinkImpl <em>Built In Link</em>}' class.

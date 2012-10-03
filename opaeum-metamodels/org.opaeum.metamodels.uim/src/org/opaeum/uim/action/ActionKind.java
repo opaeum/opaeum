@@ -39,14 +39,14 @@ public enum ActionKind implements Enumerator {
 	DELETE(1, "delete", "delete"),
 
 	/**
-	 * The '<em><b>Execute Operation</b></em>' literal object.
+	 * The '<em><b>Execute</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #EXECUTE_OPERATION_VALUE
+	 * @see #EXECUTE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	EXECUTE_OPERATION(3, "executeOperation", "executeOperation"),
+	EXECUTE(3, "execute", "execute"),
 
 	/**
 	 * The '<em><b>Delegate Task</b></em>' literal object.
@@ -69,16 +69,14 @@ public enum ActionKind implements Enumerator {
 	COMPLETE_TASK(5, "completeTask", "completeTask"),
 
 	/**
-	 * The '<em><b>Suspend Task</b></em>' literal object.
+	 * The '<em><b>Suspend</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #SUSPEND_TASK_VALUE
+	 * @see #SUSPEND_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	SUSPEND_TASK(6, "suspendTask", "suspendTask"),
-
-	/**
+	SUSPEND(6, "suspend", "suspend"), /**
 	 * The '<em><b>Forward Task</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -96,7 +94,9 @@ public enum ActionKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CLAIM_TASK(9, "claimTask", "claimTask"), /**
+	CLAIM_TASK(9, "claimTask", "claimTask"),
+
+	/**
 	 * The '<em><b>Add</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,7 +104,9 @@ public enum ActionKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ADD(2, "add", "add"), /**
+	ADD(2, "add", "add"),
+
+	/**
 	 * The '<em><b>Refresh</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -112,7 +114,9 @@ public enum ActionKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	REFRESH(7, "refresh", "refresh"), /**
+	REFRESH(7, "refresh", "refresh"),
+
+	/**
 	 * The '<em><b>Revert</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -120,7 +124,23 @@ public enum ActionKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	REVERT(10, "revert", "revert");
+	REVERT(10, "revert", "revert"), /**
+	 * The '<em><b>Abort</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ABORT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	ABORT(11, "abort", "abort"), /**
+	 * The '<em><b>Skip</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #SKIP_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	SKIP(12, "skip", "skip");
 
 	/**
 	 * The '<em><b>Update</b></em>' literal value.
@@ -153,19 +173,19 @@ public enum ActionKind implements Enumerator {
 	public static final int DELETE_VALUE = 1;
 
 	/**
-	 * The '<em><b>Execute Operation</b></em>' literal value.
+	 * The '<em><b>Execute</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Execute Operation</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Execute</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #EXECUTE_OPERATION
-	 * @model name="executeOperation"
+	 * @see #EXECUTE
+	 * @model name="execute"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int EXECUTE_OPERATION_VALUE = 3;
+	public static final int EXECUTE_VALUE = 3;
 
 	/**
 	 * The '<em><b>Delegate Task</b></em>' literal value.
@@ -198,19 +218,19 @@ public enum ActionKind implements Enumerator {
 	public static final int COMPLETE_TASK_VALUE = 5;
 
 	/**
-	 * The '<em><b>Suspend Task</b></em>' literal value.
+	 * The '<em><b>Suspend</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Suspend Task</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Suspend</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #SUSPEND_TASK
-	 * @model name="suspendTask"
+	 * @see #SUSPEND
+	 * @model name="suspend"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SUSPEND_TASK_VALUE = 6;
+	public static final int SUSPEND_VALUE = 6;
 
 	/**
 	 * The '<em><b>Forward Task</b></em>' literal value.
@@ -288,6 +308,36 @@ public enum ActionKind implements Enumerator {
 	public static final int REVERT_VALUE = 10;
 
 	/**
+	 * The '<em><b>Abort</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Abort</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #ABORT
+	 * @model name="abort"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int ABORT_VALUE = 11;
+
+	/**
+	 * The '<em><b>Skip</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Skip</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SKIP
+	 * @model name="skip"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SKIP_VALUE = 12;
+
+	/**
 	 * An array of all the '<em><b>Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -297,15 +347,17 @@ public enum ActionKind implements Enumerator {
 		new ActionKind[] {
 			UPDATE,
 			DELETE,
-			EXECUTE_OPERATION,
+			EXECUTE,
 			DELEGATE_TASK,
 			COMPLETE_TASK,
-			SUSPEND_TASK,
+			SUSPEND,
 			FORWARD_TASK,
 			CLAIM_TASK,
 			ADD,
 			REFRESH,
 			REVERT,
+			ABORT,
+			SKIP,
 		};
 
 	/**
@@ -358,15 +410,17 @@ public enum ActionKind implements Enumerator {
 		switch (value) {
 			case UPDATE_VALUE: return UPDATE;
 			case DELETE_VALUE: return DELETE;
-			case EXECUTE_OPERATION_VALUE: return EXECUTE_OPERATION;
+			case EXECUTE_VALUE: return EXECUTE;
 			case DELEGATE_TASK_VALUE: return DELEGATE_TASK;
 			case COMPLETE_TASK_VALUE: return COMPLETE_TASK;
-			case SUSPEND_TASK_VALUE: return SUSPEND_TASK;
+			case SUSPEND_VALUE: return SUSPEND;
 			case FORWARD_TASK_VALUE: return FORWARD_TASK;
 			case CLAIM_TASK_VALUE: return CLAIM_TASK;
 			case ADD_VALUE: return ADD;
 			case REFRESH_VALUE: return REFRESH;
 			case REVERT_VALUE: return REVERT;
+			case ABORT_VALUE: return ABORT;
+			case SKIP_VALUE: return SKIP;
 		}
 		return null;
 	}

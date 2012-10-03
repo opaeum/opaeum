@@ -364,7 +364,7 @@ public class OpenUmlFile extends EContentAdapter{
 							for(Object object:transformationProcess.processElements(emfChanges, ValidationPhase.class,
 									new ProgressMonitorTransformationLog(monitor, 50))){
 								if(object instanceof Element){
-									changedElements.add((Element) object);
+									changedElements.add(EmfElementFinder.getNearestClassifier((Element) object));
 								}
 							}
 							for(OpaeumSynchronizationListener listener:synchronizationListener){

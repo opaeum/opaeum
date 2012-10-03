@@ -17,10 +17,10 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.opaeum.uim.Orientation;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.BuiltInLinkKind;
 import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.panel.Orientation;
 
 public class UimSwtUtil{
 	public static Image getImageFor(ActionKind kind){

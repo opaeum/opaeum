@@ -4,8 +4,10 @@ package org.opaeum.uim.panel;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
-import org.opaeum.uim.UimPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.opaeum.uim.component.ComponentPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -72,7 +74,7 @@ public interface PanelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_PANEL__NAME = UimPackage.UIM_CONTAINER__NAME;
+	int ABSTRACT_PANEL__NAME = ComponentPackage.UIM_CONTAINER__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -81,7 +83,7 @@ public interface PanelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_PANEL__UNDER_USER_CONTROL = UimPackage.UIM_CONTAINER__UNDER_USER_CONTROL;
+	int ABSTRACT_PANEL__UNDER_USER_CONTROL = ComponentPackage.UIM_CONTAINER__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -90,7 +92,7 @@ public interface PanelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_PANEL__VISIBILITY = UimPackage.UIM_CONTAINER__VISIBILITY;
+	int ABSTRACT_PANEL__VISIBILITY = ComponentPackage.UIM_CONTAINER__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -99,7 +101,7 @@ public interface PanelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_PANEL__EDITABILITY = UimPackage.UIM_CONTAINER__EDITABILITY;
+	int ABSTRACT_PANEL__EDITABILITY = ComponentPackage.UIM_CONTAINER__EDITABILITY;
 
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -108,7 +110,16 @@ public interface PanelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_PANEL__CHILDREN = UimPackage.UIM_CONTAINER__CHILDREN;
+	int ABSTRACT_PANEL__CHILDREN = ComponentPackage.UIM_CONTAINER__CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_PANEL__LABELS = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Abstract Panel</em>' class.
@@ -117,7 +128,7 @@ public interface PanelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_PANEL_FEATURE_COUNT = UimPackage.UIM_CONTAINER_FEATURE_COUNT + 0;
+	int ABSTRACT_PANEL_FEATURE_COUNT = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.panel.impl.CollapsiblePanelImpl <em>Collapsible Panel</em>}' class.
@@ -173,6 +184,15 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLAPSIBLE_PANEL__CHILDREN = ABSTRACT_PANEL__CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLAPSIBLE_PANEL__LABELS = ABSTRACT_PANEL__LABELS;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -282,6 +302,15 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int GRID_PANEL__CHILDREN = COLLAPSIBLE_PANEL__CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GRID_PANEL__LABELS = COLLAPSIBLE_PANEL__LABELS;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -402,6 +431,15 @@ public interface PanelPackage extends EPackage {
 	int VERTICAL_PANEL__CHILDREN = COLLAPSIBLE_PANEL__CHILDREN;
 
 	/**
+	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERTICAL_PANEL__LABELS = COLLAPSIBLE_PANEL__LABELS;
+
+	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -511,6 +549,15 @@ public interface PanelPackage extends EPackage {
 	int HORIZONTAL_PANEL__CHILDREN = COLLAPSIBLE_PANEL__CHILDREN;
 
 	/**
+	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HORIZONTAL_PANEL__LABELS = COLLAPSIBLE_PANEL__LABELS;
+
+	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -563,7 +610,6 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int HORIZONTAL_PANEL_FEATURE_COUNT = COLLAPSIBLE_PANEL_FEATURE_COUNT + 0;
-
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.panel.impl.OutlayableImpl <em>Outlayable</em>}' class.
@@ -620,6 +666,16 @@ public interface PanelPackage extends EPackage {
 	 */
 	int OUTLAYABLE_FEATURE_COUNT = 4;
 
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.panel.Orientation <em>Orientation</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.panel.Orientation
+	 * @see org.opaeum.uim.panel.impl.PanelPackageImpl#getOrientation()
+	 * @generated
+	 */
+	int ORIENTATION = 6;
+
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.panel.GridPanel <em>Grid Panel</em>}'.
@@ -671,6 +727,17 @@ public interface PanelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getAbstractPanel();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.panel.AbstractPanel#getLabels <em>Labels</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Labels</em>'.
+	 * @see org.opaeum.uim.panel.AbstractPanel#getLabels()
+	 * @see #getAbstractPanel()
+	 * @generated
+	 */
+	EReference getAbstractPanel_Labels();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.panel.CollapsiblePanel <em>Collapsible Panel</em>}'.
@@ -748,6 +815,16 @@ public interface PanelPackage extends EPackage {
 	EAttribute getOutlayable_FillVertically();
 
 	/**
+	 * Returns the meta object for enum '{@link org.opaeum.uim.panel.Orientation <em>Orientation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Orientation</em>'.
+	 * @see org.opaeum.uim.panel.Orientation
+	 * @generated
+	 */
+	EEnum getOrientation();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -818,6 +895,14 @@ public interface PanelPackage extends EPackage {
 		EClass ABSTRACT_PANEL = eINSTANCE.getAbstractPanel();
 
 		/**
+		 * The meta object literal for the '<em><b>Labels</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ABSTRACT_PANEL__LABELS = eINSTANCE.getAbstractPanel_Labels();
+
+		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.panel.impl.CollapsiblePanelImpl <em>Collapsible Panel</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -876,6 +961,16 @@ public interface PanelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute OUTLAYABLE__FILL_VERTICALLY = eINSTANCE.getOutlayable_FillVertically();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.panel.Orientation <em>Orientation</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.panel.Orientation
+		 * @see org.opaeum.uim.panel.impl.PanelPackageImpl#getOrientation()
+		 * @generated
+		 */
+		EEnum ORIENTATION = eINSTANCE.getOrientation();
 
 	}
 

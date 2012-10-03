@@ -1,6 +1,7 @@
 package org.opaeum.javageneration.basicjava;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -174,9 +175,18 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected OJAnnotatedOperation buildGetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map,boolean derived){
-		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
-		getter.setReturnType(map.javaTypePath());
-		owner.addToOperations(getter);
+		OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), Collections.<OJPathName>emptyList());
+		if(getter == null){
+			//Could exist in the case of DerivedUnion from an Interface with the same name as the implementing property
+			//In this case we need to ovverride it
+			getter = new OJAnnotatedOperation(map.getter(),map.javaTypePath());
+			owner.addToOperations(getter);
+		}else{
+			if(map.getProperty().isDerivedUnion()){
+				return getter;//We should not overwrite the implementing property
+			}
+		}
+		getter.getOwner().addToImports(map.javaBaseTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
 			if(derived){
 				getter.initializeResultVariable(map.javaDefaultValue());
@@ -322,7 +332,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		owner.addToOperations(getter);
 	}
 	protected void implementAttributeFully(Classifier umlOwner,PropertyMap map){
-
 		AttributeInJava a = new AttributeInJava();
 		Property p = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
@@ -365,9 +374,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 		}
 		if(map.getBaseType() instanceof DataType){
-			AttributeStrategy s = EmfClassifierUtil.getStrategy((DataType)map.getBaseType(), AttributeStrategy.class);
-			if(s!=null){
-				s.applyTo(owner, a,map);
+			AttributeStrategy s = EmfClassifierUtil.getStrategy((DataType) map.getBaseType(), AttributeStrategy.class);
+			if(s != null){
+				s.applyTo(owner, a, map);
 			}
 		}
 	}

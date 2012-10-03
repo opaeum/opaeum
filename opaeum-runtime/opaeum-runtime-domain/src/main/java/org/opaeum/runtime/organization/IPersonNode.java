@@ -27,6 +27,6 @@ public interface IPersonNode extends CompositionNode,IPersistentObject,INotifica
 	String getRefreshToken();
 	Date getTokenExpiryDateTime();
 	void setTokenExpiryDateTime(Date date);
-	Locale getLocale();
+	Locale getPreferredLocale();
 	
 }

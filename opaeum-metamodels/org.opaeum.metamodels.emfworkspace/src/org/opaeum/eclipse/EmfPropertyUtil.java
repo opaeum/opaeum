@@ -3,12 +3,15 @@ package org.opaeum.eclipse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -29,6 +32,7 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.emulated.AbstractEmulatedProperty;
 import org.opaeum.eclipse.emulated.AssociationClassToEnd;
 import org.opaeum.eclipse.emulated.EndToAssociationClass;
@@ -89,6 +93,9 @@ public class EmfPropertyUtil{
 		return fullfillsRoleInCube(te, "MEASURE");
 	}
 	private static boolean fullfillsRoleInCube(TypedElement te,String role){
+		if(EmfPropertyUtil.isMany(te)){
+			return false;
+		}
 		for(Stereotype st:te.getAppliedStereotypes()){
 			Property roleInCube = st.getAttribute("roleInCube", null);
 			if(roleInCube != null){
@@ -98,7 +105,7 @@ public class EmfPropertyUtil{
 		}
 		return false;
 	}
-	public static Property getEndToComposite(Classifier c,OpaeumLibrary library){
+	public static Property getEndToComposite(Classifier c){
 		Property result = getImmediateEndToComposite(c);
 		if(result == null){
 			Iterator<Classifier> classes = c.getGenerals().iterator();
@@ -111,9 +118,6 @@ public class EmfPropertyUtil{
 					result = getImmediateEndToComposite(interfaces.next());
 				}
 			}
-		}
-		if(result == null){
-			result = library.getArtificialEndToComposite(c);
 		}
 		return result;
 	}
@@ -165,8 +169,7 @@ public class EmfPropertyUtil{
 				return true;
 			}
 		}
-		boolean many = me.getUpper() == -1 || me.getUpper() > 1;
-		return many;
+		return me.isMultivalued();
 	}
 	public static boolean isComposite(TypedElement t){
 		if(t instanceof Property){
@@ -323,5 +326,19 @@ public class EmfPropertyUtil{
 	public static Property getBackingPropertyForQualifier(Property q){
 		Classifier type = (Classifier) q.getAssociationEnd().getType();
 		return (Property) type.getMember(q.getName());
+	}
+	public static Collection<Property> getSubsettingProperties(Property p){
+		Collection<Setting> ref = ECrossReferenceAdapter.getCrossReferenceAdapter(p).getNonNavigableInverseReferences(p);
+		Collection<Property> result = new HashSet<Property>();
+		for(Setting setting:ref){
+			if(setting.getEObject() instanceof Property
+					&& setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getProperty_SubsettedProperty())){
+				result.add((Property) setting.getEObject());
+			}
+		}
+		return result;
+	}
+	public static boolean isEndToComposite(TypedElement property){
+		return  property instanceof Property && ((Property) property).isNavigable() && ((Property) property).getOtherEnd() != null && ((Property) property).getOtherEnd().isComposite();
 	}
 }

@@ -83,6 +83,7 @@ public class TypedElementPropertyBridge extends AbstractEmulatedProperty{
 	public boolean shouldEmulate(){
 		return true;
 	}
+	@SuppressWarnings("restriction")
 	MultiplicityElement getMultiplicityElement(){
 		
 		if(typedElement instanceof ValuePin && ((ValuePin) typedElement).getValue() instanceof OpaqueExpression){

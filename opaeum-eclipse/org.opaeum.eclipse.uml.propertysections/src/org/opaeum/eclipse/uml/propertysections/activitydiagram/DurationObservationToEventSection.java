@@ -32,41 +32,23 @@ public class DurationObservationToEventSection extends AbstractObsercationEventS
 	protected void handleComboModified(){
 		if(!isRefreshing()){
 			EditingDomain editingDomain = getEditingDomain();
-			CompoundCommand compoundCommand = new CompoundCommand("Stuff");
-			if(getObservation().getEvents().size() == 0){
-				compoundCommand.append(AddCommand.create(editingDomain, getObservation(), getFeature(), cSingleObjectChooser.getSelection()));
-				compoundCommand.append(AddCommand.create(editingDomain, getObservation(), getFeature(), cSingleObjectChooser.getSelection()));
-			}else if(getObservation().getEvents().size() == 1){
-				compoundCommand.append(AddCommand.create(editingDomain, getObservation(), getFeature(), cSingleObjectChooser.getSelection()));
-			}else{
-				compoundCommand.append(SetCommand.create(editingDomain, getObservation(), getFeature(), cSingleObjectChooser.getSelection(), 1));
-			}
-			editingDomain.getCommandStack().execute(compoundCommand);
+			EStructuralFeature feature = UMLPackage.eINSTANCE.getDurationObservation_Event();
+			editingDomain.getCommandStack().execute(new DurationCommand(getObservation(), feature, cSingleObjectChooser.getSelection(), 1));
 		}
 	}
 	@Override
 	public void handleFirstEvent(boolean a){
 		if(!isRefreshing()){
 			EditingDomain editingDomain = getEditingDomain();
-			CompoundCommand compoundCommand = new CompoundCommand("Stuff");
 			EStructuralFeature feature = UMLPackage.eINSTANCE.getDurationObservation_FirstEvent();
-			if(getObservation().getEvents().size() == 0){
-				compoundCommand.append(AddCommand.create(editingDomain, getObservation(), feature, true));
-				compoundCommand.append(AddCommand.create(editingDomain, getObservation(), feature, a));
-			}else if(getObservation().getEvents().size() == 1){
-				compoundCommand.append(AddCommand.create(editingDomain, getObservation(), feature, a));
-			}else{
-				compoundCommand.append(SetCommand.create(editingDomain, getObservation(), feature, a, 1));
-			}
-			editingDomain.getCommandStack().execute(compoundCommand);
+			editingDomain.getCommandStack().execute(new DurationCommand(getObservation(), feature, a, 1));
 		}
-		
 	}
 	@Override
 	public boolean isFirstEvent(){
 		DurationObservation durationObservation = getObservation();
 		if(durationObservation.getFirstEvents().size() >= 2){
-			return durationObservation.getFirstEvents().get(1);
+			return Boolean.TRUE.equals(durationObservation.getFirstEvents().get(1));
 		}else{
 			return false;
 		}

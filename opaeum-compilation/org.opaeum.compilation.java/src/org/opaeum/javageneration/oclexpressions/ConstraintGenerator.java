@@ -68,7 +68,7 @@ public class ConstraintGenerator{
 			}
 		}
 		OJPathName failedConstraintsException = new OJPathName("org.opaeum.runtime.domain.FailedConstraintsException");
-		context.addToImports(new OJPathName("org.opaeum.runtime.domain.FailedConstraints"));
+		context.addToImports(new OJPathName("org.opaeum.runtime.domain.FailedConstraint"));
 		if(!operation.getThrows().contains(failedConstraintsException)){
 			context.addToImports(failedConstraintsException);
 			operation.addToThrows(failedConstraintsException);
@@ -91,12 +91,11 @@ public class ConstraintGenerator{
 					ifBroken.getThenPart().addToLocals(message);
 					StringBuilder sb = new StringBuilder(" ");
 					for(OpaqueExpression opaqueExpression:EmfConstraintUtil.getMessageArguments(post)){
+						sb.append(",");
 						OpaqueExpressionContext argExp = library.getOclExpressionContext(opaqueExpression);
 						sb.append(expressionCreator.makeExpression(argExp, false, parameters));
-						sb.append(",");
 					}
-					sb.setCharAt(sb.length() - 1, ')');
-					message.setInitExp("Environment.getInstance().getMessage(\"" + EmfElementUtil.getQualifiedName(post) + "\"," + sb.toString());
+					message.setInitExp("Environment.getInstance().getMessage(\"" + EmfElementUtil.getQualifiedName(post) + "\"" + sb.toString() + ")");
 					for(Element element:post.getConstrainedElements()){
 						if(element instanceof NamedElement){
 							ifBroken.getThenPart().addToStatements(
@@ -104,7 +103,7 @@ public class ConstraintGenerator{
 						}
 					}
 					if(post.getConstrainedElements().isEmpty()){
-						ifBroken.getThenPart().addToStatements("failedConstraints.add(new FailedConstraint(null, message)");
+						ifBroken.getThenPart().addToStatements("failedConstraints.add(new FailedConstraint(null, message))");
 					}
 					result.addToStatements(ifBroken);
 				}

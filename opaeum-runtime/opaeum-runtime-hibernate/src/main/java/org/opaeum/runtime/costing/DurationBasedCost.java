@@ -61,7 +61,7 @@ public class DurationBasedCost{
 			fromDate = new Date();
 		}
 	}
-	public List<DurationBasedCostEntry> toEventOccurred(Collection<ITimedResourceBase> resources,boolean firstEvent){
+	public List<DurationBasedCostEntry> toEventOccurred(Collection<? extends ITimedResourceBase> resources,boolean firstEvent){
 		List<DurationBasedCostEntry> result = new ArrayList<DurationBasedCostEntry>();
 		Date dateToCalculateFrom = null;
 		boolean incrementMeasurementCount = false;

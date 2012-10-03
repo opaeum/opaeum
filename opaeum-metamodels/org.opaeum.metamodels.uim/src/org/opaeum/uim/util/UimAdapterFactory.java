@@ -5,30 +5,19 @@ package org.opaeum.uim.util;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.*;
-import org.opaeum.uim.AbstractActionBar;
-import org.opaeum.uim.ClassUserInteractionModel;
-import org.opaeum.uim.DetailComponent;
-import org.opaeum.uim.MasterComponent;
-import org.opaeum.uim.ObjectSelectorTree;
+import org.opaeum.uim.LabeledElement;
+import org.opaeum.uim.Labels;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
-import org.opaeum.uim.PanelClass;
-import org.opaeum.uim.ResponsibilityUserInteractionModel;
-import org.opaeum.uim.UimComponent;
-import org.opaeum.uim.UimContainer;
-import org.opaeum.uim.UimDataTable;
-import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.UserInterface;
-import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
-import org.opaeum.uim.panel.AbstractPanel;
-import org.opaeum.uim.panel.Outlayable;
 
 /**
  * <!-- begin-user-doc -->
@@ -87,76 +76,32 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	protected UimSwitch<Adapter> modelSwitch =
 		new UimSwitch<Adapter>() {
 			@Override
-			public Adapter caseUimField(UimField object) {
-				return createUimFieldAdapter();
-			}
-			@Override
-			public Adapter caseUimComponent(UimComponent object) {
-				return createUimComponentAdapter();
-			}
-			@Override
 			public Adapter caseUserInteractionElement(UserInteractionElement object) {
 				return createUserInteractionElementAdapter();
-			}
-			@Override
-			public Adapter caseUimDataTable(UimDataTable object) {
-				return createUimDataTableAdapter();
-			}
-			@Override
-			public Adapter caseUimContainer(UimContainer object) {
-				return createUimContainerAdapter();
-			}
-			@Override
-			public Adapter caseMasterComponent(MasterComponent object) {
-				return createMasterComponentAdapter();
 			}
 			@Override
 			public Adapter caseUmlReference(UmlReference object) {
 				return createUmlReferenceAdapter();
 			}
 			@Override
-			public Adapter caseObjectSelectorTree(ObjectSelectorTree object) {
-				return createObjectSelectorTreeAdapter();
-			}
-			@Override
-			public Adapter caseDetailComponent(DetailComponent object) {
-				return createDetailComponentAdapter();
-			}
-			@Override
-			public Adapter caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
-				return createUserInterfaceEntryPointAdapter();
+			public Adapter caseUserInterfaceRoot(UserInterfaceRoot object) {
+				return createUserInterfaceRootAdapter();
 			}
 			@Override
 			public Adapter casePage(Page object) {
 				return createPageAdapter();
 			}
 			@Override
-			public Adapter caseUserInterface(UserInterface object) {
-				return createUserInterfaceAdapter();
+			public Adapter caseLabels(Labels object) {
+				return createLabelsAdapter();
 			}
 			@Override
-			public Adapter casePanelClass(PanelClass object) {
-				return createPanelClassAdapter();
+			public Adapter caseLabeledElement(LabeledElement object) {
+				return createLabeledElementAdapter();
 			}
 			@Override
-			public Adapter caseClassUserInteractionModel(ClassUserInteractionModel object) {
-				return createClassUserInteractionModelAdapter();
-			}
-			@Override
-			public Adapter caseResponsibilityUserInteractionModel(ResponsibilityUserInteractionModel object) {
-				return createResponsibilityUserInteractionModelAdapter();
-			}
-			@Override
-			public Adapter caseAbstractActionBar(AbstractActionBar object) {
-				return createAbstractActionBarAdapter();
-			}
-			@Override
-			public Adapter casePageContainer(PageContainer object) {
-				return createPageContainerAdapter();
-			}
-			@Override
-			public Adapter caseUimRootElement(UimRootElement object) {
-				return createUimRootElementAdapter();
+			public Adapter caseIgnoredElement(IgnoredElement object) {
+				return createIgnoredElementAdapter();
 			}
 			@Override
 			public Adapter caseConstrainedObject(ConstrainedObject object) {
@@ -167,12 +112,12 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 				return createEditableConstrainedObjectAdapter();
 			}
 			@Override
-			public Adapter caseOutlayable(Outlayable object) {
-				return createOutlayableAdapter();
+			public Adapter caseEModelElement(EModelElement object) {
+				return createEModelElementAdapter();
 			}
 			@Override
-			public Adapter caseAbstractPanel(AbstractPanel object) {
-				return createAbstractPanelAdapter();
+			public Adapter caseEAnnotation(EAnnotation object) {
+				return createEAnnotationAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -195,34 +140,6 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimField <em>Field</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimField
-	 * @generated
-	 */
-	public Adapter createUimFieldAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimComponent <em>Component</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimComponent
-	 * @generated
-	 */
-	public Adapter createUimComponentAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -233,48 +150,6 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUserInteractionElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimDataTable <em>Data Table</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimDataTable
-	 * @generated
-	 */
-	public Adapter createUimDataTableAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimContainer <em>Container</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimContainer
-	 * @generated
-	 */
-	public Adapter createUimContainerAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.MasterComponent <em>Master Component</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.MasterComponent
-	 * @generated
-	 */
-	public Adapter createMasterComponentAdapter() {
 		return null;
 	}
 
@@ -293,44 +168,16 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.ObjectSelectorTree <em>Object Selector Tree</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterfaceRoot <em>User Interface Root</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.ObjectSelectorTree
+	 * @see org.opaeum.uim.UserInterfaceRoot
 	 * @generated
 	 */
-	public Adapter createObjectSelectorTreeAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.DetailComponent <em>Detail Component</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.DetailComponent
-	 * @generated
-	 */
-	public Adapter createDetailComponentAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterfaceEntryPoint <em>User Interface Entry Point</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UserInterfaceEntryPoint
-	 * @generated
-	 */
-	public Adapter createUserInterfaceEntryPointAdapter() {
+	public Adapter createUserInterfaceRootAdapter() {
 		return null;
 	}
 
@@ -349,100 +196,44 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterface <em>User Interface</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.Labels <em>Labels</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.UserInterface
+	 * @see org.opaeum.uim.Labels
 	 * @generated
 	 */
-	public Adapter createUserInterfaceAdapter() {
+	public Adapter createLabelsAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PanelClass <em>Panel Class</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.LabeledElement <em>Labeled Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.PanelClass
+	 * @see org.opaeum.uim.LabeledElement
 	 * @generated
 	 */
-	public Adapter createPanelClassAdapter() {
+	public Adapter createLabeledElementAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.ClassUserInteractionModel <em>Class User Interaction Model</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.IgnoredElement <em>Ignored Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.ClassUserInteractionModel
+	 * @see org.opaeum.uim.IgnoredElement
 	 * @generated
 	 */
-	public Adapter createClassUserInteractionModelAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.ResponsibilityUserInteractionModel <em>Responsibility User Interaction Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.ResponsibilityUserInteractionModel
-	 * @generated
-	 */
-	public Adapter createResponsibilityUserInteractionModelAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.AbstractActionBar <em>Abstract Action Bar</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.AbstractActionBar
-	 * @generated
-	 */
-	public Adapter createAbstractActionBarAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PageContainer <em>Page Container</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.PageContainer
-	 * @generated
-	 */
-	public Adapter createPageContainerAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimRootElement <em>Root Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimRootElement
-	 * @generated
-	 */
-	public Adapter createUimRootElementAdapter() {
+	public Adapter createIgnoredElementAdapter() {
 		return null;
 	}
 
@@ -475,30 +266,30 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.panel.Outlayable <em>Outlayable</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.ecore.EModelElement <em>EModel Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.panel.Outlayable
+	 * @see org.eclipse.emf.ecore.EModelElement
 	 * @generated
 	 */
-	public Adapter createOutlayableAdapter() {
+	public Adapter createEModelElementAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.panel.AbstractPanel <em>Abstract Panel</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.ecore.EAnnotation <em>EAnnotation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.panel.AbstractPanel
+	 * @see org.eclipse.emf.ecore.EAnnotation
 	 * @generated
 	 */
-	public Adapter createAbstractPanelAdapter() {
+	public Adapter createEAnnotationAdapter() {
 		return null;
 	}
 

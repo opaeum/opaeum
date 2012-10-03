@@ -34,9 +34,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.datatools.sqltools.data.core,
  org.eclipse.datatools.sqltools.editor.core,
  org.eclipse.datatools.sqltools.common.ui,
- org.topcased.richtext,
- org.topcased.richtext.common,
- org.topcased.richtext.common.ui,
  org.opaeum.transformation.engine
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
@@ -68,4 +65,7 @@ Export-Package: org.opaeum.eclipse.uml.editingsupport,
 Bundle-ClassPath: lib/plugins/org.topcased.modeler.uml.oclinterpreter_2.5.1.opaeum.jar,
  .,
  lib/plugins/org.topcased.ocl_3.3.1.opaeum.jar,
- lib/jtidy-8.0-20060801.131059-3.jar
+ lib/jtidy-8.0-20060801.131059-3.jar,
+ lib/plugins/org.topcased.richtext_1.5.1.opaeum.jar,
+ lib/plugins/org.topcased.richtext.common_1.5.1.opaeum.jar,
+ lib/plugins/org.topcased.richtext.common.ui_1.5.1.opaeum.jar

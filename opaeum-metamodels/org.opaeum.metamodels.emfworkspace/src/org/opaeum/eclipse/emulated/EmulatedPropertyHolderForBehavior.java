@@ -28,11 +28,7 @@ public class EmulatedPropertyHolderForBehavior extends EmulatedPropertyHolderFor
 		if(msg.getNotifier() instanceof DynamicEObjectImpl){
 			if(msg.getEventType() == Notification.ADD && msg.getNewValue() instanceof Observation){
 				Observation obs = (Observation) msg.getNewValue();
-				if(obs instanceof TimeObservation && propertyEmulation.getDateTimeType() != null){
-					getEmulatedAttributes().add(new ObservationPropertyBridge(owner, obs, propertyEmulation));
-				}else if(obs instanceof DurationObservation && propertyEmulation.getDurationType() != null){
-					getEmulatedAttributes().add(new ObservationPropertyBridge(owner, obs, propertyEmulation));
-				}
+				getEmulatedAttributes().add(new ObservationPropertyBridge(owner, obs, propertyEmulation));
 			}else if(msg.getEventType() == Notification.REMOVE && msg.getOldValue() instanceof Observation){
 				removeEmulatedAttribute((Observation) msg.getOldValue());
 			}

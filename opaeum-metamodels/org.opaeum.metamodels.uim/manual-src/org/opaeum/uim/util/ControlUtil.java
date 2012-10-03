@@ -6,16 +6,19 @@ import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.EmfParameterUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
-import org.opaeum.uim.UserInterface;
-import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.UserInterfaceRoot;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.control.ControlFactory;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.control.UimControl;
-import org.opaeum.uim.editor.QueryInvocationEditor;
+import org.opaeum.uim.model.QueryInvoker;
+import org.opaeum.uim.wizard.InvocationWizard;
 
 public class ControlUtil{
-	public static ControlKind[] getAllowedControlKinds(UserInterface form,TypedElement typedElement,boolean inTable){
+	public static ControlKind[] getAllowedControlKinds(UserInterfaceRoot form,TypedElement typedElement,boolean inTable){
+		//TODO factor 
 		if(typedElement == null || typedElement.getType() == null){
 			return new ControlKind[0];
 		}else{
@@ -58,7 +61,7 @@ public class ControlUtil{
 			}
 		}
 	}
-	public static boolean requiresManySelection(UserInterface form,TypedElement typedElement){
+	public static boolean requiresManySelection(UserInterfaceRoot form,TypedElement typedElement){
 		if(typedElement instanceof Property){
 			Property p = (Property) typedElement;
 			if(p.getOtherEnd() != null){
@@ -70,20 +73,20 @@ public class ControlUtil{
 			return EmfPropertyUtil.isMany(typedElement) && requiresUserInput(form, typedElement);
 		}
 	}
-	public static boolean requiresUserInput(UserInterface form,TypedElement te){
+	public static boolean requiresUserInput(UserInterfaceRoot uiRoot,TypedElement te){
 		if(te instanceof Pin){
 			return te instanceof OutputPin;
 		}else if(te instanceof Parameter){
 			Parameter p = (Parameter) te;
-			if(form.eContainer() instanceof QueryInvocationEditor || form.eContainer() instanceof OperationButton){
-				return p.getDirection() != ParameterDirectionKind.IN_LITERAL;
+			if(uiRoot instanceof QueryInvoker || uiRoot instanceof InvocationWizard){
+				return EmfParameterUtil.isArgument(p.getDirection());
 			}else{
-				return p.getDirection() != ParameterDirectionKind.OUT_LITERAL && p.getDirection() != ParameterDirectionKind.RETURN_LITERAL;
+				return EmfParameterUtil.isResult(p.getDirection());
 			}
 		}
 		return true;// property
 	}
-	public static ControlKind getPreferredControlKind(UserInterface form,TypedElement typedElement, boolean inTable){
+	public static ControlKind getPreferredControlKind(UserInterfaceRoot form,TypedElement typedElement, boolean inTable){
 		ControlKind[] allowedControlKinds = getAllowedControlKinds(form, typedElement, inTable);
 		if(allowedControlKinds.length==0){
 			return ControlKind.TEXT;

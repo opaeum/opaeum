@@ -8,16 +8,16 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.opaeum.uim.editor.*;
-import org.opaeum.uim.editor.ActionTaskEditor;
-import org.opaeum.uim.editor.ClassEditor;
-import org.opaeum.uim.editor.EditorActionBar;
+import org.opaeum.uim.editor.AbstractEditor;
+import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.EditorPage;
 import org.opaeum.uim.editor.MenuConfiguration;
-import org.opaeum.uim.editor.QueryInvocationEditor;
-import org.opaeum.uim.editor.ResponsibilityTaskEditor;
-import org.opaeum.uim.editor.VisibleOperation;
+import org.opaeum.uim.editor.ObjectEditor;
+import org.opaeum.uim.editor.OperationMenuItem;
+import org.opaeum.uim.editor.QueryResultPage;
+import org.opaeum.uim.editor.ResponsibilityViewer;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +34,7 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	 */
 	public static EditorFactory init() {
 		try {
-			EditorFactory theEditorFactory = (EditorFactory)EPackage.Registry.INSTANCE.getEFactory("http://opaeum.org/uimetamodel/form/1.0"); 
+			EditorFactory theEditorFactory = (EditorFactory)EPackage.Registry.INSTANCE.getEFactory("http://opaeum.org/uimetamodel/editor/1.0"); 
 			if (theEditorFactory != null) {
 				return theEditorFactory;
 			}
@@ -64,14 +64,13 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case EditorPackage.ABSTRACT_EDITOR: return createAbstractEditor();
-			case EditorPackage.ACTION_TASK_EDITOR: return createActionTaskEditor();
-			case EditorPackage.CLASS_EDITOR: return createClassEditor();
-			case EditorPackage.RESPONSIBILITY_TASK_EDITOR: return createResponsibilityTaskEditor();
-			case EditorPackage.QUERY_INVOCATION_EDITOR: return createQueryInvocationEditor();
 			case EditorPackage.EDITOR_PAGE: return createEditorPage();
-			case EditorPackage.EDITOR_ACTION_BAR: return createEditorActionBar();
+			case EditorPackage.ACTION_BAR: return createActionBar();
 			case EditorPackage.MENU_CONFIGURATION: return createMenuConfiguration();
-			case EditorPackage.VISIBLE_OPERATION: return createVisibleOperation();
+			case EditorPackage.OPERATION_MENU_ITEM: return createOperationMenuItem();
+			case EditorPackage.RESPONSIBILITY_VIEWER: return createResponsibilityViewer();
+			case EditorPackage.QUERY_RESULT_PAGE: return createQueryResultPage();
+			case EditorPackage.OBJECT_EDITOR: return createObjectEditor();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -92,46 +91,6 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ActionTaskEditor createActionTaskEditor() {
-		ActionTaskEditorImpl actionTaskEditor = new ActionTaskEditorImpl();
-		return actionTaskEditor;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ClassEditor createClassEditor() {
-		ClassEditorImpl classEditor = new ClassEditorImpl();
-		return classEditor;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ResponsibilityTaskEditor createResponsibilityTaskEditor() {
-		ResponsibilityTaskEditorImpl responsibilityTaskEditor = new ResponsibilityTaskEditorImpl();
-		return responsibilityTaskEditor;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public QueryInvocationEditor createQueryInvocationEditor() {
-		QueryInvocationEditorImpl queryInvocationEditor = new QueryInvocationEditorImpl();
-		return queryInvocationEditor;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EditorPage createEditorPage() {
 		EditorPageImpl editorPage = new EditorPageImpl();
 		return editorPage;
@@ -142,9 +101,9 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EditorActionBar createEditorActionBar() {
-		EditorActionBarImpl editorActionBar = new EditorActionBarImpl();
-		return editorActionBar;
+	public ActionBar createActionBar() {
+		ActionBarImpl actionBar = new ActionBarImpl();
+		return actionBar;
 	}
 
 	/**
@@ -162,9 +121,39 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public VisibleOperation createVisibleOperation() {
-		VisibleOperationImpl visibleOperation = new VisibleOperationImpl();
-		return visibleOperation;
+	public OperationMenuItem createOperationMenuItem() {
+		OperationMenuItemImpl operationMenuItem = new OperationMenuItemImpl();
+		return operationMenuItem;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ResponsibilityViewer createResponsibilityViewer() {
+		ResponsibilityViewerImpl responsibilityViewer = new ResponsibilityViewerImpl();
+		return responsibilityViewer;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public QueryResultPage createQueryResultPage() {
+		QueryResultPageImpl queryResultPage = new QueryResultPageImpl();
+		return queryResultPage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ObjectEditor createObjectEditor() {
+		ObjectEditorImpl objectEditor = new ObjectEditorImpl();
+		return objectEditor;
 	}
 
 	/**

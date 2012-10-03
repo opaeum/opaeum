@@ -20,7 +20,6 @@ package org.opaeum.uim.panel;
  * @generated
  */
 public interface GridPanel extends CollapsiblePanel {
-
 	/**
 	 * Returns the value of the '<em><b>Number Of Columns</b></em>' attribute.
 	 * The default value is <code>""</code>.
@@ -47,4 +46,5 @@ public interface GridPanel extends CollapsiblePanel {
 	 * @generated
 	 */
 	void setNumberOfColumns(Integer value);
+
 } // GridPanel

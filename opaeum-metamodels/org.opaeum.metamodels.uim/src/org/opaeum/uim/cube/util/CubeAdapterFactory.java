@@ -4,19 +4,26 @@ package org.opaeum.uim.cube.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
+import org.opaeum.uim.LabeledElement;
+import org.opaeum.uim.Page;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.binding.UimBinding;
-
 import org.opaeum.uim.constraint.ConstrainedObject;
-
+import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.cube.*;
+import org.opaeum.uim.cube.AxisEntry;
+import org.opaeum.uim.cube.ColumnAxisEntry;
+import org.opaeum.uim.cube.CubePackage;
+import org.opaeum.uim.cube.CubeQuery;
+import org.opaeum.uim.cube.CubeQueryEditor;
+import org.opaeum.uim.cube.DimensionBinding;
+import org.opaeum.uim.cube.LevelProperty;
+import org.opaeum.uim.cube.MeasureProperty;
+import org.opaeum.uim.cube.RowAxisEntry;
 
 /**
  * <!-- begin-user-doc -->
@@ -107,20 +114,36 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 				return createCubeQueryEditorAdapter();
 			}
 			@Override
-			public Adapter caseUserInteractionElement(UserInteractionElement object) {
-				return createUserInteractionElementAdapter();
-			}
-			@Override
 			public Adapter caseConstrainedObject(ConstrainedObject object) {
 				return createConstrainedObjectAdapter();
+			}
+			@Override
+			public Adapter caseEditableConstrainedObject(EditableConstrainedObject object) {
+				return createEditableConstrainedObjectAdapter();
 			}
 			@Override
 			public Adapter caseUmlReference(UmlReference object) {
 				return createUmlReferenceAdapter();
 			}
 			@Override
+			public Adapter caseUserInteractionElement(UserInteractionElement object) {
+				return createUserInteractionElementAdapter();
+			}
+			@Override
+			public Adapter caseLabeledElement(LabeledElement object) {
+				return createLabeledElementAdapter();
+			}
+			@Override
+			public Adapter casePage(Page object) {
+				return createPageAdapter();
+			}
+			@Override
 			public Adapter caseUimBinding(UimBinding object) {
 				return createUimBindingAdapter();
+			}
+			@Override
+			public Adapter caseUserInterfaceRoot(UserInterfaceRoot object) {
+				return createUserInterfaceRootAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -269,6 +292,20 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterfaceRoot <em>User Interface Root</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.UserInterfaceRoot
+	 * @generated
+	 */
+	public Adapter createUserInterfaceRootAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.constraint.ConstrainedObject <em>Constrained Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -283,6 +320,20 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.constraint.EditableConstrainedObject <em>Editable Constrained Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.constraint.EditableConstrainedObject
+	 * @generated
+	 */
+	public Adapter createEditableConstrainedObjectAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UmlReference <em>Uml Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -293,6 +344,34 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUmlReferenceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.LabeledElement <em>Labeled Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.LabeledElement
+	 * @generated
+	 */
+	public Adapter createLabeledElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.Page <em>Page</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.Page
+	 * @generated
+	 */
+	public Adapter createPageAdapter() {
 		return null;
 	}
 

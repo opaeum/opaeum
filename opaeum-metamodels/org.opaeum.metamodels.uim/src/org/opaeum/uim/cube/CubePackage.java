@@ -7,9 +7,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.opaeum.uim.UimPackage;
-
 import org.opaeum.uim.binding.BindingPackage;
 
 /**
@@ -71,31 +69,22 @@ public interface CubePackage extends EPackage {
 	int CUBE_QUERY = 0;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CUBE_QUERY__NAME = UimPackage.USER_INTERACTION_ELEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CUBE_QUERY__UNDER_USER_CONTROL = UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
-
-	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY__VISIBILITY = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
+	int CUBE_QUERY__VISIBILITY = UimPackage.PAGE__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY__EDITABILITY = UimPackage.PAGE__EDITABILITY;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -104,7 +93,43 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY__UML_ELEMENT_UID = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
+	int CUBE_QUERY__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY__NAME = UimPackage.PAGE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY__LABEL_OVERRIDE = UimPackage.PAGE__LABEL_OVERRIDE;
+
+	/**
+	 * The feature id for the '<em><b>Panel</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY__PANEL = UimPackage.PAGE__PANEL;
 
 	/**
 	 * The feature id for the '<em><b>Column Axis</b></em>' containment reference list.
@@ -113,7 +138,7 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY__COLUMN_AXIS = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
+	int CUBE_QUERY__COLUMN_AXIS = UimPackage.PAGE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Row Axis</b></em>' containment reference list.
@@ -122,7 +147,7 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY__ROW_AXIS = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 3;
+	int CUBE_QUERY__ROW_AXIS = UimPackage.PAGE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Measures</b></em>' containment reference list.
@@ -131,7 +156,7 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY__MEASURES = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 4;
+	int CUBE_QUERY__MEASURES = UimPackage.PAGE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Query</em>' class.
@@ -140,7 +165,7 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 5;
+	int CUBE_QUERY_FEATURE_COUNT = UimPackage.PAGE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.cube.impl.AxisEntryImpl <em>Axis Entry</em>}' class.
@@ -233,7 +258,7 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LEVEL_PROPERTY__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+	int LEVEL_PROPERTY__UML_ELEMENT_UID = UimPackage.LABELED_ELEMENT__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -242,7 +267,25 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LEVEL_PROPERTY__NAME = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
+	int LEVEL_PROPERTY__NAME = UimPackage.LABELED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEVEL_PROPERTY__UNDER_USER_CONTROL = UimPackage.LABELED_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEVEL_PROPERTY__LABEL_OVERRIDE = UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE;
 
 	/**
 	 * The number of structural features of the '<em>Level Property</em>' class.
@@ -251,8 +294,7 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LEVEL_PROPERTY_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
-
+	int LEVEL_PROPERTY_FEATURE_COUNT = UimPackage.LABELED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.cube.impl.RowAxisEntryImpl <em>Row Axis Entry</em>}' class.
@@ -328,7 +370,6 @@ public interface CubePackage extends EPackage {
 	 */
 	int COLUMN_AXIS_ENTRY_FEATURE_COUNT = AXIS_ENTRY_FEATURE_COUNT + 0;
 
-
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.cube.impl.MeasurePropertyImpl <em>Measure Property</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -377,13 +418,22 @@ public interface CubePackage extends EPackage {
 	int CUBE_QUERY_EDITOR = 7;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY_EDITOR__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY_EDITOR__NAME = UimPackage.USER_INTERACTION_ELEMENT__NAME;
+	int CUBE_QUERY_EDITOR__NAME = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -392,16 +442,43 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY_EDITOR__UNDER_USER_CONTROL = UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+	int CUBE_QUERY_EDITOR__UNDER_USER_CONTROL = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY_EDITOR__UML_ELEMENT_UID = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
+	int CUBE_QUERY_EDITOR__LABEL_OVERRIDE = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY_EDITOR__EDITABILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY_EDITOR__VISIBILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Ignored Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY_EDITOR__IGNORED_ELEMENTS = UimPackage.UML_REFERENCE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Queries</b></em>' containment reference list.
@@ -410,7 +487,7 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY_EDITOR__QUERIES = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
+	int CUBE_QUERY_EDITOR__QUERIES = UimPackage.UML_REFERENCE_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Query Editor</em>' class.
@@ -419,7 +496,7 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY_EDITOR_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
+	int CUBE_QUERY_EDITOR_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.cube.AggregationFormula <em>Aggregation Formula</em>}' enum.
@@ -526,17 +603,6 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getLevelProperty();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.uim.cube.LevelProperty#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.opaeum.uim.cube.LevelProperty#getName()
-	 * @see #getLevelProperty()
-	 * @generated
-	 */
-	EAttribute getLevelProperty_Name();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.cube.RowAxisEntry <em>Row Axis Entry</em>}'.
@@ -711,14 +777,6 @@ public interface CubePackage extends EPackage {
 		 * @generated
 		 */
 		EClass LEVEL_PROPERTY = eINSTANCE.getLevelProperty();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute LEVEL_PROPERTY__NAME = eINSTANCE.getLevelProperty_Name();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.cube.impl.RowAxisEntryImpl <em>Row Axis Entry</em>}' class.

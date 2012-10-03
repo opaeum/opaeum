@@ -66,7 +66,9 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	LIST_BOX(4, "listBox", "listBox"), /**
+	LIST_BOX(4, "listBox", "listBox"),
+
+	/**
 	 * The '<em><b>Check Box</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -94,7 +96,9 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TREE_VIEW(7, "treeView", "treeView"), /**
+	TREE_VIEW(7, "treeView", "treeView"),
+
+	/**
 	 * The '<em><b>Popup Search</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -102,7 +106,9 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	POPUP_SEARCH(8, "popupSearch", "popupSearch"), /**
+	POPUP_SEARCH(8, "popupSearch", "popupSearch"),
+
+	/**
 	 * The '<em><b>Toggle Button</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -110,7 +116,9 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TOGGLE_BUTTON(9, "toggleButton", "toggleButton"), /**
+	TOGGLE_BUTTON(9, "toggleButton", "toggleButton"),
+
+	/**
 	 * The '<em><b>Selection Table</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -118,7 +126,9 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SELECTION_TABLE(10, "selectionTable", "selectionTable"), /**
+	SELECTION_TABLE(10, "selectionTable", "selectionTable"),
+
+	/**
 	 * The '<em><b>Link</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -126,7 +136,9 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	LINK(11, "link", "link"), /**
+	LINK(11, "link", "link"),
+
+	/**
 	 * The '<em><b>Radio Button</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -134,7 +146,9 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	RADIO_BUTTON(12, "radioButton", "radioButton"), /**
+	RADIO_BUTTON(12, "radioButton", "radioButton"),
+
+	/**
 	 * The '<em><b>Label</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -142,7 +156,9 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	LABEL(13, "label", "label"), /**
+	LABEL(13, "label", "label"),
+
+	/**
 	 * The '<em><b>Date Scroller</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -150,7 +166,9 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DATE_SCROLLER(14, "dateScroller", "dateScroller"), /**
+	DATE_SCROLLER(14, "dateScroller", "dateScroller"),
+
+	/**
 	 * The '<em><b>Date Time Popup</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

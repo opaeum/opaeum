@@ -29,14 +29,14 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Index;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.hibernate.event.EventSource;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity(name = "AuditEntry")
 @javax.persistence.Table(name = "audit_entry")
-@org.hibernate.annotations.Table(appliesTo = "audit_entry", indexes = { @Index(name = "audit_entry_idx", columnNames = {
-		"original_type", "original_id", "object_version" }) })
-public class AuditEntry implements Serializable, Comparable<AuditEntry> {
-
+@org.hibernate.annotations.Table(appliesTo = "audit_entry",indexes = {@Index(name = "audit_entry_idx",columnNames = {"original_type",
+		"original_id","object_version"})})
+public class AuditEntry implements Serializable,Comparable<AuditEntry>{
 	private static final long serialVersionUID = -5996095627052884699L;
 	@EmbeddedId
 	AuditEntryId id;
@@ -49,207 +49,173 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 	@Basic
 	@Column(name = "object_version")
 	int objectVersion;
-	@OneToMany(mappedBy = "auditEntry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "auditEntry",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@MapKey(name = "propertyName")
-	Map<String, PropertyChange<?>> changes = new HashMap<String, PropertyChange<?>>();
+	Map<String,PropertyChange<?>> changes = new HashMap<String,PropertyChange<?>>();
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "audit_date_time")
 	private Date auditDateTime = new Date(System.currentTimeMillis());
 	@Transient
-	private Map<String, IPersistentObject> manyToOnes = new HashMap<String, IPersistentObject>();
+	private Map<String,IPersistentObject> manyToOnes = new HashMap<String,IPersistentObject>();
 	@Embedded()
-	@AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "previous_version_id")))
+	@AttributeOverrides(@AttributeOverride(name = "id",column = @Column(name = "previous_version_id")))
 	private AuditEntryId previousVersionId;
 	@Transient
 	private Class<? extends IPersistentObject> originalClass;
 	@Transient
 	private IPersistentObject original;
+	@Transient
+	private boolean originalSearched;
 	@Enumerated(EnumType.STRING)
 	private AuditedAction action;
-
-	public AuditEntry() {
+	@Transient
+	protected EventSource session;
+	public AuditEntry(){
 		super();
 	}
-
-	public AuditEntry(IPersistentObject entity, int version) {
-		this.originalClass = (Class<? extends IPersistentObject>) IntrospectionUtil
-				.getOriginalClass(entity);
+	public AuditEntry(IPersistentObject entity,int version){
+		this.originalClass = (Class<? extends IPersistentObject>) IntrospectionUtil.getOriginalClass(entity);
 		this.originalType = originalClass.getName();
 		this.originalId = entity.getId();
 		this.objectVersion = version;
 		this.id = new AuditEntryId(entity, version);
 		this.previousVersionId = id.previousVersion();
 	}
-
-	public void addManyToOne(String name, IPersistentObject value) {
+	public final void setSession(EventSource session){
+		this.session = session;
+	}
+	public void addManyToOne(String name,IPersistentObject value){
 		manyToOnes.put(name, value);
 	}
-
-	public Set<Entry<String, IPersistentObject>> getManyToOnes() {
+	public Set<Entry<String,IPersistentObject>> getManyToOnes(){
 		return manyToOnes.entrySet();
 	}
-
-	public void putPropertyChange(String name, Object oldValue, Object value) {
+	public void putPropertyChange(String name,Object oldValue,Object value){
 		PropertyChange<?> pc = null;
-
-		if (isFloatingPoint(value) || isFloatingPoint(oldValue)) {
-			pc = new FloatingPointPropertyChange(name, (Number) oldValue,
-					(Number) value);
-		} else if (isInteger(value) || isInteger(oldValue)) {
-			pc = new IntegerPropertyChange(name, (Number) oldValue,
-					(Number) value);
-		} else if (isDate(value) || isDate(oldValue)) {
+		if(isFloatingPoint(value) || isFloatingPoint(oldValue)){
+			pc = new FloatingPointPropertyChange(name, (Number) oldValue, (Number) value);
+		}else if(isInteger(value) || isInteger(oldValue)){
+			pc = new IntegerPropertyChange(name, (Number) oldValue, (Number) value);
+		}else if(isDate(value) || isDate(oldValue)){
 			pc = new DateTimePropertyChange(name, (Date) oldValue, (Date) value);
-		} else if (isString(value) || isString(oldValue)) {
-			pc = new StringPropertyChange(name, (String) oldValue,
-					(String) value);
-		} else if (isBoolean(value) || isBoolean(oldValue)) {
-			pc = new BooleanPropertyChange(name, (Boolean) oldValue,
-					(Boolean) value);
-		} else if (isEntity(value) || isEntity(oldValue)) {
-			Class<?> cls = value == null ? oldValue.getClass() : value
-					.getClass();
+		}else if(isString(value) || isString(oldValue)){
+			pc = new StringPropertyChange(name, (String) oldValue, (String) value);
+		}else if(isBoolean(value) || isBoolean(oldValue)){
+			pc = new BooleanPropertyChange(name, (Boolean) oldValue, (Boolean) value);
+		}else if(isEntity(value) || isEntity(oldValue)){
+			Class<?> cls = value == null ? oldValue.getClass() : value.getClass();
 			IPersistentObject newEntityValue = (IPersistentObject) value;
-			if (newEntityValue!= null && newEntityValue.getId() == null) {
+			if(newEntityValue != null && newEntityValue.getId() == null){
 				// error condition - hibernate will likely fail - how was the
 				// foreign key inserted. monitor this
-			} else if (IntrospectionUtil.getOriginalClass(cls)
-					.isAnnotationPresent(AuditMe.class)) {
-				pc = new AuditEntryPropertyChange(name,
-						(IPersistentObject) oldValue, newEntityValue);
-			} else {
-				pc = new EntityPropertyChange(name,
-						(IPersistentObject) oldValue, newEntityValue);
+			}else if(IntrospectionUtil.getOriginalClass(cls).isAnnotationPresent(AuditMe.class)){
+				pc = new AuditEntryPropertyChange(name, (IPersistentObject) oldValue, newEntityValue);
+			}else{
+				pc = new EntityPropertyChange(name, (IPersistentObject) oldValue, newEntityValue);
 			}
-		} else if (value instanceof AuditEntry) {
+		}else if(value instanceof AuditEntry){
 			// Many to one to ensure a snapshot is available
 			pc = new AuditEntryPropertyChange(name, (AuditEntry) value);
-		} else if (value == null && oldValue == null) {
+		}else if(value == null && oldValue == null){
 			pc = new NullPropertyChange(name);
 		}
-		if (pc != null) {
+		if(pc != null){
 			pc.setAuditEntry(this);
 			changes.put(name, pc);
 		}
 	}
-
-	private boolean isEntity(Object value) {
+	private boolean isEntity(Object value){
 		return value instanceof IPersistentObject;
 	}
-
-	private boolean isBoolean(Object value) {
+	private boolean isBoolean(Object value){
 		return value instanceof Boolean;
 	}
-
-	private boolean isString(Object value) {
+	private boolean isString(Object value){
 		return value instanceof String;
 	}
-
-	private boolean isDate(Object value) {
+	private boolean isDate(Object value){
 		return value instanceof Date;
 	}
-
-	private boolean isInteger(Object value) {
+	private boolean isInteger(Object value){
 		return value instanceof Integer || value instanceof Long;
 	}
-
-	private boolean isFloatingPoint(Object value) {
+	private boolean isFloatingPoint(Object value){
 		return value instanceof Double || value instanceof Float;
 	}
-
-	public Map<String, PropertyChange<?>> getChanges() {
+	public Map<String,PropertyChange<?>> getChanges(){
 		return changes;
 	}
-
-	public void setChanges(Map<String, PropertyChange<?>> changes) {
+	public void setChanges(Map<String,PropertyChange<?>> changes){
 		this.changes = changes;
 	}
-
-	public AuditEntryId getPreviousVersionId() {
+	public AuditEntryId getPreviousVersionId(){
 		return previousVersionId;
 	}
-
-	public Long getOriginalId() {
+	public Long getOriginalId(){
 		return originalId;
 	}
-
-	public void setOriginalId(Long originalId) {
+	public void setOriginalId(Long originalId){
 		this.originalId = originalId;
 	}
-
-	public String getOriginalType() {
+	public String getOriginalType(){
 		return originalType;
 	}
-
-	public void setOriginalType(String originalType) {
+	public void setOriginalType(String originalType){
 		this.originalType = originalType;
 	}
-
-	public int getObjectVersion() {
+	public int getObjectVersion(){
 		return objectVersion;
 	}
-
-	public void setObjectVersion(int objectVersion) {
+	public void setObjectVersion(int objectVersion){
 		this.objectVersion = objectVersion;
 	}
-
-	public Class<?> getOriginalClass() {
-		if (this.originalClass == null) {
+	public Class<?> getOriginalClass(){
+		if(this.originalClass == null){
 			this.originalClass = IntrospectionUtil.getClass(originalType);
 		}
 		return originalClass;
 	}
-
-	public AuditEntryId getId() {
+	public AuditEntryId getId(){
 		return id;
 	}
-
-	public String toString() {
+	public String toString(){
 		return id.toString();
 	}
-
-	public void updateVersion(int version) {
+	public void updateVersion(int version){
 		id.updateVersion(version);
 		this.objectVersion = version;
-		// TODO Auto-generated method stub
-
 	}
-
 	@Override
-	public int compareTo(AuditEntry arg0) {
+	public int compareTo(AuditEntry arg0){
 		int compareTo = originalType.compareTo(arg0.getOriginalType());
-		if (compareTo == 0) {
+		if(compareTo == 0){
 			compareTo = originalId.compareTo(arg0.getOriginalId());
-			if (compareTo == 0) {
+			if(compareTo == 0){
 				compareTo = objectVersion = arg0.getObjectVersion();
 			}
 		}
 		return compareTo;
 	}
-
-	public Date getAuditDateTime() {
+	public Date getAuditDateTime(){
 		return auditDateTime;
 	}
-
-	public void setAuditDateTime(Date auditDate) {
+	public void setAuditDateTime(Date auditDate){
 		this.auditDateTime = auditDate;
 	}
-
-	public void setOriginal(IPersistentObject object) {
+	public void setOriginal(IPersistentObject object){
 		this.original = object;
-
 	}
-
-	public IPersistentObject getOriginal() {
+	public IPersistentObject getOriginal(){
+		if(original == null && !originalSearched){
+			original = (IPersistentObject) session.load(getOriginalClass(), originalId);
+			originalSearched = true;
+		}
 		return original;
 	}
-
-	public AuditedAction getAction() {
+	public AuditedAction getAction(){
 		return action;
 	}
-
-	public void setAction(AuditedAction action) {
+	public void setAction(AuditedAction action){
 		this.action = action;
 	}
-
 }

@@ -3,7 +3,6 @@
 package org.opaeum.uim.perspective.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
 

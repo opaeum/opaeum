@@ -63,8 +63,8 @@ public abstract class AbstractObsercationEventSection extends OpaeumChooserPrope
 	@Override
 	public void refresh(){
 		super.refresh();
-		onExitBtn.setSelection(isFirstEvent());
-		onEntryBtn.setSelection(!isFirstEvent());
+		onExitBtn.setSelection(!isFirstEvent());
+		onEntryBtn.setSelection(isFirstEvent());
 	}
 	@Override
 	protected Object[] getComboFeatureValues(){

@@ -3,9 +3,8 @@
 package org.opaeum.uim.cube;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.UserInterfaceRoot;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +22,7 @@ import org.opaeum.uim.UserInteractionElement;
  * @model
  * @generated
  */
-public interface CubeQueryEditor extends UserInteractionElement, UmlReference {
+public interface CubeQueryEditor extends UmlReference, UserInterfaceRoot {
 	/**
 	 * Returns the value of the '<em><b>Queries</b></em>' containment reference list.
 	 * The list contents are of type {@link org.opaeum.uim.cube.CubeQuery}.

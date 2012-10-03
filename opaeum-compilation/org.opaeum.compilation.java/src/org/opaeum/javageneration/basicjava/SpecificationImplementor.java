@@ -47,7 +47,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			if(EmfBehaviorUtil.isClassifierBehavior(ob)){
 				implementStartClassifierBehavior(ob);
 			}else{
-				if(EmfBehaviorUtil.isProcess(ob) && ob.getSpecification() == null){
+				if((EmfBehaviorUtil.isStandaloneTask(ob) || EmfBehaviorUtil.isProcess(ob)) && ob.getSpecification() == null){
 					implementCallbacksOnCompletionOrFailure(ojUtil.buildOperationMap(ob));
 				}
 				if(requiresOperationForInvocation(ob)){

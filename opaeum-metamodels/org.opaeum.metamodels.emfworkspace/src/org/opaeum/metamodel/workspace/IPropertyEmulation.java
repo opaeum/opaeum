@@ -16,4 +16,6 @@ public interface IPropertyEmulation{
 	Classifier getMessageStructure(OpaqueAction n);
 	OpaqueExpressionContext getOclExpressionContext(OpaqueExpression valueSpec);
 	public abstract DataType getCumulativeDurationType();
+	Classifier getQuantityBasedCost();
+	Classifier getDurationBasedCost();
 }

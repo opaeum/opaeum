@@ -8,10 +8,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opaeum.uim.UimDataTable;
-import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.TableBinding;
+import org.opaeum.uim.component.ComponentPackage;
+import org.opaeum.uim.component.UimDataTable;
 
 /**
  * <!-- begin-user-doc -->
@@ -79,7 +79,7 @@ public class TableBindingImpl extends UimBindingImpl implements TableBinding {
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newTable != null)
-				msgs = ((InternalEObject)newTable).eInverseAdd(this, UimPackage.UIM_DATA_TABLE__BINDING, UimDataTable.class, msgs);
+				msgs = ((InternalEObject)newTable).eInverseAdd(this, ComponentPackage.UIM_DATA_TABLE__BINDING, UimDataTable.class, msgs);
 			msgs = basicSetTable(newTable, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -126,7 +126,7 @@ public class TableBindingImpl extends UimBindingImpl implements TableBinding {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case BindingPackage.TABLE_BINDING__TABLE:
-				return eInternalContainer().eInverseRemove(this, UimPackage.UIM_DATA_TABLE__BINDING, UimDataTable.class, msgs);
+				return eInternalContainer().eInverseRemove(this, ComponentPackage.UIM_DATA_TABLE__BINDING, UimDataTable.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}

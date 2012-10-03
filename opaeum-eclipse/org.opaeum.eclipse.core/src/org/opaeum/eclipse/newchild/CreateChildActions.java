@@ -18,8 +18,10 @@ public class CreateChildActions{
 	private static UMLPackage pkg = UMLPackage.eINSTANCE;
 	public static Set<AbstractCreateChildAction> ACTIONS = new HashSet<AbstractCreateChildAction>();
 	public static Set<EReference> CONTROLLED_FEATURES = new HashSet<EReference>();
-	private static MatchingOwner DURATION_BASED_COST_OBSERVATION=new MatchingOwner(pkg.getDurationObservation(), StereotypeNames.DURATION_BASED_COST_OBSERVATION);
-	private static MatchingOwner QUANTITY_BASED_COST_OBSERVATION=new MatchingOwner(pkg.getTimeObservation(), StereotypeNames.QUANTITY_BASED_COST_OBSERVATION);
+	private static MatchingOwner DURATION_BASED_COST_OBSERVATION = new MatchingOwner(pkg.getDurationObservation(),
+			StereotypeNames.DURATION_BASED_COST_OBSERVATION);
+	private static MatchingOwner QUANTITY_BASED_COST_OBSERVATION = new MatchingOwner(pkg.getTimeObservation(),
+			StereotypeNames.QUANTITY_BASED_COST_OBSERVATION);
 	private static MatchingOwner DEADLINE = new MatchingOwner(pkg.getTimeEvent(), StereotypeNames.DEADLINE);
 	private static MatchingOwner CONTEXTUAL_BUSINESS_TIME_EVENT = new MatchingOwner(pkg.getTimeEvent(),
 			StereotypeNames.CONTEXTUAL_BUSINESS_TIME_EVENT);
@@ -83,6 +85,7 @@ public class CreateChildActions{
 		CONTROLLED_FEATURES.add(pkg.getPackage_PackagedElement());
 		CONTROLLED_FEATURES.add(pkg.getPackage_OwnedType());
 		CONTROLLED_FEATURES.add(pkg.getNamespace_OwnedRule());
+		CONTROLLED_FEATURES.add(pkg.getNamespace_OwnedRule());
 		add(PROFILE, pkg.getPackage_OwnedType().getName(), pkg.getStereotype());
 		add(PROFILE, pkg.getPackage_OwnedType().getName(), pkg.getEnumeration());
 		add(PACKAGES, pkg.getPackage_PackagedElement().getName(), pkg.getInstanceSpecification());
@@ -116,7 +119,7 @@ public class CreateChildActions{
 				StereotypeNames.BUSINESS_STATE_MACHINE);
 		add(PROCESS_OWNERS, pkg.getBehavioredClassifier_OwnedBehavior().getName(), pkg.getActivity(), StereotypeNames.BUSINES_PROCESS);
 		add(NOTIFICATION_OWNERS, pkg.getClass_NestedClassifier().getName(), pkg.getSignal(), StereotypeNames.NOTIFICATION);
-		add(SEND_NOTIFICATION_ACTION, FROM_EXPRESSION,  LibraryType.RECIPIENT);
+		add(SEND_NOTIFICATION_ACTION, FROM_EXPRESSION, LibraryType.RECIPIENT);
 		add(SEND_NOTIFICATION_ACTION, CC_EXPRESSION, LibraryType.RECIPIENT);
 		add(SEND_NOTIFICATION_ACTION, BCC_EXPRESSION, LibraryType.RECIPIENT);
 		add(NOTIFICATION, TEMPLATE_EXPRESSION, LibraryType.STRING);
@@ -126,37 +129,42 @@ public class CreateChildActions{
 		add(DEADLINE_OWNERS, STAKEHOLDERS, LibraryType.PARTICIPANT);
 		add(TASKS, POTENTIAL_OWNERS, LibraryType.PARTICIPANT);
 		add(TASKS, BUSINESS_ADMINISTRATORS, LibraryType.PARTICIPANT);
-		add(OBSERVED, TIME_OBSERVATIONS, pkg.getTimeObservation());
-		add(OBSERVED, DURATION_OBSERVATIONS, pkg.getDurationObservation(), StereotypeNames.BUSINESS_DURATION_OBSERVATION);
-		add(OBSERVED, DURATION_BASED_COST_OBSERVATIONS, pkg.getDurationObservation(), StereotypeNames.DURATION_BASED_COST_OBSERVATION);
-		add(OBSERVED, QUANTITY_BASED_COST_OBSERVATIONS, pkg.getDurationObservation(), StereotypeNames.QUANTITY_BASED_COST_OBSERVATION);
+		add(OBSERVED, TIME_OBSERVATIONS, pkg.getTimeObservation()).setName("Observations|Time Observation");
+		add(OBSERVED, DURATION_OBSERVATIONS, pkg.getDurationObservation(), StereotypeNames.BUSINESS_DURATION_OBSERVATION).setName(
+				"Observations|" + StereotypeNames.BUSINESS_DURATION_OBSERVATION);
+		add(OBSERVED, DURATION_BASED_COST_OBSERVATIONS, pkg.getDurationObservation(), StereotypeNames.DURATION_BASED_COST_OBSERVATION).setName(
+				"Observations|" + StereotypeNames.DURATION_BASED_COST_OBSERVATION);
+		;
+		add(OBSERVED, QUANTITY_BASED_COST_OBSERVATIONS, pkg.getTimeObservation(), StereotypeNames.QUANTITY_BASED_COST_OBSERVATION).setName(
+				"Observations|" + StereotypeNames.QUANTITY_BASED_COST_OBSERVATION);
+		;
 		add(INTERVAL_EVALUATED, EVALUATION_INTERVAL, LibraryType.DURATION);
 		add(BUSINESS_CALENDAR_USERS, BUSINESS_CALENDAR_TO_USE, LibraryType.BUSINESS_CALENDAR);
-		add(DURATION_BASED_COST_OBSERVATION,RESOURCES_PAID_FOR, LibraryType.TIMED_RESOURCE);
-		add(DURATION_BASED_COST_OBSERVATION,CONTROLLED_BY, LibraryType.BUSINESS_ROLE);
-		add(QUANTITY_BASED_COST_OBSERVATION,RESOURCES_PAID_FOR, LibraryType.QUANTIFIED_RESOURCE);
-		add(QUANTITY_BASED_COST_OBSERVATION,QUANTITY_EXPRESSION, LibraryType.REAL);
-		add(QUANTITY_BASED_COST_OBSERVATION,CONTROLLED_BY, LibraryType.BUSINESS_ROLE);
+		add(DURATION_BASED_COST_OBSERVATION, RESOURCES_PAID_FOR, LibraryType.TIMED_RESOURCE);
+		add(DURATION_BASED_COST_OBSERVATION, CONTROLLED_BY, LibraryType.BUSINESS_ROLE);
+		add(QUANTITY_BASED_COST_OBSERVATION, RESOURCE_PAID_FOR, LibraryType.QUANTIFIED_RESOURCE);
+		add(QUANTITY_BASED_COST_OBSERVATION, QUANTITY_EXPRESSION, LibraryType.REAL);
+		add(QUANTITY_BASED_COST_OBSERVATION, CONTROLLED_BY, LibraryType.BUSINESS_ROLE);
 	}
-	private static void add(MatchingOwner[] mo,String f,EClass type,String stereotype){
-		add(new DefaultCreateChildAction(mo, f, type, stereotype));
+	private static AbstractCreateChildAction add(MatchingOwner[] mo,String f,EClass type,String stereotype){
+		return add(new DefaultCreateChildAction(mo, f, type, stereotype));
 	}
-	private static void add(MatchingOwner[] mo,String f,LibraryType libType){
-		add(new CreateTypedExpressionAction(mo, f, libType));
+	private static AbstractCreateChildAction add(MatchingOwner[] mo,String f,LibraryType libType){
+		return add(new CreateTypedExpressionAction(mo, f, libType));
 	}
-	private static void add(MatchingOwner mo,String f,LibraryType libType){
-		add(new CreateTypedExpressionAction(mo, f, libType));
+	private static AbstractCreateChildAction add(MatchingOwner mo,String f,LibraryType libType){
+		return add(new CreateTypedExpressionAction(mo, f, libType));
 	}
-	private static void add(MatchingOwner mo,String f,EClass type,String st){
-		add(new DefaultCreateChildAction(mo, f, type, st));
+	private static AbstractCreateChildAction add(MatchingOwner mo,String f,EClass type,String st){
+		return add(new DefaultCreateChildAction(mo, f, type, st));
 	}
-	private static void add(MatchingOwner mo,String f,EClass type){
-		add(new DefaultCreateChildAction(mo, f, type));
+	private static AbstractCreateChildAction add(MatchingOwner mo,String f,EClass type){
+		return add(new DefaultCreateChildAction(mo, f, type));
 	}
-	private static void add(MatchingOwner[] mo,String f,EClass type){
-		add(new DefaultCreateChildAction(mo, f, type));
+	private static AbstractCreateChildAction add(MatchingOwner[] mo,String f,EClass type){
+		return add(new DefaultCreateChildAction(mo, f, type));
 	}
-	private static void add(AbstractCreateChildAction defaultCreateChildAction){
+	private static AbstractCreateChildAction add(AbstractCreateChildAction defaultCreateChildAction){
 		ACTIONS.add(defaultCreateChildAction);
 		Set<AbstractCreateChildAction> s = FEATURES.get(defaultCreateChildAction.featureName);
 		if(s == null){
@@ -164,5 +172,6 @@ public class CreateChildActions{
 			FEATURES.put(defaultCreateChildAction.featureName, s);
 		}
 		s.add(defaultCreateChildAction);
+		return defaultCreateChildAction;
 	}
 }

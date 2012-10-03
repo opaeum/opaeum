@@ -60,7 +60,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = false)
 	public void visitInterface(Interface i){
 		if(shouldVisit(i)){
-			OJAnnotatedInterface oi = (OJAnnotatedInterface) findJavaClass(i);
+			OJAnnotatedInterface oi = (OJAnnotatedInterface) resolveMatchingOJClass(i);
 			for(Property p:i.getOwnedAttributes()){
 				visitInterfaceProperty(oi, i, ojUtil.buildStructuralFeatureMap(p));
 			}

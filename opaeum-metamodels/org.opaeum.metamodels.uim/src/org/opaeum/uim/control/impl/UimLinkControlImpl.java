@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimLinkControl;
-import org.opaeum.uim.editor.ClassEditor;
+import org.opaeum.uim.editor.ObjectEditor;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +32,7 @@ public class UimLinkControlImpl extends UimControlImpl implements UimLinkControl
 	 * @generated
 	 * @ordered
 	 */
-	protected ClassEditor editorToOpen;
+	protected ObjectEditor editorToOpen;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -58,10 +58,10 @@ public class UimLinkControlImpl extends UimControlImpl implements UimLinkControl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ClassEditor getEditorToOpen() {
+	public ObjectEditor getEditorToOpen() {
 		if (editorToOpen != null && editorToOpen.eIsProxy()) {
 			InternalEObject oldEditorToOpen = (InternalEObject)editorToOpen;
-			editorToOpen = (ClassEditor)eResolveProxy(oldEditorToOpen);
+			editorToOpen = (ObjectEditor)eResolveProxy(oldEditorToOpen);
 			if (editorToOpen != oldEditorToOpen) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ControlPackage.UIM_LINK_CONTROL__EDITOR_TO_OPEN, oldEditorToOpen, editorToOpen));
@@ -75,7 +75,7 @@ public class UimLinkControlImpl extends UimControlImpl implements UimLinkControl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ClassEditor basicGetEditorToOpen() {
+	public ObjectEditor basicGetEditorToOpen() {
 		return editorToOpen;
 	}
 
@@ -84,8 +84,8 @@ public class UimLinkControlImpl extends UimControlImpl implements UimLinkControl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEditorToOpen(ClassEditor newEditorToOpen) {
-		ClassEditor oldEditorToOpen = editorToOpen;
+	public void setEditorToOpen(ObjectEditor newEditorToOpen) {
+		ObjectEditor oldEditorToOpen = editorToOpen;
 		editorToOpen = newEditorToOpen;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ControlPackage.UIM_LINK_CONTROL__EDITOR_TO_OPEN, oldEditorToOpen, editorToOpen));
@@ -115,7 +115,7 @@ public class UimLinkControlImpl extends UimControlImpl implements UimLinkControl
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ControlPackage.UIM_LINK_CONTROL__EDITOR_TO_OPEN:
-				setEditorToOpen((ClassEditor)newValue);
+				setEditorToOpen((ObjectEditor)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -130,7 +130,7 @@ public class UimLinkControlImpl extends UimControlImpl implements UimLinkControl
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ControlPackage.UIM_LINK_CONTROL__EDITOR_TO_OPEN:
-				setEditorToOpen((ClassEditor)null);
+				setEditorToOpen((ObjectEditor)null);
 				return;
 		}
 		super.eUnset(featureID);

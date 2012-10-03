@@ -4,19 +4,19 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
@@ -34,6 +34,7 @@ import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Namespace;
@@ -46,7 +47,6 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
-import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TemplateSignature;
 import org.eclipse.uml2.uml.TimeExpression;
@@ -76,45 +76,21 @@ public class EmfElementFinder{
 		return result;
 	}
 	@SuppressWarnings("unchecked")
-	public static <T> T findNearestElementOfType(java.lang.Class<T> cls, EObject e){
+	public static <T>T findNearestElementOfType(java.lang.Class<T> cls,EObject e){
 		EObject container = getContainer(e);
 		if(cls.isInstance(e)){
-			return (T)e;
-		}else if(container!=null){
-			return findNearestElementOfType(cls, (Element)container);
+			return (T) e;
+		}else if(container != null){
+			return findNearestElementOfType(cls, (Element) container);
 		}else{
 			return null;
 		}
 	}
 	public static boolean isMeasure(Property p){
-		for(Stereotype s:p.getAppliedStereotypes()){
-			if(s.getDefinition().getEStructuralFeature("roleInCube") != null){
-				EStructuralFeature f = s.getDefinition().getEStructuralFeature("roleInCube");
-				EEnumLiteral l = (EEnumLiteral) p.getStereotypeApplication(s).eGet(f);
-				if(l.getName().equals("MEASURE")){
-					return true;
-				}
-			}
-		}
-		return false;
+		return EmfPropertyUtil.isMeasure(p);
 	}
 	public static boolean isDimension(Property p){
-		if(p.isMultivalued() || p.getQualifiers().size() > 0){
-			return false;
-		}
-		if(p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
-			return true;
-		}
-		for(Stereotype s:p.getAppliedStereotypes()){
-			if(s.getDefinition().getEStructuralFeature("roleInCube") != null){
-				EStructuralFeature f = s.getDefinition().getEStructuralFeature("roleInCube");
-				EEnumLiteral l = (EEnumLiteral) p.getStereotypeApplication(s).eGet(f);
-				if(l.getName().equals("DIMENSION")){
-					return true;
-				}
-			}
-		}
-		return false;
+		return EmfPropertyUtil.isDimension(p);
 	}
 	public static Collection<Class> getCubes(Class dimension){
 		TreeSet<Class> result = new TreeSet<Class>(new ElementComparator());
@@ -254,24 +230,40 @@ public class EmfElementFinder{
 	}
 	// TODO rename to getEffectiveProperties
 	public static List<Property> getPropertiesInScope(Classifier c){
-		List<Property> result = new ArrayList<Property>(c.getAttributes());
-		for(Association a:c.getAssociations()){
-			for(Property end:a.getMemberEnds()){
-				if(end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner() == a){
-					result.add(end);
-				}
-			}
-		}
+		Map<String,Property> nameMap = new HashMap<String,Property>();
+		List<Property> result = new ArrayList<Property>();
 		for(Generalization ir:c.getGeneralizations()){
 			for(Property p:getPropertiesInScope(ir.getGeneral())){
 				result.add(p);
+				nameMap.put(p.getName(), p);
 			}
 		}
 		if(c instanceof BehavioredClassifier){
 			BehavioredClassifier cls = (BehavioredClassifier) c;
-			for(InterfaceRealization ir:cls.getInterfaceRealizations()){
-				for(Property p:getPropertiesInScope(ir.getContract())){
-					result.add(p);
+			for(Interface ir:cls.getImplementedInterfaces()){
+				for(Property p:getPropertiesInScope(ir)){
+					if(!nameMap.containsKey(p.getName())){
+						result.add(p);
+						nameMap.put(p.getName(), p);
+					}
+				}
+			}
+		}
+		for(Property attribute:c.getAttributes()){
+			Property superAttribute = nameMap.get(attribute.getName());
+			if(superAttribute!=null){
+				result.remove(superAttribute);
+			}
+			result.add(attribute);
+		}
+		for(Association a:c.getAssociations()){
+			for(Property end:a.getMemberEnds()){
+				if(end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner() == a){
+					Property superEnd = nameMap.get(end.getName());
+					if(superEnd!=null){
+						result.remove(superEnd);
+					}
+					result.add(end);
 				}
 			}
 		}
@@ -295,21 +287,21 @@ public class EmfElementFinder{
 			if(event.eContainer() instanceof EAnnotation){
 				// Skip event AND annotation straight to the containing element
 				EAnnotation ea = (EAnnotation) event.eContainer();
-				return (Element)ea.getEModelElement();
+				return (Element) ea.getEModelElement();
 			}else{
 				// Old strategy - could be problematic if the event is referenced from multiple triggers
 				EAnnotation ann = event.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
 				if(ann != null){
 					for(EObject eObject:ann.getReferences()){
 						if(eObject instanceof Trigger){
-							return (Trigger)eObject;
+							return (Trigger) eObject;
 						}
 					}
 				}
 			}
 			for(Setting setting:cra.getNonNavigableInverseReferences(event)){
 				if(setting.getEObject() instanceof Trigger){
-					return (Trigger)setting.getEObject();
+					return (Trigger) setting.getEObject();
 				}
 			}
 			return event.getOwner();
@@ -442,7 +434,7 @@ public class EmfElementFinder{
 				}
 			}
 			EAnnotation ann = StereotypesHelper.getNumlAnnotation(root);
-			if(ann!=null){
+			if(ann != null){
 				EList<EObject> contents = ann.getContents();
 				for(EObject eObject:contents){
 					if(eObject instanceof Element){
@@ -453,6 +445,7 @@ public class EmfElementFinder{
 			return elements;
 		}
 	}
+	@SuppressWarnings("unchecked")
 	private static void getOwnedNodesForEclipseUml4(Collection<Element> elements,Activity node){
 		Method getOwnedNodes;
 		try{

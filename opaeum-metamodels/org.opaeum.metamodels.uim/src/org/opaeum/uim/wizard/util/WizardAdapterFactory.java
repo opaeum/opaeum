@@ -6,18 +6,20 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.UserInterface;
-import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.wizard.*;
 import org.opaeum.uim.wizard.AbstractWizard;
-import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
+import org.opaeum.uim.wizard.BehaviorInvocationWizard;
+import org.opaeum.uim.wizard.InvocationWizard;
 import org.opaeum.uim.wizard.NewObjectWizard;
+import org.opaeum.uim.wizard.OperationResultPage;
+import org.opaeum.uim.wizard.ResponsibilityInvocationWizard;
 import org.opaeum.uim.wizard.WizardPackage;
 import org.opaeum.uim.wizard.WizardPage;
 
@@ -86,32 +88,40 @@ public class WizardAdapterFactory extends AdapterFactoryImpl {
 				return createNewObjectWizardAdapter();
 			}
 			@Override
-			public Adapter caseInvokeResponsibilityWizard(InvokeResponsibilityWizard object) {
-				return createInvokeResponsibilityWizardAdapter();
+			public Adapter caseInvocationWizard(InvocationWizard object) {
+				return createInvocationWizardAdapter();
 			}
 			@Override
 			public Adapter caseWizardPage(WizardPage object) {
 				return createWizardPageAdapter();
 			}
 			@Override
+			public Adapter caseResponsibilityInvocationWizard(ResponsibilityInvocationWizard object) {
+				return createResponsibilityInvocationWizardAdapter();
+			}
+			@Override
+			public Adapter caseBehaviorInvocationWizard(BehaviorInvocationWizard object) {
+				return createBehaviorInvocationWizardAdapter();
+			}
+			@Override
+			public Adapter caseOperationResultPage(OperationResultPage object) {
+				return createOperationResultPageAdapter();
+			}
+			@Override
 			public Adapter caseUserInteractionElement(UserInteractionElement object) {
 				return createUserInteractionElementAdapter();
-			}
-			@Override
-			public Adapter casePageContainer(PageContainer object) {
-				return createPageContainerAdapter();
-			}
-			@Override
-			public Adapter caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
-				return createUserInterfaceEntryPointAdapter();
 			}
 			@Override
 			public Adapter caseUmlReference(UmlReference object) {
 				return createUmlReferenceAdapter();
 			}
 			@Override
-			public Adapter caseUserInterface(UserInterface object) {
-				return createUserInterfaceAdapter();
+			public Adapter caseLabeledElement(LabeledElement object) {
+				return createLabeledElementAdapter();
+			}
+			@Override
+			public Adapter caseUserInterfaceRoot(UserInterfaceRoot object) {
+				return createUserInterfaceRootAdapter();
 			}
 			@Override
 			public Adapter caseConstrainedObject(ConstrainedObject object) {
@@ -174,16 +184,16 @@ public class WizardAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.wizard.InvokeResponsibilityWizard <em>Invoke Responsibility Wizard</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.wizard.InvocationWizard <em>Invocation Wizard</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.wizard.InvokeResponsibilityWizard
+	 * @see org.opaeum.uim.wizard.InvocationWizard
 	 * @generated
 	 */
-	public Adapter createInvokeResponsibilityWizardAdapter() {
+	public Adapter createInvocationWizardAdapter() {
 		return null;
 	}
 
@@ -202,6 +212,48 @@ public class WizardAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.wizard.ResponsibilityInvocationWizard <em>Responsibility Invocation Wizard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.wizard.ResponsibilityInvocationWizard
+	 * @generated
+	 */
+	public Adapter createResponsibilityInvocationWizardAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.wizard.BehaviorInvocationWizard <em>Behavior Invocation Wizard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.wizard.BehaviorInvocationWizard
+	 * @generated
+	 */
+	public Adapter createBehaviorInvocationWizardAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.wizard.OperationResultPage <em>Operation Result Page</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.wizard.OperationResultPage
+	 * @generated
+	 */
+	public Adapter createOperationResultPageAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -212,34 +264,6 @@ public class WizardAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUserInteractionElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PageContainer <em>Page Container</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.PageContainer
-	 * @generated
-	 */
-	public Adapter createPageContainerAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterfaceEntryPoint <em>User Interface Entry Point</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UserInterfaceEntryPoint
-	 * @generated
-	 */
-	public Adapter createUserInterfaceEntryPointAdapter() {
 		return null;
 	}
 
@@ -258,16 +282,30 @@ public class WizardAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterface <em>User Interface</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.LabeledElement <em>Labeled Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.UserInterface
+	 * @see org.opaeum.uim.LabeledElement
 	 * @generated
 	 */
-	public Adapter createUserInterfaceAdapter() {
+	public Adapter createLabeledElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterfaceRoot <em>User Interface Root</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.UserInterfaceRoot
+	 * @generated
+	 */
+	public Adapter createUserInterfaceRootAdapter() {
 		return null;
 	}
 

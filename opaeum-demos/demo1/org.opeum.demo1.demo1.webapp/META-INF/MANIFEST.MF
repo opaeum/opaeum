@@ -3,14 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opeum.demo1.demo1.webapp
 Bundle-SymbolicName: org.opeum.demo1.demo1.webapp;singleton:=true
 Bundle-Version: 1.0.0
-Require-Bundle: org.opaeum.rap.dependencies,
- org.opaeum.rap.domain,
- org.opaeum.rap.hibernate,
- org.opaeum.rap.runtime,
+Require-Bundle: org.opaeum.rap.runtime,
  org.eclipse.rap.ui.forms,
  org.eclipse.core.runtime,
  org.eclipse.rap.ui.views,
- org.opaeum.rap.jpa,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
  org.eclipse.rap.jface.databinding,
@@ -22,11 +18,12 @@ Require-Bundle: org.opaeum.rap.dependencies,
  org.opaeum.transformation.engine,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.uml2.uml,
- org.opaeum.linkage.emfextraction,
  org.opaeum.demo.models,
- org.opaeum.metamodels.opaeum,
- org.opaeum.metamodels.uim
- 
+ org.opaeum.metamodels.uim,
+ opaeum-runtime-dependencies,
+ opaeum-runtime-domain,
+ opaeum-runtime-hibernate,
+ opaeum-runtime-jpa
 Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
  javax.servlet.http;version="[2.3.0,4.0.0)"
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator

@@ -22,13 +22,13 @@ public interface PerspectiveFactory extends EFactory {
 	PerspectiveFactory eINSTANCE = org.opaeum.uim.perspective.impl.PerspectiveFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Uim Perspective</em>'.
+	 * Returns a new object of class '<em>Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Uim Perspective</em>'.
+	 * @return a new object of class '<em>Configuration</em>'.
 	 * @generated
 	 */
-	UimPerspective createUimPerspective();
+	PerspectiveConfiguration createPerspectiveConfiguration();
 
 	/**
 	 * Returns a new object of class '<em>Explorer Configuration</em>'.
@@ -40,22 +40,22 @@ public interface PerspectiveFactory extends EFactory {
 	ExplorerConfiguration createExplorerConfiguration();
 
 	/**
-	 * Returns a new object of class '<em>Explorer Class Configuration</em>'.
+	 * Returns a new object of class '<em>Explorer Class Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Explorer Class Configuration</em>'.
+	 * @return a new object of class '<em>Explorer Class Constraint</em>'.
 	 * @generated
 	 */
-	ExplorerClassConfiguration createExplorerClassConfiguration();
+	ExplorerClassConstraint createExplorerClassConstraint();
 
 	/**
-	 * Returns a new object of class '<em>Explorer Property Configuration</em>'.
+	 * Returns a new object of class '<em>Explorer Property Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Explorer Property Configuration</em>'.
+	 * @return a new object of class '<em>Explorer Property Constraint</em>'.
 	 * @generated
 	 */
-	ExplorerPropertyConfiguration createExplorerPropertyConfiguration();
+	ExplorerPropertyConstraint createExplorerPropertyConstraint();
 
 	/**
 	 * Returns a new object of class '<em>Editor Configuration</em>'.
@@ -74,6 +74,42 @@ public interface PerspectiveFactory extends EFactory {
 	 * @generated
 	 */
 	PropertiesConfiguration createPropertiesConfiguration();
+
+	/**
+	 * Returns a new object of class '<em>Explorer Operation Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Explorer Operation Constraint</em>'.
+	 * @generated
+	 */
+	ExplorerOperationConstraint createExplorerOperationConstraint();
+
+	/**
+	 * Returns a new object of class '<em>Explorer Behavior Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Explorer Behavior Constraint</em>'.
+	 * @generated
+	 */
+	ExplorerBehaviorConstraint createExplorerBehaviorConstraint();
+
+	/**
+	 * Returns a new object of class '<em>Inbox Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Inbox Configuration</em>'.
+	 * @generated
+	 */
+	InboxConfiguration createInboxConfiguration();
+
+	/**
+	 * Returns a new object of class '<em>Outbox Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Outbox Configuration</em>'.
+	 * @generated
+	 */
+	OutboxConfiguration createOutboxConfiguration();
 
 	/**
 	 * Returns the package supported by this factory.

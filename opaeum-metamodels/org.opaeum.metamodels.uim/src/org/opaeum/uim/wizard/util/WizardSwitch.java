@@ -6,18 +6,20 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.UserInterface;
-import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.wizard.*;
 import org.opaeum.uim.wizard.AbstractWizard;
-import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
+import org.opaeum.uim.wizard.BehaviorInvocationWizard;
+import org.opaeum.uim.wizard.InvocationWizard;
 import org.opaeum.uim.wizard.NewObjectWizard;
+import org.opaeum.uim.wizard.OperationResultPage;
+import org.opaeum.uim.wizard.ResponsibilityInvocationWizard;
 import org.opaeum.uim.wizard.WizardPackage;
 import org.opaeum.uim.wizard.WizardPage;
 
@@ -98,10 +100,10 @@ public class WizardSwitch<T> {
 			case WizardPackage.ABSTRACT_WIZARD: {
 				AbstractWizard abstractWizard = (AbstractWizard)theEObject;
 				T result = caseAbstractWizard(abstractWizard);
-				if (result == null) result = caseUserInterfaceEntryPoint(abstractWizard);
-				if (result == null) result = caseUmlReference(abstractWizard);
+				if (result == null) result = caseUserInterfaceRoot(abstractWizard);
+				if (result == null) result = caseLabeledElement(abstractWizard);
 				if (result == null) result = caseUserInteractionElement(abstractWizard);
-				if (result == null) result = casePageContainer(abstractWizard);
+				if (result == null) result = caseUmlReference(abstractWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -109,21 +111,21 @@ public class WizardSwitch<T> {
 				NewObjectWizard newObjectWizard = (NewObjectWizard)theEObject;
 				T result = caseNewObjectWizard(newObjectWizard);
 				if (result == null) result = caseAbstractWizard(newObjectWizard);
-				if (result == null) result = caseUserInterfaceEntryPoint(newObjectWizard);
-				if (result == null) result = caseUmlReference(newObjectWizard);
+				if (result == null) result = caseUserInterfaceRoot(newObjectWizard);
+				if (result == null) result = caseLabeledElement(newObjectWizard);
 				if (result == null) result = caseUserInteractionElement(newObjectWizard);
-				if (result == null) result = casePageContainer(newObjectWizard);
+				if (result == null) result = caseUmlReference(newObjectWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case WizardPackage.INVOKE_RESPONSIBILITY_WIZARD: {
-				InvokeResponsibilityWizard invokeResponsibilityWizard = (InvokeResponsibilityWizard)theEObject;
-				T result = caseInvokeResponsibilityWizard(invokeResponsibilityWizard);
-				if (result == null) result = caseAbstractWizard(invokeResponsibilityWizard);
-				if (result == null) result = caseUserInterfaceEntryPoint(invokeResponsibilityWizard);
-				if (result == null) result = caseUmlReference(invokeResponsibilityWizard);
-				if (result == null) result = caseUserInteractionElement(invokeResponsibilityWizard);
-				if (result == null) result = casePageContainer(invokeResponsibilityWizard);
+			case WizardPackage.INVOCATION_WIZARD: {
+				InvocationWizard invocationWizard = (InvocationWizard)theEObject;
+				T result = caseInvocationWizard(invocationWizard);
+				if (result == null) result = caseAbstractWizard(invocationWizard);
+				if (result == null) result = caseUserInterfaceRoot(invocationWizard);
+				if (result == null) result = caseLabeledElement(invocationWizard);
+				if (result == null) result = caseUserInteractionElement(invocationWizard);
+				if (result == null) result = caseUmlReference(invocationWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -131,11 +133,47 @@ public class WizardSwitch<T> {
 				WizardPage wizardPage = (WizardPage)theEObject;
 				T result = caseWizardPage(wizardPage);
 				if (result == null) result = casePage(wizardPage);
-				if (result == null) result = caseUserInterface(wizardPage);
 				if (result == null) result = caseEditableConstrainedObject(wizardPage);
-				if (result == null) result = caseUserInteractionElement(wizardPage);
-				if (result == null) result = caseUmlReference(wizardPage);
+				if (result == null) result = caseLabeledElement(wizardPage);
 				if (result == null) result = caseConstrainedObject(wizardPage);
+				if (result == null) result = caseUmlReference(wizardPage);
+				if (result == null) result = caseUserInteractionElement(wizardPage);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case WizardPackage.RESPONSIBILITY_INVOCATION_WIZARD: {
+				ResponsibilityInvocationWizard responsibilityInvocationWizard = (ResponsibilityInvocationWizard)theEObject;
+				T result = caseResponsibilityInvocationWizard(responsibilityInvocationWizard);
+				if (result == null) result = caseInvocationWizard(responsibilityInvocationWizard);
+				if (result == null) result = caseAbstractWizard(responsibilityInvocationWizard);
+				if (result == null) result = caseUserInterfaceRoot(responsibilityInvocationWizard);
+				if (result == null) result = caseLabeledElement(responsibilityInvocationWizard);
+				if (result == null) result = caseUserInteractionElement(responsibilityInvocationWizard);
+				if (result == null) result = caseUmlReference(responsibilityInvocationWizard);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case WizardPackage.BEHAVIOR_INVOCATION_WIZARD: {
+				BehaviorInvocationWizard behaviorInvocationWizard = (BehaviorInvocationWizard)theEObject;
+				T result = caseBehaviorInvocationWizard(behaviorInvocationWizard);
+				if (result == null) result = caseInvocationWizard(behaviorInvocationWizard);
+				if (result == null) result = caseAbstractWizard(behaviorInvocationWizard);
+				if (result == null) result = caseUserInterfaceRoot(behaviorInvocationWizard);
+				if (result == null) result = caseLabeledElement(behaviorInvocationWizard);
+				if (result == null) result = caseUserInteractionElement(behaviorInvocationWizard);
+				if (result == null) result = caseUmlReference(behaviorInvocationWizard);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case WizardPackage.OPERATION_RESULT_PAGE: {
+				OperationResultPage operationResultPage = (OperationResultPage)theEObject;
+				T result = caseOperationResultPage(operationResultPage);
+				if (result == null) result = casePage(operationResultPage);
+				if (result == null) result = caseEditableConstrainedObject(operationResultPage);
+				if (result == null) result = caseLabeledElement(operationResultPage);
+				if (result == null) result = caseConstrainedObject(operationResultPage);
+				if (result == null) result = caseUmlReference(operationResultPage);
+				if (result == null) result = caseUserInteractionElement(operationResultPage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -174,17 +212,17 @@ public class WizardSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Invoke Responsibility Wizard</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Invocation Wizard</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Invoke Responsibility Wizard</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Invocation Wizard</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseInvokeResponsibilityWizard(InvokeResponsibilityWizard object) {
+	public T caseInvocationWizard(InvocationWizard object) {
 		return null;
 	}
 
@@ -204,6 +242,51 @@ public class WizardSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Responsibility Invocation Wizard</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Responsibility Invocation Wizard</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseResponsibilityInvocationWizard(ResponsibilityInvocationWizard object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Behavior Invocation Wizard</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Behavior Invocation Wizard</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBehaviorInvocationWizard(BehaviorInvocationWizard object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Result Page</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Result Page</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperationResultPage(OperationResultPage object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>User Interaction Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -215,36 +298,6 @@ public class WizardSwitch<T> {
 	 * @generated
 	 */
 	public T caseUserInteractionElement(UserInteractionElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Page Container</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Page Container</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T casePageContainer(PageContainer object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>User Interface Entry Point</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>User Interface Entry Point</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
 		return null;
 	}
 
@@ -264,17 +317,32 @@ public class WizardSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUserInterface(UserInterface object) {
+	public T caseLabeledElement(LabeledElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>User Interface Root</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>User Interface Root</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUserInterfaceRoot(UserInterfaceRoot object) {
 		return null;
 	}
 

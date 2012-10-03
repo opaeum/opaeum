@@ -3,7 +3,6 @@
 package org.opaeum.uim.cube;
 
 import org.eclipse.emf.common.util.EList;
-import org.opaeum.uim.UserInteractionElement;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -20,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.opaeum.uim.cube.CubePackage#getAxisEntry()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface AxisEntry extends EObject {
@@ -55,7 +54,7 @@ public interface AxisEntry extends EObject {
 	 * The list contents are of type {@link org.opaeum.uim.cube.LevelProperty}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Level Property</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Level Property</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

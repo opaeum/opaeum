@@ -6,9 +6,12 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.uim.perspective.EditorConfiguration;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
+import org.opaeum.uim.perspective.InboxConfiguration;
+import org.opaeum.uim.perspective.OutboxConfiguration;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectiveFactory;
 import org.opaeum.uim.perspective.PositionInPerspective;
-import org.opaeum.uim.perspective.UimPerspective;
+import org.opaeum.uim.perspective.PropertiesConfiguration;
 
 public class PerspectiveCreator extends AbstractUimSynchronizer{
 	@VisitBefore
@@ -19,14 +22,24 @@ public class PerspectiveCreator extends AbstractUimSynchronizer{
 			super.uimRst.createResource(uri);
 		}
 		resource.getContents().clear();
-		UimPerspective p = PerspectiveFactory.eINSTANCE.createUimPerspective();
+		PerspectiveConfiguration p = PerspectiveFactory.eINSTANCE.createPerspectiveConfiguration();
 		resource.getContents().add(p);
 		ExplorerConfiguration explorerPosition = PerspectiveFactory.eINSTANCE.createExplorerConfiguration();
 		explorerPosition.setWidth(300);
 		explorerPosition.setPosition(PositionInPerspective.LEFT);
-		p.setExplorerConfiguration(explorerPosition);
+		p.setExplorer(explorerPosition);
 		EditorConfiguration editorPosition = PerspectiveFactory.eINSTANCE.createEditorConfiguration();
 		editorPosition.setWidth(300);
-		p.setEditorConfiguration(editorPosition);
+		p.setEditor(editorPosition);
+		PropertiesConfiguration propertiesPosition = PerspectiveFactory.eINSTANCE.createPropertiesConfiguration();
+		propertiesPosition.setHeight(200);
+		propertiesPosition.setPosition(PositionInPerspective.BOTTOM);
+		p.setProperties(propertiesPosition );
+		InboxConfiguration inboxConfiguration=PerspectiveFactory.eINSTANCE.createInboxConfiguration();
+		inboxConfiguration.setPosition(PositionInPerspective.LEFT_TOP);
+		p.setInbox(inboxConfiguration);
+		OutboxConfiguration outboxConfiguration=PerspectiveFactory.eINSTANCE.createOutboxConfiguration();
+		outboxConfiguration.setPosition(PositionInPerspective.LEFT_BOTTOM);
+		p.setOutbox(outboxConfiguration);
 	}
 }

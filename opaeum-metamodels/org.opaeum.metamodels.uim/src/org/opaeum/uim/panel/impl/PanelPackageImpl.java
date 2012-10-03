@@ -4,7 +4,9 @@ package org.opaeum.uim.panel.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.opaeum.uim.UimPackage;
@@ -12,6 +14,8 @@ import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.impl.ActionPackageImpl;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.component.ComponentPackage;
+import org.opaeum.uim.component.impl.ComponentPackageImpl;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlPackage;
@@ -21,10 +25,13 @@ import org.opaeum.uim.cube.impl.CubePackageImpl;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
+import org.opaeum.uim.model.ModelPackage;
+import org.opaeum.uim.model.impl.ModelPackageImpl;
 import org.opaeum.uim.panel.AbstractPanel;
 import org.opaeum.uim.panel.CollapsiblePanel;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.HorizontalPanel;
+import org.opaeum.uim.panel.Orientation;
 import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.panel.PanelFactory;
 import org.opaeum.uim.panel.PanelPackage;
@@ -82,6 +89,13 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 	 * @generated
 	 */
 	private EClass outlayableEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum orientationEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -142,6 +156,8 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
 		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
 		CubePackageImpl theCubePackage = (CubePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) instanceof CubePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI) : CubePackage.eINSTANCE);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI) : ModelPackage.eINSTANCE);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI) : ComponentPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		thePanelPackage.createPackageContents();
@@ -154,6 +170,8 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		theWizardPackage.createPackageContents();
 		thePerspectivePackage.createPackageContents();
 		theCubePackage.createPackageContents();
+		theModelPackage.createPackageContents();
+		theComponentPackage.createPackageContents();
 
 		// Initialize created meta-data
 		thePanelPackage.initializePackageContents();
@@ -166,6 +184,8 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		theWizardPackage.initializePackageContents();
 		thePerspectivePackage.initializePackageContents();
 		theCubePackage.initializePackageContents();
+		theModelPackage.initializePackageContents();
+		theComponentPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		thePanelPackage.freeze();
@@ -219,6 +239,15 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 	 */
 	public EClass getAbstractPanel() {
 		return abstractPanelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAbstractPanel_Labels() {
+		return (EReference)abstractPanelEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -289,6 +318,15 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getOrientation() {
+		return orientationEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public PanelFactory getPanelFactory() {
 		return (PanelFactory)getEFactoryInstance();
 	}
@@ -320,6 +358,7 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		horizontalPanelEClass = createEClass(HORIZONTAL_PANEL);
 
 		abstractPanelEClass = createEClass(ABSTRACT_PANEL);
+		createEReference(abstractPanelEClass, ABSTRACT_PANEL__LABELS);
 
 		collapsiblePanelEClass = createEClass(COLLAPSIBLE_PANEL);
 		createEAttribute(collapsiblePanelEClass, COLLAPSIBLE_PANEL__IS_COLLAPSIBLE);
@@ -329,6 +368,9 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		createEAttribute(outlayableEClass, OUTLAYABLE__PREFERRED_HEIGHT);
 		createEAttribute(outlayableEClass, OUTLAYABLE__FILL_HORIZONTALLY);
 		createEAttribute(outlayableEClass, OUTLAYABLE__FILL_VERTICALLY);
+
+		// Create enums
+		orientationEEnum = createEEnum(ORIENTATION);
 	}
 
 	/**
@@ -356,6 +398,7 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 
 		// Obtain other dependent packages
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		ComponentPackage theComponentPackage = (ComponentPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
 
 		// Create type parameters
@@ -366,7 +409,7 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		gridPanelEClass.getESuperTypes().add(this.getCollapsiblePanel());
 		verticalPanelEClass.getESuperTypes().add(this.getCollapsiblePanel());
 		horizontalPanelEClass.getESuperTypes().add(this.getCollapsiblePanel());
-		abstractPanelEClass.getESuperTypes().add(theUimPackage.getUimContainer());
+		abstractPanelEClass.getESuperTypes().add(theComponentPackage.getUimContainer());
 		collapsiblePanelEClass.getESuperTypes().add(this.getAbstractPanel());
 		collapsiblePanelEClass.getESuperTypes().add(this.getOutlayable());
 
@@ -379,6 +422,7 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		initEClass(horizontalPanelEClass, HorizontalPanel.class, "HorizontalPanel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(abstractPanelEClass, AbstractPanel.class, "AbstractPanel", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAbstractPanel_Labels(), theUimPackage.getLabels(), null, "labels", null, 0, 1, AbstractPanel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(collapsiblePanelEClass, CollapsiblePanel.class, "CollapsiblePanel", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCollapsiblePanel_IsCollapsible(), theEcorePackage.getEBooleanObject(), "isCollapsible", null, 0, 1, CollapsiblePanel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -388,6 +432,11 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		initEAttribute(getOutlayable_PreferredHeight(), theEcorePackage.getEIntegerObject(), "preferredHeight", null, 0, 1, Outlayable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getOutlayable_FillHorizontally(), ecorePackage.getEBooleanObject(), "fillHorizontally", null, 0, 1, Outlayable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getOutlayable_FillVertically(), theEcorePackage.getEBooleanObject(), "fillVertically", null, 0, 1, Outlayable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(orientationEEnum, Orientation.class, "Orientation");
+		addEEnumLiteral(orientationEEnum, Orientation.HORIZONTAL);
+		addEEnumLiteral(orientationEEnum, Orientation.VERTICAL);
 	}
 
 } //PanelPackageImpl

@@ -4,131 +4,95 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterEffectKind;
-import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.name.NameConverter;
-import org.opaeum.uim.Orientation;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
-import org.opaeum.uim.UimContainer;
-import org.opaeum.uim.UimDataTable;
-import org.opaeum.uim.UimFactory;
-import org.opaeum.uim.UimField;
-import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;
-import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
+import org.opaeum.uim.component.ComponentFactory;
+import org.opaeum.uim.component.UimContainer;
+import org.opaeum.uim.component.UimDataTable;
+import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.model.BehaviorUserInteractionModel;
+import org.opaeum.uim.model.ModelFactory;
+import org.opaeum.uim.model.OperationInvocationWizard;
+import org.opaeum.uim.model.ResponsibilityUserInteractionModel;
+import org.opaeum.uim.panel.AbstractPanel;
 import org.opaeum.uim.panel.GridPanel;
+import org.opaeum.uim.panel.Orientation;
 import org.opaeum.uim.panel.PanelFactory;
 import org.opaeum.uim.util.ControlUtil;
 import org.opaeum.uim.util.UmlUimLinks;
+import org.opaeum.uim.wizard.InvocationWizard;
+import org.opaeum.uim.wizard.WizardFactory;
 
 public abstract class AbstractUserInterfaceCreator{
-	protected EmfWorkspace workspace;
-	public AbstractUserInterfaceCreator(EmfWorkspace w){
-		this.workspace = w;
+	protected UserInterfaceResourceFactory resourceFactory;
+	public AbstractUserInterfaceCreator(UserInterfaceResourceFactory resourceFactory){
+		this.resourceFactory = resourceFactory;
 	}
-	protected abstract Page addPage(PageContainer container);
-	protected abstract UserInterfaceEntryPoint getUserInterfaceEntryPoint();
-	protected UserInteractionElement findRepresentingElement(Element e,PageContainer container){
-		List<? extends Page> pages = container.getPages();
-		for(Page page:pages){
-			if(EmfWorkspace.getId(e).equals(page.getUmlElementUid())){
-				return page;
-			}
-		}
-		for(Page page:pages){
-			if(page.getPanel() != null){
-				UserInteractionElement re = findRepresentingElement(e, page.getPanel());
-				if(re == null){
-					return re;
-				}
-			}
-		}
-		return null;
-	}
-	protected UserInteractionElement findRepresentingElement(Element e,UimContainer container){
-		String id = EmfWorkspace.getId(e);
-		TreeIterator<EObject> eAllContents = container.eAllContents();
-		while(eAllContents.hasNext()){
-			EObject eObject = (EObject) eAllContents.next();
-			if(eObject instanceof UmlReference){
-				if(id.equals(((UmlReference) eObject).getUmlElementUid())){
-					while(!(eObject instanceof UserInteractionElement)){
-						// Find nearest UserInteractionElement
-						eObject = eObject.eContainer();
-					}
-					if(eObject instanceof UserInteractionElement){
-						return (UserInteractionElement) eObject;
-					}
-				}
-			}
-		}
-		return null;
-	}
-	public void addFormPanel(Element owner,PageContainer container,String title,Collection<? extends TypedElement> typedElements){
-		UserInteractionElement e = findRepresentingElement(owner, container);
-		Page page = null;
-		if(e instanceof Page && !e.isUnderUserControl()){
-			page = (Page) e;
-		}else if(e == null){
-			page = addPage(container);
+	protected abstract Page addPage(UserInterfaceRoot container);
+	protected abstract UserInterfaceRoot getUserInterfaceRoot();
+	public void populateUserInterface(Element owner,UserInterfaceRoot uiRoot,String title,Collection<? extends TypedElement> typedElements){
+		Page page = UserInterfaceUtil.findRepresentingPage(owner, uiRoot);
+		if(page == null){
+			page = addPage(uiRoot);
 			page.setName(title);
+		}
+		if(!UserInterfaceUtil.isUnderUserControl(page)){
 			GridPanel layout = PanelFactory.eINSTANCE.createGridPanel();
 			layout.setNumberOfColumns(1);
 			page.setPanel(layout);
 			page.setUmlElementUid(EmfWorkspace.getId(owner));
 		}
-		if(page != null){
-			Map<Interface,Collection<TypedElement>> interfaces = extractPropertiesByInterface(typedElements);
-			addUserFields(container, page.getPanel(), typedElements);
-			addInterfaceProperties(container, interfaces);
-		}
+		Map<Interface,Collection<TypedElement>> interfaces = extractPropertiesByInterface(typedElements);
+		addUserInterfaceElementsFor(uiRoot, page.getPanel(), typedElements);
+		addInterfaceProperties(uiRoot, interfaces);
 	}
-	private void addInterfaceProperties(PageContainer container,Map<Interface,Collection<TypedElement>> interfaces){
+	private void addInterfaceProperties(UserInterfaceRoot container,Map<Interface,Collection<TypedElement>> interfaces){
 		for(Entry<Interface,Collection<TypedElement>> entry:interfaces.entrySet()){
-			UserInteractionElement e = findRepresentingElement(entry.getKey(), container);
-			Page page = null;
-			if(e instanceof Page && !e.isUnderUserControl()){
-				page = (Page) e;
-			}else if(e == null){
+			Page page = UserInterfaceUtil.findRepresentingPage(entry.getKey(), container);
+			if(page == null){
 				page = addPage(container);
 				page.setName(NameConverter.separateWords(entry.getKey().getName()));
+			}
+			if(!page.isUnderUserControl()){
+				// recreate page
 				GridPanel rootGridPanel = PanelFactory.eINSTANCE.createGridPanel();
 				rootGridPanel.setNumberOfColumns(1);
 				page.setPanel(rootGridPanel);
 			}
-			if(page != null){
-				addUserFields(container, page.getPanel(), entry.getValue());
-			}
+			addUserInterfaceElementsFor(container, page.getPanel(), entry.getValue());
 		}
 	}
 	private Map<Interface,Collection<TypedElement>> extractPropertiesByInterface(Collection<? extends TypedElement> typedElements){
@@ -173,27 +137,29 @@ public abstract class AbstractUserInterfaceCreator{
 		}
 		throw new IllegalStateException("All collections should have been created");
 	}
-	private void addUserFields(PageContainer pc,UimContainer container,Collection<? extends TypedElement> typedElements){
+	private void addUserInterfaceElementsFor(UserInterfaceRoot uiRoot,UimContainer container,Collection<? extends TypedElement> typedElements){
 		for(TypedElement property:typedElements){
-			if(property instanceof Property && ((Property) property).getOtherEnd() != null && ((Property) property).getOtherEnd().isComposite()){
-			}else if(requiresTableTab(container, property)){
-				addTableTabForField(pc, property);
-			}else if(requiresDetailsTab(container, property)){
-				addDetailsTabForField(pc, property);
-			}else{
-				addUserField(container, 390, property);
+			if(!UserInterfaceUtil.isIgnored(property, uiRoot)){
+				if(EmfPropertyUtil.isEndToComposite(property)){
+					// Cannot change the owner
+				}else if(UserInterfaceUtil.requiresTablePage(uiRoot, property)){
+					addTablePageForField(uiRoot, property);
+				}else if(UserInterfaceUtil.requiresDetailsPage(uiRoot, property)){
+					addDetailsPageForField(uiRoot, property);
+				}else{
+					maybeAddField(container, 390, property);
+				}
 			}
 		}
 	}
 	@SuppressWarnings({"unchecked","rawtypes"})
-	void addDetailsTabForField(PageContainer pc,TypedElement te){
-		UserInteractionElement uie = findRepresentingElement(te, pc);
-		Page page = null;
-		if(uie instanceof Page && !uie.isUnderUserControl()){
-			page = (Page) uie;
-		}else if(uie == null){
-			page = addPage(pc);
+	private void addDetailsPageForField(UserInterfaceRoot uiRoot,TypedElement te){
+		Page page = UserInterfaceUtil.findRepresentingPage(te, uiRoot);
+		if(page == null){
+			page = addPage(uiRoot);
 			page.setName(NameConverter.separateWords(te.getName()));
+		}
+		if(!UserInterfaceUtil.isUnderUserControl(page)){
 			GridPanel layout = PanelFactory.eINSTANCE.createGridPanel();
 			layout.setNumberOfColumns(1);
 			page.setPanel(layout);
@@ -201,161 +167,187 @@ public abstract class AbstractUserInterfaceCreator{
 			GridPanel rootGridPanel = PanelFactory.eINSTANCE.createGridPanel();
 			rootGridPanel.setNumberOfColumns(1);
 			page.setPanel(rootGridPanel);
-		}
-		if(page != null){
 			Classifier c = (Classifier) te.getType();
 			// // Create tab and add to panel
 			for(Property property:(Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(c)){
-				if(requiresTableTab(page.getPanel(), property)){
+				if(UserInterfaceUtil.requiresTablePage(uiRoot, property)){
 					// No further details
 				}else if(property.getOtherEnd() == null || !property.getOtherEnd().isComposite()){
-					addUserField(page.getPanel(), 390, te, property);
+					maybeAddField(page.getPanel(), 390, te, property);
 				}
 			}
 		}
 	}
-	@SuppressWarnings({"rawtypes","unchecked"})
-	void addTableTabForField(PageContainer pc,TypedElement e){
-		UserInteractionElement re = findRepresentingElement(e, pc);
+	void addTablePageForField(UserInterfaceRoot pc,TypedElement e){
+		Page page = UserInterfaceUtil.findRepresentingPage(e, pc);
 		UimDataTable table = null;
-		if(re == null){
-			Page page = addPage(pc);
+		if(page == null){
+			// Nothing found -create from scratch
+			page = addPage(pc);
 			page.setUmlElementUid(EmfWorkspace.getId(e));
 			page.setName(NameConverter.separateWords(e.getName()));
+		}
+		if(UserInterfaceUtil.isUnderUserControl(page)){
+			if(page.getPanel() != null){
+				UserInteractionElement uie = UserInterfaceUtil.findRepresentingElement(e, page.getPanel());
+				if(!(uie instanceof UimDataTable)){
+					// Not a table, but a detailsTab. Replace with new Table
+					// TODO convert existing detailsTab to a DataTable
+					page.getPanel().getChildren().clear();
+					table = addTableTo(e, page.getPanel());
+				}
+			}else{
+				// No panel - assume user knows what he is doing
+			}
+		}else{
 			GridPanel gridPanel = PanelFactory.eINSTANCE.createGridPanel();
 			page.setPanel(gridPanel);
-			table = UimFactory.eINSTANCE.createUimDataTable();
-			gridPanel.getChildren().add(table);
-			table.setFillVertically(true);
-			table.setFillHorizontally(true);
-			TableBinding binding = BindingFactory.eINSTANCE.createTableBinding();
-			table.setBinding(binding);
-			binding.setUmlElementUid(EmfWorkspace.getId(e));
-		}else if(!re.isUnderUserControl() && re instanceof Page){
-			Page page = (Page) re;
-			if(page.getPanel() != null){
-				UserInteractionElement uie = findRepresentingElement(e, page.getPanel());
-				if(uie instanceof UimDataTable && !uie.isUnderUserControl()){
-					table = (UimDataTable) uie;
-					table.getChildren().clear();
-					table.getActionsOnMultipleSelection().clear();
-				}
-			}
+			table = addTableTo(e, gridPanel);
 		}
 		if(table != null){
-			Classifier type = (Classifier) e.getType();
-			BuiltInLink edit = ActionFactory.eINSTANCE.createBuiltInLink();
-			table.getChildren().add(edit);
-			edit.setKind(BuiltInLinkKind.EDIT);
-			edit.setName("Edit");
-			edit.setPreferredWidth(30);
-			Collection<Property> attrs = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(type);
-			for(Property property:attrs){
-				boolean isCreateParameter = e instanceof Parameter && ((Parameter) e).getEffect() == ParameterEffectKind.CREATE_LITERAL;
-				boolean isNonComposite = property.getOtherEnd() == null || !property.getOtherEnd().isComposite();
-				if((isNonComposite || isCreateParameter) && !EmfPropertyUtil.isMany(property)){
-					addUserField(table, 0, property);
-				}
-			}
-			BuiltInActionButton deleteInRow = ActionFactory.eINSTANCE.createBuiltInActionButton();
-			table.getChildren().add(deleteInRow);
-			deleteInRow.setKind(ActionKind.DELETE);
-			deleteInRow.setName("Delete");
-			for(Operation operation:type.getOperations()){
-				if(!operation.isQuery() && operation.getReturnResult() == null){
-					OperationButton action = ActionFactory.eINSTANCE.createOperationButton();
-					table.getChildren().add(action);
-					action.setUmlElementUid(EmfWorkspace.getId(operation));
-					action.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
-					action.setPopup(ActionFactory.eINSTANCE.createOperationPopup());
-					addFormPanel(operation, action.getPopup(), action.getName(), operation.getOwnedParameters());
-				}
-			}
-			BuiltInActionButton deleteOnActionBar = ActionFactory.eINSTANCE.createBuiltInActionButton();
-			table.getActionsOnMultipleSelection().add(deleteOnActionBar);
-			deleteOnActionBar.setKind(ActionKind.DELETE);
-			deleteOnActionBar.setName("Delete");
-			BuiltInActionButton action2 = ActionFactory.eINSTANCE.createBuiltInActionButton();
-			table.getActionsOnMultipleSelection().add(action2);
-			action2.setKind(ActionKind.ADD);
-			action2.setName("Add");
-			addActionBarTo(table, type);
+			populateDataTable(e, table);
 		}
 	}
+	private void populateDataTable(TypedElement e,UimDataTable table){
+		Classifier type = (Classifier) e.getType();
+		BuiltInLink edit = ActionFactory.eINSTANCE.createBuiltInLink();
+		table.getChildren().add(edit);
+		edit.setKind(BuiltInLinkKind.EDIT);
+		edit.setName("Edit");
+		edit.setPreferredWidth(30);
+		Collection<Property> attrs = EmfElementFinder.getPropertiesInScope(type);
+		for(Property property:attrs){
+			boolean isNonComposite = property.getOtherEnd() == null || !property.getOtherEnd().isComposite();
+			if(isNonComposite && !EmfPropertyUtil.isMany(property)){
+				maybeAddField(table, 0, property);
+			}
+		}
+		addActionColumnsTo(table, type);
+		addActionBarTo(table, type);
+	}
+	private void addActionColumnsTo(UimDataTable table,Classifier type){
+		BuiltInActionButton deleteInRow = ActionFactory.eINSTANCE.createBuiltInActionButton();
+		table.getChildren().add(deleteInRow);
+		deleteInRow.setKind(ActionKind.DELETE);
+		deleteInRow.setName("Delete");
+		addInvocationColumns(table, type);
+		BuiltInActionButton deleteOnActionBar = ActionFactory.eINSTANCE.createBuiltInActionButton();
+		table.getActionsOnMultipleSelection().add(deleteOnActionBar);
+		deleteOnActionBar.setKind(ActionKind.DELETE);
+		deleteOnActionBar.setName("Delete");
+		BuiltInActionButton action2 = ActionFactory.eINSTANCE.createBuiltInActionButton();
+		table.getActionsOnMultipleSelection().add(action2);
+		action2.setKind(ActionKind.ADD);
+		action2.setName("Add");
+	}
+	private void addInvocationColumns(UimDataTable table,Classifier type){
+		for(Operation operation:EmfOperationUtil.getEffectiveOperations(type)){
+			if(!operation.isQuery()){
+				InvocationButton action = ActionFactory.eINSTANCE.createInvocationButton();
+				table.getChildren().add(action);
+				action.setUmlElementUid(EmfWorkspace.getId(operation));
+				action.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
+				action.setPopup(getInvocationWizard(operation));
+			}
+		}
+	}
+	private UimDataTable addTableTo(TypedElement e,AbstractPanel gridPanel){
+		UimDataTable table;
+		table = ComponentFactory.eINSTANCE.createUimDataTable();
+		gridPanel.getChildren().add(table);
+		table.setFillVertically(true);
+		table.setFillHorizontally(true);
+		TableBinding binding = BindingFactory.eINSTANCE.createTableBinding();
+		table.setBinding(binding);
+		binding.setUmlElementUid(EmfWorkspace.getId(e));
+		return table;
+	}
 	protected void addActionBarTo(UimDataTable table,Classifier type){
-		for(Operation operation:type.getAllOperations()){
-			if(operation.getReturnResult() == null && !operation.isQuery()){
-				OperationButton action = ActionFactory.eINSTANCE.createOperationButton();
+		for(Operation operation:EmfOperationUtil.getEffectiveOperations(type)){
+			if(!operation.isQuery()){
+				InvocationButton action = ActionFactory.eINSTANCE.createInvocationButton();
 				table.getActionsOnMultipleSelection().add(action);
 				action.setUmlElementUid(EmfWorkspace.getId(operation));
 				action.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
-				action.setPopup(ActionFactory.eINSTANCE.createOperationPopup());
-				addFormPanel(operation, action.getPopup(), action.getName(), operation.getOwnedParameters());
+				action.setPopup(getInvocationWizard(operation));
 			}
 		}
 	}
-	boolean requiresTableTab(UimContainer layout,TypedElement property){
-		if(EmfPropertyUtil.isMany(property)){
-			boolean isStructuredDataType = property.getType() instanceof DataType && !(property.getType() instanceof PrimitiveType);
-			if(property.getType() instanceof org.eclipse.uml2.uml.Class || isStructuredDataType){
-				if(property instanceof Property && ((Property) property).isComposite()){
-					return true;
-				}else if(property instanceof Parameter && ((Parameter) property).getEffect() == ParameterEffectKind.CREATE_LITERAL){
-					return true;
+	private void maybeAddField(UimContainer container,int labelWidth,TypedElement...properties){
+		if(container != null && UserInterfaceUtil.isUnderUserControl(container)){
+			// Only add fields to containers not under user control
+			TypedElement property = properties[properties.length - 1];
+			UserInteractionElement representingElement = UserInterfaceUtil.findRepresentingElement(property, container);
+			UimField uf = null;
+			if(representingElement == null){
+				uf = ComponentFactory.eINSTANCE.createUimField();
+				container.getChildren().add(uf);
+			}else if(!representingElement.isUnderUserControl() && representingElement instanceof UimField){
+				uf = (UimField) representingElement;
+			}
+			if(uf != null){
+				uf.setMinimumLabelWidth(labelWidth < 100 ? 0 : labelWidth / 2);
+				uf.setName(NameConverter.separateWords(property.getName()));
+				ControlKind controlKind = ControlUtil.getPreferredControlKind(UmlUimLinks.getNearestForm(container), property, container instanceof UimDataTable);
+				uf.setControlKind(controlKind);
+				uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
+				FieldBinding binding = BindingFactory.eINSTANCE.createFieldBinding();
+				uf.setBinding(binding);
+				uf.setFillHorizontally(true);
+				binding.setUmlElementUid(EmfWorkspace.getId(properties[0]));
+				if(properties.length > 1){
+					// When we're delegating to an object referenced by the root, e.g. contained objects
+					PropertyRef prev = BindingFactory.eINSTANCE.createPropertyRef();
+					prev.setUmlElementUid(EmfWorkspace.getId(properties[1]));
+					binding.setNext(prev);
+					for(int i = 2;i < properties.length;i++){
+						PropertyRef next = BindingFactory.eINSTANCE.createPropertyRef();
+						next.setUmlElementUid(EmfWorkspace.getId(properties[i]));
+						prev.setNext(next);
+						prev = next;
+					}
+				}
+				if(ControlUtil.isMultiRow(controlKind)){
+					uf.setPreferredHeight(150);
+					uf.setOrientation(Orientation.VERTICAL);
 				}else{
-					return !ControlUtil.requiresManySelection(UmlUimLinks.getNearestForm(layout), property);
+					uf.setPreferredHeight(25);
+					uf.setOrientation(Orientation.HORIZONTAL);
+				}
+				if(container.getChildren().size() > 6 && container instanceof GridPanel){
+					((GridPanel) container).setNumberOfColumns(2);
 				}
 			}
 		}
-		return false;
 	}
-	boolean requiresDetailsTab(UimContainer layout,TypedElement property){
-		return property.getType() instanceof org.eclipse.uml2.uml.Class && !EmfPropertyUtil.isMany(property)
-				&& (!ControlUtil.requiresUserInput(UmlUimLinks.getNearestForm(layout), property) || EmfPropertyUtil.isComposite(property));
-	}
-	void addUserField(UimContainer container,int labelWidth,TypedElement...properties){
-		TypedElement property = properties[properties.length - 1];
-		UserInteractionElement representingElement = findRepresentingElement(property, container);
-		UimField uf = null;
-		if(representingElement == null){
-			uf = UimFactory.eINSTANCE.createUimField();
-			container.getChildren().add(uf);
-		}else if(!representingElement.isUnderUserControl() && representingElement instanceof UimField){
-			uf = (UimField) representingElement;
-		}
-		if(uf != null){
-			uf.setMinimumLabelWidth(labelWidth < 100 ? 0 : labelWidth / 2);
-			uf.setName(NameConverter.separateWords(property.getName()));
-			ControlKind controlKind = ControlUtil.getPreferredControlKind(UmlUimLinks.getNearestForm(container), property,
-					container instanceof UimDataTable);
-			uf.setControlKind(controlKind);
-			uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
-			FieldBinding binding = BindingFactory.eINSTANCE.createFieldBinding();
-			uf.setBinding(binding);
-			uf.setFillHorizontally(true);
-			binding.setUmlElementUid(EmfWorkspace.getId(properties[0]));
-			if(properties.length > 1){
-				// When we're delegating to an object referenced by the root, e.g. contained objects
-				PropertyRef prev = BindingFactory.eINSTANCE.createPropertyRef();
-				prev.setUmlElementUid(EmfWorkspace.getId(properties[1]));
-				binding.setNext(prev);
-				for(int i = 2;i < properties.length;i++){
-					PropertyRef next = BindingFactory.eINSTANCE.createPropertyRef();
-					next.setUmlElementUid(EmfWorkspace.getId(properties[i]));
-					prev.setNext(next);
-					prev = next;
+	public InvocationWizard getInvocationWizard(Namespace element){
+		Resource resource = resourceFactory.getResource(EmfWorkspace.getId(element), "uml");
+		if(resource.getContents().isEmpty()){
+			if(element instanceof Operation){
+				Operation operation = (Operation) element;
+				if(EmfBehaviorUtil.isResponsibility(operation)){
+					resource.getContents().add(ModelFactory.eINSTANCE.createResponsibilityUserInteractionModel());
+				}else{
+					resource.getContents().add(ModelFactory.eINSTANCE.createOperationInvocationWizard());
 				}
-			}
-			if(ControlUtil.isMultiRow(controlKind)){
-				uf.setPreferredHeight(150);
-				uf.setOrientation(Orientation.VERTICAL);
 			}else{
-				uf.setPreferredHeight(25);
-				uf.setOrientation(Orientation.HORIZONTAL);
+				resource.getContents().add(ModelFactory.eINSTANCE.createBehaviorUserInteractionModel());
 			}
-			if(container.getChildren().size() > 6 && container instanceof GridPanel){
-				((GridPanel) container).setNumberOfColumns(2);
+		}
+		if(resource.getContents().get(0) instanceof ResponsibilityUserInteractionModel){
+			ResponsibilityUserInteractionModel model = (ResponsibilityUserInteractionModel) resource.getContents().get(0);
+			if(model.getInvocationWizard() == null){
+				model.setInvocationWizard(WizardFactory.eINSTANCE.createResponsibilityInvocationWizard());
 			}
+			return model.getInvocationWizard();
+		}else if(resource.getContents().get(0) instanceof BehaviorUserInteractionModel){
+			BehaviorUserInteractionModel model = (BehaviorUserInteractionModel) resource.getContents().get(0);
+			if(model.getInvocationWizard() == null){
+				model.setInvocationWizard(WizardFactory.eINSTANCE.createBehaviorInvocationWizard());
+			}
+			return model.getInvocationWizard();
+		}else{
+			return (OperationInvocationWizard) resource.getContents().get(0);
 		}
 	}
 }

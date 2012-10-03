@@ -3,7 +3,6 @@
 package org.opaeum.uim.cube.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.RowAxisEntry;
 

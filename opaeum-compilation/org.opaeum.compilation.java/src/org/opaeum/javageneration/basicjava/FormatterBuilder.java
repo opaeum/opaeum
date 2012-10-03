@@ -33,24 +33,9 @@ public class FormatterBuilder extends AbstractJavaProducingVisitor implements In
 			OJPackage util = findOrCreatePackage(formatter.getHead());
 			Collection<DataType> simpleTypes = getElementsOfType(DataType.class, EmfPackageUtil.getAllDependencies(m));
 			createFormatter(util, formatter.getLast(),simpleTypes);
-			createFormatterContract(util, formatter.getLast(), simpleTypes);
 		}
 	}
 	private void createFormatterContract(OJPackage util,String name,Collection<DataType> types){
-		OJAnnotatedInterface formatterContract = new OJAnnotatedInterface("I" + name);
-		util.addToClasses(formatterContract);
-		createTextPath(formatterContract, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
-		for(DataType e:types){
-			if(EmfClassifierUtil.isSimpleType(e)){
-				AbstractStrategyFactory strategyFactory = EmfClassifierUtil.getStrategyFactory(e);
-				boolean hasStrategy=strategyFactory!=null && strategyFactory.hasStrategy(FormatterStrategy.class);
-					
-				if(hasStrategy || !EmfPackageUtil.isLibrary((Model) EmfElementFinder.getRootObject(e))){//Temp hack, want to get rid of formatter anyway
-					addParse(formatterContract, e);
-					addFormatter(formatterContract, e);
-				}
-			}
-		}
 	}
 	protected OJAnnotatedOperation addParse(OJAnnotatedClass formatterContract,DataType e){
 		OJAnnotatedOperation parse = new OJAnnotatedOperation("parse" + e.getName(), ojUtil.classifierPathname(e));
@@ -67,7 +52,6 @@ public class FormatterBuilder extends AbstractJavaProducingVisitor implements In
 	private void createFormatter(OJPackage util,String name, Collection<DataType> dataTypes){
 		OJAnnotatedClass formatter = new OJAnnotatedClass(name);
 		util.addToClasses(formatter);
-		formatter.addToImplementedInterfaces(new OJPathName("I" + name));
 		formatter.setSuperclass(new OJPathName(AbstractFormatter.class.getName()));
 		OJPathName threadLocal = new OJPathName(ThreadLocal.class.getName());
 		threadLocal.addToElementTypes(formatter.getPathName());
@@ -85,7 +69,7 @@ public class FormatterBuilder extends AbstractJavaProducingVisitor implements In
 		OJIfStatement ifNull = new OJIfStatement("result==null", "INSTANCE.set(result=new " + formatter.getName() + "())");
 		getInstance.getBody().addToStatements(ifNull);
 		getInstance.getBody().addToStatements("return result");
-		createTextPath(formatter, JavaSourceFolderIdentifier.DOMAIN_SRC);
+		createTextPath(formatter, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		for(DataType dataType:dataTypes){
 			FormatterStrategy st = EmfClassifierUtil.getStrategy(dataType, FormatterStrategy.class);
 			if(st!=null){

@@ -19,7 +19,7 @@ package org.opaeum.uim.action;
  * @model
  * @generated
  */
-public interface BuiltInLink extends UimLink {
+public interface BuiltInLink extends AbstractLink {
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.opaeum.uim.action.BuiltInLinkKind}.

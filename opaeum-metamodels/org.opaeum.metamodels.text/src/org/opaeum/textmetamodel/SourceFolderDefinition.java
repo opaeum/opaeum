@@ -54,4 +54,7 @@ public class SourceFolderDefinition{
 	public String getProjectQualifier(){
 		return projectQualifier;
 	}
+	public ProjectNameStrategy getProjectNameStrategy(){
+		return projectNameStrategy;
+	}
 }

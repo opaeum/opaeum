@@ -10,14 +10,14 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.EditorPackage;
+import org.opaeum.uim.editor.InstanceEditor;
 import org.opaeum.uim.editor.MenuConfiguration;
-import org.opaeum.uim.editor.VisibleOperation;
+import org.opaeum.uim.editor.OperationMenuItem;
+import org.opaeum.uim.impl.UserInteractionElementImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,23 +27,22 @@ import org.opaeum.uim.editor.VisibleOperation;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.editor.impl.MenuConfigurationImpl#getEditor <em>Editor</em>}</li>
- *   <li>{@link org.opaeum.uim.editor.impl.MenuConfigurationImpl#getVisibleOperations <em>Visible Operations</em>}</li>
+ *   <li>{@link org.opaeum.uim.editor.impl.MenuConfigurationImpl#getOperations <em>Operations</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class MenuConfigurationImpl extends EObjectImpl implements MenuConfiguration {
+public class MenuConfigurationImpl extends UserInteractionElementImpl implements MenuConfiguration {
 	/**
-	 * The cached value of the '{@link #getVisibleOperations() <em>Visible Operations</em>}' containment reference list.
+	 * The cached value of the '{@link #getOperations() <em>Operations</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getVisibleOperations()
+	 * @see #getOperations()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<VisibleOperation> visibleOperations;
-
+	protected EList<OperationMenuItem> operations;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -68,9 +67,9 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AbstractEditor getEditor() {
+	public InstanceEditor getEditor() {
 		if (eContainerFeatureID() != EditorPackage.MENU_CONFIGURATION__EDITOR) return null;
-		return (AbstractEditor)eContainer();
+		return (InstanceEditor)eContainer();
 	}
 
 	/**
@@ -78,7 +77,7 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetEditor(AbstractEditor newEditor, NotificationChain msgs) {
+	public NotificationChain basicSetEditor(InstanceEditor newEditor, NotificationChain msgs) {
 		msgs = eBasicSetContainer((InternalEObject)newEditor, EditorPackage.MENU_CONFIGURATION__EDITOR, msgs);
 		return msgs;
 	}
@@ -88,7 +87,7 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEditor(AbstractEditor newEditor) {
+	public void setEditor(InstanceEditor newEditor) {
 		if (newEditor != eInternalContainer() || (eContainerFeatureID() != EditorPackage.MENU_CONFIGURATION__EDITOR && newEditor != null)) {
 			if (EcoreUtil.isAncestor(this, newEditor))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -96,7 +95,7 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newEditor != null)
-				msgs = ((InternalEObject)newEditor).eInverseAdd(this, EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION, AbstractEditor.class, msgs);
+				msgs = ((InternalEObject)newEditor).eInverseAdd(this, EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION, InstanceEditor.class, msgs);
 			msgs = basicSetEditor(newEditor, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -109,11 +108,11 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<VisibleOperation> getVisibleOperations() {
-		if (visibleOperations == null) {
-			visibleOperations = new EObjectContainmentWithInverseEList<VisibleOperation>(VisibleOperation.class, this, EditorPackage.MENU_CONFIGURATION__VISIBLE_OPERATIONS, EditorPackage.VISIBLE_OPERATION__MENU_CONFIGURATION);
+	public EList<OperationMenuItem> getOperations() {
+		if (operations == null) {
+			operations = new EObjectContainmentWithInverseEList<OperationMenuItem>(OperationMenuItem.class, this, EditorPackage.MENU_CONFIGURATION__OPERATIONS, EditorPackage.OPERATION_MENU_ITEM__MENU_CONFIGURATION);
 		}
-		return visibleOperations;
+		return operations;
 	}
 
 	/**
@@ -128,9 +127,9 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 			case EditorPackage.MENU_CONFIGURATION__EDITOR:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetEditor((AbstractEditor)otherEnd, msgs);
-			case EditorPackage.MENU_CONFIGURATION__VISIBLE_OPERATIONS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVisibleOperations()).basicAdd(otherEnd, msgs);
+				return basicSetEditor((InstanceEditor)otherEnd, msgs);
+			case EditorPackage.MENU_CONFIGURATION__OPERATIONS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOperations()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -145,8 +144,8 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 		switch (featureID) {
 			case EditorPackage.MENU_CONFIGURATION__EDITOR:
 				return basicSetEditor(null, msgs);
-			case EditorPackage.MENU_CONFIGURATION__VISIBLE_OPERATIONS:
-				return ((InternalEList<?>)getVisibleOperations()).basicRemove(otherEnd, msgs);
+			case EditorPackage.MENU_CONFIGURATION__OPERATIONS:
+				return ((InternalEList<?>)getOperations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -160,7 +159,7 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case EditorPackage.MENU_CONFIGURATION__EDITOR:
-				return eInternalContainer().eInverseRemove(this, EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION, AbstractEditor.class, msgs);
+				return eInternalContainer().eInverseRemove(this, EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION, InstanceEditor.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -175,8 +174,8 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 		switch (featureID) {
 			case EditorPackage.MENU_CONFIGURATION__EDITOR:
 				return getEditor();
-			case EditorPackage.MENU_CONFIGURATION__VISIBLE_OPERATIONS:
-				return getVisibleOperations();
+			case EditorPackage.MENU_CONFIGURATION__OPERATIONS:
+				return getOperations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -191,11 +190,11 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EditorPackage.MENU_CONFIGURATION__EDITOR:
-				setEditor((AbstractEditor)newValue);
+				setEditor((InstanceEditor)newValue);
 				return;
-			case EditorPackage.MENU_CONFIGURATION__VISIBLE_OPERATIONS:
-				getVisibleOperations().clear();
-				getVisibleOperations().addAll((Collection<? extends VisibleOperation>)newValue);
+			case EditorPackage.MENU_CONFIGURATION__OPERATIONS:
+				getOperations().clear();
+				getOperations().addAll((Collection<? extends OperationMenuItem>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -210,10 +209,10 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case EditorPackage.MENU_CONFIGURATION__EDITOR:
-				setEditor((AbstractEditor)null);
+				setEditor((InstanceEditor)null);
 				return;
-			case EditorPackage.MENU_CONFIGURATION__VISIBLE_OPERATIONS:
-				getVisibleOperations().clear();
+			case EditorPackage.MENU_CONFIGURATION__OPERATIONS:
+				getOperations().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -229,8 +228,8 @@ public class MenuConfigurationImpl extends EObjectImpl implements MenuConfigurat
 		switch (featureID) {
 			case EditorPackage.MENU_CONFIGURATION__EDITOR:
 				return getEditor() != null;
-			case EditorPackage.MENU_CONFIGURATION__VISIBLE_OPERATIONS:
-				return visibleOperations != null && !visibleOperations.isEmpty();
+			case EditorPackage.MENU_CONFIGURATION__OPERATIONS:
+				return operations != null && !operations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
