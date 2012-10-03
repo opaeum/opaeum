@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:flexlib="http://code.google.com/p/flexlib/"
+			   minWidth="955" minHeight="600" applicationComplete="onApplicationComplete()"
+			   initialize="initPanel()">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace flexlib "http://code.google.com/p/flexlib/";
+
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import flash.utils.describeType;
+			
+			import flexlib.mdi.containers.MDIWindow;
+			
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.core.IVisualElement;
+			import mx.events.StyleEvent;
+			
+			import org.opaeum.rap.EventUtil;
+			
+			import rwt.protocol.MessageProcessor;
+			import rwt.protocol.ObjectRegistry;
+			import rwt.remote.Server;
+			
+			private static var widgets:Array=new Array();
+			private var mp : MessageProcessor;
+			public var activeShells:Array=new Array();
+			private function initPanel():void{
+				mp=new MessageProcessor(this);
+				Server.initialize(mp);
+				mdiCanvas.width=this.width;
+				mdiCanvas.height=this.height;
+				RapApplication.document=this.document;
+				RapApplication.rapInstance=this;
+				styleManager.loadStyleDeclarations("MacOS9.swf",true).addEventListener(StyleEvent.COMPLETE,loadRequest);
+			}
+			private function loadRequest(e:StyleEvent):void{
+				EventUtil.init();
+				var loader:URLLoader  = new URLLoader();
+				var request:URLRequest = new URLRequest(this.url.substr(0, this.url.lastIndexOf("/")) + "/view");
+				loader.addEventListener(IOErrorEvent.IO_ERROR, onError);
+				loader.addEventListener(Event.COMPLETE,onComplete);
+				loader.load(request);
+			}
+			private function onFocusIn(ev:FocusEvent):void{
+//				if(stage.focus is IVisualElement){
+//				trace("focus:" + describeType(ObjectRegistry.findControl( IVisualElement( stage.focus))).@name);
+//				var req:Server=Server.getInstance();
+//				var target:IVisualElement= ObjectRegistry.findControl( IVisualElement( stage.focus)));
+//				while(target !=null && !(target is MDIWindow)){
+//					target=target.parent;
+//				}
+//				if(target is MDIWindow){
+//					
+//				}
+//				var shellId:String
+//				req.removeParameter( shellId + ".activeControl" );
+//				req.addEvent( "org.eclipse.swt.events.controlActivated", id );
+//				req.send();
+//
+//			}
+			}
+			private function onError(event:IOErrorEvent):void{
+				Alert.show(event.text);
+			}
+			private function onApplicationComplete():void{
+				Server.getInstance().addEventListener("send", function( evt:Event ) :void{
+					var id:String = Server.getInstance().getUIRootId();
+					Server.getInstance().addParameter( id + ".cursorLocation.x", String( stage.mouseX) );
+					Server.getInstance().addParameter( id + ".cursorLocation.y", String( stage.mouseY ) );
+				});
+				stage.addEventListener(FocusEvent.FOCUS_IN,onFocusIn);
+			}
+			protected function onComplete(event:Event):void
+			{
+				var loader:URLLoader=URLLoader(event.target);
+				var s:String=String(loader.data);
+				var startText:String = ".processMessage(";
+				var endText:String  = ");/*EOM*/";
+				if (s.indexOf(startText) > 0 && s.indexOf(endText) > 0) {
+					s=(s.substring(
+						s.indexOf(startText) + startText.length,
+						s.indexOf(endText)));
+					
+				}
+				Server.getInstance().setUrl(this.url.substring(0,this.url.lastIndexOf("/")));
+				mp.processMessage(JSON.decode(s));
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<flexlib:MDICanvas id="mdiCanvas" backgroundAlpha="0" backgroundColor="#FFFFFF"
+					   horizontalScrollPolicy="off" name="mdiCanvas" verticalScrollPolicy="off">
+	</flexlib:MDICanvas>
+</s:Application>

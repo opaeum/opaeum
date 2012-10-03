@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="rap.mxml" projectUUID="a73c35b0-e7db-4c91-8532-23d2d173ca8e" version="10">
+  <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="/home/ampie/Workspaces/rap_json/test/resources" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="1">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+      <libraryPathEntry kind="3" linkType="1" path="${SDK_THEMES_DIR}/as3corelib-.93/lib/as3corelib.swc" sourcepath="${SDK_THEMES_DIR}/as3corelib-.93/src" useDefaultLinkType="false"/>
+    </libraryPath>
+    <sourceAttachmentPath>
+      <sourceAttachmentPathEntry kind="3" linkType="2" path="${PROJECT_FRAMEWORKS}/libs/player/10.2/playerglobal.swc" sourcepath="${PROJECT_FRAMEWORKS}/projects/framework/src/mx" useDefaultLinkType="false"/>
+      <sourceAttachmentPathEntry kind="3" linkType="1" path="/home/ampie/Workspaces/rap_flex/rap_test/libs/flexlib-2.6-M3.swc" sourcepath="${SDK_THEMES_DIR}/flex-users-flexlib/library/src" useDefaultLinkType="false"/>
+      <sourceAttachmentPathEntry kind="3" linkType="1" path="${SDK_THEMES_DIR}/as3corelib-.93/lib/as3corelib.swc" sourcepath="${SDK_THEMES_DIR}/as3corelib-.93/src" useDefaultLinkType="false"/>
+    </sourceAttachmentPath>
+  </compiler>
+  <applications>
+    <application path="rap.mxml"/>
+    <application path="Test.mxml"/>
+  </applications>
+  <modules/>
+  <buildCSSFiles>
+    <buildCSSFileEntry destPath="bin-debug" sourcePath="src/MacOS9.css"/>
+    <buildCSSFileEntry destPath="bin-debug" sourcePath="src/assets/css/MSWindows_default.css"/>
+    <buildCSSFileEntry destPath="bin-debug" sourcePath="src/assets/css/BrushedMetal.css"/>
+    <buildCSSFileEntry destPath="bin-debug" sourcePath="src/assets/css/Blue.css"/>
+  </buildCSSFiles>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+</actionScriptProperties>
