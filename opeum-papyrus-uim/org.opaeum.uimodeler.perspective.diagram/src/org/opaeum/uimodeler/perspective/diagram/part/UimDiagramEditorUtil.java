@@ -48,9 +48,9 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectiveFactory;
-import org.opaeum.uim.perspective.UimPerspective;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 
 /**
  * @generated
@@ -87,7 +87,7 @@ public class UimDiagramEditorUtil{
 		try{
 			file.setCharset("UTF-8", new NullProgressMonitor()); //$NON-NLS-1$
 		}catch(CoreException e){
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("Unable to set charset for file " + file.getFullPath(), e); //$NON-NLS-1$
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Unable to set charset for file " + file.getFullPath(), e); //$NON-NLS-1$
 		}
 	}
 	/**
@@ -122,7 +122,7 @@ public class UimDiagramEditorUtil{
 	 * @generated
 	 */
 	public static void runWizard(Shell shell,Wizard wizard,String settingsKey){
-		IDialogSettings pluginDialogSettings = UimPerspectiveDiagramEditorPlugin.getInstance().getDialogSettings();
+		IDialogSettings pluginDialogSettings = PerspectiveConfigurationDiagramEditorPlugin.getInstance().getDialogSettings();
 		IDialogSettings wizardDialogSettings = pluginDialogSettings.getSection(settingsKey);
 		if(wizardDialogSettings == null){
 			wizardDialogSettings = pluginDialogSettings.addNewSection(settingsKey);
@@ -146,10 +146,10 @@ public class UimDiagramEditorUtil{
 		AbstractTransactionalCommand command = new AbstractTransactionalCommand(editingDomain,
 				Messages.UimDiagramEditorUtil_CreateDiagramCommandLabel, Collections.EMPTY_LIST){
 			protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
-				UimPerspective model = createInitialModel();
+				PerspectiveConfiguration model = createInitialModel();
 				attachModelToResource(model, modelResource);
-				Diagram diagram = ViewService.createDiagram(model, UimPerspectiveEditPart.MODEL_ID,
-						UimPerspectiveDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
+				Diagram diagram = ViewService.createDiagram(model, PerspectiveConfigurationEditPart.MODEL_ID,
+						PerspectiveConfigurationDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
 				if(diagram != null){
 					diagramResource.getContents().add(diagram);
 					diagram.setName(diagramName);
@@ -159,7 +159,7 @@ public class UimDiagramEditorUtil{
 					modelResource.save(org.opaeum.uimodeler.perspective.diagram.part.UimDiagramEditorUtil.getSaveOptions());
 					diagramResource.save(org.opaeum.uimodeler.perspective.diagram.part.UimDiagramEditorUtil.getSaveOptions());
 				}catch(IOException e){
-					UimPerspectiveDiagramEditorPlugin.getInstance().logError("Unable to store model and diagram resources", e); //$NON-NLS-1$
+					PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Unable to store model and diagram resources", e); //$NON-NLS-1$
 				}
 				return CommandResult.newOKCommandResult();
 			}
@@ -167,7 +167,7 @@ public class UimDiagramEditorUtil{
 		try{
 			OperationHistoryFactory.getOperationHistory().execute(command, new SubProgressMonitor(progressMonitor, 1), null);
 		}catch(ExecutionException e){
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e); //$NON-NLS-1$
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e); //$NON-NLS-1$
 		}
 		setCharset(WorkspaceSynchronizer.getFile(modelResource));
 		setCharset(WorkspaceSynchronizer.getFile(diagramResource));
@@ -179,8 +179,8 @@ public class UimDiagramEditorUtil{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static UimPerspective createInitialModel(){
-		return PerspectiveFactory.eINSTANCE.createUimPerspective();
+	private static PerspectiveConfiguration createInitialModel(){
+		return PerspectiveFactory.eINSTANCE.createPerspectiveConfiguration();
 	}
 	/**
 	 * Store model element in the resource.
@@ -188,7 +188,7 @@ public class UimDiagramEditorUtil{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static void attachModelToResource(UimPerspective model,Resource resource){
+	private static void attachModelToResource(PerspectiveConfiguration model,Resource resource){
 		resource.getContents().add(model);
 	}
 	/**

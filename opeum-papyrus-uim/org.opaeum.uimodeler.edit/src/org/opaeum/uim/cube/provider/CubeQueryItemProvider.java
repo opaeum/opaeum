@@ -8,31 +8,21 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
-import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
-
 import org.opaeum.uim.cube.CubeFactory;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.CubeQuery;
-
+import org.opaeum.uim.provider.PageItemProvider;
 import org.opaeum.uim.provider.UimEditPlugin;
-import org.opaeum.uim.provider.UserInteractionElementItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.cube.CubeQuery} object.
@@ -41,7 +31,7 @@ import org.opaeum.uim.provider.UserInteractionElementItemProvider;
  * @generated
  */
 public class CubeQueryItemProvider
-	extends UserInteractionElementItemProvider
+	extends PageItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -69,31 +59,8 @@ public class CubeQueryItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addUmlElementUidPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Uml Element Uid feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addUmlElementUidPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_UmlReference_umlElementUid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
-				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -108,7 +75,6 @@ public class CubeQueryItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY);
 			childrenFeatures.add(CubePackage.Literals.CUBE_QUERY__COLUMN_AXIS);
 			childrenFeatures.add(CubePackage.Literals.CUBE_QUERY__ROW_AXIS);
 			childrenFeatures.add(CubePackage.Literals.CUBE_QUERY__MEASURES);
@@ -166,10 +132,6 @@ public class CubeQueryItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(CubeQuery.class)) {
-			case CubePackage.CUBE_QUERY__UML_ELEMENT_UID:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case CubePackage.CUBE_QUERY__VISIBILITY:
 			case CubePackage.CUBE_QUERY__COLUMN_AXIS:
 			case CubePackage.CUBE_QUERY__ROW_AXIS:
 			case CubePackage.CUBE_QUERY__MEASURES:
@@ -192,11 +154,6 @@ public class CubeQueryItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
-
-		newChildDescriptors.add
-			(createChildParameter
 				(CubePackage.Literals.CUBE_QUERY__COLUMN_AXIS,
 				 CubeFactory.eINSTANCE.createColumnAxisEntry()));
 
@@ -209,6 +166,29 @@ public class CubeQueryItemProvider
 			(createChildParameter
 				(CubePackage.Literals.CUBE_QUERY__MEASURES,
 				 CubeFactory.eINSTANCE.createMeasureProperty()));
+	}
+
+	/**
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY ||
+			childFeature == ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 	/**

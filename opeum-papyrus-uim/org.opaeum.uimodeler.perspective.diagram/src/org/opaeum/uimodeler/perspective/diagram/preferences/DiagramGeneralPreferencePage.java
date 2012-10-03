@@ -1,8 +1,8 @@
 package org.opaeum.uimodeler.perspective.diagram.preferences;
 
 import org.eclipse.papyrus.infra.gmfdiag.preferences.pages.DiagramPreferencePage;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 /**
  * @generated
@@ -12,7 +12,7 @@ public class DiagramGeneralPreferencePage extends DiagramPreferencePage{
 	 * @generated
 	 */
 	public DiagramGeneralPreferencePage(){
-		setPreferenceStore(UimPerspectiveDiagramEditorPlugin.getInstance().getPreferenceStore());
-		setPreferenceKey(UimPerspectiveEditPart.MODEL_ID);
+		setPreferenceStore(PerspectiveConfigurationDiagramEditorPlugin.getInstance().getPreferenceStore());
+		setPreferenceKey(PerspectiveConfigurationEditPart.MODEL_ID);
 	}
 }

@@ -17,9 +17,9 @@ import org.opaeum.uim.perspective.ExplorerConfiguration;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.EditorConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.ExplorerConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.PropertiesConfigurationEditPart;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 import org.opaeum.uimodeler.perspective.diagram.part.UimVisualIDRegistry;
 import org.opaeum.uimodeler.perspective.diagram.providers.UimElementTypes;
 
@@ -31,9 +31,9 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	 * @generated
 	 */
 	static{
-		UimPerspectiveDiagramEditorPlugin.getInstance().getImageRegistry()
+		PerspectiveConfigurationDiagramEditorPlugin.getInstance().getImageRegistry()
 				.put("Navigator?UnknownElement", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
-		UimPerspectiveDiagramEditorPlugin.getInstance().getImageRegistry()
+		PerspectiveConfigurationDiagramEditorPlugin.getInstance().getImageRegistry()
 				.put("Navigator?ImageNotFound", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
 	}
 	/**
@@ -53,7 +53,7 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	public Image getImage(Object element){
 		if(element instanceof UimNavigatorGroup){
 			UimNavigatorGroup group = (UimNavigatorGroup) element;
-			return UimPerspectiveDiagramEditorPlugin.getInstance().getBundledImage(group.getIcon());
+			return PerspectiveConfigurationDiagramEditorPlugin.getInstance().getBundledImage(group.getIcon());
 		}
 		if(element instanceof UimNavigatorItem){
 			UimNavigatorItem navigatorItem = (UimNavigatorItem) element;
@@ -69,8 +69,8 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	 */
 	public Image getImage(View view){
 		switch(UimVisualIDRegistry.getVisualID(view)){
-		case UimPerspectiveEditPart.VISUAL_ID:
-			return getImage("Navigator?Diagram?http://opaeum.org/uimetamodel/perspective/1.0?UimPerspective", UimElementTypes.UimPerspective_1000); //$NON-NLS-1$
+		case PerspectiveConfigurationEditPart.VISUAL_ID:
+			return getImage("Navigator?Diagram?http://opaeum.org/uimetamodel/perspective/1.0?PerspectiveConfiguration", UimElementTypes.PerspectiveConfiguration_1000); //$NON-NLS-1$
 		case EditorConfigurationEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?TopLevelNode?http://opaeum.org/uimetamodel/perspective/1.0?EditorConfiguration", UimElementTypes.EditorConfiguration_2001); //$NON-NLS-1$
@@ -87,7 +87,7 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	 * @generated
 	 */
 	private Image getImage(String key,IElementType elementType){
-		ImageRegistry imageRegistry = UimPerspectiveDiagramEditorPlugin.getInstance().getImageRegistry();
+		ImageRegistry imageRegistry = PerspectiveConfigurationDiagramEditorPlugin.getInstance().getImageRegistry();
 		Image image = imageRegistry.get(key);
 		if(image == null && elementType != null && UimElementTypes.isKnownElementType(elementType)){
 			image = UimElementTypes.getImage(elementType);
@@ -124,8 +124,8 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return getUnresolvedDomainElementProxyText(view);
 		}
 		switch(UimVisualIDRegistry.getVisualID(view)){
-		case UimPerspectiveEditPart.VISUAL_ID:
-			return getUimPerspective_1000Text(view);
+		case PerspectiveConfigurationEditPart.VISUAL_ID:
+			return getPerspectiveConfiguration_1000Text(view);
 		case EditorConfigurationEditPart.VISUAL_ID:
 			return getEditorConfiguration_2001Text(view);
 		case PropertiesConfigurationEditPart.VISUAL_ID:
@@ -138,7 +138,7 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	/**
 	 * @generated
 	 */
-	private String getUimPerspective_1000Text(View view){
+	private String getPerspectiveConfiguration_1000Text(View view){
 		return ""; //$NON-NLS-1$
 	}
 	/**
@@ -149,7 +149,7 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 		if(domainModelElement != null){
 			return String.valueOf(domainModelElement.getWidth());
 		}else{
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2001); //$NON-NLS-1$
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2001); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -161,7 +161,7 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 		if(domainModelElement != null){
 			return String.valueOf(domainModelElement.getWidth());
 		}else{
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2002); //$NON-NLS-1$
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2002); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -173,7 +173,7 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 		if(domainModelElement != null){
 			return String.valueOf(domainModelElement.getWidth());
 		}else{
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2003); //$NON-NLS-1$
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2003); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -214,6 +214,6 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	 * @generated
 	 */
 	private boolean isOwnView(View view){
-		return UimPerspectiveEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
+		return PerspectiveConfigurationEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
 	}
 }

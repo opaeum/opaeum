@@ -17,7 +17,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 
 /**
  * @generated
@@ -67,7 +67,7 @@ public class UimInitDiagramFileAction implements IObjectActionDelegate{
 			Resource resource = resourceSet.getResource(domainModelURI, true);
 			diagramRoot = (EObject) resource.getContents().get(0);
 		}catch(WrappedException ex){
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("Unable to load resource: " + domainModelURI, ex); //$NON-NLS-1$
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Unable to load resource: " + domainModelURI, ex); //$NON-NLS-1$
 		}
 		if(diagramRoot == null){
 			MessageDialog.openError(getShell(), Messages.InitDiagramFile_ResourceErrorDialogTitle,
@@ -75,7 +75,7 @@ public class UimInitDiagramFileAction implements IObjectActionDelegate{
 			return;
 		}
 		Wizard wizard = new UimNewDiagramFileWizard(domainModelURI, diagramRoot, editingDomain);
-		wizard.setWindowTitle(NLS.bind(Messages.InitDiagramFile_WizardTitle, UimPerspectiveEditPart.MODEL_ID));
+		wizard.setWindowTitle(NLS.bind(Messages.InitDiagramFile_WizardTitle, PerspectiveConfigurationEditPart.MODEL_ID));
 		UimDiagramEditorUtil.runWizard(getShell(), wizard, "InitDiagramFile"); //$NON-NLS-1$
 	}
 }

@@ -4,19 +4,19 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionPackage;
-import org.opaeum.uim.action.OperationPopupPage;
-import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.EditorPackage;
-import org.opaeum.uim.editor.EditorPage;
+import org.opaeum.uim.wizard.WizardFactory;
+import org.opaeum.uim.wizard.WizardPackage;
+import org.opaeum.uim.wizard.WizardPage;
 
 public class CreateOperationPopupPageCommandHandler extends CreateCommandHandler{
 	@Override
 	protected EReference getFeature(){
-		return ActionPackage.eINSTANCE.getOperationPopup_Pages();
+		return WizardPackage.eINSTANCE.getAbstractWizard_Pages();
 	}
 	@Override
 	protected EObject getNewObject(){
-		OperationPopupPage p = ActionFactory.eINSTANCE.createOperationPopupPage();
+		WizardPage p = WizardFactory.eINSTANCE.createWizardPage();
 		p.setName("NewPage");
 		return p;
 	}

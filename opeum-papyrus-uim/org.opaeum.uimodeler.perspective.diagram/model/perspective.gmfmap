@@ -7,9 +7,9 @@
     xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
   <nodes>
     <containmentFeature
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/UimPerspective/editorConfiguration"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/PerspectiveConfiguration/editor"/>
     <childrenFeature
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/UimPerspective/editorConfiguration"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/PerspectiveConfiguration/editor"/>
     <ownedChild>
       <domainMetaElement
           href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/EditorConfiguration"/>
@@ -22,9 +22,9 @@
   </nodes>
   <nodes>
     <containmentFeature
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/UimPerspective/propertiesConfiguration"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/PerspectiveConfiguration/properties"/>
     <childrenFeature
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/UimPerspective/propertiesConfiguration"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/PerspectiveConfiguration/properties"/>
     <ownedChild>
       <domainMetaElement
           href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/PropertiesConfiguration"/>
@@ -37,9 +37,9 @@
   </nodes>
   <nodes>
     <containmentFeature
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/UimPerspective/explorerConfiguration"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/PerspectiveConfiguration/explorer"/>
     <childrenFeature
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/UimPerspective/explorerConfiguration"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/PerspectiveConfiguration/explorer"/>
     <ownedChild>
       <domainMetaElement
           href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/ExplorerConfiguration"/>
@@ -56,7 +56,7 @@
     <domainModel
         href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action"/>
     <domainMetaElement
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/UimPerspective"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//perspective/PerspectiveConfiguration"/>
     <palette
         href="perspective.gmftool#//@palette"/>
   </diagram>

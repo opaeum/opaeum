@@ -38,8 +38,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.EditorConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.ExplorerConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.PropertiesConfigurationEditPart;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
 import org.opaeum.uimodeler.perspective.diagram.part.UimVisualIDRegistry;
 
 /**
@@ -96,13 +96,13 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 		 * 
 		 * @return the unique identifier of the diagram for which views are provided.
 		 */
-		return UimPerspectiveEditPart.MODEL_ID;
+		return PerspectiveConfigurationEditPart.MODEL_ID;
 	}
 	/**
 	 * @generated
 	 */
 	protected boolean provides(CreateDiagramViewOperation op){
-		return UimPerspectiveEditPart.MODEL_ID.equals(op.getSemanticHint())
+		return PerspectiveConfigurationEditPart.MODEL_ID.equals(op.getSemanticHint())
 				&& UimVisualIDRegistry.getDiagramVisualID(getSemanticElement(op.getSemanticAdapter())) != -1;
 	}
 	/**
@@ -137,7 +137,7 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 					return false; // visual id for node EClass should match visual id from element type
 				}
 			}else{
-				if(!UimPerspectiveEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(op.getContainerView()))){
+				if(!PerspectiveConfigurationEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(op.getContainerView()))){
 					return false; // foreign diagram
 				}
 				switch(visualID){
@@ -181,7 +181,7 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 	public Diagram createDiagram(IAdaptable semanticAdapter,String diagramKind,PreferencesHint preferencesHint){
 		Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
 		diagram.getStyles().add(NotationFactory.eINSTANCE.createDiagramStyle());
-		diagram.setType(UimPerspectiveEditPart.MODEL_ID);
+		diagram.setType(PerspectiveConfigurationEditPart.MODEL_ID);
 		diagram.setElement(getSemanticElement(semanticAdapter));
 		diagram.setMeasurementUnit(MeasurementUnit.PIXEL_LITERAL);
 		return diagram;
@@ -279,10 +279,10 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 	 * @generated
 	 */
 	protected void stampShortcut(View containerView,Node target){
-		if(!UimPerspectiveEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(containerView))){
+		if(!PerspectiveConfigurationEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(containerView))){
 			EAnnotation shortcutAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
 			shortcutAnnotation.setSource("Shortcut"); //$NON-NLS-1$
-			shortcutAnnotation.getDetails().put("modelID", UimPerspectiveEditPart.MODEL_ID); //$NON-NLS-1$
+			shortcutAnnotation.getDetails().put("modelID", PerspectiveConfigurationEditPart.MODEL_ID); //$NON-NLS-1$
 			target.getEAnnotations().add(shortcutAnnotation);
 		}
 	}

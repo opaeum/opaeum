@@ -1,6 +1,6 @@
 package org.opaeum.uimodeler.perspective.diagram.providers;
 
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 /**
  * @generated
@@ -13,9 +13,9 @@ public class ElementInitializers{
 	 * @generated
 	 */
 	public static ElementInitializers getInstance(){
-		ElementInitializers cached = UimPerspectiveDiagramEditorPlugin.getInstance().getElementInitializers();
+		ElementInitializers cached = PerspectiveConfigurationDiagramEditorPlugin.getInstance().getElementInitializers();
 		if(cached == null){
-			UimPerspectiveDiagramEditorPlugin.getInstance().setElementInitializers(cached = new ElementInitializers());
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().setElementInitializers(cached = new ElementInitializers());
 		}
 		return cached;
 	}

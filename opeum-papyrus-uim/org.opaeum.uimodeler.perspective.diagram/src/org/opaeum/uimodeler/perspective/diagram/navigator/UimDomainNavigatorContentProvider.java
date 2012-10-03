@@ -18,7 +18,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 /**
  * @generated
@@ -52,7 +52,7 @@ public class UimDomainNavigatorContentProvider implements ICommonContentProvider
 	 * @generated
 	 */
 	public UimDomainNavigatorContentProvider(){
-		myAdapterFctoryContentProvier = new AdapterFactoryContentProvider(UimPerspectiveDiagramEditorPlugin.getInstance()
+		myAdapterFctoryContentProvier = new AdapterFactoryContentProvider(PerspectiveConfigurationDiagramEditorPlugin.getInstance()
 				.getItemProvidersAdapterFactory());
 		TransactionalEditingDomain editingDomain = GMFEditingDomainFactory.INSTANCE.createEditingDomain();
 		myEditingDomain = (AdapterFactoryEditingDomain) editingDomain;

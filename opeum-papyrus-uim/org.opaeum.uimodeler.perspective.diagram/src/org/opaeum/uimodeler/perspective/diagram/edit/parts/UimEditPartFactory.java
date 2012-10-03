@@ -27,8 +27,8 @@ public class UimEditPartFactory implements EditPartFactory{
 		if(model instanceof View){
 			View view = (View) model;
 			switch(UimVisualIDRegistry.getVisualID(view)){
-			case UimPerspectiveEditPart.VISUAL_ID:
-				return new UimPerspectiveEditPart(view);
+			case PerspectiveConfigurationEditPart.VISUAL_ID:
+				return new PerspectiveConfigurationEditPart(view);
 			case EditorConfigurationEditPart.VISUAL_ID:
 				return new EditorConfigurationEditPart(view);
 			case PropertiesConfigurationEditPart.VISUAL_ID:

@@ -7,12 +7,12 @@ import java.util.List;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.perspective.EditorConfiguration;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
-import org.opaeum.uim.perspective.UimPerspective;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.EditorConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.ExplorerConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.PropertiesConfigurationEditPart;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
 
 /**
  * @generated
@@ -23,36 +23,36 @@ public class UimDiagramUpdater{
 	 */
 	public static List<UimNodeDescriptor> getSemanticChildren(View view){
 		switch(UimVisualIDRegistry.getVisualID(view)){
-		case UimPerspectiveEditPart.VISUAL_ID:
-			return getUimPerspective_1000SemanticChildren(view);
+		case PerspectiveConfigurationEditPart.VISUAL_ID:
+			return getPerspectiveConfiguration_1000SemanticChildren(view);
 		}
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimNodeDescriptor> getUimPerspective_1000SemanticChildren(View view){
+	public static List<UimNodeDescriptor> getPerspectiveConfiguration_1000SemanticChildren(View view){
 		if(!view.isSetElement()){
 			return Collections.EMPTY_LIST;
 		}
-		UimPerspective modelElement = (UimPerspective) view.getElement();
+		PerspectiveConfiguration modelElement = (PerspectiveConfiguration) view.getElement();
 		LinkedList<UimNodeDescriptor> result = new LinkedList<UimNodeDescriptor>();
 		{
-			EditorConfiguration childElement = modelElement.getEditorConfiguration();
+			EditorConfiguration childElement = modelElement.getEditor();
 			int visualID = UimVisualIDRegistry.getNodeVisualID(view, childElement);
 			if(visualID == EditorConfigurationEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 			}
 		}
 		{
-			PropertiesConfiguration childElement = modelElement.getPropertiesConfiguration();
+			PropertiesConfiguration childElement = modelElement.getProperties();
 			int visualID = UimVisualIDRegistry.getNodeVisualID(view, childElement);
 			if(visualID == PropertiesConfigurationEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 			}
 		}
 		{
-			ExplorerConfiguration childElement = modelElement.getExplorerConfiguration();
+			ExplorerConfiguration childElement = modelElement.getExplorer();
 			int visualID = UimVisualIDRegistry.getNodeVisualID(view, childElement);
 			if(visualID == ExplorerConfigurationEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
@@ -65,8 +65,8 @@ public class UimDiagramUpdater{
 	 */
 	public static List<UimLinkDescriptor> getContainedLinks(View view){
 		switch(UimVisualIDRegistry.getVisualID(view)){
-		case UimPerspectiveEditPart.VISUAL_ID:
-			return getUimPerspective_1000ContainedLinks(view);
+		case PerspectiveConfigurationEditPart.VISUAL_ID:
+			return getPerspectiveConfiguration_1000ContainedLinks(view);
 		case EditorConfigurationEditPart.VISUAL_ID:
 			return getEditorConfiguration_2001ContainedLinks(view);
 		case PropertiesConfigurationEditPart.VISUAL_ID:
@@ -107,7 +107,7 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getUimPerspective_1000ContainedLinks(View view){
+	public static List<UimLinkDescriptor> getPerspectiveConfiguration_1000ContainedLinks(View view){
 		return Collections.emptyList();
 	}
 	/**

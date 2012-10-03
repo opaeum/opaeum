@@ -24,7 +24,7 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.uimodeler.edit;bundle-version="1.0.0",
  org.opaeum.uimodeler.editor;bundle-version="1.0.0",
  org.opaeum.metamodels.uim;bundle-version="1.0.0",
- org.opaeum.uimodeler.userinterface.diagram,
+ org.opaeum.uimodeler.page.diagram,
  org.eclipse.papyrus.infra.gmfdiag.preferences,
  org.eclipse.gmf.runtime.diagram.ui.providers;bundle-version="1.5.0",
  com.google.guava

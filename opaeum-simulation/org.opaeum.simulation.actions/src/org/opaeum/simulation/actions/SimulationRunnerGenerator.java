@@ -19,7 +19,6 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ExponentialDistribution;
 import org.opaeum.metamodels.simulation.simulation.NormalDistribution;

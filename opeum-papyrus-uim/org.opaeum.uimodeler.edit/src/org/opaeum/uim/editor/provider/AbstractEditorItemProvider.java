@@ -10,22 +10,19 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.provider.UimEditPlugin;
-import org.opaeum.uim.provider.UmlReferenceItemProvider;
+import org.opaeum.uim.provider.UserInterfaceRootItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.editor.AbstractEditor} object.
@@ -34,7 +31,7 @@ import org.opaeum.uim.provider.UmlReferenceItemProvider;
  * @generated
  */
 public class AbstractEditorItemProvider
-	extends UmlReferenceItemProvider
+	extends UserInterfaceRootItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -62,54 +59,8 @@ public class AbstractEditorItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addUnderUserControlPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_UserInteractionElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
-				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Under User Control feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addUnderUserControlPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_UserInteractionElement_underUserControl_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_underUserControl_feature", "_UI_UserInteractionElement_type"),
-				 UimPackage.Literals.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -124,10 +75,6 @@ public class AbstractEditorItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY);
-			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY);
-			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__ACTION_BAR);
-			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__MENU_CONFIGURATION);
 			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__PAGES);
 		}
 		return childrenFeatures;
@@ -183,14 +130,6 @@ public class AbstractEditorItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(AbstractEditor.class)) {
-			case EditorPackage.ABSTRACT_EDITOR__NAME:
-			case EditorPackage.ABSTRACT_EDITOR__UNDER_USER_CONTROL:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
-			case EditorPackage.ABSTRACT_EDITOR__VISIBILITY:
-			case EditorPackage.ABSTRACT_EDITOR__ACTION_BAR:
-			case EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION:
 			case EditorPackage.ABSTRACT_EDITOR__PAGES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -211,36 +150,6 @@ public class AbstractEditorItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY,
-				 ConstraintFactory.eINSTANCE.createRootUserInteractionConstraint()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY,
-				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY,
-				 ConstraintFactory.eINSTANCE.createRootUserInteractionConstraint()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY,
-				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(EditorPackage.Literals.ABSTRACT_EDITOR__ACTION_BAR,
-				 EditorFactory.eINSTANCE.createEditorActionBar()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(EditorPackage.Literals.ABSTRACT_EDITOR__MENU_CONFIGURATION,
-				 EditorFactory.eINSTANCE.createMenuConfiguration()));
-
-		newChildDescriptors.add
-			(createChildParameter
 				(EditorPackage.Literals.ABSTRACT_EDITOR__PAGES,
 				 EditorFactory.eINSTANCE.createEditorPage()));
 	}
@@ -257,8 +166,8 @@ public class AbstractEditorItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY ||
-			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
+			childFeature == UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY ||
+			childFeature == UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY;
 
 		if (qualify) {
 			return getString

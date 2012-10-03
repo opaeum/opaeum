@@ -79,7 +79,7 @@ public class UimCreationWizard extends Wizard implements INewWizard{
 		this.workbench = workbench;
 		this.selection = selection;
 		setWindowTitle(Messages.UimCreationWizardTitle);
-		setDefaultPageImageDescriptor(UimPerspectiveDiagramEditorPlugin.getBundledImageDescriptor("icons/wizban/NewPerspectiveWizard.gif")); //$NON-NLS-1$
+		setDefaultPageImageDescriptor(PerspectiveConfigurationDiagramEditorPlugin.getBundledImageDescriptor("icons/wizban/NewPerspectiveWizard.gif")); //$NON-NLS-1$
 		setNeedsProgressMonitor(true);
 	}
 	/**
@@ -129,7 +129,7 @@ public class UimCreationWizard extends Wizard implements INewWizard{
 				ErrorDialog.openError(getContainer().getShell(), Messages.UimCreationWizardCreationError, null,
 						((CoreException) e.getTargetException()).getStatus());
 			}else{
-				UimPerspectiveDiagramEditorPlugin.getInstance().logError("Error creating diagram", e.getTargetException()); //$NON-NLS-1$
+				PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Error creating diagram", e.getTargetException()); //$NON-NLS-1$
 			}
 			return false;
 		}

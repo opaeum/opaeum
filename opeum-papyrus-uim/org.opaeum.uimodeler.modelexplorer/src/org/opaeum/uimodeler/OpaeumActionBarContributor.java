@@ -1,17 +1,3 @@
-/*****************************************************************************
- * Copyright (c) 2008 CEA LIST.
- *
- *    
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Cedric Dumoulin  Cedric.dumoulin@lifl.fr - Initial API and implementation
- *
- *****************************************************************************/
-
 package org.opaeum.uimodeler;
 
 import org.eclipse.jface.action.IMenuListener;
@@ -21,15 +7,6 @@ import org.eclipse.papyrus.infra.core.multidiagram.actionbarcontributor.CoreComp
 import org.eclipse.ui.IEditorActionBarContributor;
 
 
-/**
- * EditorActionBarContributor suitable to Papyrus multi editor.
- * This ActionBarContributor is composed of ActionBarContributor described in extension.
- * It also implements interfaces requested by some well knowns Papyrus nested
- * editors (EMF, GMF, ...)
- * 
- * @author dumoulin
- * 
- */
 public class OpaeumActionBarContributor extends CoreComposedActionBarContributor implements IMenuListener {
 
 

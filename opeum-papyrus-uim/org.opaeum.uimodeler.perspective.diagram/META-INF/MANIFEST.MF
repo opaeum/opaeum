@@ -36,7 +36,7 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.papyrus.infra.gmfdiag.preferences,
  org.eclipse.papyrus.extensionpoints.editors
 Bundle-ClassPath: .
-Bundle-Activator: org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin
+Bundle-Activator: org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: org.opaeum.uimodeler.perspective.diagram.edit.parts,

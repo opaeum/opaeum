@@ -70,26 +70,26 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.UimPerspective} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.PerspectiveConfiguration} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UimPerspectiveItemProvider uimPerspectiveItemProvider;
+	protected PerspectiveConfigurationItemProvider perspectiveConfigurationItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.UimPerspective}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.PerspectiveConfiguration}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createUimPerspectiveAdapter() {
-		if (uimPerspectiveItemProvider == null) {
-			uimPerspectiveItemProvider = new UimPerspectiveItemProvider(this);
+	public Adapter createPerspectiveConfigurationAdapter() {
+		if (perspectiveConfigurationItemProvider == null) {
+			perspectiveConfigurationItemProvider = new PerspectiveConfigurationItemProvider(this);
 		}
 
-		return uimPerspectiveItemProvider;
+		return perspectiveConfigurationItemProvider;
 	}
 
 	/**
@@ -116,49 +116,49 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerClassConfiguration} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerClassConstraint} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ExplorerClassConfigurationItemProvider explorerClassConfigurationItemProvider;
+	protected ExplorerClassConstraintItemProvider explorerClassConstraintItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerClassConfiguration}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerClassConstraint}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createExplorerClassConfigurationAdapter() {
-		if (explorerClassConfigurationItemProvider == null) {
-			explorerClassConfigurationItemProvider = new ExplorerClassConfigurationItemProvider(this);
+	public Adapter createExplorerClassConstraintAdapter() {
+		if (explorerClassConstraintItemProvider == null) {
+			explorerClassConstraintItemProvider = new ExplorerClassConstraintItemProvider(this);
 		}
 
-		return explorerClassConfigurationItemProvider;
+		return explorerClassConstraintItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerPropertyConstraint} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ExplorerPropertyConfigurationItemProvider explorerPropertyConfigurationItemProvider;
+	protected ExplorerPropertyConstraintItemProvider explorerPropertyConstraintItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerPropertyConstraint}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createExplorerPropertyConfigurationAdapter() {
-		if (explorerPropertyConfigurationItemProvider == null) {
-			explorerPropertyConfigurationItemProvider = new ExplorerPropertyConfigurationItemProvider(this);
+	public Adapter createExplorerPropertyConstraintAdapter() {
+		if (explorerPropertyConstraintItemProvider == null) {
+			explorerPropertyConstraintItemProvider = new ExplorerPropertyConstraintItemProvider(this);
 		}
 
-		return explorerPropertyConfigurationItemProvider;
+		return explorerPropertyConstraintItemProvider;
 	}
 
 	/**
@@ -205,6 +205,98 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 		}
 
 		return propertiesConfigurationItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerOperationConstraint} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ExplorerOperationConstraintItemProvider explorerOperationConstraintItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerOperationConstraint}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createExplorerOperationConstraintAdapter() {
+		if (explorerOperationConstraintItemProvider == null) {
+			explorerOperationConstraintItemProvider = new ExplorerOperationConstraintItemProvider(this);
+		}
+
+		return explorerOperationConstraintItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerBehaviorConstraint} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ExplorerBehaviorConstraintItemProvider explorerBehaviorConstraintItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerBehaviorConstraint}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createExplorerBehaviorConstraintAdapter() {
+		if (explorerBehaviorConstraintItemProvider == null) {
+			explorerBehaviorConstraintItemProvider = new ExplorerBehaviorConstraintItemProvider(this);
+		}
+
+		return explorerBehaviorConstraintItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.InboxConfiguration} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected InboxConfigurationItemProvider inboxConfigurationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.InboxConfiguration}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createInboxConfigurationAdapter() {
+		if (inboxConfigurationItemProvider == null) {
+			inboxConfigurationItemProvider = new InboxConfigurationItemProvider(this);
+		}
+
+		return inboxConfigurationItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.OutboxConfiguration} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected OutboxConfigurationItemProvider outboxConfigurationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.OutboxConfiguration}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createOutboxConfigurationAdapter() {
+		if (outboxConfigurationItemProvider == null) {
+			outboxConfigurationItemProvider = new OutboxConfigurationItemProvider(this);
+		}
+
+		return outboxConfigurationItemProvider;
 	}
 
 	/**
@@ -306,12 +398,16 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 	 * @generated
 	 */
 	public void dispose() {
-		if (uimPerspectiveItemProvider != null) uimPerspectiveItemProvider.dispose();
+		if (perspectiveConfigurationItemProvider != null) perspectiveConfigurationItemProvider.dispose();
 		if (explorerConfigurationItemProvider != null) explorerConfigurationItemProvider.dispose();
-		if (explorerClassConfigurationItemProvider != null) explorerClassConfigurationItemProvider.dispose();
-		if (explorerPropertyConfigurationItemProvider != null) explorerPropertyConfigurationItemProvider.dispose();
+		if (explorerClassConstraintItemProvider != null) explorerClassConstraintItemProvider.dispose();
+		if (explorerPropertyConstraintItemProvider != null) explorerPropertyConstraintItemProvider.dispose();
 		if (editorConfigurationItemProvider != null) editorConfigurationItemProvider.dispose();
 		if (propertiesConfigurationItemProvider != null) propertiesConfigurationItemProvider.dispose();
+		if (explorerOperationConstraintItemProvider != null) explorerOperationConstraintItemProvider.dispose();
+		if (explorerBehaviorConstraintItemProvider != null) explorerBehaviorConstraintItemProvider.dispose();
+		if (inboxConfigurationItemProvider != null) inboxConfigurationItemProvider.dispose();
+		if (outboxConfigurationItemProvider != null) outboxConfigurationItemProvider.dispose();
 	}
 
 }

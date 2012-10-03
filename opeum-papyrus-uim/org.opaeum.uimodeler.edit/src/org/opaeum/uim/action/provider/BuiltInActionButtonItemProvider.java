@@ -27,7 +27,7 @@ import org.opaeum.uim.action.BuiltInActionButton;
  * @generated
  */
 public class BuiltInActionButtonItemProvider
-	extends UimActionItemProvider
+	extends AbstractActionButtonItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

@@ -37,7 +37,7 @@ public class DiagramEditorContextMenuProvider extends DiagramContextMenuProvider
 				}
 			});
 		}catch(Exception e){
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("Error building context menu", e);
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Error building context menu", e);
 		}
 	}
 }

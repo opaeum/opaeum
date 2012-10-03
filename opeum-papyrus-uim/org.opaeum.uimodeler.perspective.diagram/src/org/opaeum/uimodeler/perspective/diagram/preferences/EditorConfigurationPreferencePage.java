@@ -3,8 +3,8 @@ package org.opaeum.uimodeler.perspective.diagram.preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.papyrus.infra.gmfdiag.preferences.pages.AbstractPapyrusNodePreferencePage;
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 /**
  * @generated
@@ -15,20 +15,20 @@ public class EditorConfigurationPreferencePage extends AbstractPapyrusNodePrefer
 	 */
 	public EditorConfigurationPreferencePage(){
 		super();
-		setPreferenceKey(UimPerspectiveEditPart.MODEL_ID + "_EditorConfiguration");
+		setPreferenceKey(PerspectiveConfigurationEditPart.MODEL_ID + "_EditorConfiguration");
 	}
 	/**
 	 * @generated
 	 */
 	@Override
 	protected String getBundleId(){
-		return UimPerspectiveDiagramEditorPlugin.ID;
+		return PerspectiveConfigurationDiagramEditorPlugin.ID;
 	}
 	/**
 	 * @generated
 	 */
 	public static void initDefaults(IPreferenceStore store){
-		String key = UimPerspectiveEditPart.MODEL_ID + "_EditorConfiguration";
+		String key = PerspectiveConfigurationEditPart.MODEL_ID + "_EditorConfiguration";
 		store.setDefault(PreferenceConstantHelper.getElementConstant(key, PreferenceConstantHelper.WIDTH), 40);
 		store.setDefault(PreferenceConstantHelper.getElementConstant(key, PreferenceConstantHelper.HEIGHT), 40);
 		//org.eclipse.jface.preference.PreferenceConverter.setDefault(store, org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper.getElementConstant(elementName, org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper.COLOR_FILL), new org.eclipse.swt.graphics.RGB(255, 255, 255));

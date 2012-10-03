@@ -121,13 +121,13 @@ public class UimDiagramEditor extends UmlGmfDiagramEditor implements IProviderCh
 	 * @generated
 	 */
 	protected PreferencesHint getPreferencesHint(){
-		return UimPerspectiveDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT;
+		return PerspectiveConfigurationDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT;
 	}
 	/**
 	 * @generated
 	 */
 	public String getContributorId(){
-		return UimPerspectiveDiagramEditorPlugin.ID;
+		return PerspectiveConfigurationDiagramEditorPlugin.ID;
 	}
 	/**
 	 * @generated

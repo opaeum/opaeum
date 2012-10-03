@@ -20,9 +20,9 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.part.Messages;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 /**
  * @generated
@@ -33,7 +33,7 @@ public class UimModelingAssistantProvider extends ModelingAssistantProvider{
 	 */
 	public List getTypesForPopupBar(IAdaptable host){
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host.getAdapter(IGraphicalEditPart.class);
-		if(editPart instanceof UimPerspectiveEditPart){
+		if(editPart instanceof PerspectiveConfigurationEditPart){
 			ArrayList<IElementType> types = new ArrayList<IElementType>(3);
 			types.add(UimElementTypes.EditorConfiguration_2001);
 			types.add(UimElementTypes.PropertiesConfiguration_2002);
@@ -126,7 +126,7 @@ public class UimModelingAssistantProvider extends ModelingAssistantProvider{
 	 */
 	protected EObject selectElement(EObject[] elements){
 		Shell shell = Display.getCurrent().getActiveShell();
-		ILabelProvider labelProvider = new AdapterFactoryLabelProvider(UimPerspectiveDiagramEditorPlugin.getInstance()
+		ILabelProvider labelProvider = new AdapterFactoryLabelProvider(PerspectiveConfigurationDiagramEditorPlugin.getInstance()
 				.getItemProvidersAdapterFactory());
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(shell, labelProvider);
 		dialog.setMessage(Messages.UimModelingAssistantProviderMessage);

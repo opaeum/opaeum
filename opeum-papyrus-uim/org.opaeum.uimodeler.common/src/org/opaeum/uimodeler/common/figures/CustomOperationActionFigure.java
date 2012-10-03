@@ -14,7 +14,7 @@ public class CustomOperationActionFigure extends CustomUimActionFigure implement
 		fFigureBuiltInActionNameFigure.setText("<...>");
 		this.add(fFigureBuiltInActionNameFigure);
 	}
-	public WrappingLabel getFigureOperationButtonNameFigure(){
+	public WrappingLabel getFigureInvocationButtonNameFigure(){
 		return fFigureBuiltInActionNameFigure;
 	}
 }

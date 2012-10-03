@@ -19,6 +19,8 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
+import org.opaeum.uim.editor.EditorFactory;
+import org.opaeum.uim.perspective.PerspectiveFactory;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.constraint.EditableConstrainedObject} object.
@@ -145,6 +147,26 @@ public class EditableConstrainedObjectItemProvider
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
 				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 EditorFactory.eINSTANCE.createOperationMenuItem()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerOperationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerBehaviorConstraint()));
 	}
 
 	/**

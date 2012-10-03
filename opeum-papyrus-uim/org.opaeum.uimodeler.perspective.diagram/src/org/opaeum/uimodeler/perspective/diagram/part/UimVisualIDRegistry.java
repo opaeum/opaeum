@@ -7,12 +7,12 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.providers.BaseViewInfo;
 import org.eclipse.papyrus.uml.diagram.common.providers.ViewInfo;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectivePackage;
-import org.opaeum.uim.perspective.UimPerspective;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.EditorConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.ExplorerConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.PropertiesConfigurationEditPart;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
 
 /**
  * This registry is used to determine which type of visual object should be
@@ -31,8 +31,8 @@ public class UimVisualIDRegistry{
 	 */
 	public static int getVisualID(View view){
 		if(view instanceof Diagram){
-			if(UimPerspectiveEditPart.MODEL_ID.equals(view.getType())){
-				return UimPerspectiveEditPart.VISUAL_ID;
+			if(PerspectiveConfigurationEditPart.MODEL_ID.equals(view.getType())){
+				return PerspectiveConfigurationEditPart.VISUAL_ID;
 			}else{
 				return -1;
 			}
@@ -61,7 +61,7 @@ public class UimVisualIDRegistry{
 			return Integer.parseInt(type);
 		}catch(NumberFormatException e){
 			if(Boolean.TRUE.toString().equalsIgnoreCase(Platform.getDebugOption(DEBUG_KEY))){
-				UimPerspectiveDiagramEditorPlugin.getInstance().logError("Unable to parse view type as a visualID number: " + type);
+				PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Unable to parse view type as a visualID number: " + type);
 			}
 		}
 		return -1;
@@ -79,8 +79,8 @@ public class UimVisualIDRegistry{
 		if(domainElement == null){
 			return -1;
 		}
-		if(PerspectivePackage.eINSTANCE.getUimPerspective().isSuperTypeOf(domainElement.eClass()) && isDiagram((UimPerspective) domainElement)){
-			return UimPerspectiveEditPart.VISUAL_ID;
+		if(PerspectivePackage.eINSTANCE.getPerspectiveConfiguration().isSuperTypeOf(domainElement.eClass()) && isDiagram((PerspectiveConfiguration) domainElement)){
+			return PerspectiveConfigurationEditPart.VISUAL_ID;
 		}
 		return -1;
 	}
@@ -92,21 +92,21 @@ public class UimVisualIDRegistry{
 			return -1;
 		}
 		String containerModelID = org.opaeum.uimodeler.perspective.diagram.part.UimVisualIDRegistry.getModelID(containerView);
-		if(!UimPerspectiveEditPart.MODEL_ID.equals(containerModelID)){
+		if(!PerspectiveConfigurationEditPart.MODEL_ID.equals(containerModelID)){
 			return -1;
 		}
 		int containerVisualID;
-		if(UimPerspectiveEditPart.MODEL_ID.equals(containerModelID)){
+		if(PerspectiveConfigurationEditPart.MODEL_ID.equals(containerModelID)){
 			containerVisualID = org.opaeum.uimodeler.perspective.diagram.part.UimVisualIDRegistry.getVisualID(containerView);
 		}else{
 			if(containerView instanceof Diagram){
-				containerVisualID = UimPerspectiveEditPart.VISUAL_ID;
+				containerVisualID = PerspectiveConfigurationEditPart.VISUAL_ID;
 			}else{
 				return -1;
 			}
 		}
 		switch(containerVisualID){
-		case UimPerspectiveEditPart.VISUAL_ID:
+		case PerspectiveConfigurationEditPart.VISUAL_ID:
 			if(PerspectivePackage.eINSTANCE.getEditorConfiguration().isSuperTypeOf(domainElement.eClass())){
 				return EditorConfigurationEditPart.VISUAL_ID;
 			}
@@ -125,21 +125,21 @@ public class UimVisualIDRegistry{
 	 */
 	public static boolean canCreateNode(View containerView,int nodeVisualID){
 		String containerModelID = org.opaeum.uimodeler.perspective.diagram.part.UimVisualIDRegistry.getModelID(containerView);
-		if(!UimPerspectiveEditPart.MODEL_ID.equals(containerModelID)){
+		if(!PerspectiveConfigurationEditPart.MODEL_ID.equals(containerModelID)){
 			return false;
 		}
 		int containerVisualID;
-		if(UimPerspectiveEditPart.MODEL_ID.equals(containerModelID)){
+		if(PerspectiveConfigurationEditPart.MODEL_ID.equals(containerModelID)){
 			containerVisualID = org.opaeum.uimodeler.perspective.diagram.part.UimVisualIDRegistry.getVisualID(containerView);
 		}else{
 			if(containerView instanceof Diagram){
-				containerVisualID = UimPerspectiveEditPart.VISUAL_ID;
+				containerVisualID = PerspectiveConfigurationEditPart.VISUAL_ID;
 			}else{
 				return false;
 			}
 		}
 		switch(containerVisualID){
-		case UimPerspectiveEditPart.VISUAL_ID:
+		case PerspectiveConfigurationEditPart.VISUAL_ID:
 			if(EditorConfigurationEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
@@ -166,7 +166,7 @@ public class UimVisualIDRegistry{
 	 * "User can change implementation of this method to handle some specific\n""situations not covered by default logic.\n"
 	 * @generated
 	 */
-	private static boolean isDiagram(UimPerspective element){
+	private static boolean isDiagram(PerspectiveConfiguration element){
 		return true;
 	}
 	/**
@@ -178,14 +178,14 @@ public class UimVisualIDRegistry{
 	 */
 	public static ViewInfo getDiagramViewInfo(){
 		if(diagramViewInfo == null){
-			diagramViewInfo = getUimPerspective_1000ViewInfo();
+			diagramViewInfo = getPerspectiveConfiguration_1000ViewInfo();
 		}
 		return diagramViewInfo;
 	}
 	/**
 	 * @generated
 	 */
-	protected static ViewInfo getUimPerspective_1000ViewInfo(){
+	protected static ViewInfo getPerspectiveConfiguration_1000ViewInfo(){
 		ViewInfo root = new BaseViewInfo(1000, ViewInfo.Head, "", null, null);
 		ViewInfo viewInfo = null;
 		ViewInfo labelInfo = null;

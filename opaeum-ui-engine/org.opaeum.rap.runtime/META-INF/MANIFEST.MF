@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.rap.runtime
 Bundle-SymbolicName: org.opaeum.rap.runtime;singleton:=true
 Bundle-Version: 1.0.0
-Require-Bundle: org.eclipse.rap.ui.forms,
+Require-Bundle: org.opaeum.metamodels.emfworkspace,
+ org.eclipse.rap.ui.forms,
  org.eclipse.core.runtime,
  org.eclipse.rap.ui.views,
  org.eclipse.core.databinding,
@@ -12,17 +13,16 @@ Require-Bundle: org.eclipse.rap.ui.forms,
  org.eclipse.rap.rwt,
  org.eclipse.rap.jface,
  org.eclipse.rap.ui,
- org.opaeum.rap.domain,
- org.opaeum.rap.hibernate,
- org.opaeum.rap.jpa,
- org.opaeum.metamodels.emfworkspace,
  org.opaeum.compilation.uim,
  org.opaeum.transformation.engine,
  org.eclipse.uml2.uml,
- org.opaeum.rap.dependencies,
  org.opaeum.metamodels.uim,
  org.eclipse.core.databinding.property,
- org.eclipse.nebula.widgets.pagination
+ org.eclipse.nebula.widgets.pagination,
+ opaeum-runtime-dependencies,
+ opaeum-runtime-domain,
+ opaeum-runtime-hibernate,
+ opaeum-runtime-jpa
 Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
  javax.servlet.http;version="[2.3.0,4.0.0)"
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator

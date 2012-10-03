@@ -6,10 +6,9 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.opaeum.uim.editor.EditorActionBar;
+import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.panel.AbstractPanel;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.PanelPackage;
@@ -26,7 +25,7 @@ public class PanelEventAdapter extends AbstractEventAdapter{
 		composite.getContentPane().setData(UimFigureUtil.FIGURE, figure);
 
 		GridLayout children = (GridLayout) composite.getContentPane().getLayout();
-		if(element instanceof EditorActionBar){
+		if(element instanceof ActionBar){
 			children.numColumns = 30;
 		}else if(element instanceof GridPanel){
 			children.numColumns = ((GridPanel) element).getNumberOfColumns();

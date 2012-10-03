@@ -27,7 +27,7 @@ import org.opaeum.uim.action.BuiltInLink;
  * @generated
  */
 public class BuiltInLinkItemProvider
-	extends UimLinkItemProvider
+	extends AbstractLinkItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

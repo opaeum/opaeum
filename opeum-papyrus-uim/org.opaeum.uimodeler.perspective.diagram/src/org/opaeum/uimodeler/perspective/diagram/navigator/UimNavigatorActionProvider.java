@@ -21,10 +21,10 @@ import org.eclipse.ui.navigator.ICommonActionConstants;
 import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
 import org.eclipse.ui.part.FileEditorInput;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.part.Messages;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 import org.opaeum.uimodeler.perspective.diagram.part.UimDiagramEditor;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
 import org.opaeum.uimodeler.perspective.diagram.part.UimVisualIDRegistry;
 
 /**
@@ -108,7 +108,7 @@ public class UimNavigatorActionProvider extends CommonActionProvider{
 				}
 				if(selectedElement instanceof Diagram){
 					Diagram diagram = (Diagram) selectedElement;
-					if(UimPerspectiveEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(diagram))){
+					if(PerspectiveConfigurationEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(diagram))){
 						myDiagram = diagram;
 					}
 				}
@@ -127,7 +127,7 @@ public class UimNavigatorActionProvider extends CommonActionProvider{
 			try{
 				page.openEditor(editorInput, UimDiagramEditor.ID);
 			}catch(PartInitException e){
-				UimPerspectiveDiagramEditorPlugin.getInstance().logError("Exception while openning diagram", e); //$NON-NLS-1$
+				PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Exception while openning diagram", e); //$NON-NLS-1$
 			}
 		}
 		/**

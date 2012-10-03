@@ -13,8 +13,8 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.ConfigureRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectiveFactory;
-import org.opaeum.uim.perspective.UimPerspective;
 
 /**
  * @generated
@@ -66,8 +66,8 @@ public class ExplorerConfigurationCreateCommand extends EditElementCommand{
 	 * @generated
 	 */
 	public boolean canExecute(){
-		UimPerspective container = (UimPerspective) getElementToEdit();
-		if(container.getExplorerConfiguration() != null){
+		PerspectiveConfiguration container = (PerspectiveConfiguration) getElementToEdit();
+		if(container.getExplorer() != null){
 			return false;
 		}
 		return true;
@@ -77,8 +77,8 @@ public class ExplorerConfigurationCreateCommand extends EditElementCommand{
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
 		ExplorerConfiguration newElement = PerspectiveFactory.eINSTANCE.createExplorerConfiguration();
-		UimPerspective owner = (UimPerspective) getElementToEdit();
-		owner.setExplorerConfiguration(newElement);
+		PerspectiveConfiguration owner = (PerspectiveConfiguration) getElementToEdit();
+		owner.setExplorer(newElement);
 		doConfigure(newElement, monitor, info);
 		((CreateElementRequest) getRequest()).setNewElement(newElement);
 		return CommandResult.newOKCommandResult(newElement);

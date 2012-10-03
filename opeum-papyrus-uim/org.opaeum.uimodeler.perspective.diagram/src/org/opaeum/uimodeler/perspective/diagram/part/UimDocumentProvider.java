@@ -63,7 +63,7 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 	 */
 	protected ElementInfo createElementInfo(Object element) throws CoreException{
 		if(false == element instanceof FileEditorInput && false == element instanceof URIEditorInput){
-			throw new CoreException(new Status(IStatus.ERROR, UimPerspectiveDiagramEditorPlugin.ID, 0, NLS.bind(
+			throw new CoreException(new Status(IStatus.ERROR, PerspectiveConfigurationDiagramEditorPlugin.ID, 0, NLS.bind(
 					Messages.UimDocumentProvider_IncorrectInputError, new Object[]{element,
 							"org.eclipse.ui.part.FileEditorInput","org.eclipse.emf.common.ui.URIEditorInput"}), //$NON-NLS-1$ //$NON-NLS-2$ 
 					null));
@@ -80,7 +80,7 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 	 */
 	protected IDocument createDocument(Object element) throws CoreException{
 		if(false == element instanceof FileEditorInput && false == element instanceof URIEditorInput){
-			throw new CoreException(new Status(IStatus.ERROR, UimPerspectiveDiagramEditorPlugin.ID, 0, NLS.bind(
+			throw new CoreException(new Status(IStatus.ERROR, PerspectiveConfigurationDiagramEditorPlugin.ID, 0, NLS.bind(
 					Messages.UimDocumentProvider_IncorrectInputError, new Object[]{element,
 							"org.eclipse.ui.part.FileEditorInput","org.eclipse.emf.common.ui.URIEditorInput"}), //$NON-NLS-1$ //$NON-NLS-2$ 
 					null));
@@ -210,13 +210,13 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 					thrownExcp = (CoreException) e;
 				}else{
 					String msg = e.getLocalizedMessage();
-					thrownExcp = new CoreException(new Status(IStatus.ERROR, UimPerspectiveDiagramEditorPlugin.ID, 0, msg != null ? msg
+					thrownExcp = new CoreException(new Status(IStatus.ERROR, PerspectiveConfigurationDiagramEditorPlugin.ID, 0, msg != null ? msg
 							: Messages.UimDocumentProvider_DiagramLoadingError, e));
 				}
 				throw thrownExcp;
 			}
 		}else{
-			throw new CoreException(new Status(IStatus.ERROR, UimPerspectiveDiagramEditorPlugin.ID, 0, NLS.bind(
+			throw new CoreException(new Status(IStatus.ERROR, PerspectiveConfigurationDiagramEditorPlugin.ID, 0, NLS.bind(
 					Messages.UimDocumentProvider_IncorrectInputError, new Object[]{element,
 							"org.eclipse.ui.part.FileEditorInput","org.eclipse.emf.common.ui.URIEditorInput"}), //$NON-NLS-1$ //$NON-NLS-2$ 
 					null));
@@ -290,7 +290,7 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 				try{
 					updateCache(element);
 				}catch(CoreException ex){
-					UimPerspectiveDiagramEditorPlugin.getInstance().logError(Messages.UimDocumentProvider_isModifiable, ex);
+					PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError(Messages.UimDocumentProvider_isModifiable, ex);
 					// Error message to log was initially taken from org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.internal.l10n.EditorMessages.StorageDocumentProvider_isModifiable
 				}
 			}
@@ -313,7 +313,7 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 				try{
 					updateCache(element);
 				}catch(CoreException ex){
-					UimPerspectiveDiagramEditorPlugin.getInstance().logError(Messages.UimDocumentProvider_isModifiable, ex);
+					PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError(Messages.UimDocumentProvider_isModifiable, ex);
 					// Error message to log was initially taken from org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.internal.l10n.EditorMessages.StorageDocumentProvider_isModifiable
 				}
 			}
@@ -473,7 +473,7 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 		ResourceSetInfo info = getResourceSetInfo(element);
 		if(info != null){
 			if(!overwrite && !info.isSynchronized()){
-				throw new CoreException(new Status(IStatus.ERROR, UimPerspectiveDiagramEditorPlugin.ID, IResourceStatus.OUT_OF_SYNC_LOCAL,
+				throw new CoreException(new Status(IStatus.ERROR, PerspectiveConfigurationDiagramEditorPlugin.ID, IResourceStatus.OUT_OF_SYNC_LOCAL,
 						Messages.UimDocumentProvider_UnsynchronizedFileSaveError, null));
 			}
 			info.stopResourceListening();
@@ -488,7 +488,7 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 							nextResource.save(UimDiagramEditorUtil.getSaveOptions());
 						}catch(IOException e){
 							fireElementStateChangeFailed(element);
-							throw new CoreException(new Status(IStatus.ERROR, UimPerspectiveDiagramEditorPlugin.ID, EditorStatusCodes.RESOURCE_FAILURE,
+							throw new CoreException(new Status(IStatus.ERROR, PerspectiveConfigurationDiagramEditorPlugin.ID, EditorStatusCodes.RESOURCE_FAILURE,
 									e.getLocalizedMessage(), null));
 						}
 					}
@@ -513,7 +513,7 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 				newResoruceURI = ((URIEditorInput) element).getURI();
 			}else{
 				fireElementStateChangeFailed(element);
-				throw new CoreException(new Status(IStatus.ERROR, UimPerspectiveDiagramEditorPlugin.ID, 0, NLS.bind(
+				throw new CoreException(new Status(IStatus.ERROR, PerspectiveConfigurationDiagramEditorPlugin.ID, 0, NLS.bind(
 						Messages.UimDocumentProvider_IncorrectInputError, new Object[]{element,
 								"org.eclipse.ui.part.FileEditorInput","org.eclipse.emf.common.ui.URIEditorInput"}), //$NON-NLS-1$ //$NON-NLS-2$ 
 						null));
@@ -523,7 +523,7 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 				throw new CoreException(
 						new Status(
 								IStatus.ERROR,
-								UimPerspectiveDiagramEditorPlugin.ID,
+								PerspectiveConfigurationDiagramEditorPlugin.ID,
 								0,
 								"Incorrect document used: " + document + " instead of org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDiagramDocument", null)); //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -541,10 +541,10 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 				newResource.save(UimDiagramEditorUtil.getSaveOptions());
 			}catch(ExecutionException e){
 				fireElementStateChangeFailed(element);
-				throw new CoreException(new Status(IStatus.ERROR, UimPerspectiveDiagramEditorPlugin.ID, 0, e.getLocalizedMessage(), null));
+				throw new CoreException(new Status(IStatus.ERROR, PerspectiveConfigurationDiagramEditorPlugin.ID, 0, e.getLocalizedMessage(), null));
 			}catch(IOException e){
 				fireElementStateChangeFailed(element);
-				throw new CoreException(new Status(IStatus.ERROR, UimPerspectiveDiagramEditorPlugin.ID, 0, e.getLocalizedMessage(), null));
+				throw new CoreException(new Status(IStatus.ERROR, PerspectiveConfigurationDiagramEditorPlugin.ID, 0, e.getLocalizedMessage(), null));
 			}
 			newResource.unload();
 		}
@@ -558,7 +558,7 @@ public class UimDocumentProvider extends AbstractDocumentProvider implements IDi
 			try{
 				file.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			}catch(CoreException ex){
-				UimPerspectiveDiagramEditorPlugin.getInstance().logError(Messages.UimDocumentProvider_handleElementContentChanged, ex);
+				PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError(Messages.UimDocumentProvider_handleElementContentChanged, ex);
 				// Error message to log was initially taken from org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.internal.l10n.EditorMessages.FileDocumentProvider_handleElementContentChanged
 			}
 		}

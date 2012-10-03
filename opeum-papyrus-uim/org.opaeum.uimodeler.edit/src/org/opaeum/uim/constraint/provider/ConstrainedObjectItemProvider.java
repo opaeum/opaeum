@@ -21,6 +21,8 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.editor.EditorFactory;
+import org.opaeum.uim.perspective.PerspectiveFactory;
 import org.opaeum.uim.provider.UimEditPlugin;
 
 /**
@@ -148,6 +150,26 @@ public class ConstrainedObjectItemProvider
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
 				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 EditorFactory.eINSTANCE.createOperationMenuItem()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerOperationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerBehaviorConstraint()));
 	}
 
 	/**

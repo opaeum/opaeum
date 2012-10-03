@@ -93,29 +93,6 @@ public class WizardItemProviderAdapterFactory extends WizardAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.wizard.InvokeResponsibilityWizard} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected InvokeResponsibilityWizardItemProvider invokeResponsibilityWizardItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.wizard.InvokeResponsibilityWizard}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createInvokeResponsibilityWizardAdapter() {
-		if (invokeResponsibilityWizardItemProvider == null) {
-			invokeResponsibilityWizardItemProvider = new InvokeResponsibilityWizardItemProvider(this);
-		}
-
-		return invokeResponsibilityWizardItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.wizard.WizardPage} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -136,6 +113,75 @@ public class WizardItemProviderAdapterFactory extends WizardAdapterFactory imple
 		}
 
 		return wizardPageItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.wizard.ResponsibilityInvocationWizard} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ResponsibilityInvocationWizardItemProvider responsibilityInvocationWizardItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.wizard.ResponsibilityInvocationWizard}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createResponsibilityInvocationWizardAdapter() {
+		if (responsibilityInvocationWizardItemProvider == null) {
+			responsibilityInvocationWizardItemProvider = new ResponsibilityInvocationWizardItemProvider(this);
+		}
+
+		return responsibilityInvocationWizardItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.wizard.BehaviorInvocationWizard} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected BehaviorInvocationWizardItemProvider behaviorInvocationWizardItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.wizard.BehaviorInvocationWizard}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createBehaviorInvocationWizardAdapter() {
+		if (behaviorInvocationWizardItemProvider == null) {
+			behaviorInvocationWizardItemProvider = new BehaviorInvocationWizardItemProvider(this);
+		}
+
+		return behaviorInvocationWizardItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.wizard.OperationResultPage} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected OperationResultPageItemProvider operationResultPageItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.wizard.OperationResultPage}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createOperationResultPageAdapter() {
+		if (operationResultPageItemProvider == null) {
+			operationResultPageItemProvider = new OperationResultPageItemProvider(this);
+		}
+
+		return operationResultPageItemProvider;
 	}
 
 	/**
@@ -238,8 +284,10 @@ public class WizardItemProviderAdapterFactory extends WizardAdapterFactory imple
 	 */
 	public void dispose() {
 		if (newObjectWizardItemProvider != null) newObjectWizardItemProvider.dispose();
-		if (invokeResponsibilityWizardItemProvider != null) invokeResponsibilityWizardItemProvider.dispose();
 		if (wizardPageItemProvider != null) wizardPageItemProvider.dispose();
+		if (responsibilityInvocationWizardItemProvider != null) responsibilityInvocationWizardItemProvider.dispose();
+		if (behaviorInvocationWizardItemProvider != null) behaviorInvocationWizardItemProvider.dispose();
+		if (operationResultPageItemProvider != null) operationResultPageItemProvider.dispose();
 	}
 
 }

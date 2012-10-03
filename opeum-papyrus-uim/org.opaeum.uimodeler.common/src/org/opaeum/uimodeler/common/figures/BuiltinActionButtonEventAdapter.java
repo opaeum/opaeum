@@ -3,7 +3,6 @@ package org.opaeum.uimodeler.common.figures;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.GraphicalEditPart;
 import org.opaeum.uim.action.ActionKind;
-import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.swt.UimSwtUtil;
 

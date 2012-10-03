@@ -22,8 +22,8 @@ import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.EditorConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.ExplorerConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.PropertiesConfigurationEditPart;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
 import org.opaeum.uimodeler.perspective.diagram.part.UimVisualIDRegistry;
 
 /**
@@ -113,7 +113,7 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 	 *this method is a modification of gmf code in order to avoid  getViewChidreen() method becoming greater than 64kb.
 	 *@generated
 	 **/
-	private Object[] getViewChildrenForUimPerspectiveEditPart(View view,Object parentElement){
+	private Object[] getViewChildrenForPerspectiveConfigurationEditPart(View view,Object parentElement){
 		Collection result = new ArrayList();
 		Collection connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(EditorConfigurationEditPart.VISUAL_ID));
@@ -194,9 +194,9 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 	 */
 	private Object[] getViewChildren(View view,Object parentElement){
 		switch(UimVisualIDRegistry.getVisualID(view)){
-		case UimPerspectiveEditPart.VISUAL_ID:{
+		case PerspectiveConfigurationEditPart.VISUAL_ID:{
 			//modification of the template to avoid mistake of 65kb.
-			return getViewChildrenForUimPerspectiveEditPart(view, parentElement);
+			return getViewChildrenForPerspectiveConfigurationEditPart(view, parentElement);
 		}
 		}
 		return EMPTY_ARRAY;
@@ -290,7 +290,7 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 	 * @generated
 	 */
 	private boolean isOwnView(View view){
-		return UimPerspectiveEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
+		return PerspectiveConfigurationEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
 	}
 	/**
 	 * @generated

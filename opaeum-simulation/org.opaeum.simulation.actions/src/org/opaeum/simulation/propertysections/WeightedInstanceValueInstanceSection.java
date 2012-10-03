@@ -9,11 +9,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.StructuralFeature;
+import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
 import org.opaeum.metamodels.simulation.simulation.ActualInstance;
 import org.opaeum.metamodels.simulation.simulation.InstanceSimulation;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
-import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 
 public class WeightedInstanceValueInstanceSection extends OpaeumChooserPropertySection{
 	@Override

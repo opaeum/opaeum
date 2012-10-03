@@ -8,18 +8,24 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.Page;
+import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.constraint.provider.EditableConstrainedObjectItemProvider;
+import org.opaeum.uim.editor.EditorFactory;
+import org.opaeum.uim.panel.PanelFactory;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.Page} object.
@@ -28,7 +34,7 @@ import org.opaeum.uim.constraint.ConstraintPackage;
  * @generated
  */
 public class PageItemProvider
-	extends UserInterfaceItemProvider
+	extends EditableConstrainedObjectItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -56,8 +62,77 @@ public class PageItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addUmlElementUidPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
+			addUnderUserControlPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Uml Element Uid feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUmlElementUidPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UmlReference_umlElementUid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInteractionElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Under User Control feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUnderUserControlPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInteractionElement_underUserControl_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_underUserControl_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -72,8 +147,8 @@ public class PageItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY);
-			childrenFeatures.add(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY);
+			childrenFeatures.add(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE);
+			childrenFeatures.add(UimPackage.Literals.PAGE__PANEL);
 		}
 		return childrenFeatures;
 	}
@@ -117,8 +192,13 @@ public class PageItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Page.class)) {
-			case UimPackage.PAGE__VISIBILITY:
-			case UimPackage.PAGE__EDITABILITY:
+			case UimPackage.PAGE__UML_ELEMENT_UID:
+			case UimPackage.PAGE__NAME:
+			case UimPackage.PAGE__UNDER_USER_CONTROL:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case UimPackage.PAGE__LABEL_OVERRIDE:
+			case UimPackage.PAGE__PANEL:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -138,13 +218,28 @@ public class PageItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
+				(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE,
+				 UimFactory.eINSTANCE.createLabels()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
-				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
+				(UimPackage.Literals.PAGE__PANEL,
+				 EditorFactory.eINSTANCE.createActionBar()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.PAGE__PANEL,
+				 PanelFactory.eINSTANCE.createGridPanel()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.PAGE__PANEL,
+				 PanelFactory.eINSTANCE.createVerticalPanel()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.PAGE__PANEL,
+				 PanelFactory.eINSTANCE.createHorizontalPanel()));
 	}
 
 	/**
@@ -168,6 +263,17 @@ public class PageItemProvider
 				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
 		}
 		return super.getCreateChildText(owner, feature, child, selection);
+	}
+
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator() {
+		return UimEditPlugin.INSTANCE;
 	}
 
 }

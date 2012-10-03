@@ -76,9 +76,9 @@ public class ModelElementSelectionPage extends WizardPage{
 		layoutData.heightHint = 300;
 		layoutData.widthHint = 300;
 		modelViewer.getTree().setLayoutData(layoutData);
-		modelViewer.setContentProvider(new AdapterFactoryContentProvider(UimPerspectiveDiagramEditorPlugin.getInstance()
+		modelViewer.setContentProvider(new AdapterFactoryContentProvider(PerspectiveConfigurationDiagramEditorPlugin.getInstance()
 				.getItemProvidersAdapterFactory()));
-		modelViewer.setLabelProvider(new AdapterFactoryLabelProvider(UimPerspectiveDiagramEditorPlugin.getInstance()
+		modelViewer.setLabelProvider(new AdapterFactoryLabelProvider(PerspectiveConfigurationDiagramEditorPlugin.getInstance()
 				.getItemProvidersAdapterFactory()));
 		if(selectedModelElement != null){
 			modelViewer.setInput(selectedModelElement.eResource());

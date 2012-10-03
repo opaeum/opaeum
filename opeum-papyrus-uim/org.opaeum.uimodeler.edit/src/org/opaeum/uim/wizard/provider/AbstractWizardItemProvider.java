@@ -10,18 +10,16 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.provider.UimEditPlugin;
-import org.opaeum.uim.provider.UserInterfaceEntryPointItemProvider;
+import org.opaeum.uim.provider.UserInterfaceRootItemProvider;
 import org.opaeum.uim.wizard.AbstractWizard;
 import org.opaeum.uim.wizard.WizardFactory;
 import org.opaeum.uim.wizard.WizardPackage;
@@ -33,7 +31,7 @@ import org.opaeum.uim.wizard.WizardPackage;
  * @generated
  */
 public class AbstractWizardItemProvider
-	extends UserInterfaceEntryPointItemProvider
+	extends UserInterfaceRootItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -61,31 +59,8 @@ public class AbstractWizardItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addUmlElementUidPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Uml Element Uid feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addUmlElementUidPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_UmlReference_umlElementUid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
-				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -155,9 +130,6 @@ public class AbstractWizardItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(AbstractWizard.class)) {
-			case WizardPackage.ABSTRACT_WIZARD__UML_ELEMENT_UID:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
 			case WizardPackage.ABSTRACT_WIZARD__PAGES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -194,8 +166,8 @@ public class AbstractWizardItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY ||
-			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
+			childFeature == UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY ||
+			childFeature == UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY;
 
 		if (qualify) {
 			return getString

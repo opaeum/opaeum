@@ -8,13 +8,12 @@ import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.papyrus.infra.gmfdiag.common.AbstractPapyrusGmfCreateDiagramCommandHandler;
-import org.opaeum.uim.cube.CubeQuery;
-import org.opaeum.uim.perspective.UimPerspective;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 public class CreatePerspectiveDiagramCommand extends AbstractPapyrusGmfCreateDiagramCommandHandler{
-	UimPerspective perspective;
+	PerspectiveConfiguration perspective;
 	private String name;
 	@Override
 	public boolean isEnabled(){
@@ -26,11 +25,11 @@ public class CreatePerspectiveDiagramCommand extends AbstractPapyrusGmfCreateDia
 	}
 	@Override
 	protected String getDiagramNotationID(){
-		return UimPerspectiveEditPart.MODEL_ID;
+		return PerspectiveConfigurationEditPart.MODEL_ID;
 	}
 	@Override
 	protected PreferencesHint getPreferenceHint(){
-		return UimPerspectiveDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT;
+		return PerspectiveConfigurationDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT;
 	}
 	protected void initializeDiagram(EObject diagram){
 		if(diagram instanceof Diagram){
@@ -53,8 +52,8 @@ public class CreatePerspectiveDiagramCommand extends AbstractPapyrusGmfCreateDia
 	@Override
 	protected Diagram createDiagram(Resource diagramResource,EObject owner,String name){
 		Diagram diagram = null;
-		if(owner instanceof UimPerspective){
-			perspective = (UimPerspective) owner;
+		if(owner instanceof PerspectiveConfiguration){
+			perspective = (PerspectiveConfiguration) owner;
 		}
 		diagram = ViewService.createDiagram(perspective, getDiagramNotationID(), getPreferenceHint());
 		if(diagram != null){

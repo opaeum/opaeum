@@ -25,8 +25,15 @@
 		</repository>
 	</repositories>
 	<modules>
-		<module>org.opaeum.bpmn2.configuration</module>
-		<module>org.eclipse.gmf.runtime.lite.svg</module>
+		<module>org.opaeum.uimodeler.actionbar.diagram</module>
+		<module>org.opaeum.uimodeler.common</module>
+		<module>org.opaeum.uimodeler.cubequery.diagram</module>
+		<module>org.opaeum.uimodeler.edit</module>
+		<module>org.opaeum.uimodeler.editor</module>
+		<module>org.opaeum.uimodeler.modelexplorer</module>
+		<module>org.opaeum.uimodeler.page.diagram</module>
+		<module>org.opaeum.uimodeler.perspective.diagram</module>
+		<module>org.opaeum.uimodeler.propertiesections</module>
 	</modules>
 	<build>
 		<plugins>

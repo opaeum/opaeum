@@ -93,98 +93,6 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ActionTaskEditor} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ActionTaskEditorItemProvider actionTaskEditorItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.ActionTaskEditor}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createActionTaskEditorAdapter() {
-		if (actionTaskEditorItemProvider == null) {
-			actionTaskEditorItemProvider = new ActionTaskEditorItemProvider(this);
-		}
-
-		return actionTaskEditorItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ClassEditor} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ClassEditorItemProvider classEditorItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.ClassEditor}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createClassEditorAdapter() {
-		if (classEditorItemProvider == null) {
-			classEditorItemProvider = new ClassEditorItemProvider(this);
-		}
-
-		return classEditorItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ResponsibilityTaskEditor} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ResponsibilityTaskEditorItemProvider responsibilityTaskEditorItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.ResponsibilityTaskEditor}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createResponsibilityTaskEditorAdapter() {
-		if (responsibilityTaskEditorItemProvider == null) {
-			responsibilityTaskEditorItemProvider = new ResponsibilityTaskEditorItemProvider(this);
-		}
-
-		return responsibilityTaskEditorItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.QueryInvocationEditor} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected QueryInvocationEditorItemProvider queryInvocationEditorItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.QueryInvocationEditor}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createQueryInvocationEditorAdapter() {
-		if (queryInvocationEditorItemProvider == null) {
-			queryInvocationEditorItemProvider = new QueryInvocationEditorItemProvider(this);
-		}
-
-		return queryInvocationEditorItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.EditorPage} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -208,26 +116,26 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.EditorActionBar} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ActionBar} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EditorActionBarItemProvider editorActionBarItemProvider;
+	protected ActionBarItemProvider actionBarItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.EditorActionBar}.
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.ActionBar}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createEditorActionBarAdapter() {
-		if (editorActionBarItemProvider == null) {
-			editorActionBarItemProvider = new EditorActionBarItemProvider(this);
+	public Adapter createActionBarAdapter() {
+		if (actionBarItemProvider == null) {
+			actionBarItemProvider = new ActionBarItemProvider(this);
 		}
 
-		return editorActionBarItemProvider;
+		return actionBarItemProvider;
 	}
 
 	/**
@@ -254,26 +162,95 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.VisibleOperation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.OperationMenuItem} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected VisibleOperationItemProvider visibleOperationItemProvider;
+	protected OperationMenuItemItemProvider operationMenuItemItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.VisibleOperation}.
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.OperationMenuItem}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createVisibleOperationAdapter() {
-		if (visibleOperationItemProvider == null) {
-			visibleOperationItemProvider = new VisibleOperationItemProvider(this);
+	public Adapter createOperationMenuItemAdapter() {
+		if (operationMenuItemItemProvider == null) {
+			operationMenuItemItemProvider = new OperationMenuItemItemProvider(this);
 		}
 
-		return visibleOperationItemProvider;
+		return operationMenuItemItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ResponsibilityViewer} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ResponsibilityViewerItemProvider responsibilityViewerItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.ResponsibilityViewer}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createResponsibilityViewerAdapter() {
+		if (responsibilityViewerItemProvider == null) {
+			responsibilityViewerItemProvider = new ResponsibilityViewerItemProvider(this);
+		}
+
+		return responsibilityViewerItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.QueryResultPage} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected QueryResultPageItemProvider queryResultPageItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.QueryResultPage}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createQueryResultPageAdapter() {
+		if (queryResultPageItemProvider == null) {
+			queryResultPageItemProvider = new QueryResultPageItemProvider(this);
+		}
+
+		return queryResultPageItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ObjectEditor} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ObjectEditorItemProvider objectEditorItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.ObjectEditor}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createObjectEditorAdapter() {
+		if (objectEditorItemProvider == null) {
+			objectEditorItemProvider = new ObjectEditorItemProvider(this);
+		}
+
+		return objectEditorItemProvider;
 	}
 
 	/**
@@ -376,14 +353,13 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	 */
 	public void dispose() {
 		if (abstractEditorItemProvider != null) abstractEditorItemProvider.dispose();
-		if (actionTaskEditorItemProvider != null) actionTaskEditorItemProvider.dispose();
-		if (classEditorItemProvider != null) classEditorItemProvider.dispose();
-		if (responsibilityTaskEditorItemProvider != null) responsibilityTaskEditorItemProvider.dispose();
-		if (queryInvocationEditorItemProvider != null) queryInvocationEditorItemProvider.dispose();
 		if (editorPageItemProvider != null) editorPageItemProvider.dispose();
-		if (editorActionBarItemProvider != null) editorActionBarItemProvider.dispose();
+		if (actionBarItemProvider != null) actionBarItemProvider.dispose();
 		if (menuConfigurationItemProvider != null) menuConfigurationItemProvider.dispose();
-		if (visibleOperationItemProvider != null) visibleOperationItemProvider.dispose();
+		if (operationMenuItemItemProvider != null) operationMenuItemItemProvider.dispose();
+		if (responsibilityViewerItemProvider != null) responsibilityViewerItemProvider.dispose();
+		if (queryResultPageItemProvider != null) queryResultPageItemProvider.dispose();
+		if (objectEditorItemProvider != null) objectEditorItemProvider.dispose();
 	}
 
 }

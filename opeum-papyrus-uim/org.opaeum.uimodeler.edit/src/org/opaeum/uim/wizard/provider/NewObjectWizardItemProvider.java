@@ -118,8 +118,8 @@ public class NewObjectWizardItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY ||
-			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
+			childFeature == UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY ||
+			childFeature == UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY;
 
 		if (qualify) {
 			return getString

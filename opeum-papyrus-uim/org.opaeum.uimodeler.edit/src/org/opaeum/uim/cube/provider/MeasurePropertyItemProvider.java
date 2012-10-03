@@ -8,9 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -20,13 +18,10 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.MeasureProperty;
-
 import org.opaeum.uim.provider.UimEditPlugin;
 import org.opaeum.uim.provider.UmlReferenceItemProvider;
-import org.opaeum.uim.provider.UserInteractionElementItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.cube.MeasureProperty} object.

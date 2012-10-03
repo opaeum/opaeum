@@ -21,7 +21,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.navigator.ILinkHelper;
 import org.eclipse.ui.part.FileEditorInput;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 /**
  * @generated
@@ -49,7 +49,7 @@ public class UimNavigatorLinkHelper implements ILinkHelper{
 	 * @generated
 	 */
 	public IStructuredSelection findSelection(IEditorInput anInput){
-		IDiagramDocument document = UimPerspectiveDiagramEditorPlugin.getInstance().getDocumentProvider().getDiagramDocument(anInput);
+		IDiagramDocument document = PerspectiveConfigurationDiagramEditorPlugin.getInstance().getDocumentProvider().getDiagramDocument(anInput);
 		if(document == null){
 			return StructuredSelection.EMPTY;
 		}

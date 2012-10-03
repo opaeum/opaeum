@@ -11,21 +11,21 @@
     pluginDirectory="/org.opaeum.uimodeler.perspective.diagram/src">
   <diagram
       visualID="1000"
-      editPartClassName="UimPerspectiveEditPart"
-      itemSemanticEditPolicyClassName="UimPerspectiveItemSemanticEditPolicy"
-      canonicalEditPolicyClassName="UimPerspectiveCanonicalEditPolicy"
+      editPartClassName="PerspectiveConfigurationEditPart"
+      itemSemanticEditPolicyClassName="PerspectiveConfigurationItemSemanticEditPolicy"
+      canonicalEditPolicyClassName="PerspectiveConfigurationCanonicalEditPolicy"
       iconProviderPriority="Low"
       validationProviderPriority="Low">
     <diagramRunTimeClass
         href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Diagram"/>
     <elementType
         xsi:type="gmfgen:MetamodelType"
-        editHelperClassName="UimPerspectiveEditHelper"/>
+        editHelperClassName="PerspectiveConfigurationEditHelper"/>
     <viewmap
         xsi:type="gmfgen:FigureViewmap"
         figureQualifiedClassName="org.eclipse.draw2d.FreeformLayer"/>
     <domainDiagramElement
-        href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/UimPerspective"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/PerspectiveConfiguration"/>
     <topLevelNodes
         visualID="2001"
         editPartClassName="EditorConfigurationEditPart"
@@ -45,9 +45,9 @@
         <metaClass
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/EditorConfiguration"/>
         <containmentMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/UimPerspective/editorConfiguration"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/PerspectiveConfiguration/editorConfiguration"/>
         <childMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/UimPerspective/editorConfiguration"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/PerspectiveConfiguration/editorConfiguration"/>
       </modelFacet>
     </topLevelNodes>
     <topLevelNodes
@@ -69,9 +69,9 @@
         <metaClass
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/PropertiesConfiguration"/>
         <containmentMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/UimPerspective/propertiesConfiguration"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/PerspectiveConfiguration/propertiesConfiguration"/>
         <childMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/UimPerspective/propertiesConfiguration"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/PerspectiveConfiguration/propertiesConfiguration"/>
       </modelFacet>
     </topLevelNodes>
     <topLevelNodes
@@ -93,9 +93,9 @@
         <metaClass
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/ExplorerConfiguration"/>
         <containmentMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/UimPerspective/explorerConfiguration"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/PerspectiveConfiguration/explorerConfiguration"/>
         <childMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/UimPerspective/explorerConfiguration"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/perspective/PerspectiveConfiguration/explorerConfiguration"/>
       </modelFacet>
     </topLevelNodes>
     <palette>
@@ -146,7 +146,7 @@
   <plugin
       iD="org.opaeum.uimodeler.perspective.diagram"
       name="Uim Perspective Plugin"
-      activatorClassName="UimPerspectiveDiagramEditorPlugin">
+      activatorClassName="PerspectiveConfigurationDiagramEditorPlugin">
     <requiredPlugins>org.eclipse.draw2d</requiredPlugins>
   </plugin>
   <editor/>

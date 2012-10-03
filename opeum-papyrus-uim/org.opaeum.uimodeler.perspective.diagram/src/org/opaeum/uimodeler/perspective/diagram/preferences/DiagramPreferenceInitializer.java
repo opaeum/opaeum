@@ -2,7 +2,7 @@ package org.opaeum.uimodeler.perspective.diagram.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 /**
  * @generated
@@ -21,6 +21,6 @@ public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer{
 	 * @generated
 	 */
 	protected IPreferenceStore getPreferenceStore(){
-		return UimPerspectiveDiagramEditorPlugin.getInstance().getPreferenceStore();
+		return PerspectiveConfigurationDiagramEditorPlugin.getInstance().getPreferenceStore();
 	}
 }

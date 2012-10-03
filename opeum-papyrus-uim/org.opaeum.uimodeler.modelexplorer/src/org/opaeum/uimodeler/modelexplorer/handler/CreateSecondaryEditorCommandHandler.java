@@ -5,17 +5,18 @@ import org.eclipse.emf.ecore.EReference;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.EditorFactory;
+import org.opaeum.uim.model.ModelPackage;
 
 public class CreateSecondaryEditorCommandHandler extends CreateCommandHandler{
 
 	@Override
 	protected EReference getFeature(){
-		return UimPackage.eINSTANCE.getClassUserInteractionModel_NewObjectWizard();
+		return ModelPackage.eINSTANCE.getClassUserInteractionModel_NewObjectWizard();
 	}
 
 	@Override
 	protected EObject getNewObject(){
-		AbstractEditor p = EditorFactory.eINSTANCE.createClassEditor();
+		AbstractEditor p = EditorFactory.eINSTANCE.createObjectEditor();
 		p.setName("SecondaryEditor");
 		return p;
 	}

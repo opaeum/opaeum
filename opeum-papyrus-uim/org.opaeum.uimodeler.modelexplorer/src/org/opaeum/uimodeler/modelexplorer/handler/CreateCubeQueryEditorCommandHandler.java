@@ -4,14 +4,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.cube.CubeFactory;
-import org.opaeum.uim.cube.CubePackage;
-import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.cube.CubeQueryEditor;
+import org.opaeum.uim.model.ModelPackage;
 
 public class CreateCubeQueryEditorCommandHandler extends CreateCommandHandler{
 	@Override
 	protected EReference getFeature(){
-		return UimPackage.eINSTANCE.getClassUserInteractionModel_CubeQueryEditor();
+		return ModelPackage.eINSTANCE.getClassUserInteractionModel_CubeQueryEditor();
 	}
 	@Override
 	protected EObject getNewObject(){

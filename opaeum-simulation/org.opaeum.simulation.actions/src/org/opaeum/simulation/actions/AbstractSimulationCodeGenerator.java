@@ -8,7 +8,6 @@ import java.util.Map;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Type;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -17,7 +16,6 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
@@ -50,8 +48,8 @@ public class AbstractSimulationCodeGenerator extends AbstractJavaProducingVisito
 			}
 		}
 		//mmmm, dangerous
-		SourceFolderDefinition agssfd = config.getSourceFolderDefinition(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC);
-		config.defineSourceFolder(SimulationSourceFolderId.GEN_SRC, agssfd.getProjectNameStrategy(), agssfd.getProjectSuffix(), simulationModel.getName().toLowerCase());
+		SourceFolderDefinition agssfd = config.getSourceFolderDefinition(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
+		config.defineSourceFolder(SimulationSourceFolderId.GEN_SRC, agssfd.getProjectNameStrategy(), agssfd.getProjectQualifier(), simulationModel.getName().toLowerCase());
 	}
 	protected List<InstanceSpecification> getInstances(Type nc){
 		List<InstanceSpecification> list = instances.get(nc);

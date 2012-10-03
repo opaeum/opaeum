@@ -2,10 +2,7 @@
 package org.opaeum.uimodeler;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
-import org.eclipse.papyrus.infra.core.editor.CoreMultiDiagramEditor;
-import org.eclipse.papyrus.infra.core.resource.IModel;
 import org.eclipse.papyrus.infra.core.resource.NotFoundException;
 import org.eclipse.papyrus.infra.core.resource.uml.ExtendedUmlModel;
 import org.eclipse.ui.IEditorInput;
@@ -14,7 +11,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.uml2.uml.NamedElement;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.util.UmlUimLinks;
 
 

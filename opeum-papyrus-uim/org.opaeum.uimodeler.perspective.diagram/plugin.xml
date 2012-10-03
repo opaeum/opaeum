@@ -277,11 +277,11 @@
       <?gmfgen generated="true"?>
       <modelingAssistantProvider class="org.opaeum.uimodeler.perspective.diagram.providers.UimModelingAssistantProvider">
          <Priority name="Lowest"/>
-         <object class="org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart" id="UimPerspective_1000"/>
+         <object class="org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart" id="PerspectiveConfiguration_1000"/>
          <object class="org.opaeum.uimodeler.perspective.diagram.edit.parts.EditorConfigurationEditPart" id="EditorConfiguration_2001"/>
          <object class="org.opaeum.uimodeler.perspective.diagram.edit.parts.PropertiesConfigurationEditPart" id="PropertiesConfiguration_2002"/>
          <object class="org.opaeum.uimodeler.perspective.diagram.edit.parts.ExplorerConfigurationEditPart" id="ExplorerConfiguration_2003"/>
-         <context elements="UimPerspective_1000,EditorConfiguration_2001,PropertiesConfiguration_2002,ExplorerConfiguration_2003"/>
+         <context elements="PerspectiveConfiguration_1000,EditorConfiguration_2001,PropertiesConfiguration_2002,ExplorerConfiguration_2003"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -296,11 +296,11 @@
       <?gmfgen generated="true"?>
       <metamodel nsURI="http://opaeum.org/uimetamodel/perspective/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.perspective.diagram.UimPerspective_1000"
-               name="%metatype.name.UimPerspective_1000"
+               id="org.opaeum.uimodeler.perspective.diagram.PerspectiveConfiguration_1000"
+               name="%metatype.name.PerspectiveConfiguration_1000"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="UimPerspective"
-               edithelper="org.opaeum.uimodeler.perspective.diagram.edit.helpers.UimPerspectiveEditHelper">
+               eclass="PerspectiveConfiguration"
+               edithelper="org.opaeum.uimodeler.perspective.diagram.edit.helpers.PerspectiveConfigurationEditHelper">
             <param name="semanticHint" value="1000"/>
          </metamodelType>
       </metamodel>
@@ -346,7 +346,7 @@
          </enablement>
       </clientContext> 
       <binding context="org.opaeum.uimodeler.perspective.diagram.TypeContext">
-         <elementType ref="org.opaeum.uimodeler.perspective.diagram.UimPerspective_1000"/>
+         <elementType ref="org.opaeum.uimodeler.perspective.diagram.PerspectiveConfiguration_1000"/>
          <elementType ref="org.opaeum.uimodeler.perspective.diagram.EditorConfiguration_2001"/>
          <elementType ref="org.opaeum.uimodeler.perspective.diagram.PropertiesConfiguration_2002"/>
          <elementType ref="org.opaeum.uimodeler.perspective.diagram.ExplorerConfiguration_2003"/>
@@ -497,7 +497,7 @@
                <and>
                   <with variable="activePartId"><equals value="org.opaeum.uimodeler.perspective.diagram.part.UimDiagramEditorID"/></with>
                   <with variable="selection"><iterate ifEmpty="false"> 
-                     <instanceof value="org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart"/>
+                     <instanceof value="org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart"/>
                   </iterate></with>
                </and>
             </visibleWhen>

@@ -139,72 +139,26 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationButton} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.InvocationButton} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OperationButtonItemProvider operationButtonItemProvider;
+	protected InvocationButtonItemProvider invocationButtonItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationButton}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.InvocationButton}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createOperationButtonAdapter() {
-		if (operationButtonItemProvider == null) {
-			operationButtonItemProvider = new OperationButtonItemProvider(this);
+	public Adapter createInvocationButtonAdapter() {
+		if (invocationButtonItemProvider == null) {
+			invocationButtonItemProvider = new InvocationButtonItemProvider(this);
 		}
 
-		return operationButtonItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationPopup} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected OperationPopupItemProvider operationPopupItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationPopup}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createOperationPopupAdapter() {
-		if (operationPopupItemProvider == null) {
-			operationPopupItemProvider = new OperationPopupItemProvider(this);
-		}
-
-		return operationPopupItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationPopupPage} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected OperationPopupPageItemProvider operationPopupPageItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationPopupPage}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createOperationPopupPageAdapter() {
-		if (operationPopupPageItemProvider == null) {
-			operationPopupPageItemProvider = new OperationPopupPageItemProvider(this);
-		}
-
-		return operationPopupPageItemProvider;
+		return invocationButtonItemProvider;
 	}
 
 	/**
@@ -332,9 +286,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 		if (builtInActionButtonItemProvider != null) builtInActionButtonItemProvider.dispose();
 		if (transitionButtonItemProvider != null) transitionButtonItemProvider.dispose();
 		if (linkToQueryItemProvider != null) linkToQueryItemProvider.dispose();
-		if (operationButtonItemProvider != null) operationButtonItemProvider.dispose();
-		if (operationPopupItemProvider != null) operationPopupItemProvider.dispose();
-		if (operationPopupPageItemProvider != null) operationPopupPageItemProvider.dispose();
+		if (invocationButtonItemProvider != null) invocationButtonItemProvider.dispose();
 		if (builtInLinkItemProvider != null) builtInLinkItemProvider.dispose();
 	}
 

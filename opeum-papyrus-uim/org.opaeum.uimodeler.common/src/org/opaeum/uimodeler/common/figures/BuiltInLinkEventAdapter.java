@@ -2,8 +2,6 @@ package org.opaeum.uimodeler.common.figures;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;

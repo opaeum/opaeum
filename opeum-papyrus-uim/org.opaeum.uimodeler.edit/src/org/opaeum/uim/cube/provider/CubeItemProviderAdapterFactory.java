@@ -8,7 +8,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -20,7 +19,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.opaeum.uim.cube.util.CubeAdapterFactory;
 
 /**
@@ -92,29 +90,6 @@ public class CubeItemProviderAdapterFactory extends CubeAdapterFactory implement
 		}
 
 		return cubeQueryItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.cube.AxisEntry} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected AxisEntryItemProvider axisEntryItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.cube.AxisEntry}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createAxisEntryAdapter() {
-		if (axisEntryItemProvider == null) {
-			axisEntryItemProvider = new AxisEntryItemProvider(this);
-		}
-
-		return axisEntryItemProvider;
 	}
 
 	/**
@@ -355,7 +330,6 @@ public class CubeItemProviderAdapterFactory extends CubeAdapterFactory implement
 	 */
 	public void dispose() {
 		if (cubeQueryItemProvider != null) cubeQueryItemProvider.dispose();
-		if (axisEntryItemProvider != null) axisEntryItemProvider.dispose();
 		if (dimensionBindingItemProvider != null) dimensionBindingItemProvider.dispose();
 		if (levelPropertyItemProvider != null) levelPropertyItemProvider.dispose();
 		if (rowAxisEntryItemProvider != null) rowAxisEntryItemProvider.dispose();

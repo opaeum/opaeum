@@ -28,14 +28,12 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceCon
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.uim.cube.MeasureProperty;
 import org.opaeum.uim.util.UmlUimLinks;
 import org.opaeum.uimodeler.cubequery.diagram.MeasurePropertyFigure;
 import org.opaeum.uimodeler.cubequery.diagram.edit.policies.MeasurePropertyItemSemanticEditPolicy;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimCubeQueryDiagramEditorPlugin;
-import org.opaeum.uimodeler.cubequery.diagram.part.UimUriEditorInputTester;
 
 /**
  * @generated

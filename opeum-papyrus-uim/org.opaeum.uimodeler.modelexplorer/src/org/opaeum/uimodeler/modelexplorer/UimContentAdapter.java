@@ -5,11 +5,12 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opaeum.uim.UimDataTable;
-import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.binding.UimBinding;
+import org.opaeum.uim.component.ComponentPackage;
+import org.opaeum.uim.component.UimDataTable;
+import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.util.ControlUtil;
 import org.opaeum.uim.util.UmlUimLinks;
@@ -18,17 +19,19 @@ public class UimContentAdapter extends EContentAdapter{
 	@Override
 	public void notifyChanged(Notification notification){
 		super.notifyChanged(notification);
-		if(notification.getNewValue() instanceof OperationButton && notification.getEventType() == Notification.ADD){
-			OperationButton a=(OperationButton) notification.getNewValue() ;
-			a.setPopup(org.opaeum.uim.action.ActionFactory.eINSTANCE.createOperationPopup());
+		if(notification.getNewValue() instanceof InvocationButton && notification.getEventType() == Notification.ADD){
+			InvocationButton a=(InvocationButton) notification.getNewValue() ;
+			//TODO
+			throw new RuntimeException();
+//			a.setPopup(org.opaeum.uim.action.ActionFactory.eINSTANCE.createOperationPopup());
 		}
 		if(notification.getNotifier() instanceof UimField && notification.getEventType() == Notification.SET){
 			UimField field = (UimField) notification.getNotifier();
 			switch(notification.getFeatureID(UimField.class)){
-			case UimPackage.UIM_FIELD__CONTROL_KIND:
+			case ComponentPackage.UIM_FIELD__CONTROL_KIND:
 				field.setControl(ControlUtil.instantiate((ControlKind) notification.getNewValue()));
 				break;
-			case UimPackage.UIM_FIELD__BINDING:
+			case ComponentPackage.UIM_FIELD__BINDING:
 				if(notification.getNewValue() != null){
 					TypedElement type = UmlUimLinks.getCurrentUmlLinks(field).getResultingType((UimBinding) notification.getNewValue());
 					ControlKind[] cks = ControlUtil.getAllowedControlKinds(UmlUimLinks.getCurrentUmlLinks(field).getNearestForm(field), type,

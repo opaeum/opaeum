@@ -27,7 +27,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 
 /**
  * @generated
@@ -54,7 +54,7 @@ public class UimNewDiagramFileWizard extends Wizard{
 		assert editingDomain != null:"Editing domain must be specified"; //$NON-NLS-1$
 		myFileCreationPage = new WizardNewFileCreationPage(Messages.UimNewDiagramFileWizard_CreationPageName, StructuredSelection.EMPTY);
 		myFileCreationPage.setTitle(Messages.UimNewDiagramFileWizard_CreationPageTitle);
-		myFileCreationPage.setDescription(NLS.bind(Messages.UimNewDiagramFileWizard_CreationPageDescription, UimPerspectiveEditPart.MODEL_ID));
+		myFileCreationPage.setDescription(NLS.bind(Messages.UimNewDiagramFileWizard_CreationPageDescription, PerspectiveConfigurationEditPart.MODEL_ID));
 		IPath filePath;
 		String fileName = URI.decode(domainModelURI.trimFileExtension().lastSegment());
 		if(domainModelURI.isPlatformResource()){
@@ -95,11 +95,11 @@ public class UimNewDiagramFileWizard extends Wizard{
 				Messages.UimNewDiagramFileWizard_InitDiagramCommand, affectedFiles){
 			protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
 				int diagramVID = UimVisualIDRegistry.getDiagramVisualID(diagramRootElementSelectionPage.getModelElement());
-				if(diagramVID != UimPerspectiveEditPart.VISUAL_ID){
+				if(diagramVID != PerspectiveConfigurationEditPart.VISUAL_ID){
 					return CommandResult.newErrorCommandResult(Messages.UimNewDiagramFileWizard_IncorrectRootError);
 				}
-				Diagram diagram = ViewService.createDiagram(diagramRootElementSelectionPage.getModelElement(), UimPerspectiveEditPart.MODEL_ID,
-						UimPerspectiveDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
+				Diagram diagram = ViewService.createDiagram(diagramRootElementSelectionPage.getModelElement(), PerspectiveConfigurationEditPart.MODEL_ID,
+						PerspectiveConfigurationDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
 				diagramResource.getContents().add(diagram);
 				return CommandResult.newOKCommandResult();
 			}
@@ -109,11 +109,11 @@ public class UimNewDiagramFileWizard extends Wizard{
 			diagramResource.save(UimDiagramEditorUtil.getSaveOptions());
 			UimDiagramEditorUtil.openDiagram(diagramResource);
 		}catch(ExecutionException e){
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e); //$NON-NLS-1$
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e); //$NON-NLS-1$
 		}catch(IOException ex){
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("Save operation failed for: " + diagramModelURI, ex); //$NON-NLS-1$
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Save operation failed for: " + diagramModelURI, ex); //$NON-NLS-1$
 		}catch(PartInitException ex){
-			UimPerspectiveDiagramEditorPlugin.getInstance().logError("Unable to open editor", ex); //$NON-NLS-1$
+			PerspectiveConfigurationDiagramEditorPlugin.getInstance().logError("Unable to open editor", ex); //$NON-NLS-1$
 		}
 		return true;
 	}
@@ -142,8 +142,8 @@ public class UimNewDiagramFileWizard extends Wizard{
 				return false;
 			}
 			boolean result = ViewService.getInstance().provides(
-					new CreateDiagramViewOperation(new EObjectAdapter(selectedModelElement), UimPerspectiveEditPart.MODEL_ID,
-							UimPerspectiveDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT));
+					new CreateDiagramViewOperation(new EObjectAdapter(selectedModelElement), PerspectiveConfigurationEditPart.MODEL_ID,
+							PerspectiveConfigurationDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT));
 			setErrorMessage(result ? null : Messages.UimNewDiagramFileWizard_RootSelectionPageInvalidSelectionMessage);
 			return result;
 		}

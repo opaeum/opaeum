@@ -10,8 +10,8 @@ import org.eclipse.gmf.runtime.diagram.ui.services.editpart.AbstractEditPartProv
 import org.eclipse.gmf.runtime.diagram.ui.services.editpart.CreateGraphicEditPartOperation;
 import org.eclipse.gmf.runtime.diagram.ui.services.editpart.IEditPartOperation;
 import org.eclipse.gmf.runtime.notation.View;
+import org.opaeum.uimodeler.perspective.diagram.edit.parts.PerspectiveConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimEditPartFactory;
-import org.opaeum.uimodeler.perspective.diagram.edit.parts.UimPerspectiveEditPart;
 import org.opaeum.uimodeler.perspective.diagram.part.UimVisualIDRegistry;
 
 /**
@@ -108,7 +108,7 @@ public class UimEditPartProvider extends AbstractEditPartProvider{
 	public synchronized boolean provides(IOperation operation){
 		if(operation instanceof CreateGraphicEditPartOperation){
 			View view = ((IEditPartOperation) operation).getView();
-			if(!UimPerspectiveEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view))){
+			if(!PerspectiveConfigurationEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view))){
 				return false;
 			}
 			if(isAllowCaching() && getCachedPart(view) != null){

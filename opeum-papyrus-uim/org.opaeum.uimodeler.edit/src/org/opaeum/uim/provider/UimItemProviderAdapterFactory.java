@@ -70,52 +70,6 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimField} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected UimFieldItemProvider uimFieldItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.UimField}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createUimFieldAdapter() {
-		if (uimFieldItemProvider == null) {
-			uimFieldItemProvider = new UimFieldItemProvider(this);
-		}
-
-		return uimFieldItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimDataTable} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected UimDataTableItemProvider uimDataTableItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.UimDataTable}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createUimDataTableAdapter() {
-		if (uimDataTableItemProvider == null) {
-			uimDataTableItemProvider = new UimDataTableItemProvider(this);
-		}
-
-		return uimDataTableItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UmlReference} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -139,210 +93,118 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.ObjectSelectorTree} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UserInterfaceRoot} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ObjectSelectorTreeItemProvider objectSelectorTreeItemProvider;
+	protected UserInterfaceRootItemProvider userInterfaceRootItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.ObjectSelectorTree}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UserInterfaceRoot}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createObjectSelectorTreeAdapter() {
-		if (objectSelectorTreeItemProvider == null) {
-			objectSelectorTreeItemProvider = new ObjectSelectorTreeItemProvider(this);
+	public Adapter createUserInterfaceRootAdapter() {
+		if (userInterfaceRootItemProvider == null) {
+			userInterfaceRootItemProvider = new UserInterfaceRootItemProvider(this);
 		}
 
-		return objectSelectorTreeItemProvider;
+		return userInterfaceRootItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.DetailComponent} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.Page} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected DetailComponentItemProvider detailComponentItemProvider;
+	protected PageItemProvider pageItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.DetailComponent}.
+	 * This creates an adapter for a {@link org.opaeum.uim.Page}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createDetailComponentAdapter() {
-		if (detailComponentItemProvider == null) {
-			detailComponentItemProvider = new DetailComponentItemProvider(this);
+	public Adapter createPageAdapter() {
+		if (pageItemProvider == null) {
+			pageItemProvider = new PageItemProvider(this);
 		}
 
-		return detailComponentItemProvider;
+		return pageItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UserInterfaceEntryPoint} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.Labels} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UserInterfaceEntryPointItemProvider userInterfaceEntryPointItemProvider;
+	protected LabelsItemProvider labelsItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.UserInterfaceEntryPoint}.
+	 * This creates an adapter for a {@link org.opaeum.uim.Labels}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createUserInterfaceEntryPointAdapter() {
-		if (userInterfaceEntryPointItemProvider == null) {
-			userInterfaceEntryPointItemProvider = new UserInterfaceEntryPointItemProvider(this);
+	public Adapter createLabelsAdapter() {
+		if (labelsItemProvider == null) {
+			labelsItemProvider = new LabelsItemProvider(this);
 		}
 
-		return userInterfaceEntryPointItemProvider;
+		return labelsItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UserInterface} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.LabeledElement} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UserInterfaceItemProvider userInterfaceItemProvider;
+	protected LabeledElementItemProvider labeledElementItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.UserInterface}.
+	 * This creates an adapter for a {@link org.opaeum.uim.LabeledElement}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createUserInterfaceAdapter() {
-		if (userInterfaceItemProvider == null) {
-			userInterfaceItemProvider = new UserInterfaceItemProvider(this);
+	public Adapter createLabeledElementAdapter() {
+		if (labeledElementItemProvider == null) {
+			labeledElementItemProvider = new LabeledElementItemProvider(this);
 		}
 
-		return userInterfaceItemProvider;
+		return labeledElementItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.PanelClass} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.IgnoredElement} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PanelClassItemProvider panelClassItemProvider;
+	protected IgnoredElementItemProvider ignoredElementItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.PanelClass}.
+	 * This creates an adapter for a {@link org.opaeum.uim.IgnoredElement}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createPanelClassAdapter() {
-		if (panelClassItemProvider == null) {
-			panelClassItemProvider = new PanelClassItemProvider(this);
+	public Adapter createIgnoredElementAdapter() {
+		if (ignoredElementItemProvider == null) {
+			ignoredElementItemProvider = new IgnoredElementItemProvider(this);
 		}
 
-		return panelClassItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.ClassUserInteractionModel} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ClassUserInteractionModelItemProvider classUserInteractionModelItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.ClassUserInteractionModel}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createClassUserInteractionModelAdapter() {
-		if (classUserInteractionModelItemProvider == null) {
-			classUserInteractionModelItemProvider = new ClassUserInteractionModelItemProvider(this);
-		}
-
-		return classUserInteractionModelItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.ResponsibilityUserInteractionModel} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ResponsibilityUserInteractionModelItemProvider responsibilityUserInteractionModelItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.ResponsibilityUserInteractionModel}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createResponsibilityUserInteractionModelAdapter() {
-		if (responsibilityUserInteractionModelItemProvider == null) {
-			responsibilityUserInteractionModelItemProvider = new ResponsibilityUserInteractionModelItemProvider(this);
-		}
-
-		return responsibilityUserInteractionModelItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.AbstractActionBar} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected AbstractActionBarItemProvider abstractActionBarItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.AbstractActionBar}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createAbstractActionBarAdapter() {
-		if (abstractActionBarItemProvider == null) {
-			abstractActionBarItemProvider = new AbstractActionBarItemProvider(this);
-		}
-
-		return abstractActionBarItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.PageContainer} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected PageContainerItemProvider pageContainerItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.PageContainer}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createPageContainerAdapter() {
-		if (pageContainerItemProvider == null) {
-			pageContainerItemProvider = new PageContainerItemProvider(this);
-		}
-
-		return pageContainerItemProvider;
+		return ignoredElementItemProvider;
 	}
 
 	/**
@@ -444,18 +306,12 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	 * @generated
 	 */
 	public void dispose() {
-		if (uimFieldItemProvider != null) uimFieldItemProvider.dispose();
-		if (uimDataTableItemProvider != null) uimDataTableItemProvider.dispose();
 		if (umlReferenceItemProvider != null) umlReferenceItemProvider.dispose();
-		if (objectSelectorTreeItemProvider != null) objectSelectorTreeItemProvider.dispose();
-		if (detailComponentItemProvider != null) detailComponentItemProvider.dispose();
-		if (userInterfaceEntryPointItemProvider != null) userInterfaceEntryPointItemProvider.dispose();
-		if (userInterfaceItemProvider != null) userInterfaceItemProvider.dispose();
-		if (panelClassItemProvider != null) panelClassItemProvider.dispose();
-		if (classUserInteractionModelItemProvider != null) classUserInteractionModelItemProvider.dispose();
-		if (responsibilityUserInteractionModelItemProvider != null) responsibilityUserInteractionModelItemProvider.dispose();
-		if (abstractActionBarItemProvider != null) abstractActionBarItemProvider.dispose();
-		if (pageContainerItemProvider != null) pageContainerItemProvider.dispose();
+		if (userInterfaceRootItemProvider != null) userInterfaceRootItemProvider.dispose();
+		if (pageItemProvider != null) pageItemProvider.dispose();
+		if (labelsItemProvider != null) labelsItemProvider.dispose();
+		if (labeledElementItemProvider != null) labeledElementItemProvider.dispose();
+		if (ignoredElementItemProvider != null) ignoredElementItemProvider.dispose();
 	}
 
 }

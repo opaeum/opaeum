@@ -16,12 +16,12 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.MenuConfiguration;
 import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.provider.UserInteractionElementItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.editor.MenuConfiguration} object.
@@ -30,7 +30,7 @@ import org.opaeum.uim.provider.UimEditPlugin;
  * @generated
  */
 public class MenuConfigurationItemProvider
-	extends ItemProviderAdapter
+	extends UserInteractionElementItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -74,7 +74,7 @@ public class MenuConfigurationItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(EditorPackage.Literals.MENU_CONFIGURATION__VISIBLE_OPERATIONS);
+			childrenFeatures.add(EditorPackage.Literals.MENU_CONFIGURATION__OPERATIONS);
 		}
 		return childrenFeatures;
 	}
@@ -111,7 +111,10 @@ public class MenuConfigurationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_MenuConfiguration_type");
+		String label = ((MenuConfiguration)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_MenuConfiguration_type") :
+			getString("_UI_MenuConfiguration_type") + " " + label;
 	}
 
 	/**
@@ -126,7 +129,7 @@ public class MenuConfigurationItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MenuConfiguration.class)) {
-			case EditorPackage.MENU_CONFIGURATION__VISIBLE_OPERATIONS:
+			case EditorPackage.MENU_CONFIGURATION__OPERATIONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -146,8 +149,8 @@ public class MenuConfigurationItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EditorPackage.Literals.MENU_CONFIGURATION__VISIBLE_OPERATIONS,
-				 EditorFactory.eINSTANCE.createVisibleOperation()));
+				(EditorPackage.Literals.MENU_CONFIGURATION__OPERATIONS,
+				 EditorFactory.eINSTANCE.createOperationMenuItem()));
 	}
 
 	/**

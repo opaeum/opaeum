@@ -26,7 +26,7 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHel
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
 import org.opaeum.uimodeler.perspective.diagram.edit.policies.EditorConfigurationItemSemanticEditPolicy;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 /**
  * @generated
@@ -98,7 +98,7 @@ public class EditorConfigurationEditPart extends ShapeNodeEditPart{
 	 */
 	protected NodeFigure createNodePlate(){
 		String prefElementId = "EditorConfiguration";
-		IPreferenceStore store = UimPerspectiveDiagramEditorPlugin.getInstance().getPreferenceStore();
+		IPreferenceStore store = PerspectiveConfigurationDiagramEditorPlugin.getInstance().getPreferenceStore();
 		String preferenceConstantWitdh = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,
 				PreferenceConstantHelper.WIDTH);
 		String preferenceConstantHeight = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,

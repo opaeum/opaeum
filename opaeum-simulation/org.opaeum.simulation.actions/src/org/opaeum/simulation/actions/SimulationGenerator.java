@@ -3,9 +3,7 @@ package org.opaeum.simulation.actions;
 import java.text.ParseException;
 import java.util.List;
 
-import javax.management.openmbean.SimpleType;
-
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
@@ -85,7 +83,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 						Property p = (Property) slot.getDefiningFeature();
 						if(EmfClassifierUtil.isCompositionParticipant(p.getType()) && !p.isComposite()
 								&& !(p.getOtherEnd() != null && p.getOtherEnd().isComposite() && !EmfPropertyUtil.isInverse(p))){
-							StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
+							PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 							OJWhileStatement whileSize = buildLoopForSize(is, populator, slot, m);
 							populator.getOwner().addToImports(m.javaBaseTypePath());
 							String getReference = "(" + m.javaBaseType() + ")SimulationMetaData.getInstance().getEntityValueProvider(\""
@@ -125,7 +123,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 	}
 	private void generateComplexStructuredData(OJAnnotatedClass dataGenerator,InstanceSpecification is,OJAnnotatedOperation creator,
 			SimulatingSlot slot,Property p){
-		StructuralFeatureMap m = ojUtil.buildStructuralFeatureMap(p);
+		PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 		boolean hasEntityValueProvider = false;
 		for(ValueSpecification vs:slot.getValues()){
 			if(vs instanceof ContainedActualInstance){
@@ -147,7 +145,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 		}
 	}
 	private void createNewInstanceFromSimulation(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,
-			StructuralFeatureMap m,String obsolete){
+			PropertyMap m,String obsolete){
 		OJWhileStatement whileSize = buildLoopForSize(is, creator, slot, m);
 		creator.getOwner().addToImports(m.javaBaseTypePath());
 		// Will be added by addToOwningObject
@@ -167,7 +165,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 							+ "\").createNewInstance(result)");
 		}
 	}
-	private String calculateSize(InstanceSpecification is,SimulatingSlot slot,StructuralFeatureMap m){
+	private String calculateSize(InstanceSpecification is,SimulatingSlot slot,PropertyMap m){
 		String size;
 		if(slot.getSizeDistribution() != null && m.isMany()){
 			size = "SimulationMetaData.getInstance().getNextPropertySize(\"" + is.getQualifiedName() + "\",\"" + m.umlName() + "\")";
@@ -179,7 +177,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 	private void generateDataTypeValue(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,Property p){
 		boolean hasDoneSimulatedValue = false;
 		for(ValueSpecification vs:slot.getValues()){
-			StructuralFeatureMap map = ojUtil.buildStructuralFeatureMap(p);
+			PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 			if(vs instanceof LiteralBoolean){
 				LiteralBoolean b = (LiteralBoolean) vs;
 				addGivenValue(creator, map, (Object) b.booleanValue());
@@ -229,7 +227,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 		}
 	}
 	private OJWhileStatement buildLoopForSize(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,
-			StructuralFeatureMap map){
+			PropertyMap map){
 		OJBlock block = new OJBlock();
 		creator.getBody().addToStatements(block);
 		OJAnnotatedField countField = new OJAnnotatedField(map.umlName() + "Count", new OJPathName("int"));
@@ -274,7 +272,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 		}
 		return creator;
 	}
-	private void addGivenValue(OJAnnotatedOperation creator,StructuralFeatureMap map,Object value){
+	private void addGivenValue(OJAnnotatedOperation creator,PropertyMap map,Object value){
 		if(map.isMany()){
 			creator.getBody().addToStatements("result." + map.adder() + "(" + value + ")");
 		}else{

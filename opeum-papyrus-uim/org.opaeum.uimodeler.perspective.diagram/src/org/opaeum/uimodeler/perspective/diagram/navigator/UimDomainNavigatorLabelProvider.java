@@ -6,7 +6,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonLabelProvider;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 
 /**
  * @generated
@@ -15,7 +15,7 @@ public class UimDomainNavigatorLabelProvider implements ICommonLabelProvider{
 	/**
 	 * @generated
 	 */
-	private AdapterFactoryLabelProvider myAdapterFactoryLabelProvider = new AdapterFactoryLabelProvider(UimPerspectiveDiagramEditorPlugin
+	private AdapterFactoryLabelProvider myAdapterFactoryLabelProvider = new AdapterFactoryLabelProvider(PerspectiveConfigurationDiagramEditorPlugin
 			.getInstance().getItemProvidersAdapterFactory());
 	/**
 	 * @generated

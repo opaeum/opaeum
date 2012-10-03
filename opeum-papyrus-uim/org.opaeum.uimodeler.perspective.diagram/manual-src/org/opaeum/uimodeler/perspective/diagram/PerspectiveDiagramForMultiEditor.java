@@ -14,12 +14,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin;
 import org.opaeum.uimodeler.perspective.diagram.part.UimDiagramEditor;
-import org.opaeum.uimodeler.perspective.diagram.part.UimPerspectiveDiagramEditorPlugin;
 
 public class PerspectiveDiagramForMultiEditor extends UimDiagramEditor{
 	private static final String DIAG_IMG_PATH = "icons/obj16/PerspectiveDiagramFile.gif";
-	private static final ImageDescriptor DIAG_IMG_DESC = UimPerspectiveDiagramEditorPlugin.getBundledImageDescriptor(DIAG_IMG_PATH);
+	private static final ImageDescriptor DIAG_IMG_DESC = PerspectiveConfigurationDiagramEditorPlugin.getBundledImageDescriptor(DIAG_IMG_PATH);
 	private Composite splitter;
 	public PerspectiveDiagramForMultiEditor(ServicesRegistry servicesRegistry,Diagram diagram) throws BackboneException,ServiceException{
 		super(servicesRegistry, diagram);

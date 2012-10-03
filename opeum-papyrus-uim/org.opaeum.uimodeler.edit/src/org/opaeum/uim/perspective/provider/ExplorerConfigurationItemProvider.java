@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -16,12 +15,10 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
 import org.opaeum.uim.perspective.PerspectiveFactory;
 import org.opaeum.uim.perspective.PerspectivePackage;
-import org.opaeum.uim.provider.UimEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.perspective.ExplorerConfiguration} object.
@@ -74,7 +71,7 @@ public class ExplorerConfigurationItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES);
+			childrenFeatures.add(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__CLASSES);
 		}
 		return childrenFeatures;
 	}
@@ -130,7 +127,7 @@ public class ExplorerConfigurationItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ExplorerConfiguration.class)) {
-			case PerspectivePackage.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES:
+			case PerspectivePackage.EXPLORER_CONFIGURATION__CLASSES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -150,8 +147,8 @@ public class ExplorerConfigurationItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__CONFIGURED_CLASSES,
-				 PerspectiveFactory.eINSTANCE.createExplorerClassConfiguration()));
+				(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__CLASSES,
+				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
 	}
 
 }

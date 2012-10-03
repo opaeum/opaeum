@@ -10,7 +10,6 @@ import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -35,14 +34,10 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHel
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.uml2.uml.NamedElement;
-import org.opaeum.uim.cube.AxisEntry;
 import org.opaeum.uim.cube.ColumnAxisEntry;
-import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.LevelProperty;
-import org.opaeum.uim.cube.RowAxisEntry;
 import org.opaeum.uim.util.UmlUimLinks;
 import org.opaeum.uimodeler.cubequery.diagram.ColumnAxisFigure;
-import org.opaeum.uimodeler.cubequery.diagram.edit.parts.RowAxisEntryEditPart.RowAxisEntryFigure;
 import org.opaeum.uimodeler.cubequery.diagram.edit.policies.ColumnAxisEntryItemSemanticEditPolicy;
 import org.opaeum.uimodeler.cubequery.diagram.part.UimCubeQueryDiagramEditorPlugin;
 

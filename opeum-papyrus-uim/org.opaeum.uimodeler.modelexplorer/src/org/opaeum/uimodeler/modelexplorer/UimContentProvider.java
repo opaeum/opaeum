@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.papyrus.infra.core.resource.ModelSet;
 import org.eclipse.papyrus.infra.emf.providers.MoDiscoContentProvider;
 import org.opaeum.uim.editor.AbstractEditor;
-import org.opaeum.uim.perspective.UimPerspective;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.wizard.AbstractWizard;
 
 @Deprecated
@@ -31,7 +31,7 @@ public class UimContentProvider extends MoDiscoContentProvider{
 			if(resource.getURI() != null
 					&& resource.getURI().trimFileExtension().lastSegment().equals(modelSet.getFilenameWithoutExtension().lastSegment())){
 				EObject o = resource.getContents().get(0);
-				if(o instanceof AbstractEditor || o instanceof AbstractWizard || o instanceof UimPerspective) {
+				if(o instanceof AbstractEditor || o instanceof AbstractWizard || o instanceof PerspectiveConfiguration) {
 					contents = resource.getContents();
 				}
 			}
