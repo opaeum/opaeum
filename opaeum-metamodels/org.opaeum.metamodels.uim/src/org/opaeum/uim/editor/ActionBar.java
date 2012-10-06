@@ -23,7 +23,7 @@ import org.opaeum.uim.panel.AbstractPanel;
 public interface ActionBar extends AbstractPanel {
 	/**
 	 * Returns the value of the '<em><b>Editor</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.editor.InstanceEditor#getActionBar <em>Action Bar</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.editor.AbstractEditor#getActionBar <em>Action Bar</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Editor</em>' container reference isn't clear,
@@ -31,13 +31,13 @@ public interface ActionBar extends AbstractPanel {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Editor</em>' container reference.
-	 * @see #setEditor(InstanceEditor)
+	 * @see #setEditor(AbstractEditor)
 	 * @see org.opaeum.uim.editor.EditorPackage#getActionBar_Editor()
-	 * @see org.opaeum.uim.editor.InstanceEditor#getActionBar
+	 * @see org.opaeum.uim.editor.AbstractEditor#getActionBar
 	 * @model opposite="actionBar" transient="false"
 	 * @generated
 	 */
-	InstanceEditor getEditor();
+	AbstractEditor getEditor();
 
 	/**
 	 * Sets the value of the '{@link org.opaeum.uim.editor.ActionBar#getEditor <em>Editor</em>}' container reference.
@@ -47,6 +47,6 @@ public interface ActionBar extends AbstractPanel {
 	 * @see #getEditor()
 	 * @generated
 	 */
-	void setEditor(InstanceEditor value);
+	void setEditor(AbstractEditor value);
 
 } // ActionBar

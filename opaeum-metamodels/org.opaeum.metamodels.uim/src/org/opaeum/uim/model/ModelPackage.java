@@ -69,87 +69,6 @@ public interface ModelPackage extends EPackage {
 	int CLASS_USER_INTERACTION_MODEL = 0;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_USER_INTERACTION_MODEL__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_USER_INTERACTION_MODEL__NAME = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Primary Editor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR = UimPackage.UML_REFERENCE_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Secondary Editors</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS = UimPackage.UML_REFERENCE_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>New Object Wizard</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD = UimPackage.UML_REFERENCE_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Cube Query Editor</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_USER_INTERACTION_MODEL__CUBE_QUERY_EDITOR = UimPackage.UML_REFERENCE_FEATURE_COUNT + 6;
-
-	/**
-	 * The number of structural features of the '<em>Class User Interaction Model</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_USER_INTERACTION_MODEL_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 7;
-
-	/**
 	 * The meta object id for the '{@link org.opaeum.uim.model.impl.ResponsibilityUserInteractionModelImpl <em>Responsibility User Interaction Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -158,69 +77,6 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	int RESPONSIBILITY_USER_INTERACTION_MODEL = 1;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL__NAME = UimPackage.USER_INTERACTION_ELEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL = UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Invocation Wizard</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Viewer</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL__VIEWER = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The number of structural features of the '<em>Responsibility User Interaction Model</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESPONSIBILITY_USER_INTERACTION_MODEL_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.model.AbstractUserInteractionModel <em>Abstract User Interaction Model</em>}' class.
@@ -233,13 +89,40 @@ public interface ModelPackage extends EPackage {
 	int ABSTRACT_USER_INTERACTION_MODEL = 2;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_USER_INTERACTION_MODEL__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_USER_INTERACTION_MODEL__NAME = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_USER_INTERACTION_MODEL__UNDER_USER_CONTROL = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE = 0;
+	int ABSTRACT_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Abstract User Interaction Model</em>' class.
@@ -248,7 +131,151 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT = 1;
+	int ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__UML_ELEMENT_UID = ABSTRACT_USER_INTERACTION_MODEL__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__NAME = ABSTRACT_USER_INTERACTION_MODEL__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL = ABSTRACT_USER_INTERACTION_MODEL__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE = ABSTRACT_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Primary Editor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR = ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Secondary Editors</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS = ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>New Object Wizard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD = ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Cube Query Editor</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL__CUBE_QUERY_EDITOR = ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Class User Interaction Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_USER_INTERACTION_MODEL_FEATURE_COUNT = ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID = ABSTRACT_USER_INTERACTION_MODEL__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__NAME = ABSTRACT_USER_INTERACTION_MODEL__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL = ABSTRACT_USER_INTERACTION_MODEL__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE = ABSTRACT_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Invocation Wizard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD = ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Viewer</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_USER_INTERACTION_MODEL__VIEWER = ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Responsibility User Interaction Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_USER_INTERACTION_MODEL_FEATURE_COUNT = ABSTRACT_USER_INTERACTION_MODEL_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.model.impl.BehaviorUserInteractionModelImpl <em>Behavior User Interaction Model</em>}' class.
@@ -259,6 +286,33 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	int BEHAVIOR_USER_INTERACTION_MODEL = 3;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_USER_INTERACTION_MODEL__UML_ELEMENT_UID = ABSTRACT_USER_INTERACTION_MODEL__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_USER_INTERACTION_MODEL__NAME = ABSTRACT_USER_INTERACTION_MODEL__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_USER_INTERACTION_MODEL__UNDER_USER_CONTROL = ABSTRACT_USER_INTERACTION_MODEL__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
@@ -370,6 +424,33 @@ public interface ModelPackage extends EPackage {
 	int QUERY_INVOKER__IGNORED_ELEMENTS = EditorPackage.ABSTRACT_EDITOR__IGNORED_ELEMENTS;
 
 	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY_INVOKER__SUPER_USER_INTERFACES = EditorPackage.ABSTRACT_EDITOR__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY_INVOKER__PAGE_ORDERING = EditorPackage.ABSTRACT_EDITOR__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY_INVOKER__SUB_USER_INTERFACES = EditorPackage.ABSTRACT_EDITOR__SUB_USER_INTERFACES;
+
+	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -377,6 +458,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int QUERY_INVOKER__PAGES = EditorPackage.ABSTRACT_EDITOR__PAGES;
+
+	/**
+	 * The feature id for the '<em><b>Action Bar</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY_INVOKER__ACTION_BAR = EditorPackage.ABSTRACT_EDITOR__ACTION_BAR;
 
 	/**
 	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.
@@ -477,6 +567,33 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_INVOCATION_WIZARD__IGNORED_ELEMENTS = WizardPackage.INVOCATION_WIZARD__IGNORED_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_INVOCATION_WIZARD__SUPER_USER_INTERFACES = WizardPackage.INVOCATION_WIZARD__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_INVOCATION_WIZARD__PAGE_ORDERING = WizardPackage.INVOCATION_WIZARD__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_INVOCATION_WIZARD__SUB_USER_INTERFACES = WizardPackage.INVOCATION_WIZARD__SUB_USER_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
@@ -589,6 +706,33 @@ public interface ModelPackage extends EPackage {
 	int EMBEDDED_TASK_EDITOR__IGNORED_ELEMENTS = EditorPackage.ABSTRACT_EDITOR__IGNORED_ELEMENTS;
 
 	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMBEDDED_TASK_EDITOR__SUPER_USER_INTERFACES = EditorPackage.ABSTRACT_EDITOR__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMBEDDED_TASK_EDITOR__PAGE_ORDERING = EditorPackage.ABSTRACT_EDITOR__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMBEDDED_TASK_EDITOR__SUB_USER_INTERFACES = EditorPackage.ABSTRACT_EDITOR__SUB_USER_INTERFACES;
+
+	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -596,6 +740,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int EMBEDDED_TASK_EDITOR__PAGES = EditorPackage.ABSTRACT_EDITOR__PAGES;
+
+	/**
+	 * The feature id for the '<em><b>Action Bar</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMBEDDED_TASK_EDITOR__ACTION_BAR = EditorPackage.ABSTRACT_EDITOR__ACTION_BAR;
 
 	/**
 	 * The feature id for the '<em><b>Linked Uml Resource</b></em>' attribute.

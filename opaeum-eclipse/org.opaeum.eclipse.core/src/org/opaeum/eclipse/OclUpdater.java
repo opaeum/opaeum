@@ -22,6 +22,7 @@ import org.opaeum.eclipse.commands.SetOclBodyCommand;
 import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.metamodel.workspace.OpaeumOcl;
 import org.opaeum.ocl.uml.AbstractOclContext;
 
 public class OclUpdater implements OpaeumSynchronizationListener{

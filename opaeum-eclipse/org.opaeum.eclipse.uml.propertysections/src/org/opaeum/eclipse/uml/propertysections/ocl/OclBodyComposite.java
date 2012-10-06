@@ -45,7 +45,7 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.BrokenRule;
 import org.opaeum.metamodel.validation.IValidationRule;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.metamodel.workspace.OpaeumOcl;
 import org.opaeum.ocl.uml.AbstractOclContext;
 import org.opaeum.ocl.uml.OpaeumDiagnostic;
 import org.opaeum.validation.OclValidator;
@@ -157,7 +157,7 @@ public abstract class OclBodyComposite extends Composite{
 		viewer = new OpaeumOclViewer(this, new ColorManager(), SWT.MULTI | textControlStyle);
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		document = new OCLDocument();
-		factory = new OpaeumOclFactory(OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getOpaeumLibrary());
+		factory = new OpaeumOclFactory(OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getOpaeumLibrary().getOcl());
 		document.setOCLFactory(factory);
 		document.setModelingLevel(ModelingLevel.M1);
 		viewer.setInput(document);
@@ -234,7 +234,7 @@ public abstract class OclBodyComposite extends Composite{
 		StyledText t = viewer.getTextWidget();
 		if(!(oclBodyOwner == null || t == null || t.isDisposed() || OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner) == null)){
 			OpenUmlFile ouf = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner);
-			OpaeumLibrary lib = ouf.getEmfWorkspace().getOpaeumLibrary();
+			OpaeumOcl lib = ouf.getEmfWorkspace().getOpaeumLibrary().getOcl();
 			AbstractOclContext ctx = null;
 			if(oclBodyOwner instanceof OpaqueExpression){
 				ctx = lib.getOclExpressionContext((OpaqueExpression) oclBodyOwner);

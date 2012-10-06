@@ -435,10 +435,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
 		EditorPackage theEditorPackage = (EditorPackage)EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI);
 		WizardPackage theWizardPackage = (WizardPackage)EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI);
 		CubePackage theCubePackage = (CubePackage)EPackage.Registry.INSTANCE.getEPackage(CubePackage.eNS_URI);
+		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
@@ -446,12 +446,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		classUserInteractionModelEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		classUserInteractionModelEClass.getESuperTypes().add(theUimPackage.getUserInteractionElement());
 		classUserInteractionModelEClass.getESuperTypes().add(this.getAbstractUserInteractionModel());
-		responsibilityUserInteractionModelEClass.getESuperTypes().add(theUimPackage.getUserInteractionElement());
-		responsibilityUserInteractionModelEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 		responsibilityUserInteractionModelEClass.getESuperTypes().add(this.getAbstractUserInteractionModel());
+		abstractUserInteractionModelEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		abstractUserInteractionModelEClass.getESuperTypes().add(theUimPackage.getUserInteractionElement());
 		behaviorUserInteractionModelEClass.getESuperTypes().add(this.getAbstractUserInteractionModel());
 		queryInvokerEClass.getESuperTypes().add(theEditorPackage.getAbstractEditor());
 		queryInvokerEClass.getESuperTypes().add(this.getAbstractUserInteractionModel());

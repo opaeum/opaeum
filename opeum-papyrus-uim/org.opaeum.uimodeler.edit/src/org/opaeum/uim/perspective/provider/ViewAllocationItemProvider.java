@@ -22,6 +22,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.ViewAllocation;
 import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.provider.UserInteractionElementItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.perspective.ViewAllocation} object.
@@ -30,7 +31,7 @@ import org.opaeum.uim.provider.UimEditPlugin;
  * @generated
  */
 public class ViewAllocationItemProvider
-	extends ItemProviderAdapter
+	extends UserInteractionElementItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -150,8 +151,7 @@ public class ViewAllocationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Integer labelValue = ((ViewAllocation)object).getWidth();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((ViewAllocation)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ViewAllocation_type") :
 			getString("_UI_ViewAllocation_type") + " " + label;

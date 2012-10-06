@@ -103,12 +103,14 @@ public class PerspectiveSwitch<T> {
 			case PerspectivePackage.PERSPECTIVE_CONFIGURATION: {
 				PerspectiveConfiguration perspectiveConfiguration = (PerspectiveConfiguration)theEObject;
 				T result = casePerspectiveConfiguration(perspectiveConfiguration);
+				if (result == null) result = caseUserInteractionElement(perspectiveConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case PerspectivePackage.VIEW_ALLOCATION: {
 				ViewAllocation viewAllocation = (ViewAllocation)theEObject;
 				T result = caseViewAllocation(viewAllocation);
+				if (result == null) result = caseUserInteractionElement(viewAllocation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -116,13 +118,19 @@ public class PerspectiveSwitch<T> {
 				ExplorerConfiguration explorerConfiguration = (ExplorerConfiguration)theEObject;
 				T result = caseExplorerConfiguration(explorerConfiguration);
 				if (result == null) result = caseViewAllocation(explorerConfiguration);
+				if (result == null) result = caseUserInteractionElement(explorerConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case PerspectivePackage.EXPLORER_CLASS_CONSTRAINT: {
 				ExplorerClassConstraint explorerClassConstraint = (ExplorerClassConstraint)theEObject;
 				T result = caseExplorerClassConstraint(explorerClassConstraint);
+				if (result == null) result = caseExplorerConstraint(explorerClassConstraint);
+				if (result == null) result = caseUserInteractionConstraint(explorerClassConstraint);
+				if (result == null) result = caseLabeledElement(explorerClassConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(explorerClassConstraint);
 				if (result == null) result = caseUmlReference(explorerClassConstraint);
+				if (result == null) result = caseUserInteractionElement(explorerClassConstraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -142,6 +150,7 @@ public class PerspectiveSwitch<T> {
 				EditorConfiguration editorConfiguration = (EditorConfiguration)theEObject;
 				T result = caseEditorConfiguration(editorConfiguration);
 				if (result == null) result = caseViewAllocation(editorConfiguration);
+				if (result == null) result = caseUserInteractionElement(editorConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -149,6 +158,7 @@ public class PerspectiveSwitch<T> {
 				PropertiesConfiguration propertiesConfiguration = (PropertiesConfiguration)theEObject;
 				T result = casePropertiesConfiguration(propertiesConfiguration);
 				if (result == null) result = caseViewAllocation(propertiesConfiguration);
+				if (result == null) result = caseUserInteractionElement(propertiesConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -191,6 +201,7 @@ public class PerspectiveSwitch<T> {
 				InboxConfiguration inboxConfiguration = (InboxConfiguration)theEObject;
 				T result = caseInboxConfiguration(inboxConfiguration);
 				if (result == null) result = caseViewAllocation(inboxConfiguration);
+				if (result == null) result = caseUserInteractionElement(inboxConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -198,6 +209,7 @@ public class PerspectiveSwitch<T> {
 				OutboxConfiguration outboxConfiguration = (OutboxConfiguration)theEObject;
 				T result = caseOutboxConfiguration(outboxConfiguration);
 				if (result == null) result = caseViewAllocation(outboxConfiguration);
+				if (result == null) result = caseUserInteractionElement(outboxConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

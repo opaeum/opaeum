@@ -74,8 +74,7 @@ public class EditorConfigurationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Integer labelValue = ((EditorConfiguration)object).getWidth();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((EditorConfiguration)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_EditorConfiguration_type") :
 			getString("_UI_EditorConfiguration_type") + " " + label;

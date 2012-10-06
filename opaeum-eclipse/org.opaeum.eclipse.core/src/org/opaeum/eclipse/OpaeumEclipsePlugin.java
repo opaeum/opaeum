@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.opaeum.eclipse.newchild.CreateChildActions;
 import org.opaeum.eclipse.newchild.ICreateChildAction;
+import org.opaeum.eclipse.newchild.ICreateChildActionProvider;
 import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
@@ -36,6 +37,7 @@ import org.opaeum.strategies.QuantityBasedCostStrategyFactory;
 import org.opaeum.strategies.TextStrategyFactory;
 
 public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryChangeListener{
+	private static final String ORG_OPAEUM_ECLIPSE = "org.opaeum.eclipse";
 	public static final String PLUGIN_ID = "org.opaeum.eclipse.core";
 	public static final String TRANSFORMATION_STEP_EXTENSION_POINT_ID = "transformationStep";
 	public static final String SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID = "sourceFolderStrategy";
@@ -43,12 +45,14 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 	private static final String PROFILE_EXTENSION_POINT_ID = "profile";
 	private static final String STRATEGY_FACTORY_EXTENSION_POINT_ID = "strategyFactory";
 	private static final String CREATE_CHILD_ACTION = "createChildAction";
+	private static final String CREATE_CHILD_ACTION_PROVIDER = "createChildActionProvider";
 	private static OpaeumEclipsePlugin plugin;
 	private ResourceBundle resourceBundle;
 	private Set<Class<? extends ITransformationStep>> transformationSteps = new HashSet<Class<? extends ITransformationStep>>();
 	private Set<Class<? extends ISourceFolderStrategy>> sourceFolderStrategies = new HashSet<Class<? extends ISourceFolderStrategy>>();
 	private Set<Class<? extends AbstractStrategyFactory>> strategyFactories = new HashSet<Class<? extends AbstractStrategyFactory>>();
 	private Set<ICreateChildAction> createChildActions = new HashSet<ICreateChildAction>();
+	private Set<ICreateChildActionProvider> createChildActionProviders = new HashSet<ICreateChildActionProvider>();
 	private Set<ModelLibrary> modelLibraries = new HashSet<ModelLibrary>();
 	private Set<ModelLibrary> profiles = new HashSet<ModelLibrary>();
 	public OpaeumEclipsePlugin(){
@@ -72,19 +76,30 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		OpaeumConfig.registerClass(DurationStrategyFactory.class);
 		OpaeumConfig.registerClass(CumulativeDurationStrategyFactory.class);
 		IExtensionRegistry r = Platform.getExtensionRegistry();
-		addCreateChildActions(r.getConfigurationElementsFor("org.opaeum.eclipse", CREATE_CHILD_ACTION));
-		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
-		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID),
+		addCreateChildActions(r.getConfigurationElementsFor(PLUGIN_ID, CREATE_CHILD_ACTION));
+		addCreateChildActionProviders(r.getConfigurationElementsFor(PLUGIN_ID, CREATE_CHILD_ACTION_PROVIDER));
+		registerExtensions(r.getConfigurationElementsFor(PLUGIN_ID, TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
+		registerExtensions(r.getConfigurationElementsFor(PLUGIN_ID, SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID),
 				sourceFolderStrategies);
-		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
-		addModelLibraries(r.getConfigurationElementsFor("org.opaeum.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID));
-		addProfiles(r.getConfigurationElementsFor("org.opaeum.eclipse", PROFILE_EXTENSION_POINT_ID));
+		registerExtensions(r.getConfigurationElementsFor(PLUGIN_ID, STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
+		addModelLibraries(r.getConfigurationElementsFor(PLUGIN_ID, MODEL_LIBRARY_EXTENSION_POINT_ID));
+		addProfiles(r.getConfigurationElementsFor(PLUGIN_ID, PROFILE_EXTENSION_POINT_ID));
 		r.addRegistryChangeListener(this);
 	}
 	protected void addCreateChildActions(IConfigurationElement[] configurationElementsFor){
 		for(IConfigurationElement e:configurationElementsFor){
 			try{
 				createChildActions.add((ICreateChildAction) e.createExecutableExtension("class"));
+			}catch(CoreException e1){
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	protected void addCreateChildActionProviders(IConfigurationElement[] configurationElementsFor){
+		for(IConfigurationElement e:configurationElementsFor){
+			try{
+				createChildActionProviders.add((ICreateChildActionProvider) e.createExecutableExtension("className"));
 			}catch(CoreException e1){
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -113,25 +128,29 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 	}
 	@Override
 	public void registryChanged(IRegistryChangeEvent event){
-		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
-		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID),
+		registerExtensionDeltas(event.getExtensionDeltas(ORG_OPAEUM_ECLIPSE, TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
+		registerExtensionDeltas(event.getExtensionDeltas(ORG_OPAEUM_ECLIPSE, SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID),
 				sourceFolderStrategies);
-		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
-		IExtensionDelta[] extensionDeltas = event.getExtensionDeltas("org.opaeum.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID);
+		registerExtensionDeltas(event.getExtensionDeltas(ORG_OPAEUM_ECLIPSE, STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
+		IExtensionDelta[] extensionDeltas = event.getExtensionDeltas(ORG_OPAEUM_ECLIPSE, MODEL_LIBRARY_EXTENSION_POINT_ID);
 		for(IExtensionDelta delta:extensionDeltas){
 			if(delta.getKind() == IExtensionDelta.ADDED){
 				addModelLibraries(delta.getExtension().getConfigurationElements());
 			}
 		}
-		extensionDeltas = event.getExtensionDeltas("org.opaeum.eclipse", PROFILE_EXTENSION_POINT_ID);
+		extensionDeltas = event.getExtensionDeltas(ORG_OPAEUM_ECLIPSE, PROFILE_EXTENSION_POINT_ID);
 		for(IExtensionDelta delta:extensionDeltas){
 			if(delta.getKind() == IExtensionDelta.ADDED){
 				addProfiles(delta.getExtension().getConfigurationElements());
 			}
 		}
-		for(IExtensionDelta ed:event.getExtensionDeltas("org.opaeum.eclipse", CREATE_CHILD_ACTION)){
+		for(IExtensionDelta ed:event.getExtensionDeltas(ORG_OPAEUM_ECLIPSE, CREATE_CHILD_ACTION)){
 			IConfigurationElement[] configurationElements = ed.getExtension().getConfigurationElements();
 			addCreateChildActions(configurationElements);
+		}
+		for(IExtensionDelta ed:event.getExtensionDeltas(ORG_OPAEUM_ECLIPSE, CREATE_CHILD_ACTION_PROVIDER)){
+			IConfigurationElement[] configurationElements = ed.getExtension().getConfigurationElements();
+			addCreateChildActionProviders(configurationElements);
 		}
 	}
 	public void registerExtensionDeltas(IExtensionDelta[] extensionDeltas,@SuppressWarnings("rawtypes")
@@ -180,9 +199,12 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 	public static String getId(){
 		return PLUGIN_ID;
 	}
+	public Set<ICreateChildActionProvider> getCreateChildActionProviders(){
+		return this.createChildActionProviders;
+		
+	}
 	public Set<ICreateChildAction> getCreateChildActions(){
 		HashSet<ICreateChildAction> result = new HashSet<ICreateChildAction>(createChildActions);
-		result.addAll(CreateChildActions.ACTIONS);
 		return result;
 	}
 }

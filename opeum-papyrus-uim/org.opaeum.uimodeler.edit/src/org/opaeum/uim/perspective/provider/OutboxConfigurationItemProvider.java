@@ -74,8 +74,7 @@ public class OutboxConfigurationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Integer labelValue = ((OutboxConfiguration)object).getWidth();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((OutboxConfiguration)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_OutboxConfiguration_type") :
 			getString("_UI_OutboxConfiguration_type") + " " + label;

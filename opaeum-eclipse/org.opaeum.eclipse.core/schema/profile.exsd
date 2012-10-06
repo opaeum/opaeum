@@ -3,7 +3,7 @@
 <schema targetNamespace="org.opaeum.eclipse" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.opaeum.eclipse" id="org.opaeum.eclipse.profile" name="Profile"/>
+         <meta.schema plugin="org.opaeum.eclipse.core" id="profile" name="Profile"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]

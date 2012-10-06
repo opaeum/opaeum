@@ -155,8 +155,10 @@ public class EditorSwitch<T> {
 				T result = caseActionBar(actionBar);
 				if (result == null) result = caseAbstractPanel(actionBar);
 				if (result == null) result = caseUimContainer(actionBar);
+				if (result == null) result = caseLabeledElement(actionBar);
 				if (result == null) result = caseUimComponent(actionBar);
 				if (result == null) result = caseEditableConstrainedObject(actionBar);
+				if (result == null) result = caseUmlReference(actionBar);
 				if (result == null) result = caseUserInteractionElement(actionBar);
 				if (result == null) result = caseConstrainedObject(actionBar);
 				if (result == null) result = defaultCase(theEObject);

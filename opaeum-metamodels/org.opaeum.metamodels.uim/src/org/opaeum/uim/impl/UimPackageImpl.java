@@ -12,6 +12,7 @@ import org.opaeum.uim.IgnoredElement;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.Page;
+import org.opaeum.uim.PageOrdering;
 import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UmlReference;
@@ -95,6 +96,13 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * @generated
 	 */
 	private EClass ignoredElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass pageOrderingEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -281,6 +289,33 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getUserInterfaceRoot_SuperUserInterfaces() {
+		return (EReference)userInterfaceRootEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUserInterfaceRoot_PageOrdering() {
+		return (EReference)userInterfaceRootEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUserInterfaceRoot_SubUserInterfaces() {
+		return (EReference)userInterfaceRootEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getPage() {
 		return pageEClass;
 	}
@@ -344,6 +379,42 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getPageOrdering() {
+		return pageOrderingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPageOrdering_Page() {
+		return (EReference)pageOrderingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPageOrdering_Position() {
+		return (EAttribute)pageOrderingEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPageOrdering_LabelOverride() {
+		return (EReference)pageOrderingEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UimFactory getUimFactory() {
 		return (UimFactory)getEFactoryInstance();
 	}
@@ -378,6 +449,9 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__EDITABILITY);
 		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__VISIBILITY);
 		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__IGNORED_ELEMENTS);
+		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__SUPER_USER_INTERFACES);
+		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__PAGE_ORDERING);
+		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__SUB_USER_INTERFACES);
 
 		pageEClass = createEClass(PAGE);
 		createEReference(pageEClass, PAGE__PANEL);
@@ -389,6 +463,11 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 
 		ignoredElementEClass = createEClass(IGNORED_ELEMENT);
 		createEReference(ignoredElementEClass, IGNORED_ELEMENT__USER_INTERFACE_ROOT);
+
+		pageOrderingEClass = createEClass(PAGE_ORDERING);
+		createEReference(pageOrderingEClass, PAGE_ORDERING__PAGE);
+		createEAttribute(pageOrderingEClass, PAGE_ORDERING__POSITION);
+		createEReference(pageOrderingEClass, PAGE_ORDERING__LABEL_OVERRIDE);
 	}
 
 	/**
@@ -467,6 +546,9 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		initEReference(getUserInterfaceRoot_Editability(), theConstraintPackage.getRootUserInteractionConstraint(), null, "editability", null, 0, 1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUserInterfaceRoot_Visibility(), theConstraintPackage.getRootUserInteractionConstraint(), null, "visibility", null, 0, 1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUserInterfaceRoot_IgnoredElements(), this.getIgnoredElement(), this.getIgnoredElement_UserInterfaceRoot(), "ignoredElements", null, 0, -1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUserInterfaceRoot_SuperUserInterfaces(), this.getUserInterfaceRoot(), this.getUserInterfaceRoot_SubUserInterfaces(), "superUserInterfaces", null, 0, -1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUserInterfaceRoot_PageOrdering(), this.getPageOrdering(), null, "pageOrdering", null, 0, -1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUserInterfaceRoot_SubUserInterfaces(), this.getUserInterfaceRoot(), this.getUserInterfaceRoot_SuperUserInterfaces(), "subUserInterfaces", null, 0, -1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(userInterfaceRootEClass, this.getPage(), "getPages", 0, -1, IS_UNIQUE, IS_ORDERED);
 
@@ -480,6 +562,11 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 
 		initEClass(ignoredElementEClass, IgnoredElement.class, "IgnoredElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIgnoredElement_UserInterfaceRoot(), this.getUserInterfaceRoot(), this.getUserInterfaceRoot_IgnoredElements(), "userInterfaceRoot", null, 0, 1, IgnoredElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(pageOrderingEClass, PageOrdering.class, "PageOrdering", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPageOrdering_Page(), this.getPage(), null, "page", null, 0, 1, PageOrdering.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPageOrdering_Position(), theEcorePackage.getEInt(), "position", null, 0, 1, PageOrdering.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPageOrdering_LabelOverride(), this.getLabels(), null, "labelOverride", null, 0, 1, PageOrdering.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

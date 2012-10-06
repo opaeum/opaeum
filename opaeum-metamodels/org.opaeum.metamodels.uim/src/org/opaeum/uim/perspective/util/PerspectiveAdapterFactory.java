@@ -131,8 +131,8 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 				return createOutboxConfigurationAdapter();
 			}
 			@Override
-			public Adapter caseUmlReference(UmlReference object) {
-				return createUmlReferenceAdapter();
+			public Adapter caseUserInteractionElement(UserInteractionElement object) {
+				return createUserInteractionElementAdapter();
 			}
 			@Override
 			public Adapter caseRootUserInteractionConstraint(RootUserInteractionConstraint object) {
@@ -143,8 +143,8 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 				return createUserInteractionConstraintAdapter();
 			}
 			@Override
-			public Adapter caseUserInteractionElement(UserInteractionElement object) {
-				return createUserInteractionElementAdapter();
+			public Adapter caseUmlReference(UmlReference object) {
+				return createUmlReferenceAdapter();
 			}
 			@Override
 			public Adapter caseLabeledElement(LabeledElement object) {

@@ -3,7 +3,7 @@
 <schema targetNamespace="org.opaeum.eclipse" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.opaeum.eclipse" id="transformationStep" name="TransformationStep"/>
+         <meta.schema plugin="org.opaeum.eclipse.core" id="transformationStep" name="TransformationStep"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]

@@ -74,8 +74,7 @@ public class PropertiesConfigurationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Integer labelValue = ((PropertiesConfiguration)object).getWidth();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((PropertiesConfiguration)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_PropertiesConfiguration_type") :
 			getString("_UI_PropertiesConfiguration_type") + " " + label;

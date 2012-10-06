@@ -2,6 +2,8 @@
  */
 package org.opaeum.uim.action;
 
+import org.opaeum.uim.Labels;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -12,6 +14,7 @@ package org.opaeum.uim.action;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.opaeum.uim.action.BuiltInLink#getKind <em>Kind</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.BuiltInLink#getLabels <em>Labels</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,5 +51,31 @@ public interface BuiltInLink extends AbstractLink {
 	 * @generated
 	 */
 	void setKind(BuiltInLinkKind value);
+
+	/**
+	 * Returns the value of the '<em><b>Labels</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Labels</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Labels</em>' containment reference.
+	 * @see #setLabels(Labels)
+	 * @see org.opaeum.uim.action.ActionPackage#getBuiltInLink_Labels()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Labels getLabels();
+
+	/**
+	 * Sets the value of the '{@link org.opaeum.uim.action.BuiltInLink#getLabels <em>Labels</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Labels</em>' containment reference.
+	 * @see #getLabels()
+	 * @generated
+	 */
+	void setLabels(Labels value);
 
 } // BuiltInLink

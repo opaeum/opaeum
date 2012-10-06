@@ -17,7 +17,7 @@ import org.opaeum.uim.model.BehaviorUserInteractionModel;
  * </p>
  *
  * @see org.opaeum.uim.editor.EditorPackage#getBehaviorExecutionEditor()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface BehaviorExecutionEditor extends InstanceEditor {

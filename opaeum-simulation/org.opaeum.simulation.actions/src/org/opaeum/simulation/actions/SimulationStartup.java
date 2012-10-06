@@ -21,7 +21,7 @@ import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.metamodels.simulation.simulation.ActualInstance;
 import org.opaeum.metamodels.simulation.simulation.InstanceSimulation;
 import org.opaeum.metamodels.simulation.simulation.SimulatingSlot;
@@ -90,7 +90,7 @@ public class SimulationStartup implements IStartup{
 					}
 				}
 				private void synchronizeSlots(Classifier en,InstanceSpecification newValue){
-					List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(en);
+					List<Property> propertiesInScope = EmfPropertyUtil.getEffectiveProperties(en);
 					outer:for(Slot slot:new ArrayList<Slot>(newValue.getSlots())){
 						for(Property a:propertiesInScope){
 							if(a.equals(slot.getDefiningFeature()) && !(a.isDerived() || a.isDerivedUnion())){

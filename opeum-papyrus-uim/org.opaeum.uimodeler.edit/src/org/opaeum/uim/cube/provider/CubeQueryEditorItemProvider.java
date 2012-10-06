@@ -67,6 +67,8 @@ public class CubeQueryEditorItemProvider
 
 			addNamePropertyDescriptor(object);
 			addUnderUserControlPropertyDescriptor(object);
+			addSuperUserInterfacesPropertyDescriptor(object);
+			addSubUserInterfacesPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -116,6 +118,50 @@ public class CubeQueryEditorItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Super User Interfaces feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSuperUserInterfacesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInterfaceRoot_superUserInterfaces_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInterfaceRoot_superUserInterfaces_feature", "_UI_UserInterfaceRoot_type"),
+				 UimPackage.Literals.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Sub User Interfaces feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSubUserInterfacesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInterfaceRoot_subUserInterfaces_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInterfaceRoot_subUserInterfaces_feature", "_UI_UserInterfaceRoot_type"),
+				 UimPackage.Literals.USER_INTERFACE_ROOT__SUB_USER_INTERFACES,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -131,6 +177,7 @@ public class CubeQueryEditorItemProvider
 			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY);
 			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY);
 			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ROOT__IGNORED_ELEMENTS);
+			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ROOT__PAGE_ORDERING);
 			childrenFeatures.add(CubePackage.Literals.CUBE_QUERY_EDITOR__QUERIES);
 		}
 		return childrenFeatures;
@@ -194,6 +241,7 @@ public class CubeQueryEditorItemProvider
 			case CubePackage.CUBE_QUERY_EDITOR__EDITABILITY:
 			case CubePackage.CUBE_QUERY_EDITOR__VISIBILITY:
 			case CubePackage.CUBE_QUERY_EDITOR__IGNORED_ELEMENTS:
+			case CubePackage.CUBE_QUERY_EDITOR__PAGE_ORDERING:
 			case CubePackage.CUBE_QUERY_EDITOR__QUERIES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -235,6 +283,11 @@ public class CubeQueryEditorItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY,
 				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
 
 		newChildDescriptors.add
@@ -265,6 +318,11 @@ public class CubeQueryEditorItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY,
 				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
 
 		newChildDescriptors.add
@@ -281,6 +339,11 @@ public class CubeQueryEditorItemProvider
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__IGNORED_ELEMENTS,
 				 UimFactory.eINSTANCE.createIgnoredElement()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE_ROOT__PAGE_ORDERING,
+				 UimFactory.eINSTANCE.createPageOrdering()));
 
 		newChildDescriptors.add
 			(createChildParameter

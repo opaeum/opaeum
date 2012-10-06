@@ -4,11 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -65,15 +63,32 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmfElementFinder{
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
-		List<TypedElement> result = new ArrayList<TypedElement>(getPropertiesInScope(c));
+		List<TypedElement> result = new ArrayList<TypedElement>(EmfPropertyUtil.getEffectiveProperties(c));
 		if(c instanceof Behavior){
 			Behavior b = (Behavior) c;
 			result.addAll(b.getOwnedParameters());
 			if(b.getContext() != null){
-				result.addAll(getPropertiesInScope(b.getContext()));
+				result.addAll(EmfPropertyUtil.getEffectiveProperties(b.getContext()));
 			}
 		}
 		return result;
+	}
+	public static InterfaceRealization findNearestInterfaceRealization(Classifier c,Interface i){
+		if(c instanceof BehavioredClassifier){
+			for(InterfaceRealization ir:((BehavioredClassifier) c).getInterfaceRealizations()){
+				if(ir.getContract().conformsTo(i)){
+					return ir;
+				}
+			}
+			for(Classifier classifier:c.getGenerals()){
+				InterfaceRealization r = findNearestInterfaceRealization(classifier, i);
+				if(r!=null){
+					return r;
+				}
+				return r;
+			}
+		}
+		return null;
 	}
 	@SuppressWarnings("unchecked")
 	public static <T>T findNearestElementOfType(java.lang.Class<T> cls,EObject e){
@@ -86,9 +101,11 @@ public class EmfElementFinder{
 			return null;
 		}
 	}
+	@Deprecated
 	public static boolean isMeasure(Property p){
 		return EmfPropertyUtil.isMeasure(p);
 	}
+	@Deprecated
 	public static boolean isDimension(Property p){
 		return EmfPropertyUtil.isDimension(p);
 	}
@@ -105,7 +122,7 @@ public class EmfElementFinder{
 		return result;
 	}
 	public static boolean isFact(Class class1){
-		List<Property> propertiesInScope = getPropertiesInScope(class1);
+		List<Property> propertiesInScope = EmfPropertyUtil.getEffectiveProperties(class1);
 		for(Property property:propertiesInScope){
 			if(isMeasure(property)){
 				return true;
@@ -228,46 +245,12 @@ public class EmfElementFinder{
 			}
 		}
 	}
-	// TODO rename to getEffectiveProperties
+	/**
+	 * @deprecated Use {@link EmfPropertyUtil#getEffectiveProperties(Classifier)} instead
+	 */
+	@Deprecated
 	public static List<Property> getPropertiesInScope(Classifier c){
-		Map<String,Property> nameMap = new HashMap<String,Property>();
-		List<Property> result = new ArrayList<Property>();
-		for(Generalization ir:c.getGeneralizations()){
-			for(Property p:getPropertiesInScope(ir.getGeneral())){
-				result.add(p);
-				nameMap.put(p.getName(), p);
-			}
-		}
-		if(c instanceof BehavioredClassifier){
-			BehavioredClassifier cls = (BehavioredClassifier) c;
-			for(Interface ir:cls.getImplementedInterfaces()){
-				for(Property p:getPropertiesInScope(ir)){
-					if(!nameMap.containsKey(p.getName())){
-						result.add(p);
-						nameMap.put(p.getName(), p);
-					}
-				}
-			}
-		}
-		for(Property attribute:c.getAttributes()){
-			Property superAttribute = nameMap.get(attribute.getName());
-			if(superAttribute!=null){
-				result.remove(superAttribute);
-			}
-			result.add(attribute);
-		}
-		for(Association a:c.getAssociations()){
-			for(Property end:a.getMemberEnds()){
-				if(end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner() == a){
-					Property superEnd = nameMap.get(end.getName());
-					if(superEnd!=null){
-						result.remove(superEnd);
-					}
-					result.add(end);
-				}
-			}
-		}
-		return result;
+		return EmfPropertyUtil.getEffectiveProperties(c);
 	}
 	public static Element getContainer(EObject s){
 		if(s == null){

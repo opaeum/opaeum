@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA" name="Appliance doctor User Interface Model" linkedUmlResource="BusinessStructureModel.uml">
+  <primaryEditor name="Edit ApplianceDoctor" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+    <superUserInterfaces href="252060@_uVek8IoVEeCLqpffVZYAlw.uim#//@primaryEditor"/>
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pageOrdering page="//@primaryEditor/@pages.1" position="1"/>
+    <pageOrdering page="//@primaryEditor/@pages.2" position="2"/>
+    <pageOrdering page="//@primaryEditor/@pages.3" position="3"/>
+    <pageOrdering page="//@primaryEditor/@pages.4" position="4"/>
+    <pages umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA" name="Edit Appliance doctor">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_8-HO8HorEeGBZ7vhZCNgsg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Support number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_kin8IHsKEeGBGZr9IpIa3A"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Support e mail address" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_okhEQHsKEeGBGZr9IpIa3A"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Initiation date" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_rZMyYHsKEeGBGZr9IpIa3A"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Vat number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_VSJmQHsLEeGBGZr9IpIa3A"/>
+        </children>
+      </panel>
+    </pages>
+    <pages umlElementUid="914890@_0XGTgHHgEeGus4aKic9sIg" name="Manager">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Preferred e mail address type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_5anGoO0kEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Preferred phone number type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_6H5DYO0kEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Preferred e mail address" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_jUSd0O0mEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Preferred phone number" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_v3024O0mEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Business calendar to use" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_6BkycPl5EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_hU8D8HphEeGlh5y8zQdYBA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Years in position" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_JMxWcIPrEeGccYWaoIFIyQ"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Contact number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_M_kSoIPrEeGccYWaoIFIyQ"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Hourly rate" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_ROTj8IPrEeGccYWaoIFIyQ"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Represented person" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_3lcZgVYuEeGj5_I7bIwNoA"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <binding umlElementUid="914890@_0XGTgHHgEeGus4aKic9sIg"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages>
+    <pages umlElementUid="914890@_-IPNcJJNEeGW4L5IejZxpA" name="Branch">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" name="City" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="914890@_59AMMJKGEeGFkOm2e1MJNQ"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Technician" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="914890@_JaIUoJKfEeGiJMBDeZRymA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_ea2-cJT6EeG_oLv6jKpgkw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Represented organization" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_vf4noVYuEeGj5_I7bIwNoA"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <binding umlElementUid="914890@_-IPNcJJNEeGW4L5IejZxpA"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
+          <actionsOnMultipleSelection xsi:type="action:InvocationButton" name="Operation1" umlElementUid="914890@_dOodgMzBEeGKe7Qm4dvydQ">
+            <popup xsi:type="model:OperationInvocationWizard" href="914890@_dOodgMzBEeGKe7Qm4dvydQ.uim#/"/>
+          </actionsOnMultipleSelection>
+        </children>
+      </panel>
+    </pages>
+    <pages umlElementUid="914890@_wtFJEJK_EeGnpuq6_ber_Q" name="Appliance model">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_ht9n8HphEeGlh5y8zQdYBA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Part number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_Kid8QHpiEeGlh5y8zQdYBA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Vendor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="914890@_7RIUYHsKEeGBGZr9IpIa3A"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Appliance type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="914890@_Ek7dQJLAEeGnpuq6_ber_Q"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <binding umlElementUid="914890@_wtFJEJK_EeGnpuq6_ber_Q"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages>
+    <pages umlElementUid="914890@_CXC3MWOeEeGwMNo027LgxA" name="Is ai business component">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimField" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_rz7zsI6TEeCne5ArYLDbiA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Managed requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_jSstQI6lEeCFsPOcAnk69Q"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Interesting requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_7MraII6lEeCFsPOcAnk69Q"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Owned task requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_NYHP0I6mEeCFsPOcAnk69Q"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Participations in tasks" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_DIGv8JBkEeCWM9wKKqKWag"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Participations in requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_TfLFAJBkEeCWM9wKKqKWag"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Participation" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="252060@_3YyGkYoXEeCPduia_-NbFw"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Represented organization" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="252060@_vf4noVYuEeGj5_I7bIwNoA"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+      <children xsi:type="action:InvocationButton" name="Add accountant" umlElementUid="914890@_FGOJ8H4bEeGW5bASaRr7SQ">
+        <popup xsi:type="model:OperationInvocationWizard" href="914890@_FGOJ8H4bEeGW5bASaRr7SQ.uim#/"/>
+      </children>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create ApplianceDoctor" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+    <superUserInterfaces href="252060@_uVek8IoVEeCLqpffVZYAlw.uim#//@newObjectWizard"/>
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pageOrdering page="//@newObjectWizard/@pages.1" position="1"/>
+    <pageOrdering page="//@newObjectWizard/@pages.2" position="2"/>
+    <pageOrdering page="//@newObjectWizard/@pages.3" position="3"/>
+    <pageOrdering page="//@newObjectWizard/@pages.4" position="4"/>
+    <pages umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA" name="CreateAppliance doctor">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_8-HO8HorEeGBZ7vhZCNgsg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Support number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_kin8IHsKEeGBGZr9IpIa3A"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Support e mail address" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_okhEQHsKEeGBGZr9IpIa3A"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Initiation date" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_rZMyYHsKEeGBGZr9IpIa3A"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Vat number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_VSJmQHsLEeGBGZr9IpIa3A"/>
+        </children>
+      </panel>
+    </pages>
+    <pages umlElementUid="914890@_0XGTgHHgEeGus4aKic9sIg" name="Manager">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Preferred e mail address type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_5anGoO0kEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Preferred phone number type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_6H5DYO0kEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Preferred e mail address" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_jUSd0O0mEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Preferred phone number" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_v3024O0mEeGN-aZ7URyUbw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Business calendar to use" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_6BkycPl5EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_hU8D8HphEeGlh5y8zQdYBA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Years in position" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_JMxWcIPrEeGccYWaoIFIyQ"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Contact number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_M_kSoIPrEeGccYWaoIFIyQ"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Hourly rate" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_ROTj8IPrEeGccYWaoIFIyQ"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Represented person" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_3lcZgVYuEeGj5_I7bIwNoA"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <binding umlElementUid="914890@_0XGTgHHgEeGus4aKic9sIg"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages>
+    <pages umlElementUid="914890@_-IPNcJJNEeGW4L5IejZxpA" name="Branch">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" name="City" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="914890@_59AMMJKGEeGFkOm2e1MJNQ"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Technician" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="914890@_JaIUoJKfEeGiJMBDeZRymA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_ea2-cJT6EeG_oLv6jKpgkw"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Represented organization" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_vf4noVYuEeGj5_I7bIwNoA"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <binding umlElementUid="914890@_-IPNcJJNEeGW4L5IejZxpA"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
+          <actionsOnMultipleSelection xsi:type="action:InvocationButton" name="Operation1" umlElementUid="914890@_dOodgMzBEeGKe7Qm4dvydQ">
+            <popup xsi:type="model:OperationInvocationWizard" href="914890@_dOodgMzBEeGKe7Qm4dvydQ.uim#/"/>
+          </actionsOnMultipleSelection>
+        </children>
+      </panel>
+    </pages>
+    <pages umlElementUid="914890@_wtFJEJK_EeGnpuq6_ber_Q" name="Appliance model">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_ht9n8HphEeGlh5y8zQdYBA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Part number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="914890@_Kid8QHpiEeGlh5y8zQdYBA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Vendor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="914890@_7RIUYHsKEeGBGZr9IpIa3A"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Appliance type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="914890@_Ek7dQJLAEeGnpuq6_ber_Q"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <binding umlElementUid="914890@_wtFJEJK_EeGnpuq6_ber_Q"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages>
+    <pages umlElementUid="914890@_CXC3MWOeEeGwMNo027LgxA" name="Is ai business component">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimField" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_rz7zsI6TEeCne5ArYLDbiA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Managed requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_jSstQI6lEeCFsPOcAnk69Q"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Interesting requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_7MraII6lEeCFsPOcAnk69Q"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Owned task requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_NYHP0I6mEeCFsPOcAnk69Q"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Participations in tasks" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_DIGv8JBkEeCWM9wKKqKWag"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Participations in requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="252060@_TfLFAJBkEeCWM9wKKqKWag"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Participation" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="252060@_3YyGkYoXEeCPduia_-NbFw"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Represented organization" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="252060@_vf4noVYuEeGj5_I7bIwNoA"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

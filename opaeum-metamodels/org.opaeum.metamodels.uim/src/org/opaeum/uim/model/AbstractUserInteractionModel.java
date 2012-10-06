@@ -2,6 +2,8 @@
  */
 package org.opaeum.uim.model;
 
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -20,7 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model interface="true" abstract="true"
  * @generated
  */
-public interface AbstractUserInteractionModel extends EObject {
+public interface AbstractUserInteractionModel extends UmlReference, UserInteractionElement {
 	/**
 	 * Returns the value of the '<em><b>Linked Uml Resource</b></em>' attribute.
 	 * The default value is <code>""</code>.

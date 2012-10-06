@@ -76,6 +76,7 @@ public class AbstractEditorItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__PAGES);
+			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__ACTION_BAR);
 		}
 		return childrenFeatures;
 	}
@@ -131,6 +132,7 @@ public class AbstractEditorItemProvider
 
 		switch (notification.getFeatureID(AbstractEditor.class)) {
 			case EditorPackage.ABSTRACT_EDITOR__PAGES:
+			case EditorPackage.ABSTRACT_EDITOR__ACTION_BAR:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -152,6 +154,11 @@ public class AbstractEditorItemProvider
 			(createChildParameter
 				(EditorPackage.Literals.ABSTRACT_EDITOR__PAGES,
 				 EditorFactory.eINSTANCE.createEditorPage()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EditorPackage.Literals.ABSTRACT_EDITOR__ACTION_BAR,
+				 EditorFactory.eINSTANCE.createActionBar()));
 	}
 
 	/**

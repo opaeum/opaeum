@@ -26,7 +26,7 @@ import org.opaeum.uim.model.ModelPackage;
  *
  * @generated
  */
-public abstract class BehaviorExecutionEditorImpl extends InstanceEditorImpl implements BehaviorExecutionEditor {
+public class BehaviorExecutionEditorImpl extends InstanceEditorImpl implements BehaviorExecutionEditor {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

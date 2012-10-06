@@ -235,6 +235,15 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getBuiltInActionButton_Labels() {
+		return (EReference)builtInActionButtonEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAbstractActionButton() {
 		return abstractActionButtonEClass;
 	}
@@ -307,6 +316,15 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getBuiltInLink_Labels() {
+		return (EReference)builtInLinkEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getActionKind() {
 		return actionKindEEnum;
 	}
@@ -350,6 +368,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		// Create classes and their features
 		builtInActionButtonEClass = createEClass(BUILT_IN_ACTION_BUTTON);
 		createEAttribute(builtInActionButtonEClass, BUILT_IN_ACTION_BUTTON__KIND);
+		createEReference(builtInActionButtonEClass, BUILT_IN_ACTION_BUTTON__LABELS);
 
 		abstractActionButtonEClass = createEClass(ABSTRACT_ACTION_BUTTON);
 
@@ -364,6 +383,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		builtInLinkEClass = createEClass(BUILT_IN_LINK);
 		createEAttribute(builtInLinkEClass, BUILT_IN_LINK__KIND);
+		createEReference(builtInLinkEClass, BUILT_IN_LINK__LABELS);
 
 		// Create enums
 		actionKindEEnum = createEEnum(ACTION_KIND);
@@ -394,9 +414,9 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
+		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
 		ComponentPackage theComponentPackage = (ComponentPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
 		PanelPackage thePanelPackage = (PanelPackage)EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI);
-		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
 		WizardPackage theWizardPackage = (WizardPackage)EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI);
 
 		// Create type parameters
@@ -420,6 +440,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(builtInActionButtonEClass, BuiltInActionButton.class, "BuiltInActionButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBuiltInActionButton_Kind(), this.getActionKind(), "kind", null, 0, 1, BuiltInActionButton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBuiltInActionButton_Labels(), theUimPackage.getLabels(), null, "labels", null, 0, 1, BuiltInActionButton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractActionButtonEClass, AbstractActionButton.class, "AbstractActionButton", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -434,6 +455,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		initEClass(builtInLinkEClass, BuiltInLink.class, "BuiltInLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBuiltInLink_Kind(), this.getBuiltInLinkKind(), "kind", null, 0, 1, BuiltInLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBuiltInLink_Labels(), theUimPackage.getLabels(), null, "labels", null, 0, 1, BuiltInLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(actionKindEEnum, ActionKind.class, "ActionKind");
@@ -450,6 +472,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		addEEnumLiteral(actionKindEEnum, ActionKind.REVERT);
 		addEEnumLiteral(actionKindEEnum, ActionKind.ABORT);
 		addEEnumLiteral(actionKindEEnum, ActionKind.SKIP);
+		addEEnumLiteral(actionKindEEnum, ActionKind.RESUME);
 
 		initEEnum(builtInLinkKindEEnum, BuiltInLinkKind.class, "BuiltInLinkKind");
 		addEEnumLiteral(builtInLinkKindEEnum, BuiltInLinkKind.AUDIT_TRAIL);

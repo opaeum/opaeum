@@ -23,7 +23,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.uml.propertysections.core.SlotComposite.SlotValueListener;
 import org.opaeum.name.NameConverter;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
@@ -71,7 +71,7 @@ public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySec
 			if(classifier != null){
 				SlotComposite last = null;
 				SlotComposite first = null;
-				for(Property prop:EmfElementFinder.getPropertiesInScope(classifier)){
+				for(Property prop:EmfPropertyUtil.getEffectiveProperties(classifier)){
 					if(!(prop.isDerived() || prop.isDerivedUnion() || prop.isReadOnly())){
 						Label lbl = widgetFactory.createLabel(slotsGroup2, NameConverter.separateWords(NameConverter.capitalize(prop.getName())));
 						lbl.setAlignment(SWT.TOP | SWT.LEFT);

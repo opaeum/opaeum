@@ -3,9 +3,11 @@ package org.opaeum.eclipse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -38,7 +40,6 @@ import org.opaeum.eclipse.emulated.AssociationClassToEnd;
 import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.eclipse.emulated.InverseArtificialProperty;
 import org.opaeum.eclipse.emulated.NonInverseArtificialProperty;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class EmfPropertyUtil{
 	public static boolean isDerived(Property p){
@@ -47,8 +48,8 @@ public class EmfPropertyUtil{
 	public static Set<Property> getUniquenessConstraints(Classifier c){
 		Set<Property> result = new TreeSet<Property>(new ElementComparator());
 		for(Property property:getDirectlyImplementedAttributes(c)){
-			if(!property.isDerived() && !property.isDerivedUnion() && property.getOtherEnd() != null
-					&& property.getOtherEnd().getQualifiers().size() > 0 && property.getOtherEnd().getUpper() == 1){
+			if(!property.isDerived() && !property.isDerivedUnion() && property.getOtherEnd() != null && property.getOtherEnd().getQualifiers().size() > 0
+					&& property.getOtherEnd().getUpper() == 1){
 				result.add(property);
 			}
 		}
@@ -63,7 +64,7 @@ public class EmfPropertyUtil{
 			}
 		}
 		Set<Property> results = new TreeSet<Property>(new ElementComparator());
-		List<Property> effectiveAttributes = getEffectiveAttributes(c);
+		List<Property> effectiveAttributes = EmfPropertyUtil.getEffectiveProperties(c);
 		for(Property p:effectiveAttributes){
 			if(EmfPropertyUtil.getOwningClassifier(p) == c || !inheritedConcretePropertyNames.contains(p.getName())){
 				for(Property rp:p.getRedefinedProperties()){
@@ -82,9 +83,6 @@ public class EmfPropertyUtil{
 			}
 		}
 		return results;
-	}
-	private static List<Property> getEffectiveAttributes(Classifier c){
-		return EmfElementFinder.getPropertiesInScope(c);
 	}
 	public static boolean isDimension(TypedElement te){
 		return fullfillsRoleInCube(te, "DIMENSION");
@@ -183,7 +181,7 @@ public class EmfPropertyUtil{
 		if(e instanceof Class){
 			Class class1 = (Class) e;
 			if(class1 != null){
-				return new ArrayList<TypedElement>((Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(class1));
+				return new ArrayList<TypedElement>((Collection<Property>) (Collection) EmfPropertyUtil.getEffectiveProperties(class1));
 			}
 		}else if(e instanceof State){
 			State class1 = (State) e;
@@ -221,7 +219,7 @@ public class EmfPropertyUtil{
 	}
 	public static boolean isQualifier(Property p){
 		Classifier c = (Classifier) EmfElementFinder.getContainer(p);
-		List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(c);
+		List<Property> propertiesInScope = EmfPropertyUtil.getEffectiveProperties(c);
 		for(Property property:propertiesInScope){
 			if(property.getOtherEnd() != null){
 				for(Property q:property.getOtherEnd().getQualifiers()){
@@ -331,14 +329,66 @@ public class EmfPropertyUtil{
 		Collection<Setting> ref = ECrossReferenceAdapter.getCrossReferenceAdapter(p).getNonNavigableInverseReferences(p);
 		Collection<Property> result = new HashSet<Property>();
 		for(Setting setting:ref){
-			if(setting.getEObject() instanceof Property
-					&& setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getProperty_SubsettedProperty())){
+			if(setting.getEObject() instanceof Property && setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getProperty_SubsettedProperty())){
 				result.add((Property) setting.getEObject());
 			}
 		}
 		return result;
 	}
 	public static boolean isEndToComposite(TypedElement property){
-		return  property instanceof Property && ((Property) property).isNavigable() && ((Property) property).getOtherEnd() != null && ((Property) property).getOtherEnd().isComposite();
+		return property instanceof Property && ((Property) property).isNavigable() && ((Property) property).getOtherEnd() != null
+				&& ((Property) property).getOtherEnd().isComposite();
+	}
+	public static List<Property> getEffectiveProperties(Classifier c){
+		List<Property> result = new ArrayList<Property>();
+		HashMap<String,Property> nameMap = new HashMap<String,Property>();
+		addAttributesTo(c, nameMap, result);
+		addAssociationEndsTo(c, nameMap, result);
+		return result;
+	}
+	private static void addAttributesTo(Classifier c,Map<String,Property> nameMap,List<Property> result){
+		for(Generalization ir:c.getGeneralizations()){
+			addAttributesTo(ir.getGeneral(), nameMap, result);
+		}
+		if(c instanceof BehavioredClassifier){
+			BehavioredClassifier cls = (BehavioredClassifier) c;
+			for(Interface ir:cls.getImplementedInterfaces()){
+				addAttributesTo(ir, nameMap, result);
+			}
+		}
+		for(Property attribute:c.getAttributes()){
+			maybeAddProperty(c, nameMap, result, attribute);
+		}
+	}
+	private static void addAssociationEndsTo(Classifier c,Map<String,Property> nameMap,List<Property> result){
+		for(Generalization ir:c.getGeneralizations()){
+			addAssociationEndsTo(ir.getGeneral(), nameMap, result);
+		}
+		if(c instanceof BehavioredClassifier){
+			BehavioredClassifier cls = (BehavioredClassifier) c;
+			for(Interface ir:cls.getImplementedInterfaces()){
+				addAssociationEndsTo(ir, nameMap, result);
+			}
+		}
+		for(Association a:c.getAssociations()){
+			for(Property end:a.getMemberEnds()){
+				if(end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner() == a){
+					maybeAddProperty(c, nameMap, result, end);
+				}
+			}
+		}
+	}
+	private static void maybeAddProperty(Classifier c,Map<String,Property> nameMap,List<Property> result,Property attribute){
+		Property superAttribute = nameMap.get(attribute.getName());
+		if(superAttribute != null){
+			if(c instanceof Interface){
+				// DoNothing implemented property takes preference
+			}else{
+				result.remove(superAttribute);
+				result.add(attribute);
+			}
+		}else{
+			result.add(attribute);
+		}
 	}
 }

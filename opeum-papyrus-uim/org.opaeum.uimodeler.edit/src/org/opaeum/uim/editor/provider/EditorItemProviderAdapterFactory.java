@@ -93,6 +93,29 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.BehaviorExecutionEditor} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected BehaviorExecutionEditorItemProvider behaviorExecutionEditorItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.BehaviorExecutionEditor}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createBehaviorExecutionEditorAdapter() {
+		if (behaviorExecutionEditorItemProvider == null) {
+			behaviorExecutionEditorItemProvider = new BehaviorExecutionEditorItemProvider(this);
+		}
+
+		return behaviorExecutionEditorItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.EditorPage} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -353,6 +376,7 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	 */
 	public void dispose() {
 		if (abstractEditorItemProvider != null) abstractEditorItemProvider.dispose();
+		if (behaviorExecutionEditorItemProvider != null) behaviorExecutionEditorItemProvider.dispose();
 		if (editorPageItemProvider != null) editorPageItemProvider.dispose();
 		if (actionBarItemProvider != null) actionBarItemProvider.dispose();
 		if (menuConfigurationItemProvider != null) menuConfigurationItemProvider.dispose();

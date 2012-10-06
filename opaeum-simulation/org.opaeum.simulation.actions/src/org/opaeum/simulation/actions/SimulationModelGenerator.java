@@ -42,7 +42,6 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -334,7 +333,7 @@ public class SimulationModelGenerator{
 		allInstances.put(element, ais);
 		ais.setName(element.getName() + "InstanceSimulation");
 		ais.getClassifiers().add(element);
-		for(Property feature:EmfElementFinder.getPropertiesInScope(element)){
+		for(Property feature:EmfPropertyUtil.getEffectiveProperties(element)){
 			if(!libClasses.contains(feature.getType()) && !feature.isReadOnly() && !feature.isDerived()
 					&& !(feature.getOtherEnd() != null && feature.getOtherEnd().isComposite())){
 				SimulatingSlot slot = SimulationFactory.eINSTANCE.createSimulatingSlot();

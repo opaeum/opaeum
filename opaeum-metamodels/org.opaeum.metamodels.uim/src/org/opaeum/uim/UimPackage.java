@@ -196,13 +196,40 @@ public interface UimPackage extends EPackage {
 	int USER_INTERFACE_ROOT__IGNORED_ELEMENTS = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERFACE_ROOT__SUPER_USER_INTERFACES = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERFACE_ROOT__PAGE_ORDERING = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERFACE_ROOT__SUB_USER_INTERFACES = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
 	 * The number of structural features of the '<em>User Interface Root</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_INTERFACE_ROOT_FEATURE_COUNT = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 5;
+	int USER_INTERFACE_ROOT_FEATURE_COUNT = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.impl.PageImpl <em>Page</em>}' class.
@@ -454,6 +481,53 @@ public interface UimPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.PageOrderingImpl <em>Page Ordering</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.PageOrderingImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getPageOrdering()
+	 * @generated
+	 */
+	int PAGE_ORDERING = 7;
+
+	/**
+	 * The feature id for the '<em><b>Page</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_ORDERING__PAGE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_ORDERING__POSITION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_ORDERING__LABEL_OVERRIDE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Page Ordering</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_ORDERING_FEATURE_COUNT = 3;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -550,6 +624,39 @@ public interface UimPackage extends EPackage {
 	EReference getUserInterfaceRoot_IgnoredElements();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.opaeum.uim.UserInterfaceRoot#getSuperUserInterfaces <em>Super User Interfaces</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Super User Interfaces</em>'.
+	 * @see org.opaeum.uim.UserInterfaceRoot#getSuperUserInterfaces()
+	 * @see #getUserInterfaceRoot()
+	 * @generated
+	 */
+	EReference getUserInterfaceRoot_SuperUserInterfaces();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.UserInterfaceRoot#getPageOrdering <em>Page Ordering</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Page Ordering</em>'.
+	 * @see org.opaeum.uim.UserInterfaceRoot#getPageOrdering()
+	 * @see #getUserInterfaceRoot()
+	 * @generated
+	 */
+	EReference getUserInterfaceRoot_PageOrdering();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.opaeum.uim.UserInterfaceRoot#getSubUserInterfaces <em>Sub User Interfaces</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Sub User Interfaces</em>'.
+	 * @see org.opaeum.uim.UserInterfaceRoot#getSubUserInterfaces()
+	 * @see #getUserInterfaceRoot()
+	 * @generated
+	 */
+	EReference getUserInterfaceRoot_SubUserInterfaces();
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.Page <em>Page</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -621,6 +728,49 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getIgnoredElement_UserInterfaceRoot();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.PageOrdering <em>Page Ordering</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Page Ordering</em>'.
+	 * @see org.opaeum.uim.PageOrdering
+	 * @generated
+	 */
+	EClass getPageOrdering();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.PageOrdering#getPage <em>Page</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Page</em>'.
+	 * @see org.opaeum.uim.PageOrdering#getPage()
+	 * @see #getPageOrdering()
+	 * @generated
+	 */
+	EReference getPageOrdering_Page();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.PageOrdering#getPosition <em>Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Position</em>'.
+	 * @see org.opaeum.uim.PageOrdering#getPosition()
+	 * @see #getPageOrdering()
+	 * @generated
+	 */
+	EAttribute getPageOrdering_Position();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.PageOrdering#getLabelOverride <em>Label Override</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Label Override</em>'.
+	 * @see org.opaeum.uim.PageOrdering#getLabelOverride()
+	 * @see #getPageOrdering()
+	 * @generated
+	 */
+	EReference getPageOrdering_LabelOverride();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -723,6 +873,30 @@ public interface UimPackage extends EPackage {
 		EReference USER_INTERFACE_ROOT__IGNORED_ELEMENTS = eINSTANCE.getUserInterfaceRoot_IgnoredElements();
 
 		/**
+		 * The meta object literal for the '<em><b>Super User Interfaces</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USER_INTERFACE_ROOT__SUPER_USER_INTERFACES = eINSTANCE.getUserInterfaceRoot_SuperUserInterfaces();
+
+		/**
+		 * The meta object literal for the '<em><b>Page Ordering</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USER_INTERFACE_ROOT__PAGE_ORDERING = eINSTANCE.getUserInterfaceRoot_PageOrdering();
+
+		/**
+		 * The meta object literal for the '<em><b>Sub User Interfaces</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USER_INTERFACE_ROOT__SUB_USER_INTERFACES = eINSTANCE.getUserInterfaceRoot_SubUserInterfaces();
+
+		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.impl.PageImpl <em>Page</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -785,6 +959,40 @@ public interface UimPackage extends EPackage {
 		 * @generated
 		 */
 		EReference IGNORED_ELEMENT__USER_INTERFACE_ROOT = eINSTANCE.getIgnoredElement_UserInterfaceRoot();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.PageOrderingImpl <em>Page Ordering</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.PageOrderingImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getPageOrdering()
+		 * @generated
+		 */
+		EClass PAGE_ORDERING = eINSTANCE.getPageOrdering();
+
+		/**
+		 * The meta object literal for the '<em><b>Page</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PAGE_ORDERING__PAGE = eINSTANCE.getPageOrdering_Page();
+
+		/**
+		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PAGE_ORDERING__POSITION = eINSTANCE.getPageOrdering_Position();
+
+		/**
+		 * The meta object literal for the '<em><b>Label Override</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PAGE_ORDERING__LABEL_OVERRIDE = eINSTANCE.getPageOrdering_LabelOverride();
 
 	}
 

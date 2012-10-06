@@ -20,9 +20,12 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.model.BehaviorUserInteractionModel;
 import org.opaeum.uim.model.ModelPackage;
 import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.provider.UmlReferenceItemProvider;
 import org.opaeum.uim.wizard.WizardFactory;
 
 /**
@@ -32,7 +35,7 @@ import org.opaeum.uim.wizard.WizardFactory;
  * @generated
  */
 public class BehaviorUserInteractionModelItemProvider
-	extends ItemProviderAdapter
+	extends UmlReferenceItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -60,9 +63,55 @@ public class BehaviorUserInteractionModelItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
+			addUnderUserControlPropertyDescriptor(object);
 			addLinkedUmlResourcePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInteractionElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Under User Control feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUnderUserControlPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInteractionElement_underUserControl_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_underUserControl_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -137,7 +186,7 @@ public class BehaviorUserInteractionModelItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((BehaviorUserInteractionModel)object).getLinkedUmlResource();
+		String label = ((BehaviorUserInteractionModel)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_BehaviorUserInteractionModel_type") :
 			getString("_UI_BehaviorUserInteractionModel_type") + " " + label;
@@ -155,6 +204,8 @@ public class BehaviorUserInteractionModelItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(BehaviorUserInteractionModel.class)) {
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__NAME:
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
 			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
@@ -181,6 +232,11 @@ public class BehaviorUserInteractionModelItemProvider
 			(createChildParameter
 				(ModelPackage.Literals.BEHAVIOR_USER_INTERACTION_MODEL__INVOCATION_WIZARD,
 				 WizardFactory.eINSTANCE.createBehaviorInvocationWizard()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelPackage.Literals.BEHAVIOR_USER_INTERACTION_MODEL__EDITOR,
+				 EditorFactory.eINSTANCE.createBehaviorExecutionEditor()));
 	}
 
 	/**

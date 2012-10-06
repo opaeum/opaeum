@@ -2,6 +2,7 @@
  */
 package org.opaeum.uim.perspective;
 
+import org.opaeum.uim.UserInteractionElement;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -22,7 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface ViewAllocation extends EObject {
+public interface ViewAllocation extends UserInteractionElement {
 	/**
 	 * Returns the value of the '<em><b>Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->

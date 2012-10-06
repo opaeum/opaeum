@@ -3,20 +3,20 @@ package org.opaeum.ocl.uml;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ocl.AbstractTypeChecker;
-import org.eclipse.ocl.Environment;
 import org.eclipse.ocl.EnvironmentFactory;
 import org.eclipse.ocl.LookupException;
 import org.eclipse.ocl.TypeChecker;
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.types.CollectionType;
 import org.eclipse.ocl.types.TupleType;
-import org.eclipse.ocl.uml.UMLEnvironment;
 import org.eclipse.ocl.uml.UMLFactory;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.ocl.uml.impl.TypeTypeImpl;
@@ -56,20 +56,18 @@ import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 @SuppressWarnings("restriction")
-public final class OpaeumEnvironment extends UMLEnvironment{
-	OpaeumLibrary library;
-	Element context;
+public final class OpaeumEnvironment extends OpaeumParentEnvironment{
+	private Element context;
 	private Collection<Variable> variables;
 	public OpaeumEnvironment(
 			Element context,
-			Environment<Package,Classifier,Operation,Property,EnumerationLiteral,Parameter,State,CallOperationAction,SendSignalAction,Constraint,Class,EObject> parent,
-			OpaeumLibrary library,Collection<Variable> variables){
-		super(parent);
+			OpaeumParentEnvironment parent){
+		super(parent.getLibrary(). getResourceSet());
 		Variable self = UMLFactory.eINSTANCE.createVariable();
 		self.setName("self");
 		Classifier selfClassifier = EmfBehaviorUtil.getSelf(context);
@@ -92,8 +90,8 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 			addElement("responsibility", var, false);
 		}
 		this.context = context;
-		this.library = library;
-		this.variables = variables;
+		this.library = parent.getLibrary();
+		this.variables = new HashSet<Variable>();
 		setProblemHandler(new OpaeumOclProblemHandler(getParser()));
 	}
 	@Override
@@ -255,7 +253,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	}
 	@Override
 	public List<Property> getAdditionalAttributes(Classifier c){
-		List<Property> additionalAttributes = EmfElementFinder.getPropertiesInScope(c);
+		List<Property> additionalAttributes = EmfPropertyUtil.getEffectiveProperties(c);
 		if(c instanceof Class){
 			Class cls = (Class) c;
 			outer:for(Classifier classifier:cls.getNestedClassifiers()){
@@ -271,7 +269,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 						}
 					}
 				}
-				for(Property property:EmfElementFinder.getPropertiesInScope(classifier)){
+				for(Property property:EmfPropertyUtil.getEffectiveProperties(classifier)){
 					if(property.getOtherEnd() != null && property.getOtherEnd().isComposite()){
 						continue outer;
 					}
@@ -347,7 +345,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		}
 		if(nearestClassifier instanceof Behavior){
 		}else if(!(nearestClassifier == null || nearestClassifier.isAbstract())){
-			if(library.getEndToComposite(nearestClassifier) == null){
+			if(EmfPropertyUtil.getEndToComposite(nearestClassifier) == null){
 				Classifier owningObject = null;
 				owningObject = EmfElementFinder.getNearestClassifier(nearestClassifier.getOwner());
 				if(owningObject != null){
@@ -400,7 +398,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 		for(int i = 0; i < super.getElementsSize();i++){
 			VariableEntry element = super.getElement(i);
 			if(!element.isExplicit()){
-				List<Property> props = EmfElementFinder.getPropertiesInScope((Classifier) element.getVariable().getType());
+				List<Property> props = EmfPropertyUtil.getEffectiveProperties((Classifier) element.getVariable().getType());
 				for(Property property:props){
 					PropertyOfImplicitObject var = new PropertyOfImplicitObject((Variable) element.getVariable(), property);
 					var.setName(property.getName());
@@ -417,6 +415,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 			Type duration,String businesStateMachine){
 		Stereotype s = StereotypesHelper.getStereotype(element, businesStateMachine);
 		if(s != null){
+			@SuppressWarnings("unchecked")
 			EList<DurationObservation> obs = (EList<DurationObservation>) element.getValue(s, "durationObservations");
 			for(DurationObservation ob:obs){
 				Variable var = new EmulatedVariable(ob);
@@ -430,6 +429,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 			Type br,String businesStateMachine){
 		Stereotype s = StereotypesHelper.getStereotype(element, businesStateMachine);
 		if(s != null){
+			@SuppressWarnings("unchecked")
 			EList<TimeObservation> obs = (EList<TimeObservation>) element.getValue(s, "timeObservations");
 			for(TimeObservation timeObservation:obs){
 				Variable var = new EmulatedVariable(timeObservation);
@@ -537,4 +537,13 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	public State lookupState(Classifier owner,List<String> path) throws LookupException{
 		return super.lookupState(owner, path);
 	}
+	public void addVariables(Map<String,Classifier> variables2){
+		for(Entry<String,Classifier> entry:variables2.entrySet()){
+			Variable var = UMLFactory.eINSTANCE.createVariable();
+			var.setType(entry.getValue());
+			var.setName(entry.getKey());
+			variables.add(var);
+		}
+	}
+
 }

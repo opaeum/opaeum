@@ -56,6 +56,7 @@ public class BuiltInActionButtonItemProvider
 			super.getPropertyDescriptors(object);
 
 			addKindPropertyDescriptor(object);
+			addLabelsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -78,6 +79,28 @@ public class BuiltInActionButtonItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Labels feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addLabelsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_BuiltInActionButton_labels_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_BuiltInActionButton_labels_feature", "_UI_BuiltInActionButton_type"),
+				 ActionPackage.Literals.BUILT_IN_ACTION_BUTTON__LABELS,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}

@@ -541,12 +541,6 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 				default: return -1;
 			}
 		}
-		if (baseClass == AbstractUserInteractionModel.class) {
-			switch (derivedFeatureID) {
-				case ModelPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE: return ModelPackage.ABSTRACT_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE;
-				default: return -1;
-			}
-		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -561,12 +555,6 @@ public class ClassUserInteractionModelImpl extends UmlReferenceImpl implements C
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return ModelPackage.CLASS_USER_INTERACTION_MODEL__NAME;
 				case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL: return ModelPackage.CLASS_USER_INTERACTION_MODEL__UNDER_USER_CONTROL;
-				default: return -1;
-			}
-		}
-		if (baseClass == AbstractUserInteractionModel.class) {
-			switch (baseFeatureID) {
-				case ModelPackage.ABSTRACT_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE: return ModelPackage.CLASS_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE;
 				default: return -1;
 			}
 		}

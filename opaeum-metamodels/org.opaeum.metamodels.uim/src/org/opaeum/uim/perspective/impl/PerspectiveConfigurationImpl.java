@@ -7,6 +7,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.opaeum.uim.impl.UserInteractionElementImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.opaeum.uim.perspective.EditorConfiguration;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
@@ -33,7 +34,7 @@ import org.opaeum.uim.perspective.PropertiesConfiguration;
  *
  * @generated
  */
-public class PerspectiveConfigurationImpl extends EObjectImpl implements PerspectiveConfiguration {
+public class PerspectiveConfigurationImpl extends UserInteractionElementImpl implements PerspectiveConfiguration {
 	/**
 	 * The cached value of the '{@link #getExplorer() <em>Explorer</em>}' containment reference.
 	 * <!-- begin-user-doc -->

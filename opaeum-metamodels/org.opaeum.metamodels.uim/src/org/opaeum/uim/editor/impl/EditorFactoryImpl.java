@@ -64,6 +64,7 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case EditorPackage.ABSTRACT_EDITOR: return createAbstractEditor();
+			case EditorPackage.BEHAVIOR_EXECUTION_EDITOR: return createBehaviorExecutionEditor();
 			case EditorPackage.EDITOR_PAGE: return createEditorPage();
 			case EditorPackage.ACTION_BAR: return createActionBar();
 			case EditorPackage.MENU_CONFIGURATION: return createMenuConfiguration();
@@ -84,6 +85,16 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	public AbstractEditor createAbstractEditor() {
 		AbstractEditorImpl abstractEditor = new AbstractEditorImpl();
 		return abstractEditor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BehaviorExecutionEditor createBehaviorExecutionEditor() {
+		BehaviorExecutionEditorImpl behaviorExecutionEditor = new BehaviorExecutionEditorImpl();
+		return behaviorExecutionEditor;
 	}
 
 	/**

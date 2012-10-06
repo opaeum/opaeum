@@ -74,8 +74,7 @@ public class InboxConfigurationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Integer labelValue = ((InboxConfiguration)object).getWidth();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((InboxConfiguration)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_InboxConfiguration_type") :
 			getString("_UI_InboxConfiguration_type") + " " + label;

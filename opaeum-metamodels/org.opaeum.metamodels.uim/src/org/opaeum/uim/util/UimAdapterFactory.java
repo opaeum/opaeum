@@ -104,6 +104,10 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 				return createIgnoredElementAdapter();
 			}
 			@Override
+			public Adapter casePageOrdering(PageOrdering object) {
+				return createPageOrderingAdapter();
+			}
+			@Override
 			public Adapter caseConstrainedObject(ConstrainedObject object) {
 				return createConstrainedObjectAdapter();
 			}
@@ -234,6 +238,20 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIgnoredElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PageOrdering <em>Page Ordering</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.PageOrdering
+	 * @generated
+	 */
+	public Adapter createPageOrderingAdapter() {
 		return null;
 	}
 

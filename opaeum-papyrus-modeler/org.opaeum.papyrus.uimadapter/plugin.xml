@@ -12,7 +12,7 @@
 
  <extension
        id="org.opaeum.uim.uiml2uim.transformationSteps"
-       point="org.opaeum.eclipse.transformationStep">
+       point="org.opaeum.eclipse.core.transformationStep">
     <transformationStep
           className="org.opaeum.uim.uml2uim.FormSynchronizer">
     </transformationStep>
@@ -23,4 +23,37 @@
           class="org.opaeum.uml2uim.UserInterfaceSynchronizerManager">
     </startup>
  </extension>
+    <extension point="org.eclipse.emf.facet.infra.query.registration">
+      <modelqueryset file="model/UimBrowserQuery.querySet"/>
+   </extension>
+   <extension point="org.eclipse.emf.facet.infra.facet.registration">
+      <facetset file="model/UmlUimFacet.facetSet">
+      </facetset>
+   </extension>
+   <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
+      <browserCustomization file="model/UimUmlBrowserCustomization.uiCustom" loadByDefault="true"/>
+   </extension>
+   <extension point="org.eclipse.emf.facet.infra.facet.registration">
+      <facetset file="model/UimDiagramFacet.facetSet">
+      </facetset>
+   </extension>
+   <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
+      <browserCustomization file="model/UimDiagramFacetBrowserCustomization.uiCustom" loadByDefault="true"/>
+   </extension>
+   <extension
+         point="org.eclipse.papyrus.infra.core.service">
+      <serviceFactory
+            classname="org.opaeum.uim.resources.UimModelSetServiceFactory"
+            description="The service loading Models - Overload the original service."
+            id="org.eclipse.papyrus.infra.core.resource.ModelSet"
+            priority="10"
+            startKind="startup">
+      </serviceFactory>
+   </extension>
+   <extension
+         point="org.opaeum.eclipse.core.createChildActionProvider">
+      <createChildActionProvider
+            className="org.opaeum.uim.createchild.CreateChildActions">
+      </createChildActionProvider>
+   </extension>   
 </plugin>

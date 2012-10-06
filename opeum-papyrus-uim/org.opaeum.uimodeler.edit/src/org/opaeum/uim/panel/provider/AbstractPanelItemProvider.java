@@ -10,14 +10,17 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.UimFactory;
+import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.component.provider.UimContainerItemProvider;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.panel.AbstractPanel;
@@ -59,8 +62,31 @@ public class AbstractPanelItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addUmlElementUidPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Uml Element Uid feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUmlElementUidPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UmlReference_umlElementUid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -75,7 +101,7 @@ public class AbstractPanelItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(PanelPackage.Literals.ABSTRACT_PANEL__LABELS);
+			childrenFeatures.add(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE);
 		}
 		return childrenFeatures;
 	}
@@ -119,7 +145,10 @@ public class AbstractPanelItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(AbstractPanel.class)) {
-			case PanelPackage.ABSTRACT_PANEL__LABELS:
+			case PanelPackage.ABSTRACT_PANEL__UML_ELEMENT_UID:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -139,7 +168,7 @@ public class AbstractPanelItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(PanelPackage.Literals.ABSTRACT_PANEL__LABELS,
+				(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE,
 				 UimFactory.eINSTANCE.createLabels()));
 	}
 

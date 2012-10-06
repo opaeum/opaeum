@@ -4,7 +4,9 @@ package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.opaeum.uim.Labels;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInActionButton;
@@ -17,6 +19,7 @@ import org.opaeum.uim.action.BuiltInActionButton;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.action.impl.BuiltInActionButtonImpl#getKind <em>Kind</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.BuiltInActionButtonImpl#getLabels <em>Labels</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,6 +45,16 @@ public class BuiltInActionButtonImpl extends AbstractActionButtonImpl implements
 	 * @ordered
 	 */
 	protected ActionKind kind = KIND_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getLabels() <em>Labels</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabels()
+	 * @generated
+	 * @ordered
+	 */
+	protected Labels labels;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -88,11 +101,52 @@ public class BuiltInActionButtonImpl extends AbstractActionButtonImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Labels getLabels() {
+		if (labels != null && labels.eIsProxy()) {
+			InternalEObject oldLabels = (InternalEObject)labels;
+			labels = (Labels)eResolveProxy(oldLabels);
+			if (labels != oldLabels) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ActionPackage.BUILT_IN_ACTION_BUTTON__LABELS, oldLabels, labels));
+			}
+		}
+		return labels;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Labels basicGetLabels() {
+		return labels;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLabels(Labels newLabels) {
+		Labels oldLabels = labels;
+		labels = newLabels;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.BUILT_IN_ACTION_BUTTON__LABELS, oldLabels, labels));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ActionPackage.BUILT_IN_ACTION_BUTTON__KIND:
 				return getKind();
+			case ActionPackage.BUILT_IN_ACTION_BUTTON__LABELS:
+				if (resolve) return getLabels();
+				return basicGetLabels();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -107,6 +161,9 @@ public class BuiltInActionButtonImpl extends AbstractActionButtonImpl implements
 		switch (featureID) {
 			case ActionPackage.BUILT_IN_ACTION_BUTTON__KIND:
 				setKind((ActionKind)newValue);
+				return;
+			case ActionPackage.BUILT_IN_ACTION_BUTTON__LABELS:
+				setLabels((Labels)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -123,6 +180,9 @@ public class BuiltInActionButtonImpl extends AbstractActionButtonImpl implements
 			case ActionPackage.BUILT_IN_ACTION_BUTTON__KIND:
 				setKind(KIND_EDEFAULT);
 				return;
+			case ActionPackage.BUILT_IN_ACTION_BUTTON__LABELS:
+				setLabels((Labels)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -137,6 +197,8 @@ public class BuiltInActionButtonImpl extends AbstractActionButtonImpl implements
 		switch (featureID) {
 			case ActionPackage.BUILT_IN_ACTION_BUTTON__KIND:
 				return kind != KIND_EDEFAULT;
+			case ActionPackage.BUILT_IN_ACTION_BUTTON__LABELS:
+				return labels != null;
 		}
 		return super.eIsSet(featureID);
 	}

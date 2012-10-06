@@ -113,13 +113,22 @@ public interface PanelPackage extends EPackage {
 	int ABSTRACT_PANEL__CHILDREN = ComponentPackage.UIM_CONTAINER__CHILDREN;
 
 	/**
-	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_PANEL__LABELS = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 0;
+	int ABSTRACT_PANEL__UML_ELEMENT_UID = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_PANEL__LABEL_OVERRIDE = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Abstract Panel</em>' class.
@@ -128,7 +137,7 @@ public interface PanelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_PANEL_FEATURE_COUNT = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 1;
+	int ABSTRACT_PANEL_FEATURE_COUNT = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.panel.impl.CollapsiblePanelImpl <em>Collapsible Panel</em>}' class.
@@ -186,13 +195,22 @@ public interface PanelPackage extends EPackage {
 	int COLLAPSIBLE_PANEL__CHILDREN = ABSTRACT_PANEL__CHILDREN;
 
 	/**
-	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLLAPSIBLE_PANEL__LABELS = ABSTRACT_PANEL__LABELS;
+	int COLLAPSIBLE_PANEL__UML_ELEMENT_UID = ABSTRACT_PANEL__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLAPSIBLE_PANEL__LABEL_OVERRIDE = ABSTRACT_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -304,13 +322,22 @@ public interface PanelPackage extends EPackage {
 	int GRID_PANEL__CHILDREN = COLLAPSIBLE_PANEL__CHILDREN;
 
 	/**
-	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GRID_PANEL__LABELS = COLLAPSIBLE_PANEL__LABELS;
+	int GRID_PANEL__UML_ELEMENT_UID = COLLAPSIBLE_PANEL__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GRID_PANEL__LABEL_OVERRIDE = COLLAPSIBLE_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -431,13 +458,22 @@ public interface PanelPackage extends EPackage {
 	int VERTICAL_PANEL__CHILDREN = COLLAPSIBLE_PANEL__CHILDREN;
 
 	/**
-	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VERTICAL_PANEL__LABELS = COLLAPSIBLE_PANEL__LABELS;
+	int VERTICAL_PANEL__UML_ELEMENT_UID = COLLAPSIBLE_PANEL__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERTICAL_PANEL__LABEL_OVERRIDE = COLLAPSIBLE_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -549,13 +585,22 @@ public interface PanelPackage extends EPackage {
 	int HORIZONTAL_PANEL__CHILDREN = COLLAPSIBLE_PANEL__CHILDREN;
 
 	/**
-	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int HORIZONTAL_PANEL__LABELS = COLLAPSIBLE_PANEL__LABELS;
+	int HORIZONTAL_PANEL__UML_ELEMENT_UID = COLLAPSIBLE_PANEL__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HORIZONTAL_PANEL__LABEL_OVERRIDE = COLLAPSIBLE_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -729,17 +774,6 @@ public interface PanelPackage extends EPackage {
 	EClass getAbstractPanel();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.panel.AbstractPanel#getLabels <em>Labels</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Labels</em>'.
-	 * @see org.opaeum.uim.panel.AbstractPanel#getLabels()
-	 * @see #getAbstractPanel()
-	 * @generated
-	 */
-	EReference getAbstractPanel_Labels();
-
-	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.panel.CollapsiblePanel <em>Collapsible Panel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -893,14 +927,6 @@ public interface PanelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ABSTRACT_PANEL = eINSTANCE.getAbstractPanel();
-
-		/**
-		 * The meta object literal for the '<em><b>Labels</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ABSTRACT_PANEL__LABELS = eINSTANCE.getAbstractPanel_Labels();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.panel.impl.CollapsiblePanelImpl <em>Collapsible Panel</em>}' class.

@@ -8,9 +8,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.ResponsibilityViewer;
+import org.opaeum.uim.impl.UmlReferenceImpl;
 import org.opaeum.uim.impl.UserInteractionElementImpl;
 import org.opaeum.uim.model.AbstractUserInteractionModel;
 import org.opaeum.uim.model.ModelPackage;
@@ -25,7 +27,8 @@ import org.opaeum.uim.wizard.WizardPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opaeum.uim.model.impl.ResponsibilityUserInteractionModelImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.model.impl.ResponsibilityUserInteractionModelImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.model.impl.ResponsibilityUserInteractionModelImpl#isUnderUserControl <em>Under User Control</em>}</li>
  *   <li>{@link org.opaeum.uim.model.impl.ResponsibilityUserInteractionModelImpl#getLinkedUmlResource <em>Linked Uml Resource</em>}</li>
  *   <li>{@link org.opaeum.uim.model.impl.ResponsibilityUserInteractionModelImpl#getInvocationWizard <em>Invocation Wizard</em>}</li>
  *   <li>{@link org.opaeum.uim.model.impl.ResponsibilityUserInteractionModelImpl#getViewer <em>Viewer</em>}</li>
@@ -34,26 +37,46 @@ import org.opaeum.uim.wizard.WizardPackage;
  *
  * @generated
  */
-public class ResponsibilityUserInteractionModelImpl extends UserInteractionElementImpl implements ResponsibilityUserInteractionModel {
+public class ResponsibilityUserInteractionModelImpl extends UmlReferenceImpl implements ResponsibilityUserInteractionModel {
 	/**
-	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getUmlElementUid()
+	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = "";
 
 	/**
-	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getUmlElementUid()
+	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
+	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean UNDER_USER_CONTROL_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getLinkedUmlResource() <em>Linked Uml Resource</em>}' attribute.
@@ -119,8 +142,8 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getUmlElementUid() {
-		return umlElementUid;
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -128,11 +151,32 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUmlElementUid(String newUmlElementUid) {
-		String oldUmlElementUid = umlElementUid;
-		umlElementUid = newUmlElementUid;
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isUnderUserControl() {
+		return underUserControl;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUnderUserControl(boolean newUnderUserControl) {
+		boolean oldUnderUserControl = underUserControl;
+		underUserControl = newUnderUserControl;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
 	}
 
 	/**
@@ -286,8 +330,10 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
-				return getUmlElementUid();
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__NAME:
+				return getName();
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				return isUnderUserControl();
 			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				return getLinkedUmlResource();
 			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD:
@@ -306,8 +352,11 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
-				setUmlElementUid((String)newValue);
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__NAME:
+				setName((String)newValue);
+				return;
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				setUnderUserControl((Boolean)newValue);
 				return;
 			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				setLinkedUmlResource((String)newValue);
@@ -330,8 +379,11 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
-				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
 				return;
 			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				setLinkedUmlResource(LINKED_UML_RESOURCE_EDEFAULT);
@@ -354,8 +406,10 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
-				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
 			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				return LINKED_UML_RESOURCE_EDEFAULT == null ? linkedUmlResource != null : !LINKED_UML_RESOURCE_EDEFAULT.equals(linkedUmlResource);
 			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD:
@@ -373,15 +427,10 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == UmlReference.class) {
+		if (baseClass == UserInteractionElement.class) {
 			switch (derivedFeatureID) {
-				case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID: return UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
-				default: return -1;
-			}
-		}
-		if (baseClass == AbstractUserInteractionModel.class) {
-			switch (derivedFeatureID) {
-				case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE: return ModelPackage.ABSTRACT_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE;
+				case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
+				case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL: return UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
 				default: return -1;
 			}
 		}
@@ -395,15 +444,10 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == UmlReference.class) {
+		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
-				case UimPackage.UML_REFERENCE__UML_ELEMENT_UID: return ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID;
-				default: return -1;
-			}
-		}
-		if (baseClass == AbstractUserInteractionModel.class) {
-			switch (baseFeatureID) {
-				case ModelPackage.ABSTRACT_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE: return ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE;
+				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__NAME;
+				case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL: return ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL;
 				default: return -1;
 			}
 		}
@@ -420,8 +464,10 @@ public class ResponsibilityUserInteractionModelImpl extends UserInteractionEleme
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (umlElementUid: ");
-		result.append(umlElementUid);
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", underUserControl: ");
+		result.append(underUserControl);
 		result.append(", linkedUmlResource: ");
 		result.append(linkedUmlResource);
 		result.append(')');

@@ -149,6 +149,11 @@ public class ExplorerBehaviorConstraintItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(PerspectivePackage.Literals.EXPLORER_BEHAVIOR_CONSTRAINT__INVOCATION_CONSTRAINT,
+				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(PerspectivePackage.Literals.EXPLORER_BEHAVIOR_CONSTRAINT__INVOCATION_CONSTRAINT,
 				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
 
 		newChildDescriptors.add

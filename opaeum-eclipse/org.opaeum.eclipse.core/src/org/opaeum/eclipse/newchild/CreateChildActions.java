@@ -14,10 +14,18 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
 import org.opaeum.metamodel.workspace.LibraryType;
 
-public class CreateChildActions{
+public class CreateChildActions implements ICreateChildActionProvider{
+	@Override
+	public Set<? extends ICreateChildAction> getActions(){
+		return ACTIONS;
+	}
+	@Override
+	public Set<EReference> getControlledFeatures(){
+		return CONTROLLED_FEATURES;
+	}
 	private static UMLPackage pkg = UMLPackage.eINSTANCE;
-	public static Set<AbstractCreateChildAction> ACTIONS = new HashSet<AbstractCreateChildAction>();
-	public static Set<EReference> CONTROLLED_FEATURES = new HashSet<EReference>();
+	private static Set<AbstractCreateChildAction> ACTIONS = new HashSet<AbstractCreateChildAction>();
+	private static Set<EReference> CONTROLLED_FEATURES = new HashSet<EReference>();
 	private static MatchingOwner DURATION_BASED_COST_OBSERVATION = new MatchingOwner(pkg.getDurationObservation(),
 			StereotypeNames.DURATION_BASED_COST_OBSERVATION);
 	private static MatchingOwner QUANTITY_BASED_COST_OBSERVATION = new MatchingOwner(pkg.getTimeObservation(),

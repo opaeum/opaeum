@@ -222,13 +222,22 @@ public interface ActionPackage extends EPackage {
 	int BUILT_IN_ACTION_BUTTON__KIND = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Labels</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUILT_IN_ACTION_BUTTON__LABELS = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Built In Action Button</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_ACTION_BUTTON_FEATURE_COUNT = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 1;
+	int BUILT_IN_ACTION_BUTTON_FEATURE_COUNT = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.TransitionButtonImpl <em>Transition Button</em>}' class.
@@ -704,13 +713,22 @@ public interface ActionPackage extends EPackage {
 	int BUILT_IN_LINK__KIND = ABSTRACT_LINK_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUILT_IN_LINK__LABELS = ABSTRACT_LINK_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Built In Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BUILT_IN_LINK_FEATURE_COUNT = ABSTRACT_LINK_FEATURE_COUNT + 1;
+	int BUILT_IN_LINK_FEATURE_COUNT = ABSTRACT_LINK_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}' enum.
@@ -753,6 +771,17 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getBuiltInActionButton_Kind();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.action.BuiltInActionButton#getLabels <em>Labels</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Labels</em>'.
+	 * @see org.opaeum.uim.action.BuiltInActionButton#getLabels()
+	 * @see #getBuiltInActionButton()
+	 * @generated
+	 */
+	EReference getBuiltInActionButton_Labels();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.action.AbstractActionButton <em>Abstract Action Button</em>}'.
@@ -837,6 +866,17 @@ public interface ActionPackage extends EPackage {
 	EAttribute getBuiltInLink_Kind();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.action.BuiltInLink#getLabels <em>Labels</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Labels</em>'.
+	 * @see org.opaeum.uim.action.BuiltInLink#getLabels()
+	 * @see #getBuiltInLink()
+	 * @generated
+	 */
+	EReference getBuiltInLink_Labels();
+
+	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -895,6 +935,14 @@ public interface ActionPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute BUILT_IN_ACTION_BUTTON__KIND = eINSTANCE.getBuiltInActionButton_Kind();
+
+		/**
+		 * The meta object literal for the '<em><b>Labels</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BUILT_IN_ACTION_BUTTON__LABELS = eINSTANCE.getBuiltInActionButton_Labels();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.AbstractActionButtonImpl <em>Abstract Action Button</em>}' class.
@@ -971,6 +1019,14 @@ public interface ActionPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute BUILT_IN_LINK__KIND = eINSTANCE.getBuiltInLink_Kind();
+
+		/**
+		 * The meta object literal for the '<em><b>Labels</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BUILT_IN_LINK__LABELS = eINSTANCE.getBuiltInLink_Labels();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}' enum.

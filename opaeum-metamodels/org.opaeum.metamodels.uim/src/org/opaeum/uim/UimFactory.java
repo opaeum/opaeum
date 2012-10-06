@@ -76,6 +76,15 @@ public interface UimFactory extends EFactory {
 	IgnoredElement createIgnoredElement();
 
 	/**
+	 * Returns a new object of class '<em>Page Ordering</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Page Ordering</em>'.
+	 * @generated
+	 */
+	PageOrdering createPageOrdering();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

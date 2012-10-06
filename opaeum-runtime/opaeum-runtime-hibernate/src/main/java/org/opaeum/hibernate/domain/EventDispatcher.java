@@ -56,6 +56,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		// generated
 		dispatchEventsAndSaveProcesses(event, source);
 		postFlush(source);
+		eventGeneratorMap.remove(source);
 	}
 	protected void dispatchEventsAndSaveProcesses(FlushEvent event,final EventSource source){
 		Set<IEventGenerator> eventGenerators = eventGeneratorMap.get(event.getSession());

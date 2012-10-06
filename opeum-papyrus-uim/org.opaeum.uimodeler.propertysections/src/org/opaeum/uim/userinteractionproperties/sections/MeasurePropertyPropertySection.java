@@ -20,7 +20,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Property;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.cube.CubeQuery;
@@ -58,7 +58,7 @@ public class MeasurePropertyPropertySection extends AbstractChooserPropertySecti
 		results.add("");
 		CubeQuery cq = (CubeQuery) getMeasureProperty().eContainer();
 		Class clzz = (Class) UmlUimLinks.getCurrentUmlLinks(getEObject()).getUmlElement(cq);
-		for(Property p:EmfElementFinder.getPropertiesInScope(clzz)){
+		for(Property p:EmfPropertyUtil.getEffectiveProperties(clzz)){
 			if(isMeasure(p)){
 				results.add(p);
 			}

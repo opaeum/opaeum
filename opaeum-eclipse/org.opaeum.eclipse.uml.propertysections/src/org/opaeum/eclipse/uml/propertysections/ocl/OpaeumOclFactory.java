@@ -12,15 +12,15 @@ import org.eclipse.ocl.uml.options.UMLEvaluationOptions;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.metamodel.workspace.OpaeumOcl;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.UMLOCLFactory;
 
 public final class OpaeumOclFactory extends UMLOCLFactory{
 	private Map<String,Classifier> variables = new HashMap<String,Classifier>();
 	private Element context;
-	OpaeumLibrary library;
-	public OpaeumOclFactory(OpaeumLibrary library){
+	OpaeumOcl library;
+	public OpaeumOclFactory(OpaeumOcl library){
 		super();
 		this.library = library;
 	}

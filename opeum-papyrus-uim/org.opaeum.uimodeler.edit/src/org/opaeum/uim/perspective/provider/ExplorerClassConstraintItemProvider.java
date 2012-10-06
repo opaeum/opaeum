@@ -32,7 +32,7 @@ import org.opaeum.uim.provider.UmlReferenceItemProvider;
  * @generated
  */
 public class ExplorerClassConstraintItemProvider
-	extends UmlReferenceItemProvider
+	extends ExplorerConstraintItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -116,7 +116,7 @@ public class ExplorerClassConstraintItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ExplorerClassConstraint)object).getUmlElementUid();
+		String label = ((ExplorerClassConstraint)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ExplorerClassConstraint_type") :
 			getString("_UI_ExplorerClassConstraint_type") + " " + label;
@@ -159,6 +159,11 @@ public class ExplorerClassConstraintItemProvider
 			(createChildParameter
 				(PerspectivePackage.Literals.EXPLORER_CLASS_CONSTRAINT__PROPERTIES,
 				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(PerspectivePackage.Literals.EXPLORER_CLASS_CONSTRAINT__NEW_OBJECT_CONSTRAINT,
+				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -219,17 +224,6 @@ public class ExplorerClassConstraintItemProvider
 				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
 		}
 		return super.getCreateChildText(owner, feature, child, selection);
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return UimEditPlugin.INSTANCE;
 	}
 
 }

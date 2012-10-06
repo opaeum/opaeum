@@ -1,11 +1,32 @@
-QueryInvocationEditor: remember to open new page for every query submission
+Metamodel
+SuperUserInterface should be *
+
+Transformation
+Generate Uerinterfaces for Interfaces
+
+Opaeum library:
+Behaviors (tasks, processes) should have a persistent attribute that points to the nearest BusinessComponent
+
+Modeler:
 Make UserInterface elements and diagrams available in UML treeview - configure different UserInterfaceRoots as artificial Features
+Implement property section for "ignoredElements" - automatically remove all representing elements from the uiRoot, also remove them from all ObjectSelectors' available choices
+Implement LabelOverrides propertyTab
+Add propertySection "representedElement" for pages and panels
+ADd propertySection to control sequence of pages and columns
+Implement treeTable for Explorer configuration
+Have a single instance of the PerspectiveConfiguration open at all times in its own resourceSet. Automatically add and remove properties,classes,operations,behaviors on notifyChanged
+Whenever we call setUmlElementUid,add the containing resourceid to the referenced element's annotation. Thus we would know which files need to be updated when the element is deleted
+org.opaeum.uim.util.ControlUtil.getAllowedControlKinds(UserInterfaceRoot, TypedElement, boolean) - factor in readOnly,pin,param,create,etc, or introduce readOnly property to UimField
+
+
+Runtime:
+On BEhaviorExecutions: always populate the BusinessComponent
+QueryInvocationEditor: remember to open new page for every query submission
 Open BehaviorEditor/ReponsibilityViewer on completion of invocation wizard - resultPage for OperationInvocationWizard is low priority
 Allow tasks to be created on the propertyNode of a user role in the containment tree, i.e. display TaskInvocationWizard menu item on the propertyNode, but only if  
 the set represented by that property is non-empty. These menu items should only be available to users who also play a part in the same BusinessComponent. External users
 can only invoke tasks through Responsibilities. In those cases the the menu item would be available on the portNode
-Implement property section for "ignoredElements" - automatically remove all representing elements from the uiRoot, also remove them from all ObjectSelectors' available choices
-Implement LabelOverrides propertyTab
-Add propertySection "representedElement" for pages and panels
-BehaviorButton, like OperationButton
-org.opaeum.uim.util.ControlUtil.getAllowedControlKinds(UserInterfaceRoot, TypedElement, boolean) - factor in readOnly,pin,param,create,etc, or introduce readOnly property to UimField
+Allow operations and responsibilities to be invoked on the propertyNode as well.
+
+
+On execution of InvocationButtons - prompt the user to save first - invocation could fail and then the entire session is in an invalid state -should happen in seperate session

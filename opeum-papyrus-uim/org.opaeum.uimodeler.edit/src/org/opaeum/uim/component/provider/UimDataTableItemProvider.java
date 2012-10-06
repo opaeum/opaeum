@@ -325,6 +325,11 @@ public class UimDataTableItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
 				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
 
 		newChildDescriptors.add
@@ -346,6 +351,11 @@ public class UimDataTableItemProvider
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
 				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter

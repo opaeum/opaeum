@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
 
 public class SlotFeatureSection extends OpaeumChooserPropertySection{
@@ -16,7 +16,7 @@ public class SlotFeatureSection extends OpaeumChooserPropertySection{
 	}
 	protected Object[] getComboFeatureValues(){
 		if(getInstanceSpecification().getClassifiers().size() == 1){
-			return EmfElementFinder.getPropertiesInScope(getInstanceSpecification().getClassifiers().get(0)).toArray();
+			return EmfPropertyUtil.getEffectiveProperties(getInstanceSpecification().getClassifiers().get(0)).toArray();
 		}else{
 			return new Object[0];
 		}

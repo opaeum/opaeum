@@ -20,6 +20,10 @@
     <genClasses ecoreClass="Uim.ecore#//UserInterfaceRoot">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/editability"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/visibility"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/ignoredElements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/superUserInterfaces"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/pageOrdering"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/subUserInterfaces"/>
       <genOperations ecoreOperation="Uim.ecore#//UserInterfaceRoot/getPages"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Uim.ecore#//Page">
@@ -28,6 +32,14 @@
     <genClasses ecoreClass="Uim.ecore#//Labels"/>
     <genClasses ecoreClass="Uim.ecore#//LabeledElement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//LabeledElement/labelOverride"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//IgnoredElement">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//IgnoredElement/userInterfaceRoot"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//PageOrdering">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//PageOrdering/page"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//PageOrdering/position"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//PageOrdering/labelOverride"/>
     </genClasses>
     <nestedGenPackages prefix="Control" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//control">
@@ -85,9 +97,9 @@
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//editor">
       <genClasses ecoreClass="Uim.ecore#//editor/AbstractEditor">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/AbstractEditor/pages"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/AbstractEditor/actionBar"/>
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//editor/InstanceEditor">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/InstanceEditor/actionBar"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/InstanceEditor/menuConfiguration"/>
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//editor/BehaviorExecutionEditor">
@@ -169,12 +181,15 @@
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/execute"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/delegateTask"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/completeTask"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/suspendTask"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/suspend"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/forwardTask"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/claimTask"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/add"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/refresh"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/revert"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/abort"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/skip"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/resume"/>
       </genEnums>
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//action/BuiltInLinkKind">
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/BuiltInLinkKind/auditTrail"/>
@@ -184,16 +199,20 @@
       </genEnums>
       <genClasses ecoreClass="Uim.ecore#//action/BuiltInActionButton">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//action/BuiltInActionButton/kind"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//action/BuiltInActionButton/labels"/>
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//action/AbstractActionButton"/>
       <genClasses ecoreClass="Uim.ecore#//action/TransitionButton"/>
       <genClasses ecoreClass="Uim.ecore#//action/LinkToQuery"/>
-      <genClasses ecoreClass="Uim.ecore#//action/OperationButton">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/OperationButton/popup"/>
+      <genClasses ecoreClass="Uim.ecore#//action/InvocationButton">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//action/InvocationButton/popup"/>
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//action/AbstractLink"/>
       <genClasses ecoreClass="Uim.ecore#//action/BuiltInLink">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//action/BuiltInLink/kind"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/BuiltInLink/labels"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Panel" basePackage="org.opaeum.uim" resource="XML"
@@ -207,9 +226,7 @@
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//panel/VerticalPanel"/>
       <genClasses ecoreClass="Uim.ecore#//panel/HorizontalPanel"/>
-      <genClasses image="false" ecoreClass="Uim.ecore#//panel/AbstractPanel">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//panel/AbstractPanel/labels"/>
-      </genClasses>
+      <genClasses image="false" ecoreClass="Uim.ecore#//panel/AbstractPanel"/>
       <genClasses ecoreClass="Uim.ecore#//panel/CollapsiblePanel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//panel/CollapsiblePanel/isCollapsible"/>
       </genClasses>
@@ -322,9 +339,7 @@
         </genOperations>
         <genOperations ecoreOperation="Uim.ecore#//cube/DimensionBinding/hashCode"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//cube/LevelProperty">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//cube/LevelProperty/name"/>
-      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//cube/LevelProperty"/>
       <genClasses ecoreClass="Uim.ecore#//cube/RowAxisEntry"/>
       <genClasses ecoreClass="Uim.ecore#//cube/ColumnAxisEntry"/>
       <genClasses ecoreClass="Uim.ecore#//cube/MeasureProperty">

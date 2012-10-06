@@ -19,7 +19,6 @@ import org.opaeum.uim.editor.MenuConfiguration;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opaeum.uim.editor.impl.InstanceEditorImpl#getActionBar <em>Action Bar</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.InstanceEditorImpl#getMenuConfiguration <em>Menu Configuration</em>}</li>
  * </ul>
  * </p>
@@ -27,16 +26,6 @@ import org.opaeum.uim.editor.MenuConfiguration;
  * @generated
  */
 public abstract class InstanceEditorImpl extends AbstractEditorImpl implements InstanceEditor {
-	/**
-	 * The cached value of the '{@link #getActionBar() <em>Action Bar</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getActionBar()
-	 * @generated
-	 * @ordered
-	 */
-	protected ActionBar actionBar;
-
 	/**
 	 * The cached value of the '{@link #getMenuConfiguration() <em>Menu Configuration</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -64,49 +53,6 @@ public abstract class InstanceEditorImpl extends AbstractEditorImpl implements I
 	@Override
 	protected EClass eStaticClass() {
 		return EditorPackage.Literals.INSTANCE_EDITOR;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ActionBar getActionBar() {
-		return actionBar;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetActionBar(ActionBar newActionBar, NotificationChain msgs) {
-		ActionBar oldActionBar = actionBar;
-		actionBar = newActionBar;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditorPackage.INSTANCE_EDITOR__ACTION_BAR, oldActionBar, newActionBar);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setActionBar(ActionBar newActionBar) {
-		if (newActionBar != actionBar) {
-			NotificationChain msgs = null;
-			if (actionBar != null)
-				msgs = ((InternalEObject)actionBar).eInverseRemove(this, EditorPackage.ACTION_BAR__EDITOR, ActionBar.class, msgs);
-			if (newActionBar != null)
-				msgs = ((InternalEObject)newActionBar).eInverseAdd(this, EditorPackage.ACTION_BAR__EDITOR, ActionBar.class, msgs);
-			msgs = basicSetActionBar(newActionBar, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.INSTANCE_EDITOR__ACTION_BAR, newActionBar, newActionBar));
 	}
 
 	/**
@@ -160,10 +106,6 @@ public abstract class InstanceEditorImpl extends AbstractEditorImpl implements I
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EditorPackage.INSTANCE_EDITOR__ACTION_BAR:
-				if (actionBar != null)
-					msgs = ((InternalEObject)actionBar).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditorPackage.INSTANCE_EDITOR__ACTION_BAR, null, msgs);
-				return basicSetActionBar((ActionBar)otherEnd, msgs);
 			case EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION:
 				if (menuConfiguration != null)
 					msgs = ((InternalEObject)menuConfiguration).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION, null, msgs);
@@ -180,8 +122,6 @@ public abstract class InstanceEditorImpl extends AbstractEditorImpl implements I
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EditorPackage.INSTANCE_EDITOR__ACTION_BAR:
-				return basicSetActionBar(null, msgs);
 			case EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION:
 				return basicSetMenuConfiguration(null, msgs);
 		}
@@ -196,8 +136,6 @@ public abstract class InstanceEditorImpl extends AbstractEditorImpl implements I
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EditorPackage.INSTANCE_EDITOR__ACTION_BAR:
-				return getActionBar();
 			case EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION:
 				return getMenuConfiguration();
 		}
@@ -212,9 +150,6 @@ public abstract class InstanceEditorImpl extends AbstractEditorImpl implements I
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EditorPackage.INSTANCE_EDITOR__ACTION_BAR:
-				setActionBar((ActionBar)newValue);
-				return;
 			case EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION:
 				setMenuConfiguration((MenuConfiguration)newValue);
 				return;
@@ -230,9 +165,6 @@ public abstract class InstanceEditorImpl extends AbstractEditorImpl implements I
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EditorPackage.INSTANCE_EDITOR__ACTION_BAR:
-				setActionBar((ActionBar)null);
-				return;
 			case EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION:
 				setMenuConfiguration((MenuConfiguration)null);
 				return;
@@ -248,8 +180,6 @@ public abstract class InstanceEditorImpl extends AbstractEditorImpl implements I
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EditorPackage.INSTANCE_EDITOR__ACTION_BAR:
-				return actionBar != null;
 			case EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION:
 				return menuConfiguration != null;
 		}

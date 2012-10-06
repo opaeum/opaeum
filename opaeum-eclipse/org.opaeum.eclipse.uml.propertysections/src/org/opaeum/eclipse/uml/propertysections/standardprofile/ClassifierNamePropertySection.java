@@ -25,7 +25,7 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -62,7 +62,7 @@ public class ClassifierNamePropertySection extends AbstractTabbedPropertySection
 	@Override
 	public void refresh(){
 		super.refresh();
-		List<Property> props = EmfElementFinder.getPropertiesInScope(getClassifier());
+		List<Property> props = EmfPropertyUtil.getEffectiveProperties(getClassifier());
 		Iterator<Property> iterator = props.iterator();
 		while(iterator.hasNext()){
 			Property property = (Property) iterator.next();

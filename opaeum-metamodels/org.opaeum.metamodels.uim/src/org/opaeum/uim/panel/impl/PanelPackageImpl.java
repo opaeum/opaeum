@@ -246,15 +246,6 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAbstractPanel_Labels() {
-		return (EReference)abstractPanelEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getCollapsiblePanel() {
 		return collapsiblePanelEClass;
 	}
@@ -358,7 +349,6 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		horizontalPanelEClass = createEClass(HORIZONTAL_PANEL);
 
 		abstractPanelEClass = createEClass(ABSTRACT_PANEL);
-		createEReference(abstractPanelEClass, ABSTRACT_PANEL__LABELS);
 
 		collapsiblePanelEClass = createEClass(COLLAPSIBLE_PANEL);
 		createEAttribute(collapsiblePanelEClass, COLLAPSIBLE_PANEL__IS_COLLAPSIBLE);
@@ -410,6 +400,7 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		verticalPanelEClass.getESuperTypes().add(this.getCollapsiblePanel());
 		horizontalPanelEClass.getESuperTypes().add(this.getCollapsiblePanel());
 		abstractPanelEClass.getESuperTypes().add(theComponentPackage.getUimContainer());
+		abstractPanelEClass.getESuperTypes().add(theUimPackage.getLabeledElement());
 		collapsiblePanelEClass.getESuperTypes().add(this.getAbstractPanel());
 		collapsiblePanelEClass.getESuperTypes().add(this.getOutlayable());
 
@@ -422,7 +413,6 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 		initEClass(horizontalPanelEClass, HorizontalPanel.class, "HorizontalPanel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(abstractPanelEClass, AbstractPanel.class, "AbstractPanel", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAbstractPanel_Labels(), theUimPackage.getLabels(), null, "labels", null, 0, 1, AbstractPanel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(collapsiblePanelEClass, CollapsiblePanel.class, "CollapsiblePanel", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCollapsiblePanel_IsCollapsible(), theEcorePackage.getEBooleanObject(), "isCollapsible", null, 0, 1, CollapsiblePanel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

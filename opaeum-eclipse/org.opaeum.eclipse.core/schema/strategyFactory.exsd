@@ -3,7 +3,7 @@
 <schema targetNamespace="org.opaeum.eclipse" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.opaeum.eclipse" id="org.opaeum.eclipse.strategyFactory" name="StrategyFactory"/>
+         <meta.schema plugin="org.opaeum.eclipse.core" id="strategyFactory" name="StrategyFactory"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]

@@ -154,6 +154,11 @@ public class UimContainerItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
 				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
 
 		newChildDescriptors.add

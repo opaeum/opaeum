@@ -631,8 +631,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 		ConstraintPackage theConstraintPackage = (ConstraintPackage)EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI);
 
 		// Create type parameters
@@ -640,8 +640,10 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		perspectiveConfigurationEClass.getESuperTypes().add(theUimPackage.getUserInteractionElement());
+		viewAllocationEClass.getESuperTypes().add(theUimPackage.getUserInteractionElement());
 		explorerConfigurationEClass.getESuperTypes().add(this.getViewAllocation());
-		explorerClassConstraintEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		explorerClassConstraintEClass.getESuperTypes().add(this.getExplorerConstraint());
 		explorerPropertyConstraintEClass.getESuperTypes().add(this.getExplorerConstraint());
 		editorConfigurationEClass.getESuperTypes().add(this.getViewAllocation());
 		propertiesConfigurationEClass.getESuperTypes().add(this.getViewAllocation());

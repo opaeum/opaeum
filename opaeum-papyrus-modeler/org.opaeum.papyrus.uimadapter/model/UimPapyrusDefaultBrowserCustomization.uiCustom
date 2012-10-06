@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uicustom:MetamodelView
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:uim="http://opaeum.org/uimetamodel/1.0"
+    xsi:schemaLocation="http://opaeum.org/uimetamodel/1.0 uim.ecore"
+    
+    xmlns:uicustom="http://www.eclipse.org/EmfFacet/infra/browser/custom/0.8"
+    metamodelURI="http://opaeum.org/uimetamodel/1.0">
+  <types metaclassName="uim.editor.EditorPage">
+    <references
+        referenceName="editor">
+      <customizedFeatures>
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="false"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.wizard.WizardPage">
+    <references
+        referenceName="wizard">
+      <customizedFeatures>
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="false"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.action.OperationPopup">
+    <references
+        referenceName="operationAction">
+      <customizedFeatures>
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="false"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.control.UimControl">
+    <references
+        referenceName="field">
+      <customizedFeatures>
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="false"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.model.ClassUserInteractionModel">
+    <references
+        referenceName="primaryEditor">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
+    <references
+        referenceName="newObjectWizard">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.editor.AbstractEditor">
+    <references
+        referenceName="pages">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.wizard.AbstractWizard">
+    <references
+        referenceName="pages">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
+  </types>
+</uicustom:MetamodelView>

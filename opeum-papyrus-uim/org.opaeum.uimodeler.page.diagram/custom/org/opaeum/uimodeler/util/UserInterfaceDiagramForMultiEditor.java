@@ -45,7 +45,7 @@ public class UserInterfaceDiagramForMultiEditor extends UimDiagramEditor {
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.init(site, input);
 		setPartName(getDiagram().getName());
-		setTitleImage(DIAG_IMG_DESC.createImage());
+//		setTitleImage(DIAG_IMG_DESC.createImage());
 	}
 
 	/**

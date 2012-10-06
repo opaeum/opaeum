@@ -1,31 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="org.opaeum.eclipse.transformationStep" name="TransformationStep" schema="schema/transformationStep.exsd"/>
-   <extension-point id="org.opaeum.eclipse.sourceFolderStrategy" name="SourceFolderStrategy" schema="schema/sourceFolderStrategy.exsd"/>
-   <extension-point id="org.opaeum.eclipse.modelLibrary" name="modelLibrary" schema="schema/modelLibrary.exsd"/>
-   <extension-point id="org.opaeum.eclipse.profile" name="Profile" schema="schema/profile.exsd"/>
-   <extension-point id="org.opaeum.eclipse.strategyFactory" name="StrategyFactory" schema="schema/strategyFactory.exsd"/>
-   <extension-point id="org.opaeum.eclipse.createChildAction" name="CreateChildAction" schema="schema/createChildAction.exsd"/>
+   <extension-point id="org.opaeum.eclipse.core.transformationStep" name="TransformationStep" schema="schema/transformationStep.exsd"/>
+   <extension-point id="org.opaeum.eclipse.core.sourceFolderStrategy" name="SourceFolderStrategy" schema="schema/sourceFolderStrategy.exsd"/>
+   <extension-point id="org.opaeum.eclipse.core.modelLibrary" name="modelLibrary" schema="schema/modelLibrary.exsd"/>
+   <extension-point id="org.opaeum.eclipse.core.profile" name="Profile" schema="schema/profile.exsd"/>
+   <extension-point id="org.opaeum.eclipse.core.strategyFactory" name="StrategyFactory" schema="schema/strategyFactory.exsd"/>
+   <extension-point id="org.opaeum.eclipse.core.createChildAction" name="CreateChildAction" schema="schema/createChildAction.exsd"/>
+   <extension-point id="createChildActionProvider" name="CreateChildActionProvider" schema="schema/createChildActionProvider.exsd"/>
    <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            adaptable="false"
-            id="org.opaeum.eclipse.core.objectContribution1"
-            objectClass="org.eclipse.gef.editparts.AbstractGraphicalEditPart">
-         <menu
-               id="org.opaeum.graphic.menu"
-               label="Opaeum">
-         </menu>
-      </objectContribution>
-      <objectContribution
-            adaptable="false"
-            id="org.opaeum.eclipse.core.objectContribution2"
-            objectClass="org.eclipse.uml2.uml.Element">
-         <menu
-               id="org.opaeum.outline.menu"
-               label="Opaeum">
-         </menu>
-      </objectContribution>
+         point="org.opaeum.eclipse.core.createChildActionProvider">
+      <createChildActionProvider
+            className="org.opaeum.eclipse.newchild.CreateChildActions">
+      </createChildActionProvider>
    </extension>
 </plugin>

@@ -39,7 +39,7 @@ import org.opaeum.uim.perspective.PerspectivePackage;
  *
  * @generated
  */
-public class ExplorerClassConstraintImpl extends UmlReferenceImpl implements ExplorerClassConstraint {
+public class ExplorerClassConstraintImpl extends ExplorerConstraintImpl implements ExplorerClassConstraint {
 	/**
 	 * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.InstanceEditor;
@@ -51,9 +52,9 @@ public class ActionBarImpl extends AbstractPanelImpl implements ActionBar {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public InstanceEditor getEditor() {
+	public AbstractEditor getEditor() {
 		if (eContainerFeatureID() != EditorPackage.ACTION_BAR__EDITOR) return null;
-		return (InstanceEditor)eContainer();
+		return (AbstractEditor)eContainer();
 	}
 
 	/**
@@ -61,7 +62,7 @@ public class ActionBarImpl extends AbstractPanelImpl implements ActionBar {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetEditor(InstanceEditor newEditor, NotificationChain msgs) {
+	public NotificationChain basicSetEditor(AbstractEditor newEditor, NotificationChain msgs) {
 		msgs = eBasicSetContainer((InternalEObject)newEditor, EditorPackage.ACTION_BAR__EDITOR, msgs);
 		return msgs;
 	}
@@ -71,7 +72,7 @@ public class ActionBarImpl extends AbstractPanelImpl implements ActionBar {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEditor(InstanceEditor newEditor) {
+	public void setEditor(AbstractEditor newEditor) {
 		if (newEditor != eInternalContainer() || (eContainerFeatureID() != EditorPackage.ACTION_BAR__EDITOR && newEditor != null)) {
 			if (EcoreUtil.isAncestor(this, newEditor))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -79,7 +80,7 @@ public class ActionBarImpl extends AbstractPanelImpl implements ActionBar {
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newEditor != null)
-				msgs = ((InternalEObject)newEditor).eInverseAdd(this, EditorPackage.INSTANCE_EDITOR__ACTION_BAR, InstanceEditor.class, msgs);
+				msgs = ((InternalEObject)newEditor).eInverseAdd(this, EditorPackage.ABSTRACT_EDITOR__ACTION_BAR, AbstractEditor.class, msgs);
 			msgs = basicSetEditor(newEditor, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -98,7 +99,7 @@ public class ActionBarImpl extends AbstractPanelImpl implements ActionBar {
 			case EditorPackage.ACTION_BAR__EDITOR:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetEditor((InstanceEditor)otherEnd, msgs);
+				return basicSetEditor((AbstractEditor)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -126,7 +127,7 @@ public class ActionBarImpl extends AbstractPanelImpl implements ActionBar {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case EditorPackage.ACTION_BAR__EDITOR:
-				return eInternalContainer().eInverseRemove(this, EditorPackage.INSTANCE_EDITOR__ACTION_BAR, InstanceEditor.class, msgs);
+				return eInternalContainer().eInverseRemove(this, EditorPackage.ABSTRACT_EDITOR__ACTION_BAR, AbstractEditor.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -154,7 +155,7 @@ public class ActionBarImpl extends AbstractPanelImpl implements ActionBar {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EditorPackage.ACTION_BAR__EDITOR:
-				setEditor((InstanceEditor)newValue);
+				setEditor((AbstractEditor)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -169,7 +170,7 @@ public class ActionBarImpl extends AbstractPanelImpl implements ActionBar {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case EditorPackage.ACTION_BAR__EDITOR:
-				setEditor((InstanceEditor)null);
+				setEditor((AbstractEditor)null);
 				return;
 		}
 		super.eUnset(featureID);

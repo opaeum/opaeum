@@ -5,6 +5,7 @@ package org.opaeum.uim.perspective.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.opaeum.uim.impl.UserInteractionElementImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.PositionInPerspective;
@@ -25,7 +26,7 @@ import org.opaeum.uim.perspective.ViewAllocation;
  *
  * @generated
  */
-public abstract class ViewAllocationImpl extends EObjectImpl implements ViewAllocation {
+public abstract class ViewAllocationImpl extends UserInteractionElementImpl implements ViewAllocation {
 	/**
 	 * The default value of the '{@link #getWidth() <em>Width</em>}' attribute.
 	 * <!-- begin-user-doc -->

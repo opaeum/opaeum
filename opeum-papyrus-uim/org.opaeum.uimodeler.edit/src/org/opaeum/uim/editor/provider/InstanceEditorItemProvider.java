@@ -72,7 +72,6 @@ public class InstanceEditorItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(EditorPackage.Literals.INSTANCE_EDITOR__ACTION_BAR);
 			childrenFeatures.add(EditorPackage.Literals.INSTANCE_EDITOR__MENU_CONFIGURATION);
 		}
 		return childrenFeatures;
@@ -117,7 +116,6 @@ public class InstanceEditorItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(InstanceEditor.class)) {
-			case EditorPackage.INSTANCE_EDITOR__ACTION_BAR:
 			case EditorPackage.INSTANCE_EDITOR__MENU_CONFIGURATION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -135,11 +133,6 @@ public class InstanceEditorItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(EditorPackage.Literals.INSTANCE_EDITOR__ACTION_BAR,
-				 EditorFactory.eINSTANCE.createActionBar()));
 
 		newChildDescriptors.add
 			(createChildParameter

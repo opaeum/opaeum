@@ -69,13 +69,31 @@ public interface PerspectivePackage extends EPackage {
 	int PERSPECTIVE_CONFIGURATION = 0;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERSPECTIVE_CONFIGURATION__NAME = UimPackage.USER_INTERACTION_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERSPECTIVE_CONFIGURATION__UNDER_USER_CONTROL = UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Explorer</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PERSPECTIVE_CONFIGURATION__EXPLORER = 0;
+	int PERSPECTIVE_CONFIGURATION__EXPLORER = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Editor</b></em>' containment reference.
@@ -84,7 +102,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSPECTIVE_CONFIGURATION__EDITOR = 1;
+	int PERSPECTIVE_CONFIGURATION__EDITOR = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Properties</b></em>' containment reference.
@@ -93,7 +111,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSPECTIVE_CONFIGURATION__PROPERTIES = 2;
+	int PERSPECTIVE_CONFIGURATION__PROPERTIES = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Inbox</b></em>' containment reference.
@@ -102,7 +120,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSPECTIVE_CONFIGURATION__INBOX = 3;
+	int PERSPECTIVE_CONFIGURATION__INBOX = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Outbox</b></em>' reference.
@@ -111,7 +129,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSPECTIVE_CONFIGURATION__OUTBOX = 4;
+	int PERSPECTIVE_CONFIGURATION__OUTBOX = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Configuration</em>' class.
@@ -120,7 +138,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSPECTIVE_CONFIGURATION_FEATURE_COUNT = 5;
+	int PERSPECTIVE_CONFIGURATION_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ViewAllocationImpl <em>View Allocation</em>}' class.
@@ -133,13 +151,31 @@ public interface PerspectivePackage extends EPackage {
 	int VIEW_ALLOCATION = 1;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_ALLOCATION__NAME = UimPackage.USER_INTERACTION_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_ALLOCATION__UNDER_USER_CONTROL = UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_ALLOCATION__WIDTH = 0;
+	int VIEW_ALLOCATION__WIDTH = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Height</b></em>' attribute.
@@ -148,7 +184,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_ALLOCATION__HEIGHT = 1;
+	int VIEW_ALLOCATION__HEIGHT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute.
@@ -157,7 +193,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_ALLOCATION__POSITION = 2;
+	int VIEW_ALLOCATION__POSITION = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>View Allocation</em>' class.
@@ -166,7 +202,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_ALLOCATION_FEATURE_COUNT = 3;
+	int VIEW_ALLOCATION_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl <em>Explorer Configuration</em>}' class.
@@ -177,6 +213,24 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 */
 	int EXPLORER_CONFIGURATION = 2;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CONFIGURATION__NAME = VIEW_ALLOCATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CONFIGURATION__UNDER_USER_CONTROL = VIEW_ALLOCATION__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Width</b></em>' attribute.
@@ -232,69 +286,6 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 */
 	int EXPLORER_CLASS_CONSTRAINT = 3;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CLASS_CONSTRAINT__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Explorer Configuration</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CLASS_CONSTRAINT__EXPLORER_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CLASS_CONSTRAINT__PROPERTIES = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>New Object Constraint</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CLASS_CONSTRAINT__NEW_OBJECT_CONSTRAINT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Behaviors</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CLASS_CONSTRAINT__BEHAVIORS = UimPackage.UML_REFERENCE_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CLASS_CONSTRAINT__OPERATIONS = UimPackage.UML_REFERENCE_FEATURE_COUNT + 4;
-
-	/**
-	 * The number of structural features of the '<em>Explorer Class Constraint</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CLASS_CONSTRAINT_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerConstraintImpl <em>Explorer Constraint</em>}' class.
@@ -413,6 +404,159 @@ public interface PerspectivePackage extends EPackage {
 	 * @ordered
 	 */
 	int EXPLORER_CONSTRAINT_FEATURE_COUNT = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Requires Group Ownership</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
+
+	/**
+	 * The feature id for the '<em><b>Requires Ownership</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__REQUIRES_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_OWNERSHIP;
+
+	/**
+	 * The feature id for the '<em><b>Required Roles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__REQUIRED_ROLES = EXPLORER_CONSTRAINT__REQUIRED_ROLES;
+
+	/**
+	 * The feature id for the '<em><b>Open To Public</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__OPEN_TO_PUBLIC = EXPLORER_CONSTRAINT__OPEN_TO_PUBLIC;
+
+	/**
+	 * The feature id for the '<em><b>Required States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__REQUIRED_STATES = EXPLORER_CONSTRAINT__REQUIRED_STATES;
+
+	/**
+	 * The feature id for the '<em><b>Inherit From Parent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__INHERIT_FROM_PARENT = EXPLORER_CONSTRAINT__INHERIT_FROM_PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__UML_ELEMENT_UID = EXPLORER_CONSTRAINT__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__NAME = EXPLORER_CONSTRAINT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__UNDER_USER_CONTROL = EXPLORER_CONSTRAINT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__LABEL_OVERRIDE = EXPLORER_CONSTRAINT__LABEL_OVERRIDE;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__HIDDEN = EXPLORER_CONSTRAINT__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Explorer Configuration</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__EXPLORER_CONFIGURATION = EXPLORER_CONSTRAINT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__PROPERTIES = EXPLORER_CONSTRAINT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>New Object Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__NEW_OBJECT_CONSTRAINT = EXPLORER_CONSTRAINT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Behaviors</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__BEHAVIORS = EXPLORER_CONSTRAINT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT__OPERATIONS = EXPLORER_CONSTRAINT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of structural features of the '<em>Explorer Class Constraint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONSTRAINT_FEATURE_COUNT = EXPLORER_CONSTRAINT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerPropertyConstraintImpl <em>Explorer Property Constraint</em>}' class.
@@ -552,6 +696,24 @@ public interface PerspectivePackage extends EPackage {
 	int EDITOR_CONFIGURATION = 5;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_CONFIGURATION__NAME = VIEW_ALLOCATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_CONFIGURATION__UNDER_USER_CONTROL = VIEW_ALLOCATION__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -596,6 +758,24 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 */
 	int PROPERTIES_CONFIGURATION = 6;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_CONFIGURATION__NAME = VIEW_ALLOCATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_CONFIGURATION__UNDER_USER_CONTROL = VIEW_ALLOCATION__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Width</b></em>' attribute.
@@ -907,6 +1087,24 @@ public interface PerspectivePackage extends EPackage {
 	int INBOX_CONFIGURATION = 10;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INBOX_CONFIGURATION__NAME = VIEW_ALLOCATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INBOX_CONFIGURATION__UNDER_USER_CONTROL = VIEW_ALLOCATION__UNDER_USER_CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -951,6 +1149,24 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 */
 	int OUTBOX_CONFIGURATION = 11;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUTBOX_CONFIGURATION__NAME = VIEW_ALLOCATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUTBOX_CONFIGURATION__UNDER_USER_CONTROL = VIEW_ALLOCATION__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Width</b></em>' attribute.

@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -31,7 +32,6 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.uimodeler.UimMultiDiagramEditor;
 
 public abstract class AbstractUimGenerationAction extends Action{
 	public AbstractUimGenerationAction(String text){
@@ -95,7 +95,7 @@ public abstract class AbstractUimGenerationAction extends Action{
 			IFile diFile = getFile(fileUri);
 			if(diFile.exists()){
 				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				UimMultiDiagramEditor editorPart = (UimMultiDiagramEditor) page.openEditor(new FileEditorInput(diFile),
+				IEditorPart editorPart =  page.openEditor(new FileEditorInput(diFile),
 						"org.opaeum.uimodeler.OpaeumMultiDiagramEditor", true);
 				// TODO navigate to selected object
 				// TODO associate currentEmfWorkspace with this instance of the editor

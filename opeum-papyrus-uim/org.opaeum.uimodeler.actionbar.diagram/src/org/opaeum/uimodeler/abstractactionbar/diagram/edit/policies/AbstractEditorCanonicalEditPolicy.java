@@ -45,7 +45,7 @@ public class AbstractEditorCanonicalEditPolicy extends CanonicalEditPolicy{
 	 * @generated
 	 */
 	protected EStructuralFeature getFeatureToSynchronize(){
-		return EditorPackage.eINSTANCE.getInstanceEditor_ActionBar();
+		return EditorPackage.eINSTANCE.getAbstractEditor_ActionBar();
 	}
 	/**
 	 * @generated

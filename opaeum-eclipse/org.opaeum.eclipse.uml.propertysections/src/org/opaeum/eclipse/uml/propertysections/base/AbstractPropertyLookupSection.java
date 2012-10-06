@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 
 public abstract class AbstractPropertyLookupSection extends AbstractReferenceLookupSection{
 	public AbstractPropertyLookupSection(){
@@ -25,9 +25,9 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferenceLoo
 		Property p=(Property) getFeatureOwner(getEObject());
 		List<EObject> choiceOfValues = new ArrayList<EObject>();
 		if(p.eContainer() instanceof Classifier && p.eContainer() != p.getAssociation()){
-			choiceOfValues.addAll(EmfElementFinder.getPropertiesInScope((Classifier) p.eContainer()));
+			choiceOfValues.addAll(EmfPropertyUtil.getEffectiveProperties((Classifier) p.eContainer()));
 		}else if(p.getAssociation() != null){
-			choiceOfValues.addAll(EmfElementFinder.getPropertiesInScope((Classifier) p.getOtherEnd().getType()));
+			choiceOfValues.addAll(EmfPropertyUtil.getEffectiveProperties((Classifier) p.getOtherEnd().getType()));
 		}
 		if(p.getType() != null){
 			Iterator<EObject> iter = choiceOfValues.iterator();

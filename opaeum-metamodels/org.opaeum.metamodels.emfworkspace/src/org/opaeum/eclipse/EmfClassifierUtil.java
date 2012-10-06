@@ -311,7 +311,7 @@ public class EmfClassifierUtil{
 		return false;
 	}
 	public static boolean isFact(Type type){
-		for(Property property:EmfElementFinder.getPropertiesInScope((Classifier) type)){
+		for(Property property:EmfPropertyUtil.getEffectiveProperties((Classifier) type)){
 			if(EmfPropertyUtil.isMeasure(property)){
 				return true;
 			}

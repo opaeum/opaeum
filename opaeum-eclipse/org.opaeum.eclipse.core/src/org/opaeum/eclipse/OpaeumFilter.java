@@ -94,7 +94,6 @@ public class OpaeumFilter extends ViewerFilter{
 		if(!(element instanceof Element)){//FROM other Metamodels
 			return true;
 		}
-		init();//TODO Remove. THis is just temporary too allow us to change it at debug time
 		if(element.eClass().getEPackage().getName().equalsIgnoreCase("uml")){
 			for(EClassifier e:ALLOWED_CLASSES){
 				if(e.isInstance(element)){

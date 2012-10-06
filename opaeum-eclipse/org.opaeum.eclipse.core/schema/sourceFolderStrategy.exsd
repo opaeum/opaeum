@@ -3,7 +3,7 @@
 <schema targetNamespace="org.opaeum.eclipse" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.opaeum.eclipse" id="sourceFolderStrategy" name="SourceFolderStrategy"/>
+         <meta.schema plugin="org.opaeum.eclipse.core" id="sourceFolderStrategy" name="SourceFolderStrategy"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]

@@ -242,6 +242,15 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getAbstractEditor_ActionBar() {
+		return (EReference)abstractEditorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getInstanceEditor() {
 		return instanceEditorEClass;
 	}
@@ -251,17 +260,8 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getInstanceEditor_ActionBar() {
-		return (EReference)instanceEditorEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getInstanceEditor_MenuConfiguration() {
-		return (EReference)instanceEditorEClass.getEStructuralFeatures().get(1);
+		return (EReference)instanceEditorEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -447,9 +447,9 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 		// Create classes and their features
 		abstractEditorEClass = createEClass(ABSTRACT_EDITOR);
 		createEReference(abstractEditorEClass, ABSTRACT_EDITOR__PAGES);
+		createEReference(abstractEditorEClass, ABSTRACT_EDITOR__ACTION_BAR);
 
 		instanceEditorEClass = createEClass(INSTANCE_EDITOR);
-		createEReference(instanceEditorEClass, INSTANCE_EDITOR__ACTION_BAR);
 		createEReference(instanceEditorEClass, INSTANCE_EDITOR__MENU_CONFIGURATION);
 
 		behaviorExecutionEditorEClass = createEClass(BEHAVIOR_EXECUTION_EDITOR);
@@ -528,19 +528,19 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(abstractEditorEClass, AbstractEditor.class, "AbstractEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAbstractEditor_Pages(), this.getEditorPage(), this.getEditorPage_Editor(), "pages", null, 0, -1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAbstractEditor_ActionBar(), this.getActionBar(), this.getActionBar_Editor(), "actionBar", null, 0, 1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(instanceEditorEClass, InstanceEditor.class, "InstanceEditor", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInstanceEditor_ActionBar(), this.getActionBar(), this.getActionBar_Editor(), "actionBar", null, 0, 1, InstanceEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInstanceEditor_MenuConfiguration(), this.getMenuConfiguration(), this.getMenuConfiguration_Editor(), "menuConfiguration", null, 0, 1, InstanceEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(behaviorExecutionEditorEClass, BehaviorExecutionEditor.class, "BehaviorExecutionEditor", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(behaviorExecutionEditorEClass, BehaviorExecutionEditor.class, "BehaviorExecutionEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBehaviorExecutionEditor_Model(), theModelPackage.getBehaviorUserInteractionModel(), theModelPackage.getBehaviorUserInteractionModel_Editor(), "model", null, 0, 1, BehaviorExecutionEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(editorPageEClass, EditorPage.class, "EditorPage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEditorPage_Editor(), this.getAbstractEditor(), this.getAbstractEditor_Pages(), "editor", null, 1, 1, EditorPage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actionBarEClass, ActionBar.class, "ActionBar", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getActionBar_Editor(), this.getInstanceEditor(), this.getInstanceEditor_ActionBar(), "editor", null, 0, 1, ActionBar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActionBar_Editor(), this.getAbstractEditor(), this.getAbstractEditor_ActionBar(), "editor", null, 0, 1, ActionBar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(menuConfigurationEClass, MenuConfiguration.class, "MenuConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMenuConfiguration_Editor(), this.getInstanceEditor(), this.getInstanceEditor_MenuConfiguration(), "editor", null, 1, 1, MenuConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

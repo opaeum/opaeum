@@ -129,6 +129,33 @@ public interface WizardPackage extends EPackage {
 	int ABSTRACT_WIZARD__IGNORED_ELEMENTS = UimPackage.USER_INTERFACE_ROOT__IGNORED_ELEMENTS;
 
 	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_WIZARD__SUPER_USER_INTERFACES = UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_WIZARD__PAGE_ORDERING = UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_WIZARD__SUB_USER_INTERFACES = UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES;
+
+	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -218,6 +245,33 @@ public interface WizardPackage extends EPackage {
 	 * @ordered
 	 */
 	int NEW_OBJECT_WIZARD__IGNORED_ELEMENTS = ABSTRACT_WIZARD__IGNORED_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEW_OBJECT_WIZARD__SUPER_USER_INTERFACES = ABSTRACT_WIZARD__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEW_OBJECT_WIZARD__PAGE_ORDERING = ABSTRACT_WIZARD__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEW_OBJECT_WIZARD__SUB_USER_INTERFACES = ABSTRACT_WIZARD__SUB_USER_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
@@ -318,6 +372,33 @@ public interface WizardPackage extends EPackage {
 	 * @ordered
 	 */
 	int INVOCATION_WIZARD__IGNORED_ELEMENTS = ABSTRACT_WIZARD__IGNORED_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOCATION_WIZARD__SUPER_USER_INTERFACES = ABSTRACT_WIZARD__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOCATION_WIZARD__PAGE_ORDERING = ABSTRACT_WIZARD__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOCATION_WIZARD__SUB_USER_INTERFACES = ABSTRACT_WIZARD__SUB_USER_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
@@ -502,6 +583,33 @@ public interface WizardPackage extends EPackage {
 	int RESPONSIBILITY_INVOCATION_WIZARD__IGNORED_ELEMENTS = INVOCATION_WIZARD__IGNORED_ELEMENTS;
 
 	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_INVOCATION_WIZARD__SUPER_USER_INTERFACES = INVOCATION_WIZARD__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_INVOCATION_WIZARD__PAGE_ORDERING = INVOCATION_WIZARD__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_INVOCATION_WIZARD__SUB_USER_INTERFACES = INVOCATION_WIZARD__SUB_USER_INTERFACES;
+
+	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -600,6 +708,33 @@ public interface WizardPackage extends EPackage {
 	 * @ordered
 	 */
 	int BEHAVIOR_INVOCATION_WIZARD__IGNORED_ELEMENTS = INVOCATION_WIZARD__IGNORED_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_INVOCATION_WIZARD__SUPER_USER_INTERFACES = INVOCATION_WIZARD__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_INVOCATION_WIZARD__PAGE_ORDERING = INVOCATION_WIZARD__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_INVOCATION_WIZARD__SUB_USER_INTERFACES = INVOCATION_WIZARD__SUB_USER_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.

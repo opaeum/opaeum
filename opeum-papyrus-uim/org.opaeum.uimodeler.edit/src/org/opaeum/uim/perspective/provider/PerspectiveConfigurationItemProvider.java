@@ -23,6 +23,7 @@ import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectiveFactory;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.provider.UserInteractionElementItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.perspective.PerspectiveConfiguration} object.
@@ -31,7 +32,7 @@ import org.opaeum.uim.provider.UimEditPlugin;
  * @generated
  */
 public class PerspectiveConfigurationItemProvider
-	extends ItemProviderAdapter
+	extends UserInteractionElementItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -138,7 +139,10 @@ public class PerspectiveConfigurationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_PerspectiveConfiguration_type");
+		String label = ((PerspectiveConfiguration)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_PerspectiveConfiguration_type") :
+			getString("_UI_PerspectiveConfiguration_type") + " " + label;
 	}
 
 	/**

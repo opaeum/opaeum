@@ -17,6 +17,7 @@ import org.eclipse.ui.menus.IContributionRoot;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.newchild.OpaeumEditorMenu;
 import org.opaeum.validation.ValidationPhase;
 
@@ -25,81 +26,70 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 	}
 	@Override
 	public void createContributionItems(IServiceLocator serviceLocator,IContributionRoot additions){
-		new org.opaeum.generation.features.PersistenceUsingJpa();
-		MenuManager menuManager = new MenuManager("Opaeum");
-		additions.addContributionItem(menuManager, new Expression(){
-			@Override
-			public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
-				ISelectionService s = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
-				if(s.getSelection() instanceof IStructuredSelection){
-					IStructuredSelection selection = (IStructuredSelection) s.getSelection();
-					Object firstElement = selection.getFirstElement();
-					if(firstElement instanceof IContainer){
-						if(DynamicOpaeumMenu.hasUmlModels(selection) || DynamicOpaeumMenu.hasConfigFile(selection)){
+		ISelectionService s = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
+		if(s.getSelection() instanceof IStructuredSelection){
+			MenuManager menuManager = new MenuManager("Opaeum");
+			IStructuredSelection selection = (IStructuredSelection) s.getSelection();
+			Object firstElement = selection.getFirstElement();
+			if(firstElement instanceof IContainer){
+				if(DynamicOpaeumMenu.hasUmlModels(selection) || DynamicOpaeumMenu.hasConfigFile(selection)){
+					menuManager.add(new DynamicOpaeumMenu());
+				}
+			}else{
+				EObject element = null;
+				if(firstElement instanceof EObject){
+					element = (EObject) firstElement;
+				}else if(firstElement instanceof IAdaptable){
+					Object adapter = ((IAdaptable) firstElement).getAdapter(EObject.class);
+					if(adapter instanceof EObject){
+						element = (EObject) adapter;
+					}
+				}else if(firstElement instanceof AbstractGraphicalEditPart){
+					AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
+					if(a.getModel() instanceof EObject){
+						{
+							element = (EObject) a.getModel();
+						}
+					}
+				}
+				if(element != null){
+					if((element.getClass().getSimpleName().equals("SimulationModelImpl") || element instanceof Model)){
+						menuManager.add(new DynamicOpaeumMenu());
+					}else if(ValidationPhase.canBeProcessedIndividually(element)){
+						menuManager.add(new DynamicOpaeumMenu());
+					}
+				}
+				if(menuManager.getSize() > 0){
+					additions.addContributionItem(menuManager, new Expression(){
+						@Override
+						public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
 							return EvaluationResult.TRUE;
 						}
-					}else{
-						if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
-							firstElement = ((IAdaptable) firstElement).getAdapter(EObject.class);
-						}
-						if(firstElement != null
-								&& (firstElement.getClass().getSimpleName().equals("SimulationModelImpl") || firstElement instanceof Model)){
+					});
+				}
+				if(element != null){
+					additions.addContributionItem(new OpaeumEditorMenu(), new Expression(){
+						@Override
+						public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
 							return EvaluationResult.TRUE;
-						}else if(firstElement instanceof Element){
-							if(ValidationPhase.canBeProcessedIndividually((EObject) firstElement)){
-								return EvaluationResult.TRUE;
-							}
-						}else if(firstElement instanceof AbstractGraphicalEditPart){
-							AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
-							if(a.getModel() instanceof Element && ValidationPhase.canBeProcessedIndividually((EObject) a.getModel())){
-								return EvaluationResult.TRUE;
-							}
 						}
+					});
+					if(element instanceof Element && EmfPackageUtil.isRootObject((Element) element)){
+						MenuManager applyProfileMenu = new MenuManager("Apply Profile");
+						Expression visibleWhen = new Expression(){
+							@Override
+							public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
+								return EvaluationResult.TRUE;
+							}
+						};
+						additions.addContributionItem(applyProfileMenu, visibleWhen);
+						applyProfileMenu.add(new ApplyProfileMenu());
+						MenuManager importLibraryMenu = new MenuManager("Import Library");
+						additions.addContributionItem(importLibraryMenu, visibleWhen);
+						importLibraryMenu.add(new ImportLibraryMenu());
 					}
 				}
-				return EvaluationResult.FALSE;
 			}
-		});
-		menuManager.add(new DynamicOpaeumMenu());
-		MenuManager applyProfileMenu = new MenuManager("Apply Profile");
-		Expression visibleWhen = new Expression(){
-			@Override
-			public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
-				ISelectionService s = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
-				if(s.getSelection() instanceof IStructuredSelection){
-					IStructuredSelection selection = (IStructuredSelection) s.getSelection();
-					Object firstElement = selection.getFirstElement();
-					if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
-						firstElement = ((IAdaptable) firstElement).getAdapter(EObject.class);
-					}
-					if(firstElement instanceof Model){
-						return EvaluationResult.TRUE;
-					}
-				}
-				return EvaluationResult.FALSE;
-			}
-		};
-		additions.addContributionItem(applyProfileMenu, visibleWhen);
-		applyProfileMenu.add(new ApplyProfileMenu());
-		MenuManager importLibraryMenu = new MenuManager("Import Library");
-		additions.addContributionItem(importLibraryMenu, visibleWhen);
-		importLibraryMenu.add(new ImportLibraryMenu());
-		additions.addContributionItem(new OpaeumEditorMenu(), new Expression(){
-			@Override
-			public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
-				ISelectionService s = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
-				if(s.getSelection() instanceof IStructuredSelection){
-					IStructuredSelection selection = (IStructuredSelection) s.getSelection();
-					Object firstElement = selection.getFirstElement();
-					if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
-						firstElement = ((IAdaptable) firstElement).getAdapter(EObject.class);
-					}
-					if(firstElement instanceof EObject){
-						return EvaluationResult.TRUE;
-					}
-				}
-				return EvaluationResult.FALSE;
-			}
-		});
+		}
 	}
 }

@@ -28,7 +28,7 @@ import org.opaeum.uim.wizard.NewObjectWizard;
  * @model
  * @generated
  */
-public interface ClassUserInteractionModel extends UmlReference, UserInteractionElement, AbstractUserInteractionModel {
+public interface ClassUserInteractionModel extends AbstractUserInteractionModel {
 	/**
 	 * Returns the value of the '<em><b>Primary Editor</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.editor.ObjectEditor#getModel <em>Model</em>}'.

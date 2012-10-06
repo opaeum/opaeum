@@ -132,6 +132,33 @@ public interface EditorPackage extends EPackage {
 	int ABSTRACT_EDITOR__IGNORED_ELEMENTS = UimPackage.USER_INTERFACE_ROOT__IGNORED_ELEMENTS;
 
 	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_EDITOR__SUPER_USER_INTERFACES = UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_EDITOR__PAGE_ORDERING = UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_EDITOR__SUB_USER_INTERFACES = UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES;
+
+	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -141,13 +168,22 @@ public interface EditorPackage extends EPackage {
 	int ABSTRACT_EDITOR__PAGES = UimPackage.USER_INTERFACE_ROOT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Action Bar</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_EDITOR__ACTION_BAR = UimPackage.USER_INTERFACE_ROOT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Abstract Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR_FEATURE_COUNT = UimPackage.USER_INTERFACE_ROOT_FEATURE_COUNT + 1;
+	int ABSTRACT_EDITOR_FEATURE_COUNT = UimPackage.USER_INTERFACE_ROOT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.InstanceEditorImpl <em>Instance Editor</em>}' class.
@@ -223,6 +259,33 @@ public interface EditorPackage extends EPackage {
 	int INSTANCE_EDITOR__IGNORED_ELEMENTS = ABSTRACT_EDITOR__IGNORED_ELEMENTS;
 
 	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTANCE_EDITOR__SUPER_USER_INTERFACES = ABSTRACT_EDITOR__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTANCE_EDITOR__PAGE_ORDERING = ABSTRACT_EDITOR__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTANCE_EDITOR__SUB_USER_INTERFACES = ABSTRACT_EDITOR__SUB_USER_INTERFACES;
+
+	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -238,7 +301,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INSTANCE_EDITOR__ACTION_BAR = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
+	int INSTANCE_EDITOR__ACTION_BAR = ABSTRACT_EDITOR__ACTION_BAR;
 
 	/**
 	 * The feature id for the '<em><b>Menu Configuration</b></em>' containment reference.
@@ -247,7 +310,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INSTANCE_EDITOR__MENU_CONFIGURATION = ABSTRACT_EDITOR_FEATURE_COUNT + 1;
+	int INSTANCE_EDITOR__MENU_CONFIGURATION = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Instance Editor</em>' class.
@@ -256,7 +319,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INSTANCE_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 2;
+	int INSTANCE_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.BehaviorExecutionEditorImpl <em>Behavior Execution Editor</em>}' class.
@@ -330,6 +393,33 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BEHAVIOR_EXECUTION_EDITOR__IGNORED_ELEMENTS = INSTANCE_EDITOR__IGNORED_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_EXECUTION_EDITOR__SUPER_USER_INTERFACES = INSTANCE_EDITOR__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_EXECUTION_EDITOR__PAGE_ORDERING = INSTANCE_EDITOR__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_EXECUTION_EDITOR__SUB_USER_INTERFACES = INSTANCE_EDITOR__SUB_USER_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
@@ -523,13 +613,22 @@ public interface EditorPackage extends EPackage {
 	int ACTION_BAR__CHILDREN = PanelPackage.ABSTRACT_PANEL__CHILDREN;
 
 	/**
-	 * The feature id for the '<em><b>Labels</b></em>' containment reference.
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_BAR__LABELS = PanelPackage.ABSTRACT_PANEL__LABELS;
+	int ACTION_BAR__UML_ELEMENT_UID = PanelPackage.ABSTRACT_PANEL__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_BAR__LABEL_OVERRIDE = PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Editor</b></em>' container reference.
@@ -805,6 +904,33 @@ public interface EditorPackage extends EPackage {
 	int RESPONSIBILITY_VIEWER__IGNORED_ELEMENTS = ABSTRACT_EDITOR__IGNORED_ELEMENTS;
 
 	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_VIEWER__SUPER_USER_INTERFACES = ABSTRACT_EDITOR__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_VIEWER__PAGE_ORDERING = ABSTRACT_EDITOR__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_VIEWER__SUB_USER_INTERFACES = ABSTRACT_EDITOR__SUB_USER_INTERFACES;
+
+	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -812,6 +938,15 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int RESPONSIBILITY_VIEWER__PAGES = ABSTRACT_EDITOR__PAGES;
+
+	/**
+	 * The feature id for the '<em><b>Action Bar</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_VIEWER__ACTION_BAR = ABSTRACT_EDITOR__ACTION_BAR;
 
 	/**
 	 * The feature id for the '<em><b>Model</b></em>' container reference.
@@ -987,6 +1122,33 @@ public interface EditorPackage extends EPackage {
 	int OBJECT_EDITOR__IGNORED_ELEMENTS = INSTANCE_EDITOR__IGNORED_ELEMENTS;
 
 	/**
+	 * The feature id for the '<em><b>Super User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_EDITOR__SUPER_USER_INTERFACES = INSTANCE_EDITOR__SUPER_USER_INTERFACES;
+
+	/**
+	 * The feature id for the '<em><b>Page Ordering</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_EDITOR__PAGE_ORDERING = INSTANCE_EDITOR__PAGE_ORDERING;
+
+	/**
+	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_EDITOR__SUB_USER_INTERFACES = INSTANCE_EDITOR__SUB_USER_INTERFACES;
+
+	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1054,6 +1216,17 @@ public interface EditorPackage extends EPackage {
 	EReference getAbstractEditor_Pages();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.editor.AbstractEditor#getActionBar <em>Action Bar</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Action Bar</em>'.
+	 * @see org.opaeum.uim.editor.AbstractEditor#getActionBar()
+	 * @see #getAbstractEditor()
+	 * @generated
+	 */
+	EReference getAbstractEditor_ActionBar();
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.editor.InstanceEditor <em>Instance Editor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1062,17 +1235,6 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getInstanceEditor();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.editor.InstanceEditor#getActionBar <em>Action Bar</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Action Bar</em>'.
-	 * @see org.opaeum.uim.editor.InstanceEditor#getActionBar()
-	 * @see #getInstanceEditor()
-	 * @generated
-	 */
-	EReference getInstanceEditor_ActionBar();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.editor.InstanceEditor#getMenuConfiguration <em>Menu Configuration</em>}'.
@@ -1305,6 +1467,14 @@ public interface EditorPackage extends EPackage {
 		EReference ABSTRACT_EDITOR__PAGES = eINSTANCE.getAbstractEditor_Pages();
 
 		/**
+		 * The meta object literal for the '<em><b>Action Bar</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ABSTRACT_EDITOR__ACTION_BAR = eINSTANCE.getAbstractEditor_ActionBar();
+
+		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.editor.impl.InstanceEditorImpl <em>Instance Editor</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1313,14 +1483,6 @@ public interface EditorPackage extends EPackage {
 		 * @generated
 		 */
 		EClass INSTANCE_EDITOR = eINSTANCE.getInstanceEditor();
-
-		/**
-		 * The meta object literal for the '<em><b>Action Bar</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INSTANCE_EDITOR__ACTION_BAR = eINSTANCE.getInstanceEditor_ActionBar();
 
 		/**
 		 * The meta object literal for the '<em><b>Menu Configuration</b></em>' containment reference feature.

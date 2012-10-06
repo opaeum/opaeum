@@ -28,7 +28,7 @@ import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.linkage.ActivityValidationRule;
@@ -221,7 +221,7 @@ public class ActivityValidator extends AbstractValidator{
 	}
 	protected Map<String,List<Property>> getEmulatedAttributes(Activity activity){
 		Map<String,List<Property>> results = new HashMap<String,List<Property>>();
-		for(Property e:EmfElementFinder.getPropertiesInScope(activity)){
+		for(Property e:EmfPropertyUtil.getEffectiveProperties(activity)){
 			addNamedElement(results, e);
 		}
 		return results;

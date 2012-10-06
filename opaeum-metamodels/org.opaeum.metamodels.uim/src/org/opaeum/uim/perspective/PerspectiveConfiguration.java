@@ -2,6 +2,7 @@
  */
 package org.opaeum.uim.perspective;
 
+import org.opaeum.uim.UserInteractionElement;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -24,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface PerspectiveConfiguration extends EObject {
+public interface PerspectiveConfiguration extends UserInteractionElement {
 	/**
 	 * Returns the value of the '<em><b>Explorer</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

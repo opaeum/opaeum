@@ -7,9 +7,12 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UserInteractionElement;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.opaeum.uim.editor.BehaviorExecutionEditor;
 import org.opaeum.uim.editor.EditorPackage;
+import org.opaeum.uim.impl.UmlReferenceImpl;
 import org.opaeum.uim.model.BehaviorUserInteractionModel;
 import org.opaeum.uim.model.ModelPackage;
 import org.opaeum.uim.wizard.BehaviorInvocationWizard;
@@ -22,6 +25,8 @@ import org.opaeum.uim.wizard.WizardPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.opaeum.uim.model.impl.BehaviorUserInteractionModelImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.model.impl.BehaviorUserInteractionModelImpl#isUnderUserControl <em>Under User Control</em>}</li>
  *   <li>{@link org.opaeum.uim.model.impl.BehaviorUserInteractionModelImpl#getLinkedUmlResource <em>Linked Uml Resource</em>}</li>
  *   <li>{@link org.opaeum.uim.model.impl.BehaviorUserInteractionModelImpl#getInvocationWizard <em>Invocation Wizard</em>}</li>
  *   <li>{@link org.opaeum.uim.model.impl.BehaviorUserInteractionModelImpl#getEditor <em>Editor</em>}</li>
@@ -30,7 +35,47 @@ import org.opaeum.uim.wizard.WizardPackage;
  *
  * @generated
  */
-public class BehaviorUserInteractionModelImpl extends EObjectImpl implements BehaviorUserInteractionModel {
+public class BehaviorUserInteractionModelImpl extends UmlReferenceImpl implements BehaviorUserInteractionModel {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean UNDER_USER_CONTROL_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUnderUserControl()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getLinkedUmlResource() <em>Linked Uml Resource</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -88,6 +133,48 @@ public class BehaviorUserInteractionModelImpl extends EObjectImpl implements Beh
 	@Override
 	protected EClass eStaticClass() {
 		return ModelPackage.Literals.BEHAVIOR_USER_INTERACTION_MODEL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isUnderUserControl() {
+		return underUserControl;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUnderUserControl(boolean newUnderUserControl) {
+		boolean oldUnderUserControl = underUserControl;
+		underUserControl = newUnderUserControl;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
 	}
 
 	/**
@@ -241,6 +328,10 @@ public class BehaviorUserInteractionModelImpl extends EObjectImpl implements Beh
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__NAME:
+				return getName();
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				return isUnderUserControl();
 			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				return getLinkedUmlResource();
 			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__INVOCATION_WIZARD:
@@ -259,6 +350,12 @@ public class BehaviorUserInteractionModelImpl extends EObjectImpl implements Beh
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__NAME:
+				setName((String)newValue);
+				return;
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				setUnderUserControl((Boolean)newValue);
+				return;
 			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				setLinkedUmlResource((String)newValue);
 				return;
@@ -280,6 +377,12 @@ public class BehaviorUserInteractionModelImpl extends EObjectImpl implements Beh
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
+				return;
 			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				setLinkedUmlResource(LINKED_UML_RESOURCE_EDEFAULT);
 				return;
@@ -301,6 +404,10 @@ public class BehaviorUserInteractionModelImpl extends EObjectImpl implements Beh
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
+				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
 			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				return LINKED_UML_RESOURCE_EDEFAULT == null ? linkedUmlResource != null : !LINKED_UML_RESOURCE_EDEFAULT.equals(linkedUmlResource);
 			case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__INVOCATION_WIZARD:
@@ -317,11 +424,49 @@ public class BehaviorUserInteractionModelImpl extends EObjectImpl implements Beh
 	 * @generated
 	 */
 	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == UserInteractionElement.class) {
+			switch (derivedFeatureID) {
+				case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
+				case ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__UNDER_USER_CONTROL: return UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == UserInteractionElement.class) {
+			switch (baseFeatureID) {
+				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__NAME;
+				case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL: return ModelPackage.BEHAVIOR_USER_INTERACTION_MODEL__UNDER_USER_CONTROL;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (linkedUmlResource: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", underUserControl: ");
+		result.append(underUserControl);
+		result.append(", linkedUmlResource: ");
 		result.append(linkedUmlResource);
 		result.append(')');
 		return result.toString();

@@ -2,6 +2,8 @@
  */
 package org.opaeum.uim.action;
 
+import org.opaeum.uim.Labels;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -12,6 +14,7 @@ package org.opaeum.uim.action;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.opaeum.uim.action.BuiltInActionButton#getKind <em>Kind</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.BuiltInActionButton#getLabels <em>Labels</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,5 +51,31 @@ public interface BuiltInActionButton extends AbstractActionButton {
 	 * @generated
 	 */
 	void setKind(ActionKind value);
+
+	/**
+	 * Returns the value of the '<em><b>Labels</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Labels</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Labels</em>' reference.
+	 * @see #setLabels(Labels)
+	 * @see org.opaeum.uim.action.ActionPackage#getBuiltInActionButton_Labels()
+	 * @model
+	 * @generated
+	 */
+	Labels getLabels();
+
+	/**
+	 * Sets the value of the '{@link org.opaeum.uim.action.BuiltInActionButton#getLabels <em>Labels</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Labels</em>' reference.
+	 * @see #getLabels()
+	 * @generated
+	 */
+	void setLabels(Labels value);
 
 } // BuiltInActionButton

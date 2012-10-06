@@ -1131,7 +1131,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 	}
 	public static void synchronizeSlots(Classifier en,InstanceSpecification newValue){
-		List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(en);
+		List<Property> propertiesInScope = EmfPropertyUtil.getEffectiveProperties(en);
 		outer:for(Slot slot:new ArrayList<Slot>(newValue.getSlots())){
 			for(Property a:propertiesInScope){
 				if(a.equals(slot.getDefiningFeature()) && !(EmfPropertyUtil.isDerived(a))){

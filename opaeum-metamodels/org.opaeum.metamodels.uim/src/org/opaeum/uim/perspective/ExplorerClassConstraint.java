@@ -26,7 +26,7 @@ import org.opaeum.uim.constraint.UserInteractionConstraint;
  * @model
  * @generated
  */
-public interface ExplorerClassConstraint extends UmlReference {
+public interface ExplorerClassConstraint extends ExplorerConstraint {
 	/**
 	 * Returns the value of the '<em><b>Explorer Configuration</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getClasses <em>Classes</em>}'.

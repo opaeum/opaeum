@@ -108,8 +108,7 @@ public class ExplorerConfigurationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Integer labelValue = ((ExplorerConfiguration)object).getWidth();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((ExplorerConfiguration)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ExplorerConfiguration_type") :
 			getString("_UI_ExplorerConfiguration_type") + " " + label;

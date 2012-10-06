@@ -81,4 +81,7 @@ public class EmfOperationUtil{
 		}
 		return false;
 	}
+	public static boolean isResponsibility(Operation context){
+		return EmfBehaviorUtil.isResponsibility(context);
+	}
 }

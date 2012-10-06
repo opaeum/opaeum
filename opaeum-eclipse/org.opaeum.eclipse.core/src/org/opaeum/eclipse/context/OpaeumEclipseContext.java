@@ -409,4 +409,7 @@ public class OpaeumEclipseContext{
 	public static OpenUmlFile findOpenUmlFileFor(Element element){
 		return getContextFor(element).getEditingContextFor(element);
 	}
+	public static OpenUmlFile findOpenUmlFileFor(IFile iFile){
+		return getContextFor(iFile.getParent()).getEditingContextFor(iFile);
+	}
 }

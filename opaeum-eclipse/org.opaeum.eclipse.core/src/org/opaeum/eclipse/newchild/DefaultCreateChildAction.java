@@ -1,6 +1,7 @@
 package org.opaeum.eclipse.newchild;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -23,6 +24,9 @@ public class DefaultCreateChildAction extends AbstractCreateChildAction implemen
 	}
 	public DefaultCreateChildAction(MatchingOwner s,String fromExpression,EClass opaqueExpression){
 		this(new MatchingOwner[]{s}, fromExpression, opaqueExpression);
+	}
+	public DefaultCreateChildAction(EReference feature){
+		this(new MatchingOwner(feature.getEContainingClass()), feature.getName(), (EClass)feature.getEType());
 	}
 	@Override
 	public CreateChildAction createAction(IWorkbenchPart workbenchPart,IStructuredSelection selection,OpaeumLibrary lib){

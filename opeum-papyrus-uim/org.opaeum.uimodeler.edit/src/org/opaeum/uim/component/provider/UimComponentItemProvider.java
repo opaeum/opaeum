@@ -152,6 +152,11 @@ public class UimComponentItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
 				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
 
 		newChildDescriptors.add

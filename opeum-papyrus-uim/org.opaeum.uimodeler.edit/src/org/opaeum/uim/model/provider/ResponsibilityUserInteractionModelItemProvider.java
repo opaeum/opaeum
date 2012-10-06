@@ -24,6 +24,7 @@ import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.model.ModelPackage;
 import org.opaeum.uim.model.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.provider.UmlReferenceItemProvider;
 import org.opaeum.uim.provider.UserInteractionElementItemProvider;
 import org.opaeum.uim.wizard.WizardFactory;
 
@@ -34,7 +35,7 @@ import org.opaeum.uim.wizard.WizardFactory;
  * @generated
  */
 public class ResponsibilityUserInteractionModelItemProvider
-	extends UserInteractionElementItemProvider
+	extends UmlReferenceItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -62,30 +63,53 @@ public class ResponsibilityUserInteractionModelItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addUmlElementUidPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
+			addUnderUserControlPropertyDescriptor(object);
 			addLinkedUmlResourcePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Uml Element Uid feature.
+	 * This adds a property descriptor for the Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addUmlElementUidPropertyDescriptor(Object object) {
+	protected void addNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_UmlReference_umlElementUid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
-				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 getString("_UI_UserInteractionElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
 				 true,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Under User Control feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUnderUserControlPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInteractionElement_underUserControl_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_underUserControl_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -180,7 +204,8 @@ public class ResponsibilityUserInteractionModelItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ResponsibilityUserInteractionModel.class)) {
-			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UML_ELEMENT_UID:
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__NAME:
+			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__UNDER_USER_CONTROL:
 			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL__LINKED_UML_RESOURCE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

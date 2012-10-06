@@ -19,7 +19,7 @@ import org.opaeum.uim.wizard.InvocationWizard;
 public class ControlUtil{
 	public static ControlKind[] getAllowedControlKinds(UserInterfaceRoot form,TypedElement typedElement,boolean inTable){
 		//TODO factor 
-		if(typedElement == null || typedElement.getType() == null){
+		if(typedElement == null || typedElement.getType() == null || typedElement.getType().getName()==null){
 			return new ControlKind[0];
 		}else{
 			String name = typedElement.getType().getName().toLowerCase();

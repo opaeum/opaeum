@@ -7,7 +7,8 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.opaeum.uim,
+Export-Package: org.opaeum.metamodels.uim,
+ org.opaeum.uim,
  org.opaeum.uim.action,
  org.opaeum.uim.action.impl,
  org.opaeum.uim.action.util,
@@ -40,6 +41,7 @@ Export-Package: org.opaeum.uim,
  org.opaeum.uim.perspective.impl,
  org.opaeum.uim.perspective.util,
  org.opaeum.uim.swt,
+ org.opaeum.uim.uml2uim,
  org.opaeum.uim.util,
  org.opaeum.uim.wizard,
  org.opaeum.uim.wizard.impl,

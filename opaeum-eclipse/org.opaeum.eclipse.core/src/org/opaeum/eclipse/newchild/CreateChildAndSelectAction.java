@@ -23,21 +23,17 @@ import org.opaeum.name.NameConverter;
 
 public class CreateChildAndSelectAction extends CreateChildAction{
 	private EObjectSelectorUI selector;
-	private ISelection selection;
 	public CreateChildAndSelectAction(EditingDomain editingDomain,ISelection selection,CommandParameter descriptor){
 		super(editingDomain, selection, descriptor);
 		setText(descriptor);
-		this.selection=selection;
 	}
 	public CreateChildAndSelectAction(IEditorPart editorPart,ISelection selection,CommandParameter descriptor){
 		super(editorPart, selection, descriptor);
 		setText(descriptor);
-		this.selection=selection;
 	}
 	public CreateChildAndSelectAction(IWorkbenchPart workbenchPart,ISelection selection,CommandParameter descriptor){
 		super(workbenchPart, selection, descriptor);
 		setText(descriptor);
-		this.selection=selection;
 	}
 	private void setText(CommandParameter descriptor){
 		String name = descriptor.getEStructuralFeature().getName();

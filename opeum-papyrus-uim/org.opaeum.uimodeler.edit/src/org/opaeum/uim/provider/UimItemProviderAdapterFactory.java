@@ -208,6 +208,29 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.PageOrdering} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PageOrderingItemProvider pageOrderingItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.PageOrdering}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPageOrderingAdapter() {
+		if (pageOrderingItemProvider == null) {
+			pageOrderingItemProvider = new PageOrderingItemProvider(this);
+		}
+
+		return pageOrderingItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -312,6 +335,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 		if (labelsItemProvider != null) labelsItemProvider.dispose();
 		if (labeledElementItemProvider != null) labeledElementItemProvider.dispose();
 		if (ignoredElementItemProvider != null) ignoredElementItemProvider.dispose();
+		if (pageOrderingItemProvider != null) pageOrderingItemProvider.dispose();
 	}
 
 }

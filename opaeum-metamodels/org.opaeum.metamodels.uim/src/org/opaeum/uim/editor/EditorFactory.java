@@ -31,6 +31,15 @@ public interface EditorFactory extends EFactory {
 	AbstractEditor createAbstractEditor();
 
 	/**
+	 * Returns a new object of class '<em>Behavior Execution Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Behavior Execution Editor</em>'.
+	 * @generated
+	 */
+	BehaviorExecutionEditor createBehaviorExecutionEditor();
+
+	/**
 	 * Returns a new object of class '<em>Page</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

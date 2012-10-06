@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query:ModelQuerySet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:query="http://www.eclipse.org/EmfFacet/infra/query/0.8.incubation" name="UimBrowserQuery">
+  <associatedMetamodels href="http://www.eclipse.org/gmf/runtime/1.0.2/notation#/"/>
+  <associatedMetamodels href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <associatedMetamodels href="http://www.eclipse.org/uml2/4.0.0/Types#/"/>
+  <associatedMetamodels href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#//action"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#//binding"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#//constraint"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#//control"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#//editor"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#//model"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#//panel"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#//perspective"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#/"/>
+  <associatedMetamodels href="http://opaeum.org/uimetamodel/1.0#//wizard"/>
+  <queries xsi:type="query:JavaModelQuery" name="IsReadOnly" description="Return true if the resource is in a read only mode" implementationClassName="org.opaeum.uim.queries.IsReadOnly">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    <scope href="http://www.eclipse.org/gmf/runtime/1.0.2/notation#//Diagram"/>
+    <scope href="http://opaeum.org/uimetamodel/1.0#//editor/EditorPage"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="IsUimDiagramContainer" description="return true if the element contains diagrams" implementationClassName="org.opaeum.uim.queries.IsUimDiagramContainer">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    <scope href="http://opaeum.org/uimetamodel/1.0#//UserInteractionElement"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetContainedUimDiagrams" description="Get the collection of all contained diagrams" upperBound="-1" implementationClassName="org.opaeum.uim.queries.GetContainedUimDiagrams">
+    <returnType xsi:type="ecore:EClass" href="http://www.eclipse.org/gmf/runtime/1.0.2/notation#//Diagram"/>
+    <scope href="http://opaeum.org/uimetamodel/1.0#//UserInteractionElement"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetUimDiagramIcon" description="Return the path to the icon of the corresponding diagram" implementationClassName="org.opaeum.uim.queries.GetUimDiagramIcon">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <scope href="http://www.eclipse.org/gmf/runtime/1.0.2/notation#//Diagram"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="IsUimDiagram" description="Return true if the element is a diagram" implementationClassName="org.opaeum.uim.queries.IsUimDiagram">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <scope href="http://www.eclipse.org/gmf/runtime/1.0.2/notation#//Diagram"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="IsObjectEditorContainer" description="Return true if the element contains an ObjectEditor" implementationClassName="org.opaeum.uim.queries.IsObjectEditorContainer">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="IsBehaviorEditorContainer" description="Return true if the element contains an BehaviorEditor" implementationClassName="org.opaeum.uim.queries.IsBehaviorEditorContainer">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="IsResponsibility" description="Return true if the element is a Responsibility" implementationClassName="org.opaeum.uim.queries.IsResponsibility">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="IsQuery" description="IsQuery" implementationClassName="org.opaeum.uim.queries.IsQuery">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="IsEmbeddedTask" description="Return true if the element is an EmbeddedTask" implementationClassName="org.opaeum.uim.queries.IsEmbeddedTask">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Action"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetPrimaryEditor" description="Gets the Primary Object Editor for a class" implementationClassName="org.opaeum.uim.queries.GetPrimaryEditor">
+    <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//editor/ObjectEditor"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetNewObjectWizard" description="Gets the New Object Wizard  for a class" implementationClassName="org.opaeum.uim.queries.GetNewObjectWizard">
+    <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//wizard/NewObjectWizard"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetBehaviorExecutionEditor" description="GetBehaviorExecutionEditor" implementationClassName="org.opaeum.uim.queries.GetBehaviorExecutionEditor">
+    <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//editor/BehaviorExecutionEditor"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetBehaviorInvocationWizard" description="GetBehaviorInvocationWizard" implementationClassName="org.opaeum.uim.queries.GetBehaviorInvocationWizard">
+    <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//wizard/BehaviorInvocationWizard"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetResponsibilityViewer" description="GetResponsibilityViewer" implementationClassName="org.opaeum.uim.queries.GetResponsibilityViewer">
+    <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//editor/ResponsibilityViewer"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetResponsibilityInvocationWizard" description="GetResponsibilityInvocationWizard" implementationClassName="org.opaeum.uim.queries.GetResponsibilityInvocationWizard">
+    <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//wizard/ResponsibilityInvocationWizard"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetQueryInvoker" description="GetQueryInvoker" implementationClassName="org.opaeum.uim.queries.GetQueryInvoker">
+    <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//model/QueryInvoker"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetEmbeddedTaskEditor" description="GetEmbeddedTaskEditor" implementationClassName="org.opaeum.uim.queries.GetEmbeddedTaskEditor">
+    <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//model/EmbeddedTaskEditor"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Action"/>
+  </queries>
+</query:ModelQuerySet>

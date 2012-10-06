@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabeledElement;
+import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.component.UimContainer;
@@ -101,8 +103,10 @@ public class PanelSwitch<T> {
 				if (result == null) result = caseAbstractPanel(gridPanel);
 				if (result == null) result = caseOutlayable(gridPanel);
 				if (result == null) result = caseUimContainer(gridPanel);
+				if (result == null) result = caseLabeledElement(gridPanel);
 				if (result == null) result = caseUimComponent(gridPanel);
 				if (result == null) result = caseEditableConstrainedObject(gridPanel);
+				if (result == null) result = caseUmlReference(gridPanel);
 				if (result == null) result = caseUserInteractionElement(gridPanel);
 				if (result == null) result = caseConstrainedObject(gridPanel);
 				if (result == null) result = defaultCase(theEObject);
@@ -115,8 +119,10 @@ public class PanelSwitch<T> {
 				if (result == null) result = caseAbstractPanel(verticalPanel);
 				if (result == null) result = caseOutlayable(verticalPanel);
 				if (result == null) result = caseUimContainer(verticalPanel);
+				if (result == null) result = caseLabeledElement(verticalPanel);
 				if (result == null) result = caseUimComponent(verticalPanel);
 				if (result == null) result = caseEditableConstrainedObject(verticalPanel);
+				if (result == null) result = caseUmlReference(verticalPanel);
 				if (result == null) result = caseUserInteractionElement(verticalPanel);
 				if (result == null) result = caseConstrainedObject(verticalPanel);
 				if (result == null) result = defaultCase(theEObject);
@@ -129,8 +135,10 @@ public class PanelSwitch<T> {
 				if (result == null) result = caseAbstractPanel(horizontalPanel);
 				if (result == null) result = caseOutlayable(horizontalPanel);
 				if (result == null) result = caseUimContainer(horizontalPanel);
+				if (result == null) result = caseLabeledElement(horizontalPanel);
 				if (result == null) result = caseUimComponent(horizontalPanel);
 				if (result == null) result = caseEditableConstrainedObject(horizontalPanel);
+				if (result == null) result = caseUmlReference(horizontalPanel);
 				if (result == null) result = caseUserInteractionElement(horizontalPanel);
 				if (result == null) result = caseConstrainedObject(horizontalPanel);
 				if (result == null) result = defaultCase(theEObject);
@@ -140,8 +148,10 @@ public class PanelSwitch<T> {
 				AbstractPanel abstractPanel = (AbstractPanel)theEObject;
 				T result = caseAbstractPanel(abstractPanel);
 				if (result == null) result = caseUimContainer(abstractPanel);
+				if (result == null) result = caseLabeledElement(abstractPanel);
 				if (result == null) result = caseUimComponent(abstractPanel);
 				if (result == null) result = caseEditableConstrainedObject(abstractPanel);
+				if (result == null) result = caseUmlReference(abstractPanel);
 				if (result == null) result = caseUserInteractionElement(abstractPanel);
 				if (result == null) result = caseConstrainedObject(abstractPanel);
 				if (result == null) result = defaultCase(theEObject);
@@ -153,8 +163,10 @@ public class PanelSwitch<T> {
 				if (result == null) result = caseAbstractPanel(collapsiblePanel);
 				if (result == null) result = caseOutlayable(collapsiblePanel);
 				if (result == null) result = caseUimContainer(collapsiblePanel);
+				if (result == null) result = caseLabeledElement(collapsiblePanel);
 				if (result == null) result = caseUimComponent(collapsiblePanel);
 				if (result == null) result = caseEditableConstrainedObject(collapsiblePanel);
+				if (result == null) result = caseUmlReference(collapsiblePanel);
 				if (result == null) result = caseUserInteractionElement(collapsiblePanel);
 				if (result == null) result = caseConstrainedObject(collapsiblePanel);
 				if (result == null) result = defaultCase(theEObject);
@@ -332,6 +344,36 @@ public class PanelSwitch<T> {
 	 * @generated
 	 */
 	public T caseUimContainer(UimContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUmlReference(UmlReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabeledElement(LabeledElement object) {
 		return null;
 	}
 

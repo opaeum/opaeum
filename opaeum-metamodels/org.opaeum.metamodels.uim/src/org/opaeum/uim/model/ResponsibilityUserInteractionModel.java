@@ -24,7 +24,7 @@ import org.opaeum.uim.wizard.ResponsibilityInvocationWizard;
  * @model
  * @generated
  */
-public interface ResponsibilityUserInteractionModel extends UserInteractionElement, UmlReference, AbstractUserInteractionModel {
+public interface ResponsibilityUserInteractionModel extends AbstractUserInteractionModel {
 	/**
 	 * Returns the value of the '<em><b>Invocation Wizard</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.wizard.ResponsibilityInvocationWizard#getModel <em>Model</em>}'.

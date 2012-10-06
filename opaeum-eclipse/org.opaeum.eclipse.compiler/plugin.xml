@@ -8,7 +8,7 @@
  </extension>
  <extension
        id="lkjl"
-       point="org.opaeum.eclipse.sourceFolderStrategy">
+       point="org.opaeum.eclipse.core.sourceFolderStrategy">
     <sourceFolderStrategy
           className="org.opaeum.sourcefolderstrategies.MultiProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
@@ -31,7 +31,7 @@
     </menuContribution>
  </extension>
  <extension
-       point="org.opaeum.eclipse.transformationStep">
+       point="org.opaeum.eclipse.core.transformationStep">
     <transformationStep
           className="org.opaeum.generation.features.PersistenceUsingHibernate">
     </transformationStep>
@@ -43,7 +43,7 @@
     </transformationStep>
  </extension>
  <extension
-       point="org.opaeum.eclipse.modelLibrary">
+       point="org.opaeum.eclipse.core.modelLibrary">
     <modelLibrary
           name="Opaeum Simple Types"
           uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml">
@@ -66,7 +66,7 @@
     </modelLibrary>
  </extension>
  <extension
-       point="org.opaeum.eclipse.profile">
+       point="org.opaeum.eclipse.core.profile">
 
     <profile
           name="Standard Profile"

@@ -588,28 +588,11 @@
 </extension>
    <extension
          point="org.eclipse.papyrus.infra.core.papyrusDiagram">
-      <diagramCategory
-            class="org.opaeum.uimodeler.util.CreateInstanceEditorCommand"
-            description="Create Class Editor"
-            icon="icons/obj16/EditorDiagramFile.gif"
-            id="uim"
-            label="Class Editor">
-      </diagramCategory>      
-         
       <editorDiagram
-            actionBarContributorId="org.eclipse.papyrus.infra.core.papyrusEditor"
             contextId="com.cea.papyrus.gmf.editor.context"
             factoryClass="org.opaeum.uimodeler.util.UserInterfaceDiagramEditorFactory"
             icon="icons/obj16/EditorDiagramFile.gif">
       </editorDiagram>
-      <creationCommand
-            creationCommandClass="org.opaeum.uimodeler.util.CreatePageDiagramCommand"
-            creationCondition="org.opaeum.uimodeler.util.UserInterfaceCreationCondition"
-            icon="icons/obj16/EditorDiagramFile.gif"
-            id="org.opaeum.uimodeler.util.CreateUserInterfaceDiagramCommand"
-            language="uim"
-            label="User Interface Diagram">
-      </creationCommand>      
    </extension>
 
 

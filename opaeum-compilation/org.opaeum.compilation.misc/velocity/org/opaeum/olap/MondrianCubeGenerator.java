@@ -156,7 +156,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		return false;
 	}
 	protected void addCalculatedMeasures(Classifier cp,Element cube){
-		for(Property p:EmfElementFinder.getPropertiesInScope(cp)){
+		for(Property p:EmfPropertyUtil.getEffectiveProperties(cp)){
 			if(EmfPropertyUtil.isMeasure( p) && p.isDerived()){
 				Element calculateMember = doc.createElement("CalculatedMember");
 				calculateMember.setAttribute("name", p.getName());

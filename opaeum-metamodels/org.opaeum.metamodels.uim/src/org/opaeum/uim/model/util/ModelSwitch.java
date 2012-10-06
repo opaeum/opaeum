@@ -99,24 +99,26 @@ public class ModelSwitch<T> {
 			case ModelPackage.CLASS_USER_INTERACTION_MODEL: {
 				ClassUserInteractionModel classUserInteractionModel = (ClassUserInteractionModel)theEObject;
 				T result = caseClassUserInteractionModel(classUserInteractionModel);
+				if (result == null) result = caseAbstractUserInteractionModel(classUserInteractionModel);
 				if (result == null) result = caseUmlReference(classUserInteractionModel);
 				if (result == null) result = caseUserInteractionElement(classUserInteractionModel);
-				if (result == null) result = caseAbstractUserInteractionModel(classUserInteractionModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ModelPackage.RESPONSIBILITY_USER_INTERACTION_MODEL: {
 				ResponsibilityUserInteractionModel responsibilityUserInteractionModel = (ResponsibilityUserInteractionModel)theEObject;
 				T result = caseResponsibilityUserInteractionModel(responsibilityUserInteractionModel);
-				if (result == null) result = caseUserInteractionElement(responsibilityUserInteractionModel);
-				if (result == null) result = caseUmlReference(responsibilityUserInteractionModel);
 				if (result == null) result = caseAbstractUserInteractionModel(responsibilityUserInteractionModel);
+				if (result == null) result = caseUmlReference(responsibilityUserInteractionModel);
+				if (result == null) result = caseUserInteractionElement(responsibilityUserInteractionModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ModelPackage.ABSTRACT_USER_INTERACTION_MODEL: {
 				AbstractUserInteractionModel abstractUserInteractionModel = (AbstractUserInteractionModel)theEObject;
 				T result = caseAbstractUserInteractionModel(abstractUserInteractionModel);
+				if (result == null) result = caseUmlReference(abstractUserInteractionModel);
+				if (result == null) result = caseUserInteractionElement(abstractUserInteractionModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -124,6 +126,8 @@ public class ModelSwitch<T> {
 				BehaviorUserInteractionModel behaviorUserInteractionModel = (BehaviorUserInteractionModel)theEObject;
 				T result = caseBehaviorUserInteractionModel(behaviorUserInteractionModel);
 				if (result == null) result = caseAbstractUserInteractionModel(behaviorUserInteractionModel);
+				if (result == null) result = caseUmlReference(behaviorUserInteractionModel);
+				if (result == null) result = caseUserInteractionElement(behaviorUserInteractionModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
