@@ -1,4 +1,4 @@
-package org.opaeum.eclipse.uml.propertysections.core;
+package org.opaeum.eclipse.uml.propertysections.bpmprofile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

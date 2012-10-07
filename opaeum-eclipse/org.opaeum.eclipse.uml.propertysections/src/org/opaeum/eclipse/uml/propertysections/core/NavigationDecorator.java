@@ -1,5 +1,6 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.IPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
@@ -71,32 +73,34 @@ public class NavigationDecorator{
 			this.mouseListener = new MouseAdapter(){
 				public void mouseDown(MouseEvent e){
 					EObject featureValue = (EObject) source.getEObjectToGoTo();
-					IWorkbenchPage activePage = source.getActivePage();
-					goToEObject(featureValue, activePage);
+					goToEObject(featureValue);
 				}
 			};
 		}
 		return this.mouseListener;
 	}
-	public static void goToPreviousEObject(IWorkbenchPage activePage){
+	public static void goToPreviousEObject(){
 		EObjectSelectorUI selector = OpaeumEclipseContext.getCurrentContext().geteObjectSelectorUI();
 		EObject featureValue = selector.popSelection();
-		goToEObject(featureValue, activePage);
+		goToEObject(featureValue);
 	}
-	public static void goToEObject(EObject featureValue,IWorkbenchPage activePage){
+	public static void goToEObject(EObject featureValue){
 		if(featureValue != null){
 			EObjectSelectorUI selector = OpaeumEclipseContext.getCurrentContext().geteObjectSelectorUI();
 			selector.pushSelection(featureValue);
 			selector.gotoEObject(featureValue);
-			IViewReference[] viewReferences = activePage.getViewReferences();
-			for(IViewReference iViewReference:viewReferences){
-				IViewPart view = iViewReference.getView(true);
-				if(view instanceof PropertySheet){
-					PropertySheet sheet = (PropertySheet) view;
-					IPage currentPage = sheet.getCurrentPage();
-					if(currentPage instanceof TabbedPropertySheetPage){
-						((TabbedPropertySheetPage) currentPage).selectionChanged(activePage.getActiveEditor(), new StructuredSelection(featureValue));
-						break;
+			IWorkbenchPage[] pages = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages();
+			outer:for(IWorkbenchPage activePage:pages){
+				IViewReference[] viewReferences = activePage.getViewReferences();
+				for(IViewReference iViewReference:viewReferences){
+					IViewPart view = iViewReference.getView(true);
+					if(view instanceof PropertySheet){
+						PropertySheet sheet = (PropertySheet) view;
+						IPage currentPage = sheet.getCurrentPage();
+						if(currentPage instanceof TabbedPropertySheetPage){
+							((TabbedPropertySheetPage) currentPage).selectionChanged(activePage.getActiveEditor(), new StructuredSelection(featureValue));
+							break outer;
+						}
 					}
 				}
 			}

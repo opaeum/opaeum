@@ -15,7 +15,6 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
-import org.opaeum.eclipse.uml.propertysections.core.RichTextUploadAction;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.richtext.IRichText;
 import org.topcased.richtext.RichText;

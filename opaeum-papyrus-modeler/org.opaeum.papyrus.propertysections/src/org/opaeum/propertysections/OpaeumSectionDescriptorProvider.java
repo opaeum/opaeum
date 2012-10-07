@@ -1,0 +1,188 @@
+package org.opaeum.propertysections;
+
+import java.util.ArrayList;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.viewers.IFilter;
+import org.eclipse.ui.views.properties.tabbed.AbstractSectionDescriptor;
+import org.eclipse.ui.views.properties.tabbed.ISection;
+import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
+import org.eclipse.ui.views.properties.tabbed.ISectionDescriptorProvider;
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.ElementImport;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.InterfaceRealization;
+import org.eclipse.uml2.uml.MultiplicityElement;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.PackageImport;
+import org.eclipse.uml2.uml.ProfileApplication;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Reception;
+import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.uml.filters.bpm.DeadlineContainerFilter;
+import org.opaeum.eclipse.uml.filters.core.AbstractFilter;
+import org.opaeum.eclipse.uml.filters.core.ConstraintFilter;
+import org.opaeum.eclipse.uml.filters.core.InstanceSpecificationNoEnumerationLiteralFilter;
+import org.opaeum.eclipse.uml.filters.core.OclBehaviorFilter;
+import org.opaeum.eclipse.uml.filters.core.PersistentClassNotInProfileFilter;
+import org.opaeum.eclipse.uml.filters.core.PropertyNotInProfileFilter;
+import org.opaeum.eclipse.uml.propertysections.bpmprofile.DeadlinesSection;
+import org.opaeum.eclipse.uml.propertysections.constraints.BehaviorPostconditionsSection;
+import org.opaeum.eclipse.uml.propertysections.constraints.BehaviorPreconditionsSection;
+import org.opaeum.eclipse.uml.propertysections.constraints.OperationPostconditionsSection;
+import org.opaeum.eclipse.uml.propertysections.constraints.OperationPreconditionsSection;
+import org.opaeum.eclipse.uml.propertysections.core.BehaviorParametersSection;
+import org.opaeum.eclipse.uml.propertysections.core.ClassifierIsAbstractSection;
+import org.opaeum.eclipse.uml.propertysections.core.ConstraintValueSpecificationSection;
+import org.opaeum.eclipse.uml.propertysections.core.EObjectErrorSection;
+import org.opaeum.eclipse.uml.propertysections.core.ElementImportAliasSection;
+import org.opaeum.eclipse.uml.propertysections.core.ElementImportImportedElementSection;
+import org.opaeum.eclipse.uml.propertysections.core.GeneralizationGeneralSection;
+import org.opaeum.eclipse.uml.propertysections.core.InstanceSpecificationClassifierSection;
+import org.opaeum.eclipse.uml.propertysections.core.InstanceSpecificationSlotsSection;
+import org.opaeum.eclipse.uml.propertysections.core.InterfaceRealizationContractSection;
+import org.opaeum.eclipse.uml.propertysections.core.MultiplicityElementFeaturesSection;
+import org.opaeum.eclipse.uml.propertysections.core.NamedElementNameSection;
+import org.opaeum.eclipse.uml.propertysections.core.OpaqueBehaviorBodySection;
+import org.opaeum.eclipse.uml.propertysections.core.OpaqueExpressionBodySection;
+import org.opaeum.eclipse.uml.propertysections.core.OperationBooleanFeaturesSection;
+import org.opaeum.eclipse.uml.propertysections.core.OperationParametersSection;
+import org.opaeum.eclipse.uml.propertysections.core.PackageImportImportedPackageSection;
+import org.opaeum.eclipse.uml.propertysections.core.ProfileApplicationAppliedProfileSection;
+import org.opaeum.eclipse.uml.propertysections.core.ReceptionSignalSection;
+import org.opaeum.eclipse.uml.propertysections.core.SlotFeatureSection;
+import org.opaeum.eclipse.uml.propertysections.core.TypedElementTypeSection;
+import org.opaeum.eclipse.uml.propertysections.event.TimeEventWhenSection;
+import org.opaeum.eclipse.uml.propertysections.property.PropertyDefaultValueSection;
+import org.opaeum.eclipse.uml.propertysections.property.PropertyRoleInCubeSection;
+import org.opaeum.eclipse.uml.propertysections.standardprofile.ClassifierNamePropertySection;
+
+public class OpaeumSectionDescriptorProvider implements ISectionDescriptorProvider{
+	private static final class FilterBasedDescriptor extends AbstractSectionDescriptor{
+		private final ISection s;
+		private final IFilter f;
+		private String tabId;
+		private String afterSection;
+		private FilterBasedDescriptor(ISection s,IFilter f){
+			this.s = s;
+			this.f = f;
+		}
+		@Override
+		public IFilter getFilter(){
+			return f;
+		}
+		@Override
+		public String getTargetTab(){
+			return getTabId();
+		}
+		@Override
+		public ISection getSectionClass(){
+			return s;
+		}
+		@Override
+		public String getId(){
+			return s.getClass().getName();
+		}
+		public String getTabId(){
+			return tabId;
+		}
+		public void setTabId(String tabId){
+			this.tabId = tabId;
+		}
+		public String getAfterSection(){
+			if(afterSection==null){
+				return super.getAfterSection();
+			}
+			return afterSection;
+		}
+		public void setAfterSection(String afterSection){
+			this.afterSection = afterSection;
+		}
+	}
+	private ArrayList<ISectionDescriptor> result;
+	ISection previousSection;
+	@Override
+	public ISectionDescriptor[] getSectionDescriptors(){
+		this.result = new ArrayList<ISectionDescriptor>();
+		addBasic(NamedElement.class, new NamedElementNameSection());
+		addBasic(Classifier.class, new ClassifierIsAbstractSection());
+		addBasic(TimeEvent.class, new TimeEventWhenSection());
+		addBasic(new ConstraintFilter(), new ConstraintValueSpecificationSection());
+		addBasic(ElementImport.class, new ElementImportAliasSection());
+		addBasic(ElementImport.class, new ElementImportImportedElementSection());
+		addBasic(EObject.class, new EObjectErrorSection());
+		addBasic(Generalization.class,new GeneralizationGeneralSection());
+		addBasic(new InstanceSpecificationNoEnumerationLiteralFilter(), new InstanceSpecificationClassifierSection());
+		addBasic(InstanceSpecification.class, new InstanceSpecificationSlotsSection());
+		addBasic(InterfaceRealization.class, new InterfaceRealizationContractSection());
+		addBasic(MultiplicityElement.class, new MultiplicityElementFeaturesSection());
+		addBasic(new OclBehaviorFilter(), new OpaqueBehaviorBodySection());
+		addBasic(OpaqueExpression.class, new OpaqueExpressionBodySection());
+		addBasic(Operation.class, new OperationBooleanFeaturesSection());
+		addParamters(Operation.class, new OperationParametersSection());
+		addBasic(PackageImport.class, new PackageImportImportedPackageSection());
+		addBasic(ProfileApplication.class, new ProfileApplicationAppliedProfileSection());
+		addBasic(Reception.class, new ReceptionSignalSection());
+		addBasic(Slot.class, new SlotFeatureSection());
+		addBasic(TypedElement.class, new TypedElementTypeSection());
+		addBasic(Property.class, new PropertyDefaultValueSection());
+		addExtended(new PropertyNotInProfileFilter(), new PropertyRoleInCubeSection());
+		addExtended(new PersistentClassNotInProfileFilter(), new ClassifierNamePropertySection());
+		addPreconditions(Operation.class, new OperationPreconditionsSection());
+		addPostconditions(Operation.class, new OperationPostconditionsSection());
+		addParamters(Behavior.class, new BehaviorParametersSection());
+		addPreconditions(Behavior.class, new BehaviorPreconditionsSection());
+		addPostconditions(Behavior.class, new BehaviorPostconditionsSection());
+		addDeadlines(new DeadlineContainerFilter(), new DeadlinesSection());
+		return result.toArray(new ISectionDescriptor[result.size()]);
+	}
+	private void addBasic(IFilter filter,ISection section){
+		add(filter, section).setTabId("org.opaeum.eclipse.opaeumTab");
+	}
+	private void addExtended(IFilter filter,ISection section){
+		add(filter, section).setTabId("org.opaeum.eclipse.extendedTab");
+	}
+	private void addParamters(Class<? extends EObject> c,ISection section){
+		add(c, section).setTabId("org.opaeum.eclipse.parametersTab");
+	}
+	private void addPreconditions(Class<? extends EObject> c,ISection section){
+		add(c, section).setTabId("org.opaeum.eclipse.preconditionsTab");
+	}
+	private void addPostconditions(Class<? extends EObject> c,ISection section){
+		add(c, section).setTabId("org.opaeum.eclipse.postconditionsTab");
+	}
+	private void addDeadlines(IFilter deadlineContainerFilter,ISection section){
+		add(deadlineContainerFilter, section).setTabId("org.opaeum.eclipse.deadlinesTab");
+	}
+	private FilterBasedDescriptor add(IFilter filter,ISection section){
+		FilterBasedDescriptor result = new FilterBasedDescriptor(section, filter);
+		this.result.add(result);
+		if(previousSection != null){
+			result.setAfterSection(previousSection.getClass().getName());
+		}
+		previousSection=section;
+		return result;
+	}
+	private void addBasic(Class<? extends EObject> class1,ISection namedElementNameSection){
+		add(class1, namedElementNameSection).setTabId("org.opaeum.eclipse.opaeumTab");
+	}
+	private FilterBasedDescriptor add(final Class<? extends EObject> c,final ISection s){
+		return add(new AbstractFilter(){
+			@Override
+			public boolean select(EObject e){
+				return c.isInstance(e);
+			}
+			@Override
+			public boolean select(Element e){
+				return c.isInstance(e);
+			}
+		}, s);
+	}
+}

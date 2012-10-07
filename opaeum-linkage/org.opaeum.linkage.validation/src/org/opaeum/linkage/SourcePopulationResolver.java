@@ -66,6 +66,8 @@ public class SourcePopulationResolver extends AbstractValidator{
 		}
 	}
 	private void buildSourcePopulationConstraint(Classifier owner,Property p,String name){
+		System.out.println("SourcePopulationResolver.buildSourcePopulationConstraint()");
+		
 		Constraint constr = null;
 		boolean isComposition = p.isComposite() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite());
 		constr = getSourcePopulationConstraint(p, owner);
@@ -148,6 +150,7 @@ public class SourcePopulationResolver extends AbstractValidator{
 		Stereotype st = StereotypesHelper.getStereotype(p, "SourcePopulationCommonComposite");
 		Classifier commonComposite = null;
 		if(st != null){
+			System.out.println();
 			commonComposite = (Classifier) p.getValue(st, "commonComposite");
 			if(commonComposite != null){
 				if(!isCompositionAncestorOf(commonComposite, baseType)){

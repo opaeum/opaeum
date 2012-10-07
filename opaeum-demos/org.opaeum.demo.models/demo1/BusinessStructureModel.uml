@@ -41,7 +41,7 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_aFhacHpiEeGlh5y8zQdYBA" name="dateOfBirth">
         <eAnnotations xmi:id="_aKbvoHpiEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
       </ownedAttribute>
       <interfaceRealization xmi:id="_oo71UGCfEeG6xvYqJACneg" name="isAIBusinessDocument" client="_oiVeEGCfEeG6xvYqJACneg">
         <eAnnotations xmi:id="_oq6LQGCfEeG6xvYqJACneg" source="http://www.opaeum.org"/>
@@ -95,7 +95,7 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_rZMyYHsKEeGBGZr9IpIa3A" name="initiationDate">
         <eAnnotations xmi:id="_rZOAgHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_VSJmQHsLEeGBGZr9IpIa3A" name="vatNumber">
         <eAnnotations xmi:id="_VSMCgHsLEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
@@ -141,7 +141,7 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_ROTj8IPrEeGccYWaoIFIyQ" name="hourlyRate">
         <eAnnotations xmi:id="_ROWAMIPrEeGccYWaoIFIyQ" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
       <interfaceRealization xmi:id="_u_BHkWQWEeGbL9nlXe9lTQ" name="isAIBusinessRole" client="_u7lZEGQWEeGbL9nlXe9lTQ">
         <eAnnotations xmi:id="_vBQjQGQWEeGbL9nlXe9lTQ" source="http://www.opaeum.org"/>
@@ -164,7 +164,7 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_HxpZsHJ7EeG5aYCQXxe9BQ" name="price">
         <eAnnotations xmi:id="_HxrO4HJ7EeG5aYCQXxe9BQ" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_4_U04HJ6EeG5aYCQXxe9BQ" name="dishWasher_class1_1" memberEnd="_4_Vb8HJ6EeG5aYCQXxe9BQ _4_SYoHJ6EeG5aYCQXxe9BQ" navigableOwnedEnd="_4_Vb8HJ6EeG5aYCQXxe9BQ">
@@ -255,7 +255,7 @@
         </ownedParameter>
         <ownedParameter xmi:id="_D1Kv4JKiEeGiJMBDeZRymA" name="timeOfLead">
           <eAnnotations xmi:id="_D1LW8JKiEeGiJMBDeZRymA" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
         </ownedParameter>
       </ownedOperation>
     </packagedElement>
@@ -369,15 +369,15 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_sd0zsJQaEeGTXL33HwWNwQ" name="totalCost">
         <eAnnotations xmi:id="_seYNUJQaEeGTXL33HwWNwQ" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_oF8YAJQbEeGJg4MkDnRIeA" name="costToCompany">
         <eAnnotations xmi:id="_oGJMUJQbEeGJg4MkDnRIeA" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_dbubkJQcEeGJg4MkDnRIeA" name="timeInHours">
         <eAnnotations xmi:id="_dbz7IJQcEeGJg4MkDnRIeA" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_QcPpgJLAEeGnpuq6_ber_Q" name="branch_job_1" memberEnd="_QcPpgZLAEeGnpuq6_ber_Q _QcN0UJLAEeGnpuq6_ber_Q" navigableOwnedEnd="_QcPpgZLAEeGnpuq6_ber_Q">
@@ -399,15 +399,15 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_kXRuIJN8EeGzUIOTq-3iUg" name="dateOfSale">
         <eAnnotations xmi:id="_kXS8QJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_nD2CEJN8EeGzUIOTq-3iUg" name="costToCustomer">
         <eAnnotations xmi:id="_nD3QMJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_0sbXoJN8EeGzUIOTq-3iUg" name="costPriceOfComponent">
         <eAnnotations xmi:id="_0sdM0JN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_w1OtkJLBEeGnpuq6_ber_Q" name="job_applianceComponentSale_1" memberEnd="_w1OtkZLBEeGnpuq6_ber_Q _w1NfcJLBEeGnpuq6_ber_Q" navigableOwnedEnd="_w1OtkZLBEeGnpuq6_ber_Q">
@@ -429,19 +429,19 @@
       </ownedAttribute>
       <ownedAttribute xmi:id="_XPTyUJN8EeGzUIOTq-3iUg" name="durationInHours">
         <eAnnotations xmi:id="_XP190JN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_cHpaQJN8EeGzUIOTq-3iUg" name="costToCustomer">
         <eAnnotations xmi:id="_cHrPcJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_d_KVgJN8EeGzUIOTq-3iUg" name="costToCompany">
         <eAnnotations xmi:id="_d_MKsJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_u863IJN8EeGzUIOTq-3iUg" name="dateOfWork">
         <eAnnotations xmi:id="_u89TYJN8EeGzUIOTq-3iUg" source="http://www.opaeum.org"/>
-        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_F6R0sJLCEeGnpuq6_ber_Q" name="job_activity_1" memberEnd="_F6R0sZLCEeGnpuq6_ber_Q _F6QmkJLCEeGnpuq6_ber_Q" navigableOwnedEnd="_F6R0sZLCEeGnpuq6_ber_Q">
@@ -474,10 +474,16 @@
       </eAnnotations>
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
+    <profileApplication xmi:id="_M_UmgA_OEeKBD9Lg9gtx-w">
+      <eAnnotations xmi:id="_M_-t0A_OEeKBD9Lg9gtx-w" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
   </uml:Model>
   <OpaeumStandardProfile:Model xmi:id="_w6v94HHfEeGR5Y29CSTzSA" base_Model="_-VLbkE8VEeGA3PFuQY5w7Q"/>
   <OpaeumStandardProfile:Entity xmi:id="_xtdNMHHfEeGR5Y29CSTzSA" base_Class="_oiVeEGCfEeG6xvYqJACneg"/>
-  <OpaeumStandardProfile:Entity xmi:id="_vFczsHHgEeGus4aKic9sIg" base_Class="_CQTWAGOeEeGwMNo027LgxA"/>
+  <OpaeumStandardProfile:Entity xmi:id="_vFczsHHgEeGus4aKic9sIg" base_Class="_CQTWAGOeEeGwMNo027LgxA" persistentName=""/>
   <OpaeumStandardProfile:Entity xmi:id="_x_Bo4HHgEeGus4aKic9sIg" base_Class="_u7lZEGQWEeGbL9nlXe9lTQ"/>
   <OpaeumStandardProfile:Entity xmi:id="_ypF5kHHgEeGus4aKic9sIg" base_Class="_nhV7IGCfEeG6xvYqJACneg"/>
   <OpaeumStandardProfile:Entity xmi:id="_yGxosHJ6EeG5aYCQXxe9BQ" base_Class="_x_4WgHJ6EeG5aYCQXxe9BQ"/>

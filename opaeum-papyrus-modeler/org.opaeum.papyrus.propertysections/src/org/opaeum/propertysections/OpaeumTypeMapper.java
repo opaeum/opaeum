@@ -1,3 +1,4 @@
+package org.opaeum.propertysections;
 import org.eclipse.ui.views.properties.tabbed.AbstractTypeMapper;
 import org.eclipse.ui.views.properties.tabbed.ITypeMapper;
 

@@ -10,6 +10,9 @@ import org.topcased.tabbedproperties.utils.ObjectAdapter;
 
 public abstract class AbstractFilter implements IFilter{
 	public abstract boolean select(Element e);
+	public boolean select(EObject e){
+		return false;
+	}
 	@Override
 	public boolean select(Object toTest){
 		Element element = null;
@@ -30,6 +33,9 @@ public abstract class AbstractFilter implements IFilter{
 					if(eObjectProp != null){
 						toTest = IntrospectionUtil.get(eObjectProp, toTest);
 					}
+				}
+				if(!(toTest instanceof Element)){
+					return select(o);
 				}
 			}
 		}

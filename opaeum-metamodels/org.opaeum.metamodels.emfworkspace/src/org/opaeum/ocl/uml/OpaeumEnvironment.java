@@ -64,10 +64,12 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 public final class OpaeumEnvironment extends OpaeumParentEnvironment{
 	private Element context;
 	private Collection<Variable> variables;
+	private EnvironmentFactory<Package,Classifier,Operation,Property,EnumerationLiteral,Parameter,State,CallOperationAction,SendSignalAction,Constraint,Class,EObject> factory;
 	public OpaeumEnvironment(
 			Element context,
 			OpaeumParentEnvironment parent){
 		super(parent.getLibrary(). getResourceSet());
+		this.factory=new OpaeumEnvironmentFactory(context, parent.getLibrary());
 		Variable self = UMLFactory.eINSTANCE.createVariable();
 		self.setName("self");
 		Classifier selfClassifier = EmfBehaviorUtil.getSelf(context);
@@ -93,6 +95,10 @@ public final class OpaeumEnvironment extends OpaeumParentEnvironment{
 		this.library = parent.getLibrary();
 		this.variables = new HashSet<Variable>();
 		setProblemHandler(new OpaeumOclProblemHandler(getParser()));
+	}
+	@Override
+	public EnvironmentFactory<Package,Classifier,Operation,Property,EnumerationLiteral,Parameter,State,CallOperationAction,SendSignalAction,Constraint,Class,EObject> getFactory(){
+		return this.factory;
 	}
 	@Override
 	public org.eclipse.ocl.expressions.Variable<Classifier,Parameter> lookup(String name){

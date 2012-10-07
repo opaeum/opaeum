@@ -1,10 +1,18 @@
 package org.opaeum.papyrus;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
@@ -110,6 +118,25 @@ public class OpaeumStartup implements IStartup{
 	}
 	public void earlyStartup(){
 		OpaeumConfig.registerClass(PapyrusErrorMarker.class);
+		IExtensionRegistry r = Platform.getExtensionRegistry();
+		IConfigurationElement[] configurationElementsFor = r.getConfigurationElementsFor("org.eclipse.ui.editors");
+		for(IConfigurationElement ce:configurationElementsFor){
+			if(ce.getAttribute("id").equals("org.eclipse.papyrus.infra.core.papyrusEditor") && !ce.getAttribute("class").startsWith("org.opaeum")){
+				Method method;
+				try{
+					method = ce.getClass().getDeclaredMethod("getConfigurationElement");
+					method.setAccessible(true);
+					Object o=method.invoke(ce);
+					Field f= o.getClass().getDeclaredField("propertiesAndValue");
+					
+					f.setAccessible(true);
+					f.set(o, new String[0]);
+				}catch(Exception e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		// TODO register on new window creation too
 		workbench.getDisplay().asyncExec(new Runnable(){
@@ -137,8 +164,10 @@ public class OpaeumStartup implements IStartup{
 			final OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlFile.getParent());
 			((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
 			if(result.getEditingContextFor(umlFile) == null){
+				EcoreUtil.resolveAll(e.getEditingDomain().getResourceSet());
 				((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
 				result.startSynch(e.getEditingDomain(), umlFile);
+				
 				final IWorkbenchWindow workbenchWindow = e.getSite().getWorkbenchWindow();
 				result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(workbenchWindow));
 				ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);

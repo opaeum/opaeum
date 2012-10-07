@@ -101,7 +101,7 @@ public class CallBehaviorActionBehaviorSection extends OpaeumChooserPropertySect
 						AddCommand.create(getEditingDomain(), owner, UMLPackage.eINSTANCE.getBehavioredClassifier_OwnedBehavior(), b));
 				getEditingDomain().getCommandStack().execute(
 						SetCommand.create(getEditingDomain(), getAction(), UMLPackage.eINSTANCE.getCallBehaviorAction_Behavior(), b));
-				NavigationDecorator.goToEObject(b, getActivePage());
+				NavigationDecorator.goToEObject(b);
 			}
 			protected Parameter createParam(Behavior b,Pin inputPin){
 				Parameter p = b.createOwnedParameter(inputPin.getName(), inputPin.getType());

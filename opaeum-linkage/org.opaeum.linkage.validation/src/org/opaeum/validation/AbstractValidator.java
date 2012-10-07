@@ -40,7 +40,7 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	}
 	protected String getPathNameInModel(Classifier stereotype){
 		StringBuilder pn = new StringBuilder();
-		appendNames(stereotype, pn);
+		appendNames(EmfElementFinder.getContainer(stereotype), pn);
 		pn.append(stereotype.getName());
 		return pn.toString();
 	}
