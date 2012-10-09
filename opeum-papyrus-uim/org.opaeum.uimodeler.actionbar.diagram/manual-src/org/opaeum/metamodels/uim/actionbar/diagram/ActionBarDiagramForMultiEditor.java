@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
-import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditor;
-import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugin;
+import org.opaeum.uimodeler.actionbar.diagram.part.UimDiagramEditor;
+import org.opaeum.uimodeler.actionbar.diagram.part.UimDiagramEditorPlugin;
 
 public class ActionBarDiagramForMultiEditor extends UimDiagramEditor {
 
@@ -89,6 +89,6 @@ public class ActionBarDiagramForMultiEditor extends UimDiagramEditor {
 	 */
 	@Override
 	public String getEditingDomainID() {
-		return "org.opaeum.uimodeler.abstractactionbar.diagram.EditingDomain";
+		return "org.opaeum.uimodeler.actionbar.diagram.EditingDomain";
 	}
 }

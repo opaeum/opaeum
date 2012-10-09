@@ -11,9 +11,9 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.opaeum.propertysections.OpaeumSectionActionProvider;
 
 public class OpaeumMultiDiagramEditor extends PapyrusMultiDiagramEditor{
-	private static final class OpaeumTabbedPropertySheet extends TabbedPropertySheetPage{
+	public static final class OpaeumTabbedPropertySheet extends TabbedPropertySheetPage{
 		private ITabbedPropertySheetPageContributor contributor;
-		private OpaeumTabbedPropertySheet(ITabbedPropertySheetPageContributor tabbedPropertySheetPageContributor){
+		public OpaeumTabbedPropertySheet(ITabbedPropertySheetPageContributor tabbedPropertySheetPageContributor){
 			super(tabbedPropertySheetPageContributor);
 			this.contributor=tabbedPropertySheetPageContributor;
 		}

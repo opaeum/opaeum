@@ -15,6 +15,7 @@ import org.opaeum.uim.Labels;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UmlReference;
 
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.InvocationButton;
 
@@ -74,7 +75,7 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 	 * @generated
 	 * @ordered
 	 */
-	protected InvocationWizard popup;
+	protected UserInterfaceRoot popup;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -164,10 +165,10 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public InvocationWizard getPopup() {
+	public UserInterfaceRoot getPopup() {
 		if (popup != null && popup.eIsProxy()) {
 			InternalEObject oldPopup = (InternalEObject)popup;
-			popup = (InvocationWizard)eResolveProxy(oldPopup);
+			popup = (UserInterfaceRoot)eResolveProxy(oldPopup);
 			if (popup != oldPopup) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ActionPackage.INVOCATION_BUTTON__POPUP, oldPopup, popup));
@@ -181,7 +182,7 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public InvocationWizard basicGetPopup() {
+	public UserInterfaceRoot basicGetPopup() {
 		return popup;
 	}
 
@@ -190,8 +191,8 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPopup(InvocationWizard newPopup) {
-		InvocationWizard oldPopup = popup;
+	public void setPopup(UserInterfaceRoot newPopup) {
+		UserInterfaceRoot oldPopup = popup;
 		popup = newPopup;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.INVOCATION_BUTTON__POPUP, oldPopup, popup));
@@ -245,7 +246,7 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 				setLabelOverride((Labels)newValue);
 				return;
 			case ActionPackage.INVOCATION_BUTTON__POPUP:
-				setPopup((InvocationWizard)newValue);
+				setPopup((UserInterfaceRoot)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -266,7 +267,7 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 				setLabelOverride((Labels)null);
 				return;
 			case ActionPackage.INVOCATION_BUTTON__POPUP:
-				setPopup((InvocationWizard)null);
+				setPopup((UserInterfaceRoot)null);
 				return;
 		}
 		super.eUnset(featureID);

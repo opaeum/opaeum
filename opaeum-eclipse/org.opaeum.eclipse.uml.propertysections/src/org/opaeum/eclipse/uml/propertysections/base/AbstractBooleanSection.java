@@ -34,27 +34,29 @@ public abstract class AbstractBooleanSection extends AbstractTabbedPropertySecti
 	@Override
 	public void refresh(){
 		super.refresh();
-		List<EObject> eObjectList = getEObjectList();
-		Boolean isGreyed = Boolean.FALSE;
-		Boolean selection = null;
-		for(EObject eObject:eObjectList){
-			Boolean value = (Boolean) getElement(eObject).eGet(getFeature());
-			if(value == null){
-				value = getDefaultValue();
+		if(!check.isDisposed()){
+			List<EObject> eObjectList = getEObjectList();
+			Boolean isGreyed = Boolean.FALSE;
+			Boolean selection = null;
+			for(EObject eObject:eObjectList){
+				Boolean value = (Boolean) getElement(eObject).eGet(getFeature());
+				if(value == null){
+					value = getDefaultValue();
+				}
+				if(selection == null){
+					selection = value;
+				}else if(!selection.equals(value)){
+					isGreyed = true;
+					break;
+				}
 			}
-			if(selection == null){
-				selection = value;
-			}else if(!selection.equals(value)){
-				isGreyed = true;
-				break;
+			if(isGreyed){
+				check.setGrayed(true);
+				check.setSelection(true);
+			}else{
+				check.setGrayed(false);
+				check.setSelection(selection);
 			}
-		}
-		if(isGreyed){
-			check.setGrayed(true);
-			check.setSelection(true);
-		}else{
-			check.setGrayed(false);
-			check.setSelection(selection);
 		}
 	}
 	@Override

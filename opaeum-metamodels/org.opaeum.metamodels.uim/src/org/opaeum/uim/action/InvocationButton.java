@@ -3,6 +3,7 @@
 package org.opaeum.uim.action;
 
 import org.opaeum.uim.LabeledElement;
+import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.wizard.InvocationWizard;
 import org.opaeum.uim.model.OperationInvocationWizard;
 
@@ -36,12 +37,12 @@ public interface InvocationButton extends AbstractActionButton, LabeledElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Popup</em>' reference.
-	 * @see #setPopup(InvocationWizard)
+	 * @see #setPopup(UserInterfaceRoot)
 	 * @see org.opaeum.uim.action.ActionPackage#getInvocationButton_Popup()
 	 * @model
 	 * @generated
 	 */
-	InvocationWizard getPopup();
+	UserInterfaceRoot getPopup();
 
 	/**
 	 * Sets the value of the '{@link org.opaeum.uim.action.InvocationButton#getPopup <em>Popup</em>}' reference.
@@ -51,6 +52,6 @@ public interface InvocationButton extends AbstractActionButton, LabeledElement {
 	 * @see #getPopup()
 	 * @generated
 	 */
-	void setPopup(InvocationWizard value);
+	void setPopup(UserInterfaceRoot value);
 
 } // OperationButton

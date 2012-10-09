@@ -38,7 +38,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.papyrus.infra.gmfdiag.css,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.emf.facet.infra.browser.uicore,
- org.eclipse.ui.navigator
+ org.eclipse.ui.navigator,
+ org.eclipse.papyrus.infra.gmfdiag.css.model,
+ org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.6.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.uim.queries,

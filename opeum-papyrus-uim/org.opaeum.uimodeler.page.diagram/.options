@@ -1,7 +1,7 @@
-# Tracing options for the org.opaeum.uimodeler.userinterface.diagram plug-in
+# Tracing options for the org.opaeum.uimodeler.page.diagram plug-in
 
 # Common issues
-org.opaeum.uimodeler.userinterface.diagram/debug=false
+org.opaeum.uimodeler.page.diagram/debug=false
 
 # Visual IDs
-org.opaeum.uimodeler.userinterface.diagram/debug/visualID=false
+org.opaeum.uimodeler.page.diagram/debug/visualID=false

@@ -73,7 +73,7 @@
   <queries xsi:type="query:JavaModelQuery"
       name="GetStereotypedName"
       description="Get Stereotyped Name"
-      implementationClassName="org.eclipse.papyrus.uml.modelexplorer.queries.GetName">
+      implementationClassName="org.opaeum.papyrus.uml.modelexplorer.queries.GetName">
     <returnType
         xsi:type="ecore:EDataType"
         href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
@@ -82,7 +82,7 @@
   <queries xsi:type="query:JavaModelQuery"
       name="IsOpaeumLibrary"
       description="IsOpaeumLibrary"
-      implementationClassName="org.eclipse.papyrus.uml.modelexplorer.queries.IsOpaeumModelLibrary">
+      implementationClassName="org.opaeum.papyrus.uml.modelexplorer.queries.IsOpaeumModelLibrary">
     <returnType
         xsi:type="ecore:EDataType"
         href="http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
@@ -91,7 +91,7 @@
   <queries xsi:type="query:JavaModelQuery"
       name="Regenerate"
       description="Regenerate"
-      implementationClassName="org.eclipse.papyrus.uml.modelexplorer.queries.IsRegenerating">
+      implementationClassName="org.opaeum.papyrus.uml.modelexplorer.queries.IsRegenerating">
     <returnType
         xsi:type="ecore:EDataType"
         href="http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>

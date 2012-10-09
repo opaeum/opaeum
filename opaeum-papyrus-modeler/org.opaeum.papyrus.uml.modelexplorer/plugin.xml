@@ -5,7 +5,10 @@
     <startup
           class="org.opaeum.papyrus.OpaeumStartup"></startup>
  </extension>
-
+   <!--extension point="org.eclipse.ui.views">
+      <view category="org.eclipse.papyrus.views.category" class="org.opaeum.papyrus.uml.modelexplorer.OpaeumModelExplorerPageBookView" icon="icons/ModelExplorer.gif" id="org.eclipse.papyrus.views.modelexplorer.modelexplorers" name="Model Explorer" restorable="true">
+      </view>
+   </extension-->
     <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
       <browserCustomization file="resource/UMLPapyrusDefaultBrowserCustomization.uiCustom" loadByDefault="true"/>
       <browserCustomization
@@ -18,7 +21,7 @@
    </extension>
    <extension point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent activeByDefault="true" contentProvider="org.eclipse.emf.facet.infra.browser.uicore.OpaeumUmlContentProvider" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id="org.eclipse.papyrus.views.modelexplorer.UMLnavigatorContent" 
-      labelProvider="org.eclipse.papyrus.uml.modelexplorer.OpaeumLabelProvider" name="UML Model Contents" priority="lower">
+      labelProvider="org.opaeum.papyrus.uml.modelexplorer.OpaeumLabelProvider" name="UML Model Contents" priority="lower">
          <triggerPoints>
             <or>
                <instanceof value="org.eclipse.emf.ecore.EObject">
@@ -77,10 +80,10 @@
      and to mask the command in case it is not supported or executable.
   -->
 <extension point="org.eclipse.ui.startup">
-	<startup class="org.eclipse.papyrus.views.modelexplorer.Activator"/>
+	<startup class="org.opaeum.papyrus.uml.modelexplorer.Activator"/>
 </extension>
 <extension point="org.eclipse.core.runtime.adapters">
-   <factory adaptableType="org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem" class="org.eclipse.papyrus.uml.modelexplorer.factory.ModelElementItemFactory">
+   <factory adaptableType="org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem" class="org.opaeum.papyrus.uml.modelexplorer.factory.ModelElementItemFactory">
       <adapter type="org.eclipse.uml2.uml.NamedElement">
       </adapter>
    </factory>
@@ -102,7 +105,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="org.eclipse.papyrus.uml.modelexplorer.OpaeumPerspective"
+            class="org.opaeum.papyrus.uml.modelexplorer.OpaeumPerspective"
             fixed="false"
             id="org.opaeum.papyrus.uml.modelexplorer.perspective1"
             name="Opaeum">

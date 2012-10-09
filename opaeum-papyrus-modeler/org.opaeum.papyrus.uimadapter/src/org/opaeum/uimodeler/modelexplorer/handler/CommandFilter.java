@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.papyrus.views.modelexplorer.ICommandFilter;
-import org.opaeum.uimodeler.userinterface.diagram.providers.UimElementTypes;
+import org.opaeum.uimodeler.page.diagram.providers.UimElementTypes;
 
 public class CommandFilter implements ICommandFilter {
 

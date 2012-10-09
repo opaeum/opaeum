@@ -35,13 +35,12 @@ import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uim.swt.GridPanelComposite;
 
-public class AbstractEventAdapter extends AdapterImpl implements FigureListener,LayoutListener,MouseMotionListener,MouseListener,
-		ControlListener{
+public class AbstractEventAdapter extends AdapterImpl implements FigureListener,LayoutListener,MouseMotionListener,MouseListener,ControlListener{
 	protected ISWTFigure figure;
 	protected GraphicalEditPart editPart;
 	protected UserInteractionElement element;
 	protected boolean readyForMove = false;
-	private boolean updatingSize;
+	protected boolean updatingSize;
 	public AbstractEventAdapter(GraphicalEditPart editPart,ISWTFigure figure){
 		super();
 		this.editPart = editPart;
@@ -109,43 +108,44 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	}
 	@Override
 	public void notifyChanged(Notification msg){
-		if(figure.getWidget().isDisposed()){
+		if(!editPart.isActive() || figure.getWidget().isDisposed()){
 			element.eAdapters().remove(this);
 		}else{
-			if(msg.getNotifier() instanceof Outlayable){
-				int featureId = msg.getFeatureID(Outlayable.class);
-				if(!updatingSize){
-					switch(featureId){
-					case PanelPackage.OUTLAYABLE__FILL_HORIZONTALLY:
-						fillHorizontally((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-						prepareForRepaint();
-						break;
-					case PanelPackage.OUTLAYABLE__FILL_VERTICALLY:
-						fillVertically((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-						prepareForRepaint();
-						break;
-					case PanelPackage.OUTLAYABLE__PREFERRED_HEIGHT:
-						setHeightHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-						prepareForRepaint();
-						break;
-					case PanelPackage.OUTLAYABLE__PREFERRED_WIDTH:
-						setWidthHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-						prepareForRepaint();
-						break;
-					default:
-						break;
+			if(msg.getOldValue() == null || msg.getNewValue() == null || !msg.getNewValue().equals(msg.getOldValue())){
+				if(msg.getNotifier() instanceof Outlayable){
+					int featureId = msg.getFeatureID(Outlayable.class);
+					if(!updatingSize){
+						switch(featureId){
+						case PanelPackage.OUTLAYABLE__FILL_HORIZONTALLY:
+							fillHorizontally((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
+							prepareForRepaint();
+							break;
+						case PanelPackage.OUTLAYABLE__FILL_VERTICALLY:
+							fillVertically((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
+							prepareForRepaint();
+							break;
+						case PanelPackage.OUTLAYABLE__PREFERRED_HEIGHT:
+							setHeightHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
+							prepareForRepaint();
+							break;
+						case PanelPackage.OUTLAYABLE__PREFERRED_WIDTH:
+							setWidthHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
+							prepareForRepaint();
+							break;
+						default:
+							break;
+						}
 					}
 				}
-			}
-			int featureId = msg.getFeatureID(UserInteractionElement.class);
-			switch(featureId){
-			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
-				figure.setLabelText(msg.getNewStringValue());
-				prepareForRepaint();
-				break;
+				int featureId = msg.getFeatureID(UserInteractionElement.class);
+				switch(featureId){
+				case UimPackage.USER_INTERACTION_ELEMENT__NAME:
+					figure.setLabelText(msg.getNewStringValue());
+					prepareForRepaint();
+					break;
+				}
 			}
 		}
-		super.notifyChanged(msg);
 	}
 	public void prepareForRepaint(){
 		figure.getParent().invalidate();

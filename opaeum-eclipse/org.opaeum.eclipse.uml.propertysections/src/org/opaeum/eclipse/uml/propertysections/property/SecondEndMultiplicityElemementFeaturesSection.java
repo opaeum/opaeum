@@ -1,14 +1,12 @@
 package org.opaeum.eclipse.uml.propertysections.property;
 
-import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.Property;
+import org.eclipse.emf.ecore.EObject;
+import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.uml.propertysections.core.MultiplicityElementFeaturesSection;
 
 public class SecondEndMultiplicityElemementFeaturesSection extends MultiplicityElementFeaturesSection{
-
 	@Override
-	protected Property getProperty(){
-		Association a=(Association) getEObject();
-		return a.getMemberEnds().get(1);
+	public EObject getFeatureOwner(EObject selection){
+		return EmfAssociationUtil.getSecondEnd(selection);
 	}
 }

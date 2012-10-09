@@ -47,8 +47,12 @@
     <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
   </queries>
-  <queries xsi:type="query:JavaModelQuery" name="IsQuery" description="IsQuery" implementationClassName="org.opaeum.uim.queries.IsQuery">
-    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  <queries xsi:type="query:OCLModelQuery" name="IsQuery" description="IsQuery" query="isQuery">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+  </queries>
+  <queries xsi:type="query:OCLModelQuery" name="IsOperation" description="IsOperation" query="not isQuery">
+    <returnType xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
     <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
   </queries>
   <queries xsi:type="query:JavaModelQuery" name="IsEmbeddedTask" description="Return true if the element is an EmbeddedTask" implementationClassName="org.opaeum.uim.queries.IsEmbeddedTask">
@@ -77,6 +81,10 @@
   </queries>
   <queries xsi:type="query:JavaModelQuery" name="GetResponsibilityInvocationWizard" description="GetResponsibilityInvocationWizard" implementationClassName="org.opaeum.uim.queries.GetResponsibilityInvocationWizard">
     <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//wizard/ResponsibilityInvocationWizard"/>
+    <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+  </queries>
+  <queries xsi:type="query:JavaModelQuery" name="GetOperationInvocationWizard" description="GetOperationInvocationWizard" implementationClassName="org.opaeum.uim.queries.GetOperationInvocationWizard">
+    <returnType xsi:type="ecore:EClass" href="http://opaeum.org/uimetamodel/1.0#//model/OperationInvocationWizard"/>
     <scope href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
   </queries>
   <queries xsi:type="query:JavaModelQuery" name="GetQueryInvoker" description="GetQueryInvoker" implementationClassName="org.opaeum.uim.queries.GetQueryInvoker">

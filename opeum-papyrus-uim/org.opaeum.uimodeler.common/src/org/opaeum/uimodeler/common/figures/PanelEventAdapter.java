@@ -23,7 +23,6 @@ public class PanelEventAdapter extends AbstractEventAdapter{
 		this.composite = (GridPanelComposite) fig.getWidget();
 		composite.getContentPane().setData(UimFigureUtil.ELEMENT, element);
 		composite.getContentPane().setData(UimFigureUtil.FIGURE, figure);
-
 		GridLayout children = (GridLayout) composite.getContentPane().getLayout();
 		if(element instanceof ActionBar){
 			children.numColumns = 30;
@@ -35,11 +34,20 @@ public class PanelEventAdapter extends AbstractEventAdapter{
 	@Override
 	public void figureMoved(IFigure source){
 		super.figureMoved(source);
-		if(source == figure && composite.getParent() instanceof Shell){
-			//IF it is the toplevel panel, resize the shell and root composite
-			Rectangle b = source.getBounds();
-			fig.getWidget().getParent().setSize(b.width, b.height);
-			fig.getWidget().setLayoutData(new GridData(b.width, b.height));
+		if(composite.getParent() instanceof Shell){
+			if(source == figure){
+				// IF it is the toplevel panel, resize the shell and root composite
+				Rectangle b = source.getBounds();
+				CustomDiagramFigure diag = (CustomDiagramFigure) figure.getParent().getParent();
+				diag.getParent().addFigureListener(this);
+				fig.getWidget().getParent().setSize(b.width, b.height);
+				fig.getWidget().setLayoutData(new GridData(b.width, b.height));
+			}else{
+				if(source == figure.getParent().getParent().getParent()){
+//					figure.getParent().setBounds(source.getBounds());
+//					super.figureMoved(figure.getParent());
+				}
+			}
 		}
 	}
 	@Override

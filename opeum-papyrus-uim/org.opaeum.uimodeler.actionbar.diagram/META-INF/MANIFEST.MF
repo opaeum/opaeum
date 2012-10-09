@@ -39,20 +39,20 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.papyrus.infra.emf.appearance,
  org.opaeum.uimodeler.common
 Bundle-ClassPath: .
-Bundle-Activator: org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugin
+Bundle-Activator: org.opaeum.uimodeler.actionbar.diagram.part.UimDiagramEditorPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: org.opaeum.metamodels.uim.actionbar.diagram,
- org.opaeum.uimodeler.abstractactionbar.diagram.edit.commands,
- org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers,
- org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts,
- org.opaeum.uimodeler.abstractactionbar.diagram.edit.policies,
- org.opaeum.uimodeler.abstractactionbar.diagram.navigator,
- org.opaeum.uimodeler.abstractactionbar.diagram.parsers,
- org.opaeum.uimodeler.abstractactionbar.diagram.part,
- org.opaeum.uimodeler.abstractactionbar.diagram.preferences,
- org.opaeum.uimodeler.abstractactionbar.diagram.providers,
- org.opaeum.uimodeler.abstractactionbar.diagram.sheet
+ org.opaeum.uimodeler.actionbar.diagram.edit.commands,
+ org.opaeum.uimodeler.actionbar.diagram.edit.helpers,
+ org.opaeum.uimodeler.actionbar.diagram.edit.parts,
+ org.opaeum.uimodeler.actionbar.diagram.edit.policies,
+ org.opaeum.uimodeler.actionbar.diagram.navigator,
+ org.opaeum.uimodeler.actionbar.diagram.parsers,
+ org.opaeum.uimodeler.actionbar.diagram.part,
+ org.opaeum.uimodeler.actionbar.diagram.preferences,
+ org.opaeum.uimodeler.actionbar.diagram.providers,
+ org.opaeum.uimodeler.actionbar.diagram.sheet
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

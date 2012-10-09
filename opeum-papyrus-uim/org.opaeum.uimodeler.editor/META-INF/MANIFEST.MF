@@ -10,20 +10,22 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.uim.action.presentation,
  org.opaeum.uim.binding.presentation,
+ org.opaeum.uim.component.presentation,
  org.opaeum.uim.constraint.presentation,
  org.opaeum.uim.control.presentation,
+ org.opaeum.uim.cube.presentation,
  org.opaeum.uim.editor.presentation,
+ org.opaeum.uim.model.presentation,
  org.opaeum.uim.panel.presentation,
  org.opaeum.uim.perspective.presentation,
  org.opaeum.uim.presentation,
  org.opaeum.uim.wizard.presentation,
  org.opaeum.uimodeler.presentation
 Require-Bundle: org.eclipse.core.runtime,
+ org.opaeum.uimodeler.edit;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.core.commands;visibility:=reexport,
- org.eclipse.emf.ecore.edit;visibility:=reexport,
- org.opaeum.uimodeler.edit,
- org.opaeum.metamodels.uim
+ org.eclipse.emf.ecore.edit;visibility:=reexport
 Import-Package: org.eclipse.emf.common.ui,
  org.eclipse.emf.common.ui.action,
  org.eclipse.emf.common.ui.dialogs,

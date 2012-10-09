@@ -83,7 +83,7 @@
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
       <children xsi:type="action:InvocationButton" name="Follow lead" umlElementUid="914890@_A1hu8JKiEeGiJMBDeZRymA">
-        <popup xsi:type="model:OperationInvocationWizard" href="914890@_A1hu8JKiEeGiJMBDeZRymA.uim#/"/>
+        <popup href="914890@_A1hu8JKiEeGiJMBDeZRymA.uim#/"/>
       </children>
     </actionBar>
   </primaryEditor>

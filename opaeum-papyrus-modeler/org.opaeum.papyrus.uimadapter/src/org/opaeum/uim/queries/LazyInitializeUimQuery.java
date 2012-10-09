@@ -1,8 +1,11 @@
 package org.opaeum.uim.queries;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.Collections;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -13,21 +16,19 @@ import org.eclipse.emf.facet.infra.query.core.exception.ModelQueryExecutionExcep
 import org.eclipse.emf.facet.infra.query.core.java.IJavaModelQuery;
 import org.eclipse.emf.facet.infra.query.core.java.ParameterValueList;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.uim.Page;
 import org.opaeum.uim.UserInterfaceRoot;
-import org.opaeum.uim.editor.ObjectEditor;
 import org.opaeum.uim.model.AbstractUserInteractionModel;
-import org.opaeum.uim.model.ClassUserInteractionModel;
+import org.opaeum.uim.resources.UimModelSet;
 import org.opaeum.uim.uml2uim.FormSynchronizer2;
-import org.opaeum.uim.util.UimResourceImpl;
 import org.opaeum.uim.util.UmlUimLinks;
-import org.opaeum.uim.wizard.NewObjectWizard;
 
 public abstract class LazyInitializeUimQuery<T extends Element,S extends AbstractUserInteractionModel,R extends UserInterfaceRoot> implements
 		IJavaModelQuery<T,R>{
+	WeakReference<ResourceSet> tempResourceSet = new WeakReference<ResourceSet>(new ResourceSetImpl());
 	public LazyInitializeUimQuery(){
 		super();
 	}
@@ -39,19 +40,28 @@ public abstract class LazyInitializeUimQuery<T extends Element,S extends Abstrac
 		URI formUri = directoryUri.appendSegment("ui");
 		formUri = formUri.appendSegment(EmfWorkspace.getId(context));
 		formUri = formUri.appendFileExtension("uim");
-		if(!context.eResource().getResourceSet().getURIConverter().exists(formUri, Collections.emptyMap())){
-			ResourceSetImpl tempRst = new ResourceSetImpl();
-			FormSynchronizer2 fs2 = new FormSynchronizer2(directoryUri, tempRst, false);
+		if(shouldRegenerate(context, formUri)){
+			FormSynchronizer2 fs2 = new FormSynchronizer2(directoryUri, getTempResourceSet(), false);
 			if(generateModel(context, fs2)){
-				saveAndReload(context, null, tempRst);
+				saveAndReload(context, null, getTempResourceSet());
 			}else{
 				return null;
 			}
 		}
-		Resource resource2 = context.eResource().getResourceSet().getResource(formUri, true);
+		Resource resource2 = ((UimModelSet) context.eResource().getResourceSet()).getUiResourceFor(context);
 		AbstractUserInteractionModel eObject = (AbstractUserInteractionModel) resource2.getContents().get(0);
 		new UmlUimLinks(resource2, OpaeumEclipseContext.findOpenUmlFileFor(context).getEmfWorkspace());
-		return getResult((S) eObject);
+		R result = getResult((S) eObject);
+		return result;
+	}
+	protected ResourceSet getTempResourceSet(){
+		if(tempResourceSet.get() == null){
+			tempResourceSet = new WeakReference<ResourceSet>(new ResourceSetImpl());
+		}
+		return tempResourceSet.get();
+	}
+	protected boolean shouldRegenerate(final T context,URI formUri){
+		return !context.eResource().getResourceSet().getURIConverter().exists(formUri, Collections.emptyMap());
 	}
 	protected abstract boolean generateModel(final T context,FormSynchronizer2 fs2);
 	public final Resource getResource(ResourceSet uimRst,URI directoryUri,String id,String extenstion){

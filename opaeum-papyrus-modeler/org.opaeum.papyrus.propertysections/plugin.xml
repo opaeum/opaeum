@@ -129,10 +129,10 @@
       <editor
             class="org.opaeum.papyrus.editor.OpaeumMultiDiagramEditor"
             default="true"
-            extensions="di"
+            extensions="di.opaeum"
             icon="icons/papyrus/Papyrus_16x16.gif"
-            id="org.eclipse.papyrus.infra.core.papyrusEditor"
-            matchingStrategy="org.opaeum.papyrus.editor.PapyrusMatchingStrategy"
+            id="org.eclipse.papyrus.infra.core.papyrusEditor.opaeum"
+            matchingStrategy="org.eclipse.papyrus.editor.PapyrusMatchingStrategy"
             name="Opaeum Editor">
       </editor>
    </extension>

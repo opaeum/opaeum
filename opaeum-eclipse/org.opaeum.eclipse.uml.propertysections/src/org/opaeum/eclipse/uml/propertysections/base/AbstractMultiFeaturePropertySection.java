@@ -1,98 +1,133 @@
 package org.opaeum.eclipse.uml.propertysections.base;
 
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.ecore.EAttribute;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
-import org.opaeum.eclipse.uml.propertysections.common.TextChangeHelper;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbedPropertySection{
-	private EStructuralFeature feature;
-	public class BooleanSelectionListener implements SelectionListener{
-		private EAttribute myFeature;
-		public BooleanSelectionListener(EAttribute feature_IsStatic){
-			this.myFeature = feature_IsStatic;
-		}
-		public void widgetSelected(SelectionEvent e){
-			feature = myFeature;
-			Command cmd = SetCommand.create(getEditingDomain(), getFeatureOwner(), getFeature(), ((Button) e.getSource()).getSelection());
-			getEditingDomain().getCommandStack().execute(cmd);
-		}
-		public void widgetDefaultSelected(SelectionEvent e){
+public class AbstractMultiFeaturePropertySection extends AbstractTabbedPropertySection implements IMultiPropertySection{
+	private List<AbstractTabbedPropertySubsection<?,?>> subsections = new ArrayList<AbstractTabbedPropertySubsection<?,?>>();
+	@Override
+	public List<EObject> getEObjectList(){
+		return super.getEObjectList();
+	}
+	public BooleanSubSection createBoolean(EStructuralFeature feature,String labelText,int labelWidth){
+		BooleanSubSection result = new BooleanSubSection(this);
+		result.setLabelWidth(labelWidth);
+		result.setLabelText(labelText);
+		result.setFeature(feature);
+		result.setDefaultValue(false);
+		return result;
+	}
+	public LiteralIntegerSubsection createLiteralInteger(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
+		LiteralIntegerSubsection result = new LiteralIntegerSubsection(this);
+		result.setLabelWidth(labelWidth);
+		result.setLabelText(labelText);
+		result.setFeature(feature);
+		return result;
+	}
+	public IntegerSubsection createInteger(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
+		IntegerSubsection result = new IntegerSubsection(this);
+		result.setLabelWidth(labelWidth);
+		result.setLabelText(labelText);
+		result.setFeature(feature);
+		return result;
+	}
+	public void refresh(){
+		super.refresh();
+		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
+			ss.refresh();
 		}
 	}
-	public class LiteralIntegerTextChangeListener extends TextChangeHelper implements FocusListener{
-		private EAttribute myFeature;
-		private Text control;
-		public LiteralIntegerTextChangeListener(EAttribute feature_IsStatic){
-			this.myFeature = feature_IsStatic;
+	@Override
+	public EditingDomain getEditingDomain(){
+		return super.getEditingDomain();
+	}
+	@Override
+	protected void removeListener(){
+		super.removeListener();
+		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
+			ss.removeModelListener();
 		}
-		@Override
-		public void finishNonUserChange(){
-			super.finishNonUserChange();
+	}
+	@Override
+	protected void addListener(){
+		super.addListener();
+		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
+			ss.hookModelListener();
 		}
-		public void startListeningTo(Control control){
-			super.startListeningForEnter(control);
-			this.control = (Text) control;
-			this.control.addFocusListener(this);
-		}
-		public void textChanged(Control control){
-			updateIntegerValue();
-		}
-		private void updateIntegerValue() {
-			feature = myFeature;
-			try{
-				String text =  control.getText();
-				int parseInt;
-				if(text.contains("*")){
-					parseInt = -1;
-				}else{
-					parseInt = Integer.parseInt(text);
+	}
+	@Override
+	protected void setSectionData(Composite composite){
+		if(!isDisposed()){
+			
+			Collection<AbstractTabbedPropertySubsection<?,?>> subsections2 = this.subsections;
+			int maxHeight=0;
+			for(AbstractTabbedPropertySubsection<?,?> ss:subsections2){
+				ss.updateLayoutData();
+				maxHeight=Math.max(maxHeight, ss.getComposite().getSize().y);
+			}
+			Composite prev = null;
+			for(AbstractTabbedPropertySubsection<?,?> ss:subsections2){
+				FormData fd = new FormData();
+				if(prev != null){
+					fd.left = new FormAttachment(prev);
 				}
-				Command cmd = SetCommand.create(getEditingDomain(), getFeatureOwner(), getFeature(), parseInt);
-				getEditingDomain().getCommandStack().execute(cmd);
-			}catch(Exception e){
-				Command cmd = SetCommand.create(getEditingDomain(), getFeatureOwner(), getFeature(), 0);
-				getEditingDomain().getCommandStack().execute(cmd);
+				fd.height=maxHeight;
+				ss.getComposite().setLayoutData(fd);
+				prev = ss.getComposite();
 			}
 		}
-		@Override
-		public void focusGained(FocusEvent e){
+	}
+	private boolean isDisposed(){
+		for(AbstractTabbedPropertySubsection<?,?> c:subsections){
+			if(c.getComposite().isDisposed()){
+				return true;
+			}
 		}
-		@Override
-		public void focusLost(FocusEvent e){
-			updateIntegerValue();
+		return false;
+	}
+	@Override
+	public EObject getEObject(){
+		return super.getEObject();
+	}
+	@Override
+	protected void createWidgets(org.eclipse.swt.widgets.Composite composite){
+		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
+			Composite ssc = getWidgetFactory().createComposite(composite, SWT.BORDER);
+			GridLayout gl = new GridLayout(2, false);
+			gl.marginWidth=1;
+			gl.marginHeight=2;
+			gl.verticalSpacing=0;
+			gl.horizontalSpacing=4;
+			ssc.setLayout(gl);
+			ss.createWidgets(ssc);
+			ss.hookControlListener();
 		}
 	}
-	public abstract void refresh();
 	@Override
 	protected EStructuralFeature getFeature(){
-		return feature;
+		return null;
 	}
-	protected void layout(Control prev,Control cur,int width){
-		FormData readOnlyData = new FormData();
-		if(prev == null){
-			readOnlyData.left = new FormAttachment(0, 0);
-		}else{
-			readOnlyData.left = new FormAttachment(prev, 0);
-		}
-		readOnlyData.width = width;
-		readOnlyData.top = new FormAttachment(prev, 0,SWT.CENTER);
-		cur.setLayoutData(readOnlyData);
+	@Override
+	public EObject getFeatureOwner(EObject selection){
+		return selection;
 	}
-	protected EObject getFeatureOwner(){
-		return getEObject();
+	@Override
+	public void addSubsection(AbstractTabbedPropertySubsection<?,?> ss){
+		this.subsections.add(ss);
+	}
+	@Override
+	protected String getLabelText(){
+		return "";
 	}
 }

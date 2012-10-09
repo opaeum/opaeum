@@ -4,20 +4,20 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.opaeum.uimodeler.page.diagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin
+Bundle-Activator: org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: org.opaeum.uim.figures,
- org.opaeum.uimodeler.userinterface.diagram.edit.commands,
- org.opaeum.uimodeler.userinterface.diagram.edit.helpers,
- org.opaeum.uimodeler.userinterface.diagram.edit.parts,
- org.opaeum.uimodeler.userinterface.diagram.edit.policies,
- org.opaeum.uimodeler.userinterface.diagram.navigator,
- org.opaeum.uimodeler.userinterface.diagram.parsers,
- org.opaeum.uimodeler.userinterface.diagram.part,
- org.opaeum.uimodeler.userinterface.diagram.preferences,
- org.opaeum.uimodeler.userinterface.diagram.providers,
- org.opaeum.uimodeler.userinterface.diagram.sheet,
+ org.opaeum.uimodeler.page.diagram.edit.commands,
+ org.opaeum.uimodeler.page.diagram.edit.helpers,
+ org.opaeum.uimodeler.page.diagram.edit.parts,
+ org.opaeum.uimodeler.page.diagram.edit.policies,
+ org.opaeum.uimodeler.page.diagram.navigator,
+ org.opaeum.uimodeler.page.diagram.parsers,
+ org.opaeum.uimodeler.page.diagram.part,
+ org.opaeum.uimodeler.page.diagram.preferences,
+ org.opaeum.uimodeler.page.diagram.providers,
+ org.opaeum.uimodeler.page.diagram.sheet,
  org.opaeum.uimodeler.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -57,7 +57,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.papyrus.infra.emf.appearance,
  org.opaeum.uimodeler.editor,
  org.topcased.tabbedproperties;bundle-version="2.5.4",
- org.opaeum.uimodeler.common
+ org.opaeum.uimodeler.common,
+ org.eclipse.papyrus.infra.gmfdiag.css;bundle-version="0.9.0",
+ org.eclipse.e4.ui.css.core;bundle-version="0.10.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-LazyStart: true

@@ -7,12 +7,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.xmi.DOMHandler;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.transaction.ResourceSetChangeEvent;
+import org.eclipse.emf.transaction.ResourceSetListener;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gmf.runtime.diagram.core.listener.DiagramEventBroker;
 import org.eclipse.gmf.runtime.notation.Bounds;
 import org.eclipse.gmf.runtime.notation.DecorationNode;
 import org.eclipse.gmf.runtime.notation.Diagram;
@@ -36,43 +43,50 @@ import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.panel.GridPanel;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.ActionBarActionBarChildrenCompartmentEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.ActionBarEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.ActionBarNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLink2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.InvocationButton2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.InvocationButton3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.InvocationButtonEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimField2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UserInterfaceEditPart;
+import org.opaeum.uimodeler.actionbar.diagram.edit.parts.AbstractEditorEditPart;
+import org.opaeum.uimodeler.actionbar.diagram.edit.parts.ActionBarActionBarChildrenCompartmentEditPart;
+import org.opaeum.uimodeler.actionbar.diagram.edit.parts.ActionBarEditPart;
+import org.opaeum.uimodeler.actionbar.diagram.edit.parts.ActionBarNameEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInActionButton2EditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInLink2EditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInLinkEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelNameEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton2EditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton3EditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButtonEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.TransitionButtonEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UimField2EditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldNameEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart;
 import org.w3c.dom.Document;
 
 public class InMemoryNotationResource extends CSSNotationResource{
 	private UimModelSet modelSet;
-	private EList<Adapter> dummyAdaptors = new BasicEList<Adapter>();
+	private EList<Adapter> dummyAdaptors = new BasicEList<Adapter>(){
+		public boolean add(Adapter object){
+			return superEAdapters().add(object);
+		};
+	};
 	private Map<UserInteractionElement,Diagram> diagrams = new HashMap<UserInteractionElement,Diagram>();
 	public InMemoryNotationResource(UimModelSet ms,URI uri){
 		super(uri);
 		this.modelSet = ms;
 		super.resourceSet = ms;
-		
 	}
-	public Diagram getDiagram(UserInteractionElement key, EditingDomain editingDomain){
+	private EList<Adapter> superEAdapters(){
+		return super.eAdapters();
+	}
+	public Diagram getDiagram(UserInteractionElement key){
+		EditingDomain editingDomain = modelSet.getOpenUmlFile().getEditingDomain();
 		Diagram diagram = diagrams.get(key);
 		if(diagram == null){
 			diagram = NotationFactory.eINSTANCE.createDiagram();
@@ -87,15 +101,30 @@ public class InMemoryNotationResource extends CSSNotationResource{
 			PageRef pageRef = DiFactory.eINSTANCE.createPageRef();
 			pageRef.setEmfPageIdentifier(diagram);
 			try{
-				editingDomain.getCommandStack().execute(AddCommand.create(editingDomain, modelSet.getWindowsManager().getPageList(),DiPackage.eINSTANCE.getPageList_AvailablePage() , pageRef));
+				editingDomain.getCommandStack().execute(
+						AddCommand.create(editingDomain, modelSet.getWindowsManager().getPageList(), DiPackage.eINSTANCE.getPageList_AvailablePage(), pageRef));
 			}catch(Exception e){
 				return null;
 			}
+			final TransactionalEditingDomain txDomain = (TransactionalEditingDomain) editingDomain;
+			final DiagramEventBroker deb = DiagramEventBroker.getInstance(txDomain);
+			diagram.eAdapters().add(new EContentAdapter(){
+				@Override
+				public void notifyChanged(Notification notification){
+					super.notifyChanged(notification);
+					if(notification.getFeature() instanceof EStructuralFeature){
+						EStructuralFeature sf = (EStructuralFeature) notification.getFeature();
+						ResourceSetChangeEvent e = new ResourceSetChangeEvent(txDomain, null, Collections.singletonList(notification));
+						deb.resourceSetChanged(e);
+					}
+				}
+			});
 			diagrams.put(key, diagram);
+			// new GMFElementAdapter(diagram, ((CSSDiagram) diagram).getEngine());
 		}
 		return diagram;
 	}
-	private void populatePage(Page page,Diagram diagram){
+	public void populatePage(Page page,Diagram diagram){
 		diagram.setElement(page);
 		diagram.setType(UserInterfaceEditPart.MODEL_ID);
 		diagram.setName(page.getName());
@@ -109,7 +138,7 @@ public class InMemoryNotationResource extends CSSNotationResource{
 		PageRef pageRef = DiFactory.eINSTANCE.createPageRef();
 		pageRef.setEmfPageIdentifier(diagram);
 	}
-	private void populatePanelPanel(View diagram,org.opaeum.uim.panel.AbstractPanel panel){
+	void populatePanelPanel(View diagram,org.opaeum.uim.panel.AbstractPanel panel){
 		Shape panelShape = NotationFactory.eINSTANCE.createShape();
 		panelShape.setElement(panel);
 		panelShape.setType(GridPanelEditPart.VISUAL_ID + "");
@@ -153,7 +182,7 @@ public class InMemoryNotationResource extends CSSNotationResource{
 			}
 		}
 	}
-	private void populateActionBar(UserInteractionElement key,Diagram diagram){
+	void populateActionBar(UserInteractionElement key,Diagram diagram){
 		ActionBar actionBar = (ActionBar) key;
 		diagram.setElement(actionBar);
 		diagram.setType(AbstractEditorEditPart.MODEL_ID);
@@ -183,18 +212,15 @@ public class InMemoryNotationResource extends CSSNotationResource{
 		diagram.getPersistedChildren().add(panelShape);
 		for(UimComponent uimComponent:actionBar.getChildren()){
 			if(uimComponent instanceof BuiltInActionButton){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionButtonEditPart.VISUAL_ID + "",
-						null);
+				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.BuiltInActionButtonEditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof InvocationButton){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.InvocationButtonEditPart.VISUAL_ID + "",
-						null);
+				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.InvocationButtonEditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof TransitionButton){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionButtonEditPart.VISUAL_ID + "",
-						null);
+				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.TransitionButtonEditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof BuiltInLink){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInLinkEditPart.VISUAL_ID + "", null);
+				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.BuiltInLinkEditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof LinkToQuery){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.LinkToQueryEditPart.VISUAL_ID + "", null);
+				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.LinkToQueryEditPart.VISUAL_ID + "", null);
 			}
 		}
 		PageRef pageRef = DiFactory.eINSTANCE.createPageRef();
@@ -212,7 +238,7 @@ public class InMemoryNotationResource extends CSSNotationResource{
 			fieldShape.getPersistedChildren().add(fieldLabelNode);
 		}
 	}
-	private void populateDataTable(View diagram,UimDataTable panel){
+	void populateDataTable(View diagram,UimDataTable panel){
 		Shape panelShape = NotationFactory.eINSTANCE.createShape();
 		diagram.getPersistedChildren().add(panelShape);
 		panelShape.setElement(panel);

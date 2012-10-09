@@ -4,6 +4,7 @@ import java.net.URL;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.gef.Request;
@@ -39,6 +40,14 @@ public final class OpaeumClassEditPart extends ClassEditPart{
 			super.paint(graphics);
 	
 			ImageUtil.paintBackgroundSvgImage(graphics, this, imagePath);
+		}
+		@Override
+		public void setBounds(Rectangle rect){
+			super.setBounds(rect);
+		}
+		@Override
+		protected void fireFigureMoved(){
+			super.fireFigureMoved();
 		}
 		@Override
 		protected void paintClientArea(Graphics graphics){

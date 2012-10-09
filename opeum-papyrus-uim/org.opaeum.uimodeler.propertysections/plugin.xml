@@ -6,12 +6,8 @@
 		<propertyTabs contributorId="TreeOutlinePage">
 			<propertyTab
 				category="domain"
-				id="org.opaeum.uim.userinteractionproperties.basic"
-				label="UI"/>    
-			<propertyTab
-				category="domain"
 				indented="true"
-				afterTab="org.opaeum.uim.userinteractionproperties.basic"
+				afterTab="org.opaeum.eclipse.opaeumTab"
 				id="org.opaeum.uim.userinteractionproperties.constraints.visibility"
 				label="Visibility Constraints"/>    
 			<propertyTab
@@ -24,7 +20,7 @@
 				category="domain"
 				indented="true"
 				id="org.opaeum.uim.userinteractionproperties.control"
-				afterTab="org.opaeum.uim.userinteractionproperties.basic"
+				afterTab="org.opaeum.eclipse.opaeumTab"
 				label="Control"/>    
 		</propertyTabs>
 	</extension>
@@ -33,13 +29,13 @@
 		<propertySections contributorId="TreeOutlinePage">
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.UserInteractionElementFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementIsUnderUserControlSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
 				filter="org.opaeum.uim.userinteractionproperties.filters.UserInteractionElementFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementIsUnderUserControlSection">
@@ -47,91 +43,91 @@
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.OutlayableFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFormFieldFilter"
 				class="org.opaeum.uim.userinteractionproperties.binding.UimFieldBindingSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldLabelWidthSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.FormFieldFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldLabelWidthSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.CubeQueryCubeSourceSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementIsUnderUserControlSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.CubeQueryFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.CubeQueryCubeSourceSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFormFieldFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.GridPanelNumberOfColumnsSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.GridPanelFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.GridPanelNumberOfColumnsSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.OutlayableColumnFeaturesSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.OutlayableInRowFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.OutlayableColumnFeaturesSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.BuiltInActionKindSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.BuiltInActionButtonFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.BuiltInActionButtonKindSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.OperationActionOperationSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.InvocationButtonFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.InvocationButtonOperationSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldOrientationSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.FormFieldFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldOrientationSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.LinkToQueryOperationSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.LinkToQueryFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.LinkToQueryOperationSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.BuiltInLinkKindSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.BuiltInLinkFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.BuiltInLinkKindSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimDataTableBindingSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				filter="org.opaeum.uim.userinteractionproperties.filters.UimDataTableFilter"
 				class="org.opaeum.uim.userinteractionproperties.binding.UimDataTableBindingSection">
 			</propertySection>
@@ -169,28 +165,28 @@
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.AxisEntryDimensionBindingSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementIsUnderUserControlSection"
 				filter="org.opaeum.uim.userinteractionproperties.filters.AxisEntryFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.AxisEntryDimensionBindingSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.AxisEntryLevelPropertiesSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.AxisEntryDimensionBindingSection"
 				filter="org.opaeum.uim.userinteractionproperties.filters.AxisEntryFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.AxisEntryLevelPropertiesSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyPropertySection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.AxisEntryDimensionBindingSection"
 				filter="org.opaeum.uim.userinteractionproperties.filters.MeasurePropertyFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyPropertySection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyAggregationFormulaSection"
-				tab="org.opaeum.uim.userinteractionproperties.basic"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyPropertySection"
 				filter="org.opaeum.uim.userinteractionproperties.filters.MeasurePropertyFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyAggregationFormulaSection">

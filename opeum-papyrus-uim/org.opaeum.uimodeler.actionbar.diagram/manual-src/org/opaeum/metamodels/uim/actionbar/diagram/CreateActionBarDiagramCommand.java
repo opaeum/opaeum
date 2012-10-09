@@ -10,8 +10,8 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.papyrus.infra.gmfdiag.common.AbstractPapyrusGmfCreateDiagramCommandHandler;
 import org.opaeum.uim.editor.AbstractEditor;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugin;
+import org.opaeum.uimodeler.actionbar.diagram.edit.parts.AbstractEditorEditPart;
+import org.opaeum.uimodeler.actionbar.diagram.part.UimDiagramEditorPlugin;
 
 public class CreateActionBarDiagramCommand extends AbstractPapyrusGmfCreateDiagramCommandHandler{
 	AbstractEditor editor;

@@ -36,10 +36,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.facet.infra.browser.custom.core;bundle-version="0.2.0",
  org.eclipse.emf.facet.infra.browser.custom.ui;bundle-version="0.2.0",
  org.eclipse.emf.facet.infra.facet.core;bundle-version="0.2.0",
- org.eclipse.gmf.runtime.diagram.ui.providers;bundle-version="1.5.0"
-Export-Package: org.eclipse.papyrus.uml.modelexplorer,
- org.eclipse.papyrus.uml.modelexplorer.factory,
- org.eclipse.papyrus.uml.modelexplorer.queries
+ org.eclipse.gmf.runtime.diagram.ui.providers;bundle-version="1.5.0",
+ org.opaeum.papyrus.propertysections
+Export-Package: org.opaeum.papyrus.uml.modelexplorer,
+ org.opaeum.papyrus.uml.modelexplorer.factory,
+ org.opaeum.papyrus.uml.modelexplorer.queries
 Bundle-Vendor: %providerName
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
@@ -48,7 +49,7 @@ Bundle-ClassPath: .,
 Bundle-Version: 1.0.0.qualifier
 Bundle-Name: org.opaeum.papyrus.uml.modelexplorer
 Bundle-ManifestVersion: 2
-Bundle-Activator: org.eclipse.papyrus.uml.modelexplorer.Activator
+Bundle-Activator: org.opaeum.papyrus.uml.modelexplorer.Activator
 Bundle-SymbolicName: org.opaeum.papyrus.uml.modelexplorer;singleton:=
  true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

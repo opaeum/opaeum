@@ -5,6 +5,7 @@
 -->
 
 <plugin>
+
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://opaeum.org/uimetamodel/1.0"
@@ -33,7 +34,7 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://opaeum.org/uimetamodel/form/1.0"
+            uri="http://opaeum.org/uimetamodel/editor/1.0"
             class="org.opaeum.uim.editor.EditorPackage"
             genModel="model/Uim.genmodel"/>
    </extension>
@@ -120,6 +121,45 @@
       <parser
             type="perspective"
             class="org.opaeum.uim.perspective.util.PerspectiveResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://opaeum.org/uimetamodel/cube/1.0"
+            class="org.opaeum.uim.cube.CubePackage"
+            genModel="model/Uim.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="cube"
+            class="org.opaeum.uim.cube.util.CubeResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://opaeum.org/uimetamodel/model/1.0"
+            class="org.opaeum.uim.model.ModelPackage"
+            genModel="model/Uim.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="model"
+            class="org.opaeum.uim.model.util.ModelResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://opaeum.org/uimetamodel/component/1.0"
+            class="org.opaeum.uim.component.ComponentPackage"
+            genModel="model/Uim.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="component"
+            class="org.opaeum.uim.component.util.ComponentResourceFactoryImpl"/>
    </extension>
 
 </plugin>

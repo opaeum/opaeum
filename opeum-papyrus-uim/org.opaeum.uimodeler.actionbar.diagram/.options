@@ -1,7 +1,7 @@
-# Tracing options for the org.opaeum.uimodeler.abstractactionbar.diagram plug-in
+# Tracing options for the org.opaeum.uimodeler.actionbar.diagram plug-in
 
 # Common issues
-org.opaeum.uimodeler.abstractactionbar.diagram/debug=false
+org.opaeum.uimodeler.actionbar.diagram/debug=false
 
 # Visual IDs
-org.opaeum.uimodeler.abstractactionbar.diagram/debug/visualID=false
+org.opaeum.uimodeler.actionbar.diagram/debug/visualID=false

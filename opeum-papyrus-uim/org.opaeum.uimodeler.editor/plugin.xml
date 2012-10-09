@@ -266,4 +266,76 @@
       </editor>
    </extension>
 
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_CubeModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.cube.presentation.CubeActionBarContributorActionSet">
+         <action
+               label="%_UI_CubeModelWizard_label"
+               class="org.opaeum.uim.cube.presentation.CubeActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.cube.presentation.CubeActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.cube.presentation.CubeEditorID"
+            name="%_UI_CubeEditor_label"
+            icon="icons/full/obj16/CubeModelFile.gif"
+            extensions="cube"
+            class="org.opaeum.uim.cube.presentation.CubeEditor"
+            contributorClass="org.opaeum.uim.cube.presentation.CubeActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_ModelModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.model.presentation.ModelActionBarContributorActionSet">
+         <action
+               label="%_UI_ModelModelWizard_label"
+               class="org.opaeum.uim.model.presentation.ModelActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.model.presentation.ModelActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.model.presentation.ModelEditorID"
+            name="%_UI_ModelEditor_label"
+            icon="icons/full/obj16/ModelModelFile.gif"
+            extensions="model"
+            class="org.opaeum.uim.model.presentation.ModelEditor"
+            contributorClass="org.opaeum.uim.model.presentation.ModelActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_ComponentModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.component.presentation.ComponentActionBarContributorActionSet">
+         <action
+               label="%_UI_ComponentModelWizard_label"
+               class="org.opaeum.uim.component.presentation.ComponentActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.component.presentation.ComponentActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.component.presentation.ComponentEditorID"
+            name="%_UI_ComponentEditor_label"
+            icon="icons/full/obj16/ComponentModelFile.gif"
+            extensions="component"
+            class="org.opaeum.uim.component.presentation.ComponentEditor"
+            contributorClass="org.opaeum.uim.component.presentation.ComponentActionBarContributor">
+      </editor>
+   </extension>
+
 </plugin>

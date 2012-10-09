@@ -46,25 +46,13 @@ Export-Package: org.opaeum.metamodels.uim,
  org.opaeum.uim.wizard,
  org.opaeum.uim.wizard.impl,
  org.opaeum.uim.wizard.util
-Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.opaeum.metamodels.emfworkspace,
  org.eclipse.uml2.uml,
- org.eclipse.core.runtime
-Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.jface,
- org.eclipse.jface.dialogs,
- org.eclipse.jface.viewers,
- org.eclipse.jface.window,
  org.eclipse.swt,
- org.eclipse.swt.accessibility,
- org.eclipse.swt.browser,
- org.eclipse.swt.custom,
- org.eclipse.swt.dnd,
- org.eclipse.swt.events,
- org.eclipse.swt.graphics,
- org.eclipse.swt.internal,
- org.eclipse.swt.internal.image,
- org.eclipse.swt.layout,
- org.eclipse.swt.widgets
+ org.opaeum.metamodels.emfworkspace,
+ org.eclipse.jface,
+ org.opaeum.eclipse.core
+Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.opaeum.uim.swt.UimActivator

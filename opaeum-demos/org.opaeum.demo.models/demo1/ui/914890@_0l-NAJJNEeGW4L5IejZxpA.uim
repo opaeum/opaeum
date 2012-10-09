@@ -55,7 +55,7 @@
           <binding umlElementUid="914890@_pNEJIJJPEeGW4L5IejZxpA"/>
           <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
           <actionsOnMultipleSelection xsi:type="action:InvocationButton" name="Follow lead" umlElementUid="914890@_A1hu8JKiEeGiJMBDeZRymA">
-            <popup xsi:type="model:OperationInvocationWizard" href="914890@_A1hu8JKiEeGiJMBDeZRymA.uim#/"/>
+            <popup href="914890@_A1hu8JKiEeGiJMBDeZRymA.uim#/"/>
           </actionsOnMultipleSelection>
         </children>
       </panel>
@@ -224,7 +224,7 @@
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
       <children xsi:type="action:InvocationButton" name="Operation1" umlElementUid="914890@_dOodgMzBEeGKe7Qm4dvydQ">
-        <popup xsi:type="model:OperationInvocationWizard" href="914890@_dOodgMzBEeGKe7Qm4dvydQ.uim#/"/>
+        <popup href="914890@_dOodgMzBEeGKe7Qm4dvydQ.uim#/"/>
       </children>
     </actionBar>
   </primaryEditor>
@@ -283,7 +283,7 @@
           <binding umlElementUid="914890@_pNEJIJJPEeGW4L5IejZxpA"/>
           <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
           <actionsOnMultipleSelection xsi:type="action:InvocationButton" name="Follow lead" umlElementUid="914890@_A1hu8JKiEeGiJMBDeZRymA">
-            <popup xsi:type="model:OperationInvocationWizard" href="914890@_A1hu8JKiEeGiJMBDeZRymA.uim#/"/>
+            <popup href="914890@_A1hu8JKiEeGiJMBDeZRymA.uim#/"/>
           </actionsOnMultipleSelection>
         </children>
       </panel>

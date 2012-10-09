@@ -17,6 +17,18 @@
           <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_rZMyYHsKEeGBGZr9IpIa3A"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_Yt_0MZT4EeG_oLv6jKpgkw" x="40" y="20"/>
         </children>
+        <children xmi:type="notation:Shape" xmi:id="_h8Y5UBIeEeKr5f-zTsG0Vg" type="3002">
+          <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_h6e00BIeEeKr5f-zTsG0Vg"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_h8Y5URIeEeKr5f-zTsG0Vg"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_gl_T0BIuEeKet5Gm_LksyQ" type="3002">
+          <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_gfQZsBIuEeKet5Gm_LksyQ"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_gl_T0RIuEeKet5Gm_LksyQ"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_n2DBEBIuEeKet5Gm_LksyQ" type="3002">
+          <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_nyJ_kBIuEeKet5Gm_LksyQ"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_n2DBERIuEeKet5Gm_LksyQ"/>
+        </children>
         <styles xmi:type="notation:TitleStyle" xmi:id="_znMbJJJOEeGW4L5IejZxpA"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_znMbJZJOEeGW4L5IejZxpA"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_znMbJpJOEeGW4L5IejZxpA"/>
@@ -107,7 +119,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6KYbUpJOEeGW4L5IejZxpA"/>
       </children>
       <element xmi:type="uml:Component" href="BusinessStructureModel.uml#_0l-NAJJNEeGW4L5IejZxpA"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6KXNMZJOEeGW4L5IejZxpA" x="155" y="180" width="201" height="151"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6KXNMZJOEeGW4L5IejZxpA" x="155" y="180" width="231" height="161"/>
     </children>
     <children xmi:type="notation:Shape" xmi:id="_9Tux4JJOEeGW4L5IejZxpA" type="2008" fontName="Sans" fontHeight="8" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_9TwAAJJOEeGW4L5IejZxpA" source="ShadowFigure">
@@ -552,7 +564,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zs8G7ZT4EeG_oLv6jKpgkw"/>
       </children>
       <element xmi:type="uml:Class" href="BusinessStructureModel.uml#_oiVeEGCfEeG6xvYqJACneg"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zs2nUZT4EeG_oLv6jKpgkw" x="35" y="320"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zs2nUZT4EeG_oLv6jKpgkw" x="40" y="350"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_tClkEXHgEeGus4aKic9sIg"/>
     <element xmi:type="uml:Model" href="BusinessStructureModel.uml#_-VLbkE8VEeGA3PFuQY5w7Q"/>

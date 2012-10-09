@@ -30,7 +30,7 @@
       </customizedFeatures>
     </references>
   </types>
-  <types metaclassName="Model">
+  <types metaclassName="PapyrusUMLFacet.OpaeumModelLibrary">
     <attributes
         attributeName="regenerate">
       <customizedFeatures>

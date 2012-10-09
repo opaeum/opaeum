@@ -257,7 +257,7 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="An operation action is typically represented as a button and executes a parameterless operation. Most often used to transition in statemachines. It is made available as a single-click button action which allows the user to execute the operation without navigating to an input form, as would be the case with a OperationNavigation"/>
       </eAnnotations>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="popup" eType="#//wizard/InvocationWizard"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="popup" eType="#//UserInterfaceRoot"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AbstractLink" abstract="true" eSuperTypes="#//component/UimComponent #//panel/Outlayable">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

@@ -14,7 +14,7 @@
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
       <children xsi:type="action:InvocationButton" name="Make copy" umlElementUid="252060@_nx6xcF9lEeG3X_yvufTVmw">
-        <popup xsi:type="model:OperationInvocationWizard" href="252060@_nx6xcF9lEeG3X_yvufTVmw.uim#/"/>
+        <popup href="252060@_nx6xcF9lEeG3X_yvufTVmw.uim#/"/>
       </children>
     </actionBar>
   </primaryEditor>

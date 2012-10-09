@@ -4,11 +4,11 @@
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:gmfgen="http://www.eclipse.org/gmf/2009/GenModel"
-    packageNamePrefix="org.opaeum.uimodeler.userinterface.diagram"
+    packageNamePrefix="org.opaeum.uimodeler.page.diagram"
     modelID="userinterface"
     dynamicTemplates="true"
     templateDirectory="org.eclipse.papyrus.def/dynamic-templates3.5/codegen"
-    pluginDirectory="/org.opaeum.uimodeler.userinterface.diagram/src">
+    pluginDirectory="/org.opaeum.uimodeler.page.diagram/src">
   <diagram
       visualID="1000"
       editPartClassName="UserInterfaceEditPart"
@@ -851,7 +851,7 @@
     </preferencePages>
   </diagram>
   <plugin
-      iD="org.opaeum.uimodeler.userinterface.diagram"
+      iD="org.opaeum.uimodeler.page.diagram"
       name="UimUserInterfacePlugin">
     <requiredPlugins>org.eclipse.draw2d</requiredPlugins>
   </plugin>

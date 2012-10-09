@@ -1,5 +1,6 @@
 package org.opaeum.uim.uml2uim;
 
+import org.eclipse.uml2.uml.NamedElement;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.wizard.AbstractWizard;
@@ -12,7 +13,8 @@ public class WizardCreator extends AbstractUserInterfaceCreator{
 		super(w);
 		this.wizard = cf;
 	}
-	protected Page addPage(UserInterfaceRoot pc){
+	@Override
+	protected Page addPage(UserInterfaceRoot pc, NamedElement ne){
 			WizardPage page = WizardFactory.eINSTANCE.createWizardPage();
 			((AbstractWizard) pc).getPages().add(page);
 			return page;

@@ -2,8 +2,10 @@ package org.opaeum.papyrus;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.Stack;
+
+import javax.swing.Icon;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -11,16 +13,18 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
+import org.eclipse.papyrus.infra.core.extension.diagrameditor.EditorDescriptor;
 import org.eclipse.papyrus.infra.core.lifecycleevents.ISaveAndDirtyService;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerPageBookView;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerView;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorRegistry;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISaveablePart;
@@ -33,6 +37,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.Workbench;
+import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.navigator.CommonViewer;
 import org.opaeum.eclipse.context.EObjectSelectorUI;
@@ -117,26 +122,24 @@ public class OpaeumStartup implements IStartup{
 		}
 	}
 	public void earlyStartup(){
+		System.out.println();
 		OpaeumConfig.registerClass(PapyrusErrorMarker.class);
-		IExtensionRegistry r = Platform.getExtensionRegistry();
-		IConfigurationElement[] configurationElementsFor = r.getConfigurationElementsFor("org.eclipse.ui.editors");
-		for(IConfigurationElement ce:configurationElementsFor){
-			if(ce.getAttribute("id").equals("org.eclipse.papyrus.infra.core.papyrusEditor") && !ce.getAttribute("class").startsWith("org.opaeum")){
-				Method method;
-				try{
-					method = ce.getClass().getDeclaredMethod("getConfigurationElement");
-					method.setAccessible(true);
-					Object o=method.invoke(ce);
-					Field f= o.getClass().getDeclaredField("propertiesAndValue");
-					
-					f.setAccessible(true);
-					f.set(o, new String[0]);
-				}catch(Exception e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+		// // killExtension("org.eclipse.papyrus.views.modelexplorer.modelexplorer", "org.eclipse.ui.views");
+		// IEditorRegistry editorRegistry = WorkbenchPlugin.getDefault().getEditorRegistry();
+		// IEditorDescriptor ed = editorRegistry.findEditor("org.eclipse.papyrus.infra.core.papyrusEditor");
+		// Map map;
+		// try{
+		// Field f = ed.getClass().getDeclaredField("configurationElement");
+		// f.setAccessible(true);
+		// f.set(ed, findOpaeumConfigurationElement("org.eclipse.papyrus.infra.core.papyrusEditor", "org.eclipse.ui.editors"));
+		// f = ed.getClass().getDeclaredField("pluginIdentifier");
+		// f.setAccessible(true);
+		// f.set(ed, "org.opaeum.papyrus.propertysections");
+		// }catch(Exception e){
+		// e.printStackTrace();
+		// }
+		// if(map.containsKey(key))
+		// WorkbenchPlugin.getDefault().getViewRegistry();
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		// TODO register on new window creation too
 		workbench.getDisplay().asyncExec(new Runnable(){
@@ -167,7 +170,6 @@ public class OpaeumStartup implements IStartup{
 				EcoreUtil.resolveAll(e.getEditingDomain().getResourceSet());
 				((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
 				result.startSynch(e.getEditingDomain(), umlFile);
-				
 				final IWorkbenchWindow workbenchWindow = e.getSite().getWorkbenchWindow();
 				result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(workbenchWindow));
 				ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);

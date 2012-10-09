@@ -108,7 +108,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		if(selector == null){
 			if(getSelectedObject() instanceof Element){
 				selector = OpaeumEclipseContext.getContextFor((Element) getSelectedObject()).geteObjectSelectorUI();
-			}else if(getSelectedObject().eResource().getResourceSet() instanceof IOpaeumResourceSet){
+			}else if(getSelectedObject().eResource()!=null && getSelectedObject().eResource().getResourceSet() instanceof IOpaeumResourceSet){
 				IOpaeumResourceSet orst = (IOpaeumResourceSet) getSelectedObject().eResource().getResourceSet();
 				selector = OpaeumEclipseContext.getContextFor(orst.getModelDirectory()).geteObjectSelectorUI();
 			}
@@ -121,6 +121,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 			this.descriptors = new ArrayList<CommandParameter>();
 			for(Object o:domain.getNewChildDescriptors(getSelectedObject(), null)){
 				CommandParameter cp = (CommandParameter) o;
+				System.out.println(cp.getFeature());
 				cp.setOwner(getSelectedObject());
 				if(OpaeumFilter.isAllowedElement((EObject) cp.getValue()) && cp.getEStructuralFeature().getContainerClass() != null){
 					// filter out stereotype features

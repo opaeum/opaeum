@@ -66,12 +66,12 @@ public abstract class AbstractUserInterfaceCreator{
 	public AbstractUserInterfaceCreator(UserInterfaceResourceFactory resourceFactory){
 		this.resourceFactory = resourceFactory;
 	}
-	protected abstract Page addPage(UserInterfaceRoot container);
+	protected abstract Page addPage(UserInterfaceRoot container,NamedElement represented);
 	protected abstract UserInterfaceRoot getUserInterfaceRoot();
 	public void populateUserInterface(Element owner,String title,Collection<? extends TypedElement> typedElements){
 		Page page = UserInterfaceUtil.findRepresentingPage(owner, getUserInterfaceRoot());
 		if(page == null){
-			page = findOrCreatePageFor(getUserInterfaceRoot(),(NamedElement) owner);
+			page = findOrCreatePageFor(getUserInterfaceRoot(), (NamedElement) owner);
 			page.setName(title);
 		}
 		if(page.getPanel() == null){
@@ -155,7 +155,7 @@ public abstract class AbstractUserInterfaceCreator{
 					addTablePageForField(uiRoot, property);
 				}else if(UserInterfaceUtil.requiresDetailsPage(uiRoot, property)){
 					addDetailsPageForField(uiRoot, property);
-				}else if(property.getType()!=null){
+				}else if(property.getType() != null){
 					maybeAddField(container, 390, property);
 				}
 			}
@@ -215,7 +215,7 @@ public abstract class AbstractUserInterfaceCreator{
 		Page page = UserInterfaceUtil.findRepresentingPage(e, pc);
 		if(page == null){
 			// Nothing found -create from scratch
-			page = addPage(pc);
+			page = addPage(pc, e);
 			page.setUmlElementUid(EmfWorkspace.getId(e));
 			page.setName(NameConverter.separateWords(e.getName()));
 		}
@@ -223,15 +223,15 @@ public abstract class AbstractUserInterfaceCreator{
 		return page;
 	}
 	private void registerPageOrdering(UserInterfaceRoot pc,Page page){
-		PageOrdering found=null;
+		PageOrdering found = null;
 		for(PageOrdering po:pc.getPageOrdering()){
-			if(po.getPage()==page){
-				found=po;
+			if(po.getPage() == page){
+				found = po;
 				break;
 			}
 		}
-		if(found==null){
-			found=UimFactory.eINSTANCE.createPageOrdering();
+		if(found == null){
+			found = UimFactory.eINSTANCE.createPageOrdering();
 			found.setPosition(pc.getPageOrdering().size());
 			pc.getPageOrdering().add(found);
 			found.setPage(page);
@@ -351,12 +351,15 @@ public abstract class AbstractUserInterfaceCreator{
 				uf.setMinimumLabelWidth(labelWidth < 100 ? 0 : labelWidth / 2);
 				uf.setName(NameConverter.separateWords(property.getName()));
 				ControlKind controlKind = ControlUtil.getPreferredControlKind(UmlUimLinks.getNearestForm(container), property, container instanceof UimDataTable);
-				uf.setControlKind(controlKind);
-				uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
+				if(controlKind != uf.getControlKind()){
+					uf.setControlKind(controlKind);
+					uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
+				}
 				FieldBinding binding = BindingFactory.eINSTANCE.createFieldBinding();
-				uf.setBinding(binding);
 				uf.setFillHorizontally(true);
 				binding.setUmlElementUid(EmfWorkspace.getId(properties[0]));
+				// NB!! only set the binding now for UimContentAdapter
+				uf.setBinding(binding);
 				if(properties.length > 1){
 					// When we're delegating to an object referenced by the root, e.g. contained objects
 					PropertyRef prev = BindingFactory.eINSTANCE.createPropertyRef();

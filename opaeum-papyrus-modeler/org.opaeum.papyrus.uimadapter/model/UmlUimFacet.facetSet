@@ -62,7 +62,7 @@
           href="UimBrowserQuery.querySet#GetQueryInvoker"/>
     </eStructuralFeatures>
     <conditionQuery
-        xsi:type="query:JavaModelQuery"
+        xsi:type="query:OCLModelQuery"
         href="UimBrowserQuery.querySet#IsQuery"/>
   </eClassifiers>
   <eClassifiers
@@ -154,6 +154,28 @@
     <conditionQuery
         xsi:type="query:JavaModelQuery"
         href="UimBrowserQuery.querySet#IsResponsibility"/>
+  </eClassifiers>
+  <eClassifiers
+      xsi:type="facet:Facet"
+      name="Operation"
+      abstract="true">
+    <eSuperTypes
+        href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+    <eStructuralFeatures
+        xsi:type="facet:FacetReference"
+        name="invocationWizard"
+        volatile="true"
+        unsettable="true">
+      <eType
+          xsi:type="ecore:EClass"
+          href="http://opaeum.org/uimetamodel/1.0#//model/OperationInvocationWizard"/>
+      <valueQuery
+          xsi:type="query:JavaModelQuery"
+          href="UimBrowserQuery.querySet#GetOperationInvocationWizard"/>
+    </eStructuralFeatures>
+    <conditionQuery
+        xsi:type="query:OCLModelQuery"
+        href="UimBrowserQuery.querySet#IsOperation"/>
   </eClassifiers>
   <extendedPackage
       href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>

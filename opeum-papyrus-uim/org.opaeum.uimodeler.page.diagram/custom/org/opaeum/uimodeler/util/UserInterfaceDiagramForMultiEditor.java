@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
-import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditor;
-import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
+import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditor;
+import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 
 public class UserInterfaceDiagramForMultiEditor extends UimDiagramEditor {
 
@@ -45,7 +45,7 @@ public class UserInterfaceDiagramForMultiEditor extends UimDiagramEditor {
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.init(site, input);
 		setPartName(getDiagram().getName());
-//		setTitleImage(DIAG_IMG_DESC.createImage());
+		setTitleImage(DIAG_IMG_DESC.createImage());
 	}
 
 	/**
@@ -89,6 +89,6 @@ public class UserInterfaceDiagramForMultiEditor extends UimDiagramEditor {
 	 */
 	@Override
 	public String getEditingDomainID() {
-		return "org.opaeum.uimodeler.userinterface.diagram.EditingDomain";
+		return "org.opaeum.uimodeler.page.diagram.EditingDomain";
 	}
 }

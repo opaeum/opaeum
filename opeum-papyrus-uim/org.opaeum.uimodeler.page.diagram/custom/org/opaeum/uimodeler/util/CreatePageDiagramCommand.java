@@ -17,8 +17,8 @@ import org.opaeum.uim.editor.EditorPage;
 import org.opaeum.uim.wizard.AbstractWizard;
 import org.opaeum.uim.wizard.WizardFactory;
 import org.opaeum.uim.wizard.WizardPage;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UserInterfaceEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart;
+import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 
 public class CreatePageDiagramCommand extends AbstractPapyrusGmfCreateDiagramCommandHandler{
 	Page editorPage;

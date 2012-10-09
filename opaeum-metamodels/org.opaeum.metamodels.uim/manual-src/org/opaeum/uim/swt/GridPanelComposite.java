@@ -11,7 +11,7 @@ public class GridPanelComposite extends Composite{
 	Label label;
 	Composite contentPane;
 	public GridPanelComposite(Composite parent,int style){
-		super(parent, style | SWT.BORDER | SWT.SHADOW_ETCHED_OUT);
+		super(parent, style | SWT.BORDER);
 		super.setLayout(new GridLayout(1, false));
 		label=new Label(this,SWT.NONE);
 		GridData labelGd = new GridData(100, 20);

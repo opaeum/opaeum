@@ -31,21 +31,20 @@ import org.opaeum.uim.resources.UimModelSet;
 @Deprecated
 public class GetContainedUimDiagrams implements IJavaModelQuery<UserInterfaceRoot,Collection<Diagram>>{
 	public Collection<Diagram> evaluate(final UserInterfaceRoot context,final ParameterValueList parameterValues) throws ModelQueryExecutionException{
-		final OpenUmlFile openUmlFile = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(context);
-		UimModelSet modelSet = (UimModelSet) openUmlFile.getEditingDomain().getResourceSet();
+		UimModelSet modelSet = (UimModelSet) context.eResource().getResourceSet();
 		EList<EObject> eContents = context.eContents();
 		Map<Page,Diagram> map = new HashMap<Page,Diagram>();
 		Collection<Diagram> result = new ArrayList<Diagram>();
 		for(EObject eObject:eContents){
 			if(eObject instanceof Page){
 				Page page = (Page) eObject;
-				Diagram dgn = modelSet.getInMemoryNotationResource().getDiagram(page, openUmlFile.getEditingDomain());
+				Diagram dgn = modelSet.getInMemoryNotationResource().getDiagram(page);
 				if(dgn != null){
 					map.put(page, dgn);
 				}
 			}else if(eObject instanceof ActionBar){
 				ActionBar bar = (ActionBar) eObject;
-				Diagram dgn = modelSet.getInMemoryNotationResource().getDiagram(bar, openUmlFile.getEditingDomain());
+				Diagram dgn = modelSet.getInMemoryNotationResource().getDiagram(bar);
 				if(dgn != null){
 					result.add(dgn);
 				}

@@ -22,7 +22,7 @@ import org.eclipse.emf.facet.infra.facet.core.FacetSetCatalog;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.papyrus.infra.core.resource.ModelSet;
 import org.eclipse.papyrus.infra.emf.Activator;
-import org.eclipse.papyrus.uml.modelexplorer.OpaeumModelElementItem;
+import org.opaeum.papyrus.uml.modelexplorer.OpaeumModelElementItem;
 
 public class OpaeumUmlContentProvider extends org.eclipse.papyrus.uml.modelexplorer.UMLContentProvider implements ITreeContentProvider{
 	private AppearanceConfiguration appearanceConfiguration;

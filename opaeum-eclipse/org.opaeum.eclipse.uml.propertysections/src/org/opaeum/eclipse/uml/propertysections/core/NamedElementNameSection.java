@@ -76,24 +76,7 @@ public class NamedElementNameSection extends AbstractStringPropertySection{
 	}
 	@Override
 	public void makeContributions(IMenuManager menuManager,IToolBarManager toolBarManager,IStatusLineManager statLineManager){
-		toolBarManager.removeAll();
-		if(toolBarManager.find("asdfasdfa.back") == null){
-			// final IWorkbenchPage activePage = getActivePage();
-			// Action action = new Action("Back"){
-			// @Override
-			// public void run(){
-			// NavigationDecorator.goToPreviousEObject(activePage);
-			// }
-			// };
-			// ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
-			// action.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_BACK));
-			// action.setDisabledImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_BACK_DISABLED));
-			// ActionContributionItem item = new ActionContributionItem(action);
-			// item.setVisible(true);
-			// item.setId("asdfasdfa.back");
-			// toolBarManager.add(item);
-			// toolBarManager.update(false);
-		}
+
 		super.makeContributions(menuManager, toolBarManager, statLineManager);
 	}
 	protected String getLabelText(){

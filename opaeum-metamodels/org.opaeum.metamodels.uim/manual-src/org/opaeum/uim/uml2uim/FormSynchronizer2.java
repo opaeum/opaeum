@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
@@ -21,6 +22,7 @@ import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfParameterUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.newchild.IOpaeumResourceSet;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.uim.UserInterfaceRoot;
@@ -32,6 +34,7 @@ import org.opaeum.uim.model.BehaviorUserInteractionModel;
 import org.opaeum.uim.model.ClassUserInteractionModel;
 import org.opaeum.uim.model.EmbeddedTaskEditor;
 import org.opaeum.uim.model.ModelFactory;
+import org.opaeum.uim.model.OperationInvocationWizard;
 import org.opaeum.uim.model.QueryInvoker;
 import org.opaeum.uim.model.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.wizard.WizardFactory;
@@ -45,7 +48,7 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 	public EmbeddedTaskEditor beforeAction(Action a){
 		if(EmfActionUtil.isEmbeddedTask(a)){
 			String resourceUri = EmfWorkspace.getId(a);
-			EmbeddedTaskEditor editor = (EmbeddedTaskEditor) getUserInteractionModel(resourceUri, ModelFactory.eINSTANCE.createEmbeddedTaskEditor());
+			EmbeddedTaskEditor editor = (EmbeddedTaskEditor) getUserInteractionModel(a, ModelFactory.eINSTANCE.createEmbeddedTaskEditor());
 			editor.setLinkedUmlResource(a.eResource().getURI().lastSegment());
 			editor.setUmlElementUid(resourceUri);
 			applyRegenerate(editor);
@@ -89,7 +92,7 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 	private AbstractUserInteractionModel populateBehaviorUserInteractionModel(Behavior o){
 		String resourceUri = EmfWorkspace.getId(o);
 		BehaviorUserInteractionModel model;
-		model = getUserInteractionModel(resourceUri, ModelFactory.eINSTANCE.createBehaviorUserInteractionModel());
+		model = getUserInteractionModel(o, ModelFactory.eINSTANCE.createBehaviorUserInteractionModel());
 		model.setUmlElementUid(resourceUri);
 		model.setLinkedUmlResource(o.eResource().getURI().lastSegment());
 		if(!model.isUnderUserControl()){
@@ -129,7 +132,7 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 	}
 	private AbstractUserInteractionModel populateClassUserInteractionModel(Classifier c,ActionKind...actionKinds){
 		String resourceUri = EmfWorkspace.getId(c);
-		ClassUserInteractionModel model = getUserInteractionModel(resourceUri, ModelFactory.eINSTANCE.createClassUserInteractionModel());
+		ClassUserInteractionModel model = getUserInteractionModel(c, ModelFactory.eINSTANCE.createClassUserInteractionModel());
 		model.setUmlElementUid(resourceUri);
 		model.setLinkedUmlResource(c.eResource().getURI().lastSegment());
 		if(!model.isUnderUserControl()){
@@ -165,7 +168,7 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 	}
 	private void addSuperWizard(ClassUserInteractionModel model,Classifier general){
 		String superId = EmfWorkspace.getId(general);
-		ClassUserInteractionModel superModel = getUserInteractionModel(superId, ModelFactory.eINSTANCE.createClassUserInteractionModel());
+		ClassUserInteractionModel superModel = getUserInteractionModel(general, ModelFactory.eINSTANCE.createClassUserInteractionModel());
 		populateNewObjectWizar(general, superId, superModel);
 		model.getNewObjectWizard().getSuperUserInterfaces().add(superModel.getNewObjectWizard());
 	}
@@ -194,7 +197,7 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 	}
 	private void addSuperEditor(ClassUserInteractionModel model,Classifier general,ActionKind...actionKinds){
 		String superId = EmfWorkspace.getId(general);
-		ClassUserInteractionModel superModel = getUserInteractionModel(superId, ModelFactory.eINSTANCE.createClassUserInteractionModel());
+		ClassUserInteractionModel superModel = getUserInteractionModel(general, ModelFactory.eINSTANCE.createClassUserInteractionModel());
 		populatePrimaryEditor(general, superId, superModel, actionKinds);
 		model.getPrimaryEditor().getSuperUserInterfaces().add(superModel.getPrimaryEditor());
 	}
@@ -204,11 +207,27 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 			return populateResponsibilityUserInteractionModel(o, resourceUri);
 		}else if(o.isQuery() && o.getReturnResult() != null){
 			return populateQueryInvoker(o, resourceUri);
+		}else{
+			return populateOperationInvocationWizard(o, resourceUri);
 		}
-		return null;
+	}
+	private AbstractUserInteractionModel populateOperationInvocationWizard(Operation o,String resourceUri){
+		OperationInvocationWizard wizard = (OperationInvocationWizard) getUserInteractionModel(o,
+				ModelFactory.eINSTANCE.createOperationInvocationWizard());
+		applyRegenerate(wizard);
+		wizard.setUmlElementUid(resourceUri);
+		wizard.setLinkedUmlResource(o.eResource().getURI().lastSegment());
+		if(!wizard.isUnderUserControl()){
+			wizard.setName(NameConverter.separateWords(NameConverter.capitalize(o.getName())));
+			wizard.setName(o.getName());
+			wizard.setUmlElementUid(resourceUri);
+			WizardCreator ec = new WizardCreator(this, wizard);
+			ec.populateUserInterface(o, "Operation: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+		}
+		return wizard;
 	}
 	private QueryInvoker populateQueryInvoker(Operation o,String resourceUri){
-		QueryInvoker editor = (QueryInvoker) getUserInteractionModel(resourceUri, ModelFactory.eINSTANCE.createQueryInvoker());
+		QueryInvoker editor = (QueryInvoker) getUserInteractionModel(o, ModelFactory.eINSTANCE.createQueryInvoker());
 		applyRegenerate(editor);
 		editor.setUmlElementUid(resourceUri);
 		editor.setLinkedUmlResource(o.eResource().getURI().lastSegment());
@@ -217,14 +236,14 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 			editor.setName(o.getName());
 			editor.setUmlElementUid(resourceUri);
 			EditorCreator ec = new EditorCreator(this, editor);
-			ec.populateUserInterface(o, "Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+			ec.populateUserInterface(o, "Query: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 			ec.addButtonBar(ActionKind.EXECUTE);
 		}
 		return editor;
 	}
 	private ResponsibilityUserInteractionModel populateResponsibilityUserInteractionModel(Operation o,String resourceUri){
 		ResponsibilityUserInteractionModel model;
-		model = getUserInteractionModel(resourceUri, ModelFactory.eINSTANCE.createResponsibilityUserInteractionModel());
+		model = getUserInteractionModel(o, ModelFactory.eINSTANCE.createResponsibilityUserInteractionModel());
 		model.setUmlElementUid(resourceUri);
 		model.setLinkedUmlResource(o.eResource().getURI().lastSegment());
 		if(!model.isUnderUserControl()){
@@ -256,10 +275,17 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 		return model;
 	}
 	@SuppressWarnings("unchecked")
-	public <T extends AbstractUserInteractionModel>T getUserInteractionModel(String id,T newOne){
-		Resource resource = getResource(id, "uml");
+	public <T extends AbstractUserInteractionModel>T getUserInteractionModel(Element element,T newOne){
+		Resource resource;
+		if(uimRst instanceof IOpaeumResourceSet){
+			resource = ((IOpaeumResourceSet) uimRst).getUiResourceFor(element);
+		}else{
+			resource = getResource(EmfWorkspace.getId(element), "uml");
+		}
 		if(resource.getContents().isEmpty()){
 			resource.getContents().add(newOne);
+		}else if(!newOne.getClass().isInstance(resource.getContents().get(0))){
+			resource.getContents().set(0, newOne);
 		}
 		return (T) resource.getContents().get(0);
 	}

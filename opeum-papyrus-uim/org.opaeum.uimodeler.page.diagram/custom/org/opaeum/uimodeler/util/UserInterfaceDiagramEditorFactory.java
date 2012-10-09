@@ -1,7 +1,7 @@
 package org.opaeum.uimodeler.util;
 
 import org.eclipse.papyrus.infra.gmfdiag.common.GmfEditorFactory;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UserInterfaceEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart;
 
 public class UserInterfaceDiagramEditorFactory extends GmfEditorFactory {
 

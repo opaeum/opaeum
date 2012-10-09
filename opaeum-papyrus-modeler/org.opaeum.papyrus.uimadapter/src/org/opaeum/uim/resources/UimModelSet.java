@@ -1,15 +1,12 @@
 package org.opaeum.uim.resources;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -19,36 +16,84 @@ import org.eclipse.papyrus.infra.core.resource.ModelIdentifiers;
 import org.eclipse.papyrus.infra.core.resource.ModelMultiException;
 import org.eclipse.papyrus.infra.core.resource.sasheditor.DiModel;
 import org.eclipse.papyrus.infra.core.resource.sasheditor.SashModel;
+import org.eclipse.papyrus.infra.core.resource.uml.UmlModel;
 import org.eclipse.papyrus.infra.core.sashwindows.di.PageList;
 import org.eclipse.papyrus.infra.core.sashwindows.di.PageRef;
 import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
 import org.eclipse.papyrus.infra.services.resourceloading.OnDemandLoadingModelSet;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Package;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.newchild.IOpaeumResourceSet;
-import org.opaeum.uim.component.UimContainer;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uimodeler.util.UimContentAdapter;
 
 public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResourceSet{
 	private InMemoryNotationResource inMemoryNotationModel;
 	private IFile primaryFile;
+	private Map<Element,Resource> uiResourceMap = new HashMap<Element,Resource>();
+	private OpenUmlFile openUmlFile;
+	private DiagramSynchronizingListener diagramSynchronizer;
+	public OpenUmlFile getOpenUmlFile(){
+		if(openUmlFile == null && getRootObject() != null){
+			openUmlFile = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(getRootObject());
+		}
+		return openUmlFile;
+	}
 	public SashWindowsMngr getWindowsManager(){
 		SashModel model = (SashModel) super.getModel(DiModel.MODEL_ID);
 		return (SashWindowsMngr) model.getResource().getContents().get(0);
 	}
+	public Package getRootObject(){
+		UmlModel um = (UmlModel) getModel(UmlModel.MODEL_ID);
+		if(um != null && um.getResource().getContents().size() > 0){
+			return (Package) um.getResource().getContents().get(0);
+		}else{
+			return null;
+		}
+	}
 	private void addContentAdapter(){
 		if(!UimContentAdapter.isListeningTo(this)){
-			super.eAdapters().add(new UimContentAdapter());
+			super.eAdapters().add(new UimContentAdapter(this));
 		}
+	}
+	public Resource getUiResourceFor(Element e){
+		Resource resource = uiResourceMap.get(e);
+		if(resource == null){
+			URI formUri = e.eResource().getURI().trimSegments(1).appendSegment("ui");
+			formUri = formUri.appendSegment(EmfWorkspace.getId(e));
+			formUri = formUri.appendFileExtension("uim");
+			try{
+				resource = getResource(formUri, true);
+			}catch(Exception ex){
+				resource = createResource(formUri);
+			}
+			uiResourceMap.put(e, resource);
+			resource.eAdapters().add(getDiagramSynchronizer());
+		}
+		return resource;
+	}
+	protected DiagramSynchronizingListener getDiagramSynchronizer(){
+		if(diagramSynchronizer==null){
+			diagramSynchronizer=new DiagramSynchronizingListener(inMemoryNotationModel);
+		}
+		return diagramSynchronizer;
 	}
 	@Override
 	public void createsModels(ModelIdentifiers modelIdentifiers){
 		super.createsModels(modelIdentifiers);
 		createInMemoryModel();
+		EcoreUtil.resolveAll(this);
+		addContentAdapter();
 	}
 	@Override
 	public void createsModels(IFile newFile){
 		super.createsModels(newFile);
 		createInMemoryModel();
 		this.primaryFile = newFile;
+		EcoreUtil.resolveAll(this);
+		addContentAdapter();
 	}
 	@Override
 	public void loadModels(IFile file) throws ModelMultiException{
@@ -73,6 +118,8 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 			}
 		}
 		createInMemoryModel();
+		EcoreUtil.resolveAll(this);
+		addContentAdapter();
 	}
 	private void createInMemoryModel(){
 		URI uri = getModelResource().getURI().trimSegments(1).appendSegment("ui").appendSegment("tmp.notation");
@@ -85,7 +132,6 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 		inMemoryNotationModel = new InMemoryNotationResource(this, uri);
 		super.uriResourceMap.put(uri, inMemoryNotationModel);
 		getResources().add(inMemoryNotationModel);
-		addContentAdapter();
 	}
 	public InMemoryNotationResource getInMemoryNotationResource(){
 		return inMemoryNotationModel;

@@ -10,7 +10,7 @@ import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableEditPart;
 
 public class UimDataTableEventAdapter extends AbstractEventAdapter{
 	CustomUimDataTableFigure figure;

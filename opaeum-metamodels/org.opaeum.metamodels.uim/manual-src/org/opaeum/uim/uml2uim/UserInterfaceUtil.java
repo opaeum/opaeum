@@ -197,4 +197,14 @@ public class UserInterfaceUtil{
 		}
 		return null;
 	}
+	public static UserInteractionElement getNearestPage(EObject uic){
+		while(uic!=null){
+			if(uic instanceof Page || uic instanceof ActionBar){
+				return (UserInteractionElement)uic;
+			}else{
+				uic=uic.eContainer();
+			}
+		}
+		return null;
+	}
 }

@@ -41,7 +41,7 @@ public class ParameterComposite extends Composite{
 	private Button isExceptionBtn;
 	private RecursiveAdapter adaptor = new RecursiveAdapter(){
 		public void notifyChanged(Notification notification){
-			if(notification.getNotifier().equals(parameter)){
+			if(notification.getNotifier().equals(parameter) && !isDisposed()){
 				switch(notification.getFeatureID(Parameter.class)){
 				case UMLPackage.PARAMETER__NAME:
 				case UMLPackage.PARAMETER__DIRECTION:

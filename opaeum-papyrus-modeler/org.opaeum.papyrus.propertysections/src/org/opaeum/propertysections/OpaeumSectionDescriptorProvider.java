@@ -1,9 +1,11 @@
 package org.opaeum.propertysections;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IFilter;
+import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyRegistry;
 import org.eclipse.ui.views.properties.tabbed.AbstractSectionDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
@@ -64,7 +66,8 @@ import org.opaeum.eclipse.uml.propertysections.property.PropertyDefaultValueSect
 import org.opaeum.eclipse.uml.propertysections.property.PropertyRoleInCubeSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.ClassifierNamePropertySection;
 
-public class OpaeumSectionDescriptorProvider implements ISectionDescriptorProvider{
+public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry implements ISectionDescriptorProvider{
+	OpaeumTypeMapper typeMapper=new OpaeumTypeMapper();
 	private static final class FilterBasedDescriptor extends AbstractSectionDescriptor{
 		private final ISection s;
 		private final IFilter f;
@@ -108,6 +111,11 @@ public class OpaeumSectionDescriptorProvider implements ISectionDescriptorProvid
 	}
 	private ArrayList<ISectionDescriptor> result;
 	ISection previousSection;
+	private String contributorId="TreeOutlinePage";
+	public OpaeumSectionDescriptorProvider(){
+		super("dummy");
+		super.contributorId="TreeOutlinePage";
+	}
 	@Override
 	public ISectionDescriptor[] getSectionDescriptors(){
 		this.result = new ArrayList<ISectionDescriptor>();
@@ -141,6 +149,7 @@ public class OpaeumSectionDescriptorProvider implements ISectionDescriptorProvid
 		addPreconditions(Behavior.class, new BehaviorPreconditionsSection());
 		addPostconditions(Behavior.class, new BehaviorPostconditionsSection());
 		addDeadlines(new DeadlineContainerFilter(), new DeadlinesSection());
+		result.addAll(Arrays.asList(readSectionDescriptors()));
 		return result.toArray(new ISectionDescriptor[result.size()]);
 	}
 	private void addBasic(IFilter filter,ISection section){
