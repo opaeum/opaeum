@@ -8,12 +8,8 @@ import org.opaeum.metamodel.core.internal.TagNames;
 
 public class ModelModelTypeSection extends AbstractEnumerationOnStereotypeSection{
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Model Type";
-	}
-	@Override
-	protected Element getElement(){
-		return getModel();
 	}
 	private Model getModel(){
 		return (Model) getEObject();
@@ -27,7 +23,7 @@ public class ModelModelTypeSection extends AbstractEnumerationOnStereotypeSectio
 		return StereotypeNames.OPAEUM_STANDARD_PROFILE;
 	}
 	@Override
-	protected String getStereotypeName(){
+	protected String getStereotypeName(Element e){
 		return StereotypeNames.MODEL;
 	}
 }

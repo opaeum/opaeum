@@ -24,10 +24,10 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.emf.extraction.StereotypesHelper;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public class AcceptDeadlineDeadlineSection extends AbstractTabbedPropertySection{
+public class AcceptDeadlineDeadlineSection extends AbstractOpaeumPropertySection{
 	Composite checkBoxComposite;
 	private Composite parent;
 	@Override
@@ -35,11 +35,19 @@ public class AcceptDeadlineDeadlineSection extends AbstractTabbedPropertySection
 		return UMLPackage.eINSTANCE.getAcceptEventAction_Trigger();
 	}
 	@Override
-	protected String getLabelText(){
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+	@Override
+	public String getLabelText(){
 		return "Select Deadlines";
 	}
 	protected void createWidgets(Composite composite){
-		this.parent=composite;
+		this.parent = composite;
 		getWidgetFactory().createCLabel(composite, getLabelText());
 		checkBoxComposite = getWidgetFactory().createGroup(composite, "Available Deadlines");
 		FormData fd = new FormData();
@@ -98,13 +106,13 @@ public class AcceptDeadlineDeadlineSection extends AbstractTabbedPropertySection
 			}
 		}
 		checkBoxComposite.layout();
-//		FormData fd = (FormData) checkBoxComposite.getLayoutData();
-//		if(checkBoxComposite.getChildren().length > 0){
-//			fd.height = checkBoxComposite.getChildren().length * 35;
-//		}else{
-//			fd.height=20;
-//		}
-//		parent.setSize(parent.getSize().x, fd.height+5);
+		// FormData fd = (FormData) checkBoxComposite.getLayoutData();
+		// if(checkBoxComposite.getChildren().length > 0){
+		// fd.height = checkBoxComposite.getChildren().length * 35;
+		// }else{
+		// fd.height=20;
+		// }
+		// parent.setSize(parent.getSize().x, fd.height+5);
 		parent.getParent().getParent().layout();
 	}
 	@Override

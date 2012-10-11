@@ -22,7 +22,7 @@ public class InstanceSpecificationClassifierSection extends OpaeumChooserPropert
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getInstanceSpecification_Classifier();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Classifier:";
 	}
 	protected Object[] getComboFeatureValues(){

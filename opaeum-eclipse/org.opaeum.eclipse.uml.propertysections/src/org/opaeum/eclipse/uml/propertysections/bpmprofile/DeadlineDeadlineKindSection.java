@@ -7,10 +7,6 @@ import org.opaeum.metamodel.core.internal.TagNames;
 
 public class DeadlineDeadlineKindSection extends AbstractEnumerationOnStereotypeSection{
 	@Override
-	protected Element getElement(){
-		return (Element) getEObject();
-	}
-	@Override
 	protected String getAttributeName(){
 		return TagNames.DEADLINE_KIND;
 	}
@@ -19,11 +15,11 @@ public class DeadlineDeadlineKindSection extends AbstractEnumerationOnStereotype
 		return StereotypeNames.OPAEUM_BPM_PROFILE;
 	}
 	@Override
-	protected String getStereotypeName(){
+	protected String getStereotypeName(Element e){
 		return StereotypeNames.DEADLINE;
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Deadline Type";
 	}
 }

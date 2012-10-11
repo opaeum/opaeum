@@ -16,7 +16,7 @@ public class StructuralFeatureActionFeatureSection extends OpaeumChooserProperty
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getStructuralFeatureAction_StructuralFeature();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Feature:";
 	}
 	protected Object[] getComboFeatureValues(){

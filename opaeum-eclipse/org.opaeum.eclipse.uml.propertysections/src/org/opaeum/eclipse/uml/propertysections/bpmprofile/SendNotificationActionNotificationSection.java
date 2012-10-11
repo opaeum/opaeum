@@ -15,7 +15,7 @@ import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
 public class SendNotificationActionNotificationSection extends SendSignalActionSignalSection{
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Notification Type";
 	}
 	@Override

@@ -13,7 +13,6 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Element;
@@ -92,17 +91,12 @@ public abstract class AbstractObsercationEventSection extends OpaeumChooserPrope
 	}
 	public abstract void handleFirstEvent(boolean a);
 	protected void setSectionData(Composite composite){
-		FormData labelData = new FormData();
-		labelData.left = new FormAttachment(0, 0);
-		labelData.right = new FormAttachment(cSingleObjectChooser, -ITabbedPropertyConstants.HSPACE);
-		labelData.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-		labelCombo.setLayoutData(labelData);
 		FormData data = new FormData();
 		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
 		data.right = new FormAttachment(70, 0);
-		cSingleObjectChooser.setLayoutData(data);
+		cSingleObjectChooser.getContentPane().setLayoutData(data);
 		FormData groupData = new FormData();
-		groupData.left = new FormAttachment(cSingleObjectChooser);
+		groupData.left = new FormAttachment(cSingleObjectChooser.getContentPane());
 		groupData.right = new FormAttachment(100, 0);
 		group.setLayoutData(groupData);
 	}

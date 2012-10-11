@@ -7,7 +7,7 @@ import org.topcased.tabbedproperties.sections.AbstractBooleanPropertySection;
 
 public class UserInteractionConstraintInheritFromParentSection extends AbstractBooleanPropertySection{
 
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "InheritFromParent";
 	}
 

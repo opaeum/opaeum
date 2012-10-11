@@ -33,61 +33,62 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 			Object firstElement = selection.getFirstElement();
 			if(firstElement instanceof IContainer){
 				if(DynamicOpaeumMenu.hasUmlModels(selection) || DynamicOpaeumMenu.hasConfigFile(selection)){
+					System.out.println("OpaeumContributionFactory.createContributionItems()");
 					menuManager.add(new DynamicOpaeumMenu());
 				}
-			}else{
-				EObject element = null;
-				if(firstElement instanceof EObject){
-					element = (EObject) firstElement;
-				}else if(firstElement instanceof IAdaptable){
-					Object adapter = ((IAdaptable) firstElement).getAdapter(EObject.class);
-					if(adapter instanceof EObject){
-						element = (EObject) adapter;
-					}
-				}else if(firstElement instanceof AbstractGraphicalEditPart){
-					AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
-					if(a.getModel() instanceof EObject){
-						{
-							element = (EObject) a.getModel();
-						}
+			}
+			EObject element = null;
+			if(firstElement instanceof EObject){
+				element = (EObject) firstElement;
+			}else if(firstElement instanceof IAdaptable){
+				Object adapter = ((IAdaptable) firstElement).getAdapter(EObject.class);
+				if(adapter instanceof EObject){
+					element = (EObject) adapter;
+				}
+			}else if(firstElement instanceof AbstractGraphicalEditPart){
+				AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
+				if(a.getModel() instanceof EObject){
+					{
+						element = (EObject) a.getModel();
 					}
 				}
-				if(element != null){
-					if((element.getClass().getSimpleName().equals("SimulationModelImpl") || element instanceof Model)){
-						menuManager.add(new DynamicOpaeumMenu());
-					}else if(ValidationPhase.canBeProcessedIndividually(element)){
-						menuManager.add(new DynamicOpaeumMenu());
-					}
+			}
+			if(element != null){
+				if((element.getClass().getSimpleName().equals("SimulationModelImpl") || element instanceof Model)){
+					menuManager.add(new DynamicOpaeumMenu());
+				}else if(ValidationPhase.canBeProcessedIndividually(element)){
+					menuManager.add(new DynamicOpaeumMenu());
 				}
-				if(menuManager.getSize() > 0){
-					additions.addContributionItem(menuManager, new Expression(){
+			}
+			if(menuManager.getSize() > 0){
+				System.out.println("OpaeumContributionFactory.createContributionItems()");
+				additions.addContributionItem(menuManager, new Expression(){
+					@Override
+					public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
+						return EvaluationResult.TRUE;
+					}
+				});
+			}
+			if(element != null){
+				additions.addContributionItem(new OpaeumEditorMenu(), new Expression(){
+					@Override
+					public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
+						return EvaluationResult.TRUE;
+					}
+				});
+				if(element instanceof Element && EmfPackageUtil.isRootObject((Element) element)){
+					MenuManager applyProfileMenu = new MenuManager("Apply Profile");
+					Expression visibleWhen = new Expression(){
 						@Override
 						public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
 							return EvaluationResult.TRUE;
 						}
-					});
-				}
-				if(element != null){
-					additions.addContributionItem(new OpaeumEditorMenu(), new Expression(){
-						@Override
-						public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
-							return EvaluationResult.TRUE;
-						}
-					});
-					if(element instanceof Element && EmfPackageUtil.isRootObject((Element) element)){
-						MenuManager applyProfileMenu = new MenuManager("Apply Profile");
-						Expression visibleWhen = new Expression(){
-							@Override
-							public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
-								return EvaluationResult.TRUE;
-							}
-						};
-						additions.addContributionItem(applyProfileMenu, visibleWhen);
-						applyProfileMenu.add(new ApplyProfileMenu());
-						MenuManager importLibraryMenu = new MenuManager("Import Library");
-						additions.addContributionItem(importLibraryMenu, visibleWhen);
-						importLibraryMenu.add(new ImportLibraryMenu());
-					}
+					};
+					additions.addContributionItem(applyProfileMenu, visibleWhen);
+					applyProfileMenu.add(new ApplyProfileMenu());
+					MenuManager importLibraryMenu = new MenuManager("Import Library");
+					additions.addContributionItem(importLibraryMenu, visibleWhen);
+					importLibraryMenu.add(new ImportLibraryMenu());
 				}
 			}
 		}

@@ -10,4 +10,5 @@ public class EditabilityUserInteractionConstraintBooleanFeaturesSection extends 
 		EReference v = ConstraintPackage.eINSTANCE.getEditableConstrainedObject_Editability();
 		return v;
 	}
+
 }

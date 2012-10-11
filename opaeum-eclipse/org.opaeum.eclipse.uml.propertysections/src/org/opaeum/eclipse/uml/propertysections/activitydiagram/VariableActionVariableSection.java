@@ -16,7 +16,7 @@ public class VariableActionVariableSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getVariableAction_Variable();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Variable :";
 	}
 	private VariableAction getAction(){

@@ -17,9 +17,17 @@ public class PersistentClassNotInProfileFilter extends AbstractFilter{
 		}else{
 			boolean entity = e instanceof org.eclipse.uml2.uml.Class
 					&& !(e instanceof Behavior && !EmfBehaviorUtil.hasExecutionInstance((Behavior) e));
-			boolean structuredDataType = e instanceof DataType && EmfClassifierUtil.isStructuredDataType((Type) e);
-			boolean businessCollaboration = e instanceof Collaboration && EmfClassifierUtil.isBusinessCollaboration((Type) e);
-			return entity || e instanceof Actor || structuredDataType || businessCollaboration;
+			return entity || e instanceof Actor || isStructuredDataTyp(e) || isBusinessCollaboration(e);
 		}
+	}
+
+	protected boolean isBusinessCollaboration(Element e){
+		boolean businessCollaboration = e instanceof Collaboration && EmfClassifierUtil.isBusinessCollaboration((Type) e);
+		return businessCollaboration;
+	}
+
+	protected boolean isStructuredDataTyp(Element e){
+		boolean structuredDataType = e instanceof DataType && EmfClassifierUtil.isStructuredDataType((Type) e);
+		return structuredDataType;
 	}
 }

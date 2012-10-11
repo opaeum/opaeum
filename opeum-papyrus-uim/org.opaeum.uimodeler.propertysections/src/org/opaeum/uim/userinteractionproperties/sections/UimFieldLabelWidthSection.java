@@ -1,7 +1,6 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.component.ComponentPackage;
 import org.topcased.tabbedproperties.sections.AbstractIntegerPropertySection;
 
@@ -18,17 +17,17 @@ public class UimFieldLabelWidthSection extends AbstractIntegerPropertySection{
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
+	 * @see org.topcased.tabbedproperties.sections.AbstractOpaeumPropertySection#getLabelText()
 	 * @generated
 	 */
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "LabelWidth:";
 	}
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
+	 * @see org.topcased.tabbedproperties.sections.AbstractOpaeumPropertySection#getFeature()
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){

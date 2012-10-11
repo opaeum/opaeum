@@ -18,7 +18,7 @@ public class ActivityEdgeWeightSection extends AbstractAutoCreatingOclExpression
 		return getEdge();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Weight";
 	}
 	@Override

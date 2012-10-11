@@ -8,24 +8,27 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 
-public class OpaqueActionSqlSection extends AbstractTabbedPropertySection{
+public class OpaqueActionSqlSection extends AbstractOpaeumPropertySection{
 	protected SqlBodyComposite oclComposite;
-	protected CLabel label;
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "SQL";
+	}
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
 	}
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
 		oclComposite.setOclContextImpl((NamedElement)getEObject(), (NamedElement) getEObject());
 	}
 	protected void createWidgets(Composite composite){
-		label = getWidgetFactory().createCLabel(composite, getLabelText());
 		oclComposite = new SqlBodyComposite(composite,getWidgetFactory(),SWT.BORDER|SWT.MULTI){
 			@Override
 			public EStructuralFeature getLanguagesFeature(){
@@ -46,9 +49,6 @@ public class OpaqueActionSqlSection extends AbstractTabbedPropertySection{
 		return "Body expression";
 	}
 	protected void setSectionData(Composite composite){
-		FormData labelFd = new FormData();
-		labelFd.left = new FormAttachment(0, 0);
-		this.label.setLayoutData(labelFd);
 		FormData fd = new FormData(400, 400);
 		fd.right = new FormAttachment(100, 0);
 		fd.bottom= new FormAttachment(100, 0);

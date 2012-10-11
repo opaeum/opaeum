@@ -5,10 +5,6 @@
     <startup
           class="org.opaeum.papyrus.OpaeumStartup"></startup>
  </extension>
-   <!--extension point="org.eclipse.ui.views">
-      <view category="org.eclipse.papyrus.views.category" class="org.opaeum.papyrus.uml.modelexplorer.OpaeumModelExplorerPageBookView" icon="icons/ModelExplorer.gif" id="org.eclipse.papyrus.views.modelexplorer.modelexplorers" name="Model Explorer" restorable="true">
-      </view>
-   </extension-->
     <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
       <browserCustomization file="resource/UMLPapyrusDefaultBrowserCustomization.uiCustom" loadByDefault="true"/>
       <browserCustomization
@@ -142,4 +138,22 @@
             class="org.opaeum.papyrus.preferences.OpaeumPreferenceInitializer">
       </initializer>
    </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            class="org.opaeum.papyrus.editor.OpaeumMultiDiagramEditor"
+            default="true"
+            extensions="di.opaeum"
+            icon="icons/papyrus/Papyrus_16x16.gif"
+            id="org.eclipse.papyrus.infra.core.papyrusEditor.opaeum"
+            matchingStrategy="org.eclipse.papyrus.editor.PapyrusMatchingStrategy"
+            name="Opaeum Editor">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.ui.views">
+      <view category="org.eclipse.papyrus.views.category"  
+      class="org.opaeum.papyrus.uml.modelexplorer.OpaeumModelExplorerPageBookView" 
+      icon="icons/ModelExplorer.gif" id="org.eclipse.papyrus.views.modelexplorer.modelexplorer.opaeum" name="Obsolete Model Explorer" restorable="true">
+      </view>
+   </extension>
+   
 </plugin>

@@ -122,24 +122,7 @@ public class OpaeumStartup implements IStartup{
 		}
 	}
 	public void earlyStartup(){
-		System.out.println();
 		OpaeumConfig.registerClass(PapyrusErrorMarker.class);
-		// // killExtension("org.eclipse.papyrus.views.modelexplorer.modelexplorer", "org.eclipse.ui.views");
-		// IEditorRegistry editorRegistry = WorkbenchPlugin.getDefault().getEditorRegistry();
-		// IEditorDescriptor ed = editorRegistry.findEditor("org.eclipse.papyrus.infra.core.papyrusEditor");
-		// Map map;
-		// try{
-		// Field f = ed.getClass().getDeclaredField("configurationElement");
-		// f.setAccessible(true);
-		// f.set(ed, findOpaeumConfigurationElement("org.eclipse.papyrus.infra.core.papyrusEditor", "org.eclipse.ui.editors"));
-		// f = ed.getClass().getDeclaredField("pluginIdentifier");
-		// f.setAccessible(true);
-		// f.set(ed, "org.opaeum.papyrus.propertysections");
-		// }catch(Exception e){
-		// e.printStackTrace();
-		// }
-		// if(map.containsKey(key))
-		// WorkbenchPlugin.getDefault().getViewRegistry();
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		// TODO register on new window creation too
 		workbench.getDisplay().asyncExec(new Runnable(){
@@ -156,7 +139,6 @@ public class OpaeumStartup implements IStartup{
 				}
 			}
 		});
-		// new OpaeumPreferenceInitializer().initializeDefaultPreferences();
 	}
 	private IFile getUmlFile(final IFileEditorInput fe){
 		return fe.getFile().getProject().getFile(fe.getFile().getProjectRelativePath().removeFileExtension().addFileExtension("uml"));

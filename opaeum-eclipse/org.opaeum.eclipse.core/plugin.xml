@@ -14,4 +14,18 @@
             className="org.opaeum.eclipse.newchild.CreateChildActions">
       </createChildActionProvider>
    </extension>
+    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+    <factory 
+       uri = "http://www.eclipse.org/uml2/4.0.0/UML" 
+       class = "org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory" 
+       supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemColorProvider
+          org.eclipse.emf.edit.provider.IItemFontProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+          
+  </extension>
 </plugin>

@@ -1,6 +1,5 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -58,12 +57,13 @@ public class NavigationDecorator{
 			this.paintListener = new PaintListener(){
 				@Override
 				public void paintControl(PaintEvent e){
+					if(!source.getLabelCombo().isDisposed()){
 					Rectangle bounds = source.getLabelCombo().getBounds();
 					e.gc.setForeground(ColorConstants.blue);
 					FontData fd = source.getLabelCombo().getFont().getFontData()[0];
 					int y1 = bounds.y + Math.round(fd.getHeight());
 					e.gc.drawLine(bounds.x - 3, y1, bounds.x + source.getLabelCombo().getText().length() * 5, y1);
-				}
+				}}
 			};
 		}
 		return this.paintListener;

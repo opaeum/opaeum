@@ -11,7 +11,7 @@ public class SlotFeatureSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getSlot_DefiningFeature();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Feature:";
 	}
 	protected Object[] getComboFeatureValues(){

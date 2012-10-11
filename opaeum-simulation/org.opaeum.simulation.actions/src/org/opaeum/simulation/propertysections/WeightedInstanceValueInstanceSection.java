@@ -50,7 +50,7 @@ public class WeightedInstanceValueInstanceSection extends OpaeumChooserPropertyS
 		return SimulationPackage.eINSTANCE.getWeightedInstanceValue_Instance();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Instance";
 	}
 }

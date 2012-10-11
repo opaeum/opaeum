@@ -37,7 +37,7 @@ public class AxisEntryDimensionBindingSection extends AbstractChooserPropertySec
 		return CubePackage.eINSTANCE.getAxisEntry_DimensionBinding();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Dimension";
 	}
 	@Override
@@ -91,7 +91,7 @@ public class AxisEntryDimensionBindingSection extends AbstractChooserPropertySec
 		CubeQuery c = (CubeQuery) getAxisEntry().eContainer();
 		if(c != null){// during deletion
 			UmlUimLinks currentUmlLinks = UmlUimLinks.getCurrentUmlLinks(getAxisEntry());
-			Class clazz = currentUmlLinks.getRepresentedClass(c);
+			Classifier clazz = currentUmlLinks.getRepresentedClass(c);
 			if(clazz != null){
 				addDimensions(clazz, null, input);
 			}

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.papyrus.uimadapter
 Bundle-SymbolicName: org.opaeum.papyrus.uimadapter;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opaeum.uim2uim.actions.Activator
+Bundle-Activator: org.opaeum.papyrus.uimadapter.actions.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.opaeum.compilation.uim,
@@ -40,11 +40,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.facet.infra.browser.uicore,
  org.eclipse.ui.navigator,
  org.eclipse.papyrus.infra.gmfdiag.css.model,
- org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.6.0"
+ org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.6.0",
+ org.opaeum.papyrus.uml.modelexplorer
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.opaeum.uim.queries,
- org.opaeum.uim2uim.actions,
+Export-Package: org.opaeum.papyrus.uimadapter.actions,
+ org.opaeum.uim.queries,
  org.opaeum.uimodeler.modelexplorer.handler,
  org.opaeum.uimodeler.util,
  org.opaeum.uml2uim

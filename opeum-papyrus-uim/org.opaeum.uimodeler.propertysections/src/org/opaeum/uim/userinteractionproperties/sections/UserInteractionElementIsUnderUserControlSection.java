@@ -6,7 +6,7 @@ import org.topcased.tabbedproperties.sections.AbstractBooleanPropertySection;
 
 public class UserInteractionElementIsUnderUserControlSection extends AbstractBooleanPropertySection{
 
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Under User Control:";
 	}
 

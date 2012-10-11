@@ -1,4 +1,4 @@
-package org.opaeum.eclipse.uml.propertysections.property;
+package org.opaeum.eclipse.uml.propertysections.standardprofile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +22,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
@@ -40,6 +41,7 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
+import org.opaeum.eclipse.uml.propertysections.property.AbstractTypedAndMultiplicityElementPropertySection;
 import org.opaeum.metamodel.core.internal.TagNames;
 
 public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultiplicityElementPropertySection{
@@ -51,6 +53,10 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	private Label label;
 	public AbstractRoleInCubeSection(){
 		super();
+	}
+	@Override
+	public Control getPrimaryInput(){
+		return check;
 	}
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
@@ -70,7 +76,7 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	}
 	protected abstract Stereotype findStereotype(Profile applyNakedUmlProfile);
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Role in Cube";
 	}
 	@Override
@@ -223,7 +229,6 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 			return false;
 		}
 	}
-	@SuppressWarnings("rawtypes")
 	protected void setRole(String name){
 		if(propertyStereotype != null){
 			for(TypedElement eObject:getTypedElementList()){

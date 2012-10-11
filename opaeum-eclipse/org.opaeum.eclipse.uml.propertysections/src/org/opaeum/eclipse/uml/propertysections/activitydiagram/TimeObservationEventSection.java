@@ -24,7 +24,7 @@ public class TimeObservationEventSection extends AbstractObsercationEventSection
 		return UMLPackage.eINSTANCE.getTimeObservation_Event();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Observed Element";
 	}
 	@Override

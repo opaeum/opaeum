@@ -48,41 +48,43 @@ public final class DiagramSynchronizingListener extends EContentAdapter{
 						}
 					}
 				}
-				IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-				if(activeEditor != null && activeEditor instanceof PapyrusMultiDiagramEditor){
-					PapyrusMultiDiagramEditor mm = (PapyrusMultiDiagramEditor) activeEditor;
-					Diagram diagram = getDiagram(notifier);
-					if(diagram != null && mm.getDiagram() != diagram){
-						diagram.getPersistedChildren().clear();
-						UserInteractionElement r = UserInterfaceUtil.getNearestPage(notifier);
-						if(r instanceof Page){
-							resource.populatePage((Page) r, diagram);
-						}else if(r instanceof ActionBar){
-							resource.populateActionBar(r, diagram);
+				if(PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null){
+					IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+					if(activeEditor != null && activeEditor instanceof PapyrusMultiDiagramEditor){
+						PapyrusMultiDiagramEditor mm = (PapyrusMultiDiagramEditor) activeEditor;
+						Diagram diagram = getDiagram(notifier);
+						if(diagram != null && mm.getDiagram() != diagram){
+							diagram.getPersistedChildren().clear();
+							UserInteractionElement r = UserInterfaceUtil.getNearestPage(notifier);
+							if(r instanceof Page){
+								resource.populatePage((Page) r, diagram);
+							}else if(r instanceof ActionBar){
+								resource.populateActionBar(r, diagram);
+							}
+							// if(notification.getNewValue() instanceof UimComponent){
+							// UimComponent uic = (UimComponent) notification.getNewValue();
+							// TreeIterator<EObject> eAllContents = diagram.eAllContents();
+							// Set<EObject> things = new HashSet<EObject>();
+							// while(eAllContents.hasNext()){
+							// things.add(eAllContents.next());
+							// }
+							// for(EObject eObject:things){
+							// if(eObject.eContainer() != null && eObject instanceof View && ((View) eObject).getElement() == uic.eContainer()){
+							// View parentView = (View) eObject;
+							// if(uic.eContainer() instanceof ActionBar){
+							// parentView.getPersistedChildren().clear();
+							// resource.populateActionBar((UserInteractionElement) uic.eContainer(), parentView.getDiagram());
+							// }else if(uic.eContainer() instanceof UimDataTable){
+							// parentView.getPersistedChildren().clear();
+							// resource.populateDataTable(parentView, (UimDataTable) uic.eContainer());
+							// }else if(uic.eContainer() instanceof AbstractPanel){
+							// parentView.getPersistedChildren().clear();
+							// resource.populatePanelPanel(parentView, (AbstractPanel) uic.eContainer());
+							// }
+							// }
+							// }
+							// }
 						}
-//						if(notification.getNewValue() instanceof UimComponent){
-//							UimComponent uic = (UimComponent) notification.getNewValue();
-//							TreeIterator<EObject> eAllContents = diagram.eAllContents();
-//							Set<EObject> things = new HashSet<EObject>();
-//							while(eAllContents.hasNext()){
-//								things.add(eAllContents.next());
-//							}
-//							for(EObject eObject:things){
-//								if(eObject.eContainer() != null && eObject instanceof View && ((View) eObject).getElement() == uic.eContainer()){
-//									View parentView = (View) eObject;
-//									if(uic.eContainer() instanceof ActionBar){
-//										parentView.getPersistedChildren().clear();
-//										resource.populateActionBar((UserInteractionElement) uic.eContainer(), parentView.getDiagram());
-//									}else if(uic.eContainer() instanceof UimDataTable){
-//										parentView.getPersistedChildren().clear();
-//										resource.populateDataTable(parentView, (UimDataTable) uic.eContainer());
-//									}else if(uic.eContainer() instanceof AbstractPanel){
-//										parentView.getPersistedChildren().clear();
-//										resource.populatePanelPanel(parentView, (AbstractPanel) uic.eContainer());
-//									}
-//								}
-//							}
-//						}
 					}
 				}
 			}
@@ -93,7 +95,7 @@ public final class DiagramSynchronizingListener extends EContentAdapter{
 		Diagram diagram = getDiagram(uic);
 		if(diagram == null){
 			System.out.println();
-		}else if(uic.eContainer()==null){
+		}else if(uic.eContainer() == null){
 			TreeIterator<EObject> eAllContents = diagram.eAllContents();
 			Set<View> remove = new HashSet<View>();
 			while(eAllContents.hasNext()){

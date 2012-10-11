@@ -1,114 +1,108 @@
 package org.opaeum.eclipse.uml.propertysections.base;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.eclipse.commands.ApplyProfileCommand;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractEnumerationOnStereotypeSection extends AbstractTabbedPropertySection{
-	private Stereotype stereotype;
-	private ComboViewer combo;
-	private Label label;
-	private EStructuralFeature feature;
-	private EList<EEnumLiteral> literals;
+public abstract class AbstractEnumerationOnStereotypeSection extends AbstractEnumerationPropertySection{
+	private List<String> literals;
+	private EList<EEnumLiteral> eLiterals;
 	public AbstractEnumerationOnStereotypeSection(){
 		super();
 	}
-	protected abstract Element getElement();
+	protected Element getElement(EObject e){
+		return (Element) e;
+	}
 	protected abstract String getAttributeName();
 	protected abstract String getProfileName();
-	protected abstract String getStereotypeName();
+	protected abstract String getStereotypeName(Element e);
 	@Override
 	protected EStructuralFeature getFeature(){
 		return null;
 	}
 	@Override
-	public void setInput(IWorkbenchPart part,ISelection selection){
-		super.setInput(part, selection);
-		this.stereotype = ProfileApplier.getProfile(getElement(), getProfileName()).getOwnedStereotype(getStereotypeName());
-		if(stereotype != null){
-			this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
-			if(this.feature != null && this.feature.getEType() instanceof EEnum){
-				this.literals = ((EEnum) this.feature.getEType()).getELiterals();
-			}
+	protected String getFeatureAsText(){
+		Object oldFeatureValue = getOldFeatureValue();
+		if(oldFeatureValue instanceof EEnumLiteral){
+			return ((EEnumLiteral) oldFeatureValue).getName();
 		}
+		return "";
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
-		if(literals != null){
-			combo.setInput(literals.toArray());
-			if(getElement().isStereotypeApplied(stereotype)){
-				Object value = getElement().getValue(stereotype, getAttributeName());
-				if(value != null){
-					for(EEnumLiteral e:literals){
-						if(e.getName().equals(((NamedElement) value).getName())){
-							combo.getCCombo().select(literals.indexOf(e));
+	protected String[] getEnumerationFeatureValues(){
+		if(literals == null){
+			literals = new ArrayList<String>();
+			Profile p = ProfileApplier.getProfile(getElement(getEObject()), getProfileName());
+			if(p != null){
+				Stereotype s = p.getOwnedStereotype(getStereotypeName(getElement(getEObject())));
+				if(s != null){
+					EStructuralFeature feature = s.getDefinition().getEStructuralFeature(getAttributeName());
+					if(feature != null && getFeature().getEType() instanceof EEnum){
+						literals = new ArrayList<String>();
+						eLiterals = ((EEnum) feature.getEType()).getELiterals();
+						for(EEnumLiteral eEnumLiteral:eLiterals){
+							literals.add(eEnumLiteral.getName());
 						}
 					}
 				}
 			}
 		}
+		return literals.toArray(new String[literals.size()]);
 	}
-	@Override
-	protected void setSectionData(Composite composite){
-		FormData data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-		data.height = 18;
-		combo.getCCombo().setLayoutData(data);
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(combo.getCCombo(), -ITabbedPropertyConstants.HSPACE);
-		data.top = new FormAttachment(combo.getCCombo(), 0, SWT.TOP);
-		data.height = 15;
-		label.setLayoutData(data);
+	protected Object getOldFeatureValue(){
+		return "";
 	}
-	@Override
-	protected void createWidgets(Composite composite){
-		super.createWidgets(composite);
-		this.label = getWidgetFactory().createLabel(composite, getLabelText());
-		this.combo = new ComboViewer(getWidgetFactory().createCCombo(composite, SWT.READ_ONLY));
-		this.combo.setLabelProvider(new LabelProvider(){
+	protected LabelProvider getLabelProvider(){
+		return new LabelProvider(){
 			public String getText(Object element){
 				return element == null ? "" : ((EEnumLiteral) element).getName();
 			}
-		});
-		this.combo.setContentProvider(new ArrayContentProvider());
-		this.combo.addSelectionChangedListener(new ISelectionChangedListener(){
-			@Override
-			public void selectionChanged(SelectionChangedEvent event){
-				if(!getElement().isStereotypeApplied(stereotype)){
-					Command cmd = new ApplyStereotypeCommand(getElement(), stereotype);
-					getEditingDomain().getCommandStack().execute(cmd);
-				}
-				Command cmd = SetCommand.create(getEditingDomain(), getElement().getStereotypeApplication(stereotype), feature,
-						((StructuredSelection) event.getSelection()).getFirstElement());
-				getEditingDomain().getCommandStack().execute(cmd);
+		};
+	}
+	@Override
+	protected Object getFeatureValue(String name){
+		for(EEnumLiteral e:eLiterals){
+			if(e.getName().equalsIgnoreCase(name)){
+				return e;
 			}
-		});
+		}
+		return null;
+	}
+	@Override
+	protected void handleComboModified(String name){
+		CompoundCommand cc = new CompoundCommand();
+		for(EObject eObject:getEObjectList()){
+			Element element = getElement(eObject);
+			Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
+			if(p == null){
+				Package pkg = element.getModel() == null ? element.getNearestPackage() : element.getModel();
+				getEditingDomain().getCommandStack().execute(new ApplyProfileCommand(pkg, p = ProfileApplier.getProfile(element, getProfileName()), false));
+			}
+			Stereotype stereotype = p.getOwnedStereotype(getStereotypeName(element));
+			EStructuralFeature feature = stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+			if(!element.isStereotypeApplied(stereotype)){
+				getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(element, stereotype));
+			}
+			cc.append(SetCommand.create(getEditingDomain(), element.getStereotypeApplication(stereotype), feature, getFeatureValue(name)));
+		}
+		getEditingDomain().getCommandStack().execute(cc);
 	}
 }

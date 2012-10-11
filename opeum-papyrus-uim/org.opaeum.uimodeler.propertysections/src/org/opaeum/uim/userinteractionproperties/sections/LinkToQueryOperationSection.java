@@ -26,7 +26,7 @@ import org.topcased.tabbedproperties.internal.utils.Messages;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 
 public class LinkToQueryOperationSection extends OpaeumChooserPropertySection{
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Operation:";
 	}
 	protected EStructuralFeature getFeature(){

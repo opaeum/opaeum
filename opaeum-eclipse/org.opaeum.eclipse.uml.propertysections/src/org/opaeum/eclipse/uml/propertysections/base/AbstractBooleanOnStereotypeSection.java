@@ -14,7 +14,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Element;
@@ -25,14 +25,8 @@ import org.opaeum.eclipse.ProfileApplier;
 import org.opaeum.eclipse.commands.ApplyProfileCommand;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.opaeum.emf.extraction.StereotypesHelper;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedPropertySection{
-	private Button check;
-	private Label label;
-	public AbstractBooleanOnStereotypeSection(){
-		super();
-	}
+public abstract class AbstractBooleanOnStereotypeSection extends AbstractBooleanSection{
 	protected abstract Boolean getDefaultValue();
 	protected abstract Element getElement(EObject eObject);
 	protected abstract String getAttributeName();
@@ -47,81 +41,37 @@ public abstract class AbstractBooleanOnStereotypeSection extends AbstractTabbedP
 		super.setInput(part, selection);
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
-		List<EObject> eObjectList = getEObjectList();
-		Boolean isGreyed = Boolean.FALSE;
-		Boolean selection = null;
-		for(EObject eObject:eObjectList){
-			Boolean value = null;
+	public Control getPrimaryInput(){
+		return check;
+	}
+	public void handleSelection(){
+		check.setGrayed(false);
+		CompoundCommand cc = new CompoundCommand();
+		List<EObject> list = getEObjectList();
+		for(EObject eObject:list){
 			Element element = getElement(eObject);
-			Stereotype stereotype = StereotypesHelper.getStereotype(element, getStereotypeName(element));
-			if(stereotype != null){
-				value = (Boolean) element.getValue(stereotype, getAttributeName());
+			Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
+			if(p == null){
+				Package pkg = element.getModel() == null ? element.getNearestPackage() : element.getModel();
+				getEditingDomain().getCommandStack().execute(new ApplyProfileCommand(pkg, p = ProfileApplier.getProfile(element, getProfileName()), false));
 			}
-			if(value == null){
-				value = getDefaultValue();
+			Stereotype stereotype = p.getOwnedStereotype(getStereotypeName(element));
+			EStructuralFeature feature = stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+			if(!element.isStereotypeApplied(stereotype)){
+				getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(element, stereotype));
 			}
-			if(selection == null){
-				selection = value;
-			}else if(!selection.equals(value)){
-				isGreyed = true;
-				break;
-			}
+			cc.append(SetCommand.create(getEditingDomain(), element.getStereotypeApplication(stereotype), feature, check.getSelection()));
 		}
-		if(isGreyed){
-			check.setGrayed(true);
-			check.setSelection(true);
+		getEditingDomain().getCommandStack().execute(cc);
+	}
+	protected Boolean getBooleanValue(EObject eObject){
+		Element element = getElement(eObject);
+		Stereotype stereotype = StereotypesHelper.getStereotype(element, getStereotypeName(element));
+		if(stereotype != null){
+			Boolean value = (Boolean) element.getValue(stereotype,getAttributeName());
+			return value;
 		}else{
-			check.setSelection(selection);
+			return null;
 		}
-	}
-	@Override
-	protected void setSectionData(Composite composite){
-		FormData data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-		data.height = 18;
-		check.setLayoutData(data);
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(check, -ITabbedPropertyConstants.HSPACE);
-		data.top = new FormAttachment(check, 0, SWT.TOP);
-		data.height = 15;
-		label.setLayoutData(data);
-	}
-	@Override
-	protected void createWidgets(Composite composite){
-		super.createWidgets(composite);
-		this.label = getWidgetFactory().createLabel(composite, getLabelText());
-		this.check = getWidgetFactory().createButton(composite, "", SWT.CHECK);
-		check.addSelectionListener(new SelectionListener(){
-			@Override
-			public void widgetSelected(SelectionEvent e){
-				check.setGrayed(false);
-				CompoundCommand cc = new CompoundCommand();
-				List<EObject> list = getEObjectList();
-				for(EObject eObject:list){
-					Element element = getElement(eObject);
-					Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
-					if(p == null){
-						Package pkg = element.getModel() == null ? element.getNearestPackage() : element.getModel();
-						getEditingDomain().getCommandStack().execute(
-								new ApplyProfileCommand(pkg, p = ProfileApplier.getProfile(element, getProfileName()), false));
-					}
-					Stereotype stereotype = p.getOwnedStereotype(getStereotypeName(element));
-					EStructuralFeature feature = stereotype.getDefinition().getEStructuralFeature(getAttributeName());
-					if(!element.isStereotypeApplied(stereotype)){
-						getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(element, stereotype));
-					}
-					cc.append(SetCommand.create(getEditingDomain(), element.getStereotypeApplication(stereotype), feature, check.getSelection()));
-				}
-				getEditingDomain().getCommandStack().execute(cc);
-			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e){
-			}
-		});
 	}
 }

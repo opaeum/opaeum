@@ -91,7 +91,7 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 		super.refresh();
 		label.setText(getAppropriateLabelText());
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Default Value";
 	}
 	public Property safeGetProperty(){

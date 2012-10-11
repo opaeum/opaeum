@@ -7,14 +7,15 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 
-public abstract class AbstractConstraintsPropertySection extends AbstractTabbedPropertySection{
+public abstract class AbstractConstraintsPropertySection extends AbstractOpaeumPropertySection{
 	private OclConstraintTable table;
 	private OclConstraintDetailsComposite details;
 	private Group groupDetails;
@@ -31,6 +32,14 @@ public abstract class AbstractConstraintsPropertySection extends AbstractTabbedP
 		details = new OclConstraintDetailsComposite(getWidgetFactory(), groupDetails);
 		details.setBackground(composite.getBackground());
 		details.setLayoutData(new GridData(GridData.FILL_BOTH));
+	}
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
 	}
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
@@ -60,7 +69,7 @@ public abstract class AbstractConstraintsPropertySection extends AbstractTabbedP
 	protected EStructuralFeature getFeature(){
 		return null;
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return null;
 	}
 }

@@ -8,15 +8,15 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
 import org.opaeum.eclipse.uml.propertysections.ocl.OpaqueExpressionComposite;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedPropertySection{
+public abstract class AbstractOpaqueExpressionSection extends AbstractOpaeumPropertySection{
 	protected OpaqueExpressionComposite oclComposite;
 	protected CLabel label;
 	public AbstractOpaqueExpressionSection(){
@@ -31,6 +31,14 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	 */
 	protected NamedElement getOclContext(){
 		return getValueSpecificationOwner();
+	}
+	@Override
+	public Control getPrimaryInput(){
+		return oclComposite;
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
 	}
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);

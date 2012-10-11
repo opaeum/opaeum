@@ -3,7 +3,7 @@ package org.opaeum.uim.userinteractionproperties.sections;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Behavior;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.uim.UimPackage;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractEnumerationPropertySection;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.ActionPackage;
@@ -12,15 +12,13 @@ import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.editor.BehaviorExecutionEditor;
 import org.opaeum.uim.editor.InstanceEditor;
-import org.opaeum.uim.editor.impl.BehaviorExecutionEditorImpl;
 import org.opaeum.uim.model.EmbeddedTaskEditor;
 import org.opaeum.uim.model.OperationInvocationWizard;
 import org.opaeum.uim.model.QueryInvoker;
-import org.opaeum.uim.userinteractionproperties.core.AbstractEnumerationPropertySection;
 import org.opaeum.uim.util.UmlUimLinks;
 
 public class BuiltInActionButtonKindSection extends AbstractEnumerationPropertySection{
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Kind:";
 	}
 	protected EStructuralFeature getFeature(){

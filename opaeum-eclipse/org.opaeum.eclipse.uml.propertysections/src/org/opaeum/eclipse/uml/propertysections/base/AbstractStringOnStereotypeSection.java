@@ -8,17 +8,8 @@ import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
@@ -27,12 +18,8 @@ import org.opaeum.eclipse.ProfileApplier;
 import org.opaeum.eclipse.commands.ApplyProfileCommand;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.opaeum.emf.extraction.StereotypesHelper;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
-import org.topcased.tabbedproperties.utils.TextChangeListener;
 
-public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPropertySection{
-	private StyledText text;
-	private Label label;
+public abstract class AbstractStringOnStereotypeSection extends AbstractStringPropertySection{
 	public AbstractStringOnStereotypeSection(){
 		super();
 	}
@@ -40,9 +27,51 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPr
 	protected abstract String getAttributeName();
 	protected abstract String getProfileName();
 	protected abstract String getStereotypeName(Element e);
+	protected String getFeatureAsString(){
+		Element element = getElement(getEObject());
+		if(element != null){
+			Stereotype st = StereotypesHelper.getStereotype(element, getStereotypeName(element));
+			if(st != null){
+				String string = element == null ? null : (String) element.getStereotypeApplication(st).eGet(getFeature());
+				if(string == null){
+					return "";
+				}else{
+					return string;
+				}
+			}
+		}
+		return "";
+	}
 	@Override
 	protected EStructuralFeature getFeature(){
+		Element element = getElement(getEObject());
+		Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
+		if(p != null){
+			Stereotype stereotype = p.getOwnedStereotype(getStereotypeName(element));
+			if(stereotype != null && element.isStereotypeApplied(stereotype)){
+				return stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+			}
+		}
 		return null;
+	}
+	@Override
+	protected void handleTextModified(){
+		CompoundCommand cc = new CompoundCommand();
+		for(EObject eObject:getEObjectList()){
+			Element element = getElement(eObject);
+			Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
+			if(p == null){
+				Package pkg = element.getModel() == null ? element.getNearestPackage() : element.getModel();
+				getEditingDomain().getCommandStack().execute(new ApplyProfileCommand(pkg, p = ProfileApplier.getProfile(element, getProfileName()), false));
+			}
+			Stereotype stereotype = p.getOwnedStereotype(getStereotypeName(element));
+			EStructuralFeature feature = stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+			if(!element.isStereotypeApplied(stereotype)){
+				getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(element, stereotype));
+			}
+			cc.append(SetCommand.create(getEditingDomain(), element.getStereotypeApplication(stereotype), feature, text.getText()));
+		}
+		getEditingDomain().getCommandStack().execute(cc);
 	}
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
@@ -68,57 +97,5 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPr
 		}else{
 			text.setText("");
 		}
-	}
-	@Override
-	protected void setSectionData(Composite composite){
-		FormData data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-		data.height = 18;
-		text.setLayoutData(data);
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(text, -ITabbedPropertyConstants.HSPACE);
-		data.top = new FormAttachment(text, 0, SWT.TOP);
-		data.height = 15;
-		label.setLayoutData(data);
-	}
-	@Override
-	protected void createWidgets(Composite composite){
-		super.createWidgets(composite);
-		this.label = getWidgetFactory().createLabel(composite, getLabelText());
-		this.text = new TextViewer(composite, SWT.BORDER | SWT.FLAT | SWT.SINGLE).getTextWidget();
-		TextChangeListener textChangeListener = new TextChangeListener(){
-			@Override
-			public void textChanged(Control control){
-				CompoundCommand cc = new CompoundCommand();
-				for(EObject eObject:getEObjectList()){
-					Element element = getElement(eObject);
-					Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
-					if(p == null){
-						Package pkg = element.getModel() == null ? element.getNearestPackage() : element.getModel();
-						getEditingDomain().getCommandStack().execute(
-								new ApplyProfileCommand(pkg, p = ProfileApplier.getProfile(element, getProfileName()), false));
-					}
-					Stereotype stereotype = p.getOwnedStereotype(getStereotypeName(element));
-					EStructuralFeature feature = stereotype.getDefinition().getEStructuralFeature(getAttributeName());
-					if(!element.isStereotypeApplied(stereotype)){
-						getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(element, stereotype));
-					}
-					cc.append(SetCommand.create(getEditingDomain(), element.getStereotypeApplication(stereotype), feature, text.getText()));
-				}
-				getEditingDomain().getCommandStack().execute(cc);
-			}
-			@Override
-			public void focusOut(Control control){
-				textChanged(control);
-			}
-			@Override
-			public void focusIn(Control control){
-			}
-		};
-		textChangeListener.startListeningForEnter(text);
-		textChangeListener.startListeningTo(text);
 	}
 }

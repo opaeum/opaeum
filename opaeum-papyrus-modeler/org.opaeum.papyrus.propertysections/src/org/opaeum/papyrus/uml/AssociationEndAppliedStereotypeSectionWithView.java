@@ -31,7 +31,6 @@ public abstract class AssociationEndAppliedStereotypeSectionWithView extends Abs
 		appliedStereotypeComposite.createContent(parent, getWidgetFactory());
 		propertyComposite = new AppliedStereotypePropertyCompositeWithView(parent, appliedStereotypeComposite);
 		propertyComposite.createContent(parent, getWidgetFactory());
-		appliedStereotypeComposite.setPropertyComposite(propertyComposite);
 	}
 	@Override
 	public void refresh(){

@@ -35,7 +35,7 @@ public class PackageImportImportedPackageSection extends OpaeumChooserPropertySe
 		return UMLPackage.eINSTANCE.getPackageImport_ImportedPackage();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Imported Package";
 	}
 }

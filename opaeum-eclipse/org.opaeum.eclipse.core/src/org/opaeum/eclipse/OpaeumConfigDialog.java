@@ -124,23 +124,25 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	protected void updateCurrencyCombo(){
 		Object[] checkedElements = localeTableViewer.getCheckedElements();
 		java.util.SortedSet<Currency> cc = new TreeSet<Currency>(new Comparator<Currency>(){
-
 			@Override
 			public int compare(Currency o1,Currency o2){
 				return o1.getCurrencyCode().compareTo(o2.getCurrencyCode());
 			}
 		});
 		for(Object object:checkedElements){
-			Currency c = Currency.getInstance((Locale) object);
-			if(c != null){
-				cc.add(c);
+			Locale object2 = (Locale) object;
+			if(object2.getCountry().length() == 2){
+				Currency c = Currency.getInstance(object2);
+				if(c != null){
+					cc.add(c);
+				}
 			}
 		}
 		ISelection selection;
 		if(this.currencyComboViewer.getSelection().isEmpty()){
-			selection=new StructuredSelection(config.getDefaultCurrency());
+			selection = new StructuredSelection(config.getDefaultCurrency());
 		}else{
-			selection=this.currencyComboViewer.getSelection();
+			selection = this.currencyComboViewer.getSelection();
 		}
 		this.currencyComboViewer.setInput(cc);
 		this.currencyComboViewer.setSelection(selection);

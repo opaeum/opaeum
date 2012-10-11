@@ -10,11 +10,13 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.richtext.IRichText;
 import org.topcased.richtext.RichText;
@@ -45,14 +47,22 @@ import org.topcased.richtext.actions.TextColorAction;
 import org.topcased.richtext.actions.TextHighlightAction;
 import org.topcased.richtext.actions.TidyActionGroup;
 import org.topcased.richtext.actions.UnderlineAction;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public class NotificationTemplateSection extends AbstractTabbedPropertySection{
+public class NotificationTemplateSection extends AbstractOpaeumPropertySection{
 	private RichText richText;
 	@Override
 	protected EStructuralFeature getFeature(){
 		return null;
 	}
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+
 	@Override
 	protected void createWidgets(Composite composite){
 		Composite toolbarComposite = getWidgetFactory().createComposite(composite, SWT.BORDER);
@@ -169,7 +179,7 @@ public class NotificationTemplateSection extends AbstractTabbedPropertySection{
 		return (Signal) getEObject();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "e-Mail Template";
 	}
 }

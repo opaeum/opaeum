@@ -8,17 +8,27 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Pin;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 
-public class ActionPinsSection extends AbstractTabbedPropertySection{
+public class ActionPinsSection extends AbstractOpaeumPropertySection{
 	private PinTable table;
 	private PinDetailsComposite details;
 	private Group groupDetails;
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+
 	protected void createWidgets(Composite composite){
 		table = new PinTable(composite, SWT.NONE){
 			@Override
@@ -66,7 +76,7 @@ public class ActionPinsSection extends AbstractTabbedPropertySection{
 	protected EStructuralFeature getFeature(){
 		return null;
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return null;
 	}
 }

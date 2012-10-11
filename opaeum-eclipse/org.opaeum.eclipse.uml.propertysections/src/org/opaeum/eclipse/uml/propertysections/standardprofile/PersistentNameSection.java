@@ -35,7 +35,7 @@ public class PersistentNameSection extends AbstractStringOnStereotypeSection{
 		return e.eClass().getName();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Name in DB:";
 	}
 }

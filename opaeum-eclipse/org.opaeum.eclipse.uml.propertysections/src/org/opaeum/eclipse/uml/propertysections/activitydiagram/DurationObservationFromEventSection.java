@@ -1,9 +1,6 @@
 package org.opaeum.eclipse.uml.propertysections.activitydiagram;
 
-import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -30,7 +27,7 @@ public class DurationObservationFromEventSection extends AbstractObsercationEven
 		return UMLPackage.eINSTANCE.getDurationObservation_Event();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "From Element";
 	}
 	protected void handleComboModified(){

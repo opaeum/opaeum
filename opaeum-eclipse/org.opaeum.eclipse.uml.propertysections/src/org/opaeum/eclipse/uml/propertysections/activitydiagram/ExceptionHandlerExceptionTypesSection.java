@@ -17,7 +17,7 @@ public class ExceptionHandlerExceptionTypesSection extends AbstractReferenceLook
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getExceptionHandler_ExceptionType();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Exceptions:";
 	}
 	protected Object getFeatureValue(){

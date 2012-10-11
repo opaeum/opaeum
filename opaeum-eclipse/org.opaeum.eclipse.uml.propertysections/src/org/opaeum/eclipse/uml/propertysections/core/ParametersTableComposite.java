@@ -56,6 +56,7 @@ public class ParametersTableComposite extends Composite{
 	private Button moveUpButton;
 	private Button moveDownButton;
 	private EStructuralFeature feature;
+	private Parameter selectedParameter;
 	private List<EditingDomainEditingSupport> viewerColumns = new ArrayList<EditingDomainEditingSupport>();
 	RecursiveAdapter adaptor = new RecursiveAdapter(){
 		@Override
@@ -68,7 +69,7 @@ public class ParametersTableComposite extends Composite{
 				case UMLPackage.PARAMETER__IS_EXCEPTION:
 				case UMLPackage.PARAMETER__TYPE:
 					if(!parametersTable.isDisposed()){
-						//Should not, but does happen
+						// Should not, but does happen
 						parametersTableViewer.refresh(notification.getNotifier());
 					}else{
 						((Parameter) notification.getNotifier()).eAdapters().remove(adaptor);
@@ -107,6 +108,9 @@ public class ParametersTableComposite extends Composite{
 	}
 	public void setEditingDomain(EditingDomain mixedEditDomain){
 		this.editingDomain = mixedEditDomain;
+	}
+	public Parameter getSelectedParameter(){
+		return selectedParameter;
 	}
 	protected void createContents(Composite parent){
 		parametersTableViewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER){
@@ -155,10 +159,11 @@ public class ParametersTableComposite extends Composite{
 			public void selectionChanged(SelectionChangedEvent event){
 				if(!isRefreshing){
 					if(parametersTable.getSelection().length > 0){
-						updateSelectedParameter((Parameter) parametersTable.getSelection()[0].getData());
+						selectedParameter = (Parameter) parametersTable.getSelection()[0].getData();
 					}else{
-						updateSelectedParameter(null);
+						selectedParameter = null;
 					}
+					updateSelectedParameter(selectedParameter);
 				}
 			}
 		});
@@ -189,8 +194,7 @@ public class ParametersTableComposite extends Composite{
 			public void widgetSelected(SelectionEvent event){
 				Parameter object = (Parameter) parametersTable.getSelection()[0].getData();
 				if(getOwnedParameters().size() > parametersTable.getSelectionIndex() - 1){
-					editingDomain.getCommandStack().execute(
-							MoveCommand.create(editingDomain, owner, feature, object, parametersTable.getSelectionIndex() - 1));
+					editingDomain.getCommandStack().execute(MoveCommand.create(editingDomain, owner, feature, object, parametersTable.getSelectionIndex() - 1));
 					refresh();
 					parametersTableViewer.setSelection(new StructuredSelection(getOwnedParameters().get(parametersTable.getSelectionIndex())));
 				}
@@ -210,9 +214,9 @@ public class ParametersTableComposite extends Composite{
 	}
 	// This will create the columns for the table
 	private void createColumns(){
-		TableViewerColumn col = createTableViewerColumn("", 20,0);
+		TableViewerColumn col = createTableViewerColumn("", 20, 0);
 		col.setLabelProvider(new UmlElementImageProvider());
-		TableViewerColumn name = createTableViewerColumn("Name", 200,1);
+		TableViewerColumn name = createTableViewerColumn("Name", 200, 1);
 		NamedElementNameEditingSupport e = new NamedElementNameEditingSupport(parametersTableViewer);
 		name.setLabelProvider(e.getLabelProvider());
 		this.viewerColumns.add(e);

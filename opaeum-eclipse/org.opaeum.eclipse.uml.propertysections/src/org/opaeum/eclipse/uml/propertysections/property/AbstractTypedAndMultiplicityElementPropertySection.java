@@ -6,9 +6,9 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.TypedElement;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 
-public abstract class AbstractTypedAndMultiplicityElementPropertySection extends AbstractTabbedPropertySection{
+public abstract class AbstractTypedAndMultiplicityElementPropertySection extends AbstractOpaeumPropertySection{
 	public AbstractTypedAndMultiplicityElementPropertySection(){
 		super();
 	}

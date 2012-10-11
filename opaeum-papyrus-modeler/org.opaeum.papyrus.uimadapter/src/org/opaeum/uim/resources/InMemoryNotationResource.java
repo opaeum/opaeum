@@ -164,7 +164,7 @@ public class InMemoryNotationResource extends CSSNotationResource{
 		diagram.getPersistedChildren().add(panelShape);
 		for(UimComponent uimComponent:panel.getChildren()){
 			if(uimComponent instanceof UimField){
-				addComponent(compartmentDecoration, uimComponent, UimFieldEditPart.VISUAL_ID + "", UimFieldNameEditPart.VISUAL_ID + "");
+				addComponent(compartmentDecoration, uimComponent, UimFieldEditPart.VISUAL_ID + "", null);//UimFieldNameEditPart.VISUAL_ID + "");
 			}else if(uimComponent instanceof GridPanel){
 				populatePanelPanel(compartmentDecoration, (GridPanel) uimComponent);
 			}else if(uimComponent instanceof UimDataTable){
@@ -235,6 +235,7 @@ public class InMemoryNotationResource extends CSSNotationResource{
 		if(labelId != null){
 			DecorationNode fieldLabelNode = NotationFactory.eINSTANCE.createDecorationNode();
 			fieldLabelNode.setType(labelId);
+			fieldLabelNode.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
 			fieldShape.getPersistedChildren().add(fieldLabelNode);
 		}
 	}

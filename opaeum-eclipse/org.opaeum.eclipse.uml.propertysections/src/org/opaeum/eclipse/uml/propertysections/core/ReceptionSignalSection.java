@@ -9,7 +9,7 @@ public class ReceptionSignalSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getReception_Signal();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Signal:";
 	}
 	protected Object[] getComboFeatureValues(){

@@ -28,7 +28,7 @@ public class TypedElementTypeSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getTypedElement_Type();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Type:";
 	}
 	protected Object[] getComboFeatureValues(){

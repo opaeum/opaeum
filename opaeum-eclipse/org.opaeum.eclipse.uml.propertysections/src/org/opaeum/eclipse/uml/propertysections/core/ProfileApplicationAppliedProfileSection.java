@@ -35,7 +35,7 @@ public class ProfileApplicationAppliedProfileSection extends OpaeumChooserProper
 		return UMLPackage.eINSTANCE.getProfileApplication_AppliedProfile();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Imported Package";
 	}
 }

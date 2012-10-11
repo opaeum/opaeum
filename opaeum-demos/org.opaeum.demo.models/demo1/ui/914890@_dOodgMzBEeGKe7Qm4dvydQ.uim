@@ -8,17 +8,92 @@
     <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
   </pages>
   <pages umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ" name="Sdfgdkk">
-    <panel xsi:type="panel:GridPanel" numberOfColumns="1">
-      <children xsi:type="comp:UimField" name="Part number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimText"/>
+    <panel xsi:type="panel:GridPanel">
+      <children xsi:type="comp:UimField" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+        <control xsi:type="ctl:UimListBox"/>
         <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
-          <next umlElementUid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+          <next umlElementUid="252060@_rz7zsI6TEeCne5ArYLDbiA"/>
         </binding>
       </children>
-      <children xsi:type="comp:UimField" name="Price" preferredWidth="566" preferredHeight="25" fillHorizontally="false" fillVertically="false" controlKind="text" minimumLabelWidth="195">
+      <children xsi:type="comp:UimField" name="Managed requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+        <control xsi:type="ctl:UimListBox"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="252060@_jSstQI6lEeCFsPOcAnk69Q"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Interesting requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+        <control xsi:type="ctl:UimListBox"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="252060@_7MraII6lEeCFsPOcAnk69Q"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Owned task requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+        <control xsi:type="ctl:UimListBox"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="252060@_NYHP0I6mEeCFsPOcAnk69Q"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Participations in tasks" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+        <control xsi:type="ctl:UimListBox"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="252060@_DIGv8JBkEeCWM9wKKqKWag"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Participations in requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+        <control xsi:type="ctl:UimListBox"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="252060@_TfLFAJBkEeCWM9wKKqKWag"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Support number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
         <control xsi:type="ctl:UimText"/>
         <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
-          <next umlElementUid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+          <next umlElementUid="914890@_kin8IHsKEeGBGZr9IpIa3A"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Support e mail address" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimText"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="914890@_okhEQHsKEeGBGZr9IpIa3A"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Initiation date" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="914890@_rZMyYHsKEeGBGZr9IpIa3A"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Vat number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimText"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="914890@_VSJmQHsLEeGBGZr9IpIa3A"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimText"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="914890@_h6e00BIeEeKr5f-zTsG0Vg"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Property1" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="914890@_gfQZsBIuEeKet5Gm_LksyQ"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Attribute1" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="914890@_nyJ_kBIuEeKet5Gm_LksyQ"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Participation" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="252060@_3YyGkYoXEeCPduia_-NbFw"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" name="Represented organization" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown"/>
+        <binding umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ">
+          <next umlElementUid="252060@_vf4noVYuEeGj5_I7bIwNoA"/>
         </binding>
       </children>
     </panel>

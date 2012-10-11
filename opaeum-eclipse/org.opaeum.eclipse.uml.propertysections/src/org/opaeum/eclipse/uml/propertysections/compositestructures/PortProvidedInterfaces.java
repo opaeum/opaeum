@@ -43,7 +43,7 @@ public class PortProvidedInterfaces extends PortInterfacesSection{
 		return UMLPackage.eINSTANCE.getBehavioredClassifier_InterfaceRealization();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Provided Interfaces";
 	}
 	@Override

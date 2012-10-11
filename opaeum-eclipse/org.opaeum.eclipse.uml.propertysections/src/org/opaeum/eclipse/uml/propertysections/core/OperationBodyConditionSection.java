@@ -39,7 +39,7 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 		}
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Query expression";
 	}
 	@Override

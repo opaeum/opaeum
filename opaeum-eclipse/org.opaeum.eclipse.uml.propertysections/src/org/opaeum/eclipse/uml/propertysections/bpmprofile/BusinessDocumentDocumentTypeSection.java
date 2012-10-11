@@ -12,18 +12,15 @@ public class BusinessDocumentDocumentTypeSection extends AbstractEnumerationOnSt
 	protected String getProfileName(){
 		return StereotypeNames.OPAEUM_BPM_PROFILE;
 	}
-	protected String getStereotypeName(){
-		return StereotypeNames.BUSINESS_DOCUMENT;
-	}
 	protected Classifier getClassifier(){
 		return (Classifier) getEObject();
 	}
 	@Override
-	protected Element getElement(){
-		return getClassifier();
+	public String getLabelText(){
+		return "Document Type";
 	}
 	@Override
-	protected String getLabelText(){
-		return "Document Type";
+	protected String getStereotypeName(Element e){
+		return StereotypeNames.BUSINESS_DOCUMENT;
 	}
 }

@@ -8,18 +8,27 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Element;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 
-public class UserInterfaceTextSection extends AbstractTabbedPropertySection{
+public class UserInterfaceTextSection extends AbstractOpaeumPropertySection{
 	private UserTextTableComposite userInterfaceTextTableComposite;
 	private Group parameterDetailsGroup;
 	protected void createWidgets(Composite composite){
 		userInterfaceTextTableComposite = new UserTextTableComposite(composite, SWT.NONE, getWidgetFactory());
 		parameterDetailsGroup = getWidgetFactory().createGroup(composite, "User text");
 		parameterDetailsGroup.setLayout(new GridLayout());
+	}
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
 	}
 	protected void setSectionData(Composite composite){
 		FormData data = new FormData();
@@ -48,7 +57,7 @@ public class UserInterfaceTextSection extends AbstractTabbedPropertySection{
 		return EcorePackage.eINSTANCE.getEAnnotation_Details();
 	}
 	@Override
-	protected String getLabelText(){
-		return "User Text";
+	public String getLabelText(){
+		return "";
 	}
 }

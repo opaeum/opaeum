@@ -21,7 +21,7 @@ public class TimeEventIsRelativeSection extends AbstractBooleanSection{
 		return UMLPackage.eINSTANCE.getTimeEvent_IsRelative();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Is Relative:";
 	}
 }

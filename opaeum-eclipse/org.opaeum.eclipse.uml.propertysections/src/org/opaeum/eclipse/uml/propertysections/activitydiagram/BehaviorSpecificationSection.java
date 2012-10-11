@@ -56,7 +56,7 @@ public class BehaviorSpecificationSection extends OpaeumChooserPropertySection{
 		return UMLPackage.eINSTANCE.getBehavior_Specification();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Implements:";
 	}
 }

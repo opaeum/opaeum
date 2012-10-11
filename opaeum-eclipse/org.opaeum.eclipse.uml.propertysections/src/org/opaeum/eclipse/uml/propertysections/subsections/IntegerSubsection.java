@@ -1,4 +1,7 @@
-package org.opaeum.eclipse.uml.propertysections.base;
+package org.opaeum.eclipse.uml.propertysections.subsections;
+
+import org.opaeum.eclipse.uml.propertysections.base.AbstractIntegerSubsection;
+import org.opaeum.eclipse.uml.propertysections.base.IMultiPropertySection;
 
 public class IntegerSubsection extends AbstractIntegerSubsection<Integer>{
 	public IntegerSubsection(IMultiPropertySection section){

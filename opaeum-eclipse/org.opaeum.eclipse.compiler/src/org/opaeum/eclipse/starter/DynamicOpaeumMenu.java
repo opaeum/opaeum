@@ -43,6 +43,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 	}
 	@Override
 	protected IContributionItem[] getContributionItems(){
+		System.out.println("DynamicOpaeumMenu.getContributionItems()");
 		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		List<IContributionItem> actions = new ArrayList<IContributionItem>();
 		Object firstElement = selection.getFirstElement();

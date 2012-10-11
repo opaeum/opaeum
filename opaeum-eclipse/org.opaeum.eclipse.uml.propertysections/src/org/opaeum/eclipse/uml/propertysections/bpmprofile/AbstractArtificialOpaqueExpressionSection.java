@@ -31,7 +31,6 @@ import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.name.SingularNameWrapper;
-import org.opaeum.metamodel.workspace.OpaeumLib;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractArtificialOpaqueExpressionSection extends AbstractOclBodyBodySection{
@@ -128,7 +127,7 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends Abstract
 	}
 	protected abstract String getExpressionName();
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return new SingularNameWrapper(getExpressionName(), null).getCapped().getSeparateWords().getAsIs();
 	}
 	private Stereotype getStereotype(Element element){

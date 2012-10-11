@@ -9,7 +9,7 @@ public class SendSignalActionSignalSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getSendSignalAction_Signal();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Signal:";
 	}
 	protected Object[] getComboFeatureValues(){

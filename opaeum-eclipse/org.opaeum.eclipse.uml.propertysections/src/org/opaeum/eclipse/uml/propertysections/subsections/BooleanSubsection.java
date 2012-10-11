@@ -1,14 +1,16 @@
-package org.opaeum.eclipse.uml.propertysections.base;
+package org.opaeum.eclipse.uml.propertysections.subsections;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractTabbedPropertySubsection;
+import org.opaeum.eclipse.uml.propertysections.base.IMultiPropertySection;
 
-public class BooleanSubSection extends AbstractTabbedPropertySubsection<Button,Boolean> implements SelectionListener{
+public class BooleanSubsection extends AbstractTabbedPropertySubsection<Button,Boolean> implements SelectionListener{
 	private boolean defaultValue;
-	public BooleanSubSection(IMultiPropertySection section){
+	public BooleanSubsection(IMultiPropertySection section){
 		super(section);
 	}
 
@@ -26,10 +28,10 @@ public class BooleanSubSection extends AbstractTabbedPropertySubsection<Button,B
 
 	@Override
 	protected void populateControls(){
-		if(!(getCurrentValue() instanceof Boolean)){
-			getControl().setSelection(isDefaultValue());
-		}else{
+		if(getCurrentValue() instanceof Boolean){
 			getControl().setSelection(getCurrentValue().equals(Boolean.TRUE));
+		}else{
+			getControl().setSelection(isDefaultValue());
 			
 		}
 	}
@@ -48,7 +50,7 @@ public class BooleanSubSection extends AbstractTabbedPropertySubsection<Button,B
 	}
 
 	@Override
-	protected void hookControlListener(){
+	public void hookControlListener(){
 		getControl().addSelectionListener(this);
 	}
 
@@ -56,7 +58,5 @@ public class BooleanSubSection extends AbstractTabbedPropertySubsection<Button,B
 	public void setVisible(boolean b){
 		super.label.setVisible(b);
 		getControl().setVisible(b);
-		// TODO Auto-generated method stub
-		
 	}
 }

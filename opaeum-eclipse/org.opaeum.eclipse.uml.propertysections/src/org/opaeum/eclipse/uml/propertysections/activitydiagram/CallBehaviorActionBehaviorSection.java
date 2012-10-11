@@ -15,7 +15,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -35,7 +34,6 @@ import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection
 import org.opaeum.eclipse.uml.propertysections.core.NavigationDecorator;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 
 public class CallBehaviorActionBehaviorSection extends OpaeumChooserPropertySection{
 	private Button createButton;
@@ -56,14 +54,7 @@ public class CallBehaviorActionBehaviorSection extends OpaeumChooserPropertySect
 	protected void setSectionData(Composite composite){
 		super.setSectionData(composite);
 		FormData data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{
-			getLabelText()
-		}));
-		data.right = new FormAttachment(100,-150);
-		data.top = new FormAttachment(labelCombo, 0, SWT.CENTER);
-		cSingleObjectChooser.setLayoutData(data);
-		data = new FormData();
-		data.left = new FormAttachment(cSingleObjectChooser);
+		data.left = new FormAttachment(cSingleObjectChooser.getContentPane());
 		data.right= new FormAttachment(100,0);
 		createButton.setLayoutData(data);
 	};
@@ -116,10 +107,6 @@ public class CallBehaviorActionBehaviorSection extends OpaeumChooserPropertySect
 		});
 	}
 	@Override
-	protected CSingleObjectChooser createObjectChooser(Composite parent,TabbedPropertySheetWidgetFactory factory,int style){
-		return new CSingleObjectChooser(parent, factory, style);
-	}
-	@Override
 	protected Object[] getComboFeatureValues(){
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
@@ -158,7 +145,7 @@ public class CallBehaviorActionBehaviorSection extends OpaeumChooserPropertySect
 		return UMLPackage.eINSTANCE.getCallBehaviorAction_Behavior();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "bla";
 	}
 	private boolean isBusinessProcessCall(){

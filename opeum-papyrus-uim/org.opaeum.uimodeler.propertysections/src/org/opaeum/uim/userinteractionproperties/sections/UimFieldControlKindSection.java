@@ -2,18 +2,17 @@ package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opaeum.uim.UimPackage;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractEnumerationPropertySection;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.control.ControlKind;
-import org.opaeum.uim.userinteractionproperties.core.AbstractEnumerationPropertySection;
 import org.opaeum.uim.util.ControlUtil;
 import org.opaeum.uim.util.UmlUimLinks;
 
 public class UimFieldControlKindSection extends AbstractEnumerationPropertySection{
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "ControlKind:";
 	}
 	protected EStructuralFeature getFeature(){

@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
-import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.DetailComponent;
 import org.opaeum.uim.component.MasterComponent;
@@ -22,7 +21,7 @@ import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
 public class DetailComponentMasterComponentSection extends OpaeumChooserPropertySection{
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "MasterTable:";
 	}
 	protected EStructuralFeature getFeature(){

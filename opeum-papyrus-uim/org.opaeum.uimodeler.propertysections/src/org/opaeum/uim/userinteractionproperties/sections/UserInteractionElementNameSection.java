@@ -6,7 +6,7 @@ import org.topcased.tabbedproperties.sections.AbstractStringPropertySection;
 
 public class UserInteractionElementNameSection extends AbstractStringPropertySection{
 
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Name:";
 	}
 

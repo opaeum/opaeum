@@ -20,7 +20,6 @@ import org.eclipse.uml2.uml.Operation;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
-import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UmlReference;
@@ -32,7 +31,7 @@ import org.topcased.tabbedproperties.internal.utils.Messages;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 
 public class InvocationButtonOperationSection extends OpaeumChooserPropertySection{
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Invoked element:";
 	}
 	protected EStructuralFeature getFeature(){

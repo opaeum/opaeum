@@ -8,7 +8,7 @@ public class OperationParametersSection extends AbstractParametersSection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getBehavioralFeature_OwnedParameter();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return null;
 	}
 }

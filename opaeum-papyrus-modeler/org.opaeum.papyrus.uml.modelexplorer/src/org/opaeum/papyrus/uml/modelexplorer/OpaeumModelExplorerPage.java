@@ -18,28 +18,6 @@ public class OpaeumModelExplorerPage extends ModelExplorerPage{
 	public OpaeumModelExplorerPage(){
 	}
 	protected IViewPart createViewer(IWorkbenchPart part){
-		return new ModelExplorerView((IMultiDiagramEditor) part){
-			private IPropertySheetPage propertySheetPage;
-			public Object getAdapter(Class adapter){
-				if(IPropertySheetPage.class.equals(adapter)){
-					return getPropertySheetPage();
-				}else{
-					return super.getAdapter(adapter);
-				}
-			}
-			private IPropertySheetPage getPropertySheetPage(){
-				final IMultiDiagramEditor multiDiagramEditor = EditorUtils.getMultiDiagramEditor();
-				if(multiDiagramEditor != null){
-					if(propertySheetPage == null){
-						if(multiDiagramEditor instanceof ITabbedPropertySheetPageContributor){
-							ITabbedPropertySheetPageContributor contributor = (ITabbedPropertySheetPageContributor) multiDiagramEditor;
-							this.propertySheetPage = new OpaeumMultiDiagramEditor.OpaeumTabbedPropertySheet(contributor);
-						}
-					}
-					return propertySheetPage;
-				}
-				return null;
-			}
-		};
+		return new ModelExplorerView((IMultiDiagramEditor) part);
 	}
 }

@@ -6,10 +6,6 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class TimeEventTimeUnitSection extends AbstractEnumerationOnStereotypeSection{
 	@Override
-	protected Element getElement(){
-		return (Element) getEObject();
-	}
-	@Override
 	protected String getAttributeName(){
 		return "timeUnit";
 	}
@@ -18,11 +14,11 @@ public class TimeEventTimeUnitSection extends AbstractEnumerationOnStereotypeSec
 		return StereotypeNames.OPAEUM_BPM_PROFILE;
 	}
 	@Override
-	protected String getStereotypeName(){
+	protected String getStereotypeName(Element e){
 		return StereotypeNames.CONTEXTUAL_BUSINESS_TIME_EVENT;
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Time Unit";
 	}
 }

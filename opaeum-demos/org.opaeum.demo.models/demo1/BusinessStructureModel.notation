@@ -13,7 +13,10 @@
       </eAnnotations>
       <children xmi:type="notation:DecorationNode" xmi:id="_znMbIpJOEeGW4L5IejZxpA" type="5005"/>
       <children xmi:type="notation:BasicCompartment" xmi:id="_znMbI5JOEeGW4L5IejZxpA" type="7002">
-        <children xmi:type="notation:Shape" xmi:id="_Yt_0MJT4EeG_oLv6jKpgkw" type="3002" fontName="Sans" fontHeight="8" lineColor="0">
+        <children xmi:type="notation:Shape" xmi:id="_Yt_0MJT4EeG_oLv6jKpgkw" type="3002" fontName="Sans" lineColor="0">
+          <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_d7xhIBKuEeK08sjohlixcQ" source="PapyrusCSSForceValue">
+            <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_d7xhIRKuEeK08sjohlixcQ" key="fontHeight" value="true"/>
+          </eAnnotations>
           <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_rZMyYHsKEeGBGZr9IpIa3A"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_Yt_0MZT4EeG_oLv6jKpgkw" x="40" y="20"/>
         </children>

@@ -36,7 +36,7 @@ public class ActivityParameterNodeParameterSection extends OpaeumChooserProperty
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getActivityParameterNode_Parameter();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Parameter:";
 	}
 }

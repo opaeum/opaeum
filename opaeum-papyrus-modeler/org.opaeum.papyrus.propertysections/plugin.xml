@@ -13,7 +13,7 @@
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
       <propertyContributor
             contributorId="TreeOutlinePage"
-            labelProvider="org.eclipse.papyrus.views.properties.providers.SelectionLabelProvider"
+            labelProvider="org.opaeum.eclipse.uml.propertysections.OpaeumLabelProvider"
             tabDescriptorProvider="org.opaeum.papyrus.uml.OpaeumTabDescriptorProvider"
             sectionDescriptorProvider="org.opaeum.propertysections.OpaeumSectionDescriptorProvider"
             actionProvider="org.opaeum.propertysections.OpaeumSectionActionProvider" >
@@ -81,26 +81,8 @@
 			<propertyTab id="org.opaeum.eclipse.invariantsTab"
 				category="domain" indented="true" label="Invariants"
 				afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab id="org.opaeum.papyrus.firstEndTab"
-				category="domain" indented="true" label="First End"
-				afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab id="org.opaeum.papyrus.secondEndTab"
-				category="domain" indented="true" label="Second End"
-				afterTab="org.opaeum.papyrus.firstEndStereotypesTab" />
 			<propertyTab id="org.opaeum.papyrus.profilesTab"
 				category="domain" label="Profiles" afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab
-         afterTab="org.opaeum.papyrus.firstEndTab"
-         category="domain"
-         id="org.opaeum.papyrus.firstEndStereotypesTab"
-         indented="true"
-         label="First End Stereotypes"/>
-			<propertyTab
-         afterTab="org.opaeum.papyrus.secondEndTab"
-         category="domain"
-         id="org.opaeum.papyrus.secondEndStereotypesTab"
-         indented="true"
-         label="Second End Stereotypes"/>
 			<propertyTab id="org.opaeum.papyrus.stereotypesTab" 
 				category="domain" label="Stereotypes" afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.opaeum.eclipse.redefinitionTab"
@@ -125,15 +107,4 @@
      	<propertyTab id="advanced" label="Advanced2" category="org.eclipse.papyrus" afterTab="org.opaeum.eclipse.opaeumTab" />
 		</propertyTabs>
 	</extension>
-   <extension point="org.eclipse.ui.editors">
-      <editor
-            class="org.opaeum.papyrus.editor.OpaeumMultiDiagramEditor"
-            default="true"
-            extensions="di.opaeum"
-            icon="icons/papyrus/Papyrus_16x16.gif"
-            id="org.eclipse.papyrus.infra.core.papyrusEditor.opaeum"
-            matchingStrategy="org.eclipse.papyrus.editor.PapyrusMatchingStrategy"
-            name="Opaeum Editor">
-      </editor>
-   </extension>
 </plugin>

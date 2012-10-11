@@ -13,6 +13,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
@@ -29,9 +30,8 @@ import org.opaeum.eclipse.uml.propertysections.event.ChangeEventDetailsComposite
 import org.opaeum.eclipse.uml.propertysections.event.OperationChooserForEvent;
 import org.opaeum.eclipse.uml.propertysections.event.RelativeTimeEventDetailsComposite;
 import org.opaeum.eclipse.uml.propertysections.event.SignalChooserForEvent;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractTriggerSection extends AbstractTabbedPropertySection{
+public abstract class AbstractTriggerSection extends AbstractOpaeumPropertySection{
 	private static final String ABSOLUTE_TIME_EVENT = "On a specific date";
 	private static final String RELATIVE_TIME_EVENT = "Time passed since this node was entered";
 	private static final String OPERATION_TEXT = "Operation called on the process or its context";
@@ -51,6 +51,14 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 	}
 	protected abstract List<Trigger> getTriggers();
 	protected abstract NamedElement getOwner();
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
 	protected void createWidgets(Composite composite){
 		super.createWidgets(composite);
 		eventTypeLabel = getWidgetFactory().createCLabel(composite, getEventTypeLabel());
@@ -149,7 +157,7 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 		eventDetailsComposite.layout();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Trigger";
 	}
 	@Override

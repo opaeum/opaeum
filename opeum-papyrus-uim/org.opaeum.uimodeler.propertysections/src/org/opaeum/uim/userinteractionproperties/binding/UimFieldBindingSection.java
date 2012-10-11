@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimField;
@@ -17,7 +16,7 @@ import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 
 public class UimFieldBindingSection extends AbstractBindingSection{
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Bind to poperty:";
 	}
 	protected EStructuralFeature getFeature(){

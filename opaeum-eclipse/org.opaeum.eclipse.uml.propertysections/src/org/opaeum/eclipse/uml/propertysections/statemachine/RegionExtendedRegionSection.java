@@ -40,7 +40,7 @@ public class RegionExtendedRegionSection extends OpaeumChooserPropertySection{
 		return UMLPackage.eINSTANCE.getRegion_ExtendedRegion();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Extended Region";
 	}
 }

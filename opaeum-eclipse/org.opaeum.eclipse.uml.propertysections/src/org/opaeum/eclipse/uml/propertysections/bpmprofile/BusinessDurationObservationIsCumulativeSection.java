@@ -28,7 +28,7 @@ public class BusinessDurationObservationIsCumulativeSection extends AbstractBool
 		return StereotypeNames.BUSINESS_DURATION_OBSERVATION;
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Is Cumulative:";
 	}
 }

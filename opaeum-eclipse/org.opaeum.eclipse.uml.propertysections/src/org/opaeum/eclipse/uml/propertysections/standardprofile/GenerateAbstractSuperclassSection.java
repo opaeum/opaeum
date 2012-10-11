@@ -28,7 +28,7 @@ public class GenerateAbstractSuperclassSection extends AbstractBooleanOnStereoty
 		}
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Generate superclass only:";
 	}
 	@Override

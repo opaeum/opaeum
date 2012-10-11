@@ -68,7 +68,7 @@ public abstract class AbstractRequiredRolesSection extends AbstractUmlReferenceL
 		return ConstraintPackage.eINSTANCE.getRootUserInteractionConstraint_RequiredRoles();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Required Roles:";
 	}
 }

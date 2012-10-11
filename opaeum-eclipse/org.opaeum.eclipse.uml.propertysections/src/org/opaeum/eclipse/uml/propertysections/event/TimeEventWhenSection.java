@@ -30,7 +30,7 @@ public class TimeEventWhenSection extends AbstractAutoCreatingOclExpressionSecti
 	}
 
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "When:";
 	}
 }

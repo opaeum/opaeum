@@ -16,7 +16,7 @@ public class PropertyRedefinedPropertySection extends AbstractPropertyLookupSect
 		return UMLPackage.eINSTANCE.getProperty_RedefinedProperty();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Redefined types";
 	}
 	@Override

@@ -24,11 +24,11 @@ import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.eclipse.uml.propertysections.core.SlotComposite.SlotValueListener;
 import org.opaeum.name.NameConverter;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySection{
+public class InstanceSpecificationSlotsSection extends AbstractOpaeumPropertySection{
 	protected Group slotsGroup;
 	@Override
 	protected void createWidgets(Composite composite){
@@ -40,6 +40,10 @@ public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySec
 		fd.right = new FormAttachment(100);
 		this.slotsGroup.setLayoutData(fd);
 		this.slotsGroup.setLayout(new GridLayout(2, false));
+	}
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
 	}
 	@Override
 	public boolean shouldUseExtraSpace(){
@@ -141,7 +145,7 @@ public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySec
 		return UMLPackage.eINSTANCE.getInstanceSpecification_Slot();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Slots";
 	}
 }

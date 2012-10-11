@@ -11,23 +11,12 @@ import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Stereotype;
+import org.opaeum.papyrus.uml.modelexplorer.OpaeumLabelProvider;
 
 /** get the name + the list of stereotypes from a named Element */
 public class GetName implements IJavaModelQuery<NamedElement,String>{
+	OpaeumLabelProvider labelProvider = new OpaeumLabelProvider();
 	public String evaluate(final NamedElement context,final ParameterValueList parameterValues) throws ModelQueryExecutionException{
-		
-		for(Stereotype stereotype:context.getAppliedStereotypes()){
-			if(stereotype.getQualifiedName().toLowerCase().contains("opaeumbpm")){
-				return "<" + stereotype.getName() + "> " + context.getName();
-			}
-		}
-		if(context instanceof Component || context instanceof Behavior){
-		}else if(context instanceof org.eclipse.uml2.uml.Class){
-			return "<Business Entity> " + context.getName();
-		}else if(context instanceof Operation){
-			return (((Operation) context).isQuery()?"<Query> ":"<Operation> ") +context.getName();
-		}
-		
-		return context.getName();
+		return labelProvider.getText(context);
 	}
 }

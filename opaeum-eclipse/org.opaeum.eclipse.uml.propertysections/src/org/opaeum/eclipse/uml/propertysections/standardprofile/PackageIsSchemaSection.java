@@ -24,7 +24,7 @@ public class PackageIsSchemaSection extends AbstractBooleanOnStereotypeSection{
 		return e.eClass().getName();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Is Schema in DB:";
 	}
 	@Override

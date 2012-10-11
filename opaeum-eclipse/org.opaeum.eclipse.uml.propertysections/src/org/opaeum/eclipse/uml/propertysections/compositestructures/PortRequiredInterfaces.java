@@ -50,7 +50,7 @@ public class PortRequiredInterfaces extends PortInterfacesSection{
 		return UMLPackage.eINSTANCE.getNamedElement_ClientDependency();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Required Interfaces";
 	}
 	@Override

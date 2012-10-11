@@ -19,8 +19,7 @@ public class ParameterDirectionEditingSupport extends EditingDomainEditingSuppor
 	@Override
 	protected CellEditor getCellEditor(Object element){
 		// Not a ComboViewer because we bastardized with the exception entry
-		ComboBoxCellEditor result = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), new String[]{"In Only","In and Out","Out only",
-				"Return","Exception"});
+		ComboBoxCellEditor result = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), new String[]{"In Only","In and Out","Out only","Return","Exception"});
 		return result;
 	}
 	@Override
@@ -49,11 +48,16 @@ public class ParameterDirectionEditingSupport extends EditingDomainEditingSuppor
 	}
 	@Override
 	protected void setValue(Object element,Object value){
-		Command cmd2 = SetCommand.create(editingDomain, element, UMLPackage.eINSTANCE.getParameter_IsException(), value.equals(4));
-		editingDomain.getCommandStack().execute(cmd2);
+		Parameter p = (Parameter) element;
+		if(p.isException() != value.equals(4)){
+			Command cmd2 = SetCommand.create(editingDomain, element, UMLPackage.eINSTANCE.getParameter_IsException(), value.equals(4));
+			editingDomain.getCommandStack().execute(cmd2);
+		}
 		ParameterDirectionKind newKind = calcDirection(value);
-		Command cmd = SetCommand.create(editingDomain, element, UMLPackage.eINSTANCE.getParameter_Direction(), newKind);
-		editingDomain.getCommandStack().execute(cmd);
+		if(p.getDirection() != newKind){
+			Command cmd = SetCommand.create(editingDomain, element, UMLPackage.eINSTANCE.getParameter_Direction(), newKind);
+			editingDomain.getCommandStack().execute(cmd);
+		}
 	}
 	private ParameterDirectionKind calcDirection(Object value){
 		switch(((Integer) value).intValue()){

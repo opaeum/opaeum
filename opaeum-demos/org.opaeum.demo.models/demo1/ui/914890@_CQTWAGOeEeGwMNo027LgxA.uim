@@ -9,34 +9,37 @@
     <pageOrdering page="//@primaryEditor/@pages.3" position="3"/>
     <pageOrdering page="//@primaryEditor/@pages.4" position="4"/>
     <pages umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA" name="Edit Appliance doctor">
-      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
-        <children xsi:type="comp:UimField" name="Name" preferredWidth="32" preferredHeight="25" fillHorizontally="true" fillVertically="false" controlKind="text" minimumLabelWidth="195">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimField" name="Name" preferredWidth="605" preferredHeight="25" fillHorizontally="false" fillVertically="false" controlKind="text" minimumLabelWidth="195">
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_h6e00BIeEeKr5f-zTsG0Vg"/>
         </children>
-        <children xsi:type="comp:UimField" name="Support number" preferredWidth="77" preferredHeight="25" fillHorizontally="true" controlKind="textArea" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimTextArea"/>
+        <children xsi:type="comp:UimField" name="Support number" preferredWidth="408" preferredHeight="25" fillHorizontally="false" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_kin8IHsKEeGBGZr9IpIa3A"/>
         </children>
-        <children xsi:type="comp:UimField" name="Support e mail address" preferredWidth="500" preferredHeight="25" fillHorizontally="false" controlKind="text" minimumLabelWidth="195">
+        <children xsi:type="comp:UimField" name="Support e mail address" preferredWidth="601" preferredHeight="25" fillHorizontally="false" controlKind="text" minimumLabelWidth="195">
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_okhEQHsKEeGBGZr9IpIa3A"/>
         </children>
-        <children xsi:type="comp:UimField" name="Initiation date" preferredWidth="79" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimText"/>
+        <children xsi:type="comp:UimField" name="Initiation date" preferredWidth="410" preferredHeight="25" fillHorizontally="false" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDatePopup"/>
           <binding umlElementUid="914890@_rZMyYHsKEeGBGZr9IpIa3A"/>
         </children>
-        <children xsi:type="comp:UimField" name="Vat number" preferredWidth="1008" preferredHeight="25" fillHorizontally="false" controlKind="label" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimLabel"/>
+        <children xsi:type="comp:UimField" name="Vat number" preferredWidth="603" preferredHeight="25" fillHorizontally="false" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_VSJmQHsLEeGBGZr9IpIa3A"/>
         </children>
         <children xsi:type="comp:UimField" name="Name" preferredWidth="400" preferredHeight="25" fillHorizontally="false" controlKind="dateScroller" minimumLabelWidth="195">
           <control xsi:type="ctl:UimDateScroller"/>
           <binding umlElementUid="914890@_h6e00BIeEeKr5f-zTsG0Vg"/>
         </children>
-        <children xsi:type="comp:UimField" name="Property1" preferredWidth="500" preferredHeight="25" fillHorizontally="false" controlKind="text" minimumLabelWidth="195">
+        <children xsi:type="comp:UimField" name="Property1" underUserControl="true" preferredWidth="500" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_gfQZsBIuEeKet5Gm_LksyQ"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Property2" preferredWidth="412" preferredHeight="25" fillHorizontally="false" minimumLabelWidth="195">
+          <binding umlElementUid="914890@_nyJ_kBIuEeKet5Gm_LksyQ"/>
         </children>
       </panel>
     </pages>
@@ -220,8 +223,8 @@
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_VSJmQHsLEeGBGZr9IpIa3A"/>
         </children>
-        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDatePopup"/>
+        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_h6e00BIeEeKr5f-zTsG0Vg"/>
         </children>
         <children xsi:type="comp:UimField" name="Property1" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">

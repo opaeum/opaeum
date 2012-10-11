@@ -1,4 +1,4 @@
-package org.opaeum.eclipse.uml.propertysections.property;
+package org.opaeum.eclipse.uml.propertysections.standardprofile;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
@@ -18,8 +18,6 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.eclipse.uml.propertysections.standardprofile.DerivationFormulaText;
-import org.opaeum.eclipse.uml.propertysections.standardprofile.TypedElementContentProposalProvider;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
 import org.topcased.tabbedproperties.utils.TextChangeListener;

@@ -23,8 +23,6 @@ public abstract class ChooserPropertyOnStereotypeSection extends OpaeumChooserPr
 	protected abstract String getAttributeName();
 	protected abstract String getProfileName();
 	protected abstract String getStereotypeName();
-	@Override
-	protected abstract Object[] getComboFeatureValues();
 	public EStructuralFeature getFeature(){
 		return feature;
 	}

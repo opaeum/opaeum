@@ -11,7 +11,7 @@ public class ActivityParameterNodeDirectionSection extends AbstractTextPropertyS
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getParameter_Direction();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Direction:";
 	}
 	@Override

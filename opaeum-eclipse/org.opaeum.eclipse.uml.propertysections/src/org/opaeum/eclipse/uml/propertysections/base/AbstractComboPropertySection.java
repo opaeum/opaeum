@@ -4,57 +4,56 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractComboPropertySection extends AbstractTabbedPropertySection{
-	private CCombo combo;
+public abstract class AbstractComboPropertySection extends AbstractOpaeumPropertySection{
+	protected ComboViewer combo;
 	private List<? extends EObject> comboValues;
 	protected abstract List<? extends EObject> getComboValues();
-	protected abstract String getFeatureAsText();
 	protected abstract Object getOldFeatureValue();
 	@Override
+	public Control getPrimaryInput(){
+		return combo.getCombo();
+	}
+	@Override
 	protected void createWidgets(Composite composite){
-		combo = getWidgetFactory().createCCombo(composite, SWT.FLAT | SWT.READ_ONLY | SWT.BORDER);
+		combo = new ComboViewer(new Combo(composite, SWT.FLAT | SWT.READ_ONLY | SWT.BORDER));
 		if(getFeature() != null){
 			boolean isChangeable = getFeature().isChangeable();
-			combo.setEditable(false);
-			combo.setEnabled(isChangeable);
+			combo.getCombo().setEnabled(isChangeable);
 		}
+		combo.setContentProvider(new ArrayContentProvider());
+		combo.setLabelProvider(getLabelProvider());
 	}
 	@Override
 	protected void setSectionData(Composite composite){
 		FormData data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{
-			getLabelText()
-		}));
+		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
 		data.right = new FormAttachment(100, 0);
 		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-		combo.setLayoutData(data);
-		CLabel nameLabel = getWidgetFactory().createCLabel(composite, getLabelText());
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(combo, -ITabbedPropertyConstants.HSPACE);
-		data.top = new FormAttachment(combo, 0, SWT.CENTER);
-		nameLabel.setLayoutData(data);
+		combo.getCombo().setLayoutData(data);
 	}
 	@Override
 	protected void hookListeners(){
-		combo.addSelectionListener(new SelectionAdapter(){
+		combo.addSelectionChangedListener(new ISelectionChangedListener(){
 			@Override
-			public void widgetSelected(SelectionEvent event){
+			public void selectionChanged(SelectionChangedEvent event){
 				handleComboModified();
 			}
 		});
@@ -63,31 +62,30 @@ public abstract class AbstractComboPropertySection extends AbstractTabbedPropert
 		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
 	protected void handleComboModified(){
-		int index = combo.getSelectionIndex();
-		createCommand(getOldFeatureValue(), comboValues.get(index));
+		createCommand(getOldFeatureValue(), getSelectedItem());
+	}
+	protected Object getSelectedItem(){
+		return ((IStructuredSelection) combo.getSelection()).getFirstElement();
 	}
 	@Override
 	public void refresh(){
 		super.refresh();
 		ILabelProvider lp = getLabelProvider();
-		combo.removeAll();
 		for(EObject eObject:comboValues){
 			String text = lp.getText(eObject);
 			combo.add(text);
 		}
-		if(getOldFeatureValue() != null){
-			combo.setText(lp.getText(getOldFeatureValue()));
-		}
+		combo.setSelection(new StructuredSelection(getOldFeatureValue()));
 	}
 	@Override
 	protected void setEnabled(boolean enabled){
 		super.setEnabled(enabled);
 		if(combo != null){
-			combo.setEnabled(enabled);
+			combo.getCombo().setEnabled(enabled);
 		}
 	}
-	protected CCombo getCombo(){
-		return combo;
+	protected Combo getCombo(){
+		return combo.getCombo();
 	}
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);

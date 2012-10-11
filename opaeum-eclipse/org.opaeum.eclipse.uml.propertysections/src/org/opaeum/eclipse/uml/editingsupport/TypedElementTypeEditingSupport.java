@@ -12,9 +12,11 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.uml.propertysections.OpaeumLabelProvider;
 import org.opaeum.eclipse.uml.propertysections.core.TypedElementTypeSection;
 
 public class TypedElementTypeEditingSupport extends EditingDomainEditingSupport{
+	OpaeumLabelProvider labelProvider = new OpaeumLabelProvider();
 	private TabbedPropertySheetWidgetFactory toolkit;
 	public TypedElementTypeEditingSupport(ColumnViewer viewer,TabbedPropertySheetWidgetFactory toolkit){
 		super(viewer);
@@ -39,8 +41,11 @@ public class TypedElementTypeEditingSupport extends EditingDomainEditingSupport{
 	}
 	@Override
 	protected void setValue(Object element,Object value){
-		Command cmd = SetCommand.create(editingDomain, element, UMLPackage.eINSTANCE.getTypedElement_Type(), value);
-		editingDomain.getCommandStack().execute(cmd);
+		TypedElement te = (TypedElement) element;
+		if(te.getType() == null || !te.getType().equals(value)){
+			Command cmd = SetCommand.create(editingDomain, element, UMLPackage.eINSTANCE.getTypedElement_Type(), value);
+			editingDomain.getCommandStack().execute(cmd);
+		}
 	}
 	public CellLabelProvider getLabelProvider(){
 		return new CellLabelProvider(){
@@ -50,7 +55,8 @@ public class TypedElementTypeEditingSupport extends EditingDomainEditingSupport{
 				if(type == null){
 					cell.setText(null);
 				}else{
-					cell.setText(type.getName());
+					cell.setText(labelProvider.getText(type));
+					cell.setImage(labelProvider.getImage(type));
 				}
 			}
 		};

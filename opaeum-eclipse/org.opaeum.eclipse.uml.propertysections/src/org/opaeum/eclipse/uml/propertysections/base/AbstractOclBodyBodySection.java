@@ -6,18 +6,27 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractOclBodyBodySection extends AbstractTabbedPropertySection{
+public abstract class AbstractOclBodyBodySection extends AbstractOpaeumPropertySection{
 	protected OclBodyComposite oclComposite;
 	protected CLabel label;
 	protected abstract void setOclContext(OclBodyComposite c);
 	protected abstract OclBodyComposite createOclBodyComposite(Composite parent);
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Body";
+	
+	}
+	@Override
+	public Control getPrimaryInput(){
+		return oclComposite;
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
 	}
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);

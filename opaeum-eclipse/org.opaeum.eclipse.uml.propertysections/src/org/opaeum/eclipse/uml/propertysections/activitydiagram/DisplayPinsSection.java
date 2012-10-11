@@ -8,10 +8,11 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.uml2.uml.Action;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 
-public class DisplayPinsSection extends AbstractTabbedPropertySection{
+public class DisplayPinsSection extends AbstractOpaeumPropertySection{
 	private Button button;
 	public Action getAction(){
 		return (Action) getEObject();
@@ -40,7 +41,11 @@ public class DisplayPinsSection extends AbstractTabbedPropertySection{
 		return null;
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Display Pins";
+	}
+	@Override
+	public Control getPrimaryInput(){
+		return button;
 	}
 }

@@ -12,7 +12,7 @@ public class GridPanelNumberOfColumnsSection extends AbstractTextPropertySection
 		return PanelPackage.eINSTANCE.getGridPanel_NumberOfColumns();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Nubmer of Columns";
 	}
 	@Override

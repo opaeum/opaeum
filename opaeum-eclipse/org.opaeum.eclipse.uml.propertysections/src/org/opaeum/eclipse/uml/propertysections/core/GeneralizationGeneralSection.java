@@ -19,7 +19,7 @@ public class GeneralizationGeneralSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getGeneralization_General();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Classifier specialized:";
 	}
 	protected Object[] getComboFeatureValues(){

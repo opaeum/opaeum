@@ -22,7 +22,7 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class ConnectorSelectionSection extends AttachedOpaqueBehaviorSection implements EObjectNavigationSource{
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Selection";
 	}
 	@Override

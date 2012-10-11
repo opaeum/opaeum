@@ -25,7 +25,7 @@ public class PackageMappedImplementationPackageSection extends AbstractStringOnS
 		return e.eClass().getName();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Package in Java:";
 	}
 }

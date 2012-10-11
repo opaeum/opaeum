@@ -25,6 +25,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.cube.AxisEntry;
@@ -33,23 +34,28 @@ import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.DimensionBinding;
 import org.opaeum.uim.cube.LevelProperty;
 import org.opaeum.uim.util.UmlUimLinks;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public class AxisEntryLevelPropertiesSection extends AbstractTabbedPropertySection{
+public class AxisEntryLevelPropertiesSection extends AbstractOpaeumPropertySection{
 	Composite checkBoxComposite;
-	private CLabel label;
 	private Composite parent;
 	@Override
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getAcceptEventAction_Trigger();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Select Levels";
+	}
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
 	}
 	protected void createWidgets(Composite composite){
 		this.parent = composite;
-		label = getWidgetFactory().createCLabel(composite, getLabelText());
 		checkBoxComposite = getWidgetFactory().createGroup(composite, "Available Levels");
 		FormData fd = new FormData();
 		fd.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[0]));
@@ -82,8 +88,7 @@ public class AxisEntryLevelPropertiesSection extends AbstractTabbedPropertySecti
 			}
 			Collections.reverse(availableProperties);
 			for(final Property property:availableProperties){
-				final Button btn = getWidgetFactory().createButton(checkBoxComposite, property.getName() + ":" + property.getType().getName(),
-						SWT.CHECK);
+				final Button btn = getWidgetFactory().createButton(checkBoxComposite, property.getName() + ":" + property.getType().getName(), SWT.CHECK);
 				for(LevelProperty levelProperty2:getAxisEntry().getLevelProperty()){
 					if(EmfWorkspace.getId(property).equals(levelProperty2.getUmlElementUid())){
 						btn.setSelection(true);
@@ -100,8 +105,7 @@ public class AxisEntryLevelPropertiesSection extends AbstractTabbedPropertySecti
 						}else{
 							for(LevelProperty lp:getAxisEntry().getLevelProperty()){
 								if(EmfWorkspace.getId(property).equals(lp.getUmlElementUid())){
-									Command cmd = RemoveCommand.create(getEditingDomain(), getAxisEntry(),
-											CubePackage.eINSTANCE.getAxisEntry_LevelProperty(), lp);
+									Command cmd = RemoveCommand.create(getEditingDomain(), getAxisEntry(), CubePackage.eINSTANCE.getAxisEntry_LevelProperty(), lp);
 									getEditingDomain().getCommandStack().execute(cmd);
 								}
 							}
@@ -113,16 +117,16 @@ public class AxisEntryLevelPropertiesSection extends AbstractTabbedPropertySecti
 						int i = 0;
 						for(LevelProperty levelProperty:lps){
 							Element availableProperty = UmlUimLinks.getCurrentUmlLinks(levelProperty).getUmlElement(levelProperty);
-							if(availableProperties.indexOf(availableProperty) == indexInAvailableProperties+1){
+							if(availableProperties.indexOf(availableProperty) == indexInAvailableProperties + 1){
 								break;
 							}
 							i++;
 						}
-						if(i==availableProperties.size()){
-							//Now check for lower entries
+						if(i == availableProperties.size()){
+							// Now check for lower entries
 							for(LevelProperty levelProperty:lps){
 								Element availableProperty = UmlUimLinks.getCurrentUmlLinks(levelProperty).getUmlElement(levelProperty);
-								if(availableProperties.indexOf(availableProperty) == indexInAvailableProperties-1){
+								if(availableProperties.indexOf(availableProperty) == indexInAvailableProperties - 1){
 									break;
 								}
 								i++;

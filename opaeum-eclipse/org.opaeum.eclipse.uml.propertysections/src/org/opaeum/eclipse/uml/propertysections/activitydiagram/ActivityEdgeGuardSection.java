@@ -18,7 +18,7 @@ public class ActivityEdgeGuardSection extends AbstractAutoCreatingOclExpressionS
 		return getEdge();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Guard condition";
 	}
 	@Override

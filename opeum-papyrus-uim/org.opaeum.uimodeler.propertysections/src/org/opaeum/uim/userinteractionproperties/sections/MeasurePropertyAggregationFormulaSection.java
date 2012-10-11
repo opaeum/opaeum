@@ -35,7 +35,7 @@ public class MeasurePropertyAggregationFormulaSection extends AbstractChooserPro
 		return CubePackage.eINSTANCE.getMeasureProperty_AggregationFormula();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Aggregator";
 	}
 	@Override

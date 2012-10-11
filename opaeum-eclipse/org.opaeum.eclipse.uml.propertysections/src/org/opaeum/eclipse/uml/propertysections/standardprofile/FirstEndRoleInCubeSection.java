@@ -1,4 +1,4 @@
-package org.opaeum.eclipse.uml.propertysections.property;
+package org.opaeum.eclipse.uml.propertysections.standardprofile;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;

@@ -41,7 +41,7 @@ public class CallOperationActionOperationSection extends OpaeumChooserPropertySe
 		return UMLPackage.eINSTANCE.getCallOperationAction_Operation();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Operation:";
 	}
 }

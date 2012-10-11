@@ -24,6 +24,8 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control, E> ext
 	private int labelWidth;
 	private int controlWidth;
 	private Composite composite;
+	private Integer columnSpan;
+	private Integer rowSpan;
 	protected AbstractTabbedPropertySubsection(IMultiPropertySection section){
 		this.section = section;
 		section.addSubsection(this);
@@ -33,20 +35,23 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control, E> ext
 	}
 	protected abstract E getNewValue();
 	protected abstract void populateControls();
-	protected abstract void hookControlListener();
+	public abstract void hookControlListener();
 	protected abstract T createControl(Composite parent);
 	public Composite getComposite(){
 		return composite;
 	}
+	public void setEnabled(boolean enabled){
+		getControl().setEnabled(enabled);
+	}
 	public void createWidgets(Composite parent){
 		this.composite=parent;
-		label = getWidgetFactory().createLabel(parent, getLabelText());
+		label = getWidgetFactory().createLabel(parent, getLabelText(),SWT.NONE);
 		this.setControl(createControl(parent));
 	}
 	protected TabbedPropertySheetWidgetFactory getWidgetFactory(){
 		return section.getWidgetFactory();
 	}
-	protected void hookModelListener(){
+	public void hookModelListener(){
 		if(hasSelectedObject()){
 			EObject e = section.getFeatureOwner(section.getEObject());
 			if(!e.eAdapters().contains(this)){
@@ -71,7 +76,8 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control, E> ext
 	}
 	@SuppressWarnings("unchecked")
 	public E getCurrentValue(EObject e){
-		return (E)e.eGet(getFeature());
+		Object eGet = e.eGet(getFeature());
+		return (E)eGet;
 	}
 	public E getCurrentValue(){
 		if(hasSelectedObject()){
@@ -122,10 +128,15 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control, E> ext
 	public void updateLayoutData(){
 		GridData lgd = new GridData();
 		lgd.minimumWidth = getLabelWidth();
+		lgd.verticalAlignment=SWT.CENTER;
+		lgd.widthHint=getLabelWidth();
+//		lgd.grabExcessHorizontalSpace=true;
 		label.setLayoutData(lgd);
 		GridData cgd = new GridData();
 		cgd.minimumWidth = getControlWidth();
-		cgd.verticalAlignment=SWT.CENTER;
+		cgd.widthHint=getControlWidth();
+		cgd.verticalAlignment=SWT.FILL;
+		cgd.horizontalAlignment=SWT.LEFT;
 		cgd.grabExcessVerticalSpace=true;
 		getControl().setLayoutData(cgd);
 		getComposite().pack();
@@ -149,5 +160,17 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control, E> ext
 	}
 	protected boolean hasSelectedObject(){
 		return section.getEObject()!=null && section.getFeatureOwner(section.getEObject())!=null;
+	}
+	public Integer getColumnSpan(){
+		return columnSpan;
+	}
+	public void setColumnSpan(Integer columnSpan){
+		this.columnSpan = columnSpan;
+	}
+	public Integer getRowSpan(){
+		return rowSpan;
+	}
+	public void setRowSpan(Integer rowSpan){
+		this.rowSpan = rowSpan;
 	}
 }

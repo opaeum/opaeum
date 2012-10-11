@@ -36,7 +36,7 @@ public class TransitionRedefinedTransitionSection extends OpaeumChooserPropertyS
 		return UMLPackage.eINSTANCE.getTransition_RedefinedTransition();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Redefined Transition";
 	}
 }

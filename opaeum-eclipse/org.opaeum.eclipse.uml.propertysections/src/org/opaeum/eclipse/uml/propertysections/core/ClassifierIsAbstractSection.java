@@ -24,7 +24,7 @@ public class ClassifierIsAbstractSection extends AbstractBooleanSection{
 	}
 
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Is Abstract";
 	}
 }

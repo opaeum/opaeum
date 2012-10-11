@@ -53,7 +53,7 @@ public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 		return UMLPackage.eINSTANCE.getConstraint_Specification();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Guard condition";
 	}
 }

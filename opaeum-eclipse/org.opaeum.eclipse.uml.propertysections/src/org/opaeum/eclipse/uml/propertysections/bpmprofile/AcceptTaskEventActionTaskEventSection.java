@@ -28,10 +28,10 @@ import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.LibraryImporter;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public class AcceptTaskEventActionTaskEventSection extends AbstractTabbedPropertySection{
+public class AcceptTaskEventActionTaskEventSection extends AbstractOpaeumPropertySection{
 	Group checkBoxComposite;
 	private Composite parent;
 	private List<CallEvent> taskEvents;
@@ -40,11 +40,20 @@ public class AcceptTaskEventActionTaskEventSection extends AbstractTabbedPropert
 	private Button radioForEventsWIthNewUser;
 	private Button radioForEventsWithoutNewUser;
 	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+
+	@Override
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getAcceptEventAction_Trigger();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Select Task Event";
 	}
 	protected void createWidgets(Composite composite){

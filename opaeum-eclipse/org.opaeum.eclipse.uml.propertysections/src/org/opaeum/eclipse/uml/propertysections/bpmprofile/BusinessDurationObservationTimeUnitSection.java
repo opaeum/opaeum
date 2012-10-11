@@ -6,10 +6,6 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
 
 public class BusinessDurationObservationTimeUnitSection extends AbstractEnumerationOnStereotypeSection{
-	@Override
-	protected Element getElement(){
-		return (Element) getEObject();
-	}
 
 	@Override
 	protected String getAttributeName(){
@@ -22,12 +18,13 @@ public class BusinessDurationObservationTimeUnitSection extends AbstractEnumerat
 	}
 
 	@Override
-	protected String getStereotypeName(){
+	protected String getStereotypeName(Element e){
 		return StereotypeNames.BUSINESS_DURATION_OBSERVATION;
 	}
 
 	@Override
-	protected String getLabelText(){
-		return "Time unit:";
+	public String getLabelText(){
+		return "Time unit";
 	}
+
 }

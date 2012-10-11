@@ -37,7 +37,7 @@ public class StateRedefinedStateSection extends OpaeumChooserPropertySection{
 		return UMLPackage.eINSTANCE.getState_RedefinedState();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Redefined State";
 	}
 }

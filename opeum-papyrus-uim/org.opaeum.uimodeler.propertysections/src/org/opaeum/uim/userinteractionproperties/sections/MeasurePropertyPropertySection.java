@@ -43,7 +43,7 @@ public class MeasurePropertyPropertySection extends AbstractChooserPropertySecti
 		return UimPackage.eINSTANCE.getUmlReference_UmlElementUid();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Measure";
 	}
 	@Override

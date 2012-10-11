@@ -4,6 +4,10 @@
     <eAnnotations xmi:id="_hDBBsE8YEeG-ysddVp_ifQ" source="http://www.opaeum.org">
       <details xmi:id="_hDFTIE8YEeG-ysddVp_ifQ" key="uuid" value="914890"/>
     </eAnnotations>
+    <eAnnotations xmi:id="_fI1MEBNcEeK0HvQCxCC_Ag" source="http://opaum.org/i8n">
+      <details xmi:id="_fI1MERNcEeK0HvQCxCC_Ag" key="af_ZA" value="Gestruktureerde Besigheid"/>
+      <details xmi:id="_hfdFMBNcEeK0HvQCxCC_Ag" key="en_ZA" value="Structuredbusiness"/>
+    </eAnnotations>
     <packageImport xmi:id="_W6frIFxhEeGaLvytS4KS2w">
       <eAnnotations xmi:id="_W8hrcFxhEeGaLvytS4KS2w" source="http://www.opaeum.org"/>
       <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
@@ -41,6 +45,8 @@
       <eAnnotations xmi:id="_oiWsMGCfEeG6xvYqJACneg" source="http://www.opaeum.org"/>
       <ownedAttribute xmi:id="_SoyjIHpiEeGlh5y8zQdYBA" name="idNumber">
         <eAnnotations xmi:id="_Sts4UHpiEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Hti74BLkEeK0PcnlKGwyFQ"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HzB40BLkEeK0PcnlKGwyFQ" value="1"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_U5_wwHpiEeGlh5y8zQdYBA" name="fullNames">
         <eAnnotations xmi:id="_U-6tAHpiEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
@@ -112,14 +118,16 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wtFJEpK_EeGnpuq6_ber_Q" value="*"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_h6e00BIeEeKr5f-zTsG0Vg" name="name">
-        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_i0SLIMbwEd-qWtMD5IZMIA"/>
         <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RGomsBIqEeKo4_N7x4f53g"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_pKY6oBIqEeKo4_N7x4f53g" value="1"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_gfQZsBIuEeKet5Gm_LksyQ" name="Property1">
         <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8fBT8BKhEeKy75_1AJ5WGQ"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_995FsBKhEeKy75_1AJ5WGQ" value="1"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_nyJ_kBIuEeKet5Gm_LksyQ" name="Property2">
+      <ownedAttribute xmi:id="_nyJ_kBIuEeKet5Gm_LksyQ" name="Attribute1">
         <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
       </ownedAttribute>
       <interfaceRealization xmi:id="_CXC3MWOeEeGwMNo027LgxA" name="isAIBusinessComponent" client="_CQTWAGOeEeGwMNo027LgxA">
@@ -235,14 +243,22 @@
       <ownedAttribute xmi:id="_ea2-cJT6EeG_oLv6jKpgkw" name="name">
         <eAnnotations xmi:id="_ebAIYJT6EeG_oLv6jKpgkw" source="http://www.opaeum.org"/>
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6UAH0BOnEeK6bN8PqKkejg"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9k-wYBOnEeK6bN8PqKkejg" value="1"/>
       </ownedAttribute>
       <interfaceRealization xmi:id="_0pW4MJJNEeGW4L5IejZxpA" name="isAIBusinessComponent" client="_0l-NAJJNEeGW4L5IejZxpA">
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
         <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
       </interfaceRealization>
       <ownedOperation xmi:id="_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1" isQuery="true">
-        <ownedParameter xmi:id="_k_VZsMzBEeGKe7Qm4dvydQ" name="sdfgdkk" type="_x_4WgHJ6EeG5aYCQXxe9BQ" direction="return">
+        <eAnnotations xmi:id="_q4U5EBNcEeK0HvQCxCC_Ag" source="http://opaum.org/i8n">
+          <details xmi:id="_q4U5ERNcEeK0HvQCxCC_Ag" key="en_ZA" value="Operation1"/>
+          <details xmi:id="_sCwE0BNcEeK0HvQCxCC_Ag" key="af_ZA" value="Bewerking"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_k_VZsMzBEeGKe7Qm4dvydQ" name="sdfgdkkfsdfs" type="_CQTWAGOeEeGwMNo027LgxA" direction="return">
           <eAnnotations xmi:id="_E9v24BD5EeKyJbNGWS4S8w" source="http://www.opaeum.org"/>
+          <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sakaMBOkEeK6bN8PqKkejg"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_o1tMUBOkEeK6bN8PqKkejg" value="1"/>
         </ownedParameter>
       </ownedOperation>
     </packagedElement>
@@ -496,16 +512,16 @@
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
-  <OpaeumStandardProfile:Model xmi:id="_w6v94HHfEeGR5Y29CSTzSA" base_Model="_-VLbkE8VEeGA3PFuQY5w7Q"/>
+  <OpaeumStandardProfile:Model xmi:id="_w6v94HHfEeGR5Y29CSTzSA" artifactIdentifier="" base_Model="_-VLbkE8VEeGA3PFuQY5w7Q"/>
   <OpaeumStandardProfile:Entity xmi:id="_xtdNMHHfEeGR5Y29CSTzSA" base_Class="_oiVeEGCfEeG6xvYqJACneg"/>
-  <OpaeumStandardProfile:Entity xmi:id="_vFczsHHgEeGus4aKic9sIg" base_Class="_CQTWAGOeEeGwMNo027LgxA" persistentName=""/>
+  <OpaeumStandardProfile:Entity xmi:id="_vFczsHHgEeGus4aKic9sIg" mappedImplementationType="" base_Class="_CQTWAGOeEeGwMNo027LgxA" persistentName="" nameProperty="_okhEQHsKEeGBGZr9IpIa3A"/>
   <OpaeumStandardProfile:Entity xmi:id="_x_Bo4HHgEeGus4aKic9sIg" base_Class="_u7lZEGQWEeGbL9nlXe9lTQ"/>
   <OpaeumStandardProfile:Entity xmi:id="_ypF5kHHgEeGus4aKic9sIg" base_Class="_nhV7IGCfEeG6xvYqJACneg"/>
   <OpaeumStandardProfile:Entity xmi:id="_yGxosHJ6EeG5aYCQXxe9BQ" base_Class="_x_4WgHJ6EeG5aYCQXxe9BQ"/>
   <OpaeumStandardProfile:Attribute xmi:id="_HF5uAHJ7EeG5aYCQXxe9BQ" base_Property="_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
   <OpaeumStandardProfile:Attribute xmi:id="_j5jVwHphEeGlh5y8zQdYBA" base_Property="_ht9n8HphEeGlh5y8zQdYBA"/>
   <OpaeumStandardProfile:Attribute xmi:id="_ebYAYHpiEeGlh5y8zQdYBA" base_Property="_aFhacHpiEeGlh5y8zQdYBA"/>
-  <OpaeumStandardProfile:Attribute xmi:id="_twLQ0HsKEeGBGZr9IpIa3A" base_Property="_rZMyYHsKEeGBGZr9IpIa3A"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_twLQ0HsKEeGBGZr9IpIa3A" base_Property="_rZMyYHsKEeGBGZr9IpIa3A" persistentName=""/>
   <OpaeumStandardProfile:Attribute xmi:id="_YLpi8HsLEeGBGZr9IpIa3A" base_Property="_VSJmQHsLEeGBGZr9IpIa3A"/>
   <OpaeumStandardProfile:Attribute xmi:id="_PaDYEIPrEeGccYWaoIFIyQ" base_Property="_M_kSoIPrEeGccYWaoIFIyQ"/>
   <OpaeumStandardProfile:Attribute xmi:id="_UOA2UIPrEeGccYWaoIFIyQ" base_Property="_ROTj8IPrEeGccYWaoIFIyQ"/>
@@ -557,6 +573,11 @@
     <aggregationFormulas>SUM</aggregationFormulas>
     <aggregationFormulas>AVERAGE</aggregationFormulas>
   </OpaeumStandardProfile:Attribute>
-  <OpaeumStandardProfile:Attribute xmi:id="_f6vc0JT6EeG_oLv6jKpgkw" base_Property="_ea2-cJT6EeG_oLv6jKpgkw"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_f6vc0JT6EeG_oLv6jKpgkw" base_Property="_ea2-cJT6EeG_oLv6jKpgkw" persistentName=""/>
   <OpaeumStandardProfile:Entity xmi:id="_eDp98BICEeKpbLcrbOxdcw" base_Class="_bX-ooJJPEeGW4L5IejZxpA"/>
+  <OpaeumStandardProfile:Entity xmi:id="_7DresBKeEeKy75_1AJ5WGQ" base_Class="_0l-NAJJNEeGW4L5IejZxpA"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_ISc3ABKoEeKVQaMnydiugQ" base_Property="_nyJ_kBIuEeKet5Gm_LksyQ" persistentName=""/>
+  <OpaeumStandardProfile:Attribute xmi:id="_aOrRkBLgEeK0PcnlKGwyFQ" base_Property="_h6e00BIeEeKr5f-zTsG0Vg" persistentName=""/>
+  <OpaeumStandardProfile:Association xmi:id="_8uYnABLgEeK0PcnlKGwyFQ" base_Association="_59CocJKGEeGFkOm2e1MJNQ" persistentName=""/>
+  <OpaeumStandardProfile:Attribute xmi:id="_pLhkABLjEeK0PcnlKGwyFQ" base_Property="_SoyjIHpiEeGlh5y8zQdYBA" persistentName=""/>
 </xmi:XMI>

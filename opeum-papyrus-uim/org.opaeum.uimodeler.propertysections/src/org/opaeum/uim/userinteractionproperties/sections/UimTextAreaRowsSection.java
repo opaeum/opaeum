@@ -17,17 +17,17 @@ public class UimTextAreaRowsSection extends AbstractIntegerPropertySection{
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
+	 * @see org.topcased.tabbedproperties.sections.AbstractOpaeumPropertySection#getLabelText()
 	 * @generated
 	 */
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Rows:";
 	}
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
+	 * @see org.topcased.tabbedproperties.sections.AbstractOpaeumPropertySection#getFeature()
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){

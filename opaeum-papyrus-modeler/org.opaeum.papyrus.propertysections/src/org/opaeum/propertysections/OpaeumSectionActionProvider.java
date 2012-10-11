@@ -15,13 +15,13 @@ public class OpaeumSectionActionProvider implements IActionProvider{
 	}
 	@Override
 	public void setActionBars(ITabbedPropertySheetPageContributor contributor,IActionBars actionBars){
-		Action action = new Action("Back"){
-			@Override
-			public void run(){
-				NavigationDecorator.goToPreviousEObject();
-			}
-		};
 		if(actionBars.getToolBarManager().find("asdfasdfa.back") == null){
+			Action action = new Action("Back"){
+				@Override
+				public void run(){
+					NavigationDecorator.goToPreviousEObject();
+				}
+			};
 			ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
 			action.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_BACK));
 			action.setDisabledImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_BACK_DISABLED));

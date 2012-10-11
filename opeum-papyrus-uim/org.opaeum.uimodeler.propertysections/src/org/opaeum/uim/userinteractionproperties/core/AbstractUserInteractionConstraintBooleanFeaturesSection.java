@@ -6,17 +6,17 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractMultiFeaturePropertySection;
-import org.opaeum.eclipse.uml.propertysections.base.BooleanSubSection;
+import org.opaeum.eclipse.uml.propertysections.subsections.BooleanSubsection;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 
 public abstract class AbstractUserInteractionConstraintBooleanFeaturesSection extends AbstractMultiFeaturePropertySection{
-	private BooleanSubSection inheritFromParent;
+	private BooleanSubsection inheritFromParent;
 	protected abstract EReference getConstraintContainingFeature();
-	private BooleanSubSection requiresGroupOwnership;
-	private BooleanSubSection requiresOwnership;
+	private BooleanSubsection requiresGroupOwnership;
+	private BooleanSubsection requiresOwnership;
 	public AbstractUserInteractionConstraintBooleanFeaturesSection(){
 		super();
 		inheritFromParent = createBoolean(ConstraintPackage.eINSTANCE.getUserInteractionConstraint_InheritFromParent(), "Inherit from parent", 170);
@@ -27,8 +27,8 @@ public abstract class AbstractUserInteractionConstraintBooleanFeaturesSection ex
 		requiresOwnership = createBoolean(ConstraintPackage.eINSTANCE.getRootUserInteractionConstraint_RequiresOwnership(), "Requires User Ownership", 170);
 	}
 	@Override
-	public BooleanSubSection createBoolean(EStructuralFeature feature,String labelText,int labelWidth){
-		BooleanSubSection result = new BooleanSubSection(this){
+	public BooleanSubsection createBoolean(EStructuralFeature feature,String labelText,int labelWidth){
+		BooleanSubsection result = new BooleanSubsection(this){
 
 			@Override
 			protected Command buildCommand(EObject selection, EObject featureOwner){
@@ -50,4 +50,9 @@ public abstract class AbstractUserInteractionConstraintBooleanFeaturesSection ex
 	public UserInteractionConstraint getFeatureOwner(EObject e){
 		return (UserInteractionConstraint) ((ConstrainedObject) e).eGet(getConstraintContainingFeature());
 	}
+	@Override
+	public String getLabelText(){
+		return "Rules:";
+	}
+
 }

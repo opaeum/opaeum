@@ -12,7 +12,7 @@ import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
 
 public class OclPinValueSection extends AbstractOpaqueExpressionSection{
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Value";
 	}
 	public ValuePin getValuePin(){

@@ -27,7 +27,7 @@ public class MappedImplementationTypeSection extends AbstractStringOnStereotypeS
 		}
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Existing Implementation:";
 	}
 }

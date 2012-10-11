@@ -1,14 +1,14 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractEnumerationPropertySection;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;
 import org.opaeum.uim.component.UimDataTable;
-import org.opaeum.uim.userinteractionproperties.core.AbstractEnumerationPropertySection;
 
 public class BuiltInLinkKindSection extends AbstractEnumerationPropertySection{
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Kind:";
 	}
 	protected EStructuralFeature getFeature(){

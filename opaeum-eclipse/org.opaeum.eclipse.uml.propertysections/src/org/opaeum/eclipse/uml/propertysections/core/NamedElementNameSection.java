@@ -5,60 +5,17 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.topcased.tabbedproperties.sections.AbstractStringPropertySection;
+import org.opaeum.eclipse.uml.propertysections.common.OpaeumTextViewer;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractStringPropertySection;
 import org.topcased.tabbedproperties.sections.widgets.IText;
 
 public class NamedElementNameSection extends AbstractStringPropertySection{
-	public static class OpaeumTextViewer extends TextViewer implements IText{
-		public OpaeumTextViewer(){
-			super();
-		}
-		public OpaeumTextViewer(Composite parent,int styles){
-			super(parent, styles | SWT.BORDER | SWT.FLAT);
-		}
-		@Override
-		public void setEnabled(boolean enabled){
-			if(getTextWidget() != null){
-				getTextWidget().setEnabled(enabled);
-			}
-		}
-		@Override
-		public void setLayoutData(Object layoutData){
-			getTextWidget().setLayoutData(layoutData);
-		}
-		@Override
-		public void setText(String string){
-			if(getTextWidget() != null){
-				getTextWidget().setText(string);
-			}
-		}
-		@Override
-		public String getText(){
-			return getTextWidget().getText();
-		}
-		@Override
-		public void setBackground(Color color){
-			getTextWidget().setBackground(color);
-		}
-		@Override
-		public void setForeground(Color color){
-			getTextWidget().setForeground(color);
-		}
-		@Override
-		public Control getTextControl(){
-			return getTextWidget();
-		}
-	}
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		EObject eObject = getEObject();
@@ -79,7 +36,7 @@ public class NamedElementNameSection extends AbstractStringPropertySection{
 
 		super.makeContributions(menuManager, toolBarManager, statLineManager);
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Name:";
 	}
 	/**

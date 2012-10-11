@@ -28,7 +28,7 @@ public class AuditingEnabledSection extends AbstractBooleanOnStereotypeSection{
 		return StereotypeNames.OPAEUM_STANDARD_PROFILE;
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Auditing enabled";
 	}
 	@Override

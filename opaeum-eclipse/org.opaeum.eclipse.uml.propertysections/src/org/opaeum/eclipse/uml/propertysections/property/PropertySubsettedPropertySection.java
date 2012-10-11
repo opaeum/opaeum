@@ -21,7 +21,7 @@ public class PropertySubsettedPropertySection extends AbstractPropertyLookupSect
 
 
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Subsetted Properties";
 	}
 	@Override

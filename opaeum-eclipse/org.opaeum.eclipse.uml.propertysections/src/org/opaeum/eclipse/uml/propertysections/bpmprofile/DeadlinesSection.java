@@ -29,13 +29,13 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.eclipse.uml.propertysections.event.AbsoluteTimeEventDetailsComposite;
 import org.opaeum.eclipse.uml.propertysections.event.RelativeTimeEventDetailsComposite;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public class DeadlinesSection extends AbstractTabbedPropertySection{
+public class DeadlinesSection extends AbstractOpaeumPropertySection{
 	private DeadlinesTableComposite table;
 	private Composite details;
 	private AbsoluteTimeEventDetailsComposite absoluteComposite;
@@ -44,6 +44,15 @@ public class DeadlinesSection extends AbstractTabbedPropertySection{
 	private EList<EEnumLiteral> deadlineKinds;
 	private Stereotype deadlineStereotype;
 	private Stereotype stereotype;
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+
 	protected void createWidgets(Composite composite){
 		table = new DeadlinesTableComposite(composite, SWT.NONE, getWidgetFactory()){
 			public void updateSelectedDeadlines(TimeEvent event){
@@ -190,7 +199,7 @@ public class DeadlinesSection extends AbstractTabbedPropertySection{
 	protected EStructuralFeature getFeature(){
 		return null;
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return null;
 	}
 }

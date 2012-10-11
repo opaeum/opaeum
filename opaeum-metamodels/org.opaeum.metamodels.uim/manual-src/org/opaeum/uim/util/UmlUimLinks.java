@@ -174,7 +174,7 @@ public class UmlUimLinks{
 	public List<Operation> getValidOperationsFor(UserInterfaceRoot ui){
 		if(ui.eContainer() instanceof ObjectEditor){
 			ObjectEditor cf = (ObjectEditor) ui.eContainer();
-			Class representedClass = getRepresentedClass(cf);
+			Classifier representedClass = getRepresentedClass(cf);
 			if(representedClass != null){
 				if(representedClass instanceof Behavior){
 					Behavior sm = (Behavior) representedClass;
@@ -188,10 +188,10 @@ public class UmlUimLinks{
 		}
 		return new ArrayList<Operation>();
 	}
-	public Class getRepresentedClass(UmlReference uf){
+	public Classifier getRepresentedClass(UmlReference uf){
 		Element rc = getUmlElement(uf);
-		if(rc instanceof Class){
-			return delegateToContextIfRequired((Class) rc);
+		if(rc instanceof Classifier){
+			return delegateToContextIfRequired((Classifier) rc);
 		}else{
 			return null;
 		}
@@ -207,11 +207,11 @@ public class UmlUimLinks{
 			return (UimComponent) pr.eContainer();
 		}
 	}
-	private Class delegateToContextIfRequired(Class rc){
+	private Classifier delegateToContextIfRequired(Classifier rc){
 		if((rc instanceof Behavior)){
 			Behavior b = (Behavior) rc;
 			if(b.getContext() != null && b.getContext().getClassifierBehavior() == b){
-				return (Class) b.getContext();
+				return (Classifier) b.getContext();
 			}
 		}
 		return rc;

@@ -24,7 +24,7 @@ public class ModelArtifactIdentifierSection extends AbstractStringOnStereotypeSe
 		return StereotypeNames.MODEL;
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Model Identifier:";
 	}
 }

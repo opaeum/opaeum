@@ -37,7 +37,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.facet.infra.browser.custom.ui;bundle-version="0.2.0",
  org.eclipse.emf.facet.infra.facet.core;bundle-version="0.2.0",
  org.eclipse.gmf.runtime.diagram.ui.providers;bundle-version="1.5.0",
- org.opaeum.papyrus.propertysections
+ org.opaeum.papyrus.propertysections,
+ org.eclipse.gef,
+ org.opaeum.eclipse.uml.propertysections,
+ org.topcased.tabbedproperties
 Export-Package: org.opaeum.papyrus.uml.modelexplorer,
  org.opaeum.papyrus.uml.modelexplorer.factory,
  org.opaeum.papyrus.uml.modelexplorer.queries

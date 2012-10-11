@@ -38,14 +38,14 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.util.UMLUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.BrokenRule;
 import org.opaeum.metamodel.validation.ErrorMap;
 import org.opaeum.metamodel.validation.IValidationRule;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public class EObjectErrorSection extends AbstractTabbedPropertySection implements IResourceChangeListener{
+public class EObjectErrorSection extends AbstractOpaeumPropertySection implements IResourceChangeListener{
 	private Group group;
 	private TabbedPropertySheetPage page;
 	private IFile file;
@@ -54,8 +54,12 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 		return null;
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Errors";
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
 	}
 	@Override
 	public void dispose(){
@@ -258,5 +262,9 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 		for(String string:split){
 			System.out.println(string);
 		}
+	}
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
 	}
 }

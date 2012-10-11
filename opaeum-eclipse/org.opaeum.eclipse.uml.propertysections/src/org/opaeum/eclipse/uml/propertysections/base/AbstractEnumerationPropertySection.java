@@ -1,17 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2006 ANYWARE TECHNOLOGIES. All rights reserved. 
- * This program and the accompanying materials are made available under the 
- * terms of the Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Jacques Lescot (Anyware Technologies) - initial API and
- *               implementation
- *               Jose Alfredo Serrano (Anyware Technologies) - updated API
- ******************************************************************************/
-package org.opaeum.uim.userinteractionproperties.core;
+package org.opaeum.eclipse.uml.propertysections.base;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
@@ -23,9 +12,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractEnumerationPropertySection extends AbstractTabbedPropertySection{
+public abstract class AbstractEnumerationPropertySection extends AbstractOpaeumPropertySection{
 	private Group combo;
 	@Override
 	protected void createWidgets(Composite composite){
@@ -35,9 +23,6 @@ public abstract class AbstractEnumerationPropertySection extends AbstractTabbedP
 			combo.setEnabled(isChangeable);
 		}
 	}
-	/**
-	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#setSectionData(org.eclipse.swt.widgets.Composite)
-	 */
 	@Override
 	protected void setSectionData(Composite composite){
 		FormData data = new FormData();
@@ -45,18 +30,16 @@ public abstract class AbstractEnumerationPropertySection extends AbstractTabbedP
 		data.right = new FormAttachment(100, 0);
 		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 		combo.setLayoutData(data);
-		CLabel nameLabel = getWidgetFactory().createCLabel(composite, getLabelText());
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(combo, -ITabbedPropertyConstants.HSPACE);
-		data.top = new FormAttachment(combo, 0, SWT.CENTER);
-		nameLabel.setLayoutData(data);
 		GridLayout gd = new GridLayout(20,false);
 		combo.setLayout(gd);
 		gd.horizontalSpacing=0;
 		gd.verticalSpacing=0;
 		gd.marginWidth=0;
 		gd.marginHeight=0;
+	}
+	@Override
+	public Control getPrimaryInput(){
+		return combo;
 	}
 	@Override
 	protected void hookListeners(){

@@ -30,8 +30,11 @@ public class NamedElementNameEditingSupport extends EditingDomainEditingSupport{
 	}
 	@Override
 	protected void setValue(Object element,Object value){
-		Command cmd = SetCommand.create(editingDomain, element, UMLPackage.eINSTANCE.getNamedElement_Name(), String.valueOf(value));
-		editingDomain.getCommandStack().execute(cmd);
+		NamedElement ne = (NamedElement) element;
+		if(ne.getName() == null || !ne.getName().equals(value)){
+			Command cmd = SetCommand.create(editingDomain, element, UMLPackage.eINSTANCE.getNamedElement_Name(), String.valueOf(value));
+			editingDomain.getCommandStack().execute(cmd);
+		}
 	}
 	public CellLabelProvider getLabelProvider(){
 		return new CellLabelProvider(){

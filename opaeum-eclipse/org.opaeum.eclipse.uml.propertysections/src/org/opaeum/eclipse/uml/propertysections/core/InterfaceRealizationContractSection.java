@@ -19,7 +19,7 @@ public class InterfaceRealizationContractSection extends OpaeumChooserPropertySe
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getInterfaceRealization_Contract();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Classifier specialized:";
 	}
 	protected Object[] getComboFeatureValues(){

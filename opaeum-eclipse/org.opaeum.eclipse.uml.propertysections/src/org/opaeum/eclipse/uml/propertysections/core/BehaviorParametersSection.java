@@ -15,7 +15,7 @@ public class BehaviorParametersSection extends AbstractParametersSection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getBehavior_OwnedParameter();
 	}
-	protected String getLabelText(){
+	public String getLabelText(){
 		return null;
 	}
 }

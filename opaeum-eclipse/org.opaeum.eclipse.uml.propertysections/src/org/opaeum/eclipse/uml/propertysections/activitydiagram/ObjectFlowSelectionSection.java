@@ -22,7 +22,7 @@ import org.opaeum.eclipse.uml.propertysections.core.EObjectNavigationSource;
 
 public class ObjectFlowSelectionSection extends AttachedOpaqueBehaviorSection implements EObjectNavigationSource{
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Selector";
 	}
 	@Override

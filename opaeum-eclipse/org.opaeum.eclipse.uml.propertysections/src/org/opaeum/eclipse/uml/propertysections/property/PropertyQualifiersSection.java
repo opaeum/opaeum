@@ -6,14 +6,15 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 
-public class PropertyQualifiersSection extends AbstractTabbedPropertySection{
+public class PropertyQualifiersSection extends AbstractOpaeumPropertySection{
 	private PropertiesTableComposite propertiesTableComposite;
 	private PropertyComposite propertiesDetailsComposite;
 	private Group propertiesDetailsGroup;
@@ -29,6 +30,15 @@ public class PropertyQualifiersSection extends AbstractTabbedPropertySection{
 		propertiesDetailsGroup.setLayout(new GridLayout());
 		propertiesDetailsComposite = new PropertyComposite(propertiesDetailsGroup, SWT.NONE, getWidgetFactory());
 	}
+	@Override
+	public Control getPrimaryInput(){
+		throw new IllegalStateException();
+	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
+
 	protected void setSectionData(Composite composite){
 		FormData data = new FormData();
 		data.left = new FormAttachment(0, 0);
@@ -58,7 +68,7 @@ public class PropertyQualifiersSection extends AbstractTabbedPropertySection{
 		return UMLPackage.eINSTANCE.getProperty_Qualifier();
 	}
 	@Override
-	protected String getLabelText(){
-		return "Qualifiers";
+	public String getLabelText(){
+		return "";
 	}
 }

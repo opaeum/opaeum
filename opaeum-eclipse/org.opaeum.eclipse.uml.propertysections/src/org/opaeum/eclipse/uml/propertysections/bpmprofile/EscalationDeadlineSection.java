@@ -17,7 +17,7 @@ public class EscalationDeadlineSection extends ChooserPropertyOnStereotypeSectio
 		return (Constraint)o;
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Deadline:";
 	}
 

@@ -12,7 +12,7 @@ public class ConstraintValueSpecificationSection extends AbstractAutoCreatingOcl
 		return UMLPackage.eINSTANCE.getConstraint_Specification();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Condition";
 	}
 	@Override

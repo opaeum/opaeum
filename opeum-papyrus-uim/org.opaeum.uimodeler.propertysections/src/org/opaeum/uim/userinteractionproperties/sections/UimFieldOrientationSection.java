@@ -1,12 +1,10 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.opaeum.uim.UimPackage;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractEnumerationPropertySection;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.panel.Orientation;
-import org.opaeum.uim.panel.PanelPackage;
-import org.opaeum.uim.userinteractionproperties.core.AbstractEnumerationPropertySection;
 
 public class UimFieldOrientationSection extends AbstractEnumerationPropertySection{
 	@Override
@@ -34,7 +32,7 @@ public class UimFieldOrientationSection extends AbstractEnumerationPropertySecti
 		return ComponentPackage.eINSTANCE.getUimField_Orientation();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Orientation";
 	}
 }

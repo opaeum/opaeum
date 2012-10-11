@@ -2,6 +2,7 @@
 <model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA" name="Branch User Interface Model" linkedUmlResource="BusinessStructureModel.uml">
   <primaryEditor name="Edit Branch" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
     <superUserInterfaces href="252060@_uVek8IoVEeCLqpffVZYAlw.uim#//@primaryEditor"/>
+    <superUserInterfaces href="pathmap://NAKEDUML_MODELS/libraries/ui/252060@_uVek8IoVEeCLqpffVZYAlw.uim#//@primaryEditor"/>
     <pageOrdering page="//@primaryEditor/@pages.0"/>
     <pageOrdering page="//@primaryEditor/@pages.1" position="1"/>
     <pageOrdering page="//@primaryEditor/@pages.2" position="2"/>
@@ -22,7 +23,6 @@
     <pages umlElementUid="914890@_pNEJIJJPEeGW4L5IejZxpA" name="Customer assistant">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
-          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
           <children xsi:type="comp:UimField" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
             <control xsi:type="ctl:UimDropdown"/>
             <binding umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
@@ -52,6 +52,7 @@
             <binding umlElementUid="252060@_3lcZgVYuEeGj5_I7bIwNoA"/>
           </children>
           <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
           <binding umlElementUid="914890@_pNEJIJJPEeGW4L5IejZxpA"/>
           <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
           <actionsOnMultipleSelection xsi:type="action:InvocationButton" name="Follow lead" umlElementUid="914890@_A1hu8JKiEeGiJMBDeZRymA">
@@ -157,7 +158,6 @@
     <pages umlElementUid="914890@_QcN0UJLAEeGnpuq6_ber_Q" name="Job">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
-          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
           <children xsi:type="comp:UimField" name="Customer assistant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
             <control xsi:type="ctl:UimDropdown"/>
             <binding umlElementUid="914890@_YMgg0JLAEeGnpuq6_ber_Q"/>
@@ -179,6 +179,7 @@
             <binding umlElementUid="914890@_dbubkJQcEeGJg4MkDnRIeA"/>
           </children>
           <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
           <binding umlElementUid="914890@_QcN0UJLAEeGnpuq6_ber_Q"/>
           <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
         </children>
@@ -223,13 +224,11 @@
     <actionBar name="ActionBar">
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
-      <children xsi:type="action:InvocationButton" name="Operation1" umlElementUid="914890@_dOodgMzBEeGKe7Qm4dvydQ">
-        <popup href="914890@_dOodgMzBEeGKe7Qm4dvydQ.uim#/"/>
-      </children>
     </actionBar>
   </primaryEditor>
   <newObjectWizard name="Create Branch" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
     <superUserInterfaces href="252060@_uVek8IoVEeCLqpffVZYAlw.uim#//@newObjectWizard"/>
+    <superUserInterfaces href="pathmap://NAKEDUML_MODELS/libraries/ui/252060@_uVek8IoVEeCLqpffVZYAlw.uim#//@newObjectWizard"/>
     <pageOrdering page="//@newObjectWizard/@pages.0"/>
     <pageOrdering page="//@newObjectWizard/@pages.1" position="1"/>
     <pageOrdering page="//@newObjectWizard/@pages.2" position="2"/>
@@ -250,7 +249,6 @@
     <pages umlElementUid="914890@_pNEJIJJPEeGW4L5IejZxpA" name="Customer assistant">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
-          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
           <children xsi:type="comp:UimField" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
             <control xsi:type="ctl:UimDropdown"/>
             <binding umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
@@ -280,6 +278,7 @@
             <binding umlElementUid="252060@_3lcZgVYuEeGj5_I7bIwNoA"/>
           </children>
           <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
           <binding umlElementUid="914890@_pNEJIJJPEeGW4L5IejZxpA"/>
           <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
           <actionsOnMultipleSelection xsi:type="action:InvocationButton" name="Follow lead" umlElementUid="914890@_A1hu8JKiEeGiJMBDeZRymA">
@@ -385,7 +384,6 @@
     <pages umlElementUid="914890@_QcN0UJLAEeGnpuq6_ber_Q" name="Job">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
-          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
           <children xsi:type="comp:UimField" name="Customer assistant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
             <control xsi:type="ctl:UimDropdown"/>
             <binding umlElementUid="914890@_YMgg0JLAEeGnpuq6_ber_Q"/>
@@ -407,6 +405,7 @@
             <binding umlElementUid="914890@_dbubkJQcEeGJg4MkDnRIeA"/>
           </children>
           <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
           <binding umlElementUid="914890@_QcN0UJLAEeGnpuq6_ber_Q"/>
           <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
         </children>
