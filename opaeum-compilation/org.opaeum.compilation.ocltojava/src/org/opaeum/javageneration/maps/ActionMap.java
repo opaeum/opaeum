@@ -14,7 +14,6 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.StructuredActivityNode;
-import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValuePin;
 import org.opaeum.eclipse.EmfActionUtil;

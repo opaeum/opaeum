@@ -3,10 +3,8 @@ package org.opaeum.javageneration.basicjava;
 import java.util.Collection;
 
 import org.eclipse.uml2.uml.DataType;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -15,12 +13,10 @@ import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.runtime.domain.AbstractFormatter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 

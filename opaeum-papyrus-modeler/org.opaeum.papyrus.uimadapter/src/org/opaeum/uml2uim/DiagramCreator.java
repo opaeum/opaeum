@@ -1,56 +1,5 @@
 package org.opaeum.uml2uim;
 
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.gmf.runtime.notation.Bounds;
-import org.eclipse.gmf.runtime.notation.DecorationNode;
-import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.gmf.runtime.notation.MeasurementUnit;
-import org.eclipse.gmf.runtime.notation.NotationFactory;
-import org.eclipse.gmf.runtime.notation.Shape;
-import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.papyrus.infra.core.sashwindows.di.DiFactory;
-import org.eclipse.papyrus.infra.core.sashwindows.di.PageRef;
-import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
-import org.eclipse.papyrus.infra.core.sashwindows.di.TabFolder;
-import org.eclipse.papyrus.infra.core.sashwindows.di.Window;
-import org.opaeum.uim.Page;
-import org.opaeum.uim.UserInterfaceRoot;
-import org.opaeum.uim.action.BuiltInActionButton;
-import org.opaeum.uim.action.BuiltInLink;
-import org.opaeum.uim.action.InvocationButton;
-import org.opaeum.uim.action.LinkToQuery;
-import org.opaeum.uim.action.TransitionButton;
-import org.opaeum.uim.component.UimComponent;
-import org.opaeum.uim.component.UimDataTable;
-import org.opaeum.uim.component.UimField;
-import org.opaeum.uim.editor.ActionBar;
-import org.opaeum.uim.editor.InstanceEditor;
-import org.opaeum.uim.panel.GridPanel;
-import org.opaeum.uim.resources.InMemoryNotationResource;
-import org.opaeum.uimodeler.actionbar.diagram.edit.parts.AbstractEditorEditPart;
-import org.opaeum.uimodeler.actionbar.diagram.edit.parts.ActionBarActionBarChildrenCompartmentEditPart;
-import org.opaeum.uimodeler.actionbar.diagram.edit.parts.ActionBarEditPart;
-import org.opaeum.uimodeler.actionbar.diagram.edit.parts.ActionBarNameEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInActionButton2EditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInActionButton3EditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInActionButtonEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInLink2EditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInLinkEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelNameEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton2EditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton3EditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButtonEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.LinkToQueryEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.TransitionButtonEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UimField2EditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldNameEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart;
 
 @SuppressWarnings("unchecked")
 public class DiagramCreator{

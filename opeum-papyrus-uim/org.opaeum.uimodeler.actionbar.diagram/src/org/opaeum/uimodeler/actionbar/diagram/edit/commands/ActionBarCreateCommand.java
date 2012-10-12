@@ -12,7 +12,6 @@ import org.eclipse.gmf.runtime.emf.type.core.commands.EditElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.ConfigureRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
-import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.InstanceEditor;

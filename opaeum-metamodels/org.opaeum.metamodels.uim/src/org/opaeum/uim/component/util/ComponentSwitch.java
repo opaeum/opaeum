@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.component.*;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.DetailComponent;
 import org.opaeum.uim.component.MasterComponent;

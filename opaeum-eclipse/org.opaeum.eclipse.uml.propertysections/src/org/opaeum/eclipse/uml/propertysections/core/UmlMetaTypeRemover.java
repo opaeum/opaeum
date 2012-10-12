@@ -6,27 +6,20 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
-import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Stereotype;
 
 public class UmlMetaTypeRemover{
-	public static Collection<EObject> removeAll(Collection<EObject> types){
+	public static Collection<EObject> removeAssocations(Collection<EObject> types){
 		Collection<EObject> result = new ArrayList<EObject>();
 		for(EObject eObject:types){
-			boolean valid = true;
-			if(eObject instanceof NamedElement){
-				Model model = ((NamedElement) eObject).getModel();
-				if(model != null){
-					// filter out metamodels
-					valid = model.getAppliedProfile("Ecore") == null;
-				}
-			}
-			valid = valid && !(eObject instanceof Association && !(eObject instanceof AssociationClass));
-			if(valid && !(eObject instanceof Stereotype)){
+			if(isNonAssocation(eObject) ){
 				result.add(eObject);
 			}
 		}
 		return result;
+	}
+	protected static boolean isNonAssocation(EObject eObject){
+		boolean valid =!(eObject instanceof Association && !(eObject instanceof AssociationClass));
+		return valid;
 	}
 }

@@ -15,6 +15,7 @@ import org.opaeum.metamodels.simulation.simulation.ActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ExponentialDistribution;
 import org.opaeum.metamodels.simulation.simulation.InstanceSimulation;
+import org.opaeum.metamodels.simulation.simulation.LiteralSimpleType;
 import org.opaeum.metamodels.simulation.simulation.NormalDistribution;
 import org.opaeum.metamodels.simulation.simulation.NumberRangeDistribution;
 import org.opaeum.metamodels.simulation.simulation.NumericValueDistribution;
@@ -25,12 +26,11 @@ import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 import org.opaeum.metamodels.simulation.simulation.SimulationStrategy;
 import org.opaeum.metamodels.simulation.simulation.UniformDistribution;
-import org.opaeum.metamodels.simulation.simulation.LiteralSimpleType;
 import org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
-import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
 
 /**
  * <!-- begin-user-doc -->

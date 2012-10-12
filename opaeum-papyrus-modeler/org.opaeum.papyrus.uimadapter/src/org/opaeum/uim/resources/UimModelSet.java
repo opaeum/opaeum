@@ -91,13 +91,13 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	public void createsModels(IFile newFile){
 		super.createsModels(newFile);
 		createInMemoryModel();
-		this.primaryFile = newFile;
+		updatePrimaryFile(newFile);
 		EcoreUtil.resolveAll(this);
 		addContentAdapter();
 	}
 	@Override
 	public void loadModels(IFile file) throws ModelMultiException{
-		this.primaryFile = file;
+		updatePrimaryFile(file);
 		super.loadModels(file);
 		TreeIterator<EObject> eAllContents = getWindowsManager().eAllContents();
 		Set<PageRef> remove = new HashSet<PageRef>();
@@ -121,6 +121,10 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 		EcoreUtil.resolveAll(this);
 		addContentAdapter();
 	}
+	protected void updatePrimaryFile(IFile file){
+		String name = file.getName().replaceAll("\\.di", ".uml");
+		this.primaryFile= (IFile) file.getParent().findMember(name);
+	}
 	private void createInMemoryModel(){
 		URI uri = getModelResource().getURI().trimSegments(1).appendSegment("ui").appendSegment("tmp.notation");
 		Resource tmp = super.getResource(uri, false);
@@ -142,6 +146,6 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	}
 	@Override
 	public IFile getPrimaryFile(){
-		return this.primaryFile;
+		return primaryFile;
 	}
 }

@@ -7,17 +7,14 @@ import java.util.List;
 import nl.klasse.octopus.codegen.helpers.EmfPropertyCallHelper;
 import nl.klasse.octopus.codegen.umlToJava.common.ExpGeneratorHelper;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 import nl.klasse.tools.common.StringHelpers;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.ocl.uml.CollectionType;
-import org.eclipse.ocl.uml.FeatureCallExp;
 import org.eclipse.ocl.uml.IterateExp;
 import org.eclipse.ocl.uml.IteratorExp;
 import org.eclipse.ocl.uml.LoopExp;
 import org.eclipse.ocl.uml.OCLExpression;
-import org.eclipse.ocl.uml.PropertyCallExp;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Parameter;

@@ -6,7 +6,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.impl.UserInteractionElementImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.PositionInPerspective;
 import org.opaeum.uim.perspective.ViewAllocation;

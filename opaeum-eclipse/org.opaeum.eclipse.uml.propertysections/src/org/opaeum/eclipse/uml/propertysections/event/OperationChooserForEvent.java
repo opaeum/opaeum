@@ -3,42 +3,52 @@ package org.opaeum.eclipse.uml.propertysections.event;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Trigger;
-import org.opaeum.eclipse.uml.propertysections.base.ObjectChooserComposite;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.uml.propertysections.base.EventSourceChooserComposite;
 
-public class OperationChooserForEvent extends ObjectChooserComposite{
+public class OperationChooserForEvent extends EventSourceChooserComposite{
 	public OperationChooserForEvent(Composite parent,int labelWidth,TabbedPropertySheetWidgetFactory toolkit){
 		super(parent, "Operation", toolkit, labelWidth);
 	}
 	protected void updateElement(){
-		if(cSingleObjectChooser.getSelection() instanceof Operation){
-			trigger.setEvent(EventFinder.findOrCreateEvent(trigger.getOwner(), (Operation) cSingleObjectChooser.getSelection()));
+		if(cSingleObjectChooser.getSelectedObject() instanceof Operation){
+			EditingDomain ed = OpaeumEclipseContext.findOpenUmlFileFor(trigger).getEditingDomain();
+			Event event = EventFinder.findOrCreateEvent(trigger.getOwner(), (Operation) cSingleObjectChooser.getSelectedObject() );
+			Command cmd = SetCommand.create(ed, trigger,UMLPackage.eINSTANCE.getTrigger_Event(), event);
+			ed.getCommandStack().execute(cmd);
 		}
 	}
 	@Override
 	public void setTrigger(Trigger t){
 		super.setTrigger(t);
-		Element o = t.getOwner();
-		while(!(o instanceof Classifier)){
-			o = o.getOwner();
+		Event event = trigger.getEvent();
+		if(event instanceof CallEvent){
+			cSingleObjectChooser.setSelection(((CallEvent) event).getOperation());
+		}else{
+			cSingleObjectChooser.setSelection((EObject)null);
 		}
-		Classifier a = (Classifier) o;
+	}
+	@Override
+	public Object[] getChoices(){
+		Classifier a = (Classifier) EmfElementFinder.getNearestClassifier(trigger);
 		List<Operation> choices = new ArrayList<Operation>(a.getAllOperations());
 		if(a instanceof Behavior && ((Behavior) a).getContext() != null){
 			choices.addAll(((Behavior) a).getContext().getAllOperations());
 		}
-		cSingleObjectChooser.setChoices(choices.toArray());
-		Event event = trigger.getEvent();
-		if(event instanceof CallEvent){
-			cSingleObjectChooser.setSelection(((CallEvent) event).getOperation());
-		}
+		return choices.toArray();
 	}
 }

@@ -10,7 +10,6 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.papyrus.infra.gmfdiag.common.AbstractPapyrusGmfCreateDiagramCommandHandler;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.EditorPage;

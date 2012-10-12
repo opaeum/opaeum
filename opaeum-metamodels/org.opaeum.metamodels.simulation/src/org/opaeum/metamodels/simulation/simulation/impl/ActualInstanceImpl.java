@@ -2,12 +2,7 @@
  */
 package org.opaeum.metamodels.simulation.simulation.impl;
 
-import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.internal.impl.InstanceSpecificationImpl;
 import org.opaeum.metamodels.simulation.simulation.ActualInstance;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;

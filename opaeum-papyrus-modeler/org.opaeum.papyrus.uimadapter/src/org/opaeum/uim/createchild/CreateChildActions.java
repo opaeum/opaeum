@@ -3,7 +3,6 @@ package org.opaeum.uim.createchild;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -11,7 +10,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.opaeum.eclipse.newchild.DefaultCreateChildAction;
 import org.opaeum.eclipse.newchild.ICreateChildAction;
 import org.opaeum.eclipse.newchild.ICreateChildActionProvider;
-import org.opaeum.eclipse.newchild.MatchingOwner;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.editor.EditorPackage;

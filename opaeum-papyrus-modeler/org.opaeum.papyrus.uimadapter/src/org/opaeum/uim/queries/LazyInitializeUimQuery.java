@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -19,7 +17,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.uim.Page;
 import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.model.AbstractUserInteractionModel;
 import org.opaeum.uim.resources.UimModelSet;

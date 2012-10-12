@@ -13,11 +13,8 @@ import java.util.TreeSet;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Package;
@@ -28,7 +25,6 @@ import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJClass;

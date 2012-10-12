@@ -11,7 +11,7 @@ import org.opaeum.eclipse.ImageManager;
 
 public class TimeEventIsRelativeEditingSupport extends EditingDomainEditingSupport{
 	public TimeEventIsRelativeEditingSupport(ColumnViewer viewer){
-		super(viewer);
+		super(viewer, "Relative", 50);
 	}
 	@Override
 	protected CellEditor getCellEditor(Object element){

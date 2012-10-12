@@ -3,9 +3,7 @@
 package org.opaeum.metamodels.simulation.simulation;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.uml2.uml.InstanceSpecification;
-import org.eclipse.uml2.uml.Namespace;
 
 /**
  * <!-- begin-user-doc -->

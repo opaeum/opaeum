@@ -6,7 +6,6 @@ import java.util.Date;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.uml.CollectionType;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.NamedElement;
@@ -19,7 +18,6 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJAnnonymousInnerClass;
 import org.opaeum.java.metamodel.OJIfStatement;
-import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;

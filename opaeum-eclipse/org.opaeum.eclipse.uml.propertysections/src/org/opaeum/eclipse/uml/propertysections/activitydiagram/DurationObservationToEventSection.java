@@ -30,7 +30,7 @@ public class DurationObservationToEventSection extends AbstractObsercationEventS
 		if(!isRefreshing()){
 			EditingDomain editingDomain = getEditingDomain();
 			EStructuralFeature feature = UMLPackage.eINSTANCE.getDurationObservation_Event();
-			editingDomain.getCommandStack().execute(new DurationCommand(getObservation(), feature, cSingleObjectChooser.getSelection(), 1));
+			editingDomain.getCommandStack().execute(new DurationCommand(getObservation(), feature, cSingleObjectChooser.getSelectedObject(), 1));
 		}
 	}
 	@Override

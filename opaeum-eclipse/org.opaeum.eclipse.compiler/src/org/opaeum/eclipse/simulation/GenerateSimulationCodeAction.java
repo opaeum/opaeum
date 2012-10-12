@@ -1,18 +1,7 @@
 package org.opaeum.eclipse.simulation;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.AbstractDirectoryReadingAction;
-import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
-import org.opaeum.eclipse.starter.AbstractOpaeumAction;
-import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.feature.TransformationProcess;
-import org.opaeum.java.metamodel.OJWorkspace;
-import org.opaeum.textmetamodel.TextWorkspace;
 
 public class GenerateSimulationCodeAction extends AbstractDirectoryReadingAction{
 	public GenerateSimulationCodeAction(IStructuredSelection selection2){

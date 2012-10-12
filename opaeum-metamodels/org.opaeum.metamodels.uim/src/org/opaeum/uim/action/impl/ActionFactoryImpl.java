@@ -8,15 +8,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;
-import org.opaeum.uim.action.LinkToQuery;
 import org.opaeum.uim.action.InvocationButton;
+import org.opaeum.uim.action.LinkToQuery;
 import org.opaeum.uim.action.TransitionButton;
 
 /**

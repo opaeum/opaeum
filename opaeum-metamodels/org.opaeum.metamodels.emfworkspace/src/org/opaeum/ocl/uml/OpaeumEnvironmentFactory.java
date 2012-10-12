@@ -4,14 +4,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.ocl.Environment;
 import org.eclipse.ocl.uml.UMLEnvironment;
 import org.eclipse.ocl.uml.UMLEnvironmentFactory;
-import org.eclipse.ocl.uml.UMLFactory;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Class;

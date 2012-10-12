@@ -3,39 +3,39 @@ package org.opaeum.eclipse.uml.propertysections.base;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 import org.opaeum.eclipse.uml.propertysections.common.OpaeumQualifiedNameLabelProvider;
-import org.opaeum.eclipse.uml.propertysections.common.OpaeumSingleObjectChooser;
+import org.opaeum.eclipse.uml.propertysections.common.OpaeumObjectChooser;
 import org.opaeum.eclipse.uml.propertysections.core.EObjectNavigationSource;
 import org.opaeum.eclipse.uml.propertysections.core.NavigationDecorator;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
-import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
-import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
+
+
 
 public abstract class OpaeumChooserPropertySection extends AbstractOpaeumPropertySection implements EObjectNavigationSource,IChoiceProvider{
 	public NavigationDecorator decorator = new NavigationDecorator(this);
 	private boolean isRefreshing = false;
-	protected OpaeumSingleObjectChooser cSingleObjectChooser;
+	protected OpaeumObjectChooser cSingleObjectChooser;
 	@Override
 	public Object[] getChoices(){
 		return getComboFeatureValues();
 	}
-	protected Object[] getChoices(EObject object,EClassifier type){
+	protected Object[] getChoices(EObject object,EClass type){
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
-		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
-		choices.addAll(typeCacheAdapter.getReachableObjectsOfType(object, type));
+		choices.addAll(OpaeumEclipseContext.getReachableObjectsOfType(object, type));
 		return choices.toArray();
 	}
 	@Override
@@ -50,7 +50,7 @@ public abstract class OpaeumChooserPropertySection extends AbstractOpaeumPropert
 	public void refresh(){
 		if(getEObject().eContainer() != null){// Hack - eclipse calls refresh even if the object was deleted
 			isRefreshing = true;
-			cSingleObjectChooser.setSelection(getFeatureValue());
+			cSingleObjectChooser.setSelection((EObject)getFeatureValue());
 			decorator.refresh();
 			super.refresh();
 			isRefreshing = false;
@@ -64,7 +64,7 @@ public abstract class OpaeumChooserPropertySection extends AbstractOpaeumPropert
 	}
 	@Override
 	protected void createWidgets(Composite composite){
-		cSingleObjectChooser = new OpaeumSingleObjectChooser(composite, getWidgetFactory(), SWT.NONE);
+		cSingleObjectChooser = new OpaeumObjectChooser(composite, getWidgetFactory(), SWT.NONE);
 		if(getFeature() != null){
 			cSingleObjectChooser.setChangeable(getFeature().isChangeable());
 		}
@@ -80,16 +80,16 @@ public abstract class OpaeumChooserPropertySection extends AbstractOpaeumPropert
 	}
 	@Override
 	protected void hookListeners(){
-		cSingleObjectChooser.addSelectionListener(new SelectionAdapter(){
+		cSingleObjectChooser.addSelectionChangedListener(new ISelectionChangedListener(){
 			@Override
-			public void widgetSelected(SelectionEvent e){
+			public void selectionChanged(SelectionChangedEvent event){
 				handleComboModified();
 			}
 		});
 	}
 	protected void handleComboModified(){
 		if(!isRefreshing){
-			createCommand(getFeatureValue(), cSingleObjectChooser.getSelection());
+			createCommand(getFeatureValue(), cSingleObjectChooser.getSelectedObject());
 		}
 	}
 	@Override

@@ -35,7 +35,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.uml2.uml.util.UMLUtil;
 import org.opaeum.eclipse.EclipseUriToFileConverter;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
+import org.opaeum.eclipse.OpaeumScheduler;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.OpaeumElementLinker;
 import org.opaeum.eclipse.OpaeumSynchronizationListener;
@@ -76,6 +76,7 @@ public class OpenUmlFile extends EContentAdapter{
 	private Set<WorkspaceLoadListener> workspaceLoadListener = new HashSet<WorkspaceLoadListener>();
 	private OpaeumElementLinker linker = new OpaeumElementLinker();
 	private OJUtil ojUtil;
+	private TypeCacheAdapter typeCacheAdapter;
 	public OpenUmlFile(EditingDomain editingDomain,IFile f,OpaeumConfig cfg){
 		super();
 		Package model = findRootObjectInFile(f, editingDomain.getResourceSet());
@@ -95,6 +96,12 @@ public class OpenUmlFile extends EContentAdapter{
 		this.transformationProcess.execute(new DefaultTransformationLog());
 		editingDomain.getResourceSet().eAdapters().add(this);
 		emfWorkspaceLoaded(emfWorkspace);
+	}
+	public TypeCacheAdapter getOpaeumEclipseContext(){
+		if(typeCacheAdapter==null){
+			typeCacheAdapter=new TypeCacheAdapter();
+		}
+		return typeCacheAdapter;
 	}
 	public void addEmfChange(URI uri){
 		EObject eObject = emfWorkspace.getResourceSet().getEObject(uri, true);
@@ -265,7 +272,7 @@ public class OpenUmlFile extends EContentAdapter{
 		lastChange = System.currentTimeMillis();
 		this.emfChanges.add(o);
 		this.dirty = true;
-		EmfToOpaeumSynchronizer.schedule(new Runnable(){
+		OpaeumScheduler.schedule(new Runnable(){
 			@Override
 			public void run(){
 				if(System.currentTimeMillis() - lastChange >= 100){

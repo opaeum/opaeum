@@ -23,10 +23,10 @@ import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelGridPanelChildrenCo
 import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.HorizontalPanelEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.LinkToQueryEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton2EditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton3EditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButtonEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.LinkToQueryEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.TransitionButtonEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableEditPart;

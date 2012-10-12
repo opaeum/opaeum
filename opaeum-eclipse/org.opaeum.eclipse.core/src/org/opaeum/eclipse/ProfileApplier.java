@@ -1,8 +1,8 @@
 package org.opaeum.eclipse;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
@@ -36,8 +36,8 @@ public class ProfileApplier{
 		}
 		return null;
 	}
-	public static Profile getProfile(Element classifier,String opiumStandardProfile){
+	public static Profile getProfile(EObject element,String opiumStandardProfile){
 		URI uri = URI.createURI(StereotypeNames.MODELS_PATHMAP + "profiles/" + opiumStandardProfile);
-		return (Profile) classifier.eResource().getResourceSet().getResource(uri, true).getContents().get(0);
+		return (Profile) element.eResource().getResourceSet().getResource(uri, true).getContents().get(0);
 	}
 }

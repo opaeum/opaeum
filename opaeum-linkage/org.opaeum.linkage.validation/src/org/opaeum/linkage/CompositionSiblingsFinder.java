@@ -1,8 +1,5 @@
 package org.opaeum.linkage;
 
-import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Property;
-import org.opaeum.eclipse.EmfPropertyUtil;
 
 
 /**

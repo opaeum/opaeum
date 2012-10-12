@@ -3,6 +3,7 @@
 package org.opaeum.metamodels.simulation.simulation.presentation;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,59 +14,37 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-
-import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.xmi.XMLResource;
-
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-
 import org.eclipse.jface.dialogs.MessageDialog;
-
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
-
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
-
 import org.eclipse.swt.SWT;
-
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.ModifyEvent;
-
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-
 import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
-import org.opaeum.simulation.simulation.provider.SimulationEditPlugin;
-
-
-import java.io.File;
-
-import org.eclipse.jface.operation.IRunnableWithProgress;
-
-import org.eclipse.swt.widgets.Text;
-
 import org.opaeum.simulation.simulation.presentation.SimulationEditorAdvisor;
 import org.opaeum.simulation.simulation.presentation.SimulationEditorPlugin;
+import org.opaeum.simulation.simulation.provider.SimulationEditPlugin;
 
 
 /**

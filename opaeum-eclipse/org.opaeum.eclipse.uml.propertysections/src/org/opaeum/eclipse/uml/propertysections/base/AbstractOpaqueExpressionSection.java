@@ -87,11 +87,9 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractOpaeumProp
 		this.label.setLayoutData(labelFd);
 		FormData fd = new FormData(400, getOclCompositeHeight());
 		fd.right = new FormAttachment(100, 0);
-		fd.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{
-			getLabelText()
-		}));
-		fd.bottom=new FormAttachment(100,0);
-		fd.top=new FormAttachment(0,0);
+		fd.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
+		fd.bottom = new FormAttachment(100, 0);
+		fd.top = new FormAttachment(0, 0);
 		this.oclComposite.setLayoutData(fd);
 	}
 	public int getOclCompositeHeight(){

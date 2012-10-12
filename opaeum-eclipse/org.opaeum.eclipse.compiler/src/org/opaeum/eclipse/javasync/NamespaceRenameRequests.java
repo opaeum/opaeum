@@ -14,7 +14,6 @@ import org.opaeum.eclipse.OpaeumSynchronizationListener;
 import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
 import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 public class NamespaceRenameRequests implements OpaeumSynchronizationListener,OpaeumEclipseContextListener{
 	private Map<String,NamespaceRenameRequest> renamedRequestsByNewName = new HashMap<String,NamespaceRenameRequest>();

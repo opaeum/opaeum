@@ -44,12 +44,14 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractStringPr
 	}
 	@Override
 	protected EStructuralFeature getFeature(){
-		Element element = getElement(getEObject());
-		Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
-		if(p != null){
-			Stereotype stereotype = p.getOwnedStereotype(getStereotypeName(element));
-			if(stereotype != null && element.isStereotypeApplied(stereotype)){
-				return stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+		if(getEObject() != null){
+			Element element = getElement(getEObject());
+			Profile p = ProfileApplier.getAppliedProfile(element.getModel(), getProfileName());
+			if(p != null){
+				Stereotype stereotype = p.getOwnedStereotype(getStereotypeName(element));
+				if(stereotype != null && element.isStereotypeApplied(stereotype)){
+					return stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+				}
 			}
 		}
 		return null;

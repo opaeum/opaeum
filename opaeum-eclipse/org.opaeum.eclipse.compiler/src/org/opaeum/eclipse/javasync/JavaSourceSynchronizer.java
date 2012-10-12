@@ -32,7 +32,6 @@ import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.EclipseProjectGenerationStep;
 import org.opaeum.feature.TransformationProcess;
-import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.pomgeneration.PomGenerationPhase;

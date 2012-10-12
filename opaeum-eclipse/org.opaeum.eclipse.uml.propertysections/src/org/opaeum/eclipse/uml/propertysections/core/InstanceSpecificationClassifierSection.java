@@ -13,10 +13,11 @@ import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
 import org.topcased.tabbedproperties.internal.utils.Messages;
-import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
-import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
+
+
 
 public class InstanceSpecificationClassifierSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
@@ -32,8 +33,7 @@ public class InstanceSpecificationClassifierSection extends OpaeumChooserPropert
 	public static Object[] getValidTypes(EObject element){
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
-		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(element);
-		Collection<EObject> types = typeCacheAdapter.getReachableObjectsOfType(element, UMLPackage.eINSTANCE.getType());
+		Collection<EObject> types = OpaeumEclipseContext.getReachableObjectsOfType(element, UMLPackage.eINSTANCE.getClass_());
 		Iterator<EObject> iterator = types.iterator();
 		while(iterator.hasNext()){
 			EObject eObject = (EObject) iterator.next();

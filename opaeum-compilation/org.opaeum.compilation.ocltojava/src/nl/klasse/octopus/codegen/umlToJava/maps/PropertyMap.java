@@ -3,7 +3,6 @@ package nl.klasse.octopus.codegen.umlToJava.maps;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;

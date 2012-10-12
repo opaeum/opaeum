@@ -1,10 +1,8 @@
 package org.opaeum.papyrus.classdiagram.editparts;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;

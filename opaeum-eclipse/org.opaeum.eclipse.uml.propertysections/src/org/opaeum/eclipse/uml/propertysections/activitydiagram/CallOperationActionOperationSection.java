@@ -9,10 +9,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
-import org.opaeum.eclipse.uml.propertysections.core.UmlMetaTypeRemover;
-import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
-import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
+
+
 
 public class CallOperationActionOperationSection extends OpaeumChooserPropertySection{
 	@Override
@@ -27,9 +27,8 @@ public class CallOperationActionOperationSection extends OpaeumChooserPropertySe
 	protected Object[] getComboFeatureValues(){
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
-		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
-		Collection<EObject> types = typeCacheAdapter.getReachableObjectsOfType(getEObject(), UMLPackage.eINSTANCE.getOperation());
-		choices.addAll(UmlMetaTypeRemover.removeAll(types));
+		Collection<EObject> types = OpaeumEclipseContext.getReachableObjectsOfType(getEObject(), UMLPackage.eINSTANCE.getOperation());
+		choices.addAll(types);
 		return choices.toArray();
 	}
 	@Override

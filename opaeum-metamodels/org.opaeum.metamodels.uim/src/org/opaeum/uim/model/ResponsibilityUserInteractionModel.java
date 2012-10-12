@@ -2,8 +2,6 @@
  */
 package org.opaeum.uim.model;
 
-import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.editor.ResponsibilityViewer;
 import org.opaeum.uim.wizard.ResponsibilityInvocationWizard;
 

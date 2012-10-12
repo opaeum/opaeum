@@ -2,7 +2,6 @@
  */
 package org.opaeum.metamodels.simulation.simulation;
 
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Slot;
 
 /**

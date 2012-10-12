@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.impl.UserInteractionElementImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.opaeum.uim.perspective.EditorConfiguration;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
 import org.opaeum.uim.perspective.InboxConfiguration;

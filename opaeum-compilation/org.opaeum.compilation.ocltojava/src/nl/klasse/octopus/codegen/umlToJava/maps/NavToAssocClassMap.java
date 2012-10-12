@@ -1,11 +1,7 @@
 package nl.klasse.octopus.codegen.umlToJava.maps;
 
-import nl.klasse.tools.common.StringHelpers;
-
 import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Property;
-import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 
 /**

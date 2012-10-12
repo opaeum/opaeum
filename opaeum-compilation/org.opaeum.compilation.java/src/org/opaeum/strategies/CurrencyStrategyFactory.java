@@ -1,24 +1,17 @@
 package org.opaeum.strategies;
 
-import java.util.Calendar;
-import java.util.List;
-
 import javax.persistence.Basic;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.java.metamodel.OJBlock;
-import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.TestModelValueStrategy;
 import org.opaeum.javageneration.basicjava.AttributeInJava;
 import org.opaeum.javageneration.basicjava.AttributeStrategy;

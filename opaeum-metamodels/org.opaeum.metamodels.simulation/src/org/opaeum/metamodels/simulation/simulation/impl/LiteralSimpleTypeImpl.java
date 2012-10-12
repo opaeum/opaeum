@@ -3,13 +3,9 @@
 package org.opaeum.metamodels.simulation.simulation.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.uml2.uml.internal.impl.LiteralStringImpl;
-
 import org.opaeum.metamodels.simulation.simulation.LiteralSimpleType;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 

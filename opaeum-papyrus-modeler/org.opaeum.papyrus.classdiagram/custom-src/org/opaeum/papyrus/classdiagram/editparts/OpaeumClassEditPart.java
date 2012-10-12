@@ -1,7 +1,5 @@
 package org.opaeum.papyrus.classdiagram.editparts;
 
-import java.net.URL;
-
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -10,17 +8,9 @@ import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.diagram.ui.requests.EditCommandRequestWrapper;
-import org.eclipse.gmf.runtime.draw2d.ui.internal.mapmode.DiagramMapModeUtil;
-import org.eclipse.gmf.runtime.draw2d.ui.mapmode.MapModeUtil;
-import org.eclipse.gmf.runtime.draw2d.ui.render.RenderInfo;
-import org.eclipse.gmf.runtime.draw2d.ui.render.RenderedImage;
-import org.eclipse.gmf.runtime.draw2d.ui.render.factory.RenderedImageFactory;
-import org.eclipse.gmf.runtime.draw2d.ui.render.internal.RenderHelper;
-import org.eclipse.gmf.runtime.draw2d.ui.render.internal.RenderingListener;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.clazz.edit.parts.ClassEditPart;
-import org.eclipse.papyrus.uml.diagram.clazz.part.UMLDiagramEditorPlugin;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.ClassifierFigure;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeNamedElementFigure;
 import org.eclipse.uml2.uml.Element;

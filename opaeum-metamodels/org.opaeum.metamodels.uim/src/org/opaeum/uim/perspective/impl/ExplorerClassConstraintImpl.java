@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
-import org.opaeum.uim.impl.UmlReferenceImpl;
 import org.opaeum.uim.perspective.ExplorerBehaviorConstraint;
 import org.opaeum.uim.perspective.ExplorerClassConstraint;
 import org.opaeum.uim.perspective.ExplorerConfiguration;

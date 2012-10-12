@@ -8,4 +8,5 @@ public class BehaviorPostconditionsSection extends AbstractConstraintsPropertySe
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getBehavior_Postcondition();
 	}
+
 }

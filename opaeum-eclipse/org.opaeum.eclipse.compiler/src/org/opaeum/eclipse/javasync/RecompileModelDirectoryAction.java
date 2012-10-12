@@ -1,6 +1,5 @@
 package org.opaeum.eclipse.javasync;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,9 +22,7 @@ import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.TransformationProcess;
-import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.textmetamodel.TextWorkspace;
 
 public class RecompileModelDirectoryAction extends AbstractDirectoryReadingAction{
 	public RecompileModelDirectoryAction(IStructuredSelection selection2){

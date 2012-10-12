@@ -1,6 +1,24 @@
 package org.opaeum.eclipse.newchild;
 
-import static org.opaeum.metamodel.core.internal.TagNames.*;
+import static org.opaeum.metamodel.core.internal.TagNames.BCC_EXPRESSION;
+import static org.opaeum.metamodel.core.internal.TagNames.BUSINESS_ADMINISTRATORS;
+import static org.opaeum.metamodel.core.internal.TagNames.BUSINESS_CALENDAR_TO_USE;
+import static org.opaeum.metamodel.core.internal.TagNames.CC_EXPRESSION;
+import static org.opaeum.metamodel.core.internal.TagNames.CONTROLLED_BY;
+import static org.opaeum.metamodel.core.internal.TagNames.DURATION_BASED_COST_OBSERVATIONS;
+import static org.opaeum.metamodel.core.internal.TagNames.DURATION_OBSERVATIONS;
+import static org.opaeum.metamodel.core.internal.TagNames.EVALUATION_INTERVAL;
+import static org.opaeum.metamodel.core.internal.TagNames.FROM_EXPRESSION;
+import static org.opaeum.metamodel.core.internal.TagNames.NOTIFICATIONS;
+import static org.opaeum.metamodel.core.internal.TagNames.POTENTIAL_OWNERS;
+import static org.opaeum.metamodel.core.internal.TagNames.QUANTITY_BASED_COST_OBSERVATIONS;
+import static org.opaeum.metamodel.core.internal.TagNames.QUANTITY_EXPRESSION;
+import static org.opaeum.metamodel.core.internal.TagNames.REASSIGNMENT;
+import static org.opaeum.metamodel.core.internal.TagNames.RESOURCES_PAID_FOR;
+import static org.opaeum.metamodel.core.internal.TagNames.RESOURCE_PAID_FOR;
+import static org.opaeum.metamodel.core.internal.TagNames.STAKEHOLDERS;
+import static org.opaeum.metamodel.core.internal.TagNames.TEMPLATE_EXPRESSION;
+import static org.opaeum.metamodel.core.internal.TagNames.TIME_OBSERVATIONS;
 
 import java.util.HashMap;
 import java.util.HashSet;

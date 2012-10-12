@@ -3,9 +3,7 @@
 package org.opaeum.metamodels.simulation.simulation.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.uml2.uml.internal.impl.PackageImpl;
-
 import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 

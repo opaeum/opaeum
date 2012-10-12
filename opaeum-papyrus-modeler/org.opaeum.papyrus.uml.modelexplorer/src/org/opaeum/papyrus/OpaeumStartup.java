@@ -1,30 +1,20 @@
 package org.opaeum.papyrus;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.Stack;
 
-import javax.swing.Icon;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
-import org.eclipse.papyrus.infra.core.extension.diagrameditor.EditorDescriptor;
 import org.eclipse.papyrus.infra.core.lifecycleevents.ISaveAndDirtyService;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerPageBookView;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerView;
-import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorRegistry;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISaveablePart;
@@ -37,7 +27,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.Workbench;
-import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.navigator.CommonViewer;
 import org.opaeum.eclipse.context.EObjectSelectorUI;
@@ -156,6 +145,7 @@ public class OpaeumStartup implements IStartup{
 				result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(workbenchWindow));
 				ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);
 				saveAndDirtyService.registerIsaveablePart(new ISaveablePart(){
+					long lastSave=0;
 					public boolean isSaveOnCloseNeeded(){
 						return false;
 					}
@@ -168,7 +158,10 @@ public class OpaeumStartup implements IStartup{
 					public void doSaveAs(){
 					}
 					public void doSave(IProgressMonitor monitor){
-						result.onSave(monitor, umlFile);
+						if(System.currentTimeMillis()-lastSave>3000){
+							lastSave=System.currentTimeMillis();
+							result.onSave(monitor, umlFile);
+						}
 					}
 				});
 				try{
@@ -178,23 +171,22 @@ public class OpaeumStartup implements IStartup{
 					e1.printStackTrace();
 				}
 			}
-			result.setCurrentEditContext(e.getEditingDomain(), umlFile, result.geteObjectSelectorUI());
 		}
 		IWorkbenchWindow window = Workbench.getInstance().getActiveWorkbenchWindow();
-		if(window instanceof WorkbenchWindow){
-			MenuManager menuManager = ((WorkbenchWindow) window).getMenuManager();
-			ICoolBarManager coolBarManager = null;
-			if(((WorkbenchWindow) window).getCoolBarVisible()){
-				coolBarManager = ((WorkbenchWindow) window).getCoolBarManager2();
-			}
-			// IContributionItem[] items = coolBarManager.getItems();
-			// for(IContributionItem item:items){
-			// if(item.getId().toLowerCase().contains("org.eclipse.papyrus.uml.diagram.ui.toolbar")){
-			// coolBarManager.remove(item);
-			// }
-			// }
-			// coolBarManager.update(true);
-		}
+//		if(window instanceof WorkbenchWindow){
+//			MenuManager menuManager = ((WorkbenchWindow) window).getMenuManager();
+//			ICoolBarManager coolBarManager = null;
+//			if(((WorkbenchWindow) window).getCoolBarVisible()){
+//				coolBarManager = ((WorkbenchWindow) window).getCoolBarManager2();
+//			}
+//			IContributionItem[] items = coolBarManager.getItems();
+//			for(IContributionItem item:items){
+//				if(item.getId().toLowerCase().contains("org.eclipse.papyrus.uml.diagram.ui.toolbar")){
+//					coolBarManager.remove(item);
+//				}
+//			}
+//			coolBarManager.update(true);
+//		}
 	}
 	private ISaveAndDirtyService getSaveAndDirtyService(PapyrusMultiDiagramEditor e){
 		ISaveAndDirtyService saveAndDirtyService;

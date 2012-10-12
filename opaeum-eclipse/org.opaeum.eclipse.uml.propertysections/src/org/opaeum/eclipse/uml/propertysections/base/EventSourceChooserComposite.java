@@ -2,10 +2,10 @@ package org.opaeum.eclipse.uml.propertysections.base;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -16,34 +16,34 @@ import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.Trigger;
+import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
+import org.opaeum.eclipse.uml.propertysections.common.OpaeumObjectChooser;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
-import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 
-public abstract class ObjectChooserComposite extends Composite{
+public abstract class EventSourceChooserComposite extends Composite implements IChoiceProvider{
 	protected Trigger trigger;
 	protected CLabel label;
-	protected CSingleObjectChooser cSingleObjectChooser;
-	public ObjectChooserComposite(Composite parent,String label,TabbedPropertySheetWidgetFactory toolkit,int labelWidth){
+	protected OpaeumObjectChooser cSingleObjectChooser;
+	public EventSourceChooserComposite(Composite parent,String label,TabbedPropertySheetWidgetFactory toolkit,int labelWidth){
 		super(parent, SWT.NONE);
 		setBackground(parent.getBackground());
 		super.setLayout(new FormLayout());
 		FormData fd = new FormData();
 		this.label = toolkit.createCLabel(this, "Choose " + label);
 		this.label.setLayoutData(fd);
-		cSingleObjectChooser = new CSingleObjectChooser(this, toolkit, SWT.NONE);
-		cSingleObjectChooser.setLabelProvider(getLabelProvider());
-		cSingleObjectChooser.setAdvancedLabelProvider(getAdvancedLabeProvider());
+		cSingleObjectChooser = new OpaeumObjectChooser(this, toolkit, SWT.NONE);
+		cSingleObjectChooser.setChoiceProvider(this);
 		fd = new FormData();
 		fd.left = new FormAttachment(0, labelWidth);
 		fd.right = new FormAttachment(100, 0);
-		cSingleObjectChooser.setLayoutData(fd);
+		cSingleObjectChooser.getContentPane() .setLayoutData(fd);
 		FormData buttonFormData = new FormData();
-		buttonFormData.top = new FormAttachment(cSingleObjectChooser);
+		buttonFormData.top = new FormAttachment(cSingleObjectChooser.getContentPane());
 		buttonFormData.left = new FormAttachment(0, labelWidth);
-		cSingleObjectChooser.addSelectionListener(new SelectionAdapter(){
+		cSingleObjectChooser.addSelectionChangedListener(new ISelectionChangedListener(){
 			@Override
-			public void widgetSelected(SelectionEvent e){
-				if(cSingleObjectChooser.getSelection()==null){
+			public void selectionChanged(SelectionChangedEvent event){
+				if(cSingleObjectChooser.getSelection().isEmpty()){
 					cSingleObjectChooser.setSelection(getCause());
 				}else{
 					updateElement();

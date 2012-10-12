@@ -17,7 +17,6 @@ import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.AbstractDirectoryReadingAction;
 import org.opaeum.eclipse.javasync.JavaProjectGenerator;
-import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;

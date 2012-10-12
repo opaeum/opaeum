@@ -11,7 +11,7 @@ import org.eclipse.ui.IStartup;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
-import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
+import org.opaeum.eclipse.OpaeumScheduler;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
 import org.opaeum.eclipse.context.OpenUmlFile;
@@ -73,7 +73,7 @@ public class UserInterfaceSynchronizerManager implements IStartup,Runnable{
 	}
 	@Override
 	public void earlyStartup(){
-		EmfToOpaeumSynchronizer.schedule(new Runnable(){
+		OpaeumScheduler.schedule(new Runnable(){
 			@Override
 			public void run(){
 				Display.getDefault().syncExec(UserInterfaceSynchronizerManager.this);

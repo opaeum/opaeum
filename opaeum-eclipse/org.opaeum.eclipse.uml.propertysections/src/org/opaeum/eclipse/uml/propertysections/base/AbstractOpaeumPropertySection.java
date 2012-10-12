@@ -55,8 +55,8 @@ public abstract class AbstractOpaeumPropertySection extends AbstractTabbedProper
 		labelCombo = getWidgetFactory().createCLabel(sectionComposite, getLabelText());
 		FormData ld = new FormData();
 		ld.left = new FormAttachment(0, 0);
-		ld.top=new FormAttachment(0,0);
-		ld.bottom=new FormAttachment(100,0);
+		ld.top = new FormAttachment(0, 0);
+		ld.bottom = new FormAttachment(100, 0);
 		if(getLabelText() == null || getLabelText().length() == 0){
 			ld.right = new FormAttachment(0, 0);
 			labelCombo.setVisible(false);
@@ -80,6 +80,14 @@ public abstract class AbstractOpaeumPropertySection extends AbstractTabbedProper
 			return super.getStandardLabelWidth(parent, labels);
 		}
 		return labelWidth;
+	}
+	@Override
+	public void dispose(){
+		super.dispose();
+		removeListener();
+		if(getSectionComposite() != null){
+			getSectionComposite().dispose();
+		}
 	}
 	@Override
 	public abstract String getLabelText();

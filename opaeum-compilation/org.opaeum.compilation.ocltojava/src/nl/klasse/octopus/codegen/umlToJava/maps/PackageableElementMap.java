@@ -4,7 +4,6 @@ import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.VisibilityKind;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.java.metamodel.OJVisibilityKind;

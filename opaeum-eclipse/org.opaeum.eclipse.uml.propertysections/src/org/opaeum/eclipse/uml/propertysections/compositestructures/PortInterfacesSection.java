@@ -30,6 +30,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
@@ -39,8 +40,8 @@ import org.topcased.tabbedproperties.internal.sections.TableObjectManager;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractReferencePropertySection;
 import org.topcased.tabbedproperties.sections.widgets.ReferenceViewerComposite;
-import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
-import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
+
+
 
 @SuppressWarnings("restriction")
 public abstract class PortInterfacesSection extends AbstractReferencePropertySection{
@@ -198,8 +199,7 @@ public abstract class PortInterfacesSection extends AbstractReferencePropertySec
 		}
 	}
 	protected Collection<? extends EObject> getAvailableChoices(){
-		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
-		Collection<EObject> types = typeCacheAdapter.getReachableObjectsOfType(getEObject(), UMLPackage.eINSTANCE.getInterface());
+		Collection<EObject> types = OpaeumEclipseContext.getReachableObjectsOfType(getEObject(), UMLPackage.eINSTANCE.getInterface());
 		return types;
 	}
 }

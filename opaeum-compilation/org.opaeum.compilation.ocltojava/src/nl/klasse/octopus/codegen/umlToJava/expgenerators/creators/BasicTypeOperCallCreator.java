@@ -12,7 +12,6 @@ import org.eclipse.ocl.uml.TypeExp;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Operation;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfOperationUtil;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.javageneration.util.OJUtil;
 

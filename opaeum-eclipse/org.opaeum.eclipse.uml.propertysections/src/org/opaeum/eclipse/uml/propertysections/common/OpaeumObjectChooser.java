@@ -1,46 +1,53 @@
 package org.opaeum.eclipse.uml.propertysections.common;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Collections;
+import java.util.Iterator;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.TypedListener;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+import org.eclipse.uml2.uml.NamedElement;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.facilities.dialogs.ChooseDialog;
 import org.topcased.tabbedproperties.providers.AdvancedLabelProvider;
 import org.topcased.tabbedproperties.providers.LabelProviderFactory;
 
-public class OpaeumSingleObjectChooser{
+public class OpaeumObjectChooser extends Viewer{
 	protected TabbedPropertySheetWidgetFactory widgetFactory;
 	private Text field;
 	private Button chooseBt;
 	private Object[] objects;
 	private ILabelProvider labelProvider;
 	private ILabelProvider advancedLabelProvider;
-	private Object selectedObject;
 	private IChoiceProvider choiceProvider;
 	private Composite contentPane;
-	private HashMap<SelectionListener,TypedListener> listeners = new HashMap<SelectionListener,TypedListener>();
-	public OpaeumSingleObjectChooser(Composite parent,TabbedPropertySheetWidgetFactory factory,int style){
+	public static final int SINGLE = 11234;
+	public static final int MULTI = 11231234;
+	private boolean isSingle = false;
+	private Text text;
+	private IStructuredSelection ss;
+	public OpaeumObjectChooser(Composite parent,TabbedPropertySheetWidgetFactory factory,int style){
 		this.widgetFactory = factory;
 		this.contentPane = new Composite(parent, style);
-		this.labelProvider=new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
-		this.advancedLabelProvider=new OpaeumQualifiedNameLabelProvider(new OpaeumItemProviderAdapterFactory());
+		this.labelProvider = new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
+		this.advancedLabelProvider = new OpaeumQualifiedNameLabelProvider(new OpaeumItemProviderAdapterFactory());
 		factory.adapt(contentPane);
 		setLayout(contentPane);
 		createContents(contentPane);
@@ -48,7 +55,7 @@ public class OpaeumSingleObjectChooser{
 	}
 	protected void createContents(Composite parent){
 		setLayout(parent);
-		field = widgetFactory.createText(parent, "", SWT.READ_ONLY|SWT.BORDER);
+		field=text = getWidgetFactory().createText(contentPane, "", SWT.BORDER | SWT.READ_ONLY);
 		field.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		chooseBt = widgetFactory.createButton(parent, "...", SWT.PUSH);
 		chooseBt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
@@ -97,18 +104,15 @@ public class OpaeumSingleObjectChooser{
 			}
 		}
 		dialog.setAdvancedLabelProvider(advancedLabelProvider);
-		List<Object> selectedObjects = new ArrayList<Object>();
-		selectedObjects.add(selectedObject);
-		dialog.setInitialElementSelections(selectedObjects);
+		dialog.setInitialElementSelections(ss==null?Collections.emptyList(): ss.toList());
 		if(dialog.open() == Window.OK){
 			Object[] selection = dialog.getResult();
-			if(selection != null && selection.length > 0){
-				setSelection(selection[0]);
+			if(isSingle && selection.length > 0){
+				setSelection(new StructuredSelection(selection[0]));
 			}else{
-				setSelection(null);
+				setSelection(new StructuredSelection(selection));
 			}
-			Event e = new Event();
-			contentPane.notifyListeners(SWT.Selection, e);
+			fireSelectionChanged(new SelectionChangedEvent(this, getSelection()));
 		}
 	}
 	protected Object[] getObjects(){
@@ -120,41 +124,14 @@ public class OpaeumSingleObjectChooser{
 	public void setChangeable(boolean isChangeable){
 		chooseBt.setEnabled(isChangeable);
 	}
-	public Object getSelection(){
-		return selectedObject;
+	public EObject getSelectedObject(){
+		return (EObject) (ss.isEmpty()?null:ss.getFirstElement());
 	}
-	public void setSelection(Object selection){
-		this.objects = null;
-		if("".equals(selection)){
-			selectedObject = null;
-		}else{
-			selectedObject = selection;
-		}
-		String name = "";
-		if(selectedObject != null){
-			name = labelProvider.getText(selectedObject);
-			if(name == null){
-				name = "";
-			}
-		}
-		field.setText(name);
-	}
-	public void addSelectionListener(SelectionListener listener){
-		if(listener == null){
-			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
-		TypedListener typedListener = new TypedListener(listener);
-		this.listeners.put(listener, typedListener);
-		contentPane.addListener(SWT.Selection, typedListener);
+	public IStructuredSelection getSelection(){
+		return ss;
 	}
 	public void addTextKeyListener(KeyListener listener){
 		field.addKeyListener(listener);
-	}
-	public void removeSelectionListener(SelectionListener listener){
-		if(listener == null){
-			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-		}
-		contentPane.removeListener(SWT.Selection, listeners.remove(listener));
 	}
 	static class NullObject{
 		public String toString(){
@@ -168,7 +145,7 @@ public class OpaeumSingleObjectChooser{
 		return widgetFactory;
 	}
 	public void setEnabled(boolean enabled){
-//		contentPane.setEnabled(enabled);
+		// contentPane.setEnabled(enabled);
 		field.setEnabled(enabled);
 		chooseBt.setEnabled(enabled);
 	}
@@ -180,5 +157,60 @@ public class OpaeumSingleObjectChooser{
 	}
 	public Composite getContentPane(){
 		return contentPane;
+	}
+	@Override
+	public Control getControl(){
+		return contentPane;
+	}
+	@Override
+	public Object getInput(){
+		return this.choiceProvider;
+	}
+	@Override
+	public void refresh(){
+	}
+	@Override
+	public void setInput(Object input){
+		this.choiceProvider = ((IChoiceProvider) input);
+	}
+	@Override
+	public void setSelection(ISelection selection,boolean reveal){
+		this.ss = (IStructuredSelection) selection;
+		if(isSingle && ss.size()>1){
+			ss=new StructuredSelection(ss.getFirstElement());
+		}
+		objects=null;
+		StringBuilder buffer = concateText();
+		text.setText(buffer.toString());
+	}
+	protected StringBuilder concateText(){
+		Iterator<?> iterator = ss.iterator();
+		StringBuilder buffer = new StringBuilder();
+		boolean firstDone = false;
+		while(iterator.hasNext()){
+			Object object = iterator.next();
+			if(firstDone){
+				buffer.append(", ");
+			}
+			if(!object.toString().equals("")){
+				if(isSingle){
+					buffer.append(labelProvider.getText(object));
+				}else if(object instanceof NamedElement){
+					buffer.append(((NamedElement) object).getName());
+				}
+				firstDone=true;
+			}
+		}
+		return buffer;
+	}
+	public void setSelection(EObject e){
+		if(e==null){
+			setSelection(new StructuredSelection());
+		}else{
+			setSelection(new StructuredSelection(e));
+		}
+	}
+	public void setSingle(boolean b){
+		this.isSingle=b;
 	}
 }

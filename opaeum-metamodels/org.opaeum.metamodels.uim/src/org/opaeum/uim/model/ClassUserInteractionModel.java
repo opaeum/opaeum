@@ -3,8 +3,6 @@
 package org.opaeum.uim.model;
 
 import org.eclipse.emf.common.util.EList;
-import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.cube.CubeQueryEditor;
 import org.opaeum.uim.editor.ObjectEditor;
 import org.opaeum.uim.wizard.NewObjectWizard;

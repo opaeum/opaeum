@@ -12,8 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.plaf.basic.BasicPopupMenuUI;
-
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
@@ -22,7 +20,6 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.utilities.JavaPathNames;

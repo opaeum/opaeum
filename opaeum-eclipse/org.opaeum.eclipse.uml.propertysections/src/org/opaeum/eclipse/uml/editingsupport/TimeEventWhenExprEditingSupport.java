@@ -21,7 +21,7 @@ public class TimeEventWhenExprEditingSupport extends EditingDomainEditingSupport
 	private TabbedPropertySheetWidgetFactory toolkit;
 	private OpaqueExpressionCellEditor editor;
 	public TimeEventWhenExprEditingSupport(ColumnViewer viewer,TabbedPropertySheetWidgetFactory toolkit){
-		super(viewer);
+		super(viewer, "When", 300);
 		this.toolkit = toolkit;
 	}
 	@Override

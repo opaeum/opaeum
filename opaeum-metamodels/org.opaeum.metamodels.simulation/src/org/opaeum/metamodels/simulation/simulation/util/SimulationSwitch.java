@@ -5,9 +5,7 @@ package org.opaeum.metamodels.simulation.simulation.util;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
 import org.eclipse.uml2.uml.DeployedArtifact;
 import org.eclipse.uml2.uml.DeploymentTarget;
 import org.eclipse.uml2.uml.Element;
@@ -22,8 +20,24 @@ import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.TemplateableElement;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
-
-import org.opaeum.metamodels.simulation.simulation.*;
+import org.opaeum.metamodels.simulation.simulation.ActualInstance;
+import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
+import org.opaeum.metamodels.simulation.simulation.ExponentialDistribution;
+import org.opaeum.metamodels.simulation.simulation.InstanceSimulation;
+import org.opaeum.metamodels.simulation.simulation.LiteralSimpleType;
+import org.opaeum.metamodels.simulation.simulation.NormalDistribution;
+import org.opaeum.metamodels.simulation.simulation.NumberRangeDistribution;
+import org.opaeum.metamodels.simulation.simulation.NumericValueDistribution;
+import org.opaeum.metamodels.simulation.simulation.SimulatedValue;
+import org.opaeum.metamodels.simulation.simulation.SimulatingSlot;
+import org.opaeum.metamodels.simulation.simulation.SimulationModel;
+import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
+import org.opaeum.metamodels.simulation.simulation.UniformDistribution;
+import org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
 
 /**
  * <!-- begin-user-doc -->

@@ -1,6 +1,5 @@
 package org.opaeum.reverse.popup.actions;
 
-import java.awt.GridLayout;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -28,13 +27,10 @@ import org.eclipse.datatools.modelbase.sql.tables.BaseTable;
 import org.eclipse.datatools.modelbase.sql.tables.Column;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;

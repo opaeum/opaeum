@@ -1,42 +1,49 @@
 package org.opaeum.eclipse.uml.propertysections.subsections;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractMultiFeaturePropertySection;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractTabbedPropertySubsection;
 import org.opaeum.eclipse.uml.propertysections.base.IMultiPropertySection;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 
-public abstract class SubsectionComposite<T extends EObject> implements IMultiPropertySection{
+public abstract class AbstractDetailsSubsection<T extends EObject> implements IMultiPropertySection,ISelectionChangedListener{
 	protected EditingDomain mixedEditDomain;
 	protected TabbedPropertySheetWidgetFactory widgetFactory;
 	private List<AbstractTabbedPropertySubsection<?,?>> subsections = new ArrayList<AbstractTabbedPropertySubsection<?,?>>();
 	protected T selectedObject;
 	protected Composite contentPane;
-	public SubsectionComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
+	protected List<T> eObjectList;
+	public AbstractDetailsSubsection(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
 		super();
 		this.widgetFactory = widgetFactory;
-		contentPane=widgetFactory.createComposite(parent,style);
+		contentPane = widgetFactory.createComposite(parent, style);
 		GridLayout layout = new GridLayout(getNumberOfColumns(), false);
-		layout.marginHeight=0;
-		layout.verticalSpacing=3;
+		layout.marginHeight = 0;
+		layout.verticalSpacing = 3;
 		contentPane.setLayout(layout);
 		addSubsections();
 		createWidgets();
 		hookControlListeners();
 		setEnabled(false);
+	}
+	public void setEditingDomain(EditingDomain mixedEditDomain){
+		this.mixedEditDomain = mixedEditDomain;
 	}
 	private void hookControlListeners(){
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
@@ -49,16 +56,30 @@ public abstract class SubsectionComposite<T extends EObject> implements IMultiPr
 			ss.setEnabled(enabled);
 		}
 	}
-	public void setSelection(T s){
-		setEnabled(s != null);
+	@SuppressWarnings("unchecked")
+	@Override
+	public void selectionChanged(SelectionChangedEvent event){
+		eObjectList = new ArrayList<T>();
+		EObject s = null;
+		if(event != null){
+			Iterator<EObject> iterator = ((IStructuredSelection) event.getSelection()).iterator();
+			while(iterator.hasNext()){
+				EObject eObject = iterator.next();
+				if(s == null){
+					s = eObject;
+				}
+				eObjectList.add((T) eObject);
+			}
+		}
 		if(selectedObject != s){
 			removeListener();
-			this.selectedObject = s;
+			this.selectedObject = (T) s;
 			for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
 				ss.refresh();
 			}
 			addListener();
 		}
+		setEnabled(s != null);
 	}
 	protected int getNumberOfColumns(){
 		return 2;
@@ -84,7 +105,6 @@ public abstract class SubsectionComposite<T extends EObject> implements IMultiPr
 			gl.horizontalSpacing = 4;
 			ssc.setLayout(gl);
 			ss.createWidgets(ssc);
-			ss.hookControlListener();
 		}
 	}
 	public void setLayoutData(Object data){
@@ -92,22 +112,40 @@ public abstract class SubsectionComposite<T extends EObject> implements IMultiPr
 		int maxHeight = 5;
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
 			ss.updateLayoutData();
-			GridData gd = new GridData(SWT.FILL,SWT.FILL,true,true);
+			GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 			if(ss.getRowSpan() != null){
 				gd.verticalSpan = ss.getRowSpan();
 			}
 			if(ss.getColumnSpan() != null){
 				gd.horizontalSpan = ss.getColumnSpan();
+				if(ss instanceof ConstraintSpecificationSubsection){
+					Control control = ss.getControl();
+					GridData gd2= (GridData) control.getLayoutData();
+					gd2.grabExcessHorizontalSpace=true;
+					gd2.horizontalAlignment=SWT.FILL;
+					control.setLayoutData(gd2);
+				}
 			}
 			ss.getComposite().setLayoutData(gd);
 			maxHeight = Math.max(maxHeight, ss.getComposite().getSize().y);
 		}
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
 			GridData gd = (GridData) ss.getComposite().getLayoutData();
-			gd.minimumHeight = maxHeight;
-			gd.heightHint=maxHeight;
+			if(gd.verticalSpan == 1){
+				gd.minimumHeight = maxHeight;
+				gd.heightHint = maxHeight;
+			}else{
+				gd.minimumHeight = maxHeight*gd.verticalSpan;
+				gd.heightHint = maxHeight*gd.verticalSpan;
+			}
 			ss.getComposite().setLayoutData(gd);
 		}
+	}
+	public void dispose(){
+		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
+			ss.dispose();
+		}
+		contentPane.dispose();
 	}
 	protected abstract void addSubsections();
 	@Override
@@ -124,7 +162,7 @@ public abstract class SubsectionComposite<T extends EObject> implements IMultiPr
 	}
 	@Override
 	public Collection<EObject> getEObjectList(){
-		return new BasicEList<EObject>(Arrays.asList(selectedObject));
+		return new ArrayList<EObject>(this.eObjectList);
 	}
 	@Override
 	public EObject getEObject(){
@@ -159,6 +197,12 @@ public abstract class SubsectionComposite<T extends EObject> implements IMultiPr
 		ChooserSubsection result = new ChooserSubsection(this);
 		AbstractMultiFeaturePropertySection.populateSubsection(result, feature, labelText, labelWidth, controlWidth);
 		result.setChoiceProvider(choiceProvider);
+		return result;
+	}
+	public ConstraintSpecificationSubsection createOpaqueExpression(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
+		ConstraintSpecificationSubsection result = new ConstraintSpecificationSubsection(this);
+		AbstractMultiFeaturePropertySection.populateSubsection(result, feature, labelText, labelWidth, controlWidth);
+		result.setRowSpan(3);
 		return result;
 	}
 	public ComboSubsection createCombo(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth,IChoiceProvider choiceProvider){

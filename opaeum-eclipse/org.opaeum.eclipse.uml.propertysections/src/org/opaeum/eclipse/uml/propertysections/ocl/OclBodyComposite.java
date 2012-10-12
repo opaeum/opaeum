@@ -156,11 +156,6 @@ public abstract class OclBodyComposite extends Composite{
 		setLayout(layout);
 		viewer = new OpaeumOclViewer(this, new ColorManager(), SWT.MULTI | textControlStyle);
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		document = new OCLDocument();
-		factory = new OpaeumOclFactory(OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getOpaeumLibrary().getOcl());
-		document.setOCLFactory(factory);
-		document.setModelingLevel(ModelingLevel.M1);
-		viewer.setInput(document);
 		this.keyListener = new KeyListener();
 		Listener[] listeners = viewer.getTextWidget().getListeners(SWT.KeyDown);
 		for(Listener listener:listeners){
@@ -182,8 +177,7 @@ public abstract class OclBodyComposite extends Composite{
 			keyListener.lastVal = text;
 			getTextControl().setText(text);
 		}
-		getEditingDomain().getCommandStack().execute(
-				SetOclBodyCommand.create(getEditingDomain(), oclBodyOwner, getBodiesFeature(), getLanguagesFeature(), text));
+		getEditingDomain().getCommandStack().execute(SetOclBodyCommand.create(getEditingDomain(), oclBodyOwner, getBodiesFeature(), getLanguagesFeature(), text));
 		highlightError();
 	}
 	public StyledText getTextControl(){
@@ -203,8 +197,15 @@ public abstract class OclBodyComposite extends Composite{
 		return document.get();
 	}
 	protected void setOclContextImpl(NamedElement context,final NamedElement oclBodyowner){
-		this.oclBodyOwner = oclBodyowner;
 		if(viewer != null){
+			if(document == null){
+				document = new OCLDocument();
+				factory = new OpaeumOclFactory(OpaeumEclipseContext.findOpenUmlFileFor(context).getEmfWorkspace().getOpaeumLibrary().getOcl());
+				document.setOCLFactory(factory);
+				document.setModelingLevel(ModelingLevel.M1);
+				viewer.setInput(document);
+			}
+			this.oclBodyOwner = oclBodyowner;
 			if(oclBodyowner != null){
 				if(!updating){
 					viewer.getTextWidget().setText(getOclText(getBodies(), getLanguages()));
@@ -262,7 +263,7 @@ public abstract class OclBodyComposite extends Composite{
 			}else{
 				String id = EmfWorkspace.getId(ctx.getBodyContainer());
 				ouf.getEmfWorkspace().getErrorMap().getErrors().remove(id);
-				OclValidator v= new OclValidator();
+				OclValidator v = new OclValidator();
 				v.initialize(ouf.getEmfWorkspace(), ouf.getConfig());
 				v.visitRecursively(oclBodyOwner);
 				BrokenElement brokenElement = ouf.getEmfWorkspace().getErrorMap().getErrors().get(id);
@@ -284,7 +285,7 @@ public abstract class OclBodyComposite extends Composite{
 						message = brokenRule.getKey().name();
 					}else{
 						Object[] parameters = brokenRule.getValue().getParameters();
-						message = split[0] + " "+oclBodyOwner.getName()  +" ";
+						message = split[0] + " " + oclBodyOwner.getName() + " ";
 						for(int i = 2;i < split.length;i++){
 							if(i % 2 == 0){
 								message += split[i];
@@ -323,10 +324,9 @@ public abstract class OclBodyComposite extends Composite{
 		this.tabTo = tabTo;
 	}
 	protected boolean isOclContext(EObject container){
-		return(container instanceof Operation || container instanceof Property || container instanceof Classifier
-				|| container instanceof Action || container instanceof InstanceSpecification || container instanceof ValuePin
-				|| container instanceof Transition || container instanceof ActivityEdge || container instanceof JoinNode
-				|| container instanceof Constraint || container instanceof Package);
+		return(container instanceof Operation || container instanceof Property || container instanceof Classifier || container instanceof Action
+				|| container instanceof InstanceSpecification || container instanceof ValuePin || container instanceof Transition || container instanceof ActivityEdge
+				|| container instanceof JoinNode || container instanceof Constraint || container instanceof Package);
 	}
 	public abstract EStructuralFeature getBodiesFeature();
 	public abstract EStructuralFeature getLanguagesFeature();

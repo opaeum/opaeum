@@ -25,7 +25,6 @@ import org.opaeum.uim.model.ModelPackage;
 import org.opaeum.uim.model.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.provider.UimEditPlugin;
 import org.opaeum.uim.provider.UmlReferenceItemProvider;
-import org.opaeum.uim.provider.UserInteractionElementItemProvider;
 import org.opaeum.uim.wizard.WizardFactory;
 
 /**

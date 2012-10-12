@@ -73,9 +73,7 @@ public class UimContentAdapter extends EContentAdapter implements StereotypeAtta
 				}
 				if(notification.getNewValue() instanceof InvocationButton && notification.getEventType() == Notification.ADD){
 					InvocationButton a = (InvocationButton) notification.getNewValue();
-					// TODO
-					throw new RuntimeException();
-					// a.setPopup(org.opaeum.uim.action.ActionFactory.eINSTANCE.createOperationPopup());
+//					a.setPopup(this.modelSet.getUiResourceFor(e));
 				}
 				if(notification.getNotifier() instanceof UimField && notification.getEventType() == Notification.SET){
 					UimField field = (UimField) notification.getNotifier();
@@ -122,7 +120,7 @@ public class UimContentAdapter extends EContentAdapter implements StereotypeAtta
 	}
 	protected void refreshDataElements(TypedElement typedElement){
 		Element container = EmfElementFinder.getContainer(typedElement);
-		if(typedElement instanceof Property){
+		if(typedElement instanceof Property && ((Property) typedElement).getAssociationEnd()!=null){
 			formSynchronizer.beforeClass((Classifier) container);
 			// TODO refresh all the pages (Tables,Panels) that may refer to this classifier,i.e. containment properties, generalizations,
 			// interfacerealizations, paramaters,pins

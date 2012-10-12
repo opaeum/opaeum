@@ -14,7 +14,7 @@ import org.eclipse.uml2.uml.UMLPackage;
 
 public class ParameterDirectionEditingSupport extends EditingDomainEditingSupport{
 	public ParameterDirectionEditingSupport(ColumnViewer viewer){
-		super(viewer);
+		super(viewer,"Direction", 100);
 	}
 	@Override
 	protected CellEditor getCellEditor(Object element){

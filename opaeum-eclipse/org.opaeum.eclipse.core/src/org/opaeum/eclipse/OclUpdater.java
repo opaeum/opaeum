@@ -1,9 +1,7 @@
 package org.opaeum.eclipse;
 
-import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Classifier;
@@ -22,7 +20,6 @@ import org.opaeum.eclipse.commands.SetOclBodyCommand;
 import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
-import org.opaeum.metamodel.workspace.OpaeumOcl;
 import org.opaeum.ocl.uml.AbstractOclContext;
 
 public class OclUpdater implements OpaeumSynchronizationListener{

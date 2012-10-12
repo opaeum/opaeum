@@ -3,7 +3,6 @@
 package org.opaeum.metamodels.simulation.simulation.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.opaeum.metamodels.simulation.simulation.NumericValueDistribution;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 

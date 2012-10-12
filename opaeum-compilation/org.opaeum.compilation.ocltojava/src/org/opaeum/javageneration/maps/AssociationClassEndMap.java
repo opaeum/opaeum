@@ -2,7 +2,6 @@ package org.opaeum.javageneration.maps;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForAssociation;
 import org.opaeum.javageneration.util.OJUtil;

@@ -14,11 +14,8 @@ import org.eclipse.emf.facet.infra.query.core.exception.ModelQueryExecutionExcep
 import org.eclipse.emf.facet.infra.query.core.java.IJavaModelQuery;
 import org.eclipse.emf.facet.infra.query.core.java.ParameterValueList;
 import org.eclipse.gmf.runtime.notation.Diagram;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.PageOrdering;
-import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.resources.UimModelSet;

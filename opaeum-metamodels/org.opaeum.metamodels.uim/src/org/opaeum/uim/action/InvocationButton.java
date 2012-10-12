@@ -4,8 +4,6 @@ package org.opaeum.uim.action;
 
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UserInterfaceRoot;
-import org.opaeum.uim.wizard.InvocationWizard;
-import org.opaeum.uim.model.OperationInvocationWizard;
 
 /**
  * <!-- begin-user-doc -->

@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -21,7 +20,32 @@ public class Activator extends AbstractUIPlugin{
 		killExtension("org.eclipse.papyrus.views.modelexplorer.modelexplorer", "org.eclipse.ui.views", new String[]{"category",
 				"org.eclipse.papyrus.views.category","class","org.opaeum.papyrus.uml.modelexplorer.OpaeumModelExplorerPageBookView","icon","icons/ModelExplorer.gif",
 				"id","org.eclipse.papyrus.views.modelexplorer.modelexplorer","name","Opaeum Model Explorer","restorable","true"});
-		//TODO OpaeumItemProviderAdapterFactory
+		// TODO OpaeumItemProviderAdapterFactory
+		IExtensionRegistry r = Platform.getExtensionRegistry();
+		for(IConfigurationElement ce:r.getConfigurationElementsFor("org.eclipse.ui.menus")){
+			if(ce.getContributor() != null && ce.getContributor().getName().startsWith("org.eclipse.papyrus")){
+				if(ce.getName().equals("menuContribution") && "toolbar:org.eclipse.ui.main.toolbar".equals(ce.getAttribute("locationURI"))){
+//					IConfigurationElement[] children = ce.getChildren();
+//					for(IConfigurationElement pce:children){
+						Method method;
+						try{
+							method = ce.getClass().getDeclaredMethod("getConfigurationElement");
+							method.setAccessible(true);
+							Object po = method.invoke(ce);
+							Field f = po.getClass().getSuperclass() .getDeclaredField("children");
+							f.setAccessible(true);
+							f.set(po, new int[]{});
+							f = po.getClass().getDeclaredField("propertiesAndValue");
+							f.setAccessible(true);
+							f.set(po, new String[]{"locationURI",""});
+						}catch(Exception e){
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					//					}
+				}
+			}
+		}
 	}
 	private void killExtension(String papyrusId,String extensionPointId,Object attributes){
 		IConfigurationElement pce = findPapyrusConfigurationElement(papyrusId, extensionPointId);

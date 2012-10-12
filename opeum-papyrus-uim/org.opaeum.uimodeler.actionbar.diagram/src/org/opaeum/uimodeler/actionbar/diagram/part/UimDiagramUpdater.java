@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.component.UimComponent;
-import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.editor.InstanceEditor;
 import org.opaeum.uimodeler.actionbar.diagram.edit.parts.AbstractEditorEditPart;

@@ -22,7 +22,8 @@ import org.opaeum.metamodel.core.internal.TagNames;
 
 public class DeadlineKindEditingSupport extends EditingDomainEditingSupport{
 	public DeadlineKindEditingSupport(ColumnViewer viewer){
-		super(viewer);
+		super(viewer, "Deadline Kind", 100);
+		
 	}
 	@Override
 	protected CellEditor getCellEditor(Object element){

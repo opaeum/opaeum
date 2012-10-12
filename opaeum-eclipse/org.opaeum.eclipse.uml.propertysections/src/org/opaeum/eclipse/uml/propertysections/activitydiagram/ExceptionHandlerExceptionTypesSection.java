@@ -8,10 +8,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractReferenceLookupSection;
-import org.opaeum.eclipse.uml.propertysections.core.UmlMetaTypeRemover;
-import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
-import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
+
+
 
 public class ExceptionHandlerExceptionTypesSection extends AbstractReferenceLookupSection{
 	protected EStructuralFeature getFeature(){
@@ -26,9 +26,7 @@ public class ExceptionHandlerExceptionTypesSection extends AbstractReferenceLook
 	@Override
 	protected List<? extends EObject> getAvailableChoices(){
 		List<EObject> choices = new ArrayList<EObject>();
-		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
-		Collection<EObject> types = typeCacheAdapter.getReachableObjectsOfType(getEObject(), UMLPackage.eINSTANCE.getClassifier());
-		types = UmlMetaTypeRemover.removeAll(types);
+		Collection<EObject> types = OpaeumEclipseContext.getReachableObjectsOfType(getEObject(), UMLPackage.eINSTANCE.getClassifier());
 		choices.addAll(types);
 		return choices;
 	}

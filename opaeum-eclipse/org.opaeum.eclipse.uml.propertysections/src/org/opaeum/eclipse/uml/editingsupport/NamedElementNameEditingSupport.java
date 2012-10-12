@@ -13,7 +13,7 @@ import org.eclipse.uml2.uml.UMLPackage;
 public class NamedElementNameEditingSupport extends EditingDomainEditingSupport{
 	private final TableViewer viewer;
 	public NamedElementNameEditingSupport(TableViewer viewer){
-		super(viewer);
+		super(viewer, "Name");
 		this.viewer = viewer;
 	}
 	@Override

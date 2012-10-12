@@ -3,7 +3,6 @@
 package org.opaeum.uim.perspective;
 
 import org.opaeum.uim.UserInteractionElement;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->

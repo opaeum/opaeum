@@ -15,7 +15,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.validation.marker.MarkerUtil;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;

@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -75,6 +75,7 @@ public final class OpaeumEnvironment extends OpaeumParentEnvironment{
 		Classifier selfClassifier = EmfBehaviorUtil.getSelf(context);
 		self.setType(selfClassifier);
 		setSelfVariable(self);
+		addElement("self", self, false);
 		if(selfClassifier instanceof Behavior){
 			Classifier contextObject = EmfBehaviorUtil.getContext(context);
 			if(contextObject != null && contextObject != selfClassifier){

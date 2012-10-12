@@ -67,8 +67,7 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 					element.eResource().getContents().add(sa);
 					if(!(element instanceof Pin) && element instanceof NamedElement && owner instanceof Namespace){
 						NamedElement ne = (NamedElement) element;
-						if(stereotypeIsKeyword && ne.getName().startsWith(ne.eClass().getName())
-								&& Character.isDigit(ne.getName().charAt(ne.getName().length() - 1))){
+						if(stereotypeIsKeyword && ne.getName().startsWith(ne.eClass().getName()) && Character.isDigit(ne.getName().charAt(ne.getName().length() - 1))){
 							String keyWord = stereotype.getName();
 							setUniqueName(keyWord, ne);
 						}
@@ -201,16 +200,6 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 			}
 		}
 		ne.setName(stereotypeName + (lastNumber + 1));
-	}
-	private String getSignificantKeyWord(NamedElement ne){
-		String keyWord = null;
-		for(Stereotype s:ne.getAppliedStereotypes()){
-			if(!s.getName().equals(ne.eClass().getName()) && !s.getName().equals("Entity")){
-				keyWord = s.getName();
-				break;
-			}
-		}
-		return keyWord;
 	}
 	public void redo(){
 		execute();

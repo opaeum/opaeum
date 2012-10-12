@@ -64,7 +64,7 @@ public class UserTextTableComposite extends Composite{
 	private Button addButton;
 	private Button removeButton;
 	private List<EditingDomainEditingSupport> viewerColumns = new ArrayList<EditingDomainEditingSupport>();
-	static Map<String,Locale> locales=new HashMap<String,Locale>();
+	static Map<String,Locale> locales = new HashMap<String,Locale>();
 	static{
 		for(Locale locale:OpaeumConfig.getAvailableLocales()){
 			locales.put(locale.toString(), locale);
@@ -95,7 +95,6 @@ public class UserTextTableComposite extends Composite{
 		widgetFactory.adapt(this);
 		createContents(this);
 	}
-	
 	public void setOwner(Element owner){
 		removeAdaptor();
 		this.owner = owner;
@@ -172,8 +171,7 @@ public class UserTextTableComposite extends Composite{
 				Object object = userTextTable.getSelection()[0].getData();
 				EAnnotation ann = StereotypesHelper.getInternationalization(owner);
 				if(ann != null){
-					editingDomain.getCommandStack().execute(
-							RemoveCommand.create(editingDomain, ann, EcorePackage.eINSTANCE.getEAnnotation_Details(), object));
+					editingDomain.getCommandStack().execute(RemoveCommand.create(editingDomain, ann, EcorePackage.eINSTANCE.getEAnnotation_Details(), object));
 					refresh();
 				}
 				// if(getOwnedParameters().size() > 0){
@@ -196,7 +194,7 @@ public class UserTextTableComposite extends Composite{
 			}
 		});
 		TableViewerColumn text = createTableViewerColumn("Text", 200, 2);
-		EditingDomainEditingSupport textEs = new EditingDomainEditingSupport(userTextTableViewer){
+		EditingDomainEditingSupport textEs = new EditingDomainEditingSupport(userTextTableViewer, "User Text", 300){
 			private final TableViewer viewer = userTextTableViewer;
 			@Override
 			protected CellEditor getCellEditor(Object element){
@@ -213,16 +211,19 @@ public class UserTextTableComposite extends Composite{
 			@Override
 			protected void setValue(Object element,Object value){
 				EStringToStringMapEntryImpl entry = (EStringToStringMapEntryImpl) element;
-				editingDomain.getCommandStack().execute(
-						SetCommand.create(editingDomain, entry, EcorePackage.eINSTANCE.getEStringToStringMapEntry_Value(), value));
+				editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, entry, EcorePackage.eINSTANCE.getEStringToStringMapEntry_Value(), value));
+			}
+			@Override
+			public CellLabelProvider getLabelProvider(){
+				return new CellLabelProvider(){
+					@Override
+					public void update(ViewerCell cell){
+						cell.setText(((Map.Entry<String,String>) cell.getElement()).getValue());
+					}
+				};
 			}
 		};
-		text.setLabelProvider(new CellLabelProvider(){
-			@Override
-			public void update(ViewerCell cell){
-				cell.setText(((Map.Entry<String,String>) cell.getElement()).getValue());
-			}
-		});
+		text.setLabelProvider(textEs.getLabelProvider());
 		text.setEditingSupport(textEs);
 		this.viewerColumns.add(textEs);
 	}
@@ -253,17 +254,14 @@ public class UserTextTableComposite extends Composite{
 						ann = EcoreFactory.eINSTANCE.createEAnnotation();
 						ann.setSource(StereotypeNames.INTERNATIONALIZATION_URI);
 						ann.getDetails().put(l.toString(), NameConverter.separateWords(NameConverter.capitalize(name)));
-						AddCommand addCommand = (AddCommand) AddCommand.create(editingDomain, owner,
-								EcorePackage.eINSTANCE.getEModelElement_EAnnotations(), ann);
+						AddCommand addCommand = (AddCommand) AddCommand.create(editingDomain, owner, EcorePackage.eINSTANCE.getEModelElement_EAnnotations(), ann);
 						editingDomain.getCommandStack().execute(addCommand);
 						adaptor.subscribeTo(ann, 2);
 					}else{
-						EStringToStringMapEntryImpl entry = (EStringToStringMapEntryImpl) EcoreFactory.eINSTANCE.create(EcorePackage.eINSTANCE
-								.getEStringToStringMapEntry());
+						EStringToStringMapEntryImpl entry = (EStringToStringMapEntryImpl) EcoreFactory.eINSTANCE.create(EcorePackage.eINSTANCE.getEStringToStringMapEntry());
 						entry.setKey(l.toString());
 						entry.setValue(NameConverter.separateWords(NameConverter.capitalize(name)));
-						AddCommand addCommand = (AddCommand) AddCommand.create(editingDomain, ann, EcorePackage.eINSTANCE.getEAnnotation_Details(),
-								entry);
+						AddCommand addCommand = (AddCommand) AddCommand.create(editingDomain, ann, EcorePackage.eINSTANCE.getEAnnotation_Details(), entry);
 						editingDomain.getCommandStack().execute(addCommand);
 						adaptor.subscribeTo(entry, 1);
 					}
@@ -282,10 +280,10 @@ public class UserTextTableComposite extends Composite{
 				vc.setEditingDomain(editingDomain);
 			}
 			MenuItem[] items = addButton.getMenu().getItems();
-			boolean enabled=false;
+			boolean enabled = false;
 			for(MenuItem menuItem:items){
 				menuItem.setEnabled(ann == null || !ann.getDetails().containsKey(((Locale) menuItem.getData()).toString()));
-				enabled=enabled||menuItem.isEnabled();
+				enabled = enabled || menuItem.isEnabled();
 			}
 			if(ann == null){
 				userTextTableViewer.setInput(null);

@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -22,8 +21,6 @@ import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.perspective.ExplorerClassConstraint;
 import org.opaeum.uim.perspective.PerspectiveFactory;
 import org.opaeum.uim.perspective.PerspectivePackage;
-import org.opaeum.uim.provider.UimEditPlugin;
-import org.opaeum.uim.provider.UmlReferenceItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.perspective.ExplorerClassConstraint} object.

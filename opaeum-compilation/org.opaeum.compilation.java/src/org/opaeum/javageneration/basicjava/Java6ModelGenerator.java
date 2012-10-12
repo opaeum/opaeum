@@ -18,7 +18,6 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Signal;
-import org.eclipse.uml2.uml.StateMachine;
 import org.opaeum.eclipse.CodeGenerationStrategy;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;

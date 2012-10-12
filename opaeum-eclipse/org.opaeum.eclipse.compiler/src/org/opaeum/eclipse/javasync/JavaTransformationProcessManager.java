@@ -12,7 +12,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.eclipse.uml2.uml.Element;
-import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
+import org.opaeum.eclipse.OpaeumScheduler;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.OpaeumSynchronizationListener;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
@@ -26,7 +26,6 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.bpm.BpmJavaStep;
 import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public class JavaTransformationProcessManager implements IStartup,Runnable{
@@ -114,7 +113,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	}
 	@Override
 	public void earlyStartup(){
-		EmfToOpaeumSynchronizer.schedule(new Runnable(){
+		OpaeumScheduler.schedule(new Runnable(){
 			@Override
 			public void run(){
 				Display.getDefault().syncExec(JavaTransformationProcessManager.this);

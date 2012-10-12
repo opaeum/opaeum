@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.xmi.DOMHandler;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.ResourceSetChangeEvent;
-import org.eclipse.emf.transaction.ResourceSetListener;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.core.listener.DiagramEventBroker;
 import org.eclipse.gmf.runtime.notation.Bounds;
@@ -65,7 +64,6 @@ import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldNameEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart;
 import org.w3c.dom.Document;
 

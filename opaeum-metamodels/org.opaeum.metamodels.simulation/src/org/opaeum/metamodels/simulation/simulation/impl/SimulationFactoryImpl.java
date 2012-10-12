@@ -6,12 +6,28 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.opaeum.metamodels.simulation.simulation.*;
+import org.opaeum.metamodels.simulation.simulation.ActualInstance;
+import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
+import org.opaeum.metamodels.simulation.simulation.ExponentialDistribution;
+import org.opaeum.metamodels.simulation.simulation.InstanceSimulation;
+import org.opaeum.metamodels.simulation.simulation.LiteralSimpleType;
+import org.opaeum.metamodels.simulation.simulation.NormalDistribution;
+import org.opaeum.metamodels.simulation.simulation.NumberRangeDistribution;
+import org.opaeum.metamodels.simulation.simulation.NumericValueDistribution;
+import org.opaeum.metamodels.simulation.simulation.SimulatedValue;
+import org.opaeum.metamodels.simulation.simulation.SimulatingSlot;
+import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
+import org.opaeum.metamodels.simulation.simulation.SimulationModel;
+import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
+import org.opaeum.metamodels.simulation.simulation.SimulationStrategy;
+import org.opaeum.metamodels.simulation.simulation.UniformDistribution;
+import org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
 
 /**
  * <!-- begin-user-doc -->

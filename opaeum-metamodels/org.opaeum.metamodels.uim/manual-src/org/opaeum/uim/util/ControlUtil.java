@@ -2,14 +2,12 @@ package org.opaeum.uim.util;
 
 import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Parameter;
-import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfParameterUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.uim.UserInterfaceRoot;
-import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.control.ControlFactory;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.control.UimControl;

@@ -4,7 +4,6 @@ package org.opaeum.uim.model;
 
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->

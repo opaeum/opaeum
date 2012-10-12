@@ -1,11 +1,6 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
@@ -18,10 +13,10 @@ import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ComboSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.LiteralIntegerSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.StringSubsection;
-import org.opaeum.eclipse.uml.propertysections.subsections.SubsectionComposite;
-import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
+import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
 
-public class ParameterComposite extends SubsectionComposite<Parameter> {
+
+public class ParameterComposite extends AbstractDetailsSubsection<Parameter> implements ISelectionChangedListener {
 	private StringSubsection name;
 	private ChooserSubsection type;
 	private ComboSubsection direction;
@@ -34,10 +29,6 @@ public class ParameterComposite extends SubsectionComposite<Parameter> {
 	
 	public ParameterComposite(Composite parent,int style,final TabbedPropertySheetWidgetFactory widgetFactory){
 		super(parent, style,widgetFactory);
-		setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	}
-	public void setEditingDomain(EditingDomain mixedEditDomain){
-		this.mixedEditDomain = mixedEditDomain;
 	}
 	@Override
 	protected int getNumberOfColumns(){
@@ -50,12 +41,7 @@ public class ParameterComposite extends SubsectionComposite<Parameter> {
 		type=createChooser(UMLPackage.eINSTANCE.getTypedElement_Type(), "Type", 120, 280, new IChoiceProvider(){
 			@Override
 			public Object[] getChoices(){
-				List<Object> choices = new ArrayList<Object>();
-				choices.add("");
-				Collection<EObject> types = TypeCacheAdapter.getExistingTypeCacheAdapter(selectedObject).getReachableObjectsOfType(selectedObject,
-						UMLPackage.eINSTANCE.getClassifier());
-				choices.addAll(UmlMetaTypeRemover.removeAll(types));
-				return choices.toArray();
+				return TypedElementTypeSection.getValidTypes(getEObject());
 			}
 		});
 		type.setColumnSpan(2);

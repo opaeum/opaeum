@@ -3,7 +3,6 @@
 package org.opaeum.uim.perspective;
 
 import org.eclipse.emf.common.util.EList;
-import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 
 /**

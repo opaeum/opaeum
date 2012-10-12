@@ -40,8 +40,8 @@ public abstract class AbstractTriggerSection extends AbstractOpaeumPropertySecti
 	protected CLabel eventTypeLabel;
 	protected CCombo eventTypeCombo;
 	protected Group eventDetailsComposite;
-	protected ObjectChooserComposite signalChooserComposite;
-	protected ObjectChooserComposite operationChooserComposite;
+	protected EventSourceChooserComposite signalChooserComposite;
+	protected EventSourceChooserComposite operationChooserComposite;
 	protected RelativeTimeEventDetailsComposite relativeTimeEventDetailsComposite;
 	protected AbsoluteTimeEventDetailsComposite absoluteTimeEventDetailsComposite;
 	private StackLayout stack;

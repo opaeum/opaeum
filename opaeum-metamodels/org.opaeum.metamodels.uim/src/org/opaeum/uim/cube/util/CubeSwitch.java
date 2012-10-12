@@ -14,7 +14,6 @@ import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.binding.UimBinding;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
-import org.opaeum.uim.cube.*;
 import org.opaeum.uim.cube.AxisEntry;
 import org.opaeum.uim.cube.ColumnAxisEntry;
 import org.opaeum.uim.cube.CubePackage;

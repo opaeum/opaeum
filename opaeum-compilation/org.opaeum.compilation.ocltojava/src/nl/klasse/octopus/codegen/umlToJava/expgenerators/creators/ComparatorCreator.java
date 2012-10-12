@@ -15,7 +15,6 @@ import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPackage;
-import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;

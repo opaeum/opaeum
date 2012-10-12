@@ -2,7 +2,6 @@
  */
 package nl.klasse.tools.common;
 
-import org.opaeum.name.NameConverter;
 
 /**
  *

@@ -47,7 +47,6 @@ import org.opaeum.metamodel.validation.IValidationRule;
 
 public class EObjectErrorSection extends AbstractOpaeumPropertySection implements IResourceChangeListener{
 	private Group group;
-	private TabbedPropertySheetPage page;
 	private IFile file;
 	@Override
 	protected EStructuralFeature getFeature(){
@@ -92,7 +91,6 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 	@Override
 	public void createControls(Composite parent,TabbedPropertySheetPage aTabbedPropertySheetPage){
 		super.createControls(parent, aTabbedPropertySheetPage);
-		this.page = aTabbedPropertySheetPage;
 	}
 	@Override
 	public void setInput(IWorkbenchPart part,org.eclipse.jface.viewers.ISelection selection){
@@ -140,7 +138,7 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 							gl.marginHeight = 0;
 							gl.verticalSpacing = 0;
 							EObject brokenElement = ctx.getCurrentEmfWorkspace().getModelElement(brokenRule.getValue().getElementId());
-							if(split.length == 1 && split[0].length()==0){
+							if(split.length == 1 && split[0].length() == 0){
 								createMessageFragment(brokenElement, comp, brokenRule.getKey().name(), brokenRule.getValue().getParameters());
 							}else{
 								for(int i = 0;i < split.length;i++){
@@ -159,8 +157,9 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 				fd.bottom = new FormAttachment(100);
 				this.group.setLayoutData(fd);
 				group.pack();
-				group.layout();
-				group.getParent().getParent().getParent().layout();
+				getSectionComposite().setVisible(true);
+				getSectionComposite().getParent().setLayoutData(new GridData(group.getSize().x+5, group.getSize().y+5));
+				getSectionComposite().getParent().getParent() .layout();
 			}
 		}
 	}
@@ -176,8 +175,7 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 			}
 			if(o instanceof Element){
 				Element element = (Element) o;
-				txt = createHyperlink(comp, getName((Element) EmfElementFinder.getContainer(element)) + "::" + getName(element),
-						OpaeumEclipseContext.getCurrentContext().getId(element));
+				txt = createHyperlink(comp, getName((Element) EmfElementFinder.getContainer(element)) + "::" + getName(element), EmfWorkspace.getId(element));
 			}else if(o != null){
 				txt = getWidgetFactory().createLabel(comp, o.toString());
 			}else{
@@ -196,21 +194,18 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 				for(IMarker m:file.findMarkers(EValidator.MARKER, true, 0)){
 					String markedElementUri = (String) m.getAttribute(EValidator.URI_ATTRIBUTE);
 					String brokenElementId = (String) m.getAttribute("BROKEN_ELEMENT_ID");
-					OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
-					if(currentContext != null){
-						EmfWorkspace emfWorkspace = currentContext.getCurrentEmfWorkspace();
-						if(markedElementUri != null && brokenElementId != null && emfWorkspace != null){
-							EObject problemElement = emfWorkspace.getModelElement(brokenElementId);
-							EObject eo = emfWorkspace.getResourceSet().getEObject(URI.createURI(markedElementUri), true);
-							while(eo != null){
-								if(eo == getEObject()){
-									markers.put(problemElement, m);
-									break;
-								}else{
-									eo = eo.eContainer();
-									if(eo instanceof DynamicEObjectImpl){
-										eo=UMLUtil.getBaseElement(eo);
-									}
+					EmfWorkspace emfWorkspace = OpaeumEclipseContext.findOpenUmlFileFor(getEObject()).getEmfWorkspace();
+					if(markedElementUri != null && brokenElementId != null && emfWorkspace != null){
+						EObject problemElement = emfWorkspace.getModelElement(brokenElementId);
+						EObject eo = emfWorkspace.getResourceSet().getEObject(URI.createURI(markedElementUri), true);
+						while(eo != null){
+							if(eo == getEObject()){
+								markers.put(problemElement, m);
+								break;
+							}else{
+								eo = eo.eContainer();
+								if(eo instanceof DynamicEObjectImpl){
+									eo = UMLUtil.getBaseElement(eo);
 								}
 							}
 						}
@@ -224,17 +219,15 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 	}
 	protected Hyperlink createHyperlink(Composite comp,String text,String id){
 		Hyperlink lbl = getWidgetFactory().createHyperlink(comp, text, SWT.NONE);
-		final EObject key = OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getModelElement(id);
+		final EObject key = OpaeumEclipseContext.findOpenUmlFileFor(getEObject()).getEmfWorkspace().getModelElement(id);
 		lbl.addMouseListener(new MouseListener(){
 			@Override
 			public void mouseUp(MouseEvent e){
 			}
 			@Override
 			public void mouseDown(MouseEvent e){
-				if(OpaeumEclipseContext.getCurrentContext() != null){
-					OpaeumEclipseContext.getCurrentContext().geteObjectSelectorUI().gotoEObject(key);
-					page.selectionChanged(getActivePage().getActiveEditor(), new StructuredSelection(key));
-				}
+				OpaeumEclipseContext.getContextFor(key).geteObjectSelectorUI().gotoEObject(key);
+				getPropertySheetPage().selectionChanged(getActivePage().getActiveEditor(), new StructuredSelection(key));
 			}
 			@Override
 			public void mouseDoubleClick(MouseEvent e){
@@ -243,19 +236,14 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 		return lbl;
 	}
 	protected String getName(Element element){
-		if(element==null){
+		if(element == null){
 			return "null";
 		}
 		return element instanceof NamedElement ? ((NamedElement) element).getName() : element.eClass().getName();
 	}
 	protected void hide(){
-		FormData fd = new FormData(0, 0);
-		fd.left = new FormAttachment(0, 0);
-		fd.right = new FormAttachment(0, 0);
-		fd.top = new FormAttachment(0, 0);
-		fd.bottom = new FormAttachment(0, 0);
-		this.group.setSize(0, 0);
-		this.group.setLayoutData(fd);
+		getSectionComposite().getParent().setLayoutData(new GridData(0, 0));
+		getSectionComposite().setVisible(false);
 	}
 	public static void main(String[] args){
 		String[] split = "asdf{1}dsfg{2}".split("[\\{\\}]");

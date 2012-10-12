@@ -19,8 +19,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;

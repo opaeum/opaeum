@@ -13,19 +13,21 @@ public class RecursiveAdapter extends EContentAdapter{
 	Set<EObject> subscriptions = new HashSet<EObject>();
 	public void subscribeTo(EObject e,int levels){
 		if(levels > 0){
-			e.eAdapters().add(this);
-			subscriptions.add(e);
-			for(EObject eObject:e.eContents()){
-				subscribeTo(eObject, levels - 1);
-			}
-			if(e instanceof Element)
-				for(EObject sa:((Element) e).getStereotypeApplications()){
-					subscriptions.add(sa);
-					sa.eAdapters().add(this);
-					for(EObject c:sa.eContents()){
-						subscribeTo(c, levels - 1);
-					}
+			if(!e.eAdapters().contains(this)){
+				e.eAdapters().add(this);
+				subscriptions.add(e);
+				for(EObject eObject:e.eContents()){
+					subscribeTo(eObject, levels - 1);
 				}
+				if(e instanceof Element)
+					for(EObject sa:((Element) e).getStereotypeApplications()){
+						subscriptions.add(sa);
+						sa.eAdapters().add(this);
+						for(EObject c:sa.eContents()){
+							subscribeTo(c, levels - 1);
+						}
+					}
+			}
 		}
 	}
 	@Override
@@ -33,7 +35,7 @@ public class RecursiveAdapter extends EContentAdapter{
 		super.notifyChanged(msg);
 	}
 	public void unsubscribe(){
-		for(EObject eObject:new HashSet<EObject>( this.subscriptions)){
+		for(EObject eObject:new HashSet<EObject>(this.subscriptions)){
 			eObject.eAdapters().remove(this);
 		}
 	}

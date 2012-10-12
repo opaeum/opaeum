@@ -4,7 +4,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.tabbed.IActionProvider;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;

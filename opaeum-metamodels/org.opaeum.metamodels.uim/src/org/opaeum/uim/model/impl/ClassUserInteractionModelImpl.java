@@ -18,7 +18,6 @@ import org.opaeum.uim.cube.CubeQueryEditor;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.ObjectEditor;
 import org.opaeum.uim.impl.UmlReferenceImpl;
-import org.opaeum.uim.model.AbstractUserInteractionModel;
 import org.opaeum.uim.model.ClassUserInteractionModel;
 import org.opaeum.uim.model.ModelPackage;
 import org.opaeum.uim.wizard.NewObjectWizard;

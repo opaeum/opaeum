@@ -21,7 +21,7 @@ public class ConstraintSpecificationEditingSupport extends EditingDomainEditingS
 	private TabbedPropertySheetWidgetFactory toolkit;
 	private OpaqueExpressionCellEditor editor;
 	public ConstraintSpecificationEditingSupport(ColumnViewer viewer,TabbedPropertySheetWidgetFactory toolkit){
-		super(viewer);
+		super(viewer,"Constraint", 300);
 		this.toolkit = toolkit;
 	}
 	@Override

@@ -10,7 +10,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimField;

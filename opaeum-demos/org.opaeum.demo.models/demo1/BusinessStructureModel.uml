@@ -245,20 +245,32 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6UAH0BOnEeK6bN8PqKkejg"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9k-wYBOnEeK6bN8PqKkejg" value="1"/>
+        <qualifier xmi:id="_SzT-ABRmEeKv7dSChE90vg" name="qualifier0">
+          <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Interface"/>
+        </qualifier>
       </ownedAttribute>
       <interfaceRealization xmi:id="_0pW4MJJNEeGW4L5IejZxpA" name="isAIBusinessComponent" client="_0l-NAJJNEeGW4L5IejZxpA">
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
         <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
       </interfaceRealization>
-      <ownedOperation xmi:id="_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1" isQuery="true">
+      <ownedOperation xmi:id="_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1" isQuery="true" postcondition="_ozSisBRuEeKYhv9CKiNDbg">
         <eAnnotations xmi:id="_q4U5EBNcEeK0HvQCxCC_Ag" source="http://opaum.org/i8n">
           <details xmi:id="_q4U5ERNcEeK0HvQCxCC_Ag" key="en_ZA" value="Operation1"/>
           <details xmi:id="_sCwE0BNcEeK0HvQCxCC_Ag" key="af_ZA" value="Bewerking"/>
         </eAnnotations>
+        <ownedRule xmi:id="_ozSisBRuEeKYhv9CKiNDbg" name="newConstraint" constrainedElement="_k_VZsMzBEeGKe7Qm4dvydQ">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_ozSisRRuEeKYhv9CKiNDbg" name="newConstraint_body">
+            <language>OCL</language>
+            <body>self.job.activity.costToCompany->sum()>2.3</body>
+          </specification>
+        </ownedRule>
         <ownedParameter xmi:id="_k_VZsMzBEeGKe7Qm4dvydQ" name="sdfgdkkfsdfs" type="_CQTWAGOeEeGwMNo027LgxA" direction="return">
           <eAnnotations xmi:id="_E9v24BD5EeKyJbNGWS4S8w" source="http://www.opaeum.org"/>
           <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sakaMBOkEeK6bN8PqKkejg"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_o1tMUBOkEeK6bN8PqKkejg" value="1"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_bNhwQBRxEeKYhv9CKiNDbg" name="parameter1">
+          <type xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_9gswQF-gEeGSPaWW9iQb9Q"/>
         </ownedParameter>
       </ownedOperation>
     </packagedElement>

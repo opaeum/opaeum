@@ -5,7 +5,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.wb.os.OSSupport;
-import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;

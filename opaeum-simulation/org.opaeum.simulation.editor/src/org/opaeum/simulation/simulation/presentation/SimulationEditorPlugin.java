@@ -3,13 +3,9 @@
 package org.opaeum.simulation.simulation.presentation;
 
 import org.eclipse.emf.common.EMFPlugin;
-
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
-
 import org.eclipse.uml2.uml.edit.UMLEditPlugin;
 
 /**

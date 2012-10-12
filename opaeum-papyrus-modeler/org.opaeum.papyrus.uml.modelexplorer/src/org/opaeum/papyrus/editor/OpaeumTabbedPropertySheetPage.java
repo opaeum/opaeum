@@ -2,6 +2,7 @@ package org.opaeum.papyrus.editor;
 
 import java.util.HashMap;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.facet.infra.browser.uicore.internal.model.LinkItem;
 import org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem;
 import org.eclipse.gef.EditPart;
@@ -24,11 +25,13 @@ import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabContents;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.eclipse.uml.propertysections.base.IOpaeumTabbedPropertySheetPage;
 import org.opaeum.papyrus.uml.modelexplorer.OpaeumModelExplorerPageBookView;
 import org.opaeum.propertysections.OpaeumSectionActionProvider;
 
+@SuppressWarnings("restriction")
 public final class OpaeumTabbedPropertySheetPage extends TabbedPropertySheetPage implements IOpaeumTabbedPropertySheetPage{
 	Integer labelWidth;
 	private ITabbedPropertySheetPageContributor contributor;
@@ -66,16 +69,20 @@ public final class OpaeumTabbedPropertySheetPage extends TabbedPropertySheetPage
 				selection = new StructuredSelection(array);
 			}
 			geActionProvider().setActionBars(contributor, getSite().getActionBars());
+			if(array.length > 0){
+				EObject eObject = (EObject) array[0];
+				OpaeumEclipseContext.getContextFor(eObject).geteObjectSelectorUI().pushSelection(eObject);
+			}
 		}
 		getSite().getActionBars().updateActionBars();
 		labelWidth = null;
 		super.selectionChanged(part, selection);
 		TabContents currentTab = tabs.get(getSelectedTab());
-		int max=40;
+		int max = 40;
 		if(currentTab != null){
-			TabbedPropertyComposite tbc=(TabbedPropertyComposite) super.getControl();
+			TabbedPropertyComposite tbc = (TabbedPropertyComposite) super.getControl();
 			Composite tabComposite = (Composite) tbc.getTabComposite().getChildren()[0];
-			Composite pageComposite=(Composite) tabComposite.getChildren()[0];
+			Composite pageComposite = (Composite) tabComposite.getChildren()[0];
 			Control[] children = pageComposite.getChildren();
 			ISection[] sections = currentTab.getSections();
 			for(int i = 0;i < sections.length;i++){
@@ -87,9 +94,9 @@ public final class OpaeumTabbedPropertySheetPage extends TabbedPropertySheetPage
 			for(int i = 0;i < sections.length;i++){
 				ISection s = sections[i];
 				if(s instanceof AbstractOpaeumPropertySection && !s.shouldUseExtraSpace()){
-					GridData gd= (GridData) children[i].getLayoutData();
-					gd.minimumHeight=max;
-					gd.heightHint=max;
+					GridData gd = (GridData) children[i].getLayoutData();
+					gd.minimumHeight = max;
+					gd.heightHint = max;
 				}
 			}
 			tbc.getTabComposite().layout();

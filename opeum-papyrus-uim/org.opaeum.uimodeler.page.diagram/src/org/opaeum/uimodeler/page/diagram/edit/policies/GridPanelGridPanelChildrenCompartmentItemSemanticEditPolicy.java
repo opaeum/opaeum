@@ -6,8 +6,8 @@ import org.opaeum.uimodeler.page.diagram.edit.commands.BuiltInActionButtonCreate
 import org.opaeum.uimodeler.page.diagram.edit.commands.BuiltInLinkCreateCommand;
 import org.opaeum.uimodeler.page.diagram.edit.commands.GridPanel2CreateCommand;
 import org.opaeum.uimodeler.page.diagram.edit.commands.HorizontalPanel2CreateCommand;
-import org.opaeum.uimodeler.page.diagram.edit.commands.LinkToQueryCreateCommand;
 import org.opaeum.uimodeler.page.diagram.edit.commands.InvocationButtonCreateCommand;
+import org.opaeum.uimodeler.page.diagram.edit.commands.LinkToQueryCreateCommand;
 import org.opaeum.uimodeler.page.diagram.edit.commands.TransitionButtonCreateCommand;
 import org.opaeum.uimodeler.page.diagram.edit.commands.UimDataTableCreateCommand;
 import org.opaeum.uimodeler.page.diagram.edit.commands.UimFieldCreateCommand;

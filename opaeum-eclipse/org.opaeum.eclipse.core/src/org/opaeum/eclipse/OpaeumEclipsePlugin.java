@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.opaeum.eclipse.newchild.CreateChildActions;
 import org.opaeum.eclipse.newchild.ICreateChildAction;
 import org.opaeum.eclipse.newchild.ICreateChildActionProvider;
 import org.opaeum.feature.ISourceFolderStrategy;

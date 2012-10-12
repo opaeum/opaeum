@@ -10,8 +10,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.ocl.types.OCLStandardLibrary;
-import org.eclipse.ocl.uml.UMLEnvironment;
-import org.eclipse.ocl.uml.UMLEnvironmentFactory;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;

@@ -11,9 +11,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
-import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
-import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
+
+
 
 public class GeneralizationGeneralSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
@@ -26,8 +27,7 @@ public class GeneralizationGeneralSection extends OpaeumChooserPropertySection{
 		
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
-		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
-		Collection<EObject> types = typeCacheAdapter.getReachableObjectsOfType(getEObject(), ((Generalization)getEObject()).getSpecific().eClass());
+		Collection<EObject> types = OpaeumEclipseContext.getReachableObjectsOfType(getEObject(), ((Generalization)getEObject()).getSpecific().eClass());
 		final Iterator<EObject> iterator = types.iterator();
 		while(iterator.hasNext()){
 			Classifier eObject = (Classifier) iterator.next();
@@ -39,7 +39,7 @@ public class GeneralizationGeneralSection extends OpaeumChooserPropertySection{
 		}
 		types.remove(((Generalization)getEObject()).getSpecific());
 
-		choices.addAll(UmlMetaTypeRemover.removeAll(types));
+		choices.addAll(UmlMetaTypeRemover.removeAssocations(types));
 		return choices.toArray();
 	}
 	protected Object getFeatureValue(){

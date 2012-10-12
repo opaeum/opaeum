@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 import nl.klasse.octopus.stdlib.IOclLibrary;
-import nl.klasse.tools.common.StringHelpers;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;

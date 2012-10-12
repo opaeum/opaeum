@@ -5,7 +5,12 @@
   <pageOrdering page="//@pages.2" position="2"/>
   <pageOrdering page="//@pages.3" position="3"/>
   <pages umlElementUid="914890@_dOodgMzBEeGKe7Qm4dvydQ" name="Task: Operation1">
-    <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+    <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+      <children xsi:type="comp:UimField" name="Parameter1" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown"/>
+        <binding umlElementUid="914890@_bNhwQBRxEeKYhv9CKiNDbg"/>
+      </children>
+    </panel>
   </pages>
   <pages umlElementUid="914890@_k_VZsMzBEeGKe7Qm4dvydQ" name="Sdfgdkk">
     <panel xsi:type="panel:GridPanel">

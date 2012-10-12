@@ -27,12 +27,14 @@ public class StringSubsection extends AbstractTabbedPropertySubsection<Text,Stri
 	}
 	@Override
 	public void hookControlListener(){
-		new TextChangeHelper(){
+		TextChangeHelper helper = new TextChangeHelper(){
 			@Override
 			public void textChanged(Control control){
 				updateModel();
 			}
-		}.startListeningTo(getControl());
+		};
+		helper.startListeningTo(getControl());
+		helper.startListeningForEnter(getControl());
 	}
 	public void setVisible(boolean b){
 		super.label.setVisible(b);

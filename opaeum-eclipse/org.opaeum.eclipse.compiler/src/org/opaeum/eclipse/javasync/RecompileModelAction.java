@@ -19,7 +19,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Model;
-import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;

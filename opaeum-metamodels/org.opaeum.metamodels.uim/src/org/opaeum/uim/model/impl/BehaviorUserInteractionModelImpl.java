@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.opaeum.uim.editor.BehaviorExecutionEditor;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.impl.UmlReferenceImpl;

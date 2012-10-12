@@ -7,15 +7,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 import org.opaeum.eclipse.uml.propertysections.subsections.BooleanSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
@@ -124,9 +121,9 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 		this.multiFeatureComposite = new Composite(parent, SWT.NONE);
 		getWidgetFactory().adapt(multiFeatureComposite);
 		GridLayout rl = new GridLayout(subsections.size(), false);
-		rl.marginHeight= 0;
-//		rl.horizontalSpacing=4;
-//		rl.verticalSpacing=0;
+		rl.marginHeight = 0;
+		// rl.horizontalSpacing=4;
+		// rl.verticalSpacing=0;
 		multiFeatureComposite.setLayout(rl);
 		int maxHeight = 0;
 		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
@@ -154,9 +151,11 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 		}
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
 			GridData gd = (GridData) ss.getComposite().getLayoutData();
-			gd.minimumHeight = 25;//maxHeight;
-			gd.heightHint=25;
-			ss.getComposite().setLayoutData(gd);
+			if(gd.verticalSpan == 1){
+				gd.minimumHeight = 25;// maxHeight;
+				gd.heightHint = 25;
+				ss.getComposite().setLayoutData(gd);
+			}
 		}
 	}
 	@Override
@@ -170,5 +169,12 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 	@Override
 	public void addSubsection(AbstractTabbedPropertySubsection<?,?> ss){
 		this.subsections.add(ss);
+	}
+	@Override
+	public void dispose(){
+		super.dispose();
+		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
+			ss.dispose();
+		}
 	}
 }

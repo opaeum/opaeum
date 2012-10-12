@@ -19,7 +19,7 @@ public class TypedElementTypeEditingSupport extends EditingDomainEditingSupport{
 	OpaeumLabelProvider labelProvider = new OpaeumLabelProvider();
 	private TabbedPropertySheetWidgetFactory toolkit;
 	public TypedElementTypeEditingSupport(ColumnViewer viewer,TabbedPropertySheetWidgetFactory toolkit){
-		super(viewer);
+		super(viewer,"Type",200);
 		this.toolkit = toolkit;
 	}
 	@Override

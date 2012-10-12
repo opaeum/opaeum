@@ -1,7 +1,6 @@
 package org.opaeum.java.metamodel.generated;
 
 import org.opaeum.java.metamodel.OJClass;
-import org.opaeum.java.metamodel.OJElement;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibleElement;

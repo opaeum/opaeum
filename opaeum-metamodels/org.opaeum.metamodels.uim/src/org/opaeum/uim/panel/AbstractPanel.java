@@ -3,7 +3,6 @@
 package org.opaeum.uim.panel;
 
 import org.opaeum.uim.LabeledElement;
-import org.opaeum.uim.Labels;
 import org.opaeum.uim.component.UimContainer;
 
 /**

@@ -6,15 +6,12 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.opaeum.eclipse.EmfConstraintUtil;
 import org.opaeum.eclipse.EmfElementUtil;
-import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;

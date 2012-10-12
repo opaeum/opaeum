@@ -13,7 +13,6 @@ import nl.klasse.tools.common.StringHelpers;
 import org.eclipse.ocl.expressions.TupleLiteralPart;
 import org.eclipse.ocl.uml.TupleLiteralExp;
 import org.eclipse.ocl.uml.TupleType;
-import org.eclipse.ocl.uml.Variable;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.javageneration.util.OJUtil;

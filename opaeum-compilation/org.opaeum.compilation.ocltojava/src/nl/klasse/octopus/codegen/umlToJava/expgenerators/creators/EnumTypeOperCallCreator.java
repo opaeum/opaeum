@@ -10,7 +10,6 @@ import java.util.List;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.visitors.OclUtilityCreator;
 
 import org.eclipse.ocl.uml.OperationCallExp;
-import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Operation;
 import org.opaeum.java.metamodel.OJClass;
 

@@ -1,6 +1,5 @@
 package org.opaeum.eclipse.uml.propertysections.property;
 
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.UMLPackage;

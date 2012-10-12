@@ -1,23 +1,8 @@
 package org.opaeum.uml2uim;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.papyrus.infra.core.sashwindows.di.DiFactory;
-import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
-import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.OpaqueAction;
-import org.eclipse.uml2.uml.Operation;
-import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
-import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.model.ClassUserInteractionModel;
-import org.opaeum.uim.model.EmbeddedTaskEditor;
-import org.opaeum.uim.model.QueryInvoker;
-import org.opaeum.uim.model.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.uml2uim.AbstractUimSynchronizer;
 import org.opaeum.uim.uml2uim.UimSynchronizationPhase;
 

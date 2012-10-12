@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.editor.EditorPackage;
-import org.opaeum.uim.editor.InstanceEditor;
 import org.opaeum.uim.panel.impl.AbstractPanelImpl;
 
 /**

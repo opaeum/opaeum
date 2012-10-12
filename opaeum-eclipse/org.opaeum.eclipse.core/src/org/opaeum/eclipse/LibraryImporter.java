@@ -1,10 +1,8 @@
 package org.opaeum.eclipse;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.PackageImport;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class LibraryImporter{
@@ -30,9 +28,6 @@ public class LibraryImporter{
 					library = m;
 				}
 			}
-		}
-		EList<PackageImport> packageImports = model.getPackageImports();
-		for(PackageImport packageImport:packageImports){
 		}
 		return library;
 	}

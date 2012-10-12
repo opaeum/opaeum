@@ -7,6 +7,8 @@
 package org.apache.maven.pom.impl;
 
 
+import static org.apache.maven.pom.POMPackage.RESOURCE;
+
 import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.ActivationFile;
 import org.apache.maven.pom.ActivationOS;

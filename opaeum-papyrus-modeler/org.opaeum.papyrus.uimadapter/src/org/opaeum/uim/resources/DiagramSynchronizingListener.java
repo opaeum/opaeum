@@ -17,9 +17,7 @@ import org.opaeum.uim.Page;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.component.UimComponent;
-import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.editor.ActionBar;
-import org.opaeum.uim.panel.AbstractPanel;
 import org.opaeum.uim.uml2uim.UserInterfaceUtil;
 
 public final class DiagramSynchronizingListener extends EContentAdapter{

@@ -21,7 +21,6 @@ import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.HorizontalPanelEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.VerticalPanelEditPart;

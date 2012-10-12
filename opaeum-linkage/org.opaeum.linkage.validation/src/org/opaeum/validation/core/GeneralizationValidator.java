@@ -1,8 +1,8 @@
 package org.opaeum.validation.core;
 
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Reception;

@@ -22,12 +22,12 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.common.TextChangeHelper;
-import org.opaeum.eclipse.uml.propertysections.core.UmlMetaTypeRemover;
 import org.opaeum.eclipse.uml.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
-import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
+
 
 public class PinDetailsComposite extends Composite{
 	private Pin pin;
@@ -133,8 +133,8 @@ public class PinDetailsComposite extends Composite{
 	private Object[] getChoices(){
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
-		Collection<EObject> types = TypeCacheAdapter.getExistingTypeCacheAdapter(pin).getReachableObjectsOfType(pin, UMLPackage.eINSTANCE.getType());
-		choices.addAll(UmlMetaTypeRemover.removeAll(types));
+		Collection<EObject> types = OpaeumEclipseContext.getReachableObjectsOfType(pin, UMLPackage.eINSTANCE.getType());
+		choices.addAll(types);
 		return choices.toArray();
 	}
 	public void setEditingDomain(EditingDomain editingDomain){

@@ -12,7 +12,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.uml2.uml.UMLPlugin;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 
 public class OpaeumLabelProvider extends LabelProvider{
