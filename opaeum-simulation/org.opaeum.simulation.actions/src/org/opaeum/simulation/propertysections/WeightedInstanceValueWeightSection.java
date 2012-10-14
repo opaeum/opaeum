@@ -4,9 +4,9 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractStringPropertySection;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
-import org.topcased.tabbedproperties.sections.AbstractStringPropertySection;
 
 public class WeightedInstanceValueWeightSection extends AbstractStringPropertySection{
 	@Override
@@ -14,7 +14,7 @@ public class WeightedInstanceValueWeightSection extends AbstractStringPropertySe
 		return SimulationPackage.eINSTANCE.getWeightedInstanceValue_Weight();
 	}
 	@Override
-	protected String getLabelText(){
+	public String getLabelText(){
 		return "Weight";
 	}
 	protected Object getNewFeatureValue(String newText){
@@ -36,6 +36,6 @@ public class WeightedInstanceValueWeightSection extends AbstractStringPropertySe
 		return getWeightedInstanceValue().getWeight();
 	}
 	public WeightedInstanceValue getWeightedInstanceValue(){
-		return (WeightedInstanceValue) getEObject();
+		return (WeightedInstanceValue) getSelectedObject();
 	}
 }

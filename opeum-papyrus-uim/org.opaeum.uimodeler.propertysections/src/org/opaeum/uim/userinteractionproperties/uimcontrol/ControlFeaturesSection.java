@@ -36,8 +36,7 @@ public class ControlFeaturesSection extends AbstractOpaeumPropertySection{
 		this.composite = composite;
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
 		UimField f = (UimField) getEObject();
 		if(f != null){
 			if(this.controlFeaturesComposite != null){

@@ -26,7 +26,6 @@ public abstract class AbstractComboPropertySection extends AbstractOpaeumPropert
 	protected ComboViewer combo;
 	private List<? extends EObject> comboValues;
 	protected abstract List<? extends EObject> getComboValues();
-	protected abstract Object getOldFeatureValue();
 	@Override
 	public Control getPrimaryInput(){
 		return combo.getCombo();
@@ -44,9 +43,10 @@ public abstract class AbstractComboPropertySection extends AbstractOpaeumPropert
 	@Override
 	protected void setSectionData(Composite composite){
 		FormData data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
+		data.left = new FormAttachment(labelCombo);
 		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+		data.top = new FormAttachment(0, 0);
+		data.bottom= new FormAttachment(100, 0);
 		combo.getCombo().setLayoutData(data);
 	}
 	@Override
@@ -62,20 +62,28 @@ public abstract class AbstractComboPropertySection extends AbstractOpaeumPropert
 		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
 	protected void handleComboModified(){
-		createCommand(getOldFeatureValue(), getSelectedItem());
+		updateModel(getSelectedItem());
 	}
 	protected Object getSelectedItem(){
 		return ((IStructuredSelection) combo.getSelection()).getFirstElement();
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
 		ILabelProvider lp = getLabelProvider();
-		for(EObject eObject:comboValues){
-			String text = lp.getText(eObject);
-			combo.add(text);
+		combo.setLabelProvider(lp);
+		combo.setInput(this.comboValues);
+		EObject featureOwner = getFeatureOwner(getSelectedObject());
+		if(featureOwner!=null){
+			Object v = featureOwner.eGet(getFeature(featureOwner));
+			if(v!=null){
+				combo.setSelection(new StructuredSelection(v));
+			}else{
+				combo.setSelection(new StructuredSelection());
+			}
+		}else{
+			combo.setSelection(new StructuredSelection());
+
 		}
-		combo.setSelection(new StructuredSelection(getOldFeatureValue()));
 	}
 	@Override
 	protected void setEnabled(boolean enabled){

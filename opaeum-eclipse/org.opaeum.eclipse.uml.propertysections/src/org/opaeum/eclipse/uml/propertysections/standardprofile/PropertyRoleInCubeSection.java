@@ -18,9 +18,9 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.uml.propertysections.common.TextChangeListener;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
-import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 	private DerivationFormulaText derivationFormula;
@@ -48,7 +48,7 @@ public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 	}
 	@Override
 	protected TypedElement getTypedElementFrom(EObject object){
-		return (TypedElement)object;
+		return (TypedElement) object;
 	}
 	protected boolean isMany(){
 		return safeGetProperty().getUpper() > 1 || safeGetProperty().getUpper() == -1 || safeGetProperty().getQualifiers().size() > 0;
@@ -59,7 +59,9 @@ public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 			super.handleModelChanged(msg);
 			switch(msg.getFeatureID(Property.class)){
 			case UMLPackage.PROPERTY__IS_DERIVED:
+			case UMLPackage.PROPERTY__IS_DERIVED_UNION:
 			case UMLPackage.PROPERTY__UPPER:
+			case UMLPackage.PROPERTY__QUALIFIER:
 				refresh();
 			}
 		}
@@ -85,8 +87,8 @@ public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 			lfd.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 			this.derivationFormula = new DerivationFormulaText(check.getParent(), SWT.BORDER);
 			String value = null;
-			if(propertyStereotype != null && getTypedElementFrom(getEObject()).isStereotypeApplied(propertyStereotype)){
-				value = (String) getTypedElementFrom(getEObject()).getValue(propertyStereotype, TagNames.DERIVATION_FORMULA);
+			if(propertyStereotype != null && getTypedElementFrom(getSelectedObject()).isStereotypeApplied(propertyStereotype)){
+				value = (String) getTypedElementFrom(getSelectedObject()).getValue(propertyStereotype, TagNames.DERIVATION_FORMULA);
 			}
 			value = value == null ? "" : value;
 			this.derivationFormula.getTextControl().setText(value);
@@ -95,8 +97,7 @@ public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 				public void textChanged(Control control){
 					EObject owner = safeGetProperty().getStereotypeApplication(propertyStereotype);
 					EStructuralFeature feature = propertyStereotype.getDefinition().getEStructuralFeature(TagNames.DERIVATION_FORMULA);
-					getEditingDomain().getCommandStack().execute(
-							SetCommand.create(getEditingDomain(), owner, feature, derivationFormula.getTextControl().getText()));
+					getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), owner, feature, derivationFormula.getTextControl().getText()));
 				}
 				@Override
 				public void focusOut(Control control){
@@ -113,18 +114,13 @@ public class PropertyRoleInCubeSection extends AbstractRoleInCubeSection{
 			check.getParent().layout();
 			check.getParent();
 			Classifier owner = (Classifier) EmfElementFinder.getContainer(safeGetProperty());
-			derivationFormula.setContentProposalProvider(new TypedElementContentProposalProvider(super.propertyStereotype, owner
-					.getAllAttributes()));
+			derivationFormula.setContentProposalProvider(new TypedElementContentProposalProvider(super.propertyStereotype, owner.getAllAttributes()));
 			boolean selection = check.getSelection();
 			derivationFormula.getTextControl().setEnabled(selection);
 			derivationFormula.setEnabled(selection);
 		}else{
 			super.displayFormulas();
 		}
-	}
-	@Override
-	public void refresh(){
-		super.refresh();
 	}
 	protected void removeFormula(){
 		if(this.derivationFormula != null){

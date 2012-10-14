@@ -21,6 +21,7 @@ import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
@@ -59,12 +60,13 @@ public class ActivityValidator extends AbstractValidator{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitEdge(ActivityEdge e){
+		//NB!! Doesn't matter much, but let's assume selection gets executed before transformation
 		// TODO validate edges,transformations and selections recursively until an object node is found. Remember to start from one side,
 		// say the start, and not to evaluate the same flow multiple times
 		ActivityNode es = EmfActivityUtil.getEffectiveTarget(e);
 		if((EmfActivityUtil.isImplicitJoin(es) || (es instanceof JoinNode)) && EmfActivityUtil.hasGuard(e)){
-			getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN,
-					EmfActivityUtil.isImplicitJoin(es) ? "implicit" : "explicit", EmfActivityUtil.getEffectiveTarget(e));
+			getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, EmfActivityUtil.isImplicitJoin(es) ? "implicit" : "explicit",
+					EmfActivityUtil.getEffectiveTarget(e));
 		}
 		if(e instanceof ObjectFlow){
 			ObjectFlow of = (ObjectFlow) e;
@@ -89,77 +91,60 @@ public class ActivityValidator extends AbstractValidator{
 							getErrorMap().putError(e, ActivityValidationRule.SOURCE_AND_TARGET_MULTIPLICTY_MUST_CORRESPOND, source, target);
 						}
 					}else{
-						Parameter returnParam = EmfBehaviorUtil.getReturnParameter(of.getSelection());
-						if(returnParam == null || EmfBehaviorUtil.getArgumentParameters(of.getSelection()).size() != 1){
-							getErrorMap().putError(e, ActivityValidationRule.SELECTION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getSelection());
-						}else{
-							if(returnParam.getType() != null && !returnParam.getType().conformsTo(targetType)){
-								getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, returnParam,
-										of.getSelection(), target);
-							}else{
-								Parameter arg1 = EmfBehaviorUtil.getArgumentParameters(of.getSelection()).get(0);
-								if(arg1.getType() != null){
-									if(!arg1.getType().conformsTo(sourceType)){
-										getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE,
-												EmfBehaviorUtil.getArgumentParameters(of.getSelection()).get(0), of.getSelection(), source);
-									}else if(!canDeliverOutputTo(source, arg1)){
-										getErrorMap().putError(e,
-												ActivityValidationRule.SELECTION_INPUT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_SOURCE_MULTIPLICITY,
-												EmfBehaviorUtil.getArgumentParameters(of.getSelection()).get(0), of.getSelection(), source);
-									}else if(!canAcceptInputFrom(target, returnParam)){
-										getErrorMap().putError(e,
-												ActivityValidationRule.SELECTION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY, returnParam,
-												of.getSelection(), target);
-									}else if(!EmfActivityUtil.isMultivalued(source)){
-										getErrorMap().putError(e, ActivityValidationRule.SELECTION_BEHAVIOR_ASSUMES_MULTIPLE_SOURCE_VALUES, source,
-												of.getSelection());
-									}
-								}
-							}
-						}
+						validateSelection(e, of, target, targetType, sourceType);
 					}
 				}else{
 					Parameter txResult = EmfBehaviorUtil.getReturnParameter(of.getTransformation());
 					if(txResult == null || EmfBehaviorUtil.getArgumentParameters(of.getTransformation()).size() != 1){
 						getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getTransformation());
-					}else if(txResult.getType()!=null && !txResult.getType().conformsTo(targetType)){
-						getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, txResult,
-								of.getTransformation(), target);
+					}else if(txResult.getType() != null && !txResult.getType().conformsTo(targetType)){
+						getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, txResult, of.getTransformation(), target);
 					}else if(!EmfBehaviorUtil.getArgumentParameters(of.getTransformation()).get(0).getType().conformsTo(sourceType)){
 						getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE, source, target);
-					}else if(!canAcceptInputFrom(target, txResult)){
-						getErrorMap().putError(e,
-								ActivityValidationRule.TRANSFORMATION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY, txResult,
+					}else if(!canReadDataFrom(target, txResult)){
+						getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY, txResult,
 								of.getTransformation(), target);
-					}else if(EmfBehaviorUtil.getArgumentParameters(of.getTransformation()).get(0).getUpper() != 1){
+					}else if(EmfBehaviorUtil.getArgumentParameters(of.getTransformation()).get(0).isMultivalued()){
 						getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_ARGUMENT_MULTIPLICITY_MUST_BE_ONE,
 								EmfBehaviorUtil.getArgumentParameters(of.getTransformation()).get(0), of.getTransformation());
 					}else if(!EmfBehaviorUtil.getArgumentParameters(of.getTransformation()).get(0).getType().conformsTo(sourceType)){
 						getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE, source, target);
 					}else if(of.getSelection() != null){
-						Parameter returnParam = EmfBehaviorUtil.getReturnParameter(of.getSelection());
-						if(returnParam == null || EmfBehaviorUtil.getArgumentParameters(of.getSelection()).size() != 1){
-							getErrorMap().putError(e, ActivityValidationRule.SELECTION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getSelection());
-						}else{
-							if(!returnParam.getType().conformsTo(txResult.getType())){
-								getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, returnParam,
-										of.getSelection(), target);
-							}else{
-								Parameter input = EmfBehaviorUtil.getArgumentParameters(of.getSelection()).get(0);
-								if(!input.getType().conformsTo(txResult.getType())){
-									getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MUST_CONFORM_TO_TRANSFORMATION_RESULT_TYPE,
-											EmfBehaviorUtil.getArgumentParameters(of.getSelection()).get(0), of.getSelection(), txResult, of.getTransformation());
-								}else if(!txResult.compatibleWith(input)){
-									getErrorMap().putError(e,
-											ActivityValidationRule.SELECTION_INPUT_MULTIPLICITY_MUST_CORRESPOND_WITH_TRANSFORMATION_RESULT_MULTIPLICITY,
-											EmfBehaviorUtil.getArgumentParameters(of.getSelection()).get(0), of.getSelection(), txResult, of.getTransformation());
-								}else if(!canAcceptInputFrom(target, returnParam)){
-									getErrorMap().putError(e,
-											ActivityValidationRule.SELECTION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY, returnParam,
-											of.getSelection(), target);
-								}
-							}
-						}
+						validateSelection(e, of, target, targetType, sourceType);
+					}
+				}
+			}
+		}
+	}
+	private void validateSelection(ActivityEdge e,ObjectFlow of,ObjectNode target,Type targetType,Type sourceType){
+		Parameter returnParam = EmfBehaviorUtil.getReturnParameter(of.getSelection());
+		if(!(of.getSource() instanceof ObjectNode)){
+			getErrorMap().putError(e, ActivityValidationRule.SELECTION_REQUIRES_OBJECT_SOURCE_NODE, of.getSelection());
+		}
+
+		if(returnParam == null || EmfBehaviorUtil.getArgumentParameters(of.getSelection()).size() != 1){
+			getErrorMap().putError(e, ActivityValidationRule.SELECTION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getSelection());
+		}else{
+			if(returnParam.getType() != null && !returnParam.getType().conformsTo(targetType)){
+				getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, returnParam, of.getSelection(), target);
+			}else{
+				Parameter arg1 = EmfBehaviorUtil.getArgumentParameters(of.getSelection()).get(0);
+				if(arg1.getType() != null && of.getSource() instanceof ObjectNode){
+					ObjectNode selectionSource=(ObjectNode) of.getSource();
+					if(!arg1.getType().conformsTo(sourceType)){
+						getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE,
+								arg1, of.getSelection(), selectionSource);
+					}
+					if(!arg1.isMultivalued()){
+						getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MULTIPLICITY_MUST_BE_BAG,
+								arg1, of.getSelection(), selectionSource);
+					}
+					if(returnParam.isMultivalued()){
+						getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MULTIPLICITY_MUST_BE_SINGLE_VALUED, returnParam,
+								of.getSelection(), target);
+					}
+					if(!EmfActivityUtil.isMultivalued(selectionSource)){
+						getErrorMap().putError(e, ActivityValidationRule.SELECTION_BEHAVIOR_ASSUMES_MULTIPLE_SOURCE_VALUES, selectionSource, of.getSelection());
 					}
 				}
 			}
@@ -186,12 +171,12 @@ public class ActivityValidator extends AbstractValidator{
 			getErrorMap().putError(action, ActivityValidationRule.ACCEPT_EVENT_ACTION_ONLY_IN_PROCESS, action.getActivity());
 		}else if(action instanceof CallBehaviorAction){
 			CallBehaviorAction callAction = (CallBehaviorAction) action;
-			if( callAction.getBehavior()!=null &&  EmfBehaviorUtil.isLongRunning(callAction.getBehavior())){
+			if(callAction.getBehavior() != null && EmfBehaviorUtil.isLongRunning(callAction.getBehavior())){
 				getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS);
 			}
 		}else if(action instanceof CallOperationAction){
 			CallOperationAction callAction = (CallOperationAction) action;
-			if( callAction.getOperation()!=null && EmfBehaviorUtil.isLongRunning(callAction.getOperation())){
+			if(callAction.getOperation() != null && EmfBehaviorUtil.isLongRunning(callAction.getOperation())){
 				getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS);
 			}
 		}

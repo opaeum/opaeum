@@ -7,16 +7,15 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
-import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
-import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 
-public class EditableSecureObjectEditabilitySection extends OpaeumChooserPropertySection{
+public class EditableSecureObjectEditabilitySection extends AbstractChooserPropertySection{
 	public String getLabelText(){
 		return "Editability";
 	}
@@ -33,7 +32,7 @@ public class EditableSecureObjectEditabilitySection extends OpaeumChooserPropert
 		List<AdapterFactory> f = new ArrayList<AdapterFactory>();
 		f.add(new UimItemProviderAdapterFactory());
 		f.add(new OpaeumItemProviderAdapterFactory());
-		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
-		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
+		f.addAll(getPrincipalAdapterFactories());
+		return new AdapterFactoryLabelProvider(new ComposedAdapterFactory(f));
 	}
 }

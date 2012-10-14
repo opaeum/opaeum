@@ -45,26 +45,25 @@ import org.opaeum.name.NameConverter;
 public abstract class AbstractTableComposite<T extends EObject> extends Composite{
 	private boolean isRefreshing = false;
 	protected abstract void createColumns();
-	public T owner;
-	private EditingDomain editingDomain;
+	public EObject owner;
+	protected EditingDomain editingDomain;
 	protected TabbedPropertySheetWidgetFactory widgetFactory;
 	protected TableViewer tableViewer;
-	private Button addButton;
-	private Button removeButton;
-	private Button moveUpButton;
-	private Button moveDownButton;
+	protected Button addButton;
+	protected Button removeButton;
+	protected Button moveUpButton;
+	protected Button moveDownButton;
 	protected EStructuralFeature feature;
 	private T selectedObject;
 	protected List<EditingDomainEditingSupport> viewerColumns = new ArrayList<EditingDomainEditingSupport>();
 	protected RecursiveAdapter adaptor = new RecursiveAdapter(){
 		@SuppressWarnings("unchecked")
 		@Override
-		public void notifyChanged(Notification msg){
+		public void safeNotifyChanged(Notification msg){
 			if(table.isDisposed()){
 				// Should not, but does happen
 				((T) msg.getNotifier()).eAdapters().remove(adaptor);
 			}else{
-				super.notifyChanged(msg);
 				if(msg.getNotifier() instanceof EObject && isInterestingFeature(msg.getFeature())){
 					boolean inScope = false;
 					EObject notifier = (EObject) msg.getNotifier();
@@ -92,7 +91,7 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 		createContents(this);
 		this.feature = feature;
 	}
-	public void setOwner(T owner){
+	public void setOwner(EObject owner){
 		removeAdaptor();
 		this.owner = owner;
 		addAdaptor();
@@ -177,8 +176,7 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 		createColumns();
 		addButton.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent event){
-				Command addCommand = AddCommand.create(editingDomain, owner, feature, getNewChild());
-				editingDomain.getCommandStack().execute(addCommand);
+				addNew();
 				refresh();
 				T newObject = getObjectList().get(getObjectList().size() - 1);
 				newObject.eAdapters().add(adaptor);
@@ -188,7 +186,7 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 		removeButton.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent event){
 				Object object = table.getSelection()[0].getData();
-				editingDomain.getCommandStack().execute(RemoveCommand.create(editingDomain, object));
+				removeOld(object);
 				refresh();
 				if(getObjectList().size() > 0){
 					tableViewer.setSelection(new StructuredSelection(getObjectList().get(0)));
@@ -269,5 +267,12 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 	}
 	public void addSelectionChangedListener(ISelectionChangedListener listener){
 		tableViewer.addSelectionChangedListener(listener);
+	}
+	protected void addNew(){
+		Command addCommand = AddCommand.create(editingDomain, owner, feature, getNewChild());
+		editingDomain.getCommandStack().execute(addCommand);
+	}
+	protected void removeOld(Object object){
+		editingDomain.getCommandStack().execute(RemoveCommand.create(editingDomain, object));
 	}
 }

@@ -42,11 +42,13 @@ public class UserInterfaceTextSection extends AbstractOpaeumPropertySection{
 		data.top = new FormAttachment(userInterfaceTextTableComposite, ITabbedPropertyConstants.VSPACE);
 		parameterDetailsGroup.setLayoutData(data);
 	}
-	public void refresh(){
-		super.refresh();
+	@Override
+	public void populateControls(){
+		super.populateControls();
+
 		EditingDomain mixedEditDomain = getEditingDomain();
 		userInterfaceTextTableComposite.setEditingDomain(mixedEditDomain);
-		userInterfaceTextTableComposite.setOwner((Element) getEObject());
+		userInterfaceTextTableComposite.setOwner((Element) getSelectedObject());
 	}
 	public void setEnabled(boolean b){
 		super.setEnabled(b);

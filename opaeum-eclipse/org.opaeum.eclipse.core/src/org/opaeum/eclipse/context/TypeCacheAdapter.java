@@ -32,7 +32,6 @@ public class TypeCacheAdapter implements Adapter.Internal{
 	private Set<String> ignoredLibraries = new HashSet<String>();
 	{
 		ignoredLibraries.add("ECorePrimitiveTypes".toUpperCase());
-		ignoredLibraries.add("UMLPrimitiveTypes".toUpperCase());
 		ignoredLibraries.add("JavaPrimitiveTypes".toUpperCase());
 	}
 	public TypeCacheAdapter(){
@@ -85,10 +84,11 @@ public class TypeCacheAdapter implements Adapter.Internal{
 			EObject rootContainer = EcoreUtil.getRootContainer(eObject);
 			if(rootContainer instanceof Package){
 				org.eclipse.uml2.uml.Package model = (org.eclipse.uml2.uml.Package) rootContainer;
-				// filter out metamodels
-				valid = model.getAppliedProfile("Ecore") == null && !ignoredLibraries.contains(model.getName().toUpperCase());
+				if(!(model.getName().equals("UMLPrimitiveTypes") || model.getName().equals("PrimitiveTypes"))){
+					// filter out metamodels
+					valid = model.getAppliedProfile("Ecore") == null && !ignoredLibraries.contains(model.getName().toUpperCase());
+				}
 			}else{
-				System.out.println();
 			}
 		}
 		valid = valid && !(eObject instanceof ENamedElement);

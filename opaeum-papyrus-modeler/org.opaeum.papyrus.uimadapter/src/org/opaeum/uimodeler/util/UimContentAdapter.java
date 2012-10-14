@@ -120,7 +120,7 @@ public class UimContentAdapter extends EContentAdapter implements StereotypeAtta
 	}
 	protected void refreshDataElements(TypedElement typedElement){
 		Element container = EmfElementFinder.getContainer(typedElement);
-		if(typedElement instanceof Property && ((Property) typedElement).getAssociationEnd()!=null){
+		if(typedElement instanceof Property && ((Property) typedElement).getAssociationEnd()==null){
 			formSynchronizer.beforeClass((Classifier) container);
 			// TODO refresh all the pages (Tables,Panels) that may refer to this classifier,i.e. containment properties, generalizations,
 			// interfacerealizations, paramaters,pins

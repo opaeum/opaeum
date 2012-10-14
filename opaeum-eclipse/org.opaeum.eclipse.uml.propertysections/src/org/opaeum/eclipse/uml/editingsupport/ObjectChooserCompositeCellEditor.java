@@ -12,8 +12,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
 import org.eclipse.uml2.uml.NamedElement;
+import org.opaeum.eclipse.uml.propertysections.common.ChooseDialog;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
-import org.topcased.facilities.dialogs.ChooseDialog;
 
 public abstract class ObjectChooserCompositeCellEditor extends DialogCellEditor{
 	private TabbedPropertySheetWidgetFactory toolkit;

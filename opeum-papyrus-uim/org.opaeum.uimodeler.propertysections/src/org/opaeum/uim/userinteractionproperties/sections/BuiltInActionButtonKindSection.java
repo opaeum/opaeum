@@ -1,5 +1,6 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Behavior;
 import org.opaeum.eclipse.EmfBehaviorUtil;
@@ -66,5 +67,9 @@ public class BuiltInActionButtonKindSection extends AbstractEnumerationPropertyS
 	@Override
 	protected Object getFeatureValue(String name){
 		return ActionKind.getByName(name);
+	}
+	@Override
+	protected String getFeatureAsText(EObject featureOwner){
+		return getFeatureAsText();
 	}
 }

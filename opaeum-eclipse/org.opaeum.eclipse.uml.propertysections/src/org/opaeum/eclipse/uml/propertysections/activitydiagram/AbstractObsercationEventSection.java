@@ -23,9 +23,9 @@ import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
-public abstract class AbstractObsercationEventSection extends OpaeumChooserPropertySection{
+public abstract class AbstractObsercationEventSection extends AbstractChooserPropertySection{
 	private Group group;
 	private Button onEntryBtn;
 	private Button onExitBtn;
@@ -60,8 +60,9 @@ public abstract class AbstractObsercationEventSection extends OpaeumChooserPrope
 	}
 	public abstract boolean isFirstEvent();
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
+		super.populateControls();
+
 		onExitBtn.setSelection(!isFirstEvent());
 		onEntryBtn.setSelection(isFirstEvent());
 	}
@@ -81,7 +82,7 @@ public abstract class AbstractObsercationEventSection extends OpaeumChooserPrope
 				Element observation = (Element) getEObject();
 				OpenUmlFile ouf = OpaeumEclipseContext.getContextFor(observation).getEditingContextFor(observation);
 				StateMachine to = ouf.getEmfWorkspace().getOpaeumLibrary().getTaskRequest();
-				if(to!=null){
+				if(to != null){
 					result.addAll(EmfStateMachineUtil.getAllStates(to));
 				}
 			}

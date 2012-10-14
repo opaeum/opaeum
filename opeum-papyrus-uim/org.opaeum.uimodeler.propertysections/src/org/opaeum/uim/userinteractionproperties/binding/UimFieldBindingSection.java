@@ -7,13 +7,12 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
-import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
-import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 
 public class UimFieldBindingSection extends AbstractBindingSection{
 	public String getLabelText(){
@@ -28,8 +27,8 @@ public class UimFieldBindingSection extends AbstractBindingSection{
 	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
 		f.add(new UimItemProviderAdapterFactory());
-		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
-		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
+		f.addAll(getPrincipalAdapterFactories());
+		return new AdapterFactoryLabelProvider(new ComposedAdapterFactory(f));
 	}
 	protected void handleModelChanged(Notification msg){
 		super.handleModelChanged(msg);

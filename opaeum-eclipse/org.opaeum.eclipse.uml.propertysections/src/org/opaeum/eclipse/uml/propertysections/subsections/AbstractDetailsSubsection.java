@@ -51,6 +51,7 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 		}
 	}
 	public void setEnabled(boolean enabled){
+		enabled=enabled&&selectedObject!=null;
 		contentPane.setEnabled(enabled);
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
 			ss.setEnabled(enabled);
@@ -118,7 +119,7 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 			}
 			if(ss.getColumnSpan() != null){
 				gd.horizontalSpan = ss.getColumnSpan();
-				if(ss instanceof ConstraintSpecificationSubsection){
+				if(ss instanceof OpaqueExpressionSubsection){
 					Control control = ss.getControl();
 					GridData gd2= (GridData) control.getLayoutData();
 					gd2.grabExcessHorizontalSpace=true;
@@ -199,8 +200,8 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 		result.setChoiceProvider(choiceProvider);
 		return result;
 	}
-	public ConstraintSpecificationSubsection createOpaqueExpression(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
-		ConstraintSpecificationSubsection result = new ConstraintSpecificationSubsection(this);
+	public OpaqueExpressionSubsection createOpaqueExpression(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
+		OpaqueExpressionSubsection result = new OpaqueExpressionSubsection(this);
 		AbstractMultiFeaturePropertySection.populateSubsection(result, feature, labelText, labelWidth, controlWidth);
 		result.setRowSpan(3);
 		return result;

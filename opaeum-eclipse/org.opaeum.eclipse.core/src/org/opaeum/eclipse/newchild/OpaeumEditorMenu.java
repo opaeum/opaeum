@@ -105,13 +105,8 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		createMenuContents();
 	}
 	public EObjectSelectorUI getSelector(){
-		if(selector == null){
-			if(getSelectedObject() instanceof Element){
-				selector = OpaeumEclipseContext.getContextFor((Element) getSelectedObject()).geteObjectSelectorUI();
-			}else if(getSelectedObject().eResource()!=null && getSelectedObject().eResource().getResourceSet() instanceof IOpaeumResourceSet){
-				IOpaeumResourceSet orst = (IOpaeumResourceSet) getSelectedObject().eResource().getResourceSet();
-				selector = OpaeumEclipseContext.getContextFor(orst.getModelDirectory()).geteObjectSelectorUI();
-			}
+		if(selector == null && getSelectedObject() !=null){
+			selector=OpaeumEclipseContext.findOpenUmlFileFor(getSelectedObject()).geteObjectSelectorUI();
 		}
 		return selector;
 	}

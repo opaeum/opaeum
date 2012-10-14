@@ -158,6 +158,20 @@
 				class="org.opaeum.uim.userinteractionproperties.sections.EditabilityRequiredRolesSection">
 			</propertySection>
 			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.VisibilityRequiredStatesSection"
+				tab="org.opaeum.uim.userinteractionproperties.constraints.visibility"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.VisibilityRequiredRolesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.ConstrainedObjectFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.VisibilityRequiredStatesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.EditabilityRequiredStatesSection"
+				tab="org.opaeum.uim.userinteractionproperties.constraints.editability"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.EditabilityRequiredRolesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.EditableConstrainedObjectFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.EditabilityRequiredStatesSection">
+			</propertySection>
+			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.ControlFeaturesSection"
 				tab="org.opaeum.uim.userinteractionproperties.control"
 				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFormFieldFilter"

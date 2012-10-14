@@ -1,8 +1,8 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractIntegerPropertySection;
 import org.opaeum.uim.control.ControlPackage;
-import org.topcased.tabbedproperties.sections.AbstractIntegerPropertySection;
 
 /**
  * A section display a text field to edit/see Integer Features

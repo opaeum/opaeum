@@ -18,7 +18,9 @@ public class NamedElementNameEditingSupport extends EditingDomainEditingSupport{
 	}
 	@Override
 	protected CellEditor getCellEditor(Object element){
-		return new TextCellEditor(viewer.getTable());
+		TextCellEditor textCellEditor = new TextCellEditor(viewer.getTable());
+		textCellEditor.addListener(this);
+		return textCellEditor;
 	}
 	@Override
 	protected boolean canEdit(Object element){

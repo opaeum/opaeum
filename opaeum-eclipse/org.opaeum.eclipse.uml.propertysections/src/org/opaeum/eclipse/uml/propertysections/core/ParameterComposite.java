@@ -1,19 +1,18 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
+import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.BooleanSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ComboSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.LiteralIntegerSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.StringSubsection;
-import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
 
 
 public class ParameterComposite extends AbstractDetailsSubsection<Parameter> implements ISelectionChangedListener {

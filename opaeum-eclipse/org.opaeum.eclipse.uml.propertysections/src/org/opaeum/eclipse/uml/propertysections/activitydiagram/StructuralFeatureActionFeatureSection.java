@@ -10,9 +10,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.StructuralFeatureAction;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
-public class StructuralFeatureActionFeatureSection extends OpaeumChooserPropertySection{
+public class StructuralFeatureActionFeatureSection extends AbstractChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getStructuralFeatureAction_StructuralFeature();
 	}

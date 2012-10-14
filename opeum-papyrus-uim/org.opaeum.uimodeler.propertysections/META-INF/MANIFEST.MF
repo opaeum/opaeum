@@ -9,7 +9,6 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.ui.views.properties.tabbed,
- org.topcased.tabbedproperties,
  org.opaeum.uimodeler.edit,
  org.eclipse.emf.edit.ui,
  org.opaeum.metamodels.uim,

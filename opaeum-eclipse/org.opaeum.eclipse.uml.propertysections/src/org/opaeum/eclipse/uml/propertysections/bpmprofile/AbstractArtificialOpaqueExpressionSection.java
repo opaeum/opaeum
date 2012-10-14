@@ -54,7 +54,7 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends Abstract
 			for(EObject eObject:getEObjectList()){
 				CompoundCommand ccmd = new CompoundCommand();
 				Element element = (Element) eObject;
-				OpaeumLibrary lib = OpaeumEclipseContext.findOpenUmlFileFor(element).getEmfWorkspace().getOpaeumLibrary();
+				OpaeumLibrary lib = getOpenUmlFile().getEmfWorkspace().getOpaeumLibrary();
 				Stereotype st = getStereotype(element);
 				EObject stereotypeApplication = element.getStereotypeApplication(st);
 				EStructuralFeature feature = stereotypeApplication.eClass().getEStructuralFeature(getExpressionName());

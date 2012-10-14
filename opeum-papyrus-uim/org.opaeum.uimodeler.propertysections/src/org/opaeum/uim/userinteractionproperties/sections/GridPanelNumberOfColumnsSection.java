@@ -1,12 +1,13 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.widgets.Event;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractStringPropertySection;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.PanelPackage;
-import org.topcased.tabbedproperties.sections.AbstractTextPropertySection;
 
-public class GridPanelNumberOfColumnsSection extends AbstractTextPropertySection{
+public class GridPanelNumberOfColumnsSection extends AbstractStringPropertySection{
 	@Override
 	protected EStructuralFeature getFeature(){
 		return PanelPackage.eINSTANCE.getGridPanel_NumberOfColumns();
@@ -16,8 +17,9 @@ public class GridPanelNumberOfColumnsSection extends AbstractTextPropertySection
 		return "Nubmer of Columns";
 	}
 	@Override
-	protected String getFeatureAsString(){
-		return getGridPanel().getNumberOfColumns()==null?"2":getGridPanel().getNumberOfColumns().toString();
+	protected String getFeatureAsString(EObject e){
+		// TODO correct
+		return getGridPanel().getNumberOfColumns() == null ? "2" : getGridPanel().getNumberOfColumns().toString();
 	}
 	private GridPanel getGridPanel(){
 		return (GridPanel) getEObject();
@@ -29,13 +31,5 @@ public class GridPanelNumberOfColumnsSection extends AbstractTextPropertySection
 		}catch(Exception e){
 			return 2;
 		}
-	}
-	@Override
-	protected Object getOldFeatureValue(){
-		return getGridPanel().getNumberOfColumns();
-	}
-	@Override
-	protected void verifyField(Event e){
-	
 	}
 }

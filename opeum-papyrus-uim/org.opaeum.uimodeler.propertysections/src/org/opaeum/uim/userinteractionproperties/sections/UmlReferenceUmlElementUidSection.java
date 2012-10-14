@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.binding.PropertyRef;
@@ -20,7 +20,7 @@ import org.opaeum.uim.util.UmlUimLinks;
  *
  * @generated NOT
  */
-public class UmlReferenceUmlElementUidSection extends OpaeumChooserPropertySection{
+public class UmlReferenceUmlElementUidSection extends AbstractChooserPropertySection{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -44,7 +44,7 @@ public class UmlReferenceUmlElementUidSection extends OpaeumChooserPropertySecti
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getComboFeatureValues()
+	 * @see org.topcased.AbstractChooserPropertySection.sections.OpaeumChooserPropertySection#getComboFeatureValues()
 	 * @generated NOT
 	 */
 	protected Object[] getComboFeatureValues(){

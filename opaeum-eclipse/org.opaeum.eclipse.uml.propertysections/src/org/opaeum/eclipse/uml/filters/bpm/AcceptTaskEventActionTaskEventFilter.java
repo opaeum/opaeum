@@ -5,7 +5,7 @@ import org.opaeum.eclipse.uml.filters.core.AbstractFilter;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
-public class AcceptTaskEventActionTaskEvent extends AbstractFilter{
+public class AcceptTaskEventActionTaskEventFilter extends AbstractFilter{
 	@Override
 	public boolean select(Element e){
 		if(StereotypesHelper.hasStereotype(e, StereotypeNames.ACCEPT_TASK_EVENT_ACTION)){

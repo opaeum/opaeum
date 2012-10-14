@@ -9,6 +9,7 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.ObjectFlow;
+import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
@@ -32,6 +33,11 @@ public class ObjectFlowSelectionSection extends AttachedOpaqueBehaviorSection im
 	protected ObjectFlow getObjectFlow(){
 		ObjectFlow objectFlow = (ObjectFlow) getEObject();
 		return objectFlow;
+	}
+	@Override
+	public void populateControls(){
+		super.populateControls();
+		setEnabled(getObjectFlow().getSource() instanceof ObjectNode);
 	}
 	protected void removeBehavior(Behavior tf){
 		getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), getObjectFlow(), UMLPackage.eINSTANCE.getObjectFlow_Selection(), null));
@@ -68,6 +74,7 @@ public class ObjectFlowSelectionSection extends AttachedOpaqueBehaviorSection im
 	}
 	@Override
 	public boolean isRelationshipComplete(){
+		
 		TypeAndMultiplicity sourceType = EmfActivityUtil.findSourceType(getObjectFlow());
 		TypeAndMultiplicity targetType = EmfActivityUtil.findSourceType(getObjectFlow());
 		return sourceType != null && targetType != null;

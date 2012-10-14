@@ -9,9 +9,9 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfStateMachineUtil;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
-public class TransitionRedefinedTransitionSection extends OpaeumChooserPropertySection{
+public class TransitionRedefinedTransitionSection extends AbstractChooserPropertySection{
 	@Override
 	protected Object getFeatureValue(){
 		return getTransition().getRedefinedTransition();

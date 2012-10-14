@@ -13,7 +13,7 @@ public abstract class AbstractAutoCreatingOclExpressionSection extends AbstractO
 	}
 	@Override
 	protected void createWidgets(Composite composite){
-		label = getWidgetFactory().createCLabel(composite, getLabelText());
+		labelCombo = getWidgetFactory().createCLabel(composite, getLabelText());
 		oclComposite = new AutoCreateOpaqueExpressionComposite(composite, getWidgetFactory()){
 			@Override
 			public EReference getValueSpecificationFeature(){

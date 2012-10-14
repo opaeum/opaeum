@@ -21,7 +21,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.views.properties.tabbed,
  org.opaeum.eclipse.core,
  org.opaeum.eclipse.uml.propertysections,
- org.topcased.tabbedproperties,
  org.opaeum.compilation.ocltojava,
  org.opaeum.linkage.validation
 Bundle-ActivationPolicy: lazy

@@ -56,9 +56,6 @@ public class OpaqueActionSqlSection extends AbstractOpaeumPropertySection{
 		fd.height = 50;
 		this.oclComposite.setLayoutData(fd);
 	}
-	public void refresh(){
-		super.refresh();
-	}
 	@Override
 	protected void setEnabled(boolean enabled){
 		super.setEnabled(enabled);

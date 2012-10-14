@@ -81,8 +81,7 @@ public class DeadlinesTableComposite extends Composite{
 	private Collection<EditingDomainEditingSupport> columnViewers = new HashSet<EditingDomainEditingSupport>();
 	RecursiveAdapter adapter = new RecursiveAdapter(){
 		@Override
-		public void notifyChanged(Notification notification){
-			super.notifyChanged(notification);
+		public void safeNotifyChanged(Notification notification){
 			if(notification.getFeature() instanceof EStructuralFeature && notification.getNotifier() instanceof EObject){
 				EStructuralFeature f = (EStructuralFeature) notification.getFeature();
 				if(features.contains(f.getName())){

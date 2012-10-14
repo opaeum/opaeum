@@ -11,6 +11,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
@@ -62,6 +64,27 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmfElementFinder{
+	public static EObject adaptObject(Object object){
+		if(object == null){
+			return null;
+		}else if(object instanceof EObject){
+			return (EObject) object;
+		}else if(object instanceof IAdaptable){
+			// Try IAdaptable
+			IAdaptable adapted = (IAdaptable) object;
+			Object eObject = adapted.getAdapter(EObject.class);
+			if(eObject != null){
+				return (EObject) eObject;
+			}
+		}else{
+			// Try registered adapter
+			Object adapted = Platform.getAdapterManager().getAdapter(object, EObject.class);
+			if(adapted != null){
+				return (EObject) adapted;
+			}
+		}
+		return null;
+	}
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
 		List<TypedElement> result = new ArrayList<TypedElement>(EmfPropertyUtil.getEffectiveProperties(c));
 		if(c instanceof Behavior){
@@ -82,7 +105,7 @@ public class EmfElementFinder{
 			}
 			for(Classifier classifier:c.getGenerals()){
 				InterfaceRealization r = findNearestInterfaceRealization(classifier, i);
-				if(r!=null){
+				if(r != null){
 					return r;
 				}
 				return r;
@@ -182,8 +205,7 @@ public class EmfElementFinder{
 				}else if(a.getOwner() instanceof Operation){
 					Operation oper = (Operation) a.getOwner();
 					for(Parameter parameter:oper.getOwnedParameters()){
-						if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL
-								|| parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
+						if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL || parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
 							result.add(parameter);
 						}else if(oper.getPostconditions().contains(a)){
 							result.add(parameter);
@@ -193,8 +215,7 @@ public class EmfElementFinder{
 			}else if(a instanceof Operation){
 				Operation oper = (Operation) a;
 				for(Parameter parameter:oper.getOwnedParameters()){
-					if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL
-							|| parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
+					if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL || parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
 						result.add(parameter);
 					}
 				}
@@ -455,8 +476,7 @@ public class EmfElementFinder{
 		Classifier clss = EmfElementFinder.getNearestClassifier(element);
 		if(clss instanceof StateMachine){
 			return clss;
-		}else if(clss instanceof Behavior && ((Behavior) clss).getContext() != null
-				&& !StereotypesHelper.hasKeyword(clss, StereotypeNames.BUSINES_PROCESS)){
+		}else if(clss instanceof Behavior && ((Behavior) clss).getContext() != null && !StereotypesHelper.hasKeyword(clss, StereotypeNames.BUSINES_PROCESS)){
 			clss = ((Behavior) clss).getContext();
 		}
 		return clss;

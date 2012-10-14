@@ -8,9 +8,9 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.PackageImport;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
-public class PackageImportImportedPackageSection extends OpaeumChooserPropertySection{
+public class PackageImportImportedPackageSection extends AbstractChooserPropertySection{
 	PackageImport getPackageImport(){
 		return (PackageImport) getEObject();
 	}

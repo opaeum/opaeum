@@ -8,15 +8,16 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Text;
+import org.opaeum.eclipse.uml.propertysections.common.TextChangeListener;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimLookup;
 import org.opaeum.uim.userinteractionproperties.binding.BindingHelper;
 import org.opaeum.uim.userinteractionproperties.sections.TextControlAdapter;
-import org.topcased.tabbedproperties.utils.TextChangeListener;
 
-public class UimLookupFeaturesSection <T extends UimLookup> extends ControlFeaturesComposite<T>{
-	BindingHelper bindingHelper=new BindingHelper(ControlPackage.eINSTANCE.getUimLookup_LookupSource());
-	Control text;
+public class UimLookupFeaturesSection<T extends UimLookup> extends ControlFeaturesComposite<T>{
+	BindingHelper bindingHelper = new BindingHelper(ControlPackage.eINSTANCE.getUimLookup_LookupSource());
+	Text text;
 	CLabel label;
 	private TextControlAdapter adapter;
 	public UimLookupFeaturesSection(Composite parent,int style){
@@ -25,19 +26,20 @@ public class UimLookupFeaturesSection <T extends UimLookup> extends ControlFeatu
 	@Override
 	public void createContent(){
 		super.createContent();
-		setLayout(new GridLayout(2,false));
-		label=new CLabel(this, SWT.NONE);
+		setLayout(new GridLayout(2, false));
+		label = new CLabel(this, SWT.NONE);
 		label.setText("Lookup Source");
-		GridData gd=new GridData(GridData.BEGINNING, GridData.CENTER, false, false);
-		gd.widthHint=143;
+		GridData gd = new GridData(GridData.BEGINNING, GridData.CENTER, false, false);
+		gd.widthHint = 143;
 		label.setLayoutData(gd);
-		
-		adapter = new TextControlAdapter(this, SWT.BACKGROUND, bindingHelper);
-		text=adapter.getTextControl();
+		//TODO get widgetfactorty
+		text=new Text(this,SWT.BORDER);
+		adapter = new TextControlAdapter(text, bindingHelper);
 		new TextChangeListener(){
 			@Override
 			public void textChanged(Control control){
-				Command cmd=SetCommand.create(editingDomain, UimLookupFeaturesSection.this.control, ControlPackage.eINSTANCE.getUimLookup_LookupSource(), bindingHelper.getNewFeatureValue(adapter.getText()));
+				Command cmd = SetCommand.create(editingDomain, UimLookupFeaturesSection.this.control, ControlPackage.eINSTANCE.getUimLookup_LookupSource(),
+						bindingHelper.getNewFeatureValue(text.getText()));
 				editingDomain.getCommandStack().execute(cmd);
 			}
 			@Override
@@ -47,13 +49,11 @@ public class UimLookupFeaturesSection <T extends UimLookup> extends ControlFeatu
 			public void focusIn(Control control){
 			}
 		}.startListeningForEnter(text);
-		adapter.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 	}
 	@Override
 	public void refresh(){
 		super.refresh();
 		bindingHelper.setOwner(super.control);
-		adapter.setText(bindingHelper.getFeatureAsString());
+		text.setText(bindingHelper.getFeatureAsString());
 	}
-	
 }

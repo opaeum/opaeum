@@ -50,6 +50,8 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	Stereotype propertyStereotype;
 	EEnum roleEnumeration;
 	EEnum formulaEnumeration;
+	@Deprecated
+	
 	private Label label;
 	public AbstractRoleInCubeSection(){
 		super();
@@ -61,8 +63,8 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		if(((Element) getEObject()).getModel() != null){
-			ApplyOpaeumStandardProfileCommand cmd = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), ((Element) getEObject()).getModel());
+		if(((Element) getSelectedObject()).getModel() != null){
+			ApplyOpaeumStandardProfileCommand cmd = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), ((Element) getSelectedObject()).getModel());
 			Profile profile = cmd.getProfile();
 			Stereotype propertyStereotype = findStereotype(profile);
 			this.propertyStereotype = propertyStereotype;
@@ -83,12 +85,6 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	protected void createWidgets(Composite composite){
 		super.createWidgets(composite);
 		getWidgetFactory().setBorderStyle(SWT.NULL);
-		this.label = getWidgetFactory().createLabel(composite, getLabelText());
-		FormData layoutData = new FormData();
-		layoutData.left = new FormAttachment(0, 0);
-		layoutData.right = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}) - 10);
-		layoutData.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-		label.setLayoutData(layoutData);
 		this.check = getWidgetFactory().createButton(composite, "Is Measure", SWT.CHECK);
 		check.addSelectionListener(new SelectionListener(){
 			@Override
@@ -108,12 +104,13 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 		});
 		FormData fd = new FormData();
 		fd.width = 120;
-		fd.left = new FormAttachment(label);
+		fd.left = new FormAttachment(labelCombo);
 		check.setLayoutData(fd);
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
+		super.populateControls();
+
 		for(Button button:this.formulaChecks){
 			button.dispose();
 		}
@@ -143,25 +140,25 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 	protected void prepareForDimension(){
 		check.setText("Is Dimension");
 		check.setEnabled(true);
-		if(getTypedElementFrom(getEObject()).isStereotypeApplied(propertyStereotype)){
+		if(getTypedElementFrom(getSelectedObject()).isStereotypeApplied(propertyStereotype)){
 			EEnumLiteral dimension = roleEnumeration.getEEnumLiteral("DIMENSION");
-			EnumerationLiteral value = (EnumerationLiteral) getTypedElementFrom(getEObject()).getValue(propertyStereotype, TagNames.ROLE_IN_CUBE);
+			EnumerationLiteral value = (EnumerationLiteral) getTypedElementFrom(getSelectedObject()).getValue(propertyStereotype, TagNames.ROLE_IN_CUBE);
 			check.setSelection(dimension.getName().equals(value.getName()));
 		}
 	}
 	protected void prepareForMeasure(){
 		check.setText("Is Measure");
-		if(getTypedElementFrom(getEObject()).isStereotypeApplied(propertyStereotype)){
+		if(getTypedElementFrom(getSelectedObject()).isStereotypeApplied(propertyStereotype)){
 			EEnumLiteral dimension = roleEnumeration.getEEnumLiteral("MEASURE");
-			EnumerationLiteral value = (EnumerationLiteral) getTypedElementFrom(getEObject()).getValue(propertyStereotype, TagNames.ROLE_IN_CUBE);
+			EnumerationLiteral value = (EnumerationLiteral) getTypedElementFrom(getSelectedObject()).getValue(propertyStereotype, TagNames.ROLE_IN_CUBE);
 			check.setSelection(dimension.getName().equals(value.getName()));
 		}
 		check.setEnabled(true);
 		displayFormulas();
 	}
 	protected boolean isMany(){
-		if(getTypedElementFrom(getEObject()) instanceof MultiplicityElement){
-			int upper = ((MultiplicityElement) getTypedElementFrom(getEObject())).getUpper();
+		if(getTypedElementFrom(getSelectedObject()) instanceof MultiplicityElement){
+			int upper = ((MultiplicityElement) getTypedElementFrom(getSelectedObject())).getUpper();
 			return upper > 1 || upper == -1;
 		}else{
 			return false;
@@ -203,7 +200,7 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 		refresh();
 	}
 	private boolean couldBeDimension(){
-		TypedElement p = getTypedElementFrom(getEObject());
+		TypedElement p = getTypedElementFrom(getSelectedObject());
 		if(p.getType() instanceof org.eclipse.uml2.uml.Class || p.getType() instanceof Enumeration || p.getType() instanceof Interface){
 			return true;
 		}else if(p.getType() instanceof PrimitiveType){
@@ -217,7 +214,7 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 		}
 	}
 	private boolean couldBeMeasure(){
-		TypedElement p = getTypedElementFrom(getEObject());
+		TypedElement p = getTypedElementFrom(getSelectedObject());
 		if(p.getType() instanceof org.eclipse.uml2.uml.Class || p.getType() instanceof Enumeration){
 			return false;
 		}else if(p.getType() instanceof PrimitiveType){
@@ -276,8 +273,8 @@ public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultipli
 			c.setEnabled(check.getSelection());
 			c.setLayoutData(fd);
 			final List<EObject> value;
-			if(getTypedElementFrom(getEObject()).isStereotypeApplied(propertyStereotype)){
-				EObject sa = getTypedElementFrom(getEObject()).getStereotypeApplication(propertyStereotype);
+			if(getTypedElementFrom(getSelectedObject()).isStereotypeApplied(propertyStereotype)){
+				EObject sa = getTypedElementFrom(getSelectedObject()).getStereotypeApplication(propertyStereotype);
 				EStructuralFeature feat = propertyStereotype.getDefinition().getEStructuralFeature("aggregationFormulas");
 				value = (List<EObject>) sa.eGet(feat);
 			}else{

@@ -20,6 +20,7 @@ public abstract class AbstractIntegerSubsection <E>extends AbstractTabbedPropert
 			public void textChanged(Control control){
 				updateModel();
 			}
+
 		}.startListeningForEnter(getControl());
 	}
 

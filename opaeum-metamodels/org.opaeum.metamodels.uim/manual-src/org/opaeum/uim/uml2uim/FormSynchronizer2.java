@@ -109,7 +109,10 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 				List<TypedElement> typedElements = new ArrayList<TypedElement>();
 				typedElements.addAll(o.getOwnedParameters());
 				typedElements.addAll(EmfPropertyUtil.getEffectiveProperties(o));
-				ec.populateUserInterface(o, "Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+				List<TypedElement>  tes=new ArrayList<TypedElement>();
+				tes.addAll(o.getOwnedParameters());
+				tes.addAll(EmfPropertyUtil.getEffectiveProperties(o));
+				ec.populateUserInterface(o, "Task: " + NameConverter.separateWords(o.getName()), tes);
 				if(EmfBehaviorUtil.isProcess(o)){
 					ec.addButtonBar(o, ActionKind.ABORT, ActionKind.SUSPEND, ActionKind.RESUME);
 				}else{

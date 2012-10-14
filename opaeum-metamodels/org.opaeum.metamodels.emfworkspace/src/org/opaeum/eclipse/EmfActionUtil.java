@@ -50,8 +50,8 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmfActionUtil{
 	public static boolean isActionWithTargetPin(Action a){
-		return a instanceof StructuralFeatureAction || a instanceof CallOperationAction || a instanceof SendSignalAction
-				|| a instanceof SendObjectAction || a instanceof StartClassifierBehaviorAction || a instanceof StartObjectBehaviorAction;
+		return a instanceof StructuralFeatureAction || a instanceof CallOperationAction || a instanceof SendSignalAction || a instanceof SendObjectAction
+				|| a instanceof StartClassifierBehaviorAction || a instanceof StartObjectBehaviorAction;
 	}
 	public static InputPin getTargetPin(Action a){
 		if(a instanceof StructuralFeatureAction){
@@ -363,5 +363,12 @@ public class EmfActionUtil{
 			}
 		}
 		return result;
+	}
+	public static Operation getOperation(ReplyAction a){
+		AcceptCallAction cause = getCause(a);
+		if(cause != null){
+			return getOperation(cause);
+		}
+		return null;
 	}
 }

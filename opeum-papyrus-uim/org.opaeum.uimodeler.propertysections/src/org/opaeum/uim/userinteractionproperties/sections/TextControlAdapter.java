@@ -6,22 +6,15 @@ import org.eclipse.jface.fieldassist.ContentProposalAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.topcased.tabbedproperties.sections.widgets.IText;
 
-public class TextControlAdapter extends Composite implements IText{
+public class TextControlAdapter {
 	Text text;
 	boolean ctrlDown;
-	public TextControlAdapter(Composite parent,int style, ITypedElementProvider s){
-		super(parent,style);
-        this.setLayout(new FillLayout());
-		text = new Text(this, SWT.BORDER);
+	public TextControlAdapter(Text text, ITypedElementProvider s){
+		super();
 		text.addKeyListener(new KeyListener(){
 			@Override
 			public void keyReleased(KeyEvent event){
@@ -72,48 +65,5 @@ public class TextControlAdapter extends Composite implements IText{
 		}
 
 	}
-	public Control getTextControl(){
-		return text;
-	}
-	@Override
-	public Control getControl(){
-		return this;
-	}
-	@Override
-	public void setEditable(boolean isChangeable){
-		if(text instanceof Text){
-			((Text) text).setEditable(isChangeable);
-		}
-	}
-	@Override
-	public void setEnabled(boolean isChangeable){
-		text.setEnabled(isChangeable);
-	}
-	@Override
-	public void setLayoutData(Object layoutData){
-		super.setLayoutData(layoutData);
-	}
-	@Override
-	public void setText(String string){
-		if(text instanceof Text){
-			((Text) text).setText(string);
-		}else{
-			text.setToolTipText(string);
-		}
-	}
-	@Override
-	public String getText(){
-		if(text instanceof Text){
-			return ((Text) text).getText();
-		}
-		return "";
-	}
-	@Override
-	public void setBackground(Color color){
-		text.setBackground(color);
-	}
-	@Override
-	public void setForeground(Color color){
-		text.setForeground(color);
-	}
+
 }

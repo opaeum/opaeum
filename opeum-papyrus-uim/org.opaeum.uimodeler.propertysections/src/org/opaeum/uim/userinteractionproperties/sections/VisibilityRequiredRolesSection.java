@@ -1,9 +1,9 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.ConstraintPackage;
-import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.userinteractionproperties.core.AbstractRequiredRolesSection;
 
 public class VisibilityRequiredRolesSection extends AbstractRequiredRolesSection{
@@ -11,8 +11,11 @@ public class VisibilityRequiredRolesSection extends AbstractRequiredRolesSection
 	protected EReference getConstraintFeature(){
 		return ConstraintPackage.eINSTANCE.getConstrainedObject_Visibility();
 	}
+	protected EReference getFeature(){
+		return ConstraintPackage.eINSTANCE.getRootUserInteractionConstraint_RequiredRoles();
+	}
 	@Override
-	protected UserInteractionConstraint getUserInteractionConstraint(){
-		return ((ConstrainedObject)getEObject()).getVisibility();
+	protected EObject getFeatureOwner(EObject e){
+		return ((ConstrainedObject)e).getVisibility();
 	}
 }

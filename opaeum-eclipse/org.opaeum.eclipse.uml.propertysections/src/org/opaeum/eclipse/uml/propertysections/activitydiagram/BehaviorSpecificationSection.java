@@ -11,11 +11,11 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
-public class BehaviorSpecificationSection extends OpaeumChooserPropertySection{
+public class BehaviorSpecificationSection extends AbstractChooserPropertySection{
 	@Override
 	protected Object[] getComboFeatureValues(){
 		List<Object> choices = new ArrayList<Object>();

@@ -28,11 +28,14 @@ import org.eclipse.uml2.uml.Port;
 import org.eclipse.uml2.uml.ProfileApplication;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Reception;
+import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.uml.filters.bpm.AcceptDeadlineActionFilter;
-import org.opaeum.eclipse.uml.filters.bpm.AcceptTaskEventActionTaskEvent;
+import org.opaeum.eclipse.uml.filters.bpm.AcceptTaskEventActionTaskEventFilter;
 import org.opaeum.eclipse.uml.filters.bpm.BusinessDocumentFilter;
 import org.opaeum.eclipse.uml.filters.bpm.BusinessDurationObservationFilter;
 import org.opaeum.eclipse.uml.filters.bpm.BusinessTimeEventFilter;
@@ -99,6 +102,7 @@ import org.opaeum.eclipse.uml.propertysections.core.MultiplicityElementFeaturesS
 import org.opaeum.eclipse.uml.propertysections.core.NamedElementNameSection;
 import org.opaeum.eclipse.uml.propertysections.core.OpaqueBehaviorBodySection;
 import org.opaeum.eclipse.uml.propertysections.core.OpaqueExpressionBodySection;
+import org.opaeum.eclipse.uml.propertysections.core.OperationBodyConditionSection;
 import org.opaeum.eclipse.uml.propertysections.core.OperationBooleanFeaturesSection;
 import org.opaeum.eclipse.uml.propertysections.core.OperationParametersSection;
 import org.opaeum.eclipse.uml.propertysections.core.PackageImportImportedPackageSection;
@@ -137,6 +141,11 @@ import org.opaeum.eclipse.uml.propertysections.standardprofile.PersistentNameSec
 import org.opaeum.eclipse.uml.propertysections.standardprofile.PropertyRoleInCubeSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.SecondEndRoleInCubeSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.UserInterfaceTextSection;
+import org.opaeum.eclipse.uml.propertysections.statemachine.RegionExtendedRegionSection;
+import org.opaeum.eclipse.uml.propertysections.statemachine.StateRedefinedStateSection;
+import org.opaeum.eclipse.uml.propertysections.statemachine.TransitionGuardSection;
+import org.opaeum.eclipse.uml.propertysections.statemachine.TransitionRedefinedTransitionSection;
+import org.opaeum.eclipse.uml.propertysections.statemachine.TransitionTriggerSection;
 
 public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry implements ISectionDescriptorProvider{
 	OpaeumTypeMapper typeMapper = new OpaeumTypeMapper();
@@ -191,13 +200,13 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 	@Override
 	public ISectionDescriptor[] getSectionDescriptors(){
 		this.result = new ArrayList<ISectionDescriptor>();
+		addBasic(EObject.class, new EObjectErrorSection());
 		addBasic(NamedElement.class, new NamedElementNameSection());
 		addBasic(Classifier.class, new ClassifierIsAbstractSection());
 		addBasic(TimeEvent.class, new TimeEventWhenSection());
 		addBasic(new ConstraintFilter(), new ConstraintValueSpecificationSection());
 		addBasic(ElementImport.class, new ElementImportAliasSection());
 		addBasic(ElementImport.class, new ElementImportImportedElementSection());
-		addBasic(EObject.class, new EObjectErrorSection());
 		addBasic(Generalization.class, new GeneralizationGeneralSection());
 		addBasic(new InstanceSpecificationNoEnumerationLiteralFilter(), new InstanceSpecificationClassifierSection());
 		addBasic(InstanceSpecification.class, new InstanceSpecificationSlotsSection());
@@ -206,6 +215,7 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		addBasic(new OclBehaviorFilter(), new OpaqueBehaviorBodySection());
 		addBasic(OpaqueExpression.class, new OpaqueExpressionBodySection());
 		addBasic(Operation.class, new OperationBooleanFeaturesSection());
+		addBasic(Operation.class, new OperationBodyConditionSection());
 		addParamters(Operation.class, new OperationParametersSection());
 		addBasic(PackageImport.class, new PackageImportImportedPackageSection());
 		addBasic(ProfileApplication.class, new ProfileApplicationAppliedProfileSection());
@@ -222,7 +232,7 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		add(Classifier.class, new ClassInvariantsSection()).setTabId("org.opaeum.eclipse.invariantsTab");
 		// BPM
 		addDeadlines(new AcceptDeadlineActionFilter(), new AcceptDeadlineDeadlineSection());
-		addBasic(new AcceptTaskEventActionTaskEvent(), new AcceptTaskEventActionTaskEventSection());
+		addBasic(new AcceptTaskEventActionTaskEventFilter(), new AcceptTaskEventActionTaskEventSection());
 		addExtended(new BusinessDocumentFilter(), new BusinessDocumentDocumentTypeSection());
 		addBasic(new BusinessDurationObservationFilter(), new BusinessDurationObservationBusinessCalendarToUseSection());
 		addBasic(new BusinessDurationObservationFilter(), new BusinessDurationObservationIsCumulativeSection());
@@ -282,6 +292,12 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		addExtended(new PropertyNotInProfileFilter(), new PropertyRoleInCubeSection());
 		addSecondEnd(Association.class, new SecondEndRoleInCubeSection());
 		add(NamedElement.class,new UserInterfaceTextSection()).setTabId("org.opaeum.eclipse.i8nTab");
+		//StateMachine
+		addBasic(Transition.class,new TransitionGuardSection());
+		addBasic(Transition.class, new TransitionTriggerSection());
+		addBasic(Transition.class, new TransitionRedefinedTransitionSection());
+		addBasic(State.class, new StateRedefinedStateSection());
+		addBasic(Region.class, new RegionExtendedRegionSection());
 
 		
 		result.addAll(Arrays.asList(readSectionDescriptors()));

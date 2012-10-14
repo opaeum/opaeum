@@ -10,11 +10,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
 
 
-public class CallOperationActionOperationSection extends OpaeumChooserPropertySection{
+public class CallOperationActionOperationSection extends AbstractChooserPropertySection{
 	@Override
 	protected void handleComboModified(){
 		super.handleComboModified();

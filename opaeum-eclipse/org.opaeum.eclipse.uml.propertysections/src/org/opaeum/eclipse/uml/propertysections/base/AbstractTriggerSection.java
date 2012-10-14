@@ -2,8 +2,10 @@ package org.opaeum.eclipse.uml.propertysections.base;
 
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
@@ -25,6 +27,7 @@ import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.uml.propertysections.event.AbsoluteTimeEventDetailsComposite;
 import org.opaeum.eclipse.uml.propertysections.event.ChangeEventDetailsComposite;
 import org.opaeum.eclipse.uml.propertysections.event.OperationChooserForEvent;
@@ -71,30 +74,30 @@ public abstract class AbstractTriggerSection extends AbstractOpaeumPropertySecti
 				String text = eventTypeCombo.getText();
 				
 
+				Command setNull = SetCommand.create(getEditingDomain(), forceTriggerCreation(), UMLPackage.eINSTANCE.getTrigger_Event(), null);
 				if(SIGNAL_TEXT.equals(text)){
-					forceTriggerCreation();
 					if(!(forceTriggerCreation().getEvent() instanceof SignalEvent)){
-						forceTriggerCreation().setEvent(null);
+						getEditingDomain().getCommandStack().execute(setNull);
 					}
 					selectSignalState();
 				}else if(CHANGE_EVENT.equals(text)){
 					if(!(forceTriggerCreation().getEvent() instanceof ChangeEvent)){
-						forceTriggerCreation().setEvent(null);
+						getEditingDomain().getCommandStack().execute(setNull);
 					}
 					selectChangeSignalState();
 				}else if(OPERATION_TEXT.equals(text)){
 					if(!(forceTriggerCreation().getEvent() instanceof CallEvent)){
-						forceTriggerCreation().setEvent(null);
+						getEditingDomain().getCommandStack().execute(setNull);
 					}
 					selectOperationState();
 				}else if(RELATIVE_TIME_EVENT.equals(text)){
 					if(!(forceTriggerCreation().getEvent() instanceof TimeEvent && ((TimeEvent) getTriggers().get(0).getEvent()).isRelative())){
-						forceTriggerCreation().setEvent(null);
+						getEditingDomain().getCommandStack().execute(setNull);
 					}
 					selectRelativeTimeEventState();
 				}else if(ABSOLUTE_TIME_EVENT.equals(text)){
 					if(!(forceTriggerCreation().getEvent() instanceof TimeEvent && !((TimeEvent) getTriggers().get(0).getEvent()).isRelative())){
-						forceTriggerCreation().setEvent(null);
+						getEditingDomain().getCommandStack().execute(setNull);
 					}
 					selectAbsoluteTimeEventState();
 				}else{
@@ -111,7 +114,8 @@ public abstract class AbstractTriggerSection extends AbstractOpaeumPropertySecti
 		this.stack = new StackLayout();
 		
 		eventDetailsComposite.setLayout(stack);
-		int labelWidth = getStandardLabelWidth(composite)-5;
+		int labelWidth = getStandardLabelWidth(composite);
+		//TODO Delegate setLabelWidth
 		changeComposite=new ChangeEventDetailsComposite(eventDetailsComposite, labelWidth, getWidgetFactory());
 		relativeTimeEventDetailsComposite = new RelativeTimeEventDetailsComposite(getWidgetFactory(), eventDetailsComposite, labelWidth);
 		absoluteTimeEventDetailsComposite = new AbsoluteTimeEventDetailsComposite(getWidgetFactory(), eventDetailsComposite, labelWidth);
@@ -158,11 +162,10 @@ public abstract class AbstractTriggerSection extends AbstractOpaeumPropertySecti
 	}
 	@Override
 	public String getLabelText(){
-		return "Trigger";
+		return null;
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
 		relativeTimeEventDetailsComposite.layout();
 		signalChooserComposite.layout();
 		operationChooserComposite.layout();

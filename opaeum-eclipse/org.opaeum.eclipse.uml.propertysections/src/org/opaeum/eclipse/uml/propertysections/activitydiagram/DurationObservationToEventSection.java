@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.commands.DurationCommand;
 
 public class DurationObservationToEventSection extends AbstractObsercationEventSection{
 	@Override

@@ -2,10 +2,17 @@ package org.opaeum.papyrus.uimadapter.actions;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.activities.IActivity;
+import org.eclipse.ui.activities.IActivityManager;
+import org.eclipse.ui.activities.IWorkbenchActivitySupport;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -23,16 +30,31 @@ public class Activator extends AbstractUIPlugin{
 		// TODO OpaeumItemProviderAdapterFactory
 		IExtensionRegistry r = Platform.getExtensionRegistry();
 		for(IConfigurationElement ce:r.getConfigurationElementsFor("org.eclipse.ui.menus")){
-			if(ce.getContributor() != null && ce.getContributor().getName().startsWith("org.eclipse.papyrus")){
-				if(ce.getName().equals("menuContribution") && "toolbar:org.eclipse.ui.main.toolbar".equals(ce.getAttribute("locationURI"))){
-//					IConfigurationElement[] children = ce.getChildren();
-//					for(IConfigurationElement pce:children){
-						Method method;
+			if(ce.getContributor() != null && ce.getContributor().getName().contains("papyrus")){
+				if(ce.getName().equals("menuContribution") && ce.getAttribute("locationURI") !=null && ce.getAttribute("locationURI").contains("toolbar")){
+					 IConfigurationElement[] children = ce.getChildren();
+					 Method method;
+					 for(IConfigurationElement pce:children){
+							try{
+								method = pce.getClass().getDeclaredMethod("getConfigurationElement");
+								method.setAccessible(true);
+								Object po = method.invoke(pce);
+								Field f = po.getClass().getSuperclass().getDeclaredField("children");
+								f.setAccessible(true);
+								f.set(po, new int[]{});
+								f = po.getClass().getDeclaredField("propertiesAndValue");
+								f.setAccessible(true);
+								f.set(po, new String[]{"id","asdf"});
+							}catch(Exception e){
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+					 }
 						try{
 							method = ce.getClass().getDeclaredMethod("getConfigurationElement");
 							method.setAccessible(true);
 							Object po = method.invoke(ce);
-							Field f = po.getClass().getSuperclass() .getDeclaredField("children");
+							Field f = po.getClass().getSuperclass().getDeclaredField("children");
 							f.setAccessible(true);
 							f.set(po, new int[]{});
 							f = po.getClass().getDeclaredField("propertiesAndValue");
@@ -42,7 +64,7 @@ public class Activator extends AbstractUIPlugin{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-					//					}
+
 				}
 			}
 		}

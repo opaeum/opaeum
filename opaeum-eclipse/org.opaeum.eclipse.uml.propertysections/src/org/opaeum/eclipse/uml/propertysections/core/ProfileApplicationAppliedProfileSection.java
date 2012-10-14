@@ -8,9 +8,9 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.ProfileApplication;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
-public class ProfileApplicationAppliedProfileSection extends OpaeumChooserPropertySection{
+public class ProfileApplicationAppliedProfileSection extends AbstractChooserPropertySection{
 	ProfileApplication getProfileApplication(){
 		return (ProfileApplication) getEObject();
 	}

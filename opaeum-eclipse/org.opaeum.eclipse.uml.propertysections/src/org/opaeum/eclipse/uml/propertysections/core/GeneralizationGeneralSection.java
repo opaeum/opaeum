@@ -12,11 +12,11 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
 
 
-public class GeneralizationGeneralSection extends OpaeumChooserPropertySection{
+public class GeneralizationGeneralSection extends AbstractChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getGeneralization_General();
 	}

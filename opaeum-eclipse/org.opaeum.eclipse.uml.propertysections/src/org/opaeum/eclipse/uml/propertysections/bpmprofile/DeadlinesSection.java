@@ -163,7 +163,7 @@ public class DeadlinesSection extends AbstractOpaeumPropertySection{
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		NamedElement element = (NamedElement) getEObject();
+		NamedElement element = (NamedElement) getSelectedObject();
 		Profile p = ProfileApplier.getAppliedProfile(element.getModel(), StereotypeNames.OPAEUM_BPM_PROFILE);
 		this.deadlineStereotype = p.getOwnedStereotype(StereotypeNames.DEADLINE);
 		for(Stereotype as:element.getAppliedStereotypes()){
@@ -187,12 +187,14 @@ public class DeadlinesSection extends AbstractOpaeumPropertySection{
 		data.top = new FormAttachment(table, ITabbedPropertyConstants.VSPACE);
 		groupDetails.setLayoutData(data);
 	}
-	public void refresh(){
-		super.refresh();
+	@Override
+	public void populateControls(){
+		super.populateControls();
+
 		absoluteComposite.setEditingDomain(getEditingDomain());
 		relativeComposite.setEditingDomain(getEditingDomain());
 		table.setMixedEditDomain(getEditingDomain());
-		table.setOwningElement((NamedElement) getEObject(), deadlineStereotype, this.stereotype);
+		table.setOwningElement((NamedElement) getSelectedObject(), deadlineStereotype, this.stereotype);
 		absoluteComposite.setContext(null, null);
 		relativeComposite.setContext(null, null);
 	}

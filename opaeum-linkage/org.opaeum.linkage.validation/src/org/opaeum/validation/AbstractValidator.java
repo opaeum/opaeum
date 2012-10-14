@@ -13,6 +13,7 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Pin;
@@ -125,43 +126,42 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 		// It is read-only
 		return 1;
 	}
-	protected boolean canAcceptInputFrom(ObjectNode target,MultiplicityElement returnParam){
-		if(target instanceof Pin){
-			MultiplicityElement tm = (Pin) target;
-			return canAcceptInputFromImpl(tm, returnParam);
-		}else if(target instanceof ActivityParameterNode && ((ActivityParameterNode) target).getParameter() != null){
-			Parameter p = ((ActivityParameterNode) target).getParameter();
-			return canAcceptInputFromImpl(p, returnParam);
-		}
-		return true;
-	}
-	protected boolean canDeliverOutputTo(ObjectNode source,MultiplicityElement structuralFeature){
+	protected boolean canReadDataFrom(ObjectNode source,MultiplicityElement target){
 		if(source instanceof Pin){
 			MultiplicityElement tm = (Pin) source;
-			return canAcceptInputFromImpl(structuralFeature, tm);
+			return canAcceptDataFromImpl(target, tm);
 		}else if(source instanceof ActivityParameterNode && ((ActivityParameterNode) source).getParameter() != null){
 			Parameter p = ((ActivityParameterNode) source).getParameter();
-			return canAcceptInputFromImpl(structuralFeature, p);
+			return canAcceptDataFromImpl(target, p);
 		}
 		return true;
 	}
-	protected boolean canDeliverOutputToObjectNode(ObjectNode source,ObjectNode structuralFeature){
-		if(structuralFeature instanceof Pin){
-			return canDeliverOutputTo(source, (Pin) structuralFeature);
-		}else if(structuralFeature instanceof ActivityParameterNode && ((ActivityParameterNode) structuralFeature).getParameter() != null){
-			Parameter p = ((ActivityParameterNode) structuralFeature).getParameter();
-			return canDeliverOutputTo(source, p);
+	protected boolean canWriteDataTo(ObjectNode sourceNode,MultiplicityElement target){
+		if(sourceNode instanceof Pin){
+			return canAcceptDataFromImpl((Pin) sourceNode, target);
+		}else if(sourceNode instanceof ActivityParameterNode && ((ActivityParameterNode) sourceNode).getParameter() != null){
+			Parameter p = ((ActivityParameterNode) sourceNode).getParameter();
+			return canAcceptDataFromImpl(p, target);
 		}
 		return true;
 	}
-	protected boolean canAcceptInputFromImpl(MultiplicityElement tm,MultiplicityElement returnParam){
-		if(tm.isMultivalued()){
-			if(returnParam.isMultivalued()){
-				return returnParam.isUnique() == tm.isUnique() && returnParam.isOrdered() == tm.isOrdered();
+	protected boolean canDeliverOutputToObjectNode(ObjectNode source,ObjectNode target){
+		if(target instanceof Pin){
+			return canWriteDataTo(source, (Pin) target);
+		}else if(target instanceof ActivityParameterNode && ((ActivityParameterNode) target).getParameter() != null){
+			Parameter p = ((ActivityParameterNode) target).getParameter();
+			return canWriteDataTo(source, p);
+		}
+		return true;
+	}
+	private boolean canAcceptDataFromImpl(MultiplicityElement source,MultiplicityElement target){
+		if(target.isMultivalued()){
+			if(source.isMultivalued()){
+				return source.isUnique() == target.isUnique() && source.isOrdered() == target.isOrdered();
 			}else{
 				return true;
 			}
-		}else if(returnParam.isMultivalued()){
+		}else if(source.isMultivalued()){
 			return false;
 		}else{
 			return true;

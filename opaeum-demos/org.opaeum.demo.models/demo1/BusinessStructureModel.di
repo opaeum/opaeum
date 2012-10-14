@@ -10,6 +10,9 @@
       </availablePage>
       <availablePage emfPageIdentifier="/1"/>
       <availablePage emfPageIdentifier="/3"/>
+      <availablePage>
+        <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
+      </availablePage>
     </pageList>
     <sashModel currentSelection="/0/@sashModel/@windows.0/@children.0">
       <windows>
@@ -18,6 +21,9 @@
             <emfPageIdentifier href="BusinessStructureModel.notation#_tClkEHHgEeGus4aKic9sIg"/>
           </children>
           <children emfPageIdentifier="/3"/>
+          <children>
+            <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
+          </children>
         </children>
       </windows>
     </sashModel>

@@ -45,15 +45,7 @@ public class ClassifierNamePropertySection extends AbstractComboOnStereotypeSect
 		super.setInput(part, selection);
 	}
 	private Classifier getClassifier(){
-		return (Classifier) getEObject();
-	}
-	@Override
-	public void refresh(){
-		super.refresh();
-	}
-	@Override
-	protected Element getElement(){
-		return (Element) getEObject();
+		return (Classifier) getSelectedObject();
 	}
 	@Override
 	protected String getAttributeName(){

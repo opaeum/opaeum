@@ -148,7 +148,7 @@ public class OpaeumOcl {
 		return (Classifier) type;
 	}
 
-	protected Classifier calculateType(InputPin pin){
+	public Classifier calculateType(InputPin pin){
 		Type type = null;
 		if(pin instanceof ValuePin){
 			ValueSpecification value = ((ValuePin) pin).getValue();
@@ -193,4 +193,4 @@ public class OpaeumOcl {
 		return this.parentEnvironment.getLibrary();
 	}
 
-}
+	}

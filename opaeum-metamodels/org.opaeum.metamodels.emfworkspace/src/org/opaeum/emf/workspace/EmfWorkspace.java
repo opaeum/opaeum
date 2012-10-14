@@ -526,8 +526,11 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 		return isPrimaryModelOrProfile(rootObject, directoryUri);
 	}
 	public static String getResourceId(Resource eResource){
-		Element v = (Element) eResource.getContents().get(0);
-		EAnnotation ann = v.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+		EObject v = (EObject) eResource.getContents().get(0);
+		EAnnotation ann=null;
+		if(v instanceof EModelElement){
+		ann = ((EModelElement) v).getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+		}
 		if(ann == null){
 			return eResource.getURI().lastSegment();
 		}else{

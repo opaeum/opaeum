@@ -61,7 +61,6 @@ public class OpaeumEclipseContext{
 	private OpaeumErrorMarker errorMarker;
 	private boolean isLoading;
 	private boolean newlyCreated;
-	private EObjectSelectorUI eObjectSelectorUI;
 	private TransactionalEditingDomain directoryEditingDomain;
 	private EmfWorkspace dew;
 	private OpaeumConfig config;
@@ -95,7 +94,7 @@ public class OpaeumEclipseContext{
 		ArrayList<OpenUmlFile> arrayList = new ArrayList<OpenUmlFile>(openUmlFiles.values());
 		this.openUmlFiles.clear();
 		for(OpenUmlFile editingContext:arrayList){
-			startSynch(editingContext.getEditingDomain(), editingContext.getFile());
+			startSynch(editingContext.getEditingDomain(), editingContext.getFile(), editingContext.geteObjectSelectorUI());
 		}
 	}
 	public String getId(Element umlElement){
@@ -108,8 +107,9 @@ public class OpaeumEclipseContext{
 		}
 		return result;
 	}
-	public boolean startSynch(final EditingDomain domain,final IFile file){
+	public boolean startSynch(final EditingDomain domain,final IFile file, EObjectSelectorUI selector){
 		OpenUmlFile openUmlFile = new OpenUmlFile(domain, file, config);
+		openUmlFile.seteObjectSelectorUI(selector);
 		openUmlFile.addSynchronizationListener(new OclUpdater());
 		openUmlFile.addSynchronizationListener(errorMarker);
 		if(dew != null){
@@ -303,12 +303,6 @@ public class OpaeumEclipseContext{
 			}
 			return getContextFor(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString)).getParent());
 		}
-	}
-	public EObjectSelectorUI geteObjectSelectorUI(){
-		return eObjectSelectorUI;
-	}
-	public void seteObjectSelectorUI(EObjectSelectorUI eObjectSelectorUI){
-		this.eObjectSelectorUI = eObjectSelectorUI;
 	}
 	public void executeAndForget(final Command command){
 		performExecute(command, null);

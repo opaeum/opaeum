@@ -9,6 +9,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -16,17 +17,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
-import org.opaeum.eclipse.uml.propertysections.common.OpaeumQualifiedNameLabelProvider;
 import org.opaeum.eclipse.uml.propertysections.common.OpaeumObjectChooser;
+import org.opaeum.eclipse.uml.propertysections.common.OpaeumQualifiedNameLabelProvider;
 import org.opaeum.eclipse.uml.propertysections.core.EObjectNavigationSource;
 import org.opaeum.eclipse.uml.propertysections.core.NavigationDecorator;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 
-
-
-public abstract class OpaeumChooserPropertySection extends AbstractOpaeumPropertySection implements EObjectNavigationSource,IChoiceProvider{
+public abstract class AbstractChooserPropertySection extends AbstractOpaeumPropertySection implements EObjectNavigationSource,IChoiceProvider{
 	public NavigationDecorator decorator = new NavigationDecorator(this);
-	private boolean isRefreshing = false;
 	protected OpaeumObjectChooser cSingleObjectChooser;
 	@Override
 	public Object[] getChoices(){
@@ -40,21 +38,26 @@ public abstract class OpaeumChooserPropertySection extends AbstractOpaeumPropert
 	}
 	@Override
 	public EObject getEObjectToGoTo(){
-		return (EObject) getFeatureValue();
+		Object featureValue = getFeatureValue();
+		if(featureValue instanceof EObject){
+			return (EObject) featureValue;
+		}
+		return null;
 	}
 	@Override
 	public Control getPrimaryInput(){
 		return cSingleObjectChooser.getContentPane();
 	}
 	protected abstract Object[] getComboFeatureValues();
-	public void refresh(){
-		if(getEObject().eContainer() != null){// Hack - eclipse calls refresh even if the object was deleted
-			isRefreshing = true;
-			cSingleObjectChooser.setSelection((EObject)getFeatureValue());
-			decorator.refresh();
-			super.refresh();
-			isRefreshing = false;
+	protected void populateControls(){
+		if(getFeatureValue() instanceof EObject){
+			cSingleObjectChooser.setSelection((EObject) getFeatureValue());
+		}else if(getFeatureValue()==null){
+			cSingleObjectChooser.setSelection(new StructuredSelection());
+		}else if(getFeatureValue() instanceof List){
+			cSingleObjectChooser.setSelection(new StructuredSelection((List)getFeatureValue()));
 		}
+		decorator.refresh();
 	}
 	protected ILabelProvider getLabelProvider(){
 		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
@@ -73,9 +76,10 @@ public abstract class OpaeumChooserPropertySection extends AbstractOpaeumPropert
 	@Override
 	protected void setSectionData(Composite composite){
 		FormData data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
+		data.left = new FormAttachment(labelCombo);
 		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(labelCombo, 0, SWT.CENTER);
+		data.top = new FormAttachment(0,0);
+		data.bottom= new FormAttachment(100,0);
 		cSingleObjectChooser.getContentPane().setLayoutData(data);
 	}
 	@Override
@@ -88,9 +92,7 @@ public abstract class OpaeumChooserPropertySection extends AbstractOpaeumPropert
 		});
 	}
 	protected void handleComboModified(){
-		if(!isRefreshing){
-			createCommand(getFeatureValue(), cSingleObjectChooser.getSelectedObject());
-		}
+		updateModel(cSingleObjectChooser.getSelectedObject());
 	}
 	@Override
 	protected void setEnabled(boolean enabled){
@@ -98,9 +100,6 @@ public abstract class OpaeumChooserPropertySection extends AbstractOpaeumPropert
 		if(cSingleObjectChooser != null){
 			cSingleObjectChooser.setEnabled(enabled);
 		}
-	}
-	protected boolean isRefreshing(){
-		return isRefreshing;
 	}
 	protected abstract Object getFeatureValue();
 }

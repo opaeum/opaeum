@@ -10,7 +10,7 @@ import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 
-public abstract class AbstractPropertyLookupSection extends AbstractReferenceLookupSection{
+public abstract class AbstractPropertyLookupSection extends AbstractReferencePropertySection{
 	public AbstractPropertyLookupSection(){
 		super();
 	}
@@ -19,10 +19,11 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferenceLoo
 	}
 	@Override
 	public boolean shouldUseExtraSpace(){
-		return false;
+		return true;
 	}
-	protected List<EObject> getAvailableChoices(){
-		Property p=(Property) getFeatureOwner(getEObject());
+	
+	public Object[] getChoices(){
+		Property p=(Property) getFeatureOwner(getSelectedObject());
 		List<EObject> choiceOfValues = new ArrayList<EObject>();
 		if(p.eContainer() instanceof Classifier && p.eContainer() != p.getAssociation()){
 			choiceOfValues.addAll(EmfPropertyUtil.getEffectiveProperties((Classifier) p.eContainer()));
@@ -41,6 +42,6 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferenceLoo
 				}
 			}
 		}
-		return choiceOfValues;
+		return choiceOfValues.toArray();
 	}
 }

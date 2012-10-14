@@ -28,7 +28,7 @@ public abstract class AttachedOpaqueBehaviorSection extends AbstractOclBodyBodyS
 		public EStructuralFeature getBodiesFeature(){
 			return UMLPackage.eINSTANCE.getOpaqueBehavior_Body();
 		}
-		public void setOclContext(NamedElement vp, Behavior behavior){
+		public void setOclContext(NamedElement vp,Behavior behavior){
 			setOclContextImpl(vp, behavior);
 			addVariables();
 		}
@@ -66,19 +66,22 @@ public abstract class AttachedOpaqueBehaviorSection extends AbstractOclBodyBodyS
 	protected void setOclContext(OclBodyComposite c){
 		((OpaqueBehaviorBodyComposite) c).setOclContext(getOclContext(), getBehavior());
 	}
-	protected abstract  NamedElement getOclContext();
+	protected abstract NamedElement getOclContext();
 	public int getOclCompositeHeight(){
 		return 30;
 	}
 	@Override
 	public CLabel getLabelCombo(){
-		return label;
+		return super.getLabelCombo();
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
+		super.populateControls();
 		decorator.refresh();
-		oclComposite.setEnabled(isRelationshipComplete());
+	}
+	@Override
+	protected boolean calculateEnabled(){
+		return isRelationshipComplete();
 	}
 	public abstract boolean isRelationshipComplete();
 	protected Parameter createParam(OpaqueBehavior behavior,TypeAndMultiplicity sourceType,String name,ParameterDirectionKind inLiteral){

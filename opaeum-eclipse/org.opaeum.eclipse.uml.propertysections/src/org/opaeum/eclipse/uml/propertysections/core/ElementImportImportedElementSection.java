@@ -9,9 +9,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
-public class ElementImportImportedElementSection extends OpaeumChooserPropertySection{
+public class ElementImportImportedElementSection extends AbstractChooserPropertySection{
 	ElementImport getElementImport(){
 		return (ElementImport) getEObject();
 	}

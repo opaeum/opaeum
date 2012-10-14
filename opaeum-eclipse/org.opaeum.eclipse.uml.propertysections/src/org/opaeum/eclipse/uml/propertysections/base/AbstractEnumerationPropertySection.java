@@ -1,5 +1,6 @@
 package org.opaeum.eclipse.uml.propertysections.base;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -26,9 +27,10 @@ public abstract class AbstractEnumerationPropertySection extends AbstractOpaeumP
 	@Override
 	protected void setSectionData(Composite composite){
 		FormData data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
+		data.left = new FormAttachment(labelCombo);
 		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+		data.top = new FormAttachment(0, 0);
+		data.bottom= new FormAttachment(100, 0);
 		combo.setLayoutData(data);
 		GridLayout gd = new GridLayout(20,false);
 		combo.setLayout(gd);
@@ -45,18 +47,17 @@ public abstract class AbstractEnumerationPropertySection extends AbstractOpaeumP
 	protected void hookListeners(){
 	}
 	protected void handleComboModified(String name){
-		createCommand(getOldFeatureValue(), getFeatureValue(name));
+		updateModel(getFeatureValue(name));
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
 		for(Control control:combo.getChildren()){
 			control.dispose();
 		}
 		String[] items = getEnumerationFeatureValues();
 		for(final String string:items){
 			Button createButton = getWidgetFactory().createButton(combo, string, SWT.RADIO);
-			if(string.equals(getFeatureAsText())){
+			if(string.equals(getFeatureAsText(getFeatureOwner(getSelectedObject())))){
 				createButton.setSelection(true);
 			}
 			createButton.addSelectionListener(new SelectionAdapter(){
@@ -77,7 +78,6 @@ public abstract class AbstractEnumerationPropertySection extends AbstractOpaeumP
 		}
 	}
 	protected abstract String[] getEnumerationFeatureValues();
-	protected abstract String getFeatureAsText();
+	protected abstract String getFeatureAsText(EObject featureOwner);
 	protected abstract Object getFeatureValue(String name);
-	protected abstract Object getOldFeatureValue();
 }

@@ -14,12 +14,11 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
-import org.topcased.tabbedproperties.internal.utils.Messages;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
 
 
-public class InstanceSpecificationClassifierSection extends OpaeumChooserPropertySection{
+public class InstanceSpecificationClassifierSection extends AbstractChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getInstanceSpecification_Classifier();
 	}
@@ -61,7 +60,7 @@ public class InstanceSpecificationClassifierSection extends OpaeumChooserPropert
 		if(!equals){
 			EditingDomain editingDomain = getEditingDomain();
 			Object value = newValue;
-			CompoundCommand compoundCommand = new CompoundCommand(Messages.AbstractTabbedPropertySection_CommandName);
+			CompoundCommand compoundCommand = new CompoundCommand(COMMAND_NAME);
 			// apply the property change to all selected elements
 			for(EObject nextObject:getEObjectList()){
 				compoundCommand.append(RemoveCommand.create(editingDomain, nextObject, getFeature(), getInstanceSpecification().getClassifiers()));

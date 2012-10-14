@@ -1,4 +1,4 @@
-package org.opaeum.eclipse.uml.propertysections.activitydiagram;
+package org.opaeum.eclipse.commands;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.BasicEList;
@@ -25,13 +25,13 @@ public class DurationCommand extends AbstractCommand{
 	}
 	@Override
 	public void execute(){
-		EList list = (EList) obs.eGet(feature);
+		EList<?> list = (EList<?>) obs.eGet(feature);
 		oldValue = list.size() <= index ? null : list.get(index);
 		redo();
 	}
 	@Override
 	public void redo(){
-		BasicEList list = (BasicEList) obs.eGet(feature);
+		BasicEList<?> list = (BasicEList<?>) obs.eGet(feature);
 		Object[] data = new Object[2];
 		if(list.isEmpty()){
 			data[0] = value;
@@ -50,6 +50,7 @@ public class DurationCommand extends AbstractCommand{
 		return true;
 	}
 	@Override
+	@SuppressWarnings({"rawtypes","unchecked"})
 	public void undo(){
 		EList list = (EList) obs.eGet(feature);
 		list.set(index, oldValue);

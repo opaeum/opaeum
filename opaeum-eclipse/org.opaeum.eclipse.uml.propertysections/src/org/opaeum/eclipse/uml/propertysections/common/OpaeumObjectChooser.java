@@ -25,9 +25,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.NamedElement;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
-import org.topcased.facilities.dialogs.ChooseDialog;
-import org.topcased.tabbedproperties.providers.AdvancedLabelProvider;
-import org.topcased.tabbedproperties.providers.LabelProviderFactory;
 
 public class OpaeumObjectChooser extends Viewer{
 	protected TabbedPropertySheetWidgetFactory widgetFactory;
@@ -45,7 +42,7 @@ public class OpaeumObjectChooser extends Viewer{
 	private IStructuredSelection ss;
 	public OpaeumObjectChooser(Composite parent,TabbedPropertySheetWidgetFactory factory,int style){
 		this.widgetFactory = factory;
-		this.contentPane = new Composite(parent, style);
+		this.contentPane = new Composite(parent, SWT.NONE);
 		this.labelProvider = new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
 		this.advancedLabelProvider = new OpaeumQualifiedNameLabelProvider(new OpaeumItemProviderAdapterFactory());
 		factory.adapt(contentPane);
@@ -98,10 +95,7 @@ public class OpaeumObjectChooser extends Viewer{
 		ChooseDialog dialog = new ChooseDialog(contentPane.getShell(), getObjects());
 		dialog.setLabelProvider(labelProvider);
 		if(advancedLabelProvider == null){
-			LabelProviderFactory factory = AdvancedLabelProvider.getAdvancedLabelProviderFactory4CurrentEditor();
-			if(factory != null){
-				advancedLabelProvider = factory.createAdapterFactory();
-			}
+				advancedLabelProvider = new OpaeumQualifiedNameLabelProvider(new OpaeumItemProviderAdapterFactory());
 		}
 		dialog.setAdvancedLabelProvider(advancedLabelProvider);
 		dialog.setInitialElementSelections(ss==null?Collections.emptyList(): ss.toList());
@@ -145,7 +139,6 @@ public class OpaeumObjectChooser extends Viewer{
 		return widgetFactory;
 	}
 	public void setEnabled(boolean enabled){
-		// contentPane.setEnabled(enabled);
 		field.setEnabled(enabled);
 		chooseBt.setEnabled(enabled);
 	}
@@ -212,5 +205,9 @@ public class OpaeumObjectChooser extends Viewer{
 	}
 	public void setSingle(boolean b){
 		this.isSingle=b;
+	}
+	public void setLabelProvider(ILabelProvider adapterFactoryLabelProvider){
+		this.labelProvider=advancedLabelProvider;
+		
 	}
 }

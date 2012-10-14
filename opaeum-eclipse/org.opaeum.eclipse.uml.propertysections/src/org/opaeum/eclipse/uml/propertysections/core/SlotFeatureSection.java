@@ -5,9 +5,9 @@ import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfPropertyUtil;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
-public class SlotFeatureSection extends OpaeumChooserPropertySection{
+public class SlotFeatureSection extends AbstractChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getSlot_DefiningFeature();
 	}

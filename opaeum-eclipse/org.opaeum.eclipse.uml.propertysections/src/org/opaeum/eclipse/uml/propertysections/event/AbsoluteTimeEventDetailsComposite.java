@@ -29,11 +29,11 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.commands.SetOclBodyCommand;
 import org.opaeum.eclipse.uml.propertysections.RecursiveAdapter;
+import org.opaeum.eclipse.uml.propertysections.common.TextChangeListener;
 import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
 import org.opaeum.eclipse.uml.propertysections.ocl.OpaqueExpressionComposite;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class AbsoluteTimeEventDetailsComposite extends Composite{
 	protected CLabel expressionLabel;
@@ -43,7 +43,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 	protected Text nameTxt;
 	protected EditingDomain editingDomain;
 	protected RecursiveAdapter adapter = new RecursiveAdapter(){
-		public void notifyChanged(Notification msg){
+		public void safeNotifyChanged(Notification msg){
 			if(nameTxt.isDisposed()){
 				adapter.unsubscribe();
 			}else{

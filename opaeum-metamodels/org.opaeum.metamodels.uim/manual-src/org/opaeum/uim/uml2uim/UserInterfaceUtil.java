@@ -129,7 +129,7 @@ public class UserInterfaceUtil{
 	public static InvocationButton findInvocationButton(Namespace operation,EList<? extends UimComponent> children){
 		String id = EmfWorkspace.getId(operation);
 		for(UimComponent uic:children){
-			if(uic instanceof InvocationButton && ((InvocationButton) uic).getUmlElementUid().equals(id)){
+			if(uic instanceof InvocationButton && id.equals(((InvocationButton) uic).getUmlElementUid())){
 				return (InvocationButton) uic;
 			}
 		}

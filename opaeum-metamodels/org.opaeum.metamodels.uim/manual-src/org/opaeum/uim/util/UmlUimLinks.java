@@ -152,10 +152,10 @@ public class UmlUimLinks{
 		return null;
 	}
 	public static UserInterfaceRoot getNearestForm(EObject uc){
-		while(!(uc.eContainer() instanceof UserInterfaceRoot)){
+		while(!(uc instanceof UserInterfaceRoot || uc == null)){
 			uc = uc.eContainer();
 		}
-		return (UserInterfaceRoot) uc.eContainer();
+		return (UserInterfaceRoot) uc;
 	}
 	public static UmlReference getNearestForm(AbstractActionButton ab){
 		EObject uc = ab;
@@ -208,13 +208,14 @@ public class UmlUimLinks{
 		}
 	}
 	private Classifier delegateToContextIfRequired(Classifier rc){
-		if((rc instanceof Behavior)){
-			Behavior b = (Behavior) rc;
-			if(b.getContext() != null && b.getContext().getClassifierBehavior() == b){
-				return (Classifier) b.getContext();
-			}
-		}
-		return rc;
+		return rc;//TODO figure out the side effects/
+//		if((rc instanceof Behavior)){
+//			Behavior b = (Behavior) rc;
+//			if(b.getContext() != null && b.getContext().getClassifierBehavior() == b){
+//				return (Classifier) b.getContext();
+//			}
+//		}
+//		return rc;
 	}
 	public Classifier getType(UimBinding binding){
 		if(binding == null || getTypedElement(binding) == null){

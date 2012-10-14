@@ -1,8 +1,8 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractStringPropertySection;
 import org.opaeum.uim.UimPackage;
-import org.topcased.tabbedproperties.sections.AbstractStringPropertySection;
 
 public class UserInteractionElementNameSection extends AbstractStringPropertySection{
 

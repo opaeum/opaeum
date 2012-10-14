@@ -37,9 +37,6 @@ public abstract class EventSourceChooserComposite extends Composite implements I
 		fd.left = new FormAttachment(0, labelWidth);
 		fd.right = new FormAttachment(100, 0);
 		cSingleObjectChooser.getContentPane() .setLayoutData(fd);
-		FormData buttonFormData = new FormData();
-		buttonFormData.top = new FormAttachment(cSingleObjectChooser.getContentPane());
-		buttonFormData.left = new FormAttachment(0, labelWidth);
 		cSingleObjectChooser.addSelectionChangedListener(new ISelectionChangedListener(){
 			@Override
 			public void selectionChanged(SelectionChangedEvent event){

@@ -1,12 +1,10 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.uml.propertysections.base.AbstractBooleanSection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractBooleanPropertySection;
 
-public class ClassifierIsAbstractSection extends AbstractBooleanSection{
+public class ClassifierIsAbstractSection extends AbstractBooleanPropertySection{
 
 	@Override
 	protected EStructuralFeature getFeature(){
@@ -18,10 +16,6 @@ public class ClassifierIsAbstractSection extends AbstractBooleanSection{
 		return Boolean.FALSE;
 	}
 
-	@Override
-	protected Element getElement(EObject eObject){
-		return (Element)eObject;
-	}
 
 	@Override
 	public String getLabelText(){

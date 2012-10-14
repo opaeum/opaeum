@@ -1,17 +1,13 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -28,7 +24,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.forms.widgets.Hyperlink;
@@ -45,45 +40,23 @@ import org.opaeum.metamodel.validation.BrokenRule;
 import org.opaeum.metamodel.validation.ErrorMap;
 import org.opaeum.metamodel.validation.IValidationRule;
 
-public class EObjectErrorSection extends AbstractOpaeumPropertySection implements IResourceChangeListener{
+//import org.eclipse.core.resources.ResourcesPlugin;
+public class EObjectErrorSection extends AbstractOpaeumPropertySection{
 	private Group group;
-	private IFile file;
 	@Override
 	protected EStructuralFeature getFeature(){
 		return null;
 	}
 	@Override
 	public String getLabelText(){
-		return "Errors";
+		return null;
 	}
 	@Override
 	public boolean shouldUseExtraSpace(){
 		return true;
 	}
 	@Override
-	public void dispose(){
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
-		super.dispose();
-	};
-	@Override
-	public void resourceChanged(IResourceChangeEvent event){
-		IResourceDelta delta = event.getDelta();
-		if(delta.getKind() == IResourceDelta.CHANGED && delta.findMember(file.getFullPath()) != null){
-			if(group.isDisposed()){
-				ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
-			}else{
-				Display.getDefault().syncExec(new Runnable(){
-					@Override
-					public void run(){
-						refresh();
-					}
-				});
-			}
-		}
-	}
-	@Override
 	protected void createWidgets(Composite composite){
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 		this.group = getWidgetFactory().createGroup(composite, "Errors");
 		this.group.setLayout(new GridLayout(1, false));
 		hide();
@@ -95,71 +68,57 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 	@Override
 	public void setInput(IWorkbenchPart part,org.eclipse.jface.viewers.ISelection selection){
 		super.setInput(part, selection);
-		if(getEObject().eResource() != null){
-			// could be deleting
-			String string = getEObject().eResource().getURI().toPlatformString(false);
-			if(string != null){
-				Path path = new Path(string);
-				// Could be plugin resource
-				this.file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			}
-		}
 	};
 	@Override
-	public void refresh(){
-		super.refresh();
-		if(file != null && !group.isDisposed()){
-			Map<EObject,IMarker> markers = extractBrokenDescendants();
+	public void populateControls(){
+		super.populateControls();
+	}
+	protected void updateMessages(){
+		super.updateMessages();
+		if(!group.isDisposed()){
 			for(Control control:group.getChildren()){
 				control.dispose();
 			}
-			OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(file.getParent());
-			if(markers.isEmpty() || ctx == null || ctx.getCurrentEmfWorkspace() == null){
-				hide();
-			}else{
-				for(final Entry<EObject,IMarker> entry:markers.entrySet()){
-					ErrorMap errorMap = ctx.getEditingContextFor(getEObject()).getEmfWorkspace().getErrorMap();
-					BrokenElement error = null;
-					try{
-						error = errorMap.getErrors().get(entry.getValue().getAttribute("BROKEN_ELEMENT_ID"));
-					}catch(CoreException e){
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					if(error != null){
-						// may have been delete since extraction
-						for(Entry<IValidationRule,BrokenRule> brokenRule:error.getBrokenRules().entrySet()){
-							String[] split = brokenRule.getKey().getMessagePattern().split("[\\{\\}]");
-							Composite comp = getWidgetFactory().createComposite(group);
-							GridLayout gl = new GridLayout(split.length, false);
-							comp.setLayout(gl);
-							gl.horizontalSpacing = 0;
-							gl.marginWidth = 0;
-							gl.marginHeight = 0;
-							gl.verticalSpacing = 0;
-							EObject brokenElement = ctx.getCurrentEmfWorkspace().getModelElement(brokenRule.getValue().getElementId());
-							if(split.length == 1 && split[0].length() == 0){
-								createMessageFragment(brokenElement, comp, brokenRule.getKey().name(), brokenRule.getValue().getParameters());
-							}else{
-								for(int i = 0;i < split.length;i++){
-									createMessageFragment(brokenElement, comp, split[i], brokenRule.getValue().getParameters());
-								}
+			Set<BrokenRule> brokenRules = getBrokenRules();
+			if(brokenRules.size() > 0){
+				Set<BrokenRule> addedRules = new HashSet<BrokenRule>();
+				// may have been delete since extraction
+				for(BrokenRule brokenRule:brokenRules){
+					if(!addedRules.contains(brokenRule)){
+						addedRules.add(brokenRule);
+						String[] split = brokenRule.getRule().getMessagePattern().split("[\\{\\}]");
+						Composite comp = getWidgetFactory().createComposite(group);
+						GridLayout gl = new GridLayout(split.length, false);
+						comp.setLayout(gl);
+						gl.horizontalSpacing = 0;
+						gl.marginWidth = 0;
+						gl.marginHeight = 0;
+						gl.verticalSpacing = 0;
+						EObject brokenElement = getOpenUmlFile().getEmfWorkspace().getModelElement(brokenRule.getElementId());
+						if(split.length == 1 && split[0].length() == 0){
+							createMessageFragment(brokenElement, comp, brokenRule.getRule().name(), brokenRule.getParameters());
+						}else{
+							for(int i = 0;i < split.length;i++){
+								createMessageFragment(brokenElement, comp, split[i], brokenRule.getParameters());
 							}
-							comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-							comp.layout();
-							comp.pack();
 						}
+						comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+						comp.layout();
+						comp.pack();
 					}
 				}
 				FormData fd = new FormData();
 				fd.left = new FormAttachment(0);
+				fd.top = new FormAttachment(0);
 				fd.right = new FormAttachment(100);
 				fd.bottom = new FormAttachment(100);
 				this.group.setLayoutData(fd);
-				group.pack();
+				this.group.pack();
+				getSectionComposite().getParent().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 				getSectionComposite().setVisible(true);
-				getSectionComposite().getParent().setLayoutData(new GridData(group.getSize().x+5, group.getSize().y+5));
-				getSectionComposite().getParent().getParent() .layout();
+				getSectionComposite().getParent().getParent().layout();
+			}else{
+				hide();
 			}
 		}
 	}
@@ -189,17 +148,17 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 	}
 	protected Map<EObject,IMarker> extractBrokenDescendants(){
 		Map<EObject,IMarker> markers = new HashMap<EObject,IMarker>();
-		if(getEObject().eResource() != null){
+		if(getSelectedObject().eResource() != null){
 			try{
-				for(IMarker m:file.findMarkers(EValidator.MARKER, true, 0)){
+				for(IMarker m:getOpenUmlFile().getFile().findMarkers(EValidator.MARKER, true, 0)){
 					String markedElementUri = (String) m.getAttribute(EValidator.URI_ATTRIBUTE);
 					String brokenElementId = (String) m.getAttribute("BROKEN_ELEMENT_ID");
-					EmfWorkspace emfWorkspace = OpaeumEclipseContext.findOpenUmlFileFor(getEObject()).getEmfWorkspace();
+					EmfWorkspace emfWorkspace = getOpenUmlFile().getEmfWorkspace();
 					if(markedElementUri != null && brokenElementId != null && emfWorkspace != null){
 						EObject problemElement = emfWorkspace.getModelElement(brokenElementId);
 						EObject eo = emfWorkspace.getResourceSet().getEObject(URI.createURI(markedElementUri), true);
 						while(eo != null){
-							if(eo == getEObject()){
+							if(eo == getSelectedObject()){
 								markers.put(problemElement, m);
 								break;
 							}else{
@@ -219,14 +178,14 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection implement
 	}
 	protected Hyperlink createHyperlink(Composite comp,String text,String id){
 		Hyperlink lbl = getWidgetFactory().createHyperlink(comp, text, SWT.NONE);
-		final EObject key = OpaeumEclipseContext.findOpenUmlFileFor(getEObject()).getEmfWorkspace().getModelElement(id);
+		final EObject key = OpaeumEclipseContext.findOpenUmlFileFor(getSelectedObject()).getEmfWorkspace().getModelElement(id);
 		lbl.addMouseListener(new MouseListener(){
 			@Override
 			public void mouseUp(MouseEvent e){
 			}
 			@Override
 			public void mouseDown(MouseEvent e){
-				OpaeumEclipseContext.getContextFor(key).geteObjectSelectorUI().gotoEObject(key);
+				getOpenUmlFile().geteObjectSelectorUI().gotoEObject(key);
 				getPropertySheetPage().selectionChanged(getActivePage().getActiveEditor(), new StructuredSelection(key));
 			}
 			@Override

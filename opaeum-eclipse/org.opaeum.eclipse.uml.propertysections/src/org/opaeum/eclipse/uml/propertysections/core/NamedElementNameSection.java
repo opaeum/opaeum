@@ -1,16 +1,10 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractStringPropertySection;
-import org.opaeum.eclipse.uml.propertysections.common.OpaeumTextViewer;
-import org.topcased.tabbedproperties.sections.widgets.IText;
 
 public class NamedElementNameSection extends AbstractStringPropertySection{
-	public IText getTextWidget(Composite parent,int style){
-		return new OpaeumTextViewer(parent, style);
-	}
 	public String getLabelText(){
 		return "Name";
 	}

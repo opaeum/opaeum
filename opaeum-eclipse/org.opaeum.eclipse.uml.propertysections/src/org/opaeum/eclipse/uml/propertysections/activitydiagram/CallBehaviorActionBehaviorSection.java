@@ -30,15 +30,17 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.eclipse.uml.propertysections.core.NavigationDecorator;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
-public class CallBehaviorActionBehaviorSection extends OpaeumChooserPropertySection{
+public class CallBehaviorActionBehaviorSection extends AbstractChooserPropertySection{
 	private Button createButton;
-	public void refresh(){
-		super.refresh();
+	@Override
+	public void populateControls(){
+		super.populateControls();
+
 		if(isBusinessProcessCall()){
 			super.labelCombo.setText("Select Business Process:");
 			createButton.setText("Create Business Process:");
@@ -138,7 +140,7 @@ public class CallBehaviorActionBehaviorSection extends OpaeumChooserPropertySect
 		return getAction().getBehavior();
 	}
 	private CallBehaviorAction getAction(){
-		return((CallBehaviorAction) getEObject());
+		return((CallBehaviorAction) getSelectedObject());
 	}
 	@Override
 	protected EStructuralFeature getFeature(){
@@ -149,12 +151,12 @@ public class CallBehaviorActionBehaviorSection extends OpaeumChooserPropertySect
 		return "bla";
 	}
 	private boolean isBusinessProcessCall(){
-		return StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.CALL_BUSINES_PROCESS_ACTION);
+		return StereotypesHelper.hasStereotype((Element) getSelectedObject(), StereotypeNames.CALL_BUSINES_PROCESS_ACTION);
 	}
 	private boolean isScreenflowCall(){
-		return StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK);
+		return StereotypesHelper.hasStereotype((Element) getSelectedObject(), StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK);
 	}
 	private boolean isMethodCall(){
-		return !StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.CALL_BUSINES_PROCESS_ACTION);
+		return !StereotypesHelper.hasStereotype((Element) getSelectedObject(), StereotypeNames.CALL_BUSINES_PROCESS_ACTION);
 	}
 }

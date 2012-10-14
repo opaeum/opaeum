@@ -5,8 +5,8 @@ import java.beans.PropertyDescriptor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.uml2.uml.Element;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.runtime.domain.IntrospectionUtil;
-import org.topcased.tabbedproperties.utils.ObjectAdapter;
 
 public abstract class AbstractFilter implements IFilter{
 	public abstract boolean select(Element e);
@@ -17,7 +17,7 @@ public abstract class AbstractFilter implements IFilter{
 	public boolean select(Object toTest){
 		Element element = null;
 		if(!(toTest instanceof Element)){
-			EObject o = ObjectAdapter.adaptObject(toTest);
+			EObject o = EmfElementFinder.adaptObject(toTest);
 			if(o == null){
 				return false;
 			}else if(o.eClass().getName().equals("Diagram")){

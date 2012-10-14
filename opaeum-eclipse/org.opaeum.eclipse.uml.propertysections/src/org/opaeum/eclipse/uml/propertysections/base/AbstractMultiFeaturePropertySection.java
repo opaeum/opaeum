@@ -2,6 +2,7 @@ package org.opaeum.eclipse.uml.propertysections.base;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -13,14 +14,19 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.uml2.uml.Element;
+import org.opaeum.eclipse.OpaeumSynchronizationListener;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 import org.opaeum.eclipse.uml.propertysections.subsections.BooleanSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.IntegerSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.LiteralIntegerSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.StringSubsection;
+import org.opaeum.metamodel.validation.BrokenRule;
 
-public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeumPropertySection implements IMultiPropertySection{
+public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeumPropertySection implements IMultiPropertySection,OpaeumSynchronizationListener{
 	private List<AbstractTabbedPropertySubsection<?,?>> subsections = new ArrayList<AbstractTabbedPropertySubsection<?,?>>();
 	private Composite multiFeatureComposite;
 	@Override
@@ -64,8 +70,8 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 		ss.setFeature(feature);
 		ss.setControlWidth(controlWidth);
 	}
-	public void refresh(){
-		super.refresh();
+	@Override
+	public void populateControls(){
 		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
 			ss.refresh();
 		}
@@ -92,8 +98,10 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 	protected void setSectionData(Composite composite){
 		if(!isDisposed()){
 			FormData layoutData = new FormData();
-			layoutData.left = new FormAttachment(labelCombo, -6);
+			layoutData.left = new FormAttachment(labelCombo, 0);
 			layoutData.right = new FormAttachment(100, 0);
+			layoutData.bottom = new FormAttachment(100, 0);
+			layoutData.top = new FormAttachment(0, 0);
 			multiFeatureComposite.setLayoutData(layoutData);
 		}
 	}
@@ -107,7 +115,7 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 	}
 	@Override
 	public EObject getEObject(){
-		return super.getEObject();
+		return super.getSelectedObject();
 	}
 	@Override
 	protected void setEnabled(boolean enabled){
@@ -122,7 +130,8 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 		getWidgetFactory().adapt(multiFeatureComposite);
 		GridLayout rl = new GridLayout(subsections.size(), false);
 		rl.marginHeight = 0;
-		// rl.horizontalSpacing=4;
+		rl.marginWidth=0;
+		rl.horizontalSpacing = 0;
 		// rl.verticalSpacing=0;
 		multiFeatureComposite.setLayout(rl);
 		int maxHeight = 0;
@@ -130,10 +139,10 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 			Composite ssc = new Composite(multiFeatureComposite, SWT.NONE);
 			getWidgetFactory().adapt(ssc);
 			GridLayout gl = new GridLayout(2, false);
-			gl.marginWidth = 5;
+			gl.marginWidth = 0;
 			gl.marginHeight = 0;
 			gl.verticalSpacing = 0;
-			gl.horizontalSpacing = 4;
+			gl.horizontalSpacing = 5;
 			ssc.setLayout(gl);
 			ss.createWidgets(ssc);
 			ss.hookControlListener();
@@ -152,8 +161,8 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
 			GridData gd = (GridData) ss.getComposite().getLayoutData();
 			if(gd.verticalSpan == 1){
-				gd.minimumHeight = 25;// maxHeight;
-				gd.heightHint = 25;
+				gd.minimumHeight = maxHeight;
+				gd.heightHint = maxHeight;
 				ss.getComposite().setLayoutData(gd);
 			}
 		}
@@ -176,5 +185,15 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
 			ss.dispose();
 		}
+	}
+	protected Control findAffectedControl(BrokenRule entry){
+		for(EStructuralFeature eStructuralFeature:entry.getRule().getFeatures()){
+			for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
+				if(ss.getFeature().equals(eStructuralFeature)){
+					return ss.getControl();
+				}
+			}
+		}
+		return null;
 	}
 }

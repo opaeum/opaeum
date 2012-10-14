@@ -37,13 +37,13 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class ApplyStereotypeCommand extends AbstractCommand{
 	private Element element;
-	private Collection<Stereotype> stereotypes;
+	protected List<Stereotype> stereotypes;
 	Collection<Stereotype> applied = new HashSet<Stereotype>();
 	Collection<Profile> appliedProfile = new HashSet<Profile>();
 	private boolean stereotypeIsKeyword;
 	public ApplyStereotypeCommand(Element element,boolean stereotypeIsKeyword,Stereotype...stereotype){
 		this.element = element;
-		this.stereotypes = Arrays.asList(stereotype);
+		this.stereotypes =  Arrays.asList(stereotype);
 		this.stereotypeIsKeyword = stereotypeIsKeyword;
 	}
 	public ApplyStereotypeCommand(Element element,Stereotype...stereotype){
@@ -67,7 +67,7 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 					element.eResource().getContents().add(sa);
 					if(!(element instanceof Pin) && element instanceof NamedElement && owner instanceof Namespace){
 						NamedElement ne = (NamedElement) element;
-						if(stereotypeIsKeyword && ne.getName().startsWith(ne.eClass().getName()) && Character.isDigit(ne.getName().charAt(ne.getName().length() - 1))){
+						if(stereotypeIsKeyword && (ne.getName()==null || (ne.getName().startsWith(ne.eClass().getName()) && Character.isDigit(ne.getName().charAt(ne.getName().length() - 1))))){
 							String keyWord = stereotype.getName();
 							setUniqueName(keyWord, ne);
 						}

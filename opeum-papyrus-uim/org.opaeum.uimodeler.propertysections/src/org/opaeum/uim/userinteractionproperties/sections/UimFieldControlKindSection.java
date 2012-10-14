@@ -1,5 +1,6 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractEnumerationPropertySection;
@@ -46,5 +47,9 @@ public class UimFieldControlKindSection extends AbstractEnumerationPropertySecti
 	@Override
 	protected Object getFeatureValue(String name){
 		return ControlKind.getByName(name);
+	}
+	@Override
+	protected String getFeatureAsText(EObject featureOwner){
+		return getFeatureAsText();
 	}
 }

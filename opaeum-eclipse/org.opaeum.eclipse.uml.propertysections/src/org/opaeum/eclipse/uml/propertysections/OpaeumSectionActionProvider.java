@@ -1,15 +1,22 @@
-package org.opaeum.propertysections;
+package org.opaeum.eclipse.uml.propertysections;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.tabbed.IActionProvider;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.uml.propertysections.core.NavigationDecorator;
 
 public class OpaeumSectionActionProvider implements IActionProvider{
+	private EObject currentSelection;
 	public OpaeumSectionActionProvider(){
 	}
 	@Override
@@ -18,7 +25,8 @@ public class OpaeumSectionActionProvider implements IActionProvider{
 			Action action = new Action("Back"){
 				@Override
 				public void run(){
-					NavigationDecorator.goToPreviousEObject();
+					OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(currentSelection);
+					NavigationDecorator.selectEObjectInAllViews(ouf.geteObjectSelectorUI().popSelection());
 				}
 			};
 			ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
@@ -30,5 +38,8 @@ public class OpaeumSectionActionProvider implements IActionProvider{
 			actionBars.getToolBarManager().add(item);
 			actionBars.getToolBarManager().markDirty();
 		}
+	}
+	public void setCurrentSelection(EObject eObject){
+		currentSelection = eObject;
 	}
 }

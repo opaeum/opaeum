@@ -2,7 +2,6 @@ package org.opaeum.eclipse.uml.propertysections.base;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.facet.infra.browser.editors.table.TableEditorInput.ElementsDescription;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -36,7 +35,7 @@ public abstract class AbstractMasterDetailSection<T extends EObject> extends Abs
 		elementDetailsComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		elementsTableComposite.addSelectionChangedListener(elementDetailsComposite);
 	}
-	protected abstract AbstractDetailsSubsection<T> createDetails(Group elementDetailsGroup2);
+	protected abstract AbstractDetailsSubsection<T> createDetails(Group group);
 	protected abstract AbstractTableComposite<T> createTable(Composite composite);
 	@Override
 	public Control getPrimaryInput(){
@@ -67,12 +66,11 @@ public abstract class AbstractMasterDetailSection<T extends EObject> extends Abs
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
 		if(elementDetailsComposite != null){
 			EditingDomain mixedEditDomain = getEditingDomain();
 			elementsTableComposite.setEditingDomain(mixedEditDomain);
-			elementsTableComposite.setOwner((T) getEObject());
+			elementsTableComposite.setOwner((T) getSelectedObject());
 			elementDetailsComposite.setEditingDomain(mixedEditDomain);
 			elementDetailsComposite.selectionChanged(null);
 		}

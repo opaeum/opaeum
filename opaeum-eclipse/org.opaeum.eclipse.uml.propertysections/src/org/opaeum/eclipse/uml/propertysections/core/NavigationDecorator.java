@@ -79,28 +79,26 @@ public class NavigationDecorator{
 		}
 		return this.mouseListener;
 	}
-	public static void goToPreviousEObject(){
-		EObjectSelectorUI selector = OpaeumEclipseContext.getCurrentContext().geteObjectSelectorUI();
-		EObject featureValue = selector.popSelection();
-		goToEObject(featureValue);
-	}
 	public static void goToEObject(EObject featureValue){
 		if(featureValue != null){
-			EObjectSelectorUI selector = OpaeumEclipseContext.getCurrentContext().geteObjectSelectorUI();
+			EObjectSelectorUI selector = OpaeumEclipseContext.findOpenUmlFileFor(featureValue).geteObjectSelectorUI();
 			selector.pushSelection(featureValue);
 			selector.gotoEObject(featureValue);
-			IWorkbenchPage[] pages = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages();
-			outer:for(IWorkbenchPage activePage:pages){
-				IViewReference[] viewReferences = activePage.getViewReferences();
-				for(IViewReference iViewReference:viewReferences){
-					IViewPart view = iViewReference.getView(true);
-					if(view instanceof PropertySheet){
-						PropertySheet sheet = (PropertySheet) view;
-						IPage currentPage = sheet.getCurrentPage();
-						if(currentPage instanceof TabbedPropertySheetPage){
-							((TabbedPropertySheetPage) currentPage).selectionChanged(activePage.getActiveEditor(), new StructuredSelection(featureValue));
-							break outer;
-						}
+			selectEObjectInAllViews(featureValue);
+		}
+	}
+	public static void selectEObjectInAllViews(EObject featureValue){
+		IWorkbenchPage[] pages = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages();
+		outer:for(IWorkbenchPage activePage:pages){
+			IViewReference[] viewReferences = activePage.getViewReferences();
+			for(IViewReference iViewReference:viewReferences){
+				IViewPart view = iViewReference.getView(true);
+				if(view instanceof PropertySheet){
+					PropertySheet sheet = (PropertySheet) view;
+					IPage currentPage = sheet.getCurrentPage();
+					if(currentPage instanceof TabbedPropertySheetPage){
+						((TabbedPropertySheetPage) currentPage).selectionChanged(activePage.getActiveEditor(), new StructuredSelection(featureValue));
+						break outer;
 					}
 				}
 			}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:BehaviorUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="914890@_nbhjwBYJEeKUzoQrB-TGRA" name="Standalone single screen task1 User Interface Model" linkedUmlResource="BusinessStructureModel.uml">
+  <invocationWizard name="RequestStandaloneSingleScreenTask1" umlElementUid="914890@_nbhjwBYJEeKUzoQrB-TGRA">
+    <pageOrdering page="//@invocationWizard/@pages.0"/>
+    <pages umlElementUid="914890@_nbhjwBYJEeKUzoQrB-TGRA" name="Standalone single screen task1">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+    </pages>
+  </invocationWizard>
+  <editor name="StandaloneSingleScreenTask1" umlElementUid="914890@_nbhjwBYJEeKUzoQrB-TGRA">
+    <pageOrdering page="//@editor/@pages.0"/>
+    <pages umlElementUid="914890@_nbhjwBYJEeKUzoQrB-TGRA" name="Task: Standalone single screen task1">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Claim task" kind="claimTask"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delegate task" kind="delegateTask"/>
+      <children xsi:type="action:BuiltInActionButton" name="Forward task" kind="forwardTask"/>
+      <children xsi:type="action:BuiltInActionButton" name="Suspend" kind="suspend"/>
+      <children xsi:type="action:BuiltInActionButton" name="Skip" kind="skip"/>
+      <children xsi:type="action:BuiltInActionButton" name="Abort" kind="abort"/>
+      <children xsi:type="action:BuiltInActionButton" name="Resume" kind=""/>
+      <children xsi:type="action:InvocationButton" name="On resumed" umlElementUid="252060@_8ba9IK0NEeCK48ywUpk_rg">
+        <popup href="252060@_8ba9IK0NEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On delegated" umlElementUid="252060@_EE4B0K0OEeCK48ywUpk_rg">
+        <popup href="252060@_EE4B0K0OEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On forwarded" umlElementUid="252060@_NdLN8K0OEeCK48ywUpk_rg">
+        <popup href="252060@_NdLN8K0OEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On activated" umlElementUid="252060@_XbPZkK0OEeCK48ywUpk_rg">
+        <popup href="252060@_XbPZkK0OEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On revoked" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg">
+        <popup href="252060@__imwgK0NEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On completed" umlElementUid="252060@_a_82cK0OEeCK48ywUpk_rg">
+        <popup href="252060@_a_82cK0OEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On skipped" umlElementUid="252060@_fdkRQK0OEeCK48ywUpk_rg">
+        <popup href="252060@_fdkRQK0OEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On started" umlElementUid="252060@_iBCwEK0NEeCK48ywUpk_rg">
+        <popup href="252060@_iBCwEK0NEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On claimed" umlElementUid="252060@_qTa18K0NEeCK48ywUpk_rg">
+        <popup href="252060@_qTa18K0NEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On suspended" umlElementUid="252060@_ug7_QK0NEeCK48ywUpk_rg">
+        <popup href="252060@_ug7_QK0NEeCK48ywUpk_rg.uim#/"/>
+      </children>
+      <children xsi:type="action:InvocationButton" name="On stopped" umlElementUid="252060@_zwcxEK0NEeCK48ywUpk_rg">
+        <popup href="252060@_zwcxEK0NEeCK48ywUpk_rg.uim#/"/>
+      </children>
+    </actionBar>
+  </editor>
+</model:BehaviorUserInteractionModel>

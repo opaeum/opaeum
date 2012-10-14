@@ -55,5 +55,27 @@
       <createChildActionProvider
             className="org.opaeum.uim.createchild.CreateChildActions">
       </createChildActionProvider>
-   </extension>   
+   </extension>
+   <extension
+         id="org.opaeum.eclipse.activities"
+         name="Opaeum Activities"
+         point="org.eclipse.ui.activities">
+      <activity
+            id="org.opaeum.papyrus.uimadapter.activity"
+            name="nameasdfads">
+         <enabledWhen>
+            <with
+                  variable="activeEditorId">
+               <equals
+                     value="asdf.org.eclipse.papyrus.infra.core.papyrusEditor">
+               </equals>
+            </with>
+         </enabledWhen>
+      </activity>
+      <activityPatternBinding
+            activityId="org.opaeum.papyrus.uimadapter.activity"
+            isEqualityPattern="false"
+            pattern="org\.eclipse\.papyrus\.uml\.diagram\.menu/*">
+      </activityPatternBinding>
+         </extension>   
 </plugin>

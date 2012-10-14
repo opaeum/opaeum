@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
-
+@Deprecated
 public abstract class AbstractTypedAndMultiplicityElementPropertySection extends AbstractOpaeumPropertySection{
 	public AbstractTypedAndMultiplicityElementPropertySection(){
 		super();

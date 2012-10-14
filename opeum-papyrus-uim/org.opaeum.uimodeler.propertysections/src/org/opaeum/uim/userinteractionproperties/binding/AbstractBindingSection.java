@@ -1,19 +1,17 @@
 package org.opaeum.uim.userinteractionproperties.binding;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IWorkbenchPart;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractStringPropertySection;
 import org.opaeum.uim.binding.UimBinding;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.userinteractionproperties.sections.TextControlAdapter;
-import org.topcased.tabbedproperties.sections.AbstractTextPropertySection;
-import org.topcased.tabbedproperties.sections.widgets.IText;
 
-public abstract class AbstractBindingSection extends AbstractTextPropertySection{
+public abstract class AbstractBindingSection extends AbstractStringPropertySection{
 	private BindingHelper bindingHelper;
 	protected abstract Object getFeatureValue();
 	protected abstract EClass getFeatureEClass();
@@ -21,26 +19,19 @@ public abstract class AbstractBindingSection extends AbstractTextPropertySection
 		return (UimBinding) getFeatureValue();
 	}
 	@Override
-	protected Object getOldFeatureValue(){
-		return getFeatureValue();
+	protected void createWidgets(Composite composite){
+		super.createWidgets(composite);
+		new TextControlAdapter(text, getBindingHelper());
 	}
 	@Override
-	protected void verifyField(Event e){
-	}
-	@Override
-	public IText getTextWidget(Composite parent,int style){
-		TextControlAdapter text = new TextControlAdapter(parent, style, getBindingHelper());
-		text.setLayoutData(new FormData());
-		return text;
-	}
-	@Override
-	protected String getFeatureAsString(){
+	protected String getFeatureAsString(EObject e){
+		getBindingHelper().setOwner((UimComponent) e);
 		return getBindingHelper().getFeatureAsString();
 	}
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		getBindingHelper().setOwner((UimComponent) getEObject());
+		getBindingHelper().setOwner((UimComponent) getSelectedObject());
 	}
 	public BindingHelper getBindingHelper(){
 		if(bindingHelper==null){

@@ -72,8 +72,7 @@ public class UserTextTableComposite extends Composite{
 	}
 	RecursiveAdapter adaptor = new RecursiveAdapter(){
 		@Override
-		public void notifyChanged(Notification notification){
-			super.notifyChanged(notification);
+		public void safeNotifyChanged(Notification notification){
 			if(notification.getNotifier() instanceof EStringToStringMapEntryImpl){
 				switch(notification.getFeatureID(EAnnotation.class)){
 				case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY__VALUE:

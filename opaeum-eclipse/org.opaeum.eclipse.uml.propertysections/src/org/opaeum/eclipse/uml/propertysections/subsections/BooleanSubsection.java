@@ -28,6 +28,7 @@ public class BooleanSubsection extends AbstractTabbedPropertySubsection<Button,B
 
 	@Override
 	protected void populateControls(){
+
 		if(getCurrentValue() instanceof Boolean){
 			getControl().setSelection(getCurrentValue().equals(Boolean.TRUE));
 		}else{

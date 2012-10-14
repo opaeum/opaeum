@@ -8,9 +8,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Vertex;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 
-public class StateRedefinedStateSection extends OpaeumChooserPropertySection{
+public class StateRedefinedStateSection extends AbstractChooserPropertySection{
 	@Override
 	protected Object getFeatureValue(){
 		return getState().getRedefinedState();

@@ -14,6 +14,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaqueExpressionSection;
 import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
+import org.opaeum.eclipse.uml.propertysections.ocl.OpaqueExpressionComposite;
 
 public class OperationBodyConditionSection extends AbstractOpaqueExpressionSection{
 	@Override
@@ -49,11 +50,12 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		oclComposite.setOclContext(getOperation(), getSpecification());
+		((OpaqueExpressionComposite) oclComposite).setOclContext(getOperation(), getSpecification());
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
+		super.populateControls();
+
 		super.oclComposite.getTextControl().setEnabled(requiresBody());
 	}
 	private boolean requiresBody(){

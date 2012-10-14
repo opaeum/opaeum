@@ -17,9 +17,9 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 import org.opaeum.eclipse.uml.propertysections.core.TypedElementTypeSection;
+import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.StringSubsection;
-import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
 
 
 public class PropertyComposite extends AbstractDetailsSubsection<Property>{

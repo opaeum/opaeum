@@ -22,10 +22,10 @@ public class PropertyBooleanFeaturesSection extends AbstractMultiFeatureProperty
 	}
 
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
+		super.populateControls();
 		if(isInProfile()){
-			isComposition.setVisible(false);
+//			isComposition.setVisible(false);
 		}
 	}
 	private boolean isInProfile(){
@@ -38,6 +38,6 @@ public class PropertyBooleanFeaturesSection extends AbstractMultiFeatureProperty
 
 	@Override
 	public String getLabelText(){
-		return "Config:";
+		return "Config";
 	}
 }

@@ -1,11 +1,13 @@
 package org.opaeum.eclipse.uml.propertysections.compositestructures;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
@@ -15,14 +17,14 @@ import org.eclipse.uml2.uml.UMLPackage;
 
 public class PortProvidedInterfaces extends PortInterfacesSection{
 	@Override
-	protected Command getRemoveCommand(Interface element){
-		Dependency usage = getDependency(element);
-		return RemoveCommand.create(getEditingDomain(), getType(), UMLPackage.eINSTANCE.getBehavioredClassifier_InterfaceRealization(), usage);
+	protected Command getRemoveCommand(BehavioredClassifier bc,Interface element){
+		Dependency usage = getDependency(bc,element);
+		return RemoveCommand.create(getEditingDomain(),bc, UMLPackage.eINSTANCE.getBehavioredClassifier_InterfaceRealization(), usage);
 	}
 	@Override
-	protected Command getCreateCommand(Interface element){
+	protected Command getCreateCommand(BehavioredClassifier bc,Interface element){
 		Dependency usage = createDependency(element);
-		return AddCommand.create(getEditingDomain(), getType(), UMLPackage.eINSTANCE.getBehavioredClassifier_InterfaceRealization(), usage);
+		return AddCommand.create(getEditingDomain(), bc, UMLPackage.eINSTANCE.getBehavioredClassifier_InterfaceRealization(), usage);
 	}
 	protected Dependency createDependency(Interface intf){
 		InterfaceRealization usage = UMLFactory.eINSTANCE.createInterfaceRealization();
@@ -30,8 +32,8 @@ public class PortProvidedInterfaces extends PortInterfacesSection{
 		usage.setContract(intf);
 		return usage;
 	}
-	protected InterfaceRealization getDependency(Interface intf){
-		for(InterfaceRealization dependency:getType().getInterfaceRealizations()){
+	protected InterfaceRealization getDependency(BehavioredClassifier bc, Interface intf){
+		for(InterfaceRealization dependency:bc.getInterfaceRealizations()){
 			if(dependency.getContract() == intf){
 				return dependency;
 			}
@@ -47,11 +49,11 @@ public class PortProvidedInterfaces extends PortInterfacesSection{
 		return "Provided Interfaces";
 	}
 	@Override
-	protected Object getListValues(){
-		if(((Property) getEObject()).getType() == null){
+	protected List<?> getListValues(){
+		if(((Property) getSelectedObject()).getType() == null){
 			return Collections.EMPTY_LIST;
 		}else{
-			return getType().getImplementedInterfaces();
+			return getType(getSelectedObject()).getImplementedInterfaces();
 		}
 	}
 }

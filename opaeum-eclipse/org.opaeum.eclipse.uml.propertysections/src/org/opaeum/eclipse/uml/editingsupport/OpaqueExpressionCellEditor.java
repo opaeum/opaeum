@@ -23,7 +23,7 @@ public abstract class OpaqueExpressionCellEditor extends CellEditor{
 	}
 	@Override
 	protected Control createControl(Composite parent){
-		return this.oclBodyComposite = new AutoCreateOpaqueExpressionComposite(parent, toolkit,SWT.NONE){
+		 this.oclBodyComposite = new AutoCreateOpaqueExpressionComposite(parent, toolkit,SWT.NONE){
 			@Override
 			protected EditingDomain getEditingDomain(){
 				return OpaqueExpressionCellEditor.this.getEditingDomain();
@@ -33,6 +33,7 @@ public abstract class OpaqueExpressionCellEditor extends CellEditor{
 				return OpaqueExpressionCellEditor.this.getValueSpecificationFeature();
 			}
 		};
+		return oclBodyComposite;
 	}
 	protected abstract EReference getValueSpecificationFeature();
 	@Override

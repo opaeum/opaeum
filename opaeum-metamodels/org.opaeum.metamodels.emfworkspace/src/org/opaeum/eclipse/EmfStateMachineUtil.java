@@ -98,7 +98,7 @@ public class EmfStateMachineUtil{
 		}
 	}
 	public static StateMachine getStateMachine(Element s){
-		while(!(s instanceof StateMachine)){
+		while(!(s instanceof StateMachine || s == null)){
 			s = s.getOwner();
 		}
 		return (StateMachine) s;

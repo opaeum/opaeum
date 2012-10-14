@@ -11,17 +11,21 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.internal.UIPlugin;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
+import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
+import org.opaeum.eclipse.uml.propertysections.common.OpaeumObjectChooser;
 import org.opaeum.eclipse.uml.propertysections.core.EObjectNavigationSource;
 import org.opaeum.eclipse.uml.propertysections.core.NavigationDecorator;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -31,13 +35,12 @@ import org.opaeum.uim.editor.InstanceEditor;
 import org.opaeum.uim.editor.provider.EditorItemProviderAdapterFactory;
 import org.opaeum.uim.uml2uim.FormSynchronizer;
 import org.opaeum.uim.util.UmlUimLinks;
-import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 
 public class UimLinkFeaturesComposite extends ControlFeaturesComposite<UimLinkControl> implements EObjectNavigationSource{
 	private NavigationDecorator decorator = new NavigationDecorator(this);
 	private CLabel label;
 	private TabbedPropertySheetWidgetFactory factory;
-	private CSingleObjectChooser objectChooser;
+	private OpaeumObjectChooser objectChooser;
 	public UimLinkFeaturesComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory factory){
 		super(parent, style);
 		setLayout(new GridLayout(2, false));
@@ -50,23 +53,19 @@ public class UimLinkFeaturesComposite extends ControlFeaturesComposite<UimLinkCo
 		GridData labelData = new GridData(143, 15);
 		labelData.verticalAlignment = GridData.FILL;
 		label.setLayoutData(labelData);
-		this.objectChooser = new CSingleObjectChooser(this, factory, SWT.BORDER);
+		this.objectChooser = new OpaeumObjectChooser(this, factory, SWT.BORDER);
 		this.objectChooser.setLabelProvider(new AdapterFactoryLabelProvider(new EditorItemProviderAdapterFactory()));
-		this.objectChooser.addSelectionListener(new SelectionListener(){
+		this.objectChooser.addSelectionChangedListener(new ISelectionChangedListener(){
 			@Override
-			public void widgetSelected(SelectionEvent e){
-				Command cmd = SetCommand.create(editingDomain, control, ControlPackage.eINSTANCE.getUimLinkControl_EditorToOpen(),
-						objectChooser.getSelection());
+			public void selectionChanged(SelectionChangedEvent event){
+				Command cmd = SetCommand.create(editingDomain, control, ControlPackage.eINSTANCE.getUimLinkControl_EditorToOpen(), objectChooser.getSelectedObject());
 				editingDomain.getCommandStack().execute(cmd);
-			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e){
 			}
 		});
 		GridData chooserData = new GridData(143, 25);
-		chooserData.horizontalAlignment= GridData.FILL;
-		chooserData.grabExcessHorizontalSpace=true;
-		objectChooser.setLayoutData(chooserData);
+		chooserData.horizontalAlignment = GridData.FILL;
+		chooserData.grabExcessHorizontalSpace = true;
+		objectChooser.getControl().setLayoutData(chooserData);
 	}
 	@Override
 	public void refresh(){
@@ -81,18 +80,15 @@ public class UimLinkFeaturesComposite extends ControlFeaturesComposite<UimLinkCo
 				public boolean canExecute(){
 					return true;
 				}
-
 				@Override
 				public void execute(){
 					EmfWorkspace workspace = UmlUimLinks.getCurrentUmlLinks(control).getEmfWorkspace();
 					final FormSynchronizer fs = new FormSynchronizer(workspace, eResource.getResourceSet(), false);
 					fs.visitOnly(te.getType());
 				}
-
 				@Override
 				public void redo(){
 				}
-				
 			};
 			if(resource == null){
 				editingDomain.getCommandStack().execute(cmd);
@@ -101,15 +97,20 @@ public class UimLinkFeaturesComposite extends ControlFeaturesComposite<UimLinkCo
 				editingDomain.getCommandStack().execute(cmd);
 			}
 			TreeIterator<EObject> allContents = resource.getAllContents();
-			Collection<InstanceEditor> choices = new ArrayList<InstanceEditor>();
+			final Collection<InstanceEditor> choices = new ArrayList<InstanceEditor>();
 			while(allContents.hasNext()){
 				EObject eObject = (EObject) allContents.next();
 				if(eObject instanceof InstanceEditor){
 					choices.add((InstanceEditor) eObject);
 				}
 			}
-			this.objectChooser.setChoices(choices.toArray());
-			if(control.getEditorToOpen()!=null){
+			this.objectChooser.setChoiceProvider(new IChoiceProvider(){
+				@Override
+				public Object[] getChoices(){
+					return choices.toArray();
+				}
+			});
+			if(control.getEditorToOpen() != null){
 				this.objectChooser.setSelection(control.getEditorToOpen());
 			}
 		}
@@ -128,6 +129,10 @@ public class UimLinkFeaturesComposite extends ControlFeaturesComposite<UimLinkCo
 	}
 	@Override
 	public IWorkbenchPage getActivePage(){
-		return UIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+	}
+	@Override
+	public OpenUmlFile getOpenUmlFile(){
+		return OpaeumEclipseContext.findOpenUmlFileFor(control);
 	}
 }

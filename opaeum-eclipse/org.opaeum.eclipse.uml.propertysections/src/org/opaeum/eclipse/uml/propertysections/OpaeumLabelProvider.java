@@ -33,14 +33,25 @@ public class OpaeumLabelProvider extends LabelProvider{
 		if(p == null){
 			return super.getImage(eo);
 		}else{
-			ComposedImage composedImage = (ComposedImage) p.getImage(eo);
-			URL url = (URL) composedImage.getImages().get(0);
-			try{
-				return new Image(Display.getDefault(), url.openStream());
-			}catch(IOException e){
-				return null;
+			Object image = p.getImage(eo);
+			if(image instanceof URL){
+				try{
+					URL url = (URL) image;
+					return new Image(Display.getDefault(), url.openStream());
+				}catch(IOException e){
+					return null;
+				}
+			}else if(image instanceof ComposedImage){
+				ComposedImage composedImage = (ComposedImage) image;
+				URL url = (URL) composedImage.getImages().get(0);
+				try{
+					return new Image(Display.getDefault(), url.openStream());
+				}catch(IOException e){
+					return null;
+				}
 			}
 		}
+		return null;
 	}
 	protected IItemLabelProvider getProvider(EObject eo){
 		IItemLabelProvider p = null;

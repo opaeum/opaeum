@@ -14,9 +14,8 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
 import org.opaeum.eclipse.commands.ApplyProfileCommand;
 import org.opaeum.emf.extraction.StereotypesHelper;
-import org.topcased.tabbedproperties.internal.utils.Messages;
 
-public abstract class ChooserPropertyOnStereotypeSection extends OpaeumChooserPropertySection{
+public abstract class ChooserPropertyOnStereotypeSection extends AbstractChooserPropertySection{
 	private Stereotype stereotype;
 	private EStructuralFeature feature;
 	protected abstract Element getElement(EObject o);
@@ -31,7 +30,7 @@ public abstract class ChooserPropertyOnStereotypeSection extends OpaeumChooserPr
 		if(!equals){
 			EditingDomain editingDomain = getEditingDomain();
 			Object value = newValue;
-			CompoundCommand compoundCommand = new CompoundCommand(Messages.AbstractTabbedPropertySection_CommandName);
+			CompoundCommand compoundCommand = new CompoundCommand(COMMAND_NAME);
 			// apply the property change to all selected elements
 			for(EObject nextObject:getEObjectList()){
 				if(nextObject instanceof Element && StereotypesHelper.hasStereotype((Element) nextObject, getStereotypeName())){
@@ -56,10 +55,6 @@ public abstract class ChooserPropertyOnStereotypeSection extends OpaeumChooserPr
 			this.stereotype = p.getOwnedStereotype(getStereotypeName());
 			this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
 		}
-	}
-	@Override
-	public void refresh(){
-		super.refresh();
 	}
 	@Override
 	protected Object getFeatureValue(){

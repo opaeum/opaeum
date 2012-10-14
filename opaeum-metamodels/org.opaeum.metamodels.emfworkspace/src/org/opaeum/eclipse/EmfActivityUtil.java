@@ -54,6 +54,7 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.Variable;
+import org.opaeum.eclipse.emulated.EmulatedMultiplicityElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
@@ -162,8 +163,7 @@ public class EmfActivityUtil{
 	}
 	private static boolean isArgument(Parameter parameter){
 		// TODO Auto-generated method stub
-		return parameter.getDirection() == ParameterDirectionKind.IN_LITERAL
-				|| parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL;
+		return parameter.getDirection() == ParameterDirectionKind.IN_LITERAL || parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL;
 	}
 	public static Collection<ActivityNode> getActivityNodes(Namespace ne){
 		if(ne instanceof Activity){
@@ -252,6 +252,13 @@ public class EmfActivityUtil{
 			this.isMany = isMany;
 		}
 	}
+	/**
+	 * Could be called from a context where the transformation or selection of ObjectFlow o needs to be verified. We therefore do NOT take
+	 * those into account. We do however take the transformation and selection of any preceding objectflows into account
+	 * 
+	 * @param o
+	 * @return
+	 */
 	public static TypeAndMultiplicity findSourceType(ObjectFlow o){
 		if(o.getSource() instanceof ObjectNode){
 			ObjectNode source = (ObjectNode) o.getSource();
@@ -261,11 +268,67 @@ public class EmfActivityUtil{
 			// Assume validations will catch invalid scenarios
 			for(ActivityEdge activityEdge:c.getIncomings()){
 				if(activityEdge instanceof ObjectFlow){
+					ObjectFlow of = (ObjectFlow) activityEdge;
+					//Since selection is assumed to execute before transformation, transformation will override so let's do it first
+					if(of.getTransformation() != null){
+						List<Parameter> results = EmfBehaviorUtil.getResultParameters(of.getTransformation());
+						if(results.size() == 1 && results.get(0).getType() != null){
+							ObjectNode oon = getOriginatingObjectNode(of);
+							if(results.get(0).isMultivalued()){
+								/**
+								 * Transformation behaviors with an output parameter with multiplicity greater than 1 may replace one token with many.
+								 */
+								return new TypeAndMultiplicity(results.get(0), results.get(0));
+							}else{
+								return new TypeAndMultiplicity(results.get(0), getProducedMultiplicity(oon));
+							}
+						}
+					}
+					if(of.getSelection()!=null){
+						List<Parameter> results = EmfBehaviorUtil.getResultParameters(of.getSelection());
+						if(results.size() == 1 && results.get(0).getType() != null){
+							return new TypeAndMultiplicity(results.get(0), false,false,false);
+						}
+					}
 					return findSourceType((ObjectFlow) activityEdge);
 				}
 			}
 		}
 		return null;
+	}
+	private static MultiplicityElement getConsumedMultiplicity(ObjectNode source){
+		return getMultiplicityImpl(source, true);
+	}
+	private static MultiplicityElement getProducedMultiplicity(ObjectNode source){
+		return getMultiplicityImpl(source, false);
+	}
+	private static MultiplicityElement getMultiplicityImpl(ObjectNode source,boolean consumed){
+		if(source instanceof MultiplicityElement){
+			return (MultiplicityElement) source;
+		}else if(source instanceof ActivityParameterNode && ((ActivityParameterNode) source).getParameter() != null){
+			return ((ActivityParameterNode) source).getParameter();
+		}else if(source instanceof ExpansionNode){
+			ExpansionNode en = (ExpansionNode) source;
+			/*
+			 * The inputs and outputs to an expansion region are modeled as ExpansionNodes. From “outside” of the region, the values on these
+			 * nodes appear as collections. From “inside” the region the values appear as elements of the collections.
+			 */
+			if(consumed){
+				if(en.getRegionAsInput() != null){
+					return new EmulatedMultiplicityElement(source, 0, -1);
+				}else{
+					return new EmulatedMultiplicityElement(source, 0, 1);
+				}
+			}else{
+				if(en.getRegionAsInput() != null){
+					return new EmulatedMultiplicityElement(source, 0, 1);
+				}else{
+					return new EmulatedMultiplicityElement(source, 0, -1);
+				}
+			}
+		}else{
+			return new EmulatedMultiplicityElement(source, 0, -1);
+		}
 	}
 	private static TypeAndMultiplicity calculateSourceType(ObjectNode source){
 		if(source.getType() == null){
@@ -502,8 +565,8 @@ public class EmfActivityUtil{
 			if(of.getTarget() instanceof InputPin){
 				return (ActivityNode) ((InputPin) of.getTarget()).getOwner();
 			}else if(of.getTarget() instanceof ExpansionNode){
-				ExpansionNode en=(ExpansionNode) of.getTarget();
-				if(en.getRegionAsInput()!=null){
+				ExpansionNode en = (ExpansionNode) of.getTarget();
+				if(en.getRegionAsInput() != null){
 					return en.getRegionAsInput();
 				}else{
 					return en;
@@ -552,6 +615,13 @@ public class EmfActivityUtil{
 	}
 	public static ObjectNode getFeedingNode(ObjectNode node){
 		return getObjectNodeSource(node.getIncomings());
+	}
+	public static boolean isMultivalued(TypedElement n){
+		if(n instanceof ObjectNode){
+			return isMultivalued((ObjectNode)n);
+		}else{
+			return ((MultiplicityElement)n).isMultivalued();
+		}
 	}
 	public static boolean isMultivalued(ObjectNode n){
 		if(n instanceof MultiplicityElement){

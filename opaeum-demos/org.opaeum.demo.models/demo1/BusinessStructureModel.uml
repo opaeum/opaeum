@@ -222,7 +222,7 @@
         <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
       </interfaceRealization>
     </packagedElement>
-    <packagedElement xmi:type="uml:Component" xmi:id="_0l-NAJJNEeGW4L5IejZxpA" clientDependency="_0pW4MJJNEeGW4L5IejZxpA" name="Branch">
+    <packagedElement xmi:type="uml:Component" xmi:id="_0l-NAJJNEeGW4L5IejZxpA" clientDependency="_0pW4MJJNEeGW4L5IejZxpA" name="Branch" classifierBehavior="_HHdlgBYUEeKsDbmQL25eBw">
       <ownedAttribute xmi:id="_pNEJIJJPEeGW4L5IejZxpA" name="customerAssistant" type="_bX-ooJJPEeGW4L5IejZxpA" aggregation="composite" association="_pNF-UJJPEeGW4L5IejZxpA">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pNEJIZJPEeGW4L5IejZxpA"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_pNEJIpJPEeGW4L5IejZxpA" value="*"/>
@@ -240,28 +240,77 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QcObYJLAEeGnpuq6_ber_Q"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QcObYZLAEeGnpuq6_ber_Q" value="*"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_ea2-cJT6EeG_oLv6jKpgkw" name="name">
+      <ownedAttribute xmi:id="_ea2-cJT6EeG_oLv6jKpgkw" name="namel" isOrdered="true">
         <eAnnotations xmi:id="_ebAIYJT6EeG_oLv6jKpgkw" source="http://www.opaeum.org"/>
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6UAH0BOnEeK6bN8PqKkejg"/>
+        <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_I_5ucBW_EeKZsbdIBQBOAg"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9k-wYBOnEeK6bN8PqKkejg" value="1"/>
-        <qualifier xmi:id="_SzT-ABRmEeKv7dSChE90vg" name="qualifier0">
-          <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Interface"/>
-        </qualifier>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_AgMuwBUxEeKjqLZFOgkVYQ" name="name" isReadOnly="true">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1FQ_sBU0EeKjqLZFOgkVYQ" value="1"/>
       </ownedAttribute>
       <interfaceRealization xmi:id="_0pW4MJJNEeGW4L5IejZxpA" name="isAIBusinessComponent" client="_0l-NAJJNEeGW4L5IejZxpA">
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
         <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
       </interfaceRealization>
-      <ownedOperation xmi:id="_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1" isQuery="true" postcondition="_ozSisBRuEeKYhv9CKiNDbg">
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_ylMisBYQEeKIFJAOfPz88A" clientDependency="_z98eUBYQEeKIFJAOfPz88A" name="StandaloneSingleScreenTask1">
+        <interfaceRealization xmi:id="_z98eUBYQEeKIFJAOfPz88A" name="isAIStandaloneSingleScreenTask" client="_ylMisBYQEeKIFJAOfPz88A">
+          <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qDCBsPNQEeGhGoYzbfvy4A"/>
+          <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qDCBsPNQEeGhGoYzbfvy4A"/>
+        </interfaceRealization>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_HHdlgBYUEeKsDbmQL25eBw" clientDependency="_HKo1UBYUEeKsDbmQL25eBw" name="BusinessStateMachine1">
+        <ownedAttribute xmi:id="_Nv-xoBYUEeKsDbmQL25eBw" name="ll">
+          <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_neCVAI6UEeCne5ArYLDbiA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_zEyr8BYUEeKsDbmQL25eBw" name="lll">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_JUKJwBYYEeKsDbmQL25eBw" name="property1ll">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-ategBYYEeKsDbmQL25eBw" value="1"/>
+        </ownedAttribute>
+        <interfaceRealization xmi:id="_HKo1UBYUEeKsDbmQL25eBw" name="isAIBusinessStateMachine" client="_HHdlgBYUEeKsDbmQL25eBw">
+          <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_nSqy4PNQEeGhGoYzbfvy4A"/>
+          <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_nSqy4PNQEeGhGoYzbfvy4A"/>
+        </interfaceRealization>
+        <ownedOperation xmi:id="_SvOOoBYbEeKsDbmQL25eBw" name="submit"/>
+        <ownedOperation xmi:id="_Y9DC0BYbEeKsDbmQL25eBw" name="approve"/>
+        <ownedParameter xmi:id="__oyQoBYXEeKsDbmQL25eBw" name="parameter1">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+        <region xmi:id="_JJlOQBYUEeKsDbmQL25eBw" name="Region1">
+          <transition xmi:id="_NwXvABYbEeKsDbmQL25eBw" name="Transition0" source="_MwyhUBYbEeKsDbmQL25eBw" target="_Jx4kYBYUEeKsDbmQL25eBw"/>
+          <transition xmi:id="_O1gLEBYbEeKsDbmQL25eBw" name="Submitted" source="_Jx4kYBYUEeKsDbmQL25eBw" target="_KIj_ABYUEeKsDbmQL25eBw"/>
+          <transition xmi:id="_QOqWYBYbEeKsDbmQL25eBw" name="Transition1" source="_KIj_ABYUEeKsDbmQL25eBw" target="_Kd2SgBYUEeKsDbmQL25eBw"/>
+          <subvertex xmi:type="uml:State" xmi:id="_Jx4kYBYUEeKsDbmQL25eBw" name="Draft"/>
+          <subvertex xmi:type="uml:State" xmi:id="_KIj_ABYUEeKsDbmQL25eBw" name="State1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_Kd2SgBYUEeKsDbmQL25eBw" name="Approved"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_MwyhUBYbEeKsDbmQL25eBw" name="Initial"/>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1" isQuery="true" postcondition="_ozSisBRuEeKYhv9CKiNDbg" precondition="_SebdoBUrEeKJLd0hFS72wA _PkzesBXnEeKQpapxHO1SNA">
         <eAnnotations xmi:id="_q4U5EBNcEeK0HvQCxCC_Ag" source="http://opaum.org/i8n">
           <details xmi:id="_q4U5ERNcEeK0HvQCxCC_Ag" key="en_ZA" value="Operation1"/>
           <details xmi:id="_sCwE0BNcEeK0HvQCxCC_Ag" key="af_ZA" value="Bewerking"/>
         </eAnnotations>
-        <ownedRule xmi:id="_ozSisBRuEeKYhv9CKiNDbg" name="newConstraint" constrainedElement="_k_VZsMzBEeGKe7Qm4dvydQ">
+        <ownedRule xmi:id="_ozSisBRuEeKYhv9CKiNDbg" name="newConstraint1" constrainedElement="_k_VZsMzBEeGKe7Qm4dvydQ">
           <specification xmi:type="uml:OpaqueExpression" xmi:id="_ozSisRRuEeKYhv9CKiNDbg" name="newConstraint_body">
             <language>OCL</language>
             <body>self.job.activity.costToCompany->sum()>2.3</body>
+          </specification>
+        </ownedRule>
+        <ownedRule xmi:id="_SebdoBUrEeKJLd0hFS72wA" name="newConstraint4">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_SebdoRUrEeKJLd0hFS72wA" name="newConstraint_body">
+            <language>OCL</language>
+            <body>self.city->isEmpty()</body>
+          </specification>
+        </ownedRule>
+        <ownedRule xmi:id="_PkzesBXnEeKQpapxHO1SNA" name="newConstraint" constrainedElement="_bNhwQBRxEeKYhv9CKiNDbg">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_Pk6zcBXnEeKQpapxHO1SNA" name="nullSpecification">
+            <language>OCL</language>
+            <body>parameter1ll.oclIsUndefined()</body>
           </specification>
         </ownedRule>
         <ownedParameter xmi:id="_k_VZsMzBEeGKe7Qm4dvydQ" name="sdfgdkkfsdfs" type="_CQTWAGOeEeGwMNo027LgxA" direction="return">
@@ -269,8 +318,9 @@
           <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sakaMBOkEeK6bN8PqKkejg"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_o1tMUBOkEeK6bN8PqKkejg" value="1"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_bNhwQBRxEeKYhv9CKiNDbg" name="parameter1">
-          <type xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_9gswQF-gEeGSPaWW9iQb9Q"/>
+        <ownedParameter xmi:id="_bNhwQBRxEeKYhv9CKiNDbg" name="parameter1ll">
+          <type xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_G6MA0FYtEeGj5_I7bIwNoA"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_74qi8BUwEeKjqLZFOgkVYQ" value="1"/>
         </ownedParameter>
       </ownedOperation>
     </packagedElement>
@@ -585,11 +635,14 @@
     <aggregationFormulas>SUM</aggregationFormulas>
     <aggregationFormulas>AVERAGE</aggregationFormulas>
   </OpaeumStandardProfile:Attribute>
-  <OpaeumStandardProfile:Attribute xmi:id="_f6vc0JT6EeG_oLv6jKpgkw" base_Property="_ea2-cJT6EeG_oLv6jKpgkw" persistentName=""/>
+  <OpaeumStandardProfile:Attribute xmi:id="_f6vc0JT6EeG_oLv6jKpgkw" roleInCube="DIMENSION" base_Property="_ea2-cJT6EeG_oLv6jKpgkw" persistentName=""/>
   <OpaeumStandardProfile:Entity xmi:id="_eDp98BICEeKpbLcrbOxdcw" base_Class="_bX-ooJJPEeGW4L5IejZxpA"/>
-  <OpaeumStandardProfile:Entity xmi:id="_7DresBKeEeKy75_1AJ5WGQ" base_Class="_0l-NAJJNEeGW4L5IejZxpA"/>
+  <OpaeumStandardProfile:Entity xmi:id="_7DresBKeEeKy75_1AJ5WGQ" mappedImplementationType="" base_Class="_0l-NAJJNEeGW4L5IejZxpA"/>
   <OpaeumStandardProfile:Attribute xmi:id="_ISc3ABKoEeKVQaMnydiugQ" base_Property="_nyJ_kBIuEeKet5Gm_LksyQ" persistentName=""/>
   <OpaeumStandardProfile:Attribute xmi:id="_aOrRkBLgEeK0PcnlKGwyFQ" base_Property="_h6e00BIeEeKr5f-zTsG0Vg" persistentName=""/>
   <OpaeumStandardProfile:Association xmi:id="_8uYnABLgEeK0PcnlKGwyFQ" base_Association="_59CocJKGEeGFkOm2e1MJNQ" persistentName=""/>
   <OpaeumStandardProfile:Attribute xmi:id="_pLhkABLjEeK0PcnlKGwyFQ" base_Property="_SoyjIHpiEeGlh5y8zQdYBA" persistentName=""/>
+  <OpaeumStandardProfile:Attribute xmi:id="_5PuqcBUzEeKjqLZFOgkVYQ" base_Property="_AgMuwBUxEeKjqLZFOgkVYQ" persistentName=""/>
+  <OpaeumBPMProfile:StandaloneSingleScreenTask xmi:id="_z92-wBYQEeKIFJAOfPz88A" base_OpaqueBehavior="_ylMisBYQEeKIFJAOfPz88A"/>
+  <OpaeumBPMProfile:BusinessStateMachine xmi:id="_HKkj4BYUEeKsDbmQL25eBw" base_StateMachine="_HHdlgBYUEeKsDbmQL25eBw"/>
 </xmi:XMI>

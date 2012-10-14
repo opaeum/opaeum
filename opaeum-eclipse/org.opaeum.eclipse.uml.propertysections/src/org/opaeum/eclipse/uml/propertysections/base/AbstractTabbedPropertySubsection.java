@@ -1,7 +1,9 @@
 package org.opaeum.eclipse.uml.propertysections.base;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -25,8 +27,10 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	private Composite composite;
 	private Integer columnSpan;
 	private Integer rowSpan;
+	private boolean enabled;
 	protected AbstractTabbedPropertySubsection(IMultiPropertySection section){
 		this.section = section;
+		enabled=true;
 		section.addSubsection(this);
 	}
 	public EStructuralFeature getFeature(){
@@ -40,14 +44,16 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		return composite;
 	}
 	public void setEnabled(boolean enabled){
+		this.enabled=enabled;
 		if(!(getControl() == null || getControl().isDisposed())){
-			getControl().setEnabled(enabled);
+				getControl().setEnabled(enabled);
 		}
 	}
 	public void createWidgets(Composite parent){
 		this.composite = parent;
 		label = getWidgetFactory().createLabel(parent, getLabelText(), SWT.NONE);
 		this.setControl(createControl(parent));
+		setEnabled(enabled);
 	}
 	protected TabbedPropertySheetWidgetFactory getWidgetFactory(){
 		return section.getWidgetFactory();
@@ -65,10 +71,14 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		unsubscribe();
 	}
 	@Override
-	public void notifyChanged(Notification msg){
+	public void safeNotifyChanged(Notification msg){
 		if((getControl() == null || getControl().isDisposed())){
 			unsubscribe();
-		}else if(hasSelectedObject() && msg.getNotifier() instanceof EObject && msg.getFeature() != null /*&& msg.getFeature().equals(getFeature())*/){
+		}else if(hasSelectedObject() && msg.getNotifier() instanceof EObject && msg.getFeature() != null /*
+																																																			 * &&
+																																																			 * msg.getFeature().equals(getFeature
+																																																			 * ())
+																																																			 */){
 			EObject eo = (EObject) msg.getNotifier();
 			boolean inScope = false;
 			while(eo != null){
@@ -88,8 +98,11 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	}
 	@SuppressWarnings("unchecked")
 	public E getCurrentValue(EObject e){
-		Object eGet = e.eGet(getFeature());
-		return (E) eGet;
+		if(getFeature() != null && getFeature().getEContainingClass().isSuperTypeOf(e.eClass())){
+			return (E) e.eGet(getFeature());
+		}else{
+			return null;
+		}
 	}
 	public E getCurrentValue(){
 		if(hasSelectedObject()){
@@ -102,6 +115,11 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		if(getControl() != null && !getControl().isDisposed()){
 			isRefreshing = true;
 			populateControls();
+			if(section.getEObject()==null || !getFeature().getEContainingClass().isSuperTypeOf(section.getEObject().eClass())){
+				getControl().setEnabled(false);
+			}else{
+				getControl().setEnabled(enabled);
+			}
 			getControl().redraw();
 			isRefreshing = false;
 		}
@@ -166,7 +184,9 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	}
 	public void removeModelListener(){
 		if(hasSelectedObject()){
-			section.getFeatureOwner(section.getFeatureOwner(section.getEObject())).eAdapters().remove(this);
+			EObject featureOwner = section.getFeatureOwner(section.getEObject());
+			EList<Adapter> eAdapters = featureOwner.eAdapters();
+			eAdapters.remove(this);
 		}
 	}
 	protected boolean hasSelectedObject(){

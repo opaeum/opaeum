@@ -1,5 +1,6 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractEnumerationPropertySection;
 import org.opaeum.uim.component.ComponentPackage;
@@ -11,7 +12,6 @@ public class UimFieldOrientationSection extends AbstractEnumerationPropertySecti
 	protected String[] getEnumerationFeatureValues(){
 		return new String[]{Orientation.HORIZONTAL.getName(),Orientation.VERTICAL.getName()};
 	}
-	@Override
 	protected String getFeatureAsText(){
 		Orientation orientation = getUimField().getOrientation();
 		return orientation == null ? Orientation.HORIZONTAL.getName() : orientation.getName();
@@ -20,12 +20,12 @@ public class UimFieldOrientationSection extends AbstractEnumerationPropertySecti
 		return (UimField) getEObject();
 	}
 	@Override
-	protected Object getFeatureValue(String name){
-		return Orientation.getByName(name);
+	protected String getFeatureAsText(EObject featureOwner){
+		return getFeatureAsText();
 	}
 	@Override
-	protected Object getOldFeatureValue(){
-		return getUimField().getOrientation();
+	protected Object getFeatureValue(String name){
+		return Orientation.getByName(name);
 	}
 	@Override
 	protected EStructuralFeature getFeature(){

@@ -1,8 +1,8 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractBooleanPropertySection;
 import org.opaeum.uim.UimPackage;
-import org.topcased.tabbedproperties.sections.AbstractBooleanPropertySection;
 
 public class UserInteractionElementIsUnderUserControlSection extends AbstractBooleanPropertySection{
 
@@ -12,5 +12,10 @@ public class UserInteractionElementIsUnderUserControlSection extends AbstractBoo
 
 	protected EStructuralFeature getFeature(){
 		return UimPackage.eINSTANCE.getUserInteractionElement_UnderUserControl();
+	}
+
+	@Override
+	protected Boolean getDefaultValue(){
+		return false;
 	}
 }

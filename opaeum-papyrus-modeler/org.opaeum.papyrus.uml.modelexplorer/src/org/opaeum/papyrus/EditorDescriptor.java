@@ -267,9 +267,9 @@ public class EditorDescriptor implements IEditorDescriptor,Serializable,IPluginC
 		return configurationElement.getAttribute(ATT_ICON);
 	}
 	/**
-	 * Return the user printable label for this editor.
+	 * Return the user printable labelCombo for this editor.
 	 * 
-	 * @return the label
+	 * @return the labelCombo
 	 */
 	public String getLabel(){
 		if(program == null){
@@ -457,7 +457,7 @@ public class EditorDescriptor implements IEditorDescriptor,Serializable,IPluginC
 		launcherName = newLauncher;
 	}
 	/**
-	 * The label to show for this editor.
+	 * The labelCombo to show for this editor.
 	 */
 	/* package */void setName(String newName){
 		editorName = newName;
@@ -494,7 +494,7 @@ public class EditorDescriptor implements IEditorDescriptor,Serializable,IPluginC
 	 * For debugging purposes only.
 	 */
 	public String toString(){
-		return "EditorDescriptor(id=" + getId() + ", label=" + getLabel() + ")"; //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-1$
+		return "EditorDescriptor(id=" + getId() + ", labelCombo=" + getLabel() + ")"; //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-1$
 	}
 	/*
 	 * (non-Javadoc)

@@ -6,7 +6,6 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
-import org.eclipse.uml2.uml.Stereotype;
 
 public class UmlMetaTypeRemover{
 	public static Collection<EObject> removeAssocations(Collection<EObject> types){

@@ -6,7 +6,7 @@
   <pageOrdering page="//@pages.3" position="3"/>
   <pages umlElementUid="914890@_dOodgMzBEeGKe7Qm4dvydQ" name="Task: Operation1">
     <panel xsi:type="panel:GridPanel" numberOfColumns="1">
-      <children xsi:type="comp:UimField" name="Parameter1" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+      <children xsi:type="comp:UimField" name="Parameter1ll" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
         <control xsi:type="ctl:UimDropdown"/>
         <binding umlElementUid="914890@_bNhwQBRxEeKYhv9CKiNDbg"/>
       </children>

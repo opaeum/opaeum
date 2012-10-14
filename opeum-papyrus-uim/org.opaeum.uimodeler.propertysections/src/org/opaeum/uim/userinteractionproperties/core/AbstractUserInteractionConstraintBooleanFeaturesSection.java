@@ -19,30 +19,27 @@ public abstract class AbstractUserInteractionConstraintBooleanFeaturesSection ex
 	private BooleanSubsection requiresOwnership;
 	public AbstractUserInteractionConstraintBooleanFeaturesSection(){
 		super();
-		inheritFromParent = createBoolean(ConstraintPackage.eINSTANCE.getUserInteractionConstraint_InheritFromParent(), "Inherit from parent", 170);
+		inheritFromParent = createBoolean(ConstraintPackage.eINSTANCE.getUserInteractionConstraint_InheritFromParent(), "Inherit from parent", 140);
 		inheritFromParent.setDefaultValue(true);
 		requiresGroupOwnership = createBoolean(ConstraintPackage.eINSTANCE.getRootUserInteractionConstraint_RequiresGroupOwnership(), "Requires Group Ownership",
-				170);
+				140);
 		requiresGroupOwnership.setDefaultValue(true);
-		requiresOwnership = createBoolean(ConstraintPackage.eINSTANCE.getRootUserInteractionConstraint_RequiresOwnership(), "Requires User Ownership", 170);
+		requiresOwnership = createBoolean(ConstraintPackage.eINSTANCE.getRootUserInteractionConstraint_RequiresOwnership(), "Requires User Ownership", 140);
 	}
 	@Override
 	public BooleanSubsection createBoolean(EStructuralFeature feature,String labelText,int labelWidth){
 		BooleanSubsection result = new BooleanSubsection(this){
-
 			@Override
-			protected Command buildCommand(EObject selection, EObject featureOwner){
-				if(featureOwner==null){
-					featureOwner=ConstraintFactory.eINSTANCE.createUserInteractionConstraint();
+			protected Command buildCommand(EObject selection,EObject featureOwner){
+				if(featureOwner == null){
+					featureOwner = ConstraintFactory.eINSTANCE.createUserInteractionConstraint();
 					Command cmd = SetCommand.create(getEditingDomain(), selection, getConstraintContainingFeature(), featureOwner);
 					getEditingDomain().getCommandStack().execute(cmd);
 				}
 				return super.buildCommand(selection, featureOwner);
 			}
 		};
-		result.setLabelWidth(labelWidth);
-		result.setLabelText(labelText);
-		result.setFeature(feature);
+		populateSubsection(result, feature, labelText, labelWidth, 25);
 		result.setDefaultValue(false);
 		return result;
 	}
@@ -52,7 +49,6 @@ public abstract class AbstractUserInteractionConstraintBooleanFeaturesSection ex
 	}
 	@Override
 	public String getLabelText(){
-		return "Rules:";
+		return "Rules";
 	}
-
 }

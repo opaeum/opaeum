@@ -7,9 +7,9 @@ import org.opaeum.eclipse.uml.propertysections.base.AbstractParametersSection;
 
 public class BehaviorParametersSection extends AbstractParametersSection{
 	@Override
-	public void refresh(){
-		super.refresh();
-		Behavior b = (Behavior) getEObject();
+	public void populateControls(){
+		super.populateControls();
+		Behavior b = (Behavior) getSelectedObject();
 		super.setEnabled(b != null && b.getSpecification() == null);
 	}
 	protected EStructuralFeature getFeature(){

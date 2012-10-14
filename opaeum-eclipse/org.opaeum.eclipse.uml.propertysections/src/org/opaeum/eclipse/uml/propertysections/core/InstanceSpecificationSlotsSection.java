@@ -61,8 +61,9 @@ public class InstanceSpecificationSlotsSection extends AbstractOpaeumPropertySec
 		return slots;
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
+	public void populateControls(){
+		super.populateControls();
+
 		populateSlots(getInstanceSpecifications(), slotsGroup, getWidgetFactory(), getEditingDomain(), null);
 	}
 	public static void populateSlots(List<InstanceSpecification> iss,Group slotsGroup2,TabbedPropertySheetWidgetFactory widgetFactory,

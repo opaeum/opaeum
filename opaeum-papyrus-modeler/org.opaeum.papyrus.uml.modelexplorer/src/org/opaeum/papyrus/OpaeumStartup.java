@@ -1,5 +1,7 @@
 package org.opaeum.papyrus;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.core.resources.IFile;
@@ -26,6 +28,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.activities.IActivity;
+import org.eclipse.ui.activities.IActivityManager;
+import org.eclipse.ui.activities.IWorkbenchActivitySupport;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.navigator.CommonViewer;
@@ -140,12 +145,11 @@ public class OpaeumStartup implements IStartup{
 			if(result.getEditingContextFor(umlFile) == null){
 				EcoreUtil.resolveAll(e.getEditingDomain().getResourceSet());
 				((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
-				result.startSynch(e.getEditingDomain(), umlFile);
 				final IWorkbenchWindow workbenchWindow = e.getSite().getWorkbenchWindow();
-				result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(workbenchWindow));
+				result.startSynch(e.getEditingDomain(), umlFile, new PapyrusEObjectSelectorUI(workbenchWindow));
 				ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);
 				saveAndDirtyService.registerIsaveablePart(new ISaveablePart(){
-					long lastSave=0;
+					long lastSave = 0;
 					public boolean isSaveOnCloseNeeded(){
 						return false;
 					}
@@ -158,8 +162,8 @@ public class OpaeumStartup implements IStartup{
 					public void doSaveAs(){
 					}
 					public void doSave(IProgressMonitor monitor){
-						if(System.currentTimeMillis()-lastSave>3000){
-							lastSave=System.currentTimeMillis();
+						if(System.currentTimeMillis() - lastSave > 3000){
+							lastSave = System.currentTimeMillis();
 							result.onSave(monitor, umlFile);
 						}
 					}
@@ -173,20 +177,34 @@ public class OpaeumStartup implements IStartup{
 			}
 		}
 		IWorkbenchWindow window = Workbench.getInstance().getActiveWorkbenchWindow();
-//		if(window instanceof WorkbenchWindow){
-//			MenuManager menuManager = ((WorkbenchWindow) window).getMenuManager();
-//			ICoolBarManager coolBarManager = null;
-//			if(((WorkbenchWindow) window).getCoolBarVisible()){
-//				coolBarManager = ((WorkbenchWindow) window).getCoolBarManager2();
-//			}
-//			IContributionItem[] items = coolBarManager.getItems();
-//			for(IContributionItem item:items){
-//				if(item.getId().toLowerCase().contains("org.eclipse.papyrus.uml.diagram.ui.toolbar")){
-//					coolBarManager.remove(item);
-//				}
-//			}
-//			coolBarManager.update(true);
-//		}
+		IWorkbenchActivitySupport activitySupport = PlatformUI.getWorkbench().getActivitySupport();
+		IActivityManager activityManager = activitySupport.getActivityManager();
+		Set enabledActivities = new HashSet();
+		String id = "org.opaeum.papyrus.uimadapter.activity";
+		IActivity activity = activitySupport.getActivityManager().getActivity(id);
+		if(activity.isDefined()){
+			activitySupport.setEnabledActivityIds(enabledActivities);
+		}
+		if(window instanceof WorkbenchWindow){
+			MenuManager menuManager = ((WorkbenchWindow) window).getMenuManager();
+			ICoolBarManager coolBarManager = null;
+			if(((WorkbenchWindow) window).getCoolBarVisible()){
+				coolBarManager = ((WorkbenchWindow) window).getCoolBarManager2();
+			}
+			IContributionItem[] items = coolBarManager.getItems();
+			for(IContributionItem item:items){
+				if(item.getId().toLowerCase().contains("papyrus")){
+					try{
+						System.out.println("ToolItem removed:" + item.getId());
+						// coolBarManager.remove(item);
+						item.dispose();
+					}catch(Exception e2){
+						e2.printStackTrace();
+					}
+				}
+			}
+			coolBarManager.update(true);
+		}
 	}
 	private ISaveAndDirtyService getSaveAndDirtyService(PapyrusMultiDiagramEditor e){
 		ISaveAndDirtyService saveAndDirtyService;

@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -15,6 +16,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.util.UMLUtil;
 import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -75,6 +78,13 @@ public class CreateChildAndSelectAction extends CreateChildAction{
 					AddCommand.create(editingDomain, ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), getCommandParameter().getValue()));
 		}
 		super.run();
+		Object value = getCommandParameter().getValue();
+		if(value instanceof NamedElement && ((NamedElement) value).getName()==null){
+			NamedElement ne=(NamedElement) value;
+			String name=NameConverter.decapitalize(ne.eClass().getName())+"1";
+			editingDomain.getCommandStack().execute(
+					SetCommand.create(editingDomain, ne, UMLPackage.eINSTANCE.getNamedElement_Name(), name));
+		}
 		gotoNewObject();
 	}
 	protected boolean isCompositeFeature(){

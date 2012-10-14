@@ -17,13 +17,12 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.uim.cube.AggregationFormula;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.DimensionBinding;
 import org.opaeum.uim.cube.MeasureProperty;
 import org.opaeum.uim.util.UmlUimLinks;
-import org.topcased.tabbedproperties.internal.utils.Messages;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 
 public class MeasurePropertyAggregationFormulaSection extends AbstractChooserPropertySection{
 	Map<DimensionBinding,DimensionNode> nodes = new HashMap<DimensionBinding,DimensionNode>();
@@ -87,7 +86,7 @@ public class MeasurePropertyAggregationFormulaSection extends AbstractChooserPro
 		boolean equals = oldValue == null ? false : oldValue.equals(newValue);
 		if(!equals){
 			EditingDomain editingDomain = getEditingDomain();
-			CompoundCommand compoundCommand = new CompoundCommand(Messages.AbstractTabbedPropertySection_CommandName);
+			CompoundCommand compoundCommand = new CompoundCommand(COMMAND_NAME);
 			// apply the property change to all selected elements
 			for(EObject nextObject:getEObjectList()){
 				compoundCommand.append(SetCommand.create(editingDomain, nextObject, getFeature(), newValue));

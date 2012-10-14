@@ -20,16 +20,16 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.UseCase;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
-public class TypedElementTypeSection extends OpaeumChooserPropertySection{
+public class TypedElementTypeSection extends AbstractChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getTypedElement_Type();
 	}
 	public String getLabelText(){
-		return "Type:";
+		return "Type";
 	}
 	protected Object[] getComboFeatureValues(){
 		EObject element = getEObject();

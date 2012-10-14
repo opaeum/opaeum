@@ -10,22 +10,20 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.eclipse.uml.propertysections.base.OpaeumChooserPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.model.ClassUserInteractionModel;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
 import org.opaeum.uim.util.UmlUimLinks;
-import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
-import org.topcased.tabbedproperties.internal.utils.Messages;
-import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 
-public class CubeQueryCubeSourceSection extends OpaeumChooserPropertySection{
+public class CubeQueryCubeSourceSection extends AbstractChooserPropertySection{
 	public String getLabelText(){
 		return "Cube Source:";
 	}
@@ -48,8 +46,8 @@ public class CubeQueryCubeSourceSection extends OpaeumChooserPropertySection{
 	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
 		f.add(new UimItemProviderAdapterFactory());
-		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
-		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
+		f.addAll(getPrincipalAdapterFactories());
+		return new AdapterFactoryLabelProvider(new ComposedAdapterFactory(f));
 	}
 	protected void createCommand(Object oldValue,Object newValue){
 		boolean equals = oldValue == null ? false : oldValue.equals(newValue);
@@ -57,7 +55,7 @@ public class CubeQueryCubeSourceSection extends OpaeumChooserPropertySection{
 			EditingDomain editingDomain = getEditingDomain();
 			Element value = (Element) newValue;
 			String uuid = EmfWorkspace.getId(value);
-			CompoundCommand compoundCommand = new CompoundCommand(Messages.AbstractTabbedPropertySection_CommandName);
+			CompoundCommand compoundCommand = new CompoundCommand(COMMAND_NAME);
 			// apply the property change to all selected elements
 			for(EObject nextObject:getEObjectList()){
 				compoundCommand.append(SetCommand.create(editingDomain, nextObject, getFeature(), uuid));

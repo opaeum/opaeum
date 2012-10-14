@@ -1,5 +1,10 @@
 package org.opaeum.eclipse.uml.propertysections.base;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -14,6 +19,7 @@ public abstract class AbstractStringPropertySection extends AbstractOpaeumProper
 	private TextChangeHelper listener;
 	protected void createWidgets(Composite composite){
 		text = getWidgetFactory().createText(composite, "", SWT.BORDER);
+		listener = null;
 		if(getFeature() != null){
 			boolean isChangeable = getFeature().isChangeable();
 			text.setEditable(isChangeable);
@@ -26,31 +32,53 @@ public abstract class AbstractStringPropertySection extends AbstractOpaeumProper
 	}
 	protected void setSectionData(Composite composite){
 		FormData data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}));
+		data.left = new FormAttachment(labelCombo);
 		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+		data.top = new FormAttachment(0, 0);
 		data.bottom = new FormAttachment(100, 0);
 		text.setLayoutData(data);
 	}
 	protected void hookListeners(){
-		listener = new TextChangeHelper(){
-			@Override
-			public void textChanged(Control control){
-				handleTextModified();
+		if(listener == null){
+			listener = new TextChangeHelper(){
+				@Override
+				public void textChanged(Control control){
+					handleTextModified();
+				}
+			};
+			listener.startListeningTo(text);
+			if((getStyle() & SWT.MULTI) == 0){
+				listener.startListeningForEnter(text);
 			}
-		};
-		listener.startListeningTo(text);
-		if((getStyle() & SWT.MULTI) == 0){
-			listener.startListeningForEnter(text);
 		}
 	}
 	protected int getStyle(){
 		return SWT.SINGLE;
 	}
-	public void refresh(){
-		super.refresh();
+	@Override
+	public void populateControls(){
 		if(text != null){
-			text.setText(getFeatureAsString());
+			Set<String> values = new HashSet<String>();
+			List<EObject> eObjectList = getEObjectList();
+			for(EObject eObject:eObjectList){
+				EObject owner = getFeatureOwner(eObject);
+				if(owner != null){
+					Object value = getFeatureAsString(owner);
+					values.add(value == null ? "" : value.toString());
+				}else{
+					values.add("");
+				}
+			}
+			if(values.size() == 1){
+				text.setText(values.iterator().next());
+			}else{
+				text.setText("");
+			}
+			if(values.size() == 1){
+				text.setText(values.iterator().next());
+			}else{
+				text.setText("");
+			}
 		}
 	}
 	@Override
@@ -61,19 +89,16 @@ public abstract class AbstractStringPropertySection extends AbstractOpaeumProper
 		}
 	}
 	protected void handleTextModified(){
-		createCommand(getOldFeatureValue(), getNewFeatureValue(text.getText()));
+		updateModel(getNewFeatureValue(text.getText()));
 	}
-	protected String getFeatureAsString(){
-		String string = getEObject() == null ? null : (String) getEObject().eGet(getFeature());
-		if(string == null){
-			return "";
+	protected String getFeatureAsString(EObject owner){
+		if(owner != null){
+			Object eGet = owner.eGet(getFeature(owner));
+			return eGet == null ? "" : eGet.toString();
 		}
-		return string;
+		return "";
 	}
 	protected Object getNewFeatureValue(String newText){
 		return newText;
-	}
-	protected Object getOldFeatureValue(){
-		return getFeatureAsString();
 	}
 }

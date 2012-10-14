@@ -1,15 +1,13 @@
 package org.opaeum.eclipse.uml.propertysections.standardprofile;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractStringOnStereotypeSection;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class MappedImplementationTypeSection extends AbstractStringOnStereotypeSection{
-	@Override
-	protected Element getElement(EObject e){
-		return (Element) e;
-	}
+
 	@Override
 	protected String getAttributeName(){
 		return "mappedImplementationType";
@@ -28,6 +26,6 @@ public class MappedImplementationTypeSection extends AbstractStringOnStereotypeS
 	}
 	@Override
 	public String getLabelText(){
-		return "Existing Implementation:";
+		return "Existing Implementation";
 	}
 }

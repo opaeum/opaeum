@@ -10,6 +10,7 @@ import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
@@ -19,13 +20,12 @@ import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.uim.cube.AxisEntry;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.CubeQuery;
 import org.opaeum.uim.cube.DimensionBinding;
 import org.opaeum.uim.util.UmlUimLinks;
-import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 
 public class AxisEntryDimensionBindingSection extends AbstractChooserPropertySection{
 	Map<DimensionBinding,DimensionNode> nodes = new HashMap<DimensionBinding,DimensionNode>();
@@ -68,7 +68,7 @@ public class AxisEntryDimensionBindingSection extends AbstractChooserPropertySec
 	}
 	@Override
 	protected ILabelProvider getLabelProvider(){
-		return new TabbedPropertiesLabelProvider(new EcoreItemProviderAdapterFactory()){
+		return new AdapterFactoryLabelProvider(new EcoreItemProviderAdapterFactory()){
 			@Override
 			public String getText(Object object){
 				DimensionNode dimensionNode = nodes.get(object);

@@ -20,11 +20,11 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 	protected void handleModelChanged(Notification msg){
 		Object notifier = msg.getNotifier();
 		if(notifier.equals(safeGetProperty())){
-			if(label.isDisposed()){
+			if(labelCombo.isDisposed()){
 				removeListener();
 			}else{
 				if(msg.getFeatureID(Property.class) == UMLPackage.PROPERTY__IS_DERIVED){
-					label.setText(getAppropriateLabelText());
+					labelCombo.setText(getAppropriateLabelText());
 				}
 				if(msg.getFeatureID(Property.class) != UMLPackage.PROPERTY__DEFAULT_VALUE){
 					if(requiresDefaultValue() && !(safeGetProperty().getDefaultValue() instanceof OpaqueExpression)){
@@ -87,9 +87,10 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 		return safeGetProperty().isDerived() ? "Derived Value" : "Initial Value";
 	}
 	@Override
-	public void refresh(){
-		super.refresh();
-		label.setText(getAppropriateLabelText());
+	public void populateControls(){
+		super.populateControls();
+
+		labelCombo.setText(getAppropriateLabelText());
 	}
 	public String getLabelText(){
 		return "Default Value";

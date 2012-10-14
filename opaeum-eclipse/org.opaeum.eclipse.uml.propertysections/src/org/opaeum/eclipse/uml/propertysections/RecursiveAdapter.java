@@ -7,9 +7,10 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
 
-public class RecursiveAdapter extends EContentAdapter{
+public abstract class RecursiveAdapter extends EContentAdapter{
 	Set<EObject> subscriptions = new HashSet<EObject>();
 	public void subscribeTo(EObject e,int levels){
 		if(levels > 0){
@@ -30,9 +31,22 @@ public class RecursiveAdapter extends EContentAdapter{
 			}
 		}
 	}
+	private void syncNotifyChanged(final Notification msg){
+		Display.getDefault().syncExec(new Runnable(){
+			public void run(){
+				safeNotifyChanged(msg);
+			}
+		});
+	}
+	protected abstract void safeNotifyChanged(Notification msg);
 	@Override
-	public void notifyChanged(Notification msg){
+	public final void notifyChanged(Notification msg){
 		super.notifyChanged(msg);
+		if(Display.getCurrent() != Display.getDefault()){
+			syncNotifyChanged(msg);
+		}else{
+			safeNotifyChanged(msg);
+		}
 	}
 	public void unsubscribe(){
 		for(EObject eObject:new HashSet<EObject>(this.subscriptions)){

@@ -77,6 +77,7 @@ public class OpenUmlFile extends EContentAdapter{
 	private OpaeumElementLinker linker = new OpaeumElementLinker();
 	private OJUtil ojUtil;
 	private TypeCacheAdapter typeCacheAdapter;
+	private EObjectSelectorUI eObjectSelectorUI;
 	public OpenUmlFile(EditingDomain editingDomain,IFile f,OpaeumConfig cfg){
 		super();
 		Package model = findRootObjectInFile(f, editingDomain.getResourceSet());
@@ -110,6 +111,7 @@ public class OpenUmlFile extends EContentAdapter{
 		}
 	}
 	public void addSynchronizationListener(OpaeumSynchronizationListener l){
+		System.out.println("OpenUmlFile.addSynchronizationListener()"+l.getClass().getSimpleName());
 		this.synchronizationListener.add(l);
 	}
 	public void addWorkspaceLoadListener(WorkspaceLoadListener l){
@@ -374,7 +376,8 @@ public class OpenUmlFile extends EContentAdapter{
 									changedElements.add(EmfElementFinder.getNearestClassifier((Element) object));
 								}
 							}
-							for(OpaeumSynchronizationListener listener:synchronizationListener){
+							OpaeumSynchronizationListener[] array = synchronizationListener.toArray(new OpaeumSynchronizationListener[synchronizationListener.size()]);
+							for(OpaeumSynchronizationListener listener: array){
 								listener.synchronizationComplete(OpenUmlFile.this, changedElements);
 							}
 							System.out.println("Validation took " + (System.currentTimeMillis() - start));
@@ -407,4 +410,11 @@ public class OpenUmlFile extends EContentAdapter{
 	public OpaeumConfig getConfig(){
 		return this.cfg;
 	}
+	public EObjectSelectorUI geteObjectSelectorUI(){
+		return eObjectSelectorUI;
+	}
+	public void seteObjectSelectorUI(EObjectSelectorUI eObjectSelectorUI){
+		this.eObjectSelectorUI = eObjectSelectorUI;
+	}
+
 }

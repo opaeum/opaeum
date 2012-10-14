@@ -16,7 +16,7 @@ import org.opaeum.eclipse.uml.propertysections.OpaeumLabelProvider;
 import org.opaeum.eclipse.uml.propertysections.core.TypedElementTypeSection;
 
 public class TypedElementTypeEditingSupport extends EditingDomainEditingSupport{
-	OpaeumLabelProvider labelProvider = new OpaeumLabelProvider();
+	protected OpaeumLabelProvider labelProvider = new OpaeumLabelProvider();
 	private TabbedPropertySheetWidgetFactory toolkit;
 	public TypedElementTypeEditingSupport(ColumnViewer viewer,TabbedPropertySheetWidgetFactory toolkit){
 		super(viewer,"Type",200);
@@ -24,12 +24,14 @@ public class TypedElementTypeEditingSupport extends EditingDomainEditingSupport{
 	}
 	@Override
 	protected CellEditor getCellEditor(final Object element){
-		return new ObjectChooserCompositeCellEditor(((TableViewer) viewer).getTable(), toolkit){
+		ObjectChooserCompositeCellEditor cellEditor = new ObjectChooserCompositeCellEditor(((TableViewer) viewer).getTable(), toolkit){
 			@Override
 			protected Object[] getChoices(){
 				return TypedElementTypeSection.getValidTypes((EObject) element);
 			}
 		};
+		cellEditor.addListener(this);
+		return cellEditor;
 	}
 	@Override
 	protected boolean canEdit(Object element){

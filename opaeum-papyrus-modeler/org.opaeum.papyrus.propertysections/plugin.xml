@@ -16,7 +16,7 @@
             labelProvider="org.opaeum.eclipse.uml.propertysections.OpaeumLabelProvider"
             tabDescriptorProvider="org.opaeum.papyrus.uml.OpaeumTabDescriptorProvider"
             sectionDescriptorProvider="org.opaeum.propertysections.OpaeumSectionDescriptorProvider"
-            actionProvider="org.opaeum.propertysections.OpaeumSectionActionProvider" >
+            actionProvider="org.opaeum.eclipse.uml.propertysections.OpaeumSectionActionProvider" >
             
 			<propertyCategory category="domain">
 			</propertyCategory>

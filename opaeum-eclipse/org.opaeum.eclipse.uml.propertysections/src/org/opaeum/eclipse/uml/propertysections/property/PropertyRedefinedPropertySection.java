@@ -1,6 +1,5 @@
 package org.opaeum.eclipse.uml.propertysections.property;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -17,10 +16,6 @@ public class PropertyRedefinedPropertySection extends AbstractPropertyLookupSect
 	}
 	@Override
 	public String getLabelText(){
-		return "Redefined types";
-	}
-	@Override
-	protected EObject getFeatureOwner(EObject e){
-		return e;
+		return "Redefined Properties";
 	}
 }

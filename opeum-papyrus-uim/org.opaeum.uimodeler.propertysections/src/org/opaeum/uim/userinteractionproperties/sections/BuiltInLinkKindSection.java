@@ -1,5 +1,6 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractEnumerationPropertySection;
 import org.opaeum.uim.action.ActionPackage;
@@ -33,5 +34,9 @@ public class BuiltInLinkKindSection extends AbstractEnumerationPropertySection{
 	@Override
 	protected Object getFeatureValue(String name){
 		return BuiltInLinkKind.getByName(name);
+	}
+	@Override
+	protected String getFeatureAsText(EObject featureOwner){
+		return getFeatureAsText();
 	}
 }
