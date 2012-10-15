@@ -39,7 +39,7 @@ public class OpaqueExpressionSubsection extends AbstractTabbedPropertySubsection
 	@Override
 	protected void populateControls(){
 		getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		getControl().setOclContext((NamedElement) getFeatureOwner(section.getSelectedObject()), getCurrentValue());
+		getControl().setOclContext((NamedElement) section.getSelectedObject(), getCurrentValue());
 	}
 	@Override
 	public void hookControlListener(){

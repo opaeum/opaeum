@@ -7,6 +7,7 @@ import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.commands.SetStereotypeValueCommand;
 import org.opaeum.eclipse.commands.StereotypeValueInformation;
 import org.opaeum.eclipse.uml.propertysections.base.IMultiPropertySection;
+import org.opaeum.emf.extraction.StereotypesHelper;
 /**
  * NB!! this subsection assumes that the parent already has the correct Stereotype Application. It will simply look for the 
  * specified feature in the StereotypeApplication 
@@ -27,5 +28,9 @@ public class OpaqueExpressionOnStereotypeSubsection extends OpaqueExpressionSubs
 	@Override
 	public EStructuralFeature getFeature(){
 		return info.getFeature(section.getSelectedObject());
+	}
+	public EObject getFeatureOwner(EObject e){
+		Element e2 = (Element)e;
+		return   e2.getStereotypeApplication(StereotypesHelper.getStereotype(e2, info.getStereotypeName()));
 	}
 }

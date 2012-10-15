@@ -33,7 +33,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.opaeum.eclipse.ImageManager;
+import org.opaeum.eclipse.uml.editingsupport.UmlElementImageProvider;
 import org.opaeum.eclipse.uml.propertysections.common.OpaeumFeatureDialog.IFeatureInfo;
+import org.opaeum.name.NameConverter;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 
 public class ReferenceViewer extends Viewer{
@@ -70,8 +72,15 @@ public class ReferenceViewer extends Viewer{
 		return style;
 	}
 	private void createColumns(final String[] colNames){
+		final TableViewerColumn viewerColumn = new TableViewerColumn(tableViewer, SWT.NONE, 0);
+		final TableColumn firstColumn = viewerColumn.getColumn();
+		firstColumn.setText("");
+		firstColumn.setWidth(30);
+		firstColumn.setResizable(false);
+		firstColumn.setMoveable(false);
+		viewerColumn.setLabelProvider(new UmlElementImageProvider());
 		for(int i = 0;i < colNames.length;i++){
-			TableViewerColumn tvc = new TableViewerColumn(tableViewer, SWT.LEFT, i);
+			TableViewerColumn tvc = new TableViewerColumn(tableViewer, SWT.LEFT, i+1);
 			final String name = colNames[i];
 			tvc.setLabelProvider(new CellLabelProvider(){
 				@Override
@@ -84,7 +93,7 @@ public class ReferenceViewer extends Viewer{
 				}
 			});
 			TableColumn column = tvc.getColumn();
-			column.setText(colNames[i]);
+			column.setText(NameConverter.capitalize(colNames[i]));
 			column.setWidth(100);
 		}
 	}

@@ -301,8 +301,8 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 	}
 	@Override
 	public final void refresh(){
-		if(!(sectionComposite.isDisposed() || getSelectedObject().eContainer() == null)){// Hack - eclipse calls refresh even if the object was
-																																											// deleted
+		if(!(sectionComposite.isDisposed() || getSelectedObject().eResource() == null)){
+			// Hack - eclipse calls refresh even if the object was deleted
 			isRefreshing = true;
 			super.refresh();
 			populateControls();

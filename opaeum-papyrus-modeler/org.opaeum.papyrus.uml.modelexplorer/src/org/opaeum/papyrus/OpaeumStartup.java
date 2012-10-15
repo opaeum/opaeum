@@ -79,7 +79,9 @@ public class OpaeumStartup implements IStartup{
 			}
 		}
 		public void pushSelection(EObject eObject){
-			selection.push(eObject);
+			if(selection.isEmpty() ||  selection.peek() != eObject){
+				selection.push(eObject);
+			}
 		}
 		public EObject popSelection(){
 			return selection.pop();
@@ -173,7 +175,7 @@ public class OpaeumStartup implements IStartup{
 				try{
 					workbenchWindow.getActivePage().showView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
 				}catch(PartInitException e1){
-					//nice to have
+					// nice to have
 				}
 			}
 		}
@@ -191,20 +193,20 @@ public class OpaeumStartup implements IStartup{
 				coolBarManager = ((WorkbenchWindow) window).getCoolBarManager2();
 			}
 			IContributionItem[] items = coolBarManager.getItems();
-			boolean changed=false;
+			boolean changed = false;
 			for(IContributionItem item:items){
 				if(item.getId().toLowerCase().contains("papyrus")){
 					try{
-						changed=true;
+						changed = true;
 						System.out.println("ToolItem removed:" + item.getId());
 						item.dispose();
 					}catch(Exception e2){
-						//nice to have
+						// nice to have
 					}
 				}
 			}
 			if(changed){
-//			coolBarManager.update(true);
+				// coolBarManager.update(true);
 			}
 		}
 	}

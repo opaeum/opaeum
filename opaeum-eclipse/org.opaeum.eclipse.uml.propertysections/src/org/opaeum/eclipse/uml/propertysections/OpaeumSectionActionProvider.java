@@ -26,7 +26,10 @@ public class OpaeumSectionActionProvider implements IActionProvider{
 				@Override
 				public void run(){
 					OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(currentSelection);
-					NavigationDecorator.selectEObjectInAllViews(ouf.geteObjectSelectorUI().popSelection());
+					EObject current = ouf.geteObjectSelectorUI().popSelection();
+					EObject previous = ouf.geteObjectSelectorUI().popSelection();
+					ouf.geteObjectSelectorUI().gotoEObject(previous);
+					NavigationDecorator.selectEObjectInAllViews(previous);
 				}
 			};
 			ISharedImages images = PlatformUI.getWorkbench().getSharedImages();

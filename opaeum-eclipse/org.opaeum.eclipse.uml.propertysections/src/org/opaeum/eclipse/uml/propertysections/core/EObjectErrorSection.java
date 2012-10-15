@@ -1,5 +1,6 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -79,7 +80,21 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection{
 			for(Control control:group.getChildren()){
 				control.dispose();
 			}
-			Set<BrokenRule> brokenRules = getBrokenRules();
+			EmfWorkspace ew = getOpenUmlFile().getEmfWorkspace();
+			Collection<Entry<String,BrokenElement>> brokenElements = ew.getErrorMap().getErrors().entrySet();
+			Set<BrokenRule> brokenRules=new HashSet<BrokenRule>();
+			for(Entry<String,BrokenElement> brokenElement:brokenElements){
+				//TODO add referenced elements too
+				Element modelElement = ew.getModelElement(brokenElement.getKey());
+				while(modelElement!=null){
+					if(getEObjectList().contains(modelElement)){
+						brokenRules.addAll(brokenElement.getValue().getBrokenRules().values());
+						modelElement=null;
+					}else{
+						modelElement=EmfElementFinder.getContainer(modelElement);
+					}
+				}
+			}
 			if(brokenRules.size() > 0){
 				Set<BrokenRule> addedRules = new HashSet<BrokenRule>();
 				// may have been delete since extraction
@@ -94,7 +109,7 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection{
 						gl.marginWidth = 0;
 						gl.marginHeight = 0;
 						gl.verticalSpacing = 0;
-						EObject brokenElement = getOpenUmlFile().getEmfWorkspace().getModelElement(brokenRule.getElementId());
+						EObject brokenElement = ew.getModelElement(brokenRule.getElementId());
 						if(split.length == 1 && split[0].length() == 0){
 							createMessageFragment(brokenElement, comp, brokenRule.getRule().name(), brokenRule.getParameters());
 						}else{

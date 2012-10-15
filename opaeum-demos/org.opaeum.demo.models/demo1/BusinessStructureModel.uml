@@ -290,9 +290,24 @@
             </ownedRule>
           </transition>
           <transition xmi:id="_O1gLEBYbEeKsDbmQL25eBw" name="Submitted" source="_Jx4kYBYUEeKsDbmQL25eBw" target="_KIj_ABYUEeKsDbmQL25eBw">
-            <trigger xmi:id="_6v0qsBYkEeKUTqZwJyzPZA" name="SubmittedTrigger">
-              <eAnnotations xmi:id="_6wgnMBYkEeKUTqZwJyzPZA" source="http://www.opaeum.org">
-                <contents xmi:type="uml:TimeEvent" xmi:id="_6w_IUBYkEeKUTqZwJyzPZA" name="SubmittedTimeEvent" isRelative="true"/>
+            <trigger xmi:id="_Kv3IUBcAEeK9SoQSQYApGA" name="SubmittedTrigger" event="_TYw30BcAEeK9SoQSQYApGA">
+              <eAnnotations xmi:id="_KzlxwBcAEeK9SoQSQYApGA" source="http://www.opaeum.org">
+                <contents xmi:type="uml:TimeEvent" xmi:id="_KzlxwRcAEeK9SoQSQYApGA" name="SubmittedTimeEvent">
+                  <when xmi:id="_KzlxwhcAEeK9SoQSQYApGA" name="SubmittedTimeEventWhen">
+                    <expr xmi:type="uml:OpaqueExpression" xmi:id="_LSR44BcAEeK9SoQSQYApGA" name="SubmittedTimeEventexpr">
+                      <language>OCL</language>
+                      <body>now</body>
+                    </expr>
+                  </when>
+                </contents>
+                <contents xmi:type="uml:TimeEvent" xmi:id="_TYw30BcAEeK9SoQSQYApGA" name="SubmittedTimeEvent" isRelative="true">
+                  <when xmi:id="_TYw30RcAEeK9SoQSQYApGA" name="SubmittedTimeEventWhen">
+                    <expr xmi:type="uml:OpaqueExpression" xmi:id="_TYw30hcAEeK9SoQSQYApGA" name="SubmittedTimeEventWhenEpr">
+                      <language>OCL</language>
+                      <body>Ocl expression required</body>
+                    </expr>
+                  </when>
+                </contents>
               </eAnnotations>
             </trigger>
           </transition>
@@ -302,16 +317,11 @@
                 <contents xmi:type="uml:SignalEvent" xmi:id="_Rxxa8Rb3EeKI68QaBu0uBA" name="Transition1SignalEvent"/>
                 <contents xmi:type="uml:CallEvent" xmi:id="_TGTk8Bb3EeKI68QaBu0uBA" name="Transition1CallEvent"/>
                 <contents xmi:type="uml:TimeEvent" xmi:id="_eu1uUBb3EeKI68QaBu0uBA" name="Transition1TimeEvent" isRelative="true">
-                  <eAnnotations xmi:id="_RwJ04Bb4EeKI68QaBu0uBA" source="http://www.opaeum.org">
-                    <contents xmi:type="uml:OpaqueExpression" xmi:id="_RwRJoBb4EeKI68QaBu0uBA" name="Transition1TimeEventbusinessCalendarToUse">
-                      <language>OCL</language>
-                      <body>Tlkjlkjlkjklkjljlkjlkj</body>
-                    </contents>
-                  </eAnnotations>
+                  <eAnnotations xmi:id="_RwJ04Bb4EeKI68QaBu0uBA" source="http://www.opaeum.org"/>
                   <when xmi:id="_eu1uURb3EeKI68QaBu0uBA" name="Transition1TimeEventWhen">
-                    <expr xmi:type="uml:OpaqueExpression" xmi:id="_UgSaMBb4EeKI68QaBu0uBA" name="Transition1TimeEventexpr">
+                    <expr xmi:type="uml:OpaqueExpression" xmi:id="_3zQUYBb_EeK9SoQSQYApGA" name="Transition1TimeEventexpr">
                       <language>OCL</language>
-                      <body>asvasdfasdsdfasdfasd</body>
+                      <body>123</body>
                     </expr>
                   </when>
                 </contents>
@@ -679,5 +689,6 @@
   <OpaeumStandardProfile:Attribute xmi:id="_5PuqcBUzEeKjqLZFOgkVYQ" base_Property="_AgMuwBUxEeKjqLZFOgkVYQ" persistentName=""/>
   <OpaeumBPMProfile:StandaloneSingleScreenTask xmi:id="_z92-wBYQEeKIFJAOfPz88A" base_OpaqueBehavior="_ylMisBYQEeKIFJAOfPz88A"/>
   <OpaeumBPMProfile:BusinessStateMachine xmi:id="_HKkj4BYUEeKsDbmQL25eBw" base_StateMachine="_HHdlgBYUEeKsDbmQL25eBw"/>
-  <OpaeumBPMProfile:ContextualBusinessTimeEvent xmi:id="_RvefcBb4EeKI68QaBu0uBA" base_TimeEvent="_eu1uUBb3EeKI68QaBu0uBA" businessCalendarToUse="_RwRJoBb4EeKI68QaBu0uBA"/>
+  <OpaeumBPMProfile:ContextualBusinessTimeEvent xmi:id="_RvefcBb4EeKI68QaBu0uBA" base_TimeEvent="_eu1uUBb3EeKI68QaBu0uBA" timeUnit="actualHour"/>
+  <OpaeumBPMProfile:ContextualBusinessTimeEvent xmi:id="_j9wUIBcAEeK9SoQSQYApGA" base_TimeEvent="_TYw30BcAEeK9SoQSQYApGA" timeUnit="calendarDay"/>
 </xmi:XMI>
