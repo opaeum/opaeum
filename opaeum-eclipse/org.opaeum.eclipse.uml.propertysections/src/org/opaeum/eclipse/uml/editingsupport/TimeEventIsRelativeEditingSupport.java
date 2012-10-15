@@ -1,5 +1,7 @@
 package org.opaeum.eclipse.uml.editingsupport;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
@@ -7,6 +9,7 @@ import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.ImageManager;
 
 public class TimeEventIsRelativeEditingSupport extends EditingDomainEditingSupport{
@@ -27,7 +30,9 @@ public class TimeEventIsRelativeEditingSupport extends EditingDomainEditingSuppo
 	}
 	@Override
 	protected void setValue(Object element,Object value){
-		((TimeEvent)element).setIsRelative(Boolean.TRUE.equals(value));
+		Command cmd = SetCommand.create(editingDomain, element, UMLPackage.eINSTANCE.getTimeEvent_IsRelative(), Boolean.TRUE.equals(value));
+		editingDomain.getCommandStack().execute(cmd);
+
 	}
 	public CellLabelProvider getLabelProvider(){
 		return new CellLabelProvider(){

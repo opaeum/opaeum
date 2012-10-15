@@ -8,21 +8,19 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractMultiFeaturePropertySection;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractTabbedPropertySubsection;
 import org.opaeum.eclipse.uml.propertysections.base.IMultiPropertySection;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 
-public abstract class AbstractDetailsSubsection<T extends EObject> implements IMultiPropertySection,ISelectionChangedListener{
+public abstract class AbstractDetailsSubsection<T extends EObject> implements IMultiPropertySection,IDetailsSubsection<T>{
 	protected EditingDomain mixedEditDomain;
 	protected TabbedPropertySheetWidgetFactory widgetFactory;
 	private List<AbstractTabbedPropertySubsection<?,?>> subsections = new ArrayList<AbstractTabbedPropertySubsection<?,?>>();
@@ -42,6 +40,7 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 		hookControlListeners();
 		setEnabled(false);
 	}
+	@Override
 	public void setEditingDomain(EditingDomain mixedEditDomain){
 		this.mixedEditDomain = mixedEditDomain;
 	}
@@ -50,8 +49,9 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 			ss.hookControlListener();
 		}
 	}
+	@Override
 	public void setEnabled(boolean enabled){
-		enabled=enabled&&selectedObject!=null;
+		enabled = enabled && selectedObject != null;
 		contentPane.setEnabled(enabled);
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
 			ss.setEnabled(enabled);
@@ -72,7 +72,7 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 				eObjectList.add((T) eObject);
 			}
 		}
-		if(selectedObject != s){
+		if(getSelectedObject() != s){
 			removeListener();
 			this.selectedObject = (T) s;
 			for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
@@ -108,24 +108,18 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 			ss.createWidgets(ssc);
 		}
 	}
+	@Override
 	public void setLayoutData(Object data){
 		contentPane.setLayoutData(data);
 		int maxHeight = 5;
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
 			ss.updateLayoutData();
-			GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+			GridData gd = new GridData(SWT.FILL, SWT.CENTER, true, false);
 			if(ss.getRowSpan() != null){
 				gd.verticalSpan = ss.getRowSpan();
 			}
 			if(ss.getColumnSpan() != null){
 				gd.horizontalSpan = ss.getColumnSpan();
-				if(ss instanceof OpaqueExpressionSubsection){
-					Control control = ss.getControl();
-					GridData gd2= (GridData) control.getLayoutData();
-					gd2.grabExcessHorizontalSpace=true;
-					gd2.horizontalAlignment=SWT.FILL;
-					control.setLayoutData(gd2);
-				}
 			}
 			ss.getComposite().setLayoutData(gd);
 			maxHeight = Math.max(maxHeight, ss.getComposite().getSize().y);
@@ -135,13 +129,14 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 			if(gd.verticalSpan == 1){
 				gd.minimumHeight = maxHeight;
 				gd.heightHint = maxHeight;
-			}else{
-				gd.minimumHeight = maxHeight*gd.verticalSpan;
-				gd.heightHint = maxHeight*gd.verticalSpan;
+			}else {
+				gd.minimumHeight = maxHeight * gd.verticalSpan;
+				gd.heightHint = maxHeight * gd.verticalSpan;
 			}
 			ss.getComposite().setLayoutData(gd);
 		}
 	}
+	@Override
 	public void dispose(){
 		for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
 			ss.dispose();
@@ -155,7 +150,7 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 	}
 	@Override
 	public EObject getFeatureOwner(EObject selection){
-		return selectedObject;
+		return getSelectedObject();
 	}
 	@Override
 	public EditingDomain getEditingDomain(){
@@ -166,7 +161,10 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 		return new ArrayList<EObject>(this.eObjectList);
 	}
 	@Override
-	public EObject getEObject(){
+	public EObject getSelectedObject(){
+		if(selectedObject!=null && selectedObject.eResource()==null){
+			selectedObject=null;
+		}
 		return selectedObject;
 	}
 	@Override
@@ -211,5 +209,8 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 		AbstractMultiFeaturePropertySection.populateSubsection(result, feature, labelText, labelWidth, controlWidth);
 		result.setChoiceProvider(choiceProvider);
 		return result;
+	}
+	public Composite getContentPane(){
+		return contentPane;
 	}
 }

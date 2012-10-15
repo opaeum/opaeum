@@ -10,7 +10,7 @@ public interface IMultiPropertySection{
 	EditingDomain getEditingDomain();
 	Collection<EObject> getEObjectList();
 	EObject getFeatureOwner(EObject selection);
-	EObject getEObject();
+	EObject getSelectedObject();
 	void addSubsection(AbstractTabbedPropertySubsection<?,?> ss);
 	TabbedPropertySheetWidgetFactory getWidgetFactory();
 }

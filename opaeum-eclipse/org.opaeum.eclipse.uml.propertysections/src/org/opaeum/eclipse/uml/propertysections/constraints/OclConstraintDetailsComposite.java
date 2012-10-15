@@ -30,7 +30,7 @@ public class OclConstraintDetailsComposite extends AbstractDetailsSubsection<Con
 			public Object[] getChoices(){
 				List<Object> result = new ArrayList<Object>();
 				result.add("");
-				EObject context = getEObject().eContainer();
+				EObject context = getSelectedObject().eContainer();
 				if(context instanceof Operation){
 					result.addAll(((Operation) context).getOwnedParameters());
 				}

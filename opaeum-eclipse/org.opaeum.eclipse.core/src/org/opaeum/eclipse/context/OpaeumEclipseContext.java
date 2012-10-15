@@ -285,8 +285,9 @@ public class OpaeumEclipseContext{
 		setCurrentContext(currentContext);
 	}
 	public static OpaeumEclipseContext getContextFor(EObject element){
-		if(element.eResource().getResourceSet() instanceof IOpaeumResourceSet){
-			IOpaeumResourceSet rst = (IOpaeumResourceSet) element.eResource().getResourceSet();
+		Resource eResource = element.eResource();
+		if(eResource.getResourceSet() instanceof IOpaeumResourceSet){
+			IOpaeumResourceSet rst = (IOpaeumResourceSet) eResource.getResourceSet();
 			return findOrCreateContextFor(rst.getModelDirectory());
 		}else{
 			EObject rootContainer = EcoreUtil.getRootContainer(element);

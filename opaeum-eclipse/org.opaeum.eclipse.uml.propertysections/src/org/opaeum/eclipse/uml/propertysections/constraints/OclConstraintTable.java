@@ -26,39 +26,6 @@ import org.opaeum.eclipse.uml.propertysections.core.AbstractTableComposite;
 public class OclConstraintTable extends AbstractTableComposite<Constraint>{
 	public OclConstraintTable(TabbedPropertySheetWidgetFactory factory,Composite parent,EStructuralFeature feature){
 		super(parent, SWT.NONE, factory, feature);
-		super.adaptor = new RecursiveAdapter(){
-			public void safeNotifyChanged(Notification msg){
-				if(tableViewer.getTable().isDisposed() && msg.getNotifier() instanceof Notifier){
-					((Notifier) msg.getNotifier()).eAdapters().remove(adaptor);
-				}else{
-					Constraint c = EmfElementFinder.findNearestElementOfType(Constraint.class, (EObject) msg.getNotifier());
-					if(c == null && msg.getNewValue() instanceof Constraint){
-						c = (Constraint) msg.getNewValue();
-					}
-					if(msg.getNotifier() instanceof EObject && msg.getFeature() != null){
-						boolean inScope = false;
-						EObject notifier = (EObject) msg.getNotifier();
-						while(notifier != null){
-							if(getObjectList().contains(notifier) || notifier == owner){
-								inScope = true;
-								notifier = null;
-							}else{
-								notifier = notifier.eContainer();
-							}
-						}
-						if(inScope){
-							Control focusControl = Display.getCurrent().getFocusControl();
-							if(msg.getFeature().equals(UMLPackage.eINSTANCE.getOpaqueExpression_Body()) && focusControl instanceof StyledText
-									&& focusControl.getParent().getParent() == tableViewer.getTable()){
-								// nothing-this control caused it
-							}else{
-								tableViewer.refresh(c);
-							}
-						}
-					}
-				}
-			}
-		};
 	}
 	@Override
 	protected Constraint getNewChild(){

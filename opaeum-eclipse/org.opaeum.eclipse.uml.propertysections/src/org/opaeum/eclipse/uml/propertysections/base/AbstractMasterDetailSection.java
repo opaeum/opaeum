@@ -12,11 +12,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.opaeum.eclipse.uml.propertysections.core.AbstractTableComposite;
-import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
+import org.opaeum.eclipse.uml.propertysections.subsections.IDetailsSubsection;
 
 public abstract class AbstractMasterDetailSection<T extends EObject> extends AbstractOpaeumPropertySection{
 	private AbstractTableComposite<T> elementsTableComposite;
-	private AbstractDetailsSubsection<T> elementDetailsComposite;
+	private IDetailsSubsection<T> elementDetailsComposite;
 	private Group elementDetailsGroup;
 	private String detailsLabel;
 	public AbstractMasterDetailSection(String detailsLabel){
@@ -35,7 +35,7 @@ public abstract class AbstractMasterDetailSection<T extends EObject> extends Abs
 		elementDetailsComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		elementsTableComposite.addSelectionChangedListener(elementDetailsComposite);
 	}
-	protected abstract AbstractDetailsSubsection<T> createDetails(Group group);
+	protected abstract IDetailsSubsection<T> createDetails(Group group);
 	protected abstract AbstractTableComposite<T> createTable(Composite composite);
 	@Override
 	public Control getPrimaryInput(){

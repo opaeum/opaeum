@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -43,11 +44,30 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 	private boolean stereotypeIsKeyword;
 	public ApplyStereotypeCommand(Element element,boolean stereotypeIsKeyword,Stereotype...stereotype){
 		this.element = element;
-		this.stereotypes =  Arrays.asList(stereotype);
+		this.stereotypes = Arrays.asList(stereotype);
 		this.stereotypeIsKeyword = stereotypeIsKeyword;
 	}
 	public ApplyStereotypeCommand(Element element,Stereotype...stereotype){
 		this(element, true, stereotype);
+	}
+	public ApplyStereotypeCommand(Element owner,String...stereotypeNames){
+		this(owner, findStereotypes(owner, stereotypeNames));
+	}
+	private static Stereotype[] findStereotypes(Element owner,String[] stereotypeNames){
+		List<Stereotype> result = new ArrayList<Stereotype>();
+		for(String string:stereotypeNames){
+			inner:for(Resource resource:owner.eResource().getResourceSet().getResources()){
+				if(resource.getContents().size() > 0 && resource.getContents().get(0) instanceof Profile){
+					Profile p = (Profile) resource.getContents().get(0);
+					Stereotype ownedStereotype = p.getOwnedStereotype(string);
+					if(ownedStereotype != null){
+						result.add(ownedStereotype);
+						break inner;
+					}
+				}
+			}
+		}
+		return result.toArray(new Stereotype[result.size()]);
 	}
 	@Override
 	public boolean canExecute(){
@@ -67,7 +87,9 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 					element.eResource().getContents().add(sa);
 					if(!(element instanceof Pin) && element instanceof NamedElement && owner instanceof Namespace){
 						NamedElement ne = (NamedElement) element;
-						if(stereotypeIsKeyword && (ne.getName()==null || (ne.getName().startsWith(ne.eClass().getName()) && Character.isDigit(ne.getName().charAt(ne.getName().length() - 1))))){
+						if(stereotypeIsKeyword
+								&& (ne.getName() == null || (ne.getName().startsWith(ne.eClass().getName()) && Character
+										.isDigit(ne.getName().charAt(ne.getName().length() - 1))))){
 							String keyWord = stereotype.getName();
 							setUniqueName(keyWord, ne);
 						}
@@ -203,5 +225,8 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 	}
 	public void redo(){
 		execute();
+	}
+	public List<Stereotype> getStereotypes(){
+		return stereotypes;
 	}
 }

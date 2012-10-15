@@ -33,9 +33,9 @@ public class ChooserSubsection extends AbstractTabbedPropertySubsection<Composit
 	@Override
 	protected Object getNewValue(){
 		if(isSingle){
-			return chooser.getSelection().toList();
-		}else{
 			return (EObject) chooser.getSelectedObject();
+		}else{
+			return chooser.getSelection().toList();
 		}
 	}
 	@Override

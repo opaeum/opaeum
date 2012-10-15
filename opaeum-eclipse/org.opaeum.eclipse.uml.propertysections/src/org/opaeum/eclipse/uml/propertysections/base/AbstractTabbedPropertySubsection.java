@@ -13,10 +13,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.uml.propertysections.RecursiveAdapter;
 
 public abstract class AbstractTabbedPropertySubsection<T extends Control,E> extends RecursiveAdapter{
-	boolean isRefreshing = false;
+	public static final int FILL = -1233;
+	protected boolean isRefreshing = false;
 	protected IMultiPropertySection section;
 	private T control;
 	protected Label label;
@@ -30,7 +32,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	private boolean enabled;
 	protected AbstractTabbedPropertySubsection(IMultiPropertySection section){
 		this.section = section;
-		enabled=true;
+		enabled = true;
 		section.addSubsection(this);
 	}
 	public EStructuralFeature getFeature(){
@@ -44,9 +46,9 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		return composite;
 	}
 	public void setEnabled(boolean enabled){
-		this.enabled=enabled;
+		this.enabled = enabled;
 		if(!(getControl() == null || getControl().isDisposed())){
-				getControl().setEnabled(enabled);
+			getControl().setEnabled(enabled);
 		}
 	}
 	public void createWidgets(Composite parent){
@@ -60,7 +62,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	}
 	public void hookModelListener(){
 		if(hasSelectedObject()){
-			EObject e = section.getFeatureOwner(section.getEObject());
+			EObject e = getFeatureOwner(section.getSelectedObject());
 			subscribeTo(e, getModelSubscriptionLevel());
 		}
 	}
@@ -74,19 +76,15 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	public void safeNotifyChanged(Notification msg){
 		if((getControl() == null || getControl().isDisposed())){
 			unsubscribe();
-		}else if(hasSelectedObject() && msg.getNotifier() instanceof EObject && msg.getFeature() != null /*
-																																																			 * &&
-																																																			 * msg.getFeature().equals(getFeature
-																																																			 * ())
-																																																			 */){
+		}else if(hasSelectedObject() && msg.getNotifier() instanceof EObject && msg.getFeature() instanceof EStructuralFeature){
 			EObject eo = (EObject) msg.getNotifier();
 			boolean inScope = false;
 			while(eo != null){
-				if(eo == section.getEObject()){
+				if(eo == section.getSelectedObject()){
 					inScope = true;
 					eo = null;
 				}else{
-					eo = eo.eContainer();
+					eo = EmfElementFinder.getContainer(eo);
 				}
 			}
 			if(inScope){
@@ -97,16 +95,17 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public E getCurrentValue(EObject e){
-		if(getFeature() != null && getFeature().getEContainingClass().isSuperTypeOf(e.eClass())){
-			return (E) e.eGet(getFeature());
+	public E getCurrentValue(EObject currentObject){
+		EObject featureOwner = getFeatureOwner(currentObject);
+		if(getFeature() != null && getFeature().getEContainingClass().isInstance(featureOwner)){
+			return (E) featureOwner.eGet(getFeature());
 		}else{
 			return null;
 		}
 	}
 	public E getCurrentValue(){
 		if(hasSelectedObject()){
-			return getCurrentValue(section.getFeatureOwner(section.getEObject()));
+			return getCurrentValue(section.getSelectedObject());
 		}else{
 			return null;
 		}
@@ -115,7 +114,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		if(getControl() != null && !getControl().isDisposed()){
 			isRefreshing = true;
 			populateControls();
-			if(section.getEObject()==null || !getFeature().getEContainingClass().isSuperTypeOf(section.getEObject().eClass())){
+			if(section.getSelectedObject() == null || (getFeature()!=null && !getFeature().getEContainingClass().isInstance(getFeatureOwner(section.getSelectedObject())))){
 				getControl().setEnabled(false);
 			}else{
 				getControl().setEnabled(enabled);
@@ -126,10 +125,10 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	}
 	protected void updateModel(){
 		if(!isRefreshing){
-			for(EObject eObject:section.getEObjectList()){
-				EObject featureOwner = section.getFeatureOwner(eObject);
+			for(EObject selection:section.getEObjectList()){
+				EObject featureOwner = getFeatureOwner(selection);
 				if(featureOwner != null){
-					Command cmd = buildCommand(eObject, featureOwner);
+					Command cmd = buildCommand(selection, featureOwner);
 					section.getEditingDomain().getCommandStack().execute(cmd);
 				}
 			}
@@ -162,10 +161,15 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		// lgd.grabExcessHorizontalSpace=true;
 		label.setLayoutData(lgd);
 		GridData cgd = new GridData();
-		cgd.minimumWidth = getControlWidth();
-		cgd.widthHint = getControlWidth();
 		cgd.verticalAlignment = SWT.FILL;
-		cgd.horizontalAlignment = SWT.LEFT;
+		if(getControlWidth() == AbstractTabbedPropertySubsection.FILL){
+			cgd.grabExcessHorizontalSpace = true;
+			cgd.horizontalAlignment = SWT.FILL;
+		}else{
+			cgd.minimumWidth = getControlWidth();
+			cgd.widthHint = getControlWidth();
+			cgd.horizontalAlignment = SWT.LEFT;
+		}
 		cgd.grabExcessVerticalSpace = true;
 		getControl().setLayoutData(cgd);
 		getComposite().pack();
@@ -184,13 +188,16 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	}
 	public void removeModelListener(){
 		if(hasSelectedObject()){
-			EObject featureOwner = section.getFeatureOwner(section.getEObject());
+			EObject featureOwner = getFeatureOwner(section.getSelectedObject());
 			EList<Adapter> eAdapters = featureOwner.eAdapters();
 			eAdapters.remove(this);
 		}
 	}
 	protected boolean hasSelectedObject(){
-		return section.getEObject() != null && section.getFeatureOwner(section.getEObject()) != null;
+		return section.getSelectedObject() != null && getFeatureOwner(section.getSelectedObject()) != null;
+	}
+	protected EObject getFeatureOwner(EObject eObject){
+		return eObject;
 	}
 	public Integer getColumnSpan(){
 		return columnSpan;

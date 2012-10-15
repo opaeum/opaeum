@@ -17,7 +17,7 @@ public class OpaqueExpressionContext extends AbstractOclContext{
 		this.opaqueExpression=oe;
 		oe.eAdapters().add(this);
 		this.helper = helper;
-		reParse();
+		getExpression();
 	}
 
 	protected String retrieveBody(){
@@ -28,7 +28,7 @@ public class OpaqueExpressionContext extends AbstractOclContext{
 		if(notification.getNotifier() instanceof OpaqueExpression){
 			switch(notification.getFeatureID(OpaqueExpression.class)){
 			case UMLPackage.OPAQUE_EXPRESSION__BODY:
-				reParse();
+				reset();
 				break;
 			default:
 				break;

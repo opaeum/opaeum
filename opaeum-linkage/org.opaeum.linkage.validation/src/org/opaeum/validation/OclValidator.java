@@ -2,6 +2,7 @@ package org.opaeum.validation;
 
 import org.eclipse.ocl.helper.OCLHelper;
 import org.eclipse.ocl.uml.CollectionType;
+import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
@@ -51,18 +52,19 @@ public class OclValidator extends AbstractValidator{
 								workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, expectedType, baseType);
 							}
 					}else if(!EmfClassifierUtil.comformsToLibraryType(baseType, "Boolean")){
-						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getBooleanType(),
-								baseType);
+						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getBooleanType(), baseType);
+					}
+				}else if(p.eContainer() instanceof ChangeEvent){
+					if(!(EmfClassifierUtil.comformsToLibraryType(type, "Boolean"))){
+						workspace.getErrorMap().putError(p, CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getBooleanType(), type);
 					}
 				}else if(p.eContainer() instanceof TimeExpression && p.eContainer().eContainer() instanceof TimeEvent){
 					TimeEvent te = (TimeEvent) p.eContainer().eContainer();
 					ValueSpecification expr = te.getWhen().getExpr();
-					if(te.isRelative()
-							&& !(EmfClassifierUtil.comformsToLibraryType(type, "Integer") || EmfClassifierUtil.comformsToLibraryType(type, "Real"))){
+					if(te.isRelative() && !(EmfClassifierUtil.comformsToLibraryType(type, "Integer") || EmfClassifierUtil.comformsToLibraryType(type, "Real"))){
 						workspace.getErrorMap().putError(expr, CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getIntegerType(), type);
 					}else if(!te.isRelative()
-							&& !(EmfClassifierUtil.conformsTo(type, getLibrary().getDateTimeType()) || EmfClassifierUtil.conformsTo(type, getLibrary()
-									.getDateType()))){
+							&& !(EmfClassifierUtil.conformsTo(type, getLibrary().getDateTimeType()) || EmfClassifierUtil.conformsTo(type, getLibrary().getDateType()))){
 						workspace.getErrorMap().putError(expr, CoreValidationRule.OCL_EXPECTED_TYPE, getLibrary().getDateTimeType(), type);
 					}
 				}else if(p.eContainingFeature().getName().equals("defaultValue")){
@@ -85,14 +87,12 @@ public class OclValidator extends AbstractValidator{
 					TypedElement linkedTypedElement = EmfActionUtil.getLinkedTypedElement(vp);
 					if(linkedTypedElement != null && linkedTypedElement.getType() != null){
 						if(!EmfClassifierUtil.conformsTo(baseType, (Classifier) linkedTypedElement.getType())){
-							workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, linkedTypedElement.getType(),
-									baseType);
+							workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, linkedTypedElement.getType(), baseType);
 						}
 					}
 				}else if(p.getType() != null){
 					if(!EmfClassifierUtil.conformsTo(baseType, (Classifier) p.getType())){
-						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, p.getType(),
-								baseType);
+						workspace.getErrorMap().putError(ctx.getBodyContainer(), CoreValidationRule.OCL_EXPECTED_TYPE, p.getType(), baseType);
 					}
 				}
 			}

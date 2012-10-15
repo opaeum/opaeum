@@ -99,10 +99,8 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 						gd.minimumHeight = maxHeight;
 						gd.heightHint = maxHeight;
 					}
-					if(os.getLabelText() != null){
-						os.setLabelWidth(maxLabelWidth);
-						((Composite) children[i]).layout();
-					}
+					os.setLabelWidth(maxLabelWidth);
+					((Composite) children[i]).layout();
 				}
 			}
 			pageComposite.layout();

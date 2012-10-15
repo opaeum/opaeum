@@ -40,7 +40,7 @@ public class ParameterComposite extends AbstractDetailsSubsection<Parameter> imp
 		type=createChooser(UMLPackage.eINSTANCE.getTypedElement_Type(), "Type", 120, 280, new IChoiceProvider(){
 			@Override
 			public Object[] getChoices(){
-				return TypedElementTypeSection.getValidTypes(getEObject());
+				return TypedElementTypeSection.getValidTypes(getSelectedObject());
 			}
 		});
 		type.setColumnSpan(2);

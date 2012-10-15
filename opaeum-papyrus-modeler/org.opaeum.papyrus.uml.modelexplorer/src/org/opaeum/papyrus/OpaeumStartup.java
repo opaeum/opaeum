@@ -5,21 +5,22 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.resources.ISaveContext;
+import org.eclipse.core.resources.ISaveParticipant;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
-import org.eclipse.papyrus.infra.core.lifecycleevents.ISaveAndDirtyService;
-import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerPageBookView;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerView;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
@@ -29,17 +30,18 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.activities.IActivity;
-import org.eclipse.ui.activities.IActivityManager;
 import org.eclipse.ui.activities.IWorkbenchActivitySupport;
-import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.navigator.CommonViewer;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.feature.OpaeumConfig;
 
 import com.google.common.collect.Lists;
 
+@SuppressWarnings("restriction")
 public class OpaeumStartup implements IStartup{
 	private final class PapyrusEObjectSelectorUI implements EObjectSelectorUI{
 		private IWorkbenchWindow window;
@@ -115,14 +117,35 @@ public class OpaeumStartup implements IStartup{
 			maybeSetCurrentEditContext(part);
 		}
 	}
+	private ISaveParticipant participant = new ISaveParticipant(){
+		public void saving(ISaveContext context) throws CoreException{
+		}
+		public void rollback(ISaveContext context){
+		}
+		public void prepareToSave(ISaveContext context) throws CoreException{
+		}
+		public void doneSaving(ISaveContext context){
+			for(IPath f:context.getFiles()){
+				if(f.lastSegment().endsWith(".uml")){
+					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(f);
+					OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(file);
+					if(ouf != null){
+						ouf.onSave(new NullProgressMonitor());
+					}
+				}
+			}
+		}
+	};
 	public void earlyStartup(){
+		try{
+			ResourcesPlugin.getWorkspace().addSaveParticipant(OpaeumEclipsePlugin.PLUGIN_ID, participant);
+		}catch(CoreException e){
+			OpaeumEclipsePlugin.logError("Opaeum SaveParticipant not registered", e);
+		}
 		OpaeumConfig.registerClass(PapyrusErrorMarker.class);
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		// TODO register on new window creation too
 		workbench.getDisplay().asyncExec(new Runnable(){
-			private IFile getUmlFile(final IFileEditorInput fe){
-				return fe.getFile().getProject().getFile(fe.getFile().getProjectRelativePath().removeFileExtension().addFileExtension("uml"));
-			}
 			public void run(){
 				final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 				if(window != null && window.getActivePage() != null){
@@ -147,72 +170,42 @@ public class OpaeumStartup implements IStartup{
 				((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
 				final IWorkbenchWindow workbenchWindow = e.getSite().getWorkbenchWindow();
 				result.startSynch(e.getEditingDomain(), umlFile, new PapyrusEObjectSelectorUI(workbenchWindow));
-				ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);
-				saveAndDirtyService.registerIsaveablePart(new ISaveablePart(){
-					long lastSave = 0;
-					public boolean isSaveOnCloseNeeded(){
-						return false;
-					}
-					public boolean isSaveAsAllowed(){
-						return false;
-					}
-					public boolean isDirty(){
-						return false;
-					}
-					public void doSaveAs(){
-					}
-					public void doSave(IProgressMonitor monitor){
-						if(System.currentTimeMillis() - lastSave > 3000){
-							lastSave = System.currentTimeMillis();
-							result.onSave(monitor, umlFile);
-						}
-					}
-				});
 				try{
 					workbenchWindow.getActivePage().showView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
 				}catch(PartInitException e1){
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					//nice to have
 				}
 			}
 		}
-		IWorkbenchWindow window = Workbench.getInstance().getActiveWorkbenchWindow();
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchActivitySupport activitySupport = PlatformUI.getWorkbench().getActivitySupport();
-		IActivityManager activityManager = activitySupport.getActivityManager();
-		Set enabledActivities = new HashSet();
+		Set<String> enabledActivities = new HashSet<String>();
 		String id = "org.opaeum.papyrus.uimadapter.activity";
 		IActivity activity = activitySupport.getActivityManager().getActivity(id);
 		if(activity.isDefined()){
 			activitySupport.setEnabledActivityIds(enabledActivities);
 		}
 		if(window instanceof WorkbenchWindow){
-			MenuManager menuManager = ((WorkbenchWindow) window).getMenuManager();
 			ICoolBarManager coolBarManager = null;
 			if(((WorkbenchWindow) window).getCoolBarVisible()){
 				coolBarManager = ((WorkbenchWindow) window).getCoolBarManager2();
 			}
 			IContributionItem[] items = coolBarManager.getItems();
+			boolean changed=false;
 			for(IContributionItem item:items){
 				if(item.getId().toLowerCase().contains("papyrus")){
 					try{
+						changed=true;
 						System.out.println("ToolItem removed:" + item.getId());
-						// coolBarManager.remove(item);
 						item.dispose();
 					}catch(Exception e2){
-						e2.printStackTrace();
+						//nice to have
 					}
 				}
 			}
-			coolBarManager.update(true);
+			if(changed){
+//			coolBarManager.update(true);
+			}
 		}
-	}
-	private ISaveAndDirtyService getSaveAndDirtyService(PapyrusMultiDiagramEditor e){
-		ISaveAndDirtyService saveAndDirtyService;
-		try{
-			saveAndDirtyService = e.getServicesRegistry().getService(ISaveAndDirtyService.class);
-		}catch(ServiceException e1){
-			throw new RuntimeException(e1);
-		}
-		return saveAndDirtyService;
 	}
 }

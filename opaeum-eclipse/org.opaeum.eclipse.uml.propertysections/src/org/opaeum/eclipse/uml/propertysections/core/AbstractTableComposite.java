@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -22,6 +23,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -32,10 +34,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.ImageManager;
 import org.opaeum.eclipse.uml.editingsupport.EditingDomainEditingSupport;
 import org.opaeum.eclipse.uml.editingsupport.UmlElementImageProvider;
@@ -57,26 +63,21 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 	private T selectedObject;
 	protected List<EditingDomainEditingSupport> viewerColumns = new ArrayList<EditingDomainEditingSupport>();
 	protected RecursiveAdapter adaptor = new RecursiveAdapter(){
-		@SuppressWarnings("unchecked")
-		@Override
 		public void safeNotifyChanged(Notification msg){
-			if(table.isDisposed()){
-				// Should not, but does happen
-				((T) msg.getNotifier()).eAdapters().remove(adaptor);
+			if(tableViewer.getTable().isDisposed() && msg.getNotifier() instanceof Notifier){
+				((Notifier) msg.getNotifier()).eAdapters().remove(adaptor);
 			}else{
-				if(msg.getNotifier() instanceof EObject && isInterestingFeature(msg.getFeature())){
-					boolean inScope = false;
-					EObject notifier = (EObject) msg.getNotifier();
-					while(notifier != null){
-						if(getObjectList().contains(notifier) || notifier == owner){
-							inScope = true;
-							notifier = null;
-						}else{
-							notifier = notifier.eContainer();
-						}
-						if(inScope){
-							tableViewer.refresh(msg.getNotifier());
-						}
+				EObject c = (EObject) EmfElementFinder.findNearestElementOfType(feature.getEType().getInstanceClass(), (EObject) msg.getNotifier());
+				if(c == null && feature.getEType().isInstance(msg.getNewValue())){
+					c = (Constraint) msg.getNewValue();
+				}
+				if(c != null && msg.getNotifier() instanceof EObject && msg.getFeature() instanceof EStructuralFeature && isInterestingFeature(msg.getFeature())){
+					Control focusControl = Display.getCurrent().getFocusControl();
+					if(msg.getFeature().equals(UMLPackage.eINSTANCE.getOpaqueExpression_Body()) && focusControl instanceof StyledText
+							&& focusControl.getParent().getParent() == tableViewer.getTable()){
+						// nothing-an Ocl control caused it
+					}else{
+						tableViewer.refresh(c);
 					}
 				}
 			}
@@ -140,9 +141,7 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 			}
 		};
 		table = tableViewer.getTable();
-		addButton = widgetFactory.createButton(parent, "Add", SWT.NONE);
-		addButton.setImage(ImageManager.IMG_ADD);
-		addButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+		createAddButton(parent);
 		moveUpButton = widgetFactory.createButton(parent, "Move Up", SWT.NONE);
 		moveUpButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		moveUpButton.setImage(ImageManager.IMG_UP);
@@ -174,15 +173,6 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 		TableViewerColumn col = createTableViewerColumn("", 20, 0);
 		col.setLabelProvider(new UmlElementImageProvider());
 		createColumns();
-		addButton.addSelectionListener(new SelectionAdapter(){
-			public void widgetSelected(SelectionEvent event){
-				addNew();
-				refresh();
-				T newObject = getObjectList().get(getObjectList().size() - 1);
-				newObject.eAdapters().add(adaptor);
-				tableViewer.setSelection(new StructuredSelection(newObject));
-			}
-		});
 		removeButton.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent event){
 				Object object = table.getSelection()[0].getData();
@@ -214,6 +204,20 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 					refresh();
 					tableViewer.setSelection(new StructuredSelection(getObjectList().get(table.getSelectionIndex())));
 				}
+			}
+		});
+	}
+	protected void createAddButton(Composite parent){
+		addButton = widgetFactory.createButton(parent, "Add", SWT.NONE);
+		addButton.setImage(ImageManager.IMG_ADD);
+		addButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+		addButton.addSelectionListener(new SelectionAdapter(){
+			public void widgetSelected(SelectionEvent event){
+				addNew();
+				refresh();
+				T newObject = getObjectList().get(getObjectList().size() - 1);
+				newObject.eAdapters().add(adaptor);
+				tableViewer.setSelection(new StructuredSelection(newObject));
 			}
 		});
 	}

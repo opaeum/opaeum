@@ -106,7 +106,7 @@ public class StereotypeNames{
 	public static final String PARTICIPANT_REFERENCE = "ParticipantReference";
 	public static final String BUSINESS_ROLE_CONTAINMENT = "BusinessRoleContainment";
 	public static final String CONTEXTUAL_CHANGE_EVENT="ContextualChangeEvent";
-	public static final String CONTEXTUAL_BUSINESS_TIME_EVENT="ContextBusinessTimeEvent";
+	public static final String CONTEXTUAL_BUSINESS_TIME_EVENT="ContextualBusinessTimeEvent";
 	public static final String BUSINESS_USE_CASE = "BusinessUseCase";
 	public static final String BUSINESS = "Business";
 	public static final String BUSINESS_DOCUMENT = "BusinessDocument";

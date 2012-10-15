@@ -17,7 +17,7 @@ public class OpaqueBehaviorContext extends AbstractOclContext{
 		this.opaqueBehavior=oe;
 		oe.eAdapters().add(this);
 		this.helper = helper;
-		reParse();
+		getExpression();
 	}
 
 	protected String retrieveBody(){
@@ -28,7 +28,7 @@ public class OpaqueBehaviorContext extends AbstractOclContext{
 		if(notification.getNotifier() instanceof OpaqueBehavior){
 			switch(notification.getFeatureID(OpaqueBehavior.class)){
 			case UMLPackage.OPAQUE_BEHAVIOR__BODY:
-				reParse();
+				reset();
 				break;
 			default:
 				break;

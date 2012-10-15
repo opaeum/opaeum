@@ -3,6 +3,7 @@ package org.opaeum.eclipse.uml.propertysections.subsections;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -18,6 +19,7 @@ import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 public class ComboSubsection extends AbstractTabbedPropertySubsection<Combo,Object> implements SelectionListener{
 	private IChoiceProvider choiceProvider;
 	private ComboViewer viewer;
+	private ILabelProvider labelProvider;
 	public ComboSubsection(IMultiPropertySection section){
 		super(section);
 	}
@@ -32,7 +34,7 @@ public class ComboSubsection extends AbstractTabbedPropertySubsection<Combo,Obje
 	}
 	@Override
 	protected void populateControls(){
-		viewer.setInput(choiceProvider.getChoices());
+		viewer.setInput(getChoiceProvider().getChoices());
 		Object cv = getCurrentValue();
 		if(cv == null){
 			viewer.setSelection(new StructuredSelection());
@@ -44,8 +46,17 @@ public class ComboSubsection extends AbstractTabbedPropertySubsection<Combo,Obje
 	protected Combo createControl(Composite parent){
 		viewer = new ComboViewer(parent, SWT.READ_ONLY);
 		viewer.setContentProvider(new ArrayContentProvider());
-		viewer.setLabelProvider(new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory()));
+		viewer.setLabelProvider(getLabelProvider());
 		return viewer.getCombo();
+	}
+	public ILabelProvider getLabelProvider(){
+		if(this.labelProvider==null){
+			labelProvider=new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory());
+		}
+		return labelProvider;
+	}
+	public void setLabelProvider(ILabelProvider labelProvider){
+		this.labelProvider = labelProvider;
 	}
 	@Override
 	public void hookControlListener(){

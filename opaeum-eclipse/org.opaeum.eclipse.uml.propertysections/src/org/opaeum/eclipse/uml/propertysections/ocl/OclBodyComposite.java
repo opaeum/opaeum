@@ -1,8 +1,11 @@
 package org.opaeum.eclipse.uml.propertysections.ocl;
 
 import java.util.Map.Entry;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -11,6 +14,8 @@ import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.custom.TextChangeListener;
+import org.eclipse.swt.custom.TextChangedEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -56,6 +61,13 @@ import org.topcased.modeler.uml.oclinterpreter.OpaeumOclViewer;
 
 public abstract class OclBodyComposite extends Composite{
 	protected boolean updating = false;
+	private Set<TextChangeListener> listeners = new HashSet<TextChangeListener>();
+	public void addTextChangeListener(TextChangeListener l){
+		listeners.add(l);
+	}
+	public void removeTextChangeListener(TextChangeListener l){
+		listeners.remove(l);
+	}
 	@Deprecated
 	private final class ErrorHighlighter implements Runnable{
 		private boolean stopped;
@@ -169,16 +181,27 @@ public abstract class OclBodyComposite extends Composite{
 		manageContentAssist();
 		this.highlighter = new ErrorHighlighter();
 	}
-	protected abstract EditingDomain getEditingDomain();
+	protected EditingDomain getEditingDomain(){
+		return null;
+	}
 	protected void fireOclChanged(String text){
-		if(!containsExpression(text)){
-			// Assume that if we got here, an OclExpression would be required
-			text = REQUIRED_TEXT;
-			keyListener.lastVal = text;
-			getTextControl().setText(text);
+		if(listeners.size() > 0){
+			for(TextChangeListener l:listeners){
+				l.textChanged(new TextChangedEvent(this.viewer.getTextWidget().getContent()));
+			}
+		}else{
+			if(!containsExpression(text)){
+				// Assume that if we got here, an OclExpression would be required
+				text = REQUIRED_TEXT;
+				keyListener.lastVal = text;
+				getTextControl().setText(text);
+			}
+			getEditingDomain().getCommandStack().execute(buildCommand(text));
 		}
-		getEditingDomain().getCommandStack().execute(SetOclBodyCommand.create(getEditingDomain(), oclBodyOwner, getBodiesFeature(), getLanguagesFeature(), text));
 		highlightError();
+	}
+	protected Command buildCommand(String text){
+		return SetOclBodyCommand.create(getEditingDomain(), oclBodyOwner, getBodiesFeature(), getLanguagesFeature(), text);
 	}
 	public StyledText getTextControl(){
 		return viewer.getTextWidget();
@@ -186,7 +209,9 @@ public abstract class OclBodyComposite extends Composite{
 	@Override
 	public void setEnabled(boolean enabled){
 		super.setEnabled(enabled);
-		viewer.getTextWidget().setEnabled(enabled);
+		if(viewer.getTextWidget() != null){
+			viewer.getTextWidget().setEnabled(enabled);
+		}
 	}
 	private void manageContentAssist(){
 		viewer.enableOperation(SourceViewer.CONTENTASSIST_PROPOSALS, true);

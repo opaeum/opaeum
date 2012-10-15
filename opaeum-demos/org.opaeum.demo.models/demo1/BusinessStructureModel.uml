@@ -281,9 +281,43 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
         <region xmi:id="_JJlOQBYUEeKsDbmQL25eBw" name="Region1">
-          <transition xmi:id="_NwXvABYbEeKsDbmQL25eBw" name="Transition0" source="_MwyhUBYbEeKsDbmQL25eBw" target="_Jx4kYBYUEeKsDbmQL25eBw"/>
-          <transition xmi:id="_O1gLEBYbEeKsDbmQL25eBw" name="Submitted" source="_Jx4kYBYUEeKsDbmQL25eBw" target="_KIj_ABYUEeKsDbmQL25eBw"/>
-          <transition xmi:id="_QOqWYBYbEeKsDbmQL25eBw" name="Transition1" source="_KIj_ABYUEeKsDbmQL25eBw" target="_Kd2SgBYUEeKsDbmQL25eBw"/>
+          <transition xmi:id="_NwXvABYbEeKsDbmQL25eBw" name="Transition0" guard="_Qg74gBYjEeKUTqZwJyzPZA" source="_MwyhUBYbEeKsDbmQL25eBw" target="_Jx4kYBYUEeKsDbmQL25eBw">
+            <ownedRule xmi:id="_Qg74gBYjEeKUTqZwJyzPZA" name="Transition0Guard">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_Qg74gRYjEeKUTqZwJyzPZA" name="Transition0GuardSpecification">
+                <language>OCL</language>
+                <body>self.lll=3</body>
+              </specification>
+            </ownedRule>
+          </transition>
+          <transition xmi:id="_O1gLEBYbEeKsDbmQL25eBw" name="Submitted" source="_Jx4kYBYUEeKsDbmQL25eBw" target="_KIj_ABYUEeKsDbmQL25eBw">
+            <trigger xmi:id="_6v0qsBYkEeKUTqZwJyzPZA" name="SubmittedTrigger">
+              <eAnnotations xmi:id="_6wgnMBYkEeKUTqZwJyzPZA" source="http://www.opaeum.org">
+                <contents xmi:type="uml:TimeEvent" xmi:id="_6w_IUBYkEeKUTqZwJyzPZA" name="SubmittedTimeEvent" isRelative="true"/>
+              </eAnnotations>
+            </trigger>
+          </transition>
+          <transition xmi:id="_QOqWYBYbEeKsDbmQL25eBw" name="Transition1" source="_KIj_ABYUEeKsDbmQL25eBw" target="_Kd2SgBYUEeKsDbmQL25eBw">
+            <trigger xmi:id="_RtQHUBb3EeKI68QaBu0uBA" name="Transition1Trigger" event="_eu1uUBb3EeKI68QaBu0uBA">
+              <eAnnotations xmi:id="_Rxxa8Bb3EeKI68QaBu0uBA" source="http://www.opaeum.org">
+                <contents xmi:type="uml:SignalEvent" xmi:id="_Rxxa8Rb3EeKI68QaBu0uBA" name="Transition1SignalEvent"/>
+                <contents xmi:type="uml:CallEvent" xmi:id="_TGTk8Bb3EeKI68QaBu0uBA" name="Transition1CallEvent"/>
+                <contents xmi:type="uml:TimeEvent" xmi:id="_eu1uUBb3EeKI68QaBu0uBA" name="Transition1TimeEvent" isRelative="true">
+                  <eAnnotations xmi:id="_RwJ04Bb4EeKI68QaBu0uBA" source="http://www.opaeum.org">
+                    <contents xmi:type="uml:OpaqueExpression" xmi:id="_RwRJoBb4EeKI68QaBu0uBA" name="Transition1TimeEventbusinessCalendarToUse">
+                      <language>OCL</language>
+                      <body>Tlkjlkjlkjklkjljlkjlkj</body>
+                    </contents>
+                  </eAnnotations>
+                  <when xmi:id="_eu1uURb3EeKI68QaBu0uBA" name="Transition1TimeEventWhen">
+                    <expr xmi:type="uml:OpaqueExpression" xmi:id="_UgSaMBb4EeKI68QaBu0uBA" name="Transition1TimeEventexpr">
+                      <language>OCL</language>
+                      <body>asvasdfasdsdfasdfasd</body>
+                    </expr>
+                  </when>
+                </contents>
+              </eAnnotations>
+            </trigger>
+          </transition>
           <subvertex xmi:type="uml:State" xmi:id="_Jx4kYBYUEeKsDbmQL25eBw" name="Draft"/>
           <subvertex xmi:type="uml:State" xmi:id="_KIj_ABYUEeKsDbmQL25eBw" name="State1"/>
           <subvertex xmi:type="uml:State" xmi:id="_Kd2SgBYUEeKsDbmQL25eBw" name="Approved"/>
@@ -645,4 +679,5 @@
   <OpaeumStandardProfile:Attribute xmi:id="_5PuqcBUzEeKjqLZFOgkVYQ" base_Property="_AgMuwBUxEeKjqLZFOgkVYQ" persistentName=""/>
   <OpaeumBPMProfile:StandaloneSingleScreenTask xmi:id="_z92-wBYQEeKIFJAOfPz88A" base_OpaqueBehavior="_ylMisBYQEeKIFJAOfPz88A"/>
   <OpaeumBPMProfile:BusinessStateMachine xmi:id="_HKkj4BYUEeKsDbmQL25eBw" base_StateMachine="_HHdlgBYUEeKsDbmQL25eBw"/>
+  <OpaeumBPMProfile:ContextualBusinessTimeEvent xmi:id="_RvefcBb4EeKI68QaBu0uBA" base_TimeEvent="_eu1uUBb3EeKI68QaBu0uBA" businessCalendarToUse="_RwRJoBb4EeKI68QaBu0uBA"/>
 </xmi:XMI>

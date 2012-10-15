@@ -9,9 +9,10 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfElementFinder;
 
-public abstract class OpaqueExpressionComposite extends OclBodyComposite{
+public class OpaqueExpressionComposite extends OclBodyComposite{
 	public OpaqueExpressionComposite(Composite parent,FormToolkit toolkit){
 		super(parent, toolkit);
+
 	}
 
 	public OpaqueExpressionComposite(Composite parent,FormToolkit toolkit,int border){

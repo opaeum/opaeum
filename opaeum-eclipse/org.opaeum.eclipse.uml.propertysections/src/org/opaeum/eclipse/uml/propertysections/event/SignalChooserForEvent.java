@@ -3,46 +3,44 @@ package org.opaeum.eclipse.uml.propertysections.event;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
-import org.eclipse.uml2.uml.Event;
-import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.SignalEvent;
-import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.uml.propertysections.base.EventSourceChooserComposite;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
+import org.opaeum.eclipse.uml.propertysections.base.AbstractTabbedPropertySubsection;
+import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
+import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
+import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
 
-public class SignalChooserForEvent extends EventSourceChooserComposite{
-	public SignalChooserForEvent(Composite parent,int labelWidth,TabbedPropertySheetWidgetFactory f){
-		super(parent, "Signal", f, labelWidth);
+public class SignalChooserForEvent extends AbstractDetailsSubsection<SignalEvent> implements IChoiceProvider{
+	private int labelWidth=AbstractOpaeumPropertySection.STANDARD_LABEL_WIDTH;
+	private ChooserSubsection signalChooser;
+	public SignalChooserForEvent(Composite parent,TabbedPropertySheetWidgetFactory widgetFactory){
+		super(parent, SWT.NONE, widgetFactory);
 	}
-	protected void updateElement(){
-		if(cSingleObjectChooser.getSelectedObject() instanceof Signal){
-			EditingDomain ed = OpaeumEclipseContext.findOpenUmlFileFor(trigger).getEditingDomain();
-			Event event = EventFinder.findOrCreateEvent(trigger.getOwner(), (Signal) cSingleObjectChooser.getSelectedObject() );
-			Command cmd = SetCommand.create(ed, trigger,UMLPackage.eINSTANCE.getTrigger_Event(), event);
-			ed.getCommandStack().execute(cmd);
-		}
+	public void setLabelWidth(int labelWidth){
+		this.labelWidth = labelWidth;
+		signalChooser.setLabelWidth(labelWidth);
+		
 	}
 	@Override
-	public void setTrigger(Trigger t){
-		super.setTrigger(t);
-		if(t.getEvent() instanceof SignalEvent){
-			cSingleObjectChooser.setSelection(((SignalEvent) t.getEvent()).getSignal());
-		}else{
-			cSingleObjectChooser.setSelection((EObject)null);
-		}
+	protected int getNumberOfColumns(){
+		return 1;
+	}
+
+	@Override
+	protected void addSubsections(){
+		signalChooser = createChooser(UMLPackage.eINSTANCE.getSignalEvent_Signal(), "Signal", labelWidth, AbstractTabbedPropertySubsection.FILL, this);
+		signalChooser.setSingle(true);
 	}
 	@Override
 	public Object[] getChoices(){
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
-		choices.addAll(OpaeumEclipseContext.getReachableObjectsOfType(trigger, UMLPackage.eINSTANCE.getSignal()));
+		choices.addAll(OpaeumEclipseContext.getReachableObjectsOfType(getSelectedObject(), UMLPackage.eINSTANCE.getSignal()));
 		return choices.toArray();
 	}
 }

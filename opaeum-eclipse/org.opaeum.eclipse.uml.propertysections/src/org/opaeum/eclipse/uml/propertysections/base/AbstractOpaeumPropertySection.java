@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -80,7 +76,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 			handleModelChanged(msg);
 		}
 	};
-	protected EObject getSelectedObject(){
+	public EObject getSelectedObject(){
 		return eObject;
 	}
 	protected abstract EStructuralFeature getFeature();
@@ -130,11 +126,13 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 		makeContributions(actionBars.getMenuManager(), actionBars.getToolBarManager(), actionBars.getStatusLineManager());
 	}
 	public void setLabelWidth(int labelWidth){
-		this.labelWidth = labelWidth;
-		FormData fd = (FormData) labelCombo.getLayoutData();
-		fd.right = new FormAttachment(0, labelWidth);
-		labelCombo.setLayoutData(fd);
-		sectionComposite.layout();
+		if(labelCombo != null && !labelCombo.isDisposed()){
+			this.labelWidth = labelWidth;
+			FormData fd = (FormData) labelCombo.getLayoutData();
+			fd.right = new FormAttachment(0, labelWidth);
+			labelCombo.setLayoutData(fd);
+			sectionComposite.layout();
+		}
 	}
 	public int getMinimumLabelWidth(){
 		return getMinimumLabelWidth(sectionComposite, getLabelText());
@@ -192,9 +190,11 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 	}
 	protected void handleModelChanged(Notification msg){
 		Object notifier = msg.getNotifier();
-		if(notifier.equals(getEObject()) && getFeature() != null){
+		if(notifier.equals(getSelectedObject()) && getFeature(getSelectedObject()) != null){
 			if(msg.getFeatureID(getSelectedObject().getClass()) == getFeature().getFeatureID()){
+				isRefreshing = true;
 				populateControls();
+				isRefreshing=false;
 			}
 		}
 	}
@@ -214,7 +214,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 	}
 	protected void removeListener(){
 		getModelListener().unsubscribe();
-		if(getSelectedObject()!=null && getSelectedObject().eResource()!=null && getOpenUmlFile() != null){
+		if(getSelectedObject() != null && getSelectedObject().eResource() != null && getOpenUmlFile() != null){
 			getOpenUmlFile().removeSynchronizationListener(this);
 		}
 	}
@@ -266,7 +266,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 				EStructuralFeature f = null;
 				Object oldValue = null;
 				if(owner != null){
-					//Owner could be null for lazy creation
+					// Owner could be null for lazy creation
 					f = getFeature(owner);
 					oldValue = owner.eGet(f);
 				}else{

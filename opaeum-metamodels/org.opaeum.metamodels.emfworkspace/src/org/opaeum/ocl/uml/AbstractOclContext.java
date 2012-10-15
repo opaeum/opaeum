@@ -35,49 +35,56 @@ import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.Signal;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.emf.workspace.StereotypeAttachable;
 
-public abstract class AbstractOclContext extends AdapterImpl{
+public abstract class AbstractOclContext extends AdapterImpl implements StereotypeAttachable{
 	protected String expressionString;
 	protected OCLHelper<Classifier,Operation,Property,Constraint> helper;
-	protected OCLExpression expression;
+	private OCLExpression expression;
 	protected ParserException parseException;
 	protected NamedElement bodyContainer;
 	public AbstractOclContext(NamedElement bodyContainer){
 		super();
 		this.bodyContainer = bodyContainer;
 	}
-	protected void reParse(){
-		try{
-			this.expressionString = retrieveBody();
-			this.parseException = null;
-			System.out.println();
-			if(expressionString != null && expressionString.length() > 0){
-//				if(helper.getEnvironment().getContextOperation() != null){
-//					this.expression = (OCLExpression) helper.createBodyCondition(expressionString);
-//				}else{
-					this.expression = (OCLExpression) helper.createQuery(expressionString);
-//				}
-			}
-		}catch(ParserException e){
-			e.printStackTrace();
-			this.parseException = e;
-		}
-	}
 	protected abstract String retrieveBody();
 	public NamedElement getBodyContainer(){
 		return bodyContainer;
 	}
 	public String getExpressionString(){
+		if(expressionString==null){
+			this.expressionString = retrieveBody();
+		}
 		return expressionString;
 	}
 	public OCLHelper<Classifier,Operation,Property,Constraint> getHelper(){
 		return helper;
 	}
 	public OCLExpression getExpression(){
+		if(expression == null && parseException == null){
+			try{
+				this.parseException = null;
+				if(getExpressionString() != null && getExpressionString().length() > 0){
+					// if(helper.getEnvironment().getContextOperation() != null){
+					// this.expression = (OCLExpression) helper.createBodyCondition(expressionString);
+					// }else{
+					this.expression = (OCLExpression) helper.createQuery(getExpressionString());
+					// }
+				}
+			}catch(ParserException e){
+				this.parseException = e;
+			}
+		}
 		return expression;
 	}
+	protected void reset(){
+		expression=null;
+		parseException=null;
+		expressionString=null;
+	}
 	public boolean hasErrors(){
-		if(expression == null){
+		if(getExpression() == null){
 			return true;
 		}else if(parseException != null){
 			return true;
@@ -87,27 +94,24 @@ public abstract class AbstractOclContext extends AdapterImpl{
 			return helper.getProblems().getSeverity() == Diagnostic.ERROR;
 		}
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes","unchecked"})
 	public String regenerateExpressionString(){
 		Environment environment = helper.getEnvironment();
 		ToStringVisitor instance = ToStringVisitor.getInstance(environment);
-		return this.expression.accept(instance);
+		return this.getExpression().accept(instance);
 	}
 	public boolean dependsOn(final NamedElement ne){
 		AbstractVisitor<Boolean,Classifier,Operation,Property,EnumerationLiteral,Parameter,Signal,CallOperationAction,SendSignalAction,Constraint> v = new AbstractVisitor<Boolean,Classifier,Operation,Property,EnumerationLiteral,Parameter,Signal,CallOperationAction,SendSignalAction,Constraint>(){
 			@Override
-			protected Boolean handleOperationCallExp(OperationCallExp<Classifier,Operation> callExp,Boolean sourceResult,
-					List<Boolean> argumentResults){
+			protected Boolean handleOperationCallExp(OperationCallExp<Classifier,Operation> callExp,Boolean sourceResult,List<Boolean> argumentResults){
 				return ne == callExp.getReferredOperation() || callExp.getReferredOperation().getOwnedParameters().contains(ne);
 			}
 			@Override
-			protected Boolean handlePropertyCallExp(PropertyCallExp<Classifier,Property> callExp,Boolean sourceResult,
-					List<Boolean> qualifierResults){
+			protected Boolean handlePropertyCallExp(PropertyCallExp<Classifier,Property> callExp,Boolean sourceResult,List<Boolean> qualifierResults){
 				return ne == callExp.getReferredProperty() || callExp.getReferredProperty().getQualifiers().contains(ne) || callExp.getType() == ne;
 			}
 			@Override
-			protected Boolean handleAssociationClassCallExp(AssociationClassCallExp<Classifier,Property> callExp,Boolean sourceResult,
-					List<Boolean> qualifierResults){
+			protected Boolean handleAssociationClassCallExp(AssociationClassCallExp<Classifier,Property> callExp,Boolean sourceResult,List<Boolean> qualifierResults){
 				return callExp.getReferredAssociationClass() == ne || callExp.getReferredAssociationClass().getMembers().contains(ne)
 						|| callExp.getReferredAssociationClass().getAllAttributes().contains(ne);
 			}
@@ -149,13 +153,12 @@ public abstract class AbstractOclContext extends AdapterImpl{
 				return super.handleCollectionRange(range, firstResult, lastResult);
 			}
 			@Override
-			protected Boolean handleIteratorExp(IteratorExp<Classifier,Parameter> callExp,Boolean sourceResult,List<Boolean> variableResults,
-					Boolean bodyResult){
+			protected Boolean handleIteratorExp(IteratorExp<Classifier,Parameter> callExp,Boolean sourceResult,List<Boolean> variableResults,Boolean bodyResult){
 				return super.handleIteratorExp(callExp, sourceResult, variableResults, bodyResult);
 			}
 			@Override
-			protected Boolean handleIterateExp(IterateExp<Classifier,Parameter> callExp,Boolean sourceResult,List<Boolean> variableResults,
-					Boolean resultResult,Boolean bodyResult){
+			protected Boolean handleIterateExp(IterateExp<Classifier,Parameter> callExp,Boolean sourceResult,List<Boolean> variableResults,Boolean resultResult,
+					Boolean bodyResult){
 				return super.handleIterateExp(callExp, sourceResult, variableResults, resultResult, bodyResult);
 			}
 			@Override
@@ -168,6 +171,6 @@ public abstract class AbstractOclContext extends AdapterImpl{
 				return ne == constraint;
 			}
 		};
-		return this.expression.accept(v);
+		return this.getExpression().accept(v);
 	}
 }

@@ -1,22 +1,18 @@
 package org.opaeum.eclipse.uml.propertysections.property;
 
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaqueExpressionSection;
+import org.opaeum.eclipse.EmfValueSpecificationUtil;
+import org.opaeum.eclipse.uml.propertysections.base.RecreatingOpaqueExpressionSection;
 import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
 
-public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection{
+public class PropertyDefaultValueSection extends RecreatingOpaqueExpressionSection{
 	protected void handleModelChanged(Notification msg){
 		Object notifier = msg.getNotifier();
 		if(notifier.equals(safeGetProperty())){
@@ -28,16 +24,12 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 				}
 				if(msg.getFeatureID(Property.class) != UMLPackage.PROPERTY__DEFAULT_VALUE){
 					if(requiresDefaultValue() && !(safeGetProperty().getDefaultValue() instanceof OpaqueExpression)){
-						createOpaqueExpression();
+						forceCreateOpaqueExpression();
 					}
 					super.handleModelChanged(msg);
 				}
 			}
 		}
-	}
-	@Override
-	public boolean shouldUseExtraSpace(){
-		return true;
 	}
 	@Override
 	protected void addListener(){
@@ -56,63 +48,37 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 	private boolean requiresDefaultValue(){
 		return safeGetProperty().isDerived() && !safeGetProperty().isDerivedUnion();
 	}
-	private void createOpaqueExpression(){
-		OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
-		oe.setName("abc");
-		oe.getLanguages().add("OCL");
-		oe.getBodies().add(OclBodyComposite.REQUIRED_TEXT);
+	private void forceCreateOpaqueExpression(){
+		OpaqueExpression oe = EmfValueSpecificationUtil.buildOpaqueExpression(safeGetProperty(),"DefaultValue",  OclBodyComposite.REQUIRED_TEXT);
 		getEditingDomain().getCommandStack().execute(
-				SetCommand.create(getEditingDomain(), safeGetProperty(), getValueSpecificationFeature(), oe));
+				SetCommand.create(getEditingDomain(), safeGetProperty(), getFeature(), oe));
 	}
-	@Override
-	protected OpaqueExpression beforeOclChanged(String text){
-		if(OclBodyComposite.containsExpression(text)){
-			if(safeGetProperty().getDefaultValue() == null){
-				OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
-				oe.setName(safeGetProperty().getName() + getLabelText());
-				getEditingDomain().getCommandStack().execute(
-						SetCommand.create(getEditingDomain(), safeGetProperty(), getValueSpecificationFeature(), oe));
-			}
-		}else if(!requiresDefaultValue() && safeGetProperty().getDefaultValue() != null){
-			Command rm = SetCommand.create(getEditingDomain(), safeGetProperty(), getValueSpecificationFeature(), null);
-			getEditingDomain().getCommandStack().execute(rm);
-		}
-		return (OpaqueExpression) safeGetProperty().getDefaultValue();
-	}
-	@Override
-	public void setInput(IWorkbenchPart part,ISelection selection){
-		super.setInput(part, selection);
-	}
+
 	public String getAppropriateLabelText(){
 		return safeGetProperty().isDerived() ? "Derived Value" : "Initial Value";
 	}
 	@Override
 	public void populateControls(){
 		super.populateControls();
-
 		labelCombo.setText(getAppropriateLabelText());
 	}
 	public String getLabelText(){
 		return "Default Value";
 	}
 	public Property safeGetProperty(){
-		if(getEObject() instanceof Association){
-			Association a = (Association) getEObject();
+		if(getSelectedObject() instanceof Association){
+			Association a = (Association) getSelectedObject();
 			if(a.getMemberEnds().size() < 2){
 				return null;
 			}
 		}
-		return getProperty(getEObject());
+		return getProperty(getSelectedObject());
 	}
 	protected Property getProperty(EObject e){
 		return (Property) e;
 	}
 	@Override
-	protected NamedElement getValueSpecificationOwner(){
-		return safeGetProperty();
-	}
-	@Override
-	protected EReference getValueSpecificationFeature(){
+	protected EReference getFeature(){
 		return UMLPackage.eINSTANCE.getProperty_DefaultValue();
 	}
 }

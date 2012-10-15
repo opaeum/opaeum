@@ -2,9 +2,9 @@ package org.opaeum.metamodel.workspace;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -44,9 +44,10 @@ import org.opaeum.ocl.uml.OpaqueBehaviorContext;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
 
 public class OpaeumOcl {
-	private Map<OpaqueExpression,OpaqueExpressionContext> opaqueExpressions = new HashMap<OpaqueExpression,OpaqueExpressionContext>();
-	private Map<OpaqueBehavior,OpaqueBehaviorContext> opaqueBehaviors = new HashMap<OpaqueBehavior,OpaqueBehaviorContext>();
-	private Map<OpaqueAction,OpaqueActionActionContext> opaqueActions = new HashMap<OpaqueAction,OpaqueActionActionContext>();
+	//Using weakhashmap safely as the keys will only be garbage collected if the elements are deleted from the model
+	private Map<OpaqueExpression,OpaqueExpressionContext> opaqueExpressions = new WeakHashMap<OpaqueExpression,OpaqueExpressionContext>();
+	private Map<OpaqueBehavior,OpaqueBehaviorContext> opaqueBehaviors = new WeakHashMap<OpaqueBehavior,OpaqueBehaviorContext>();
+	private Map<OpaqueAction,OpaqueActionActionContext> opaqueActions = new WeakHashMap<OpaqueAction,OpaqueActionActionContext>();
 	private OpaeumParentEnvironment parentEnvironment;
 	
 	public OpaeumOcl(ResourceSet rst){

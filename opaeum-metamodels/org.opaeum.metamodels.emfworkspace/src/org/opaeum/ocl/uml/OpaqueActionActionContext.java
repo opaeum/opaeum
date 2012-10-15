@@ -17,7 +17,7 @@ public class OpaqueActionActionContext extends AbstractOclContext{
 		this.opaqueAction=oe;
 		oe.eAdapters().add(this);
 		this.helper = helper;
-		reParse();
+		getExpression();
 	}
 	public OpaqueAction getOpaqueAction(){
 		return opaqueAction;
@@ -30,7 +30,7 @@ public class OpaqueActionActionContext extends AbstractOclContext{
 		if(notification.getNotifier() instanceof OpaqueAction){
 			switch(notification.getFeatureID(OpaqueAction.class)){
 			case UMLPackage.OPAQUE_ACTION__BODY:
-				reParse();
+				reset();
 				break;
 			default:
 				break;
