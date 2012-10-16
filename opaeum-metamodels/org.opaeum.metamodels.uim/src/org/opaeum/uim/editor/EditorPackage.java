@@ -150,15 +150,6 @@ public interface EditorPackage extends EPackage {
 	int ABSTRACT_EDITOR__PAGE_ORDERING = UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING;
 
 	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ABSTRACT_EDITOR__SUB_USER_INTERFACES = UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES;
-
-	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -275,15 +266,6 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int INSTANCE_EDITOR__PAGE_ORDERING = ABSTRACT_EDITOR__PAGE_ORDERING;
-
-	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INSTANCE_EDITOR__SUB_USER_INTERFACES = ABSTRACT_EDITOR__SUB_USER_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
@@ -411,15 +393,6 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BEHAVIOR_EXECUTION_EDITOR__PAGE_ORDERING = INSTANCE_EDITOR__PAGE_ORDERING;
-
-	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BEHAVIOR_EXECUTION_EDITOR__SUB_USER_INTERFACES = INSTANCE_EDITOR__SUB_USER_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
@@ -922,15 +895,6 @@ public interface EditorPackage extends EPackage {
 	int RESPONSIBILITY_VIEWER__PAGE_ORDERING = ABSTRACT_EDITOR__PAGE_ORDERING;
 
 	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESPONSIBILITY_VIEWER__SUB_USER_INTERFACES = ABSTRACT_EDITOR__SUB_USER_INTERFACES;
-
-	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1138,15 +1102,6 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OBJECT_EDITOR__PAGE_ORDERING = INSTANCE_EDITOR__PAGE_ORDERING;
-
-	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OBJECT_EDITOR__SUB_USER_INTERFACES = INSTANCE_EDITOR__SUB_USER_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.

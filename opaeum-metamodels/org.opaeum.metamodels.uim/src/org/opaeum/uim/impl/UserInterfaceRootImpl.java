@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.opaeum.uim.IgnoredElement;
@@ -38,7 +39,6 @@ import org.opaeum.uim.constraint.RootUserInteractionConstraint;
  *   <li>{@link org.opaeum.uim.impl.UserInterfaceRootImpl#getIgnoredElements <em>Ignored Elements</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UserInterfaceRootImpl#getSuperUserInterfaces <em>Super User Interfaces</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UserInterfaceRootImpl#getPageOrdering <em>Page Ordering</em>}</li>
- *   <li>{@link org.opaeum.uim.impl.UserInterfaceRootImpl#getSubUserInterfaces <em>Sub User Interfaces</em>}</li>
  * </ul>
  * </p>
  *
@@ -124,16 +124,6 @@ public class UserInterfaceRootImpl extends UserInteractionElementImpl implements
 	 * @ordered
 	 */
 	protected EList<PageOrdering> pageOrdering;
-
-	/**
-	 * The cached value of the '{@link #getSubUserInterfaces() <em>Sub User Interfaces</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSubUserInterfaces()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<UserInterfaceRoot> subUserInterfaces;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -323,7 +313,7 @@ public class UserInterfaceRootImpl extends UserInteractionElementImpl implements
 	 */
 	public EList<UserInterfaceRoot> getSuperUserInterfaces() {
 		if (superUserInterfaces == null) {
-			superUserInterfaces = new EObjectWithInverseResolvingEList.ManyInverse<UserInterfaceRoot>(UserInterfaceRoot.class, this, UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES, UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES);
+			superUserInterfaces = new EObjectResolvingEList<UserInterfaceRoot>(UserInterfaceRoot.class, this, UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES);
 		}
 		return superUserInterfaces;
 	}
@@ -338,18 +328,6 @@ public class UserInterfaceRootImpl extends UserInteractionElementImpl implements
 			pageOrdering = new EObjectContainmentEList<PageOrdering>(PageOrdering.class, this, UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING);
 		}
 		return pageOrdering;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<UserInterfaceRoot> getSubUserInterfaces() {
-		if (subUserInterfaces == null) {
-			subUserInterfaces = new EObjectWithInverseResolvingEList.ManyInverse<UserInterfaceRoot>(UserInterfaceRoot.class, this, UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES, UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES);
-		}
-		return subUserInterfaces;
 	}
 
 	/**
@@ -374,10 +352,6 @@ public class UserInterfaceRootImpl extends UserInteractionElementImpl implements
 		switch (featureID) {
 			case UimPackage.USER_INTERFACE_ROOT__IGNORED_ELEMENTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIgnoredElements()).basicAdd(otherEnd, msgs);
-			case UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSuperUserInterfaces()).basicAdd(otherEnd, msgs);
-			case UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSubUserInterfaces()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -398,12 +372,8 @@ public class UserInterfaceRootImpl extends UserInteractionElementImpl implements
 				return basicSetVisibility(null, msgs);
 			case UimPackage.USER_INTERFACE_ROOT__IGNORED_ELEMENTS:
 				return ((InternalEList<?>)getIgnoredElements()).basicRemove(otherEnd, msgs);
-			case UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES:
-				return ((InternalEList<?>)getSuperUserInterfaces()).basicRemove(otherEnd, msgs);
 			case UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING:
 				return ((InternalEList<?>)getPageOrdering()).basicRemove(otherEnd, msgs);
-			case UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES:
-				return ((InternalEList<?>)getSubUserInterfaces()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -430,8 +400,6 @@ public class UserInterfaceRootImpl extends UserInteractionElementImpl implements
 				return getSuperUserInterfaces();
 			case UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING:
 				return getPageOrdering();
-			case UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES:
-				return getSubUserInterfaces();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -469,10 +437,6 @@ public class UserInterfaceRootImpl extends UserInteractionElementImpl implements
 				getPageOrdering().clear();
 				getPageOrdering().addAll((Collection<? extends PageOrdering>)newValue);
 				return;
-			case UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES:
-				getSubUserInterfaces().clear();
-				getSubUserInterfaces().addAll((Collection<? extends UserInterfaceRoot>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -506,9 +470,6 @@ public class UserInterfaceRootImpl extends UserInteractionElementImpl implements
 			case UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING:
 				getPageOrdering().clear();
 				return;
-			case UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES:
-				getSubUserInterfaces().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -535,8 +496,6 @@ public class UserInterfaceRootImpl extends UserInteractionElementImpl implements
 				return superUserInterfaces != null && !superUserInterfaces.isEmpty();
 			case UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING:
 				return pageOrdering != null && !pageOrdering.isEmpty();
-			case UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES:
-				return subUserInterfaces != null && !subUserInterfaces.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

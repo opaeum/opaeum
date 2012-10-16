@@ -8,6 +8,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.*;
 import org.opaeum.uim.IgnoredElement;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;

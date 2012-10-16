@@ -4,21 +4,20 @@ import java.io.File;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.ui.URIEditorInput;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
+import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
@@ -31,7 +30,14 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.uim.Page;
+import org.opaeum.uim.UserInterfaceRoot;
+import org.opaeum.uim.model.AbstractUserInteractionModel;
+import org.opaeum.uim.provider.PageContainerItemProvider;
+import org.opaeum.uim.resources.UimModelSet;
+import org.opaeum.uim.uml2uim.UimResourceUtil;
 
 public abstract class AbstractUimGenerationAction extends Action{
 	public AbstractUimGenerationAction(String text){
@@ -64,11 +70,8 @@ public abstract class AbstractUimGenerationAction extends Action{
 				if(namedElement instanceof EmfWorkspace){
 					workspace = (EmfWorkspace) namedElement;
 				}else{
-					OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(namedElement);
-					if(ctx == null){
-						ctx = OpaeumEclipseContext.getCurrentContext();
-					}
-					workspace = ctx.getCurrentEmfWorkspace();
+					OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(namedElement);
+					workspace = ouf.getEmfWorkspace();
 				}
 				runActionRecursively(namedElement, workspace);
 				if(hasForm(namedElement)){
@@ -86,47 +89,61 @@ public abstract class AbstractUimGenerationAction extends Action{
 		uri = uri.trimFileExtension();
 	}
 	public void openUimDiagram(Element namedElement,EmfWorkspace ws){
-		openEditor(namedElement, ws);
-	}
-	public static void openEditor(final Element namedElement,EmfWorkspace ws){
-		try{
-			URI fileUri = getFileUri(namedElement, ws);
-			refreshContainingFolder(fileUri);
-			IFile diFile = getFile(fileUri);
-			if(diFile.exists()){
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IEditorPart editorPart =  page.openEditor(new FileEditorInput(diFile),
-						"org.opaeum.uimodeler.OpaeumMultiDiagramEditor", true);
-				// TODO navigate to selected object
-				// TODO associate currentEmfWorkspace with this instance of the editor
-				// TODO close this editor if the associated papyrus editor is closed
+		UimModelSet ums = (UimModelSet) ws.getResourceSet();
+		AbstractUserInteractionModel auim = (AbstractUserInteractionModel) UimResourceUtil
+				.getUiResource(namedElement, ums, ws.getDirectoryUri()).getContents().get(0);
+		if(auim instanceof UserInterfaceRoot){
+			openDiagrams(ums, (UserInterfaceRoot) auim);
+		}else{
+			for(EObject eObject:auim.eContents()){
+				if(eObject instanceof UserInterfaceRoot){
+					openDiagrams(ums, (UserInterfaceRoot) eObject);
+				}
 			}
-		}catch(PartInitException e){
-			OpaeumEclipsePlugin.getDefault().getLog().log(new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), e.getMessage(), e));
-			e.printStackTrace();
-		}catch(CoreException e){
-			OpaeumEclipsePlugin.getDefault().getLog().log(new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), e.getMessage(), e));
-			e.printStackTrace();
 		}
 	}
-	public static IFile getFile(URI fileUri){
-		String platformString2 = fileUri.toPlatformString(true);
-		IFile diFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString2));
-		return diFile;
+	private void openDiagrams(UimModelSet ums,UserInterfaceRoot uir){
+		EList<? extends Page> pages = uir.getPages();
+		for(Page page:pages){
+			openDiagram(ums, page);
+		}
 	}
-	public static URI getFileUri(Element namedElement,EmfWorkspace w){
+	private void openDiagram(UimModelSet ums,Page auim){
+		Diagram dg = ums.getInMemoryNotationResource().getDiagram(auim);
 		try{
-			URI dirUri = w.getDirectoryUri();
-			URI fileUri = dirUri.appendSegment("ui").appendSegment(EmfWorkspace.getId(namedElement)).appendFileExtension("di");
-			return fileUri;
-		}catch(Exception ce){
-			throw new RuntimeException(ce);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.openEditor(getEditorInput(dg), org.opaeum.uimodeler.page.diagram.part.UimDiagramEditor.ID);
+		}catch(PartInitException e){
+			OpaeumEclipsePlugin.logError("Could not open diagram", e);
 		}
 	}
-	private static void refreshContainingFolder(URI dirUri) throws CoreException{
-		IFolder folder = ResourcesPlugin.getWorkspace().getRoot().getFolder(new Path(dirUri.trimSegments(1).toPlatformString(true)));
-		if(folder.exists()){
-			folder.refreshLocal(100, null);
+	private static IEditorInput getEditorInput(Diagram diagram){
+		Resource diagramResource = diagram.eResource();
+		for(EObject nextEObject:diagramResource.getContents()){
+			if(nextEObject == diagram){
+				return new FileEditorInput(WorkspaceSynchronizer.getFile(diagramResource));
+			}
+			if(nextEObject instanceof Diagram){
+				break;
+			}
 		}
+		URI uri = EcoreUtil.getURI(diagram);
+		String editorName = uri.lastSegment() + '#' + diagram.eResource().getContents().indexOf(diagram);
+		IEditorInput editorInput = new URIEditorInput(uri, editorName);
+		return editorInput;
 	}
+	// public static IFile getFile(URI fileUri){
+	// String platformString2 = fileUri.toPlatformString(true);
+	// IFile diFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString2));
+	// return diFile;
+	// }
+	// public static URI getFileUri(Element namedElement,EmfWorkspace w){
+	// try{
+	// URI dirUri = w.getDirectoryUri();
+	// URI fileUri = dirUri.appendSegment("ui").appendSegment(EmfWorkspace.getId(namedElement)).appendFileExtension("di");
+	// return fileUri;
+	// }catch(Exception ce){
+	// throw new RuntimeException(ce);
+	// }
+	// }
 }

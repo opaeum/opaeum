@@ -17,6 +17,7 @@ import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.constraint.RootUserInteractionConstraint;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
+import org.opaeum.uim.editor.*;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.editor.BehaviorExecutionEditor;

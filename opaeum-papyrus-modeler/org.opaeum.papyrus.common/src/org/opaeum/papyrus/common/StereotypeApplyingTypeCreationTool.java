@@ -26,11 +26,11 @@ public class StereotypeApplyingTypeCreationTool extends AspectUnspecifiedTypeCre
 					@Override
 					public void execute(){
 						super.execute();
-						currentFile = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(c);
+						currentFile = OpaeumEclipseContext.findOpenUmlFileFor(c);
 						currentFile.resumeAndCatchUp();
 					}
 				};
-				OpaeumEclipseContext.getCurrentContext().executeAndForget(command);
+				OpaeumEclipseContext.findOpenUmlFileFor(c).executeAndForget(command);
 			};
 		});
 	}

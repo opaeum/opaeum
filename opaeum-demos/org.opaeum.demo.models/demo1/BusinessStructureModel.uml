@@ -5,9 +5,12 @@
       <details xmi:id="_hDFTIE8YEeG-ysddVp_ifQ" key="uuid" value="914890"/>
     </eAnnotations>
     <eAnnotations xmi:id="_fI1MEBNcEeK0HvQCxCC_Ag" source="http://opaum.org/i8n">
-      <details xmi:id="_fI1MERNcEeK0HvQCxCC_Ag" key="af_ZA" value="Gestruktureerde Besigheid"/>
-      <details xmi:id="_hfdFMBNcEeK0HvQCxCC_Ag" key="en_ZA" value="Structuredbusiness"/>
+      <details xmi:id="_fI1MERNcEeK0HvQCxCC_Ag" key="af_ZA" value="Gestruktureerde Besigheidlkjlkj"/>
+      <details xmi:id="_hfdFMBNcEeK0HvQCxCC_Ag" key="en_ZA" value="Structuredbusinesslkjlkj"/>
     </eAnnotations>
+    <ownedComment xmi:id="_lRod8BecEeKMRKC3nkhLHw" annotatedElement="_-VLbkE8VEeGA3PFuQY5w7Q">
+      <body></body>
+    </ownedComment>
     <packageImport xmi:id="_W6frIFxhEeGaLvytS4KS2w">
       <eAnnotations xmi:id="_W8hrcFxhEeGaLvytS4KS2w" source="http://www.opaeum.org"/>
       <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
@@ -288,6 +291,11 @@
                 <body>self.lll=3</body>
               </specification>
             </ownedRule>
+            <trigger xmi:id="_sqshkBdtEeKtkcldkDGjHA" name="Transition0Trigger" event="_ssJTERdtEeKtkcldkDGjHA">
+              <eAnnotations xmi:id="_ssJTEBdtEeKtkcldkDGjHA" source="http://www.opaeum.org">
+                <contents xmi:type="uml:SignalEvent" xmi:id="_ssJTERdtEeKtkcldkDGjHA" name="Transition0SignalEvent" signal="_o9aQgGCfEeG6xvYqJACneg"/>
+              </eAnnotations>
+            </trigger>
           </transition>
           <transition xmi:id="_O1gLEBYbEeKsDbmQL25eBw" name="Submitted" source="_Jx4kYBYUEeKsDbmQL25eBw" target="_KIj_ABYUEeKsDbmQL25eBw">
             <trigger xmi:id="_Kv3IUBcAEeK9SoQSQYApGA" name="SubmittedTrigger" event="_TYw30BcAEeK9SoQSQYApGA">

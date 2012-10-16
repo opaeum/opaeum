@@ -7,6 +7,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.constraint.*;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.EditableConstrainedObject;

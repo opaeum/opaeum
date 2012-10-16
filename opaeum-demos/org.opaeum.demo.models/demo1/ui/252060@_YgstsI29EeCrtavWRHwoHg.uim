@@ -3,7 +3,6 @@
   <primaryEditor name="Edit IParticipant" umlElementUid="252060@_YgstsI29EeCrtavWRHwoHg">
     <superUserInterfaces href="252060@_cBuqkOkSEeGkdYOpz9YUkg.uim#//@primaryEditor"/>
     <pageOrdering page="//@primaryEditor/@pages.0"/>
-    <subUserInterfaces href="252060@_tH0fAIoVEeCLqpffVZYAlw.uim#//@primaryEditor"/>
     <pages umlElementUid="252060@_YgstsI29EeCrtavWRHwoHg" name="Edit I participant">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimField" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
@@ -44,7 +43,6 @@
   <newObjectWizard name="Create IParticipant" umlElementUid="252060@_YgstsI29EeCrtavWRHwoHg">
     <superUserInterfaces href="252060@_cBuqkOkSEeGkdYOpz9YUkg.uim#//@newObjectWizard"/>
     <pageOrdering page="//@newObjectWizard/@pages.0"/>
-    <subUserInterfaces href="252060@_tH0fAIoVEeCLqpffVZYAlw.uim#//@newObjectWizard"/>
     <pages umlElementUid="252060@_YgstsI29EeCrtavWRHwoHg" name="CreateI participant">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimField" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">

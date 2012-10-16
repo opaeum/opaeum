@@ -24,9 +24,9 @@ public class Activator extends AbstractUIPlugin{
 		killExtension("org.eclipse.papyrus.infra.core.papyrusEditor", "org.eclipse.ui.editors", new String[]{"class",
 				"org.opaeum.papyrus.editor.OpaeumMultiDiagramEditor","default","true","extensions","di","icon","icons/papyrus/Papyrus_16x16.gif","id",
 				"org.eclipse.papyrus.infra.core.papyrusEditor","matchingStrategy","org.opaeum.papyrus.editor.PapyrusMatchingStrategy","name","Opaeum Editor"});
-		killExtension("org.eclipse.papyrus.views.modelexplorer.modelexplorer", "org.eclipse.ui.views", new String[]{"category",
-				"org.eclipse.papyrus.views.category","class","org.opaeum.papyrus.uml.modelexplorer.OpaeumModelExplorerPageBookView","icon","icons/ModelExplorer.gif",
-				"id","org.eclipse.papyrus.views.modelexplorer.modelexplorer","name","Opaeum Model Explorer","restorable","true"});
+//		killExtension("org.eclipse.papyrus.views.modelexplorer.modelexplorer", "org.eclipse.ui.views", new String[]{"category",
+//				"org.eclipse.papyrus.views.category","class","org.opaeum.papyrus.uml.modelexplorer.OpaeumModelExplorerPageBookView","icon","icons/ModelExplorer.gif",
+//				"id","org.eclipse.papyrus.views.modelexplorer.modelexplorer","name","Opaeum Model Explorer","restorable","true"});
 		// TODO OpaeumItemProviderAdapterFactory
 		IExtensionRegistry r = Platform.getExtensionRegistry();
 		for(IConfigurationElement ce:r.getConfigurationElementsFor("org.eclipse.ui.menus")){

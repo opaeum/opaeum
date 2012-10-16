@@ -61,8 +61,8 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 				ArrayList<TypedElement> pins = new ArrayList<TypedElement>(a.getInputs());
 				pins.addAll(a.getOutputs());
 				fc.populateUserInterface(a, "Task: " + NameConverter.separateWords(a.getName()), pins);
-				fc.addButtonBar(ActionKind.CLAIM_TASK, ActionKind.DELEGATE_TASK, ActionKind.FORWARD_TASK, ActionKind.SUSPEND, ActionKind.SKIP, ActionKind.ABORT,
-						ActionKind.RESUME);
+				fc.addButtonBar(ActionKind.CLAIM_TASK, ActionKind.DELEGATE_TASK, ActionKind.FORWARD_TASK, ActionKind.SUSPEND, ActionKind.SKIP,
+						ActionKind.ABORT, ActionKind.RESUME);
 				return editor;
 			}
 		}
@@ -109,15 +109,15 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 				List<TypedElement> typedElements = new ArrayList<TypedElement>();
 				typedElements.addAll(o.getOwnedParameters());
 				typedElements.addAll(EmfPropertyUtil.getEffectiveProperties(o));
-				List<TypedElement>  tes=new ArrayList<TypedElement>();
+				List<TypedElement> tes = new ArrayList<TypedElement>();
 				tes.addAll(o.getOwnedParameters());
 				tes.addAll(EmfPropertyUtil.getEffectiveProperties(o));
 				ec.populateUserInterface(o, "Task: " + NameConverter.separateWords(o.getName()), tes);
 				if(EmfBehaviorUtil.isProcess(o)){
 					ec.addButtonBar(o, ActionKind.ABORT, ActionKind.SUSPEND, ActionKind.RESUME);
 				}else{
-					ec.addButtonBar(o, ActionKind.CLAIM_TASK, ActionKind.DELEGATE_TASK, ActionKind.FORWARD_TASK, ActionKind.SUSPEND, ActionKind.SKIP, ActionKind.ABORT,
-							ActionKind.RESUME);
+					ec.addButtonBar(o, ActionKind.CLAIM_TASK, ActionKind.DELEGATE_TASK, ActionKind.FORWARD_TASK, ActionKind.SUSPEND, ActionKind.SKIP,
+							ActionKind.ABORT, ActionKind.RESUME);
 				}
 			}
 			if(model.getInvocationWizard() == null){
@@ -172,7 +172,9 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 	private void addSuperWizard(ClassUserInteractionModel model,Classifier general){
 		String superId = EmfWorkspace.getId(general);
 		ClassUserInteractionModel superModel = getUserInteractionModel(general, ModelFactory.eINSTANCE.createClassUserInteractionModel());
-		populateNewObjectWizar(general, superId, superModel);
+		if(superModel.eResource().getResourceSet() == null){
+			populateNewObjectWizar(general, superId, superModel);
+		}
 		model.getNewObjectWizard().getSuperUserInterfaces().add(superModel.getNewObjectWizard());
 	}
 	private void populatePrimaryEditor(Classifier c,String resourceUri,ClassUserInteractionModel model,ActionKind...actionKinds){
@@ -201,7 +203,10 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 	private void addSuperEditor(ClassUserInteractionModel model,Classifier general,ActionKind...actionKinds){
 		String superId = EmfWorkspace.getId(general);
 		ClassUserInteractionModel superModel = getUserInteractionModel(general, ModelFactory.eINSTANCE.createClassUserInteractionModel());
-		populatePrimaryEditor(general, superId, superModel, actionKinds);
+		if(superModel.eResource().getResourceSet() == null){
+			// is new
+			populatePrimaryEditor(general, superId, superModel, actionKinds);
+		}
 		model.getPrimaryEditor().getSuperUserInterfaces().add(superModel.getPrimaryEditor());
 	}
 	public AbstractUserInteractionModel beforeOperation(Operation o){
@@ -279,12 +284,7 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 	}
 	@SuppressWarnings("unchecked")
 	public <T extends AbstractUserInteractionModel>T getUserInteractionModel(Element element,T newOne){
-		Resource resource;
-		if(uimRst instanceof IOpaeumResourceSet){
-			resource = ((IOpaeumResourceSet) uimRst).getUiResourceFor(element);
-		}else{
-			resource = getResource(EmfWorkspace.getId(element), "uml");
-		}
+		Resource resource = getResource(element);
 		if(resource.getContents().isEmpty()){
 			resource.getContents().add(newOne);
 		}else if(!newOne.getClass().isInstance(resource.getContents().get(0))){

@@ -55,17 +55,6 @@ public class UserInterfaceRootItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-		if (itemPropertyDescriptors == null) {
-			super.getPropertyDescriptors(object);
-
-			addUmlElementUidPropertyDescriptor(object);
-			addSuperUserInterfacesPropertyDescriptor(object);
-			addSubUserInterfacesPropertyDescriptor(object);
-		}
-		return itemPropertyDescriptors;
-	}
 
 	/**
 	 * This adds a property descriptor for the Uml Element Uid feature.
@@ -117,21 +106,7 @@ public class UserInterfaceRootItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addSubUserInterfacesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_UserInterfaceRoot_subUserInterfaces_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UserInterfaceRoot_subUserInterfaces_feature", "_UI_UserInterfaceRoot_type"),
-				 UimPackage.Literals.USER_INTERFACE_ROOT__SUB_USER_INTERFACES,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
+	
 
 	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an

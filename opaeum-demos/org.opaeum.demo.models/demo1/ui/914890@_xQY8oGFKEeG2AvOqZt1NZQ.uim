@@ -17,8 +17,8 @@
           <control xsi:type="ctl:UimListBox"/>
           <binding umlElementUid="252060@_jSstQI6lEeCFsPOcAnk69Q"/>
         </children>
-        <children xsi:type="comp:UimField" name="Interesting requests" preferredHeight="150" fillHorizontally="true" controlKind="popupSearch" minimumLabelWidth="195" orientation="vertical">
-          <control xsi:type="ctl:UimPopupSearch"/>
+        <children xsi:type="comp:UimField" name="Interesting requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
           <binding umlElementUid="252060@_7MraII6lEeCFsPOcAnk69Q"/>
         </children>
         <children xsi:type="comp:UimField" name="Owned task requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
@@ -65,7 +65,6 @@
           <control xsi:type="ctl:UimDropdown"/>
           <binding umlElementUid="252060@_X4_Mg0tyEeGElKTCe2jfDw"/>
         </children>
-        <children xsi:type="comp:UimField" name="asdfasdf"/>
       </panel>
     </pages>
     <actionBar name="ActionBar">

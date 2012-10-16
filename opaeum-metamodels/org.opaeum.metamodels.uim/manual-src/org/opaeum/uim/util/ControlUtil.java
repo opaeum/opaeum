@@ -4,7 +4,9 @@ import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfParameterUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.uim.UserInterfaceRoot;
@@ -16,26 +18,28 @@ import org.opaeum.uim.wizard.InvocationWizard;
 
 public class ControlUtil{
 	public static ControlKind[] getAllowedControlKinds(UserInterfaceRoot form,TypedElement typedElement,boolean inTable){
-		//TODO factor 
-		if(typedElement == null || typedElement.getType() == null || typedElement.getType().getName()==null){
+		// TODO factor
+		Type type = typedElement.getType();
+		if(typedElement == null || type == null || type.getName() == null){
 			return new ControlKind[0];
 		}else{
-			String name = typedElement.getType().getName().toLowerCase();
-			if(name.endsWith("boolean")){
+			if(EmfClassifierUtil.comformsToLibraryType(type, "Boolean")){
 				return new ControlKind[]{ControlKind.CHECK_BOX,ControlKind.TOGGLE_BUTTON};
-			}else if(name.endsWith("date") || name.endsWith("datetime")){// TODO make this more sophisticated
+			}else if(EmfClassifierUtil.comformsToLibraryType(type, "Date") || EmfClassifierUtil.comformsToLibraryType(type,"datetime")){// TODO make this more sophisticated
 				return new ControlKind[]{ControlKind.DATE_POPUP,ControlKind.TEXT,ControlKind.DATE_SCROLLER,ControlKind.DATE_TIME_POPUP};
-			}else if(name.endsWith("integer")){
-				return new ControlKind[]{ControlKind.NUMBER_SCROLLER, ControlKind.TEXT};
-			}else if(typedElement.getType() instanceof org.eclipse.uml2.uml.Enumeration){
+			}else if(EmfClassifierUtil.comformsToLibraryType(type, "Integer")){
+				return new ControlKind[]{ControlKind.NUMBER_SCROLLER,ControlKind.TEXT};
+			}else if(EmfClassifierUtil.comformsToLibraryType(type, "Real")){
+				return new ControlKind[]{ControlKind.TEXT};
+			}else if(type instanceof org.eclipse.uml2.uml.Enumeration){
 				if(inTable){
 					return new ControlKind[]{ControlKind.DROPDOWN,ControlKind.POPUP_SEARCH,ControlKind.RADIO_BUTTON};
 				}else{
 					return new ControlKind[]{ControlKind.DROPDOWN,ControlKind.LIST_BOX,ControlKind.POPUP_SEARCH,ControlKind.TREE_VIEW,
 							ControlKind.RADIO_BUTTON};
 				}
-			}else if(typedElement.getType() instanceof org.eclipse.uml2.uml.Class
-					|| typedElement.getType() instanceof org.eclipse.uml2.uml.Interface){
+			}else if(type instanceof org.eclipse.uml2.uml.Class
+					|| type instanceof org.eclipse.uml2.uml.Interface){
 				if(requiresManySelection(form, typedElement)){
 					if(inTable){
 						return new ControlKind[]{ControlKind.SELECTION_TABLE};
@@ -84,9 +88,9 @@ public class ControlUtil{
 		}
 		return true;// property
 	}
-	public static ControlKind getPreferredControlKind(UserInterfaceRoot form,TypedElement typedElement, boolean inTable){
+	public static ControlKind getPreferredControlKind(UserInterfaceRoot form,TypedElement typedElement,boolean inTable){
 		ControlKind[] allowedControlKinds = getAllowedControlKinds(form, typedElement, inTable);
-		if(allowedControlKinds.length==0){
+		if(allowedControlKinds.length == 0){
 			return ControlKind.TEXT;
 		}else{
 			return allowedControlKinds[0];

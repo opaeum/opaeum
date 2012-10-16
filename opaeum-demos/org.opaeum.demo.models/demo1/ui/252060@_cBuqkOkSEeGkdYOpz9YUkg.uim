@@ -2,7 +2,6 @@
 <model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0">
   <primaryEditor name="Edit IParticipantBase" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg">
     <pageOrdering page="//@primaryEditor/@pages.0"/>
-    <subUserInterfaces href="252060@_YgstsI29EeCrtavWRHwoHg.uim#//@primaryEditor"/>
     <pages umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg" name="Edit I participant base">
       <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
     </pages>
@@ -13,7 +12,6 @@
   </primaryEditor>
   <newObjectWizard name="Create IParticipantBase" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg">
     <pageOrdering page="//@newObjectWizard/@pages.0"/>
-    <subUserInterfaces href="252060@_YgstsI29EeCrtavWRHwoHg.uim#//@newObjectWizard"/>
     <pages umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg" name="CreateI participant base">
       <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
     </pages>

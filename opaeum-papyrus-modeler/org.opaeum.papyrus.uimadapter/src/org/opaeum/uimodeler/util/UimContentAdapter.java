@@ -21,7 +21,6 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.emf.workspace.StereotypeAttachable;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.PageOrdering;
 import org.opaeum.uim.UimFactory;
@@ -38,7 +37,7 @@ import org.opaeum.uim.uml2uim.FormSynchronizer2;
 import org.opaeum.uim.util.ControlUtil;
 import org.opaeum.uim.util.UmlUimLinks;
 
-public class UimContentAdapter extends EContentAdapter implements StereotypeAttachable{
+public class UimContentAdapter extends EContentAdapter{
 	private UimModelSet modelSet;
 	private FormSynchronizer2 formSynchronizer;
 	public UimContentAdapter(final UimModelSet modelSet){
@@ -48,7 +47,6 @@ public class UimContentAdapter extends EContentAdapter implements StereotypeAtta
 	}
 	@Override
 	public void notifyChanged(Notification notification){
-		super.notifyChanged(notification);
 		if(notification.getNotifier() instanceof UserInteractionElement){
 			UmlUimLinks linkd = UmlUimLinks.getCurrentUmlLinks((EObject) notification.getNotifier());
 			if(linkd != null){
@@ -133,13 +131,5 @@ public class UimContentAdapter extends EContentAdapter implements StereotypeAtta
 		}else if(typedElement instanceof Pin){
 			formSynchronizer.beforeAction((Action) container);
 		}
-	}
-	public static boolean isListeningTo(ResourceSet rs){
-		for(Adapter adapter:rs.eAdapters()){
-			if(adapter instanceof UimContentAdapter){
-				return true;
-			}
-		}
-		return false;
 	}
 }

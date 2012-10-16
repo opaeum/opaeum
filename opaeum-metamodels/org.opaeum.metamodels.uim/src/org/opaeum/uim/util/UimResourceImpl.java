@@ -2,6 +2,10 @@
  */
 package org.opaeum.uim.util;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Map;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
@@ -10,7 +14,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
  * The <b>Resource </b> associated with the package.
  * <!-- end-user-doc -->
  * @see org.opaeum.uim.util.UimResourceFactoryImpl
- * @generated
+ * @generated NOT
  */
 public class UimResourceImpl extends XMIResourceImpl {
 	/**
@@ -22,6 +26,12 @@ public class UimResourceImpl extends XMIResourceImpl {
 	 */
 	public UimResourceImpl(URI uri) {
 		super(uri);
+	}
+	@Override
+	public void save(Map<?,?> options) throws IOException{
+    OutputStream outputStream = getURIConverter().createOutputStream(getURI(), options);
+    doSave(outputStream, options);
+    super.isModified=false;
 	}
 
 } //UimResourceImpl

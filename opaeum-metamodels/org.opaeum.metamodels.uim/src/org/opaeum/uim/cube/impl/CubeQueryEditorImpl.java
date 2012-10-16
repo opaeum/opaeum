@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.opaeum.uim.IgnoredElement;
@@ -43,7 +44,6 @@ import org.opaeum.uim.impl.UmlReferenceImpl;
  *   <li>{@link org.opaeum.uim.cube.impl.CubeQueryEditorImpl#getIgnoredElements <em>Ignored Elements</em>}</li>
  *   <li>{@link org.opaeum.uim.cube.impl.CubeQueryEditorImpl#getSuperUserInterfaces <em>Super User Interfaces</em>}</li>
  *   <li>{@link org.opaeum.uim.cube.impl.CubeQueryEditorImpl#getPageOrdering <em>Page Ordering</em>}</li>
- *   <li>{@link org.opaeum.uim.cube.impl.CubeQueryEditorImpl#getSubUserInterfaces <em>Sub User Interfaces</em>}</li>
  *   <li>{@link org.opaeum.uim.cube.impl.CubeQueryEditorImpl#getQueries <em>Queries</em>}</li>
  * </ul>
  * </p>
@@ -150,16 +150,6 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 	 * @ordered
 	 */
 	protected EList<PageOrdering> pageOrdering;
-
-	/**
-	 * The cached value of the '{@link #getSubUserInterfaces() <em>Sub User Interfaces</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSubUserInterfaces()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<UserInterfaceRoot> subUserInterfaces;
 
 	/**
 	 * The cached value of the '{@link #getQueries() <em>Queries</em>}' containment reference list.
@@ -380,7 +370,7 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 	 */
 	public EList<UserInterfaceRoot> getSuperUserInterfaces() {
 		if (superUserInterfaces == null) {
-			superUserInterfaces = new EObjectWithInverseResolvingEList.ManyInverse<UserInterfaceRoot>(UserInterfaceRoot.class, this, CubePackage.CUBE_QUERY_EDITOR__SUPER_USER_INTERFACES, UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES);
+			superUserInterfaces = new EObjectResolvingEList<UserInterfaceRoot>(UserInterfaceRoot.class, this, CubePackage.CUBE_QUERY_EDITOR__SUPER_USER_INTERFACES);
 		}
 		return superUserInterfaces;
 	}
@@ -395,18 +385,6 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 			pageOrdering = new EObjectContainmentEList<PageOrdering>(PageOrdering.class, this, CubePackage.CUBE_QUERY_EDITOR__PAGE_ORDERING);
 		}
 		return pageOrdering;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<UserInterfaceRoot> getSubUserInterfaces() {
-		if (subUserInterfaces == null) {
-			subUserInterfaces = new EObjectWithInverseResolvingEList.ManyInverse<UserInterfaceRoot>(UserInterfaceRoot.class, this, CubePackage.CUBE_QUERY_EDITOR__SUB_USER_INTERFACES, UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES);
-		}
-		return subUserInterfaces;
 	}
 
 	/**
@@ -452,10 +430,6 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 		switch (featureID) {
 			case CubePackage.CUBE_QUERY_EDITOR__IGNORED_ELEMENTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIgnoredElements()).basicAdd(otherEnd, msgs);
-			case CubePackage.CUBE_QUERY_EDITOR__SUPER_USER_INTERFACES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSuperUserInterfaces()).basicAdd(otherEnd, msgs);
-			case CubePackage.CUBE_QUERY_EDITOR__SUB_USER_INTERFACES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSubUserInterfaces()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -476,12 +450,8 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 				return basicSetVisibility(null, msgs);
 			case CubePackage.CUBE_QUERY_EDITOR__IGNORED_ELEMENTS:
 				return ((InternalEList<?>)getIgnoredElements()).basicRemove(otherEnd, msgs);
-			case CubePackage.CUBE_QUERY_EDITOR__SUPER_USER_INTERFACES:
-				return ((InternalEList<?>)getSuperUserInterfaces()).basicRemove(otherEnd, msgs);
 			case CubePackage.CUBE_QUERY_EDITOR__PAGE_ORDERING:
 				return ((InternalEList<?>)getPageOrdering()).basicRemove(otherEnd, msgs);
-			case CubePackage.CUBE_QUERY_EDITOR__SUB_USER_INTERFACES:
-				return ((InternalEList<?>)getSubUserInterfaces()).basicRemove(otherEnd, msgs);
 			case CubePackage.CUBE_QUERY_EDITOR__QUERIES:
 				return ((InternalEList<?>)getQueries()).basicRemove(otherEnd, msgs);
 		}
@@ -512,8 +482,6 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 				return getSuperUserInterfaces();
 			case CubePackage.CUBE_QUERY_EDITOR__PAGE_ORDERING:
 				return getPageOrdering();
-			case CubePackage.CUBE_QUERY_EDITOR__SUB_USER_INTERFACES:
-				return getSubUserInterfaces();
 			case CubePackage.CUBE_QUERY_EDITOR__QUERIES:
 				return getQueries();
 		}
@@ -556,10 +524,6 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 				getPageOrdering().clear();
 				getPageOrdering().addAll((Collection<? extends PageOrdering>)newValue);
 				return;
-			case CubePackage.CUBE_QUERY_EDITOR__SUB_USER_INTERFACES:
-				getSubUserInterfaces().clear();
-				getSubUserInterfaces().addAll((Collection<? extends UserInterfaceRoot>)newValue);
-				return;
 			case CubePackage.CUBE_QUERY_EDITOR__QUERIES:
 				getQueries().clear();
 				getQueries().addAll((Collection<? extends CubeQuery>)newValue);
@@ -600,9 +564,6 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 			case CubePackage.CUBE_QUERY_EDITOR__PAGE_ORDERING:
 				getPageOrdering().clear();
 				return;
-			case CubePackage.CUBE_QUERY_EDITOR__SUB_USER_INTERFACES:
-				getSubUserInterfaces().clear();
-				return;
 			case CubePackage.CUBE_QUERY_EDITOR__QUERIES:
 				getQueries().clear();
 				return;
@@ -634,8 +595,6 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 				return superUserInterfaces != null && !superUserInterfaces.isEmpty();
 			case CubePackage.CUBE_QUERY_EDITOR__PAGE_ORDERING:
 				return pageOrdering != null && !pageOrdering.isEmpty();
-			case CubePackage.CUBE_QUERY_EDITOR__SUB_USER_INTERFACES:
-				return subUserInterfaces != null && !subUserInterfaces.isEmpty();
 			case CubePackage.CUBE_QUERY_EDITOR__QUERIES:
 				return queries != null && !queries.isEmpty();
 		}
@@ -669,7 +628,6 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 				case CubePackage.CUBE_QUERY_EDITOR__IGNORED_ELEMENTS: return UimPackage.USER_INTERFACE_ROOT__IGNORED_ELEMENTS;
 				case CubePackage.CUBE_QUERY_EDITOR__SUPER_USER_INTERFACES: return UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES;
 				case CubePackage.CUBE_QUERY_EDITOR__PAGE_ORDERING: return UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING;
-				case CubePackage.CUBE_QUERY_EDITOR__SUB_USER_INTERFACES: return UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES;
 				default: return -1;
 			}
 		}
@@ -703,7 +661,6 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 				case UimPackage.USER_INTERFACE_ROOT__IGNORED_ELEMENTS: return CubePackage.CUBE_QUERY_EDITOR__IGNORED_ELEMENTS;
 				case UimPackage.USER_INTERFACE_ROOT__SUPER_USER_INTERFACES: return CubePackage.CUBE_QUERY_EDITOR__SUPER_USER_INTERFACES;
 				case UimPackage.USER_INTERFACE_ROOT__PAGE_ORDERING: return CubePackage.CUBE_QUERY_EDITOR__PAGE_ORDERING;
-				case UimPackage.USER_INTERFACE_ROOT__SUB_USER_INTERFACES: return CubePackage.CUBE_QUERY_EDITOR__SUB_USER_INTERFACES;
 				default: return -1;
 			}
 		}

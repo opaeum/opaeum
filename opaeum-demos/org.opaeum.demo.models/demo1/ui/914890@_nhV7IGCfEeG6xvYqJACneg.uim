@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg" name="Appliance model User Interface Model" linkedUmlResource="BusinessStructureModel.uml">
   <primaryEditor name="Edit ApplianceModel" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
-    <pageOrdering page="//@primaryEditor/@pages.1"/>
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pageOrdering page="//@primaryEditor/@pages.1" position="1"/>
     <pages umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg" name="Edit Appliance model">
       <panel xsi:type="panel:GridPanel" numberOfColumns="1">
         <children xsi:type="comp:UimField" name="Vendor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
@@ -38,7 +39,8 @@
     </actionBar>
   </primaryEditor>
   <newObjectWizard name="Create ApplianceModel" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
-    <pageOrdering page="//@newObjectWizard/@pages.1"/>
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pageOrdering page="//@newObjectWizard/@pages.1" position="1"/>
     <pages umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg" name="CreateAppliance model">
       <panel xsi:type="panel:GridPanel" numberOfColumns="1">
         <children xsi:type="comp:UimField" name="Vendor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">

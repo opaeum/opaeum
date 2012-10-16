@@ -4,9 +4,7 @@
     <superUserInterfaces href="252060@_tH0fAIoVEeCLqpffVZYAlw.uim#//@primaryEditor"/>
     <pageOrdering page="//@primaryEditor/@pages.0"/>
     <pageOrdering page="//@primaryEditor/@pages.1" position="1"/>
-    <pageOrdering position="2">
-      <page href="252060@_tH0fAIoVEeCLqpffVZYAlw.uim#//@primaryEditor/@pages.1"/>
-    </pageOrdering>
+    <pageOrdering page="//@primaryEditor/@pages.2" position="2"/>
     <pages umlElementUid="914890@_loLrkJHrEeGtApeO0lzlHQ" name="Edit Technician">
       <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
     </pages>
@@ -74,6 +72,35 @@
         </children>
       </panel>
     </pages>
+    <pages umlElementUid="252060@_dIQKFPjyEeGEN6Fz86uBYA" name="Rate per time unit">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" name="Additional cost to company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="252060@_7PmU8PjuEeGEN6Fz86uBYA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Rate paid by customer" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="252060@_5KnlcPjuEeGEN6Fz86uBYA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Effective from" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="0">
+            <binding umlElementUid="252060@_a_NhUPjvEeGEN6Fz86uBYA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Rate paid by company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="252060@_rjhC4Pl4EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Time unit" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_s4gDYPl5EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <binding umlElementUid="252060@_dIQKFPjyEeGEN6Fz86uBYA"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages>
     <actionBar name="ActionBar">
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
@@ -83,9 +110,7 @@
     <superUserInterfaces href="252060@_tH0fAIoVEeCLqpffVZYAlw.uim#//@newObjectWizard"/>
     <pageOrdering page="//@newObjectWizard/@pages.0"/>
     <pageOrdering page="//@newObjectWizard/@pages.1" position="1"/>
-    <pageOrdering position="2">
-      <page href="252060@_tH0fAIoVEeCLqpffVZYAlw.uim#//@newObjectWizard/@pages.1"/>
-    </pageOrdering>
+    <pageOrdering page="//@newObjectWizard/@pages.2" position="2"/>
     <pages umlElementUid="914890@_loLrkJHrEeGtApeO0lzlHQ" name="CreateTechnician">
       <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
     </pages>
@@ -150,6 +175,35 @@
         <children xsi:type="comp:UimField" name="Represented person" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
           <control xsi:type="ctl:UimDropdown"/>
           <binding umlElementUid="252060@_3lcZgVYuEeGj5_I7bIwNoA"/>
+        </children>
+      </panel>
+    </pages>
+    <pages umlElementUid="252060@_dIQKFPjyEeGEN6Fz86uBYA" name="Rate per time unit">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" name="Additional cost to company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="252060@_7PmU8PjuEeGEN6Fz86uBYA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Rate paid by customer" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="252060@_5KnlcPjuEeGEN6Fz86uBYA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Effective from" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="0">
+            <binding umlElementUid="252060@_a_NhUPjvEeGEN6Fz86uBYA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Rate paid by company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText"/>
+            <binding umlElementUid="252060@_rjhC4Pl4EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" name="Time unit" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimDropdown"/>
+            <binding umlElementUid="252060@_s4gDYPl5EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+          <binding umlElementUid="252060@_dIQKFPjyEeGEN6Fz86uBYA"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" name="Add" kind="add"/>
         </children>
       </panel>
     </pages>

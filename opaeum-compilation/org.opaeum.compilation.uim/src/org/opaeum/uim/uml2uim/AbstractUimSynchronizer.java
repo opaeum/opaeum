@@ -52,14 +52,10 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 		}
 	}
 	@Override
-	public final Resource getResource(String id,String extenstion){
-		URI formUri = workspace.getDirectoryUri().appendSegment("ui");
-		formUri = formUri.appendSegment(id);
-		formUri = formUri.appendFileExtension(extenstion);
-		Resource resource = null;
-		resource = uimRst.getResource(formUri, false);
-		if(resource == null){
-			resource = uimRst.createResource(formUri);
+	public final Resource getResource(Element e){
+		Resource resource = UimResourceUtil.getUiResource(e, uimRst, workspace.getDirectoryUri());
+		if(resource.getResourceSet()==null){
+			uimRst.getResources().add(resource);
 		}
 		return resource;
 	}

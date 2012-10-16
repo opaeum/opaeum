@@ -17,12 +17,6 @@
           className="org.opaeum.uim.uml2uim.FormSynchronizer">
     </transformationStep>
  </extension>
- <extension
-       point="org.eclipse.ui.startup">
-    <startup
-          class="org.opaeum.uml2uim.UserInterfaceSynchronizerManager">
-    </startup>
- </extension>
     <extension point="org.eclipse.emf.facet.infra.query.registration">
       <modelqueryset file="model/UimBrowserQuery.querySet"/>
    </extension>

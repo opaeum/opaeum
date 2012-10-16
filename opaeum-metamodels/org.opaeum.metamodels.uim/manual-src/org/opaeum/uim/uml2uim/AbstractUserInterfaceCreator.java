@@ -387,7 +387,7 @@ public abstract class AbstractUserInterfaceCreator{
 		return uf;
 	}
 	protected InvocationWizard getInvocationWizard(Namespace element){
-		Resource resource = resourceFactory.getResource(EmfWorkspace.getId(element), "uml");
+		Resource resource = resourceFactory.getResource(element);
 		if(resource.getContents().isEmpty()){
 			if(element instanceof Operation){
 				Operation operation = (Operation) element;

@@ -14,55 +14,19 @@
         <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_knsXEBcCEeKcW_mWlcxAwA"/>
+        <emfPageIdentifier href="ui/tmp.notation#_JLL7MBedEeKMRKC3nkhLHw"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_koqAYBcCEeKcW_mWlcxAwA"/>
+        <emfPageIdentifier href="ui/tmp.notation#_JLNwYBedEeKMRKC3nkhLHw"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kor1kBcCEeKcW_mWlcxAwA"/>
+        <emfPageIdentifier href="ui/tmp.notation#_JLOXcBedEeKMRKC3nkhLHw"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kotDsBcCEeKcW_mWlcxAwA"/>
+        <emfPageIdentifier href="ui/tmp.notation#_JLQzsBedEeKMRKC3nkhLHw"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kouR0BcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kovf8BcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kpXLABcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kpYZIBcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kpZnQBcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kpaOUBcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kpbccBcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kuxPcBcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kuydkBcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_ku9csBcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_ku-q0BcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kvAgABcCEeKcW_mWlcxAwA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_kvYTcBcCEeKcW_mWlcxAwA"/>
+        <emfPageIdentifier href="ui/tmp.notation#_JLSB0BedEeKMRKC3nkhLHw"/>
       </availablePage>
     </pageList>
     <sashModel currentSelection="/0/@sashModel/@windows.0/@children.0">
@@ -75,6 +39,9 @@
           <children emfPageIdentifier="/1"/>
           <children>
             <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="ui/tmp.notation#_JLNwYBedEeKMRKC3nkhLHw"/>
           </children>
         </children>
       </windows>

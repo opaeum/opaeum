@@ -46,8 +46,8 @@ public abstract class RecursiveAdapter extends EContentAdapter{
 		if(Display.getCurrent() != Display.getDefault()){
 			syncNotifyChanged(msg);
 		}else{
-			if(msg.getNotifier() instanceof EObject && ((EObject)msg.getNotifier()).eResource()==null){
-				EObject deleted = (EObject)msg.getNotifier();
+			if(msg.getNotifier() instanceof EObject && ((EObject) msg.getNotifier()).eResource() == null){
+				EObject deleted = (EObject) msg.getNotifier();
 				deleted.eAdapters().remove(this);
 				TreeIterator<EObject> eAllContents = deleted.eAllContents();
 				while(eAllContents.hasNext()){
@@ -61,7 +61,9 @@ public abstract class RecursiveAdapter extends EContentAdapter{
 	}
 	public void unsubscribe(){
 		for(EObject eObject:new HashSet<EObject>(this.subscriptions)){
-			eObject.eAdapters().remove(this);
+			while(eObject.eAdapters().contains(this)){
+				eObject.eAdapters().remove(this);
+			}
 		}
 	}
 	protected void addAdapter(Notifier notifier){

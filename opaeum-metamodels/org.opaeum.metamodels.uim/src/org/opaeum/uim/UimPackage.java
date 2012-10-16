@@ -214,22 +214,13 @@ public interface UimPackage extends EPackage {
 	int USER_INTERFACE_ROOT__PAGE_ORDERING = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USER_INTERFACE_ROOT__SUB_USER_INTERFACES = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 7;
-
-	/**
 	 * The number of structural features of the '<em>User Interface Root</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_INTERFACE_ROOT_FEATURE_COUNT = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 8;
+	int USER_INTERFACE_ROOT_FEATURE_COUNT = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.impl.PageImpl <em>Page</em>}' class.
@@ -646,17 +637,6 @@ public interface UimPackage extends EPackage {
 	EReference getUserInterfaceRoot_PageOrdering();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.opaeum.uim.UserInterfaceRoot#getSubUserInterfaces <em>Sub User Interfaces</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Sub User Interfaces</em>'.
-	 * @see org.opaeum.uim.UserInterfaceRoot#getSubUserInterfaces()
-	 * @see #getUserInterfaceRoot()
-	 * @generated
-	 */
-	EReference getUserInterfaceRoot_SubUserInterfaces();
-
-	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.Page <em>Page</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -887,14 +867,6 @@ public interface UimPackage extends EPackage {
 		 * @generated
 		 */
 		EReference USER_INTERFACE_ROOT__PAGE_ORDERING = eINSTANCE.getUserInterfaceRoot_PageOrdering();
-
-		/**
-		 * The meta object literal for the '<em><b>Sub User Interfaces</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference USER_INTERFACE_ROOT__SUB_USER_INTERFACES = eINSTANCE.getUserInterfaceRoot_SubUserInterfaces();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.impl.PageImpl <em>Page</em>}' class.

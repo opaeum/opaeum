@@ -2,12 +2,11 @@
 <model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="Id book User Interface Model" linkedUmlResource="BusinessStructureModel.uml">
   <primaryEditor name="Edit IdBook" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
     <superUserInterfaces href="252060@_cOzTkF9lEeG3X_yvufTVmw.uim#//@primaryEditor"/>
-    <superUserInterfaces href="pathmap://NAKEDUML_MODELS/libraries/ui/252060@_cOzTkF9lEeG3X_yvufTVmw.uim#//@primaryEditor"/>
-    <pageOrdering page="//@primaryEditor/@pages.1"/>
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pageOrdering page="//@primaryEditor/@pages.1" position="1"/>
     <pages umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="Edit Id book">
       <panel xsi:type="panel:GridPanel" numberOfColumns="1">
         <children xsi:type="comp:UimField" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDatePopup"/>
           <binding umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA"/>
         </children>
       </panel>
@@ -30,13 +29,11 @@
   </primaryEditor>
   <newObjectWizard name="Create IdBook" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
     <superUserInterfaces href="252060@_cOzTkF9lEeG3X_yvufTVmw.uim#//@newObjectWizard"/>
-    <superUserInterfaces href="pathmap://NAKEDUML_MODELS/libraries/ui/252060@_cOzTkF9lEeG3X_yvufTVmw.uim#//@newObjectWizard"/>
     <pageOrdering page="//@newObjectWizard/@pages.0"/>
     <pageOrdering page="//@newObjectWizard/@pages.1" position="1"/>
     <pages umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="CreateId book">
       <panel xsi:type="panel:GridPanel" numberOfColumns="1">
         <children xsi:type="comp:UimField" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDatePopup"/>
           <binding umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA"/>
         </children>
       </panel>

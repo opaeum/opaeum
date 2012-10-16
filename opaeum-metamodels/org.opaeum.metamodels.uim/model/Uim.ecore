@@ -19,11 +19,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="ignoredElements" upperBound="-1"
         eType="#//IgnoredElement" containment="true" eOpposite="#//IgnoredElement/userInterfaceRoot"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="superUserInterfaces" upperBound="-1"
-        eType="#//UserInterfaceRoot" eOpposite="#//UserInterfaceRoot/subUserInterfaces"/>
+        eType="#//UserInterfaceRoot"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pageOrdering" upperBound="-1"
         eType="#//PageOrdering" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subUserInterfaces" upperBound="-1"
-        eType="#//UserInterfaceRoot" eOpposite="#//UserInterfaceRoot/superUserInterfaces"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Page" eSuperTypes="#//constraint/EditableConstrainedObject #//LabeledElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="panel" lowerBound="1" eType="#//panel/AbstractPanel"

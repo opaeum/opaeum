@@ -258,8 +258,8 @@ public abstract class OclBodyComposite extends Composite{
 	}
 	public void highlightError(){
 		StyledText t = viewer.getTextWidget();
-		if(!(oclBodyOwner == null || t == null || t.isDisposed() || OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner) == null)){
-			OpenUmlFile ouf = OpaeumEclipseContext.getCurrentContext().getEditingContextFor(oclBodyOwner);
+		OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(oclBodyOwner);
+		if(!(oclBodyOwner == null || t == null || t.isDisposed() || ouf == null)){
 			OpaeumOcl lib = ouf.getEmfWorkspace().getOpaeumLibrary().getOcl();
 			AbstractOclContext ctx = null;
 			if(oclBodyOwner instanceof OpaqueExpression){
