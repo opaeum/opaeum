@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opaeum.uim.component.*;
 import org.opaeum.uim.component.ComponentFactory;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.DetailComponent;

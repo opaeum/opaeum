@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
@@ -53,10 +54,9 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 					protected IStatus run(final IProgressMonitor monitor){
 						TransformationProcess p = null;
 						try{
-							OpaeumEclipseContext.selectContext(model);
-							OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
-							p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getEditingContextFor(model));
-							if(p == null || currentContext.isLoading()){
+							OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(model);
+							p = JavaTransformationProcessManager.getTransformationProcessFor(ouf);
+							if(p == null){
 								Display.getDefault().syncExec(new Runnable(){
 									public void run(){
 										MessageDialog.openError(Display.getCurrent().getActiveShell(), "Opaeum is still initializing",
@@ -67,7 +67,7 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 								monitor.beginTask("Generating Java Model", 90);
 								p.removeModel(OJWorkspace.class);
 								p.removeModel(TextWorkspace.class);
-								OpaeumConfig cfg = currentContext.getConfig();
+								OpaeumConfig cfg = ouf.getConfig();
 								Collection<SourceFolderDefinition> values = cfg.getSourceFolderDefinitions().values();
 								for(SourceFolderDefinition sfd:values){
 									if(cfg.getSourceFolderStrategy().isSingleProjectStrategy()){
@@ -81,7 +81,7 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 								// shouldCleanDirectoriesWhenGeneratingSingleModel
 								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, true);
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
-								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
+								ouf.getFile().getParent().refreshLocal(IProject.DEPTH_INFINITE, null);
 							}
 						}catch(Exception e){
 							e.printStackTrace();

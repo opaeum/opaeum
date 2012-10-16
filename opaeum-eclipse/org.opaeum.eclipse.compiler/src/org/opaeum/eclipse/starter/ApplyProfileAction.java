@@ -22,7 +22,7 @@ public class ApplyProfileAction extends AbstractOpaeumAction{
 		if(profile.getDefinition() == null){
 			MessageDialog.openError(Display.getCurrent().getActiveShell(), "Profile not defined yet", "Please define your profile before deploying it");
 		}else{
-			OpaeumEclipseContext.getCurrentContext().executeAndForget(new ApplyProfileCommand(model,profile,true));
+			OpaeumEclipseContext.findOpenUmlFileFor(model).executeAndForget(new ApplyProfileCommand(model,profile,true));
 		}
 	}
 }

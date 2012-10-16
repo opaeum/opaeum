@@ -3,7 +3,6 @@ package org.opaeum.rap.runtime.internal.editors;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -14,7 +13,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.nebula.widgets.pagination.table.SortTableColumnSelectionListener;
-import org.eclipse.rwt.RWT;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -41,16 +40,16 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.event.IEventHandler;
-import org.opaeum.uim.UimComponent;
-import org.opaeum.uim.UimDataTable;
-import org.opaeum.uim.UimField;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.action.AbstractActionButton;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;
-import org.opaeum.uim.action.OperationButton;
-import org.opaeum.uim.action.UimAction;
+import org.opaeum.uim.action.InvocationButton;
+import org.opaeum.uim.component.UimComponent;
+import org.opaeum.uim.component.UimDataTable;
+import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.swt.UimActivator;
 import org.opaeum.uim.swt.UimSwtUtil;
@@ -117,15 +116,15 @@ public final class DataTableBuilder{
 							addBuiltInLink(tableViewer, viewerColumn, builtInLink);
 						}else if(child instanceof BuiltInActionButton){
 							addBuiltInAction(tableViewer, viewerColumn, (BuiltInActionButton) child, uimTable);
-						}else if(child instanceof OperationButton){
-							addOperationButton(body, tableViewer, viewerColumn, (OperationButton) child);
+						}else if(child instanceof InvocationButton){
+							addInvocationButton(body, tableViewer, viewerColumn, (InvocationButton) child);
 						}
 						i++;
 					}
 				}
 			}
-			EList<UimAction> actionsOnMultipleSelection = uimTable.getActionsOnMultipleSelection();
-			for(UimAction uimAction:actionsOnMultipleSelection){
+			EList<AbstractActionButton> actionsOnMultipleSelection = uimTable.getActionsOnMultipleSelection();
+			for(AbstractActionButton uimAction:actionsOnMultipleSelection){
 				if(uimAction instanceof BuiltInActionButton){
 					BuiltInActionButton btn = (BuiltInActionButton) uimAction;
 					Button button = new Button(table.getActionBar(), SWT.PUSH);
@@ -181,8 +180,8 @@ public final class DataTableBuilder{
 						});
 						break;
 					}
-				}else if(uimAction instanceof OperationButton){
-					final OperationButton ob = (OperationButton) uimAction;
+				}else if(uimAction instanceof InvocationButton){
+					final InvocationButton ob = (InvocationButton) uimAction;
 					Button button = new Button(table.getActionBar(), SWT.PUSH);
 					button.setText(ob.getName());
 					ComponentTreeBuilder.setLayoutData(button, ob);
@@ -206,8 +205,8 @@ public final class DataTableBuilder{
 			tableViewer.refreshPage();
 		}
 	}
-	private void addOperationButton(final Composite body,final CheckboxTableViewer tableViewer,final TableViewerColumn viewerColumn,
-			final OperationButton btn){
+	private void addInvocationButton(final Composite body,final CheckboxTableViewer tableViewer,final TableViewerColumn viewerColumn,
+			final InvocationButton btn){
 		viewerColumn.setLabelProvider(new ColumnLabelProvider(){
 			@Override
 			public Image getImage(Object element){

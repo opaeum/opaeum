@@ -14,7 +14,7 @@ import org.opaeum.rap.runtime.internal.editors.BindingUtil;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.strategy.ToStringConverter;
-import org.opaeum.uim.UimField;
+import org.opaeum.uim.component.UimField;
 
 public final class DefaultColumnLabelProvider extends ColumnLabelProvider{
 	public final UimField uimField;

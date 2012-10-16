@@ -14,7 +14,7 @@ import org.opaeum.rap.runtime.internal.editors.BindingUtil;
 import org.opaeum.rap.runtime.internal.editors.EntityEditorInput;
 import org.opaeum.runtime.strategy.FromStringConverter;
 import org.opaeum.runtime.strategy.ToStringConverter;
-import org.opaeum.uim.UimField;
+import org.opaeum.uim.component.UimField;
 
 @SuppressWarnings("serial")
 public class TextEditingSupport extends AbstractEditingSupport{

@@ -20,8 +20,7 @@
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_d_KVgJN8EeGzUIOTq-3iUg"/>
         </children>
-        <children xsi:type="comp:UimField" name="Date of work" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimText"/>
+        <children xsi:type="comp:UimField" name="Date of work" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
           <binding umlElementUid="914890@_u863IJN8EeGzUIOTq-3iUg"/>
         </children>
       </panel>
@@ -51,8 +50,7 @@
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_d_KVgJN8EeGzUIOTq-3iUg"/>
         </children>
-        <children xsi:type="comp:UimField" name="Date of work" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimText"/>
+        <children xsi:type="comp:UimField" name="Date of work" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
           <binding umlElementUid="914890@_u863IJN8EeGzUIOTq-3iUg"/>
         </children>
       </panel>

@@ -8,13 +8,13 @@ import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
-import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
+import org.opaeum.uim.UserInterfaceRoot;
+import org.opaeum.uim.model.ClassUserInteractionModel;
 
 public class NewEntityWizard extends Wizard{
 	private OpaeumRapSession opaeumRapSession;
-	private PageContainer pageContainer;
+	private UserInterfaceRoot UserInterfaceRoot;
 	private DataBindingContext dataBindingContext;
 	private CompositionNode child;
 	private ConversationalPersistence persistence;
@@ -25,12 +25,12 @@ public class NewEntityWizard extends Wizard{
 		persistence=session.getApplication().getEnvironment().createConversationalPersistence();
 		Resource resource = session.getApplication().getUimResource(newOne.getClass().getAnnotation(NumlMetaInfo.class).uuid());
 		ClassUserInteractionModel model=(ClassUserInteractionModel) resource.getContents().get(0);
-		this.pageContainer = model.getNewObjectWizard();
+		this.UserInterfaceRoot = model.getNewObjectWizard();
 		this.dataBindingContext = new DataBindingContext();
 	}
 	@Override
 	public void addPages(){
-		for(Page page:pageContainer.getPages()){
+		for(Page page:UserInterfaceRoot.getPages()){
 			addPage(new NewEntityWizardPage(page, dataBindingContext, (IPersistentObject) child, opaeumRapSession));
 		}
 	}

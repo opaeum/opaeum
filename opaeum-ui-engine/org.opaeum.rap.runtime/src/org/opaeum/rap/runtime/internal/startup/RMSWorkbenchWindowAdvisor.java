@@ -3,8 +3,8 @@ package org.opaeum.rap.runtime.internal.startup;
 
 import java.io.IOException;
 
-import org.eclipse.rwt.RWT;
-import org.eclipse.rwt.graphics.Graphics;
+import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -36,9 +36,6 @@ import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.runtime.organization.IPersonNode;
 
-import com.google.api.client.auth.oauth2.TokenErrorResponse;
-import com.google.api.client.auth.oauth2.draft10.AccessTokenRequest.GrantType;
-import com.google.api.client.auth.oauth2.draft10.AccessTokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleRefreshTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
@@ -47,7 +44,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.gdata.client.Query;
 
 @SuppressWarnings("restriction")
 public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{

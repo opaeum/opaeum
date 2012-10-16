@@ -32,6 +32,7 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 		this.contributor = tabbedPropertySheetPageContributor;
 		addListener();
 	}
+
 	protected void addListener(){
 		super.addTabSelectionListener(new ITabSelectionListener(){
 			public void tabSelected(ITabDescriptor tabDescriptor){
@@ -103,7 +104,7 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 					((Composite) children[i]).layout();
 				}
 			}
-			pageComposite.layout();
+			tabComposite.layout();
 		}
 	}
 	protected OpaeumSectionActionProvider geActionProvider(){

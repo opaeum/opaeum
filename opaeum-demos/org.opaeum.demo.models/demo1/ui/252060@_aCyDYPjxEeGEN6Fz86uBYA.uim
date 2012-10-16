@@ -30,7 +30,6 @@
             <binding umlElementUid="252060@_5KnlcPjuEeGEN6Fz86uBYA"/>
           </children>
           <children xsi:type="comp:UimField" name="Effective from" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="0">
-            <control xsi:type="ctl:UimDatePopup"/>
             <binding umlElementUid="252060@_a_NhUPjvEeGEN6Fz86uBYA"/>
           </children>
           <children xsi:type="comp:UimField" name="Rate paid by company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
@@ -82,7 +81,6 @@
             <binding umlElementUid="252060@_5KnlcPjuEeGEN6Fz86uBYA"/>
           </children>
           <children xsi:type="comp:UimField" name="Effective from" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="0">
-            <control xsi:type="ctl:UimDatePopup"/>
             <binding umlElementUid="252060@_a_NhUPjvEeGEN6Fz86uBYA"/>
           </children>
           <children xsi:type="comp:UimField" name="Rate paid by company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">

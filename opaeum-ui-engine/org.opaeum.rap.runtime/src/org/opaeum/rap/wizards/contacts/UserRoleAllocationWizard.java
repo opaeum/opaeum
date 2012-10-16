@@ -4,8 +4,6 @@ import org.eclipse.jface.wizard.Wizard;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 
-import com.google.gdata.client.contacts.ContactsService;
-
 public class UserRoleAllocationWizard extends Wizard{
 	UserRoleAllocationWizardData model;
 	public UserRoleAllocationWizard(OpaeumRapSession opaeumRapSession,IOpaeumApplication application){

@@ -9,10 +9,6 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.internal.editors;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 
 public interface IDirtyListener{
 	public void dirtyChanged(boolean dirty);

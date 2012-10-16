@@ -3,9 +3,9 @@ package org.opaeum.rap.runtime.startup;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import org.eclipse.rwt.RWT;
-import org.eclipse.rwt.lifecycle.IEntryPoint;
-import org.eclipse.rwt.lifecycle.UICallBack;
+import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.lifecycle.IEntryPoint;
+import org.eclipse.rap.rwt.lifecycle.UICallBack;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.opaeum.rap.runtime.internal.Activator;

@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.opaeum.annotation.PropertyConstraint;
 import org.opaeum.rap.runtime.internal.Activator;
-import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.strategy.AfterConvertValidator;
 import org.opaeum.runtime.strategy.ValidationResult;

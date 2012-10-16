@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.rap.runtime
 Bundle-SymbolicName: org.opaeum.rap.runtime;singleton:=true
 Bundle-Version: 1.0.0
-Require-Bundle: org.opaeum.metamodels.emfworkspace,
- org.eclipse.rap.ui.forms,
+Require-Bundle: org.eclipse.rap.ui.forms,
  org.eclipse.core.runtime,
  org.eclipse.rap.ui.views,
  org.eclipse.core.databinding,
@@ -13,9 +12,6 @@ Require-Bundle: org.opaeum.metamodels.emfworkspace,
  org.eclipse.rap.rwt,
  org.eclipse.rap.jface,
  org.eclipse.rap.ui,
- org.opaeum.compilation.uim,
- org.opaeum.transformation.engine,
- org.eclipse.uml2.uml,
  org.opaeum.metamodels.uim,
  org.eclipse.core.databinding.property,
  org.eclipse.nebula.widgets.pagination,

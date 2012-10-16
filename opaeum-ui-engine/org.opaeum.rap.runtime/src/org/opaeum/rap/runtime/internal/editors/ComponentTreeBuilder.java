@@ -54,12 +54,12 @@ import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.event.IEventHandler;
 import org.opaeum.runtime.strategy.FromStringConverter;
 import org.opaeum.runtime.strategy.ToStringConverter;
-import org.opaeum.uim.UimComponent;
-import org.opaeum.uim.UimDataTable;
-import org.opaeum.uim.UimField;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
-import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.InvocationButton;
+import org.opaeum.uim.component.UimComponent;
+import org.opaeum.uim.component.UimDataTable;
+import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.control.UimLookup;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.Outlayable;
@@ -143,11 +143,11 @@ public class ComponentTreeBuilder{
 					}
 				});
 				break;
-			case EXECUTE_OPERATION:
+			case EXECUTE:
 				break;
 			}
-		}else if(comp instanceof OperationButton){
-			final OperationButton ob = (OperationButton) comp;
+		}else if(comp instanceof InvocationButton){
+			final InvocationButton ob = (InvocationButton) comp;
 			Button button = new Button(body, SWT.PUSH);
 			button.setText(ob.getName());
 			setLayoutData(button, ob);

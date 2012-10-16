@@ -4,7 +4,6 @@
     <superUserInterfaces href="252060@_YgstsI29EeCrtavWRHwoHg.uim#//@primaryEditor"/>
     <superUserInterfaces href="252060@_rXku4JK9EeGnpuq6_ber_Q.uim#//@primaryEditor"/>
     <pageOrdering page="//@primaryEditor/@pages.0"/>
-    <subUserInterfaces href="914890@_0l-NAJJNEeGW4L5IejZxpA.uim#//@primaryEditor"/>
     <pages umlElementUid="252060@_uVek8IoVEeCLqpffVZYAlw" name="Edit I business component">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimField" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
@@ -50,7 +49,6 @@
     <superUserInterfaces href="252060@_YgstsI29EeCrtavWRHwoHg.uim#//@newObjectWizard"/>
     <superUserInterfaces href="252060@_rXku4JK9EeGnpuq6_ber_Q.uim#//@newObjectWizard"/>
     <pageOrdering page="//@newObjectWizard/@pages.0"/>
-    <subUserInterfaces href="914890@_0l-NAJJNEeGW4L5IejZxpA.uim#//@newObjectWizard"/>
     <pages umlElementUid="252060@_uVek8IoVEeCLqpffVZYAlw" name="CreateI business component">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimField" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">

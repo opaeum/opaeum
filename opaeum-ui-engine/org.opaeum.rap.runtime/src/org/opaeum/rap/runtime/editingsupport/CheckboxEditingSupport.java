@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.opaeum.rap.runtime.internal.editors.BindingUtil;
 import org.opaeum.rap.runtime.internal.editors.EntityEditorInput;
-import org.opaeum.uim.UimField;
+import org.opaeum.uim.component.UimField;
 
 public class CheckboxEditingSupport extends EditingSupport{
 	private final UimField uimField;

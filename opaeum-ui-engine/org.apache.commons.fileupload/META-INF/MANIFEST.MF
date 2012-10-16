@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.apache.commons.fileupload
+Bundle-SymbolicName: org.apache.commons.fileupload
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.apache.commons.fileupload.Activator
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: commons-fileupload-1.2.2.jar
+Export-Package: org.apache.commons.fileupload,
+ org.apache.commons.fileupload.disk,
+ org.apache.commons.fileupload.portlet,
+ org.apache.commons.fileupload.servlet,
+ org.apache.commons.fileupload.util

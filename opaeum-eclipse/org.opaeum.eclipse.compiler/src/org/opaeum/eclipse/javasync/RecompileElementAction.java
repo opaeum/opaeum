@@ -28,6 +28,7 @@ import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.feature.OpaeumConfig;
@@ -70,11 +71,10 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 				new Job("Recompiling elements"){
 					@Override
 					protected IStatus run(final IProgressMonitor monitor){
-						OpaeumEclipseContext.selectContext(element);
-						OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 						try{
-							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getEditingContextFor(element));
-							if(p == null || currentContext.isLoading()){
+							OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(element);
+							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(ouf);
+							if(p == null){
 								Display.getDefault().syncExec(new Runnable(){
 									public void run(){
 										MessageDialog.openError(Display.getCurrent().getActiveShell(), "Opaeum is still initializing",
@@ -85,7 +85,7 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 								monitor.beginTask("Generating Java Code", 90);
 								p.replaceModel(new OJWorkspace());
 								p.replaceModel(new TextWorkspace());
-								OpaeumConfig cfg = currentContext.getConfig();
+								OpaeumConfig cfg = ouf.getConfig();
 								Collection<Element> allDescendants = (Collection)element.eAllContents();
 								allDescendants.add(element);
 								Collection<?> processElements = p.processElements(allDescendants, JavaTransformationPhase.class,
@@ -112,7 +112,7 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 									}
 								}
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
-								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
+								ouf.getFile().getParent().refreshLocal(IProject.DEPTH_INFINITE, null);
 							}
 						}catch(Exception e){
 							OpaeumEclipsePlugin.logError("Recompilation Failed", e);

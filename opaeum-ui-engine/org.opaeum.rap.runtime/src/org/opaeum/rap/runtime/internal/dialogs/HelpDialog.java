@@ -1,6 +1,6 @@
 package org.opaeum.rap.runtime.internal.dialogs;
 
-import org.eclipse.rwt.graphics.Graphics;
+import org.eclipse.rap.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Color;

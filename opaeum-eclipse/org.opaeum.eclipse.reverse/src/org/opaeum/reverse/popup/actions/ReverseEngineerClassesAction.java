@@ -121,9 +121,9 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 			final IFile file = (IFile) dialog.getFirstResult();
 			final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(file.getParent());
 			if(ctx != null){
-				final OpenUmlFile eCtx = ctx.getEditingContextFor(file);
-				if(eCtx != null){
-					ctx.executeAndForget(new AbstractCommand(){
+				final OpenUmlFile ouf = ctx.getEditingContextFor(file);
+				if(ouf != null){
+					ouf.executeAndForget(new AbstractCommand(){
 						@Override
 						public boolean canExecute(){
 							return true;
@@ -131,9 +131,9 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 						@Override
 						public void execute(){
 							try{
-								eCtx.suspend();
-								new UmlGenerator().generateUml(types, eCtx.getModel());
-								eCtx.resumeAndCatchUp();
+								ouf.suspend();
+								new UmlGenerator().generateUml(types, ouf.getModel());
+								ouf.resumeAndCatchUp();
 								file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 							}catch(Exception e){
 								MessageDialog.openError(Display.getCurrent().getActiveShell(), "Reverse Engineering Failed", e.toString());

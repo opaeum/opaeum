@@ -442,15 +442,6 @@ public interface ModelPackage extends EPackage {
 	int QUERY_INVOKER__PAGE_ORDERING = EditorPackage.ABSTRACT_EDITOR__PAGE_ORDERING;
 
 	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int QUERY_INVOKER__SUB_USER_INTERFACES = EditorPackage.ABSTRACT_EDITOR__SUB_USER_INTERFACES;
-
-	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -587,15 +578,6 @@ public interface ModelPackage extends EPackage {
 	int OPERATION_INVOCATION_WIZARD__PAGE_ORDERING = WizardPackage.INVOCATION_WIZARD__PAGE_ORDERING;
 
 	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_INVOCATION_WIZARD__SUB_USER_INTERFACES = WizardPackage.INVOCATION_WIZARD__SUB_USER_INTERFACES;
-
-	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -722,15 +704,6 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int EMBEDDED_TASK_EDITOR__PAGE_ORDERING = EditorPackage.ABSTRACT_EDITOR__PAGE_ORDERING;
-
-	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMBEDDED_TASK_EDITOR__SUB_USER_INTERFACES = EditorPackage.ABSTRACT_EDITOR__SUB_USER_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.

@@ -11,6 +11,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.UimBinding;
@@ -66,14 +67,14 @@ public class BindingHelper implements ITypedElementProvider{
 			TypedElement te = getTypedElement(teName);
 			if(te != null){
 				UimBinding fb = (UimBinding) BindingFactory.eINSTANCE.create((EClass) feature.getEType());
-				fb.setUmlElementUid(OpaeumEclipseContext.getCurrentContext().getId(te));
+				fb.setUmlElementUid(EmfWorkspace.getId(te));
 				PropertyRef prev = null;
 				while(st.hasMoreTokens()){
 					Classifier cl = (Classifier) te.getType();
 					Property p = getProperty(cl, st.nextToken());
 					if(p != null){
 						PropertyRef pr2 = BindingFactory.eINSTANCE.createPropertyRef();
-						pr2.setUmlElementUid(OpaeumEclipseContext.getCurrentContext().getId(p));
+						pr2.setUmlElementUid(EmfWorkspace.getId(p));
 						if(fb.getNext() == null){
 							fb.setNext(pr2);
 						}else{

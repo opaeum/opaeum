@@ -18,7 +18,6 @@ import org.opaeum.uim.constraint.RootUserInteractionConstraint;
  *   <li>{@link org.opaeum.uim.UserInterfaceRoot#getIgnoredElements <em>Ignored Elements</em>}</li>
  *   <li>{@link org.opaeum.uim.UserInterfaceRoot#getSuperUserInterfaces <em>Super User Interfaces</em>}</li>
  *   <li>{@link org.opaeum.uim.UserInterfaceRoot#getPageOrdering <em>Page Ordering</em>}</li>
- *   <li>{@link org.opaeum.uim.UserInterfaceRoot#getSubUserInterfaces <em>Sub User Interfaces</em>}</li>
  * </ul>
  * </p>
  *
@@ -100,7 +99,6 @@ public interface UserInterfaceRoot extends UserInteractionElement, LabeledElemen
 	/**
 	 * Returns the value of the '<em><b>Super User Interfaces</b></em>' reference list.
 	 * The list contents are of type {@link org.opaeum.uim.UserInterfaceRoot}.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UserInterfaceRoot#getSubUserInterfaces <em>Sub User Interfaces</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Super User Interfaces</em>' reference list isn't clear,
@@ -109,8 +107,7 @@ public interface UserInterfaceRoot extends UserInteractionElement, LabeledElemen
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Super User Interfaces</em>' reference list.
 	 * @see org.opaeum.uim.UimPackage#getUserInterfaceRoot_SuperUserInterfaces()
-	 * @see org.opaeum.uim.UserInterfaceRoot#getSubUserInterfaces
-	 * @model opposite="subUserInterfaces"
+	 * @model
 	 * @generated
 	 */
 	EList<UserInterfaceRoot> getSuperUserInterfaces();
@@ -130,24 +127,6 @@ public interface UserInterfaceRoot extends UserInteractionElement, LabeledElemen
 	 * @generated
 	 */
 	EList<PageOrdering> getPageOrdering();
-
-	/**
-	 * Returns the value of the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * The list contents are of type {@link org.opaeum.uim.UserInterfaceRoot}.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UserInterfaceRoot#getSuperUserInterfaces <em>Super User Interfaces</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Sub User Interfaces</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Sub User Interfaces</em>' reference list.
-	 * @see org.opaeum.uim.UimPackage#getUserInterfaceRoot_SubUserInterfaces()
-	 * @see org.opaeum.uim.UserInterfaceRoot#getSuperUserInterfaces
-	 * @model opposite="superUserInterfaces"
-	 * @generated
-	 */
-	EList<UserInterfaceRoot> getSubUserInterfaces();
 
 	/**
 	 * <!-- begin-user-doc -->

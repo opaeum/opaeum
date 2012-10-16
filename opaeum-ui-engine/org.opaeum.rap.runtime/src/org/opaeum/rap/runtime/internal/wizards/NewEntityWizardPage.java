@@ -10,7 +10,7 @@ import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.editors.ComponentTreeBuilder;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.panel.GridPanel;
 
 public class NewEntityWizardPage extends WizardPage{

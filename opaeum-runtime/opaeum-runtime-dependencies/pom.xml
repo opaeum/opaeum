@@ -27,7 +27,7 @@
 			</snapshots>
 			<id>pentaho</id>
 			<name>Pentaho</name>
-			<url>http://repository.pentaho.org/artifactory/</url>
+			<url>http://repository.pentaho.org/artifactory/pentaho</url>
 		</repository>
 		<repository>
 			<snapshots>
@@ -103,7 +103,7 @@
 		<dependency>
 			<groupId>pentaho</groupId>
 			<artifactId>mondrian</artifactId>
-			<version>3.4.0.14937</version>
+			<version>3.5.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>dom4j</groupId>

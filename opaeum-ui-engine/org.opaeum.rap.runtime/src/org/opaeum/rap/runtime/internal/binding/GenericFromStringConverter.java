@@ -11,9 +11,6 @@ package org.opaeum.rap.runtime.internal.binding;
 
 import java.text.ParseException;
 
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
-
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.opaeum.runtime.strategy.FromStringConverter;
 

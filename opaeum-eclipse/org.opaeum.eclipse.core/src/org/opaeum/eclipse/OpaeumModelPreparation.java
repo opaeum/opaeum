@@ -10,13 +10,13 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class OpaeumModelPreparation implements WorkspaceLoadListener{
-	OpaeumEclipseContext context;
+	private OpenUmlFile context;
 	@Override
 	public void workspaceLoaded(final EmfWorkspace w){
 		context.executeAndForget(new AbstractCommand(){
@@ -63,7 +63,7 @@ public class OpaeumModelPreparation implements WorkspaceLoadListener{
 			}
 		});
 	}
-	public OpaeumModelPreparation(OpaeumEclipseContext context){
+	public OpaeumModelPreparation(OpenUmlFile context){
 		super();
 		this.context = context;
 	}

@@ -52,7 +52,6 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.statushandlers.StatusManager;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -66,9 +65,9 @@ import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
-import org.opaeum.uim.ClassUserInteractionModel;
-import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.editor.EditorPage;
+import org.opaeum.uim.model.ClassUserInteractionModel;
 
 public class EntityEditor extends SharedHeaderFormEditor implements ISelectionListener, IDirtyListener{
 	private static final long serialVersionUID = 11231512131231L;
@@ -377,7 +376,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 			}
 		}
 	}
-	protected Composite createPageContainer(Composite parent){
+	protected Composite createUserInterfaceRoot(Composite parent){
 		Composite pc = super.createPageContainer(parent);
 		pc.setLayout(new FillLayout(SWT.VERTICAL));
 		return pc;

@@ -11,6 +11,7 @@ import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.editor.AbstractEditor;
+import org.opaeum.uim.model.*;
 import org.opaeum.uim.model.AbstractUserInteractionModel;
 import org.opaeum.uim.model.BehaviorUserInteractionModel;
 import org.opaeum.uim.model.ClassUserInteractionModel;

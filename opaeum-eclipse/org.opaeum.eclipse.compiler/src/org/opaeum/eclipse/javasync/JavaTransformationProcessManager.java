@@ -36,12 +36,9 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	public void run(){
 		try{
 			// Continuously associate new contexts with transformation processes
-			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
-			if(currentContext != null && !currentContext.isLoading()){
-				for(OpenUmlFile openUmlFile:currentContext.getOpenUmlFiles()){
+				for(OpenUmlFile openUmlFile:OpaeumEclipseContext.getAllOpenUmlFiles()){
 					getTransformationProcess(openUmlFile);
 					
-				}
 			}
 		}catch(Throwable e){
 			e.printStackTrace();
@@ -56,7 +53,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		}
 	}
 	private static synchronized TransformationProcess getTransformationProcess(final OpenUmlFile ouf){
-		//For transformations running on a single model
+		// For transformations running on a single model
 		TransformationProcess process = processes.get(ouf.getFile());
 		if(process == null){
 			process = new TransformationProcess();
@@ -78,7 +75,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		}
 		return process;
 	}
-	public static void reinitializeProcess(TransformationProcess process, OpaeumConfig cfg, IContainer umlDir){
+	public static void reinitializeProcess(TransformationProcess process,OpaeumConfig cfg,IContainer umlDir){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps(cfg);
 		if(cfg.getOutputRoot().exists()){
 			for(File file:cfg.getOutputRoot().listFiles()){
@@ -108,7 +105,8 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	}
 	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends ITransformationStep>> getBasicSteps(){
-		Set<Class<? extends ITransformationStep>> result = toSet(ExtendedCompositionSemantics.class, OclExpressionExecution.class, BpmJavaStep.class);
+		Set<Class<? extends ITransformationStep>> result = toSet(ExtendedCompositionSemantics.class, OclExpressionExecution.class,
+				BpmJavaStep.class);
 		return result;
 	}
 	@Override
@@ -125,7 +123,9 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		return toSet(HibernatePackageAnnotator.class, JavaMetaInfoMapGenerator.class);
 	}
 	public static TransformationProcess getTransformationProcessFor(OpenUmlFile file){
-		
+		if(file==null){
+			return null;
+		}
 		return getTransformationProcess(file);
 	}
 }

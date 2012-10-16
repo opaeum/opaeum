@@ -117,7 +117,7 @@ public class RegenerateUuids extends AbstractOpaeumAction{
 				try{
 					monitor.beginTask("Regenerating UUIDS", 7);
 					monitor.subTask("Removing UUIDS");
-					final EmfWorkspace workspace = currentContext.getCurrentEmfWorkspace();
+					final EmfWorkspace workspace = currentContext.loadDirectory(monitor);
 					// No cache listening - just linking
 					OpaeumElementLinker linker = new OpaeumElementLinker();
 					workspace.getResourceSet().eAdapters().add(linker);

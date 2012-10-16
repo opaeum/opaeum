@@ -9,6 +9,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.ModelLibrary;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 
 public class ImportLibraryAction extends AbstractOpaeumAction{
 	private ModelLibrary library;
@@ -19,7 +20,7 @@ public class ImportLibraryAction extends AbstractOpaeumAction{
 	@Override
 	public void run(){
 		final Model model = (Model) getElementFrom();
-		final OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
+		final OpenUmlFile currentContext = OpaeumEclipseContext.findOpenUmlFileFor(model);
 		PackageImport pi = UMLFactory.eINSTANCE.createPackageImport();
 		Resource resource = model.eResource().getResourceSet().getResource(library.getUri(), true);
 		Model library = (Model) resource.getContents().get(0);

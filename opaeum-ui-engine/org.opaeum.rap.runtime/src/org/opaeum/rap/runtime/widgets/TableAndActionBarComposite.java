@@ -1,9 +1,6 @@
 package org.opaeum.rap.runtime.widgets;
 
-import org.eclipse.jface.viewers.CheckboxTableViewer;
-import org.eclipse.nebula.widgets.pagination.PageableController;
 import org.eclipse.nebula.widgets.pagination.collections.PageResultContentProvider;
-import org.eclipse.nebula.widgets.pagination.collections.PageResultLoaderList;
 import org.eclipse.nebula.widgets.pagination.renderers.navigation.ResultAndNavigationPageGraphicsRendererFactory;
 import org.eclipse.nebula.widgets.pagination.table.PageableTable;
 import org.eclipse.swt.SWT;

@@ -1,7 +1,7 @@
 package org.opaeum.rap.runtime.editingsupport;
 
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;

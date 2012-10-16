@@ -9,5 +9,4 @@ import org.eclipse.uml2.uml.Element;
 public interface IOpaeumResourceSet extends ResourceSet{
 	IContainer getModelDirectory();
 	IFile getPrimaryFile();
-	Resource getUiResourceFor(Element e);
 }

@@ -307,15 +307,6 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUserInterfaceRoot_SubUserInterfaces() {
-		return (EReference)userInterfaceRootEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getPage() {
 		return pageEClass;
 	}
@@ -451,7 +442,6 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__IGNORED_ELEMENTS);
 		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__SUPER_USER_INTERFACES);
 		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__PAGE_ORDERING);
-		createEReference(userInterfaceRootEClass, USER_INTERFACE_ROOT__SUB_USER_INTERFACES);
 
 		pageEClass = createEClass(PAGE);
 		createEReference(pageEClass, PAGE__PANEL);
@@ -546,9 +536,8 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		initEReference(getUserInterfaceRoot_Editability(), theConstraintPackage.getRootUserInteractionConstraint(), null, "editability", null, 0, 1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUserInterfaceRoot_Visibility(), theConstraintPackage.getRootUserInteractionConstraint(), null, "visibility", null, 0, 1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUserInterfaceRoot_IgnoredElements(), this.getIgnoredElement(), this.getIgnoredElement_UserInterfaceRoot(), "ignoredElements", null, 0, -1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUserInterfaceRoot_SuperUserInterfaces(), this.getUserInterfaceRoot(), this.getUserInterfaceRoot_SubUserInterfaces(), "superUserInterfaces", null, 0, -1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUserInterfaceRoot_SuperUserInterfaces(), this.getUserInterfaceRoot(), null, "superUserInterfaces", null, 0, -1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUserInterfaceRoot_PageOrdering(), this.getPageOrdering(), null, "pageOrdering", null, 0, -1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUserInterfaceRoot_SubUserInterfaces(), this.getUserInterfaceRoot(), this.getUserInterfaceRoot_SuperUserInterfaces(), "subUserInterfaces", null, 0, -1, UserInterfaceRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(userInterfaceRootEClass, this.getPage(), "getPages", 0, -1, IS_UNIQUE, IS_ORDERED);
 

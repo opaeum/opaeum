@@ -7,7 +7,7 @@ import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.value.AbstractObservableValue;
 import org.eclipse.core.databinding.observable.value.ValueDiff;
 import org.opaeum.runtime.environment.JavaTypedElement;
-import org.opaeum.uim.UimField;
+import org.opaeum.uim.component.UimField;
 
 public class OpaeumBeanObservableValue extends AbstractObservableValue implements IBeanObservable{
 	private final Object object;

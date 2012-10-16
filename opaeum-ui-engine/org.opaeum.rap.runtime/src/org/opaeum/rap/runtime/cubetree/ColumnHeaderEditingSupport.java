@@ -3,10 +3,8 @@ package org.opaeum.rap.runtime.cubetree;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 
 public abstract class ColumnHeaderEditingSupport extends EditingSupport{
 	public ColumnHeaderEditingSupport(ColumnViewer viewer){

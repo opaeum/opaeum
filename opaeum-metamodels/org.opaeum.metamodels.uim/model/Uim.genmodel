@@ -23,7 +23,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/ignoredElements"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/superUserInterfaces"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/pageOrdering"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceRoot/subUserInterfaces"/>
       <genOperations ecoreOperation="Uim.ecore#//UserInterfaceRoot/getPages"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Uim.ecore#//Page">

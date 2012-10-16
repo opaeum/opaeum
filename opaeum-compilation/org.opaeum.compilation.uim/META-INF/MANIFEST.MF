@@ -13,5 +13,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.opaeum.linkage.validation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
-Export-Package: org.opaeum.uim.uml2uim
+Export-Package: org.opaeum.uim.uml2uim,
+ org.opaeum.uim.util
 Bundle-Vendor: Opaeum

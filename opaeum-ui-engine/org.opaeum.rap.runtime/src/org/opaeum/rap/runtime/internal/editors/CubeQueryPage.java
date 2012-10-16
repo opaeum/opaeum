@@ -9,15 +9,11 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.internal.editors;
 
-import java.io.CharArrayWriter;
-import java.io.PrintWriter;
 import java.lang.reflect.Field;
-import java.util.List;
 
 import mondrian.olap.CacheControl;
 import mondrian.rolap.RolapConnection;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -30,28 +26,13 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.olap4j.Axis;
-import org.olap4j.CellSet;
 import org.olap4j.OlapConnection;
-import org.olap4j.OlapException;
-import org.olap4j.layout.RectangularCellSetFormatter;
 import org.olap4j.metadata.Cube;
-import org.olap4j.metadata.Level;
-import org.olap4j.metadata.Member;
-import org.olap4j.query.Query;
-import org.olap4j.query.QueryAxis;
-import org.olap4j.query.QueryDimension;
-import org.opaeum.name.NameConverter;
 import org.opaeum.rap.runtime.MondrianSession;
 import org.opaeum.rap.runtime.cubetree.CubeTreeComposite;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
-import org.opaeum.uim.binding.PropertyRef;
-import org.opaeum.uim.cube.AxisEntry;
 import org.opaeum.uim.cube.CubeQuery;
-import org.opaeum.uim.cube.DimensionBinding;
-import org.opaeum.uim.cube.LevelProperty;
-import org.opaeum.uim.cube.MeasureProperty;
 
 public class CubeQueryPage extends FormPage{
 	private CubeQuery cubeQuery;

@@ -499,22 +499,13 @@ public interface CubePackage extends EPackage {
 	int CUBE_QUERY_EDITOR__PAGE_ORDERING = UimPackage.UML_REFERENCE_FEATURE_COUNT + 7;
 
 	/**
-	 * The feature id for the '<em><b>Sub User Interfaces</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CUBE_QUERY_EDITOR__SUB_USER_INTERFACES = UimPackage.UML_REFERENCE_FEATURE_COUNT + 8;
-
-	/**
 	 * The feature id for the '<em><b>Queries</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY_EDITOR__QUERIES = UimPackage.UML_REFERENCE_FEATURE_COUNT + 9;
+	int CUBE_QUERY_EDITOR__QUERIES = UimPackage.UML_REFERENCE_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Query Editor</em>' class.
@@ -523,7 +514,7 @@ public interface CubePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUBE_QUERY_EDITOR_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 10;
+	int CUBE_QUERY_EDITOR_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.cube.AggregationFormula <em>Aggregation Formula</em>}' enum.

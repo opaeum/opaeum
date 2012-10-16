@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.internal.chart;
 
-import org.eclipse.rwt.graphics.Graphics;
+import org.eclipse.rap.rwt.graphics.Graphics;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;

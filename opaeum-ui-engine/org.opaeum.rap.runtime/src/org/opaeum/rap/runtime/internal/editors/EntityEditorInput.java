@@ -7,7 +7,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 import org.opaeum.rap.runtime.OpaeumRapSession;
-import org.opaeum.rap.runtime.internal.datamodel.PageUtil;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.persistence.ConversationalPersistence;

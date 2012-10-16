@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opaeum.uim.perspective.*;
 import org.opaeum.uim.perspective.EditorConfiguration;
 import org.opaeum.uim.perspective.ExplorerBehaviorConstraint;
 import org.opaeum.uim.perspective.ExplorerClassConstraint;

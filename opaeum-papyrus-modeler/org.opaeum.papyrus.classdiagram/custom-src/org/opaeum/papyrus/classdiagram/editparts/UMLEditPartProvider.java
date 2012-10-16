@@ -18,7 +18,9 @@ import org.eclipse.gmf.runtime.notation.GradientStyle;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.datatype.GradientData;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.papyrus.uml.diagram.clazz.custom.factory.CustomUMLeditPartFactory;
 import org.eclipse.papyrus.uml.diagram.clazz.custom.figure.AssociationFigure;
+import org.eclipse.papyrus.uml.diagram.clazz.custom.providers.CUMLEditPartProvider;
 import org.eclipse.papyrus.uml.diagram.clazz.edit.parts.*;
 import org.eclipse.papyrus.uml.diagram.clazz.part.UMLVisualIDRegistry;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.ComponentFigure;
@@ -27,12 +29,12 @@ import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeNamedEleme
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 
-public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.providers.UMLEditPartProvider{
+public class UMLEditPartProvider extends CUMLEditPartProvider{
 	public UMLEditPartProvider(){
 		setFactory(new UMLEditPartFactorsy());
 		setAllowCaching(true);
 	}
-	public static class UMLEditPartFactorsy extends UMLEditPartFactory{
+	public static class UMLEditPartFactorsy extends CustomUMLeditPartFactory{
 		/**
 		 * @generated
 		 */

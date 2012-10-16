@@ -5,11 +5,9 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ISaveContext;
-import org.eclipse.core.resources.ISaveParticipant;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -33,7 +31,6 @@ import org.eclipse.ui.activities.IActivity;
 import org.eclipse.ui.activities.IWorkbenchActivitySupport;
 import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.navigator.CommonViewer;
-import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
@@ -79,7 +76,7 @@ public class OpaeumStartup implements IStartup{
 			}
 		}
 		public void pushSelection(EObject eObject){
-			if(selection.isEmpty() ||  selection.peek() != eObject){
+			if(selection.isEmpty() || selection.peek() != eObject){
 				selection.push(eObject);
 			}
 		}
@@ -119,18 +116,11 @@ public class OpaeumStartup implements IStartup{
 			maybeSetCurrentEditContext(part);
 		}
 	}
-	private ISaveParticipant participant = new ISaveParticipant(){
-		public void saving(ISaveContext context) throws CoreException{
-		}
-		public void rollback(ISaveContext context){
-		}
-		public void prepareToSave(ISaveContext context) throws CoreException{
-		}
-		public void doneSaving(ISaveContext context){
-			for(IPath f:context.getFiles()){
-				if(f.lastSegment().endsWith(".uml")){
-					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(f);
-					OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(file);
+	private IResourceChangeListener participant = new IResourceChangeListener(){
+		public void resourceChanged(IResourceChangeEvent event){
+			if(event.getType() == IResourceChangeEvent.POST_CHANGE){
+				if(event.getResource() instanceof IFile && event.getResource().getFileExtension().equals("uml")){
+					OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor((EObject) event.getResource());
 					if(ouf != null){
 						ouf.onSave(new NullProgressMonitor());
 					}
@@ -139,11 +129,7 @@ public class OpaeumStartup implements IStartup{
 		}
 	};
 	public void earlyStartup(){
-		try{
-			ResourcesPlugin.getWorkspace().addSaveParticipant(OpaeumEclipsePlugin.PLUGIN_ID, participant);
-		}catch(CoreException e){
-			OpaeumEclipsePlugin.logError("Opaeum SaveParticipant not registered", e);
-		}
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(participant);
 		OpaeumConfig.registerClass(PapyrusErrorMarker.class);
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		// TODO register on new window creation too
@@ -199,7 +185,7 @@ public class OpaeumStartup implements IStartup{
 					try{
 						changed = true;
 						System.out.println("ToolItem removed:" + item.getId());
-						item.dispose();
+						// item.dispose();
 					}catch(Exception e2){
 						// nice to have
 					}

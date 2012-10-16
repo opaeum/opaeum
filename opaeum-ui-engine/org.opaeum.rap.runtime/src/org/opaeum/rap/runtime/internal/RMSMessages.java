@@ -1,6 +1,6 @@
 package org.opaeum.rap.runtime.internal;
 
-import org.eclipse.rwt.RWT;
+import org.eclipse.rap.rwt.RWT;
 
 public class RMSMessages {
 

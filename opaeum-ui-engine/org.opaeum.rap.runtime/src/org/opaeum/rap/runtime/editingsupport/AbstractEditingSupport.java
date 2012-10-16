@@ -9,20 +9,17 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.editingsupport;
 
-import java.text.ParseException;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 
-import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.opaeum.rap.runtime.internal.editors.BindingUtil;
 import org.opaeum.rap.runtime.internal.editors.EntityEditorInput;
 import org.opaeum.runtime.environment.JavaTypedElement;
-import org.opaeum.runtime.strategy.FromStringConverter;
-import org.opaeum.uim.UimField;
+import org.opaeum.uim.component.UimField;
 
 public abstract class AbstractEditingSupport extends EditingSupport{
 	protected final ColumnViewer tableViewer;

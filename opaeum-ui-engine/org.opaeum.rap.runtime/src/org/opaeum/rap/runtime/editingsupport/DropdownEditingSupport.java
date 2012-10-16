@@ -21,7 +21,7 @@ import org.opaeum.rap.runtime.internal.editors.DefaultLabelProvider;
 import org.opaeum.rap.runtime.internal.editors.EntityEditorInput;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaTypedElement;
-import org.opaeum.uim.UimField;
+import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.control.UimLookup;
 
 public class DropdownEditingSupport extends EditingSupport{

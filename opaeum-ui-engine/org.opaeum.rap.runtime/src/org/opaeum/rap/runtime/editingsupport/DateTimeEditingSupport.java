@@ -11,13 +11,11 @@ package org.opaeum.rap.runtime.editingsupport;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.opaeum.rap.runtime.internal.editors.BindingUtil;
 import org.opaeum.rap.runtime.internal.editors.EntityEditorInput;
-import org.opaeum.runtime.environment.JavaTypedElement;
-import org.opaeum.uim.UimField;
+import org.opaeum.uim.component.UimField;
 
 public class DateTimeEditingSupport extends AbstractEditingSupport{
 	private DateCellEditor cellEditor;

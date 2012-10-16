@@ -11,32 +11,32 @@ import org.opaeum.rap.runtime.internal.editors.EntityEditorInput;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.event.IEventHandler;
 import org.opaeum.uim.Page;
-import org.opaeum.uim.PageContainer;
+import org.opaeum.uim.UserInterfaceRoot;
 
 public class OperationInvocationWizard extends Wizard{
 	OpaeumRapSession opaeumRapSession;
 	Collection<IPersistentObject> target;
 	IEventHandler eventHandler;
-	private PageContainer pageContainer;
+	private UserInterfaceRoot UserInterfaceRoot;
 	private EntityEditorInput input;
 	private DataBindingContext dataBindingContext;
-	public OperationInvocationWizard(List<IPersistentObject> target,IEventHandler eventHandler,PageContainer pageContainer,
+	public OperationInvocationWizard(List<IPersistentObject> target,IEventHandler eventHandler,UserInterfaceRoot UserInterfaceRoot,
 			EntityEditorInput input){
 		this.opaeumRapSession = input.getOpaeumSession();
 		setWindowTitle("Execute "
 				+ eventHandler.getClass().getSimpleName().substring(0, eventHandler.getClass().getSimpleName().indexOf("Handler")));
 		this.target = target;
 		this.eventHandler = eventHandler;
-		this.pageContainer = pageContainer;
+		this.UserInterfaceRoot = UserInterfaceRoot;
 		this.input = input;
 		this.dataBindingContext = new DataBindingContext();
 	}
-	public OperationInvocationWizard(IPersistentObject target,IEventHandler eventHandler,PageContainer pageContainer,EntityEditorInput input){
-		this(Collections.singletonList(target), eventHandler, pageContainer, input);
+	public OperationInvocationWizard(IPersistentObject target,IEventHandler eventHandler,UserInterfaceRoot UserInterfaceRoot,EntityEditorInput input){
+		this(Collections.singletonList(target), eventHandler, UserInterfaceRoot, input);
 	}
 	@Override
 	public void addPages(){
-		for(Page page:pageContainer.getPages()){
+		for(Page page:UserInterfaceRoot.getPages()){
 			addPage(new OperationInvocationWizardPage(page, dataBindingContext, target.iterator().next(), eventHandler, opaeumRapSession));
 		}
 	}
