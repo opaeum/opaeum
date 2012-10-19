@@ -19,12 +19,8 @@ public class HackedDefaultSizeNodeFigure extends DefaultSizeNodeFigure{
 	@Override
 	public Rectangle getBounds(){
 		Control widget = (Control) primaryChild.getWidget();
-		if(!widget.isDisposed()){
-			Rectangle r = UimFigureUtil.toDraw2DRectangle(widget).getCopy();
-			return r;
-		}else{
-			return super.getBounds();
-		}
+		Rectangle r = UimFigureUtil.toDraw2DRectangle(widget).getCopy();
+		return r;
 	}
 	@Override
 	public void setBounds(Rectangle rect){
@@ -39,13 +35,23 @@ public class HackedDefaultSizeNodeFigure extends DefaultSizeNodeFigure{
 		if(primaryChild instanceof AbstractPanelFigure || primaryChild.getClass().getSimpleName().equals("CustomUimDataTableFigure")){
 			super.paint(graphics);
 		}else{
-			org.eclipse.swt.graphics.Rectangle bounds2 = primaryChild.getWidget().getBounds();
-			if(bounds2.width > 0 && bounds2.height > 0){
+			Control widget = primaryChild.getWidget();
+			if(widget.isDisposed()){
 				try{
-					graphics.drawImage((Image) primaryChild.getWidget().getData("OPAEUM_IMAGE"), getBounds().x, getBounds().y);
+					graphics.drawImage((Image) widget.getData(UimFigureUtil.OPAEUM_IMAGE), getBounds().x, getBounds().y);
 				}catch(Exception e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+			}else{
+				org.eclipse.swt.graphics.Rectangle bounds2 = widget.getBounds();
+				if(bounds2.width > 0 && bounds2.height > 0){
+					try{
+						graphics.drawImage((Image) widget.getData(UimFigureUtil.OPAEUM_IMAGE), getBounds().x, getBounds().y);
+					}catch(Exception e){
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}

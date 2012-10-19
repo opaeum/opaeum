@@ -4,7 +4,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
-import org.opaeum.uim.userinteractionproperties.core.AbstractRequiredRolesSection;
 import org.opaeum.uim.userinteractionproperties.core.AbstractRequiredStatesSection;
 
 public class EditabilityRequiredStatesSection extends AbstractRequiredStatesSection{

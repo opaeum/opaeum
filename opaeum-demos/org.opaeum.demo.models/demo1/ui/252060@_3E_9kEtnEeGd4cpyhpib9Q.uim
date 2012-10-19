@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q" name="Person phone number User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor name="Edit PersonPhoneNumber" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
+    <superUserInterfaces href="252060@_DY-LMF-hEeGSPaWW9iQb9Q.uim#//@primaryEditor"/>
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q" name="Edit Person phone number">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Phone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="252060@_fjrTsHr7EeGX8L_MMRBizg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="252060@_TR9ilEtoEeGd4cpyhpib9Q"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create PersonPhoneNumber" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
+    <superUserInterfaces href="252060@_DY-LMF-hEeGSPaWW9iQb9Q.uim#//@newObjectWizard"/>
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q" name="CreatePerson phone number">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Phone number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="252060@_fjrTsHr7EeGX8L_MMRBizg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="252060@_TR9ilEtoEeGd4cpyhpib9Q"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

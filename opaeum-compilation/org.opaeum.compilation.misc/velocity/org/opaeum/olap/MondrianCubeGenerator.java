@@ -187,7 +187,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		return sv;
 	}
 	public static void main(String[] args){
-		System.out.println(translateFormula("asdf/1234-(sdfg*asdf)"));
+		assert translateFormula("asdf/1234-(sdfg*asdf)").equals("[Measures].[asdf]/1234-([Measures].[sdfg]*[Measures].[asdf])");
 	}
 	// TODO make more sophisticated
 	protected static boolean isMeasureExpression(String string){

@@ -54,8 +54,7 @@ public class StereotypesHelper{
 				s = (Stereotype) iter.next();
 				if(s.getName().equalsIgnoreCase(name)){
 					if(!c.isStereotypeApplied(s)){
-						System.out.println("Stereotype application corrupt:" + c + ":" + s);
-						return null;
+						throw new IllegalStateException("Stereotype application corrupt:" + c + ":" + s);
 					}
 					return s;
 				}

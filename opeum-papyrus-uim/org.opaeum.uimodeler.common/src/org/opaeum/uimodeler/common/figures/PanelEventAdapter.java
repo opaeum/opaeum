@@ -33,57 +33,61 @@ public class PanelEventAdapter extends AbstractEventAdapter{
 	}
 	@Override
 	public void figureMoved(IFigure source){
-		super.figureMoved(source);
-		if(composite.getParent() instanceof Shell){
-			if(source == figure){
-				// IF it is the toplevel panel, resize the shell and root composite
-				Rectangle b = source.getBounds();
-				CustomDiagramFigure diag = (CustomDiagramFigure) figure.getParent().getParent();
-				diag.getParent().addFigureListener(this);
-				fig.getWidget().getParent().setSize(b.width, b.height);
-				fig.getWidget().setLayoutData(new GridData(b.width, b.height));
-			}else{
-				if(source == figure.getParent().getParent().getParent()){
-//					figure.getParent().setBounds(source.getBounds());
-//					super.figureMoved(figure.getParent());
+		if(isActive()){
+			if(composite.getParent() instanceof Shell){
+				if(source == figure){
+					// IF it is the toplevel panel, resize the shell and root composite
+					Rectangle b = source.getBounds();
+					CustomDiagramFigure diag = (CustomDiagramFigure) figure.getParent().getParent();
+					diag.getParent().addFigureListener(this);
+					fig.getWidget().getParent().setSize(b.width, b.height);
+					fig.getWidget().setLayoutData(new GridData(b.width, b.height));
+				}else{
+					if(source == figure.getParent().getParent().getParent()){
+						// figure.getParent().setBounds(source.getBounds());
+						// super.figureMoved(figure.getParent());
+					}
 				}
 			}
 		}
 	}
 	@Override
 	public void notifyChanged(Notification msg){
-		super.notifyChanged(msg);
-		if(fig.getWidget().isDisposed()){
-			element.eAdapters().remove(this);
-		}else if(msg.getNotifier() instanceof AbstractPanel){
-			switch(msg.getEventType()){
-			case Notification.REMOVE:
-				switch(msg.getFeatureID(GridPanel.class)){
-				case PanelPackage.ABSTRACT_PANEL__CHILDREN:
-					Control[] children = composite.getContentPane().getChildren();
-					for(Control control:children){
-						if(control.getData(UimFigureUtil.ELEMENT) == msg.getOldValue()){
-							control.dispose();
+		if(isActive()){
+			super.notifyChanged(msg);
+			if(msg.getNotifier() instanceof AbstractPanel){
+				switch(msg.getEventType()){
+				case Notification.REMOVE:
+					switch(msg.getFeatureID(GridPanel.class)){
+					case PanelPackage.ABSTRACT_PANEL__CHILDREN:
+						Control[] children = composite.getContentPane().getChildren();
+						for(Control control:children){
+							if(control.getData(UimFigureUtil.ELEMENT) == msg.getOldValue()){
+								control.dispose();
+							}
 						}
+						composite.getContentPane().layout();
 					}
-					composite.getContentPane().layout();
-				}
-				break;
-			case Notification.ADD:
-				switch(msg.getFeatureID(GridPanel.class)){
-				case PanelPackage.ABSTRACT_PANEL__CHILDREN:
-					fig.layout();
-					prepareForRepaint();
-				}
-				break;
-			case Notification.SET:
-				switch(msg.getFeatureID(GridPanel.class)){
-				case PanelPackage.GRID_PANEL__NUMBER_OF_COLUMNS:
-					GridLayout children = (GridLayout) composite.getContentPane().getLayout();
-					children.numColumns = (Integer) msg.getNewValue();
-					composite.getContentPane().layout();
-					fig.layout();
-					prepareForRepaint();
+					break;
+				case Notification.ADD:
+					switch(msg.getFeatureID(GridPanel.class)){
+					case PanelPackage.ABSTRACT_PANEL__CHILDREN:
+						// fig.layout();
+						// if(getParent().getParent() instanceof Shell){
+						// getParent().pack();
+						// }
+						// prepareForRepaint();
+					}
+					break;
+				case Notification.SET:
+					switch(msg.getFeatureID(GridPanel.class)){
+					case PanelPackage.GRID_PANEL__NUMBER_OF_COLUMNS:
+						GridLayout children = (GridLayout) composite.getContentPane().getLayout();
+						children.numColumns = (Integer) msg.getNewValue();
+						composite.getContentPane().layout();
+						fig.layout();
+						prepareForRepaint();
+					}
 				}
 			}
 		}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="OpaeumBPMProfile.uml@_pLd-oI59EeCrtavWRHwoHg" name="Deadlines User Interface Model" linkedUmlResource="OpaeumBPMProfile.uml">
+  <primaryEditor name="Edit Deadlines" umlElementUid="OpaeumBPMProfile.uml@_pLd-oI59EeCrtavWRHwoHg">
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_pLd-oI59EeCrtavWRHwoHg" name="Edit Deadlines">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Deadlines" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_BsHC4I5-EeCrtavWRHwoHg"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create Deadlines" umlElementUid="OpaeumBPMProfile.uml@_pLd-oI59EeCrtavWRHwoHg">
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_pLd-oI59EeCrtavWRHwoHg" name="CreateDeadlines">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Deadlines" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_BsHC4I5-EeCrtavWRHwoHg"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

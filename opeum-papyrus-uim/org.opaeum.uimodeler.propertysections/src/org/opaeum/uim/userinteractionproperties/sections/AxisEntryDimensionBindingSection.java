@@ -18,7 +18,6 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Property;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.uim.cube.AxisEntry;
@@ -48,7 +47,7 @@ public class AxisEntryDimensionBindingSection extends AbstractChooserPropertySec
 		boolean hasParent = false;
 		List<Property> propertiesInScope = EmfPropertyUtil.getEffectiveProperties(cp);
 		for(Property p:propertiesInScope){
-			if(EmfElementFinder.isDimension(p)){
+			if(EmfPropertyUtil.isDimension(p)){
 				hasParent = true;
 				DimensionNode master = new DimensionNode(cp, p);
 				if(detail != null){

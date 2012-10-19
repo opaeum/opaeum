@@ -40,7 +40,7 @@ public class DetailComponentMasterComponentSection extends AbstractChooserProper
 				.getEType()));
 		ListIterator<MasterComponent> li = choices.listIterator();
 		while(li.hasNext()){
-			if(UmlUimLinks.getNearestForm((UimComponent) li.next()) != UmlUimLinks.getNearestForm(
+			if(UmlUimLinks.getNearestUserInterfaceRoot((UimComponent) li.next()) != UmlUimLinks.getNearestUserInterfaceRoot(
 					(UimComponent) getSelectedObject())){
 				li.remove();
 			}

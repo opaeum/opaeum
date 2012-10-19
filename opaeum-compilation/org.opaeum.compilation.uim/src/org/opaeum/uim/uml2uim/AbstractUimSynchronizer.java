@@ -3,7 +3,6 @@ package org.opaeum.uim.uml2uim;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Element;

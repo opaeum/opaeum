@@ -115,6 +115,7 @@ public class ReflectionUtil {
 	}
 
 	public static OJAnnotatedInterface duplicateInterface(Class<?> clazz, Map<Class<?>, OJPathName> mappedTypes) {
+		// DOES NOT WORK!!!! duplicate methods with different return types
 		mappedTypes.put(clazz, getUtilInterface(clazz));
 		OJAnnotatedInterface ojinterface = new OJAnnotatedInterface(clazz.getSimpleName() + "Interface");
 		UtilityCreator.getUtilPack().addToClasses(ojinterface);
@@ -130,10 +131,6 @@ public class ReflectionUtil {
 				ojinterface.addToSuperInterfaces(typePath);
 				ojinterface.addToImports(typePath);
 			}
-		}
-		if (false) {
-			// DOES NOT WORK!!!! duplicate methods with different return types
-			ojinterface.addToImplementedInterfaces(new OJPathName(clazz.getName()));
 		}
 		return ojinterface;
 	}

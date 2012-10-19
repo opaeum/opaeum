@@ -28,7 +28,7 @@ public class MigrationGenerationPhase implements TransformationPhase<AbstractMig
 	private OpaeumConfig config;
 	@Override
 	public void execute(TransformationContext context){
-		String versionString = workspace.getToWorkspace().getWorkspaceMappingInfo().getVersion().getSuffix();
+		String versionString = workspace.getToWorkspace().getVersion().getSuffix();
 		config.defineSourceFolder(JavaSourceFolderIdentifier.MIGRATION_GEN_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, versionString + "-migrator", "src/main/generated-java");
 		config.defineSourceFolder(JavaSourceFolderIdentifier.MIGRATION_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, versionString + "-migrator", "src/main/java").dontCleanDirectoriesOrOverwriteFiles();
 		for(AbstractMigrationCodeGenerator s:this.steps){

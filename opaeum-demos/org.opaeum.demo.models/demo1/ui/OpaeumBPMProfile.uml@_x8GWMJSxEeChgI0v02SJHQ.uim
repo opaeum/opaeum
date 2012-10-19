@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="OpaeumBPMProfile.uml@_x8GWMJSxEeChgI0v02SJHQ" name="Send notification action User Interface Model" linkedUmlResource="OpaeumBPMProfile.uml">
+  <primaryEditor name="Edit SendNotificationAction" umlElementUid="OpaeumBPMProfile.uml@_x8GWMJSxEeChgI0v02SJHQ">
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_x8GWMJSxEeChgI0v02SJHQ" name="Edit Send notification action">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="From expression" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_4xxPoDuIEeGP_Yx34wRufA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Bcc expression" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_AmE5cDuJEeGP_Yx34wRufA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Cc expression" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_BEO1EDuJEeGP_Yx34wRufA"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create SendNotificationAction" umlElementUid="OpaeumBPMProfile.uml@_x8GWMJSxEeChgI0v02SJHQ">
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_x8GWMJSxEeChgI0v02SJHQ" name="CreateSend notification action">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="From expression" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_4xxPoDuIEeGP_Yx34wRufA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Bcc expression" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_AmE5cDuJEeGP_Yx34wRufA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Cc expression" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_BEO1EDuJEeGP_Yx34wRufA"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

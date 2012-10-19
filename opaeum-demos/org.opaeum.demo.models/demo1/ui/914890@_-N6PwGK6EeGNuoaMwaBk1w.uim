@@ -5,7 +5,7 @@
     <pageOrdering page="//@primaryEditor/@pages.0"/>
     <pageOrdering page="//@primaryEditor/@pages.1" position="1"/>
     <pages umlElementUid="914890@_-N6PwGK6EeGNuoaMwaBk1w" name="Edit Supplier">
-      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+      <panel xsi:type="panel:GridPanel" name="Supplier" numberOfColumns="1"/>
     </pages>
     <pages umlElementUid="914890@_-YXzUGK6EeGNuoaMwaBk1w" name="Is ai business actor">
       <panel xsi:type="panel:GridPanel">
@@ -67,7 +67,7 @@
         </children>
       </panel>
     </pages>
-    <actionBar name="ActionBar">
+    <actionBar>
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
     </actionBar>
@@ -77,7 +77,7 @@
     <pageOrdering page="//@newObjectWizard/@pages.0"/>
     <pageOrdering page="//@newObjectWizard/@pages.1" position="1"/>
     <pages umlElementUid="914890@_-N6PwGK6EeGNuoaMwaBk1w" name="CreateSupplier">
-      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+      <panel xsi:type="panel:GridPanel" name="Supplier" numberOfColumns="1"/>
     </pages>
     <pages umlElementUid="914890@_-YXzUGK6EeGNuoaMwaBk1w" name="Is ai business actor">
       <panel xsi:type="panel:GridPanel">

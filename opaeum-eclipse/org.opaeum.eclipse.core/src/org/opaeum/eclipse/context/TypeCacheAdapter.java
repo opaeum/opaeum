@@ -17,25 +17,28 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.util.UMLUtil;
-import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.ProfileApplier;
 
 public class TypeCacheAdapter implements Adapter.Internal{
 	private Map<EClassifier,Collection<EObject>> cache = Collections.synchronizedMap(new HashMap<EClassifier,Collection<EObject>>());
 	private Map<Stereotype,Collection<Element>> stereotypeCache = Collections.synchronizedMap(new HashMap<Stereotype,Collection<Element>>());
-	Set<EClass> relevantClasses = new HashSet<EClass>();
+	Set<EClassifier> relevantClasses = new HashSet<EClassifier>();
 	private Set<String> ignoredLibraries = new HashSet<String>();
 	{
 		ignoredLibraries.add("ECorePrimitiveTypes".toUpperCase());
 		ignoredLibraries.add("JavaPrimitiveTypes".toUpperCase());
 	}
 	public TypeCacheAdapter(){
-		this.relevantClasses = new HashSet<EClass>();
+		this.relevantClasses = new HashSet<EClassifier>();
+	}
+	public void loadRelevantElements(final EObject source,final Set<EClassifier> cls){
+		for(EClassifier c:cls){
+			getReachableObjectsOfType(source, c);
+		}
 	}
 	private void caseEobject(Notification notification){
 		switch(notification.getEventType()){
@@ -128,15 +131,18 @@ public class TypeCacheAdapter implements Adapter.Internal{
 	public boolean isAdapterForType(Object type){
 		return TypeCacheAdapter.class.equals(type);
 	}
-	public Collection<EObject> getReachableObjectsOfType(EObject object,EClass type){
+	public Collection<EObject> getReachableObjectsOfType(EObject object,EClassifier type){
 		if(!cache.containsKey(type)){
 			relevantClasses.add(type);
 			cache.put(type, new HashSet<EObject>());
 			Collection<EObject> elements = ItemPropertyDescriptor.getReachableObjectsOfType(object, type);
 			for(EObject eObject:elements){
-				putObjectInCache(type, eObject);
-				if(eObject instanceof Element){
-					putInStereotypeCache((Element) eObject);
+				if(eObject.eResource() != null){
+					//Get rid of unresolved proxies
+					putObjectInCache(type, eObject);
+					if(eObject instanceof Element){
+						putInStereotypeCache((Element) eObject);
+					}
 				}
 			}
 		}

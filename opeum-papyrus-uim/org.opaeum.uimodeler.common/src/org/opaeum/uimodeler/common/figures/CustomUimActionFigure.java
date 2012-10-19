@@ -16,14 +16,6 @@ public abstract class CustomUimActionFigure extends RectangleFigure implements I
 	protected Button button;
 	protected abstract void createContents();
 	public CustomUimActionFigure(Composite parent){
-//		FlowLayout layoutThis = new FlowLayout();
-//		layoutThis.setStretchMinorAxis(false);
-//		layoutThis.setMinorAlignment(FlowLayout.ALIGN_LEFTTOP);
-//		layoutThis.setMajorAlignment(FlowLayout.ALIGN_LEFTTOP);
-//		layoutThis.setMajorSpacing(5);
-//		layoutThis.setMinorSpacing(5);
-//		layoutThis.setHorizontal(true);
-//		this.setLayoutManager(layoutThis);
 		createContents();
 		button = new Button(parent, SWT.PUSH);
 		try{

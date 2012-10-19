@@ -51,6 +51,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UseCase;
 import org.eclipse.uml2.uml.Variable;
 import org.eclipse.uml2.uml.Vertex;
+import org.opaeum.compiler.ocltojava.JavaCompilationPlugin;
 import org.opaeum.eclipse.CodeGenerationStrategy;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
@@ -250,7 +251,6 @@ public class OJUtil extends OJUtill{
 				}
 			}else if(classifier instanceof CollectionType){
 				// may never be called - monitor this
-				System.out.println("OJUtil.classifierPathname(with collection type)");
 				CollectionType t = (CollectionType) classifier;
 				switch(t.getKind()){
 				case BAG_LITERAL:
@@ -416,7 +416,7 @@ public class OJUtil extends OJUtill{
 					for(Entry<Object,Object> entry:entrySet){
 						map.put((String) entry.getKey(), new MappedType((String) entry.getValue()));
 					}
-					System.out.println("Loaded mappings: " + mappedTypesUri);
+					JavaCompilationPlugin.logInfo("Loaded mappings: " + mappedTypesUri);
 				}catch(IOException e1){
 				}
 			}

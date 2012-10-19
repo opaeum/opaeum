@@ -3,6 +3,9 @@ package org.opaeum.uimodeler.common.figures;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.TreeSearch;
 import org.eclipse.gmf.runtime.diagram.ui.figures.BorderItemsAwareFreeFormLayer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -10,7 +13,8 @@ public final class CustomDiagramFigure extends BorderItemsAwareFreeFormLayer imp
 	private Composite composite;
 	public CustomDiagramFigure(){
 		super();
-		composite = UimFigureUtil.getFakeShell();
+		composite = new Composite(UimFigureUtil.getFakeShell(), SWT.NONE);
+		composite.setLayout(new GridLayout(1, false));
 		composite.setData(UimFigureUtil.FIGURE, this);
 	}
 	@Override

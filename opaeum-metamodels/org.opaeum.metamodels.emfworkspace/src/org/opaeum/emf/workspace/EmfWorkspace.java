@@ -45,12 +45,11 @@ import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.feature.MappingInfo;
-import org.opaeum.feature.WorkspaceMappingInfo;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.validation.ErrorMap;
 import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.runtime.environment.VersionNumber;
 
 /**
  * Represents the concept of multiple emf models as one root nakedWorkspace. Hacked to implement Element because of visitor constraints
@@ -63,7 +62,6 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	private Map<String,Resource> resources = new HashMap<String,Resource>();
 	private Set<Package> generatingModels = new HashSet<Package>();
 	private Set<Package> primaryModels = new HashSet<Package>();
-	private WorkspaceMappingInfo mappingInfo;
 	private ResourceSet resourceSet;
 	private URI directoryUri;
 	private String identifier;
@@ -73,12 +71,14 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	private Classifier applicationRoot;
 	private ECrossReferenceAdapter crossReferenceAdaptor;
 	StereotypeApplicationListener applicationListener = new StereotypeApplicationListener();
+	private VersionNumber version;
 	// Load single model
-	public EmfWorkspace(Package model,WorkspaceMappingInfo mappingInfo,String identifier,String prefix){
-		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier,
+	public EmfWorkspace(Package model,VersionNumber version,String identifier,String prefix){
+		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), version, identifier,
 				prefix);
 		addGeneratingModelOrProfile(model);
 	}
+
 	public ECrossReferenceAdapter getCrossReferenceAdapter(){
 		if(crossReferenceAdaptor == null){
 			crossReferenceAdaptor = ECrossReferenceAdapter.getCrossReferenceAdapter(resourceSet);
@@ -86,10 +86,10 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 		return this.crossReferenceAdaptor;
 	}
 	// Load entire resourceSet
-	public EmfWorkspace(URI directoryUri,ResourceSet rs,WorkspaceMappingInfo mappingInfo,String identifier,String prefix){
+	public EmfWorkspace(URI directoryUri,ResourceSet rs,VersionNumber version,String identifier,String prefix){
 		this.resourceSet = rs;
 		this.prefix = prefix;
-		this.mappingInfo = mappingInfo;
+		this.version=version;
 		this.directoryUri = directoryUri;
 		this.identifier = identifier;
 		calculatePrimaryModels();
@@ -146,9 +146,6 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	}
 	public Set<Package> getPrimaryRootObjects(){
 		return primaryModels;
-	}
-	public WorkspaceMappingInfo getWorkspaceMappingInfo(){
-		return mappingInfo;
 	}
 	public Set<Package> getGeneratingModelsOrProfiles(){
 		return this.generatingModels;
@@ -423,9 +420,6 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 		}
 		return result;
 	}
-	public void setWorkspaceMappingInfo(WorkspaceMappingInfo mappingInfo2){
-		this.mappingInfo = (WorkspaceMappingInfo) mappingInfo2;
-	}
 	public void markLibraries(String...names){
 		for(Element element:this.getOwnedElements()){
 			for(String string:names){
@@ -543,7 +537,27 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 		}
 	}
 	public static long getOpaeumId(Element node){
-		return MappingInfo.toOpaeumId(getId(node));
+		char[] charArray = getId(node).toCharArray();
+		long result = 1;
+		int atSignIndex = 0;
+		for(int i = 0;i < charArray.length;i++){
+			if(charArray[i] == '@'){
+				atSignIndex = i;
+			}
+			result = (result * 31) + charArray[i] - i;
+		}
+		if(charArray.length > atSignIndex + 10){
+			// THis is where the most variation takes place in the emf id
+			// Introduce some variation in the calculation
+			for(int i = atSignIndex + 2;i < atSignIndex + 10;i++){
+				if(Character.isLowerCase(charArray[i])){
+					result = (result * 31) + Character.toUpperCase(charArray[i]) - i;
+				}else{
+					result = (result * 31) + Character.toLowerCase(charArray[i]) - i;
+				}
+			}
+		}
+		return Math.abs(result);
 	}
 	public Set<Element> getDependentElements(Element e){
 		return EmfElementFinder.getDependentElements(e);
@@ -567,5 +581,8 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 			}
 		}
 		return applicationRoot;
+	}
+	public VersionNumber getVersion(){
+		return version;
 	}
 }

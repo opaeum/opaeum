@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EmfOclToJava
-Bundle-SymbolicName: org.opaeum.compilation.ocltojava
+Bundle-SymbolicName: org.opaeum.compilation.ocltojava;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opaeum.compiler.ocltojava.emf.Activator
+Bundle-Activator: org.opaeum.compiler.ocltojava.JavaCompilationPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ocl,
@@ -21,6 +21,6 @@ Export-Package: nl.klasse.octopus.codegen.helpers,
  nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors,
  nl.klasse.octopus.stdlib,
  nl.klasse.tools.common,
- org.opaeum.compiler.ocltojava.emf,
+ org.opaeum.compiler.ocltojava,
  org.opaeum.javageneration.maps,
  org.opaeum.javageneration.util

@@ -42,13 +42,8 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 				description.setLocation(path);
 				project.create(description, null);
 				project.open(null);
-				// Set<String> natureSet = new HashSet<String>(Arrays.asList(description.getNatureIds()));
-				// natureSet.add(JavaCore.NATURE_ID);
-				// description.setNatureIds((String[]) natureSet.toArray(new String[natureSet.size()]));
-				// project.setDescription(description, null);
-				// IJavaProject javaProject = JavaCore.create(project);
 			}else{
-				project.refreshLocal(IResource.DEPTH_INFINITE, null);
+				project.refreshLocal(3, null);
 			}
 			return project;
 		}catch(RuntimeException e){
@@ -104,6 +99,9 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 			file =project.getFile(tf.getName());
 		}else{
 			IFolder folder = project.getFolder(tf.getParent().getRelativePath());
+			if(!folder.exists()){
+				folder.create(true,true,null);
+			}
 			file = folder.getFile(tf.getName());
 		}
 		if(file.exists()){

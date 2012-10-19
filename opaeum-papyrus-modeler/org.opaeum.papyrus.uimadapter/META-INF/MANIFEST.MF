@@ -41,12 +41,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.navigator,
  org.eclipse.papyrus.infra.gmfdiag.css.model,
  org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.6.0",
- org.opaeum.papyrus.uml.modelexplorer
+ org.opaeum.papyrus.uml.modelexplorer,
+ org.eclipse.papyrus.infra.gmfdiag.dnd,
+ org.eclipse.ocl,
+ org.eclipse.ocl.uml
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.papyrus.uimadapter.actions,
  org.opaeum.uim.queries,
- org.opaeum.uimodeler.modelexplorer.handler,
  org.opaeum.uimodeler.util,
  org.opaeum.uml2uim
 Bundle-Vendor: Opaeum

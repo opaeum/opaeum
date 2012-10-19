@@ -393,7 +393,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			OJAnnotatedOperation onEvent;
 			EList<Trigger> triggers = getTriggers(transition);
 			if(triggers.size() > 0 && triggers.get(0).getEvent() != null){
-				onEvent = createEventConsumerSignature(null, transitionInstance, triggers.get(0).getEvent());
+				onEvent = createEventConsumerSignature(umlStateMachine, transitionInstance, triggers.get(0).getEvent());
 				// TODO clean this up
 				onEvent.removeFromParameters(onEvent.findParameter("callingToken"));
 			}else{

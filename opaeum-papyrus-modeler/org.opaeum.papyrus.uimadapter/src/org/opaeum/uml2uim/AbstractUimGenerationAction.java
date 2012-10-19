@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -16,9 +17,11 @@ import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.papyrus.commands.wrappers.GMFtoEMFCommandWrapper;
+import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
+import org.eclipse.papyrus.infra.core.utils.OpenDiagramCommand;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.uml2.uml.Activity;
@@ -35,9 +38,9 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.model.AbstractUserInteractionModel;
-import org.opaeum.uim.provider.PageContainerItemProvider;
 import org.opaeum.uim.resources.UimModelSet;
 import org.opaeum.uim.uml2uim.UimResourceUtil;
+import org.opaeum.uim.util.UmlUimLinks;
 
 public abstract class AbstractUimGenerationAction extends Action{
 	public AbstractUimGenerationAction(String text){
@@ -65,17 +68,30 @@ public abstract class AbstractUimGenerationAction extends Action{
 					namedElement = (NamedElement) a;
 				}
 			}
-			EmfWorkspace workspace = null;
 			if(namedElement != null){
 				if(namedElement instanceof EmfWorkspace){
-					workspace = (EmfWorkspace) namedElement;
+					EmfWorkspace workspace = (EmfWorkspace) namedElement;
+					runActionRecursively(namedElement, workspace);
 				}else{
 					OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(namedElement);
-					workspace = ouf.getEmfWorkspace();
-				}
-				runActionRecursively(namedElement, workspace);
-				if(hasForm(namedElement)){
-					openUimDiagram(namedElement, workspace);
+					final EmfWorkspace workspace = ouf.getEmfWorkspace();
+					final Element ne = namedElement;
+					ouf.getEditingDomain().getCommandStack().execute(new AbstractCommand(){
+						@Override
+						public boolean canExecute(){
+							return true;
+						}
+						@Override
+						public void redo(){
+						}
+						@Override
+						public void execute(){
+							runActionRecursively(ne, workspace);
+						}
+					});
+					if(hasForm(namedElement)){
+						openUimDiagram(namedElement, workspace);
+					}
 				}
 			}
 		}
@@ -92,6 +108,7 @@ public abstract class AbstractUimGenerationAction extends Action{
 		UimModelSet ums = (UimModelSet) ws.getResourceSet();
 		AbstractUserInteractionModel auim = (AbstractUserInteractionModel) UimResourceUtil
 				.getUiResource(namedElement, ums, ws.getDirectoryUri()).getContents().get(0);
+		new UmlUimLinks(auim.eResource(), ws);
 		if(auim instanceof UserInterfaceRoot){
 			openDiagrams(ums, (UserInterfaceRoot) auim);
 		}else{
@@ -111,9 +128,10 @@ public abstract class AbstractUimGenerationAction extends Action{
 	private void openDiagram(UimModelSet ums,Page auim){
 		Diagram dg = ums.getInMemoryNotationResource().getDiagram(auim);
 		try{
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-					.openEditor(getEditorInput(dg), org.opaeum.uimodeler.page.diagram.part.UimDiagramEditor.ID);
-		}catch(PartInitException e){
+			OpenDiagramCommand c=new OpenDiagramCommand(ums.getTransactionalEditingDomain(),dg);
+			ums.getTransactionalEditingDomain().getCommandStack().execute(new GMFtoEMFCommandWrapper(c));
+			PapyrusMultiDiagramEditor ed;
+		}catch(Exception e){
 			OpaeumEclipsePlugin.logError("Could not open diagram", e);
 		}
 	}

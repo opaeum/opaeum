@@ -27,17 +27,15 @@ import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 import org.opaeum.eclipse.uml.propertysections.common.OpaeumObjectChooser;
 import org.opaeum.eclipse.uml.propertysections.core.EObjectNavigationSource;
-import org.opaeum.eclipse.uml.propertysections.core.NavigationDecorator;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimLinkControl;
 import org.opaeum.uim.editor.InstanceEditor;
 import org.opaeum.uim.editor.provider.EditorItemProviderAdapterFactory;
-import org.opaeum.uim.uml2uim.FormSynchronizer;
+import org.opaeum.uim.uml2uim.FormSynchronizer2;
 import org.opaeum.uim.util.UmlUimLinks;
 
 public class UimLinkFeaturesComposite extends ControlFeaturesComposite<UimLinkControl> implements EObjectNavigationSource{
-	private NavigationDecorator decorator = new NavigationDecorator(this);
 	private CLabel label;
 	private TabbedPropertySheetWidgetFactory factory;
 	private OpaeumObjectChooser objectChooser;
@@ -83,7 +81,7 @@ public class UimLinkFeaturesComposite extends ControlFeaturesComposite<UimLinkCo
 				@Override
 				public void execute(){
 					EmfWorkspace workspace = UmlUimLinks.getCurrentUmlLinks(control).getEmfWorkspace();
-					final FormSynchronizer fs = new FormSynchronizer(workspace, eResource.getResourceSet(), false);
+					final FormSynchronizer2 fs = new FormSynchronizer2(workspace.getDirectoryUri(), eResource.getResourceSet(), false);
 					fs.visitOnly(te.getType());
 				}
 				@Override

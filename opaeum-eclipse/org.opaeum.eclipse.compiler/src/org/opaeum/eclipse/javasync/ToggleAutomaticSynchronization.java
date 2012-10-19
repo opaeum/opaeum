@@ -3,7 +3,7 @@ package org.opaeum.eclipse.javasync;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.starter.AbstractOpaeumAction;
+import org.opaeum.eclipse.menu.AbstractOpaeumAction;
 
 public class ToggleAutomaticSynchronization extends AbstractOpaeumAction{
 	public ToggleAutomaticSynchronization(IStructuredSelection selection2){

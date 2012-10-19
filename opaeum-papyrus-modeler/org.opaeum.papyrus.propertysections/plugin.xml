@@ -9,6 +9,22 @@
       <context contextModel="Model/UML/UML.ctx">
       </context>
    </extension>
+  <extension point="org.eclipse.emf.ecore.uri_mapping">
+      <mapping source="pathmap://UML_CONTEXT/" target="platform:/plugin/org.opaeum.papyrus.propertysections/Model/UML/">
+      </mapping>
+   </extension>
+      <extension point="org.eclipse.papyrus.views.properties.context">
+         <context contextModel="Model/UMLNotation/UMLNotation.ctx">
+         </context>
+      </extension>
+
+   <extension
+         point="org.eclipse.emf.facet.infra.query.registration">
+      <modelqueryset
+            file="Model/UML/uml.querySet">
+      </modelqueryset>
+   </extension>
+   
       <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
       <propertyContributor
@@ -36,15 +52,6 @@
             file="Model/UML/uml.querySet">
       </modelqueryset>
    </extension>
-   <extension
-         point="org.eclipse.papyrus.views.properties.labelprovider">
-      <labelProvider
-            labelProvider="org.eclipse.papyrus.uml.properties.providers.UMLFilteredLabelProvider"
-            priority="50">
-      </labelProvider>
-   </extension>
-   
-
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
 		<propertyTabs contributorId="TreeOutlinePage">
 			<propertyTab id="org.opaeum.eclipse.opaeumTab" category="domain"
@@ -99,12 +106,9 @@
 			<propertyTab category="domain"
 				id="property.tab.DiagramPropertySection" afterTab="org.opaeum.eclipse.opaeumTab"
 				label="Diagram" />
-			<propertyTab id="property.tab.advanced" category="domain" 
-				label="Advanced1" afterTab="org.opaeum.eclipse.opaeumTab"
-				indented="false" />
-   		<propertyTab id="Base" label="General" category="org.eclipse.papyrus" afterTab=""/>
+   		<propertyTab id="Base" label="General" category="org.eclipse.papyrus" afterTab="org.opaeum.eclipse.temlateTab"/>
      	<propertyTab id="Comments" label="Comments" category="org.eclipse.papyrus" afterTab="Base"/>
-     	<propertyTab id="advanced" label="Advanced2" category="org.eclipse.papyrus" afterTab="org.opaeum.eclipse.opaeumTab" />
+     	<propertyTab id="advanced" label="Advanced" category="org.eclipse.papyrus" afterTab="org.opaeum.eclipse.temlateTab" />
 		</propertyTabs>
 	</extension>
 </plugin>

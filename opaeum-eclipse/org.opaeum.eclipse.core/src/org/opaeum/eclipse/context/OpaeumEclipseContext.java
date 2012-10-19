@@ -1,12 +1,10 @@
 package org.opaeum.eclipse.context;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -20,7 +18,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -30,7 +27,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
@@ -47,7 +43,6 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class OpaeumEclipseContext{
 	private static Map<IContainer,OpaeumEclipseContext> contexts = new WeakHashMap<IContainer,OpaeumEclipseContext>();
-	private static OpaeumEclipseContext currentContext;
 	private Map<IFile,OpenUmlFile> openUmlFiles = new HashMap<IFile,OpenUmlFile>();
 	private boolean isOpen = false;
 	private IContainer umlDirectory;
@@ -90,6 +85,7 @@ public class OpaeumEclipseContext{
 		ArrayList<OpenUmlFile> arrayList = new ArrayList<OpenUmlFile>(openUmlFiles.values());
 		this.openUmlFiles.clear();
 		for(OpenUmlFile editingContext:arrayList){
+			editingContext.dispose();
 			startSynch(editingContext.getEditingDomain(), editingContext.getFile(), editingContext.geteObjectSelectorUI());
 		}
 	}
@@ -108,9 +104,6 @@ public class OpaeumEclipseContext{
 		openUmlFile.seteObjectSelectorUI(selector);
 		openUmlFile.addSynchronizationListener(new OclUpdater());
 		openUmlFile.addSynchronizationListener(errorMarker);
-		if(dew != null){
-			dew.getResourceSet().getResource(URI.createPlatformResourceURI((file).getFullPath().toString(), true), true);
-		}
 		openUmlFiles.put(file, openUmlFile);
 		errorMarker.maybeSchedule(openUmlFile);
 		return true;
@@ -125,25 +118,11 @@ public class OpaeumEclipseContext{
 			if(openUmlFile != null){
 				openUmlFile.setDirty(false);
 				openUmlFile.onSave(monitor);
+				dew = null;
 			}
 			getUmlDirectory().refreshLocal(1, null);
-			if(dew != null){
-				List<Resource> resources = new ArrayList<Resource>(dew.getResourceSet().getResources());
-				for(Resource resource:resources){
-					String lastSegment = resource.getURI().lastSegment();
-					String lastSegment2 = f.getLocation().lastSegment();
-					if(lastSegment.equals(lastSegment2)){
-						resource.unload();
-						resource.load(null);
-						EcoreUtil.resolveAll(resource);
-					}
-				}
-			}
 		}catch(CoreException e){
-			e.printStackTrace();
-		}catch(IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			OpaeumEclipsePlugin.logError("OnSave Failed", e);
 		}finally{
 			monitor.done();
 		}
@@ -165,21 +144,20 @@ public class OpaeumEclipseContext{
 			ResourceSet rst;
 			rst = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
-			// if(dew == null){
-			dew = new EmfWorkspace(uri, rst, getConfig().getWorkspaceMappingInfo(), getConfig().getWorkspaceIdentifier(), getConfig()
-					.getMavenGroupId());
-			dew.setUriToFileConverter(new EclipseUriToFileConverter());
-			dew.setName(getConfig().getWorkspaceName());
-			for(IResource r:umlDirectory.members()){
-				monitor.subTask("Loading " + r.getName());
-				if(r instanceof IFile && r.getFileExtension().equals("uml")){
-					final Resource resource = dew.getResourceSet().getResource(
-							URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
-					EcoreUtil.resolveAll(resource);
+			if(dew == null){
+				dew = new EmfWorkspace(uri, rst, getConfig().getVersion(), getConfig().getWorkspaceIdentifier(), getConfig().getMavenGroupId());
+				dew.setUriToFileConverter(new EclipseUriToFileConverter());
+				dew.setName(getConfig().getWorkspaceName());
+				for(IResource r:umlDirectory.members()){
+					monitor.subTask("Loading " + r.getName());
+					if(r instanceof IFile && r.getFileExtension().equals("uml")){
+						final Resource resource = dew.getResourceSet().getResource(
+								URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
+						EcoreUtil.resolveAll(resource);
+					}
+					monitor.worked(100 / umlDirectory.members().length);
 				}
-				monitor.worked(100 / umlDirectory.members().length);
 			}
-			// }
 			dew.guessGeneratingModelsAndProfiles(URI.createPlatformResourceURI(umlDirectory.getFullPath().toString(), true));
 			return dew;
 		}catch(CoreException e){
@@ -219,7 +197,7 @@ public class OpaeumEclipseContext{
 			boolean newContext = propsFile == null;
 			if(newContext){
 				cfg = new OpaeumConfig(new File(umlDir.getLocation().toFile(), "opaeum.properties"));
-				OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getDefault().getActiveShell(), cfg);
+				OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getDefault().getActiveShell(), cfg, umlDir);
 				final int dlgResult = dlg.open();
 				if(dlgResult != Window.OK){
 					return null;
@@ -240,7 +218,7 @@ public class OpaeumEclipseContext{
 		}
 		return result;
 	}
-	public OpenUmlFile getEditingContextFor(IFile f){
+	public OpenUmlFile getOpenUmlFileFor(IFile f){
 		return this.openUmlFiles.get(f);
 	}
 	public static OpaeumEclipseContext getContextFor(IContainer umlDir){
@@ -249,7 +227,9 @@ public class OpaeumEclipseContext{
 	}
 	public static OpaeumEclipseContext getContextFor(EObject element){
 		Resource eResource = element.eResource();
-		if(eResource.getResourceSet() instanceof IOpaeumResourceSet){
+		if(eResource == null){
+			return null;
+		}else if(eResource.getResourceSet() instanceof IOpaeumResourceSet){
 			IOpaeumResourceSet rst = (IOpaeumResourceSet) eResource.getResourceSet();
 			return findOrCreateContextFor(rst.getModelDirectory());
 		}else{
@@ -275,7 +255,7 @@ public class OpaeumEclipseContext{
 		if(eObject.eResource() != null){
 			if(eObject.eResource().getResourceSet() instanceof IOpaeumResourceSet){
 				IOpaeumResourceSet rst = (IOpaeumResourceSet) eObject.eResource().getResourceSet();
-				return getEditingContextFor(rst.getPrimaryFile());
+				return getOpenUmlFileFor(rst.getPrimaryFile());
 			}
 			Collection<OpenUmlFile> values = this.openUmlFiles.values();
 			for(OpenUmlFile openUmlFile:values){
@@ -290,16 +270,25 @@ public class OpaeumEclipseContext{
 		return this.openUmlFiles.values();
 	}
 	public static OpenUmlFile findOpenUmlFileFor(EObject element){
-		return getContextFor(element).getEditingContextFor(element);
+		OpaeumEclipseContext ctx = getContextFor(element);
+		if(ctx != null){
+			return ctx.getEditingContextFor(element);
+		}else{
+			return null;
+		}
 	}
 	public static OpenUmlFile findOpenUmlFileFor(IFile iFile){
-		return getContextFor(iFile.getParent()).getEditingContextFor(iFile);
+		OpaeumEclipseContext ctx = getContextFor(iFile.getParent());
+		if(ctx == null){
+			return null;
+		}
+		return ctx.getOpenUmlFileFor(iFile);
 	}
 	public static Collection<EObject> getReachableObjectsOfType(EObject element,EClass type){
-		return findOpenUmlFileFor(element).getOpaeumEclipseContext().getReachableObjectsOfType(element, type);
+		return findOpenUmlFileFor(element).getTypeCacheAdapter().getReachableObjectsOfType(element, type);
 	}
 	public static Collection<Element> getReachableObjectsOfStereotype(EObject element,String profile,String type){
-		return findOpenUmlFileFor(element).getOpaeumEclipseContext().getReachableObjectsOfStereotype(element, profile, type);
+		return findOpenUmlFileFor(element).getTypeCacheAdapter().getReachableObjectsOfStereotype(element, profile, type);
 	}
 	public static Collection<OpenUmlFile> getAllOpenUmlFiles(){
 		Set<OpenUmlFile> result = new HashSet<OpenUmlFile>();

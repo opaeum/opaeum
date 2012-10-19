@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.uim.uml2uim.FormSynchronizer;
+import org.opaeum.uim.uml2uim.FormSynchronizer2;
 
 public class RegenerateRecursivelyAction extends AbstractUimGenerationAction{
 	public RegenerateRecursivelyAction(){
@@ -22,16 +22,8 @@ public class RegenerateRecursivelyAction extends AbstractUimGenerationAction{
 	public static void doGenerate(Element modelElement, EmfWorkspace workspace){
 		try{
 			ResourceSet uimResourceSet = new ResourceSetImpl();
-			FormSynchronizer fs = new FormSynchronizer(workspace, uimResourceSet, true);
+			FormSynchronizer2 fs = new FormSynchronizer2(workspace.getDirectoryUri(), modelElement.eResource().getResourceSet(), true);
 			fs.visitRecursively(modelElement);
-			DiagramSynchronizer ds = new DiagramSynchronizer(workspace, uimResourceSet, false);
-			ds.visitRecursively(modelElement);
-			EList<Resource> resources = uimResourceSet.getResources();
-			for(Resource resource:resources){
-					resource.save(Collections.emptyMap());
-					ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(resource.getURI().toPlatformString(true)));
-			}
-
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}

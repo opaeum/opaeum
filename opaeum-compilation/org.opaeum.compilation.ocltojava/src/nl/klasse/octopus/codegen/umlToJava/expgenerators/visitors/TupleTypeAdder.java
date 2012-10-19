@@ -21,29 +21,24 @@ public class TupleTypeAdder{
 	public TupleTypeAdder(){
 		super();
 	}
-	public OJPackage makeTupleTypes(OJUtil ojUtil, TypeResolver<Classifier,Operation,Property> tr){
-		EList<Type> types=null;
-		for (EObject o : tr.getResource().getContents()) {
-			if (o instanceof Package) {
+	public OJPackage makeTupleTypes(OJUtil ojUtil,TypeResolver<Classifier,Operation,Property> tr){
+		EList<Type> types = null;
+		for(EObject o:tr.getResource().getContents()){
+			if(o instanceof Package){
 				Package pkg = (Package) o;
-				
-				if ("tuples".equals(pkg.getName())) {
+				if("tuples".equals(pkg.getName())){
 					types = pkg.getOwnedTypes();
 					break;
 				}
 			}
 		}
 		OJPackage tuples = null;
-		if(types != null){
-			tuples = new OJPackage(TuplePackName);
-			Iterator<?> it = types.iterator();
-			while(it.hasNext()){
-				TupleType tupletype = (TupleType) it.next();
-				TupleTypeCreator tupleMaker = new TupleTypeCreator(ojUtil);
-				tupleMaker.make(tupletype, tuples);
-			}
-		}else{
-			System.out.println("No library found");
+		tuples = new OJPackage(TuplePackName);
+		Iterator<?> it = types.iterator();
+		while(it.hasNext()){
+			TupleType tupletype = (TupleType) it.next();
+			TupleTypeCreator tupleMaker = new TupleTypeCreator(ojUtil);
+			tupleMaker.make(tupletype, tuples);
 		}
 		return tuples;
 	}

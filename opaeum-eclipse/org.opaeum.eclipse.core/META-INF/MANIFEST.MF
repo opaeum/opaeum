@@ -20,12 +20,14 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.emf.edit.ui,
  org.eclipse.uml2.uml.edit,
  org.eclipse.ocl.uml,
- org.opaeum.compilation.ocltojava
+ org.opaeum.compilation.ocltojava,
+ org.eclipse.ui.ide
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6 
 Export-Package: org.opaeum.eclipse,
  org.opaeum.eclipse.commands,
  org.opaeum.eclipse.context,
+ org.opaeum.eclipse.menu,
  org.opaeum.eclipse.newchild,
  org.opaeum.topcased.uml.editor
 Bundle-ClassPath: .

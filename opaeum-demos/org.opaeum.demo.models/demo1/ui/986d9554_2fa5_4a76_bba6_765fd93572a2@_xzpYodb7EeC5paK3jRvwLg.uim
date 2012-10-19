@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzpYodb7EeC5paK3jRvwLg" name="Future User Interface Model" linkedUmlResource="JavaxValidation.uml">
+  <primaryEditor name="Edit Future" umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzpYodb7EeC5paK3jRvwLg">
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzpYodb7EeC5paK3jRvwLg" name="Edit Future">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Groups" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzp_sNb7EeC5paK3jRvwLg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Message" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzp_stb7EeC5paK3jRvwLg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Payload" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzp_s9b7EeC5paK3jRvwLg"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create Future" umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzpYodb7EeC5paK3jRvwLg">
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzpYodb7EeC5paK3jRvwLg" name="CreateFuture">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Groups" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzp_sNb7EeC5paK3jRvwLg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Message" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzp_stb7EeC5paK3jRvwLg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Payload" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzp_s9b7EeC5paK3jRvwLg"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

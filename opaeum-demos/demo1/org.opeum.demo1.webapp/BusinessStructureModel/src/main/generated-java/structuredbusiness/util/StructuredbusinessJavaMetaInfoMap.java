@@ -19,6 +19,10 @@ public class StructuredbusinessJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(structuredbusiness.ApplianceType.class,"914890@_8mTZ0JK_EeGnpuq6_ber_Q");
 		putClass(structuredbusiness.Branch.class,"914890@_0l-NAJJNEeGW4L5IejZxpA");
 		putMethod(structuredbusiness.Branch.class,"914890@_dOodgMzBEeGKe7Qm4dvydQ",338091957186500850l);
+		putClass(structuredbusiness.branch.BusinessStateMachine1.class,"914890@_HHdlgBYUEeKsDbmQL25eBw");
+		putMethod(structuredbusiness.branch.BusinessStateMachine1.class,"914890@_SvOOoBYbEeKsDbmQL25eBw",60362420042796755l);
+		putMethod(structuredbusiness.branch.BusinessStateMachine1.class,"914890@_Y9DC0BYbEeKsDbmQL25eBw",2827266857271290249l);
+		putClass(structuredbusiness.branch.StandaloneSingleScreenTask1.class,"914890@_ylMisBYQEeKIFJAOfPz88A");
 		putClass(structuredbusiness.City.class,"914890@_HSme4JKIEeGFkOm2e1MJNQ");
 		putClass(structuredbusiness.CustomerAssistant.class,"914890@_bX-ooJJPEeGW4L5IejZxpA");
 		putMethod(structuredbusiness.CustomerAssistant.class,"914890@_A1hu8JKiEeGiJMBDeZRymA",3915947986409510033l);
@@ -31,6 +35,7 @@ public class StructuredbusinessJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(structuredbusiness.Supplier.class,"914890@_-N6PwGK6EeGNuoaMwaBk1w");
 		putClass(structuredbusiness.Technician.class,"914890@_loLrkJHrEeGtApeO0lzlHQ");
 		putClass(structuredbusiness.Vendor.class,"914890@_z8IcwHsKEeGBGZr9IpIa3A");
+		putEventHandler(structuredbusiness.branch.businessstatemachine1.Transition1TimeEventHandler.class,"914890@_eu1uUBb3EeKI68QaBu0uBA");
 	}
 
 

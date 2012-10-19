@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="OpaeumBPMProfile.uml@_WAC9YF-IEeG4Ettm1OWqPA" name="Business use case User Interface Model" linkedUmlResource="OpaeumBPMProfile.uml">
+  <primaryEditor name="Edit BusinessUseCase" umlElementUid="OpaeumBPMProfile.uml@_WAC9YF-IEeG4Ettm1OWqPA">
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_WAC9YF-IEeG4Ettm1OWqPA" name="Edit Business use case">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create BusinessUseCase" umlElementUid="OpaeumBPMProfile.uml@_WAC9YF-IEeG4Ettm1OWqPA">
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_WAC9YF-IEeG4Ettm1OWqPA" name="CreateBusiness use case">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

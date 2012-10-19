@@ -80,12 +80,6 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 	}
 	@Override
 	protected void paintClientArea(Graphics graphics){
-
-		// Layout is called +- 20 times per redraw, with different values. Call it one last time to ensure the most recent values have been
-		// applied TODO investigate why.
-		// Layout is fairly inexpensive here, but this is not ideal
-//		layout();
-		// Prepare as late as possible to avoid accidental resizing and the subsequent repainting
 		try{
 			if(WindowBuilderUtil.needsComponentShot(composite)){
 				long start = System.currentTimeMillis();
@@ -93,7 +87,7 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 				System.out.println("Shot took " + (System.currentTimeMillis() - start));
 				WindowBuilderUtil.clearNeedsImage(composite);
 			}
-			graphics.drawImage((Image) composite.getTable().getData("OPAEUM_IMAGE"), 7, 12);
+			graphics.drawImage((Image) composite.getTable().getData(UimFigureUtil.OPAEUM_IMAGE), 7, 12);
 			super.paintClientArea(graphics);
 		}catch(Exception e){
 			e.printStackTrace();

@@ -23,7 +23,7 @@ public class OpaeumModelExplorerPageBookView extends ModelExplorerPageBookView i
 		return new PageRec(part, page);
 	}
 	private IPropertySheetPage propertySheetPage;
-	public Object getAdapter(Class adapter){
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter){
 		if(IPropertySheetPage.class.equals(adapter)){
 			return getPropertySheetPage();
 		}else{

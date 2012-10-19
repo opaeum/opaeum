@@ -14,7 +14,6 @@ Export-Package:
  org.opaeum.eclipse.emulated,
  org.opaeum.emf.extraction,
  org.opaeum.emf.workspace,
- org.opaeum.feature,
  org.opaeum.metamodel.core.internal,
  org.opaeum.metamodel.name,
  org.opaeum.metamodel.validation,

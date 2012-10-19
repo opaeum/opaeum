@@ -64,17 +64,19 @@ public class RecompileModelDirectoryAction extends AbstractDirectoryReadingActio
 								duplicates++;
 								Element other = ids.get(EmfWorkspace.getOpaeumId(e));
 								if(other instanceof NamedElement){
-									System.out.println(((NamedElement) e).getQualifiedName() + " collides with " + ((NamedElement) other).getQualifiedName());
+									OpaeumEclipsePlugin.logWarning(((NamedElement) e).getQualifiedName() + " collides with "
+											+ ((NamedElement) other).getQualifiedName());
 								}
-								System.out.println(e.getClass().getName() + " collides with " + other.getClass().getName());
-								System.out.println(EmfWorkspace.getId(e) + " collides with " + EmfWorkspace.getId(other));
+								OpaeumEclipsePlugin.logWarning(e.getClass().getName() + " collides with " + other.getClass().getName());
+								OpaeumEclipsePlugin.logWarning(EmfWorkspace.getId(e) + " collides with " + EmfWorkspace.getId(other));
 							}
 						}
 					}
-					System.out.println("Number of duplicates: " + duplicates + " from " + ids.size());
+					if(duplicates > 0){
+						OpaeumEclipsePlugin.logWarning("Number of duplicates: " + duplicates + " from " + ids.size());
+					}
 				}catch(Exception e){
-					e.printStackTrace();
-					return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
+					return OpaeumEclipsePlugin.logError("Model directory could not be built", e);
 				}finally{
 					if(p != null){
 						p.release();

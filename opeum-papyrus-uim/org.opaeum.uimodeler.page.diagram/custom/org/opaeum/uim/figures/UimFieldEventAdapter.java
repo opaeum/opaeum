@@ -21,6 +21,7 @@ import org.opaeum.uim.swt.UimSwtUtil;
 import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
+import org.opaeum.uimodeler.common.figures.WindowBuilderUtil;
 
 public final class UimFieldEventAdapter extends AbstractEventAdapter{
 	private IUimFieldFigure fig;
@@ -107,6 +108,7 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 			UimField uimField = (UimField) userInteractionElement;
 			ControlKind kind = uimField.getControlKind();
 			UimSwtUtil.populateControl(fig, kind, uimField.getOrientation());
+			WindowBuilderUtil.markRecursivelyForShot(this.figure.getWidget());
 		}
 		fig.layout();
 		fig.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0">
+  <primaryEditor name="Edit IBusinessNetwork" umlElementUid="252060@_6e-W8F13EeGKRdKItFLDfg">
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="252060@_6e-W8F13EeGKRdKItFLDfg" name="Edit I business network">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create IBusinessNetwork" umlElementUid="252060@_6e-W8F13EeGKRdKItFLDfg">
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="252060@_6e-W8F13EeGKRdKItFLDfg" name="CreateI business network">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

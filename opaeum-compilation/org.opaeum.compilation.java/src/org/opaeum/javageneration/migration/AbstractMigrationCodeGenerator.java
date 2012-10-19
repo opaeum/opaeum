@@ -34,10 +34,10 @@ public abstract class AbstractMigrationCodeGenerator extends AbstractStructureVi
 		return pkg;
 	}
 	protected final VersionNumber getFromVersion(){
-		return fromWorkspace.getWorkspaceMappingInfo().getVersion();
+		return fromWorkspace.getVersion();
 	}
 	protected final VersionNumber getToVersion(){
-		return workspace.getWorkspaceMappingInfo().getVersion();
+		return workspace.getVersion();
 	}
 	protected final OJPathName classifierPathName(Type a,VersionNumber version){
 		if(EmfClassifierUtil.isSimpleType(a ) || ojUtil.getCodeGenerationStrategy( (Classifier) a)==CodeGenerationStrategy.NO_CODE){

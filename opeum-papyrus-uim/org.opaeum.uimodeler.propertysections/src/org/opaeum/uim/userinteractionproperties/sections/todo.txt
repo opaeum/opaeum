@@ -33,15 +33,13 @@ Implement sourcepopulation constraints on parameters
 
 New Tasks:
 UIM:
+Introduce logic to keep track of all UmlReferences referring to a uml element;
 DEfine an RMI service that takes a bytearray in and updates userinterface resources from it
-Add RadioButtons and checkbox lists as control kinds, include their layout in the orientation
-Add a "lastlinkedumlresource" to the modelroot to allow open editors to be reassociated with their uml models
-Implement the semantics around the "underUserControl" field
-Introduce an action that automatically creates an operation popup from a button
-Drag and drop uml items from a tree (properties, actions) 
 Add forcedLabelWidth and sameWidth to AbstractPanel
-Synchronize uim models on save, apply the underUserControl rules
-Apply security to add actions on treeview
+Panels should have an optional panelBinding which resolves to the typedElementthat willdefine thecontextof  property expressions of all uimfields and actions on the panel
+Introduce FileUploadControl and MultiFile uploadcontrol
+Let Pages be like Forms with advanced layout only of PAnels on it
+
 
 Simulation:
 SimpleDataTypes like dates - introduce FormattedStringValue and use FromStringConversion strategy

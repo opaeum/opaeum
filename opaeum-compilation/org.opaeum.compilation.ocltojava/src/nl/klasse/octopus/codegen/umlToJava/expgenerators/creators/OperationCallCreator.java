@@ -108,10 +108,8 @@ public class OperationCallCreator{
 			}else if(referedOp.getName().equals("asSet")){ // on OclAny
 				result = buildAsSet(exp, source.toString(), args, params);
 			}else if(referedOp.getName().equals("=")){ // on OclAny
-				OCLExpression xx = (OCLExpression) exp.getArgument().get(0);
 				result = source + ".equals(" + args.get(0) + ")";
 			}else if(referedOp.getName().equals("<>")){ // on OclAny
-				OCLExpression xx = (OCLExpression) exp.getArgument().get(0);
 				result = "!" + source + ".equals(" + args.get(0) + ")";
 			}else{
 				result = buildModelOp(exp, source.toString(), args, referedOp);

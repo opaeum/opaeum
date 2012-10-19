@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Display;
 import org.opaeum.eclipse.OpaeumConfigDialog;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.menu.AbstractOpaeumAction;
 
 public class EditOpaeumConfigAction extends AbstractOpaeumAction{
 	public EditOpaeumConfigAction(IStructuredSelection selection2){
@@ -21,7 +22,7 @@ public class EditOpaeumConfigAction extends AbstractOpaeumAction{
 		OpaeumEclipseContext ne = OpaeumEclipseContext.findOrCreateContextFor(umlDir);
 		if(!(ne == null || ne.isNewlyCreated())){
 			// The settings would have been edited from there
-			OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getCurrent().getActiveShell(), ne.getConfig());
+			OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getCurrent().getActiveShell(), ne.getConfig(),getCfgFile().getParent());
 			if(dlg.open() == Window.OK){
 				reinitialiseConfig(ne);
 			}

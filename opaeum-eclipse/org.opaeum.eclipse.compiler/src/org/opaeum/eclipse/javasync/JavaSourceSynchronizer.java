@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
@@ -47,8 +46,9 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	private IJavaModel javaWorkspace;
 	private Set<Element> nakedUmlChanges = new HashSet<Element>();
 	private NamespaceRenameRequests namespaceRenameRequests = new NamespaceRenameRequests();
-	private boolean synchronizing = false;
-	public JavaSourceSynchronizer(OpenUmlFile ne, TransformationProcess process){
+	private OpenUmlFile openUmlFile;
+	public JavaSourceSynchronizer(OpenUmlFile ne,TransformationProcess process){
+		this.openUmlFile=ne;
 		this.process = process;
 		this.process.replaceModel(ne.getEmfWorkspace());
 		this.process.replaceModel(ne.getOJUtil());
@@ -59,28 +59,21 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 		javaWorkspace = JavaCore.create(workspace);
 	}
 	@Override
-	public void onSave(IProgressMonitor monit, final OpenUmlFile f){
-		if(!synchronizing){
-			//Papyrus calls the save listener multiple times - we need to ensure that concurrent multiple instances of the job do interfere with each other
-			synchronizing = true;
-			new Job("Synchronizing Java sources"){
-				public IStatus run(IProgressMonitor monitor){
-					try{
-						monitor.beginTask("Synchronizing Java sources", 1000);
-						if(f.getConfig().synchronizeAutomatically()){
-							process.replaceModel(f.getEmfWorkspace());
-							renamePackages(new SubProgressMonitor(monitor, 500));
-							synchronizeClasses(new SubProgressMonitor(monitor, 500));
-						}
-						return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Sources Synchronized");
-					}catch(Exception e){
-						return new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Sources NOT Synchronized", e);
-					}finally{
-						synchronizing=false;
-						monitor.done();
-					}
-				}
-			}.schedule();
+	public void onSave(IProgressMonitor monitor,final OpenUmlFile f){
+		//Ignore -called from OpenUMlFile - this is linked to the OpaeumBuilder
+	}
+	public void synchronizeNow(IProgressMonitor monitor){
+		try{
+			monitor.beginTask("Synchronizing Java sources", 1000);
+			if(openUmlFile.getConfig().synchronizeAutomatically()){
+				process.replaceModel(openUmlFile.getEmfWorkspace());
+				renamePackages(new SubProgressMonitor(monitor, 500));
+				synchronizeClasses(new SubProgressMonitor(monitor, 500));
+			}
+		}catch(Exception e){
+			OpaeumEclipsePlugin.logError("Java Sources NOT Synchronized", e);
+		}finally{
+			monitor.done();
 		}
 	}
 	public static boolean hasNewJavaSourceFolders(IWorkspaceRoot workspace,TextWorkspace tws){
@@ -163,7 +156,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 					process.executePhase(PomGenerationPhase.class, false, new ProgressMonitorTransformationLog(monitor, 100));
 				}
 				int fileCount = deleteOldFilesAndCountNewFiles(monitor, processElements);
-				if(fileCount < 4 && !hasNewJavaSourceFolders){
+				if(fileCount < 10 && !hasNewJavaSourceFolders){
 					writeFilesIndividually(monitor, processElements);
 				}else{
 					try{
@@ -248,10 +241,10 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	@Override
 	public void onClose(OpenUmlFile openUmlFile){
 		this.process.release();
-		this.process=null;
-		this.workspace=null;
+		this.process = null;
+		this.workspace = null;
 		this.nakedUmlChanges.clear();
 		this.eclipseGenerator.release();
-		this.eclipseGenerator=null;
+		this.eclipseGenerator = null;
 	}
 }

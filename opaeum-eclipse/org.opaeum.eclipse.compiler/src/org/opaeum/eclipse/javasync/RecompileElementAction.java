@@ -2,6 +2,7 @@ package org.opaeum.eclipse.javasync;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
@@ -14,22 +15,19 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
-import org.opaeum.eclipse.starter.AbstractOpaeumAction;
+import org.opaeum.eclipse.menu.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
@@ -42,7 +40,7 @@ import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 
-public class RecompileElementAction extends AbstractOpaeumAction implements IObjectActionDelegate{
+public class RecompileElementAction extends AbstractOpaeumAction {
 	public RecompileElementAction(){
 		super(null, "Recompile Element");
 	}
@@ -86,7 +84,13 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 								p.replaceModel(new OJWorkspace());
 								p.replaceModel(new TextWorkspace());
 								OpaeumConfig cfg = ouf.getConfig();
-								Collection<Element> allDescendants = (Collection)element.eAllContents();
+								TreeIterator<EObject> eAllContents = element.eAllContents();
+								Collection<EObject> allDescendants=new HashSet<EObject>();
+								while(eAllContents.hasNext()){
+									EObject eObject = eAllContents.next();
+									allDescendants.add(eObject);
+									
+								}
 								allDescendants.add(element);
 								Collection<?> processElements = p.processElements(allDescendants, JavaTransformationPhase.class,
 										new ProgressMonitorTransformationLog(monitor, 60));
@@ -134,18 +138,5 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 		IFile modelIFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uriPAth));
 		File modelFile = modelIFile.getLocation().toFile();
 		return modelFile;
-	}
-	@Override
-	public void run(IAction action){
-		run();
-	}
-	@Override
-	public void selectionChanged(IAction action,ISelection selection){
-		if(selection instanceof IStructuredSelection){
-			this.selection = (IStructuredSelection) selection;
-		}
-	}
-	@Override
-	public void setActivePart(IAction action,IWorkbenchPart targetPart){
 	}
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzgOsdb7EeC5paK3jRvwLg" name="Valid User Interface Model" linkedUmlResource="JavaxValidation.uml">
+  <primaryEditor name="Edit Valid" umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzgOsdb7EeC5paK3jRvwLg">
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzgOsdb7EeC5paK3jRvwLg" name="Edit Valid">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create Valid" umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzgOsdb7EeC5paK3jRvwLg">
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="986d9554_2fa5_4a76_bba6_765fd93572a2@_xzgOsdb7EeC5paK3jRvwLg" name="CreateValid">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

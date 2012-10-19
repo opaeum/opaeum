@@ -4,10 +4,12 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -28,6 +30,7 @@ import javax.persistence.Version;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
@@ -52,8 +55,12 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.FailedConstraint;
 import org.opaeum.runtime.domain.FailedConstraintsException;
 import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.domain.IActiveEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
+import org.opaeum.runtime.domain.IExecutionElement;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IProcessObjectBase;
+import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
@@ -63,6 +70,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import structuredbusiness.branch.BusinessStateMachine1;
+import structuredbusiness.branch.StandaloneSingleScreenTask1;
 import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
@@ -74,7 +83,11 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @AccessType(	"field")
 @Table(name="branch")
 @Entity(name="Branch")
-public class Branch implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessComponent, Serializable {
+public class Branch implements ProductAnnouncementReceiver, IPersistentObject, IEventGenerator, IActiveEntity, HibernateEntity, CompositionNode, IBusinessComponent, Serializable {
+	@Column(name="")
+	protected String asdfkk;
+	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="contextObject")
+	protected BusinessStateMachine1 businessStateMachine1;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Type(type="structuredbusiness.CityResolver")
@@ -101,7 +114,7 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	protected Set<Job> job = new HashSet<Job>();
 	static private Set<Branch> mockedAllInstances;
 	@Column(name="")
-	protected String name;
+	protected String namel;
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
@@ -121,6 +134,12 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	@Transient
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	static final private long serialVersionUID = 128937784137359716l;
+	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
+	@IndexColumn(name="idx_in_sta_sin_scr_tas_on_branch")
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,targetEntity=StandaloneSingleScreenTask1.class)
+	@JoinColumn(name="context_object_id",nullable=true)
+	protected List<StandaloneSingleScreenTask1> standaloneSingleScreenTask1 = new ArrayList<StandaloneSingleScreenTask1>();
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="branch")
 	protected Technician technician;
 	private String uid;
@@ -164,6 +183,23 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
+	@NumlMetaInfo(uuid="914890@_ylMisBYQEeKIFJAOfPz88A")
+	public StandaloneSingleScreenTask1 StandaloneSingleScreenTask1(IToken returnInfo) {
+		StandaloneSingleScreenTask1 result = new StandaloneSingleScreenTask1(this);
+		result.setRequest(new TaskRequest());
+		((TaskRequest)result.getRequest()).setPotentialOwners(Arrays.asList(this));
+		result.setReturnInfo(returnInfo);
+		return result;
+	}
+	
+	static public StandaloneSingleScreenTask1 StandaloneSingleScreenTask1WithMultiplePotentialOwners(IToken returnInfo) {
+		StandaloneSingleScreenTask1 result = new StandaloneSingleScreenTask1();
+		((TaskRequest)result.getRequest()).setPotentialOwners(Environment.getInstance().getCurrentPersistence().readAll(Branch.class));
+		result.setRequest(new TaskRequest());
+		Environment.getInstance().getCurrentPersistence().persist(result);
+		return result;
+	}
+	
 	public void addAllToCustomerAssistant(Set<CustomerAssistant> customerAssistant) {
 		for ( CustomerAssistant o : customerAssistant ) {
 			addToCustomerAssistant(o);
@@ -185,6 +221,12 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	public void addAllToParticipationParticipant_participation(Set<ParticipationParticipant> participationParticipant_participation) {
 		for ( ParticipationParticipant o : participationParticipant_participation ) {
 			addToParticipationParticipant_participation(o);
+		}
+	}
+	
+	public void addAllToStandaloneSingleScreenTask1(List<StandaloneSingleScreenTask1> standaloneSingleScreenTask1) {
+		for ( StandaloneSingleScreenTask1 o : standaloneSingleScreenTask1 ) {
+			addToStandaloneSingleScreenTask1(o);
 		}
 	}
 	
@@ -212,6 +254,7 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	 */
 	public void addToOwningObject() {
 		getDishwashersInc().z_internalAddToBranch((Branch)this);
+		startClassifierBehavior();
 	}
 	
 	public void addToParticipation(Participation participation) {
@@ -229,6 +272,14 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 	}
 	
+	public void addToStandaloneSingleScreenTask1(StandaloneSingleScreenTask1 standaloneSingleScreenTask1) {
+		if ( standaloneSingleScreenTask1!=null ) {
+			standaloneSingleScreenTask1.z_internalRemoveFromContextObject(standaloneSingleScreenTask1.getContextObject());
+			standaloneSingleScreenTask1.z_internalAddToContextObject(this);
+			z_internalAddToStandaloneSingleScreenTask1(standaloneSingleScreenTask1);
+		}
+	}
+	
 	static public Set<? extends Branch> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
 			return new HashSet(persistence.readAll(structuredbusiness.Branch.class));
@@ -242,11 +293,11 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( xml.getAttribute("city").length()>0 ) {
 			setCity(City.valueOf(xml.getAttribute("city")));
 		}
-		if ( xml.getAttribute("name").length()>0 ) {
-			setName(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("name")));
+		if ( xml.getAttribute("namel").length()>0 ) {
+			setNamel(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("namel")));
 		}
-		if ( xml.getAttribute("name").length()>0 ) {
-			setName(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("name")));
+		if ( xml.getAttribute("asdfkk").length()>0 ) {
+			setAsdfkk(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("asdfkk")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -306,6 +357,42 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("standaloneSingleScreenTask1") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("163026363185791958")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						StandaloneSingleScreenTask1 curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToStandaloneSingleScreenTask1(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessStateMachine1") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4021326984444374137")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						BusinessStateMachine1 curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setBusinessStateMachine1(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationAsBusinessComponent_representedOrganization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3245714109628633948")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -361,13 +448,26 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		removeAllFromParticipationParticipant_participation(getParticipationParticipant_participation());
 	}
 	
+	public void clearStandaloneSingleScreenTask1() {
+		removeAllFromStandaloneSingleScreenTask1(getStandaloneSingleScreenTask1());
+	}
+	
+	public boolean consumeProductAnnouncementEvent(ProductAnnouncement signal) {
+		boolean result = false;
+		getBusinessStateMachine1().consumeProductAnnouncementEvent(signal);
+		return result;
+	}
+	
 	public void copyShallowState(Branch from, Branch to) {
 		to.setCity(from.getCity());
 		if ( from.getTechnician()!=null ) {
 			to.setTechnician(from.getTechnician().makeShallowCopy());
 		}
-		to.setName(from.getName());
-		to.setName(from.getName());
+		to.setNamel(from.getNamel());
+		to.setAsdfkk(from.getAsdfkk());
+		if ( from.getBusinessStateMachine1()!=null ) {
+			to.setBusinessStateMachine1(from.getBusinessStateMachine1().makeShallowCopy());
+		}
 	}
 	
 	public void copyState(Branch from, Branch to) {
@@ -381,13 +481,28 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		for ( Job child : from.getJob() ) {
 			to.addToJob(child.makeCopy());
 		}
-		to.setName(from.getName());
-		to.setName(from.getName());
+		to.setNamel(from.getNamel());
+		to.setAsdfkk(from.getAsdfkk());
+		for ( StandaloneSingleScreenTask1 child : from.getStandaloneSingleScreenTask1() ) {
+			to.addToStandaloneSingleScreenTask1(child.makeCopy());
+		}
+		if ( from.getBusinessStateMachine1()!=null ) {
+			to.setBusinessStateMachine1(from.getBusinessStateMachine1().makeCopy());
+		}
+	}
+	
+	public BusinessStateMachine1 createBusinessStateMachine1() {
+		BusinessStateMachine1 newInstance= new BusinessStateMachine1();
+		newInstance.init(this);
+		return newInstance;
 	}
 	
 	public void createComponents() {
 		if ( getOrganizationAsBusinessComponent_representedOrganization()==null ) {
 			setOrganizationAsBusinessComponent_representedOrganization(new OrganizationAsBusinessComponent());
+		}
+		if ( getBusinessStateMachine1()==null ) {
+			setBusinessStateMachine1(new BusinessStateMachine1());
 		}
 		if ( getTechnician()==null ) {
 			setTechnician(new Technician());
@@ -418,6 +533,12 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		return newInstance;
 	}
 	
+	public StandaloneSingleScreenTask1 createStandaloneSingleScreenTask1() {
+		StandaloneSingleScreenTask1 newInstance= new StandaloneSingleScreenTask1();
+		newInstance.init(this);
+		return newInstance;
+	}
+	
 	public Technician createTechnician() {
 		Technician newInstance= new Technician();
 		newInstance.init(this);
@@ -431,6 +552,25 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		return false;
 	}
 	
+	public void generateProductAnnouncementEvent(ProductAnnouncement signal) {
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new ProductAnnouncementHandler(signal,true)));
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4331372641373749241l,uuid="914890@_AgMuwBUxEeKjqLZFOgkVYQ")
+	@NumlMetaInfo(uuid="914890@_AgMuwBUxEeKjqLZFOgkVYQ")
+	public String getAsdfkk() {
+		String result = this.asdfkk;
+		
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=4021326984444374137l,opposite="contextObject",uuid="914890@_HHdlgBYUEeKsDbmQL25eBw")
+	public BusinessStateMachine1 getBusinessStateMachine1() {
+		BusinessStateMachine1 result = this.businessStateMachine1;
+		
+		return result;
+	}
+	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
@@ -439,6 +579,12 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	@NumlMetaInfo(uuid="914890@_59AMMJKGEeGFkOm2e1MJNQ")
 	public City getCity() {
 		City result = this.city;
+		
+		return result;
+	}
+	
+	public IProcessObjectBase getClassifierBehavior() {
+		IProcessObjectBase result = getBusinessStateMachine1();
 		
 		return result;
 	}
@@ -499,10 +645,14 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4331372641373749241l,uuid="914890@_AgMuwBUxEeKjqLZFOgkVYQ")
-	@NumlMetaInfo(uuid="914890@_ea2-cJT6EeG_oLv6jKpgkw")
 	public String getName() {
-		String result = getName();
+		return "Branch["+getId()+"]";
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8433604321489463449l,uuid="914890@_ea2-cJT6EeG_oLv6jKpgkw")
+	@NumlMetaInfo(uuid="914890@_ea2-cJT6EeG_oLv6jKpgkw")
+	public String getNamel() {
+		String result = this.namel;
 		
 		return result;
 	}
@@ -594,6 +744,13 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=163026363185791958l,opposite="contextObject",uuid="914890@_ylMisBYQEeKIFJAOfPz88A")
+	public List<StandaloneSingleScreenTask1> getStandaloneSingleScreenTask1() {
+		List<StandaloneSingleScreenTask1> result = this.standaloneSingleScreenTask1;
+		
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6994431291756453463l,opposite="branch",uuid="914890@_JaIUoJKfEeGiJMBDeZRymA")
 	@NumlMetaInfo(uuid="914890@_JaIUoJKfEeGiJMBDeZRymA")
 	public Technician getTechnician() {
@@ -617,7 +774,12 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.z_internalAddToDishwashersInc((ApplianceDoctor)owner);
 		createComponents();
 		getOrganizationAsBusinessComponent_representedOrganization().init(this);
+		getBusinessStateMachine1().init(this);
 		getTechnician().init(this);
+	}
+	
+	public boolean isStepActive(Class<? extends IExecutionElement> clss) {
+		return getBusinessStateMachine1()!=null && getBusinessStateMachine1().isStepActive(clss);
 	}
 	
 	public Branch makeCopy() {
@@ -648,6 +810,12 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 		for ( Job child : new ArrayList<Job>(getJob()) ) {
 			child.markDeleted();
+		}
+		for ( StandaloneSingleScreenTask1 child : new ArrayList<StandaloneSingleScreenTask1>(getStandaloneSingleScreenTask1()) ) {
+			child.markDeleted();
+		}
+		if ( getBusinessStateMachine1()!=null ) {
+			getBusinessStateMachine1().markDeleted();
 		}
 		if ( getOrganizationAsBusinessComponent_representedOrganization()!=null ) {
 			getOrganizationAsBusinessComponent_representedOrganization().markDeleted();
@@ -697,6 +865,26 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("standaloneSingleScreenTask1") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("163026363185791958")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((StandaloneSingleScreenTask1)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessStateMachine1") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4021326984444374137")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((BusinessStateMachine1)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationAsBusinessComponent_representedOrganization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3245714109628633948")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -718,6 +906,10 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 				}
 			}
 		}
+	}
+	
+	public void receiveProductAnnouncement(ProductAnnouncement signal) {
+		generateProductAnnouncementEvent(signal);
 	}
 	
 	public void removeAllFromCustomerAssistant(Set<CustomerAssistant> customerAssistant) {
@@ -745,6 +937,13 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		Set<ParticipationParticipant> tmp = new HashSet<ParticipationParticipant>(participationParticipant_participation);
 		for ( ParticipationParticipant o : tmp ) {
 			removeFromParticipationParticipant_participation(o);
+		}
+	}
+	
+	public void removeAllFromStandaloneSingleScreenTask1(List<StandaloneSingleScreenTask1> standaloneSingleScreenTask1) {
+		List<StandaloneSingleScreenTask1> tmp = new ArrayList<StandaloneSingleScreenTask1>(standaloneSingleScreenTask1);
+		for ( StandaloneSingleScreenTask1 o : tmp ) {
+			removeFromStandaloneSingleScreenTask1(o);
 		}
 	}
 	
@@ -779,8 +978,45 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 	}
 	
+	public void removeFromStandaloneSingleScreenTask1(StandaloneSingleScreenTask1 standaloneSingleScreenTask1) {
+		if ( standaloneSingleScreenTask1!=null ) {
+			standaloneSingleScreenTask1.z_internalRemoveFromContextObject(this);
+			z_internalRemoveFromStandaloneSingleScreenTask1(standaloneSingleScreenTask1);
+		}
+	}
+	
 	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
+	public void setBusinessStateMachine1(BusinessStateMachine1 businessStateMachine1) {
+		BusinessStateMachine1 oldValue = this.getBusinessStateMachine1();
+		propertyChangeSupport.firePropertyChange("businessStateMachine1",getBusinessStateMachine1(),businessStateMachine1);
+		if ( oldValue==null ) {
+			if ( businessStateMachine1!=null ) {
+				Branch oldOther = (Branch)businessStateMachine1.getContextObject();
+				businessStateMachine1.z_internalRemoveFromContextObject(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromBusinessStateMachine1(businessStateMachine1);
+				}
+				businessStateMachine1.z_internalAddToContextObject((Branch)this);
+			}
+			this.z_internalAddToBusinessStateMachine1(businessStateMachine1);
+		} else {
+			if ( !oldValue.equals(businessStateMachine1) ) {
+				oldValue.z_internalRemoveFromContextObject(this);
+				z_internalRemoveFromBusinessStateMachine1(oldValue);
+				if ( businessStateMachine1!=null ) {
+					Branch oldOther = (Branch)businessStateMachine1.getContextObject();
+					businessStateMachine1.z_internalRemoveFromContextObject(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromBusinessStateMachine1(businessStateMachine1);
+					}
+					businessStateMachine1.z_internalAddToContextObject((Branch)this);
+				}
+				this.z_internalAddToBusinessStateMachine1(businessStateMachine1);
+			}
+		}
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -826,9 +1062,9 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.addAllToJob(job);
 	}
 	
-	public void setName(String name) {
-		propertyChangeSupport.firePropertyChange("name",getName(),name);
-		this.z_internalAddToName(name);
+	public void setNamel(String namel) {
+		propertyChangeSupport.firePropertyChange("namel",getNamel(),namel);
+		this.z_internalAddToNamel(namel);
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -895,6 +1131,12 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 	}
 	
+	public void setStandaloneSingleScreenTask1(List<StandaloneSingleScreenTask1> standaloneSingleScreenTask1) {
+		propertyChangeSupport.firePropertyChange("standaloneSingleScreenTask1",getStandaloneSingleScreenTask1(),standaloneSingleScreenTask1);
+		this.clearStandaloneSingleScreenTask1();
+		this.addAllToStandaloneSingleScreenTask1(standaloneSingleScreenTask1);
+	}
+	
 	public void setTechnician(Technician technician) {
 		Technician oldValue = this.getTechnician();
 		propertyChangeSupport.firePropertyChange("technician",getTechnician(),technician);
@@ -929,6 +1171,13 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.uid=newUid;
 	}
 	
+	public void startClassifierBehavior() {
+		BusinessStateMachine1 _behavior = new BusinessStateMachine1(this);
+		_behavior.setParameter1(parameter1);
+		_behavior.execute();
+		setBusinessStateMachine1(_behavior);
+	}
+	
 	public String toXmlReferenceString() {
 		return "<Branch uid=\""+getUid() + "\"/>";
 	}
@@ -942,11 +1191,11 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( getCity()!=null ) {
 			sb.append("city=\""+ getCity().name() + "\" ");
 		}
-		if ( getName()!=null ) {
-			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
+		if ( getNamel()!=null ) {
+			sb.append("namel=\""+ StructuredbusinessFormatter.getInstance().formatString(getNamel())+"\" ");
 		}
-		if ( getName()!=null ) {
-			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
+		if ( getAsdfkk()!=null ) {
+			sb.append("asdfkk=\""+ StructuredbusinessFormatter.getInstance().formatString(getAsdfkk())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n<customerAssistant propertyId=\"758991831684440668\">");
@@ -966,6 +1215,18 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 			sb.append("\n" + job.toXmlString());
 		}
 		sb.append("\n</job>");
+		sb.append("\n<standaloneSingleScreenTask1 propertyId=\"163026363185791958\">");
+		for ( StandaloneSingleScreenTask1 standaloneSingleScreenTask1 : getStandaloneSingleScreenTask1() ) {
+			sb.append("\n" + standaloneSingleScreenTask1.toXmlString());
+		}
+		sb.append("\n</standaloneSingleScreenTask1>");
+		if ( getBusinessStateMachine1()==null ) {
+			sb.append("\n<businessStateMachine1/>");
+		} else {
+			sb.append("\n<businessStateMachine1 propertyId=\"4021326984444374137\">");
+			sb.append("\n" + getBusinessStateMachine1().toXmlString());
+			sb.append("\n</businessStateMachine1>");
+		}
 		if ( getOrganizationAsBusinessComponent_representedOrganization()==null ) {
 			sb.append("\n<organizationAsBusinessComponent_representedOrganization/>");
 		} else {
@@ -980,6 +1241,14 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		sb.append("\n</participationParticipant_participation>");
 		sb.append("\n</Branch>");
 		return sb.toString();
+	}
+	
+	public void z_internalAddToAsdfkk(String asdfkk) {
+		this.asdfkk=asdfkk;
+	}
+	
+	public void z_internalAddToBusinessStateMachine1(BusinessStateMachine1 businessStateMachine1) {
+		this.businessStateMachine1=businessStateMachine1;
 	}
 	
 	public void z_internalAddToCity(City city) {
@@ -998,8 +1267,8 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.job.add(job);
 	}
 	
-	public void z_internalAddToName(String name) {
-		this.name=name;
+	public void z_internalAddToNamel(String namel) {
+		this.namel=namel;
 	}
 	
 	public void z_internalAddToOrganizationAsBusinessComponent_representedOrganization(OrganizationAsBusinessComponent organizationAsBusinessComponent_representedOrganization) {
@@ -1022,8 +1291,19 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		newOne.getRepresentedOrganization().z_internalAddToOrganizationAsBusinessComponent_businessComponent(newOne);
 	}
 	
+	public void z_internalAddToStandaloneSingleScreenTask1(StandaloneSingleScreenTask1 standaloneSingleScreenTask1) {
+		this.standaloneSingleScreenTask1.add(standaloneSingleScreenTask1);
+	}
+	
 	public void z_internalAddToTechnician(Technician technician) {
 		this.technician=technician;
+	}
+	
+	public void z_internalRemoveFromBusinessStateMachine1(BusinessStateMachine1 businessStateMachine1) {
+		if ( getBusinessStateMachine1()!=null && businessStateMachine1!=null && businessStateMachine1.equals(getBusinessStateMachine1()) ) {
+			this.businessStateMachine1=null;
+			this.businessStateMachine1=null;
+		}
 	}
 	
 	public void z_internalRemoveFromCity(City city) {
@@ -1048,10 +1328,10 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.job.remove(job);
 	}
 	
-	public void z_internalRemoveFromName(String name) {
-		if ( getName()!=null && name!=null && name.equals(getName()) ) {
-			this.name=null;
-			this.name=null;
+	public void z_internalRemoveFromNamel(String namel) {
+		if ( getNamel()!=null && namel!=null && namel.equals(getNamel()) ) {
+			this.namel=null;
+			this.namel=null;
 		}
 	}
 	
@@ -1079,6 +1359,10 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( this.organizationAsBusinessComponent_representedOrganization!=null ) {
 			this.organizationAsBusinessComponent_representedOrganization.clear();
 		}
+	}
+	
+	public void z_internalRemoveFromStandaloneSingleScreenTask1(StandaloneSingleScreenTask1 standaloneSingleScreenTask1) {
+		this.standaloneSingleScreenTask1.remove(standaloneSingleScreenTask1);
 	}
 	
 	public void z_internalRemoveFromTechnician(Technician technician) {
@@ -1252,6 +1536,11 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 			}
 		}
 		return result;
+	}
+	
+	private void setAsdfkk(String asdfkk) {
+		propertyChangeSupport.firePropertyChange("asdfkk",getAsdfkk(),asdfkk);
+		this.z_internalAddToAsdfkk(asdfkk);
 	}
 	
 	/** Implements self.job->collect(temp1 : Job | temp1.activity)->collect(temp2 : Activity | temp2.costToCompany)->sum() on self.job->collect(temp1 : Job | temp1.activity)->collect(temp2 : Activity | temp2.costToCompany)

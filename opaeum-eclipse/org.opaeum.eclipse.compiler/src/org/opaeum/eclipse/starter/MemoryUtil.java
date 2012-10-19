@@ -2,6 +2,7 @@ package org.opaeum.eclipse.starter;
 
 import java.util.Map.Entry;
 
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.OpaeumScheduler;
 import org.opaeum.java.metamodel.generated.OJElementGEN;
 import org.opaeum.javageneration.util.OJUtil;
@@ -19,16 +20,16 @@ public class MemoryUtil{
 						Thread.sleep(5000);
 					}catch(InterruptedException e){
 					}
-					System.out.println("Max Memory:" + Runtime.getRuntime().maxMemory());
-					System.out.println("Total Memory:" + Runtime.getRuntime().totalMemory());
-					System.out.println("Free Memory:" + Runtime.getRuntime().freeMemory());
+					OpaeumEclipsePlugin.logInfo("Max Memory:" + Runtime.getRuntime().maxMemory());
+					OpaeumEclipsePlugin.logInfo("Total Memory:" + Runtime.getRuntime().totalMemory());
+					OpaeumEclipsePlugin.logInfo("Free Memory:" + Runtime.getRuntime().freeMemory());
 					for(Entry<Class<?>,Long> entry:TextOutputNode.counts.entrySet()){
-						// System.out.println(entry.getKey().getName() + "=" + entry.getValue());
+						// OpaeumEclipsePlugin.logInfo(entry.getKey().getName() + "=" + entry.getValue());
 					}
 					for(Entry<Class<?>,Long> entry:OJElementGEN.counts.entrySet()){
-						System.out.println(entry.getKey().getName() + "=" + entry.getValue());
+						OpaeumEclipsePlugin.logInfo(entry.getKey().getName() + "=" + entry.getValue());
 					}
-					System.out.println("OJUtil.instanceCount:"+OJUtil.instanceCount);
+					OpaeumEclipsePlugin.logInfo("OJUtil.instanceCount:"+OJUtil.instanceCount);
 	
 				}
 			}, 0);

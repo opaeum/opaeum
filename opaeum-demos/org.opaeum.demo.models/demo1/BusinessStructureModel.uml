@@ -23,16 +23,18 @@
     </packageImport>
     <packagedElement xmi:type="uml:Class" xmi:id="_nhV7IGCfEeG6xvYqJACneg" name="ApplianceModel">
       <eAnnotations xmi:id="_nhXJQGCfEeG6xvYqJACneg" source="http://www.opaeum.org"/>
-      <ownedAttribute xmi:id="_4_SYoHJ6EeG5aYCQXxe9BQ" name="component" type="_x_4WgHJ6EeG5aYCQXxe9BQ" aggregation="composite" association="_4_U04HJ6EeG5aYCQXxe9BQ">
+      <ownedAttribute xmi:id="_4_SYoHJ6EeG5aYCQXxe9BQ" name="componentl" type="_x_4WgHJ6EeG5aYCQXxe9BQ" aggregation="composite" association="_4_U04HJ6EeG5aYCQXxe9BQ">
         <eAnnotations xmi:id="_5EfBsHJ6EeG5aYCQXxe9BQ" source="http://www.opaeum.org"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4_SYoXJ6EeG5aYCQXxe9BQ"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4_SYonJ6EeG5aYCQXxe9BQ" value="*"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_ht9n8HphEeGlh5y8zQdYBA" name="name">
         <eAnnotations xmi:id="_hy5yUHphEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_Kid8QHpiEeGlh5y8zQdYBA" name="partNumber">
+      <ownedAttribute xmi:id="_Kid8QHpiEeGlh5y8zQdYBA" name="partNumberl">
         <eAnnotations xmi:id="_KnbUwHpiEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_UjTHMNb_EeCJ0dmaHEVVnw"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_7RIUYHsKEeGBGZr9IpIa3A" name="vendor" type="_z8IcwHsKEeGBGZr9IpIa3A" association="_7RKwoHsKEeGBGZr9IpIa3A">
         <eAnnotations xmi:id="_7WRTEHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
@@ -42,6 +44,9 @@
       <ownedAttribute xmi:id="_Ek7dQJLAEeGnpuq6_ber_Q" name="applianceType" type="_8mTZ0JK_EeGnpuq6_ber_Q" association="_Ek9ScJLAEeGnpuq6_ber_Q">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ek7dQZLAEeGnpuq6_ber_Q" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ek7dQpLAEeGnpuq6_ber_Q" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_ku-8YBknEeKmaYAq-i-IvQ" name="namaell">
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_oiVeEGCfEeG6xvYqJACneg" clientDependency="_oo71UGCfEeG6xvYqJACneg" name="IdBook">
@@ -104,7 +109,7 @@
         <eAnnotations xmi:id="_oki5cHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
         <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_SvHAkHrxEeGgA7LmG6YzjA"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_rZMyYHsKEeGBGZr9IpIa3A" name="initiationDate">
+      <ownedAttribute xmi:id="_rZMyYHsKEeGBGZr9IpIa3A" name="initiationDatell">
         <eAnnotations xmi:id="_rZOAgHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
         <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
       </ownedAttribute>
@@ -243,13 +248,13 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QcObYJLAEeGnpuq6_ber_Q"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QcObYZLAEeGnpuq6_ber_Q" value="*"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_ea2-cJT6EeG_oLv6jKpgkw" name="namel" isOrdered="true">
+      <ownedAttribute xmi:id="_ea2-cJT6EeG_oLv6jKpgkw" name="name" isOrdered="true">
         <eAnnotations xmi:id="_ebAIYJT6EeG_oLv6jKpgkw" source="http://www.opaeum.org"/>
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_I_5ucBW_EeKZsbdIBQBOAg"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9k-wYBOnEeK6bN8PqKkejg" value="1"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_AgMuwBUxEeKjqLZFOgkVYQ" name="name" isReadOnly="true">
+      <ownedAttribute xmi:id="_AgMuwBUxEeKjqLZFOgkVYQ" name="surname" isReadOnly="true">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1FQ_sBU0EeKjqLZFOgkVYQ" value="1"/>
       </ownedAttribute>

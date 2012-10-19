@@ -19,16 +19,16 @@ public class MigrationPomStep extends PomGenerationStep{
 		d.setVersion(getVersionVariable());
 		d.setScope("compile");
 		d.setType("jar");
-		d.setVersion(super.migrationWorkspace.getFromWorkspace().getWorkspaceMappingInfo().getVersion().toVersionString());
-		d.setArtifactId(workspace.getIdentifier() + super.migrationWorkspace.getFromWorkspace().getWorkspaceMappingInfo().getVersion().getSuffix());
+		d.setVersion(super.migrationWorkspace.getFromWorkspace().getVersion().toVersionString());
+		d.setArtifactId(workspace.getIdentifier() + super.migrationWorkspace.getFromWorkspace().getVersion().getSuffix());
 		result.add(d);
 		Dependency d2 = POMFactory.eINSTANCE.createDependency();
 		d2.setGroupId(config.getMavenGroupId());
 		d2.setVersion(getVersionVariable());
 		d2.setScope("compile");
 		d2.setType("jar");
-		d2.setVersion(super.migrationWorkspace.getToWorkspace().getWorkspaceMappingInfo().getVersion().toVersionString());
-		d2.setArtifactId(workspace.getIdentifier() + super.migrationWorkspace.getToWorkspace().getWorkspaceMappingInfo().getVersion().getSuffix());
+		d2.setVersion(super.migrationWorkspace.getToWorkspace().getVersion().toVersionString());
+		d2.setArtifactId(workspace.getIdentifier() + super.migrationWorkspace.getToWorkspace().getVersion().getSuffix());
 		result.add(d2);
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}

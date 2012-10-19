@@ -4,6 +4,7 @@
     <superUserInterfaces href="252060@_cOzTkF9lEeG3X_yvufTVmw.uim#//@primaryEditor"/>
     <pageOrdering page="//@primaryEditor/@pages.0"/>
     <pageOrdering page="//@primaryEditor/@pages.1" position="1"/>
+    <pageOrdering page="//@primaryEditor/@pages.2" position="2"/>
     <pages umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="Edit Id book">
       <panel xsi:type="panel:GridPanel" numberOfColumns="1">
         <children xsi:type="comp:UimField" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
@@ -12,13 +13,14 @@
       </panel>
     </pages>
     <pages umlElementUid="914890@_oo71UGCfEeG6xvYqJACneg" name="Is ai business document">
-      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
-        <children xsi:type="comp:UimField" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown"/>
+      <panel xsi:type="panel:GridPanel" preferredWidth="806" preferredHeight="396" fillHorizontally="false" fillVertically="false" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Document type" preferredWidth="731" preferredHeight="40" fillHorizontally="false" fillVertically="false" controlKind="treeView" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimTreeView"/>
           <binding umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
         </children>
       </panel>
     </pages>
+    <pages/>
     <actionBar name="ActionBar">
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>

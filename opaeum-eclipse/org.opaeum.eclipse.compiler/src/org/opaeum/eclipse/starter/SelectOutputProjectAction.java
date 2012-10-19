@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.ui.internal.ide.misc.ContainerSelectionGroup;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.menu.AbstractOpaeumAction;
 
 @SuppressWarnings("restriction")
 public class SelectOutputProjectAction extends AbstractOpaeumAction{

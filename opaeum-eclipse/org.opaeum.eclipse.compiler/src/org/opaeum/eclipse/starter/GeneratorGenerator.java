@@ -2,7 +2,6 @@ package org.opaeum.eclipse.starter;
 
 import java.util.Set;
 
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.StepDependency;

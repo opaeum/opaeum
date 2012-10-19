@@ -18,6 +18,8 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.ResourceSetChangeEvent;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
+import org.eclipse.emf.transaction.impl.TransactionChangeRecorder;
 import org.eclipse.gmf.runtime.diagram.core.listener.DiagramEventBroker;
 import org.eclipse.gmf.runtime.notation.Bounds;
 import org.eclipse.gmf.runtime.notation.DecorationNode;
@@ -26,10 +28,13 @@ import org.eclipse.gmf.runtime.notation.MeasurementUnit;
 import org.eclipse.gmf.runtime.notation.NotationFactory;
 import org.eclipse.gmf.runtime.notation.Shape;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
 import org.eclipse.papyrus.infra.core.sashwindows.di.DiFactory;
 import org.eclipse.papyrus.infra.core.sashwindows.di.DiPackage;
 import org.eclipse.papyrus.infra.core.sashwindows.di.PageRef;
 import org.eclipse.papyrus.infra.gmfdiag.css.resource.CSSNotationResource;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.action.BuiltInActionButton;
@@ -67,9 +72,11 @@ import org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart;
 import org.w3c.dom.Document;
 
+@SuppressWarnings("unchecked")
 public class InMemoryNotationResource extends CSSNotationResource{
 	private UimModelSet modelSet;
 	private EList<Adapter> dummyAdaptors = new BasicEList<Adapter>(){
+		private static final long serialVersionUID = 4260280000124344269L;
 		public boolean add(Adapter object){
 			return superEAdapters().add(object);
 		};
@@ -84,43 +91,70 @@ public class InMemoryNotationResource extends CSSNotationResource{
 		return super.eAdapters();
 	}
 	public Diagram getDiagram(UserInteractionElement key){
-		EditingDomain editingDomain = modelSet.getOpenUmlFile().getEditingDomain();
-		Diagram diagram = diagrams.get(key);
-		if(diagram == null){
-			diagram = NotationFactory.eINSTANCE.createDiagram();
-			if(key instanceof ActionBar){
-				populateActionBar(key, diagram);
-			}else if(key instanceof Page){
-				populatePage((Page) key, diagram);
-			}else{
-				return null;
-			}
-			getContents().add(diagram);
-			PageRef pageRef = DiFactory.eINSTANCE.createPageRef();
-			pageRef.setEmfPageIdentifier(diagram);
-			try{
-				editingDomain.getCommandStack().execute(
-						AddCommand.create(editingDomain, modelSet.getWindowsManager().getPageList(), DiPackage.eINSTANCE.getPageList_AvailablePage(), pageRef));
-			}catch(Exception e){
-				return null;
-			}
-			final TransactionalEditingDomain txDomain = (TransactionalEditingDomain) editingDomain;
-			final DiagramEventBroker deb = DiagramEventBroker.getInstance(txDomain);
-			diagram.eAdapters().add(new EContentAdapter(){
-				@Override
-				public void notifyChanged(Notification notification){
-					super.notifyChanged(notification);
-					if(notification.getFeature() instanceof EStructuralFeature){
-						EStructuralFeature sf = (EStructuralFeature) notification.getFeature();
-						ResourceSetChangeEvent e = new ResourceSetChangeEvent(txDomain, null, Collections.singletonList(notification));
-						deb.resourceSetChanged(e);
+		if(key instanceof Page || key instanceof ActionBar){
+			EditingDomain editingDomain = modelSet.getOpenUmlFile().getEditingDomain();
+			Diagram diagram = diagrams.get(key);
+			if(diagram == null){
+				diagram = NotationFactory.eINSTANCE.createDiagram();
+				getContents().add(diagram);
+				PageRef pageRef = DiFactory.eINSTANCE.createPageRef();
+				pageRef.setEmfPageIdentifier(diagram);
+				InternalTransactionalEditingDomain ite = (InternalTransactionalEditingDomain) modelSet.getTransactionalEditingDomain();
+				if(ite.getActiveTransaction() != null && ite.getActiveTransaction().isActive()){
+					if(!ite.getActiveTransaction().isReadOnly()){
+						modelSet.getWindowsManager().getPageList().getAvailablePage().add(pageRef);
+					}else{
+						System.out.println();
+					}
+				}else{
+					try{
+						editingDomain.getCommandStack().execute(
+								AddCommand.create(editingDomain, modelSet.getWindowsManager().getPageList(),
+										DiPackage.eINSTANCE.getPageList_AvailablePage(), pageRef));
+					}catch(Exception e2){
+						e2.printStackTrace();
+						return null;
 					}
 				}
-			});
-			diagrams.put(key, diagram);
-			// new GMFElementAdapter(diagram, ((CSSDiagram) diagram).getEngine());
+				final TransactionalEditingDomain txDomain = (TransactionalEditingDomain) editingDomain;
+				final DiagramEventBroker deb = DiagramEventBroker.getInstance(txDomain);
+				// NB!! we need to keep the DIagramEventBroker updated on Diagram changes
+				diagram.eAdapters().add(new EContentAdapter(){
+					@Override
+					public void notifyChanged(Notification notification){
+						super.notifyChanged(notification);
+						if(notification.getFeature() instanceof EStructuralFeature){
+							ResourceSetChangeEvent e = new ResourceSetChangeEvent(txDomain, null, Collections.singletonList(notification));
+							deb.resourceSetChanged(e);
+						}
+					}
+				});
+				diagrams.put(key, diagram);
+			}
+			if(diagram.getPersistedChildren().isEmpty()){
+				if(PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
+						&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null){
+					IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+					boolean ignore = false;
+					if(activeEditor != null && activeEditor instanceof PapyrusMultiDiagramEditor){
+						PapyrusMultiDiagramEditor mm = (PapyrusMultiDiagramEditor) activeEditor;
+						if(diagram != null && mm.getDiagram() == diagram){
+							ignore = true;
+						}
+					}
+					if(!ignore){
+						if(key instanceof ActionBar){
+							populateActionBar(key, diagram);
+						}else if(key instanceof Page){
+							populatePage((Page) key, diagram);
+						}
+					}
+				}
+			}
+			return diagram;
+		}else{
+			return null;
 		}
-		return diagram;
 	}
 	public void populatePage(Page page,Diagram diagram){
 		diagram.setElement(page);
@@ -162,7 +196,7 @@ public class InMemoryNotationResource extends CSSNotationResource{
 		diagram.getPersistedChildren().add(panelShape);
 		for(UimComponent uimComponent:panel.getChildren()){
 			if(uimComponent instanceof UimField){
-				addComponent(compartmentDecoration, uimComponent, UimFieldEditPart.VISUAL_ID + "", null);//UimFieldNameEditPart.VISUAL_ID + "");
+				addComponent(compartmentDecoration, uimComponent, UimFieldEditPart.VISUAL_ID + "", null);// UimFieldNameEditPart.VISUAL_ID + "");
 			}else if(uimComponent instanceof GridPanel){
 				populatePanelPanel(compartmentDecoration, (GridPanel) uimComponent);
 			}else if(uimComponent instanceof UimDataTable){
@@ -210,21 +244,26 @@ public class InMemoryNotationResource extends CSSNotationResource{
 		diagram.getPersistedChildren().add(panelShape);
 		for(UimComponent uimComponent:actionBar.getChildren()){
 			if(uimComponent instanceof BuiltInActionButton){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.BuiltInActionButtonEditPart.VISUAL_ID + "", null);
+				addComponent(compartmentDecoration, uimComponent,
+						org.opaeum.uimodeler.actionbar.diagram.edit.parts.BuiltInActionButtonEditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof InvocationButton){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.InvocationButtonEditPart.VISUAL_ID + "", null);
+				addComponent(compartmentDecoration, uimComponent,
+						org.opaeum.uimodeler.actionbar.diagram.edit.parts.InvocationButtonEditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof TransitionButton){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.TransitionButtonEditPart.VISUAL_ID + "", null);
+				addComponent(compartmentDecoration, uimComponent,
+						org.opaeum.uimodeler.actionbar.diagram.edit.parts.TransitionButtonEditPart.VISUAL_ID + "", null);
 			}else if(uimComponent instanceof BuiltInLink){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.BuiltInLinkEditPart.VISUAL_ID + "", null);
+				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.BuiltInLinkEditPart.VISUAL_ID
+						+ "", null);
 			}else if(uimComponent instanceof LinkToQuery){
-				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.LinkToQueryEditPart.VISUAL_ID + "", null);
+				addComponent(compartmentDecoration, uimComponent, org.opaeum.uimodeler.actionbar.diagram.edit.parts.LinkToQueryEditPart.VISUAL_ID
+						+ "", null);
 			}
 		}
 		PageRef pageRef = DiFactory.eINSTANCE.createPageRef();
 		pageRef.setEmfPageIdentifier(diagram);
 	}
-	private void addComponent(DecorationNode compartmentDecoration,UimComponent uimComponent,String shapeId,String labelId){
+	public static void addComponent(DecorationNode compartmentDecoration,UimComponent uimComponent,String shapeId,String labelId){
 		Shape fieldShape = NotationFactory.eINSTANCE.createShape();
 		compartmentDecoration.getPersistedChildren().add(fieldShape);
 		fieldShape.setElement(uimComponent);

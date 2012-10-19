@@ -16,43 +16,43 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	/**
 	 * @generated
 	 */
-	private final static String CREATEFIELD1CREATIONTOOL = "createField1CreationTool"; //$NON-NLS-1$
+	public static final  String CREATEFIELD1CREATIONTOOL = "createField1CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATEDATATABLE2CREATIONTOOL = "createDataTable2CreationTool"; //$NON-NLS-1$
+	public static final  String CREATEDATATABLE2CREATIONTOOL = "createDataTable2CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATEGRIDPANEL1CREATIONTOOL = "createGridPanel1CreationTool"; //$NON-NLS-1$
+	public static final  String CREATEGRIDPANEL1CREATIONTOOL = "createGridPanel1CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATEVERTICALPANEL2CREATIONTOOL = "createVerticalPanel2CreationTool"; //$NON-NLS-1$
+	public static final  String CREATEVERTICALPANEL2CREATIONTOOL = "createVerticalPanel2CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATEHORIZONTALPANEL3CREATIONTOOL = "createHorizontalPanel3CreationTool"; //$NON-NLS-1$
+	public static final  String CREATEHORIZONTALPANEL3CREATIONTOOL = "createHorizontalPanel3CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATEBUILTINACTIONBUTTON1CREATIONTOOL = "createBuiltInActionButton1CreationTool"; //$NON-NLS-1$
+	public static final  String CREATEBUILTINACTIONBUTTON1CREATIONTOOL = "createBuiltInActionButton1CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATETRANSITIONBUTTON2CREATIONTOOL = "createTransitionButton2CreationTool"; //$NON-NLS-1$
+	public static final  String CREATETRANSITIONBUTTON2CREATIONTOOL = "createTransitionButton2CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATEOPERATIONBUTTON3CREATIONTOOL = "createInvocationButton3CreationTool"; //$NON-NLS-1$
+	public static final  String CREATEOPERATIONBUTTON3CREATIONTOOL = "createInvocationButton3CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATELINKTOQUERY4CREATIONTOOL = "createLinkToQuery4CreationTool"; //$NON-NLS-1$
+	public static final  String CREATELINKTOQUERY4CREATIONTOOL = "createLinkToQuery4CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATEBUILTINLINK5CREATIONTOOL = "createBuiltInLink5CreationTool"; //$NON-NLS-1$
+	public static final  String CREATEBUILTINLINK5CREATIONTOOL = "createBuiltInLink5CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */

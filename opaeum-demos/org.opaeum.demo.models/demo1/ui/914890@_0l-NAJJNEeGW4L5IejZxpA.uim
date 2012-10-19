@@ -8,16 +8,16 @@
     <pageOrdering page="//@primaryEditor/@pages.3" position="3"/>
     <pageOrdering page="//@primaryEditor/@pages.4" position="4"/>
     <pages umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA" name="Edit Branch">
-      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+      <panel xsi:type="panel:GridPanel" name="Branch" numberOfColumns="1">
         <children xsi:type="comp:UimField" name="City" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
           <control xsi:type="ctl:UimDropdown"/>
           <binding umlElementUid="914890@_59AMMJKGEeGFkOm2e1MJNQ"/>
         </children>
-        <children xsi:type="comp:UimField" name="Namel" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_ea2-cJT6EeG_oLv6jKpgkw"/>
         </children>
-        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <children xsi:type="comp:UimField" name="Surname" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_AgMuwBUxEeKjqLZFOgkVYQ"/>
         </children>
@@ -224,15 +224,11 @@
         </children>
       </panel>
     </pages>
-    <actionBar name="ActionBar">
+    <actionBar>
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
-      <children xsi:type="action:InvocationButton" name="Business state machine1" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw">
-        <popup href="914890@_HHdlgBYUEeKsDbmQL25eBw.uim#//@invocationWizard"/>
-      </children>
-      <children xsi:type="action:InvocationButton" name="Standalone single screen task1" umlElementUid="914890@_ylMisBYQEeKIFJAOfPz88A">
-        <popup href="914890@_ylMisBYQEeKIFJAOfPz88A.uim#//@invocationWizard"/>
-      </children>
+      <children xsi:type="action:InvocationButton" name="Business state machine1" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw"/>
+      <children xsi:type="action:InvocationButton" name="Standalone single screen task1" umlElementUid="914890@_ylMisBYQEeKIFJAOfPz88A"/>
     </actionBar>
   </primaryEditor>
   <newObjectWizard name="Create Branch" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
@@ -243,16 +239,16 @@
     <pageOrdering page="//@newObjectWizard/@pages.3" position="3"/>
     <pageOrdering page="//@newObjectWizard/@pages.4" position="4"/>
     <pages umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA" name="CreateBranch">
-      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+      <panel xsi:type="panel:GridPanel" name="Branch" numberOfColumns="1">
         <children xsi:type="comp:UimField" name="City" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
           <control xsi:type="ctl:UimDropdown"/>
           <binding umlElementUid="914890@_59AMMJKGEeGFkOm2e1MJNQ"/>
         </children>
-        <children xsi:type="comp:UimField" name="Namel" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_ea2-cJT6EeG_oLv6jKpgkw"/>
         </children>
-        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <children xsi:type="comp:UimField" name="Surname" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
           <control xsi:type="ctl:UimText"/>
           <binding umlElementUid="914890@_AgMuwBUxEeKjqLZFOgkVYQ"/>
         </children>

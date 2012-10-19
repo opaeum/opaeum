@@ -22,6 +22,8 @@ import org.opaeum.uimodeler.common.figures.UimFigureUtil;
  * @generated NOT
  */
 public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFigure{
+	@Deprecated
+	
 	private Control widget;
 	/**
 	 * @generated NOT
@@ -89,11 +91,7 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 	}
 	@Override
 	public Rectangle getBounds(){
-//		if(!widget.isDisposed()){
-//			return UimFigureUtil.toDraw2DRectangle(widget);
-//		}else{
-			return super.getBounds();
-//		}
+			return UimFigureUtil.toDraw2DRectangle(getComposite());
 	}
 	/**
 	 * @generated
@@ -110,7 +108,7 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 			;
 			Point copy = getLocation().getCopy();
 			try{
-				graphics.drawImage((Image) getComposite().getData("OPAEUM_IMAGE"), copy.x, copy.y);
+				graphics.drawImage((Image) getComposite().getData(UimFigureUtil.OPAEUM_IMAGE), copy.x, copy.y);
 			}catch(Exception e){
 				// TODO Auto-generated catch block
 				e.printStackTrace();

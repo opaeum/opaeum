@@ -4,7 +4,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
-import org.opaeum.eclipse.starter.AbstractOpaeumAction;
+import org.opaeum.eclipse.menu.AbstractOpaeumAction;
 
 public class VersionAction extends AbstractOpaeumAction{
 

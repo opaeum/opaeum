@@ -303,9 +303,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		Property p = (Property) map.getProperty();
 		if(!EmfPropertyUtil.isDerived(p) && p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
 			OJOperation setter = ojOwner.findOperation(map.setter(), Arrays.asList(map.javaTypePath()));
-			if(setter == null){
-				System.out.println();
-			}
 			OJIfStatement st = (OJIfStatement) setter.getBody().findStatementRecursive(AttributeImplementor.IF_PARAM_NOT_NULL);
 			if(st == null){
 			}else{

@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
@@ -30,15 +31,15 @@ import org.opaeum.textmetamodel.TextWorkspace;
 
 public class JavaTransformationProcessManager implements IStartup,Runnable{
 	private static Map<IResource,TransformationProcess> processes = new WeakHashMap<IResource,TransformationProcess>();
+	private static Map<IResource,JavaSourceSynchronizer> synchronizers = new WeakHashMap<IResource,JavaSourceSynchronizer>();
 	public JavaTransformationProcessManager(){
 	}
 	@Override
 	public void run(){
 		try{
 			// Continuously associate new contexts with transformation processes
-				for(OpenUmlFile openUmlFile:OpaeumEclipseContext.getAllOpenUmlFiles()){
-					getTransformationProcess(openUmlFile);
-					
+			for(OpenUmlFile openUmlFile:OpaeumEclipseContext.getAllOpenUmlFiles()){
+				getTransformationProcess(openUmlFile);
 			}
 		}catch(Throwable e){
 			e.printStackTrace();
@@ -61,7 +62,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			OpaeumEclipsePlugin.getDefault();
 			reinitializeProcess(process, ouf.getConfig(), ouf.getFile().getParent());
 			processes.put(ouf.getFile(), process);
-			new JavaSourceSynchronizer(ouf, process);
+			synchronizers.put(ouf.getFile(), new JavaSourceSynchronizer(ouf, process));
 			ouf.addContextListener(new OpaeumSynchronizationListener(){
 				@Override
 				public void synchronizationComplete(OpenUmlFile openUmlFile,Set<Element> affectedElements){
@@ -70,6 +71,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 				public void onClose(OpenUmlFile openUmlFile){
 					processes.get(openUmlFile.getFile()).release();
 					processes.remove(openUmlFile.getFile());
+					synchronizers.remove(openUmlFile.getFile());
 				}
 			});
 		}
@@ -123,9 +125,12 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		return toSet(HibernatePackageAnnotator.class, JavaMetaInfoMapGenerator.class);
 	}
 	public static TransformationProcess getTransformationProcessFor(OpenUmlFile file){
-		if(file==null){
+		if(file == null){
 			return null;
 		}
 		return getTransformationProcess(file);
+	}
+	public static JavaSourceSynchronizer getSynchronizerFor(IFile f){
+		return synchronizers.get(f);
 	}
 }

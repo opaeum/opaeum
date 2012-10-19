@@ -5,14 +5,11 @@ import java.util.Set;
 
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
-import org.opaeum.feature.WorkspaceMappingInfo;
 import org.opaeum.metamodel.validation.ErrorMap;
 
 public interface ModelWorkspace extends Element{
 	ErrorMap getErrorMap();
 	Element getModelElement(String id);
-	WorkspaceMappingInfo getWorkspaceMappingInfo();
-	void setWorkspaceMappingInfo(WorkspaceMappingInfo vim);
 	OpaeumLibrary getOpaeumLibrary();
 	Collection<Package> getRootObjects();
 	String getName();

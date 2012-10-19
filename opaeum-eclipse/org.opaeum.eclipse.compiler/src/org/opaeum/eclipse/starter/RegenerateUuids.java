@@ -26,6 +26,7 @@ import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.OpaeumElementLinker;
 import org.opaeum.eclipse.OpaeumElementLinker.EmfUmlElementLinker;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.menu.AbstractOpaeumAction;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.visit.VisitBefore;
 

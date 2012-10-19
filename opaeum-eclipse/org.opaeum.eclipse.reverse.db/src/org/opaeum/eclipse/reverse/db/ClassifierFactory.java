@@ -35,6 +35,7 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
 
 public class ClassifierFactory{
 	private Map<String,org.eclipse.uml2.uml.Classifier> classMap = new HashMap<String,org.eclipse.uml2.uml.Classifier>();
@@ -195,7 +196,7 @@ public class ClassifierFactory{
 			}else if(dataType instanceof BinaryStringDataType){
 				result = findInImports(model, "BinaryLargeObject");
 			}else{
-				System.out.println("No Matching data type found for " +dataType.getName());				
+				OpaeumEclipsePlugin.logWarning("No Matching data type found for " +dataType.getName());				
 			}
 		}
 		return result;

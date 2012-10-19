@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="OpaeumBPMProfile.uml@_J-050PDpEeGcpZPTfU1MEw" name="Standalone single screen task User Interface Model" linkedUmlResource="OpaeumBPMProfile.uml">
+  <primaryEditor name="Edit StandaloneSingleScreenTask" umlElementUid="OpaeumBPMProfile.uml@_J-050PDpEeGcpZPTfU1MEw">
+    <superUserInterfaces href="OpaeumBPMProfile.uml@_DmCxwPG4EeGoQ4M-oJgF7A.uim#//@primaryEditor"/>
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_J-050PDpEeGcpZPTfU1MEw" name="Edit Standalone single screen task">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimField" name="Potential owners" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_0tJ5II59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Stakeholders" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_9Lun8I59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Business administrators" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_38gxEI59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Deadlines" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_BsHC4I5-EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Time observations" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_T7p9oASMEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Duration observations" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_T7qksASMEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Duration based cost observations" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_01Xs8PlxEeGYn9aDKdPmKA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Quantity based cost observations" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_HRPV4PlzEeGYn9aDKdPmKA"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create StandaloneSingleScreenTask" umlElementUid="OpaeumBPMProfile.uml@_J-050PDpEeGcpZPTfU1MEw">
+    <superUserInterfaces href="OpaeumBPMProfile.uml@_DmCxwPG4EeGoQ4M-oJgF7A.uim#//@newObjectWizard"/>
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_J-050PDpEeGcpZPTfU1MEw" name="CreateStandalone single screen task">
+      <panel xsi:type="panel:GridPanel">
+        <children xsi:type="comp:UimField" name="Potential owners" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_0tJ5II59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Stakeholders" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_9Lun8I59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Business administrators" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_38gxEI59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Deadlines" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_BsHC4I5-EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Time observations" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_T7p9oASMEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Duration observations" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_T7qksASMEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Duration based cost observations" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_01Xs8PlxEeGYn9aDKdPmKA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Quantity based cost observations" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_HRPV4PlzEeGYn9aDKdPmKA"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

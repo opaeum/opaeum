@@ -91,7 +91,7 @@ public class UmlUimLinks{
 		return (Class) getUmlElement(nearestForm);
 	}
 	public String getId(Element e){
-		return primaryEmfWorkspace.getId(e);
+		return EmfWorkspace.getId(e);
 	}
 	public TypedElement getResultingType(final UimBinding uIMBinding){
 		TypedElement typedElement = null;
@@ -109,19 +109,14 @@ public class UmlUimLinks{
 		return typedElement;
 	}
 	public Classifier getNearestClass(EObject uc){
-		//TODO investigate if this was ever necessary
-//		if(uc instanceof UimAction){
-//			return getRepresentedClass(getNearestForm((UimAction)uc));
-//		}else{
 			UimDataTable nearestTable = getNearestTable(uc);
 			if(nearestTable == null){
-				UserInterfaceRoot uf = getNearestForm(uc);
+				UserInterfaceRoot uf = getNearestUserInterfaceRoot(uc);
 				return getRepresentedClass(uf);
 			}else if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
 				return (Classifier) getBindingType(nearestTable.getBinding());
 			}
 			return null;
-//		}
 	}
 	private Classifier getBindingType(UimBinding b){
 		if(b.getNext() == null || getProperty(b.getNext()) == null){
@@ -138,20 +133,16 @@ public class UmlUimLinks{
 		}
 	}
 	public UimDataTable getNearestTable(EObject uc){
-		while(!(uc instanceof UimDataTable)){
-			if(uc.eContainer() == null){
-				return null;
-			}else if(uc.eContainer() instanceof UimDataTable){
-				return (UimDataTable) uc.eContainer();
-			}else if(uc.eContainer() instanceof UimComponent){
+		while(!(uc instanceof UimDataTable ||uc == null)){
+			if(uc.eContainer() instanceof UimComponent){
 				uc = (UimComponent) uc.eContainer();
 			}else{
-				return null;
+				uc= null;
 			}
 		}
-		return null;
+		return (UimDataTable) uc;
 	}
-	public static UserInterfaceRoot getNearestForm(EObject uc){
+	public static UserInterfaceRoot getNearestUserInterfaceRoot(EObject uc){
 		while(!(uc instanceof UserInterfaceRoot || uc == null)){
 			uc = uc.eContainer();
 		}

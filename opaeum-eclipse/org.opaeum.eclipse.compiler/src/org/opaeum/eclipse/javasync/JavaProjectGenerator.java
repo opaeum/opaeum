@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -25,6 +27,8 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.opaeum.bootstrap.BootstrapGenerationPhase;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.EclipseProjectGenerationStep;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -42,7 +46,7 @@ import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 
-public final class JavaProjectGenerator {
+public final class JavaProjectGenerator{
 	private final OpaeumConfig cfg;
 	private final IWorkspaceRoot workspace;
 	private TransformationProcess process;
@@ -94,31 +98,43 @@ public final class JavaProjectGenerator {
 	}
 	public void generatePluginProjectArtifactsAndRefresh(IProgressMonitor monitor,TextWorkspace tws,EclipseProjectGenerationStep eclipseGen,
 			List<IProject> eclipseProjects) throws JavaModelException,CoreException{
-		RapProjectBuilder rpb = new RapProjectBuilder();
 		for(IProject iProject:eclipseProjects){
-			IJavaProject jp = JavaCore.create(iProject);
-			IPackageFragmentRoot[] allPackageFragmentRoots = jp.getPackageFragmentRoots();
-			TextProject textProject = tws.findTextProject(iProject.getName());
-			for(IPackageFragmentRoot r:allPackageFragmentRoots){
-				if(!r.isArchive()){
-					IResource correspondingResource = r.getCorrespondingResource();
-					if(correspondingResource != null){
-						IPath projectRelativePath = correspondingResource.getProjectRelativePath();
-						String strings = projectRelativePath.toString();
-						textProject.findOrCreateSourceFolder(strings, false);
-					}
-				}
+			if(!iProject.isOpen()){
+				iProject.open(null);
+			}
+			if(iProject.hasNature(JavaCore.NATURE_ID)){
+				addExistingSourceFoldersToTextWorkspace(tws, JavaCore.create(iProject));
 			}
 		}
 		EmfWorkspace mws = process.findModel(EmfWorkspace.class);
-		rpb.initialize(cfg, tws, mws, null);
-		rpb.beforeWorkspace(mws);
-		Set<TextOutputNode> textFiles = rpb.getTextFiles();
-		for(TextOutputNode textOutputNode:textFiles){
-			eclipseGen.visitTextFile((TextFile) textOutputNode);
+		BootstrapGenerationPhase bgp = process.getPhase(BootstrapGenerationPhase.class);
+		if(bgp!=null){
+			RapProjectBuilder rpb=bgp.getStepFor(RapProjectBuilder.class);
+			if(rpb!=null){
+				rpb.initialize(cfg, tws, mws, null);
+				rpb.beforeWorkspace(mws);
+				Set<TextOutputNode> textFiles = rpb.getTextFiles();
+				for(TextOutputNode textOutputNode:textFiles){
+					eclipseGen.visitTextFile((TextFile) textOutputNode);
+				}
+			}
 		}
 		for(IProject iProject:eclipseProjects){
 			iProject.refreshLocal(IProject.DEPTH_INFINITE, monitor);
+		}
+	}
+	private void addExistingSourceFoldersToTextWorkspace(TextWorkspace tws,IJavaProject jp) throws JavaModelException{
+		IPackageFragmentRoot[] allPackageFragmentRoots = jp.getPackageFragmentRoots();
+		TextProject textProject = tws.findTextProject(jp.getProject().getName());
+		for(IPackageFragmentRoot r:allPackageFragmentRoots){
+			if(!r.isArchive()){
+				IResource correspondingResource = r.getCorrespondingResource();
+				if(correspondingResource != null){
+					IPath projectRelativePath = correspondingResource.getProjectRelativePath();
+					String strings = projectRelativePath.toString();
+					textProject.findOrCreateSourceFolder(strings, false);
+				}
+			}
 		}
 	}
 	public void prepareParentPomAndRunMavenEclipseEclipse(IProgressMonitor monitor) throws JavaModelException,IOException,
@@ -154,9 +170,11 @@ public final class JavaProjectGenerator {
 		p.waitFor();
 		BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String line = null;
+		StringBuilder sb = new StringBuilder();
 		while((line = r.readLine()) != null){
-			System.out.println(line);
+			sb.append(line);
 		}
+		OpaeumEclipsePlugin.logInfo(sb.toString());
 	}
 	private Collection<? extends String> determineMavenModules(){
 		Collection<String> result = new ArrayList<String>();

@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uimodeler.common.figures.CustomUimActionFigure;
 import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
 public abstract class CustomActionColumnFigure extends CustomUimActionFigure{
 	private UimDataTableComposite dataTableComposite;
@@ -23,7 +24,7 @@ public abstract class CustomActionColumnFigure extends CustomUimActionFigure{
 	private TableColumn column;
 	public void paint(Graphics graphics){
 		Point copy = ((Figure) getParent()).getLocation().getCopy();
-		graphics.drawImage((Image) getWidget().getData("OPAEUM_IMAGE"), copy.x + 1, copy.y);
+		graphics.drawImage((Image) getWidget().getData(UimFigureUtil.OPAEUM_IMAGE), copy.x + 1, copy.y);
 	}
 	@Override
 	public void setLabelText(String string){

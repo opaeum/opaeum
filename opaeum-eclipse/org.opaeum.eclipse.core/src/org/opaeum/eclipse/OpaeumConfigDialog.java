@@ -8,6 +8,11 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
+import org.eclipse.core.resources.ICommand;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -36,6 +41,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
@@ -53,9 +59,11 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	private VersionText txtNewVersionNumber;
 	private CheckboxTableViewer localeTableViewer;
 	private ComboViewer currencyComboViewer;
-	public OpaeumConfigDialog(Shell shell,OpaeumConfig config){
+	private IContainer modelDir;
+	public OpaeumConfigDialog(Shell shell,OpaeumConfig config,IContainer modelDir){
 		super(shell);
 		this.config = config;
+		this.modelDir = modelDir;
 	}
 	protected Control createContents(Composite parent){
 		Control contents = super.createContents(parent);
@@ -237,7 +245,38 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		config.setDefaultCurrency((Currency) ((IStructuredSelection) currencyComboViewer.getSelection()).getFirstElement());
 		config.setSupportedLocales((java.util.List) Arrays.asList(localeTableViewer.getCheckedElements()));
 		config.store();
+		if(config.synchronizeAutomatically()){
+			addOpaeumBuildCommand();
+		}
 		super.okPressed();
+	}
+	private void addOpaeumBuildCommand(){
+		try{
+			final String BUILDER_ID = "org.opaeum.eclipse.compiler.OpaeumIncrementalProjectBuilder";
+			IProjectDescription desc = modelDir.getProject().getDescription();
+			ICommand[] commands = desc.getBuildSpec();
+			boolean found = false;
+			for(int i = 0;i < commands.length;++i){
+				if(commands[i].getBuilderName().equals(BUILDER_ID)){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				// add builder to project
+				ICommand command = desc.newCommand();
+				command.setBuilderName(BUILDER_ID);
+				ICommand[] newCommands = new ICommand[commands.length + 1];
+				// Add it before other builders.
+				System.arraycopy(commands, 0, newCommands, 1, commands.length);
+				newCommands[0] = command;
+				desc.setBuildSpec(newCommands);
+				modelDir.getProject().setDescription(desc, null);
+			}
+		}catch(CoreException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	protected void createButtonsForButtonBar(Composite parent){
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);

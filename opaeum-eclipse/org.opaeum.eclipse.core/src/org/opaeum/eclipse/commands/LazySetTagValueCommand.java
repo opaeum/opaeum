@@ -3,7 +3,6 @@ package org.opaeum.eclipse.commands;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.ProfileApplier;
 
 public class LazySetTagValueCommand extends ApplyStereotypeCommand{

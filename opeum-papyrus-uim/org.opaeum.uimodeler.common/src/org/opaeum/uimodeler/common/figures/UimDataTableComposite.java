@@ -2,6 +2,7 @@ package org.opaeum.uimodeler.common.figures;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -20,6 +21,13 @@ public final class UimDataTableComposite extends Composite{
 		setLayout(prepareLayout(1));
 		addFirstRow();
 		addDisplayedContent();
+	}
+	@Override
+	public Point computeSize(int wHint,int hHint,boolean changed){
+		Point size = super.computeSize(wHint, hHint, changed);
+		firstRow.pack();
+		Point point = new Point(Math.max(firstRow.getBounds().width+10,size.x),Math.max(300,size.y));
+		return point;
 	}
 	private void addDisplayedContent(){
 		displayedContent = new TableAndActionBarComposite(this, SWT.NONE);
@@ -47,6 +55,7 @@ public final class UimDataTableComposite extends Composite{
 		this.firstRow = new Composite(this, SWT.NONE);
 		GridData firstRowData = new GridData(10, ROW_HEIGHT);
 		firstRowData.grabExcessHorizontalSpace = true;
+		firstRowData.widthHint=-1;
 		firstRowData.horizontalAlignment = GridData.FILL;
 		firstRow.setLayoutData(firstRowData);
 		firstRow.setLayout(prepareLayout(30));

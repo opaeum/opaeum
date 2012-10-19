@@ -43,7 +43,6 @@ import org.opaeum.eclipse.OpaeumElementLinker;
 import org.opaeum.eclipse.OpaeumScheduler;
 import org.opaeum.eclipse.OpaeumSynchronizationListener;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
-import org.opaeum.eclipse.WorkspaceLoadListener;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.emf.workspace.UriToFileConverter;
@@ -84,7 +83,6 @@ public class OpenUmlFile extends EContentAdapter{
 	private Set<UMLResource> resourcesLoaded = new HashSet<UMLResource>();
 	private boolean suspended = false;
 	private Set<OpaeumSynchronizationListener> synchronizationListener = new HashSet<OpaeumSynchronizationListener>();
-	private Set<WorkspaceLoadListener> workspaceLoadListener = new HashSet<WorkspaceLoadListener>();
 	private OpaeumElementLinker linker = new OpaeumElementLinker();
 	private OJUtil ojUtil;
 	private TypeCacheAdapter typeCacheAdapter;
@@ -99,7 +97,7 @@ public class OpenUmlFile extends EContentAdapter{
 		this.resourceHelper = new EclipseUriToFileConverter();
 		this.cfg = cfg;
 		this.ojUtil = new OJUtil();
-		emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier(), cfg.getMavenGroupId());
+		emfWorkspace = new EmfWorkspace(model, this.cfg.getVersion(), cfg.getWorkspaceIdentifier(), cfg.getMavenGroupId());
 		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
 		emfWorkspace.setName(cfg.getWorkspaceName());
 		this.transformationProcess = new TransformationProcess();
@@ -108,12 +106,9 @@ public class OpenUmlFile extends EContentAdapter{
 		this.transformationProcess.replaceModel(emfWorkspace);
 		this.transformationProcess.execute(new DefaultTransformationLog());
 		editingDomain.getResourceSet().eAdapters().add(this);
-		emfWorkspaceLoaded(emfWorkspace);
+		typeCacheAdapter = new TypeCacheAdapter();
 	}
-	public TypeCacheAdapter getOpaeumEclipseContext(){
-		if(typeCacheAdapter == null){
-			typeCacheAdapter = new TypeCacheAdapter();
-		}
+	public TypeCacheAdapter getTypeCacheAdapter(){
 		return typeCacheAdapter;
 	}
 	public void addEmfChange(URI uri){
@@ -123,12 +118,9 @@ public class OpenUmlFile extends EContentAdapter{
 		}
 	}
 	public void addSynchronizationListener(OpaeumSynchronizationListener l){
-		System.out.println("OpenUmlFile.addSynchronizationListener()" + l.getClass().getSimpleName());
 		this.synchronizationListener.add(l);
 	}
-	public void addWorkspaceLoadListener(WorkspaceLoadListener l){
-		this.workspaceLoadListener.add(l);
-	}
+	
 	public void suspend(){
 		suspended = true;
 	}
@@ -166,11 +158,6 @@ public class OpenUmlFile extends EContentAdapter{
 			});
 		}
 	}
-	private void emfWorkspaceLoaded(EmfWorkspace w){
-		for(WorkspaceLoadListener workspaceLoadListener:this.workspaceLoadListener){
-			workspaceLoadListener.workspaceLoaded(w);
-		}
-	}
 	public UriToFileConverter getResourceHelper(){
 		return resourceHelper;
 	}
@@ -199,6 +186,9 @@ public class OpenUmlFile extends EContentAdapter{
 	}
 	@Override
 	public void notifyChanged(final Notification notification){
+		if(notification.getEventType()==Notification.ADD && notification.getNewValue().getClass().getName().endsWith("PageRefImpl")){
+			System.out.println();
+		}
 		super.notifyChanged(notification);
 		if(notification.getNotifier() instanceof ResourceSet && notification.getNewValue() instanceof UMLResource){
 			resourcesBeingLoaded.add((UMLResource) notification.getNewValue());
@@ -390,7 +380,7 @@ public class OpenUmlFile extends EContentAdapter{
 							for(OpaeumSynchronizationListener listener:array){
 								listener.synchronizationComplete(OpenUmlFile.this, changedElements);
 							}
-							System.out.println("Validation took " + (System.currentTimeMillis() - start));
+							OpaeumEclipsePlugin.logInfo("Validation took " + (System.currentTimeMillis() - start));
 						}
 					}
 					@Override
@@ -435,8 +425,14 @@ public class OpenUmlFile extends EContentAdapter{
 	public void executeAndForget(final Command command){
 		TxUtil.performExecute(command, null, getEditingDomain());
 	}
+	@Deprecated
 	public void executeAndWait(final Command command){
 		EditingDomain editingDomain2 = getEditingDomain();
 		TxUtil.executeAndWait(command, editingDomain2);
+	}
+	public void dispose(){
+		for(OpaeumSynchronizationListener l:this.synchronizationListener){
+			l.onClose(this);
+		}
 	}
 }

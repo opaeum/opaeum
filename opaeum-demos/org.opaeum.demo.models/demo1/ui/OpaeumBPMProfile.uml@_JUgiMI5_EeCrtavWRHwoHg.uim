@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="OpaeumBPMProfile.uml@_JUgiMI5_EeCrtavWRHwoHg" name="Task assignments User Interface Model" linkedUmlResource="OpaeumBPMProfile.uml">
+  <primaryEditor name="Edit TaskAssignments" umlElementUid="OpaeumBPMProfile.uml@_JUgiMI5_EeCrtavWRHwoHg">
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_JUgiMI5_EeCrtavWRHwoHg" name="Edit Task assignments">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Potential owners" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_0tJ5II59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Stakeholders" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_9Lun8I59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Business administrators" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_38gxEI59EeCrtavWRHwoHg"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create TaskAssignments" umlElementUid="OpaeumBPMProfile.uml@_JUgiMI5_EeCrtavWRHwoHg">
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="OpaeumBPMProfile.uml@_JUgiMI5_EeCrtavWRHwoHg" name="CreateTask assignments">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Potential owners" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_0tJ5II59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Stakeholders" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_9Lun8I59EeCrtavWRHwoHg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Business administrators" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="OpaeumBPMProfile.uml@_38gxEI59EeCrtavWRHwoHg"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

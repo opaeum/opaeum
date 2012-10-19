@@ -8,25 +8,26 @@
       <availablePage>
         <emfPageIdentifier href="BusinessStructureModel.notation#_7aBMkJQiEeGrfptojSsLAQ"/>
       </availablePage>
-      <availablePage emfPageIdentifier="/1"/>
-      <availablePage emfPageIdentifier="/3"/>
       <availablePage>
         <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_JLL7MBedEeKMRKC3nkhLHw"/>
+        <emfPageIdentifier href="ui/tmp.notation#_dzHXYBngEeKxNqtR_RdAgg"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_JLNwYBedEeKMRKC3nkhLHw"/>
+        <emfPageIdentifier href="ui/tmp.notation#_dzIlgBngEeKxNqtR_RdAgg"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_JLOXcBedEeKMRKC3nkhLHw"/>
+        <emfPageIdentifier href="ui/tmp.notation#_dzIlgRngEeKxNqtR_RdAgg"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_JLQzsBedEeKMRKC3nkhLHw"/>
+        <emfPageIdentifier href="ui/tmp.notation#_dzJMkBngEeKxNqtR_RdAgg"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_JLSB0BedEeKMRKC3nkhLHw"/>
+        <emfPageIdentifier href="ui/tmp.notation#_dzJzoBngEeKxNqtR_RdAgg"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="ui/tmp.notation#_dzJzoRngEeKxNqtR_RdAgg"/>
       </availablePage>
     </pageList>
     <sashModel currentSelection="/0/@sashModel/@windows.0/@children.0">
@@ -34,14 +35,6 @@
         <children xsi:type="di:TabFolder">
           <children>
             <emfPageIdentifier href="BusinessStructureModel.notation#_tClkEHHgEeGus4aKic9sIg"/>
-          </children>
-          <children emfPageIdentifier="/3"/>
-          <children emfPageIdentifier="/1"/>
-          <children>
-            <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="ui/tmp.notation#_JLNwYBedEeKMRKC3nkhLHw"/>
           </children>
         </children>
       </windows>

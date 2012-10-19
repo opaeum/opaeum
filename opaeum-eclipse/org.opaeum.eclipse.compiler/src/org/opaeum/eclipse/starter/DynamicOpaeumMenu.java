@@ -13,7 +13,6 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
@@ -24,6 +23,7 @@ import org.opaeum.eclipse.javasync.RecompileIntegrationCodeAction;
 import org.opaeum.eclipse.javasync.RecompileModelAction;
 import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
 import org.opaeum.eclipse.javasync.ToggleAutomaticSynchronization;
+import org.opaeum.eclipse.menu.ICompoundContributionItem;
 import org.opaeum.eclipse.simulation.GenerateSimulationCodeAction;
 import org.opaeum.eclipse.simulation.GenerateSimulationModelAction;
 import org.opaeum.eclipse.versioning.CompileVersionAction;
@@ -32,8 +32,12 @@ import org.opaeum.eclipse.versioning.VersionAction;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.validation.ValidationPhase;
 
-public class DynamicOpaeumMenu extends CompoundContributionItem{
+public class DynamicOpaeumMenu extends CompoundContributionItem implements ICompoundContributionItem{
 	private IStructuredSelection selection;
+	private List<IContributionItem> actions = null;
+	public DynamicOpaeumMenu(IStructuredSelection selection){
+		this.selection = selection;
+	}
 	protected Object getElementFrom(){
 		Object firstElement = selection.getFirstElement();
 		if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
@@ -42,58 +46,60 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 		return firstElement;
 	}
 	@Override
-	protected IContributionItem[] getContributionItems(){
-		System.out.println("DynamicOpaeumMenu.getContributionItems()");
-		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
-		List<IContributionItem> actions = new ArrayList<IContributionItem>();
-		Object firstElement = selection.getFirstElement();
-		if(firstElement instanceof IContainer){
-			IContainer container = (IContainer) firstElement;
-			if(OpaeumConfig.isValidVersionNumber(container.getName())){
-				actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
-				actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
-			}else{
-				if(hasUmlModels(selection)){
-					EditOpaeumConfigAction action = new EditOpaeumConfigAction(selection);
-					actions.add(new ActionContributionItem(action));
-					if(hasConfigFile(selection)){
-						OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor((IContainer) firstElement);
-						if(!ctx.isLoading()){
-							action.setText("Edit Opaeum Settings");
-							if(ctx.getConfig().getSourceFolderStrategy().isSingleProjectStrategy()){
-								actions.add(new ActionContributionItem(new SelectOutputProjectAction(selection)));
+	public IContributionItem[] getContributionItems(){
+		if(actions == null){
+			actions = new ArrayList<IContributionItem>();
+			Object firstElement = selection.getFirstElement();
+			if(firstElement instanceof IContainer){
+				IContainer container = (IContainer) firstElement;
+				if(OpaeumConfig.isValidVersionNumber(container.getName())){
+					actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
+					actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
+				}else{
+					if(hasUmlModels(selection)){
+						EditOpaeumConfigAction action = new EditOpaeumConfigAction(selection);
+						actions.add(new ActionContributionItem(action));
+						if(hasConfigFile(selection)){
+							OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor((IContainer) firstElement);
+							if(!ctx.isLoading()){
+								action.setText("Edit Opaeum Settings");
+								if(ctx.getConfig().getSourceFolderStrategy().isSingleProjectStrategy()){
+									actions.add(new ActionContributionItem(new SelectOutputProjectAction(selection)));
+								}
+								actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
+								actions.add(new ActionContributionItem(new RecompileIntegrationCodeAction(selection)));
+								actions.add(new ActionContributionItem(new ToggleAutomaticSynchronization(selection)));
+								// actions.add(new ActionContributionItem(new RegenerateUuids(selection)));
+								// actions.add(new ActionContributionItem(new UpdateClasspathAction(selection)));
+								actions.add(new ActionContributionItem(new VersionAction(selection)));
+								actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
+								actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
+								actions.add(new ActionContributionItem(new GenerateBusinessIntelligenceSchemaAction(selection)));
+								actions.add(new ActionContributionItem(new GenerateSimulationModelAction(selection)));
 							}
-							actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
-							actions.add(new ActionContributionItem(new RecompileIntegrationCodeAction(selection)));
-							actions.add(new ActionContributionItem(new ToggleAutomaticSynchronization(selection)));
-//							actions.add(new ActionContributionItem(new RegenerateUuids(selection)));
-//							actions.add(new ActionContributionItem(new UpdateClasspathAction(selection)));
-							actions.add(new ActionContributionItem(new VersionAction(selection)));
-							actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
-							actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
-							actions.add(new ActionContributionItem(new GenerateBusinessIntelligenceSchemaAction(selection)));
-							actions.add(new ActionContributionItem(new GenerateSimulationModelAction(selection)));
+						}else{
+							action.setText("Convert to  Opaeum Model Directory");
 						}
-					}else{
-						action.setText("Convert to  Opaeum Model Directory");
 					}
 				}
-			}
-		}else{
-			firstElement = getElementFrom();
-			if(firstElement.getClass().getSimpleName().equals("SimulationModelImpl")){
-				actions.add(new ActionContributionItem(new GenerateSimulationCodeAction(selection)));
-			}else {
-				if(firstElement instanceof Model){
-					actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
-				}else if((firstElement instanceof Element)){
-					if(ValidationPhase.canBeProcessedIndividually((EObject) firstElement)){
-						actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
-					}
-				}else if(firstElement instanceof AbstractGraphicalEditPart){
-					AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
-					if(a.getModel() instanceof Element && ValidationPhase.canBeProcessedIndividually((EObject) a.getModel())){
-						actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+			}else{
+				firstElement = getElementFrom();
+				if(firstElement != null){
+					if(firstElement.getClass().getSimpleName().equals("SimulationModelImpl")){
+						actions.add(new ActionContributionItem(new GenerateSimulationCodeAction(selection)));
+					}else{
+						if(firstElement instanceof Model){
+							actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
+						}else if((firstElement instanceof Element)){
+							if(ValidationPhase.canBeProcessedIndividually((EObject) firstElement)){
+								actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+							}
+						}else if(firstElement instanceof AbstractGraphicalEditPart){
+							AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
+							if(a.getModel() instanceof Element && ValidationPhase.canBeProcessedIndividually((EObject) a.getModel())){
+								actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+							}
+						}
 					}
 				}
 			}

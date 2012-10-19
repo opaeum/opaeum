@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.opaeum.eclipse.newchild.DefaultCreateChildAction;
 import org.opaeum.eclipse.newchild.ICreateChildAction;
 import org.opaeum.eclipse.newchild.ICreateChildActionProvider;
 import org.opaeum.uim.UimPackage;
@@ -38,9 +37,6 @@ public class CreateChildActions implements ICreateChildActionProvider{
 		controlledFeatures.remove(EditorPackage.eINSTANCE.getMenuConfiguration_Operations());
 		controlledFeatures.remove(ConstraintPackage.eINSTANCE.getConstrainedObject_Visibility());
 		controlledFeatures.remove(ConstraintPackage.eINSTANCE.getEditableConstrainedObject_Editability());
-	}
-	private void add(EReference feature){
-		actions.add(new DefaultCreateChildAction(feature));
 	}
 	@Override
 	public Set<EReference> getControlledFeatures(){

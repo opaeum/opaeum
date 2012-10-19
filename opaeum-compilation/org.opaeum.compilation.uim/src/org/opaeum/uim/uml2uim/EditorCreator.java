@@ -36,6 +36,10 @@ public class EditorCreator extends AbstractUserInterfaceCreator{
 		super(rf);
 		this.editor = cf;
 	}
+	@Override
+	protected void removePage(UserInterfaceRoot container,Page p){
+		((AbstractEditor)container).getPages().remove(p);
+	}
 	protected Page addPage(UserInterfaceRoot pc,NamedElement represented){
 		if(pc instanceof QueryInvoker && represented instanceof Parameter && EmfParameterUtil.isResult(((Parameter) represented).getDirection())){
 			QueryResultPage page = EditorFactory.eINSTANCE.createQueryResultPage();

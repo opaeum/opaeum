@@ -70,9 +70,6 @@ public class JavaNameGenerator{
 		}
 		Namespace container = EmfElementFinder.getNearestNamespace(ne);
 		String path = packagePathname(container);
-		if(ne.getName()==null){
-			System.out.println();
-		}
 		String name = NameConverter.toJavaVariableName(ne.getName());
 		return path + "." + NameConverter.capitalize(name);
 	}

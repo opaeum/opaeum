@@ -89,4 +89,18 @@
           uri="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml">
     </profile>
  </extension>
+ <extension
+       id="org.opaeum.eclipse.compiler.OpaeumIncrementalProjectBuilder"
+       name="Opaeum Builder"
+       point="org.eclipse.core.resources.builders">
+    <builder
+          callOnEmptyDelta="false"
+          hasNature="false"
+          isConfigurable="false"
+          supportsConfigurations="false">
+       <run
+             class="org.opaeum.eclipse.compiler.OpaeumIncrementalProjectBuilder">
+       </run>
+    </builder>
+ </extension>
 </plugin>

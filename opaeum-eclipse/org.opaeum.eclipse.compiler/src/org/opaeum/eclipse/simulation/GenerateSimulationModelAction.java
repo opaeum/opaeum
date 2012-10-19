@@ -10,9 +10,10 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.starter.AbstractOpaeumAction;
+import org.opaeum.eclipse.menu.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.simulation.actions.SimulationModelGenerator;
 
 public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 	public GenerateSimulationModelAction(IStructuredSelection selection){
@@ -27,15 +28,13 @@ public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
 				try{
-					throw new UnsupportedOperationException();
-//					monitor.beginTask("Loading All Models", 1000);
-//					EmfWorkspace ew = prepareDirectoryForTransformation(folder, monitor);
-//					monitor.subTask("Generating Java Code");
-//					new SimulationModelGenerator(ew).run();
-//					return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");
+					monitor.beginTask("Loading All Models", 1000);
+					EmfWorkspace ew = prepareDirectoryForTransformation(folder, monitor);
+					monitor.subTask("Generating Java Code");
+					new SimulationModelGenerator(ew).run();
+					return new Status(IStatus.OK, OpaeumEclipsePlugin.PLUGIN_ID, "Model compiled successfully");
 				}catch(Exception e){
-					e.printStackTrace();
-					return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
+					return OpaeumEclipsePlugin.logError("Simulation model could not be compiled", e);
 				}finally{
 					monitor.done();
 					MemoryUtil.printMemoryUsage();

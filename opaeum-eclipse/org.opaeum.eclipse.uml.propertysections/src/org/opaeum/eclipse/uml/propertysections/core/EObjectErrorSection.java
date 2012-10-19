@@ -1,20 +1,13 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -31,15 +24,12 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.util.UMLUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.BrokenRule;
-import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.validation.IValidationRule;
 
 //import org.eclipse.core.resources.ResourcesPlugin;
 public class EObjectErrorSection extends AbstractOpaeumPropertySection{
@@ -85,7 +75,7 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection{
 			Set<BrokenRule> brokenRules=new HashSet<BrokenRule>();
 			for(Entry<String,BrokenElement> brokenElement:brokenElements){
 				//TODO add referenced elements too
-				Element modelElement = ew.getModelElement(brokenElement.getKey());
+				EObject modelElement = ew.getModelElement(brokenElement.getKey());
 				while(modelElement!=null){
 					if(getEObjectList().contains(modelElement)){
 						brokenRules.addAll(brokenElement.getValue().getBrokenRules().values());
@@ -161,36 +151,6 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection{
 		txt.pack();
 		txt.setForeground(ColorConstants.red);
 	}
-	protected Map<EObject,IMarker> extractBrokenDescendants(){
-		Map<EObject,IMarker> markers = new HashMap<EObject,IMarker>();
-		if(getSelectedObject().eResource() != null){
-			try{
-				for(IMarker m:getOpenUmlFile().getFile().findMarkers(EValidator.MARKER, true, 0)){
-					String markedElementUri = (String) m.getAttribute(EValidator.URI_ATTRIBUTE);
-					String brokenElementId = (String) m.getAttribute("BROKEN_ELEMENT_ID");
-					EmfWorkspace emfWorkspace = getOpenUmlFile().getEmfWorkspace();
-					if(markedElementUri != null && brokenElementId != null && emfWorkspace != null){
-						EObject problemElement = emfWorkspace.getModelElement(brokenElementId);
-						EObject eo = emfWorkspace.getResourceSet().getEObject(URI.createURI(markedElementUri), true);
-						while(eo != null){
-							if(eo == getSelectedObject()){
-								markers.put(problemElement, m);
-								break;
-							}else{
-								eo = eo.eContainer();
-								if(eo instanceof DynamicEObjectImpl){
-									eo = UMLUtil.getBaseElement(eo);
-								}
-							}
-						}
-					}
-				}
-			}catch(CoreException e1){
-				e1.printStackTrace();
-			}
-		}
-		return markers;
-	}
 	protected Hyperlink createHyperlink(Composite comp,String text,String id){
 		Hyperlink lbl = getWidgetFactory().createHyperlink(comp, text, SWT.NONE);
 		final EObject key = OpaeumEclipseContext.findOpenUmlFileFor(getSelectedObject()).getEmfWorkspace().getModelElement(id);
@@ -218,12 +178,6 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection{
 	protected void hide(){
 		getSectionComposite().getParent().setLayoutData(new GridData(0, 0));
 		getSectionComposite().setVisible(false);
-	}
-	public static void main(String[] args){
-		String[] split = "asdf{1}dsfg{2}".split("[\\{\\}]");
-		for(String string:split){
-			System.out.println(string);
-		}
 	}
 	@Override
 	public Control getPrimaryInput(){

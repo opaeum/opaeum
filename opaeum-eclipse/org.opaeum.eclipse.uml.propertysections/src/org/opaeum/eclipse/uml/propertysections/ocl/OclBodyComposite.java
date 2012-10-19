@@ -258,7 +258,7 @@ public abstract class OclBodyComposite extends Composite{
 	}
 	public void highlightError(){
 		StyledText t = viewer.getTextWidget();
-		OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(oclBodyOwner);
+		OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(factory.getContext());
 		if(!(oclBodyOwner == null || t == null || t.isDisposed() || ouf == null)){
 			OpaeumOcl lib = ouf.getEmfWorkspace().getOpaeumLibrary().getOcl();
 			AbstractOclContext ctx = null;

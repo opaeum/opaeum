@@ -20,6 +20,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfParameterUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -39,8 +40,6 @@ import org.opaeum.uim.model.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.wizard.WizardFactory;
 
 public class FormSynchronizer2 extends AbstractUimSynchronizer2{
-	public FormSynchronizer2(){
-	}
 	public FormSynchronizer2(URI workspaceUri,ResourceSet resourceSet,boolean regenerate){
 		super(workspaceUri, resourceSet, regenerate);
 	}
@@ -212,10 +211,16 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 		String resourceUri = EmfWorkspace.getId(o);
 		if(EmfBehaviorUtil.isResponsibility(o)){
 			return populateResponsibilityUserInteractionModel(o, resourceUri);
-		}else if(o.isQuery() && o.getReturnResult() != null){
-			return populateQueryInvoker(o, resourceUri);
 		}else{
-			return populateOperationInvocationWizard(o, resourceUri);
+			if(o.getInterface() != null || EmfClassifierUtil.isPersistentComplexStructure(o.getFeaturingClassifiers().get(0))){
+				if(o.isQuery() && o.getReturnResult() != null){
+					return populateQueryInvoker(o, resourceUri);
+				}else{
+					return populateOperationInvocationWizard(o, resourceUri);
+				}
+			}else{
+				return null;
+			}
 		}
 	}
 	private AbstractUserInteractionModel populateOperationInvocationWizard(Operation o,String resourceUri){
@@ -290,5 +295,20 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 			resource.getContents().set(0, newOne);
 		}
 		return (T) resource.getContents().get(0);
+	}
+	public void visitOnly(Element modelElement){
+		if(modelElement instanceof Action){
+			beforeAction((Action) modelElement);
+		}else if(modelElement instanceof Operation){
+			beforeOperation((Operation) modelElement);
+		}else if(modelElement instanceof Classifier){
+			beforeClass((Classifier) modelElement);
+		}
+	}
+	public void visitRecursively(Element modelElement){
+		visitOnly(modelElement);
+		for(Element eObject:EmfElementFinder.getCorrectOwnedElements(modelElement)){
+			visitRecursively(eObject);
+		}
 	}
 }

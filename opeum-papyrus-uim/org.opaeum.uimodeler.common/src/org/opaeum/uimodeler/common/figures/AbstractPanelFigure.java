@@ -12,8 +12,10 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uim.swt.GridPanelComposite;
 
@@ -31,18 +33,14 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 		this.setLineWidth(3);
 		createContents();
 		widget = new GridPanelComposite(parent, SWT.NONE);
-		widget.layout();
+		widget.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		parent.layout();
 	}
 	@Override
 	public Rectangle getBounds(){
 		if(getParent() instanceof HackedDefaultSizeNodeFigure){
-			if(!widget.isDisposed()){
-				Rectangle rec = UimFigureUtil.toDraw2DRectangle(widget);
-				return rec;
-			}else{
-				return super.getBounds();
-			}
+			Rectangle rec = UimFigureUtil.toDraw2DRectangle(widget);
+			return rec;
 		}else{
 			return super.getBounds();
 		}
@@ -61,6 +59,15 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 	}
 	@Override
 	public void validate(){
+		if(!widget.isDisposed()){
+			GridData layoutData = (GridData) widget.getLayoutData();
+			Dimension size = getSize();
+			if(layoutData.grabExcessHorizontalSpace == false && layoutData.grabExcessVerticalSpace == false && layoutData.widthHint == -1
+					&& layoutData.heightHint == -1 && (size.height < 100 || size.width < 300)){
+				widget.pack();
+				widget.getParent().pack();
+			}
+		}
 		super.validate();
 	}
 	@Override
@@ -78,7 +85,6 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 	@Override
 	protected void layout(){
 		super.layout();
-		widget.layout();
 		List<Figure> childFigures = getChildren();
 		for(Figure figure:childFigures){
 			if(figure instanceof ResizableCompartmentFigure){
@@ -108,7 +114,7 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 				layout();
 				widget.setData("NEEDS_LAYOUT", null);
 			}
-			//Layout first to see if anything changes
+			// Layout first to see if anything changes
 			WindowBuilderUtil.layoutRecursively(widget);
 			if(WindowBuilderUtil.needsComponentShot(widget)){
 				WindowBuilderUtil.activateRootComposite(widget);
@@ -118,6 +124,8 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 				OSSupport.get().endShot(widget);
 				System.out.println("Shot took " + (System.currentTimeMillis() - start));
 				WindowBuilderUtil.clearNeedsImage(widget);
+				// widget.getShell().setVisible(true);
+				// widget.getShell().open();
 			}
 		}catch(Exception e){
 			e.printStackTrace();

@@ -23,4 +23,8 @@ public class WizardCreator extends AbstractUserInterfaceCreator{
 	protected UserInterfaceRoot getUserInterfaceRoot(){
 		return wizard;
 	}
+	@Override
+	protected void removePage(UserInterfaceRoot container,Page p){
+		((AbstractWizard)container).getPages().remove(p);
+	}
 }

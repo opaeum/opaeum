@@ -67,7 +67,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 			forEachToken.getBody().addToStatements(ifMatchFound);
 			OJAnnotatedField stateActivation = new OJAnnotatedField("state", waitingClass);
 			stateActivation.setInitExp("(" + waitingClass.getLast() + ")token.getCurrentExecutionElement()");
-			State state = (State) waitingNode;
+			Vertex state = (Vertex) waitingNode;
 			ifMatchFound.getThenPart().addToLocals(stateActivation);
 			for(Transition transition:state.getOutgoings()){
 				for(Trigger trigger:transition.getTriggers()){

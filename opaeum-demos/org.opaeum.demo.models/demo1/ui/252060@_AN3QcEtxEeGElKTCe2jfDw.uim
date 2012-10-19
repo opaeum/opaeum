@@ -5,7 +5,6 @@
     <superUserInterfaces href="252060@_KfH2gGG6EeGY4pS7YATNzA.uim#//@primaryEditor"/>
     <superUserInterfaces href="252060@_Gxs5AO0kEeGN-aZ7URyUbw.uim#//@primaryEditor"/>
     <pageOrdering page="//@primaryEditor/@pages.0"/>
-    <subUserInterfaces href="914890@_-N6PwGK6EeGNuoaMwaBk1w.uim#//@primaryEditor"/>
     <pages umlElementUid="252060@_AN3QcEtxEeGElKTCe2jfDw" name="Edit I business actor">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimField" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
@@ -76,7 +75,6 @@
     <superUserInterfaces href="252060@_KfH2gGG6EeGY4pS7YATNzA.uim#//@newObjectWizard"/>
     <superUserInterfaces href="252060@_Gxs5AO0kEeGN-aZ7URyUbw.uim#//@newObjectWizard"/>
     <pageOrdering page="//@newObjectWizard/@pages.0"/>
-    <subUserInterfaces href="914890@_-N6PwGK6EeGNuoaMwaBk1w.uim#//@newObjectWizard"/>
     <pages umlElementUid="252060@_AN3QcEtxEeGElKTCe2jfDw" name="CreateI business actor">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimField" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">

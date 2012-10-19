@@ -1,4 +1,4 @@
-#set($shouldGenerate=true)<?xml version="1.0" encoding="UTF-8"?>
+#set($shouldGenerate=true)
 #set($firstDone=false)
 source.. = #foreach($sf in $project.sourceFolders)#if($sf.relativePath.length()>1)#if($firstDone),\\#end${sf.relativePath}
 #end#set($firstDone=true)#end

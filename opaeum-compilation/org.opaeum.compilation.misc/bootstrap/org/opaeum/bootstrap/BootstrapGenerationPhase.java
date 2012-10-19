@@ -66,4 +66,12 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 			b.release();
 		}
 	}
+	public <T extends AbstractBootstrapStep> T getStepFor(Class<T> cls){
+		for(AbstractBootstrapStep s:this.features){
+			if(cls.isInstance(s)){
+				return cls.cast(s);
+			}
+		}
+		return null;
+	}
 }

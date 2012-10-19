@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension
+         point="org.eclipse.papyrus.infra.gmfdiag.dnd.dropStrategy">
+      <strategy
+            strategy="org.opaeum.uim.dnd.TypedElementDroppedOnPanelStrategy">
+      </strategy>
+   </extension>
  <extension
        point="org.eclipse.ui.menus">
     <menuContribution
@@ -10,13 +16,6 @@
     </menuContribution>
  </extension>
 
- <extension
-       id="org.opaeum.uim.uiml2uim.transformationSteps"
-       point="org.opaeum.eclipse.core.transformationStep">
-    <transformationStep
-          className="org.opaeum.uim.uml2uim.FormSynchronizer">
-    </transformationStep>
- </extension>
     <extension point="org.eclipse.emf.facet.infra.query.registration">
       <modelqueryset file="model/UimBrowserQuery.querySet"/>
    </extension>

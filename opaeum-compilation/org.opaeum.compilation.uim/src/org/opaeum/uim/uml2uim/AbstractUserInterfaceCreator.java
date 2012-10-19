@@ -67,25 +67,32 @@ public abstract class AbstractUserInterfaceCreator{
 		this.resourceFactory = resourceFactory;
 	}
 	protected abstract Page addPage(UserInterfaceRoot container,NamedElement represented);
+	protected abstract void removePage(UserInterfaceRoot container,Page p);
 	protected abstract UserInterfaceRoot getUserInterfaceRoot();
 	public void populateUserInterface(Element owner,String title,Collection<? extends TypedElement> typedElements){
 		Page page = UserInterfaceUtil.findRepresentingPage(owner, getUserInterfaceRoot());
+		NamedElement ne = (NamedElement) owner;
 		if(page == null){
-			page = findOrCreatePageFor(getUserInterfaceRoot(), (NamedElement) owner);
+			page = findOrCreatePageFor(getUserInterfaceRoot(), ne);
 			page.setName(title);
 		}
-		if(page.getPanel() == null){
-			GridPanel layout = PanelFactory.eINSTANCE.createGridPanel();
-			layout.setNumberOfColumns(1);
-			page.setPanel(layout);
-			page.setUmlElementUid(EmfWorkspace.getId(owner));
-		}
-		if(owner instanceof BehavioredClassifier){
-			Map<InterfaceRealization,Collection<TypedElement>> interfaces = extractPropertiesByInterface((Classifier) owner, typedElements);
-			addUserInterfaceElementsFor(getUserInterfaceRoot(), page.getPanel(), typedElements);
-			addInterfaceProperties(getUserInterfaceRoot(), interfaces);
-		}else{
-			addUserInterfaceElementsFor(getUserInterfaceRoot(), page.getPanel(), typedElements);
+		if(!page.isUnderUserControl()){
+			if(page.getPanel() == null){
+				GridPanel layout = PanelFactory.eINSTANCE.createGridPanel();
+				layout.setNumberOfColumns(1);
+				page.setPanel(layout);
+				page.setUmlElementUid(EmfWorkspace.getId(owner));
+			}
+			if(!page.getPanel().isUnderUserControl()){
+				page.getPanel().setName(NameConverter.capitalize(ne.getName()));
+				if(owner instanceof BehavioredClassifier){
+					Map<InterfaceRealization,Collection<TypedElement>> interfaces = extractPropertiesByInterface((Classifier) owner, typedElements);
+					addUserInterfaceElementsFor(getUserInterfaceRoot(), page.getPanel(), typedElements);
+					addInterfaceProperties(getUserInterfaceRoot(), interfaces);
+				}else{
+					addUserInterfaceElementsFor(getUserInterfaceRoot(), page.getPanel(), typedElements);
+				}
+			}
 		}
 	}
 	private void addInterfaceProperties(UserInterfaceRoot uiRoot,Map<InterfaceRealization,Collection<TypedElement>> interfaces){
@@ -104,7 +111,8 @@ public abstract class AbstractUserInterfaceCreator{
 			}
 		}
 	}
-	private Map<InterfaceRealization,Collection<TypedElement>> extractPropertiesByInterface(Classifier owner,Collection<? extends TypedElement> typedElements){
+	private Map<InterfaceRealization,Collection<TypedElement>> extractPropertiesByInterface(Classifier owner,
+			Collection<? extends TypedElement> typedElements){
 		Map<InterfaceRealization,Collection<TypedElement>> interfaces = buildInterfaceMap(owner, typedElements);
 		for(TypedElement typedElement:new ArrayList<TypedElement>(typedElements)){
 			EObject container = EmfElementFinder.getContainer(typedElement);
@@ -116,7 +124,8 @@ public abstract class AbstractUserInterfaceCreator{
 		}
 		return interfaces;
 	}
-	private Map<InterfaceRealization,Collection<TypedElement>> buildInterfaceMap(Classifier owner,Collection<? extends TypedElement> typedElements){
+	private Map<InterfaceRealization,Collection<TypedElement>> buildInterfaceMap(Classifier owner,
+			Collection<? extends TypedElement> typedElements){
 		// NB!! this looks like a roundabout way, but remember we don't want to display overridden and redefined properties twice, so only look
 		// for the properties
 		// present contained by interfaces AFTER redefinition and overriding has been applied
@@ -184,6 +193,9 @@ public abstract class AbstractUserInterfaceCreator{
 				}
 			}
 			UserInterfaceUtil.removeObsoleteElements(controlledElements, page.getPanel().getChildren());
+			if(page.getPanel().getChildren().isEmpty()){
+				removePage(uiRoot, page);
+			}
 		}
 	}
 	private void addTablePageForField(UserInterfaceRoot pc,TypedElement e){
@@ -253,12 +265,14 @@ public abstract class AbstractUserInterfaceCreator{
 			if(!deleteInRow.isUnderUserControl()){
 				deleteInRow.setName("Delete");
 			}
-			BuiltInActionButton deleteOnActionBar = UserInterfaceUtil.findOrCreateBuiltInActionButton(ActionKind.ADD, table.getActionsOnMultipleSelection());
+			BuiltInActionButton deleteOnActionBar = UserInterfaceUtil.findOrCreateBuiltInActionButton(ActionKind.ADD,
+					table.getActionsOnMultipleSelection());
 			controlledElements.add(deleteOnActionBar);
 			if(!deleteOnActionBar.isUnderUserControl()){
 				deleteOnActionBar.setName("Delete");
 			}
-			BuiltInActionButton addButton = UserInterfaceUtil.findOrCreateBuiltInActionButton(ActionKind.ADD, table.getActionsOnMultipleSelection());
+			BuiltInActionButton addButton = UserInterfaceUtil.findOrCreateBuiltInActionButton(ActionKind.ADD,
+					table.getActionsOnMultipleSelection());
 			controlledElements.add(addButton);
 			if(!addButton.isUnderUserControl()){
 				addButton.setName("Add");
@@ -350,7 +364,8 @@ public abstract class AbstractUserInterfaceCreator{
 			if(uf != null){
 				uf.setMinimumLabelWidth(labelWidth < 100 ? 0 : labelWidth / 2);
 				uf.setName(NameConverter.separateWords(property.getName()));
-				ControlKind controlKind = ControlUtil.getPreferredControlKind(UmlUimLinks.getNearestForm(container), property, container instanceof UimDataTable);
+				ControlKind controlKind = ControlUtil.getPreferredControlKind(UmlUimLinks.getNearestUserInterfaceRoot(container), property,
+						container instanceof UimDataTable);
 				if(controlKind != uf.getControlKind()){
 					uf.setControlKind(controlKind);
 					uf.setControl(ControlUtil.instantiate(uf.getControlKind()));

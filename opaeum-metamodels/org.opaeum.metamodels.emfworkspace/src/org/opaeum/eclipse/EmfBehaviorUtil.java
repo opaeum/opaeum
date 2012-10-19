@@ -75,7 +75,7 @@ public class EmfBehaviorUtil{
 	}
 	public static BehavioredClassifier getContext(Element behavioralElement){
 		while(!(behavioralElement instanceof Behavior || behavioralElement == null)){
-			behavioralElement = EmfElementFinder.getContainer(behavioralElement);
+			behavioralElement = (Element)EmfElementFinder.getContainer(behavioralElement);
 		}
 		if(behavioralElement instanceof Behavior){
 			Behavior behavior = (Behavior) behavioralElement;

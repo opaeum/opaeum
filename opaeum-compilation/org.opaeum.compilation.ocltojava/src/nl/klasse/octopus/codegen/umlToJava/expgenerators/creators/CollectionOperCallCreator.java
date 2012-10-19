@@ -557,7 +557,6 @@ public class CollectionOperCallCreator{
 		Classifier elementType = (Classifier) exp.getReferredOperation().getType();
 		ClassifierMap elementMap = ojUtil.buildClassifierMap(exp.getType());
 		String myType = elementMap.javaType();
-		OJPathName myListType = expGeneratorHelper.makeListType(elementType);
 		// myClass.addToImports(elementMap.javaTypePath());
 		String myDefault = elementMap.javaDefaultValue();
 		String operName = exp.getReferredOperation().getName() + myClass.getUniqueNumber();

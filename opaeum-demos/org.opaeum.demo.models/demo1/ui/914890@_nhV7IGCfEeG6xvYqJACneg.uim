@@ -3,8 +3,17 @@
   <primaryEditor name="Edit ApplianceModel" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
     <pageOrdering page="//@primaryEditor/@pages.0"/>
     <pageOrdering page="//@primaryEditor/@pages.1" position="1"/>
+    <pageOrdering page="//@primaryEditor/@pages.2" position="2"/>
     <pages umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg" name="Edit Appliance model">
-      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+      <panel xsi:type="panel:GridPanel" name="ApplianceModel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_ht9n8HphEeGlh5y8zQdYBA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Part numberl" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_Kid8QHpiEeGlh5y8zQdYBA"/>
+        </children>
         <children xsi:type="comp:UimField" name="Vendor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
           <control xsi:type="ctl:UimDropdown"/>
           <binding umlElementUid="914890@_7RIUYHsKEeGBGZr9IpIa3A"/>
@@ -13,9 +22,12 @@
           <control xsi:type="ctl:UimDropdown"/>
           <binding umlElementUid="914890@_Ek7dQJLAEeGnpuq6_ber_Q"/>
         </children>
+        <children xsi:type="comp:UimField" name="Namaell" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+          <binding umlElementUid="914890@_ku-8YBknEeKmaYAq-i-IvQ"/>
+        </children>
       </panel>
     </pages>
-    <pages umlElementUid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ" name="Component">
+    <pages umlElementUid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ" name="Componentl">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
           <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>
@@ -33,7 +45,8 @@
         </children>
       </panel>
     </pages>
-    <actionBar name="ActionBar">
+    <pages/>
+    <actionBar>
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
     </actionBar>
@@ -42,7 +55,15 @@
     <pageOrdering page="//@newObjectWizard/@pages.0"/>
     <pageOrdering page="//@newObjectWizard/@pages.1" position="1"/>
     <pages umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg" name="CreateAppliance model">
-      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+      <panel xsi:type="panel:GridPanel" name="ApplianceModel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_ht9n8HphEeGlh5y8zQdYBA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Part numberl" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_Kid8QHpiEeGlh5y8zQdYBA"/>
+        </children>
         <children xsi:type="comp:UimField" name="Vendor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
           <control xsi:type="ctl:UimDropdown"/>
           <binding umlElementUid="914890@_7RIUYHsKEeGBGZr9IpIa3A"/>
@@ -51,9 +72,12 @@
           <control xsi:type="ctl:UimDropdown"/>
           <binding umlElementUid="914890@_Ek7dQJLAEeGnpuq6_ber_Q"/>
         </children>
+        <children xsi:type="comp:UimField" name="Namaell" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+          <binding umlElementUid="914890@_ku-8YBknEeKmaYAq-i-IvQ"/>
+        </children>
       </panel>
     </pages>
-    <pages umlElementUid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ" name="Component">
+    <pages umlElementUid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ" name="Componentl">
       <panel xsi:type="panel:GridPanel">
         <children xsi:type="comp:UimDataTable" fillHorizontally="true" fillVertically="true">
           <children xsi:type="action:BuiltInLink" name="Edit" preferredWidth="30" kind="edit"/>

@@ -48,7 +48,7 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 	}
 	public void paint(Graphics graphics){
 		Point copy = ((Figure) getParent()).getLocation().getCopy();
-		graphics.drawImage((Image) getWidget().getData("OPAEUM_IMAGE"), copy.x, copy.y);
+		graphics.drawImage((Image) getWidget().getData(UimFigureUtil.OPAEUM_IMAGE), copy.x, copy.y);
 	}
 	@Override
 	public Control getWidget(){

@@ -6,6 +6,7 @@ import org.eclipse.jface.fieldassist.ContentProposalAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
@@ -59,7 +60,7 @@ public class TextControlAdapter {
 			keyStroke = KeyStroke.getInstance("CTRL+SPACE");
 			// assume that myTextControl has already been created in some way
 			new ContentProposalAdapter(text, new TypedElementContentAdaptor(), new TypedElementContentProposalProvider(
-					s), keyStroke, autoActivationCharacters);
+					s), keyStroke, autoActivationCharacters).setPopupSize(new Point(300,300));
 		}catch(ParseException e){
 			e.printStackTrace();
 		}

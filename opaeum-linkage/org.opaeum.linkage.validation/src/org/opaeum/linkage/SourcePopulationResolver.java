@@ -37,6 +37,7 @@ import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.name.NameConverter;
 import org.opaeum.validation.AbstractValidator;
+import org.opaeum.validation.OpaeumValidationPlugin;
 import org.opaeum.validation.ValidationPhase;
 
 @StepDependency(phase = ValidationPhase.class,after = {},requires = {},before = {})
@@ -164,7 +165,7 @@ public class SourcePopulationResolver extends AbstractValidator{
 			calculatePathFromCommonCompositionsAncestorToBaseType(commonComposite, baseType, pathFromCommonComposite, 30);
 			ocl = pathToCommonComposite.toString() + pathFromCommonComposite;
 		}else{
-			System.out.println("No compositional ancestor found between " + getPathNameInModel(owner) + " and " + getPathNameInModel(baseType));
+			OpaeumValidationPlugin.logWarning("No compositional ancestor found between " + getPathNameInModel(owner) + " and " + getPathNameInModel(baseType));
 		}
 		return ocl;
 	}

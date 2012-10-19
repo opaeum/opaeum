@@ -1,12 +1,9 @@
 package org.opaeum.eclipse.commands;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.ETypedElement;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Profile;
 import org.opaeum.eclipse.ProfileApplier;
 

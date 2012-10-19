@@ -10,7 +10,6 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.PropertyRef;

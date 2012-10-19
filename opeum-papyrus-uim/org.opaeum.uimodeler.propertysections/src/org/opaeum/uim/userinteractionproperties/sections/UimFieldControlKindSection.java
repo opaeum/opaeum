@@ -25,7 +25,7 @@ public class UimFieldControlKindSection extends AbstractEnumerationPropertySecti
 		if(binding != null){
 			TypedElement typedElement = UmlUimLinks.getCurrentUmlLinks(getUimField()).getResultingType(binding);
 			if(typedElement != null && typedElement.getType() != null){
-				cks = ControlUtil.getAllowedControlKinds(UmlUimLinks.getNearestForm(binding.getField()),
+				cks = ControlUtil.getAllowedControlKinds(UmlUimLinks.getNearestUserInterfaceRoot(binding.getField()),
 						typedElement, getUimField().eContainer() instanceof UimDataTable);
 			}
 		}

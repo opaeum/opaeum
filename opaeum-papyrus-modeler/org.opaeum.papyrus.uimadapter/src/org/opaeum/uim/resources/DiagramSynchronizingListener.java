@@ -52,13 +52,14 @@ public final class DiagramSynchronizingListener extends EContentAdapter{
 						PapyrusMultiDiagramEditor mm = (PapyrusMultiDiagramEditor) activeEditor;
 						Diagram diagram = getDiagram(notifier);
 						if(diagram != null && mm.getDiagram() != diagram){
+							
 							diagram.getPersistedChildren().clear();
-							UserInteractionElement r = UserInterfaceUtil.getNearestPage(notifier);
-							if(r instanceof Page){
-								resource.populatePage((Page) r, diagram);
-							}else if(r instanceof ActionBar){
-								resource.populateActionBar(r, diagram);
-							}
+//							UserInteractionElement r = UserInterfaceUtil.getNearestPage(notifier);
+//							if(r instanceof Page){
+//								resource.populatePage((Page) r, diagram);
+//							}else if(r instanceof ActionBar){
+//								resource.populateActionBar(r, diagram);
+//							}
 							// if(notification.getNewValue() instanceof UimComponent){
 							// UimComponent uic = (UimComponent) notification.getNewValue();
 							// TreeIterator<EObject> eAllContents = diagram.eAllContents();

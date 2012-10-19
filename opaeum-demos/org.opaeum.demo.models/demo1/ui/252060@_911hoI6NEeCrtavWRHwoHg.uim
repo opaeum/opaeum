@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:BehaviorUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:model="http://opaeum.org/uimetamodel/model/1.0">
+  <invocationWizard/>
+</model:BehaviorUserInteractionModel>

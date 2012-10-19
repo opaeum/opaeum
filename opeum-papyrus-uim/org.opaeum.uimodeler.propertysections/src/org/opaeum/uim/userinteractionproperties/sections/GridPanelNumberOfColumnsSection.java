@@ -2,7 +2,6 @@ package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.swt.widgets.Event;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractStringPropertySection;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.PanelPackage;

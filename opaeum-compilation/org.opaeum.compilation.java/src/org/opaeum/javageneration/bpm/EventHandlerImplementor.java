@@ -176,9 +176,6 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitTriggerContainer(Behavior c){
-		if(c.getName().equals("ApplyUserWorkspaceTask")){
-			System.out.println();
-		}
 		ResponsibilityDefinition rd = getLibrary().getResponsibilityDefinition(c, StereotypeNames.STANDALONE_SCREENFLOW_TASK,
 				StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK);
 		implementDeadlinesAndEscalations(rd);
@@ -499,9 +496,6 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	public void visitBehavioredClassifier(BehavioredClassifier s){
 		if(ojUtil.hasOJClass(s)){
 			OJAnnotatedClass ojClass = findJavaClass(s);
-			if(ojClass==null){
-				System.out.println();
-			}
 			EventUtil.addOutgoingEventManagement(ojClass);
 			if(s instanceof Activity){
 				for(ActivityNode n:EmfActivityUtil.getActivityNodesRecursively(((Activity) s))){

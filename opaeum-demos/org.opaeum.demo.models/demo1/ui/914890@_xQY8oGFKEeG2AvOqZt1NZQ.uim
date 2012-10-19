@@ -4,8 +4,12 @@
     <superUserInterfaces href="252060@_AN3QcEtxEeGElKTCe2jfDw.uim#//@primaryEditor"/>
     <pageOrdering page="//@primaryEditor/@pages.0"/>
     <pageOrdering page="//@primaryEditor/@pages.1" position="1"/>
+    <pageOrdering page="//@primaryEditor/@pages.2" position="2"/>
+    <pageOrdering page="//@primaryEditor/@pages.3" position="3"/>
+    <pageOrdering page="//@primaryEditor/@pages.4" position="4"/>
+    <pageOrdering page="//@primaryEditor/@pages.5" position="5"/>
     <pages umlElementUid="914890@_xQY8oGFKEeG2AvOqZt1NZQ" name="Edit Online customer">
-      <panel xsi:type="panel:GridPanel" numberOfColumns="1"/>
+      <panel xsi:type="panel:GridPanel" preferredWidth="421" preferredHeight="296" fillHorizontally="false" fillVertically="false" numberOfColumns="1"/>
     </pages>
     <pages umlElementUid="914890@_xuw6sWFKEeG2AvOqZt1NZQ" name="Is ai business actor">
       <panel xsi:type="panel:GridPanel">
@@ -67,6 +71,10 @@
         </children>
       </panel>
     </pages>
+    <pages/>
+    <pages/>
+    <pages/>
+    <pages/>
     <actionBar name="ActionBar">
       <children xsi:type="action:BuiltInActionButton" name="Update"/>
       <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>

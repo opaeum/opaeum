@@ -7,10 +7,7 @@ import org.eclipse.papyrus.views.modelexplorer.queries.AbstractEditorContainerQu
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterfaceRoot;
 
-/**
- * FIXME : delete this class when the bug EMF-Facet 365744 will be corrected!
- * 
- */
+@SuppressWarnings({"deprecation","restriction"})
 public class IsUimDiagramContainer extends AbstractEditorContainerQuery implements IJavaModelQuery<UserInteractionElement, Boolean> {
 
 

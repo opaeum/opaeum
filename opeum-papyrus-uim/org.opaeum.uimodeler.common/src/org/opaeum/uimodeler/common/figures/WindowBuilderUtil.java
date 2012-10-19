@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.wb.os.OSSupport;
+import org.opaeum.uim.swt.GridPanelComposite;
 
 public class WindowBuilderUtil{
 	public static Table findTable(Composite root){
@@ -51,7 +52,7 @@ public class WindowBuilderUtil{
 		Object data = root.getData(OSSupport.WBP_IMAGE);
 		root.setData(OSSupport.WBP_NEED_IMAGE, null);
 		if(data != null){
-			root.setData("OPAEUM_IMAGE", data);
+			root.setData(UimFigureUtil.OPAEUM_IMAGE, data);
 		}
 		Control[] children = root.getChildren();
 		for(Control control:children){
@@ -59,7 +60,7 @@ public class WindowBuilderUtil{
 				clearNeedsImage((Composite) control);
 			}else{
 				if(control.getData(OSSupport.WBP_IMAGE) != null){
-					control.setData("OPAEUM_IMAGE", control.getData(OSSupport.WBP_IMAGE));
+					control.setData(UimFigureUtil.OPAEUM_IMAGE, control.getData(OSSupport.WBP_IMAGE));
 				}
 				control.setData(OSSupport.WBP_NEED_IMAGE, null);
 			}
@@ -71,6 +72,16 @@ public class WindowBuilderUtil{
 			widget.getParent().layout();
 		}else{
 			activateRootComposite(widget.getParent());
+		}
+	}
+	public static void markRecursivelyForShot(Control widget){
+		if(widget.getData(UimFigureUtil.FIGURE) != null){
+			widget.setData(OSSupport.WBP_IMAGE, Boolean.TRUE);
+		}
+		if(widget instanceof Composite){
+			for(Control child:((Composite) widget).getChildren()){
+				markRecursivelyForShot(child);
+			}
 		}
 	}
 }

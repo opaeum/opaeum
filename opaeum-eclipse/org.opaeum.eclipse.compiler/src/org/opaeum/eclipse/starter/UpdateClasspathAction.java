@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.JavaProjectGenerator;
+import org.opaeum.eclipse.menu.AbstractOpaeumAction;
 
 public class UpdateClasspathAction extends AbstractOpaeumAction{
 	public UpdateClasspathAction(IStructuredSelection selection2){

@@ -283,10 +283,6 @@ public class LoopExpCreator{
 		body10.addToStatements(exp18);
 		OJSimpleStatement exp19 = new OJSimpleStatement("result.addAll(" + source + ")");
 		body10.addToStatements(exp19);
-		OJSimpleStatement exp20 = new OJSimpleStatement("// System.out.println(\"BEFORE SORTING ON " + expStr + "\")");
-		body10.addToStatements(exp20);
-		OJSimpleStatement exp21 = new OJSimpleStatement("// System.out.println(Util.collectionToString(result, \"\\n\"))");
-		body10.addToStatements(exp21);
 		OJSimpleStatement exp22 = new OJSimpleStatement("// create a new Comparator instance");
 		body10.addToStatements(exp22);
 		OJSimpleStatement exp23 = new OJSimpleStatement("Comparator comp = new " + comparatorClassName.getLast() + "()");
@@ -295,10 +291,6 @@ public class LoopExpCreator{
 		body10.addToStatements(exp24);
 		OJSimpleStatement exp25 = new OJSimpleStatement("Collections.sort(result, comp)");
 		body10.addToStatements(exp25);
-		OJSimpleStatement exp26 = new OJSimpleStatement("// System.out.println(\"AFTER SORTING ON " + expStr + "\")");
-		body10.addToStatements(exp26);
-		OJSimpleStatement exp27 = new OJSimpleStatement("// System.out.println(Util.collectionToString(result, \"\\n\"))");
-		body10.addToStatements(exp27);
 		OJSimpleStatement exp28 = new OJSimpleStatement("return result");
 		body10.addToStatements(exp28);
 		// generate the call to the created operation

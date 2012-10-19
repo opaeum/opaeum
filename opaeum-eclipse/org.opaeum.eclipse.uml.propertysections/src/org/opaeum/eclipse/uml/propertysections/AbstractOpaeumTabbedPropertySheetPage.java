@@ -23,6 +23,7 @@ import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 
+@SuppressWarnings("restriction")
 public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPage{
 	private OpaeumSectionActionProvider actionProvider;
 	private HashMap<ITabDescriptor,TabContents> tabs = new HashMap<ITabDescriptor,TabContents>();
@@ -45,8 +46,14 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 		addListener();
 	}
 	@Override
+	public void dispose(){
+		super.dispose();
+		contributor=null;
+		actionProvider=null;
+	}
+	@Override
 	public void selectionChanged(IWorkbenchPart part,ISelection selection){
-		super.selectionChanged(part, selection);
+
 		if(selection instanceof IStructuredSelection && ((IStructuredSelection) selection).getFirstElement() != null){
 			IStructuredSelection ss = ((IStructuredSelection) selection);
 			List<Object> list = new ArrayList<Object>();
@@ -54,7 +61,7 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 			for(int i = 0;i < array.length;i++){
 				Object object = array[i];
 				EObject resolveEObject = EmfElementFinder.adaptObject(object);
-				if(resolveEObject != null && !list.contains(resolveEObject)){
+				if(resolveEObject != null && resolveEObject.eResource()!=null && !list.contains(resolveEObject)){
 					list.add(resolveEObject);
 				}
 				selection = new StructuredSelection(list);
@@ -67,6 +74,7 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 			geActionProvider().setActionBars(contributor, getSite().getActionBars());
 			getSite().getActionBars().updateActionBars();
 		}
+		super.selectionChanged(part, selection);
 		applyOptimalBounds();
 	}
 	protected void applyOptimalBounds(){

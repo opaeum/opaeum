@@ -15,6 +15,7 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.compiler.ocltojava.JavaCompilationPlugin;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJIfStatement;
@@ -96,7 +97,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 						myClass.addToOperations(oper);
 					}
 				}else{
-					System.out.println("NOT VALID!!!!" + oclExpression.getExpressionString());
+					JavaCompilationPlugin.logWarning("Java could not be generated for invalid ocl: " + oclExpression.getExpressionString());
 				}
 			}
 		}

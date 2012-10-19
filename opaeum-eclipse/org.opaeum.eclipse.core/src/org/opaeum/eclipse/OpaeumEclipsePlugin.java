@@ -105,9 +105,6 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 			}
 		}
 	}
-	public static void logError(String message,Throwable t){
-		getDefault().getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message, t));
-	}
 	public static OpaeumEclipsePlugin getDefault(){
 		return plugin;
 	}
@@ -206,4 +203,16 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		HashSet<ICreateChildAction> result = new HashSet<ICreateChildAction>(createChildActions);
 		return result;
 	}
+	public static void logWarning(String msg){
+		getDefault().getLog().log(new Status(IStatus.WARNING,PLUGIN_ID,msg));
+	}
+	public static void logInfo(String msg){
+		getDefault().getLog().log(new Status(IStatus.INFO,PLUGIN_ID,msg));
+	}
+	public static IStatus logError(String message,Throwable t){
+		Status result = new Status(IStatus.ERROR, PLUGIN_ID, message, t);
+		getDefault().getLog().log(result);
+		return result;
+	}
+
 }

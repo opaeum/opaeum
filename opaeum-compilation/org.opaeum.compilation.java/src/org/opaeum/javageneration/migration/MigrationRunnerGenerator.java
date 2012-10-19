@@ -49,7 +49,7 @@ public class MigrationRunnerGenerator extends AbstractMigrationCodeGenerator{
 	}
 	private void initRunner(){
 		OJPackage pkg = findOrCreatePackage(new OJPathName(config.getMavenGroupId() + "." + workspace.getName().toLowerCase()));
-		String name = NameConverter.capitalize(workspace.getName()) + workspace.getWorkspaceMappingInfo().getVersion().getSuffix()
+		String name = NameConverter.capitalize(workspace.getName()) + workspace.getVersion().getSuffix()
 				+ "MigrationRunner";
 		OJAnnotatedClass runner = new OJAnnotatedClass(name);
 		pkg.addToClasses(runner);
@@ -61,7 +61,7 @@ public class MigrationRunnerGenerator extends AbstractMigrationCodeGenerator{
 		runner.addToOperations(main);
 		OJAnnotatedField context = new OJAnnotatedField("context", new OJPathName(MigrationContext.class.getName()));
 		main.getBody().addToLocals(context);
-		String toVersion = workspace.getWorkspaceMappingInfo().getVersion().toVersionString();
+		String toVersion = workspace.getVersion().toVersionString();
 		String fromVersion = getFromVersion().toVersionString();
 		runner.addToImports(VersionNumber.class.getName());
 		context.setInitExp("new MigrationContext(new VersionNumber(\"" + fromVersion + "\"),new VersionNumber(\"" + toVersion + "\"),args[0])");

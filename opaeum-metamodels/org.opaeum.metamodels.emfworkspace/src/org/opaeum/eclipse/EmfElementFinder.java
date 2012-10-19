@@ -124,14 +124,6 @@ public class EmfElementFinder{
 			return null;
 		}
 	}
-	@Deprecated
-	public static boolean isMeasure(Property p){
-		return EmfPropertyUtil.isMeasure(p);
-	}
-	@Deprecated
-	public static boolean isDimension(Property p){
-		return EmfPropertyUtil.isDimension(p);
-	}
 	public static Collection<Class> getCubes(Class dimension){
 		TreeSet<Class> result = new TreeSet<Class>(new ElementComparator());
 		addPotentialCubes(dimension, result);
@@ -147,7 +139,7 @@ public class EmfElementFinder{
 	public static boolean isFact(Class class1){
 		List<Property> propertiesInScope = EmfPropertyUtil.getEffectiveProperties(class1);
 		for(Property property:propertiesInScope){
-			if(isMeasure(property)){
+			if(EmfPropertyUtil.isMeasure(property)){
 				return true;
 			}
 		}
@@ -162,7 +154,7 @@ public class EmfElementFinder{
 					TypedElement te = (TypedElement) setting.getEObject();
 					if(te instanceof Property){
 						Property p = (Property) te;
-						if(isDimension(p)){
+						if(EmfPropertyUtil.isDimension(p)){
 							Class potentialCube = (Class) getContainer(p);
 							result.add(potentialCube);
 							addPotentialCubes(potentialCube, result);
@@ -181,9 +173,9 @@ public class EmfElementFinder{
 			return getNearestClassifier((Element) getContainer(e));
 		}
 	}
-	public static org.eclipse.uml2.uml.Package getRootObject(Element e){
+	public static Package getRootObject(Element e){
 		if(e instanceof Model || e instanceof Profile || (e instanceof Package && e.eContainer() == null)){
-			return (org.eclipse.uml2.uml.Package) e;
+			return (Package) e;
 		}else if(e == null){
 			return null;
 		}else{
@@ -266,14 +258,7 @@ public class EmfElementFinder{
 			}
 		}
 	}
-	/**
-	 * @deprecated Use {@link EmfPropertyUtil#getEffectiveProperties(Classifier)} instead
-	 */
-	@Deprecated
-	public static List<Property> getPropertiesInScope(Classifier c){
-		return EmfPropertyUtil.getEffectiveProperties(c);
-	}
-	public static Element getContainer(EObject s){
+	public static EObject getContainer(EObject s){
 		if(s == null){
 			return null;
 		}else if(s instanceof IEmulatedElement){
@@ -291,7 +276,7 @@ public class EmfElementFinder{
 			if(event.eContainer() instanceof EAnnotation){
 				// Skip event AND annotation straight to the containing element
 				EAnnotation ea = (EAnnotation) event.eContainer();
-				return (Element) ea.getEModelElement();
+				return  ea.getEModelElement();
 			}else{
 				// Old strategy - could be problematic if the event is referenced from multiple triggers
 				EAnnotation ann = event.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
@@ -311,7 +296,7 @@ public class EmfElementFinder{
 			return event.getOwner();
 			// throw new IllegalStateException("No context could be found for Event:" + event.getQualifiedName());
 		}else if(s.eContainer() instanceof EAnnotation){
-			return (Element) ((EAnnotation) s.eContainer()).getEModelElement();
+			return ((EAnnotation) s.eContainer()).getEModelElement();
 		}else if(s instanceof Property && s.eContainer() instanceof Association){
 			Property p = (Property) s;
 			if(p.getOtherEnd() != null && p.isNavigable()){
@@ -324,11 +309,9 @@ public class EmfElementFinder{
 		}else if(s instanceof Generalization){
 			return ((Generalization) s).getSpecific();
 		}
-		return (Element) s.eContainer();
+		return s.eContainer();
 	}
 	public static void main(String[] args) throws Exception{
-		System.out.println(toId("862713@_6M9kh9EyEd-XueQF87eovw"));
-		System.out.println(toId("862713@_6KxMI9EyEd-XueQF87eovw"));
 		int c = 100000;
 		Set<Integer> hashcodes = new HashSet<Integer>(c);
 		Set<String> strings = new HashSet<String>(c);
@@ -347,10 +330,7 @@ public class EmfElementFinder{
 				i--;
 			}
 		}
-		System.out.println(duplicates);
-		// for(int i = 0 ; i < 10; i ++){
-		// System.out.println(UUID.randomUUID().toString().length());
-		// }
+		assert duplicates==0;
 	}
 	protected static int toId(String string){
 		char[] charArray = string.toCharArray();

@@ -16,3 +16,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.opaeum.reverse,
+ org.opaeum.reverse.popup.actions

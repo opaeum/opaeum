@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_kh880DsuEeC5OLJvkS0EWA" name="Entity User Interface Model" linkedUmlResource="OpaeumStandardProfile.uml">
+  <primaryEditor name="Edit Entity" umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_kh880DsuEeC5OLJvkS0EWA">
+    <superUserInterfaces href="48e3a22b_66a7_4f76_8d14_662244361cc9@_yjCg8GHyEeG9Du3sLzHVMg.uim#//@primaryEditor"/>
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_kh880DsuEeC5OLJvkS0EWA" name="Edit Entity">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Mapped implementation type" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_5nO5ACCiEeGiGJSJsNSSjg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Persistent name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_tCXesDsuEeC5OLJvkS0EWA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Generate abstract supertype" preferredHeight="25" fillHorizontally="true" controlKind="checkBox" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimCheckBox"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_0WeFcODlEeCsDuwu_RQvSA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Name property" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_aY7C0CFmEeGWOYQZVSMZ9g"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Auditing enabled" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_Ay92gMyzEeGDXIWqlm6N5w"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create Entity" umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_kh880DsuEeC5OLJvkS0EWA">
+    <superUserInterfaces href="48e3a22b_66a7_4f76_8d14_662244361cc9@_yjCg8GHyEeG9Du3sLzHVMg.uim#//@newObjectWizard"/>
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_kh880DsuEeC5OLJvkS0EWA" name="CreateEntity">
+      <panel xsi:type="panel:GridPanel" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Mapped implementation type" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_5nO5ACCiEeGiGJSJsNSSjg"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Persistent name" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_tCXesDsuEeC5OLJvkS0EWA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Generate abstract supertype" preferredHeight="25" fillHorizontally="true" controlKind="checkBox" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimCheckBox"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_0WeFcODlEeCsDuwu_RQvSA"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Name property" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_aY7C0CFmEeGWOYQZVSMZ9g"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Auditing enabled" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_Ay92gMyzEeGDXIWqlm6N5w"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

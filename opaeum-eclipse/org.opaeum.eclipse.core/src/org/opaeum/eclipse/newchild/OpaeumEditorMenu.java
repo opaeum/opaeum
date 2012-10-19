@@ -74,8 +74,8 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 	private EObject selectedObject;
 	private Set<EReference> controlledFeatures;
 	public Set<EReference> getControlledFeatures(){
-		if(controlledFeatures==null){
-			controlledFeatures=new HashSet<EReference>();
+		if(controlledFeatures == null){
+			controlledFeatures = new HashSet<EReference>();
 			for(ICreateChildActionProvider ccap:OpaeumEclipsePlugin.getDefault().getCreateChildActionProviders()){
 				controlledFeatures.addAll(ccap.getControlledFeatures());
 			}
@@ -105,8 +105,11 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		createMenuContents();
 	}
 	public EObjectSelectorUI getSelector(){
-		if(selector == null && getSelectedObject() !=null){
-			selector=OpaeumEclipseContext.findOpenUmlFileFor(getSelectedObject()).geteObjectSelectorUI();
+		if(selector == null && getSelectedObject() != null){
+			OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(getSelectedObject());
+			if(ouf != null){
+				selector = ouf.geteObjectSelectorUI();
+			}
 		}
 		return selector;
 	}
@@ -116,7 +119,6 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 			this.descriptors = new ArrayList<CommandParameter>();
 			for(Object o:domain.getNewChildDescriptors(getSelectedObject(), null)){
 				CommandParameter cp = (CommandParameter) o;
-				System.out.println(cp.getFeature());
 				cp.setOwner(getSelectedObject());
 				if(OpaeumFilter.isAllowedElement((EObject) cp.getValue()) && cp.getEStructuralFeature().getContainerClass() != null){
 					// filter out stereotype features
@@ -134,10 +136,12 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 			this.update();
 		}
 	}
-	private void addCustomerCreateChildActions(Collection<IAction> createChildActions,Set<? extends ICreateChildAction> customCreateChildActions){
+	private void addCustomerCreateChildActions(Collection<IAction> createChildActions,
+			Set<? extends ICreateChildAction> customCreateChildActions){
 		for(ICreateChildAction cca:customCreateChildActions){
 			if(cca.isPotentialParent(getSelectedObject())){
-				CreateChildAction createAction = cca.createAction(getActiveWorkbenchWindow().getActivePage().getActivePart(), getSs(), getOpaeumLibrary());
+				CreateChildAction createAction = cca.createAction(getActiveWorkbenchWindow().getActivePage().getActivePart(), getSs(),
+						getOpaeumLibrary());
 				if(createAction == null){
 					OpaeumEclipsePlugin.logError("Null CreateChildAction produced by :" + cca.getClass(), new IllegalStateException());
 				}else{
@@ -183,8 +187,8 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		if(theDescriptors != null){
 			IWorkbenchPart activePart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart();
 			for(CommandParameter descriptor:theDescriptors){
-				if(!(descriptor.getValue() instanceof Model || descriptor.getValue() instanceof Profile || getControlledFeatures().contains(descriptor
-						.getFeature()))){
+				if(!(descriptor.getValue() instanceof Model || descriptor.getValue() instanceof Profile || getControlledFeatures().contains(
+						descriptor.getFeature()))){
 					CreateChildAction actio = new CreateChildAndSelectAction(activePart, getSs(), descriptor);
 					if(descriptor.getValue() instanceof InterfaceRealization || descriptor.getValue() instanceof Generalization
 							|| descriptor.getValue() instanceof Dependency || descriptor.getValue() instanceof ElementImport
@@ -195,11 +199,13 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 							actions.add(actio);
 						}
 					}else if(descriptor.getValue() instanceof Constraint
-							&& StereotypesHelper.hasStereotype((Element) getSelectedObject(), StereotypeNames.RESPONSIBILITY, StereotypeNames.STANDALONE_SCREENFLOW_TASK,
-									StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK)){
+							&& StereotypesHelper.hasStereotype((Element) getSelectedObject(), StereotypeNames.RESPONSIBILITY,
+									StereotypeNames.STANDALONE_SCREENFLOW_TASK, StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK,
+									StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK)){
 						actions.add(actio);
 						Constraint value = (Constraint) descriptor.getValue();
-						if(value.eClass().equals(UMLPackage.eINSTANCE.getConstraint()) && descriptor.getFeature().equals(UMLPackage.eINSTANCE.getNamespace_OwnedRule())){
+						if(value.eClass().equals(UMLPackage.eINSTANCE.getConstraint())
+								&& descriptor.getFeature().equals(UMLPackage.eINSTANCE.getNamespace_OwnedRule())){
 							Constraint c = UMLFactory.eINSTANCE.createConstraint();
 							LiteralBoolean lb = UMLFactory.eINSTANCE.createLiteralBoolean();
 							c.setSpecification(lb);
@@ -237,8 +243,8 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 							actio.setText(name + "|Object Flow Output");
 							actions.add(actio);
 						}
-					}else if(descriptor.getValue() instanceof ActivityNode || descriptor.getValue() instanceof ActivityEdge || descriptor.getValue() instanceof Connector
-							|| descriptor.getValue() instanceof ActivityGroup){
+					}else if(descriptor.getValue() instanceof ActivityNode || descriptor.getValue() instanceof ActivityEdge
+							|| descriptor.getValue() instanceof Connector || descriptor.getValue() instanceof ActivityGroup){
 						// ignore
 					}else{
 						actions.add(actio);

@@ -20,6 +20,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.opaeum.compiler.ocltojava.JavaCompilationPlugin;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.StringEncoder;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -101,7 +102,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		}else if(object instanceof NamedElement){
 			aa.addStringValue(((NamedElement) object).getName());
 		}else{
-			System.out.println("unknow value type:" + object);
+			JavaCompilationPlugin.logWarning("unknow value type:" + object);
 		}
 	}
 	protected void applyStereotypesAsAnnotations(Element umlElement,OJAnnotatedElement javaElement){

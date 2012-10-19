@@ -70,7 +70,6 @@ public final class ResponsibilityDefinitionImpl implements ResponsibilityDefinit
 	}
 	@SuppressWarnings("unchecked")
 	public Collection<TimeEvent> getDeadlines(){
-		System.out.println("ResponsibilityDefinitionImpl.getDeadlines()");
 		if(stereotype != null && stereotype.getDefinition().getEStructuralFeature(TagNames.DEADLINES) != null){
 			return (Collection<TimeEvent>) node.getValue(stereotype, TagNames.DEADLINES);
 		}else{

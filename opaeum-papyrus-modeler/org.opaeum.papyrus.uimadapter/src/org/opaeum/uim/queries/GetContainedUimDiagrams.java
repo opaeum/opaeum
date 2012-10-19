@@ -20,15 +20,14 @@ import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.resources.UimModelSet;
 
-/**
- * Get the collection of all contained diagrams FIXME : delete this class when the bug EMF-Facet 365744 will be corrected!
- * 
- * @Deprecated : use oep.infra.gmfdiag.modelexplorer#queries.GetContainedDiagrams
- */
-@Deprecated
+@SuppressWarnings({"deprecation","restriction"})
 public class GetContainedUimDiagrams implements IJavaModelQuery<UserInterfaceRoot,Collection<Diagram>>{
-	public Collection<Diagram> evaluate(final UserInterfaceRoot context,final ParameterValueList parameterValues) throws ModelQueryExecutionException{
+	public Collection<Diagram> evaluate(final UserInterfaceRoot context,final ParameterValueList parameterValues)
+			throws ModelQueryExecutionException{
 		UimModelSet modelSet = (UimModelSet) context.eResource().getResourceSet();
+		if("Edit ApplianceModel".equals(context.getName())){
+			System.out.println();
+		}
 		EList<EObject> eContents = context.eContents();
 		Map<Page,Diagram> map = new HashMap<Page,Diagram>();
 		Collection<Diagram> result = new ArrayList<Diagram>();
@@ -38,6 +37,8 @@ public class GetContainedUimDiagrams implements IJavaModelQuery<UserInterfaceRoo
 				Diagram dgn = modelSet.getInMemoryNotationResource().getDiagram(page);
 				if(dgn != null){
 					map.put(page, dgn);
+				}else{
+					System.out.println(modelSet.getInMemoryNotationResource().getDiagram(page));
 				}
 			}else if(eObject instanceof ActionBar){
 				ActionBar bar = (ActionBar) eObject;

@@ -1,11 +1,5 @@
 package org.opaeum.uim.queries;
 
-import java.util.Collections;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -17,15 +11,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.model.AbstractUserInteractionModel;
 import org.opaeum.uim.resources.UimModelSet;
 import org.opaeum.uim.uml2uim.FormSynchronizer2;
 import org.opaeum.uim.uml2uim.UimResourceUtil;
 import org.opaeum.uim.util.UmlUimLinks;
-import org.opaeum.uimodeler.util.UimContentAdapter;
 
+@SuppressWarnings({"deprecation","restriction"})
 public abstract class LazyInitializeUimQuery<T extends Element,S extends AbstractUserInteractionModel,R extends UserInterfaceRoot>
 		implements IJavaModelQuery<T,R>{
 	ResourceSetImpl tempResourceSet;
@@ -36,24 +29,27 @@ public abstract class LazyInitializeUimQuery<T extends Element,S extends Abstrac
 		if(Display.getCurrent() == null){
 			return null;
 		}
+		OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(context);
+		if(!ouf.getConfig().isUiModelerActive()){
+			return null;
+		}
 		UimModelSet ums = (UimModelSet) context.eResource().getResourceSet();
 		URI directoryUri = context.eResource().getURI().trimSegments(1);
-		Resource r = UimResourceUtil.getUiResource(context, ums, directoryUri);
-		if(r.getResourceSet() == null){
+		Resource r;
+		if(!UimResourceUtil.hasUiResource(context, ums, directoryUri)){
 			FormSynchronizer2 fs2 = new FormSynchronizer2(directoryUri, ums, false);
 			if(generateModel(context, fs2)){
-				for(Entry<Element,Resource> entry:fs2.getNewResources().entrySet()){
-					ums.registerUimResource(entry.getKey(), entry.getValue());
-					new UmlUimLinks(entry.getValue(), OpaeumEclipseContext.findOpenUmlFileFor(context).getEmfWorkspace());
-				}
-				r=fs2.getNewResources().get(context);
+				ums.registerUimResources(fs2.getNewResources());
+				r = fs2.getNewResources().get(context);
 			}else{
 				return null;
 			}
 		}else{
-			new UmlUimLinks(r, OpaeumEclipseContext.findOpenUmlFileFor(context).getEmfWorkspace());
+			r = UimResourceUtil.getUiResource(context, ums, directoryUri);
+			new UmlUimLinks(r, ouf.getEmfWorkspace());
 		}
 		AbstractUserInteractionModel eObject = (AbstractUserInteractionModel) r.getContents().get(0);
+		@SuppressWarnings("unchecked")
 		R result = getResult((S) eObject);
 		tempResourceSet = null;
 		return result;

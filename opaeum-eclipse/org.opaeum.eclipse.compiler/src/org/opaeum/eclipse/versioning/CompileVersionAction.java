@@ -42,15 +42,15 @@ public class CompileVersionAction extends AbstractDirectoryReadingAction{
 		super(selection2, string);
 	}
 	public static void main(String[] args){
-		System.out.println("00fasdfasd".matches(reg));
-		System.out.println("01.01".matches(reg));
-		System.out.println("0.023.0231".matches(reg));
-		System.out.println("01.01.01lkjlkj".matches(reg));
-		System.out.println(".1.1".matches(reg));
-		System.out.println("a.1.1".matches(reg));
-		System.out.println("1231asdf.1".matches(reg));
-		System.out.println(".1.1".matches(reg));
-		System.out.println(".1.1".matches(reg));
+		assert ("00fasdfasd".matches(reg));
+		assert ("01.01".matches(reg));
+		assert ("0.023.0231".matches(reg));
+		assert ("01.01.01lkjlkj".matches(reg));
+		assert (".1.1".matches(reg));
+		assert ("a.1.1".matches(reg));
+		assert ("1231asdf.1".matches(reg));
+		assert (".1.1".matches(reg));
+		assert (".1.1".matches(reg));
 	}
 	@Override
 	public void run(){

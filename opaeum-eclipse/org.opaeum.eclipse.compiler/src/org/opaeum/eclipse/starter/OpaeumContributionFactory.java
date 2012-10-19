@@ -3,11 +3,9 @@ package org.opaeum.eclipse.starter;
 import org.eclipse.core.expressions.EvaluationResult;
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.IEvaluationContext;
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionService;
@@ -16,12 +14,22 @@ import org.eclipse.ui.menus.ExtensionContributionFactory;
 import org.eclipse.ui.menus.IContributionRoot;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Model;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.eclipse.menu.ApplyProfileMenu;
+import org.opaeum.eclipse.menu.ICompoundContributionItem;
+import org.opaeum.eclipse.menu.ImportLibraryMenu;
 import org.opaeum.eclipse.newchild.OpaeumEditorMenu;
-import org.opaeum.validation.ValidationPhase;
+import org.opaeum.reverse.popup.actions.DynamicReverseDbMenu;
+import org.opaeum.reverse.popup.actions.DynamicReverseJavaMenu;
 
 public class OpaeumContributionFactory extends ExtensionContributionFactory{
+	Expression visibleWhen = new Expression(){
+		@Override
+		public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
+			return EvaluationResult.TRUE;
+		}
+	};
 	public OpaeumContributionFactory(){
 	}
 	@Override
@@ -30,60 +38,18 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 		if(s.getSelection() instanceof IStructuredSelection){
 			MenuManager menuManager = new MenuManager("Opaeum");
 			IStructuredSelection selection = (IStructuredSelection) s.getSelection();
+			maybeAddMenu(menuManager, new DynamicOpaeumMenu(selection));
+			maybeAddMenu(menuManager, new DynamicReverseDbMenu(selection));
+			maybeAddMenu(menuManager, new DynamicReverseJavaMenu(selection));
+			if(!menuManager.isEmpty()){
+				additions.addContributionItem(menuManager, visibleWhen);
+			}
 			Object firstElement = selection.getFirstElement();
-			if(firstElement instanceof IContainer){
-				if(DynamicOpaeumMenu.hasUmlModels(selection) || DynamicOpaeumMenu.hasConfigFile(selection)){
-					System.out.println("OpaeumContributionFactory.createContributionItems()");
-					menuManager.add(new DynamicOpaeumMenu());
-				}
-			}
-			EObject element = null;
-			if(firstElement instanceof EObject){
-				element = (EObject) firstElement;
-			}else if(firstElement instanceof IAdaptable){
-				Object adapter = ((IAdaptable) firstElement).getAdapter(EObject.class);
-				if(adapter instanceof EObject){
-					element = (EObject) adapter;
-				}
-			}else if(firstElement instanceof AbstractGraphicalEditPart){
-				AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
-				if(a.getModel() instanceof EObject){
-					{
-						element = (EObject) a.getModel();
-					}
-				}
-			}
+			EObject element=EmfElementFinder.adaptObject(firstElement);
 			if(element != null){
-				if((element.getClass().getSimpleName().equals("SimulationModelImpl") || element instanceof Model)){
-					menuManager.add(new DynamicOpaeumMenu());
-				}else if(ValidationPhase.canBeProcessedIndividually(element)){
-					menuManager.add(new DynamicOpaeumMenu());
-				}
-			}
-			if(menuManager.getSize() > 0){
-				System.out.println("OpaeumContributionFactory.createContributionItems()");
-				additions.addContributionItem(menuManager, new Expression(){
-					@Override
-					public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
-						return EvaluationResult.TRUE;
-					}
-				});
-			}
-			if(element != null){
-				additions.addContributionItem(new OpaeumEditorMenu(), new Expression(){
-					@Override
-					public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
-						return EvaluationResult.TRUE;
-					}
-				});
+				additions.addContributionItem(new OpaeumEditorMenu(), visibleWhen);
 				if(element instanceof Element && EmfPackageUtil.isRootObject((Element) element)){
 					MenuManager applyProfileMenu = new MenuManager("Apply Profile");
-					Expression visibleWhen = new Expression(){
-						@Override
-						public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
-							return EvaluationResult.TRUE;
-						}
-					};
 					additions.addContributionItem(applyProfileMenu, visibleWhen);
 					applyProfileMenu.add(new ApplyProfileMenu());
 					MenuManager importLibraryMenu = new MenuManager("Import Library");
@@ -91,6 +57,12 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 					importLibraryMenu.add(new ImportLibraryMenu());
 				}
 			}
+		}
+	}
+	public void maybeAddMenu(MenuManager menuManager,ICompoundContributionItem menu){
+		IContributionItem[] contributionItems = menu.getContributionItems();
+		if(contributionItems.length>0){
+			menuManager.add(menu);
 		}
 	}
 }

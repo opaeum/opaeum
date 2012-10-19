@@ -9,9 +9,10 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.progress.IProgressConstants;
 
+@SuppressWarnings("restriction")
 public class OpaeumPerspective implements IPerspectiveFactory{
 	private static final String ID_CONSOLE_VIEW = "org.eclipse.ui.console.ConsoleView";
-	protected static final String ID_MODELEXPLORER = "org.eclipse.papyrus.views.modelexplorer.modelexplorer";
+	protected static final String ID_MODELEXPLORER = "org.opaeum.papyrus.uml.modelexplorer";
 	public void createInitialLayout(IPageLayout layout){
 		defineActions(layout);
 		defineLayout(layout);

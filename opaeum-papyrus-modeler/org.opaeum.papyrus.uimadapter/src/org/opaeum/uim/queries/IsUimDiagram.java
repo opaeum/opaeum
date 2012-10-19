@@ -6,11 +6,7 @@ import org.eclipse.emf.facet.infra.query.core.java.IJavaModelQuery;
 import org.eclipse.emf.facet.infra.query.core.java.ParameterValueList;
 import org.eclipse.gmf.runtime.notation.Diagram;
 
-/**
- * Return tru eif the element is a diagram * FIXME : delete this class when the bug EMF-Facet 365744 will be corrected!
- * 
- * @Deprecated : use oep.infra.gmfdiag.modelexplorer#queries.IsDiagram
- */
+@SuppressWarnings({"restriction","deprecation"})
 @Deprecated
 public class IsUimDiagram implements IJavaModelQuery<EObject, Boolean> {
 

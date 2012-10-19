@@ -1,16 +1,11 @@
 package org.opaeum.uimodeler.common.figures;
 
-import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.ImageFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -21,6 +16,7 @@ import org.opaeum.uim.swt.GridPanelComposite;
 public class UimFigureUtil{
 	public static final String FIGURE = "FIGURE";
 	public static final String ELEMENT = "ELEMENT";
+	public static final String OPAEUM_IMAGE = "OPAEUM_IMAGE";
 	static Shell shlChooseElement;
 	public static Shell getFakeShell(){
 		final Shell activeShell = Display.getCurrent().getActiveShell();
@@ -63,6 +59,9 @@ public class UimFigureUtil{
 		return shlChooseElement;
 	}
 	public static org.eclipse.draw2d.geometry.Rectangle toDraw2DRectangle(Control ctl){
+		if(ctl.isDisposed()){
+			return new org.eclipse.draw2d.geometry.Rectangle(0,0,300,30);
+		}
 		return new org.eclipse.draw2d.geometry.Rectangle(getAbsoluteX(ctl), getAbsoluteY(ctl), ctl.getBounds().width, ctl.getBounds().height);
 	}
 	public static int getAbsoluteY(Control ctl){
@@ -81,15 +80,6 @@ public class UimFigureUtil{
 			int absoluteY = getAbsoluteY(ctl.getParent());
 			return bnds.x;// +absoluteY;
 		}
-	}
-	public static void paint(Control c,Figure f,Graphics g){
-		final Image image = new Image(Display.getDefault(), f.getBounds().width, f.getBounds().height);
-		GC gc = new GC(image);
-		c.print(gc);
-		ImageFigure ig = new ImageFigure(image);
-		ig.setBounds(f.getBounds());
-		ig.paint(g);
-		c.dispose();
 	}
 	public static Composite getNearestComposite(EditPart parent){
 		ISWTFigure f = getNearestSwtFigure(parent);

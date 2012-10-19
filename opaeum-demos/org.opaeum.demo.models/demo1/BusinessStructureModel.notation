@@ -285,6 +285,10 @@
       </eAnnotations>
       <children xmi:type="notation:DecorationNode" xmi:id="_z1h9MpK-EeGnpuq6_ber_Q" type="5029"/>
       <children xmi:type="notation:BasicCompartment" xmi:id="_z1h9M5K-EeGnpuq6_ber_Q" type="7017">
+        <children xmi:type="notation:Shape" xmi:id="_kw95YBknEeKmaYAq-i-IvQ" type="3012">
+          <element xmi:type="uml:Property" href="BusinessStructureModel.uml#_ku-8YBknEeKmaYAq-i-IvQ"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_kw95YRknEeKmaYAq-i-IvQ"/>
+        </children>
         <styles xmi:type="notation:TitleStyle" xmi:id="_z1h9NJK-EeGnpuq6_ber_Q"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_z1h9NZK-EeGnpuq6_ber_Q"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_z1h9NpK-EeGnpuq6_ber_Q"/>

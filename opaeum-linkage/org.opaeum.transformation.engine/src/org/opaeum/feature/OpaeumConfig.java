@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
@@ -56,12 +55,12 @@ public class OpaeumConfig{
 	private static final String DB_PASSWORD = "opaeum.database.password";
 	private static final String SUPPORTED_LOCALES = "opaeum.supported.locales";
 	private static final String DEFAULT_CURRENCY = "opaeum.default.currency";
+	private static final String UI_MODULE_ACTIVE="opaeum.ui.module.active";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
 	private Map<ISourceFolderIdentifier,SourceFolderDefinition> sourceFolderDefinitions = new HashMap<ISourceFolderIdentifier,SourceFolderDefinition>();
 	private File file;
-	private WorkspaceMappingInfo workspaceMappingInfo;
 	private SqlDialect sqlDialect;
 	private VersionNumber version;
 	public OpaeumConfig(File file){
@@ -134,17 +133,11 @@ public class OpaeumConfig{
 	public static Class<?> getClass(String name){
 		Class<?> c;
 		if(classRegistry.containsKey(name)){
-			System.out.println("OpaeumConfig.getClass()1");
 			c = classRegistry.get(name);
 		}else{
 			try{
-				for(Entry<String,Class<?>> entry:classRegistry.entrySet()){
-					System.out.println(entry.getKey() + "=" + entry.getValue().getName());
-				}
 				c = Thread.currentThread().getContextClassLoader().loadClass(name);
-				System.out.println("OpaeumConfig.getClass()2");
 			}catch(ClassNotFoundException e){
-				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
 		}
@@ -345,15 +338,7 @@ public class OpaeumConfig{
 		}
 		this.props.setProperty(ADDITIONAL_TRANSFORMATION_STEPS, sb.toString());
 	}
-	public WorkspaceMappingInfo getWorkspaceMappingInfo(){
-		if(this.workspaceMappingInfo == null){
-			this.workspaceMappingInfo = new WorkspaceMappingInfo(new File(file.getParent(), getWorkspaceIdentifier() + ".mappinginfo"));
-			this.workspaceMappingInfo.setVersion(getVersion());
-		}
-		return this.workspaceMappingInfo;
-	}
 	public void reset(){
-		workspaceMappingInfo = null;
 		this.sqlDialect = null;
 	}
 	public void setWorkspaceName(String name){
@@ -472,5 +457,11 @@ public class OpaeumConfig{
 			}
 		});
 		return availableLocales;
+	}
+	public boolean isUiModelerActive(){
+		return true||"true".equalsIgnoreCase(props.getProperty(UI_MODULE_ACTIVE));
+	}
+	public void setUiModelerActive(boolean t){
+		props.setProperty(UI_MODULE_ACTIVE, ""+t);
 	}
 }

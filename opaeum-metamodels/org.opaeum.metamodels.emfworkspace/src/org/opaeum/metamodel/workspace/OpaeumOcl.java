@@ -43,19 +43,16 @@ import org.opaeum.ocl.uml.OpaqueActionActionContext;
 import org.opaeum.ocl.uml.OpaqueBehaviorContext;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
 
-public class OpaeumOcl {
-	//Using weakhashmap safely as the keys will only be garbage collected if the elements are deleted from the model
+public class OpaeumOcl{
+	// Using weakhashmap safely as the keys will only be garbage collected if the elements are deleted from the model
 	private Map<OpaqueExpression,OpaqueExpressionContext> opaqueExpressions = new WeakHashMap<OpaqueExpression,OpaqueExpressionContext>();
 	private Map<OpaqueBehavior,OpaqueBehaviorContext> opaqueBehaviors = new WeakHashMap<OpaqueBehavior,OpaqueBehaviorContext>();
 	private Map<OpaqueAction,OpaqueActionActionContext> opaqueActions = new WeakHashMap<OpaqueAction,OpaqueActionActionContext>();
 	private OpaeumParentEnvironment parentEnvironment;
-	
 	public OpaeumOcl(ResourceSet rst){
 		super();
-		this.parentEnvironment=new OpaeumParentEnvironment(rst);
-		
+		this.parentEnvironment = new OpaeumParentEnvironment(rst);
 	}
-
 	public OpaqueExpressionContext getOclExpressionContext(OpaqueExpression valueSpec){
 		OpaqueExpressionContext result = opaqueExpressions.get(valueSpec);
 		if(result == null){
@@ -67,7 +64,6 @@ public class OpaeumOcl {
 		}
 		return result;
 	}
-
 	public void reset(){
 		opaqueExpressions.clear();
 		opaqueBehaviors.clear();
@@ -83,7 +79,6 @@ public class OpaeumOcl {
 		}
 		return result;
 	}
-
 	public OpaqueActionActionContext getOclActionContext(OpaqueAction valueSpec){
 		OpaqueActionActionContext result = opaqueActions.get(valueSpec);
 		if(result == null){
@@ -94,34 +89,32 @@ public class OpaeumOcl {
 		}
 		return result;
 	}
-
 	public OCL createOcl(Element context,Map<String,Classifier> vars){
 		OpaeumEnvironment env = new OpaeumEnvironment(context, parentEnvironment);
 		env.addVariables(vars);
 		return OCL.newInstance(env);
 	}
-
 	public TypeResolver<Classifier,Operation,Property> getTypeResolver(){
 		return parentEnvironment.getTypeResolver();
 	}
-
 	public Collection<AbstractOclContext> getOclContexts(){
 		Collection<AbstractOclContext> result = new HashSet<AbstractOclContext>(this.opaqueActions.values());
 		result.addAll(this.opaqueBehaviors.values());
 		result.addAll(this.opaqueExpressions.values());
 		return result;
 	}
-
 	public OpaqueExpressionContext getArtificationExpression(NamedElement ne,String tagName){
 		for(EObject e:ne.getStereotypeApplications()){
 			EStructuralFeature f = e.eClass().getEStructuralFeature(tagName);
 			if(f != null){
-				return getOclExpressionContext((OpaqueExpression) e.eGet(f));
+				OpaqueExpression oe = (OpaqueExpression) e.eGet(f);
+				if(oe != null){
+					return getOclExpressionContext(oe);
+				}
 			}
 		}
 		return null;
 	}
-
 	@SuppressWarnings("unchecked")
 	public Collection<OpaqueExpressionContext> getArtificialExpressions(NamedElement ne,String tagName){
 		Collection<OpaqueExpressionContext> result = new HashSet<OpaqueExpressionContext>();
@@ -136,7 +129,6 @@ public class OpaeumOcl {
 		}
 		return result;
 	}
-
 	public Classifier getTargetType(Action a){
 		InputPin pin = EmfActionUtil.getTargetPin(a);
 		Classifier type = calculateType(pin);
@@ -148,7 +140,6 @@ public class OpaeumOcl {
 		}
 		return (Classifier) type;
 	}
-
 	public Classifier calculateType(InputPin pin){
 		Type type = null;
 		if(pin instanceof ValuePin){
@@ -189,9 +180,7 @@ public class OpaeumOcl {
 		}
 		return type;
 	}
-
 	public OpaeumLib getLibrary(){
 		return this.parentEnvironment.getLibrary();
 	}
-
-	}
+}

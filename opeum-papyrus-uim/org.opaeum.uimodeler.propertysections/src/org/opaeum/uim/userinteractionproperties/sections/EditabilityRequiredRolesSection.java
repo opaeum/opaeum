@@ -2,7 +2,6 @@ package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.userinteractionproperties.core.AbstractRequiredRolesSection;
