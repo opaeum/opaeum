@@ -30,7 +30,7 @@ public class BuiltInLinkEventAdapter extends AbstractEventAdapter{
 				case ActionPackage.BUILT_IN_LINK__KIND:
 					BuiltInLinkKind kind = getBuiltInLink().getKind();
 					setKind(kind);
-					prepareForRepaint();
+					prepareWidgetForRepaint();
 					break;
 				}
 			}

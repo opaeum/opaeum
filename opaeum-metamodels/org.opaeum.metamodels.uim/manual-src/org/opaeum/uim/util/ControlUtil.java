@@ -25,7 +25,7 @@ public class ControlUtil{
 		}else{
 			if(EmfClassifierUtil.comformsToLibraryType(type, "Boolean")){
 				return new ControlKind[]{ControlKind.CHECK_BOX,ControlKind.TOGGLE_BUTTON};
-			}else if(EmfClassifierUtil.comformsToLibraryType(type, "Date") || EmfClassifierUtil.comformsToLibraryType(type,"datetime")){// TODO make this more sophisticated
+			}else if(EmfClassifierUtil.comformsToLibraryType(type, "Date") || EmfClassifierUtil.comformsToLibraryType(type,"DateTime")){// TODO make this more sophisticated
 				return new ControlKind[]{ControlKind.DATE_POPUP,ControlKind.TEXT,ControlKind.DATE_SCROLLER,ControlKind.DATE_TIME_POPUP};
 			}else if(EmfClassifierUtil.comformsToLibraryType(type, "Integer")){
 				return new ControlKind[]{ControlKind.NUMBER_SCROLLER,ControlKind.TEXT};

@@ -110,13 +110,13 @@ public class UmlUimLinks{
 	}
 	public Classifier getNearestClass(EObject uc){
 			UimDataTable nearestTable = getNearestTable(uc);
-			if(nearestTable == null){
+			if(nearestTable != null){
+				if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
+					return (Classifier) getBindingType(nearestTable.getBinding());
+				}
+			}
 				UserInterfaceRoot uf = getNearestUserInterfaceRoot(uc);
 				return getRepresentedClass(uf);
-			}else if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
-				return (Classifier) getBindingType(nearestTable.getBinding());
-			}
-			return null;
 	}
 	private Classifier getBindingType(UimBinding b){
 		if(b.getNext() == null || getProperty(b.getNext()) == null){

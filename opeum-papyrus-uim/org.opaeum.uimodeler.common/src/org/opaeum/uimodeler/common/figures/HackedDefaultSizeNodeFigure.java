@@ -6,6 +6,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 
 public class HackedDefaultSizeNodeFigure extends DefaultSizeNodeFigure{
 	private ISWTFigure primaryChild;
@@ -35,10 +36,11 @@ public class HackedDefaultSizeNodeFigure extends DefaultSizeNodeFigure{
 		if(primaryChild instanceof AbstractPanelFigure || primaryChild.getClass().getSimpleName().equals("CustomUimDataTableFigure")){
 			super.paint(graphics);
 		}else{
-			Control widget = primaryChild.getWidget();
+			Control widget = (Control) primaryChild.getWidget();
+			Image img = (Image) widget.getData(UimFigureUtil.OPAEUM_IMAGE);
 			if(widget.isDisposed()){
 				try{
-					graphics.drawImage((Image) widget.getData(UimFigureUtil.OPAEUM_IMAGE), getBounds().x, getBounds().y);
+					graphics.drawImage(img, getBounds().x, getBounds().y);
 				}catch(Exception e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -47,7 +49,14 @@ public class HackedDefaultSizeNodeFigure extends DefaultSizeNodeFigure{
 				org.eclipse.swt.graphics.Rectangle bounds2 = widget.getBounds();
 				if(bounds2.width > 0 && bounds2.height > 0){
 					try{
-						graphics.drawImage((Image) widget.getData(UimFigureUtil.OPAEUM_IMAGE), getBounds().x, getBounds().y);
+//						 Shell shell = new Shell(widget.getDisplay());
+//						 shell.setBackgroundImage(img);
+//						 shell.open();
+						if(img!=null){
+						graphics.drawImage(img, getBounds().x, getBounds().y);
+						}else{
+							System.out.println("NULL IMAGE");
+						}
 					}catch(Exception e){
 						// TODO Auto-generated catch block
 						e.printStackTrace();

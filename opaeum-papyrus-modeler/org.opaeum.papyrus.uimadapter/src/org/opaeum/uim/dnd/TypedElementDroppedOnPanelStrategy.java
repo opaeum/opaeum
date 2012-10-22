@@ -13,6 +13,9 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.CompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateUnspecifiedTypeRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.DropObjectsRequest;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
+import org.eclipse.gmf.runtime.notation.DecorationNode;
+import org.eclipse.gmf.runtime.notation.NotationFactory;
+import org.eclipse.gmf.runtime.notation.Shape;
 import org.eclipse.papyrus.infra.gmfdiag.dnd.strategy.TransactionalDropStrategy;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.uml2.uml.Classifier;
@@ -23,6 +26,10 @@ import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.uim.UserInterfaceRoot;
+import org.opaeum.uim.action.ActionKind;
+import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.BuiltInLink;
+import org.opaeum.uim.action.BuiltInLinkKind;
 import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.TableBinding;
@@ -34,6 +41,7 @@ import org.opaeum.uim.util.UmlUimLinks;
 import org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
 import org.opaeum.uimodeler.page.diagram.part.UimPaletteFactory;
 
 public class TypedElementDroppedOnPanelStrategy extends TransactionalDropStrategy{
@@ -84,7 +92,8 @@ public class TypedElementDroppedOnPanelStrategy extends TransactionalDropStrateg
 							CreateUnspecifiedTypeRequest cr = (CreateUnspecifiedTypeRequest) tool.createCreateRequest();
 							cr.setLocation(location);
 							cr.setSize(new Dimension(300, 300));
-							compartment.performRequest(cr);
+							Command cmd = ((GraphicalEditPart) compartment).getCommand(cr);
+							compartment.getDiagramEditDomain().getDiagramCommandStack().execute(cmd);
 							UimComponent newChild = targetPanel.getChildren().get(targetPanel.getChildren().size() - 1);
 							UimDataTable table = (UimDataTable) newChild;
 							TableBinding binding = BindingFactory.eINSTANCE.createTableBinding();
@@ -93,7 +102,23 @@ public class TypedElementDroppedOnPanelStrategy extends TransactionalDropStrateg
 							table.setName(NameConverter.capitalize(property.getName()));
 							table.setUnderUserControl(true);
 							List<Property> props = EmfPropertyUtil.getEffectiveProperties((Classifier) property.getType());
-							GraphicalEditPart newEditPart = findEditpartFor(compartment, newChild);
+							final UimDataTableEditPart newEditPart = (UimDataTableEditPart) findEditpartFor(compartment, newChild);
+							compartment.getDiagramEditDomain().getDiagramCommandStack().execute(new Command(){
+								public boolean canExecute(){
+									return true;
+								};
+								public void execute(){
+									 Shape panelShape= (Shape) newEditPart.getModel();
+										DecorationNode columnsCompartment = NotationFactory.eINSTANCE.createDecorationNode();
+										panelShape.getPersistedChildren().add(columnsCompartment);
+										columnsCompartment.setType(UimDataTableDataTableColumnCompartmentEditPart.VISUAL_ID + "");
+										columnsCompartment.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+										DecorationNode actionBarCompartment = NotationFactory.eINSTANCE.createDecorationNode();
+										actionBarCompartment.setType(UimDataTableTableTableActionBarCompartmentEditPart.VISUAL_ID + "");
+										panelShape.getPersistedChildren().add(actionBarCompartment);
+										actionBarCompartment.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+								};
+							});
 							UimDataTableDataTableColumnCompartmentEditPart columnCompartment = null;
 							if(newEditPart instanceof UimDataTableEditPart){
 								List<?> children = newEditPart.getChildren();
@@ -103,15 +128,24 @@ public class TypedElementDroppedOnPanelStrategy extends TransactionalDropStrateg
 									}
 								}
 							}
-							int offset=0;
+							columnCompartment.performRequest(((UnspecifiedTypeCreationTool)uimPaletteFactory.createTool(UimPaletteFactory.CREATEBUILTINLINK5CREATIONTOOL)).createCreateRequest());
+							BuiltInLink uimComponent = (BuiltInLink) table.getChildren().get(0);
+							uimComponent.setName("Edit");
+							uimComponent.setKind(BuiltInLinkKind.EDIT);
+							int offset = 20;
 							if(columnCompartment != null){
 								for(Property property2:props){
 									if(!EmfPropertyUtil.isMany(property2)){
 										createField(columnCompartment, property2, table, new Point(location.x + offset, location.y + 25));
-										offset+=100;
+										offset += 120;
 									}
 								}
 							}
+//							newEditPart.getPrimaryShape().getWidget().markForShot();
+//							newEditPart.getPrimaryShape().getWidget().layout();
+//							newEditPart.getPrimaryShape().invalidateTree();
+//							newEditPart.getPrimaryShape().validate();
+							
 						}
 					}
 					private void createField(final CompartmentEditPart compartment,final TypedElement property,final UimContainer targetPanel,

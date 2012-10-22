@@ -1,13 +1,15 @@
 package org.opaeum.uim.swt;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 
-public class GridPanelComposite extends Composite{
+public class GridPanelComposite extends Composite implements IUimWidget{
 	Label label;
 	Composite contentPane;
 	public GridPanelComposite(Composite parent,int style){
@@ -38,6 +40,13 @@ public class GridPanelComposite extends Composite{
 //		}
 		layout();
 	}
+	@Override
+	public Object getData(String key){
+		if(key.equals(UimSwtUtil.WBP_NEED_IMAGE)){
+			return null;
+		}
+		return super.getData(key);
+	}
 	public Label getLabel(){
 		return label;
 	}
@@ -46,5 +55,26 @@ public class GridPanelComposite extends Composite{
 	}
 	@Override
 	public void setLayout(Layout layout){
+	}
+	@Override
+	public void layout(){
+		Point oldSize = getContentPane().getSize();
+		super.layout();
+		Point newSize = getContentPane().getSize();
+		if(newSize.x==oldSize.x ||newSize.y==oldSize.y){
+			//Force layout of contentPane
+			getContentPane().layout();
+		}
+				
+				
+	}
+	@Override
+	public void markForShot(){
+		for(Control control:getContentPane().getChildren()){
+			if(control instanceof IUimWidget){
+				((IUimWidget) control).markForShot();
+			}
+		}
+		
 	}
 }

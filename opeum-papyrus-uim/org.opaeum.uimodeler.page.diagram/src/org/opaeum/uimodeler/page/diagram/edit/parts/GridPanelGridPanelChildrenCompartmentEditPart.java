@@ -18,7 +18,7 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
 import org.eclipse.swt.widgets.Composite;
-import org.opaeum.uimodeler.common.figures.UimFigureUtil;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.page.diagram.edit.policies.GridPanelGridPanelChildrenCompartmentItemSemanticEditPolicy;
 import org.opaeum.uimodeler.page.diagram.part.Messages;
 
@@ -46,7 +46,7 @@ public class GridPanelGridPanelChildrenCompartmentEditPart extends ShapeCompartm
 	 * @generated NOT
 	 */
 	public IFigure createFigure(){
-		final Composite comp = UimFigureUtil.getNearestComposite(getParent());
+//		final Composite comp = UimFigureUtil.getNearestComposite(getParent());
 		ShapeCompartmentFigure scf = new ShapeCompartmentFigure(getCompartmentName(), getMapMode()){
 			@Override
 			public Rectangle getBounds(){

@@ -53,6 +53,7 @@ import org.opaeum.papyrus.PapyrusEObjectSelectorUI;
 import org.opaeum.uim.uml2uim.FormSynchronizer2;
 import org.opaeum.uim.uml2uim.UimResourceUtil;
 import org.opaeum.uim.util.UmlUimLinks;
+import org.opaeum.uimodeler.util.InMemoryNotationCommandQueue;
 import org.opaeum.uimodeler.util.UimContentAdapter;
 
 public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResourceSet{
@@ -218,6 +219,7 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 		inMemoryNotationModel = new InMemoryNotationResource(this, uri);
 		super.uriResourceMap.put(uri, inMemoryNotationModel);
 		getResources().add(inMemoryNotationModel);
+		inMemoryNotationModel.eAdapters().add(InMemoryNotationCommandQueue.getInstance(getFilenameWithoutExtension()));
 	}
 	public InMemoryNotationResource getInMemoryNotationResource(){
 		return inMemoryNotationModel;

@@ -1,38 +1,31 @@
 package org.opaeum.uimodeler.common.figures;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.wb.os.OSSupport;
+import org.opaeum.uim.swt.IUimWidget;
 import org.opaeum.uim.swt.TableAndActionBarComposite;
+import org.opaeum.uim.swt.UimSwtUtil;
 
-public final class UimDataTableComposite extends Composite{
-	private Composite firstRow;
-	private TableAndActionBarComposite displayedContent;
+public final class UimDataTableComposite extends TableAndActionBarComposite{
+	private FirstTableRow firstRow;
 	public static final int ROW_HEIGHT = 34;
 	public UimDataTableComposite(Composite parent,int style){
 		super(parent, style);
-		setLayout(prepareLayout(1));
 		addFirstRow();
-		addDisplayedContent();
 	}
 	@Override
 	public Point computeSize(int wHint,int hHint,boolean changed){
 		Point size = super.computeSize(wHint, hHint, changed);
-		firstRow.pack();
-		Point point = new Point(Math.max(firstRow.getBounds().width+10,size.x),Math.max(300,size.y));
+		Point firstRowSize = firstRow.computeSize(wHint, ROW_HEIGHT);
+		Point point = new Point(Math.max(firstRowSize.x + 10, size.x), Math.max(300, size.y));
 		return point;
-	}
-	private void addDisplayedContent(){
-		displayedContent = new TableAndActionBarComposite(this, SWT.NONE);
-		displayedContent.setLayout(prepareLayout(1));
-		displayedContent.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 	}
 	private GridLayout prepareLayout(int columns){
 		GridLayout gl = new GridLayout(columns, false);
@@ -44,37 +37,30 @@ public final class UimDataTableComposite extends Composite{
 	}
 	@Override
 	public void layout(){
-		super.layout();
+		getFirstRow().setBounds(new Rectangle(0, getTable().getHeaderHeight(), getSize().x, ROW_HEIGHT));
+		Control[] children = getFirstRow().getChildren();
+		for(Control control:children){
+			((GridData) control.getLayoutData()).verticalAlignment = SWT.FILL;
+		}
 		getFirstRow().layout();
-		getDisplayedContent().layout();
 		recalculateColumns();
-		getTable().layout();
-		getActionBar().layout();
+		super.layout();
+		getFirstRow().setBounds(new Rectangle(0, getTable().getHeaderHeight(), getSize().x, ROW_HEIGHT));
+		for(Control control:children){
+			((GridData) control.getLayoutData()).verticalAlignment = SWT.FILL;
+		}
+		getFirstRow().layout();
+		// getDisplayedContent().setBounds(new Rectangle(0, 0, getSize().x-2, getSize().y));
+		// getDisplayedContent().layout();
+		// getFirstRow().getParent(). setBounds(new Rectangle(0, getDisplayedContent().getTable().getHeaderHeight(), getSize().x, ROW_HEIGHT));
 	}
 	private void addFirstRow(){
-		this.firstRow = new Composite(this, SWT.NONE);
-		GridData firstRowData = new GridData(10, ROW_HEIGHT);
-		firstRowData.grabExcessHorizontalSpace = true;
-		firstRowData.widthHint=-1;
-		firstRowData.horizontalAlignment = GridData.FILL;
-		firstRow.setLayoutData(firstRowData);
+		this.firstRow = new FirstTableRow(this, SWT.NONE);
 		firstRow.setLayout(prepareLayout(30));
+		firstRow.setLayoutData(new GridData(0, 0));
 	}
-	public Composite getFirstRow(){
+	public FirstTableRow getFirstRow(){
 		return firstRow;
-	}
-	public Table getTable(){
-		return displayedContent.getTable();
-	}
-	public Composite getDisplayedContent(){
-		return displayedContent;
-	}
-	public Composite getActionBar(){
-		return displayedContent.getActionBar();
-	}
-	@Override
-	public boolean print(GC gc){
-		return super.print(gc);
 	}
 	private void recalculateColumns(){
 		int i = 0;
@@ -93,12 +79,36 @@ public final class UimDataTableComposite extends Composite{
 			getTable().getItems()[4].setText(i, columns[i].getText() + "5");
 			if(columns[i].getWidth() != control.getSize().x){
 				columns[i].setWidth(control.getSize().x);
-				markTableForRepait();
+				
 			}
 			i++;
 		}
+		markForShot();
 	}
-	public void markTableForRepait(){
-		getTable().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+	@Override
+	public void markForShot(){
+		super.markForShot();
+		for(Control control:getFirstRow().getChildren()){
+			if(control instanceof IUimWidget){
+				((IUimWidget) control).markForShot();
+			}
+		}
+	}
+	public int getHeaderHeight(){
+		return getTable().getHeaderHeight();
+	}
+	public Control[] getColumnControls(){
+		return getFirstRow().getChildren();
+	}
+	public void removeColumn(int i){
+		getTable().getColumns()[i].dispose();
+		getColumnControls()[i].dispose();
+	}
+	@Override
+	public Object getData(String key){
+		if(key.equals(UimSwtUtil.WBP_NEED_IMAGE)){
+			return null;
+		}
+		return super.getData(key);
 	}
 }

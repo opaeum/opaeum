@@ -29,8 +29,8 @@ import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForEle
 import org.eclipse.swt.graphics.Color;
 import org.opaeum.uim.figures.CustomUimDataTableFigure;
 import org.opaeum.uim.figures.UimDataTableEventAdapter;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
-import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.page.diagram.edit.policies.UimDataTableItemSemanticEditPolicy;
 import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 

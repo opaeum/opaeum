@@ -1,15 +1,9 @@
 package org.opaeum.uimodeler.common.figures;
 
-import java.util.List;
-
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureListener;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;
-import org.eclipse.draw2d.MouseEvent;
-import org.eclipse.draw2d.MouseListener;
-import org.eclipse.draw2d.MouseMotionListener;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.Notification;
@@ -30,13 +24,13 @@ import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.panel.PanelPackage;
-import org.opaeum.uim.swt.GridPanelComposite;
+import org.opaeum.uim.swt.IUimWidget;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 
 public class AbstractEventAdapter extends AdapterImpl implements FigureListener,LayoutListener,ControlListener,EditPartListener{
 	protected ISWTFigure figure;
@@ -86,25 +80,27 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		}
 		figure.getWidget().setData(UimFigureUtil.ELEMENT, element);
 		figure.getWidget().setData(UimFigureUtil.FIGURE, figure);
-		figure.getWidget().getParent().layout();
+		prepareParentWidgetForRepaint();
 	}
-	private void setWidthHint(GridData gd,Outlayable outlayable){
+	protected void setWidthHint(GridData gd,Outlayable outlayable){
 		if(outlayable.getPreferredWidth() != null){
 			gd.widthHint = outlayable.getPreferredWidth();
 		}
 	}
-	private void setHeightHint(GridData gd,Outlayable outlayable){
-		if(outlayable.getPreferredHeight() != null){
+	protected void setHeightHint(GridData gd,Outlayable outlayable){
+		if(outlayable.eContainer() instanceof UimDataTable){
+			gd.heightHint = -1;
+		}else if(outlayable.getPreferredHeight() != null){
 			gd.heightHint = outlayable.getPreferredHeight();
 		}
 	}
-	private void fillVertically(GridData gd,Outlayable outlayable){
+	protected void fillVertically(GridData gd,Outlayable outlayable){
 		if(outlayable.getFillVertically() != null){
 			gd.grabExcessVerticalSpace = outlayable.getFillVertically();
 			gd.verticalAlignment = outlayable.getFillVertically() ? SWT.FILL : GridData.BEGINNING;
 		}
 	}
-	private void fillHorizontally(GridData gd,Outlayable outlayable){
+	protected void fillHorizontally(GridData gd,Outlayable outlayable){
 		if(outlayable.getFillHorizontally() != null){
 			gd.grabExcessHorizontalSpace = outlayable.getFillHorizontally();
 			gd.horizontalAlignment = outlayable.getFillHorizontally() ? SWT.FILL : GridData.BEGINNING;
@@ -120,19 +116,19 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 						switch(featureId){
 						case PanelPackage.OUTLAYABLE__FILL_HORIZONTALLY:
 							fillHorizontally((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-							prepareForRepaint();
+							prepareParentWidgetForRepaint();
 							break;
 						case PanelPackage.OUTLAYABLE__FILL_VERTICALLY:
 							fillVertically((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-							prepareForRepaint();
+							prepareParentWidgetForRepaint();
 							break;
 						case PanelPackage.OUTLAYABLE__PREFERRED_HEIGHT:
 							setHeightHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-							prepareForRepaint();
+							prepareParentWidgetForRepaint();
 							break;
 						case PanelPackage.OUTLAYABLE__PREFERRED_WIDTH:
 							setWidthHint((GridData) ((Control) figure.getWidget()).getLayoutData(), (Outlayable) element);
-							prepareForRepaint();
+							prepareParentWidgetForRepaint();
 							break;
 						default:
 							break;
@@ -143,75 +139,51 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 				switch(featureId){
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 					figure.setLabelText(msg.getNewStringValue());
-					prepareForRepaint();
+					//May changeminimumsize
+					prepareParentWidgetForRepaint();
 					break;
 				}
 			}
 		}
 	}
-	public void prepareForRepaint(){
-		// if(figure instanceof CustomGridPanelFigure){
-		// figure.getWidget().setData("NEEDS_LAYOUT", Boolean.TRUE);
-		// }
-		figure.getParent().invalidate();
+	public void prepareParentWidgetForRepaint(){
+		IUimWidget parent = getParent();
+		parent.markForShot();
+		parent.layout();
+		Figure parentFigure = (Figure) parent.getData(UimFigureUtil.FIGURE);
+		parentFigure.invalidateTree();
+		parentFigure.revalidate();
+	}
+	public void prepareWidgetForRepaint(){
+		this.figure.getWidget().markForShot();
 		if(figure.getWidget() instanceof Composite){
 			((Composite) figure.getWidget()).layout();
 		}
-		figure.getWidget().getParent().layout();
-		Composite parent = getParent();
-		Figure fig = (Figure) parent.getData(UimFigureUtil.FIGURE);
-		if(fig == null){
-			parent = parent.getParent();
-			fig = (Figure) parent.getData(UimFigureUtil.FIGURE);
-		}
-		figure.invalidate();
-		if(fig != null){
-			fig.invalidateTree();
-			parent.setData("NEEDS_LAYOUT", Boolean.TRUE);
-			if(parent.getParent() instanceof UimDataTableComposite || parent.getParent() instanceof GridPanelComposite){
-				parent.getParent().setData("NEEDS_LAYOUT", Boolean.TRUE);
-			}
-		}
-		WindowBuilderUtil.markRecursivelyForShot(figure.getWidget());
+		figure.invalidateTree();
 		figure.revalidate();
 	}
 	@Override
 	public void figureMoved(IFigure source){
 		if(isActive()){
 			if(source == figure.getParent() && readyForMove && !updatingSize && source instanceof HackedDefaultSizeNodeFigure){
-				GridData layoutData = (GridData) figure.getWidget().getLayoutData();
-				Rectangle originalBounds = ((HackedDefaultSizeNodeFigure) source).getOriginalBounds();
+				IUimWidget widget = figure.getWidget();
+				GridData layoutData = (GridData) widget.getLayoutData();
+				Rectangle newBounds = ((HackedDefaultSizeNodeFigure) source).getOriginalBounds();
 				if(!updatingSize){
 					updatingSize = true;
 					boolean changed = false;
-					if(layoutData.widthHint != originalBounds.width){
+					if(layoutData.widthHint != newBounds.width){
 						try{
-							CompoundCommand cc = new CompoundCommand();
-							TransactionalEditingDomain editingDomain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
-							cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_PreferredWidth(),
-									originalBounds.width));
-							cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_FillHorizontally(), Boolean.FALSE));
-							editingDomain.getCommandStack().execute(cc);
-							GridData gd = (GridData) ((Control) figure.getWidget()).getLayoutData();
-							fillHorizontally(gd, (Outlayable) element);
-							setWidthHint(gd, (Outlayable) element);
+							applyWidthAfterMove(newBounds);
 							changed = true;
 						}catch(ServiceException e){
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
-					if(layoutData.heightHint != originalBounds.height){
+					if(layoutData.heightHint != newBounds.height && !(getParent() instanceof UimDataTableComposite)){
 						try{
-							CompoundCommand cc = new CompoundCommand();
-							TransactionalEditingDomain editingDomain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
-							cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_PreferredHeight(),
-									originalBounds.height));
-							cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_FillVertically(), Boolean.FALSE));
-							editingDomain.getCommandStack().execute(cc);
-							GridData gd = (GridData) ((Control) figure.getWidget()).getLayoutData();
-							fillHorizontally(gd, (Outlayable) element);
-							setHeightHint(gd, (Outlayable) element);
+							applyHeightAfterMove(newBounds);
 							changed = true;
 						}catch(ServiceException e){
 							// TODO Auto-generated catch block
@@ -219,20 +191,44 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 						}
 					}
 					if(changed){
-						prepareForRepaint();
+						prepareParentWidgetForRepaint();
 					}
 				}
 			}
 			updatingSize = false;
 		}
 	}
+	protected void applyWidthAfterMove(Rectangle newBounds) throws ServiceException{
+		CompoundCommand cc = new CompoundCommand();
+		TransactionalEditingDomain editingDomain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
+		cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_PreferredWidth(), newBounds.width));
+		cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_FillHorizontally(), Boolean.FALSE));
+		editingDomain.getCommandStack().execute(cc);
+		GridData gd = (GridData) ((Control) figure.getWidget()).getLayoutData();
+		fillHorizontally(gd, (Outlayable) element);
+		setWidthHint(gd, (Outlayable) element);
+	}
+	protected void applyHeightAfterMove(Rectangle newBounds) throws ServiceException{
+		CompoundCommand cc = new CompoundCommand();
+		TransactionalEditingDomain editingDomain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
+		cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_PreferredHeight(), newBounds.height));
+		cc.append(SetCommand.create(editingDomain, element, PanelPackage.eINSTANCE.getOutlayable_FillVertically(), Boolean.FALSE));
+		editingDomain.getCommandStack().execute(cc);
+		GridData gd = (GridData) ((Control) figure.getWidget()).getLayoutData();
+		fillVertically(gd, (Outlayable) element);
+		setHeightHint(gd, (Outlayable) element);
+	}
 	@Override
 	public void invalidate(IFigure container){
 		if(isActive()){
 		}
 	}
-	protected Composite getParent(){
-		return ((Control) figure.getWidget()).getParent();
+	protected final IUimWidget getParent(){
+		Composite parent = figure.getWidget().getParent();
+		while(!(parent instanceof IUimWidget) || parent.getData(UimFigureUtil.FIGURE) == null){
+			parent = parent.getParent();
+		}
+		return (IUimWidget) parent;
 	}
 	@Override
 	public boolean layout(IFigure container){
@@ -245,13 +241,13 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	}
 	@Override
 	public void postLayout(IFigure container){
-		if(isActive()&& container == figure.getParent()){
+		if(isActive() && container == figure.getParent()){
 			readyForMove = true;
 		}
 	}
 	@Override
 	public void remove(IFigure child){
-		if(isActive()&& child == figure){
+		if(isActive() && child == figure){
 			figure.getWidget().dispose();
 		}
 	}
@@ -263,11 +259,14 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	}
 	@Override
 	public void controlResized(ControlEvent e){
-		e.widget.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+		// e.widget.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 	}
 	@Override
 	public void childAdded(EditPart child,int index){
-		// TODO Auto-generated method stub
+		if(child == editPart){
+			// addListeners
+			// this.figure.
+		}
 	}
 	@Override
 	public void partActivated(EditPart editpart){
@@ -285,11 +284,11 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		// TODO Auto-generated method stub
 	}
 	public boolean isActive(){
-		if(editPart.isActive() && !figure.getWidget().isDisposed()){
-			return true;
-		}else{
+		if(figure.getWidget().isDisposed()){
 			removeListeners();
 			return false;
+		}else{
+			return true;
 		}
 	}
 	private void removeListeners(){

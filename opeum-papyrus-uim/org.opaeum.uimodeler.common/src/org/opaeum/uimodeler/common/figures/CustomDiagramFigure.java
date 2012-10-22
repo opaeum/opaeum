@@ -4,16 +4,17 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.TreeSearch;
 import org.eclipse.gmf.runtime.diagram.ui.figures.BorderItemsAwareFreeFormLayer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.opaeum.uim.swt.IUimWidget;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 
 public final class CustomDiagramFigure extends BorderItemsAwareFreeFormLayer implements ISWTFigure{
-	private Composite composite;
+	private DiagramComposite composite;
 	public CustomDiagramFigure(){
 		super();
-		composite = new Composite(UimFigureUtil.getFakeShell(), SWT.NONE);
+		composite = new DiagramComposite(UimFigureUtil.getFakeShell(), SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
 		composite.setData(UimFigureUtil.FIGURE, this);
 	}
@@ -46,7 +47,7 @@ public final class CustomDiagramFigure extends BorderItemsAwareFreeFormLayer imp
 		super.validate();
 	}
 	@Override
-	public Control getWidget(){
+	public IUimWidget getWidget(){
 		return composite;
 	}
 	@Override

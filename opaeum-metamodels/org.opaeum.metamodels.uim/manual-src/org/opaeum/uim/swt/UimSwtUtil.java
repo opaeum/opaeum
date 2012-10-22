@@ -23,6 +23,7 @@ import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.panel.Orientation;
 
 public class UimSwtUtil{
+	public static String WBP_NEED_IMAGE = "WBP_NEED_IMAGE";
 	public static Image getImageFor(ActionKind kind){
 		try{
 			switch(kind){
@@ -38,7 +39,7 @@ public class UimSwtUtil{
 				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/add.ico").openStream());
 			}
 		}catch(IOException e){
-			return new Image(Display.getCurrent(),10,10);
+			return new Image(Display.getCurrent(), 10, 10);
 		}
 	}
 	public static Image getImageFor(BuiltInLinkKind kind){
@@ -47,7 +48,8 @@ public class UimSwtUtil{
 			case AUDIT_TRAIL:
 				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/audit-trail.ico").openStream());
 			case BUSINESS_INTELLIGENCE:
-				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/business-intelligence.ico").openStream());
+				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/business-intelligence.ico")
+						.openStream());
 			case EDIT:
 				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/edit.ico").openStream());
 			case VIEW:
@@ -56,7 +58,7 @@ public class UimSwtUtil{
 				return new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/add.ico").openStream());
 			}
 		}catch(IOException e){
-			return new Image(Display.getCurrent(),10,10);
+			return new Image(Display.getCurrent(), 10, 10);
 		}
 	}
 	public static void populateControl(IUimFieldComposite fig,ControlKind kind,Orientation orientation){

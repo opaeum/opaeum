@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
+import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.Tool;
@@ -279,7 +280,13 @@ public class UimDiagramEditor extends UmlGmfDiagramEditor implements IProviderCh
 	 * @generated
 	 */
 	protected PaletteViewer constructPaletteViewer(){
-		return new PapyrusPaletteViewer();
+		return new PapyrusPaletteViewer(){
+			{
+				setEditDomain(new EditDomain(){
+					
+				});
+			}
+		};
 	}
 	/**
 	 * @generated

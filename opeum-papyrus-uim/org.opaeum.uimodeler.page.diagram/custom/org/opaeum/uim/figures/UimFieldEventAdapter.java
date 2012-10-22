@@ -18,9 +18,9 @@ import org.opaeum.uim.panel.Orientation;
 import org.opaeum.uim.swt.IUimFieldComposite;
 import org.opaeum.uim.swt.LinkComposite;
 import org.opaeum.uim.swt.UimSwtUtil;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
-import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.WindowBuilderUtil;
 
 public final class UimFieldEventAdapter extends AbstractEventAdapter{
@@ -36,7 +36,6 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 			fig.setMinimumLabelWidth(minimumLabelWidth);
 		}
 		fig.getComposite().layout();
-		prepareForRepaint();
 		fig.getComposite().setBackground(ColorConstants.cyan);
 	}
 	@Override
@@ -52,12 +51,12 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				switch(featureId){
 				case ComponentPackage.UIM_FIELD__CONTROL:
 					onControlChanged(notification);
-					super.prepareForRepaint();
+					super.prepareParentWidgetForRepaint();
 					break;
 				case ComponentPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH:
 					fig.setMinimumLabelWidth((Integer) notification.getNewValue());
 					this.minimumLabelWidth = (Integer) notification.getNewValue();
-					super.prepareForRepaint();
+					super.prepareParentWidgetForRepaint();
 					break;
 				case ComponentPackage.UIM_FIELD__ORIENTATION:
 					Orientation or = (Orientation) notification.getNewValue();
@@ -74,11 +73,11 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 							fig.setControl(new LinkComposite((Composite) fig, SWT.BORDER));
 						}
 					}
-					super.prepareForRepaint();
+					super.prepareParentWidgetForRepaint();
 					break;
 				case ComponentPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH + 1000000:// TODO HEIGHT
 					this.fig.setMinimumLabelHeigh((Integer) notification.getNewValue());
-					super.prepareForRepaint();
+				super.prepareParentWidgetForRepaint();
 					break;
 				}
 			}
@@ -108,12 +107,9 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 			UimField uimField = (UimField) userInteractionElement;
 			ControlKind kind = uimField.getControlKind();
 			UimSwtUtil.populateControl(fig, kind, uimField.getOrientation());
-			WindowBuilderUtil.markRecursivelyForShot(this.figure.getWidget());
+			this.figure.getWidget().markForShot();
 		}
 		fig.layout();
 		fig.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-	}
-	public Composite getParent(){
-		return fig.getComposite().getParent();
 	}
 }

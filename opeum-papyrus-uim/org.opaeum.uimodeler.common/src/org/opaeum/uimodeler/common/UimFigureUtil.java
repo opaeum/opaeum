@@ -1,4 +1,4 @@
-package org.opaeum.uimodeler.common.figures;
+package org.opaeum.uimodeler.common;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.opaeum.uim.swt.GridPanelComposite;
+import org.opaeum.uimodeler.common.figures.ISWTFigure;
 
 public class UimFigureUtil{
 	public static final String FIGURE = "FIGURE";
@@ -84,11 +85,7 @@ public class UimFigureUtil{
 	public static Composite getNearestComposite(EditPart parent){
 		ISWTFigure f = getNearestSwtFigure(parent);
 		if(f == null){
-			Control[] children = getFakeShell().getChildren();
-			for(Control control:children){
-				control.dispose();
-			}
-			return getFakeShell();
+			throw new IllegalStateException();
 		}else if(f.getWidget() instanceof GridPanelComposite){
 			return ((GridPanelComposite) f.getWidget()).getContentPane();
 		}else if(f.getWidget() instanceof Composite){

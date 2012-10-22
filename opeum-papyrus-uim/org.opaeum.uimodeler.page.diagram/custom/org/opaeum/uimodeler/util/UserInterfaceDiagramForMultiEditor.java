@@ -1,8 +1,19 @@
 package org.opaeum.uimodeler.util;
 
+import java.io.ObjectInputStream.GetField;
+import java.util.ArrayList;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.transaction.ResourceSetChangeEvent;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gmf.runtime.diagram.core.listener.DiagramEventBroker;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramCommandStack;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -14,6 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.FileEditorInput;
 import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditor;
 import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 
@@ -42,10 +54,21 @@ public class UserInterfaceDiagramForMultiEditor extends UimDiagramEditor {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+	public void init(IEditorSite site, final IEditorInput input) throws PartInitException {
 		super.init(site, input);
 		setPartName(getDiagram().getName());
 		setTitleImage(DIAG_IMG_DESC.createImage());
+		getEditDomain().setCommandStack(new DiagramCommandStack(getDiagramEditDomain()){
+			@Override
+			public void execute(Command command,IProgressMonitor progressMonitor){
+				super.execute(command, progressMonitor);
+				TransactionalEditingDomain ed = getEditingDomain();
+				IFile file = ((FileEditorInput)input).getFile();
+				IPath loc = file.getFullPath().removeFileExtension();
+				InMemoryNotationCommandQueue queue = InMemoryNotationCommandQueue.getInstance( loc);
+				DiagramEventBroker.getInstance(ed).resourceSetChanged(new ResourceSetChangeEvent(ed ,null ,queue.getNotificationQueue()));
+			}
+		});
 	}
 
 	/**

@@ -15,9 +15,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uim.swt.GridPanelComposite;
+import org.opaeum.uim.swt.IUimWidget;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 
 public abstract class AbstractPanelFigure extends RoundedRectangle implements ISWTFigure{
 	protected GridPanelComposite widget;
@@ -115,7 +116,10 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 				widget.setData("NEEDS_LAYOUT", null);
 			}
 			// Layout first to see if anything changes
-			WindowBuilderUtil.layoutRecursively(widget);
+			WindowBuilderUtil.printNeedsComponentShot(widget);
+			WindowBuilderUtil.hideSecondLevel(widget);
+
+//			WindowBuilderUtil.layoutRecursively(widget);
 			if(WindowBuilderUtil.needsComponentShot(widget)){
 				WindowBuilderUtil.activateRootComposite(widget);
 				long start = System.currentTimeMillis();
@@ -124,8 +128,8 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 				OSSupport.get().endShot(widget);
 				System.out.println("Shot took " + (System.currentTimeMillis() - start));
 				WindowBuilderUtil.clearNeedsImage(widget);
-				// widget.getShell().setVisible(true);
-				// widget.getShell().open();
+//				 widget.getShell().setVisible(true);
+//				 widget.getShell().open();
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -160,7 +164,7 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 		return fFigureGridPanelNameFigure;
 	}
 	@Override
-	public Control getWidget(){
+	public IUimWidget getWidget(){
 		return widget;
 	}
 	@Override

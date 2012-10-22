@@ -28,10 +28,10 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceCon
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.ActionButtonEventAdapter;
 import org.opaeum.uimodeler.common.figures.CustomOperationActionFigure;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
-import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.page.diagram.edit.policies.InvocationButtonItemSemanticEditPolicy;
 import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uimodeler.page.diagram.part.UimVisualIDRegistry;

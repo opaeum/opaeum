@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.internal.dnd.SwtUtil;
 
 public class UimFieldComposite extends Composite implements IUimFieldComposite{
 	private Label label;
@@ -69,5 +70,9 @@ public class UimFieldComposite extends Composite implements IUimFieldComposite{
 			labelData.minimumWidth = minimumLabelWidth;
 			labelData.widthHint=minimumLabelWidth;
 		}
+	}
+	@Override
+	public void markForShot(){
+		super.setData(UimSwtUtil.WBP_NEED_IMAGE, Boolean.TRUE);
 	}
 }

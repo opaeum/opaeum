@@ -12,22 +12,25 @@
         <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_dzHXYBngEeKxNqtR_RdAgg"/>
+        <emfPageIdentifier href="ui/tmp.notation#_BmI6QBtfEeKHXf-XWjLv_Q"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_dzIlgBngEeKxNqtR_RdAgg"/>
+        <emfPageIdentifier href="ui/tmp.notation#_BmNyzxtfEeKHXf-XWjLv_Q"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_dzIlgRngEeKxNqtR_RdAgg"/>
+        <emfPageIdentifier href="ui/tmp.notation#_BmPn8htfEeKHXf-XWjLv_Q"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_dzJMkBngEeKxNqtR_RdAgg"/>
+        <emfPageIdentifier href="ui/tmp.notation#_BmQPFBtfEeKHXf-XWjLv_Q"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_dzJzoBngEeKxNqtR_RdAgg"/>
+        <emfPageIdentifier href="ui/tmp.notation#_BmTSUBtfEeKHXf-XWjLv_Q"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_dzJzoRngEeKxNqtR_RdAgg"/>
+        <emfPageIdentifier href="ui/tmp.notation#_BmUgfxtfEeKHXf-XWjLv_Q"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="ui/tmp.notation#_sya24BtiEeKHXf-XWjLv_Q"/>
       </availablePage>
     </pageList>
     <sashModel currentSelection="/0/@sashModel/@windows.0/@children.0">
@@ -35,6 +38,9 @@
         <children xsi:type="di:TabFolder">
           <children>
             <emfPageIdentifier href="BusinessStructureModel.notation#_tClkEHHgEeGus4aKic9sIg"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="ui/tmp.notation#_sya24BtiEeKHXf-XWjLv_Q"/>
           </children>
         </children>
       </windows>

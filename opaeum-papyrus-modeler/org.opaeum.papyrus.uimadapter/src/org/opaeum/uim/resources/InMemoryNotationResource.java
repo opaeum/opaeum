@@ -119,16 +119,16 @@ public class InMemoryNotationResource extends CSSNotationResource{
 				final TransactionalEditingDomain txDomain = (TransactionalEditingDomain) editingDomain;
 				final DiagramEventBroker deb = DiagramEventBroker.getInstance(txDomain);
 				// NB!! we need to keep the DIagramEventBroker updated on Diagram changes
-				diagram.eAdapters().add(new EContentAdapter(){
-					@Override
-					public void notifyChanged(Notification notification){
-						super.notifyChanged(notification);
-						if(notification.getFeature() instanceof EStructuralFeature){
-							ResourceSetChangeEvent e = new ResourceSetChangeEvent(txDomain, null, Collections.singletonList(notification));
-							deb.resourceSetChanged(e);
-						}
-					}
-				});
+//				diagram.eAdapters().add(new EContentAdapter(){
+//					@Override
+//					public void notifyChanged(Notification notification){
+//						super.notifyChanged(notification);
+//						if(notification.getFeature() instanceof EStructuralFeature){
+//							ResourceSetChangeEvent e = new ResourceSetChangeEvent(txDomain, null, Collections.singletonList(notification));
+////							deb.resourceSetChanged(e);
+//						}
+//					}
+//				});
 				diagrams.put(key, diagram);
 			}
 			if(diagram.getPersistedChildren().isEmpty()){

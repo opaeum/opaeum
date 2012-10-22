@@ -32,9 +32,9 @@ import org.eclipse.swt.graphics.Color;
 import org.opaeum.uimodeler.actionbar.diagram.edit.policies.ActionBarItemSemanticEditPolicy;
 import org.opaeum.uimodeler.actionbar.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uimodeler.actionbar.diagram.part.UimVisualIDRegistry;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.CustomGridPanelFigure;
 import org.opaeum.uimodeler.common.figures.PanelEventAdapter;
-import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
 /**
  * @generated

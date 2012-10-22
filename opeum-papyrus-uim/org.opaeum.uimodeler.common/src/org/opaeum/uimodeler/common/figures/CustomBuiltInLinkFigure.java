@@ -10,13 +10,14 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.opaeum.uim.swt.IUimWidget;
 
 public class CustomBuiltInLinkFigure extends RectangleFigure implements ISWTFigure{
 	private WrappingLabel fFigureBuiltInLinkNameFigure;
-	private Label link;
+	private LinkComposite link;
 	public CustomBuiltInLinkFigure(Composite c){
 		
-		this.link = new Label(c, SWT.NONE);
+		this.link = new LinkComposite(c, SWT.NONE);
 		this.link.setText("BuiltInLink");
 		this.link.setForeground(ColorConstants.blue);
 		this.link.setLayoutData(new GridData(100, 20));
@@ -30,7 +31,7 @@ public class CustomBuiltInLinkFigure extends RectangleFigure implements ISWTFigu
 		this.setLayoutManager(layoutThis);
 		createContents();
 	}
-	public Label getLink(){
+	public LinkComposite getLink(){
 		return link;
 	}
 	private void createContents(){
@@ -42,7 +43,7 @@ public class CustomBuiltInLinkFigure extends RectangleFigure implements ISWTFigu
 		return fFigureBuiltInLinkNameFigure;
 	}
 	@Override
-	public Control getWidget(){
+	public IUimWidget getWidget(){
 		return link;
 	}
 	@Override

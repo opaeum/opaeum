@@ -31,10 +31,10 @@ import org.eclipse.swt.graphics.Color;
 import org.opaeum.uimodeler.actionbar.diagram.edit.policies.TransitionButtonItemSemanticEditPolicy;
 import org.opaeum.uimodeler.actionbar.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uimodeler.actionbar.diagram.part.UimVisualIDRegistry;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.ActionButtonEventAdapter;
 import org.opaeum.uimodeler.common.figures.CustomTransitionActionFigure;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
-import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
 /**
  * @generated

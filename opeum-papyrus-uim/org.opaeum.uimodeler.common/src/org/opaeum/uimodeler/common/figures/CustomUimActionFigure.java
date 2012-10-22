@@ -10,32 +10,36 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.opaeum.uim.swt.IUimWidget;
 import org.opaeum.uim.swt.UimActivator;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 
 public abstract class CustomUimActionFigure extends RectangleFigure implements ISWTFigure{
-	protected Button button;
+	protected ButtonComposite button;
 	protected abstract void createContents();
 	public CustomUimActionFigure(Composite parent){
 		createContents();
-		button = new Button(parent, SWT.PUSH);
+		button = new ButtonComposite(parent, SWT.NONE); 
+
 		try{
-			button.setImage(new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/operation.ico").openStream()));
+			button.button.setImage(new Image(Display.getCurrent(), UimActivator.INSTANCE.getBundle().getResource("/icons/operation.ico").openStream()));
 		}catch(IOException e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		button.markForShot();
 	}
 	protected void paintClientArea(Graphics graphics){
 		super.paintClientArea(graphics);
 	}
 	public Button getButton(){
-		return button;
+		return button.button;
 	}
 	@Override
-	public Control getWidget(){
+	public IUimWidget getWidget(){
 		return button;
 	}
 	public void setLabelText(String string){
-		button.setText(string);
+		button.button.setText(string);
 	}
 }

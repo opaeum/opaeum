@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-public interface IUimFieldComposite{
+public interface IUimFieldComposite extends IUimWidget{
 	public abstract Control getControl();
 	public abstract void setControl(Control control);
 	public abstract Label getLabel();

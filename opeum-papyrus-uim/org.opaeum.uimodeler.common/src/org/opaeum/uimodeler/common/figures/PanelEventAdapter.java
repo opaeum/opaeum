@@ -1,18 +1,16 @@
 package org.opaeum.uimodeler.common.figures;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
 import org.opaeum.uim.editor.ActionBar;
 import org.opaeum.uim.panel.AbstractPanel;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uim.swt.GridPanelComposite;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 
 public class PanelEventAdapter extends AbstractEventAdapter{
 	private AbstractPanelFigure fig;
@@ -30,26 +28,6 @@ public class PanelEventAdapter extends AbstractEventAdapter{
 			children.numColumns = ((GridPanel) element).getNumberOfColumns();
 		}
 		composite.getContentPane().layout();
-	}
-	@Override
-	public void figureMoved(IFigure source){
-		if(isActive()){
-			if(composite.getParent() instanceof Shell){
-				if(source == figure){
-					// IF it is the toplevel panel, resize the shell and root composite
-					Rectangle b = source.getBounds();
-					CustomDiagramFigure diag = (CustomDiagramFigure) figure.getParent().getParent();
-					diag.getParent().addFigureListener(this);
-					fig.getWidget().getParent().setSize(b.width, b.height);
-					fig.getWidget().setLayoutData(new GridData(b.width, b.height));
-				}else{
-					if(source == figure.getParent().getParent().getParent()){
-						// figure.getParent().setBounds(source.getBounds());
-						// super.figureMoved(figure.getParent());
-					}
-				}
-			}
-		}
 	}
 	@Override
 	public void notifyChanged(Notification msg){
@@ -86,13 +64,10 @@ public class PanelEventAdapter extends AbstractEventAdapter{
 						children.numColumns = (Integer) msg.getNewValue();
 						composite.getContentPane().layout();
 						fig.layout();
-						prepareForRepaint();
+						prepareWidgetForRepaint();
 					}
 				}
 			}
 		}
-	}
-	public void prepareForRepaint(){
-		super.prepareForRepaint();
 	}
 }

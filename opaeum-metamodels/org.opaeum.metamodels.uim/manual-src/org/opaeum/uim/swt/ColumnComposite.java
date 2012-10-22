@@ -22,6 +22,11 @@ public class ColumnComposite extends Composite implements IUimFieldComposite{
 	protected Control createDefaultControl(){
 		return new Text(this, SWT.NONE);
 	}
+	
+	@Override
+	public void setData(String key,Object value){
+		super.setData(key, value);
+	}
 	@Override
 	public Control getControl(){
 		return control;
@@ -42,5 +47,9 @@ public class ColumnComposite extends Composite implements IUimFieldComposite{
 	public void setMinimumLabelWidth(Integer minimumLabelWidth){
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void markForShot(){
+		setData(UimSwtUtil.WBP_NEED_IMAGE,Boolean.TRUE);
 	}
 }

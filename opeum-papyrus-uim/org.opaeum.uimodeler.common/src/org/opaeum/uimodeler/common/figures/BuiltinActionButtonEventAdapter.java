@@ -25,16 +25,7 @@ public class BuiltinActionButtonEventAdapter extends ActionButtonEventAdapter{
 		}else{
 			ActionKind kind = getButton().getKind();
 			setImage(kind);
-			prepareForRepaint();
-//			if(msg.getNotifier() instanceof BuiltInActionButton){
-//				int featureId = msg.getFeatureID(BuiltInActionButton.class);
-//				switch(featureId){
-//				case ActionPackage.BUILT_IN_ACTION_BUTTON__KIND:
-//					ActionKind kind = getButton().getKind();
-//					setImage(kind);
-//					break;
-//				}
-//			}
+			prepareWidgetForRepaint();
 		}
 	}
 	private void setImage(ActionKind kind){

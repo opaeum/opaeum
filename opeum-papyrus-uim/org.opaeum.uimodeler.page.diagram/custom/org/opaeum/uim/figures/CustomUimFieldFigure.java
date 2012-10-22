@@ -14,9 +14,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.opaeum.uim.swt.IUimWidget;
 import org.opaeum.uim.swt.UimFieldComposite;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
-import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
 /**
  * @generated NOT
@@ -116,7 +117,7 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 		}
 	}
 	@Override
-	public Control getWidget(){
+	public IUimWidget getWidget(){
 		// TODO Auto-generated method stub
 		return getComposite();
 	}

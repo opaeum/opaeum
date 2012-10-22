@@ -1,7 +1,6 @@
 package org.opaeum.uimodeler.page.diagram.edit.parts;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -12,11 +11,13 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure;
-import org.eclipse.gmf.runtime.diagram.ui.figures.ShapeCompartmentFigure;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
+import org.eclipse.swt.widgets.Composite;
+import org.opaeum.uim.figures.CustomDataTableColumnCompartmentFigure;
+import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.page.diagram.edit.policies.UimDataTableDataTableColumnCompartmentItemSemanticEditPolicy;
 import org.opaeum.uimodeler.page.diagram.part.Messages;
 
@@ -44,19 +45,17 @@ public class UimDataTableDataTableColumnCompartmentEditPart extends ShapeCompart
 	 * @generated NOT
 	 */
 	public IFigure createFigure(){
-		ResizableCompartmentFigure scf = new ShapeCompartmentFigure(getCompartmentName(), getMapMode()){
-			{
-				remove(getTextPane());
-				remove(scrollPane);
-				setLayoutManager(new StackLayout());
-				add(scrollPane);
-				setBorder(null);
-			}
-		};
-		scf.getContentPane().setLayoutManager(getLayoutManager());
-		ResizableCompartmentFigure result = (ResizableCompartmentFigure) scf;
-		result.setTitleVisibility(false);
-		return result;
+		if(getParent() == null){
+			return new ResizableCompartmentFigure("dummy", getMapMode());
+			// WhyIdon'tknow, but it happens
+		}else{
+			Composite nearestComposite = UimFigureUtil.getNearestComposite(getParent());
+			ResizableCompartmentFigure scf = new CustomDataTableColumnCompartmentFigure(getCompartmentName(), getMapMode(), nearestComposite);
+			scf.getContentPane().setLayoutManager(getLayoutManager());
+			ResizableCompartmentFigure result = (ResizableCompartmentFigure) scf;
+			result.setTitleVisibility(false);
+			return result;
+		}
 	}
 	/**
 	 * @generated
@@ -67,8 +66,9 @@ public class UimDataTableDataTableColumnCompartmentEditPart extends ShapeCompart
 		installEditPolicy(EditPolicyRoles.CREATION_ROLE, new CreationEditPolicy());
 		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE, new DragDropEditPolicy());
 		installEditPolicy(DuplicatePasteEditPolicy.PASTE_ROLE, new DuplicatePasteEditPolicy());
-		//in Papyrus diagrams are not strongly synchronised
-		//installEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CANONICAL_ROLE, new org.opaeum.uimodeler.page.diagram.edit.policies.UimDataTableDataTableColumnCompartmentCanonicalEditPolicy());
+		// in Papyrus diagrams are not strongly synchronised
+		// installEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CANONICAL_ROLE, new
+		// org.opaeum.uimodeler.page.diagram.edit.policies.UimDataTableDataTableColumnCompartmentCanonicalEditPolicy());
 	}
 	/**
 	 * @generated

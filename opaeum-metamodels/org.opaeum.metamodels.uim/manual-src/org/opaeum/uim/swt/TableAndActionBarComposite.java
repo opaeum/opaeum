@@ -10,8 +10,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-public class TableAndActionBarComposite extends Composite{
-	private Composite actionBar;
+public class TableAndActionBarComposite extends Composite implements IUimWidget{
+	private DataTableActionBarComposite actionBar;
 	private Table table;
 	public TableAndActionBarComposite(Composite parent,int style){
 		super(parent, style);
@@ -38,7 +38,7 @@ public class TableAndActionBarComposite extends Composite{
 		getTable().setHeaderVisible(true);
 		getTable().setLinesVisible(true);
 		table.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
-		this.actionBar = new Composite(this, SWT.BORDER);
+		this.actionBar = new  DataTableActionBarComposite(this, SWT.BORDER);
 		this.actionBar.setLayout(prepareLayout(10));
 		GridData actionBarData = new GridData(GridData.FILL, GridData.END, true, false);
 		actionBarData.heightHint = 30;
@@ -47,7 +47,12 @@ public class TableAndActionBarComposite extends Composite{
 	public Table getTable(){
 		return table;
 	}
-	public Composite getActionBar(){
+	public DataTableActionBarComposite getActionBar(){
 		return actionBar;
+	}
+	@Override
+	public void markForShot(){
+		table.setData(UimSwtUtil.WBP_NEED_IMAGE,Boolean.TRUE);
+		actionBar.markForShot();
 	}
 }

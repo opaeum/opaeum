@@ -15,7 +15,7 @@ public class CustomBuiltInLinkColumnFigure extends CustomBuiltInLinkFigure{
 		this.dataTableComposite = comp;
 		Table table = dataTableComposite.getTable();
 		column = new TableColumn(table, SWT.LEFT);
-		dataTableComposite.markTableForRepait();
+		dataTableComposite.markForShot();
 	}
 	public void paint(Graphics graphics){
 		super.paint(graphics);
@@ -25,7 +25,7 @@ public class CustomBuiltInLinkColumnFigure extends CustomBuiltInLinkFigure{
 		String newVal = string == null || string.length() == 0 ? "NewLink" : string;
 		if(column.getText() == null || !column.getText().equals(string)){
 			column.setText(newVal);
-			dataTableComposite.markTableForRepait();
+			dataTableComposite.markForShot();
 			super.setLabelText(string);
 		}
 	}
