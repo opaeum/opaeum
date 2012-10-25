@@ -77,7 +77,7 @@ public class OpaeumStartup implements IStartup{
 	};
 	private void addUmlFiles(Set<IFile> files,IResourceDelta d){
 		if(d.getResource() instanceof IFile){
-			if(d.getResource().getFileExtension().equals("uml")){
+			if(d.getResource() instanceof IFile && "uml".equals(d.getResource().getFileExtension())){
 				files.add((IFile) d.getResource());
 			}
 		}

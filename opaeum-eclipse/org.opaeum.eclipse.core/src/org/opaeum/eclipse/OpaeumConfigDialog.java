@@ -11,7 +11,6 @@ import java.util.TreeSet;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -41,7 +40,6 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
@@ -53,6 +51,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	private Text txtCompanyDomain;
 	private Button chkGeneratePoms;
 	private Button chkAutoSync;
+	private Button chkIsUimModelerActive;
 	private CCombo cboSourceFolderStrategy;
 	private List lstTransformationSteps;
 	private OpaeumConfig config;
@@ -182,6 +181,10 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		chkAutoSync = new Button(panel, SWT.CHECK);
 		chkAutoSync.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		chkAutoSync.setSelection(config.synchronizeAutomatically());
+		new Label(panel, 0).setText("Enable UIModeeler");
+		chkIsUimModelerActive = new Button(panel, SWT.CHECK);
+		chkIsUimModelerActive.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+		chkIsUimModelerActive.setSelection(config.isUiModelerActive());
 		new Label(panel, 0).setText("Source Folder Strategy");
 		cboSourceFolderStrategy = new CCombo(panel, SWT.BORDER);
 		cboSourceFolderStrategy.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
@@ -244,6 +247,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		config.setAutoSync(this.chkAutoSync.getSelection());
 		config.setDefaultCurrency((Currency) ((IStructuredSelection) currencyComboViewer.getSelection()).getFirstElement());
 		config.setSupportedLocales((java.util.List) Arrays.asList(localeTableViewer.getCheckedElements()));
+		config.setUiModelerActive(chkIsUimModelerActive.getSelection());
 		config.store();
 		if(config.synchronizeAutomatically()){
 			addOpaeumBuildCommand();

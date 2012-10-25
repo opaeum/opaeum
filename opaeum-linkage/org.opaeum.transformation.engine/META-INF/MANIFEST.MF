@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.opaeum.transformation.engine;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.opaeum.metamodels.emfworkspace,
  org.opaeum.metamodels.text,
- org.eclipse.emf.ecore
+ org.eclipse.emf.ecore,
+ org.eclipse.uml2.uml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: javassist,
  javassist.bytecode,
@@ -24,6 +25,7 @@ Export-Package: javassist,
  javassist.tools.web,
  javassist.util,
  javassist.util.proxy,
+ org.opaeum,
  org.opaeum.feature,
  org.opaeum.feature.visit
 Bundle-ClassPath: .,

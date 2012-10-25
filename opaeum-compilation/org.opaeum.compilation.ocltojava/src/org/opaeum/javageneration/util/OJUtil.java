@@ -286,6 +286,9 @@ public class OJUtil extends OJUtill{
 	}
 	public ClassifierMap buildClassifierMap(Classifier c){
 		String key = c.getQualifiedName();
+		if(c instanceof CollectionType){
+			key+=((CollectionType) c).getElementType().getQualifiedName();
+		}
 		ClassifierMap result = classifierMaps.get(key);
 		if(result == null){
 			classifierMaps.put(key, result = new ClassifierMap(this, c));

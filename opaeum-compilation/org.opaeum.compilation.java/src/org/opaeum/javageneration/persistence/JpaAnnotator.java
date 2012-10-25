@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.CodeGenerationStrategy;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
@@ -79,13 +80,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 				ojClass.addAnnotationIfNew(mappedSuperclass);
 			}else{
 				OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, persistentName.getAsIs(), this.config, complexType.getNamespace());
-				if(complexType instanceof Class){
-					OJAnnotationAttributeValue uniqueConstraints = buildUniqueConstraintAnnotations((Class) complexType);
-					if(uniqueConstraints.hasValues()){
-						table.putAttribute(uniqueConstraints);
-						JpaUtil.addNamedQueryForUniquenessConstraints(ojClass, (Class) complexType, ojUtil);
-					}
-				}else if(complexType instanceof Association && (EmfAssociationUtil.isClass((Association) complexType))){
+				if(complexType instanceof Association && (EmfAssociationUtil.isClass((Association) complexType))){
 					Association ass = (Association) complexType;
 					PropertyMap map1 = ojUtil.buildStructuralFeatureMap(ass.getMemberEnds().get(0));
 					PropertyMap map2 = ojUtil.buildStructuralFeatureMap(ass.getMemberEnds().get(1));
@@ -126,6 +121,12 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 							uniquenessConstraint1.putAttribute(columns1);
 							uniqueConstraints.addAnnotationValue(uniquenessConstraint1);
 						}
+					}
+				}else if(complexType instanceof Class){
+					OJAnnotationAttributeValue uniqueConstraints = buildUniqueConstraintAnnotations((Class) complexType);
+					if(uniqueConstraints.hasValues()){
+						table.putAttribute(uniqueConstraints);
+						JpaUtil.addNamedQueryForUniquenessConstraints(ojClass, (Class) complexType, ojUtil);
 					}
 				}
 				JpaUtil.addClass(ojClass);
@@ -288,7 +289,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 			field.addAnnotationIfNew(collectionOfElements);
 		}
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
-		Element umlOwner = f.getOwner();
+		Element umlOwner = EmfPropertyUtil.getOwningClassifier(f);
 		String tableName = PersistentNameUtil.getPersistentName(umlOwner) + "_" + PersistentNameUtil.getPersistentName(f).getWithoutId();
 		joinTable.putAttribute(new OJAnnotationAttributeValue("name", tableName));
 		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
@@ -311,7 +312,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 		field.addAnnotationIfNew(enumerated);
 	}
 	protected final boolean isOtherEndOrdered(Property f){
-		return f instanceof Property && (f).getOtherEnd() != null && (f).getOtherEnd().isOrdered();
+		return f instanceof Property && (f).getOtherEnd() != null && (f).getOtherEnd().isOrdered() && EmfPropertyUtil.isMany(f.getOtherEnd());
 	}
 	protected final void mapXToOneSimpleType(PropertyMap map,OJAnnotatedClass owner,OJAnnotatedField field){
 		if(this.workspace.getOpaeumLibrary().getDateType() != null

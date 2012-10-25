@@ -467,7 +467,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			field.setInitExp(map.javaDefaultValue());
 		}
 		field.setStatic(map.isStatic());
-		field.setVisibility(OJVisibilityKind.PROTECTED);
+		field.setVisibility(OJVisibilityKind.PROTECTED);//NB!required for AbstractSuperclasses to have access to the concrete implementation and redefinitions
 		owner.addToFields(field);
 		return field;
 	}

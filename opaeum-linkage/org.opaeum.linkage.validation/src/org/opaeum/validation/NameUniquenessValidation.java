@@ -38,7 +38,7 @@ public class NameUniquenessValidation extends AbstractValidator{
 	public void visist(NamedElement ne){
 		Namespace ns = ne.getNamespace();
 		if(ns != null){
-			ensureUniqueness(ne, ne.eContainingFeature().getName(), (Collection<? extends NamedElement>) ns.eGet(ne.eContainingFeature()));
+//			ensureUniqueness(ne, ne.eContainingFeature().getName(), (Collection<? extends NamedElement>) ns.eGet(ne.eContainingFeature()));
 		}else{
 		}
 		//TODO vet

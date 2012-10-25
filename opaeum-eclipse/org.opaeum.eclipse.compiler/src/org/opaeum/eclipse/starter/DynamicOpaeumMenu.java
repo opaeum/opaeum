@@ -16,12 +16,15 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.PackageImport;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.GenerateBusinessIntelligenceSchemaAction;
 import org.opaeum.eclipse.javasync.RecompileElementAction;
 import org.opaeum.eclipse.javasync.RecompileIntegrationCodeAction;
 import org.opaeum.eclipse.javasync.RecompileModelAction;
 import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
+import org.opaeum.eclipse.javasync.RecompileModelLibraryAction;
 import org.opaeum.eclipse.javasync.ToggleAutomaticSynchronization;
 import org.opaeum.eclipse.menu.ICompoundContributionItem;
 import org.opaeum.eclipse.simulation.GenerateSimulationCodeAction;
@@ -90,13 +93,13 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 					}else{
 						if(firstElement instanceof Model){
 							actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
+						}else if(firstElement instanceof PackageImport && ((PackageImport) firstElement).getImportedPackage() instanceof Model){
+							Model m = (Model) ((PackageImport) firstElement).getImportedPackage();
+							if(EmfPackageUtil.isRegeneratingLibrary(m)){
+								actions.add(new ActionContributionItem(new RecompileModelLibraryAction(selection)));
+							}
 						}else if((firstElement instanceof Element)){
 							if(ValidationPhase.canBeProcessedIndividually((EObject) firstElement)){
-								actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
-							}
-						}else if(firstElement instanceof AbstractGraphicalEditPart){
-							AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
-							if(a.getModel() instanceof Element && ValidationPhase.canBeProcessedIndividually((EObject) a.getModel())){
 								actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
 							}
 						}

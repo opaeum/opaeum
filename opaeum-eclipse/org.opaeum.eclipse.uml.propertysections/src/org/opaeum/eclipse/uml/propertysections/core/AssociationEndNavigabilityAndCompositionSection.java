@@ -15,35 +15,32 @@ public class AssociationEndNavigabilityAndCompositionSection extends AbstractMul
 	private BooleanSubsection isComposite;
 	private BooleanSubsection isNavigable;
 	public AssociationEndNavigabilityAndCompositionSection(){
-		BooleanSubsection result = new BooleanSubsection(this){
-			@Override
-			protected Command buildCommand(EObject selection, EObject featureOwner){
-				if(getControl().getSelection()){
-					return SetCommand.create(getEditingDomain(), featureOwner, getFeature(), AggregationKind.COMPOSITE_LITERAL);
-				}else{
-					return SetCommand.create(getEditingDomain(), featureOwner, getFeature(), AggregationKind.NONE_LITERAL);
-				}
-			}
-		};
-		result.setLabelWidth(120);
+		BooleanSubsection result = new BooleanSubsection(this);
+		result.setLabelWidth(100);
 		result.setLabelText("Is Composition");
-		result.setFeature(UMLPackage.eINSTANCE.getProperty_Aggregation());
+		result.setFeature(UMLPackage.eINSTANCE.getProperty_IsComposite());
 		result.setDefaultValue(false);
+		result.setControlWidth(40);
 		isComposite = result;
 		BooleanSubsection result1 = new BooleanSubsection(this){
 			@Override
 			protected Command buildCommand(EObject selection, EObject featureOwner){
 				Property p = (Property) featureOwner;
 				if(getControl().getSelection()){
-					return AddCommand.create(getEditingDomain(), p.getAssociation(), getFeature(), featureOwner);
+					return AddCommand.create(getEditingDomain(), p.getAssociation(), UMLPackage.eINSTANCE.getAssociation_NavigableOwnedEnd(), featureOwner);
 				}else{
-					return RemoveCommand.create(getEditingDomain(), p.getAssociation(), getFeature(), featureOwner);
+					return RemoveCommand.create(getEditingDomain(), p.getAssociation(), UMLPackage.eINSTANCE.getAssociation_NavigableOwnedEnd(), featureOwner);
 				}
 			}
+			@Override
+			public Boolean getCurrentValue(EObject e){
+				Property p = (Property) e;
+				return p.isNavigable();
+			}
 		};
-		result1.setLabelWidth(120);
+		result1.setLabelWidth(100);
+		result1.setControlWidth(40);
 		result1.setLabelText("Is Navigable");
-		result1.setFeature(UMLPackage.eINSTANCE.getAssociation_NavigableOwnedEnd());
 		result1.setDefaultValue(false);
 		isNavigable = result1;
 	}

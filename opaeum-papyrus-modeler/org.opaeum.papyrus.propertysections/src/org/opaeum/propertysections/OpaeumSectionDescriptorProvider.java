@@ -2,9 +2,14 @@ package org.opaeum.propertysections;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IFilter;
+import org.eclipse.ui.internal.views.properties.tabbed.TabbedPropertyViewPlugin;
 import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyRegistry;
 import org.eclipse.ui.views.properties.tabbed.AbstractSectionDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ISection;
@@ -192,9 +197,9 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 	}
 	private ArrayList<ISectionDescriptor> result;
 	ISection previousSection;
-	private String contributorId = "TreeOutlinePage";
+	@SuppressWarnings("restriction")
 	public OpaeumSectionDescriptorProvider(){
-		super("dummy");
+		super("dummytoavoidrecursion");
 		super.contributorId = "TreeOutlinePage";
 	}
 	@Override
@@ -291,15 +296,13 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		addExtended(new PersistentNameFilter(), new PersistentNameSection());
 		addExtended(new PropertyNotInProfileFilter(), new PropertyRoleInCubeSection());
 		addSecondEnd(Association.class, new SecondEndRoleInCubeSection());
-		add(NamedElement.class,new UserInterfaceTextSection()).setTabId("org.opaeum.eclipse.i8nTab");
-		//StateMachine
-		addBasic(Transition.class,new TransitionGuardSection());
+		add(NamedElement.class, new UserInterfaceTextSection()).setTabId("org.opaeum.eclipse.i8nTab");
+		// StateMachine
+		addBasic(Transition.class, new TransitionGuardSection());
 		addBasic(Transition.class, new TransitionTriggerSection());
 		addBasic(Transition.class, new TransitionRedefinedTransitionSection());
 		addBasic(State.class, new StateRedefinedStateSection());
 		addBasic(Region.class, new RegionExtendedRegionSection());
-
-		
 		result.addAll(Arrays.asList(readSectionDescriptors()));
 		return result.toArray(new ISectionDescriptor[result.size()]);
 	}
@@ -307,10 +310,10 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		add(class1, section).setTabId("org.opaeum.eclipse.extendedTab");
 	}
 	private void addFirstEnd(Class<Association> class1,ISection s){
-		add(class1,s).setTabId("org.opaeum.eclipse.firstEndTab");
+		add(class1, s).setTabId("org.opaeum.eclipse.firstEndTab");
 	}
 	private void addSecondEnd(Class<Association> class1,ISection s){
-		add(class1,s).setTabId("org.opaeum.eclipse.secondEndTab");
+		add(class1, s).setTabId("org.opaeum.eclipse.secondEndTab");
 	}
 	private void addRedefinitions(Class<? extends EObject> class1,ISection firstEndRedefinedPropertySection){
 		add(class1, firstEndRedefinedPropertySection).setTabId("org.opaeum.eclipse.redefinitionsTab");
@@ -359,5 +362,27 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 				return c.isInstance(e);
 			}
 		}, s);
+	}
+	@SuppressWarnings({"restriction","unchecked","rawtypes"})
+	protected IConfigurationElement[] getConfigurationElements(String extensionPointId){
+		if(contributorId == null){
+			return new IConfigurationElement[0];
+		}
+		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(
+				TabbedPropertyViewPlugin.getPlugin().getBundle().getSymbolicName(), extensionPointId);
+		IConfigurationElement[] extensions = point.getConfigurationElements();
+		List unordered = new ArrayList(extensions.length);
+		for(int i = 0;i < extensions.length;i++){
+			IConfigurationElement extension = extensions[i];
+			if(!extension.getName().equals(extensionPointId)){
+				continue;
+			}
+			String contributor = extension.getAttribute("contributorId");
+			if(!contributorId.equals(contributor)){
+				continue;
+			}
+			unordered.add(extension);
+		}
+		return (IConfigurationElement[]) unordered.toArray(new IConfigurationElement[unordered.size()]);
 	}
 }

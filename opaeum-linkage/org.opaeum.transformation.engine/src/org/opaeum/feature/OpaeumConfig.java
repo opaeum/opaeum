@@ -459,7 +459,7 @@ public class OpaeumConfig{
 		return availableLocales;
 	}
 	public boolean isUiModelerActive(){
-		return true||"true".equalsIgnoreCase(props.getProperty(UI_MODULE_ACTIVE));
+		return "true".equalsIgnoreCase(props.getProperty(UI_MODULE_ACTIVE));
 	}
 	public void setUiModelerActive(boolean t){
 		props.setProperty(UI_MODULE_ACTIVE, ""+t);

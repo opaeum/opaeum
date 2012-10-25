@@ -31,6 +31,7 @@ public class PropertyDefaultValueSection extends RecreatingOpaqueExpressionSecti
 			}
 		}
 	}
+
 	@Override
 	protected void addListener(){
 		super.addListener();
@@ -74,8 +75,8 @@ public class PropertyDefaultValueSection extends RecreatingOpaqueExpressionSecti
 		}
 		return getProperty(getSelectedObject());
 	}
-	protected Property getProperty(EObject e){
-		return (Property) e;
+	protected final Property getProperty(EObject e){
+		return (Property) getFeatureOwner(e);
 	}
 	@Override
 	protected EReference getFeature(){

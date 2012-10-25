@@ -23,20 +23,15 @@ import org.opaeum.runtime.environment.Environment;
 
 public class LocaleStrategyFactory extends AbstractStrategyFactory{
 	public static class MyFormatterStrategy implements FormatterStrategy{
-
 		@Override
 		public void implementParse(OJAnnotatedOperation parse){
 			parse.getOwner().addToImports(Environment.class.getName());
 			parse.initializeResultVariable("value==null||value.length()==0?null:Environment.getLocale(value)");
-			
 		}
-
 		@Override
 		public void implementFormat(OJAnnotatedOperation format){
 			format.initializeResultVariable("value==null?\"\":value.toString()");
-			
 		}
-		
 	}
 	public static class MyAttributeStrategy implements AttributeStrategy{
 		@Override
@@ -45,9 +40,14 @@ public class LocaleStrategyFactory extends AbstractStrategyFactory{
 			a.field.setType(new OJPathName("String"));
 			owner.addToImports(Environment.class.getName());
 			a.getter.initializeResultVariable(a.field.getName() + "==null?null:Environment.getLocale(" + a.field.getName() + ")");
-			a.internalAdder.getBody().getStatements().clear();
-			a.internalAdder.getBody().addToStatements(
-					"this." + a.field.getName() + " = " + a.field.getName() + "==null?null:" + a.field.getName() + ".toString()");
+			if(a.internalAdder == null){
+				a.setter.getBody().getStatements().clear();
+				a.setter.getBody().addToStatements("this."+a.field.getName()+"=" + a.field.getName() + "==null?null:"+ a.field.getName() + ".toString()");
+			}else{
+				a.internalAdder.getBody().getStatements().clear();
+				a.internalAdder.getBody().addToStatements(
+						"this." + a.field.getName() + " = " + a.field.getName() + "==null?null:" + a.field.getName() + ".toString()");
+			}
 			a.internalRemover.getBody().getStatements().clear();
 			a.internalRemover.getBody().addToStatements("this." + a.field.getName() + " = null");
 		}
@@ -77,7 +77,7 @@ public class LocaleStrategyFactory extends AbstractStrategyFactory{
 	public static class DateTestModelValueStrategy implements TestModelValueStrategy{
 		@Override
 		public String getDefaultStringValue(int seed){
-			switch(seed%3){
+			switch(seed % 3){
 			case 1:
 				return "en_ZA";
 			case 2:
@@ -88,7 +88,8 @@ public class LocaleStrategyFactory extends AbstractStrategyFactory{
 	}
 	@SuppressWarnings("unchecked")
 	public LocaleStrategyFactory(){
-		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class, MyFormatterStrategy.class,MyAttributeStrategy.class);
+		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class, MyFormatterStrategy.class,
+				MyAttributeStrategy.class);
 	}
 	@Override
 	public boolean appliesTo(DataType st){

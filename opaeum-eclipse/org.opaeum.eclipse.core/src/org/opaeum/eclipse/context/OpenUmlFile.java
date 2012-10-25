@@ -186,9 +186,7 @@ public class OpenUmlFile extends EContentAdapter{
 	}
 	@Override
 	public void notifyChanged(final Notification notification){
-		if(notification.getEventType()==Notification.ADD && notification.getNewValue().getClass().getName().endsWith("PageRefImpl")){
-			System.out.println();
-		}
+		typeCacheAdapter.notifyChanged(notification);
 		super.notifyChanged(notification);
 		if(notification.getNotifier() instanceof ResourceSet && notification.getNewValue() instanceof UMLResource){
 			resourcesBeingLoaded.add((UMLResource) notification.getNewValue());

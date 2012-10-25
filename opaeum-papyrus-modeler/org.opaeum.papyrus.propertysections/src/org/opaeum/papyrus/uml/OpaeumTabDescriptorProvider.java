@@ -53,7 +53,7 @@ public class OpaeumTabDescriptorProvider extends XWTTabDescriptorProvider{
 					return 1000;// Advanced always last
 				}
 				ITabDescriptor previousTab = getPreviousTab(tab);
-				if(previousTab != null){
+				if(previousTab != null && previousTab!=tab){
 					return getPriority(previousTab)+1;
 				}
 				return getXWTTabPriority(tab);

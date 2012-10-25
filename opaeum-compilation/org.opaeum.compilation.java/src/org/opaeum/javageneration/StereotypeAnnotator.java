@@ -49,20 +49,23 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		ClassifierMap map = ojUtil.buildClassifierMap(stereotype, (CollectionKind) null);
 		OJAnnotationValue an = new OJAnnotationValue(map.javaTypePath());
 		for(Property property:stereotype.getAllAttributes()){
-			if(!property.getName().startsWith("base_")){
+			if(property.getName().equals("groups")){
+				System.out.println();
+			}
+			if(!(property.getName().startsWith("base_") || stereotype.getDefinition().getEStructuralFeature(property.getName()) == null)){
 				PropertyMap sfm = ojUtil.buildStructuralFeatureMap(property);
 				OJAnnotationAttributeValue aa = new OJAnnotationAttributeValue(sfm.umlName());
 				an.putAttribute(aa);
 				Object o = element.getValue(stereotype, property.getName());
-				if(o == null && sfm.isOne()){
+				if(o == null && sfm.isOne() && property.getLower()==1){
 					if(property.getDefaultValue() != null){
 						addSpecifiedValue(aa, property.getDefaultValue());
 					}else{
-						if(sfm.javaType().endsWith("int")){
+						if(sfm.javaType().endsWith("Integer")){
 							aa.addNumberValue(new Integer(0));
-						}else if(sfm.javaType().endsWith("float")){
+						}else if(sfm.javaType().endsWith("Double")){
 							aa.addNumberValue(new Float(0));
-						}else if(sfm.javaType().endsWith("boolean")){
+						}else if(sfm.javaType().endsWith("Boolean")){
 							aa.addBooleanValue(Boolean.FALSE);
 						}else{
 							aa.addStringValue("");
@@ -160,9 +163,9 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 			aa.addBooleanValue(vs.booleanValue());
 		}else if(vs instanceof LiteralInteger){
 			aa.addNumberValue(vs.integerValue());
-//TODO uncomment
-			//		}else if(vs instanceof LiteralReal){
-//			aa.addNumberValue(vs.realValue());
+			// TODO uncomment
+			// }else if(vs instanceof LiteralReal){
+			// aa.addNumberValue(vs.realValue());
 		}else if(vs instanceof LiteralString){
 			aa.addStringValue(StringEncoder.encodeToJavaStringLiteral(vs.stringValue()));
 		}else if(vs instanceof InstanceValue){

@@ -73,7 +73,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 				map1 = ojUtil.buildOperationMap(((CallEvent) event).getOperation());
 			}else{
 				map1 = ojUtil.buildSignalMap(((SignalEvent) event).getSignal());
-			}
+			 }
 			OJAnnotatedOperation listener = operationAnnotator.findOrCreateEventConsumer(behavior, activityClass, map1);
 			return listener;
 		}else{

@@ -6,6 +6,7 @@ import org.eclipse.ocl.uml.MessageType;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfAssociationUtil;
@@ -133,7 +134,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	protected void markChildrenForDeletion(Classifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(Property np:getLibrary().getEffectiveAttributes(sc)){
 			if(!np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !EmfPropertyUtil.isDerived(np)
-					&& !EmfPropertyUtil.isDerived(np.getOtherEnd()) && (isPersistent(np.getType()) || np.getType() instanceof Interface)){
+					&& !EmfPropertyUtil.isDerived(np.getOtherEnd()) && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !(np.getType() instanceof DataType)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
 				if(map.isManyToMany()){
@@ -242,7 +243,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	public void invokeOperationRecursively(Classifier ew,OJOperation markDeleted,String operationName){
 		for(Property np:getLibrary().getEffectiveAttributes(ew)){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
-			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !EmfPropertyUtil.isDerived(np)){
+			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !EmfPropertyUtil.isDerived(np) &&!(np.getType() instanceof DataType)){
 				Classifier type = (Classifier) np.getType();
 				if(map.isMany()){
 					markDeleted.getOwner().addToImports("java.util.ArrayList");

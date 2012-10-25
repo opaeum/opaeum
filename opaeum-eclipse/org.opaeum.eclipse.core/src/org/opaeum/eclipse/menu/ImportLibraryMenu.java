@@ -22,6 +22,7 @@ public class ImportLibraryMenu extends CompoundContributionItem{
 		for(ModelLibrary uri:modelLibraries){
 			actions.add(new ActionContributionItem(new ImportLibraryAction(selection, uri)));
 		}
+		actions.add(new ActionContributionItem(new ImportPackageFromWorkspaceAction(selection)));
 		return (IContributionItem[]) actions.toArray(new IContributionItem[actions.size()]);
 	}
 }

@@ -128,36 +128,15 @@ public class ExpressionCreator{
 			PropertyMap map = ojUtil.buildStructuralFeatureMap((Property) poio.getOriginalElement());
 			if(poio.getImplicitVar().getName().equals("responsibility") || poio.getImplicitVar().getName().equals("contextObject")){
 				result = "get" + NameConverter.capitalize(poio.getImplicitVar().getName()) + "()." + map.getter() + "()";
+			}else if(poio.getImplicitVar().getName().equals("self")){
+				Classifier type = poio.getImplicitVar().getType();
+				result = calcSelfExpression(result, type)+"." +map.getter()+"()";
 			}else{
 				result = poio.getImplicitVar().getName() + "." + map.getter() + "()";
 			}
 		}else if(in.getName().equals("self")){
-			if(in.getType() instanceof StateMachine){
-				if(context.getBodyContainer() instanceof OpaqueExpression){
-					if(context.getBodyContainer().getOwner().getOwner() instanceof Transition){
-						result = "getStateMachineExecution()";
-					}else if(context.getBodyContainer().getOwner() instanceof ValuePin){
-						ValuePin vp = (ValuePin) context.getBodyContainer().getOwner();
-						Activity a = EmfActivityUtil.getContainingActivity(vp);
-						if(a.getOwner() instanceof State || a.getOwner() instanceof Transition){
-							result = "getStateMachineExecution()";
-						}
-					}else if(context.getBodyContainer().getOwner() instanceof TimeExpression){
-						result = "getStateMachineExecution()";
-					}
-				}
-			}
-			EObject element = context.getBodyContainer();
-			while(!(element == null || element instanceof Operation)){
-				element = EmfElementFinder.getContainer(element);
-				// OCL Expressions on stereotype attributes
-			}
-			if(element instanceof Operation && EmfBehaviorUtil.hasExecutionInstance((Operation) element)){
-				result = "getContextObject()";
-			}
-			if(result == null){
-				result = "this";
-			}
+			Classifier type = in.getType();
+			result = calcSelfExpression(result, type);
 		}else if(in.getName().equals("currentUser")){
 			myClass.addToImports(new OJPathName(Environment.class.getName()));
 			result = "Environment.getInstance().getCurrentUser()";
@@ -192,6 +171,35 @@ public class ExpressionCreator{
 			}
 		}
 		return NameConverter.decapitalize(result);
+	}
+	protected String calcSelfExpression(String result,Classifier type){
+		if(type instanceof StateMachine){
+			if(context.getBodyContainer() instanceof OpaqueExpression){
+				if(context.getBodyContainer().getOwner().getOwner() instanceof Transition){
+					result = "getStateMachineExecution()";
+				}else if(context.getBodyContainer().getOwner() instanceof ValuePin){
+					ValuePin vp = (ValuePin) context.getBodyContainer().getOwner();
+					Activity a = EmfActivityUtil.getContainingActivity(vp);
+					if(a.getOwner() instanceof State || a.getOwner() instanceof Transition){
+						result = "getStateMachineExecution()";
+					}
+				}else if(context.getBodyContainer().getOwner() instanceof TimeExpression){
+					result = "getStateMachineExecution()";
+				}
+			}
+		}
+		EObject element = context.getBodyContainer();
+		while(!(element == null || element instanceof Operation)){
+			element = EmfElementFinder.getContainer(element);
+			// OCL Expressions on stereotype attributes
+		}
+		if(element instanceof Operation && EmfBehaviorUtil.hasExecutionInstance((Operation) element)){
+			result = "getContextObject()";
+		}
+		if(result == null){
+			result = "this";
+		}
+		return result;
 	}
 	public String makeVarDecl(Variable exp,boolean isStatic,List<OJParameter> params){
 		OCLExpression initExpression = (OCLExpression) exp.getInitExpression();

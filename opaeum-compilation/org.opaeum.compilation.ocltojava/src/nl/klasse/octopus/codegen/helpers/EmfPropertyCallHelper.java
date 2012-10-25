@@ -5,6 +5,7 @@ import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.ocl.uml.PropertyCallExp;
 import org.eclipse.ocl.uml.VariableExp;
 import org.eclipse.uml2.uml.MultiplicityElement;
+import org.eclipse.uml2.uml.Property;
 import org.opaeum.ocl.uml.EmulatedVariable;
 
 public class EmfPropertyCallHelper{
@@ -20,6 +21,11 @@ public class EmfPropertyCallHelper{
 			VariableExp ve=(VariableExp) body;
 			if(ve.getReferredVariable() instanceof EmulatedVariable){
 				EmulatedVariable ev=(EmulatedVariable) ve.getReferredVariable();
+				if(ev.getOriginalElement() instanceof Property){
+					if(((Property)ev.getOriginalElement()).getQualifiers().size() > 0 ){
+						return true;//NB!! This is a potential bug: Opaeum won't support qualified invocations of implicitVar's properties
+					}
+				}
 				if(ev.getOriginalElement() instanceof MultiplicityElement){
 					MultiplicityElement me=(MultiplicityElement) ev.getOriginalElement();
 					return me.isMultivalued();

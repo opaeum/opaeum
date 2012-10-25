@@ -150,7 +150,7 @@
       </view>
    </extension>
    <extension point="org.eclipse.ui.navigator.viewer">
-      <viewer popupMenuId="org.eclipse.papyrus.views.modelexplorer.modelexplorer.popup" viewerId="org.opaeum.papyrus.uml.modelexplorer">
+      <viewer popupMenuId="org.opaeum.papyrus.uml.modelexplorer.popup" viewerId="org.opaeum.papyrus.uml.modelexplorer">
       </viewer>
       <viewerContentBinding viewerId="org.opaeum.papyrus.uml.modelexplorer">
          <includes>
@@ -160,7 +160,7 @@
             </contentExtension>
          </includes>
       </viewerContentBinding>
-      <dragAssistant class="org.eclipse.papyrus.views.modelexplorer.dnd.EObjectDragAdapterAssistant" viewerId="org.eclipse.papyrus.views.modelexplorer.modelexplorer">
+      <dragAssistant class="org.eclipse.papyrus.views.modelexplorer.dnd.EObjectDragAdapterAssistant" viewerId="org.opaeum.papyrus.uml.modelexplorer">
       </dragAssistant>
    </extension>
       <extension point="org.eclipse.ui.navigator.navigatorContent">
@@ -216,6 +216,115 @@
     
       </navigatorContent>
    </extension>
+   <extension point="org.eclipse.ui.commands">
+
+	
+	<!-- Command declaration : Search element command -->			
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.OpaeumSearchElementHandler" description="Search an element in the model explorer" id="org.opaeum.papyrus.views.modelexplorer.searchelement" name="searchelement">
+	</command>
+	
+</extension>
    
+<extension point="org.eclipse.ui.menus">
+
+	<!-- ModelExplorer toolbar -->
+	<menuContribution allPopups="false" locationURI="toolbar:org.opaeum.papyrus.uml.modelexplorer">
+
+		<!-- Load modisco browser customization command -->		
+		<command commandId="org.eclipse.papyrus.views.modelexplorer.LoadBrowserCustomization" icon="icons/etool16/uiCustom.gif" label="Load browser customization" style="push">
+		</command>
+
+		<!-- Search element command -->	
+		<command commandId="org.opaeum.papyrus.views.modelexplorer.searchelement" icon="icons/etool16/search.gif" label="Search element" style="push">
+		</command>
+		
+		<!-- Sort elements command -->	
+		<command commandId="org.eclipse.papyrus.views.modelexplorer.sortelement" icon="icons/etool16/sort.gif" label="sort" style="toggle">
+		</command>
+	</menuContribution>
+ <menuContribution allPopups="false" locationURI="popup:org.opaeum.papyrus.uml.modelexplorer.popup">
+    <menu id="org.eclipse.papyrus.views.modelexplorer.popupmenu.createchild" label="New Child">
+    </menu>
+    <menu id="org.eclipse.papyrus.views.modelexplorer.popupmenu.creatediagram" label="New Diagram">
+    </menu>
+    <command commandId="org.eclipse.ui.edit.delete" disabledIcon="IMG_TOOL_DELETE_DISABLED" icon="IMG_TOOL_DELETE" label="Delete" style="push" tooltip="Delete">
+       <visibleWhen checkEnabled="true">
+          <and>
+             <with variable="selection">
+                <iterate>
+                   <adapt type="org.eclipse.emf.ecore.EObject">
+                   </adapt>
+                </iterate>
+             </with>
+          </and>
+       </visibleWhen>
+    </command>
+    <separator name="popup:org.opaeum.papyrus.uml.modelexplorer.popup.separator0" visible="true">
+    </separator>
+    <command commandId="org.eclipse.ui.edit.rename" icon="icons/etool16/rename.gif" id="org.opaeum.papyrus.uml.modelexplorer.popup.rename" label="&amp;Rename" style="push" tooltip="Rename the element">
+       <visibleWhen checkEnabled="true">
+       </visibleWhen>
+    </command>
+    <separator name="popup:org.opaeum.papyrus.uml.modelexplorer.popup.separator1" visible="true">
+    </separator>
+    <command commandId="org.eclipse.ui.edit.undo" id="org.opaeum.papyrus.uml.modelexplorer.popup.undo" label="&amp;Undo" style="push">
+    </command>
+    <command commandId="org.eclipse.ui.edit.redo" id="org.opaeum.papyrus.uml.modelexplorer.popup.redo" label="&amp;Redo" style="push">
+    </command>
+    <separator name="popup:org.opaeum.papyrus.uml.modelexplorer.popup.separator2" visible="true">
+    </separator>
+    <command commandId="org.eclipse.papyrus.views.modelexplorer.popup.open.command" icon="icons/etool16/forward.gif" id="org.opaeum.papyrus.uml.modelexplorer.popup.open" label="&amp;Open" style="push" tooltip="Open">
+       <visibleWhen checkEnabled="true">
+       </visibleWhen>
+    </command>
+    <command commandId="org.eclipse.papyrus.views.modelexplorer.popup.open.new.command" icon="icons/etool16/arrow_double.gif" id="org.opaeum.papyrus.uml.modelexplorer.popup.open.new" label="Open In &amp;New Table" style="push" tooltip="Open in new tab">
+       <visibleWhen checkEnabled="true">
+       </visibleWhen>
+    </command>
+    <command commandId="org.eclipse.papyrus.views.modelexplorer.popup.close.command" icon="icons/etool16/close.png" id="org.opaeum.papyrus.uml.modelexplorer.popup.close" label="&amp;Close" style="push" tooltip="Close">
+       <visibleWhen checkEnabled="true">
+       </visibleWhen>
+    </command>
+    <command commandId="org.eclipse.papyrus.views.modelexplorer.close.all.command" icon="icons/etool16/closeAll.png" id="org.opaeum.papyrus.uml.modelexplorer.popup.close.all" label="Close &amp;All" style="push" tooltip="Close All">
+       <visibleWhen checkEnabled="true">
+       </visibleWhen>
+    </command>
+    <command commandId="org.eclipse.papyrus.views.modelexplorer.duplicate.command" icon="icons/etool16/duplicate.png" id="org.opaeum.papyrus.uml.modelexplorer.popup.duplicate" label="&amp;Duplicate" style="push" tooltip="Duplicate the element">
+       <visibleWhen checkEnabled="true">
+       </visibleWhen>
+    </command>
+    <separator name="popup:org.opaeum.papyrus.uml.modelexplorer.popup.separator3" visible="true">
+    </separator>
+    <command commandId="org.eclipse.ui.edit.cut" id="org.opaeum.papyrus.uml.modelexplorer.popup.cut" label="Cu&amp;t" style="push">
+       <visibleWhen checkEnabled="false">
+          <with variable="selection">
+                <!-- We add this test in order to refresh the Cut action in the menu edit -->
+             <test forcePluginActivation="true" property="org.eclipse.papyrus.views.modelexplorer.tester.isEObject" value="true">
+             </test>
+          </with>
+       </visibleWhen>
+    </command>
+    <command commandId="org.eclipse.ui.edit.copy" id="org.opaeum.papyrus.uml.modelexplorer.popup.copy" label="&amp;Copy" style="push">
+       <visibleWhen checkEnabled="false">
+          <with variable="selection">
+                <!-- We add this test in order to refresh the Copy action in the menu edit -->
+             <test forcePluginActivation="true" property="org.eclipse.papyrus.views.modelexplorer.tester.isEObject" value="true">
+             </test>
+          </with>
+       </visibleWhen>
+    </command>
+    <command commandId="org.eclipse.ui.edit.paste" id="org.opaeum.papyrus.uml.modelexplorer.popup.paste" label="&amp;Paste" style="push">
+       <visibleWhen checkEnabled="false">
+          <with variable="selection">
+                <!-- We add this test in order to refresh the Paste action in the menu edit -->
+             <test forcePluginActivation="true" property="org.eclipse.papyrus.views.modelexplorer.tester.isEObject" value="true">
+             </test>
+          </with>
+       </visibleWhen>
+    </command>
+ </menuContribution>
+	<!-- ModelExplorer Contextual menu -->       
+       
+</extension>
 
 </plugin>

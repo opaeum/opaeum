@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ" name="Appliance component User Interface Model" linkedUmlResource="BusinessStructureModel.uml">
+  <primaryEditor name="Edit ApplianceComponent" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ">
+    <pageOrdering page="//@primaryEditor/@pages.0"/>
+    <pages umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ" name="Edit Appliance component">
+      <panel xsi:type="panel:GridPanel" name="ApplianceComponent" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Price" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Part number" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller"/>
+          <binding umlElementUid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard name="Create ApplianceComponent" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ">
+    <pageOrdering page="//@newObjectWizard/@pages.0"/>
+    <pages umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ" name="CreateAppliance component">
+      <panel xsi:type="panel:GridPanel" name="ApplianceComponent" numberOfColumns="1">
+        <children xsi:type="comp:UimField" name="Price" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText"/>
+          <binding umlElementUid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+        </children>
+        <children xsi:type="comp:UimField" name="Part number" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller"/>
+          <binding umlElementUid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

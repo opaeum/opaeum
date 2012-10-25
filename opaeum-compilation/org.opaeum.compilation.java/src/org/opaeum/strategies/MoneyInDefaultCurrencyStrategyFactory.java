@@ -55,17 +55,20 @@ public class MoneyInDefaultCurrencyStrategyFactory extends AbstractStrategyFacto
 			format.getBody().addToStatements("result =value==null?\"\":format.format(value)");
 		}
 	}
-
 	public static class MyAttributeStrategy implements AttributeStrategy{
 		@Override
-		public void applyTo(OJAnnotatedClass owner,AttributeInJava a, PropertyMap property){
+		public void applyTo(OJAnnotatedClass owner,AttributeInJava a,PropertyMap property){
 			owner.addToImports(new OJPathName("org.opaeum.runtime.costing.CurrencyMismatchException"));
 			owner.addToImports(new OJPathName(Environment.class.getName()));
 			String fieldName = a.field.getName() + "Currency";
 			owner.addToFields(new OJAnnotatedField(fieldName, new OJPathName("String")));
 			String cond = fieldName + "!=null && !" + fieldName + ".equals(Environment.getInstance().getDefaultCurrency())";
 			String throwIt = "throw new CurrencyMismatchException(" + fieldName + ",Environment.getInstance().getDefaultCurrency())";
-			a.internalAdder.getBody().getStatements().add(0, new OJIfStatement(cond, throwIt));
+			if(a.internalAdder != null){
+				a.internalAdder.getBody().getStatements().add(0, new OJIfStatement(cond, throwIt));
+			}else{
+				a.setter.getBody().getStatements().add(0, new OJIfStatement(cond, throwIt));
+			}
 		}
 	}
 	public static class MyJpaStrategy implements JpaStrategy{
@@ -104,7 +107,8 @@ public class MoneyInDefaultCurrencyStrategyFactory extends AbstractStrategyFacto
 	}
 	@SuppressWarnings("unchecked")
 	public MoneyInDefaultCurrencyStrategyFactory(){
-		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class,MyAttributeStrategy.class,MyFormatterStrategy.class);
+		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class, MyAttributeStrategy.class,
+				MyFormatterStrategy.class);
 	}
 	private static void addCUrrencyFormat(OJAnnotatedClass owner,OJBlock block){
 		owner.addToImports("java.text.NumberFormat");

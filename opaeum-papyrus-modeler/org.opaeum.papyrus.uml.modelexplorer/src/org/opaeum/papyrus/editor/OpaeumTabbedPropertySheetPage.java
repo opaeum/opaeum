@@ -23,13 +23,9 @@ public final class OpaeumTabbedPropertySheetPage extends AbstractOpaeumTabbedPro
 			// substitute for the Editor to:
 			// 1. avoid unnecessary calculations
 			// 2. avoid incorrect refreshing of Sections
-			IMultiDiagramEditor multiDiagramEditor = EditorUtils.getMultiDiagramEditor();
-			if(multiDiagramEditor instanceof OpaeumMultiDiagramEditor){
-				super.handlePartActivated(multiDiagramEditor);
-			}else{
-				super.handlePartActivated(part);
-			}
-		}else{
+			part= EditorUtils.getMultiDiagramEditor();
+		}
+		if(part !=null && part.getSite()!=null){
 			super.handlePartActivated(part);
 		}
 	}

@@ -80,12 +80,12 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 		if(!string[0].isEmpty()){
 			IFolder sourceFolder = project.getFolder(string[0]);
 			if(!sourceFolder.exists()){
-				sourceFolder.create(false, true, null);
+				sourceFolder.create(true, true, null);
 			}
 			for(int i = 1;i < string.length;i++){
 				sourceFolder = sourceFolder.getFolder(string[i]);
 				if(!sourceFolder.exists()){
-					sourceFolder.create(false, true, null);
+					sourceFolder.create(true, true, null);
 				}
 			}
 			deleteUnkownMembers(sf, sourceFolder);

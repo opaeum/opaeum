@@ -3,8 +3,9 @@ package org.opaeum.validation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -27,8 +28,10 @@ public class PropertyValidation extends AbstractValidator{
 				"{0} subsets {1} which is not marked as a derived union",pkg.getProperty_SubsettedProperty()),
 		SUBSETTED_PROPERTY_NOT_IN_CONTEXT("Subsetted properties must be in the redefinition context of the subseting property",
 				"{0} subset {1}  which is not accessible from {2}",pkg.getProperty_SubsettedProperty()),
-		REDEFINED_PROPERTY_NOT_IN_CONTEXT("Redefined properties must be in the redefinition context of the subseting property",
-				"{0} redefines {1} which is not accessible from {2}",pkg.getProperty_RedefinedProperty());
+				REDEFINED_PROPERTY_NOT_IN_CONTEXT("Redefined properties must be in the redefinition context of the subseting property",
+						"{0} redefines {1} which is not accessible from {2}",pkg.getProperty_RedefinedProperty()),
+		TYPED_ELEMENT_NO_TYPE("Typed elements must be typed",
+				"{0}'s type is not specified",pkg.getTypedElement_Type());
 		private String description;
 		private String messagePattern;
 		private EStructuralFeature feature[];
@@ -47,7 +50,15 @@ public class PropertyValidation extends AbstractValidator{
 			return messagePattern;
 		}
 	}
-	@VisitBefore(matchSubclasses = true)
+	@VisitBefore(match={Parameter.class,Property.class})
+	public void visitTypedElement(TypedElement te){
+		if(te.getType()==null){
+			getErrorMap().putError(te, PropertyValidationRule.TYPED_ELEMENT_NO_TYPE);
+		}
+		if(te instanceof Property){
+			visitProperty((Property) te);
+		}
+	}
 	public void visitProperty(Property p){
 		// TODO property cannot be derivedUnion AND have defaultVAlue
 		if(p.getAssociationEnd() == null){

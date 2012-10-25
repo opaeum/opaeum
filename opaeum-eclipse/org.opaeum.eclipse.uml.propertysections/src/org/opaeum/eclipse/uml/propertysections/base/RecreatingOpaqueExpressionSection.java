@@ -8,6 +8,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.uml.propertysections.ocl.OpaqueExpressionComposite;
 
@@ -45,7 +46,7 @@ public abstract class RecreatingOpaqueExpressionSection extends AbstractOpaeumPr
 	}
 	@Override
 	public void populateControls(){
-		oclComposite.setOclContext((NamedElement) getSelectedObject(), null);
+		oclComposite.setOclContext((NamedElement) getFeatureOwner(getSelectedObject()), (OpaqueExpression) getFeatureOwner(getSelectedObject()).eGet(getFeature()));
 	}
 	@Override
 	protected void setEnabled(boolean enabled){
@@ -57,7 +58,7 @@ public abstract class RecreatingOpaqueExpressionSection extends AbstractOpaeumPr
 	}
 	@Override
 	public void textChanged(TextChangedEvent event){
-		updateModel(EmfValueSpecificationUtil.buildOpaqueExpression((NamedElement)getSelectedObject(),getFeature().getName(), oclComposite.getTextControl().getText()));
+		updateModel(EmfValueSpecificationUtil.buildOpaqueExpression((NamedElement)getFeatureOwner(getSelectedObject()),getFeature().getName(), oclComposite.getTextControl().getText()));
 	}
 	@Override
 	public void textSet(TextChangedEvent event){

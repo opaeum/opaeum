@@ -12,8 +12,7 @@ Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
  org.eclipse.ocl.uml,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.opaeum,
- org.opaeum.linkage,
+Export-Package: org.opaeum.linkage,
  org.opaeum.validation,
  org.opaeum.validation.activities,
  org.opaeum.validation.commonbehavior,

@@ -33,7 +33,6 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 		this.contributor = tabbedPropertySheetPageContributor;
 		addListener();
 	}
-
 	protected void addListener(){
 		super.addTabSelectionListener(new ITabSelectionListener(){
 			public void tabSelected(ITabDescriptor tabDescriptor){
@@ -48,12 +47,11 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 	@Override
 	public void dispose(){
 		super.dispose();
-		contributor=null;
-		actionProvider=null;
+		contributor = null;
+		actionProvider = null;
 	}
 	@Override
 	public void selectionChanged(IWorkbenchPart part,ISelection selection){
-
 		if(selection instanceof IStructuredSelection && ((IStructuredSelection) selection).getFirstElement() != null){
 			IStructuredSelection ss = ((IStructuredSelection) selection);
 			List<Object> list = new ArrayList<Object>();
@@ -61,7 +59,7 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 			for(int i = 0;i < array.length;i++){
 				Object object = array[i];
 				EObject resolveEObject = EmfElementFinder.adaptObject(object);
-				if(resolveEObject != null && resolveEObject.eResource()!=null && !list.contains(resolveEObject)){
+				if(resolveEObject != null && resolveEObject.eResource() != null && !list.contains(resolveEObject)){
 					list.add(resolveEObject);
 				}
 				selection = new StructuredSelection(list);
@@ -83,36 +81,38 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 			int maxHeight = 30;
 			int maxLabelWidth = 60;
 			TabbedPropertyComposite tbc = (TabbedPropertyComposite) this.getControl();
-			Composite tabComposite = (Composite) tbc.getTabComposite().getChildren()[0];
-			Composite pageComposite = (Composite) tabComposite.getChildren()[0];
-			Control[] children = pageComposite.getChildren();
-			ISection[] sections = currentTab.getSections();
-			for(int i = 0;i < sections.length;i++){
-				ISection s = sections[i];
-				if(s instanceof AbstractOpaeumPropertySection){
-					AbstractOpaeumPropertySection os = (AbstractOpaeumPropertySection) s;
-					if(os.getLabelText() != null){
-						maxLabelWidth = Math.max(maxLabelWidth, os.getMinimumLabelWidth());
-					}
-					if(!s.shouldUseExtraSpace()){
-						maxHeight = Math.max(maxHeight, children[i].getSize().y);
+			if(!tbc.isDisposed()){
+				Composite tabComposite = (Composite) tbc.getTabComposite().getChildren()[0];
+				Composite pageComposite = (Composite) tabComposite.getChildren()[0];
+				Control[] children = pageComposite.getChildren();
+				ISection[] sections = currentTab.getSections();
+				for(int i = 0;i < sections.length;i++){
+					ISection s = sections[i];
+					if(s instanceof AbstractOpaeumPropertySection){
+						AbstractOpaeumPropertySection os = (AbstractOpaeumPropertySection) s;
+						if(os.getLabelText() != null){
+							maxLabelWidth = Math.max(maxLabelWidth, os.getMinimumLabelWidth());
+						}
+						if(!s.shouldUseExtraSpace()){
+							maxHeight = Math.max(maxHeight, children[i].getSize().y);
+						}
 					}
 				}
-			}
-			for(int i = 0;i < sections.length;i++){
-				ISection s = sections[i];
-				if(s instanceof AbstractOpaeumPropertySection){
-					AbstractOpaeumPropertySection os = (AbstractOpaeumPropertySection) s;
-					if(!os.shouldUseExtraSpace()){
-						GridData gd = (GridData) children[i].getLayoutData();
-						gd.minimumHeight = maxHeight;
-						gd.heightHint = maxHeight;
+				for(int i = 0;i < sections.length;i++){
+					ISection s = sections[i];
+					if(s instanceof AbstractOpaeumPropertySection){
+						AbstractOpaeumPropertySection os = (AbstractOpaeumPropertySection) s;
+						if(!os.shouldUseExtraSpace()){
+							GridData gd = (GridData) children[i].getLayoutData();
+							gd.minimumHeight = maxHeight;
+							gd.heightHint = maxHeight;
+						}
+						os.setLabelWidth(maxLabelWidth);
+						((Composite) children[i]).layout();
 					}
-					os.setLabelWidth(maxLabelWidth);
-					((Composite) children[i]).layout();
 				}
+				tabComposite.layout();
 			}
-			tabComposite.layout();
 		}
 	}
 	protected OpaeumSectionActionProvider geActionProvider(){

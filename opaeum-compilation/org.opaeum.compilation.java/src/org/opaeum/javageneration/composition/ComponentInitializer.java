@@ -61,12 +61,12 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 								OJIfStatement ifEmpty = new OJIfStatement();
 								ifEmpty.setCondition(map.getter() + "().isEmpty()");
 								ifEmpty.setThenPart(new OJBlock());
-								ifEmpty.getThenPart().addToStatements(type.getName() + " new" + np.getName());
+								ifEmpty.getThenPart().addToStatements(type.getName() + " new" + map.fieldname());
 								List<EnumerationLiteral> ownedLiterals = en.getOwnedLiterals();
 								for(EnumerationLiteral l:ownedLiterals){
-									ifEmpty.getThenPart().addToStatements("new" + np.getName() + "= new " + type.getName() + "()");
+									ifEmpty.getThenPart().addToStatements("new" + np.getName() + "= new " + map.javaBaseType() + "()");
 									ifEmpty.getThenPart().addToStatements(
-											map.adder() + "(" + ojUtil.classifierPathname(en) + "." + OJUtil.toJavaLiteral(l) + ",new" + np.getName() + ")");
+											map.adder() + "(" + ojUtil.classifierPathname(en) + "." + OJUtil.toJavaLiteral(l) + ",new" + map.fieldname() + ")");
 								}
 								createComponents.getBody().addToStatements(ifEmpty);
 								if(EmfClassifierUtil.isCompositionParticipant((Classifier) map.getBaseType())){
@@ -77,7 +77,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 								}
 							}
 						}else if(map.isOne() && (np.isComposite() && np.getLower() == 1)){
-							OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", map.setter() + "(new " + type.getName() + "())");
+							OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", map.setter() + "(new " + map.javaBaseType() + "())");
 							createComponents.getBody().addToStatements(ifNull);
 							if(EmfClassifierUtil.isCompositionParticipant((Classifier) map.getBaseType())){
 								init.getBody().addToStatements(map.getter() + "().init(this)");

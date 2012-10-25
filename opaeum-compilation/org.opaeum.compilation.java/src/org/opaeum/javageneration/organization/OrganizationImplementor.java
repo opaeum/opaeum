@@ -26,7 +26,7 @@ public class OrganizationImplementor extends AbstractStructureVisitor{
 	@Override
 	protected boolean visitComplexStructure(OJAnnotatedClass c,Classifier umlOwner){
 		// TODO find another place for this
-		if(c != null){
+		if(c != null && EmfClassifierUtil.isPersistent(umlOwner)){
 			c.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.opaeum.audit.AuditMe")));
 		}
 		if(EmfClassifierUtil.isBusinessComponent(umlOwner)){

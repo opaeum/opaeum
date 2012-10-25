@@ -36,7 +36,8 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.papyrus.infra.gmfdiag.preferences,
  org.eclipse.papyrus.extensionpoints.editors,
  org.eclipse.papyrus.infra.emf.appearance,
- org.opaeum.compilation.uim
+ org.opaeum.compilation.uim,
+ org.opaeum.uimodeler.common
 Bundle-ClassPath: .
 Bundle-Activator: org.opaeum.uimodeler.cubequery.diagram.part.UimCubeQueryDiagramEditorPlugin
 Bundle-Vendor: %providerName

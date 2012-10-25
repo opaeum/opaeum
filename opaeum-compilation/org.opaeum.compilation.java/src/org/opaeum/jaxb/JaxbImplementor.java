@@ -20,16 +20,18 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.bpm.EventHandlerImplementor;
+import org.opaeum.javageneration.hibernate.HibernateAnnotator;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 
-@StepDependency(phase = JavaTransformationPhase.class,after = {
-	
-})
+@StepDependency(phase = JavaTransformationPhase.class,after = {HibernateAnnotator.class,EventHandlerImplementor.class,
+		org.opaeum.javageneration.bpm.statemachine.StateMachineEventConsumptionImplementor.class,
+		org.opaeum.javageneration.bpm.activity.TaskAndResponsibilityImplementor.class})
 public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
-	public void visitClass(Class  c){
-		if(ojUtil.hasOJClass(c) ){
+	public void visitClass(Class c){
+		if(ojUtil.hasOJClass(c)){
 			OJAnnotatedClass owner = findJavaClass(c);
 			addXmlRootElement(owner);
 			OJOperation outgoingEvents = owner.getUniqueOperation("getOutgoingEvents");
@@ -40,9 +42,9 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 			if(cancelledEvents != null){
 				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) cancelledEvents);
 			}
-			for(Property p:getLibrary().getDirectlyImplementedAttributes( c)){
+			for(Property p:getLibrary().getDirectlyImplementedAttributes(c)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
-				if(StereotypesHelper.hasStereotype(map.getBaseType(),StereotypeNames.HELPER)){
+				if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
 					OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<OJPathName>());
 					JaxbAnnotator.addXmlTransient(getter);
 				}else if(p.getType() instanceof Class && !map.isInverse()){
@@ -66,7 +68,8 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 				// OJAnnotatedOperation getCurrentState= (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getCurrentState");
 				// getCurrentState.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlTransient")));
 			}else{
-				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.findOperation("get" + NameConverter.capitalize(behavior.getName()), new ArrayList<OJPathName>());
+				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.findOperation("get" + NameConverter.capitalize(behavior.getName()),
+						new ArrayList<OJPathName>());
 				JaxbAnnotator.addXmlTransient(oper);
 			}
 		}

@@ -6,7 +6,7 @@ import org.eclipse.uml2.uml.Property;
 
 public class FirstEndDefaultValueSection extends PropertyDefaultValueSection{
 	@Override
-	protected Property getProperty(EObject e){
+	protected EObject getFeatureOwner(EObject e){
 		if(e == null){
 			return null;
 		}else{
