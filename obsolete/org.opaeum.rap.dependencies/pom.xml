@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opaeum</groupId>
 	<artifactId>org.opaeum.rap.dependencies</artifactId>
-	<packaging>war</packaging>
+	<packaging>osgi-bundle</packaging>
 	<name>Opaeum RAP Dependencies</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<repositories>
@@ -124,6 +124,15 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.felix.plugins</groupId>
+				<artifactId>maven-osgi-plugin</artifactId>
+				<extensions>true</extensions>
+				<version>0.3.0</version>
+				<configuration>
+					<manifestFile>resources/manifest.mf</manifestFile>
+				</configuration>
+			</plugin>			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>

@@ -2,7 +2,7 @@
 <feature
       id="org.opaeum.metamodels.feature"
       label="Opaeum Metamodels"
-      version="1.0.0.qualifier">
+      version="1.0.2.qualifier">
 
    <description url="%license">
       Opaeum Metamodels Feature provides all the metamodels required as targets or sources of transformations in Opaeum.
@@ -21,11 +21,14 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.ocl.uml"/>
    </requires>
-
 
    <plugin
          id="org.opaeum.metamodels.java"
@@ -57,6 +60,12 @@
 
    <plugin
          id="org.opaeum.metamodels.emfworkspace"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.opaeum.metamodels.simulation"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

@@ -1,8 +1,7 @@
 package org.opaeum.rap.runtime.internal.views;
 
+import java.lang.reflect.Modifier;
 import java.util.Date;
-
-import javassist.Modifier;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="../../feature/org.opaeum.metamodels.feature" id="org.opaeum.metamodels.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <feature url="../../feature/org.opaeum.metamodels.source.feature" id="org.opaeum.metamodels.source.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <feature url="../../feature/org.opaeum.compilation.feature" id="org.opaeum.compilation.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <feature url="../../feature/org.opaeum.compilation.source.feature" id="org.opaeum.compilation.source.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <feature url="../../feature/org.opaeum.simulation.source.feature" id="org.opaeum.simulation.source.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <feature url="../../feature/org.opaeum.simulation.feature" id="org.opaeum.simulation.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <feature url="../../feature/org.opaeum.eclipse.source.feature" id="org.opaeum.eclipse.source.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <feature url="../../feature/org.opaeum.eclipse.feature" id="org.opaeum.eclipse.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <feature url="../../feature/org.opaeum.papyrus.feature" id="org.opaeum.papyrus.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <feature url="../../feature/org.opaeum.uimodeler.feature" id="org.opaeum.uimodeler.feature" version="1.0.2.qualifier">
+      <category name="org.opaeum.tooling.category"/>
+   </feature>
+   <category-def name="org.opaeum.tooling.category" label="Opaeum Tooling"/>
+   <category-def name="papyrus" label="Papyrus"/>
+</site>

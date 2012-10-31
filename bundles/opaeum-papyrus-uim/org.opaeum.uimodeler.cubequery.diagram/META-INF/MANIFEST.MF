@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Opaeum CubeQuery Diagram
 Bundle-SymbolicName: org.opaeum.uimodeler.cubequery.diagram; singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -36,13 +36,13 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.papyrus.infra.gmfdiag.preferences,
  org.eclipse.papyrus.extensionpoints.editors,
  org.eclipse.papyrus.infra.emf.appearance,
- org.opaeum.compilation.uim,
  org.opaeum.uimodeler.common
 Bundle-ClassPath: .
 Bundle-Activator: org.opaeum.uimodeler.cubequery.diagram.part.UimCubeQueryDiagramEditorPlugin
-Bundle-Vendor: %providerName
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Export-Package: org.opaeum.uimodeler.cubequery.diagram.edit.parts,
  org.opaeum.uimodeler.cubequery.diagram.part,
  org.opaeum.uimodeler.cubequery.diagram.providers
 Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

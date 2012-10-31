@@ -1,7 +1,4 @@
-// Created on 10.09.2007
 package org.opaeum.rap.runtime.internal.startup;
-
-import java.io.IOException;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.graphics.Graphics;
@@ -29,26 +26,15 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.opaeum.rap.login.LoginPerspectiveFactory;
-import org.opaeum.rap.login.LoginView;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.runtime.organization.IPersonNode;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
-import com.google.api.client.googleapis.auth.oauth2.GoogleRefreshTokenRequest;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
-import com.google.api.client.http.HttpResponseException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
 
 @SuppressWarnings("restriction")
 public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{
-	private static final HttpTransport TRANSPORT = new NetHttpTransport();
-	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private static final Color COLOR_WHITE = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
 	private boolean introActive = true;
 	public RMSWorkbenchWindowAdvisor(final IWorkbenchWindowConfigurer configurer){
@@ -77,18 +63,6 @@ public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{
 			RWT.getRequest().getSession(true).setAttribute(OpaeumRapSession.class.getName(), new OpaeumRapSession(getApplication(), person));
 			String refreshToken = person.getRefreshToken();
 			if(false){
-				//Activate when testing google functionality
-				//TODO move elsewhere perhaps and do lazily
-				GoogleRefreshTokenRequest grant = new GoogleRefreshTokenRequest(TRANSPORT, JSON_FACTORY, refreshToken, LoginView.CLIENT_ID,
-						OpaeumRapSession.CLIENT_SECRET);
-				GoogleTokenResponse access;
-				try{
-					access = grant.execute();
-					person.setAuthenticationToken(access.getAccessToken());
-				}catch(IOException e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 		}else if(RWT.getRequest().getSession(true).getAttribute(OpaeumRapSession.class.getName()) == null && code != null){
 			requestTokens(code);
@@ -140,21 +114,6 @@ public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{
 		}
 	}
 	private void requestTokens(String code){
-		System.out.println("LoginView.requestRefreshToken()");
-		try{
-			GoogleAuthorizationCodeTokenRequest authRequest = new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY,
-					LoginView.CLIENT_ID, OpaeumRapSession.CLIENT_SECRET, code, LoginView.CALLBACK_URL);
-			GoogleTokenResponse authResponse = authRequest.execute();
-			OpaeumRapSession os = new OpaeumRapSession(getApplication(), authResponse.getAccessToken(), authResponse.getRefreshToken(),
-					authResponse.getExpiresInSeconds());
-			os.associatePerson();
-			RWT.getRequest().getSession(true).setAttribute(OpaeumRapSession.class.getName(), os);
-		}catch(HttpResponseException e){
-			System.out.println(e.getMessage());
-		}catch(IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	private void setSecondaryBannerSize(final Composite secondaryBanner,final WorkbenchPage page){
 		Composite clientComposite = page.getClientComposite();

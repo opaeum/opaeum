@@ -26,8 +26,6 @@ import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.uim.UserInterfaceRoot;
-import org.opaeum.uim.action.ActionKind;
-import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.BuiltInLinkKind;
 import org.opaeum.uim.binding.BindingFactory;

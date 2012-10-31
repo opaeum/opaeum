@@ -11,8 +11,6 @@ import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.part.ViewPart;
 
-import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAuthorizationRequestUrl;
-
 public class LoginView extends ViewPart{
 	private static final Color COLOR_LINK = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION);
 	private static final Color COLOR_WHITE = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
@@ -47,12 +45,6 @@ public class LoginView extends ViewPart{
 			}
 		};
 		link.addHyperlinkListener(hyperlinkListener);
-		GoogleAuthorizationRequestUrl builder = new GoogleAuthorizationRequestUrl(CLIENT_ID, CALLBACK_URL, SCOPE);
-		builder.put("approval_prompt", "force");
-		builder.put("access_type", "offline");
-		String authorizeUrl = builder.build();
-		link.setHref(authorizeUrl);
-
 		return link;
 	}
 }

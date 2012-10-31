@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+
+<target includeMode="feature" name="org.opaeum.runtime.target" sequenceNumber="91">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.8.1.v20120917-0436"/>
+<repository location="file:/home/ampie/EclipseProducts/juno/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.rap.feature.feature.group" version="2.0.0.20121001-1623"/>
+<unit id="org.eclipse.rap.equinox.target.feature.feature.group" version="2.0.0.20121001-1630"/>
+<repository location="file:/home/ampie/EclipseProducts/rap/2.0/"/>
+</location>
+</locations>
+<includeBundles>
+<feature id="org.eclipse.emf.mapping.ecore"/>
+<feature id="org.eclipse.rap.feature"/>
+<feature id="org.eclipse.emf"/>
+<feature id="org.eclipse.emf.common"/>
+<feature id="org.eclipse.rap.equinox.target.feature"/>
+<feature id="org.eclipse.emf.ecore"/>
+</includeBundles>
+<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+<implicitDependencies>
+<plugin id="org.eclipse.rap.rwt.testfixture.source"/>
+<plugin id="org.eclipse.rap.demo.databinding.source"/>
+<plugin id="org.eclipse.rap.rwt"/>
+<plugin id="org.eclipse.rap.ui"/>
+<plugin id="org.eclipse.rap.rwt.osgi.source"/>
+<plugin id="org.eclipse.rap.jface.databinding"/>
+<plugin id="org.eclipse.rap.rwt.osgi"/>
+<plugin id="javax.servlet"/>
+<plugin id="org.eclipse.rap.ui.cheatsheets.source"/>
+<plugin id="org.eclipse.rap.jface"/>
+<plugin id="org.eclipse.rap.ui.forms.source"/>
+<plugin id="org.eclipse.rap.junit.runtime"/>
+<plugin id="org.eclipse.rap.junit"/>
+<plugin id="org.eclipse.rap.junit.source"/>
+<plugin id="org.eclipse.rap.ui.workbench.source"/>
+<plugin id="org.eclipse.rap.jface.databinding.source"/>
+<plugin id="org.eclipse.rap.rwt.source"/>
+<plugin id="org.eclipse.rap.ui.workbench"/>
+<plugin id="org.eclipse.rap.demo.databinding"/>
+<plugin id="org.eclipse.rap.design.example.source"/>
+<plugin id="org.eclipse.rap.ui.source"/>
+<plugin id="org.eclipse.rap.demo.source"/>
+<plugin id="org.eclipse.rap.design.example"/>
+<plugin id="org.eclipse.rap.junit.runtime.source"/>
+<plugin id="org.eclipse.rap.jface.source"/>
+<plugin id="org.eclipse.rap.ui.views.source"/>
+<plugin id="org.eclipse.rap.rwt.testfixture"/>
+<plugin id="org.eclipse.rap.ui.forms"/>
+<plugin id="org.eclipse.rap.ui.views"/>
+<plugin id="org.eclipse.rap.ui.cheatsheets"/>
+<plugin id="org.eclipse.rap.demo"/>
+</implicitDependencies>
+</target>

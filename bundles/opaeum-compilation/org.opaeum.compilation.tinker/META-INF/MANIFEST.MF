@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.compilation.tinker
 Bundle-SymbolicName: org.opaeum.compilation.tinker;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.uml2.uml,
@@ -12,8 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.metamodels.emfworkspace,
  org.eclipse.ocl.uml,
  org.opaeum.compilation.ocltojava,
- org.opaeum.metamodels.text,
- org.opaeum.linkage.validation
+ org.opaeum.metamodels.text
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

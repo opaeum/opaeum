@@ -4,7 +4,7 @@
 		<artifactId>opaeum-runtime</artifactId>
 		<groupId>org.opaeum</groupId>
 		<version>1.0.2-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<relativePath>../../../releng/org.opaeum.runtime.core/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opaeum</groupId>
@@ -50,8 +50,4 @@
 		</dependency>
 		
 	</dependencies>
-	<properties>
-		<jbpm.version>5.1.0.Final</jbpm.version>
-		<drools.version>5.2.0.Final</drools.version>
-	</properties>
 </project>

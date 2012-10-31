@@ -7,21 +7,9 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.gdata.client.contacts.ContactQuery;
-import com.google.gdata.client.contacts.ContactsService;
-import com.google.gdata.data.Person;
-import com.google.gdata.data.contacts.ContactFeed;
-
 public class OpaeumRapSession{
-	private static final HttpTransport TRANSPORT = new NetHttpTransport();
-	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private IOpaeumApplication application;
 	private IPersonNode person;
-	private ContactsService contactsService;
 	public static final String CLIENT_SECRET = "yRf8aLQhkqvCtINCDoCklgTM";
 	private long expiryDate;
 	private ConversationalPersistence sessionPersistence;
@@ -49,10 +37,6 @@ public class OpaeumRapSession{
 	}
 	public void associatePerson(){
 		try{
-			ContactQuery query = new ContactQuery(new URL("https://www.google.com/m8/feeds/contacts/default/full"));
-			query.setMaxResults(1);
-			ContactFeed resultFeed = getContactsService().getFeed(query, ContactFeed.class);
-			Person author = resultFeed.getAuthors().iterator().next();
 			person=application.findOrCreatePersonByEMailAddress(author.getEmail());
 			person=sessionPersistence.getReference(IntrospectionUtil.getOriginalClass(person), person.getId());
 			person.setAuthenticationToken(accessToken);
@@ -62,13 +46,6 @@ public class OpaeumRapSession{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	}
-	public ContactsService getContactsService(){
-		if(contactsService == null){
-			contactsService = new ContactsService("asf");
-			contactsService.setHeader("Authorization", "Bearer " + accessToken);
-		}
-		return this.contactsService;
 	}
 	public IPersonNode getPersonNode(){
 		return person;

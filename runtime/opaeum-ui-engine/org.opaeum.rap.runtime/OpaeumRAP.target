@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 
-<target name="tart" sequenceNumber="64">
+<target name="tart" sequenceNumber="69">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.8.1.v20120917-0436"/>
@@ -10,6 +10,7 @@
 <unit id="org.eclipse.rap.runtime.feature.group" version="1.5.1.20120917-1130"/>
 <repository location="http://download.eclipse.org/releases/juno"/>
 </location>
+<location path="/home/ampie/.m2/repository/org/opaeum/org.opaeum.rap.runtime.dependencies/1.0.2-SNAPSHOT" type="Directory"/>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 </target>

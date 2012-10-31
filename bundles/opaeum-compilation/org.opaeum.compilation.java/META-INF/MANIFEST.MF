@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Opaeum Java Generator
 Bundle-SymbolicName: org.opaeum.compilation.java
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Require-Bundle: org.opaeum.metamodels.java,
  org.opaeum.metamodels.text,
  org.opaeum.transformation.engine,
@@ -10,7 +10,6 @@ Require-Bundle: org.opaeum.metamodels.java,
  org.eclipse.uml2.uml,
  org.eclipse.ocl.uml,
  org.opaeum.metamodels.emfworkspace,
- org.opaeum.linkage.validation,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

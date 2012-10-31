@@ -31,8 +31,6 @@ import org.eclipse.papyrus.infra.core.resource.sasheditor.DiModel;
 import org.eclipse.papyrus.infra.core.resource.sasheditor.SashModel;
 import org.eclipse.papyrus.infra.core.resource.uml.UmlModel;
 import org.eclipse.papyrus.infra.core.resource.uml.UmlUtils;
-import org.eclipse.papyrus.infra.core.sashwindows.di.DiFactory;
-import org.eclipse.papyrus.infra.core.sashwindows.di.PageList;
 import org.eclipse.papyrus.infra.core.sashwindows.di.PageRef;
 import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
 import org.eclipse.papyrus.infra.core.sashwindows.di.TabFolder;

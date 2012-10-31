@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opaeum.papyrus.common
+Bundle-Name: Opaeum Common Classes for Papyrus
 Bundle-SymbolicName: org.opaeum.papyrus.common
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Bundle-Activator: org.opaeum.papyrus.common.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

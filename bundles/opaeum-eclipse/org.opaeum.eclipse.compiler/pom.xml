@@ -1,17 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>opaeum-eclipse</artifactId>
+		<artifactId>org.opaeum.tooling-parent</artifactId>
 		<groupId>org.opaeum</groupId>
-		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<version>1.0.2-SNAPSHOT</version>
+		<relativePath>../../../releng/org.opaeum.tooling.releng/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opaeum</groupId>
 	<artifactId>org.opaeum.eclipse.compiler</artifactId>
 	<packaging>eclipse-plugin</packaging>
-	<name>ModelCompiler</name>
-	<version>1.0.0-SNAPSHOT</version>
+	<name>Opaeum Model Compiler</name>
 	<build>
 		<plugins>
 			<plugin>

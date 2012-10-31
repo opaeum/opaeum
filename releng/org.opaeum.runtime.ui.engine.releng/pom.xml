@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>opaeum-runtime</artifactId>
+		<groupId>org.opaeum</groupId>
+		<version>1.0.2-SNAPSHOT</version>
+		<relativePath>../org.opaeum.runtime.core/pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>Opaeum UI Engine build</name>
+	<groupId>org.opaeum</groupId>
+	<artifactId>org.opaeum.runtime.ui.engine-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<properties>
+		<tycho-version>0.16.0</tycho-version>
+		<signing-plugin-version>1.0.5</signing-plugin-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<bundle.repo.location>file:/home/ampie/repository</bundle.repo.location>
+		<opaeum.version>1.0.2-SNAPSHOT</opaeum.version>
+		<mirror.repo.root>file:///home/ampie/EclipseProducts</mirror.repo.root>
+	</properties>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
+	<modules>
+		<!-- Runtime projects -->
+		<module>../../runtime/opaeum-ui-engine/org.opaeum.rap.runtime</module>
+		<module>../../runtime/opaeum-ui-engine/org.eclipse.nebula.widgets.pagination</module>
+		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.uim</module>
+		<module>../org.opaeum.runtime.target</module>
+		<!-- Packaging projects -->
+		<module>../../features/org.opaeum.rap.runtime.feature</module>
+		<module>repository</module>
+	</modules>
+
+	<repositories>
+		<repository>
+			<id>eclipse-juno</id>
+			<layout>p2</layout>
+			<url>${mirror.repo.root}/juno</url>
+		</repository>
+		<repository>
+			<id>rap-repository</id>
+			<layout>p2</layout>
+			<url>${mirror.repo.root}/rap/2.0</url>
+		</repository>
+		<repository>
+			<id>rap-runtime-base</id>
+			<layout>p2</layout>
+			<url>${mirror.repo.root}/rap/runtime-base</url>
+		</repository>
+		<repository>
+			<id>opaeum-runtime-core</id>
+			<layout>p2</layout>
+			<url>file://${eclipse.home}/opaeum_runtime_repo</url>
+		</repository>
+		<!-- repository>
+			<id>extra-dependencies-repository</id>
+			<layout>p2</layout>
+			<url>http://build.eclipse.org/rt/rap/base-platforms/1.5/extra-dependencies</url>
+		</repository-->
+
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven.eclipse.org</id>
+			<url>http://maven.eclipse.org/nexus/content/repositories/milestone-indigo</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<pomDependencies>consider</pomDependencies>
+					<target>
+						<artifact>
+							<groupId>org.opaeum</groupId>
+							<artifactId>org.opaeum.runtime.target</artifactId>
+							<version>${project.version}</version>
+						</artifact>
+					</target>
+					<environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+					</environments>
+					<filters>
+
+
+						<!-- example 2: remove all providers of the package javax.persistence 
+							except the bundle javax.persistence -->
+						<filter>
+							<type>java-package</type>
+							<id>javax.servlet</id>
+							<restrictTo>
+								<type>eclipse-plugin</type>
+								<id>javax.servlet</id>
+							</restrictTo>
+						</filter>
+
+						<!-- example 3: work around Equinox bug 348045 -->
+						<filter>
+							<type>p2-installable-unit</type>
+							<id>org.eclipse.equinox.servletbridge.extensionbundle</id>
+							<removeAll />
+						</filter>
+					</filters>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-source-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>plugin-source</id>
+						<goals>
+							<goal>plugin-source</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!--plugin> <groupId>org.eclipse.dash.maven</groupId> <artifactId>eclipse-signing-maven-plugin</artifactId> 
+				<version>${signing-plugin-version}</version> <configuration> <signerInputDirectory>/home/data/httpd/download-staging.priv/rt/rap</signerInputDirectory> 
+				</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-surefire-plugin</artifactId> <version>${surefire-version}</version> 
+				<executions> <execution> <id>test</id> <phase>test</phase> <configuration> 
+				<testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory> 
+				<includes> <include>**/*_Test.java</include> </includes> <runOrder>random</runOrder> 
+				</configuration> <goals> <goal>test</goal> </goals> </execution> </executions> 
+				</plugin -->
+
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.opaeum</groupId>
+			<artifactId>opaeum-runtime-core-bundle</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

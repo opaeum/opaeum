@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Opaeum ActionBar Diagram
 Bundle-SymbolicName: org.opaeum.uimodeler.actionbar.diagram;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -40,7 +40,7 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.opaeum.uimodeler.common
 Bundle-ClassPath: .
 Bundle-Activator: org.opaeum.uimodeler.actionbar.diagram.part.UimDiagramEditorPlugin
-Bundle-Vendor: %providerName
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Export-Package: org.opaeum.metamodels.uim.actionbar.diagram,
  org.opaeum.uimodeler.actionbar.diagram.edit.commands,

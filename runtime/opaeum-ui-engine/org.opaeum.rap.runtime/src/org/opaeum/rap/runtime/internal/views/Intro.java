@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
@@ -53,22 +52,8 @@ import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.startup.RMSPerspective;
-import org.opaeum.rap.wizards.contacts.SelectionForContact;
-import org.opaeum.rap.wizards.contacts.UserRoleAllocationWizard;
-import org.opaeum.runtime.contact.IPersonEMailAddress;
-import org.opaeum.runtime.contact.IPersonPhoneNumber;
-import org.opaeum.runtime.contact.PersonEMailAddressType;
-import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.organization.IBusinessActorBase;
 import org.opaeum.runtime.organization.IBusinessCollaborationBase;
-import org.opaeum.runtime.organization.IBusinessNetwork;
-import org.opaeum.runtime.organization.IPersonNode;
-import org.opaeum.runtime.persistence.ConversationalPersistence;
-
-import com.google.gdata.data.contacts.ContactEntry;
-import com.google.gdata.data.extensions.Email;
-import com.google.gdata.data.extensions.PhoneNumber;
 
 public class Intro extends ViewPart{
 	public static final String ID = "raptest.view";
@@ -83,9 +68,9 @@ public class Intro extends ViewPart{
 			// initiliazed flag
 			if(bc == null){
 				UserRoleAllocationWizard wizard = new UserRoleAllocationWizard(opaeumRapSession, getApplication());
-				WizardDialog dlg = new WizardDialog(display.getActiveShell(), wizard);
-				if(dlg.open() == Window.OK){
-				}
+//				WizardDialog dlg = new WizardDialog(display.getActiveShell(), wizard);
+//				if(dlg.open() == Window.OK){
+//				}
 			}else{
 				try{
 					getSite().getWorkbenchWindow().getWorkbench().showPerspective(RMSPerspective.ID, getSite().getWorkbenchWindow());
@@ -295,63 +280,6 @@ public class Intro extends ViewPart{
 				form.reflow(false);
 			}
 		});
-		return result;
-	}
-	public void testIt() throws Exception{
-		Iterator<IOpaeumApplication> iterator = Activator.getDefault().getApplications().values().iterator();
-		if(iterator.hasNext()){
-			IOpaeumApplication app = iterator.next();
-			IBusinessNetwork bn = app.getRootBusinessCollaboration().getBusinessNetwork();
-			ConversationalPersistence p = app.getEnvironment().createConversationalPersistence();
-			IBusinessCollaborationBase sb = app.createRootBusinessCollaboration();
-			bn.addToBusinessCollaboration(sb);
-			Set<ContactEntry> singleton = null;
-			Collection<SelectionForContact> result = builSelectionsForContacts(singleton, app.getEnvironment());
-			for(SelectionForContact s:result){
-				List<Email> emailAddresses = s.getContact().getEmailAddresses();
-				IPersonNode person = bn.createPerson(getMainEMailAddress(emailAddresses));
-				person.addToOwningObject();
-				person.setFirstName(s.getContact().getName().getGivenName().getValue());
-				person.setSurname(s.getContact().getName().getFamilyName().getValue());
-				for(Email email:emailAddresses){
-					PersonEMailAddressType type = calcType(email);
-					IPersonEMailAddress e = person.createEMailAddress(type);
-					e.setEmailAddress(email.getAddress());
-					e.addToOwningObject();
-				}
-				for(PhoneNumber phoneNumber:s.getContact().getPhoneNumbers()){
-					PersonPhoneNumberType type = calcType(phoneNumber);
-					IPersonPhoneNumber pn = person.createPhoneNumber(type);
-					pn.setPhoneNumber(phoneNumber.getPhoneNumber());
-					pn.addToOwningObject();
-				}
-				s.getSelection().set(0, Boolean.TRUE);
-				for(Class<?> c:s.getSelectedClasses()){
-					IBusinessActorBase ba = (IBusinessActorBase) c.newInstance();
-					ba.init(sb);
-					ba.addToOwningObject();
-					ba.setRepresentedPerson(person);
-				}
-				p.persist(bn);
-				p.flush();
-			}
-		}
-	}
-	public String getMainEMailAddress(List<Email> emailAddresses){
-		return emailAddresses.get(0).getAddress();
-	}
-	private PersonPhoneNumberType calcType(PhoneNumber phoneNumber){
-		return PersonPhoneNumberType.CELL;
-	}
-	private PersonEMailAddressType calcType(Email email){
-		return PersonEMailAddressType.HOME;
-	}
-	public Collection<SelectionForContact> builSelectionsForContacts(Collection<ContactEntry> contactEntries,Environment app){
-		Collection<SelectionForContact> result = new ArrayList<SelectionForContact>();
-		Collection<Class<?>> businessActors = getActorClasses(app);
-		for(ContactEntry contactEntry:contactEntries){
-			result.add(new SelectionForContact(contactEntry, (List<Class<?>>) businessActors));
-		}
 		return result;
 	}
 	protected Collection<Class<?>> getActorClasses(Environment app){

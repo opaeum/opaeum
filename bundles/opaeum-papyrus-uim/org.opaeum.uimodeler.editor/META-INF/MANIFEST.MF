@@ -1,13 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Opaeum UIModler Editor Facilities
 Bundle-SymbolicName: org.opaeum.uimodeler.editor;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.opaeum.uimodeler.presentation.UimEditorPlugin$Implementation
-Bundle-Vendor: %providerName
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.uim.action.presentation,
  org.opaeum.uim.binding.presentation,
  org.opaeum.uim.component.presentation,

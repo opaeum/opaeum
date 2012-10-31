@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Opaeum UIModeler Page Diagram
 Bundle-SymbolicName: org.opaeum.uimodeler.page.diagram;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin
-Bundle-Vendor: %providerName
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Export-Package: org.opaeum.uim.figures,
  org.opaeum.uimodeler.page.diagram.edit.commands,
@@ -60,5 +60,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.papyrus.infra.gmfdiag.css;bundle-version="0.9.0",
  org.eclipse.e4.ui.css.core;bundle-version="0.10.1"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

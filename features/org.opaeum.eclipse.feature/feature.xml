@@ -2,7 +2,7 @@
 <feature
       id="org.opaeum.eclipse.feature"
       label="Opaeum Core Eclipse Feature"
-      version="1.0.0.qualifier"
+      version="1.0.2.qualifier"
       provider-name="opaeum.org">
 
    <description url="%license">
@@ -330,7 +330,7 @@
       <import plugin="org.eclipse.datatools.enablement.hsqldb.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.hsqldb.ui"/>
       <import plugin="org.eclipse.datatools.enablement.ibm.informix"/>
-      <import plugin="org.eclipse.datatools.enablement.ibm.informix.dbdefinition" version="1.0.4" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.informix.dbdefinition" />
       <import plugin="org.eclipse.datatools.enablement.ibm.informix.ui"/>
       <import plugin="org.eclipse.datatools.enablement.ibm.ui"/>
       <import plugin="org.eclipse.datatools.enablement.ingres"/>
@@ -352,17 +352,16 @@
       <import plugin="org.eclipse.datatools.enablement.sybase.ui"/>
       <import plugin="org.eclipse.datatools.sqltools.ddlgen.ui"/>
       <import plugin="org.eclipse.datatools.modelbase.sql.edit"/>
-      <import feature="org.opaeum.compilation.feature" version="1.0.0.qualifier"/>
-      <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
-      <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
-      <import feature="org.eclipse.datatools.sqldevtools.data.feature" version="1.9.1.v201108301820-642BgJ9DJAQGVCaIQ"/>
-      <import feature="org.eclipse.datatools.sqldevtools.ddl.feature" version="1.9.1.v201108301820-278078B04G8S_IMz00Iz00PmQz01"/>
-      <import feature="org.eclipse.datatools.sqldevtools.ddlgen.feature" version="1.9.1.v201108301820-7A-3F7RZHLz-Hz-OlPz0Qf"/>
-      <import feature="org.eclipse.datatools.sqldevtools.feature" version="1.9.1.v201108301820-7N847CFDsn0VdrPUJvPUshDWIPJ0"/>
-      <import feature="org.eclipse.datatools.sqldevtools.parsers.feature" version="1.9.1.v201108301820-622BgJ9CR9XFcEWLP"/>
-      <import feature="org.eclipse.datatools.sqldevtools.results.feature" version="1.9.1.v201108301820-57B4AkF7AJ7NCBBMBL"/>
-      <import feature="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature" version="1.9.1.v201108301820-4208375LG5BJ93413"/>
-      <import feature="org.eclipse.datatools.sqldevtools.sqlbuilder.feature" version="1.9.1.v201108301820-79-4EVVFJoFwKcN-L_"/>
+      <import feature="org.opaeum.compilation.feature" version="1.0.2.qualifier"/>
+      <import feature="org.opaeum.metamodels.feature" version="1.0.2.qualifier"/>
+      <import feature="org.eclipse.datatools.sqldevtools.data.feature" />
+      <import feature="org.eclipse.datatools.sqldevtools.ddl.feature" />
+      <import feature="org.eclipse.datatools.sqldevtools.ddlgen.feature" />
+      <import feature="org.eclipse.datatools.sqldevtools.feature" />
+      <import feature="org.eclipse.datatools.sqldevtools.parsers.feature" />
+      <import feature="org.eclipse.datatools.sqldevtools.results.feature" />
+      <import feature="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature" />
+      <import feature="org.eclipse.datatools.sqldevtools.sqlbuilder.feature"/>
       <import plugin="org.eclipse.datatools.sqltools.sqleditor"/>
       <import plugin="org.eclipse.datatools.sqltools.data.core"/>
       <import plugin="org.eclipse.datatools.sqltools.editor.core"/>
@@ -387,6 +386,13 @@
 
    <plugin
          id="org.opaeum.eclipse.reverse"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.linkage.validation"
          download-size="0"
          install-size="0"
          version="0.0.0"

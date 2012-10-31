@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.opaeum.uimodeler.feature"
+      label="Opaeum UIModeler Feature"
+      version="1.0.2.qualifier">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.core.expressions"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.navigator"/>
+      <import plugin="org.eclipse.ui.navigator.resources"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.core"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.commands.core"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.ui.properties"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui"/>
+      <import plugin="org.eclipse.papyrus.uml.diagram.common"/>
+      <import plugin="org.eclipse.papyrus.infra.gmfdiag.common"/>
+      <import plugin="org.eclipse.papyrus.uml.service.types"/>
+      <import plugin="org.eclipse.papyrus.infra.widgets"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.properties"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.providers"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.providers.ide"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.render"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.resources.editor"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.opaeum.metamodels.uim"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.papyrus.infra.gmfdiag.preferences"/>
+      <import plugin="org.eclipse.papyrus.extensionpoints.editors"/>
+      <import plugin="org.eclipse.papyrus.infra.emf"/>
+      <import plugin="org.eclipse.papyrus.infra.emf.appearance"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.eclipse.wb.os"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui"/>
+      <import plugin="org.eclipse.gmf.runtime.gef.ui"/>
+      <import plugin="org.eclipse.papyrus.infra.core"/>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.opaeum.transformation.engine"/>
+      <import plugin="org.opaeum.metamodels.emfworkspace"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.core.commands"/>
+      <import plugin="org.eclipse.emf.common.ui"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.eclipse.wb.os.linux"/>
+      <import plugin="org.eclipse.papyrus.infra.gmfdiag.css" version="0.9.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.e4.ui.css.core" version="0.10.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.views.properties.tabbed"/>
+      <import plugin="org.opaeum.eclipse.core"/>
+      <import plugin="org.opaeum.eclipse.uml.propertysections"/>
+      <import plugin="org.eclipse.uml2.uml.edit"/>
+      <import plugin="org.eclipse.uml2.uml.editor"/>
+   </requires>
+
+   <plugin
+         id="org.opaeum.uimodeler.actionbar.diagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.uimodeler.common"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.uimodeler.cubequery.diagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.uimodeler.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.uimodeler.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.uimodeler.page.diagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.uimodeler.perspective.diagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.uimodeler.propertysections"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

@@ -4,7 +4,7 @@
 		<artifactId>opaeum-runtime</artifactId>
 		<groupId>org.opaeum</groupId>
 		<version>1.0.2-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<relativePath>../../../releng/org.opaeum.runtime.core/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opaeum</groupId>
@@ -39,8 +39,6 @@
 		<dependency>
 			<groupId>org.opaeum</groupId>
 			<artifactId>opaeum-runtime-hibernate</artifactId>
-			<version>${opaeum.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>

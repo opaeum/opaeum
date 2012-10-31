@@ -1,12 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opaeum.papyrus.uimadapter
+Bundle-Name: Opaeum User Interaction Modeling Adapter for Papyrus
 Bundle-SymbolicName: org.opaeum.papyrus.uimadapter;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Bundle-Activator: org.opaeum.papyrus.uimadapter.actions.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.opaeum.compilation.uim,
  org.opaeum.eclipse.core,
  org.opaeum.metamodels.uim,
  org.opaeum.uimodeler.editor,
@@ -46,9 +45,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ocl,
  org.eclipse.ocl.uml
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.papyrus.uimadapter.actions,
  org.opaeum.uim.queries,
  org.opaeum.uimodeler.util,
  org.opaeum.uml2uim
 Bundle-Vendor: Opaeum
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

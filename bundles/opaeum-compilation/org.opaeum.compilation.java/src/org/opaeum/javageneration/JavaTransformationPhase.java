@@ -34,10 +34,9 @@ import org.opaeum.java.metamodel.generated.OJElementGEN;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
-import org.opaeum.validation.ValidationPhase;
 import org.opaeum.visitor.TextFileGeneratingVisitor;
 
-@PhaseDependency(after = {ValidationPhase.class},before = {})
+@PhaseDependency(after = {},before = {})
 public class JavaTransformationPhase implements TransformationPhase<JavaTransformationStep,Element>,IntegrationPhase{
 	private static JavaTransformationPhase INSTANCE = new JavaTransformationPhase();
 	@InputModel

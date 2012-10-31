@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>Opaeum Tooling build</name>
+
+	<groupId>org.opaeum</groupId>
+	<artifactId>org.opaeum.tooling-parent</artifactId>
+	<version>1.0.2-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<repositories>
+		<repository>
+			<id>eclipse-juno</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/juno</url>
+		</repository>
+		<repository>
+			<id>eclipse-papyrus</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/maintenance/juno</url>
+		</repository>
+	</repositories>
+	<properties>
+		<tycho-version>0.16.0</tycho-version>
+		<signing-plugin-version>1.0.5</signing-plugin-version>
+		<surefire-version>2.9</surefire-version>
+		<junit-version>3.8.2</junit-version>
+		<mockito-version>1.8.4</mockito-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<modules>
+		<!-- Runtime projects -->
+		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.uim</module>
+		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.emfworkspace</module>
+		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.java</module>
+		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.text</module>
+		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.maven</module>
+		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.simulation</module>
+		<module>../../bundles/opaeum-compilation/org.opaeum.transformation.engine</module>
+		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.ocltojava</module>
+		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.java</module>
+		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.misc</module>
+		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.filegeneration</module>
+		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.tinker</module>
+		<module>../../bundles/opaeum-simulation/org.opaeum.simulation.edit</module>
+		<module>../../bundles/opaeum-simulation/org.opaeum.simulation.editor</module>
+		<module>../../bundles/opaeum-simulation/org.opaeum.simulation.actions</module>
+		<module>../../bundles/opaeum-eclipse/org.opaeum.eclipse.core</module>
+		<module>../../bundles/opaeum-eclipse/org.opaeum.eclipse.reverse</module>
+		<module>../../bundles/opaeum-eclipse/org.opaeum.eclipse.reverse.db</module>
+		<module>../../bundles/opaeum-eclipse/org.opaeum.eclipse.uml.propertysections</module>
+		<module>../../bundles/opaeum-eclipse/org.opaeum.eclipse.compiler</module>
+		<module>../../bundles/opaeum-eclipse/org.opaeum.linkage.validation</module>
+		<module>../../bundles/opaeum-papyrus-uim/org.opaeum.uimodeler.actionbar.diagram</module>
+		<module>../../bundles/opaeum-papyrus-uim/org.opaeum.uimodeler.common</module>
+		<module>../../bundles/opaeum-papyrus-uim/org.opaeum.uimodeler.cubequery.diagram</module>
+		<module>../../bundles/opaeum-papyrus-uim/org.opaeum.uimodeler.edit</module>
+		<module>../../bundles/opaeum-papyrus-uim/org.opaeum.uimodeler.editor</module>
+		<module>../../bundles/opaeum-papyrus-uim/org.opaeum.uimodeler.page.diagram</module>
+		<module>../../bundles/opaeum-papyrus-uim/org.opaeum.uimodeler.perspective.diagram</module>
+		<module>../../bundles/opaeum-papyrus-uim/org.opaeum.uimodeler.propertysections</module>
+		<module>../../bundles/opaeum-papyrus-modeler/org.opaeum.papyrus.classdiagram</module>
+		<module>../../bundles/opaeum-papyrus-modeler/org.opaeum.papyrus.common</module>
+		<module>../../bundles/opaeum-papyrus-modeler/org.opaeum.papyrus.propertysections</module>
+		<module>../../bundles/opaeum-papyrus-modeler/org.opaeum.papyrus.usecasediagram</module>
+		<module>../../bundles/opaeum-papyrus-modeler/org.opaeum.papyrus.uml.modelexplorer</module>
+		<!-- Packaging projects --> 
+		<module>../../features/org.opaeum.metamodels.feature</module> 
+		<module>../../features/org.opaeum.metamodels.source.feature</module> 
+		<module>../../features/org.opaeum.compilation.feature</module> 
+		<module>../../features/org.opaeum.compilation.source.feature</module> 
+		<module>../../features/org.opaeum.simulation.feature</module> 
+		<module>../../features/org.opaeum.simulation.source.feature</module> 
+		<module>../../features/org.opaeum.eclipse.feature</module> 
+		<module>../../features/org.opaeum.eclipse.source.feature</module> 
+		<module>../../features/org.opaeum.papyrus.feature</module> 
+		<module>../../features/org.opaeum.uimodeler.feature</module> 
+		<module>repository</module>
+	</modules>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<format>yyyyMMdd-HHmm</format>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-source-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>plugin-source</id>
+						<goals>
+							<goal>plugin-source</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!--plugin> <groupId>org.eclipse.dash.maven</groupId> <artifactId>eclipse-signing-maven-plugin</artifactId> 
+				<version>${signing-plugin-version}</version> <configuration> <signerInputDirectory>/home/data/httpd/download-staging.priv/rt/rap</signerInputDirectory> 
+				</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-surefire-plugin</artifactId> <version>${surefire-version}</version> 
+				<executions> <execution> <id>test</id> <phase>test</phase> <configuration> 
+				<testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory> 
+				<includes> <include>**/*_Test.java</include> </includes> <runOrder>random</runOrder> 
+				</configuration> <goals> <goal>test</goal> </goals> </execution> </executions> 
+				</plugin -->
+
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit-version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

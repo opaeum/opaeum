@@ -13,7 +13,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -23,7 +22,6 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.handlers.IHandlerService;
-import org.opaeum.rap.login.LoginPerspectiveFactory;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.actions.HelpAction;
@@ -83,9 +81,9 @@ public class RMSActionBarAdvisor extends ActionBarAdvisor{
 			public void run(){
 				RWT.getRequest().getSession().invalidate();
 				IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-				IPerspectiveDescriptor desc = activeWorkbenchWindow.getWorkbench().getPerspectiveRegistry()
-						.findPerspectiveWithId(LoginPerspectiveFactory.ID);
-				activeWorkbenchWindow.getActivePage().setPerspective(desc);
+//				IPerspectiveDescriptor desc = activeWorkbenchWindow.getWorkbench().getPerspectiveRegistry()
+//						.findPerspectiveWithId(LoginPerspectiveFactory.ID);
+//				activeWorkbenchWindow.getActivePage().setPerspective(desc);
 			}
 			@Override
 			public String getToolTipText(){

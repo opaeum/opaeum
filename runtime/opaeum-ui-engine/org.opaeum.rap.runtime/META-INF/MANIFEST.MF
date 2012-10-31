@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opaeum.rap.runtime
+Bundle-Name: Full Opaeum RAP Runtime
 Bundle-SymbolicName: org.opaeum.rap.runtime;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.2.qualifier
 Require-Bundle: org.eclipse.rap.ui.forms,
  org.eclipse.core.runtime,
  org.eclipse.rap.ui.views,
@@ -14,67 +14,15 @@ Require-Bundle: org.eclipse.rap.ui.forms,
  org.eclipse.rap.ui,
  org.opaeum.metamodels.uim,
  org.eclipse.core.databinding.property,
- org.eclipse.nebula.widgets.pagination,
- opaeum-runtime-dependencies,
- opaeum-runtime-domain,
- opaeum-runtime-hibernate,
- opaeum-runtime-jpa
-Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
- javax.servlet.http;version="[2.3.0,4.0.0)"
+ org.eclipse.nebula.widgets.pagination
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ClassPath: .,
- lib/gdata-base-1.0.jar,
- lib/gdata-contacts-3.0.jar,
- lib/gdata-client-1.0.jar,
- lib/gdata-contacts-meta-3.0.jar,
- lib/gdata-core-1.0.jar,
- lib/gdata-client-meta-1.0.jar,
- lib/dependencies/google-collections-1.0.jar
-Export-Package: com.google.api.gbase.client,
- com.google.gdata.client,
- com.google.gdata.client.authn.oauth,
- com.google.gdata.client.authn.oauthproxy,
- com.google.gdata.client.batch,
- com.google.gdata.client.contacts,
- com.google.gdata.client.http,
- com.google.gdata.client.uploader,
- com.google.gdata.data,
- com.google.gdata.data.acl,
- com.google.gdata.data.apt,
- com.google.gdata.data.batch,
- com.google.gdata.data.contacts,
- com.google.gdata.data.dublincore,
- com.google.gdata.data.extensions,
- com.google.gdata.data.geo,
- com.google.gdata.data.geo.impl,
- com.google.gdata.data.introspection,
- com.google.gdata.data.threading,
- com.google.gdata.model,
- com.google.gdata.model.atom,
- com.google.gdata.model.atompub,
- com.google.gdata.model.batch,
- com.google.gdata.model.gd,
- com.google.gdata.model.transforms.atom,
- com.google.gdata.model.transforms.atompub,
- com.google.gdata.util,
- com.google.gdata.util.common.base,
- com.google.gdata.util.common.html,
- com.google.gdata.util.common.io,
- com.google.gdata.util.common.logging,
- com.google.gdata.util.common.net,
- com.google.gdata.util.common.util,
- com.google.gdata.util.common.xml,
- com.google.gdata.util.common.xml.parsing,
- com.google.gdata.util.httputil,
- com.google.gdata.util.io.base,
- com.google.gdata.util.parser,
- com.google.gdata.wireformats,
- com.google.gdata.wireformats.input,
- com.google.gdata.wireformats.output,
- org.opaeum.rap.login,
- org.opaeum.rap.runtime,
+Bundle-ClassPath: .
+Bundle-ActivationPolicy: lazy
+Import-Package: javax.servlet,
+ javax.servlet.http
+Export-Package: org.opaeum.rap.runtime,
+ org.opaeum.rap.runtime.cubetree,
  org.opaeum.rap.runtime.editingsupport,
  org.opaeum.rap.runtime.internal,
  org.opaeum.rap.runtime.internal.actions,
@@ -87,6 +35,4 @@ Export-Package: com.google.api.gbase.client,
  org.opaeum.rap.runtime.internal.views,
  org.opaeum.rap.runtime.internal.wizards,
  org.opaeum.rap.runtime.startup,
- org.opaeum.rap.runtime.widgets,
- org.opaeum.rap.wizards.contacts
-Bundle-ActivationPolicy: lazy
+ org.opaeum.rap.runtime.widgets

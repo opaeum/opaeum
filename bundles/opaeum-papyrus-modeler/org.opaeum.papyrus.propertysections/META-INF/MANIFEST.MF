@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opaeum.papyrus.propertysections
+Bundle-Name: Opaeum Property Sections for Papyrus
 Bundle-SymbolicName: org.opaeum.papyrus.propertysections;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.opaeum.eclipse.uml.propertysections,
@@ -45,7 +45,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.papyrus.editor,
  org.opaeum.eclipse.core
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
  plugins/org.eclipse.papyrus.uml.properties_0.9.1.opaeum.jar
 Export-Package: 
@@ -80,3 +79,4 @@ Export-Package:
  org.opaeum.propertysections,
  org.opaeum.topcased.propertysections.filters,
  org.topcased.modeler.commands
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

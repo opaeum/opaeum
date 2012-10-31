@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Opaeum Perspective Diagram
 Bundle-SymbolicName: org.opaeum.uimodeler.perspective.diagram; singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -37,9 +37,10 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.papyrus.extensionpoints.editors
 Bundle-ClassPath: .
 Bundle-Activator: org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin
-Bundle-Vendor: %providerName
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Export-Package: org.opaeum.uimodeler.perspective.diagram.edit.parts,
  org.opaeum.uimodeler.perspective.diagram.part,
  org.opaeum.uimodeler.perspective.diagram.providers
 Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

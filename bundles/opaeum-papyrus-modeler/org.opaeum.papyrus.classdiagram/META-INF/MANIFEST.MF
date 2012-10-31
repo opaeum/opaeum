@@ -13,9 +13,8 @@ Export-Package: org.eclipse.papyrus.uml.diagram.clazz,
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  plugins/org.eclipse.papyrus.uml.diagram.clazz_0.9.1.opaeum.jar
-Bundle-Name: org.opaeum.papyrus.classdiagram
+Bundle-Name: Opaeum Class Diagram
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.core.expressions,
  org.eclipse.ui.navigator,
  org.eclipse.ui.navigator.resources,
@@ -67,9 +66,10 @@ Require-Bundle: org.eclipse.core.expressions,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.papyrus.common,
  com.google.guava
-Bundle-Vendor: %providerName
+Bundle-Vendor: Opaeum
 Eclipse-LazyStart: true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.2.qualifier
 Bundle-ManifestVersion: 2
 Bundle-Activator: org.eclipse.papyrus.uml.diagram.clazz.part.UMLDiagramEditorPlugin
 Bundle-SymbolicName: org.opaeum.papyrus.classdiagram;singleton:=true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
