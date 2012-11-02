@@ -46,10 +46,6 @@
        point="org.opaeum.eclipse.core.modelLibrary">
     <modelLibrary
           name="Opaeum Simple Types"
-          uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml">
-    </modelLibrary>
-    <modelLibrary
-          name="Opaeum Simple Types Old"
           uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml">
     </modelLibrary>
     <modelLibrary
@@ -78,7 +74,7 @@
     </profile>
     <profile
           name="Opaeum Standard Profile"
-          uri="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml">
+          uri="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml">
     </profile>
     <profile
           name="Opaeum BPM Profile"

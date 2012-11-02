@@ -78,17 +78,17 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	public void registerUimResources(Map<Element,Resource> map){
 		Set<Entry<Element,Resource>> entrySet = map.entrySet();
 		InternalTransaction activeTransaction = ((InternalTransactionalEditingDomain) openUmlFile.getEditingDomain()).getActiveTransaction();
-		boolean requiresTx = activeTransaction!=null && activeTransaction.isActive();
+		boolean hasTx = activeTransaction!=null && activeTransaction.isActive();
 		for(Entry<Element,Resource> entry:entrySet){
 			if(entry.getValue().getResourceSet() == null){
-				if(requiresTx){
+				if(!hasTx){
 					EditingDomain ed = openUmlFile.getEditingDomain();
 					ed.getCommandStack().execute(new AddCommand(ed, getResources(), entry.getValue()));
 				}else{
 					try{
 						getResources().add(entry.getValue());
 					}catch(Exception ex){
-						requiresTx = true;
+						hasTx = true;
 					}
 				}
 			}

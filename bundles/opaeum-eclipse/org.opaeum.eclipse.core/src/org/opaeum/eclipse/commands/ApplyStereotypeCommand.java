@@ -42,9 +42,10 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 	Collection<Stereotype> applied = new HashSet<Stereotype>();
 	Collection<Profile> appliedProfile = new HashSet<Profile>();
 	private boolean stereotypeIsKeyword;
+	private String[] stereotypeNames;
 	public ApplyStereotypeCommand(Element element,boolean stereotypeIsKeyword,Stereotype...stereotype){
 		this.element = element;
-		this.stereotypes = Arrays.asList(stereotype);
+		this.stereotypes = stereotype == null ? new ArrayList<Stereotype>() : Arrays.asList(stereotype);
 		this.stereotypeIsKeyword = stereotypeIsKeyword;
 	}
 	public ApplyStereotypeCommand(Element element,Stereotype...stereotype){
@@ -52,17 +53,20 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 	}
 	public ApplyStereotypeCommand(Element owner,String...stereotypeNames){
 		this(owner, findStereotypes(owner, stereotypeNames));
+		this.stereotypeNames=stereotypeNames;
 	}
 	private static Stereotype[] findStereotypes(Element owner,String[] stereotypeNames){
 		List<Stereotype> result = new ArrayList<Stereotype>();
-		for(String string:stereotypeNames){
-			inner:for(Resource resource:owner.eResource().getResourceSet().getResources()){
-				if(resource.getContents().size() > 0 && resource.getContents().get(0) instanceof Profile){
-					Profile p = (Profile) resource.getContents().get(0);
-					Stereotype ownedStereotype = p.getOwnedStereotype(string);
-					if(ownedStereotype != null){
-						result.add(ownedStereotype);
-						break inner;
+		if(owner.eResource() != null){
+			for(String string:stereotypeNames){
+				inner:for(Resource resource:owner.eResource().getResourceSet().getResources()){
+					if(resource.getContents().size() > 0 && resource.getContents().get(0) instanceof Profile){
+						Profile p = (Profile) resource.getContents().get(0);
+						Stereotype ownedStereotype = p.getOwnedStereotype(string);
+						if(ownedStereotype != null){
+							result.add(ownedStereotype);
+							break inner;
+						}
 					}
 				}
 			}
@@ -74,6 +78,9 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 		return true;
 	}
 	public void execute(){
+		if(stereotypes.isEmpty()){
+			stereotypes=Arrays.asList(findStereotypes(element, stereotypeNames));
+		}
 		for(Stereotype stereotype:stereotypes){
 			if(!element.getAppliedStereotypes().contains(stereotype)){
 				Element owner = getOwner();
@@ -88,8 +95,8 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 					if(!(element instanceof Pin) && element instanceof NamedElement && owner instanceof Namespace){
 						NamedElement ne = (NamedElement) element;
 						if(stereotypeIsKeyword
-								&& (ne.getName() == null || (ne.getName().startsWith(ne.eClass().getName()) && Character
-										.isDigit(ne.getName().charAt(ne.getName().length() - 1))))){
+								&& (ne.getName() == null || (ne.getName().startsWith(ne.eClass().getName()) && Character.isDigit(ne.getName().charAt(
+										ne.getName().length() - 1))))){
 							String keyWord = stereotype.getName();
 							setUniqueName(keyWord, ne);
 						}

@@ -16,7 +16,7 @@ public class Activator extends AbstractUIPlugin{
 		org.opaeum.papyrus.uml.modelexplorer.Activator.getDefault();
 		killExtension("org.eclipse.papyrus.infra.core.papyrusEditor", "org.eclipse.ui.editors", new String[]{"class",
 				"org.opaeum.papyrus.editor.OpaeumMultiDiagramEditor","default","true","extensions","di","icon","icons/papyrus/Papyrus_16x16.gif",
-				"id","org.eclipse.papyrus.infra.core.papyrusEditor","matchingStrategy","org.opaeum.papyrus.editor.PapyrusMatchingStrategy","name",
+				"id","org.eclipse.papyrus.infra.core.papyrusEditor","matchingStrategy","org.eclipse.papyrus.editor.PapyrusMatchingStrategy","name",
 				"Opaeum Editor"});
 	}
 	private void killExtension(String papyrusId,String extensionPointId,Object attributes){

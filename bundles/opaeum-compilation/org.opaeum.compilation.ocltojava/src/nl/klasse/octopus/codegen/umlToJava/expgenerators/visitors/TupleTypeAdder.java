@@ -34,11 +34,13 @@ public class TupleTypeAdder{
 		}
 		OJPackage tuples = null;
 		tuples = new OJPackage(TuplePackName);
-		Iterator<?> it = types.iterator();
-		while(it.hasNext()){
-			TupleType tupletype = (TupleType) it.next();
-			TupleTypeCreator tupleMaker = new TupleTypeCreator(ojUtil);
-			tupleMaker.make(tupletype, tuples);
+		if(types != null){
+			Iterator<?> it = types.iterator();
+			while(it.hasNext()){
+				TupleType tupletype = (TupleType) it.next();
+				TupleTypeCreator tupleMaker = new TupleTypeCreator(ojUtil);
+				tupleMaker.make(tupletype, tuples);
+			}
 		}
 		return tuples;
 	}

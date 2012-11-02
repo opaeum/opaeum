@@ -45,6 +45,7 @@ public class OJEnum extends OJAnnotatedClass{
 		classInfo.append("\n");
 		addJavaDocComment(classInfo);
 		classInfo.append(JavaStringHelpers.indent(JavaUtil.collectionToJavaString(this.getAnnotations(), "\n"), 0));
+		classInfo.append("\n");
 		if(this.isAbstract()){
 			classInfo.append("abstract ");
 		}

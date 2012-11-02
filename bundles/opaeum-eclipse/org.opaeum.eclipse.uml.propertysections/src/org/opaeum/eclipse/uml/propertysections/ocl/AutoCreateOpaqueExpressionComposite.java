@@ -9,7 +9,6 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 
 public abstract class AutoCreateOpaqueExpressionComposite extends OpaqueExpressionComposite{
-	protected EObject valueSpecificationOwner;
 	public AutoCreateOpaqueExpressionComposite(Composite parent,FormToolkit toolkit){
 		super(parent, toolkit);
 	}
@@ -20,32 +19,33 @@ public abstract class AutoCreateOpaqueExpressionComposite extends OpaqueExpressi
 	@Override
 	protected void fireOclChanged(String text){
 		boolean hasOclExpression = containsExpression(text);
-		if(valueSpecificationOwner != null && !hasOclExpression ){
-			Object vs = valueSpecificationOwner.eGet(getValueSpecificationFeature());
+		if(getValueSpecificatonOwner() != null && !hasOclExpression ){
+			Object vs = getValueSpecificatonOwner().eGet(getValueSpecificationFeature());
 			if(vs != null && getValueSpecificationFeature().getUpperBound() == 1){
 				// Remove valueSpecification
 				getEditingDomain().getCommandStack().execute(
-						SetCommand.create(getEditingDomain(), valueSpecificationOwner, getValueSpecificationFeature(), null));
+						SetCommand.create(getEditingDomain(), getValueSpecificatonOwner(), getValueSpecificationFeature(), null));
 				this.oclBodyOwner = null;
 			}
 		}
 		if(super.oclBodyOwner == null && hasOclExpression){
 
-			Object vs = valueSpecificationOwner.eGet(getValueSpecificationFeature());
+			Object vs = getValueSpecificatonOwner().eGet(getValueSpecificationFeature());
 			if(vs instanceof OpaqueExpression){
 				super.oclBodyOwner = (NamedElement) vs;
 			}else if(getValueSpecificationFeature().getUpperBound() == 1){
 				OpaqueExpression oe = org.eclipse.uml2.uml.UMLFactory.eINSTANCE.createOpaqueExpression();
 				oe.setName("oclExpression");
 				super.oclBodyOwner = oe;//NB!! BEFORE command otherwise the OclComposite reverts to DEFAULT_TEXT
-				getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), valueSpecificationOwner, getValueSpecificationFeature(), oe));
+				getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), getValueSpecificatonOwner(), getValueSpecificationFeature(), oe));
 			}else{
 				throw new IllegalStateException(
-						"Please override 'fireOclChanged(String text)' to populate the appropriate valueSpecificationOwner before the ocl is changed on the opaqueExpression");
+						"Please override 'fireOclChanged(String text)' to populate the appropriate valueSpecificatonOwner before the ocl is changed on the opaqueExpression");
 			}
 		}
 		if(hasOclExpression ){
 			super.fireOclChanged(text);
 		}
 	}
+	public abstract EObject getValueSpecificatonOwner();
 }

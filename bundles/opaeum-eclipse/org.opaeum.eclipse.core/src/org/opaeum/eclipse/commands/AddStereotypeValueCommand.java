@@ -43,7 +43,7 @@ public class AddStereotypeValueCommand extends StereotypeValueCommand{
 			@Override
 			public void doExecute(){
 				if(getStereotypeApplication() != null){
-					super.ownerList = (EList<Object>) getStereotypeApplication().eGet(getFeature());
+					super.ownerList = (EList<Object>) getStereotypeApplication().eGet(AddStereotypeValueCommand.this. getFeature());
 					super.owner = getStereotypeApplication();
 					super.isPrepared=false;
 					if(super.doCanExecute()){

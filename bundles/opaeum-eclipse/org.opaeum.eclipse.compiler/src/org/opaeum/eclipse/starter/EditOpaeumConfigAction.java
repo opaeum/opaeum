@@ -20,8 +20,8 @@ public class EditOpaeumConfigAction extends AbstractOpaeumAction{
 		OpaeumEclipsePlugin.getDefault();
 		IContainer umlDir = (IContainer) selection.getFirstElement();
 		OpaeumEclipseContext ne = OpaeumEclipseContext.findOrCreateContextFor(umlDir);
-		if(!(ne == null || ne.isNewlyCreated())){
-			// The settings would have been edited from there
+		if(!(ne == null)){
+			// The settings would have been edited from there -huh?
 			OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getCurrent().getActiveShell(), ne.getConfig(),getCfgFile().getParent());
 			if(dlg.open() == Window.OK){
 				reinitialiseConfig(ne);

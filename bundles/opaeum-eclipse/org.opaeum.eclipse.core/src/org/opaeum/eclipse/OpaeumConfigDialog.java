@@ -66,7 +66,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	}
 	protected Control createContents(Composite parent){
 		Control contents = super.createContents(parent);
-		setTitle("NakedUml Model Compiler");
+		setTitle("Opaeum Model Compiler");
 		setMessage("Please provide input", IMessageProvider.NONE);
 		// Set the image
 		return contents;

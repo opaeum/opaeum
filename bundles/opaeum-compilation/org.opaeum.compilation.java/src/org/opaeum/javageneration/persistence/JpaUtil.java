@@ -270,7 +270,8 @@ public class JpaUtil{
 			System.err.println();
 			columnName += shortenName(withoutId, 8);
 			columnName += "_on_";
-			columnName += shortenName(PersistentNameUtil.getPersistentName(EmfPropertyUtil.getOwningClassifier(map.getProperty())).getAsIs(), 8);
+			Classifier owningClassifier = EmfPropertyUtil.getOwningClassifier(map.getProperty());
+			columnName += shortenName(PersistentNameUtil.getPersistentName(owningClassifier).getAsIs(), 8);
 		}
 		return columnName;
 	}
@@ -279,7 +280,11 @@ public class JpaUtil{
 		StringTokenizer st = new StringTokenizer(withoutId, "_");
 		// Name gets way too long.
 		// TODO specify and use max columnNameSize
+		if(st.countTokens()==0){
+			System.out.println();
+		}
 		int maxLength = (i / st.countTokens()) - 1;// one for the u nderscore
+		maxLength=Math.max(maxLength, 1);
 		while(st.hasMoreTokens()){
 			String token = st.nextToken();
 			if(token.length() >= maxLength){

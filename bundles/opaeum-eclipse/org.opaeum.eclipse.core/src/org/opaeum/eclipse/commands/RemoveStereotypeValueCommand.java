@@ -8,6 +8,7 @@ public class RemoveStereotypeValueCommand extends StereotypeValueCommand{
 	Object oldValue;
 	public RemoveStereotypeValueCommand(EditingDomain editingDomain,Element eOwner,StereotypeValueInformation inf,Object value){
 		this(editingDomain,eOwner,inf.getFeatureName(),value,inf.isCompositeFeature());
+		this.oldValue=value;
 		setStereotypeName(inf.getStereotypeName());
 		super.setProfileName(inf.getProfileName());
 	}
@@ -16,6 +17,7 @@ public class RemoveStereotypeValueCommand extends StereotypeValueCommand{
 	}
 	public RemoveStereotypeValueCommand(EditingDomain editingDomain,Element eOwner,String featureName,Object oldValue,boolean isCompositeFeature){
 		super(editingDomain, eOwner, featureName);
+		this.oldValue=oldValue;
 	}
 	@Override
 	protected boolean prepareImpl(){

@@ -135,6 +135,9 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 		}
 	}
 	public int getMinimumLabelWidth(){
+		if(sectionComposite.isDisposed()){
+			return STANDARD_LABEL_WIDTH;
+		}
 		return getMinimumLabelWidth(sectionComposite, getLabelText());
 	}
 	protected int getStandardLabelWidth(Composite parent,String...labels){
@@ -194,7 +197,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 			if(msg.getFeatureID(getSelectedObject().getClass()) == getFeature().getFeatureID()){
 				isRefreshing = true;
 				populateControls();
-				isRefreshing=false;
+				isRefreshing = false;
 			}
 		}
 	}
@@ -326,11 +329,13 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 	}
 	protected void updateMessages(){
 		messageManager.removeAllMessages();
-		for(BrokenRule entry:getBrokenRules()){
-			String msg = EmfValidationUtil.replaceArguments(getSelectedObject(), entry, entry.getRule().getMessagePattern());
-			Control control = findAffectedControl(entry);
-			if(control != null){
-				messageManager.addMessage(UUID.randomUUID().toString(), msg, entry, IMessage.ERROR, control);
+		if(getSelectedObject() != null && getFeatureOwner(getSelectedObject()) != null){
+			for(BrokenRule entry:getBrokenRules()){
+				String msg = EmfValidationUtil.replaceArguments(getSelectedObject(), entry, entry.getRule().getMessagePattern());
+				Control control = findAffectedControl(entry);
+				if(control != null){
+					messageManager.addMessage(UUID.randomUUID().toString(), msg, entry, IMessage.ERROR, control);
+				}
 			}
 		}
 		messageManager.update();

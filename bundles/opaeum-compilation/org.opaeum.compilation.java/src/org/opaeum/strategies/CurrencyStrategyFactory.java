@@ -18,9 +18,21 @@ import org.opaeum.javageneration.basicjava.AttributeStrategy;
 import org.opaeum.javageneration.basicjava.FormatterStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
+import org.opaeum.jaxb.JaxbAnnotator;
+import org.opaeum.jaxb.JaxbStrategy;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 
 public class CurrencyStrategyFactory extends AbstractStrategyFactory{
+	public static class MyJaxbStrategy implements JaxbStrategy{
+
+		@Override
+		public void annotatedMethod(OJAnnotatedOperation oper){
+			JaxbAnnotator.addXmlTransient(oper);
+			
+		}
+		
+	}
+
 	public static class MyFormatterStrategy implements FormatterStrategy{
 		@Override
 		public void implementParse(OJAnnotatedOperation parse){
@@ -80,7 +92,7 @@ public class CurrencyStrategyFactory extends AbstractStrategyFactory{
 	}
 	@SuppressWarnings("unchecked")
 	public CurrencyStrategyFactory(){
-		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class, MyFormatterStrategy.class,MyAttributeStrategy.class);
+		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class, MyFormatterStrategy.class,MyAttributeStrategy.class,MyJaxbStrategy.class);
 	}
 	@Override
 	public boolean appliesTo(DataType st){

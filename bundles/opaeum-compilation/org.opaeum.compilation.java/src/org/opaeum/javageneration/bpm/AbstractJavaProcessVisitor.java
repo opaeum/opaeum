@@ -200,6 +200,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 			addParentAndChildTokens(tokenClass, iTokenPath);
 			addGetTokens(behavior, ojStateMachine);
 		}
+		tokenClass.addToConstructors(new OJConstructor());
 		addCreateAndRemoveToken(ojStateMachine, tokenClass);
 	}
 	private void addCreateAndRemoveToken(OJAnnotatedClass ojStateMachine,OJAnnotatedClass tokenClass){

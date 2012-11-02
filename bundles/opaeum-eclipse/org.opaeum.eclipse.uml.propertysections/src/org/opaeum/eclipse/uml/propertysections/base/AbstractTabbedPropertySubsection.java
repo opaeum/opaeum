@@ -194,7 +194,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		}
 	}
 	protected boolean hasSelectedObject(){
-		return section.getSelectedObject() != null;
+		return section.getSelectedObject() != null && getFeatureOwner(section.getSelectedObject())!=null;
 	}
 	protected EObject getFeatureOwner(EObject eObject){
 		return eObject;

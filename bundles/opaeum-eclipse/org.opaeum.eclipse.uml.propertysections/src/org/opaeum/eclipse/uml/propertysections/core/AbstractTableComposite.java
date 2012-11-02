@@ -69,7 +69,7 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 			}else{
 				EObject c = (EObject) EmfElementFinder.findNearestElementOfType(feature.getEType().getInstanceClass(), (EObject) msg.getNotifier());
 				if(c == null && feature.getEType().isInstance(msg.getNewValue())){
-					c = (Constraint) msg.getNewValue();
+					c = (EObject) msg.getNewValue();
 				}
 				if(c != null && msg.getNotifier() instanceof EObject && msg.getFeature() instanceof EStructuralFeature && isInterestingFeature(msg.getFeature())){
 					Control focusControl = Display.getCurrent().getFocusControl();
@@ -100,10 +100,7 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 	}
 	private void addAdaptor(){
 		if(this.owner != null){
-			EList<T> op = getObjectList();
-			for(T parameter:op){
-				adaptor.subscribeTo(parameter, 1);
-			}
+				adaptor.subscribeTo(owner, 3);
 		}
 	}
 	private void removeAdaptor(){
@@ -216,7 +213,7 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 				addNew();
 				refresh();
 				T newObject = getObjectList().get(getObjectList().size() - 1);
-				newObject.eAdapters().add(adaptor);
+				adaptor.subscribeTo(newObject, 1);
 				tableViewer.setSelection(new StructuredSelection(newObject));
 			}
 		});

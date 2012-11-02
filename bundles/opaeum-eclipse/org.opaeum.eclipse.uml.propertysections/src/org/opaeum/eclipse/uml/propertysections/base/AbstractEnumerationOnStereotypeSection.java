@@ -44,7 +44,7 @@ public abstract class AbstractEnumerationOnStereotypeSection extends AbstractEnu
 	}
 	@Override
 	protected String[] getEnumerationFeatureValues(){
-		if(literals == null){
+		if(literals == null && getFeatureOwner(getSelectedObject())!=null){
 			literals = new ArrayList<String>();
 			eLiterals=new HashMap<String,EEnumLiteral>();
 			Profile p = ProfileApplier.getProfile(getElement(getSelectedObject()), getProfileName());

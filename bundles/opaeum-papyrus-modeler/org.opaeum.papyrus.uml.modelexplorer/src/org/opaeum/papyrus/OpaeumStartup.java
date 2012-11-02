@@ -129,11 +129,11 @@ public class OpaeumStartup implements IStartup{
 		}
 		IWorkbenchActivitySupport activitySupport = PlatformUI.getWorkbench().getActivitySupport();
 		Set<String> enabledActivities = new HashSet<String>();
-		String id = "org.opaeum.papyrus.uimadapter.activity";
-		IActivity activity = activitySupport.getActivityManager().getActivity(id);
-		if(activity.isDefined()){
-			activitySupport.setEnabledActivityIds(enabledActivities);
-		}
+//		String id = "org.opaeum.papyrus.uimadapter.activity";
+//		IActivity activity = activitySupport.getActivityManager().getActivity(id);
+//		if(activity.isDefined()){
+//			activitySupport.setEnabledActivityIds(enabledActivities);
+//		}
 		// IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		// if(window instanceof WorkbenchWindow){
 		// ICoolBarManager coolBarManager = null;

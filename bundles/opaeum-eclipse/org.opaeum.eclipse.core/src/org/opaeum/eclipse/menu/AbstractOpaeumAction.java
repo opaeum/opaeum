@@ -2,7 +2,6 @@ package org.opaeum.eclipse.menu;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -19,8 +18,8 @@ public class AbstractOpaeumAction extends Action{
 		this.selection = selection;
 	}
 	protected IFile getCfgFile(){
-		IFolder iFolder = (IFolder) selection.getFirstElement();
-		return iFolder.getFile("opaeum.properties");
+		IContainer iFolder = (IContainer) selection.getFirstElement();
+		return (IFile) iFolder.findMember("opaeum.properties");
 	}
 	protected Object getElementFrom(){
 		Object firstElement = selection.getFirstElement();

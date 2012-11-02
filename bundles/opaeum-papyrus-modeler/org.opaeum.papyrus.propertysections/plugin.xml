@@ -100,9 +100,6 @@
 			<propertyTab id="org.opaeum.eclipse.templateTab"
 				category="domain" label="Notification Text" afterTab="org.opaeum.eclipse.opaeumTab"
 				indented="true" />
-			<propertyTab category="appearance"
-				id="property.tab.AppearancePropertySection" afterTab="org.opaeum.eclipse.opaeumTab"
-				label="Appearance1" />
 			<propertyTab category="domain"
 				id="property.tab.DiagramPropertySection" afterTab="org.opaeum.eclipse.opaeumTab"
 				label="Diagram" />

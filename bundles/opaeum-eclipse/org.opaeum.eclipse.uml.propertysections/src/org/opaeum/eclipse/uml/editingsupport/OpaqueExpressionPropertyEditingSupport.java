@@ -23,7 +23,7 @@ public class OpaqueExpressionPropertyEditingSupport extends EditingDomainEditing
 		this.valueSpecificationFeature=valueSpecificationFeature;
 	}
 	@Override
-	protected CellEditor getCellEditor(Object element){
+	protected CellEditor getCellEditor(final Object element){
 		if(this.editor == null){
 			this.editor = new OpaqueExpressionCellEditor((Composite) super.viewer.getControl(), toolkit){
 				@Override
@@ -43,6 +43,10 @@ public class OpaqueExpressionPropertyEditingSupport extends EditingDomainEditing
 				public void activate(){
 					super.activate();
 					OpaqueExpressionPropertyEditingSupport.this.activated();
+				}
+				@Override
+				protected EObject getValueSpecificatonOwner(){
+					return (EObject) element;
 				}
 			};
 		}

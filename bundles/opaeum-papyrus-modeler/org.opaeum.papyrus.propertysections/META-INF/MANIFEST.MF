@@ -80,3 +80,4 @@ Export-Package:
  org.opaeum.topcased.propertysections.filters,
  org.topcased.modeler.commands
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Activator: org.eclipse.papyrus.uml.properties.Activator

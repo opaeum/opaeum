@@ -1,5 +1,6 @@
 package org.opaeum.eclipse.uml.propertysections.base;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.custom.TextChangeListener;
 import org.eclipse.swt.custom.TextChangedEvent;
 import org.eclipse.swt.custom.TextChangingEvent;
@@ -46,7 +47,12 @@ public abstract class RecreatingOpaqueExpressionSection extends AbstractOpaeumPr
 	}
 	@Override
 	public void populateControls(){
-		oclComposite.setOclContext((NamedElement) getFeatureOwner(getSelectedObject()), (OpaqueExpression) getFeatureOwner(getSelectedObject()).eGet(getFeature()));
+		EObject featureOwner = getFeatureOwner(getSelectedObject());
+		if(featureOwner instanceof NamedElement){
+			oclComposite.setOclContext((NamedElement) featureOwner, (OpaqueExpression) featureOwner.eGet(getFeature()));
+		}else{
+			oclComposite.setOclContext((NamedElement) getSelectedObject(), (OpaqueExpression) featureOwner.eGet(getFeature()));
+		}
 	}
 	@Override
 	protected void setEnabled(boolean enabled){
@@ -58,7 +64,8 @@ public abstract class RecreatingOpaqueExpressionSection extends AbstractOpaeumPr
 	}
 	@Override
 	public void textChanged(TextChangedEvent event){
-		updateModel(EmfValueSpecificationUtil.buildOpaqueExpression((NamedElement)getFeatureOwner(getSelectedObject()),getFeature().getName(), oclComposite.getTextControl().getText()));
+		updateModel(EmfValueSpecificationUtil.buildOpaqueExpression((NamedElement) getFeatureOwner(getSelectedObject()),
+				getFeature().getName(), oclComposite.getTextControl().getText()));
 	}
 	@Override
 	public void textSet(TextChangedEvent event){

@@ -1,6 +1,7 @@
 package org.opaeum.eclipse.uml.editingsupport;
 
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -25,7 +26,7 @@ public class TimeEventWhenExprEditingSupport extends EditingDomainEditingSupport
 		this.toolkit = toolkit;
 	}
 	@Override
-	protected CellEditor getCellEditor(Object element){
+	protected CellEditor getCellEditor(final Object element){
 		if(this.editor == null){
 			this.editor = new OpaqueExpressionCellEditor((Composite) super.viewer.getControl(), toolkit){
 				@Override
@@ -35,6 +36,12 @@ public class TimeEventWhenExprEditingSupport extends EditingDomainEditingSupport
 				@Override
 				protected EReference getValueSpecificationFeature(){
 					return UMLPackage.eINSTANCE.getTimeExpression_Expr();
+				}
+				@Override
+				protected EObject getValueSpecificatonOwner(){
+					TimeEvent c = (TimeEvent) element;
+					return c.getWhen();
+					
 				}
 			};
 		}

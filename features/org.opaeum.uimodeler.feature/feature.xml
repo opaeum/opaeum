@@ -16,6 +16,10 @@
       [Enter License Description here.]
    </license>
 
+   <includes
+         id="org.eclipse.wb.core.feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -64,7 +68,6 @@
       <import plugin="org.eclipse.emf.common.ui"/>
       <import plugin="org.eclipse.swt"/>
       <import plugin="org.eclipse.ui.workbench"/>
-      <import plugin="org.eclipse.wb.os.linux"/>
       <import plugin="org.eclipse.papyrus.infra.gmfdiag.css" version="0.9.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.e4.ui.css.core" version="0.10.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>

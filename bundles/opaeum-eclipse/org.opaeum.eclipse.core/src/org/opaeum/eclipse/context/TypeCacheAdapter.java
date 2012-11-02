@@ -10,10 +10,13 @@ import java.util.Set;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.uml2.uml.Element;
@@ -138,7 +141,7 @@ public class TypeCacheAdapter implements Adapter.Internal{
 			Collection<EObject> elements = ItemPropertyDescriptor.getReachableObjectsOfType(object, type);
 			for(EObject eObject:elements){
 				if(eObject.eResource() != null){
-					//Get rid of unresolved proxies
+					// Get rid of unresolved proxies
 					putObjectInCache(type, eObject);
 					if(eObject instanceof Element){
 						putInStereotypeCache((Element) eObject);
@@ -155,6 +158,12 @@ public class TypeCacheAdapter implements Adapter.Internal{
 	public void notifyChanged(Notification notification){
 		if(notification.getNotifier() instanceof EObject){
 			caseEobject(notification);
+		}else if(notification.getNewValue() instanceof Resource){
+			Resource rs = (Resource) notification.getNewValue();
+			TreeIterator<EObject> allContents = rs.getAllContents();
+			while(allContents.hasNext()){
+				addObjectInCache((EObject) allContents.next());
+			}
 		}
 	}
 	public void setTarget(Notifier target){

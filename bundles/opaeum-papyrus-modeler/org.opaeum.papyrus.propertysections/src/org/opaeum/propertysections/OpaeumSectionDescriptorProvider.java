@@ -140,6 +140,7 @@ import org.opaeum.eclipse.uml.propertysections.standardprofile.FirstEndRoleInCub
 import org.opaeum.eclipse.uml.propertysections.standardprofile.GenerateAbstractSuperclassSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.MappedImplementationTypeSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.ModelArtifactIdentifierSection;
+import org.opaeum.eclipse.uml.propertysections.standardprofile.ModelModelTypeSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.PackageIsSchemaSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.PackageMappedImplementationPackageSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.PersistentNameSection;
@@ -295,6 +296,7 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		addExtended(new PackageNoProfileFilter(), new PackageMappedImplementationPackageSection());
 		addExtended(new PersistentNameFilter(), new PersistentNameSection());
 		addExtended(new PropertyNotInProfileFilter(), new PropertyRoleInCubeSection());
+		addExtended(Model.class, new ModelModelTypeSection());
 		addSecondEnd(Association.class, new SecondEndRoleInCubeSection());
 		add(NamedElement.class, new UserInterfaceTextSection()).setTabId("org.opaeum.eclipse.i8nTab");
 		// StateMachine

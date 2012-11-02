@@ -6,13 +6,13 @@
 
 <plugin>
 
-   <extension
+   <!--extension
          point="org.eclipse.core.runtime.applications"
          id="UimEditorAdvisorApplication">
       <application>
          <run class="org.opaeum.uimodeler.presentation.UimEditorAdvisor$Application"/>
       </application>
-   </extension>
+   </extension-->
 
    <extension point="org.eclipse.ui.perspectives">
       <perspective
@@ -31,37 +31,6 @@
    </extension>
 
 
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_UimEditorAdvisor_ActionSet_label"
-            visible="true"
-            id="UimEditorAdvisorActionSet">
-         <action
-               label="%_UI_Menu_About_label"
-               class="org.opaeum.uimodeler.presentation.UimEditorAdvisor$AboutAction"
-               menubarPath="help/additions"
-               id="org.opaeum.uimodeler.presentation.UimEditorAdvisorAboutAction"/>
-         <action
-               label="%_UI_Menu_OpenURI_label"
-               definitionId="org.opaeum.uimodeler.presentation.UimEditorAdvisorOpenURICommand"
-               class="org.opaeum.uimodeler.presentation.UimEditorAdvisor$OpenURIAction"
-               menubarPath="file/additions"
-               id="org.opaeum.uimodeler.presentation.UimEditorAdvisorOpenURIAction"/>
-      </actionSet>
-   </extension>
-
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_UimModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.presentation.UimActionBarContributorActionSet">
-         <action
-               label="%_UI_UimModelWizard_label"
-               class="org.opaeum.uim.presentation.UimActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.presentation.UimActionBarContributorNewAction"/>
-      </actionSet>
-   </extension>
 
    <extension point="org.eclipse.ui.editors">
       <editor
@@ -72,19 +41,6 @@
             class="org.opaeum.uim.presentation.UimEditor"
             contributorClass="org.opaeum.uim.presentation.UimActionBarContributor">
       </editor>
-   </extension>
-
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_ControlModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.control.presentation.ControlActionBarContributorActionSet">
-         <action
-               label="%_UI_ControlModelWizard_label"
-               class="org.opaeum.uim.control.presentation.ControlActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.control.presentation.ControlActionBarContributorNewAction"/>
-      </actionSet>
    </extension>
 
    <extension point="org.eclipse.ui.editors">
@@ -98,19 +54,7 @@
       </editor>
    </extension>
 
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_EditorModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.editor.presentation.EditorActionBarContributorActionSet">
-         <action
-               label="%_UI_EditorModelWizard_label"
-               class="org.opaeum.uim.editor.presentation.EditorActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.editor.presentation.EditorActionBarContributorNewAction"/>
-      </actionSet>
-   </extension>
-
+   
    <extension point="org.eclipse.ui.editors">
       <editor
             id="org.opaeum.uim.editor.presentation.EditorEditorID"
@@ -122,18 +66,6 @@
       </editor>
    </extension>
 
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_BindingModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.binding.presentation.BindingActionBarContributorActionSet">
-         <action
-               label="%_UI_BindingModelWizard_label"
-               class="org.opaeum.uim.binding.presentation.BindingActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.binding.presentation.BindingActionBarContributorNewAction"/>
-      </actionSet>
-   </extension>
 
    <extension point="org.eclipse.ui.editors">
       <editor
@@ -146,18 +78,6 @@
       </editor>
    </extension>
 
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_ConstraintModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.constraint.presentation.ConstraintActionBarContributorActionSet">
-         <action
-               label="%_UI_ConstraintModelWizard_label"
-               class="org.opaeum.uim.constraint.presentation.ConstraintActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.constraint.presentation.ConstraintActionBarContributorNewAction"/>
-      </actionSet>
-   </extension>
 
    <extension point="org.eclipse.ui.editors">
       <editor
@@ -169,20 +89,6 @@
             contributorClass="org.opaeum.uim.constraint.presentation.ConstraintActionBarContributor">
       </editor>
    </extension>
-
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_ActionModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.action.presentation.ActionActionBarContributorActionSet">
-         <action
-               label="%_UI_ActionModelWizard_label"
-               class="org.opaeum.uim.action.presentation.ActionActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.action.presentation.ActionActionBarContributorNewAction"/>
-      </actionSet>
-   </extension>
-
    <extension point="org.eclipse.ui.editors">
       <editor
             id="org.opaeum.uim.action.presentation.ActionEditorID"
@@ -192,19 +98,6 @@
             class="org.opaeum.uim.action.presentation.ActionEditor"
             contributorClass="org.opaeum.uim.action.presentation.ActionActionBarContributor">
       </editor>
-   </extension>
-
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_PanelModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.panel.presentation.PanelActionBarContributorActionSet">
-         <action
-               label="%_UI_PanelModelWizard_label"
-               class="org.opaeum.uim.panel.presentation.PanelActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.panel.presentation.PanelActionBarContributorNewAction"/>
-      </actionSet>
    </extension>
 
    <extension point="org.eclipse.ui.editors">
@@ -218,18 +111,6 @@
       </editor>
    </extension>
 
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_WizardModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.wizard.presentation.WizardActionBarContributorActionSet">
-         <action
-               label="%_UI_WizardModelWizard_label"
-               class="org.opaeum.uim.wizard.presentation.WizardActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.wizard.presentation.WizardActionBarContributorNewAction"/>
-      </actionSet>
-   </extension>
 
    <extension point="org.eclipse.ui.editors">
       <editor
@@ -242,18 +123,6 @@
       </editor>
    </extension>
 
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_PerspectiveModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.perspective.presentation.PerspectiveActionBarContributorActionSet">
-         <action
-               label="%_UI_PerspectiveModelWizard_label"
-               class="org.opaeum.uim.perspective.presentation.PerspectiveActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.perspective.presentation.PerspectiveActionBarContributorNewAction"/>
-      </actionSet>
-   </extension>
 
    <extension point="org.eclipse.ui.editors">
       <editor
@@ -264,19 +133,6 @@
             class="org.opaeum.uim.perspective.presentation.PerspectiveEditor"
             contributorClass="org.opaeum.uim.perspective.presentation.PerspectiveActionBarContributor">
       </editor>
-   </extension>
-
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_CubeModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.cube.presentation.CubeActionBarContributorActionSet">
-         <action
-               label="%_UI_CubeModelWizard_label"
-               class="org.opaeum.uim.cube.presentation.CubeActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.cube.presentation.CubeActionBarContributorNewAction"/>
-      </actionSet>
    </extension>
 
    <extension point="org.eclipse.ui.editors">
@@ -290,19 +146,6 @@
       </editor>
    </extension>
 
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_ModelModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.model.presentation.ModelActionBarContributorActionSet">
-         <action
-               label="%_UI_ModelModelWizard_label"
-               class="org.opaeum.uim.model.presentation.ModelActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.model.presentation.ModelActionBarContributorNewAction"/>
-      </actionSet>
-   </extension>
-
    <extension point="org.eclipse.ui.editors">
       <editor
             id="org.opaeum.uim.model.presentation.ModelEditorID"
@@ -312,19 +155,6 @@
             class="org.opaeum.uim.model.presentation.ModelEditor"
             contributorClass="org.opaeum.uim.model.presentation.ModelActionBarContributor">
       </editor>
-   </extension>
-
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%_UI_ComponentModelWizard_ActionSet_label"
-            visible="true"
-            id="org.opaeum.uim.component.presentation.ComponentActionBarContributorActionSet">
-         <action
-               label="%_UI_ComponentModelWizard_label"
-               class="org.opaeum.uim.component.presentation.ComponentActionBarContributor$NewAction"
-               menubarPath="file/new/additions"
-               id="org.opaeum.uim.component.presentation.ComponentActionBarContributorNewAction"/>
-      </actionSet>
    </extension>
 
    <extension point="org.eclipse.ui.editors">

@@ -1,5 +1,6 @@
 package org.opaeum.eclipse.uml.propertysections.base;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Composite;
@@ -19,14 +20,15 @@ public abstract class AbstractAutoCreatingOclExpressionSection extends AbstractO
 			public EReference getValueSpecificationFeature(){
 				return AbstractAutoCreatingOclExpressionSection.this.getValueSpecificationFeature();
 			}
-			@Override
-			protected void fireOclChanged(String text){
-				super.valueSpecificationOwner=getValueSpecificationOwner();
-				super.fireOclChanged(text);
-			}
+			
 			@Override
 			protected EditingDomain getEditingDomain(){
 				return AbstractAutoCreatingOclExpressionSection.this.getEditingDomain();
+			}
+
+			@Override
+			public EObject getValueSpecificatonOwner(){
+				return AbstractAutoCreatingOclExpressionSection.this.getValueSpecificationOwner();
 			}
 		};
 		oclComposite.setBackground(composite.getBackground());

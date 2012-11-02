@@ -20,6 +20,58 @@
          id="org.eclipse.gmf.runtime.notation"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.papyrus.editor.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.infra.core.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.infra.discovery.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.infra.emf.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.infra.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.infra.gmfdiag.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.infra.queries.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.infra.services.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.infra.table.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.infra.widget.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.views.modelexplorer.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.views.properties.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.papyrus.xwt.feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.ui.navigator"/>
@@ -106,13 +158,11 @@
       <import plugin="org.eclipse.papyrus.views.modelexplorer"/>
       <import plugin="org.eclipse.emf.transaction" version="1.4.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.uml2.uml.editor" version="3.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.papyrus.uml.service.types" version="0.9.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.facet.infra.facet" version="0.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.facet.infra.browser.uicore" version="0.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gmf.runtime.common.core" version="1.4.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gmf.runtime.emf.type.core" version="1.4.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.papyrus.infra.emf.diagram.common" version="0.9.0" match="greaterOrEqual"/>
-      <import plugin="org.opaeum.eclipse.core" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.papyrus.infra.services.decoration"/>
       <import plugin="org.opaeum.transformation.engine"/>
       <import plugin="org.eclipse.search"/>
@@ -124,13 +174,29 @@
       <import plugin="org.eclipse.emf.facet.infra.browser.custom.core" version="0.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.facet.infra.browser.custom.ui" version="0.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.facet.infra.facet.core" version="0.2.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui.providers" version="1.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.draw2d"/>
       <import plugin="org.eclipse.papyrus.infra.gmfdiag.preferences" version="0.9.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.papyrus.infra.widgets.toolbox" version="0.9.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.papyrus.extensionpoints.editors" version="0.9.0" match="greaterOrEqual"/>
       <import plugin="org.opaeum.papyrus.common" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.opaeum.metamodels.emfworkspace" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.opaeum.metamodels.uim"/>
+      <import plugin="org.opaeum.uimodeler.editor"/>
+      <import plugin="org.opaeum.uimodeler.propertysections"/>
+      <import plugin="org.eclipse.papyrus.infra.core.sasheditor.di"/>
+      <import plugin="org.eclipse.emf.common.ui"/>
+      <import plugin="org.eclipse.papyrus.infra.core"/>
+      <import plugin="org.opaeum.uimodeler.page.diagram"/>
+      <import plugin="org.opaeum.uimodeler.common"/>
+      <import plugin="org.opaeum.uimodeler.actionbar.diagram"/>
+      <import plugin="org.opaeum.uimodeler.cubequery.diagram"/>
+      <import plugin="org.opaeum.linkage.validation"/>
+      <import plugin="org.eclipse.papyrus.infra.services.resourceloading"/>
+      <import plugin="org.eclipse.papyrus.infra.gmfdiag.css"/>
+      <import plugin="org.eclipse.papyrus.infra.gmfdiag.css.model"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.papyrus.infra.gmfdiag.dnd"/>
+      <import plugin="org.eclipse.ocl"/>
    </requires>
 
    <plugin
@@ -163,6 +229,13 @@
 
    <plugin
          id="org.opaeum.papyrus.usecasediagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.papyrus.uimadapter"
          download-size="0"
          install-size="0"
          version="0.0.0"

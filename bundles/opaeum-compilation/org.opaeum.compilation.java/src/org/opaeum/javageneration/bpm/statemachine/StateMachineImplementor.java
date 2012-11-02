@@ -233,6 +233,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			getCancelledEvents.initializeResultVariable("getBehaviorExecution().getCancelledEvents()");
 			stateClass.addToOperations(getCancelledEvents);
 		}
+		
 	}
 	private void addId(Element vertex,OJAnnotatedClass stateClass){
 		OJAnnotatedField id = new OJAnnotatedField("ID", new OJPathName("String"));

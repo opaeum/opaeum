@@ -82,13 +82,12 @@ public class OpaeumPerspective implements IPerspectiveFactory{
 		// Editors are placed for free.
 		String editorArea = layout.getEditorArea();
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.2f, editorArea);
-		left.addView("org.eclipse.jdt.ui.PackageExplorer");
+		left.addView(JavaUI.ID_PACKAGES);
 		left.addView(ID_MODELEXPLORER);
+		left.addView("org.eclipse.datatools.connectivity.DataSourceExplorerNavigator");
 		left.addPlaceholder("org.eclipse.jdt.ui.TypeHierarchy");
 		left.addPlaceholder(IPageLayout.ID_PROJECT_EXPLORER);
     //Left
-    left = layout.createFolder("left", IPageLayout.LEFT, 0.25f, editorArea);
-    left.addView("org.eclipse.datatools.connectivity.DataSourceExplorerNavigator");
     //left.addView(IPageLayout.ID_RES_NAV);
 
     // Bottom 

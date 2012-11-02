@@ -50,7 +50,7 @@
       </actionSet>
    </extension>
 
-   <extension point="org.eclipse.ui.actionSets">
+   <!--extension point="org.eclipse.ui.actionSets">
       <actionSet
             label="%_UI_SimulationModelWizard_ActionSet_label"
             visible="true"
@@ -61,7 +61,7 @@
                menubarPath="file/new/additions"
                id="org.opaeum.metamodels.simulation.simulation.presentation.SimulationActionBarContributorNewAction"/>
       </actionSet>
-   </extension>
+   </extension-->
 
    <extension point="org.eclipse.ui.editors">
       <editor

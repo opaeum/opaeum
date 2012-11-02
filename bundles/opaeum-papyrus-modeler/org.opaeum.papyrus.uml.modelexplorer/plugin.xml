@@ -16,7 +16,8 @@
       <modelqueryset file="resource/PapyrusBrowserQuery.querySet"/>
    </extension>
    <extension point="org.eclipse.ui.navigator.navigatorContent">
-      <navigatorContent activeByDefault="true" contentProvider="org.eclipse.emf.facet.infra.browser.uicore.OpaeumUmlContentProvider" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id="org.opaeum.papyrus.views.modelexplorer.UMLnavigatorContent" 
+      <navigatorContent activeByDefault="true" contentProvider="org.eclipse.emf.facet.infra.browser.uicore.OpaeumUmlContentProvider"
+icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id="org.opaeum.papyrus.views.modelexplorer.UMLnavigatorContent" 
       labelProvider="org.opaeum.papyrus.uml.modelexplorer.OpaeumLabelProvider" name="Opaeum Model Contents" priority="highest">
          <triggerPoints>
             <or>
@@ -92,7 +93,7 @@
             loadByDefault="true">
       </browserCustomization>
    </extension>
-   <extension
+   <!--extension
          point="org.eclipse.ui.perspectives">
       <perspective
             class="org.opaeum.papyrus.uml.modelexplorer.OpaeumPerspective"
@@ -100,7 +101,7 @@
             id="org.opaeum.papyrus.uml.modelexplorer.perspective1"
             name="Opaeum">
       </perspective>
-   </extension>
+   </extension-->
    <extension
          point="org.eclipse.papyrus.uml.extensionpoints.UMLProfile">
       <profile
@@ -154,9 +155,7 @@
       </viewer>
       <viewerContentBinding viewerId="org.opaeum.papyrus.uml.modelexplorer">
          <includes>
-            <contentExtension pattern="org.eclipse.papyrus.views.modelexplorer.*">
-            </contentExtension>
-            <contentExtension pattern="org.opaeum.papyrus.views.modelexplorer.*">
+            <contentExtension pattern="org.opaeum.papyrus.views.modelexplorer.*" isRoot="true">
             </contentExtension>
          </includes>
       </viewerContentBinding>

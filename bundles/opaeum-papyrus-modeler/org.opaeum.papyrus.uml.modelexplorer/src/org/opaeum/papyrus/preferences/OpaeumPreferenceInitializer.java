@@ -15,15 +15,17 @@ public class OpaeumPreferenceInitializer extends AbstractPreferenceInitializer{
 	}
 	@Override
 	public void initializeDefaultPreferences(){
-		PreferenceConverter.setDefault(store, PreferenceConstantHelper.getPapyrusEditorConstant(PreferenceConstantHelper.COLOR_FILL), new org.eclipse.swt.graphics.RGB(255, 255, 255));
-		PreferenceConverter.setDefault(store, PreferenceConstantHelper.getPapyrusEditorConstant(PreferenceConstantHelper.COLOR_LINE), new org.eclipse.swt.graphics.RGB(0, 0, 0));
-
+		PreferenceConverter.setDefault(store, PreferenceConstantHelper.getPapyrusEditorConstant(PreferenceConstantHelper.COLOR_FILL),
+				new org.eclipse.swt.graphics.RGB(255, 255, 255));
+		PreferenceConverter.setDefault(store, PreferenceConstantHelper.getPapyrusEditorConstant(PreferenceConstantHelper.COLOR_LINE),
+				new org.eclipse.swt.graphics.RGB(0, 0, 0));
 		store.setDefault(PreferenceConstantHelper.getElementConstant("Interface Node", PreferenceConstantHelper.GRADIENT_POLICY), true);
-		GradientPreferenceConverter gradientPreferenceConverter = new GradientPreferenceConverter(new org.eclipse.swt.graphics.RGB(0, 0, 255), new org.eclipse.swt.graphics.RGB(0, 0, 0), GradientStyle.VERTICAL, 50);
-		store.setDefault(PreferenceConstantHelper.getElementConstant("Interface Node", PreferenceConstantHelper.COLOR_GRADIENT), gradientPreferenceConverter.getPreferenceValue());
-
-				//decoration
+		GradientPreferenceConverter gradientPreferenceConverter = new GradientPreferenceConverter(new org.eclipse.swt.graphics.RGB(0, 0, 255),
+				new org.eclipse.swt.graphics.RGB(0, 0, 0), GradientStyle.VERTICAL, 50);
+		store.setDefault(PreferenceConstantHelper.getElementConstant("Interface Node", PreferenceConstantHelper.COLOR_GRADIENT),
+				gradientPreferenceConverter.getPreferenceValue());
+		// decoration
 		store.setDefault(PreferenceConstantHelper.getPapyrusEditorConstant(PreferenceConstantHelper.SHADOW), false);
 		store.setDefault(PreferenceConstantHelper.getPapyrusEditorConstant(PreferenceConstantHelper.ELEMENTICON), false);
-
-	}}
+	}
+}

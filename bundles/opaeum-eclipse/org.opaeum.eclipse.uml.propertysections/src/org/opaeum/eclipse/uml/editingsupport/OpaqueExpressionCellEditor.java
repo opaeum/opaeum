@@ -1,5 +1,6 @@
 package org.opaeum.eclipse.uml.editingsupport;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -32,9 +33,14 @@ public abstract class OpaqueExpressionCellEditor extends CellEditor{
 			public EReference getValueSpecificationFeature(){
 				return OpaqueExpressionCellEditor.this.getValueSpecificationFeature();
 			}
+			@Override
+			public EObject getValueSpecificatonOwner(){
+				return OpaqueExpressionCellEditor.this.getValueSpecificatonOwner();
+			}
 		};
 		return oclBodyComposite;
 	}
+	protected abstract EObject getValueSpecificatonOwner();
 	protected abstract EReference getValueSpecificationFeature();
 	@Override
 	protected Object doGetValue(){

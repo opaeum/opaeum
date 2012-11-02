@@ -172,10 +172,10 @@ public class ImageUtil{
 	}
 	public static void paintBackgroundSvgImage(Graphics graphics,CompartmentFigure f,String imagePath){
 		List<Figure> children = f.getChildren();
-		int labelHeight=0;
+		int labelHeight = 0;
 		for(Figure figure:children){
 			if(figure instanceof Label || figure instanceof WrappingLabel){
-				labelHeight+=(figure.getBounds().height+2);
+				labelHeight += (figure.getBounds().height + 2);
 			}
 		}
 		RenderHelper instance = RenderHelper.getInstance(DiagramMapModeUtil.getScale(MapModeUtil.getMapMode(f)), true, false, null);
@@ -184,25 +184,30 @@ public class ImageUtil{
 		info.setValues(info.getWidth(), info.getHeight(), true, info.shouldAntiAlias(), info.getBackgroundColor(), info.getForegroundColor());
 		ri = ri.getNewRenderedImage(info);
 		org.eclipse.swt.graphics.Rectangle imgBounds = ri.getSWTImage().getBounds();
-		double imgAspectRatio=imgBounds.width/(double)imgBounds.height;
-		double figureAspectRatio=f.getBounds().width/(double)(f.getBounds().height-labelHeight);
+		double imgAspectRatio = imgBounds.width / (double) imgBounds.height;
+		double figureAspectRatio = f.getBounds().width / (double) (f.getBounds().height - labelHeight);
 		Rectangle bnds = f.getBounds().getCopy();
-		if(imgAspectRatio<figureAspectRatio){
-			int width = (int)(imgAspectRatio*(bnds.height-labelHeight));
-			bnds.x=bnds.x+ (bnds.width-width)/2;
-			bnds.width=width;
+		if(imgAspectRatio < figureAspectRatio){
+			int width = (int) (imgAspectRatio * (bnds.height - labelHeight));
+			bnds.x = bnds.x + (bnds.width - width) / 2;
+			bnds.width = width;
 		}
-		bnds.y+=labelHeight;
-		bnds.height-=labelHeight;
-		RenderedMapModeGraphics rmmg = (RenderedMapModeGraphics) graphics;
-		graphics = new ScaledGraphics(rmmg);// TO avoid RenderedMapModeGraphics.drawRenderedImage to be called
-		instance.drawRenderedImage(graphics, ri, bnds, new RenderingListener(){
-			public void paintFigureWhileRendering(Graphics g){
-				// TODO Auto-generated method stub
-			}
-			public void imageRendered(RenderedImage rndImg){
-				// TODO Auto-generated method stub
-			}
-		});
+		bnds.y += labelHeight;
+		bnds.height -= labelHeight;
+		if(graphics instanceof RenderedMapModeGraphics){
+			RenderedMapModeGraphics rmmg = (RenderedMapModeGraphics) graphics;
+			graphics = new ScaledGraphics(rmmg);// TO avoid RenderedMapModeGraphics.drawRenderedImage to be called
+		}
+		if(graphics instanceof ScaledGraphics){
+			ScaledGraphics sg=(ScaledGraphics)graphics;
+			instance.drawRenderedImage(graphics, ri, bnds, new RenderingListener(){
+				public void paintFigureWhileRendering(Graphics g){
+					// TODO Auto-generated method stub
+				}
+				public void imageRendered(RenderedImage rndImg){
+					// TODO Auto-generated method stub
+				}
+			});
+		}
 	}
 }

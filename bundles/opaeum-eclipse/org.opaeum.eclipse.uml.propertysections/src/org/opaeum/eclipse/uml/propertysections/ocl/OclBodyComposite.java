@@ -222,7 +222,7 @@ public abstract class OclBodyComposite extends Composite{
 		return document.get();
 	}
 	protected void setOclContextImpl(NamedElement context,final NamedElement oclBodyowner){
-		if(viewer != null){
+		if(viewer != null && context !=null){
 			if(document == null){
 				document = new OCLDocument();
 				factory = new OpaeumOclFactory(OpaeumEclipseContext.findOpenUmlFileFor(context).getEmfWorkspace().getOpaeumLibrary().getOcl());

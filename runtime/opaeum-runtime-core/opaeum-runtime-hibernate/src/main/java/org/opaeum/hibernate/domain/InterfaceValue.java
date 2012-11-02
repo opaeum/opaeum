@@ -3,10 +3,13 @@ package org.opaeum.hibernate.domain;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.AccessType;
 import org.opaeum.runtime.costing.IQuantifiedResourceBase;
 import org.opaeum.runtime.domain.IPersistentObject;
 
 @Embeddable
+@AccessType("field")
+
 public class InterfaceValue extends AbstractInterfaceValue{
 	private Long identifier;
 	private String classIdentifier;

@@ -144,7 +144,7 @@ public class OpaeumEclipseContext{
 			ResourceSet rst;
 			rst = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
-			if(dew == null){
+//			if(dew == null){
 				dew = new EmfWorkspace(uri, rst, getConfig().getVersion(), getConfig().getWorkspaceIdentifier(), getConfig().getMavenGroupId());
 				dew.setUriToFileConverter(new EclipseUriToFileConverter());
 				dew.setName(getConfig().getWorkspaceName());
@@ -157,7 +157,7 @@ public class OpaeumEclipseContext{
 					}
 					monitor.worked(100 / umlDirectory.members().length);
 				}
-			}
+//			}
 			dew.guessGeneratingModelsAndProfiles(URI.createPlatformResourceURI(umlDirectory.getFullPath().toString(), true));
 			return dew;
 		}catch(CoreException e){
