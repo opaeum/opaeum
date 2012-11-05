@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.uml.propertysections.ocl.OpaqueExpressionComposite;
 
@@ -64,8 +65,13 @@ public abstract class RecreatingOpaqueExpressionSection extends AbstractOpaeumPr
 	}
 	@Override
 	public void textChanged(TextChangedEvent event){
-		updateModel(EmfValueSpecificationUtil.buildOpaqueExpression((NamedElement) getFeatureOwner(getSelectedObject()),
+		EObject fo = getFeatureOwner(getSelectedObject());
+		while(!(fo instanceof NamedElement)){
+			fo=EmfElementFinder.getContainer(fo);
+		}
+		updateModel(EmfValueSpecificationUtil.buildOpaqueExpression((NamedElement) fo,
 				getFeature().getName(), oclComposite.getTextControl().getText()));
+		populateControls();//NB!!! we need to associate the newly created OpaqueExpression with the oclBodyComposite
 	}
 	@Override
 	public void textSet(TextChangedEvent event){

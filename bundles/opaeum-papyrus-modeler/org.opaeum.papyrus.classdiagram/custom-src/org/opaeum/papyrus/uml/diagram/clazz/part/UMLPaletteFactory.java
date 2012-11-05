@@ -36,7 +36,7 @@ public class UMLPaletteFactory extends org.eclipse.papyrus.uml.diagram.clazz.par
 		types.add(UMLElementTypes.Class_3010);
 		types.add(UMLElementTypes.Class_3014);
 		types.add(UMLElementTypes.Class_2008);
-		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSINESS_ENTITY);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_STANDARD_PROFILE, StereotypeNames.ENTITY);
 	}
 	private Tool createBusinessDocumentTool(){
 		List<IElementType> types = new ArrayList<IElementType>(2);

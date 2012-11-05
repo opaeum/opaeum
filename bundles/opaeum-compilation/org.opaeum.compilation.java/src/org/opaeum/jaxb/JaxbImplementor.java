@@ -50,7 +50,7 @@ public class JaxbImplementor extends AbstractStructureVisitor{
 				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) cancelledEvents);
 			}
 			for(Property p:getLibrary().getDirectlyImplementedAttributes(c)){
-				if(!p.isStatic() || EmfPropertyUtil.isDerived(p)){
+				if(!(p.isStatic() || EmfPropertyUtil.isDerived(p))){
 					PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 					if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
 						OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<OJPathName>());

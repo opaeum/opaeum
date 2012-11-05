@@ -14,6 +14,7 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -62,7 +63,17 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 				ojClass.addToFields(persistence);
 				ojClass.addToImports(ABSTRACT_ENTITY);
 				if(ojClass.findOperation("getName", new ArrayList<OJPathName>()) == null){
-					addGetName(c, ojClass);
+					Property nameProperty = EmfPropertyUtil.getNameProperty(c);
+					if(nameProperty == null){
+						addGetName(c, ojClass);
+					}else if(!nameProperty.getName().equals("name")){
+						OJOperation getName = new OJAnnotatedOperation("getName");
+						getName.setReturnType(new OJPathName("String"));
+						getName.setBody(new OJBlock());
+						getName.getBody().addToStatements("return " + ojUtil.buildStructuralFeatureMap(nameProperty).getter() + "()") ;
+						ojClass.addToOperations(getName);
+						
+					}
 				}
 				ojClass.addToImplementedInterfaces(ABSTRACT_ENTITY);
 				if(c instanceof Class){

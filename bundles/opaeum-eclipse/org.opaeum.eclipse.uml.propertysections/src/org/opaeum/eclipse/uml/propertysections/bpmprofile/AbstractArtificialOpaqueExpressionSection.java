@@ -8,12 +8,17 @@ import org.eclipse.swt.custom.TextChangeListener;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.commands.SetStereotypeValueCommand;
 import org.opaeum.eclipse.uml.propertysections.base.RecreatingOpaqueExpressionSection;
+import org.opaeum.name.NameConverter;
 
 public abstract class AbstractArtificialOpaqueExpressionSection extends RecreatingOpaqueExpressionSection implements TextChangeListener{
 	@Override
 	protected void maybeAppendCommand(EditingDomain editingDomain,CompoundCommand compoundCommand,Object selectedObject,EObject featureOwner,
 			EStructuralFeature f,Object oldValue,Object newValue){
 		compoundCommand.append(new SetStereotypeValueCommand(editingDomain, (Element) selectedObject, getExpressionName(), newValue));
+	}
+	@Override
+	public String getLabelText(){
+		return NameConverter.separateWords(NameConverter.capitalize(getExpressionName()));
 	}
 	@Override
 	protected EObject getFeatureOwner(EObject e){
@@ -33,6 +38,5 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends Recreati
 	protected EStructuralFeature getFeature(){
 		return getFeature(getFeatureOwner(getSelectedObject()));
 	}
-
 	protected abstract String getExpressionName();
 }

@@ -158,11 +158,13 @@ public class TypeCacheAdapter implements Adapter.Internal{
 	public void notifyChanged(Notification notification){
 		if(notification.getNotifier() instanceof EObject){
 			caseEobject(notification);
-		}else if(notification.getNewValue() instanceof Resource){
-			Resource rs = (Resource) notification.getNewValue();
+		}else if(notification.getNotifier() instanceof Resource && notification.getFeatureID(Resource.class)==Resource.RESOURCE__IS_LOADED){
+			Resource rs = (Resource) notification.getNotifier();
 			TreeIterator<EObject> allContents = rs.getAllContents();
 			while(allContents.hasNext()){
-				addObjectInCache((EObject) allContents.next());
+				EObject next = (EObject) allContents.next();
+				System.out.println(next.getClass());
+				addObjectInCache(next);
 			}
 		}
 	}

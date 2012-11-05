@@ -510,9 +510,9 @@
        id="createActionBar1CreationTool"
        kind="tool"
        label="Editor Action Bar"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/ActionBar.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/ActionBar.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -520,9 +520,9 @@
        id="createBuiltinActionButton1CreationTool"
        kind="tool"
        label="Built-in Action Button"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInActionButton.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInActionButton.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -530,19 +530,19 @@
        id="createTakeTransitionButton2CreationTool"
        kind="tool"
        label="Take Transition Button"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/TransitionButton.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/TransitionButton.gif">
  	</entry>
 	<entry
        defineOnly="true"
        description="Create new OperationAction"
        id="createOperationCallButton3CreationTool"
        kind="tool"
-       label="Operation Call Button"
-       large_icon=""
+       label="Invocation Button"
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -550,9 +550,9 @@
        id="createLinkToQuery1CreationTool"
        kind="tool"
        label="Link To Query"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -560,9 +560,9 @@
        id="createBuiltinLink2CreationTool"
        kind="tool"
        label="Built-in Link"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif">
  	</entry>
 
 			</contribution>
@@ -588,9 +588,9 @@
        id="createDefault1Group"
        kind="drawer"
        label="Default"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif"
        path="/"
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif">
        <expand
               force="true">
        </expand>
@@ -606,9 +606,9 @@
        id="createActions2Group"
        kind="drawer"
        label="Actions"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif"
        path="/"
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif">
        <expand
               force="true">
        </expand>
@@ -632,9 +632,9 @@
        id="createLinks3Group"
        kind="drawer"
        label="Links"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif"
        path="/"
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif">
        <expand
               force="true">
        </expand>

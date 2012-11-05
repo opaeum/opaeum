@@ -31,6 +31,7 @@ public class RelativeDeadlineDetailsSubsection extends AbstractDetailsSubsection
 	}
 	@Override
 	protected void addSubsections(){
+		labelWidth=AbstractOpaeumPropertySection.STANDARD_LABEL_WIDTH;//CAlled before this object's init is invoked
 		nameTxt = createString(UMLPackage.eINSTANCE.getNamedElement_Name(), "Timer Name", labelWidth, AbstractTabbedPropertySubsection.FILL);
 		deadlineKindCombo=new ComboOnStereotypeSubsection(this,getDeadlineKindInfo());
 		AbstractMultiFeaturePropertySection.populateSubsection(deadlineKindCombo, null, "Deadline Kind", labelWidth, AbstractTabbedPropertySubsection.FILL);
@@ -55,9 +56,9 @@ public class RelativeDeadlineDetailsSubsection extends AbstractDetailsSubsection
 		deadlineKindCombo.setLabelWidth(labelWidth);
 	}
 	protected StereotypeValueInformation getBusinessCalendarToUseMetaInfo(){
-		return new StereotypeValueInformation(StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.CONTEXTUAL_BUSINESS_TIME_EVENT, TagNames.BUSINESS_CALENDAR_TO_USE);
+		return new StereotypeValueInformation(StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.DEADLINE, TagNames.BUSINESS_CALENDAR_TO_USE);
 	}
 	protected StereotypeValueInformation getTimeUnitMetaInfo(){
-		return new StereotypeValueInformation(StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.CONTEXTUAL_BUSINESS_TIME_EVENT, TagNames.TIME_UNIT);
+		return new StereotypeValueInformation(StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.DEADLINE, TagNames.TIME_UNIT);
 	}
 }

@@ -50,7 +50,7 @@
     </modelLibrary>
     <modelLibrary
           name="UML Primitive Types"
-          uri="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.uml">
+          uri="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml">
     </modelLibrary>
     <modelLibrary
           name="Opaeum BPM and Business Calendar Library"

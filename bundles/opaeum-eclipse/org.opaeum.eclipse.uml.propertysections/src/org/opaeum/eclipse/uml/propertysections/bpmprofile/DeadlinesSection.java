@@ -27,7 +27,7 @@ public class DeadlinesSection extends AbstractMasterDetailSection<TimeEvent>{
 	protected static final String RELATIVE = "R";
 	protected static final String ABSOLUTE = "A";
 	private DeadlinesTableComposite table;
-	private AbsoluteTimeEventDetailsComposite absoluteComposite;
+	private AbsoluteDeadlineDetailsComposite absoluteComposite;
 	private RelativeDeadlineDetailsSubsection relativeComposite;
 	private Group groupDetails;
 	private EList<EEnumLiteral> deadlineKinds;
@@ -39,7 +39,7 @@ public class DeadlinesSection extends AbstractMasterDetailSection<TimeEvent>{
 			@Override
 			protected void addLayers(Composite composite,TabbedPropertySheetWidgetFactory factory){
 				addLayer(RELATIVE, relativeComposite = new RelativeDeadlineDetailsSubsection(factory, composite));
-				addLayer(ABSOLUTE, absoluteComposite = new AbsoluteTimeEventDetailsComposite(factory, composite));
+				addLayer(ABSOLUTE, absoluteComposite = new AbsoluteDeadlineDetailsComposite(factory, composite));
 			}
 			@Override
 			protected String getKeyFor(List<TimeEvent> eObjectList){

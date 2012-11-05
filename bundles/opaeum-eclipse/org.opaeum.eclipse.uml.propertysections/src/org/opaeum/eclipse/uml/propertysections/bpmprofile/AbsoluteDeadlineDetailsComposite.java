@@ -40,6 +40,8 @@ public class AbsoluteDeadlineDetailsComposite extends AbstractDetailsSubsection<
 	}
 	@Override
 	protected void addSubsections(){
+		labelWidth=AbstractOpaeumPropertySection.STANDARD_LABEL_WIDTH;//CAlled before this object's init is invoked
+		
 		nameTxt = createString(UMLPackage.eINSTANCE.getNamedElement_Name(), "Deadline Name", labelWidth, AbstractTabbedPropertySubsection.FILL);
 		deadlineKindCombo=new ComboOnStereotypeSubsection(this,getDeadlineKindInfo());
 		AbstractMultiFeaturePropertySection.populateSubsection(deadlineKindCombo, null, "Deadline Kind", labelWidth, AbstractTabbedPropertySubsection.FILL);

@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
@@ -120,7 +121,6 @@ public class OpenUmlFile extends EContentAdapter{
 	public void addSynchronizationListener(OpaeumSynchronizationListener l){
 		this.synchronizationListener.add(l);
 	}
-	
 	public void suspend(){
 		suspended = true;
 	}
@@ -186,57 +186,55 @@ public class OpenUmlFile extends EContentAdapter{
 	}
 	@Override
 	public void notifyChanged(final Notification notification){
-		typeCacheAdapter.notifyChanged(notification);
 		super.notifyChanged(notification);
 		if(notification.getNotifier() instanceof ResourceSet && notification.getNewValue() instanceof UMLResource){
 			resourcesBeingLoaded.add((UMLResource) notification.getNewValue());
-			// EcoreUtil.resolveAll((UMLResource) notification.getNotifier());
+		}else if(notification.getNotifier() instanceof UMLResource){
+			manageResourceEvent(notification);
 		}
 		if(!suspended && resourcesBeingLoaded.isEmpty()){
 			linker.notifyChanged(notification);
-		}
-		if(notification.getNotifier() instanceof UMLResource){
-			manageResourceEvent(notification);
-		}
-		if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY
-				|| notification.getEventType() == Notification.SET){
-			final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
-					&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
-			if(!(annotationCreated)){
-				if(notification.getNotifier() instanceof DynamicEObjectImpl){
-					scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
-				}else{
-					if(notification.getNotifier() instanceof Element){
-						EObject o = null;
-						if(notification.getEventType() == Notification.ADD && notification.getFeature() instanceof EReference
-								&& ((EReference) notification.getFeature()).isContainment() && notification.getNewValue() instanceof Element){
-							// new object
-							o = (EObject) notification.getNewValue();
-							scheduleSynchronization(o);
-						}else if(notification.getNotifier() instanceof EObject){
-							o = (EObject) notification.getNotifier();
-							scheduleSynchronization(o);
+			if(additionalContentAdapter != null){
+				additionalContentAdapter.notifyChanged(notification);
+			}
+			if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY
+					|| notification.getEventType() == Notification.SET){
+				final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
+						&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
+				if(!(annotationCreated)){
+					if(notification.getNotifier() instanceof DynamicEObjectImpl){
+						scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
+					}else{
+						if(notification.getNotifier() instanceof Element){
+							EObject o = null;
+							if(notification.getEventType() == Notification.ADD && notification.getFeature() instanceof EReference
+									&& ((EReference) notification.getFeature()).isContainment() && notification.getNewValue() instanceof Element){
+								// new object
+								o = (EObject) notification.getNewValue();
+								scheduleSynchronization(o);
+							}else if(notification.getNotifier() instanceof EObject){
+								o = (EObject) notification.getNotifier();
+								scheduleSynchronization(o);
+							}
 						}
 					}
 				}
-			}
-		}else if(notification.getEventType() == Notification.REMOVE || notification.getEventType() == Notification.REMOVE_MANY){
-			if(notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()
-					&& notification.getOldValue() instanceof Element){
-				// Deletion
-				final Element oldValue = (Element) notification.getOldValue();
-				final Resource eResource = ((EObject) notification.getNotifier()).eResource();
-				storeTempId(oldValue, eResource);
-				scheduleSynchronization(oldValue);
-			}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
-				scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
-			}else if(notification.getNotifier() instanceof EObject){
-				scheduleSynchronization((EObject) notification.getNotifier());
+			}else if(notification.getEventType() == Notification.REMOVE || notification.getEventType() == Notification.REMOVE_MANY){
+				if(notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()
+						&& notification.getOldValue() instanceof Element){
+					// Deletion
+					final Element oldValue = (Element) notification.getOldValue();
+					final Resource eResource = ((EObject) notification.getNotifier()).eResource();
+					storeTempId(oldValue, eResource);
+					scheduleSynchronization(oldValue);
+				}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
+					scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
+				}else if(notification.getNotifier() instanceof EObject){
+					scheduleSynchronization((EObject) notification.getNotifier());
+				}
 			}
 		}
-		if(additionalContentAdapter != null){
-			additionalContentAdapter.notifyChanged(notification);
-		}
+		typeCacheAdapter.notifyChanged(notification);
 	}
 	private void storeTempId(final Element ne,final Resource eResource){
 		final StringBuilder uriFragment = new StringBuilder();
@@ -250,21 +248,24 @@ public class OpenUmlFile extends EContentAdapter{
 	}
 	private void manageResourceEvent(final Notification notification){
 		int featureID = notification.getFeatureID(UMLResource.class);
-		if(featureID == UMLResource.RESOURCE__IS_LOADED && notification.getNewBooleanValue() == true){
-			// Do this synchronously
-			this.resourcesLoaded.add((UMLResource) notification.getNotifier());
-			if(resourcesLoaded.containsAll(resourcesBeingLoaded)){
-				Set<Package> newObjects = new HashSet<Package>();
-				for(UMLResource umlResource:resourcesLoaded){
-					for(EObject eObject:umlResource.getContents()){
-						if((eObject instanceof Model || eObject instanceof Profile) && EmfWorkspace.isUtilzedModel((Package) eObject)){
-							newObjects.add((Package) eObject);
+		if(featureID == UMLResource.RESOURCE__IS_LOADED){
+			if(notification.getNewBooleanValue() == true){
+				EcoreUtil.resolveAll((UMLResource) notification.getNotifier());
+				// Do this synchronously
+				this.resourcesLoaded.add((UMLResource) notification.getNotifier());
+				if(resourcesBeingLoaded.size() > 0 && resourcesLoaded.containsAll(resourcesBeingLoaded)){
+					Set<Package> newObjects = new HashSet<Package>();
+					for(UMLResource umlResource:resourcesLoaded.toArray(new UMLResource[resourcesLoaded.size()])){// avoid concurrentmod
+						for(EObject eObject:umlResource.getContents()){
+							if((eObject instanceof Model || eObject instanceof Profile) && EmfWorkspace.isUtilzedModel((Package) eObject)){
+								newObjects.add((Package) eObject);
+							}
 						}
 					}
+					this.resourcesBeingLoaded.clear();
+					this.resourcesLoaded.clear();
+					synchronizationNow(newObjects);
 				}
-				this.resourcesBeingLoaded.clear();
-				this.resourcesLoaded.clear();
-				synchronizationNow(newObjects);
 			}
 		}
 	}

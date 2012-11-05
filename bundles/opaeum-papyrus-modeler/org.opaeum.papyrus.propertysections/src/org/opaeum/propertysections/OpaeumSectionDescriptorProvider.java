@@ -58,6 +58,7 @@ import org.opaeum.eclipse.uml.filters.core.ConstraintFilter;
 import org.opaeum.eclipse.uml.filters.core.EscalationFilter;
 import org.opaeum.eclipse.uml.filters.core.InstanceSpecificationNoEnumerationLiteralFilter;
 import org.opaeum.eclipse.uml.filters.core.OclBehaviorFilter;
+import org.opaeum.eclipse.uml.filters.core.OperationNotResponsibilityFilter;
 import org.opaeum.eclipse.uml.filters.core.PackageNoProfileFilter;
 import org.opaeum.eclipse.uml.filters.core.PersistentClassNotInProfileFilter;
 import org.opaeum.eclipse.uml.filters.core.PersistentNameFilter;
@@ -221,7 +222,7 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		addBasic(new OclBehaviorFilter(), new OpaqueBehaviorBodySection());
 		addBasic(OpaqueExpression.class, new OpaqueExpressionBodySection());
 		addBasic(Operation.class, new OperationBooleanFeaturesSection());
-		addBasic(Operation.class, new OperationBodyConditionSection());
+		addBasic(new OperationNotResponsibilityFilter(), new OperationBodyConditionSection());
 		addParamters(Operation.class, new OperationParametersSection());
 		addBasic(PackageImport.class, new PackageImportImportedPackageSection());
 		addBasic(ProfileApplication.class, new ProfileApplicationAppliedProfileSection());

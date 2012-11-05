@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -74,11 +75,9 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	private VersionNumber version;
 	// Load single model
 	public EmfWorkspace(Package model,VersionNumber version,String identifier,String prefix){
-		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), version, identifier,
-				prefix);
+		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), version, identifier, prefix);
 		addGeneratingModelOrProfile(model);
 	}
-
 	public ECrossReferenceAdapter getCrossReferenceAdapter(){
 		if(crossReferenceAdaptor == null){
 			crossReferenceAdaptor = ECrossReferenceAdapter.getCrossReferenceAdapter(resourceSet);
@@ -89,7 +88,7 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	public EmfWorkspace(URI directoryUri,ResourceSet rs,VersionNumber version,String identifier,String prefix){
 		this.resourceSet = rs;
 		this.prefix = prefix;
-		this.version=version;
+		this.version = version;
 		this.directoryUri = directoryUri;
 		this.identifier = identifier;
 		calculatePrimaryModels();
@@ -187,12 +186,19 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 		return result;
 	}
 	public static boolean isUtilzedModel(Package pkg){
-		boolean isUtilizedModel=false;
-		if(pkg != null && (pkg.getName() == null || (!pkg.eResource().getURI().toString().contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore")))
-				&& isRootObject(pkg)){
-			boolean hasStereotype = StereotypesHelper.hasStereotype(pkg, "EPackage","MetaModel");
+		boolean isUtilizedModel = false;
+		if(pkg != null
+				&& (pkg.getName() == null || (!pkg.eResource().getURI().toString().contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase(
+						"ecore"))) && isRootObject(pkg)){
+			// NB!! this is sometimes called during resourceloading which causes a concurrentmod ex here... not clear why
+			boolean hasStereotype = false;
+			try{
+				hasStereotype = StereotypesHelper.hasStereotype(pkg, "EPackage", "MetaModel");
+			}catch(ConcurrentModificationException e){
+				hasStereotype = StereotypesHelper.hasStereotype(pkg, "EPackage", "MetaModel");
+			}
 			if(!hasStereotype || "PrimitiveTypes".equals(pkg.getName()) || "UMLPrimitiveTypes".equals(pkg.getName())){
-				isUtilizedModel=true;
+				isUtilizedModel = true;
 			}
 		}
 		return isUtilizedModel;
@@ -519,9 +525,9 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	}
 	public static String getResourceId(Resource eResource){
 		EObject v = (EObject) eResource.getContents().get(0);
-		EAnnotation ann=null;
+		EAnnotation ann = null;
 		if(v instanceof EModelElement){
-		ann = ((EModelElement) v).getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+			ann = ((EModelElement) v).getEAnnotation(StereotypeNames.NUML_ANNOTATION);
 		}
 		if(ann == null){
 			return eResource.getURI().lastSegment();
@@ -570,7 +576,7 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 						Classifier c = (Classifier) eObject;
 						if(!c.isAbstract()){
 							if(getOpaeumLibrary().getEndToComposite(c) == null){
-								this.applicationRoot=c;
+								this.applicationRoot = c;
 								break outer;
 							}
 						}

@@ -155,6 +155,7 @@ public class CreateChildActions implements ICreateChildActionProvider{
 		add(DEADLINE_OWNERS, STAKEHOLDERS, LibraryType.PARTICIPANT);
 		add(TASKS, POTENTIAL_OWNERS, LibraryType.PARTICIPANT);
 		add(TASKS, BUSINESS_ADMINISTRATORS, LibraryType.PARTICIPANT);
+		add(OBSERVED, pkg.getNamespace_OwnedRule().getName(), pkg.getConstraint(),StereotypeNames.ESCALATION ).setName("Escalations|Escalation");
 		add(OBSERVED, TIME_OBSERVATIONS, pkg.getTimeObservation()).setName("Observations|Time Observation");
 		add(OBSERVED, DURATION_OBSERVATIONS, pkg.getDurationObservation(), StereotypeNames.BUSINESS_DURATION_OBSERVATION).setName(
 				"Observations|" + StereotypeNames.BUSINESS_DURATION_OBSERVATION);

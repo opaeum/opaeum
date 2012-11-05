@@ -100,7 +100,7 @@ public abstract class AbstractTableComposite<T extends EObject> extends Composit
 	}
 	private void addAdaptor(){
 		if(this.owner != null){
-				adaptor.subscribeTo(owner, 3);
+				adaptor.subscribeTo(owner, 5);
 		}
 	}
 	private void removeAdaptor(){

@@ -35,6 +35,7 @@ import org.eclipse.papyrus.infra.core.sashwindows.di.PageRef;
 import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
 import org.eclipse.papyrus.infra.core.sashwindows.di.TabFolder;
 import org.eclipse.papyrus.infra.services.resourceloading.OnDemandLoadingModelSet;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Classifier;
@@ -78,18 +79,24 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	public void registerUimResources(Map<Element,Resource> map){
 		Set<Entry<Element,Resource>> entrySet = map.entrySet();
 		InternalTransaction activeTransaction = ((InternalTransactionalEditingDomain) openUmlFile.getEditingDomain()).getActiveTransaction();
-		boolean hasTx = activeTransaction!=null && activeTransaction.isActive();
-		for(Entry<Element,Resource> entry:entrySet){
+		boolean hasTx = activeTransaction != null && activeTransaction.isActive();
+		for(final Entry<Element,Resource> entry:entrySet){
 			if(entry.getValue().getResourceSet() == null){
-				if(!hasTx){
+				if(hasTx){
+					if(activeTransaction.isReadOnly()){
+						final EditingDomain ed = openUmlFile.getEditingDomain();
+						Display.getDefault().asyncExec(new Runnable(){
+							@Override
+							public void run(){
+								ed.getCommandStack().execute(new AddCommand(ed, getResources(), entry.getValue()));
+							}
+						});
+					}else{
+						getResources().add(entry.getValue());
+					}
+				}else{
 					EditingDomain ed = openUmlFile.getEditingDomain();
 					ed.getCommandStack().execute(new AddCommand(ed, getResources(), entry.getValue()));
-				}else{
-					try{
-						getResources().add(entry.getValue());
-					}catch(Exception ex){
-						hasTx = true;
-					}
 				}
 			}
 			new UmlUimLinks(entry.getValue(), getOpenUmlFile().getEmfWorkspace());
@@ -139,7 +146,7 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 			}
 		};
 		runnable.run();
-//		runAsyncExclusive(runnable);
+		// runAsyncExclusive(runnable);
 	}
 	private void runAsyncExclusive(final Runnable runnable){
 		OpaeumScheduler.schedule(new Runnable(){
@@ -166,7 +173,7 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 			@Override
 			public void notifyChanged(Notification notification){
 				super.notifyChanged(notification);
-				if(notification.getNotifier()instanceof TabFolder &&notification.getNewValue() instanceof PageRef){
+				if(notification.getNotifier() instanceof TabFolder && notification.getNewValue() instanceof PageRef){
 					System.out.println();
 				}
 			}
@@ -177,7 +184,7 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 			EObject eObject = (EObject) eAllContents.next();
 			if(eObject instanceof PageRef){
 				PageRef pr = (PageRef) eObject;
-				if(pr.getEmfPageIdentifier() == null || pr.getEmfPageIdentifier().eIsProxy() ){
+				if(pr.getEmfPageIdentifier() == null || pr.getEmfPageIdentifier().eIsProxy()){
 					remove.add(pr);
 				}else{
 					System.out.println();
@@ -199,7 +206,7 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 			EObject eObject = (EObject) eAllContents.next();
 			if(eObject instanceof PageRef){
 				PageRef pr = (PageRef) eObject;
-				if(pr.getEmfPageIdentifier() == null || pr.getEmfPageIdentifier().eIsProxy() ){
+				if(pr.getEmfPageIdentifier() == null || pr.getEmfPageIdentifier().eIsProxy()){
 					remove.add(pr);
 				}
 			}

@@ -625,9 +625,9 @@
        id="createField1CreationTool"
        kind="tool"
        label="Field"
-       large_icon=""
+		large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/UimField.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/UimField.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -635,9 +635,9 @@
        id="createDataTable2CreationTool"
        kind="tool"
        label="DataTable"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/UimDataTable.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/UimDataTable.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -645,9 +645,9 @@
        id="createGridPanel1CreationTool"
        kind="tool"
        label="GridPanel"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -655,9 +655,9 @@
        id="createVerticalPanel2CreationTool"
        kind="tool"
        label="VerticalPanel"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -665,9 +665,9 @@
        id="createHorizontalPanel3CreationTool"
        kind="tool"
        label="HorizontalPanel"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -675,9 +675,9 @@
        id="createBuiltInActionButton1CreationTool"
        kind="tool"
        label="BuiltInActionButton"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInActionButton.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInActionButton.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -685,9 +685,9 @@
        id="createTransitionButton2CreationTool"
        kind="tool"
        label="TransitionButton"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/TransitionButton.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/TransitionButton.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -695,9 +695,9 @@
        id="createInvocationButton3CreationTool"
        kind="tool"
        label="InvocationButton"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -705,9 +705,9 @@
        id="createLinkToQuery4CreationTool"
        kind="tool"
        label="LinkToQuery"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/LinkToQuery.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/LinkToQuery.gif">
  	</entry>
 	<entry
        defineOnly="true"
@@ -715,9 +715,9 @@
        id="createBuiltInLink5CreationTool"
        kind="tool"
        label="BuiltInLink"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInLink.gif"
        path=""
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInLink.gif">
  	</entry>
 
 			</contribution>
@@ -743,9 +743,9 @@
        id="createGeneral1Group"
        kind="drawer"
        label="General"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/ComponentModelFile.gif"
        path="/"
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/ComponentModelFile.gif">
        <expand
               force="true">
        </expand>
@@ -773,9 +773,9 @@
        id="createLayoutPanels2Group"
        kind="drawer"
        label="LayoutPanels"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/PanelModelFile.gif"
        path="/"
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/PanelModelFile.gif">
        <expand
               force="true">
        </expand>
@@ -799,9 +799,9 @@
        id="createLinksandButtons3Group"
        kind="drawer"
        label="Links and Buttons"
-       large_icon=""
+       large_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/ActionModelFile.gif"
        path="/"
-       small_icon="">
+       small_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/ActionModelFile.gif">
        <expand
               force="true">
        </expand>
