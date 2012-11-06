@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.rap.ui.forms,
  org.eclipse.rap.ui,
  org.opaeum.metamodels.uim,
  org.eclipse.core.databinding.property,
- org.eclipse.nebula.widgets.pagination
+ org.eclipse.nebula.widgets.pagination,
+ org.opaeum.runtime-core-bundle
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator
 Bundle-Localization: plugin
 Bundle-ClassPath: .

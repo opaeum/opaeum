@@ -41,11 +41,6 @@
 			</propertyCategory>
       </propertyContributor>
    </extension>
-     <extension point="org.eclipse.papyrus.views.properties.context">
-         <context contextModel="Model/UMLNotation/UMLNotation.ctx">
-         </context>
-      </extension>
-
    <extension
          point="org.eclipse.emf.facet.infra.query.registration">
       <modelqueryset

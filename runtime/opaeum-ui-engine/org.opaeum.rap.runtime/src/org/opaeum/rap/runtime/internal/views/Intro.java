@@ -10,8 +10,6 @@ import java.util.List;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
@@ -51,7 +49,7 @@ import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
-import org.opaeum.rap.runtime.internal.startup.RMSPerspective;
+import org.opaeum.rap.runtime.internal.startup.OpaeumRapPerspective;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IBusinessCollaborationBase;
 
@@ -67,13 +65,14 @@ public class Intro extends ViewPart{
 			// TODO Make a bit more sophisticated maybe introduced an
 			// initiliazed flag
 			if(bc == null){
-				UserRoleAllocationWizard wizard = new UserRoleAllocationWizard(opaeumRapSession, getApplication());
+				throw new IllegalStateException("Implement plugin for login modules");
+//				UserRoleAllocationWizard wizard = new UserRoleAllocationWizard(opaeumRapSession, getApplication());
 //				WizardDialog dlg = new WizardDialog(display.getActiveShell(), wizard);
 //				if(dlg.open() == Window.OK){
 //				}
 			}else{
 				try{
-					getSite().getWorkbenchWindow().getWorkbench().showPerspective(RMSPerspective.ID, getSite().getWorkbenchWindow());
+					getSite().getWorkbenchWindow().getWorkbench().showPerspective(OpaeumRapPerspective.ID, getSite().getWorkbenchWindow());
 				}catch(WorkbenchException e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -107,7 +106,7 @@ public class Intro extends ViewPart{
 					RWT.getServiceStore().setAttribute(key, selection);
 				}
 				IWorkbench workbench = PlatformUI.getWorkbench();
-				String id = RMSPerspective.class.getName();
+				String id = OpaeumRapPerspective.class.getName();
 				IWorkbenchPage page = getSite().getPage();
 				workbench.showPerspective(id, page.getWorkbenchWindow());
 				if(openEditor){

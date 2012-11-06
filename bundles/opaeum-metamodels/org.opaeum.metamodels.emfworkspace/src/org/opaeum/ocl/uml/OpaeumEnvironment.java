@@ -452,9 +452,6 @@ public final class OpaeumEnvironment extends OpaeumParentEnvironment{
 	}
 	@Override
 	public Property lookupProperty(Classifier owner,String name){
-		if(name.equals("allReports")){
-			System.out.println();
-		}
 		Property p = super.lookupProperty(owner, name);
 		if(p == null && owner instanceof PrimitiveType){
 			PrimitiveType pt = EmfClassifierUtil.getRootClass((PrimitiveType) owner);

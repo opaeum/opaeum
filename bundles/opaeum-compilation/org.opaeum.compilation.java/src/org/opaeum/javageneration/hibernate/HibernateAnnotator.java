@@ -138,7 +138,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		return false;
 	}
 	@Override
-	protected void visitProperty(OJAnnotatedClass ojOwner, Classifier owner,PropertyMap map){
+	protected void visitProperty(OJAnnotatedClass ojOwner,Classifier owner,PropertyMap map){
 		Property f = map.getProperty();
 		if(isPersistent(owner) && !EmfPropertyUtil.isDerived(f) && !map.isStatic()){
 			if(map.isOne()){
@@ -320,7 +320,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	private void addAllInstances(Classifier complexType,OJAnnotatedClass ojClass){
 		OJPathName set = new OJPathName("java.util.Set");
 		ojClass.addToImports(set.getDeepCopy());
-		set.addToElementTypes(ojClass.getPathName());
+		set.addToElementTypes(new OJPathName("? extends " + ojClass.getName()));
 		OJAnnotatedField mockInstances = new OJAnnotatedField("mockedAllInstances", set);
 		mockInstances.setStatic(true);
 		ojClass.addToFields(mockInstances);

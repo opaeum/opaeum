@@ -20,7 +20,6 @@ Require-Bundle: org.opaeum.rap.runtime,
  org.opaeum.runtime-core-bundle,
  org.eclipse.rap.jface,
  org.eclipse.rap.jface.databinding,
- org.eclipse.rap.pde.runtime,
  org.eclipse.rap.ui,
  org.eclipse.rap.ui.forms,
  org.eclipse.rap.ui.views

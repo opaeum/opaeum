@@ -5,15 +5,15 @@
    <extension
          point="org.eclipse.rap.ui.entrypoint">
       <entrypoint
-            class="org.opaeum.rap.runtime.startup.RMS"
+            class="org.opaeum.rap.runtime.startup.Opaeum"
             id="org.eclipse.rap.rms.ui.internal.startup.RMS"
-            parameter="rms">
+            path="rms">
       </entrypoint>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="org.opaeum.rap.runtime.internal.startup.RMSPerspective"
+            class="org.opaeum.rap.runtime.internal.startup.OpaeumRapPerspective"
             icon="icons/rms_persp.gif"
             id="org.opaeum.rap.runtime.internal.startup.RMSPerspective"
             name="%rms">
@@ -76,19 +76,7 @@
             name="Cube Editor">
       </editor>
    </extension>
-   <extension
-         point="org.eclipse.core.runtime.adapters">
-      <factory
-            adaptableType="org.opaeum.runtime.domain.IPersistentObject"
-            class="org.opaeum.rap.runtime.internal.datamodel.EntityAdapterFactory">
-         <adapter
-               type="org.eclipse.ui.views.properties.IPropertySource">
-         </adapter>
-         <adapter
-               type="org.opaeum.rap.runtime.internal.datamodel.ILock">
-         </adapter>
-      </factory>
-   </extension>
+
      <extension
       point="org.eclipse.equinox.http.registry.resources">
     <resource

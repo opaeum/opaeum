@@ -47,12 +47,13 @@ import org.eclipse.ui.part.ViewPart;
 import org.opaeum.annotation.BusinessActor;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.BusinessRole;
+import org.opaeum.rap.login.GoogleOpaeumRapSession;
 import org.opaeum.rap.runtime.Constants;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
-import org.opaeum.rap.runtime.internal.startup.RMSPerspective;
+import org.opaeum.rap.runtime.internal.startup.OpaeumRapPerspective;
 import org.opaeum.rap.wizards.contacts.SelectionForContact;
 import org.opaeum.rap.wizards.contacts.UserRoleAllocationWizard;
 import org.opaeum.runtime.contact.IPersonEMailAddress;
@@ -73,10 +74,10 @@ import com.google.gdata.data.extensions.PhoneNumber;
 public class Intro extends ViewPart{
 	public static final String ID = "raptest.view";
 	private IOpaeumApplication application;
-	private OpaeumRapSession opaeumRapSession;
+	private GoogleOpaeumRapSession opaeumRapSession;
 	public void setFocus(){
 		Display display = Display.getCurrent();
-		OpaeumRapSession ors= (OpaeumRapSession) RWT.getRequest().getSession(true).getAttribute(OpaeumRapSession.class.getName());
+		GoogleOpaeumRapSession ors= (GoogleOpaeumRapSession) RWT.getRequest().getSession(true).getAttribute(OpaeumRapSession.class.getName());
 		if(ors != null){
 			IBusinessCollaborationBase bc = ors.getApplication().getRootBusinessCollaboration();
 			// TODO Make a bit more sophisticated maybe introduced an
@@ -88,7 +89,7 @@ public class Intro extends ViewPart{
 				}
 			}else{
 				try{
-					getSite().getWorkbenchWindow().getWorkbench().showPerspective(RMSPerspective.ID, getSite().getWorkbenchWindow());
+					getSite().getWorkbenchWindow().getWorkbench().showPerspective(OpaeumRapPerspective.ID, getSite().getWorkbenchWindow());
 				}catch(WorkbenchException e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -122,7 +123,7 @@ public class Intro extends ViewPart{
 					RWT.getServiceStore().setAttribute(key, selection);
 				}
 				IWorkbench workbench = PlatformUI.getWorkbench();
-				String id = RMSPerspective.class.getName();
+				String id = OpaeumRapPerspective.class.getName();
 				IWorkbenchPage page = getSite().getPage();
 				workbench.showPerspective(id, page.getWorkbenchWindow());
 				if(openEditor){

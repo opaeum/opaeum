@@ -17,7 +17,7 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor"
 		id="prop-contrib">
       <?gmfgen generated="true"?>
-		<propertyContributor contributorId="org.eclipse.papyrus.uml.diagram.clazz"
+		<propertyContributor contributorId="TreeOutlinePage"
 			labelProvider="org.eclipse.papyrus.uml.diagram.clazz.sheet.UMLSheetLabelProvider">
 			<propertyCategory category="domain" />
 			<propertyCategory category="visual" />
@@ -27,19 +27,19 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs"
 		id="proptabs">
       <?gmfgen generated="true"?>
-		<propertyTabs contributorId="org.eclipse.papyrus.uml.diagram.clazz">
-			<propertyTab category="visual"
+		<propertyTabs contributorId="TreeOutlinePage">
+			<propertyTab category="visual" afterTab="org.opaeum.papyrus.profilesTab"
 				id="property.tab.AppearancePropertySection" label="%tab.appearance" />
-			<propertyTab category="visual"
+			<propertyTab category="visual" afterTab="org.opaeum.papyrus.profilesTab"
 				id="property.tab.DiagramPropertySection" label="%tab.diagram" />
-			<propertyTab category="domain" id="property.tab.domain"
-				label="%tab.domain" />
+			<!--propertyTab category="domain" id="property.tab.domain" afterTab="org.opaeum.papyrus.profilesTab"
+				label="%tab.domain" /-->
 		</propertyTabs>
 	</extension>
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections"
 		id="propsections">
       <?gmfgen generated="true"?>
-		<propertySections contributorId="org.eclipse.papyrus.uml.diagram.clazz">
+		<propertySections contributorId="TreeOutlinePage">
 			<propertySection
 				id="property.section.ConnectorAppearancePropertySection"
 				filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ConnectionEditPartPropertySectionFilter"

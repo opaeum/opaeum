@@ -26,6 +26,7 @@ import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJForStatement;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibilityKind;
@@ -125,7 +126,13 @@ public class PropCallCreator{
 				oper.initializeResultVariable("new " + StdlibMap.javaBagImplType.getCopy().getLast() + "<" + mapper.javaBaseType() + ">()");
 				OJForStatement foreach = new OJForStatement("el", sourceType, "source");
 				oper.getBody().addToStatements(foreach);
-				foreach.getBody().addToStatements("result.add(" + mapper.getter() + "(" + qArgs + "))");
+				String addStatement = null;
+				if(prop.getQualifiers().size()>0 &&exp.getQualifier().isEmpty() ||prop.isMultivalued()){
+					addStatement = "result.addAll(el." + mapper.getter() + "(" + qArgs + "))";
+				}else{
+					addStatement = "result.add(el." + mapper.getter() + "(" + qArgs + "))";
+				}
+				foreach.getBody().addToStatements(new OJIfStatement("el."+mapper.getter() + "(" + qArgs + ")!=null", addStatement));
 				return oper.getName() + "(" + source + ")";
 			}
 			return sourceStr + "." + mapper.getter() + "(" + qArgs + ")";

@@ -42,13 +42,13 @@ public final class OpaeumSignalEditPart extends SignalEditPart{
 		return primaryShape;
 	}
 	public Command getCommand(Request request){
-		// HACK!!!! for bug in Papyrus 0.9
-		if(request instanceof EditCommandRequestWrapper){
-			EditCommandRequestWrapper w = (EditCommandRequestWrapper) request;
-			if(w.getEditCommandRequest() instanceof DestroyElementRequest){
-				return null;
-			}
-		}
+//		// HACK!!!! for bug in Papyrus 0.9
+//		if(request instanceof EditCommandRequestWrapper){
+//			EditCommandRequestWrapper w = (EditCommandRequestWrapper) request;
+//			if(w.getEditCommandRequest() instanceof DestroyElementRequest){
+//				return null;
+//			}
+//		}
 		return super.getCommand(request);
 	}
 	@Override
