@@ -197,6 +197,7 @@ public class OpaeumEclipseContext{
 			boolean newContext = propsFile == null;
 			if(newContext){
 				cfg = new OpaeumConfig(new File(umlDir.getLocation().toFile(), "opaeum.properties"));
+				cfg.loadDefaults(umlDir.getName());
 				OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getDefault().getActiveShell(), cfg, umlDir);
 				final int dlgResult = dlg.open();
 				if(dlgResult != Window.OK){

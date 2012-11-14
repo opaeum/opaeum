@@ -183,8 +183,17 @@ public class OpaeumConfig{
 		if(!this.props.containsKey(SCM_TOOL)){
 			this.props.setProperty(SCM_TOOL, "git");
 		}
+		if(!this.props.containsKey(UI_MODULE_ACTIVE)){
+			this.props.setProperty(UI_MODULE_ACTIVE, "true");
+		}
+		if(!this.props.containsKey(GENERATE_MAVEN_POMS)){
+			this.props.setProperty(GENERATE_MAVEN_POMS, "false");
+		}
+		if(!this.props.containsKey(AUTO_SYNC)){
+			this.props.setProperty(AUTO_SYNC, "true");
+		}
 		if(!this.props.containsKey(SOURCE_FOLDER_STRATEGY)){
-			this.props.setProperty(SOURCE_FOLDER_STRATEGY, "org.opaeum.pomgeneration.MultiProjectMavenSourceFolderStrategy");
+			this.props.setProperty(SOURCE_FOLDER_STRATEGY, "org.opaeum.sourcefolderstrategies.SingleProjectRapSourceFolderStrategy");
 		}
 	}
 	public String getJdbcDialect(){
@@ -194,7 +203,7 @@ public class OpaeumConfig{
 		this.props.setProperty(GENERATE_MAVEN_POMS, String.valueOf(b));
 	}
 	public boolean generateMavenPoms(){
-		return "true".equals(this.props.getProperty(GENERATE_MAVEN_POMS, "true"));
+		return "true".equals(this.props.getProperty(GENERATE_MAVEN_POMS, "false"));
 	}
 	public String getDateType(){
 		return this.props.getProperty(DATE_TYPE);

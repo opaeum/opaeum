@@ -326,7 +326,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		ojClass.addToFields(mockInstances);
 		OJAnnotatedOperation mockAllInstances = new OJAnnotatedOperation("mockAllInstances");
 		ojClass.addToOperations(mockAllInstances);
-		mockAllInstances.addParam("newMocks", set);
+		mockAllInstances.addParam("newMocks", new OJPathName("java.util.Set"));
 		mockAllInstances.setStatic(true);
 		mockAllInstances.getBody().addToStatements("mockedAllInstances=newMocks");
 		OJAnnotatedOperation allInstances = new OJAnnotatedOperation("allInstances");

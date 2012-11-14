@@ -1,9 +1,5 @@
 package org.opaeum.jaxb;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Behavior;
@@ -19,51 +15,78 @@ import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.bpm.EventHandlerImplementor;
 import org.opaeum.javageneration.hibernate.HibernateAnnotator;
+import org.opaeum.javageneration.persistence.PersistentObjectImplementor;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {HibernateAnnotator.class,EventHandlerImplementor.class,
 		org.opaeum.javageneration.bpm.statemachine.StateMachineEventConsumptionImplementor.class,
-		org.opaeum.javageneration.bpm.activity.TaskAndResponsibilityImplementor.class})
+		org.opaeum.javageneration.bpm.activity.TaskAndResponsibilityImplementor.class,PersistentObjectImplementor.class,HibernateAnnotator.class})
 public class JaxbImplementor extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true)
 	@Override
 	protected boolean visitComplexStructure(OJAnnotatedClass ojClass,Classifier c){
 		if(ojUtil.hasOJClass(c)){
 			OJAnnotatedClass owner = findJavaClass(c);
+			OJAnnotationValue accessor = new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAccessorType"));
+			accessor.addEnumValue(new OJEnumValue(new OJPathName("javax.xml.bind.annotation.XmlAccessType"), "FIELD"));
+			owner.putAnnotation(accessor);
 			addXmlRootElement(owner);
-			OJOperation outgoingEvents = owner.getUniqueOperation("getOutgoingEvents");
+			OJAnnotatedField outgoingEvents = (OJAnnotatedField) owner.findField("outgoingEvents");
 			if(outgoingEvents != null){
-				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) outgoingEvents);
+				JaxbAnnotator.addXmlTransient(outgoingEvents);
 			}
-			OJOperation cancelledEvents = owner.getUniqueOperation("getCancelledEvents");
+			OJAnnotatedField cancelledEvents = (OJAnnotatedField) owner.findField("cancelledEvents");
 			if(cancelledEvents != null){
-				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) cancelledEvents);
+				JaxbAnnotator.addXmlTransient(cancelledEvents);
+			}
+			OJAnnotatedField persistence = (OJAnnotatedField) owner.findField("persistence");
+			if(persistence != null){
+				JaxbAnnotator.addXmlTransient(persistence);
+			}
+			if(c.getGenerals().size()>0){
+				OJAnnotatedField field = (OJAnnotatedField) owner.findField("deletedOn");
+				if(field!=null){
+					JaxbAnnotator.addXmlTransient(field);
+				}
+				
 			}
 			for(Property p:getLibrary().getDirectlyImplementedAttributes(c)){
-				if(!(p.isStatic() || EmfPropertyUtil.isDerived(p))){
+				if(!p.isStatic()){
 					PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
-					if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
-						OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<OJPathName>());
-						JaxbAnnotator.addXmlTransient(getter);
-					}else if(p.getType() instanceof Class && !map.isInverse()){
-						OJAnnotatedOperation o = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<OJPathName>());
-						JaxbAnnotator.addXmlTransient(o);
-					}else if(p.getType() instanceof Interface){
-						addXmlAnyElement(owner, c, p);
-					}else if(p.getType() instanceof DataType && EmfClassifierUtil.hasStrategy((DataType) p.getType(), JaxbStrategy.class)){
-						List<OJPathName> emptyList = Collections.emptyList();
-						EmfClassifierUtil.getStrategy((DataType) p.getType(), JaxbStrategy.class).annotatedMethod(
-								(OJAnnotatedOperation) owner.findOperation(map.getter(), emptyList));
+					OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
+					if(field != null){
+						if(EmfPropertyUtil.isDerived(p) || p.isReadOnly()){
+							JaxbAnnotator.addXmlTransient(field);
+							break;
+						}else if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
+							JaxbAnnotator.addXmlTransient(field);
+							break;
+						}else if(p.getType() instanceof Class && !map.isInverse()){
+							JaxbAnnotator.addXmlTransient(field);
+							break;
+						}else if(c.getGenerals().size()>=1){
+							Property att = getLibrary().findEffectiveAttribute(c.getGenerals().get(0),p.getName());
+							if(att!=null && (EmfPropertyUtil.isDerived(att) || att.isReadOnly())){
+								JaxbAnnotator.addXmlTransient(field);
+								break;
+							}
+						}
+						if(p.getType() instanceof Interface){
+							addXmlAnyElement(owner, c, p);
+						}else if(p.getType() instanceof DataType && EmfClassifierUtil.hasStrategy((DataType) p.getType(), JaxbStrategy.class)){
+							EmfClassifierUtil.getStrategy((DataType) p.getType(), JaxbStrategy.class).annotatedField(
+									(OJAnnotatedField) owner.findField(map.fieldname()));
+						}
 					}
 				}
 			}
@@ -74,23 +97,14 @@ public class JaxbImplementor extends AbstractStructureVisitor{
 	public void visitBehavior(Behavior behavior){
 		if(behavior.getContext() != null && EmfBehaviorUtil.hasExecutionInstance(behavior)){
 			OJAnnotatedClass ojContext = findJavaClass(behavior.getContext());
-			if(EmfBehaviorUtil.isClassifierBehavior(behavior)){
 				Property ea = getLibrary().getEmulatedPropertyHolder(behavior.getContext()).getEmulatedAttribute(behavior);
-				String getter = ojUtil.buildStructuralFeatureMap(ea).getter();
-				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.findOperation(getter, new ArrayList<OJPathName>());
+				OJAnnotatedField oper = (OJAnnotatedField) ojContext.findField(ojUtil.buildStructuralFeatureMap(ea).fieldname());
 				JaxbAnnotator.addXmlTransient(oper);
-				// OJAnnotatedOperation getCurrentState= (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getCurrentState");
-				// getCurrentState.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlTransient")));
-			}else{
-				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.findOperation("get" + NameConverter.capitalize(behavior.getName()),
-						new ArrayList<OJPathName>());
-				JaxbAnnotator.addXmlTransient(oper);
-			}
 		}
 	}
 	private void addXmlAnyElement(OJAnnotatedClass clazz,Classifier c,Property p){
 		PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
-		OJAnnotatedOperation oper = (OJAnnotatedOperation) clazz.findOperation(map.getter(), new ArrayList<OJPathName>());
+		OJAnnotatedField oper = (OJAnnotatedField) clazz.findField(map.fieldname());
 		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAnyElement")));
 	}
 	private void addXmlRootElement(OJAnnotatedClass owner){

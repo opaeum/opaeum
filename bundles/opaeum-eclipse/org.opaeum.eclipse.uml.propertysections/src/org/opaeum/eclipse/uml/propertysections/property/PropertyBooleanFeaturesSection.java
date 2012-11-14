@@ -14,19 +14,15 @@ public class PropertyBooleanFeaturesSection extends AbstractMultiFeatureProperty
 	private BooleanSubsection isDerived;
 	private BooleanSubsection isComposition;
 	public PropertyBooleanFeaturesSection(){
-		isReadOnly = createBoolean(UMLPackage.eINSTANCE.getStructuralFeature_IsReadOnly(), "Is Read Only", 110);
-		isStatic = createBoolean(UMLPackage.eINSTANCE.getFeature_IsStatic(), "Is Static", 110);
-		isDerivedUnion = createBoolean(UMLPackage.eINSTANCE.getProperty_IsDerivedUnion(), "Is Derived Union", 110);
-		isDerived = createBoolean(UMLPackage.eINSTANCE.getProperty_IsDerived(), "Is Derived", 110);
-//		isComposition = createBoolean(UMLPackage.eINSTANCE.getProperty_IsComposite(), "Is Composite", 110);
+		isReadOnly = createBoolean(UMLPackage.eINSTANCE.getStructuralFeature_IsReadOnly(), "Is Read Only", 140);
+		isStatic = createBoolean(UMLPackage.eINSTANCE.getFeature_IsStatic(), "Is Static", 140);
+		isDerivedUnion = createBoolean(UMLPackage.eINSTANCE.getProperty_IsDerivedUnion(), "Is Derived Union", 140);
+		isDerived = createBoolean(UMLPackage.eINSTANCE.getProperty_IsDerived(), "Is Derived", 140);
 	}
 
 	@Override
 	public void populateControls(){
 		super.populateControls();
-		if(isInProfile()){
-//			isComposition.setVisible(false);
-		}
 	}
 	private boolean isInProfile(){
 		if(getEObject()!=null &&  getFeatureOwner(getEObject())!=null){

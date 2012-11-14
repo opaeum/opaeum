@@ -27,7 +27,7 @@ public class LocaleStrategyFactory extends AbstractStrategyFactory{
 	public static class MyJaxbStrategy implements JaxbStrategy{
 
 		@Override
-		public void annotatedMethod(OJAnnotatedOperation oper){
+		public void annotatedField(OJAnnotatedField oper){
 			JaxbAnnotator.addXmlTransient(oper);
 			
 		}

@@ -1,16 +1,11 @@
 package org.opaeum.eclipse.uml.propertysections.property;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfAssociationUtil;
 
 public class FirstEndDefaultValueSection extends PropertyDefaultValueSection{
 	@Override
-	protected EObject getFeatureOwner(EObject e){
-		if(e == null){
-			return null;
-		}else{
-			return ((Association) e).getMemberEnds().get(0);
-		}
+	public EObject getFeatureOwner(EObject selection){
+		return EmfAssociationUtil.getFirstEnd(selection);
 	}
 }

@@ -18,8 +18,8 @@ public class LiteralIntegerSubsection extends AbstractIntegerSubsection<LiteralU
 		return result;
 	}
 	@Override
-	public LiteralUnlimitedNatural getCurrentValue(EObject e){
-		Object eGet = e.eGet(getFeature());
+	public LiteralUnlimitedNatural getCurrentValue(EObject featureOwner){
+		Object eGet = featureOwner.eGet(getFeature());
 		if(eGet instanceof LiteralUnlimitedNatural){
 			return (LiteralUnlimitedNatural) eGet;
 		}else{

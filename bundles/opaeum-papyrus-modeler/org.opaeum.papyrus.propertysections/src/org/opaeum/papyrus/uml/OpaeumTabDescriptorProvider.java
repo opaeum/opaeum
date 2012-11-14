@@ -13,6 +13,7 @@ public class OpaeumTabDescriptorProvider extends XWTTabDescriptorProvider{
 	protected void orderTabDescriptors(final List<ITabDescriptor> descriptors){
 		Collections.sort(descriptors, new Comparator<ITabDescriptor>(){
 			public int compare(ITabDescriptor tabDescriptor1,ITabDescriptor tabDescriptor2){
+
 				int priority1 = getPriority(tabDescriptor1);
 				int priority2 = getPriority(tabDescriptor2);
 				if(priority1 < priority2){
@@ -50,7 +51,7 @@ public class OpaeumTabDescriptorProvider extends XWTTabDescriptorProvider{
 			}
 			private int getPriority(ITabDescriptor tab){
 				if(tab.getId().equals("advanced")){
-					return 1000;// Advanced always last
+					return 1001;// Advanced always last
 				}
 				ITabDescriptor previousTab = getPreviousTab(tab);
 				if(previousTab != null && previousTab!=tab){

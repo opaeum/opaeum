@@ -95,8 +95,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public E getCurrentValue(EObject currentObject){
-		EObject featureOwner = getFeatureOwner(currentObject);
+	public E getCurrentValue(EObject featureOwner){
 		if(featureOwner!=null &&  getFeature() != null && getFeature().getEContainingClass().isInstance(featureOwner)){
 			return (E) featureOwner.eGet(getFeature());
 		}else{
@@ -105,7 +104,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	}
 	public E getCurrentValue(){
 		if(hasSelectedObject()){
-			return getCurrentValue(section.getSelectedObject());
+			return getCurrentValue(getFeatureOwner(section.getSelectedObject()));
 		}else{
 			return null;
 		}
@@ -197,7 +196,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		return section.getSelectedObject() != null && getFeatureOwner(section.getSelectedObject())!=null;
 	}
 	protected EObject getFeatureOwner(EObject eObject){
-		return eObject;
+		return section.getFeatureOwner(eObject);
 	}
 	public Integer getColumnSpan(){
 		return columnSpan;

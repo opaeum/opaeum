@@ -96,4 +96,7 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement{
 	public void setVisibility(OJVisibilityKind element){
 		super.setVisibility(element);
 	}
+	public boolean isTransient(){
+		return isTransient;
+	}
 }

@@ -99,7 +99,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 	@Override
 	public void createControls(Composite parent,TabbedPropertySheetPage page){
 		this.propertySheetPage = page;
-		sectionComposite = new Composite(parent, SWT.BORDER);// getMainComposite(parent);
+		sectionComposite = new Composite(parent, SWT.NONE);// getMainComposite(parent);
 		FormLayout layout = new FormLayout();
 		layout.marginWidth = 2;// ITabbedPropertyConstants.HSPACE + 2;
 		layout.marginHeight = 2;// ITabbedPropertyConstants.VSPACE;

@@ -54,13 +54,24 @@
 			<propertyTab id="org.opaeum.eclipse.deadlinesTab" category="domain"
 				afterTab="org.opaeum.eclipse.opaeumTab" label="Deadlines" indented="true" />
 			<propertyTab id="org.opaeum.eclipse.extendedTab" category="domain" afterTab="org.opaeum.eclipse.opaeumTab"
-				label="Extended" indented="true" />
-			<propertyTab id="org.opaeum.eclipse.i8nTab" category="domain" afterTab="org.opaeum.eclipse.opaeumTab"
+				label="Extended" indented="false" />
+			<propertyTab id="org.opaeum.eclipse.i8nTab" category="domain" afterTab="org.opaeum.eclipse.extendedTab"
 				label="Languages" indented="true" />
-			<propertyTab id="org.opaeum.eclipse.firstEndTab" category="domain" afterTab="org.opaeum.eclipse.opaeumTab"
-				label="First End" indented="true" />
-			<propertyTab id="org.opaeum.eclipse.secondEndTab" category="domain" afterTab="org.opaeum.eclipse.firstEndTab"
-				label="Second End" indented="true" />
+			
+			<propertyTab id="org.opaeum.eclipse.firstEndTab" category="domain" afterTab="org.opaeum.eclipse.i8nTab"
+				label="First End" indented="false" />
+			<propertyTab id="org.opaeum.eclipse.firstEndQualifiersTab" category="domain" afterTab="org.opaeum.eclipse.firstEndTab"
+				label="Qualifiers" indented="true" />
+			<propertyTab id="org.opaeum.eclipse.firstEndRedefinitionsTab" category="domain" afterTab="org.opaeum.eclipse.firstEndQualifiersTab"
+				label="Redefinitions" indented="true" />
+			
+			<propertyTab id="org.opaeum.eclipse.secondEndTab" category="domain" afterTab="org.opaeum.eclipse.firstEndRedefinitionsTab"
+				label="Second End" indented="false" />
+			<propertyTab id="org.opaeum.eclipse.secondEndQualifiersTab" category="domain" afterTab="org.opaeum.eclipse.secondEndTab"
+				label="Qualifiers" indented="true" />
+			<propertyTab id="org.opaeum.eclipse.secondEndRedefinitionsTab" category="domain" afterTab="org.opaeum.eclipse.secondEndQualifiersTab"
+				label="Redefinitions" indented="true" />
+			
 				
 			<propertyTab id="org.opaeum.eclipse.interfacesTab"
 				category="domain" label="Interfaces" indented="true"
