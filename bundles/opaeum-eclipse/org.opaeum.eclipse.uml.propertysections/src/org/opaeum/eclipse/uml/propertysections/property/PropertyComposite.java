@@ -63,11 +63,12 @@ public class PropertyComposite extends AbstractDetailsSubsection<Property>{
 	@Override
 	protected void addSubsections(){
 		propertyName=createString(UMLPackage.eINSTANCE.getNamedElement_Name(), "Name", 100, 280);
-		propertyType=createChooser(UMLPackage.eINSTANCE.getTypedElement_Type(), "Text", 100, 280, new IChoiceProvider(){
+		propertyType=createChooser(UMLPackage.eINSTANCE.getTypedElement_Type(), "Type", 100, 280, new IChoiceProvider(){
 			@Override
 			public Object[] getChoices(){
 				return PropertyComposite.this.getChoices();
 			}
 		});
+		propertyType.setSingle(true);
 	}
 }

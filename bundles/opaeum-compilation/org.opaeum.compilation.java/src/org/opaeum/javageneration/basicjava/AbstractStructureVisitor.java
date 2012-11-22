@@ -189,7 +189,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	}
 	protected final boolean isMap(Property property){
 		return property.getQualifiers().size() > 0
-				&& (property.getName().equals("updateChangeLog") || property.getName().equals("user") || !EmfElementFinder.getRootObject(property)
+				&& (property.getName().equals("updateChangeLog") || property.getName().equals("user") || property.getName().equals("userGroup") || !EmfElementFinder.getRootObject(property)
 						.getName().equals("com"));
 	}
 }

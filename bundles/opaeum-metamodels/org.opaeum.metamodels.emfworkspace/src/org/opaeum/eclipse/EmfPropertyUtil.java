@@ -40,6 +40,7 @@ import org.opaeum.eclipse.emulated.AssociationClassToEnd;
 import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.eclipse.emulated.InverseArtificialProperty;
 import org.opaeum.eclipse.emulated.NonInverseArtificialProperty;
+import org.opaeum.emf.workspace.DefaultOpaeumComparator;
 
 public class EmfPropertyUtil{
 	public static boolean isDerived(Property p){
@@ -235,6 +236,7 @@ public class EmfPropertyUtil{
 		return false;
 	}
 	public static boolean isInverse(Property f){
+
 		if(f.getOtherEnd() == null || !f.getOtherEnd().isNavigable()){
 			return false;
 		}else{
@@ -323,7 +325,7 @@ public class EmfPropertyUtil{
 	}
 	public static Collection<Property> getSubsettingProperties(Property p){
 		Collection<Setting> ref = ECrossReferenceAdapter.getCrossReferenceAdapter(p).getNonNavigableInverseReferences(p);
-		Collection<Property> result = new HashSet<Property>();
+		Collection<Property> result = new TreeSet<Property>(new DefaultOpaeumComparator());
 		for(Setting setting:ref){
 			if(setting.getEObject() instanceof Property
 					&& setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getProperty_SubsettedProperty())){
@@ -387,5 +389,24 @@ public class EmfPropertyUtil{
 		}else{
 			result.add(attribute);
 		}
+	}
+	/**
+	 * Returns true if this property should have a field in the eventual java class
+	 * @param owner
+	 * @param prop
+	 * @return
+	 */
+	public static boolean shouldImplementField(Classifier owner,Property prop){
+		Classifier redefinedOwner = getOwningClassifier(prop);
+		if(redefinedOwner == owner){
+			return true;
+		}else if(redefinedOwner instanceof Interface){
+			if(owner.getGenerals().isEmpty()){
+				return true;
+			}else{
+				return !EmfClassifierUtil.conformsTo(owner.getGenerals().get(0), redefinedOwner);
+			}
+		}
+		return false;// This field already sits in the superclass
 	}
 }

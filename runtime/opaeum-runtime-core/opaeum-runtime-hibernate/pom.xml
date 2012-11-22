@@ -3,8 +3,8 @@
 	<parent>
 		<artifactId>opaeum-runtime</artifactId>
 		<groupId>org.opaeum</groupId>
-		<version>1.0.2-SNAPSHOT</version>
-		<relativePath>../../../releng/org.opaeum.runtime.core/pom.xml</relativePath>
+		<version>1.0.2.2-SNAPSHOT</version>
+		<relativePath>../../../releng/org.opaeum.runtime.core.releng/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opaeum</groupId>
@@ -17,6 +17,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
 		</plugins>
 	</build>
 	<dependencies>

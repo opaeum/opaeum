@@ -6,7 +6,7 @@
 	<name>Opaeum Full Runtime Build</name>
 	<groupId>org.opaeum</groupId>
 	<artifactId>org.opaeum.runtime.full.build</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	

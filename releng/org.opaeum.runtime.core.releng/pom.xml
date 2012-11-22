@@ -12,7 +12,7 @@
 	<artifactId>opaeum-runtime</artifactId>
 	<packaging>pom</packaging>
 	<name>Opaeum Runtime</name>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2.2-SNAPSHOT</version>
 	<licenses>
 		<license>
 			<name>Apache 2</name>
@@ -180,7 +180,7 @@
 		<module>opaeum-test-tinker</module--> 
 		<module>../../runtime/opaeum-runtime-core/opaeum-runtime-hibernate</module> 
 		<module>../../runtime/opaeum-runtime-core/opaeum-runtime-jpa</module> 
-		<module>../../runtime/opaeum-runtime-core/opaeum-runtime-core-bundle</module> 
+		<!--module>../../runtime/opaeum-runtime-core/opaeum-runtime-core-bundle</module--> 
 	</modules>
 	<dependencyManagement>
 		<dependencies>

@@ -189,7 +189,7 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 	protected Control findAffectedControl(BrokenRule entry){
 		for(EStructuralFeature eStructuralFeature:entry.getRule().getFeatures()){
 			for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
-				if(ss.getFeature().equals(eStructuralFeature)){
+				if(ss.getFeature()!=null&& ss.getFeature().equals(eStructuralFeature)){
 					return ss.getControl();
 				}
 			}

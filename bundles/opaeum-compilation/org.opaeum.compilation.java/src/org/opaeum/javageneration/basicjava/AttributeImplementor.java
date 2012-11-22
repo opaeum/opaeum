@@ -342,7 +342,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!p.isReadOnly()){
 			a.internalRemover = buildInternalRemover(owner, map);
 		}
-		if(p.getOtherEnd() != null && isMap(p.getOtherEnd())){
+		if(p.getOtherEnd() != null && isMap(p.getOtherEnd()) && EmfPropertyUtil.shouldImplementField(umlOwner, map.getProperty())){
 			PropertyMap otherMAp = ojUtil.buildStructuralFeatureMap(p.getOtherEnd());
 			OJUtil.addPersistentProperty(owner, otherMAp.qualifierProperty(), StdlibMap.javaStringType, true);
 		}

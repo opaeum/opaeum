@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Opaeum Core Runtime Dependencies
 Bundle-SymbolicName: org.opaeum.runtime-core-bundle;singleton:=true
-Bundle-Version: 1.0.2.qualifier
+Bundle-Version: 1.0.2.2.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.opaeum.rap.runtime.dependencies.Activator
 Require-Bundle: org.eclipse.osgi

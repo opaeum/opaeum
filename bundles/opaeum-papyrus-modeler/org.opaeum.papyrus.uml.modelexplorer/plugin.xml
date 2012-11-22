@@ -78,6 +78,10 @@ icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id=
       <adapter type="org.eclipse.uml2.uml.NamedElement">
       </adapter>
    </factory>
+   <factory adaptableType="org.eclipse.emf.facet.infra.browser.uicore.internal.model.LinkItem" class="org.eclipse.papyrus.views.modelexplorer.LinkNodeAdapterFactory">
+      <adapter type="org.eclipse.papyrus.views.modelexplorer.LinkNode">
+      </adapter>
+   </factory>
 </extension>
 
    <extension point="org.eclipse.emf.facet.infra.facet.registration">

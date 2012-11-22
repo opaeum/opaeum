@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>opaeum-runtime</artifactId>
 		<groupId>org.opaeum</groupId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.0.2.2-SNAPSHOT</version>
 		<relativePath>../org.opaeum.runtime.core.releng/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>

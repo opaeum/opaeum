@@ -684,12 +684,12 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3lakUVYuEeGj5_I7bIwNoA"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3lakUlYuEeGj5_I7bIwNoA" value="*"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_Ueg9kF-mEeGSPaWW9iQb9Q" name="postalAddress" type="_anU2QF-jEeGSPaWW9iQb9Q" association="_UeiLsF-mEeGSPaWW9iQb9Q">
+        <ownedAttribute xmi:id="_Ueg9kF-mEeGSPaWW9iQb9Q" name="postalAddress" type="_anU2QF-jEeGSPaWW9iQb9Q" aggregation="composite" association="_UeiLsF-mEeGSPaWW9iQb9Q">
           <eAnnotations xmi:id="_Jc8BMGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ueg9kV-mEeGSPaWW9iQb9Q" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ueg9kl-mEeGSPaWW9iQb9Q" value="1"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_U_gx0F-mEeGSPaWW9iQb9Q" name="physicalAddress" type="_cD7-MF-jEeGSPaWW9iQb9Q" association="_U_h_8F-mEeGSPaWW9iQb9Q">
+        <ownedAttribute xmi:id="_U_gx0F-mEeGSPaWW9iQb9Q" name="physicalAddress" type="_cD7-MF-jEeGSPaWW9iQb9Q" aggregation="composite" association="_U_h_8F-mEeGSPaWW9iQb9Q">
           <eAnnotations xmi:id="_Jc0FYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_U_gx0V-mEeGSPaWW9iQb9Q" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_U_gx0l-mEeGSPaWW9iQb9Q" value="1"/>
@@ -830,6 +830,9 @@
           <eAnnotations xmi:id="_JdhQAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4uZ-MkvREeGmqIr8YsFD4g"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4uZ-MUvREeGmqIr8YsFD4g" value="*"/>
+          <qualifier xmi:id="_daqa8DIlEeKvs7zUqvWhjQ" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </qualifier>
         </ownedAttribute>
         <ownedAttribute xmi:id="_3lOvoEvREeGmqIr8YsFD4g" name="person" type="_k23OoEtmEeGd4cpyhpib9Q" aggregation="composite" association="_3lspsEvREeGmqIr8YsFD4g">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3lPWsEvREeGmqIr8YsFD4g"/>
@@ -963,7 +966,7 @@
       <packagedElement xmi:type="uml:Interface" xmi:id="_bVBY0F-aEeGSPaWW9iQb9Q" name="IBusinessService">
         <eAnnotations xmi:id="_Jds2MGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_UeiLsF-mEeGSPaWW9iQb9Q" name="Person_PostalAddress" memberEnd="_UeiLsV-mEeGSPaWW9iQb9Q _Ueg9kF-mEeGSPaWW9iQb9Q">
+      <packagedElement xmi:type="uml:Association" xmi:id="_UeiLsF-mEeGSPaWW9iQb9Q" name="Person_PostalAddress" memberEnd="_UeiLsV-mEeGSPaWW9iQb9Q _Ueg9kF-mEeGSPaWW9iQb9Q" navigableOwnedEnd="_UeiLsV-mEeGSPaWW9iQb9Q">
         <eAnnotations xmi:id="_Jdzj4GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <ownedEnd xmi:id="_UeiLsV-mEeGSPaWW9iQb9Q" name="person" type="_k23OoEtmEeGd4cpyhpib9Q" association="_UeiLsF-mEeGSPaWW9iQb9Q">
           <eAnnotations xmi:id="_JdyVwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -971,7 +974,7 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UeiLs1-mEeGSPaWW9iQb9Q" value="1"/>
         </ownedEnd>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_U_h_8F-mEeGSPaWW9iQb9Q" name="Person_PhysicalAddress" memberEnd="_U_inAF-mEeGSPaWW9iQb9Q _U_gx0F-mEeGSPaWW9iQb9Q">
+      <packagedElement xmi:type="uml:Association" xmi:id="_U_h_8F-mEeGSPaWW9iQb9Q" name="Person_PhysicalAddress" memberEnd="_U_inAF-mEeGSPaWW9iQb9Q _U_gx0F-mEeGSPaWW9iQb9Q" navigableOwnedEnd="_U_inAF-mEeGSPaWW9iQb9Q">
         <eAnnotations xmi:id="_JdokwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <ownedEnd xmi:id="_U_inAF-mEeGSPaWW9iQb9Q" name="person" type="_k23OoEtmEeGd4cpyhpib9Q" association="_U_h_8F-mEeGSPaWW9iQb9Q">
           <eAnnotations xmi:id="_JdnWoGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -2319,4 +2322,5 @@
   <OpaeumStandardProfile:Attribute xmi:id="_R-QswPs1EeGdyvuEPHDz_A" base_Property="_QiWIYPs1EeGdyvuEPHDz_A"/>
   <OpaeumStandardProfile:Attribute xmi:id="_Vsn04Ps1EeGdyvuEPHDz_A" base_Property="_TtjgIPs1EeGdyvuEPHDz_A"/>
   <OpaeumStandardProfile:Attribute xmi:id="_X4UQYPs1EeGdyvuEPHDz_A" base_Property="_WPqQgPs1EeGdyvuEPHDz_A"/>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_gkkLIDIlEeKvs7zUqvWhjQ" base_Property="_4uZ-MEvREeGmqIr8YsFD4g"/>
 </xmi:XMI>

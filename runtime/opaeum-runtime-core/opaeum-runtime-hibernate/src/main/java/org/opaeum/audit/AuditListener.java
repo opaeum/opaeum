@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.WeakHashMap;
 
 import org.hibernate.EntityMode;
@@ -41,26 +42,8 @@ import org.slf4j.LoggerFactory;
 
 public class AuditListener extends EventDispatcher implements PostInsertEventListener,PostLoadEventListener,
 		PostUpdateEventListener,FlushEventListener,Initializable,PersistEventListener,FlushEntityEventListener{
-	private static final Map<Object,AbstractHibernatePersistence> persistenceMap = Collections
-			.synchronizedMap(new WeakHashMap<Object,AbstractHibernatePersistence>());
-	static{
-		new Thread(){
-			@Override
-			public void run(){
-				try{
-					Thread.sleep(60000);
-				}catch(InterruptedException e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				persistenceMap.put("asdf", null);
-				persistenceMap.remove("asdf");
-			}
-		}.start();
-	}
 	private static final long serialVersionUID = -233067098331332700L;
 	private static final Logger log = LoggerFactory.getLogger(AuditListener.class);
-	private static final Map<EventSource,AuditWorkUnit> entries = Collections.synchronizedMap(new WeakHashMap<EventSource,AuditWorkUnit>());
 	private EJB3FlushEntityEventListener ejb3FlushEntityEventListener;
 	@Override
 	public void onPostUpdate(PostUpdateEvent event){
@@ -89,12 +72,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 		}
 	}
 	private AuditWorkUnit getWorkUnitForSession(EventSource session){
-		AuditWorkUnit map = entries.get(session);
-		if(map == null){
-			map = new AuditWorkUnit(session);
-			entries.put(session, map);
-		}
-		return map;
+		return lazyGetAttachment(session).getAuditWorkUnit();
 	}
 	@Override
 	public void onFlush(FlushEvent event) throws HibernateException{
@@ -103,8 +81,6 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 		if(source.getPersistenceContext().hasNonReadOnlyEntities()){
 			getWorkUnitForSession(source).flush();
 		}
-		entries.remove(source);
-		persistenceMap.remove(source);
 	}
 	protected void performExecutions(EventSource session) throws HibernateException{
 		log.trace("executing flush");
@@ -168,15 +144,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 	public void onPersist(PersistEvent event) throws HibernateException{
 		this.onPersist(event, new HashMap());
 	}
-	private AbstractPersistence getPersistence(EventSource session){
-		AbstractHibernatePersistence persistence = persistenceMap.get(session);
-		if(persistence == null){
-			persistence = new AbstractHibernatePersistence(session){
-			};
-			persistenceMap.put(session, persistence);
-		}
-		return persistence;
-	}
+
 	@Override
 	public void onPostLoad(PostLoadEvent event){
 		super.onPostLoad(event);
@@ -191,18 +159,6 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 		}else if(event.getEntity() instanceof PropertyChange){
 			PropertyChange<?> c = (PropertyChange<?>) event.getEntity();
 			c.resolve(event.getSession());
-		}
-		try{
-			Field declaredField = event.getPersister().getMappedClass(EntityMode.POJO).getDeclaredField("persistence");
-			if(declaredField != null){
-				declaredField.setAccessible(true);
-				declaredField.set(event.getEntity(), getPersistence(event.getSession()));
-			}
-		}catch(NoSuchFieldException e){
-		}catch(RuntimeException re){
-			throw re;
-		}catch(Exception e){
-			throw new RuntimeException(e);
 		}
 	}
 	@SuppressWarnings("rawtypes")

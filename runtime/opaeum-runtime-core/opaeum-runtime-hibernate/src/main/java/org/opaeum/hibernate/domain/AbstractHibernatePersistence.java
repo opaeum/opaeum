@@ -19,6 +19,9 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 			getSession().refresh(p);
 		}
 	}
+	public boolean isClosed(){
+		return !session.isOpen();
+	}
 	@Override
 	public <T>T getReference(Class<T> t,Long id){
 		return (T) getSession().load(t, id);

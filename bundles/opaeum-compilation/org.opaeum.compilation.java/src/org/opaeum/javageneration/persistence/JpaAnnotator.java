@@ -14,6 +14,7 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.CodeGenerationStrategy;
 import org.opaeum.eclipse.EmfAssociationUtil;
@@ -327,6 +328,8 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 		DataType simpleType = (DataType) map.getBaseType();
 		if(EmfClassifierUtil.hasStrategy(simpleType, JpaStrategy.class)){
 			EmfClassifierUtil.getStrategy(simpleType, JpaStrategy.class).annotate(owner, field, map.getProperty());
+		}else if(map.getBaseType() instanceof PrimitiveType){
+			field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Basic")));
 		}
 	}
 	protected final void mapXToOnePersistentType(PropertyMap map,OJAnnotatedClass owner,OJAnnotatedField field){
