@@ -267,7 +267,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 			}
 			toMany.putAttribute(lazy);
 			toMany.putAttribute(targetEntity);
-			if(p.isComposite() || p.getType() instanceof DataType){
+			if(p.isComposite() || p.getType() instanceof DataType || p.getType() instanceof Association){
 				JpaUtil.cascadeAll(toMany);
 			}
 			field.addAnnotationIfNew(toMany);
@@ -339,7 +339,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName(toOneType));
 		JpaUtil.fetchLazy(toOne);
 		Property f = map.getProperty();
-		if(EmfClassifierUtil.isStructuredDataType(map.getBaseType()) || f.isComposite()){
+		if(EmfClassifierUtil.isStructuredDataType(map.getBaseType()) || f.isComposite() || f.getType() instanceof Association){
 			// TODO validate that StructuredDataType cannot participate in bidirectional relationships
 			// Compositional semantics - should also delete Orphan
 			JpaUtil.cascadeAll(toOne);

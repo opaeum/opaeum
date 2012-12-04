@@ -565,6 +565,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			remover.setStatic(map.isStatic());
 			remover.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null");
+			ifNotNull.setName(IF_PARAM_NOT_NULL);
 			String removeStatement = map.internalRemover() + "(" + map.fieldname() + ")";
 			if(isMap(map.getProperty())){
 				StringBuilder sb = addQualifierArguments(map, remover);

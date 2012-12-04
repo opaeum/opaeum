@@ -12,6 +12,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.event.EventSource;
 import org.hibernate.jdbc.Work;
 import org.opaeum.runtime.domain.IPersistentObject;
@@ -51,7 +53,7 @@ public class AuditWorkUnit {
 		}
 	}
 
-	private Session auditSession;
+	private SessionFactory sessionFactory;
 	Map<EntityId, AuditEntry> entriesByEntityId = new HashMap<EntityId, AuditEntry>();
 	List<AuditEntry> auditEntriesToBeFlushed = new ArrayList<AuditEntry>();
 	private Map<AuditEntryFactory<? extends IPersistentObject>, StringBuilder> auditEntryInserts = new HashMap<AuditEntryFactory<? extends IPersistentObject>, StringBuilder>();
@@ -60,10 +62,12 @@ public class AuditWorkUnit {
 	private StringBuilder auditEntryInsert;
 
 	public AuditWorkUnit(EventSource session) {
-		auditSession = session;
+		sessionFactory = session.getSessionFactory();
 	}
 
 	public void flush() {
+		Session auditSession=sessionFactory.openSession();
+		Transaction tx = auditSession.beginTransaction();
 		propertyChangeInsert = new StringBuilder(
 				"insert into property_change (property_change_type,audit_entry_id,property_name,string_value,old_string_value) values ");
 		firstPropertyChangeProcessed = false;
@@ -81,14 +85,16 @@ public class AuditWorkUnit {
 				appendPropertyChangeValues(change);
 			}
 			if (auditEntriesToBeFlushed.size() == 150) {
-				flushAuditEntries();
+				flushAuditEntries(auditSession);
 			}
 		}
-		flushAuditEntries();
-		fushPropertyChangesAndCustomAuditEntries();
+		flushAuditEntries(auditSession);
+		fushPropertyChangesAndCustomAuditEntries(auditSession);
+		auditSession.flush();//Probably Superfluous
+		tx.commit();
 	}
 
-	private void fushPropertyChangesAndCustomAuditEntries() {
+	private void fushPropertyChangesAndCustomAuditEntries(Session auditSession) {
 		auditSession.doWork(new Work() {
 
 			@Override
@@ -128,15 +134,15 @@ public class AuditWorkUnit {
 		factory.appendToValuesClause(sb, auditEntry);
 	}
 
-	private void flushAuditEntries() {
+	private void flushAuditEntries(Session auditSession) {
 		if (auditEntriesToBeFlushed.size() > 0) {
-			this.auditSession.doWork(new Work() {
+			auditSession.doWork(new Work() {
 				@Override
 				public void execute(Connection connection) throws SQLException {
 					try {
 						connection.prepareStatement(auditEntryInsert.toString()).execute();
 					} catch (SQLException e) {
-						e.printStackTrace();
+						logger.error(e.getMessage(),e);
 						throw e;
 					}
 
@@ -297,6 +303,12 @@ public class AuditWorkUnit {
 		for (int i = 0; i < newState.length; i++) {
 			entry.putPropertyChange(propertyNames[i], null, newState[i]);
 		}
+	}
+	public StringBuilder getPropertyChangeInsert(){
+		return propertyChangeInsert;
+	}
+	public StringBuilder getAuditEntryInsert(){
+		return auditEntryInsert;
 	}
 
 }

@@ -1,11 +1,9 @@
 package org.opaeum.audit;
 
-import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.WeakHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
@@ -30,21 +28,44 @@ import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
 import org.hibernate.persister.entity.EntityPersister;
-import org.opaeum.hibernate.domain.AbstractHibernatePersistence;
 import org.opaeum.hibernate.domain.AbstractInterfaceValue;
 import org.opaeum.hibernate.domain.CascadingInterfaceValue;
 import org.opaeum.hibernate.domain.EventDispatcher;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
-import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AuditListener extends EventDispatcher implements PostInsertEventListener,PostLoadEventListener,
-		PostUpdateEventListener,FlushEventListener,Initializable,PersistEventListener,FlushEntityEventListener{
+public class AuditListener extends EventDispatcher implements PostInsertEventListener,PostLoadEventListener,PostUpdateEventListener,
+		FlushEventListener,Initializable,PersistEventListener,FlushEntityEventListener{
 	private static final long serialVersionUID = -233067098331332700L;
 	private static final Logger log = LoggerFactory.getLogger(AuditListener.class);
 	private EJB3FlushEntityEventListener ejb3FlushEntityEventListener;
+	private static LinkedBlockingQueue<AuditWorkUnit> queue = new LinkedBlockingQueue<AuditWorkUnit>();
+	static{
+		// HAck!! No event to trap session closure
+		new Thread(AuditListener.class.getName() + "::Audit thread"){
+			@Override
+			public void run(){
+				while(true){
+					AuditWorkUnit wu = null;
+					try{
+						wu = queue.poll(10, TimeUnit.SECONDS);
+						if(wu != null){
+							wu.flush();
+						}
+					}catch(Throwable t){
+						logger.error(t.getMessage(), t);
+						if(wu != null){
+							logger.error("AUDIT SQL DUMP");
+							logger.error(wu.getAuditEntryInsert().toString());
+							logger.error(wu.getPropertyChangeInsert().toString());
+						}
+					}
+				}
+			}
+		}.start();
+	}
 	@Override
 	public void onPostUpdate(PostUpdateEvent event){
 		Object entity = event.getEntity();
@@ -79,7 +100,12 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 		super.onFlush(event);
 		final EventSource source = event.getSession();
 		if(source.getPersistenceContext().hasNonReadOnlyEntities()){
-			getWorkUnitForSession(source).flush();
+			try{
+				queue.put(getWorkUnitForSession(source));
+			}catch(InterruptedException e){
+				throw new RuntimeException(e);
+			}
+			lazyGetAttachment(source).clearAuditWorkUnit();
 		}
 	}
 	protected void performExecutions(EventSource session) throws HibernateException{
@@ -144,7 +170,6 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 	public void onPersist(PersistEvent event) throws HibernateException{
 		this.onPersist(event, new HashMap());
 	}
-
 	@Override
 	public void onPostLoad(PostLoadEvent event){
 		super.onPostLoad(event);

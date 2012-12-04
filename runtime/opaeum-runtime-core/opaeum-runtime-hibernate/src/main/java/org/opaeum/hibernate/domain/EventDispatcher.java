@@ -3,10 +3,10 @@ package org.opaeum.hibernate.domain;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashMap;
 
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
@@ -24,12 +24,15 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EventDispatcher extends AbstractFlushingEventListener implements
 		PostLoadEventListener, FlushEventListener, PostInsertEventListener {
 	private static final long serialVersionUID = -8583155822068850343L;
-	static Map<EventSource, SessionAttachment> sessionAttachments = Collections
+	public static Map<EventSource, SessionAttachment> sessionAttachments = Collections
 			.synchronizedMap(new HashMap<EventSource, SessionAttachment>());
+	protected static Logger logger =LoggerFactory.getLogger(EventDispatcher.class); 
 	static {
 		// HAck!! No event to trap session closure
 		new Thread(EventDispatcher.class.getName()+"::Grim reaper thread") {
@@ -37,14 +40,23 @@ public class EventDispatcher extends AbstractFlushingEventListener implements
 			public void run() {
 				while (true) {
 					try {
-						sleep(5000);
+						sleep(10000);
 						EventSource[] array = sessionAttachments.keySet()
 								.toArray(
 										new EventSource[sessionAttachments
 												.size()]);
 						for (EventSource eventSource : array) {
 							if (eventSource.isClosed()) {
-								sessionAttachments.remove(eventSource);
+								SessionAttachment att = sessionAttachments.remove(eventSource);
+								att.cleanUp();
+							} else {
+								SessionAttachment sessionAttachment = sessionAttachments.get(eventSource);
+								if(sessionAttachment.getStartTime()<System.currentTimeMillis()-(60000*30) && !sessionAttachment.hasBeenLogged()){
+									sessionAttachment.logged();
+									logger.error("Potential session leak! Session has been open for " +((System.currentTimeMillis()-sessionAttachment.getStartTime())/60000)+  " minutes");
+									logger.error("Session opened from " +sessionAttachment.getStartingThread());
+									
+								}
 							}
 						}
 					} catch (Throwable t) {

@@ -3,6 +3,7 @@ package org.opaeum.javageneration.hibernate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.OneToMany;
 
@@ -31,6 +32,7 @@ import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
@@ -88,6 +90,19 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				if(endToComposite != null
 						&& (EmfPropertyUtil.getOwningClassifier(endToComposite) == complexType || EmfPropertyUtil.getOwningClassifier(endToComposite) instanceof Interface)){
 					setDeletedOn(ojUtil.buildStructuralFeatureMap(endToComposite), owner);
+				}
+				Set<Property> dia = getLibrary().getDirectlyImplementedAttributes(complexType);
+				for(Property property:dia){
+					if(property.isComposite() && EmfClassifierUtil.isCompositionParticipant(property.getType()) && !EmfPropertyUtil.isDerived(property)){
+						PropertyMap map=ojUtil.buildStructuralFeatureMap(property);
+						OJOperation remover = owner.findOperation(map.remover(), Arrays.asList(map.javaBaseTypePath()));
+						if(remover!=null){
+							OJIfStatement ifNotNull = (OJIfStatement) remover.getBody().findStatementRecursive(AttributeImplementor.IF_PARAM_NOT_NULL);
+							if(ifNotNull!=null){
+								ifNotNull.getThenPart().addToStatements(map.fieldname()+".markDeleted()");
+							}
+						}
+					}
 				}
 			}
 			OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));
@@ -306,12 +321,15 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			OJIfStatement st = (OJIfStatement) setter.getBody().findStatementRecursive(AttributeImplementor.IF_PARAM_NOT_NULL);
 			if(st == null){
 			}else{
+				//TODO THIS IS A BUG - the deleted object is actually totally detached from all its associated object - introduce special logic for reparenting 
 				st.getThenPart().addToStatements("setDeletedOn(Stdlib.FUTURE)");
+				//END BUG
 				st.setElsePart(new OJBlock());
 				OJOperation markDeleted = ojOwner.getUniqueOperation("markDeleted");
 				if(markDeleted != null){
 					st.getElsePart().addToStatements("markDeleted()");
 				}else{
+					//TODO why does this happen??
 					st.getElsePart().addToStatements("setDeletedOn(new Date())");
 				}
 			}

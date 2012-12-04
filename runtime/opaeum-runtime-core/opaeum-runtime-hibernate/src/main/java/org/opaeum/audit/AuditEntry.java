@@ -27,9 +27,9 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
+import org.hibernate.event.EventSource;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
-import org.hibernate.event.EventSource;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity(name = "AuditEntry")
@@ -73,6 +73,14 @@ public class AuditEntry implements Serializable,Comparable<AuditEntry>{
 	public AuditEntry(){
 		super();
 	}
+	private static Set<String> IGNORED_FIELDS = new java.util.HashSet<String>();
+	static{
+		IGNORED_FIELDS.add("createdOn");
+		IGNORED_FIELDS.add("deletedOn");
+		IGNORED_FIELDS.add("updatedOn");
+		IGNORED_FIELDS.add("objectVersion");
+		IGNORED_FIELDS.add("id");
+	}
 	public AuditEntry(IPersistentObject entity,int version){
 		this.originalClass = (Class<? extends IPersistentObject>) IntrospectionUtil.getOriginalClass(entity);
 		this.originalType = originalClass.getName();
@@ -91,37 +99,40 @@ public class AuditEntry implements Serializable,Comparable<AuditEntry>{
 		return manyToOnes.entrySet();
 	}
 	public void putPropertyChange(String name,Object oldValue,Object value){
-		PropertyChange<?> pc = null;
-		if(isFloatingPoint(value) || isFloatingPoint(oldValue)){
-			pc = new FloatingPointPropertyChange(name, (Number) oldValue, (Number) value);
-		}else if(isInteger(value) || isInteger(oldValue)){
-			pc = new IntegerPropertyChange(name, (Number) oldValue, (Number) value);
-		}else if(isDate(value) || isDate(oldValue)){
-			pc = new DateTimePropertyChange(name, (Date) oldValue, (Date) value);
-		}else if(isString(value) || isString(oldValue)){
-			pc = new StringPropertyChange(name, (String) oldValue, (String) value);
-		}else if(isBoolean(value) || isBoolean(oldValue)){
-			pc = new BooleanPropertyChange(name, (Boolean) oldValue, (Boolean) value);
-		}else if(isEntity(value) || isEntity(oldValue)){
-			Class<?> cls = value == null ? oldValue.getClass() : value.getClass();
-			IPersistentObject newEntityValue = (IPersistentObject) value;
-			if(newEntityValue != null && newEntityValue.getId() == null){
-				// error condition - hibernate will likely fail - how was the
-				// foreign key inserted. monitor this
-			}else if(IntrospectionUtil.getOriginalClass(cls).isAnnotationPresent(AuditMe.class)){
-				pc = new AuditEntryPropertyChange(name, (IPersistentObject) oldValue, newEntityValue);
-			}else{
-				pc = new EntityPropertyChange(name, (IPersistentObject) oldValue, newEntityValue);
+		if(!IGNORED_FIELDS.contains(name)){
+			PropertyChange<?> pc = null;
+			if(isFloatingPoint(value) || isFloatingPoint(oldValue)){
+				pc = new FloatingPointPropertyChange(name, (Number) oldValue, (Number) value);
+			}else if(isInteger(value) || isInteger(oldValue)){
+				pc = new IntegerPropertyChange(name, (Number) oldValue, (Number) value);
+			}else if(isDate(value) || isDate(oldValue)){
+				pc = new DateTimePropertyChange(name, (Date) oldValue, (Date) value);
+			}else if(isString(value) || isString(oldValue)){
+				pc = new StringPropertyChange(name, (String) oldValue, (String) value);
+			}else if(isBoolean(value) || isBoolean(oldValue)){
+				pc = new BooleanPropertyChange(name, (Boolean) oldValue, (Boolean) value);
+			}else if(isEntity(value) || isEntity(oldValue)){
+				Class<?> cls = value == null ? oldValue.getClass() : value.getClass();
+				IPersistentObject newEntityValue = (IPersistentObject) value;
+				if(newEntityValue != null && newEntityValue.getId() == null){
+					// error condition - hibernate will likely fail - how was
+					// the
+					// foreign key inserted. monitor this
+				}else if(IntrospectionUtil.getOriginalClass(cls).isAnnotationPresent(AuditMe.class)){
+					pc = new AuditEntryPropertyChange(name, (IPersistentObject) oldValue, newEntityValue);
+				}else{
+					pc = new EntityPropertyChange(name, (IPersistentObject) oldValue, newEntityValue);
+				}
+			}else if(value instanceof AuditEntry){
+				// Many to one to ensure a snapshot is available
+				pc = new AuditEntryPropertyChange(name, (AuditEntry) value);
+			}else if(value == null && oldValue == null){
+				pc = new NullPropertyChange(name);
 			}
-		}else if(value instanceof AuditEntry){
-			// Many to one to ensure a snapshot is available
-			pc = new AuditEntryPropertyChange(name, (AuditEntry) value);
-		}else if(value == null && oldValue == null){
-			pc = new NullPropertyChange(name);
-		}
-		if(pc != null){
-			pc.setAuditEntry(this);
-			changes.put(name, pc);
+			if(pc != null){
+				pc.setAuditEntry(this);
+				changes.put(name, pc);
+			}
 		}
 	}
 	private boolean isEntity(Object value){

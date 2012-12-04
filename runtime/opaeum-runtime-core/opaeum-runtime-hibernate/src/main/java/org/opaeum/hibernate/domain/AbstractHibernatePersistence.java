@@ -10,8 +10,12 @@ import org.opaeum.runtime.persistence.Query;
 @SuppressWarnings("unchecked")
 public abstract class AbstractHibernatePersistence implements AbstractPersistence{
 	private Session session;
+	public static int COUNT;
+	public static int SESSION_COUNT;
 	public AbstractHibernatePersistence(Session session){
 		super();
+		COUNT++;
+		SESSION_COUNT++;
 		this.setSession(session);
 	}
 	public void refresh(IPersistentObject...ps){
@@ -52,5 +56,14 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 	}
 	protected void setSession(Session session){
 		this.session = session;
+	}
+	public void cleanUp() {
+		session=null;
+		SESSION_COUNT--;
+	}
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		COUNT--;
 	}
 }

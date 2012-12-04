@@ -42,7 +42,7 @@ public class EndToAssociationClass extends AbstractEmulatedProperty{
 	}
 	@Override
 	public boolean isComposite(){
-		return true;
+		return property==property.getAssociation().getMemberEnds().get(0);
 	}
 	public String getName(){
 		return NameConverter.decapitalize(property.getAssociation().getName()) + "_" + property.getName();

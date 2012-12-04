@@ -45,8 +45,6 @@
 	<classpathentry exported="true" kind="lib" path="target/jars/mail-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/jars/mondrian-3.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/jars/olap4j-1.0.1.500.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/jars/opaeum-runtime-domain-1.0.2-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/jars/opaeum-runtime-hibernate-1.0.2-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/jars/org.osgi.core-1.0.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/jars/postgresql-8.4-701.jdbc4.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/jars/protobuf-java-2.2.0.jar"/>
