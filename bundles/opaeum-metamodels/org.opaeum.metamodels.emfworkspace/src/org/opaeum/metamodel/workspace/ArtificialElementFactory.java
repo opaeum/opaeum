@@ -143,6 +143,13 @@ public class ArtificialElementFactory implements IPropertyEmulation{
 				addAllEmulatedProperties(intf, propertiesInScope);
 			}
 		}
+		Iterator<Property> iterator = propertiesInScope.iterator();
+		while(iterator.hasNext()){
+			Property property = (Property) iterator.next();
+			if(!property.isNavigable()){
+				iterator.remove();
+			}
+		}
 		return propertiesInScope;
 	}
 	public List<Property> getEffectiveAttributes(Classifier bc){

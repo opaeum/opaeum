@@ -64,8 +64,9 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		return sureFire;
 	}
 	public final String getProjectName(){
+		String identifier = model ==null? null:EmfPackageUtil.getIdentifier(this.model);
 		String projectName = getExampleTargetDir().generateProjectName(workspace.getIdentifier(), config.getMavenGroupId(),
-				EmfPackageUtil.getIdentifier(this.model));
+				identifier);
 		if(shouldAppendVersionSuffix){
 			projectName = projectName + config.getMavenGroupVersionSuffix();
 		}

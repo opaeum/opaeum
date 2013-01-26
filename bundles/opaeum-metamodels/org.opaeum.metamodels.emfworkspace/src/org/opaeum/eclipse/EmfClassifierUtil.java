@@ -288,7 +288,7 @@ public class EmfClassifierUtil{
 		return false;
 	}
 	public static boolean isPersistent(Type type){
-		if(!isComplexStructure(type)){
+		if(!isComplexStructure(type) || type instanceof Stereotype){
 			return false;
 		}else if(type instanceof Behavior){
 			return EmfBehaviorUtil.isProcess((Behavior) type) || EmfBehaviorUtil.isStandaloneTask((Behavior) type);

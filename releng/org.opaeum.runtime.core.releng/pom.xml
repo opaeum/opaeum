@@ -194,7 +194,7 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
-				<version>3.3.2.GA</version>
+				<version>4.1.6.Final</version>
 				<type>jar</type>
 				<scope>provided</scope>
 				<exclusions>
@@ -321,7 +321,7 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
-				<version>3.4.0.GA</version>
+				<version>4.1.6.Final</version>
 				<type>jar</type>
 				<scope>provided</scope>
 				<exclusions>

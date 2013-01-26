@@ -1,6 +1,5 @@
 package org.opaeum.runtime.event;
 
-import java.util.Date;
 import java.util.Set;
 
 public interface INotificationHandler extends ISignalEventHandler{

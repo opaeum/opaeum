@@ -1,6 +1,5 @@
 package org.opaeum.runtime.remote;
 
-import org.opaeum.runtime.domain.IActiveEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;

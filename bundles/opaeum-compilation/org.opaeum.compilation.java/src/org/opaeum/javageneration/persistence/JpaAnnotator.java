@@ -43,7 +43,6 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeImplementor.class},after = {AttributeImplementor.class})
 public class JpaAnnotator extends AbstractStructureVisitor{
 	public static boolean DEVELOPMENT_MODE = true;
-	public static boolean isJpa2 = false;
 	@VisitBefore(matchSubclasses = true)
 	public void visitEnumeration(Enumeration e){
 		if(!EmfElementUtil.isMarkedForDeletion(e)){
@@ -139,9 +138,9 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 			boolean behaviourWithSpecification = complexType instanceof Behavior && ((Behavior) complexType).getSpecification() != null;
 			if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()){
 				JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
-				if(!config.shouldBeCm1Compatible()){
-					jpaIdStrategy = new Jpa2IdTable();
-				}
+//				if(!config.shouldBeCm1Compatible() || config.isJpa2()){
+//					jpaIdStrategy = new Jpa2IdTable();
+//				}
 				JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
 				if(complexType instanceof Class){
 					Collection<Property> primaryKeyProperties = EmfClassifierUtil.getPrimaryKeyProperties(((Class) complexType));
@@ -279,9 +278,9 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 		}
 	}
 	private void implementManyForValueTypes(Property f,PropertyMap map,OJAnnotatedField field){
-		if(isJpa2){
+		if(config.isJpa2()){
 			OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("javax.persistence.ElementCollection"));
-			OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetEntity", ojUtil.classifierPathname((Classifier) f
+			OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetClass", ojUtil.classifierPathname((Classifier) f
 					.getType()));
 			collectionOfElements.putAttribute(targetElement);
 			OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName(
@@ -289,7 +288,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 			collectionOfElements.putAttribute(lazy);
 			field.addAnnotationIfNew(collectionOfElements);
 		}
-		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
+		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.CollectionTable"));
 		Element umlOwner = EmfPropertyUtil.getOwningClassifier(f);
 		String tableName = PersistentNameUtil.getPersistentName(umlOwner) + "_" + PersistentNameUtil.getPersistentName(f).getWithoutId();
 		joinTable.putAttribute(new OJAnnotationAttributeValue("name", tableName));
@@ -302,9 +301,12 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 	}
 	private void implementMap(PropertyMap map,OJAnnotatedField field){
 		PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(map.getProperty());
-		OJAnnotationValue mapKey = new OJAnnotationValue(new OJPathName("javax.persistence.MapKey"));
+		OJAnnotationValue mapKey = new OJAnnotationValue(new OJPathName("javax.persistence.MapKeyColumn"));
 		field.putAnnotation(mapKey);
 		mapKey.putAttribute("name", otherMap.qualifierProperty());
+		OJAnnotationValue mapKeyClass = new OJAnnotationValue(new OJPathName("javax.persistence.MapKeyClass"));
+		field.putAnnotation(mapKeyClass);
+		mapKeyClass.addClassValue(new OJPathName("String"));
 	}
 	protected final void mapXToOneEnumeration(Property f,OJAnnotatedClass owner,OJAnnotatedField field){
 		JpaUtil.addColumn(field, PersistentNameUtil.getPersistentName(f).getAsIs(), !EmfPropertyUtil.isRequired(f));

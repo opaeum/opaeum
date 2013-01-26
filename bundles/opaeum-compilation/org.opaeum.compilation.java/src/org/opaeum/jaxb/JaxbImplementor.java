@@ -6,20 +6,18 @@ import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
-import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
-import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJForStatement;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
@@ -38,6 +36,12 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 		org.opaeum.javageneration.bpm.activity.TaskAndResponsibilityImplementor.class,PersistentObjectImplementor.class,
 		HibernateAnnotator.class})
 public class JaxbImplementor extends AbstractStructureVisitor{
+	@VisitAfter()
+	public void visitInterface(Interface intf){
+		if(ojUtil.hasOJClass(intf)){
+			findJavaClass(intf).addToOperations(new OJAnnotatedOperation("fixJaxbRedefinitionBug"));
+		}
+	}
 	@VisitAfter(matchSubclasses = true)
 	@Override
 	protected boolean visitComplexStructure(OJAnnotatedClass ojClass,Classifier c){
@@ -65,9 +69,9 @@ public class JaxbImplementor extends AbstractStructureVisitor{
 					JaxbAnnotator.addXmlTransient(field);
 				}
 			}
-//			if(c.getName().equals("User")){
-//				System.err.println();
-//			}
+			// if(c.getName().equals("User")){
+			// System.err.println();
+			// }
 			Set<Property> diattrs = getLibrary().getDirectlyImplementedAttributes(c);
 			for(Property p:diattrs){
 				if(!p.isStatic()){
@@ -92,11 +96,11 @@ public class JaxbImplementor extends AbstractStructureVisitor{
 							}
 							continue;
 						}else if(c.getGenerals().size() >= 1){
-//							Property att = getLibrary().findEffectiveAttribute(c.getGenerals().get(0), p.getName());
-//							if(att != null && (EmfPropertyUtil.isDerived(att) || att.isReadOnly())){
-//								JaxbAnnotator.addXmlTransient(field);
-//								continue;
-//							}
+							// Property att = getLibrary().findEffectiveAttribute(c.getGenerals().get(0), p.getName());
+							// if(att != null && (EmfPropertyUtil.isDerived(att) || att.isReadOnly())){
+							// JaxbAnnotator.addXmlTransient(field);
+							// continue;
+							// }
 						}
 						if(p.getType() instanceof Interface){
 							addXmlAnyElement(owner, c, p);
@@ -107,21 +111,34 @@ public class JaxbImplementor extends AbstractStructureVisitor{
 					}
 				}
 			}
-			//NB!! this code only really fixes a few specific cases for CM. Not to be trusted. Neither is entity pass-by-value
+			// NB!! this code only really fixes a few specific cases for CM. Not to be trusted. Neither is entity pass-by-value
 			OJAnnotatedOperation fixRedefinitionInJaxb = new OJAnnotatedOperation("fixJaxbRedefinitionBug");
 			owner.addToOperations(fixRedefinitionInJaxb);
 			if(c.getGenerals().size() > 0){
 				fixRedefinitionInJaxb.getBody().addToStatements("super.fixJaxbRedefinitionBug()");
 			}
+			if(EmfClassifierUtil.isCompositionParticipant(c)){
+				fixRedefinitionInJaxb.getBody().addToStatements("addToOwningObject()");
+			}
 			for(Property p:diattrs){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
+				if(map.getProperty().isComposite() && EmfClassifierUtil.isCompositionParticipant(map.getBaseType() ) && !EmfPropertyUtil.isDerived(p)){
+					if(map.isOne()){
+						OJIfStatement ifNoNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "().fixJaxbRedefinitionBug()");
+						fixRedefinitionInJaxb.getBody().addToStatements(ifNoNull);
+					}else{
+						OJForStatement ifNoNull = new OJForStatement(map.fieldname() ,map.javaBaseTypePath(), map.getter() + "()");
+						ifNoNull.getBody().addToStatements(map.fieldname() + ".fixJaxbRedefinitionBug()");
+						fixRedefinitionInJaxb.getBody().addToStatements(ifNoNull);
+					}
+				}
 				if(map.isOne()){
 					EList<Property> rdfs = p.getRedefinedProperties();
 					if(rdfs.size() > 0){
 						for(Property rdf:rdfs){
 							if(p.getName().equals(rdf.getName()) && !EmfPropertyUtil.isDerived(p) && !EmfPropertyUtil.isDerived(rdf)){
 								if(EmfPropertyUtil.getOwningClassifier(rdf) != c){
-									//This results in jaxb only populating the superclass attribute
+									// This results in jaxb only populating the superclass attribute
 									PropertyMap rdfMap = ojUtil.buildStructuralFeatureMap(rdf);
 									fixRedefinitionInJaxb.getBody().addToStatements(map.internalAdder() + "(super." + rdfMap.fieldname() + ")");
 								}

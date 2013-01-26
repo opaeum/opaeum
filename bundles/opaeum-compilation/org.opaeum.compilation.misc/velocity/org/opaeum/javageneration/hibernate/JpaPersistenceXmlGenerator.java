@@ -15,7 +15,7 @@ public class JpaPersistenceXmlGenerator extends AbstractPersistenceConfigGenerat
 		super();
 	}
 	protected String getOutputPath(Element model){
-		return "META-INF/persistence.xml";
+		return "META-INF/persistence.xml.explicit";
 	}
 	protected String getConfigName(Element model){
 		if(model instanceof Model){

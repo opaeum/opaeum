@@ -5,14 +5,10 @@ import java.io.CharArrayWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
-import org.opaeum.t;
 import org.opaeum.runtime.environment.Environment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Configuration;

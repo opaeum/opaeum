@@ -2,9 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: opaeum-runtime-jpa
 Bundle-SymbolicName: opaeum-runtime-jpa
+EXtension-Name: opaeum-runtime-jpa
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.opaeum.audit,
  org.opaeum.runtime.jpa
-Require-Bundle: opaeum-runtime-dependencies,
- opaeum-runtime-domain,
- opaeum-runtime-hibernate
+Require-Bundle: opaeum-runtime-domain,
+ opaeum-runtime-hibernate,
+ opaeum-runtime-core-dependencies
+Import-Package: javax.persistence,
+ org.hibernate,
+ org.hibernate.dialect

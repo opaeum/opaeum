@@ -8,17 +8,16 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.event.EventSource;
-import org.hibernate.event.FlushEvent;
-import org.hibernate.event.FlushEventListener;
-import org.hibernate.event.PostInsertEvent;
-import org.hibernate.event.PostInsertEventListener;
-import org.hibernate.event.PostLoadEvent;
-import org.hibernate.event.PostLoadEventListener;
-import org.hibernate.event.def.AbstractFlushingEventListener;
+import org.hibernate.event.internal.AbstractFlushingEventListener;
+import org.hibernate.event.spi.EventSource;
+import org.hibernate.event.spi.FlushEvent;
+import org.hibernate.event.spi.FlushEventListener;
+import org.hibernate.event.spi.PostInsertEvent;
+import org.hibernate.event.spi.PostInsertEventListener;
+import org.hibernate.event.spi.PostLoadEvent;
+import org.hibernate.event.spi.PostLoadEventListener;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.OutgoingEvent;
@@ -78,7 +77,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements
 	public void onPostLoad(PostLoadEvent event) {
 		maybeRegister(event.getEntity(), event.getSession());
 		try{
-			Field declaredField = event.getPersister().getMappedClass(EntityMode.POJO).getDeclaredField("persistence");
+			Field declaredField = event.getPersister().getMappedClass().getDeclaredField("persistence");
 			if(declaredField != null){
 				declaredField.setAccessible(true);
 				declaredField.set(event.getEntity(), getPersistence(event.getSession()));
@@ -207,26 +206,26 @@ public class EventDispatcher extends AbstractFlushingEventListener implements
 		}
 	}
 
-	protected void performExecutions(EventSource session)
-			throws HibernateException {
-		session.getPersistenceContext().setFlushing(true);
-		try {
-			session.getJDBCContext().getConnectionManager().flushBeginning();
-			// we need to lock the collection caches before
-			// executing entity inserts/updates in order to
-			// account for bidi associations
-			session.getActionQueue().prepareActions();
-			session.getActionQueue().executeActions();
-		} catch (HibernateException he) {
-			// log.error("Could not synchronize database state with session",
-			// he);
-			throw he;
-		} finally {
-			session.getPersistenceContext().setFlushing(false);// NUML
-			// Modification
-			// to assist
-			// with auditing
-			session.getJDBCContext().getConnectionManager().flushEnding();
-		}
-	}
+//	protected void performExecutions(EventSource session)
+//			throws HibernateException {
+//		session.getPersistenceContext().setFlushing(true);
+//		try {
+//			session.getgetJDBCContext().getConnectionManager().flushBeginning();
+//			// we need to lock the collection caches before
+//			// executing entity inserts/updates in order to
+//			// account for bidi associations
+//			session.getActionQueue().prepareActions();
+//			session.getActionQueue().executeActions();
+//		} catch (HibernateException he) {
+//			// log.error("Could not synchronize database state with session",
+//			// he);
+//			throw he;
+//		} finally {
+//			session.getPersistenceContext().setFlushing(false);// NUML
+//			// Modification
+//			// to assist
+//			// with auditing
+//			session.getJDBCContext().getConnectionManager().flushEnding();
+//		}
+//	}
 }

@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: opaeum-runtime-domain
 Bundle-SymbolicName: opaeum-runtime-domain
 Bundle-Version: 1.0.0.qualifier
+Extension-Name: Opaeum-runtime-domain
 Export-Package: org.opaeum,
  org.opaeum.annotation,
  org.opaeum.name,
@@ -21,4 +22,7 @@ Export-Package: org.opaeum,
  org.opaeum.runtime.strategy,
  org.opaeum.simulation,
  org.opaeum.util
-Require-Bundle: opaeum-runtime-dependencies
+Require-Bundle: opaeum-runtime-core-dependencies;bundle-version="1.0.0"
+Import-Package: javax.activation;version="[0.0.0,10.0.0)",
+ javax.mail,
+ org.slf4j

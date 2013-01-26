@@ -85,8 +85,9 @@ public class EmfPackageUtil{
 		}
 	}
 	public static boolean isRegeneratingLibrary(Model model){
-		if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL)){
-			EObject sa = model.getStereotypeApplication(StereotypesHelper.getStereotype(model, StereotypeNames.MODEL));
+		Stereotype stereotype = StereotypesHelper.getStereotype(model, StereotypeNames.MODEL);
+		if(stereotype!=null){
+			EObject sa = model.getStereotypeApplication(stereotype);
 			EStructuralFeature f = sa.eClass().getEStructuralFeature(TagNames.MODEL_TYPE);
 			if(f != null){
 				EEnumLiteral value = (EEnumLiteral) sa.eGet(f);

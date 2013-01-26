@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import org.hibernate.event.EventSource;
+import org.hibernate.event.spi.EventSource;
 
 @Entity()
 @DiscriminatorValue(value="B")

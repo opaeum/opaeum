@@ -1,7 +1,5 @@
 package org.opaeum.runtime.remote;
 
-import java.io.Serializable;
-
 import org.opaeum.runtime.domain.IPersistentObject;
 
 public abstract class Reference implements IReference{

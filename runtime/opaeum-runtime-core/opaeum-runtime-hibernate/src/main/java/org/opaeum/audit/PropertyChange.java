@@ -19,7 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
-import org.hibernate.event.EventSource;
+import org.hibernate.event.spi.EventSource;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

@@ -5,28 +5,25 @@ import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.classic.Lifecycle;
 import org.hibernate.ejb.event.EJB3FlushEntityEventListener;
 import org.hibernate.ejb.event.EntityCallbackHandler;
-import org.hibernate.engine.EntityEntry;
-import org.hibernate.engine.Versioning;
-import org.hibernate.event.EventSource;
-import org.hibernate.event.FlushEntityEvent;
-import org.hibernate.event.FlushEntityEventListener;
-import org.hibernate.event.FlushEvent;
-import org.hibernate.event.FlushEventListener;
-import org.hibernate.event.Initializable;
-import org.hibernate.event.PersistEvent;
-import org.hibernate.event.PersistEventListener;
-import org.hibernate.event.PostInsertEvent;
-import org.hibernate.event.PostInsertEventListener;
-import org.hibernate.event.PostLoadEvent;
-import org.hibernate.event.PostLoadEventListener;
-import org.hibernate.event.PostUpdateEvent;
-import org.hibernate.event.PostUpdateEventListener;
+import org.hibernate.engine.internal.Versioning;
+import org.hibernate.engine.spi.EntityEntry;
+import org.hibernate.event.spi.EventSource;
+import org.hibernate.event.spi.FlushEntityEvent;
+import org.hibernate.event.spi.FlushEntityEventListener;
+import org.hibernate.event.spi.FlushEvent;
+import org.hibernate.event.spi.FlushEventListener;
+import org.hibernate.event.spi.PersistEvent;
+import org.hibernate.event.spi.PersistEventListener;
+import org.hibernate.event.spi.PostInsertEvent;
+import org.hibernate.event.spi.PostInsertEventListener;
+import org.hibernate.event.spi.PostLoadEvent;
+import org.hibernate.event.spi.PostLoadEventListener;
+import org.hibernate.event.spi.PostUpdateEvent;
+import org.hibernate.event.spi.PostUpdateEventListener;
 import org.hibernate.persister.entity.EntityPersister;
 import org.opaeum.hibernate.domain.AbstractInterfaceValue;
 import org.opaeum.hibernate.domain.CascadingInterfaceValue;
@@ -37,7 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AuditListener extends EventDispatcher implements PostInsertEventListener,PostLoadEventListener,PostUpdateEventListener,
-		FlushEventListener,Initializable,PersistEventListener,FlushEntityEventListener{
+		FlushEventListener,PersistEventListener,FlushEntityEventListener{
 	private static final long serialVersionUID = -233067098331332700L;
 	private static final Logger log = LoggerFactory.getLogger(AuditListener.class);
 	private EJB3FlushEntityEventListener ejb3FlushEntityEventListener;
@@ -108,36 +105,31 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 			lazyGetAttachment(source).clearAuditWorkUnit();
 		}
 	}
-	protected void performExecutions(EventSource session) throws HibernateException{
-		log.trace("executing flush");
-		session.getPersistenceContext().setFlushing(true);
-		try{
-			session.getJDBCContext().getConnectionManager().flushBeginning();
-			// we need to lock the collection caches before
-			// executing entity inserts/updates in order to
-			// account for bidi associations
-			session.getActionQueue().prepareActions();
-			session.getActionQueue().executeActions();
-		}catch(HibernateException he){
-			// log.error("Could not synchronize database state with session",
-			// he);
-			throw he;
-		}finally{
-			session.getPersistenceContext().setFlushing(false);
-			session.getJDBCContext().getConnectionManager().flushEnding();
-		}
-	}
-	@Override
-	public void initialize(Configuration cfg){
-		cfg.getEventListeners().getPostLoadEventListeners()[1] = this;
-		// hahahahahahahahaha
-	}
+//	protected void performExecutions(EventSource session) throws HibernateException{
+//		log.trace("executing flush");
+//		session.getPersistenceContext().setFlushing(true);
+//		try{
+//			session.getJDBCContext().getConnectionManager().flushBeginning();
+//			// we need to lock the collection caches before
+//			// executing entity inserts/updates in order to
+//			// account for bidi associations
+//			session.getActionQueue().prepareActions();
+//			session.getActionQueue().executeActions();
+//		}catch(HibernateException he){
+//			// log.error("Could not synchronize database state with session",
+//			// he);
+//			throw he;
+//		}finally{
+//			session.getPersistenceContext().setFlushing(false);
+//			session.getJDBCContext().getConnectionManager().flushEnding();
+//		}
+//	}
 	@SuppressWarnings("rawtypes")
 	public void onPersist(PersistEvent event,Map createdAlready) throws HibernateException{
 		EventSource session = event.getSession();
 		String entityName = event.getEntityName();
 		EntityPersister p = session.getEntityPersister(entityName, event.getObject());
-		Object[] propertyValues = p.getPropertyValues(event.getObject(), EntityMode.POJO);
+		Object[] propertyValues = p.getPropertyValues(event.getObject());
 		doInterfaceValues(createdAlready, session, propertyValues);
 	}
 	@SuppressWarnings("rawtypes")
@@ -174,7 +166,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 	public void onPostLoad(PostLoadEvent event){
 		super.onPostLoad(event);
 		// NB!!! Don't touch this code - copied from hibernate
-		if(event.getPersister().implementsLifecycle(event.getSession().getEntityMode())){
+		if(event.getPersister().implementsLifecycle()){
 			// log.debug( "calling onLoad()" );
 			((Lifecycle) event.getEntity()).onLoad(event.getSession(), event.getId());
 		}

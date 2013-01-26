@@ -249,7 +249,7 @@ public class OpaeumConfig{
 		return this.props.getProperty(MAVEN_GROUPID, "");
 	}
 	public String getIdGeneratorStrategy(){
-		return this.props.getProperty(ID_GENERATOR_STRATEGY, "AUTO");
+		return this.props.getProperty(ID_GENERATOR_STRATEGY, "TABLE");
 	}
 	public void setIdGeneratorStrategy(String name){
 		this.props.setProperty(ID_GENERATOR_STRATEGY, name);
@@ -472,5 +472,8 @@ public class OpaeumConfig{
 	}
 	public void setUiModelerActive(boolean t){
 		props.setProperty(UI_MODULE_ACTIVE, ""+t);
+	}
+	public boolean isJpa2(){
+		return true;
 	}
 }

@@ -52,7 +52,7 @@ public abstract class AbstractEnumerationOnStereotypeSection extends AbstractEnu
 				Stereotype s = p.getOwnedStereotype(getStereotypeName(getElement(getSelectedObject())));
 				if(s != null){
 					EStructuralFeature feature = s.getDefinition().getEStructuralFeature(getAttributeName());
-					if(feature != null && getFeature().getEType() instanceof EEnum){
+					if(feature != null && feature.getEType() instanceof EEnum){
 						literals = new ArrayList<String>();
 						EList<EEnumLiteral> tmp = ((EEnum) feature.getEType()).getELiterals();
 						for(EEnumLiteral eEnumLiteral:tmp){

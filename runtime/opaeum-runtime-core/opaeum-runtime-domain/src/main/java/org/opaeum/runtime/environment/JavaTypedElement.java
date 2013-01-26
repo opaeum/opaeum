@@ -1,14 +1,12 @@
 package org.opaeum.runtime.environment;
 
 import java.beans.PropertyDescriptor;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
-import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyConstraint;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.name.NameConverter;

@@ -4,7 +4,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.AccessType;
-import org.opaeum.runtime.costing.IQuantifiedResourceBase;
 import org.opaeum.runtime.domain.IPersistentObject;
 
 @Embeddable

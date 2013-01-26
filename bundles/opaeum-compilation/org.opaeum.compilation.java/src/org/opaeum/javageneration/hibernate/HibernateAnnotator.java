@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.OneToMany;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
@@ -85,6 +86,11 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	protected boolean visitComplexStructure(OJAnnotatedClass owner,Classifier complexType){
 		if(isPersistent(complexType)){
 			addAllInstances(complexType, owner);
+			OJAnnotationValue filter = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Filter"));
+			filter.putAttribute("name", "noDeletedObjects");
+			filter.putAttribute(new OJAnnotationAttributeValue("condition", "deleted_on > " + config.getDbDialect().getCurrentTimeStampString()));
+			owner.putAnnotation(filter);
+
 			if(EmfClassifierUtil.isCompositionParticipant(complexType)){
 				Property endToComposite = getLibrary().getEndToComposite(complexType);
 				if(endToComposite != null
@@ -93,13 +99,14 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 				Set<Property> dia = getLibrary().getDirectlyImplementedAttributes(complexType);
 				for(Property property:dia){
-					if(property.isComposite() && EmfClassifierUtil.isCompositionParticipant(property.getType()) && !EmfPropertyUtil.isDerived(property)){
-						PropertyMap map=ojUtil.buildStructuralFeatureMap(property);
+					if(property.isComposite() && EmfClassifierUtil.isCompositionParticipant(property.getType())
+							&& !EmfPropertyUtil.isDerived(property)){
+						PropertyMap map = ojUtil.buildStructuralFeatureMap(property);
 						OJOperation remover = owner.findOperation(map.remover(), Arrays.asList(map.javaBaseTypePath()));
-						if(remover!=null){
+						if(remover != null){
 							OJIfStatement ifNotNull = (OJIfStatement) remover.getBody().findStatementRecursive(AttributeImplementor.IF_PARAM_NOT_NULL);
-							if(ifNotNull!=null){
-								ifNotNull.getThenPart().addToStatements(map.fieldname()+".markDeleted()");
+							if(ifNotNull != null){
+								ifNotNull.getThenPart().addToStatements(map.fieldname() + ".markDeleted()");
 							}
 						}
 					}
@@ -192,14 +199,16 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					// OJPathName("javax.persistence.Transient")));
 				}
 				if(map.getBaseType() instanceof Enumeration || EmfClassifierUtil.isSimpleType(map.getBaseType())){
-					OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.CollectionOfElements"));
-					OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetElement",
-							ojUtil.classifierPathname((Classifier) map.getBaseType()));
-					collectionOfElements.putAttribute(targetElement);
-					OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName(
-							"javax.persistence.FetchType"), "LAZY"));
-					collectionOfElements.putAttribute(lazy);
-					field.addAnnotationIfNew(collectionOfElements);
+					if(!config.isJpa2()){
+						OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.CollectionOfElements"));
+						OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetElement",
+								ojUtil.classifierPathname((Classifier) map.getBaseType()));
+						collectionOfElements.putAttribute(targetElement);
+						OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName(
+								"javax.persistence.FetchType"), "LAZY"));
+						collectionOfElements.putAttribute(lazy);
+						field.addAnnotationIfNew(collectionOfElements);
+					}
 				}
 				if(map.getBaseType() instanceof Interface && !EmfClassifierUtil.isHelper(map.getBaseType())){
 					HibernateUtil.addManyToAny(owner, field, map, config);
@@ -321,15 +330,16 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			OJIfStatement st = (OJIfStatement) setter.getBody().findStatementRecursive(AttributeImplementor.IF_PARAM_NOT_NULL);
 			if(st == null){
 			}else{
-				//TODO THIS IS A BUG - the deleted object is actually totally detached from all its associated object - introduce special logic for reparenting 
+				// TODO THIS IS A BUG - the deleted object is actually totally detached from all its associated object - introduce special logic for
+				// reparenting
 				st.getThenPart().addToStatements("setDeletedOn(Stdlib.FUTURE)");
-				//END BUG
+				// END BUG
 				st.setElsePart(new OJBlock());
 				OJOperation markDeleted = ojOwner.getUniqueOperation("markDeleted");
 				if(markDeleted != null){
 					st.getElsePart().addToStatements("markDeleted()");
 				}else{
-					//TODO why does this happen??
+					// TODO why does this happen??
 					st.getElsePart().addToStatements("setDeletedOn(new Date())");
 				}
 			}

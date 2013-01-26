@@ -371,7 +371,7 @@ public class EmfPropertyUtil{
 		}
 		for(Association a:c.getAssociations()){
 			for(Property end:a.getMemberEnds()){
-				if(end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner() == a){
+				if(end.getOtherEnd()!=null && end.getOtherEnd().getType()!=null && end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner() == a){
 					maybeAddProperty(c, nameMap, result, end);
 				}
 			}

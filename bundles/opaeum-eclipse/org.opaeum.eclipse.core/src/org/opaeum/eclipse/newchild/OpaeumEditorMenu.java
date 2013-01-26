@@ -117,22 +117,24 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		if(getSelectedObject() != null && getActiveWorkbenchWindow().getActivePage() != null){
 			domain = (EditingDomain) getActiveWorkbenchWindow().getActivePage().getActiveEditor().getAdapter(EditingDomain.class);
 			this.descriptors = new ArrayList<CommandParameter>();
-			for(Object o:domain.getNewChildDescriptors(getSelectedObject(), null)){
-				CommandParameter cp = (CommandParameter) o;
-				cp.setOwner(getSelectedObject());
-				if(OpaeumFilter.isAllowedElement((EObject) cp.getValue()) && cp.getEStructuralFeature().getContainerClass() != null){
-					// filter out stereotype features
-					this.descriptors.add(cp);
+			if(domain != null){
+				for(Object o:domain.getNewChildDescriptors(getSelectedObject(), null)){
+					CommandParameter cp = (CommandParameter) o;
+					cp.setOwner(getSelectedObject());
+					if(OpaeumFilter.isAllowedElement((EObject) cp.getValue()) && cp.getEStructuralFeature().getContainerClass() != null){
+						// filter out stereotype features
+						this.descriptors.add(cp);
+					}
 				}
+				Collection<IAction> createChildActions = generateCreateChildActions(descriptors);
+				addCustomerCreateChildActions(createChildActions, OpaeumEclipsePlugin.getDefault().getCreateChildActions());
+				for(ICreateChildActionProvider p:OpaeumEclipsePlugin.getDefault().getCreateChildActionProviders()){
+					addCustomerCreateChildActions(createChildActions, p.getActions());
+				}
+				Map<String,Collection<IAction>> createChildSubmenuActions = extractSubmenuActions(createChildActions);
+				populateManager(this, createChildSubmenuActions, null);
+				populateManager(this, createChildActions, null);
 			}
-			Collection<IAction> createChildActions = generateCreateChildActions(descriptors);
-			addCustomerCreateChildActions(createChildActions, OpaeumEclipsePlugin.getDefault().getCreateChildActions());
-			for(ICreateChildActionProvider p:OpaeumEclipsePlugin.getDefault().getCreateChildActionProviders()){
-				addCustomerCreateChildActions(createChildActions, p.getActions());
-			}
-			Map<String,Collection<IAction>> createChildSubmenuActions = extractSubmenuActions(createChildActions);
-			populateManager(this, createChildSubmenuActions, null);
-			populateManager(this, createChildActions, null);
 			this.update();
 		}
 	}

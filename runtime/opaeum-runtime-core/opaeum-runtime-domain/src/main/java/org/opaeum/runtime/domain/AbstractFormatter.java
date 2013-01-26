@@ -6,8 +6,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.xml.datatype.Duration;
-
 public class AbstractFormatter{
 	SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd z");

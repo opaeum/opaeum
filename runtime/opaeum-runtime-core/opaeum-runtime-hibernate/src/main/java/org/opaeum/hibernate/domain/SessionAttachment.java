@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import org.hibernate.event.EventSource;
+import org.hibernate.event.spi.EventSource;
 import org.opaeum.audit.AuditWorkUnit;
 import org.opaeum.runtime.domain.IEventGenerator;
 

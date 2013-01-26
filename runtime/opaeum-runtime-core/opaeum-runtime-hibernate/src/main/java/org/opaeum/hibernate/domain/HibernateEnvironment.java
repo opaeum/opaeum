@@ -15,8 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.connection.ConnectionProvider;
-import org.hibernate.connection.ConnectionProviderFactory;
+import org.hibernate.service.jdbc.connections.spi.ConnectionProvider;
 import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -70,7 +69,7 @@ public class HibernateEnvironment extends Environment{
 			schemas.remove(null);
 			Configuration hibernateConfiguration = new Configuration();
 			hibernateConfiguration.configure(getHibernateConfigName());
-			ConnectionProvider connProvider = ConnectionProviderFactory.newConnectionProvider(hibernateConfiguration.getProperties());
+			ConnectionProvider connProvider = null;//TODO ConnectionProviderInitiator.INSTANCE. newConnectionProvider(hibernateConfiguration.getProperties());
 			try{
 				Connection connection = connProvider.getConnection();
 				Statement st = connection.createStatement();

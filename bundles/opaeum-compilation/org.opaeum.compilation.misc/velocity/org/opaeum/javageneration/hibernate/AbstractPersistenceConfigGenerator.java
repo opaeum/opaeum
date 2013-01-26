@@ -8,6 +8,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
@@ -57,7 +58,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		}
 	}
 	protected boolean shouldProcessWorkspace(){
-		return transformationContext.isIntegrationPhase() && false;
+		return transformationContext.isIntegrationPhase();
 	}
 	@VisitBefore
 	public void visitModel(Model model){
@@ -102,7 +103,6 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		for(String string:config.getAdditionalPersistentClasses()){
 			persistentClasses.add(new OJPathName(string));
 		}
-		if(!config.getSourceFolderStrategy().isSingleProjectStrategy() || transformationContext.isFeatureSelected(RapCapabilities.class)){
 			// CLasses across multiple jars need to be registered explicitly
 			TreeIterator<Notifier> iter = workspace.getResourceSet().getAllContents();
 			while(iter.hasNext()){
@@ -112,6 +112,9 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 					if(e instanceof Classifier && EmfClassifierUtil.isComplexStructure((Classifier) e) && EmfClassifierUtil.isPersistent((Type) e)
 							&& isGeneratingElement(e)){
 						persistentClasses.add(ojUtil.classifierPathname((Classifier) e));
+						if( e instanceof Behavior){
+							persistentClasses.add(ojUtil.tokenPathName((Behavior)  e));
+						}
 					}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
 						persistentClasses.add(ojUtil.classifierPathname((Operation) e));
 					}else if(e instanceof Enumeration && isGeneratingElement(e)
@@ -126,7 +129,6 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 						persistentClasses.add(ojUtil.classifierPathname((StructuredActivityNode) e));
 					}
 				}
-			}
 			vars.put("persistentClasses", persistentClasses);
 			vars.put("pkg", ojUtil.utilPackagePath(owner));
 		}
@@ -140,10 +142,11 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		// TODO Auto-generated method stub
 	}
 	private boolean isGeneratingElement(Element e){
+		Package rootObject = EmfElementFinder.getRootObject(e);
 		if(shouldProcessWorkspace()){
-			return workspace.getRootObjects().contains(EmfElementFinder.getRootObject(e));
+			return workspace.getRootObjects().contains(rootObject) || (rootObject instanceof Model && EmfPackageUtil.isRegeneratingLibrary((Model) rootObject)) ;
 		}else{
-			return workspace.getGeneratingModelsOrProfiles().contains(EmfElementFinder.getRootObject(e));
+			return workspace.getGeneratingModelsOrProfiles().contains(rootObject);
 		}
 	}
 }

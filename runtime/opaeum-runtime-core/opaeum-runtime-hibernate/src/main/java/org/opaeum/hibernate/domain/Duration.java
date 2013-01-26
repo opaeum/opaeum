@@ -1,6 +1,9 @@
 package org.opaeum.hibernate.domain;
 
-import static org.opaeum.hibernate.domain.FormatHelper.*;
+import static org.opaeum.hibernate.domain.FormatHelper.format;
+import static org.opaeum.hibernate.domain.FormatHelper.parse;
+import static org.opaeum.hibernate.domain.FormatHelper.parseDouble;
+
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
