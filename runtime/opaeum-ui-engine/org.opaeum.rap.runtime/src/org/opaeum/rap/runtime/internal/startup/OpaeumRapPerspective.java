@@ -3,7 +3,7 @@ package org.opaeum.rap.runtime.internal.startup;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
-import org.opaeum.rap.runtime.Constants;
+import org.opaeum.rap.login.Constants;
 
 public class OpaeumRapPerspective implements IPerspectiveFactory {
 

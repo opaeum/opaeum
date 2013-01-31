@@ -4,7 +4,6 @@ Bundle-Name: Full Opaeum RAP Runtime
 Bundle-SymbolicName: org.opaeum.rap.runtime;singleton:=true
 Bundle-Version: 1.0.2.qualifier
 Require-Bundle: org.eclipse.rap.ui.forms,
- org.eclipse.core.runtime,
  org.eclipse.rap.ui.views,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
@@ -12,28 +11,27 @@ Require-Bundle: org.eclipse.rap.ui.forms,
  org.eclipse.rap.rwt,
  org.eclipse.rap.jface,
  org.eclipse.rap.ui,
- org.opaeum.metamodels.uim,
  org.eclipse.core.databinding.property,
  org.eclipse.nebula.widgets.pagination,
- org.opaeum.runtime-core-bundle
+ org.opaeum.jface.runtime,
+ org.opaeum.rap.metamodels.uim,
+ opaeum-runtime-core-dependencies,
+ opaeum-runtime-domain,
+ opaeum-runtime-hibernate,
+ opaeum-runtime-jpa,
+ org.eclipse.equinox.supplement,
+ org.eclipse.equinox.common
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator
 Bundle-Localization: plugin
 Bundle-ClassPath: .
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.servlet,
  javax.servlet.http
-Export-Package: org.opaeum.rap.runtime,
- org.opaeum.rap.runtime.cubetree,
- org.opaeum.rap.runtime.editingsupport,
- org.opaeum.rap.runtime.internal,
+Export-Package: org.opaeum.rap.runtime.internal,
  org.opaeum.rap.runtime.internal.actions,
- org.opaeum.rap.runtime.internal.binding,
  org.opaeum.rap.runtime.internal.chart,
  org.opaeum.rap.runtime.internal.datamodel,
  org.opaeum.rap.runtime.internal.dialogs,
- org.opaeum.rap.runtime.internal.editors,
  org.opaeum.rap.runtime.internal.startup,
  org.opaeum.rap.runtime.internal.views,
- org.opaeum.rap.runtime.internal.wizards,
- org.opaeum.rap.runtime.startup,
- org.opaeum.rap.runtime.widgets
+ org.opaeum.rap.runtime.startup

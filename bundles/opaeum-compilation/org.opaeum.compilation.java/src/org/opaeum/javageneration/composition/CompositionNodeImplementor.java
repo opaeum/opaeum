@@ -30,8 +30,10 @@ import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
+import org.opaeum.javageneration.hibernate.HibernateAnnotator;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.oclexpressions.AttributeExpressionGenerator;
+import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.runtime.domain.CompositionNode;
 
 /**
@@ -39,7 +41,7 @@ import org.opaeum.runtime.domain.CompositionNode;
  * implemented.
  */
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class,
-		AttributeExpressionGenerator.class})
+		AttributeExpressionGenerator.class,JpaAnnotator.class,HibernateAnnotator.class})
 public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	protected static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";

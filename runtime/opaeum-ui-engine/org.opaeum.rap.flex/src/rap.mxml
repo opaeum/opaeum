@@ -13,7 +13,6 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import com.adobe.serialization.json.JSON;
 			
 			import flash.utils.describeType;
 			
@@ -92,7 +91,7 @@
 					
 				}
 				Server.getInstance().setUrl(this.url.substring(0,this.url.lastIndexOf("/")));
-				mp.processMessage(JSON.decode(s));
+				mp.processMessage(JSON.parse(s));
 			}
 		]]>
 	</fx:Script>

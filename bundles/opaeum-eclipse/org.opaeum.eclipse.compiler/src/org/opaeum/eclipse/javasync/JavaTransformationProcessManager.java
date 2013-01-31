@@ -61,6 +61,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			// Load classes for config
 			OpaeumEclipsePlugin.getDefault();
 			reinitializeProcess(process, ouf.getConfig(), ouf.getFile().getParent());
+			process.replaceModel(ouf.getEmfWorkspace());
 			processes.put(ouf.getFile(), process);
 			synchronizers.put(ouf.getFile(), new JavaSourceSynchronizer(ouf, process));
 			ouf.addContextListener(new OpaeumSynchronizationListener(){

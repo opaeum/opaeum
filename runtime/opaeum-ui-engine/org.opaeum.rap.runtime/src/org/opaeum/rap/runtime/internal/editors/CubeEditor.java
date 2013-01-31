@@ -1,13 +1,11 @@
 package org.opaeum.rap.runtime.internal.editors;
 
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -76,10 +74,10 @@ public class CubeEditor extends FormEditor implements ISelectionListener,IDirtyL
 	@Override
 	protected void addPages(){
 		try{
-			EObject content = getRootUimObject();
+			Object content = getRootUimObject();
 			if(content instanceof ClassUserInteractionModel){
 				ClassUserInteractionModel cuim = (ClassUserInteractionModel) content;
-				EList<CubeQuery> pages2 = cuim.getCubeQueryEditor().getQueries();
+				List<CubeQuery> pages2 = cuim.getCubeQueryEditor().getQueries();
 				cubeQueries = new FormPage[pages2.size()];
 				for(int i = 0;i < cubeQueries.length;i++){
 					cubeQueries[i] = new CubeQueryPage(this, pages2.get(i));
@@ -100,12 +98,12 @@ public class CubeEditor extends FormEditor implements ISelectionListener,IDirtyL
 			StatusManager.getManager().handle(status, style);
 		}
 	}
-	public EObject getRootUimObject(){
+	public Object getRootUimObject(){
 		IOpaeumApplication opaeumApplication = getOpaeumApplication();
 		Class<IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(getEditorInput().getPersistentObject());
 		String uuid = originalClass.getAnnotation(NumlMetaInfo.class).uuid();
 		Resource r = opaeumApplication.getUimResource(uuid);
-		EObject content = r.getContents().get(0);
+		Object content = r.getContents().get(0);
 		return content;
 	}
 	public IOpaeumApplication getOpaeumApplication(){

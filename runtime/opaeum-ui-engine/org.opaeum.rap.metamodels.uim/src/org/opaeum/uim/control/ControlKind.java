@@ -1,0 +1,24 @@
+package org.opaeum.uim.control;
+
+
+public enum ControlKind {
+	DATE_POPUP,
+	DROPDOWN,
+	TEXT,
+	TEXT_AREA,
+	LIST_BOX,
+	CHECK_BOX,
+	NUMBER_SCROLLER,
+	TREE_VIEW,
+	POPUP_SEARCH,
+	TOGGLE_BUTTON,
+	SELECTION_TABLE,
+	LINK,
+	RADIO_BUTTON,
+	LABEL,
+	DATE_SCROLLER,
+	DATE_TIME_POPUP;
+
+
+
+}

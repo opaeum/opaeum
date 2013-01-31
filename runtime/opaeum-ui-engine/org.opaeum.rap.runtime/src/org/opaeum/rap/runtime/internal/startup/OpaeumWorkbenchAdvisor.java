@@ -9,7 +9,7 @@ import org.eclipse.ui.activities.IMutableActivityManager;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
-import org.opaeum.rap.runtime.Constants;
+import org.opaeum.rap.login.Constants;
 
 public class OpaeumWorkbenchAdvisor extends WorkbenchAdvisor {
 

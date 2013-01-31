@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 
-<target name="tart" sequenceNumber="85">
+<target name="tart" sequenceNumber="114">
 <locations>
-<location path="/home/ampie/EclipseProducts/JunoModelling4.2.1/opaeum_runtime_repo" type="Directory"/>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.rap.feature.feature.group" version="2.0.0.20121001-1623"/>
-<unit id="org.eclipse.rap.equinox.target.feature.feature.group" version="2.0.0.20121001-1630"/>
-<repository location="file:/home/ampie/EclipseProducts/rap/2.0/"/>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.rap.equinox.juno.target.feature.feature.group" version="2.0.0.20130113-1955"/>
+<unit id="org.eclipse.rap.feature.feature.group" version="2.0.0.20130116-1245"/>
+<repository location="file:/home/ampie/EclipseProducts/rap2/"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.8.1.v20120917-0436"/>
-<unit id="org.eclipse.emf.rap.sdk.feature.group" version="2.8.1.v20120917-0436"/>
-<repository location="file:/home/ampie/EclipseProducts/juno/"/>
-</location>
+<location path="/home/ampie/EclipseProducts/equinox.supplemental" type="Directory"/>
 </locations>
+<includeBundles>
+<plugin id="com.ibm.icu.base"/>
+<plugin id="org.eclipse.core.databinding.beans"/>
+<plugin id="org.eclipse.rap.jface"/>
+<plugin id="javax.servlet"/>
+<plugin id="org.eclipse.osgi.source"/>
+<plugin id="org.eclipse.rap.rwt.osgi.source"/>
+<plugin id="org.eclipse.core.databinding.observable"/>
+<plugin id="org.eclipse.core.databinding"/>
+<plugin id="org.eclipse.equinox.supplement.source"/>
+<plugin id="org.eclipse.rap.rwt.osgi"/>
+<plugin id="org.eclipse.equinox.supplement"/>
+<plugin id="org.eclipse.rap.jface.databinding.source"/>
+<plugin id="org.eclipse.osgi"/>
+<plugin id="org.eclipse.equinox.common.source"/>
+<plugin id="org.eclipse.equinox.common"/>
+<plugin id="org.eclipse.core.commands"/>
+<plugin id="org.eclipse.core.databinding.property"/>
+<plugin id="org.eclipse.rap.rwt"/>
+<plugin id="org.eclipse.rap.jface.source"/>
+<plugin id="org.eclipse.rap.jface.databinding"/>
+<plugin id="org.eclipse.equinox.servletbridge.extensionbundle"/>
+<plugin id="osgi.cmpn"/>
+<plugin id="org.eclipse.rap.rwt.source"/>
+</includeBundles>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 </target>

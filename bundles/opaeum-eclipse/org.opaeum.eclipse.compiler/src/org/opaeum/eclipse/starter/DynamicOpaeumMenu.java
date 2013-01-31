@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
@@ -20,6 +21,7 @@ import org.eclipse.uml2.uml.PackageImport;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.GenerateBusinessIntelligenceSchemaAction;
+import org.opaeum.eclipse.javasync.GenerateMetaModelClassesAction;
 import org.opaeum.eclipse.javasync.RecompileElementAction;
 import org.opaeum.eclipse.javasync.RecompileIntegrationCodeAction;
 import org.opaeum.eclipse.javasync.RecompileModelAction;
@@ -33,6 +35,7 @@ import org.opaeum.eclipse.versioning.CompileVersionAction;
 import org.opaeum.eclipse.versioning.GenerateMigrationProjectAction;
 import org.opaeum.eclipse.versioning.VersionAction;
 import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.javageneration.MetaModelJavaTransformationStep;
 import org.opaeum.validation.ValidationPhase;
 
 public class DynamicOpaeumMenu extends CompoundContributionItem implements ICompoundContributionItem{
@@ -53,7 +56,11 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 		if(actions == null){
 			actions = new ArrayList<IContributionItem>();
 			Object firstElement = selection.getFirstElement();
-			if(firstElement instanceof IContainer){
+			if(firstElement instanceof EPackage){
+				if(((EPackage) firstElement).getESuperPackage()==null){
+					actions.add(new ActionContributionItem(new GenerateMetaModelClassesAction(selection)));
+				}
+			}else if(firstElement instanceof IContainer){
 				IContainer container = (IContainer) firstElement;
 				if(OpaeumConfig.isValidVersionNumber(container.getName())){
 					actions.add(new ActionContributionItem(new CompileVersionAction(selection)));

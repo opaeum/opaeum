@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * The <b>Resource </b> associated with the package.
  * <!-- end-user-doc -->
  * @see org.opaeum.uim.perspective.util.PerspectiveResourceFactoryImpl
- * @generated
+ * @generated NOT
  */
 public class PerspectiveResourceImpl extends XMLResourceImpl {
 	/**

@@ -1,6 +1,6 @@
 
 package rwt.protocol {
-	import com.adobe.serialization.json.JSON;
+//	import com.adobe.serialization.json.JSON;
 	
 	import flash.utils.Dictionary;
 
@@ -27,7 +27,7 @@ public class MessageWriter{
         "meta" : this._meta,
         "operations" : this._operations
       };
-      return JSON.encode( message );
+      return JSON.stringify(message );
     }
 
    public function appendMeta( property:String, value:* ) :void{

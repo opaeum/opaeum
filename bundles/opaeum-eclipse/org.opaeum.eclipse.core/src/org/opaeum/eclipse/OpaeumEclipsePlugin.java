@@ -22,6 +22,7 @@ import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.strategies.ArrayOfRealStrategyFactory;
 import org.opaeum.strategies.BlobStrategyFactory;
 import org.opaeum.strategies.CumulativeDurationStrategyFactory;
 import org.opaeum.strategies.CurrencyStrategyFactory;
@@ -71,6 +72,7 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		OpaeumConfig.registerClass(DateTimeStrategyFactory.class);
 		OpaeumConfig.registerClass(TextStrategyFactory.class);
 		OpaeumConfig.registerClass(BlobStrategyFactory.class);
+		OpaeumConfig.registerClass(ArrayOfRealStrategyFactory.class);
 		OpaeumConfig.registerClass(DateStrategyFactory.class);
 		OpaeumConfig.registerClass(DurationStrategyFactory.class);
 		OpaeumConfig.registerClass(CumulativeDurationStrategyFactory.class);

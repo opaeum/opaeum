@@ -1,18 +1,22 @@
 package org.opaeum.rwt.runtime;
 
-import org.eclipse.rap.rwt.lifecycle.IEntryPoint;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TableViewerFocusCellManager;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.rap.rwt.application.EntryPoint;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class OpaeumEntryPoint implements IEntryPoint{
+public class OpaeumEntryPoint implements EntryPoint{
 
 	@Override
 	public int createUI(){
@@ -27,6 +31,21 @@ public class OpaeumEntryPoint implements IEntryPoint{
     // Create contents of main shell
     final Label label = new Label( page, SWT.NONE );
     label.setText( "Hello" );
+    TableViewer tv = new TableViewer(page);
+    tv.setContentProvider(new ArrayContentProvider());
+    tv.getTable().setHeaderVisible(true);
+    TableViewerColumn c = new TableViewerColumn(tv,SWT.None);
+    c.getColumn().setText("Bla");
+    c.getColumn().setWidth(100);
+    c.setLabelProvider(new CellLabelProvider(){
+			@Override
+			public void update(ViewerCell cell){
+				cell.setText((String)cell.getViewerRow().getElement());
+				System.out.println(cell.getViewerRow().getElement());
+				// TODO Auto-generated method stub
+			}
+		});
+    tv.setInput(new Object[]{"asdf","asdf","asdf"});
     final Button button = new Button( page, SWT.PUSH );
     button.setText( "World" );
     button.addSelectionListener(new SelectionListener(){

@@ -33,5 +33,9 @@ public class UimResourceImpl extends XMIResourceImpl {
     doSave(outputStream, options);
     super.isModified=false;
 	}
+	@Override
+	protected boolean useUUIDs(){
+		return true;
+	}
 
 } //UimResourceImpl

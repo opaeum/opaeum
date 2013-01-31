@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * The <b>Resource </b> associated with the package.
  * <!-- end-user-doc -->
  * @see org.opaeum.uim.action.util.ActionResourceFactoryImpl
- * @generated
+ * @generated NOT
  */
 public class ActionResourceImpl extends XMLResourceImpl {
 	/**
@@ -23,5 +23,10 @@ public class ActionResourceImpl extends XMLResourceImpl {
 	public ActionResourceImpl(URI uri) {
 		super(uri);
 	}
+	@Override
+	protected boolean useUUIDs(){
+		return true;
+	}
+
 
 } //ActionResourceImpl

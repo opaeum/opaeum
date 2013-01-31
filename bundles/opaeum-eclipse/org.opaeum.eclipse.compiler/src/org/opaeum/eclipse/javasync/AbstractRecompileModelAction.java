@@ -65,6 +65,7 @@ public abstract class AbstractRecompileModelAction extends AbstractOpaeumAction{
 								monitor.beginTask("Generating Java Model", 90);
 								p.removeModel(OJWorkspace.class);
 								p.removeModel(TextWorkspace.class);
+								p.replaceModel(ouf.getEmfWorkspace());
 								OpaeumConfig cfg = ouf.getConfig();
 								Collection<SourceFolderDefinition> values = cfg.getSourceFolderDefinitions().values();
 								for(SourceFolderDefinition sfd:values){

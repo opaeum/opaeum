@@ -44,7 +44,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.opaeum.annotation.BusinessActor;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.BusinessRole;
-import org.opaeum.rap.runtime.Constants;
+import org.opaeum.rap.login.Constants;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;

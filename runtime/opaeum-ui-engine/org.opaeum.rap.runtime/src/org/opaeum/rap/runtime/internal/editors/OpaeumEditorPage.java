@@ -1,6 +1,7 @@
 package org.opaeum.rap.runtime.internal.editors;
 
-import org.eclipse.emf.common.util.EList;
+import java.util.List;
+
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
@@ -34,7 +35,7 @@ public class OpaeumEditorPage extends FormPage{
 			gl.numColumns = ((GridPanel) opaeumPage.getPanel()).getNumberOfColumns();
 		}
 		ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput());
-		EList<UimComponent> children = opaeumPage.getPanel().getChildren();
+		List<UimComponent> children = opaeumPage.getPanel().getChildren();
 		for(UimComponent child:children){
 			builder.addComponent(body, child,getEditorInput().getDataBindingContext());
 		}

@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -15,9 +16,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -99,14 +97,14 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		Composite headerClient = toolkit.createComposite(headerForm.getForm().getForm().getHead(), SWT.NONE);
 		headerForm.getForm().setHeadClient(headerClient);
 		headerClient.setLayout(new FillLayout());
-		EObject rootUimObject = getRootUimObject();
+		Object rootUimObject = getRootUimObject();
 		final DataBindingContext bc = getEditorInput().getDataBindingContext();
 		if(rootUimObject instanceof ClassUserInteractionModel){
 			GridLayout gl = new GridLayout();
 			headerClient.setLayout(gl);
 			gl.numColumns = 20;
 			ClassUserInteractionModel cuim = (ClassUserInteractionModel) rootUimObject;
-			EList<UimComponent> children = cuim.getPrimaryEditor().getActionBar().getChildren();
+			List<UimComponent> children = cuim.getPrimaryEditor().getActionBar().getChildren();
 			ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput());
 			for(UimComponent uimComponent:children){
 				builder.addComponent(headerClient, uimComponent, bc);
@@ -255,10 +253,10 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 	@Override
 	protected void addPages(){
 		try{
-			EObject content = getRootUimObject();
+			Object content = getRootUimObject();
 			if(content instanceof ClassUserInteractionModel){
 				ClassUserInteractionModel cuim = (ClassUserInteractionModel) content;
-				EList<EditorPage> pages2 = cuim.getPrimaryEditor().getPages();
+				List<EditorPage> pages2 = cuim.getPrimaryEditor().getPages();
 				editorPages = new FormPage[pages2.size()];
 				for(int i = 0;i < editorPages.length;i++){
 					editorPages[i] = new OpaeumEditorPage(this, pages2.get(i));
@@ -279,12 +277,12 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 			StatusManager.getManager().handle(status, style);
 		}
 	}
-	public EObject getRootUimObject(){
+	public Object getRootUimObject(){
 		IOpaeumApplication opaeumApplication = getOpaeumApplication();
 		Class<IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(getEditorInput().getPersistentObject());
 		String uuid = originalClass.getAnnotation(NumlMetaInfo.class).uuid();
 		Resource r = opaeumApplication.getUimResource(uuid);
-		EObject content = r.getContents().get(0);
+		Object content = r.getContents().get(0);
 		return content;
 	}
 	public IOpaeumApplication getOpaeumApplication(){

@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 
 import org.eclipse.rap.rwt.RWT;
-import org.eclipse.rap.rwt.lifecycle.IEntryPoint;
+import org.eclipse.rap.rwt.application.IEntryPoint;
 import org.eclipse.rap.rwt.lifecycle.UICallBack;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;

@@ -11,81 +11,17 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
-public class EntityEditorInput implements IEditorInput , IValueChangeListener{
-	private final String name;
-	private final ImageDescriptor imageDescriptor;
-	private final IPersistentObject entity;
-	private OpaeumRapSession opaeumSession;
-	private DataBindingContext dataBindingContext;
-	private ConversationalPersistence persistence;
-	private boolean dirty;
-	private IDirtyListener dirtyListener;
+public class EntityEditorInput extends EntityEditorInputJface  implements IEditorInput , IValueChangeListener{
 
-	public EntityEditorInput(final IPersistentObject entity,
-			final String name, final ImageDescriptor imageDescriptor, OpaeumRapSession opaeumSession) {
-		this.dataBindingContext=new DataBindingContext();
-		persistence=opaeumSession.getApplication().getEnvironment().createConversationalPersistence();
-		this.entity = persistence.find(IntrospectionUtil.getOriginalClass(entity), entity.getId());
-		this.name = name;
-		this.imageDescriptor = imageDescriptor;
-		this.opaeumSession=opaeumSession;
-	}
-	public boolean isDirty(){
-		return dirty;
-	}
-	public void setDirtyListener(IDirtyListener listener){
-		this.dirtyListener=listener;
-	}
-	public boolean exists() {
-		return false;
+	public EntityEditorInput(IPersistentObject entity,String name,ImageDescriptor imageDescriptor,OpaeumRapSession opaeumSession){
+		super(entity, name, imageDescriptor, opaeumSession);
+		// TODO Auto-generated constructor stub
 	}
 
-	public ImageDescriptor getImageDescriptor() {
-		return imageDescriptor;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public IPersistableElement getPersistable() {
+	@Override
+	public IPersistableElement getPersistable(){
+		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public String getToolTipText() {
-		return ""; //$NON-NLS-1$
-	}
-
-	@SuppressWarnings("rawtypes")//$NON-NLS-1$
-	public Object getAdapter(final Class adapter) {
-		Object result = null;
-		if (adapter == IPersistentObject.class) {
-			result = entity;
-		}
-		return result;
-	}
-
-	public OpaeumRapSession getOpaeumSession(){
-		return opaeumSession;
-	}
-
-	public IPersistentObject getPersistentObject(){
-		return entity;
-	}
-
-	public DataBindingContext getDataBindingContext(){
-		return dataBindingContext;
-	}
-	public ConversationalPersistence getPersistence(){
-		return persistence;
-	}
-	public void handleValueChange(ValueChangeEvent event){
-		dirty=true;
-		dirtyListener.dirtyChanged(dirty);
-	}
-	public void setDirty(boolean b){
-		dirty=b;
-		dirtyListener.dirtyChanged(dirty);
 	}
 
 }

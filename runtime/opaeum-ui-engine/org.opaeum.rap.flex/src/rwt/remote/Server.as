@@ -1,5 +1,4 @@
 package rwt.remote{
-	import com.adobe.serialization.json.JSON;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -209,7 +208,7 @@ package rwt.remote{
 		
 		public function _handleSuccess( event:ResultEvent, request:Request ) :void{
 			try {
-				var messageObject:* = JSON.decode( String(event.result));
+				var messageObject:* = JSON.parse(String(event.result));
 				EventUtil.setSuspended( true );
 				messageProcessor.processMessage( messageObject );
 				EventUtil.setSuspended( false );
