@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -59,6 +60,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	private CheckboxTableViewer localeTableViewer;
 	private ComboViewer currencyComboViewer;
 	private IContainer modelDir;
+	private StringListViewer lstAdditionalPersistentClasses;
 	public OpaeumConfigDialog(Shell shell,OpaeumConfig config,IContainer modelDir){
 		super(shell);
 		this.config = config;
@@ -204,6 +206,11 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 				lstTransformationSteps.select(i);
 			}
 		}
+		new Label(panel, 0).setText("Additional Persistent Classes");
+		this.lstAdditionalPersistentClasses=new StringListViewer(panel, SWT.BORDER);
+		this.lstAdditionalPersistentClasses.setContentProvider(new ArrayContentProvider());
+		this.lstAdditionalPersistentClasses.setInput(config.getAdditionalPersistentClasses());
+		lstAdditionalPersistentClasses.getControl().setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		return panel;
 	}
 	private String getDomainName(){
@@ -248,6 +255,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		config.setDefaultCurrency((Currency) ((IStructuredSelection) currencyComboViewer.getSelection()).getFirstElement());
 		config.setSupportedLocales((java.util.List) Arrays.asList(localeTableViewer.getCheckedElements()));
 		config.setUiModelerActive(chkIsUimModelerActive.getSelection());
+		config.setAdditionalPersistentClass(lstAdditionalPersistentClasses.getStrings());
 		config.store();
 		if(config.synchronizeAutomatically()){
 			addOpaeumBuildCommand();

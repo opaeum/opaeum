@@ -9,7 +9,7 @@
 		<relativePath>../../../releng/org.opaeum.runtime.ui.engine.releng/pom.xml</relativePath>
 	</parent>
 	<groupId>org.opaeum</groupId>
-	<artifactId>org.opaeum.rap.runtime</artifactId>
+	<artifactId>org.opaeum.runtime.jface</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<version>1.0.2.3-SNAPSHOT</version>
 	<build>

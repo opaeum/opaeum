@@ -1,23 +1,19 @@
 package org.opaeum.runtime.jpa;
 
+import java.util.Collection;
+
 import javax.persistence.EntityManager;
 
+import org.hibernate.Session;
+import org.opaeum.hibernate.domain.EventDispatcher;
+import org.opaeum.hibernate.domain.HibernateConversationalPersistence;
+import org.opaeum.hibernate.domain.SessionAttachment;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
-public class StandaloneJpaConversationalPersistence extends AbstractJpaConversationalPersistence implements ConversationalPersistence{
-	EntityManager entityManager;
-	public StandaloneJpaConversationalPersistence(EntityManager entityManager){
-		super();
-		this.entityManager = entityManager;
-		this.entityManager.getTransaction().begin();
-	}
-	@Override
-	protected EntityManager getEntityManager(){
-		return entityManager;
-	}
-	@Override
-	public void flush(){
-		super.flush();
-		this.entityManager.getTransaction().commit();
+public class StandaloneJpaConversationalPersistence extends HibernateConversationalPersistence implements ConversationalPersistence{
+	public StandaloneJpaConversationalPersistence(EntityManager entityManager,Environment e){
+		super((Session) entityManager.getDelegate(),e);
 	}
 }

@@ -9,6 +9,7 @@ import org.opaeum.runtime.activities.ActivityNodeActivation;
 import org.opaeum.runtime.activities.IActivityNodeContainerExecution;
 import org.opaeum.runtime.activities.IActivityToken;
 import org.opaeum.runtime.activities.TokenKind;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @MappedSuperclass
@@ -23,6 +24,12 @@ public abstract class ActivityToken <AE extends IActivityNodeContainerExecution>
 	@Transient
 	private AbstractPersistence persistence;
 	private int remainingOffersCount;
+	protected ActivityToken(){
+		
+	}
+	protected ActivityToken(AbstractPersistence p){
+		this.persistence=p;
+	}
 	protected abstract IActivityNodeContainerExecution getBehaviorExeution();
 	protected abstract IActivityToken<AE> createNewToken();
 	@SuppressWarnings("unchecked")
@@ -104,7 +111,7 @@ public abstract class ActivityToken <AE extends IActivityNodeContainerExecution>
 		if(this.value == null){
 			value = new Value();
 		}
-		value.setValue(value2);
+		value.setValue(value2,persistence.getMetaInfoMap());
 	}
 	public boolean hasValue(){
 		return value != null && value.hasValue();

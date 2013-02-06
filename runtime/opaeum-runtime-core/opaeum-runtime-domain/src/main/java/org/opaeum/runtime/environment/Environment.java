@@ -39,7 +39,7 @@ public abstract class Environment{
 	public static final String DEFAULT_LOCALE = "opaeum.default.locale";
 	public static final String MESSAGE_FILE_PREFIX = "opaeum.message.file.prefix";
 	public static final String DBMS = "opaeum.database.management.system";
-	private static final EventService EVENT_SERVICE = new EventService();
+	private final EventService EVENT_SERVICE = new EventService(this);
 	private long lastRefresh = System.currentTimeMillis();
 	protected static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
 	protected JavaMetaInfoMap metaInfoMap;
@@ -67,7 +67,7 @@ public abstract class Environment{
 	private static String propertiesFileName(VersionNumber n){
 		return "opaeum.env" + n.getSuffix() + ".properties";
 	}
-	public static Environment getInstance(){
+	private static Environment getInstance(){
 		if(instance.get() == null){
 			if(defaultImplementation == null){
 				instance.set((Environment) instantiateImplementation(ENVIRONMENT_IMPLEMENTATION));

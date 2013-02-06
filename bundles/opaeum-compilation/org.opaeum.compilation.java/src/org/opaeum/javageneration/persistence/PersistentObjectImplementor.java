@@ -1,5 +1,6 @@
 package org.opaeum.javageneration.persistence;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import javax.persistence.Transient;

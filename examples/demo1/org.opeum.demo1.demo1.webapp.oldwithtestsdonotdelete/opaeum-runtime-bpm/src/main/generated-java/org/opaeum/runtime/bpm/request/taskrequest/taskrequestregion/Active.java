@@ -3,7 +3,6 @@ package org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion;
 import javax.persistence.Transient;
 
 import org.opaeum.runtime.bpm.request.TaskRequest;
-import org.opaeum.runtime.bpm.request.TaskRequestState;
 import org.opaeum.runtime.bpm.request.taskrequest.TaskRequestRegion;
 import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.Region1;
 import org.opaeum.runtime.statemachines.StateActivation;

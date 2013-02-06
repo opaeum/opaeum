@@ -1,5 +1,6 @@
 package org.opaeum.demo.demo1;
 
+
 import java.lang.reflect.Field;
 
 import javax.persistence.EntityManagerFactory;
@@ -8,7 +9,6 @@ import javax.persistence.Persistence;
 import org.hibernate.ejb.HibernatePersistence;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
-import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.runtime.jpa.StandaloneJpaEnvironment;
 import org.opeum.demo1.util.Demo1JavaMetaInfoMap;
 
@@ -18,7 +18,6 @@ public class Demo1JpaEnvironment extends StandaloneJpaEnvironment{
 		defaultImplementation = Demo1JpaEnvironment.class;
 		return (Demo1JpaEnvironment) Environment.getInstance();
 	}
-	private AbstractJbpmKnowledgeBase knowledgeBase;
 	@Override
 	public JavaMetaInfoMap getMetaInfoMap(){
 		if(metaInfoMap == null){
@@ -60,10 +59,5 @@ public class Demo1JpaEnvironment extends StandaloneJpaEnvironment{
 			e.printStackTrace();
 		}
 	}
-	protected AbstractJbpmKnowledgeBase createJbpmKnowledgeBase(){
-		if(knowledgeBase==null){
-			knowledgeBase = new Demo1KnowledgeBase();
-		}
-		return knowledgeBase;
-	}
+
 }

@@ -1,6 +1,5 @@
 package structuredbusiness.util;
 
-import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 
 public class StructuredbusinessJavaMetaInfoMap extends JavaMetaInfoMap {

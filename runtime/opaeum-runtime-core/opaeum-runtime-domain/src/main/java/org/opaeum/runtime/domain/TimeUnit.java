@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.opaeum.util.Hasher;
+
 public enum TimeUnit implements Serializable,IEnum{
 	YEAR("year"),
 	MONTH("month"),
@@ -27,6 +29,11 @@ public enum TimeUnit implements Serializable,IEnum{
 	public String getName(){
 		return this.name;
 	}
+	@Override
+	public long getOpaeumId(){
+		return Hasher.getOpaeumId(name);
+	}
+
 	public Date addTimeTo(Date from,int number){
 		Calendar result = Calendar.getInstance();
 		result.setTime(from);

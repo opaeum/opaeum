@@ -2,14 +2,15 @@ package org.opaeum.hibernate.domain;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class HibernateUmtPersistence extends AbstractHibernatePersistence implements UmtPersistence{
 	private Transaction tx;
 	int timeout;
 
-	public HibernateUmtPersistence(Session session){
-		super(session);
+	public HibernateUmtPersistence(Session session,Environment environment){
+		super(session,environment);
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package org.opaeum.runtime.bpm.request.abstractrequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.opaeum.runtime.bpm.request.AbstractRequest;
 import org.opaeum.runtime.environment.marshall.PropertyValue;

@@ -18,13 +18,13 @@ import org.opaeum.runtime.persistence.AbstractPersistence;
 public abstract class Value implements Serializable{
 	// utility method for custom developed marshalling scenarios
 	public static Object valueOf(Value value,AbstractPersistence persistence){
-		JavaMetaInfoMap map = Environment.getInstance().getMetaInfoMap();
+		JavaMetaInfoMap map = persistence.getMetaInfoMap();
 		if(value instanceof EntityValue){
-			return persistence.getReference(value.getValueClass(), ((EntityValue) value).getId());
+			return persistence.getReference(value.getValueClass(map), ((EntityValue) value).getId());
 		}else if(value instanceof HelperValue){
-			return Environment.getInstance().getComponent(value.getValueClass());
+			return env.getComponent(value.getValueClass(map));
 		}else if(value instanceof EnumValue){
-			return map.getSecondaryObject(EnumResolver.class, value.getValueClass()).fromOpaeumId(((EnumValue) value).getEnumId());
+			return map.getSecondaryObject(EnumResolver.class, value.getValueClass(map)).fromOpaeumId(((EnumValue) value).getEnumId());
 		}else if(value instanceof CollectionValue){
 			CollectionValue collectionValue = (CollectionValue) value;
 			Collection<Object> r = collectionValue.instantiate();
@@ -40,18 +40,18 @@ public abstract class Value implements Serializable{
 	}
 	// utility method for custom developed marshalling scenarios
 	@SuppressWarnings("rawtypes")
-	public static Value valueOf(Object value){
-		JavaMetaInfoMap map = Environment.getInstance().getMetaInfoMap();
+	public static Value valueOf(Object value, Environment env){
+		JavaMetaInfoMap map = env.getMetaInfoMap();
 		if(value instanceof IToken){
-			return valueOf((IToken) value);
+			return valueOf((IToken) value,env);
 		}else if(value instanceof IPersistentObject){
-			return valueOf((IPersistentObject) value);
+			return valueOf((IPersistentObject) value,env);
 		}else if(value instanceof IActiveObject){
-			return valueOf((IActiveObject) value);
+			return valueOf((IActiveObject) value,env);
 		}else if(value instanceof Set<?>){
-			return valueOfCollection(new HashSet<Value>(), (Set<?>) value);
+			return valueOfCollection(new HashSet<Value>(), (Set<?>) value,env);
 		}else if(value instanceof List<?>){
-			return valueOfCollection(new ArrayList<Value>(), (List<?>) value);
+			return valueOfCollection(new ArrayList<Value>(), (List<?>) value,env);
 		}else if(value instanceof IEnum){
 			return new EnumValue(map.getUuidFor(value.getClass()), map.getSecondaryObject(EnumResolver.class, value.getClass()).toOpaeumId((IEnum) value));
 		}else if(value instanceof Serializable){
@@ -60,34 +60,34 @@ public abstract class Value implements Serializable{
 			return null;
 		}
 	}
-	public Class<?> getValueClass(){
-		return Environment.getInstance().getMetaInfoMap().getClass(getTypeId());
+	public Class<?> getValueClass(JavaMetaInfoMap map){
+		return map.getClass(getTypeId());
 	}
-	private static CollectionValue valueOfCollection(Collection<Value> newValue,Collection<?> oldValue){
+	private static CollectionValue valueOfCollection(Collection<Value> newValue,Collection<?> oldValue, Environment env){
 		for(Object o:oldValue){
-			newValue.add(valueOf(o));
+			newValue.add(valueOf(o,env));
 		}
 		if(oldValue.isEmpty()){
 			return new CollectionValue(newValue);
 		}else{
-			return new CollectionValue(Environment.getInstance().getMetaInfoMap().getUuidFor(oldValue.iterator().next().getClass()), newValue);
+			return new CollectionValue(env.getMetaInfoMap().getUuidFor(oldValue.iterator().next().getClass()), newValue);
 		}
 	}
-	private static EntityValue valueOf(IPersistentObject inputSource){
+	private static EntityValue valueOf(IPersistentObject inputSource, Environment env){
 		if(inputSource.getId() == null){
 			throw new IllegalStateException("entity " + ((IPersistentObject) inputSource).getClass().getName() + " does not have an id");
 		}
-		return new EntityValue(Environment.getInstance().getMetaInfoMap().getUuidFor(inputSource.getClass()), inputSource);
+		return new EntityValue(env.getMetaInfoMap().getUuidFor(inputSource.getClass()), inputSource);
 	}
 	@SuppressWarnings("rawtypes")
-	private static TokenValue valueOf(IToken inputSource){
+	private static TokenValue valueOf(IToken inputSource, Environment env){
 		if(inputSource.getId() == null){
 			throw new IllegalStateException("entity " + ((IToken) inputSource).getClass().getName() + " does not have an id");
 		}
-		return new TokenValue(inputSource);
+		return new TokenValue(inputSource,env);
 	}
-	private static HelperValue valueOf(IActiveObject inputSource){
-		return new HelperValue(Environment.getInstance().getMetaInfoMap().getUuidFor(inputSource.getClass()));
+	private static HelperValue valueOf(IActiveObject inputSource,Environment env){
+		return new HelperValue(env.getMetaInfoMap().getUuidFor(inputSource.getClass()));
 	}
 	private static final long serialVersionUID = 531640008870617688L;
 	// necessary for custom developed marshalling scenarios

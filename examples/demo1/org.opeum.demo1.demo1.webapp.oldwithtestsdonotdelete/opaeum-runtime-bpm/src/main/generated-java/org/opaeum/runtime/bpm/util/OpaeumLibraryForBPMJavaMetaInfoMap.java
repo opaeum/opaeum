@@ -1,6 +1,5 @@
 package org.opaeum.runtime.bpm.util;
 
-import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 
 public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {

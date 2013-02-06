@@ -29,12 +29,12 @@ import org.eclipse.rap.rwt.service.ISessionStore;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.opaeum.rap.login.Constants;
-import org.opaeum.rap.runtime.IOpaeumApplication;
+import org.opaeum.runtime.rwt.IOpaeumApplication;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 public class Activator extends AbstractUIPlugin implements IRegistryChangeListener{
-	public static final String ID = "org.opaeum.rap.runtime";
+	public static final String ID = "org.opaeum.runtime.jface";
 	private static final String IMAGE_REGISTRY = Activator.class.getName() + "#ImageRegistry";
 	public static final String IMG_FORM_BG = "formBg"; //$NON-NLS-1$
 	public static final String IMG_FORM_HEAD_OVERVIEW = "formHeadOverView"; //$NON-NLS-1$
@@ -73,7 +73,7 @@ public class Activator extends AbstractUIPlugin implements IRegistryChangeListen
 		super.start(context);
 		plugin = this;
 		IExtensionRegistry r = Platform.getExtensionRegistry();
-		IConfigurationElement[] configurationElementsFor = r.getConfigurationElementsFor("org.opaeum.rap.runtime", "opaeumRAPApplication");
+		IConfigurationElement[] configurationElementsFor = r.getConfigurationElementsFor("org.opaeum.runtime.jface", "opaeumRAPApplication");
 		registerExtensions(configurationElementsFor);
 	}
 	private Date cut(final Date time){
@@ -170,7 +170,7 @@ public class Activator extends AbstractUIPlugin implements IRegistryChangeListen
 		return imageDescriptorFromPlugin(Constants.PLUGIN_ID, path);
 	}
 	public void registryChanged(IRegistryChangeEvent event){
-		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.rap.runtime", "opaeumRAPApplication"));
+		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.runtime.jface", "opaeumRAPApplication"));
 	}
 	public void registerExtensionDeltas(IExtensionDelta[] extensionDeltas){
 		for(IExtensionDelta delta:extensionDeltas){

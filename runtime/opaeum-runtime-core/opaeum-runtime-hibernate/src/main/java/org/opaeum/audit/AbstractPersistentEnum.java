@@ -2,6 +2,8 @@ package org.opaeum.audit;
 
 import java.io.Serializable;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -9,7 +11,8 @@ import javax.persistence.MappedSuperclass;
 import org.opaeum.runtime.domain.IEnum;
 
 @MappedSuperclass()
-public class AbstractPersistentEnum implements Serializable{
+@Access(AccessType.FIELD)
+public abstract class AbstractPersistentEnum implements Serializable{
 	private static final long serialVersionUID = 1522393292557455211L;
 	@Id
 	String id;

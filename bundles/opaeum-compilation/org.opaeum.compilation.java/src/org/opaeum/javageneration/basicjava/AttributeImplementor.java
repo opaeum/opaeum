@@ -195,10 +195,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				getter.initializeResultVariable(defaultValue.substring(0, defaultValue.length() - 1) + getReferencePrefix(owner, map)
 						+ map.fieldname() + ".values())");
 				OJAnnotatedOperation getterFor = new OJAnnotatedOperation(map.getter(), map.javaBaseTypePath());
+				owner.addToOperations(getterFor);
 				addQualifierParams(getterFor, map.getProperty().getQualifiers());
 				getterFor.initializeResultVariable("null");
 				getterFor.getBody().addToStatements("result=" + getReferencePrefix(owner, map) + map.fieldname() + ".get(key.toString())");
-				owner.addToOperations(getterFor);
 			}else{
 				getter.initializeResultVariable(getReferencePrefix(owner, map) + map.fieldname());
 			}
@@ -382,6 +382,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	}
 	protected OJAnnotatedOperation buildInternalRemover(OJAnnotatedClass owner,PropertyMap map){
 		OJAnnotatedOperation remover = new OJAnnotatedOperation(map.internalRemover());
+		owner.addToOperations(remover);
 		remover.setStatic(map.isStatic());
 		if(map.isMany()){
 			if(isMap(map.getProperty())){
@@ -400,11 +401,12 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			ifEquals.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + "=null");
 		}
 		remover.addParam(map.fieldname(), map.javaBaseTypePath());
-		owner.addToOperations(remover);
 		return remover;
 	}
 	protected OJAnnotatedOperation buildInternalAdder(OJAnnotatedClass owner,PropertyMap map){
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
+		owner.addToOperations(adder);
+
 		adder.setVisibility(OJVisibilityKind.PUBLIC);
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
@@ -428,10 +430,12 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 		}
 		adder.addParam(map.fieldname(), map.javaBaseTypePath());
-		owner.addToOperations(adder);
+
 		return adder;
 	}
 	private void addQualifierParams(OJAnnotatedOperation adder,List<Property> qualifiers){
+		OJPathName formatter = ojUtil.utilClass(getCurrentRootObject(), "Formatter");
+		adder.getOwner().addToImports(formatter);
 		OJAnnotatedField key = new OJAnnotatedField("key", new OJPathName("String"));
 		adder.getBody().addToLocals(key);
 		StringBuilder sb = new StringBuilder();
@@ -440,11 +444,16 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			Property q = (Property) iterator.next();
 			PropertyMap qMap = ojUtil.buildStructuralFeatureMap(q);
 			adder.addParam(qMap.fieldname(), qMap.javaBaseTypePath());
-			sb.append(qMap.fieldname());
 			if(EmfClassifierUtil.isSimpleType(qMap.getBaseType())){
-				sb.append(".toString()");
+				sb.append(formatter.getLast());
+				sb.append(".getInstance().format");
+				sb.append(qMap.javaType());
+				sb.append("Qualifier(");
+				sb.append(qMap.fieldname());
+				sb.append(")");
 				// TODO user formatting
 			}else{
+				sb.append(qMap.fieldname());
 				sb.append(".getUid()");
 			}
 			if(iterator.hasNext()){

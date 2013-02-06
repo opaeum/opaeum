@@ -3,7 +3,6 @@ package structuredbusiness.branch.businessstatemachine1.region1;
 import org.opaeum.runtime.statemachines.TransitionInstance;
 
 import structuredbusiness.Branch;
-import structuredbusiness.ProductAnnouncement;
 import structuredbusiness.branch.BusinessStateMachine1;
 import structuredbusiness.branch.BusinessStateMachine1Token;
 import structuredbusiness.branch.businessstatemachine1.Region1;

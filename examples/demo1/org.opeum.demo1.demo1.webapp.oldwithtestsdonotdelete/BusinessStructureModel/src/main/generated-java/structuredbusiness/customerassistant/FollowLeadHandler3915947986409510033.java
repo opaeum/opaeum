@@ -3,7 +3,6 @@ package structuredbusiness.customerassistant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.opaeum.annotation.PropertyConstraint;
 import org.opaeum.annotation.PropertyMetaInfo;

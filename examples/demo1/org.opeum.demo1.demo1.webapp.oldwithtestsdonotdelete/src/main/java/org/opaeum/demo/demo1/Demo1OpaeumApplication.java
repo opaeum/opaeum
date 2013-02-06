@@ -1,6 +1,7 @@
 package org.opaeum.demo.demo1;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,10 +12,9 @@ import java.util.Set;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.opaeum.rap.runtime.IOpaeumApplication;
+import org.eclipse.rap.rwt.application.Application;
+import org.eclipse.rap.rwt.application.EntryPoint;
+import org.eclipse.swt.graphics.Resource;
 import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.PersonNode;
@@ -27,13 +27,12 @@ import org.opaeum.runtime.organization.IBusinessNetwork;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.Query;
-import org.opaeum.uim.util.UimResourceImpl;
+import org.opaeum.runtime.rwt.IOpaeumApplication;
+import org.opaeum.uim.model.AbstractUserInteractionModel;
 import org.opeum.demo1.util.Demo1JavaMetaInfoMap;
 
 public class Demo1OpaeumApplication implements IOpaeumApplication{
-	ResourceSetImpl uimResourceSet = new ResourceSetImpl();
 	Map<String,Resource> tempResources = new HashMap<String,Resource>();
-	private EmfWorkspace emfWorkspace;
 	// /TODO regularly close and reopen;
 	private ConversationalPersistence applicationPersistence;
 	private Validator validator;
@@ -101,23 +100,7 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 		}
 		return null;
 	}
-	@Override
-	public EmfWorkspace getEmfWorkspace(){
-		if(this.emfWorkspace == null){
-			ResourceSetImpl resourceSet = new ResourceSetImpl();
-			URI uri = URI.createPlatformPluginURI("/org.opaeum.demo.models/src/BusinessStructureModel.uml", true);
-			org.eclipse.uml2.uml.Package model = null;
-			try{
-				Resource rs = resourceSet.createResource(uri);
-				rs.load(resourceSet.getURIConverter().createInputStream(uri), null);
-				model = (org.eclipse.uml2.uml.Package) rs.getContents().get(0);
-				emfWorkspace = new EmfWorkspace(model, null, "john");
-			}catch(IOException e){
-				throw new RuntimeException(e);
-			}
-		}
-		return this.emfWorkspace;
-	}
+
 	@Override
 	public IPersonNode findOrCreatePersonByEMailAddress(String id){
 		// TODO find email addresses too
@@ -166,5 +149,20 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 	@Override
 	public URL getCubeUrl(){
 		return getClass().getClassLoader().getResource("cube.xml");
+	}
+	@Override
+	public void configure(Application application){
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public AbstractUserInteractionModel getUserInteractionModel(String id){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Class<? extends EntryPoint> getEntrypointType(){
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

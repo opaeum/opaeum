@@ -26,11 +26,11 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.opaeum.rap.login.LoginPerspectiveFactory;
-import org.opaeum.rap.runtime.IOpaeumApplication;
-import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.runtime.organization.IPersonNode;
+import org.opaeum.runtime.rwt.IOpaeumApplication;
+import org.opaeum.runtime.rwt.OpaeumRapSession;
 
 
 @SuppressWarnings("restriction")

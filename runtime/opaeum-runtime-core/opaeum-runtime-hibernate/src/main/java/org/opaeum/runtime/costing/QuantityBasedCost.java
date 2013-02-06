@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 
 import org.opaeum.hibernate.domain.AbstractInterfaceValue;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable
@@ -54,20 +55,20 @@ public class QuantityBasedCost extends AbstractInterfaceValue{
 	public void setPersistence(AbstractPersistence e){
 		this.persistence = e;
 	}
-	public void eventOccurred(IQuantifiedResourceBase resource,boolean firstEvent,Double quantity){
+	public void eventOccurred(IQuantifiedResourceBase resource,boolean firstEvent,Double quantity,Environment env){
 		if(firstEvent = false || date == null){
-			takeMeasurement(resource, new Date(), quantity);
+			takeMeasurement(resource, new Date(), quantity,env);
 		}
 	}
 	public IQuantifiedResourceBase getResource(){
 		return (IQuantifiedResourceBase) getValue(persistence);
 	}
-	private void takeMeasurement(IQuantifiedResourceBase resource,Date date,Double duration){
+	private void takeMeasurement(IQuantifiedResourceBase resource,Date date,Double duration,Environment e){
 		IPricePerUnit rate = resource.getPriceEffectiveOn(new Date());
 		if(rate == null){
 			// INVALID measurement -abort;
 		}else{
-			setValue(resource);
+			setValue(resource,e);
 			this.costToCompany += (rate.getPricePaidByCompany() * duration) + (rate.getAdditionalCostToCompany() * duration);
 			this.costToCustomer += (rate.getPricePaidByCustomer() * duration);
 			this.date = date;

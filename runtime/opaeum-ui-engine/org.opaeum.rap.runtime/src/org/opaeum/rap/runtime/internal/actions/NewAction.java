@@ -8,11 +8,11 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.opaeum.name.NameConverter;
-import org.opaeum.rap.runtime.OpaeumRapSession;
-import org.opaeum.rap.runtime.internal.wizards.NewEntityWizard;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaTypedElement;
+import org.opaeum.runtime.jface.wizards.NewEntityWizard;
+import org.opaeum.runtime.rwt.OpaeumRapSession;
 
 public class NewAction extends Action{
 	private static final long serialVersionUID = 8979776016523486441L;

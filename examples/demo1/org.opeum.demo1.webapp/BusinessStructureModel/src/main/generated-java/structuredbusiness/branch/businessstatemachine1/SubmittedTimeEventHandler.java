@@ -3,7 +3,6 @@ package structuredbusiness.branch.businessstatemachine1;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.environment.marshall.PropertyValue;

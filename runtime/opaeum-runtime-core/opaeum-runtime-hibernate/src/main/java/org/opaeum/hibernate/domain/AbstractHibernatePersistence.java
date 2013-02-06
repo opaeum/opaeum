@@ -4,20 +4,29 @@ import java.util.Collection;
 
 import org.hibernate.Session;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IPersistentStringEnum;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.Query;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractHibernatePersistence implements AbstractPersistence{
 	private Session session;
+	protected Environment environment;
 	public static int COUNT;
 	public static int SESSION_COUNT;
-	public AbstractHibernatePersistence(Session session){
+	public AbstractHibernatePersistence(Session session ,Environment environment){
 		super();
 		COUNT++;
 		SESSION_COUNT++;
 		this.setSession(session);
+		this.environment=environment;
 	}
+	public JavaMetaInfoMap getMetaInfoMap(){
+		return environment.getMetaInfoMap();
+	}
+
 	public void refresh(IPersistentObject...ps){
 		for(IPersistentObject p:ps){
 			getSession().refresh(p);
@@ -25,6 +34,14 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 	}
 	public boolean isClosed(){
 		return !session.isOpen();
+	}
+	@Override
+	public <T extends IPersistentStringEnum>T find(Class<T> t,String id){
+		return (T) getSession().get(t, id);
+	}
+	@Override
+	public <T extends IPersistentStringEnum>T getReference(Class<T> t,String id){
+		return (T) getSession().load(t, id);
 	}
 	@Override
 	public <T>T getReference(Class<T> t,Long id){

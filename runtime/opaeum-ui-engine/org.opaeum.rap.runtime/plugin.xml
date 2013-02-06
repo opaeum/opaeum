@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension-point id="org.opaeum.rap.runtime.opaeumRAPApplication" name="Opaeum RAP Application" schema="schema/org.opaeum.rap.application.exsd"/>
+   <extension-point id="org.opaeum.runtime.jface.opaeumRAPApplication" name="Opaeum RAP Application" schema="schema/org.opaeum.rap.application.exsd"/>
    <extension
          point="org.eclipse.rap.ui.entrypoint">
       <entrypoint
-            class="org.opaeum.rap.runtime.startup.Opaeum"
+            class="org.opaeum.runtime.jface.startup.Opaeum"
             id="org.eclipse.rap.rms.ui.internal.startup.RMS"
             path="rms">
       </entrypoint>
@@ -13,15 +13,15 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="org.opaeum.rap.runtime.internal.startup.OpaeumRapPerspective"
+            class="org.opaeum.runtime.jface.internal.startup.OpaeumRapPerspective"
             icon="icons/rms_persp.gif"
-            id="org.opaeum.rap.runtime.internal.startup.RMSPerspective"
+            id="org.opaeum.runtime.jface.internal.startup.RMSPerspective"
             name="%rms">
       </perspective>
       <perspective
-            class="org.opaeum.rap.runtime.internal.startup.IntroPerspective"
+            class="org.opaeum.runtime.jface.internal.startup.IntroPerspective"
             icon="icons/intro.gif"
-            id="org.opaeum.rap.runtime.internal.startup.IntroPerspective"
+            id="org.opaeum.runtime.jface.internal.startup.IntroPerspective"
             name="%intro">
       </perspective>
       <perspective
@@ -34,16 +34,16 @@
          point="org.eclipse.ui.views">
       <view
             category="org.eclipse.rap.rms.ui.RMS"
-            class="org.opaeum.rap.runtime.internal.views.Navigator"
+            class="org.opaeum.runtime.jface.internal.views.Navigator"
             icon="icons/rms_persp.gif"
-            id="org.opaeum.rap.runtime.internal.views.Navigator"
+            id="org.opaeum.runtime.jface.internal.views.Navigator"
             name="%navigator">
       </view>
       <view
             category="org.eclipse.rap.rms.ui.RMS"
-            class="org.opaeum.rap.runtime.internal.views.Intro"
+            class="org.opaeum.runtime.jface.internal.views.Intro"
             icon="icons/intro.gif"
-            id="org.opaeum.rap.runtime.internal.views.Intro"
+            id="org.opaeum.runtime.jface.internal.views.Intro"
             name="%intro">
       </view>
       <category
@@ -60,19 +60,19 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.opaeum.rap.runtime.internal.editors.EntityEditor"
-            contributorClass="org.opaeum.rap.runtime.internal.editors.EntityEditorContributor"
+            class="org.opaeum.runtime.jface.internal.editors.EntityEditor"
+            contributorClass="org.opaeum.runtime.jface.internal.editors.EntityEditorContributor"
             extensions="mpe"
             icon="icons/rms_persp.gif"
-            id="org.opaeum.rap.runtime.internal.editors.EntityEditor"
+            id="org.opaeum.runtime.jface.internal.editors.EntityEditor"
             name="Entity Editor">
       </editor>
       <editor
-            class="org.opaeum.rap.runtime.internal.editors.CubeEditor"
-            contributorClass="org.opaeum.rap.runtime.internal.editors.EntityEditorContributor"
+            class="org.opaeum.runtime.jface.internal.editors.CubeEditor"
+            contributorClass="org.opaeum.runtime.jface.internal.editors.EntityEditorContributor"
             extensions="mpf"
             icon="icons/rms_persp.gif"
-            id="org.opaeum.rap.runtime.internal.editors.CubeEditor"
+            id="org.opaeum.runtime.jface.internal.editors.CubeEditor"
             name="Cube Editor">
       </editor>
    </extension>
@@ -108,7 +108,7 @@
   <extension
          point="org.eclipse.ui.services">
       <sourceProvider
-            provider="org.opaeum.rap.runtime.internal.UrlParamsSourceProvider">
+            provider="org.opaeum.runtime.jface.internal.UrlParamsSourceProvider">
          <variable
                name="org.eclipse.rap.demo.activities.entryPoint"
                priorityLevel="workbench">

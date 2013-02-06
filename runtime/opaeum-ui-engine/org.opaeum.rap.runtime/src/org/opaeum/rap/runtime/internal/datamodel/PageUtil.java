@@ -50,8 +50,8 @@ public class PageUtil{
 	// static final IConverter STRING_TO_DATE_CONVERTER
 	// = new StringToDateConverter();
 	static final IConverter DATE_TO_STRING_CONVERTER = new DateToStringConverter();
-	private static final Status VALIDATION_SUCCESS = new Status(IStatus.OK, "org.opaeum.rap.runtime", ""); //$NON-NLS-1$ //$NON-NLS-2$
-	private static final Status VALIDATION_FAIL = new Status(IStatus.CANCEL, "org.opaeum.rap.runtime", ""); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Status VALIDATION_SUCCESS = new Status(IStatus.OK, "org.opaeum.runtime.jface", ""); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Status VALIDATION_FAIL = new Status(IStatus.CANCEL, "org.opaeum.runtime.jface", ""); //$NON-NLS-1$ //$NON-NLS-2$
 	private static final Color COLOR_FG_SUCCESS = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
 	private static final Color COLOR_FG_FAIL = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 	private static final Color COLOR_BG_FAIL = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_RED);

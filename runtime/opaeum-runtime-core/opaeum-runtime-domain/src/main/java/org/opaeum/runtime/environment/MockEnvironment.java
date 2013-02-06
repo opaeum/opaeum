@@ -11,9 +11,10 @@ import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class MockEnvironment extends Environment{
 	private Map<String, Object> components = new HashMap<String, Object>();
+	static MockEnvironment INSTANCE=new MockEnvironment(); 
 	public static MockEnvironment getInstance(){
 		defaultImplementation=MockEnvironment.class;
-		return (MockEnvironment) Environment.getInstance();
+		return INSTANCE; 
 	}
 	public <T> void mockComponent(Class<T> clazz, T component) {
 		this.components.put(clazz.getName(), component);

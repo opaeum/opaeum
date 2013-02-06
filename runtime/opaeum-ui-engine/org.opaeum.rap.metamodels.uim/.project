@@ -25,4 +25,36 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>model</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>model/Uim.ecore</name>
+			<type>1</type>
+			<location>/home/ampie/NewWorkspaces/opaeum/bundles/opaeum-metamodels/org.opaeum.metamodels.uim/model/Uim.ecore</location>
+		</link>
+		<link>
+			<name>model/Uim.ecorediag</name>
+			<type>1</type>
+			<location>/home/ampie/NewWorkspaces/opaeum/bundles/opaeum-metamodels/org.opaeum.metamodels.uim/model/Uim.ecorediag</location>
+		</link>
+		<link>
+			<name>model/Uim.genmodel</name>
+			<type>1</type>
+			<location>/home/ampie/NewWorkspaces/opaeum/bundles/opaeum-metamodels/org.opaeum.metamodels.uim/model/Uim.genmodel</location>
+		</link>
+		<link>
+			<name>model/actionbar.trace</name>
+			<type>1</type>
+			<location>/home/ampie/NewWorkspaces/opaeum/bundles/opaeum-metamodels/org.opaeum.metamodels.uim/model/actionbar.trace</location>
+		</link>
+		<link>
+			<name>model/changes.txt</name>
+			<type>1</type>
+			<location>/home/ampie/NewWorkspaces/opaeum/bundles/opaeum-metamodels/org.opaeum.metamodels.uim/model/changes.txt</location>
+		</link>
+	</linkedResources>
 </projectDescription>

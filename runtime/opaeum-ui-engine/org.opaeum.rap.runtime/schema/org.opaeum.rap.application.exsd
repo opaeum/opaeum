@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.opaeum.rap.runtime" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.opaeum.runtime.jface" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.opaeum.rap.runtime" id="opaeumRAPApplication" name="Opaeum RAP Application"/>
+         <meta.schema plugin="org.opaeum.runtime.jface" id="opaeumRAPApplication" name="Opaeum RAP Application"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.opaeum.rap.runtime.IOpaeumApplication"/>
+                  <meta.attribute kind="java" basedOn=":org.opaeum.runtime.jface.IOpaeumApplication"/>
                </appInfo>
             </annotation>
          </attribute>

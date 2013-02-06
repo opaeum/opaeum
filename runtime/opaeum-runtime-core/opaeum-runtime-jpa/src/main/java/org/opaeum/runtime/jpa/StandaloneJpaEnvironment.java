@@ -26,8 +26,9 @@ import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class StandaloneJpaEnvironment extends Environment{
+	private static final StandaloneJpaEnvironment INSTANCE = new StandaloneJpaEnvironment();
 	Map<Class<?>,Object> components = new HashMap<Class<?>,Object>();
-	private static EntityManagerFactory entityManagerFactory;
+	protected static EntityManagerFactory entityManagerFactory;
 	private StandaloneJpaUmtPersistence txPersistence;
 	private StandaloneJpaCmtPersistence cmtPersistence;
 	private StandaloneJpaConversationalPersistence persistence;
@@ -39,7 +40,7 @@ public class StandaloneJpaEnvironment extends Environment{
 	}
 	public static StandaloneJpaEnvironment getInstance(){
 		defaultImplementation = StandaloneJpaEnvironment.class;
-		return (StandaloneJpaEnvironment) Environment.getInstance();
+		return INSTANCE;
 	}
 	private EntityManagerFactory getEntityManagerFactory(){
 		if(entityManagerFactory == null){
@@ -59,7 +60,7 @@ public class StandaloneJpaEnvironment extends Environment{
 				loadDriver("org.gjt.mm.mysql.Driver");
 				// TODO etc
 				Connection connection = DriverManager.getConnection(super.getProperty(JDBC_CONNECTION_URL),
-						Environment.getInstance().getProperty(Environment.DB_USER, "sa"), Environment.getInstance().getProperty(Environment.DB_PASSWORD, ""));
+						getProperty(Environment.DB_USER, "sa"), getProperty(Environment.DB_PASSWORD, ""));
 				Statement st = connection.createStatement();
 				for(String string:schemas){
 					try{
@@ -100,7 +101,7 @@ public class StandaloneJpaEnvironment extends Environment{
 	}
 	public ConversationalPersistence getPersistence(){
 		if(persistence == null){
-			persistence = new StandaloneJpaConversationalPersistence(getEntityManager());
+			persistence = new StandaloneJpaConversationalPersistence(getEntityManager(),this);
 		}
 		return persistence;
 	}
@@ -113,7 +114,7 @@ public class StandaloneJpaEnvironment extends Environment{
 	}
 	public StandaloneJpaUmtPersistence getUmtPersistence(){
 		if(txPersistence == null){
-			txPersistence = new StandaloneJpaUmtPersistence(getEntityManager());
+			txPersistence = new StandaloneJpaUmtPersistence(getEntityManager(),this);
 		}
 		return txPersistence;
 	}
@@ -122,7 +123,7 @@ public class StandaloneJpaEnvironment extends Environment{
 	}
 	public CmtPersistence getCmtPersistence(){
 		if(cmtPersistence == null){
-			cmtPersistence = new StandaloneJpaCmtPersistence(getEntityManager());
+			cmtPersistence = new StandaloneJpaCmtPersistence(getEntityManager(),this);
 		}
 		return cmtPersistence;
 	}
@@ -147,7 +148,7 @@ public class StandaloneJpaEnvironment extends Environment{
 	@Override
 	public void sendSignal(IActiveObject target,ISignal s){
 		IEventHandler handler = getMetaInfoMap().getEventHandler(s.getUid());
-		EventOccurrence occurrence = new EventOccurrence(target, handler);
+		EventOccurrence occurrence = new EventOccurrence(target, handler,this);
 		getCmtPersistence().persist(occurrence);
 		getEventService().scheduleEvent(occurrence);
 	}
@@ -155,10 +156,10 @@ public class StandaloneJpaEnvironment extends Environment{
 	public UmtPersistence newUmtPersistence(){
 		EntityManager result = openHibernateSession();
 		((Session) result.getDelegate()).enableFilter("noDeletedObjects");
-		return new StandaloneJpaUmtPersistence(result);
+		return new StandaloneJpaUmtPersistence(result,this);
 	}
 	@Override
 	public ConversationalPersistence createConversationalPersistence(){
-		return new StandaloneJpaConversationalPersistence(openHibernateSession());
+		return new StandaloneJpaConversationalPersistence(openHibernateSession(),this);
 	}
 }

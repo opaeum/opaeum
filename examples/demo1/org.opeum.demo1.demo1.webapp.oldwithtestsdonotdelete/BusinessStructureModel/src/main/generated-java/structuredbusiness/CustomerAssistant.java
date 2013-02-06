@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +64,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import structuredbusiness.util.Stdlib;
-import structuredbusiness.util.StructuredbusinessFormatter;
 
 @AuditMe
 @NumlMetaInfo(uuid="914890@_bX-ooJJPEeGW4L5IejZxpA")

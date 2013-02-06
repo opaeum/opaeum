@@ -21,18 +21,19 @@ public class Emailler{
 	private Collection<AttachmentHolder> attachments;
 	private INotificationHandler handler;
 	private Object target;
-	static{
-		cfg = new Configuration();
-		// Specify the data source where the template files come from.
-		// Here I set a file directory for it:
-		cfg.setClassForTemplateLoading(Environment.getInstance().getMetaInfoMap().getClass(), "/");
-		// Specify how templates will see the data-model. This is an
-		// advanced
-		// topic...
-		// but just use this:
-		cfg.setObjectWrapper(new DefaultObjectWrapper());
-	}
 	public Emailler(Object target,INotificationHandler nh){
+		if(cfg==null){
+			cfg = new Configuration();
+			// Specify the data source where the template files come from.
+			// Here I set a file directory for it:
+			cfg.setClassForTemplateLoading(target.getClass(), "/");
+			// Specify how templates will see the data-model. This is an
+			// advanced
+			// topic...
+			// but just use this:
+			cfg.setObjectWrapper(new DefaultObjectWrapper());
+
+		}
 		this.handler = nh;
 		this.target = target;
 	}

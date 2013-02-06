@@ -1,6 +1,5 @@
 package org.opeum.demo1.util;
 
-import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 
 public class Demo1JavaMetaInfoMap extends JavaMetaInfoMap {

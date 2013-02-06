@@ -57,7 +57,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		ojOperationClass.addToOperations(setReturnInfo);
 		setReturnInfo.addParam("token", BpmUtil.ITOKEN);
 		setReturnInfo.getBody().addToStatements(new OJIfStatement("this.returnInfo==null", "this.returnInfo=new ReturnInfo()"));
-		setReturnInfo.getBody().addToStatements("this.returnInfo.setValue(token)");
+		setReturnInfo.getBody().addToStatements("this.returnInfo.setValue(token,persistence.getEnvironment())");
 		OJPathName itoken = BpmUtil.ITOKEN.getCopy();
 		itoken.addToElementTypes(new OJPathName("?"));
 		OJAnnotatedOperation getReturnInfo = new OJAnnotatedOperation("getReturnInfo", itoken);
@@ -193,7 +193,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 						expression = valueSpecificationUtil.expressOcl(bctu, oper, null);
 					}
 					oper.getBody().addToStatements(
-							map.getter() + "().toEventOccurred(" + expression + ",BusinessTimeUnit." + btu.name() + "," + endEventFiresOnEntry + ")");
+							map.getter() + "().toEventOccurred(" + expression + ",BusinessTimeUnit." + btu.name() + "," + endEventFiresOnEntry + ",persistence.getEnvironment())");
 				}
 			}
 		}else{
@@ -217,7 +217,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 						String resource = valueSpecificationUtil.expressOcl(resourceExpression, oper, null);
 						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", map.setter() + "(new QuantityBasedCost())");
 						oper.getBody().addToStatements(ifNull);
-						oper.getBody().addToStatements(map.getter() + "().eventOccurred(" + resource + "," + isOnEntryMethod + "," + quantity + ")");
+						oper.getBody().addToStatements(map.getter() + "().eventOccurred(" + resource + "," + isOnEntryMethod + "," + quantity + ",environment)");
 					}
 				}
 			}

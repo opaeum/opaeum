@@ -98,7 +98,7 @@
       <plugin id="org.junit"/>
       <plugin id="org.opaeum.demo.models"/>
       <plugin id="org.opaeum.metamodels.uim"/>
-      <plugin id="org.opaeum.rap.runtime"/>
+      <plugin id="org.opaeum.runtime.jface"/>
       <plugin id="org.opeum.demo1.demo1.webapp"/>
    </plugins>
 
@@ -196,11 +196,11 @@
       <plugin id="org.junit" autoStart="true" startLevel="0" />
       <plugin id="org.opaeum.demo.models" autoStart="true" startLevel="0" />
       <plugin id="org.opaeum.metamodels.uim" autoStart="true" startLevel="0" />
-      <plugin id="org.opaeum.rap.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.opaeum.runtime.jface" autoStart="true" startLevel="0" />
       <plugin id="org.opeum.demo1.demo1.webapp" autoStart="true" startLevel="0" />
    </configurations>
 
-   <warConfiguration webXml="/org.opaeum.rap.runtime/WEB-INF/web.xml" launchIni="/org.opaeum.rap.runtime/WEB-INF/launch.ini">
+   <warConfiguration webXml="/org.opaeum.runtime.jface/WEB-INF/web.xml" launchIni="/org.opaeum.runtime.jface/WEB-INF/launch.ini">
    <libraries>
       <library path="org.eclipse.equinox.servletbridge_1.2.200.v20120522-2049.jar" fromTarget="true"/>
    </libraries>

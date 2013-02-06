@@ -43,15 +43,15 @@ public class ReturnInfo extends AbstractInterfaceValue{
 	protected void setValueImpl(IPersistentObject value){
 		this.value = value;
 	}
-	protected Class<?> getImplementationClass(){
+	protected Class<?> getImplementationClass(Environment e){
 		if(getClassIdentifier() == null){
 			return null;
 		}else{
-			JavaMetaInfoMap mim = Environment.getInstance().getMetaInfoMap();
+			JavaMetaInfoMap mim = e.getMetaInfoMap();
 			return mim.getTokenClass(getClassIdentifier());
 		}
 	}
-	public void setValue(IPersistentObject value){
+	public void setValue(IPersistentObject value,Environment env){
 		if(value == null){
 			setIdentifier(null);
 			setClassIdentifier(null);
@@ -60,7 +60,7 @@ public class ReturnInfo extends AbstractInterfaceValue{
 			IToken token = (IToken) value;
 			setIdentifier(value.getId());
 			Class<?> class1 = IntrospectionUtil.getOriginalClass(token);
-			setClassIdentifier(Environment.getInstance().getMetaInfoMap().getUuidFor(class1));
+			setClassIdentifier(env.getMetaInfoMap().getUuidFor(class1));
 		}
 		setValueImpl(value);
 	}

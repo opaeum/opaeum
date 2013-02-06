@@ -35,10 +35,7 @@ public class HibernateEnvironment extends Environment{
 	public <T>void mockComponent(Class<T> clazz,T component){
 		this.components.put(clazz.getName(), component);
 	}
-	public static HibernateEnvironment getInstance(){
-		defaultImplementation = HibernateEnvironment.class;
-		return (HibernateEnvironment) Environment.getInstance();
-	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T>T getComponent(Class<T> clazz){
@@ -75,7 +72,7 @@ public class HibernateEnvironment extends Environment{
 				Statement st = connection.createStatement();
 				for(String string:schemas){
 					try{
-						st.executeUpdate("CREATE SCHEMA " + string + " AUTHORIZATION " + Environment.getInstance().getProperty(Environment.DB_USER));
+						st.executeUpdate("CREATE SCHEMA " + string + " AUTHORIZATION " + getProperty(Environment.DB_USER));
 						connection.commit();
 					}catch(Exception e){
 					}
@@ -117,13 +114,13 @@ public class HibernateEnvironment extends Environment{
 	}
 	public ConversationalPersistence getPersistence(){
 		if(persistence == null){
-			persistence = new HibernateConversationalPersistence(openHibernateSession());
+			persistence = new HibernateConversationalPersistence(openHibernateSession(),this);
 		}
 		return persistence;
 	}
 	public UmtPersistence getUmtPersistence(){
 		if(txPersistence == null){
-			txPersistence = new HibernateUmtPersistence(openHibernateSession()){
+			txPersistence = new HibernateUmtPersistence(openHibernateSession(),this){
 				@Override
 				public void close(){
 					super.close();
@@ -135,7 +132,7 @@ public class HibernateEnvironment extends Environment{
 	}
 	public CmtPersistence getCmtPersistence(){
 		if(cmtPersistence == null){
-			cmtPersistence = new HibernateCmtPersistence(null){
+			cmtPersistence = new HibernateCmtPersistence(null,this){
 				@Override
 				protected Session getSession(){
 					return sessionFactory.getCurrentSession();
@@ -153,17 +150,17 @@ public class HibernateEnvironment extends Environment{
 	@Override
 	public void sendSignal(IActiveObject target,ISignal s){
 		IEventHandler handler = getMetaInfoMap().getEventHandler(s.getUid());
-		EventOccurrence occurrence = new EventOccurrence(target, handler);
+		EventOccurrence occurrence = new EventOccurrence(target, handler,this);
 		getCmtPersistence().persist(occurrence);
 		getEventService().scheduleEvent(occurrence);
 	}
 	@Override
 	public UmtPersistence newUmtPersistence(){
-		return new HibernateUmtPersistence(openHibernateSession());
+		return new HibernateUmtPersistence(openHibernateSession(),this);
 	}
 	
 	@Override
 	public ConversationalPersistence createConversationalPersistence(){
-		return new HibernateConversationalPersistence(openHibernateSession());
+		return new HibernateConversationalPersistence(openHibernateSession(),this);
 	}
 }

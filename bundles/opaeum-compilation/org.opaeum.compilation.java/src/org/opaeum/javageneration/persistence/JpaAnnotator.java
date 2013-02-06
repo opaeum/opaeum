@@ -36,6 +36,7 @@ import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.hibernate.EnumResolverImplementor;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
@@ -51,7 +52,11 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 				OJAnnotatedClass clss = new OJAnnotatedClass(e.getName() + "Entity");
 				JpaUtil.addClass(clss);
 				JpaUtil.buildTableAnnotation(clss, PersistentNameUtil.getPersistentName(e).getAsIs(), config);
-				clss.setSuperclass(new OJPathName("org.opaeum.audit.AbstractPersistentEnum"));
+				if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
+					clss.setSuperclass(new OJPathName("org.opaeum.audit.AbstractPersistentOpaeumIdEnum"));
+				}else{
+					clss.setSuperclass(new OJPathName("org.opaeum.audit.AbstractPersistentEnum"));
+				}
 				findOrCreatePackage(ojUtil.packagePathname(e.getNamespace())).addToClasses(clss);
 				clss.getDefaultConstructor();
 				createTextPath(clss, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);

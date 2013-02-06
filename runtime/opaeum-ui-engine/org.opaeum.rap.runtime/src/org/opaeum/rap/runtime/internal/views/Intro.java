@@ -45,13 +45,13 @@ import org.opaeum.annotation.BusinessActor;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.BusinessRole;
 import org.opaeum.rap.login.Constants;
-import org.opaeum.rap.runtime.IOpaeumApplication;
-import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.startup.OpaeumRapPerspective;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IBusinessCollaborationBase;
+import org.opaeum.runtime.rwt.IOpaeumApplication;
+import org.opaeum.runtime.rwt.OpaeumRapSession;
 
 public class Intro extends ViewPart{
 	public static final String ID = "raptest.view";

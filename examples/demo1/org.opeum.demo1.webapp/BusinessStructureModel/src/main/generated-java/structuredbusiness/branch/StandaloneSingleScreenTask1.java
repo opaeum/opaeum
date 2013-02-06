@@ -3,9 +3,7 @@ package structuredbusiness.branch;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -33,12 +31,6 @@ import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
 import org.opaeum.hibernate.domain.ReturnInfo;
-import org.opaeum.runtime.bpm.organization.IParticipant;
-import org.opaeum.runtime.bpm.request.AbstractRequest;
-import org.opaeum.runtime.bpm.request.RequestParticipationKind;
-import org.opaeum.runtime.bpm.request.TaskParticipationKind;
-import org.opaeum.runtime.bpm.request.TaskRequest;
-import org.opaeum.runtime.bpm.requestobject.IStandaloneSingleScreenTask;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.FailedConstraintsException;
@@ -56,8 +48,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import structuredbusiness.Branch;
-import structuredbusiness.util.Stdlib;
-import structuredbusiness.util.StructuredbusinessFormatter;
 
 @AuditMe
 @NumlMetaInfo(uuid="914890@_ylMisBYQEeKIFJAOfPz88A")

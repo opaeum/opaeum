@@ -15,6 +15,8 @@
 		<class>${pkg}</class>
 #end		
 		<class>org.opaeum.hibernate.domain.EventOccurrence</class>
+		<class>org.opaeum.audit.AbstractPersistentEnum</class>
+		<class>org.opaeum.audit.AbstractPersistentOpaeumIdEnum</class>
 #if($requiresAuditing)
 		<class>org.opaeum.audit.AuditEntry</class>
 		<class>org.opaeum.audit.AuditEntryPropertyChange</class>

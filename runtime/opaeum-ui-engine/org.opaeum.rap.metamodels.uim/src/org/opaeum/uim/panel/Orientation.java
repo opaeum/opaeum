@@ -6,5 +6,15 @@ public enum Orientation {
 	VERTICAL;
 
 
+	static public Orientation getByName(String name) {
+		Orientation result = null;
+		if ( "horizontal".equals(name) ) {
+			return HORIZONTAL;
+		}
+		if ( "vertical".equals(name) ) {
+			return VERTICAL;
+		}
+		return result;
+	}
 
 }

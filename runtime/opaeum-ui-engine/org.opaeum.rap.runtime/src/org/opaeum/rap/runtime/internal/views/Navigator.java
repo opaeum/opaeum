@@ -30,16 +30,17 @@ import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 import org.opaeum.name.NameConverter;
 import org.opaeum.rap.login.Constants;
-import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
-import org.opaeum.rap.runtime.internal.actions.NewAction;
-import org.opaeum.rap.runtime.internal.actions.OpenEditorAction;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.jface.navigator.NavigatorContentProvider;
+import org.opaeum.runtime.jface.navigator.PersistentObjectTreeItem;
+import org.opaeum.runtime.jface.navigator.PropertyTreeItem;
 import org.opaeum.runtime.organization.IPersonNode;
+import org.opaeum.runtime.rwt.OpaeumRapSession;
 
 public class Navigator extends ViewPart{
 	private TreeViewer viewer;

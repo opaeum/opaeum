@@ -34,10 +34,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AuditListener extends EventDispatcher implements PostInsertEventListener,PostLoadEventListener,PostUpdateEventListener,
-		FlushEventListener,PersistEventListener,FlushEntityEventListener{
+		FlushEventListener{
 	private static final long serialVersionUID = -233067098331332700L;
 	private static final Logger log = LoggerFactory.getLogger(AuditListener.class);
-	private EJB3FlushEntityEventListener ejb3FlushEntityEventListener;
 	private static LinkedBlockingQueue<AuditWorkUnit> queue = new LinkedBlockingQueue<AuditWorkUnit>();
 	static{
 		// HAck!! No event to trap session closure
@@ -65,6 +64,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 	}
 	@Override
 	public void onPostUpdate(PostUpdateEvent event){
+		super.onPostUpdate(event);
 		Object entity = event.getEntity();
 		EntityPersister persister = event.getPersister();
 		EventSource session = event.getSession();
@@ -105,63 +105,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 			lazyGetAttachment(source).clearAuditWorkUnit();
 		}
 	}
-//	protected void performExecutions(EventSource session) throws HibernateException{
-//		log.trace("executing flush");
-//		session.getPersistenceContext().setFlushing(true);
-//		try{
-//			session.getJDBCContext().getConnectionManager().flushBeginning();
-//			// we need to lock the collection caches before
-//			// executing entity inserts/updates in order to
-//			// account for bidi associations
-//			session.getActionQueue().prepareActions();
-//			session.getActionQueue().executeActions();
-//		}catch(HibernateException he){
-//			// log.error("Could not synchronize database state with session",
-//			// he);
-//			throw he;
-//		}finally{
-//			session.getPersistenceContext().setFlushing(false);
-//			session.getJDBCContext().getConnectionManager().flushEnding();
-//		}
-//	}
-	@SuppressWarnings("rawtypes")
-	public void onPersist(PersistEvent event,Map createdAlready) throws HibernateException{
-		EventSource session = event.getSession();
-		String entityName = event.getEntityName();
-		EntityPersister p = session.getEntityPersister(entityName, event.getObject());
-		Object[] propertyValues = p.getPropertyValues(event.getObject());
-		doInterfaceValues(createdAlready, session, propertyValues);
-	}
-	@SuppressWarnings("rawtypes")
-	private void doInterfaceValues(Map createdAlready,EventSource session,Object[] propertyValues){
-		session.getSessionFactory().getAllClassMetadata();
-		for(Object object2:propertyValues){
-			if(object2 instanceof AbstractInterfaceValue){
-				AbstractInterfaceValue iv = (AbstractInterfaceValue) object2;
-				if(iv.hasValue() && iv.getIdentifier() == null){
-					IPersistentObject value = iv.getValue(getPersistence(session));
-					if(iv instanceof CascadingInterfaceValue){
-						String entityName = IntrospectionUtil.getOriginalClass(value).getSimpleName();
-						session.persistOnFlush(entityName, value, new HashMap());
-						EntityEntry entry = session.getPersistenceContext().getEntry(value);
-						getEjb3FlushEntityEventListener().onFlushEntity(new FlushEntityEvent(session, value, entry));
-					}
-					iv.setValue(value);// Populate the id
-				}
-			}
-		}
-	}
-	private EJB3FlushEntityEventListener getEjb3FlushEntityEventListener(){
-		if(ejb3FlushEntityEventListener == null){
-			ejb3FlushEntityEventListener = new EJB3FlushEntityEventListener(new EntityCallbackHandler());
-		}
-		return ejb3FlushEntityEventListener;
-	}
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void onPersist(PersistEvent event) throws HibernateException{
-		this.onPersist(event, new HashMap());
-	}
+
 	@Override
 	public void onPostLoad(PostLoadEvent event){
 		super.onPostLoad(event);
@@ -176,15 +120,6 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 		}else if(event.getEntity() instanceof PropertyChange){
 			PropertyChange<?> c = (PropertyChange<?>) event.getEntity();
 			c.resolve(event.getSession());
-		}
-	}
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void onFlushEntity(FlushEntityEvent event) throws HibernateException{
-		if(event.getEntity() instanceof IPersistentObject){
-			EventSource session = event.getSession();
-			Object[] propertyValues = event.getPropertyValues();
-			doInterfaceValues(new HashMap(), session, propertyValues);
 		}
 	}
 }

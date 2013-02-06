@@ -10,13 +10,28 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.TestModelValueStrategy;
+import org.opaeum.javageneration.basicjava.FormatterStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 
 public class ArrayOfRealStrategyFactory extends AbstractStrategyFactory {
+	public static class MyFormatterStrategy implements FormatterStrategy{
+
+		@Override
+		public void implementParse(OJAnnotatedOperation parse){
+			parse.initializeResultVariable("null");
+		}
+
+		@Override
+		public void implementFormat(OJAnnotatedOperation format){
+			format.initializeResultVariable("null");
+		}
+		
+	}
 	public static class MyJpaStrategy implements JpaStrategy {
 
 		@Override
@@ -55,7 +70,7 @@ public class ArrayOfRealStrategyFactory extends AbstractStrategyFactory {
 	}
 	@SuppressWarnings("unchecked")
 	public ArrayOfRealStrategyFactory() {
-		super(MyJpaStrategy.class,MyConfigurableDataStrategy.class,MyTestValueStrategy.class);
+		super(MyJpaStrategy.class,MyConfigurableDataStrategy.class,MyTestValueStrategy.class,MyFormatterStrategy.class);
 	}
 	@Override
 	public boolean appliesTo(DataType st){

@@ -58,11 +58,13 @@ import org.eclipse.ui.views.properties.IPropertySourceProvider;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.jface.builder.ComponentTreeBuilder;
+import org.opaeum.runtime.jface.entityeditor.IDirtyListener;
+import org.opaeum.runtime.rwt.IOpaeumApplication;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.editor.EditorPage;
 import org.opaeum.uim.model.ClassUserInteractionModel;
@@ -271,7 +273,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 				});
 			}
 		}catch(final PartInitException pie){
-			String id = "org.opaeum.rap.runtime"; //$NON-NLS-1$
+			String id = "org.opaeum.runtime.jface"; //$NON-NLS-1$
 			Status status = new Status(IStatus.ERROR, id, pie.getMessage(), pie);
 			int style = StatusManager.SHOW | StatusManager.LOG;
 			StatusManager.getManager().handle(status, style);
@@ -281,9 +283,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		IOpaeumApplication opaeumApplication = getOpaeumApplication();
 		Class<IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(getEditorInput().getPersistentObject());
 		String uuid = originalClass.getAnnotation(NumlMetaInfo.class).uuid();
-		Resource r = opaeumApplication.getUimResource(uuid);
-		Object content = r.getContents().get(0);
-		return content;
+		return opaeumApplication.getUserInteractionModel(uuid);
 	}
 	public IOpaeumApplication getOpaeumApplication(){
 		IOpaeumApplication opaeumApplication = getEditorInput().getOpaeumSession().getApplication();

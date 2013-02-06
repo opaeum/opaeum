@@ -1,9 +1,9 @@
 package org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion;
 
+import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.region1.Ready;
 import org.opaeum.runtime.statemachines.RegionActivation;
-import org.opaeum.runtime.statemachines.StateMachineToken;
 import org.opaeum.runtime.statemachines.TransitionInstance;
 
 public class ReadyToSuspended extends TransitionInstance {

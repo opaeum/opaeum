@@ -55,7 +55,7 @@ public class OpaeumConfig{
 	private static final String DB_PASSWORD = "opaeum.database.password";
 	private static final String SUPPORTED_LOCALES = "opaeum.supported.locales";
 	private static final String DEFAULT_CURRENCY = "opaeum.default.currency";
-	private static final String UI_MODULE_ACTIVE="opaeum.ui.module.active";
+	private static final String UI_MODULE_ACTIVE = "opaeum.ui.module.active";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -382,6 +382,18 @@ public class OpaeumConfig{
 			return Arrays.asList(property.split(";"));
 		}
 	}
+	public void setAdditionalPersistentClass(Collection<String> cs){
+		if(cs.isEmpty()){
+			this.props.remove(ADDITIONAL_PERSISTENT_CLASSES);
+		}else{
+			StringBuilder sb = new StringBuilder();
+			for(String string:cs){
+				sb.append(string);
+				sb.append(",");
+			}
+			this.props.setProperty(ADDITIONAL_PERSISTENT_CLASSES, sb.substring(0, sb.length() - 1));
+		}
+	}
 	public void setVersion(String version){
 		getVersion().parse(version);
 		store();
@@ -450,11 +462,10 @@ public class OpaeumConfig{
 	}
 	public static java.util.List<Locale> getAvailableLocales(){
 		java.util.List<Locale> availableLocales = new ArrayList<Locale>(Arrays.asList(Locale.getAvailableLocales()));
-		availableLocales.add(new Locale("af","za"));
-		availableLocales.add(new Locale("zu","za"));
-		availableLocales.add(new Locale("xh","za"));
-		availableLocales.add(new Locale("nso","za"));
-		
+		availableLocales.add(new Locale("af", "za"));
+		availableLocales.add(new Locale("zu", "za"));
+		availableLocales.add(new Locale("xh", "za"));
+		availableLocales.add(new Locale("nso", "za"));
 		Collections.sort(availableLocales, new Comparator<Locale>(){
 			@Override
 			public int compare(Locale o1,Locale o2){
@@ -471,7 +482,7 @@ public class OpaeumConfig{
 		return "true".equalsIgnoreCase(props.getProperty(UI_MODULE_ACTIVE));
 	}
 	public void setUiModelerActive(boolean t){
-		props.setProperty(UI_MODULE_ACTIVE, ""+t);
+		props.setProperty(UI_MODULE_ACTIVE, "" + t);
 	}
 	public boolean isJpa2(){
 		return true;

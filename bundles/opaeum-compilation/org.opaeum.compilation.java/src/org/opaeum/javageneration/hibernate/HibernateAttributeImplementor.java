@@ -52,7 +52,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 					+ "())";
 			OJIfStatement ifEquals = new OJIfStatement(condition);
 			remover.getBody().addToStatements(ifEquals);
-			ifEquals.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".setValue(null)");
+			ifEquals.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".setValue(null,persistence.getEnvironment())");
 			remover.addParam(map.fieldname(), map.javaBaseTypePath());
 			owner.addToOperations(remover);
 			return remover;

@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EventService{
+	private Environment environment;
 	private final class EventOccurenceRunner implements Runnable{
 		private AbstractEventOccurrence event;
 		private Logger logger = LoggerFactory.getLogger(getClass());
@@ -27,10 +28,10 @@ public class EventService{
 		@Override
 		public void run(){
 			try{
-				Environment.getInstance().startRequestContext();
-				UmtPersistence umtPersistence = Environment.getInstance().getComponent(UmtPersistence.class);
+				environment.startRequestContext();
+				UmtPersistence umtPersistence = environment.getComponent(UmtPersistence.class);
 				handleInTryBlock(umtPersistence);
-				Environment.getInstance().endRequestContext();
+				environment.endRequestContext();
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -107,7 +108,8 @@ public class EventService{
 	Map<String,ScheduledThreadPoolExecutor> queues = Collections.synchronizedMap(new HashMap<String,ScheduledThreadPoolExecutor>());
 	Map<String,ScheduledFuture<?>> actions = Collections.synchronizedMap(new HashMap<String,ScheduledFuture<?>>());
 	CmtPersistence persistence;
-	public EventService(){
+	public EventService(Environment env){
+		this.environment=env;
 	}
 	public synchronized void startUp(Collection<AbstractEventOccurrence> events){
 		for(final AbstractEventOccurrence event:events){
