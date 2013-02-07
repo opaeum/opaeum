@@ -1,8 +1,8 @@
 package org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.region1;
 
+import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.statemachines.RegionActivation;
-import org.opaeum.runtime.statemachines.StateMachineToken;
 import org.opaeum.runtime.statemachines.TransitionInstance;
 
 public class HistoryToNumberOfPotentialOwners extends TransitionInstance {

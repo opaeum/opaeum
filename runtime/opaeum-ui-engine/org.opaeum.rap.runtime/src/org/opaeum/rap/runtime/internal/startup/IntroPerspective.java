@@ -10,7 +10,7 @@ public class IntroPerspective implements IPerspectiveFactory {
   public void createInitialLayout( final IPageLayout layout ) {
     String editorArea = layout.getEditorArea();
     layout.setEditorAreaVisible( false );
-    layout.addStandaloneView( "org.opaeum.rap.runtime.internal.views.Intro", //$NON-NLS-1$
+    layout.addStandaloneView( "org.opaeum.runtime.jface.internal.views.Intro", //$NON-NLS-1$
                               false,
                               IPageLayout.LEFT,
                               1f, 

@@ -1,10 +1,9 @@
 package org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion;
 
+import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.runtime.bpm.request.TaskRequest;
-import org.opaeum.runtime.bpm.request.TaskRequestState;
 import org.opaeum.runtime.bpm.request.taskrequest.TaskRequestRegion;
 import org.opaeum.runtime.statemachines.StateActivation;
-import org.opaeum.runtime.statemachines.StateMachineToken;
 
 public class Obsolete extends StateActivation {
 

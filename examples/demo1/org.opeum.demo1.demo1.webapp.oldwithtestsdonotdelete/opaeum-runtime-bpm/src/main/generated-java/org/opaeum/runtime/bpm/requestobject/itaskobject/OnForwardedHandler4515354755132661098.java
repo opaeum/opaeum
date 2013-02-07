@@ -3,7 +3,6 @@ package org.opaeum.runtime.bpm.requestobject.itaskobject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;

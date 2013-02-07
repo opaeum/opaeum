@@ -18,7 +18,7 @@ public class OpaeumWorkbenchAdvisor extends WorkbenchAdvisor {
 		IMutableActivityManager activitySupport = workbench
 				.getActivitySupport().createWorkingCopy();
 		Set<String> enabledActivityIds = new HashSet<String>();
-		enabledActivityIds.add("org.opaeum.rap.runtime");
+		enabledActivityIds.add("org.opaeum.runtime.jface");
 		activitySupport.setEnabledActivityIds(enabledActivityIds);
 	}
 

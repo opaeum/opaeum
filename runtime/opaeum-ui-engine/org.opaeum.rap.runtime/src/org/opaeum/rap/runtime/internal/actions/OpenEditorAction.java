@@ -18,14 +18,14 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.SelectionProviderAction;
 import org.opaeum.rap.login.Constants;
-import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.editors.CubeEditor;
 import org.opaeum.rap.runtime.internal.editors.EntityEditorInput;
-import org.opaeum.rap.runtime.internal.views.PersistentObjectTreeItem;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.jface.navigator.PersistentObjectTreeItem;
+import org.opaeum.runtime.rwt.OpaeumRapSession;
 
 public class OpenEditorAction extends SelectionProviderAction{
 	private static final long serialVersionUID = -2907313475126686117L;

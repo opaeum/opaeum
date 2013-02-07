@@ -10,7 +10,6 @@ import org.opaeum.runtime.statemachines.PseudoStateActivation;
 
 import structuredbusiness.Branch;
 import structuredbusiness.branch.BusinessStateMachine1;
-import structuredbusiness.branch.BusinessStateMachine1State;
 import structuredbusiness.branch.BusinessStateMachine1Token;
 import structuredbusiness.branch.businessstatemachine1.Region1;
 

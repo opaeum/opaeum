@@ -27,7 +27,7 @@ public class HelpAction extends Action {
     setId( HelpAction.class.getName() );
     setText( RMSMessages.get().HelpAction_HelpContent );
     ImageDescriptor image 
-      = AbstractUIPlugin.imageDescriptorFromPlugin( "org.opaeum.rap.runtime",  //$NON-NLS-1$
+      = AbstractUIPlugin.imageDescriptorFromPlugin( "org.opaeum.runtime.jface",  //$NON-NLS-1$
                                                     "icons/help.gif" ); //$NON-NLS-1$
     setImageDescriptor( image );
   }

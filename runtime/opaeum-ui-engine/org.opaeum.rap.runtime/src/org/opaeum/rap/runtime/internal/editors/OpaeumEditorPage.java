@@ -11,6 +11,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.opaeum.rap.runtime.internal.RMSMessages;
+import org.opaeum.runtime.jface.builder.ComponentTreeBuilder;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.editor.EditorPage;
 import org.opaeum.uim.panel.GridPanel;

@@ -32,7 +32,7 @@ public class Opaeum implements IEntryPoint {
     }
   
     Display display = PlatformUI.createDisplay();
-    Activator.getDefault().initializeImageRegistry( "org.opaeum.rap.runtime" );
+    Activator.getDefault().initializeImageRegistry( "org.opaeum.runtime.jface" );
     UICallBack.activate( Opaeum.class.getName() );
     OpaeumWorkbenchAdvisor workbenchAdvisor = new OpaeumWorkbenchAdvisor();
     return PlatformUI.createAndRunWorkbench( display, workbenchAdvisor );

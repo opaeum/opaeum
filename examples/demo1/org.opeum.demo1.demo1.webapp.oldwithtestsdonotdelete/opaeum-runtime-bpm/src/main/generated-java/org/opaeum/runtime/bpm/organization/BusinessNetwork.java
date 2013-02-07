@@ -31,7 +31,6 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
-import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;

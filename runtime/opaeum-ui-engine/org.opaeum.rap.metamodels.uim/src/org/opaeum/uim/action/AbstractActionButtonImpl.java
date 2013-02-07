@@ -1,19 +1,68 @@
 package org.opaeum.uim.action;
 
+import java.util.Map;
+
 import org.opaeum.ecore.EObject;
+import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.component.UimContainer;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-public class AbstractActionButtonImpl implements AbstractActionButton {
+public class AbstractActionButtonImpl extends EObjectImpl implements AbstractActionButton {
 	private Boolean fillHorizontally;
 	private Boolean fillVertically;
 	private String name;
 	private Integer preferredHeight;
 	private Integer preferredWidth;
+	private String uid;
 	private boolean underUserControl;
 	private UserInteractionConstraint visibility;
 
 
+	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
+		setUid(xml.getAttribute("xmi:id"));
+		if ( xml.getAttribute("name").length()>0 ) {
+			setName(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("name")));
+		}
+		if ( xml.getAttribute("underUserControl").length()>0 ) {
+			setUnderUserControl(EcoreDataTypeParser.getInstance().parseEBoolean(xml.getAttribute("underUserControl")));
+		}
+		if ( xml.getAttribute("preferredWidth").length()>0 ) {
+			setPreferredWidth(EcoreDataTypeParser.getInstance().parseEIntegerObject(xml.getAttribute("preferredWidth")));
+		}
+		if ( xml.getAttribute("preferredHeight").length()>0 ) {
+			setPreferredHeight(EcoreDataTypeParser.getInstance().parseEIntegerObject(xml.getAttribute("preferredHeight")));
+		}
+		if ( xml.getAttribute("fillHorizontally").length()>0 ) {
+			setFillHorizontally(EcoreDataTypeParser.getInstance().parseEBooleanObject(xml.getAttribute("fillHorizontally")));
+		}
+		if ( xml.getAttribute("fillVertically").length()>0 ) {
+			setFillVertically(EcoreDataTypeParser.getInstance().parseEBooleanObject(xml.getAttribute("fillVertically")));
+		}
+		NodeList propertyNodes = xml.getChildNodes();
+		int i = 0;
+		while ( i<propertyNodes.getLength() ) {
+			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
+				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
+				UserInteractionConstraint curVal;
+				if ( typeString==null ||typeString.trim().length()==0 ) {
+					typeString="constr:UserInteractionConstraint";
+				}
+				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
+				this.setVisibility(curVal);
+				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
+				map.put(curVal.getUid(), curVal);
+				curVal.eContainer(this);
+			}
+		}
+	}
+	
 	public EObject eContainer() {
 		EObject result = null;
 		
@@ -46,16 +95,27 @@ public class AbstractActionButtonImpl implements AbstractActionButton {
 		return this.preferredWidth;
 	}
 	
-	public boolean getUnderUserControl() {
-		return this.underUserControl;
+	public String getUid() {
+		return this.uid;
 	}
 	
 	public UserInteractionConstraint getVisibility() {
 		return this.visibility;
 	}
 	
-	public void isUnderUserControl(boolean underUserControl) {
-		this.underUserControl=underUserControl;
+	public boolean isUnderUserControl() {
+		return this.underUserControl;
+	}
+	
+	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+		NodeList propertyNodes = xml.getChildNodes();
+		int i = 0;
+		while ( i<propertyNodes.getLength() ) {
+			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
+				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+			}
+		}
 	}
 	
 	public void setFillHorizontally(Boolean fillHorizontally) {
@@ -76,6 +136,14 @@ public class AbstractActionButtonImpl implements AbstractActionButton {
 	
 	public void setPreferredWidth(Integer preferredWidth) {
 		this.preferredWidth=preferredWidth;
+	}
+	
+	public void setUid(String uid) {
+		this.uid=uid;
+	}
+	
+	public void setUnderUserControl(boolean underUserControl) {
+		this.underUserControl=underUserControl;
 	}
 	
 	public void setVisibility(UserInteractionConstraint visibility) {

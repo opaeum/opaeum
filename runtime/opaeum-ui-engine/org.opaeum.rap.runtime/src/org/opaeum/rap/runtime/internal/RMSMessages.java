@@ -5,7 +5,7 @@ import org.eclipse.rap.rwt.RWT;
 public class RMSMessages {
 
   private static final String BUNDLE_NAME
-    = "org.opaeum.rap.runtime.internal.messages"; //$NON-NLS-1$
+    = "org.opaeum.runtime.jface.internal.messages"; //$NON-NLS-1$
 
 
 

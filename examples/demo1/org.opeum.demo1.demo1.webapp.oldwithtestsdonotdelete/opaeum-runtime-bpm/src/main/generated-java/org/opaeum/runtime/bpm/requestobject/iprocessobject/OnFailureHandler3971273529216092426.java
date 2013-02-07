@@ -3,7 +3,6 @@ package org.opaeum.runtime.bpm.requestobject.iprocessobject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.opaeum.runtime.bpm.requestobject.IProcessObject;
 import org.opaeum.runtime.environment.marshall.PropertyValue;

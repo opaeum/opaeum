@@ -1,7 +1,7 @@
 import org.opaeum.demo.demo1.Demo1JpaEnvironment;
 import org.opaeum.demo.demo1.Demo1OpaeumApplication;
-import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.runtime.organization.IPersonNode;
+import org.opaeum.runtime.rwt.OpaeumRapSession;
 
 public class MondrianTest{
 	public static void main(String[] args){

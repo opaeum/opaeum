@@ -1,14 +1,12 @@
 package org.opaeum.runtime.bpm.requestobject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.request.ProcessRequest;
-import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;

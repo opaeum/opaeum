@@ -7,7 +7,7 @@ import org.opaeum.rap.login.Constants;
 
 public class OpaeumRapPerspective implements IPerspectiveFactory {
 
-	public static final String ID = "org.opaeum.rap.runtime.internal.startup.RMSPerspective";
+	public static final String ID = "org.opaeum.runtime.jface.internal.startup.RMSPerspective";
 
 	public void createInitialLayout(final IPageLayout layout) {
 		String editorArea = layout.getEditorArea();

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import javax.persistence.OneToMany;
 
-import org.opaeum.runtime.statemachines.StateMachineToken;
+import org.opaeum.hibernate.domain.StateMachineToken;
 
 public class AbstractRequestToken extends StateMachineToken {
 	@OneToMany(mappedBy="parentToken")

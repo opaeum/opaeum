@@ -44,7 +44,6 @@ public class Activator implements BundleActivator{
 	public void start(BundleContext bundleContext) throws Exception{
 		contextFound = null;
 		ServiceReference<?> httpServiceReference = bundleContext.getServiceReference(HttpService.class.getName());
-		System.out.println("ref: " + httpServiceReference);
 		HttpService httpService = (HttpService) bundleContext.getService(httpServiceReference);
 		Field fld = httpService.getClass().getDeclaredField("virtualHost");
 		fld.setAccessible(true);
@@ -81,6 +80,8 @@ public class Activator implements BundleActivator{
 						context.addFilterMap(m);
 						context.setCrossContext(true);
 						String contextPath = context.getServletContext().getContextPath();
+						//TODO just at the freakin filter instance directly to the  context:
+//						context.getServletContext().addFilter("*", new Filter(){});
 						context.setInstanceManager(new InstanceManager(){
 							@Override
 							public Object newInstance(String className) throws IllegalAccessException,InvocationTargetException,NamingException,
@@ -148,12 +149,6 @@ public class Activator implements BundleActivator{
 						});
 					}
 				}
-			}
-		});
-		host.addLifecycleListener(new LifecycleListener(){
-			@Override
-			public void lifecycleEvent(LifecycleEvent event){
-				System.out.println(event);
 			}
 		});
 		ApplicationConfiguration configuration = new OpaeumConfiguration();

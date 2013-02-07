@@ -11,9 +11,6 @@ package org.opaeum.rap.runtime.internal.editors;
 
 import java.lang.reflect.Field;
 
-import mondrian.olap.CacheControl;
-import mondrian.rolap.RolapConnection;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -28,10 +25,10 @@ import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.olap4j.OlapConnection;
 import org.olap4j.metadata.Cube;
-import org.opaeum.rap.runtime.MondrianSession;
-import org.opaeum.rap.runtime.cubetree.CubeTreeComposite;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
+import org.opaeum.runtime.jface.cubetree.CubeTreeComposite;
+import org.opaeum.runtime.rwt.MondrianSession;
 import org.opaeum.uim.cube.CubeQuery;
 
 public class CubeQueryPage extends FormPage{

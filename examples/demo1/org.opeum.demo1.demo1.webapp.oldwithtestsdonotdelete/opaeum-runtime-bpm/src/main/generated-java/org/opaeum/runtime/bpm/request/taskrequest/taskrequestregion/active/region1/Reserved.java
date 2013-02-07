@@ -2,12 +2,11 @@ package org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.regi
 
 import javax.persistence.Transient;
 
+import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.runtime.bpm.request.TaskRequest;
-import org.opaeum.runtime.bpm.request.TaskRequestState;
 import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.ReservedToSuspended;
 import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.Region1;
 import org.opaeum.runtime.statemachines.StateActivation;
-import org.opaeum.runtime.statemachines.StateMachineToken;
 
 public class Reserved extends StateActivation {
 	@Transient

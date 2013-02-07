@@ -5,7 +5,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -31,7 +30,6 @@ import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.audit.AuditMe;
-import org.opaeum.runtime.bpm.businesscalendar.TimeOfDay;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -46,7 +44,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
 @AuditMe

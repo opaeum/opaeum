@@ -2,11 +2,10 @@ package org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion;
 
 import javax.persistence.Transient;
 
+import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.runtime.bpm.request.TaskRequest;
-import org.opaeum.runtime.bpm.request.TaskRequestState;
 import org.opaeum.runtime.bpm.request.taskrequest.TaskRequestRegion;
 import org.opaeum.runtime.statemachines.PseudoStateActivation;
-import org.opaeum.runtime.statemachines.StateMachineToken;
 
 public class Inactive extends PseudoStateActivation {
 	@Transient
