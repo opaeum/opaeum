@@ -17,6 +17,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
@@ -52,7 +53,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 					+ "())";
 			OJIfStatement ifEquals = new OJIfStatement(condition);
 			remover.getBody().addToStatements(ifEquals);
-			ifEquals.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".setValue(null)");
+			ifEquals.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".setValue(null,"+ojUtil.utilClass(getCurrentRootObject(), JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX).getLast()+".INSTANCE)"+")");
 			remover.addParam(map.fieldname(), map.javaBaseTypePath());
 			owner.addToOperations(remover);
 			return remover;
@@ -68,7 +69,7 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 			String init = map.getProperty().isComposite() ? "new CascadingInterfaceValue()" : "new InterfaceValue()";
 			adder.getBody().addToStatements(
 					new OJIfStatement(getReferencePrefix(owner, map) + map.fieldname() + "==null", getReferencePrefix(owner, map) +map.fieldname()+ "=" + init));
-			adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".setValue(" + map.fieldname() + ")");
+			adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".setValue(" + map.fieldname() + ","+ojUtil.utilClass(getCurrentRootObject(), JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX).getLast()+".INSTANCE)"+")");
 			adder.addParam(map.fieldname(), map.javaBaseTypePath());
 			owner.addToOperations(adder);
 			return adder;

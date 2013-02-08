@@ -37,9 +37,9 @@ public class MigrationContext{
 			this.id = id;
 		}
 	}
-	public MigrationContext(VersionNumber from,VersionNumber to,String configFileName) throws FileNotFoundException{
-		this.fromEnvironment = Environment.buildInstanceForRelease(from);
-		this.toEnvironment = Environment.buildInstanceForRelease(to);
+	public MigrationContext(String applicationId,VersionNumber from,VersionNumber to,String configFileName) throws FileNotFoundException{
+		this.fromEnvironment = Environment.buildInstanceForRelease(applicationId,from);
+		this.toEnvironment = Environment.buildInstanceForRelease(applicationId,to);
 		Properties props = new Properties();
 		try{
 			props.load(new FileReader(configFileName));
@@ -113,8 +113,8 @@ public class MigrationContext{
 		}
 	}
 	public void push(){
-		toPersistenceStack.push(toEnvironment.newUmtPersistence());
-		fromPersistenceStack.push(fromEnvironment.newUmtPersistence());
+		toPersistenceStack.push(toEnvironment.createUmtPersistence());
+		fromPersistenceStack.push(fromEnvironment.createUmtPersistence());
 	}
 	public void pop(){
 		toPersistenceStack.pop();

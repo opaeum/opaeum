@@ -111,12 +111,12 @@ public class OJUtill{
 	private static OJAnnotatedField addProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
 		ojClass.addToImports(type);
 		String capped = NameConverter.capitalize(name);
-		String setPrefix = type.getLast().equals("boolean")?"is": "set";
-		OJOperation set = new OJAnnotatedOperation(setPrefix + capped);
+		OJOperation set = new OJAnnotatedOperation("set" + capped);
 		set.addParam(name, type);
 		set.setBody(new OJBlock());
 		ojClass.addToOperations(set);
-		OJOperation get = new OJAnnotatedOperation("get" + capped);
+		String getPrefix = type.getLast().equals("boolean")?"is": "get";
+		OJOperation get = new OJAnnotatedOperation(getPrefix + capped);
 		get.setReturnType(type);
 		get.setBody(new OJBlock());
 		ojClass.addToOperations(get);

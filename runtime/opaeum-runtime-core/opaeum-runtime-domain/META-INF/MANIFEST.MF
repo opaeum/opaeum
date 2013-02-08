@@ -17,12 +17,13 @@ Export-Package: org.opaeum,
  org.opaeum.runtime.event,
  org.opaeum.runtime.organization,
  org.opaeum.runtime.persistence,
+ org.opaeum.runtime.persistence.event,
  org.opaeum.runtime.remote,
  org.opaeum.runtime.statemachines,
  org.opaeum.runtime.strategy,
  org.opaeum.simulation,
  org.opaeum.util
-Require-Bundle: opaeum-runtime-core-dependencies;bundle-version="1.0.0"
 Import-Package: javax.activation;version="[0.0.0,10.0.0)",
  javax.mail,
  org.slf4j
+Require-Bundle: opaeum-runtime-core-dependencies;bundle-version="1.0.0"

@@ -72,7 +72,7 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	public EventOccurrence(){
 		super();
 	}
-	public EventOccurrence(Object target,IEventHandler handler){
+	public EventOccurrence(Object target,IEventHandler handler, Environment env){
 		super(target, handler);
 		if(target instanceof Collection){
 			Collection<?> targets = (Collection<?>) target;
@@ -81,11 +81,11 @@ public class EventOccurrence extends AbstractEventOccurrence{
 					this.eventTargetUuid= ((IPersistentObject) object).getUid();//Just used to generate a uuid
 				}
 				if(eventTargetClassId == null){
-					this.eventTargetClassId = Environment.getInstance(). getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(object.getClass()));
+					this.eventTargetClassId = env. getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(object.getClass()));
 				}
 			}
 		}else{
-			this.eventTargetClassId = Environment.getInstance().getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
+			this.eventTargetClassId = env.getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
 			if(target instanceof IPersistentObject){
 				this.eventTargetUuid = ((IPersistentObject) target).getUid();
 			}

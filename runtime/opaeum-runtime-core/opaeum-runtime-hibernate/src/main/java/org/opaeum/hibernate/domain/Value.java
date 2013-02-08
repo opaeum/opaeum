@@ -3,6 +3,7 @@ package org.opaeum.hibernate.domain;
 import javax.persistence.Embeddable;
 
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable
@@ -19,16 +20,16 @@ public class Value{
 		}else if(type.endsWith("String")){
 			return value;
 		}else{
-			Class<?> clss = Environment.getInstance().getMetaInfoMap().getClass(type);
+			Class<?> clss = persistence.getMetaInfoMap().getClass(type);
 			return persistence.getReference(clss, new Long(value));
 		}
 	}
-	public void setValue(Object value2){
+	public void setValue(Object value2,JavaMetaInfoMap javaMetaInfoMap){
 		if(value2 != null){
 			if(value2.getClass().getName().startsWith("java.lang")){
 				type = value2.getClass().getName();
 			}else{
-				type = Environment.getInstance().getMetaInfoMap().getUuidFor(value2.getClass());
+				type = javaMetaInfoMap.getUuidFor(value2.getClass());
 			}
 		}else{
 			type=null;

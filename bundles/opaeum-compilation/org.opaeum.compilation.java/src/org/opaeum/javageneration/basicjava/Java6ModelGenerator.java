@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Signal;
+import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.eclipse.CodeGenerationStrategy;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;
@@ -36,6 +37,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opaeum.javageneration.JavaSourceKind;
@@ -118,6 +120,12 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				seri.setVisibility(OJVisibilityKind.PRIVATE);
 				seri.setInitExp(EmfWorkspace.getOpaeumId(c) + "l");
 				myClass.addToFields(seri);
+			}
+			OJAnnotationValue ann = myClass.findAnnotation(new OJPathName(NumlMetaInfo.class.getName()));
+			if(ann!=null){
+				OJPathName metaInfoMap = ojUtil.utilClass(workspace, "Environment");
+				myClass.addToImports(metaInfoMap);
+				ann.putAttribute("environment", metaInfoMap);
 			}
 			// TODO find another place
 			if(c instanceof Signal){

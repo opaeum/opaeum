@@ -90,7 +90,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		properties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? getAdaptorEnvironmentImplementation()
 				: getDomainEnvironmentImplementation());
 		properties.setProperty(Environment.HIBERNATE_CONFIG_NAME, getConfigName(owner));
-		findOrCreateTextFile(properties, outputRootId, Environment.PROPERTIES_FILE_NAME);
+//		findOrCreateTextFile(properties, outputRootId, Environment.PROPERTIES_FILE_NAME);
 		processTemplate(workspace, getTemplateName(), getOutputPath(owner), outputRootId, vars);
 	}
 	private HashMap<String,Object> buildVars(Collection<? extends Element> models,boolean isAdaptorEnvironment,Element owner){

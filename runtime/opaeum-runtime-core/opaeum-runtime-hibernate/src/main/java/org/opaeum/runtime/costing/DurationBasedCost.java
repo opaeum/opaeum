@@ -18,6 +18,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.opaeum.runtime.domain.IBusinessCalendar;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.JavaMetaInfoMap;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable
 public class DurationBasedCost{
@@ -61,7 +64,7 @@ public class DurationBasedCost{
 			fromDate = new Date();
 		}
 	}
-	public List<DurationBasedCostEntry> toEventOccurred(Collection<? extends ITimedResourceBase> resources,boolean firstEvent){
+	public List<DurationBasedCostEntry> toEventOccurred(Collection<? extends ITimedResourceBase> resources,boolean firstEvent,JavaMetaInfoMap env){
 		List<DurationBasedCostEntry> result = new ArrayList<DurationBasedCostEntry>();
 		Date dateToCalculateFrom = null;
 		boolean incrementMeasurementCount = false;
@@ -84,13 +87,13 @@ public class DurationBasedCost{
 		if(dateToCalculateFrom != null){
 			for(ITimedResourceBase r:resources){
 				takeMeasurement(r, dateToCalculateFrom, incrementMeasurementCount);
-				result.add(new DurationBasedCostEntry(dateToCalculateFrom, toDate, r, incrementMeasurementCount));
+				result.add(new DurationBasedCostEntry(dateToCalculateFrom, toDate, r, incrementMeasurementCount,env));
 				incrementMeasurementCount = false;
 			}
 		}
 		return result;
 	}
-	public DurationBasedCostEntry addCostEntry(Date fromDate,Date toDate,ITimedResourceBase resource){
+	public DurationBasedCostEntry addCostEntry(Date fromDate,Date toDate,ITimedResourceBase resource, JavaMetaInfoMap env){
 		IRatePerTimeUnit rate = resource.getRateEffectiveOn(fromDate);
 		if(rate == null){
 			// INVALID measurement -abort;
@@ -101,7 +104,7 @@ public class DurationBasedCost{
 			this.costToCompany += (rate.getRatePaidByCompany() * duration) + (rate.getAdditionalCostToCompany() * duration);
 			this.costToCustomer += (rate.getRatePaidByCustomer() * duration);
 		}
-		return new DurationBasedCostEntry(fromDate, toDate, resource, true);
+		return new DurationBasedCostEntry(fromDate, toDate, resource, true,env);
 	}
 	public void recalculate(List<DurationBasedCostEntry> entries){
 		costToCompany = 0d;

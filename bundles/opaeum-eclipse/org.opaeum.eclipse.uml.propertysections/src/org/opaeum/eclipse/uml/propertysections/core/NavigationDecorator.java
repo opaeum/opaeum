@@ -4,6 +4,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -12,6 +13,8 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
@@ -57,13 +60,16 @@ public class NavigationDecorator{
 			this.paintListener = new PaintListener(){
 				@Override
 				public void paintControl(PaintEvent e){
-					if(!source.getLabelCombo().isDisposed()){
-					Rectangle bounds = source.getLabelCombo().getBounds();
-					e.gc.setForeground(ColorConstants.blue);
-					FontData fd = source.getLabelCombo().getFont().getFontData()[0];
-					int y1 = bounds.y + Math.round(fd.getHeight());
-					e.gc.drawLine(bounds.x - 3, y1, bounds.x + source.getLabelCombo().getText().length() * 5, y1);
-				}}
+					CLabel l = source.getLabelCombo();
+					if(!l.isDisposed()){
+						Rectangle bounds = l.getBounds();
+						e.gc.setForeground(ColorConstants.blue);
+						GC gc = new GC(l);
+						Point textExtent = gc.textExtent(l.getText());
+						int y1 = bounds.y + textExtent.y + l.getTopMargin();
+						e.gc.drawLine(bounds.x + l.getLeftMargin()-1, y1, bounds.x + textExtent.x+1, y1);
+					}
+				}
 			};
 		}
 		return this.paintListener;

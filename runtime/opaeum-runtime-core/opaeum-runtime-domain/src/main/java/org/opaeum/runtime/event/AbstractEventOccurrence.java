@@ -55,13 +55,13 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		return handler;
 	}
 	public int hashCode(){
-		return getEventSourceClass().hashCode();
+		return getEventTargetClassId().hashCode();
 	}
 	@Override
 	public boolean equals(Object other){
 		if(other instanceof AbstractEventOccurrence){
 			AbstractEventOccurrence te = (AbstractEventOccurrence) other;
-			return te.getEventSourceClass().equals(getEventSourceClass()) && te.getEventTargetUuid().equals(getEventTargetUuid()) && getUuid().equals(te.getUuid());
+			return te.getEventTargetClassId().equals(getEventTargetClassId()) && te.getEventTargetUuid().equals(getEventTargetUuid()) && getUuid().equals(te.getUuid());
 		}else{
 			return false;
 		}
@@ -70,7 +70,7 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		return this.eventTarget;
 	}
 	public void prepareForDelivery(AbstractPersistence session){
-		JavaMetaInfoMap map = Environment.getInstance().getMetaInfoMap();
+		JavaMetaInfoMap map = session.getMetaInfoMap();
 		this.handler = map.getEventHandler(getHandlerUuid());
 		if(handler == null){
 			Class<? extends IEventHandler> clss = IntrospectionUtil.classForName(getHandlerUuid());
@@ -79,8 +79,8 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		handler.unmarshall(this.getPropertyValues(), session);
 		eventTarget = Value.valueOf(getTargetValue(), session);
 	}
-	public Class<?> getEventSourceClass(){
-		Class<?> class1 = Environment.getInstance().getMetaInfoMap().getClass(getEventTargetClassId());
+	public Class<?> getEventSourceClass(Environment env){
+		Class<?> class1 = env.getMetaInfoMap().getClass(getEventTargetClassId());
 		return class1;
 	}
 	public String getName(){
@@ -102,9 +102,9 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		String eventTargetClassId = annotation == null ? originalClass.getName() : annotation.uuid();
 		return uuid + "$" + id + "$" + eventTargetClassId;
 	}
-	public void prepareForDispatch(){
-		this.setTargetValue(Value.valueOf(eventTarget));
-		setPropertyValues(handler.marshall());
+	public void prepareForDispatch(Environment env){
+		this.setTargetValue(Value.valueOf(eventTarget,env));
+		setPropertyValues(handler.marshall(env));
 	}
 	public String getDescription(){
 		return handler.getClass().getSimpleName();

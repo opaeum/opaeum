@@ -98,9 +98,9 @@ public class OpenUmlFile extends EContentAdapter{
 		this.resourceHelper = new EclipseUriToFileConverter();
 		this.cfg = cfg;
 		this.ojUtil = new OJUtil();
-		emfWorkspace = new EmfWorkspace(model, this.cfg.getVersion(), cfg.getWorkspaceIdentifier(), cfg.getMavenGroupId());
+		emfWorkspace = new EmfWorkspace(model, this.cfg.getVersion(), cfg.getApplicationIdentifier(), cfg.getMavenGroupId());
 		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
-		emfWorkspace.setName(cfg.getWorkspaceName());
+		emfWorkspace.setName(cfg.getApplicationName());
 		this.transformationProcess = new TransformationProcess();
 		this.transformationProcess.initialize(cfg, getTransformationSteps(cfg));
 		this.transformationProcess.replaceModel(ojUtil);

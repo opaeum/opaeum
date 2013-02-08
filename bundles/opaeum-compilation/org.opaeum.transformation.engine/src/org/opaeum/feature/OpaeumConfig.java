@@ -28,6 +28,7 @@ import org.opaeum.util.SortedProperties;
 
 public class OpaeumConfig{
 	private static final String DB_USER = "opaeum.database.user";
+	private static final String DB_VENDOR = "opaeum.database.vendor";
 	private static final String JDBC_DIALECT = "opaeum.jdbc.dialect";
 	private static final String DATA_SOURCE_NAME = "opaeum.hibernate.ds.name";
 	private static final String LIST_COLUMNS = "opaeum.list.columns";
@@ -55,7 +56,9 @@ public class OpaeumConfig{
 	private static final String DB_PASSWORD = "opaeum.database.password";
 	private static final String SUPPORTED_LOCALES = "opaeum.supported.locales";
 	private static final String DEFAULT_CURRENCY = "opaeum.default.currency";
-	private static final String UI_MODULE_ACTIVE="opaeum.ui.module.active";
+	private static final String UI_MODULE_ACTIVE = "opaeum.ui.module.active";
+	private static final String JDBC_DRIVER = "opaeum.jdbc.driver";
+	private static final String DB_NAME = "opaeum.database.name";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -63,6 +66,7 @@ public class OpaeumConfig{
 	private File file;
 	private SqlDialect sqlDialect;
 	private VersionNumber version;
+	
 	public OpaeumConfig(File file){
 		this.file = file;
 		if(file.exists()){
@@ -148,10 +152,10 @@ public class OpaeumConfig{
 		classRegistry.put(c.getName(), c);
 	}
 	public void loadDefaults(String projectName){
-		if(getWorkspaceIdentifier() == null){
+		if(getApplicationIdentifier() == null){
 			this.props.setProperty(WORKSPACE_IDENTIFIER, projectName);
 		}else{
-			projectName = getWorkspaceIdentifier();
+			projectName = getApplicationIdentifier();
 		}
 		if(!this.props.containsKey(JDBC_DIALECT)){
 			this.props.setProperty(JDBC_DIALECT, "org.hibernate.dialect.HSQLDialect");
@@ -215,7 +219,7 @@ public class OpaeumConfig{
 		return this.props.getProperty(EMAIL_ADDRESS_TYPE);
 	}
 	public void calculateOutputRoot(File modelProjectDir){
-		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(modelProjectDir, getWorkspaceIdentifier()));
+		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(modelProjectDir, getApplicationIdentifier()));
 	}
 	public void setOutputRoot(File destination){
 		this.outputRoot = destination;
@@ -294,13 +298,13 @@ public class OpaeumConfig{
 		this.props.setProperty(MAVEN_GROUPID, string);
 		store();
 	}
-	public String getWorkspaceIdentifier(){
+	public String getApplicationIdentifier(){
 		return this.props.getProperty(WORKSPACE_IDENTIFIER, "");
 	}
-	public String getWorkspaceName(){
+	public String getApplicationName(){
 		return this.props.getProperty(WORKSPACE_NAME, "");
 	}
-	public void setWorkspaceIdentifier(String workspaceIdentifier){
+	public void setApplicationIdentifier(String workspaceIdentifier){
 		this.props.setProperty(WORKSPACE_IDENTIFIER, workspaceIdentifier);
 		store();
 	}
@@ -350,7 +354,7 @@ public class OpaeumConfig{
 	public void reset(){
 		this.sqlDialect = null;
 	}
-	public void setWorkspaceName(String name){
+	public void setApplicationName(String name){
 		this.props.setProperty(WORKSPACE_NAME, name);
 		store();
 	}
@@ -380,6 +384,18 @@ public class OpaeumConfig{
 			return Collections.emptySet();
 		}else{
 			return Arrays.asList(property.split(";"));
+		}
+	}
+	public void setAdditionalPersistentClass(Collection<String> cs){
+		if(cs.isEmpty()){
+			this.props.remove(ADDITIONAL_PERSISTENT_CLASSES);
+		}else{
+			StringBuilder sb = new StringBuilder();
+			for(String string:cs){
+				sb.append(string);
+				sb.append(",");
+			}
+			this.props.setProperty(ADDITIONAL_PERSISTENT_CLASSES, sb.substring(0, sb.length() - 1));
 		}
 	}
 	public void setVersion(String version){
@@ -436,10 +452,17 @@ public class OpaeumConfig{
 		props.setProperty(PROJECT_NAME_OVERRIDE, p);
 	}
 	public String getDbms(){
-		return props.getProperty(DBMS, DatabaseManagementSystem.POSTGRESQL.name());
+		if(getJdbcConnectionUrl().contains("postgresql")){
+			return DatabaseManagementSystem.POSTGRESQL.name();
+		}
+		if(getJdbcConnectionUrl().contains("hsql")){
+			return DatabaseManagementSystem.HSQL.name();
+		}
+		//TODO etc
+		return DatabaseManagementSystem.GENERIC.name();
 	}
 	public String getJdbcConnectionUrl(){
-		return props.getProperty(JDBC_CONNECTION_URL, "jdbc:postgresql://localhost:5433/" + getWorkspaceIdentifier());
+		return props.getProperty(JDBC_CONNECTION_URL, "jdbc:postgresql://localhost:5433/" + getApplicationIdentifier());
 	}
 	public String getDbPassword(){
 		return props.getProperty(DB_PASSWORD, "postgres");
@@ -450,11 +473,10 @@ public class OpaeumConfig{
 	}
 	public static java.util.List<Locale> getAvailableLocales(){
 		java.util.List<Locale> availableLocales = new ArrayList<Locale>(Arrays.asList(Locale.getAvailableLocales()));
-		availableLocales.add(new Locale("af","za"));
-		availableLocales.add(new Locale("zu","za"));
-		availableLocales.add(new Locale("xh","za"));
-		availableLocales.add(new Locale("nso","za"));
-		
+		availableLocales.add(new Locale("af", "za"));
+		availableLocales.add(new Locale("zu", "za"));
+		availableLocales.add(new Locale("xh", "za"));
+		availableLocales.add(new Locale("nso", "za"));
 		Collections.sort(availableLocales, new Comparator<Locale>(){
 			@Override
 			public int compare(Locale o1,Locale o2){
@@ -471,9 +493,44 @@ public class OpaeumConfig{
 		return "true".equalsIgnoreCase(props.getProperty(UI_MODULE_ACTIVE));
 	}
 	public void setUiModelerActive(boolean t){
-		props.setProperty(UI_MODULE_ACTIVE, ""+t);
+		props.setProperty(UI_MODULE_ACTIVE, "" + t);
 	}
 	public boolean isJpa2(){
 		return true;
 	}
+	public String getDbUserName(){
+		return props.getProperty(DB_USER,getApplicationIdentifier()+"_user");
+	}
+	public void setDbUserName(String dbUserName){
+		this.props.setProperty(DB_USER,dbUserName);
+	}
+	public String getDbVendor(){
+		return props.getProperty(DB_VENDOR, "postgres");
+	}
+	public void setDbVendor(String dbVendor){
+		this.props.setProperty(DB_VENDOR,dbVendor);
+	}
+	public void setDbPassword(String dbPassword){
+		this.props.setProperty(DB_PASSWORD,dbPassword);
+	}
+	public void setJdbcConnectionUrl(String jdbcConnectionUrl){
+		this.props.setProperty(JDBC_CONNECTION_URL,jdbcConnectionUrl);
+	}
+	public void setJdbcDriver(String driver){
+		this.props.setProperty(JDBC_DRIVER, driver);
+		
+	}
+	public String getJdbcDriver(){
+		return this.props.getProperty(JDBC_DRIVER,"org.postgres.Driver");
+		
+	}
+	public void setDbName(String driver){
+		this.props.setProperty(DB_NAME, driver);
+		
+	}
+	public String getDbName(){
+		return this.props.getProperty(DB_NAME,getApplicationIdentifier()+"_db");
+		
+	}
+	
 }

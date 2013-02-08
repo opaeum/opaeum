@@ -15,17 +15,18 @@ import javax.persistence.Table;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistryBuilder;
+import org.hibernate.service.jdbc.connections.internal.ConnectionProviderInitiator;
 import org.hibernate.service.jdbc.connections.spi.ConnectionProvider;
-import org.opaeum.runtime.domain.IActiveObject;
-import org.opaeum.runtime.domain.ISignal;
+import org.hibernate.service.spi.ServiceRegistryImplementor;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.event.IEventHandler;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.UmtPersistence;
 
-public class HibernateEnvironment extends Environment{
+public abstract class HibernateEnvironment extends Environment{
 	private ConversationalPersistence persistence;
 	private UmtPersistence txPersistence;
 	private SessionFactory sessionFactory;
@@ -35,27 +36,9 @@ public class HibernateEnvironment extends Environment{
 	public <T>void mockComponent(Class<T> clazz,T component){
 		this.components.put(clazz.getName(), component);
 	}
-	public static HibernateEnvironment getInstance(){
-		defaultImplementation = HibernateEnvironment.class;
-		return (HibernateEnvironment) Environment.getInstance();
-	}
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public <T>T getComponent(Class<T> clazz){
-		if(components.get(clazz.getName()) != null){
-			return (T) components.get(clazz.getName());
-		}else if(clazz == ConversationalPersistence.class){
-			return (T) getPersistence();
-		}else if(clazz == CmtPersistence.class){
-			return (T) getCmtPersistence();
-		}else if(clazz == UmtPersistence.class){
-			return (T) getUmtPersistence();
-		}else{
-			return null;
-		}
-	}
-	@Override
-	public <T>T getComponent(Class<T> clazz,Annotation qualifiers){
+	public <T>T getComponentImpl(Class<T> clazz,Annotation qualifiers){
 		throw new IllegalArgumentException("Qualifiers is not yet supported in the domain environment");
 	}
 	private Session openHibernateSession(){
@@ -67,15 +50,17 @@ public class HibernateEnvironment extends Environment{
 				}
 			}
 			schemas.remove(null);
+			Map map= new HashMap<Object,Object>();
 			Configuration hibernateConfiguration = new Configuration();
 			hibernateConfiguration.configure(getHibernateConfigName());
-			ConnectionProvider connProvider = null;//TODO ConnectionProviderInitiator.INSTANCE. newConnectionProvider(hibernateConfiguration.getProperties());
+			map.putAll(hibernateConfiguration.getProperties());
+			ConnectionProvider connProvider =ConnectionProviderInitiator.INSTANCE.initiateService(map,(ServiceRegistryImplementor) new ServiceRegistryBuilder().applySettings(map) .buildServiceRegistry()); 
 			try{
 				Connection connection = connProvider.getConnection();
 				Statement st = connection.createStatement();
 				for(String string:schemas){
 					try{
-						st.executeUpdate("CREATE SCHEMA " + string + " AUTHORIZATION " + Environment.getInstance().getProperty(Environment.DB_USER));
+						st.executeUpdate("CREATE SCHEMA " + string + " AUTHORIZATION " + getProperty(Environment.DB_USER));
 						connection.commit();
 					}catch(Exception e){
 					}
@@ -98,7 +83,7 @@ public class HibernateEnvironment extends Environment{
 		components.clear();
 	}
 	protected String getHibernateConfigName(){
-		return loadProperties().getProperty(HIBERNATE_CONFIG_NAME);
+		return loadProperties(PROPERTIES_FILE_NAME, getClass()).getProperty(HIBERNATE_CONFIG_NAME);
 	}
 	@SuppressWarnings("unchecked")
 	@Override
@@ -117,13 +102,13 @@ public class HibernateEnvironment extends Environment{
 	}
 	public ConversationalPersistence getPersistence(){
 		if(persistence == null){
-			persistence = new HibernateConversationalPersistence(openHibernateSession());
+			persistence = new HibernateConversationalPersistence(openHibernateSession(),this);
 		}
 		return persistence;
 	}
 	public UmtPersistence getUmtPersistence(){
 		if(txPersistence == null){
-			txPersistence = new HibernateUmtPersistence(openHibernateSession()){
+			txPersistence = new HibernateUmtPersistence(openHibernateSession(),this){
 				@Override
 				public void close(){
 					super.close();
@@ -133,9 +118,10 @@ public class HibernateEnvironment extends Environment{
 		}
 		return txPersistence;
 	}
-	public CmtPersistence getCmtPersistence(){
+	@Override
+	public CmtPersistence getCurrentPersistence(){
 		if(cmtPersistence == null){
-			cmtPersistence = new HibernateCmtPersistence(null){
+			cmtPersistence = new HibernateCmtPersistence(null,this){
 				@Override
 				protected Session getSession(){
 					return sessionFactory.getCurrentSession();
@@ -150,20 +136,14 @@ public class HibernateEnvironment extends Environment{
 	@Override
 	public void startRequestContext(){
 	}
+
 	@Override
-	public void sendSignal(IActiveObject target,ISignal s){
-		IEventHandler handler = getMetaInfoMap().getEventHandler(s.getUid());
-		EventOccurrence occurrence = new EventOccurrence(target, handler);
-		getCmtPersistence().persist(occurrence);
-		getEventService().scheduleEvent(occurrence);
-	}
-	@Override
-	public UmtPersistence newUmtPersistence(){
-		return new HibernateUmtPersistence(openHibernateSession());
+	public UmtPersistence createUmtPersistence(){
+		return new HibernateUmtPersistence(openHibernateSession(),this);
 	}
 	
 	@Override
 	public ConversationalPersistence createConversationalPersistence(){
-		return new HibernateConversationalPersistence(openHibernateSession());
+		return new HibernateConversationalPersistence(openHibernateSession(),this);
 	}
 }

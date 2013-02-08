@@ -6,6 +6,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="antlr-2.7.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="jboss-logging-3.1.2.GA.jar"/>
 	<classpathentry exported="true" kind="lib" path="hibernate-validator-4.2.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="jboss-as-web-7.2.0.Alpha1-SNAPSHOT.jar"/>
@@ -18,7 +20,7 @@
 	<classpathentry exported="true" kind="lib" path="commons-lang-2.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="activation-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="cdi-api-1.0-SP4.jar"/>
-	<classpathentry exported="true" kind="lib" path="hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="hibernate-jpa-2.0-api-1.0.1.Final.jar" sourcepath="/home/ampie/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.1.Final/hibernate-jpa-2.0-api-1.0.1.Final-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="javax.inject-1.jar"/>
 	<classpathentry exported="true" kind="lib" path="jbosgi-framework-core-2.1.0.CR6.jar"/>
 	<classpathentry exported="true" kind="lib" path="jboss-annotations-api_1.1_spec-1.0.1.Final.jar"/>

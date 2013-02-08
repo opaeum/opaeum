@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -46,8 +47,8 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.name.NameConverter;
 
 public class OpaeumConfigDialog extends TitleAreaDialog{
-	private Text txtWorkspaceName;
-	private Text txtWorkspaceIdentifier;
+	private Text txtApplicationName;
+	private Text txtApplicationIdentifier;
 	private Text txtCompanyDomain;
 	private Button chkGeneratePoms;
 	private Button chkAutoSync;
@@ -59,6 +60,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	private CheckboxTableViewer localeTableViewer;
 	private ComboViewer currencyComboViewer;
 	private IContainer modelDir;
+	private StringListViewer lstAdditionalPersistentClasses;
 	public OpaeumConfigDialog(Shell shell,OpaeumConfig config,IContainer modelDir){
 		super(shell);
 		this.config = config;
@@ -81,8 +83,20 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		TabItem i8nItem = new TabItem(tabFolder, SWT.NONE);
 		i8nItem.setControl(createI8nTab(tabFolder));
 		i8nItem.setText("Internationalization");
+//		TabItem dbItem = new TabItem(tabFolder, SWT.NONE);
+//		dbItem.setControl(createDbTab(tabFolder));
+//		dbItem.setText("Database");
 		return composite;
 	}
+//	private Control createDbTab(TabFolder tabFolder){
+//		Composite panel = new Composite(tabFolder, 0);
+//		panel.setLayout(new GridLayout(2, true));
+//		new Label(panel, 0).setText("Database Name");
+//		txtDatabaseName = new Text(panel, SWT.SINGLE | SWT.BORDER);
+//		txtDatabaseName.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+//		txtDatabaseName.setText(config.getD
+//		return panel;
+//	}
 	private Control createI8nTab(TabFolder composite){
 		Composite panel = new Composite(composite, 0);
 		panel.setLayout(new GridLayout(2, true));
@@ -157,14 +171,14 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	protected Composite createGeneralTab(TabFolder composite){
 		Composite panel = new Composite(composite, 0);
 		panel.setLayout(new GridLayout(2, true));
-		new Label(panel, 0).setText("Project Name");
-		txtWorkspaceName = new Text(panel, SWT.SINGLE | SWT.BORDER);
-		txtWorkspaceName.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
-		txtWorkspaceName.setText(config.getWorkspaceName());
-		new Label(panel, 0).setText("Identifier for project");
-		txtWorkspaceIdentifier = new Text(panel, SWT.SINGLE | SWT.BORDER);
-		txtWorkspaceIdentifier.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
-		txtWorkspaceIdentifier.setText(config.getWorkspaceIdentifier());
+		new Label(panel, 0).setText("Application Name");
+		txtApplicationName = new Text(panel, SWT.SINGLE | SWT.BORDER);
+		txtApplicationName.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+		txtApplicationName.setText(config.getApplicationName());
+		new Label(panel, 0).setText("Application Identifier");
+		txtApplicationIdentifier = new Text(panel, SWT.SINGLE | SWT.BORDER);
+		txtApplicationIdentifier.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+		txtApplicationIdentifier.setText(config.getApplicationIdentifier());
 		new Label(panel, 0).setText("Company domain name");
 		txtCompanyDomain = new Text(panel, SWT.SINGLE | SWT.BORDER);
 		txtCompanyDomain.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
@@ -204,6 +218,11 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 				lstTransformationSteps.select(i);
 			}
 		}
+		new Label(panel, 0).setText("Additional Persistent Classes");
+		this.lstAdditionalPersistentClasses=new StringListViewer(panel, SWT.BORDER);
+		this.lstAdditionalPersistentClasses.setContentProvider(new ArrayContentProvider());
+		this.lstAdditionalPersistentClasses.setInput(config.getAdditionalPersistentClasses());
+		lstAdditionalPersistentClasses.getControl().setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		return panel;
 	}
 	private String getDomainName(){
@@ -223,7 +242,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	}
 	@SuppressWarnings({"rawtypes","unchecked"})
 	public void okPressed(){
-		config.loadDefaults(txtWorkspaceIdentifier.getText());
+		config.loadDefaults(txtApplicationIdentifier.getText());
 		String domain = txtCompanyDomain.getText();
 		StringBuilder mavenGroup = null;
 		StringTokenizer st = new StringTokenizer(domain, ".");
@@ -236,18 +255,19 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 			}
 		}
 		mavenGroup.append('.');
-		mavenGroup.append(NameConverter.separateWordsToCamelCase(txtWorkspaceName.getText()).toLowerCase());
-		config.setWorkspaceName(NameConverter.separateWordsToCamelCase(txtWorkspaceName.getText()));
+		mavenGroup.append(NameConverter.separateWordsToCamelCase(txtApplicationName.getText()).toLowerCase());
+		config.setApplicationName(NameConverter.separateWordsToCamelCase(txtApplicationName.getText()));
 		config.setAdditionalTransformationSteps(new HashSet<String>(Arrays.asList(lstTransformationSteps.getSelection())));
 		config.setMavenGroupId(mavenGroup.toString());
 		config.setVersion(txtNewVersionNumber.getVersion());
 		config.setSourceFolderStrategy(cboSourceFolderStrategy.getText());
-		config.setWorkspaceIdentifier(txtWorkspaceIdentifier.getText());
+		config.setApplicationIdentifier(txtApplicationIdentifier.getText());
 		config.setGenerateMavenPoms(this.chkGeneratePoms.getSelection());
 		config.setAutoSync(this.chkAutoSync.getSelection());
 		config.setDefaultCurrency((Currency) ((IStructuredSelection) currencyComboViewer.getSelection()).getFirstElement());
 		config.setSupportedLocales((java.util.List) Arrays.asList(localeTableViewer.getCheckedElements()));
 		config.setUiModelerActive(chkIsUimModelerActive.getSelection());
+		config.setAdditionalPersistentClass(lstAdditionalPersistentClasses.getStrings());
 		config.store();
 		if(config.synchronizeAutomatically()){
 			addOpaeumBuildCommand();

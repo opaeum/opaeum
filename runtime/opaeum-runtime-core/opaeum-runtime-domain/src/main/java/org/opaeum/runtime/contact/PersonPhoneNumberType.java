@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.domain.IEnum;
+import org.opaeum.util.Hasher;
 
 @NumlMetaInfo(uuid="252060@_Z-VwcEtnEeGd4cpyhpib9Q")public enum PersonPhoneNumberType implements IEnum, Serializable {
 	HOME("252060@_do3hcEtnEeGd4cpyhpib9Q"),
@@ -19,6 +20,10 @@ import org.opaeum.runtime.domain.IEnum;
 	 */
 	private PersonPhoneNumberType(String uuid) {
 		this.uuid=uuid;
+	}
+	@Override
+	public long getOpaeumId(){
+		return Hasher.getOpaeumId(uuid);
 	}
 
 	public String getUid() {

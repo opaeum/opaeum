@@ -67,7 +67,7 @@ public class AuditWorkUnit {
 
 	public void flush() {
 		Session auditSession=sessionFactory.openSession();
-		Transaction tx = auditSession.beginTransaction();
+//		Transaction tx = auditSession.beginTransaction();
 		propertyChangeInsert = new StringBuilder(
 				"insert into property_change (property_change_type,audit_entry_id,property_name,string_value,old_string_value) values ");
 		firstPropertyChangeProcessed = false;
@@ -91,7 +91,7 @@ public class AuditWorkUnit {
 		flushAuditEntries(auditSession);
 		fushPropertyChangesAndCustomAuditEntries(auditSession);
 		auditSession.flush();//Probably Superfluous
-		tx.commit();
+//		tx.commit();
 	}
 
 	private void fushPropertyChangesAndCustomAuditEntries(Session auditSession) {

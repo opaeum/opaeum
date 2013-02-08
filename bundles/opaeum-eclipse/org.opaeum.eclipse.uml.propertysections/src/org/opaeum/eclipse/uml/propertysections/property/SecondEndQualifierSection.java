@@ -6,7 +6,7 @@ import org.opaeum.eclipse.EmfAssociationUtil;
 public class SecondEndQualifierSection extends PropertyQualifiersSection{
 	@Override
 	protected EObject getFeatureOwner(EObject e){
-		return EmfAssociationUtil.getFirstEnd(e);
+		return EmfAssociationUtil.getSecondEnd(e);
 	}
 
 }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.datatools.connectivity.driverExtension">
+      <category
+            description="HSQLDB 2.x"
+            id="org.eclipse.datatools.enablement.hsqldb.2_x.category"
+            name="HSQLDB 2.x"
+            parentCategory="org.eclipse.datatools.enablement.hsqldb.driver.category"/>         
+      <category
+            description="Postgresql 9"
+            id="org.eclipse.datatools.enablement.postgresql.9_x.category"
+            name="9.x"
+            parentCategory="org.eclipse.datatools.enablement.postgresql.driverCategory"/>         
+      <driverTemplateOverride
+            createDefault="true"
+            emptyJarListIsOK="false"
+            jarList="[org.opaeum.eclipse.jdbc.drivers]/postgresql-9.1-901-1.jdbc4.jar"
+            name="Postgres SQL"
+            parentCategory="org.eclipse.datatools.enablement.postgresql.9_x.category"
+            priority="1"
+            targetId="org.eclipse.datatools.enablement.postgresql.postgresqlDriverTemplate">
+         <propertyOverrides>
+            <propertyOverride
+                  targetId="org.eclipse.datatools.connectivity.db.version"
+                  name="%VERSION_PROPERTY_NAME"
+                  value="9.X"
+                  required="true"
+                  visible="false"/>       
+                  <propertyOverride
+					targetId="org.eclipse.datatools.connectivity.db.username"
+					name="%USER_ID_PROPERTY_NAME" 
+					value="postgres" 
+					required="true" 
+					visible="true"/>
+				<propertyOverride
+					targetId="org.eclipse.datatools.connectivity.db.password"
+					name="%PASSWORD_PROPERTY_NAME" 
+					value="postgres" 
+					required="false" 
+					visible="true"/>        
+         </propertyOverrides>
+      </driverTemplateOverride>
+      <driverTemplateOverride
+            createDefault="true"
+            emptyJarListIsOK="false"
+            jarList="[org.opaeum.eclipse.jdbc.drivers]/hsqldb-2.0.0.jar"
+            name="HSQLDB"
+            parentCategory="org.eclipse.datatools.enablement.hsqldb.2_x.category"
+            priority="1"
+            targetId="org.eclipse.datatools.enablement.hsqldb.1_8.driver">
+         <propertyOverrides>
+            <propertyOverride
+                  name="%DRIVER_CLASS_PROPERTY_NAME"
+                  required="true"
+                  targetId="org.eclipse.datatools.connectivity.db.driverClass"
+                  value="org.hsqldb.jdbc.JDBCDriver"
+                  visible="false">
+            </propertyOverride>
+            <propertyOverride
+                  targetId="org.eclipse.datatools.connectivity.db.version"
+                  name="%VERSION_PROPERTY_NAME"
+                  value="2.0"
+                  required="true"
+                  visible="false"/>               
+         </propertyOverrides>
+      </driverTemplateOverride>
+   </extension>
+
+</plugin>

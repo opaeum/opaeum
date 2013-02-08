@@ -60,7 +60,7 @@ public class DurationBasedCostStrategyFactory extends AbstractStrategyFactory{
 			toEventOccurred.addParam("firstEvent", new OJPathName("Boolean"));
 			toEventOccurred.getBody().addToStatements(new OJIfStatement(map.getter() + "()==null", map.setter() + "(new DurationBasedCost())"));
 			toEventOccurred.getBody().addToStatements(
-					a.getter.getName() + "Entry().addAll(" + map.getter() + "().toEventOccurred(resources,firstEvent))");
+					a.getter.getName() + "Entry().addAll(" + map.getter() + "().toEventOccurred(resources,firstEvent,persistence.getMetaInfoMap()))");
 			owner.addToOperations(toEventOccurred);
 			OJAnnotatedOperation addCostEntry = new OJAnnotatedOperation(map.adder() + "Entry");
 			addCostEntry.addParam("fromDate", new OJPathName(Date.class.getName()));
@@ -68,7 +68,7 @@ public class DurationBasedCostStrategyFactory extends AbstractStrategyFactory{
 			addCostEntry.addParam("resource", new OJPathName("org.opaeum.runtime.bpm.costing.ITimedResource"));
 			addCostEntry.getBody().addToStatements(new OJIfStatement(map.getter() + "()==null", map.setter() + "(new DurationBasedCost())"));
 			addCostEntry.getBody().addToStatements(
-					a.getter.getName() + "Entry().add(" + map.getter() + "().addCostEntry(fromDate,toDate, resource))");
+					a.getter.getName() + "Entry().add(" + map.getter() + "().addCostEntry(fromDate,toDate, resource,persistence.getMetaInfoMap())");
 			owner.addToOperations(addCostEntry);
 		}
 	}

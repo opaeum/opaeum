@@ -41,7 +41,7 @@ import org.opaeum.runtime.domain.CompositionNode;
  * implemented.
  */
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class},after = {OperationAnnotator.class,
-		AttributeExpressionGenerator.class,JpaAnnotator.class,HibernateAnnotator.class})
+		AttributeExpressionGenerator.class})
 public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	protected static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
@@ -123,7 +123,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		if(sc.getGenerals().size() >= 1){
 			markDeleted.getBody().addToStatements("super.markDeleted()");
 		}else if(AbstractJavaProducingVisitor.isPersistent(sc)){
-			if(ojClass.findField("deletedOn") != null){
+			if(transformationContext.isFeatureSelected(HibernateAnnotator.class)){
 				ojClass.addToImports("java.util.Date");
 				markDeleted.getBody().addToStatements("setDeletedOn(new Date(System.currentTimeMillis()))");
 			}else{

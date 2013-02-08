@@ -57,6 +57,7 @@ import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
 import org.opaeum.ocl.uml.ResponsibilityDefinition;
 import org.opaeum.runtime.domain.IActiveObject;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;
 import org.opaeum.runtime.event.ICallEventHandler;
@@ -107,15 +108,15 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 					templateFile.setTextSource(new CharArrayTextSource(template.toCharArray()));
 				}
 				handler.addToImplementedInterfaces(new OJPathName("org.opaeum.runtime.event.INotificationHandler"));
-				marshall.getBody().addToStatements("result.add(new PropertyValue(-20l, Value.valueOf(from)))");
+				marshall.getBody().addToStatements("result.add(new PropertyValue(-20l, Value.valueOf(from,env)))");
 				OJPathName setOfReceiver = new OJPathName("java.util.Set");
 				setOfReceiver.addToElementTypes(new OJPathName("org.opaeum.runtime.event.INotificationReceiver"));
 				OJUtil.addTransientProperty(handler, "from", new OJPathName("org.opaeum.runtime.event.INotificationReceiver"), true);
-				marshall.getBody().addToStatements("result.add(new PropertyValue(-21l, Value.valueOf(cc)))");
+				marshall.getBody().addToStatements("result.add(new PropertyValue(-21l, Value.valueOf(cc,env)))");
 				OJUtil.addTransientProperty(handler, "cc", setOfReceiver, true);
-				marshall.getBody().addToStatements("result.add(new PropertyValue(-22l, Value.valueOf(bcc)))");
+				marshall.getBody().addToStatements("result.add(new PropertyValue(-22l, Value.valueOf(bcc,env)))");
 				OJUtil.addTransientProperty(handler, "bcc", setOfReceiver, true);
-				marshall.getBody().addToStatements("result.add(new PropertyValue(-23l, Value.valueOf(to)))");
+				marshall.getBody().addToStatements("result.add(new PropertyValue(-23l, Value.valueOf(to,env)))");
 				OJUtil.addTransientProperty(handler, "to", setOfReceiver, true);
 			}
 			OJAnnotatedOperation unmarshall = buildUnmarshall(s, "signal", effectiveAttributes, false);
@@ -403,7 +404,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	private void addIsEventMarshal(OJAnnotatedOperation marshall){
 		marshall.getBody().addToStatements(Math.max(0, marshall.getBody().getStatements().size() - 1),
-				"result.add(new PropertyValue(-6l, Value.valueOf(isEvent)))");
+				"result.add(new PropertyValue(-6l, Value.valueOf(isEvent,env)))");
 	}
 	private void addIsEventUnmarshall(OJAnnotatedOperation unmarshall){
 		OJForStatement sst = (OJForStatement) unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
@@ -446,15 +447,16 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private OJAnnotatedOperation buildMarshall(Classifier parent,String target,Collection<? extends TypedElement> e,boolean includeReturnInfo){
 		OJPathName collectionOfPropertyValues = getCollectionOfPropertyValues();
 		OJAnnotatedOperation marshall = new OJAnnotatedOperation("marshall", collectionOfPropertyValues);
+		marshall.addParam("env", new OJPathName(Environment.class.getName()));
 		OJBlock blo = marshall.getBody();
 		marshall.initializeResultVariable("new ArrayList<PropertyValue>()");
 		for(TypedElement p:e){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 			blo.addToStatements("result.add(new PropertyValue(" + EmfWorkspace.getOpaeumId(p) + "l, Value.valueOf(" + target + "." + map.getter()
-					+ "())))");
+					+ "(),env)))");
 		}
 		if(includeReturnInfo){
-			marshall.getBody().addToStatements("result.add(new PropertyValue(-5l, Value.valueOf(returnInfo)))");
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-5l, Value.valueOf(returnInfo,env)))");
 		}
 		return marshall;
 	}

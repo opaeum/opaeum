@@ -2,18 +2,13 @@ package org.opaeum.runtime.jpa;
 
 import javax.persistence.EntityManager;
 
-public class StandaloneJpaUmtPersistence extends AbstractJpaUmtPersistence {
+import org.hibernate.Session;
+import org.opaeum.hibernate.domain.HibernateUmtPersistence;
+import org.opaeum.runtime.environment.Environment;
 
-	private EntityManager entityManager;
-
-	@Override
-	protected EntityManager getEntityManager() {
-		return entityManager;
-	}
-
-	public StandaloneJpaUmtPersistence(EntityManager entityManager) {
-		super();
-		this.entityManager = entityManager;
+public class StandaloneJpaUmtPersistence extends HibernateUmtPersistence {
+	public StandaloneJpaUmtPersistence(EntityManager entityManager,Environment e) {
+		super((Session) entityManager.getDelegate(),e);
 	}
 
 }

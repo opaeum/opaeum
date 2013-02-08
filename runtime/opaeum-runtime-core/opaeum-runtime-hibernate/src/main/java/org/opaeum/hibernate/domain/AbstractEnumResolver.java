@@ -16,14 +16,14 @@ public abstract class AbstractEnumResolver  implements EnumResolver,UserType{
 	@Override
 	public int[] sqlTypes(){
 		return new int[]{
-			Types.INTEGER
+			Types.BIGINT
 		};
 	}
 	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names,
 			SessionImplementor arg2, Object arg3) throws HibernateException,
 			SQLException {
-		int object = rs.getInt(names[0]);
+		long object = rs.getLong(names[0]);
 		if(rs.wasNull()){
 			return null;
 		}else{
@@ -33,7 +33,7 @@ public abstract class AbstractEnumResolver  implements EnumResolver,UserType{
 	@Override
 	public void nullSafeSet(PreparedStatement st,Object value,int index, SessionImplementor si) throws HibernateException,SQLException{
 		if(value == null){
-			st.setNull(index, Types.INTEGER);
+			st.setNull(index, Types.BIGINT);
 		}else{
 			st.setLong(index, toOpaeumId((IEnum) value));
 		}

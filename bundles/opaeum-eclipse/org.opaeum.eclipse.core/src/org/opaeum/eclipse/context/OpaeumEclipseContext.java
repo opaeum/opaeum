@@ -145,9 +145,9 @@ public class OpaeumEclipseContext{
 			rst = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
 //			if(dew == null){
-				dew = new EmfWorkspace(uri, rst, getConfig().getVersion(), getConfig().getWorkspaceIdentifier(), getConfig().getMavenGroupId());
+				dew = new EmfWorkspace(uri, rst, getConfig().getVersion(), getConfig().getApplicationIdentifier(), getConfig().getMavenGroupId());
 				dew.setUriToFileConverter(new EclipseUriToFileConverter());
-				dew.setName(getConfig().getWorkspaceName());
+				dew.setName(getConfig().getApplicationName());
 				for(IResource r:umlDirectory.members()){
 					monitor.subTask("Loading " + r.getName());
 					if(r instanceof IFile && r.getFileExtension().equals("uml")){

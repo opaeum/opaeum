@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.util.Hasher;
 
 @NumlMetaInfo(uuid="OpaeumBPMCommon.library.uml@_5lxp4LRZEeCilvbXE8KmHA")public enum TaskDelegation implements IEnum, Serializable {
 	POTENTIALOWNERS("OpaeumBPMCommon.library.uml@_MmeToLRaEeCilvbXE8KmHA"),
@@ -18,6 +19,10 @@ import org.opaeum.annotation.NumlMetaInfo;
 	 */
 	private TaskDelegation(String uuid) {
 		this.uuid=uuid;
+	}
+	@Override
+	public long getOpaeumId(){
+		return Hasher.getOpaeumId(uuid);
 	}
 
 	public String getUid() {

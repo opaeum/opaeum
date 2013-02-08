@@ -9,6 +9,16 @@ Export-Package: org.opaeum.audit,
 Require-Bundle: opaeum-runtime-domain,
  opaeum-runtime-hibernate,
  opaeum-runtime-core-dependencies
-Import-Package: javax.persistence,
+Import-Package: javax.naming,
+ javax.naming.directory,
+ javax.naming.event,
+ javax.naming.ldap,
+ javax.naming.spi,
+ javax.persistence,
+ javax.persistence.spi,
+ javax.sql,
  org.hibernate,
- org.hibernate.dialect
+ org.hibernate.cfg,
+ org.hibernate.dialect,
+ org.hibernate.ejb,
+ org.hibernate.tool.hbm2ddl

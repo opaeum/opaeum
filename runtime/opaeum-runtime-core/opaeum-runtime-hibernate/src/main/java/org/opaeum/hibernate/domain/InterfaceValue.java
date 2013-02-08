@@ -5,6 +5,9 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.AccessType;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.JavaMetaInfoMap;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable
 @AccessType("field")
@@ -14,8 +17,8 @@ public class InterfaceValue extends AbstractInterfaceValue{
 	private String classIdentifier;
 	@Transient
 	private IPersistentObject value;
-	public InterfaceValue(IPersistentObject resource){
-		setValue(resource);
+	public InterfaceValue(IPersistentObject resource,JavaMetaInfoMap env){
+		setValue(resource,env);
 	}
 	public InterfaceValue(){
 	}

@@ -51,4 +51,7 @@ public class GenerateMetaModelClassesAction extends AbstractOpaeumAction{
 			e.printStackTrace();
 		}
 	}
+	public static void main(String[] args) throws ClassNotFoundException{
+		Class.forName("boolean");
+	}
 }

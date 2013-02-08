@@ -10,9 +10,16 @@ public class AbstractFormatter{
 	SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd z");
 	DecimalFormat realFormat = new DecimalFormat("#0.00000000000000");
+	SimpleDateFormat dateTimeQualifierFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+	SimpleDateFormat dateQualifierFormat = new SimpleDateFormat("yyyy-MM-dd z");
+	DecimalFormat realQualifierFormat = new DecimalFormat("#0.00000000000000");
 	NumberFormat integerFormat = NumberFormat.getIntegerInstance();
+	
 	public String formatDateTime(Date dateTime){
 		return dateTimeFormat.format(dateTime);
+	}
+	public String formatDateTimeQualifier(Date dateTime){
+		return dateTimeQualifierFormat.format(dateTime);
 	}
 	public Date parseDateTime(String s){
 		try{
@@ -24,6 +31,9 @@ public class AbstractFormatter{
 	public String formatReal(Double d){
 		return realFormat.format(d);
 	}
+	public String formatRealQualifier(Double d){
+		return realQualifierFormat.format(d);
+	}
 	public Double parseReal(String s){
 		try{
 			return realFormat.parse(s).doubleValue();
@@ -33,6 +43,9 @@ public class AbstractFormatter{
 	}
 	public String formatInteger(Integer i){
 		return integerFormat.format(i);
+	}
+	public String formatIntegerQualifier(Integer i){
+		return i.toString();
 	}
 	public Integer parseInteger(String s){
 		try{
@@ -44,16 +57,25 @@ public class AbstractFormatter{
 	public String formatString(String s){
 		return s;
 	}
+	public String formatStringQualifier(String s){
+		return s;
+	}
 	public String parseString(String s){
 		return s;
 	}
 	public String formatText(String s){
 		return s;
 	}
+	public String formatTextQualifier(String s){
+		return s;
+	}
 	public String parseText(String s){
 		return s;
 	}
 	public String formatBoolean(Boolean value){
+		return value.toString();
+	}
+	public String formatBooleanQualifier(Boolean value){
 		return value.toString();
 	}
 	public String formatUnlimitedNatural(Integer value){
@@ -113,9 +135,6 @@ public class AbstractFormatter{
 	public Integer parseshort(String value){
 		return parseInteger(value);
 	}
-	public String formatDate(Date value){
-		return dateFormat.format(value);
-	}
 	public String formatDayOfMonth(Integer value){
 		return formatInteger(value);
 	}
@@ -124,6 +143,12 @@ public class AbstractFormatter{
 	}
 	public String formatMinuteOfHour(Integer value){
 		return formatInteger(value);
+	}
+	public String formatDate(Date value){
+		return dateFormat.format(value);
+	}
+	public String formatDateQualifier(Date value){
+		return dateQualifierFormat.format(value);
 	}
 	public Date parseDate(String value){
 		try{

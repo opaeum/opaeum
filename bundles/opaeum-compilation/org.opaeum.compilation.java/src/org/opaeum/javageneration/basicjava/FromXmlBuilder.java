@@ -75,6 +75,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		toString.addParam("map", type);
 	}
 	protected void buildBuildTreeFromXml(OJAnnotatedClass owner,Classifier umlClass){
+		owner.addToImports(ojUtil.classifierPathname(umlClass));
 		String rootObjectName = NameConverter.capitalize(EmfElementFinder.getRootObject(umlClass).getName());
 		owner.addToImports(ojUtil.utilClass(umlClass, "Formatter"));
 		OJOperation toString = new OJAnnotatedOperation("buildTreeFromXml");
@@ -151,7 +152,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 				"curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute(\"className\"))");
 		tryNewInstance.setCatchParam(new OJParameter("e", new OJPathName("Exception")));
 		tryNewInstance.getCatchPart().addToStatements(
-				"curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
+				"curVal="+ojUtil.utilClass(map.getProperty(), JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX )+".INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
 		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyValueNode,map)");
 		if(isMap(map.getProperty())){
 			List<Property> qualifiers = map.getProperty().getQualifiers();

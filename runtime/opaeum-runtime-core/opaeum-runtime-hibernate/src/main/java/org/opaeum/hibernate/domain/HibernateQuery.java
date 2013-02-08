@@ -2,6 +2,7 @@ package org.opaeum.hibernate.domain;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.persistence.Query;
@@ -17,7 +18,7 @@ public class HibernateQuery implements Query{
 	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<IPersistentObject> executeQuery(){
+	public List<IPersistentObject> executeQuery(){
 		return delegate.list();
 	}
 	@Override

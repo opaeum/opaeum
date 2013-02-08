@@ -18,6 +18,8 @@ import javax.persistence.Version;
 import org.hibernate.annotations.Entity;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Entity
@@ -43,11 +45,11 @@ public class DurationBasedCostEntry implements IPersistentObject{
 	AbstractPersistence persistence;
 	public DurationBasedCostEntry(){
 	}
-	public DurationBasedCostEntry(Date fromDate,Date toDate,ITimedResourceBase resource,boolean newMeasurement){
+	public DurationBasedCostEntry(Date fromDate,Date toDate,ITimedResourceBase resource,boolean newMeasurement,JavaMetaInfoMap env){
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 		this.newMeasurement = newMeasurement;
-		this.resource = new InterfaceValue(resource);
+		this.resource = new InterfaceValue(resource,env);
 	}
 	public Date getFromDate(){
 		return fromDate;

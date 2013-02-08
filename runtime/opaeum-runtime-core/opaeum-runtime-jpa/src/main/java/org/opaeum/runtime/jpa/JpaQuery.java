@@ -1,6 +1,7 @@
 package org.opaeum.runtime.jpa;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.persistence.Query;
@@ -17,7 +18,7 @@ public class JpaQuery implements Query{
 	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<IPersistentObject> executeQuery(){
+	public List<IPersistentObject> executeQuery(){
 		return query.getResultList();
 	}
 	@Override

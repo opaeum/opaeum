@@ -4,6 +4,8 @@ import javax.persistence.Embeddable;
 
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable()
@@ -11,8 +13,8 @@ import org.opaeum.runtime.persistence.AbstractPersistence;
 public abstract class AbstractInterfaceValue{
 	public AbstractInterfaceValue(){
 	}
-	public AbstractInterfaceValue(IPersistentObject pi){
-		setValue(pi);
+	public AbstractInterfaceValue(IPersistentObject pi,JavaMetaInfoMap e){
+		setValue(pi,e);
 	}
 	public IPersistentObject getValue(AbstractPersistence p){
 		if(hasValue() && (getValue() == null)){
@@ -21,7 +23,7 @@ public abstract class AbstractInterfaceValue{
 		}
 		return getValue();
 	}
-	public void setValue(IPersistentObject value){
+	public void setValue(IPersistentObject value, JavaMetaInfoMap p){
 		if(value == null){
 			setIdentifier(null);
 			setClassIdentifier(null);

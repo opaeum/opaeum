@@ -11,19 +11,20 @@ public class SimpleTypeRuntimeStrategyFactory{
 	public Class<?> getType(){
 		return type;
 	}
-	public String getTypeUuid(){
-		return typeUuid;
-	}
+//	public String getTypeUuid(){
+//		return typeUuid;
+//	}
 	private String typeUuid;
 	@SuppressWarnings("unchecked")
 	public SimpleTypeRuntimeStrategyFactory(){
-		this(String.class);
+		this("",String.class);
 	}
-	protected SimpleTypeRuntimeStrategyFactory(Class<?> type,Class<? extends ISimpleTypeRuntimeStrategy>...classes){
+	//TODO clean this up
+	protected SimpleTypeRuntimeStrategyFactory(String typeUuid, Class<?> type,Class<? extends ISimpleTypeRuntimeStrategy>...classes){
+		this.type = type;
+		this.typeUuid = typeUuid;
 		for(Class<? extends ISimpleTypeRuntimeStrategy> cls:classes){
 			addStrategy(cls);
-			this.type = type;
-			this.typeUuid = Environment.getInstance().getMetaInfoMap().getUuidFor(type);
 		}
 	}
 	@SuppressWarnings("unchecked")

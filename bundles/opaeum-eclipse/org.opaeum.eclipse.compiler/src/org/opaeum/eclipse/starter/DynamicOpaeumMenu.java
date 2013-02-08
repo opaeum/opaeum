@@ -53,6 +53,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 	}
 	@Override
 	public IContributionItem[] getContributionItems(){
+		System.out.println("DynamicOpaeumMenu.getContributionItems()");
 		if(actions == null){
 			actions = new ArrayList<IContributionItem>();
 			Object firstElement = selection.getFirstElement();
@@ -76,6 +77,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 								if(ctx.getConfig().getSourceFolderStrategy().isSingleProjectStrategy()){
 									actions.add(new ActionContributionItem(new SelectOutputProjectAction(selection)));
 								}
+								actions.add(new ActionContributionItem(new ConfigureDatabaseAction(selection)));
 								actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
 								actions.add(new ActionContributionItem(new RecompileIntegrationCodeAction(selection)));
 								actions.add(new ActionContributionItem(new ToggleAutomaticSynchronization(selection)));

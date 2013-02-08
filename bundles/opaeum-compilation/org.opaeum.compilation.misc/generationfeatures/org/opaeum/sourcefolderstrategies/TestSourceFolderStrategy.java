@@ -21,7 +21,7 @@ public class TestSourceFolderStrategy implements ISourceFolderStrategy{
 	}
 	private static void mapWebProject(OpaeumConfig cfg){
 		SourceFolderDefinition webAppRoot = cfg.defineSourceFolder(TextSourceFolderIdentifier.WEBAPP_RESOURCE, ProjectNameStrategy.SUFFIX_ONLY,
-				cfg.getWorkspaceIdentifier(), "src/main/webapp");
+				cfg.getApplicationIdentifier(), "src/main/webapp");
 		webAppRoot.dontCleanDirectoriesOrOverwriteFiles();
 	}
 	private static void mapDomainProjects(OpaeumConfig cfg){
@@ -30,10 +30,10 @@ public class TestSourceFolderStrategy implements ISourceFolderStrategy{
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC,
 				ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "", "src/test/generated-java");
 		SourceFolderDefinition domainSrc = cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_SRC, ProjectNameStrategy.SUFFIX_ONLY,
-				cfg.getWorkspaceIdentifier(), "src/main/java");
+				cfg.getApplicationIdentifier(), "src/main/java");
 		domainSrc.dontCleanDirectoriesOrOverwriteFiles();
 		SourceFolderDefinition domainTestSrc = cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_TEST_SRC,
-				ProjectNameStrategy.SUFFIX_ONLY, cfg.getWorkspaceIdentifier(), "src/test/java");
+				ProjectNameStrategy.SUFFIX_ONLY, cfg.getApplicationIdentifier(), "src/test/java");
 		domainTestSrc.dontCleanDirectoriesOrOverwriteFiles();
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE,
 				ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "", "src/test/generated-resources");
@@ -42,11 +42,11 @@ public class TestSourceFolderStrategy implements ISourceFolderStrategy{
 	}
 	private static void mapIntegratedAdaptorProject(OpaeumConfig cfg){
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC, ProjectNameStrategy.SUFFIX_ONLY,
-				cfg.getWorkspaceIdentifier(), "src/main/generated-java");
+				cfg.getApplicationIdentifier(), "src/main/generated-java");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, ProjectNameStrategy.SUFFIX_ONLY,
-				cfg.getWorkspaceIdentifier(), "src/main/generated-resources");
+				cfg.getApplicationIdentifier(), "src/main/generated-resources");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, ProjectNameStrategy.SUFFIX_ONLY,
-				cfg.getWorkspaceIdentifier(), "src/test/generated-resources");
+				cfg.getApplicationIdentifier(), "src/test/generated-resources");
 	}
 	@Override
 	public boolean isSingleProjectStrategy(){

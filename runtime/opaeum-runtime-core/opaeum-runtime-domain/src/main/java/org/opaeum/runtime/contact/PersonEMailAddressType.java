@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.domain.IEnum;
+import org.opaeum.util.Hasher;
 
 @NumlMetaInfo(uuid="252060@_YLfSwEtnEeGd4cpyhpib9Q")public enum PersonEMailAddressType implements IEnum, Serializable {
 	WORK("252060@_b0CGwEtnEeGd4cpyhpib9Q"),
@@ -17,6 +18,10 @@ import org.opaeum.runtime.domain.IEnum;
 	 */
 	private PersonEMailAddressType(String uuid) {
 		this.uuid=uuid;
+	}
+	@Override
+	public long getOpaeumId(){
+		return Hasher.getOpaeumId(uuid);
 	}
 
 	public String getUid() {

@@ -42,12 +42,12 @@ public class GenericSignalHandler implements IEventHandler{
 		}
 	}
 	@Override
-	public Collection<PropertyValue> marshall(){
+	public Collection<PropertyValue> marshall(Environment env){
 		Collection<PropertyValue> result=new ArrayList<PropertyValue>();
 		result.add(new PropertyValue(10101l, new SerializableValue("1234", signal.getClass())));
 		int i=0;
 		for(PropertyDescriptor p:IntrospectionUtil.getProperties(signal.getClass())){
-			result.add(new PropertyValue((long)i++,Value.valueOf(IntrospectionUtil.get(p,signal))));
+			result.add(new PropertyValue((long)i++,Value.valueOf(IntrospectionUtil.get(p,signal),env)));
 		}
 		return null;
 	}
