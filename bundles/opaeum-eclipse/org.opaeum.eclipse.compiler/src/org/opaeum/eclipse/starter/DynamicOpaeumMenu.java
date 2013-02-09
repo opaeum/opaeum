@@ -20,6 +20,7 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.PackageImport;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.javasync.CreateApplicationProjectAction;
 import org.opaeum.eclipse.javasync.GenerateBusinessIntelligenceSchemaAction;
 import org.opaeum.eclipse.javasync.GenerateMetaModelClassesAction;
 import org.opaeum.eclipse.javasync.RecompileElementAction;
@@ -79,6 +80,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 								}
 								actions.add(new ActionContributionItem(new ConfigureDatabaseAction(selection)));
 								actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
+								actions.add(new ActionContributionItem(new CreateApplicationProjectAction(selection)));
 								actions.add(new ActionContributionItem(new RecompileIntegrationCodeAction(selection)));
 								actions.add(new ActionContributionItem(new ToggleAutomaticSynchronization(selection)));
 								// actions.add(new ActionContributionItem(new RegenerateUuids(selection)));

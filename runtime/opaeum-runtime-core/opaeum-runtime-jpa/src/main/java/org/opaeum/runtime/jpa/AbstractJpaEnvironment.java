@@ -25,7 +25,6 @@ import org.hibernate.ejb.HibernateEntityManagerFactory;
 import org.hibernate.ejb.HibernatePersistence;
 import org.hibernate.tool.hbm2ddl.DatabaseMetadata;
 import org.hibernate.tool.hbm2ddl.SchemaUpdate;
-import org.opaeum.hibernate.domain.HibernateCmtPersistence;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
@@ -35,7 +34,9 @@ public abstract class AbstractJpaEnvironment extends Environment{
 	Map<Class<?>,Object> components = new HashMap<Class<?>,Object>();
 	protected HibernateEntityManagerFactory entityManagerFactory;
 	private Boolean isInJee;
+	private ThreadLocal<JpaCmtPersistence> currentPersistence=new ThreadLocal<JpaCmtPersistence>();
 	protected abstract PersistenceUnitInfo getPersistenceUnitInfo();
+	
 	// protected abstract Map getPersistenceUnitProperties();
 	@SuppressWarnings("unchecked")
 	@Override
@@ -45,7 +46,7 @@ public abstract class AbstractJpaEnvironment extends Environment{
 	public AbstractJpaEnvironment(){
 		properties = loadProperties(PROPERTIES_FILE_NAME, getClass());
 	}
-	private EntityManagerFactory getEntityManagerFactory(){
+	private HibernateEntityManagerFactory getEntityManagerFactory(){
 		if(entityManagerFactory == null){
 			Set<String> schemas = new HashSet<String>();
 			for(Class<?> class1:getMetaInfoMap().getAllClasses()){
@@ -155,8 +156,7 @@ public abstract class AbstractJpaEnvironment extends Environment{
 	@Override
 	public UmtPersistence createUmtPersistence(){
 		EntityManager result = openEntityManager();
-		((Session) result.getDelegate()).enableFilter("noDeletedObjects");
-		return new StandaloneJpaUmtPersistence(result, this);
+		return new JpaUmtPersistence(result, this);
 	}
 	protected boolean isInJee(){
 		if(isInJee == null){
@@ -173,10 +173,14 @@ public abstract class AbstractJpaEnvironment extends Environment{
 	}
 	@Override
 	public ConversationalPersistence createConversationalPersistence(){
-		return new JpaConversationalPersistence(openEntityManager(), this);
+		EntityManager result = openEntityManager();
+		return new JpaConversationalPersistence(result, this);
 	}
 	@Override
 	public CmtPersistence getCurrentPersistence(){
-		return new HibernateCmtPersistence(entityManagerFactory.getSessionFactory().getCurrentSession(), this);
+		if(currentPersistence.get()==null){
+			currentPersistence.set(new JpaCmtPersistence(getEntityManagerFactory().getSessionFactory(), this,currentPersistence));
+		}
+		return currentPersistence.get();
 	}
 }

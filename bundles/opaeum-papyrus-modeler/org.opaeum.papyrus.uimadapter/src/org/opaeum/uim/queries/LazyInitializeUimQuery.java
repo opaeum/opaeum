@@ -55,12 +55,6 @@ public abstract class LazyInitializeUimQuery<T extends Element,S extends Abstrac
 		return result;
 	}
 	protected abstract boolean generateModel(final T context,FormSynchronizer2 fs2);
-	public final Resource getResource(ResourceSet uimRst,URI directoryUri,String id,String extenstion){
-		URI formUri = directoryUri.appendSegment("ui");
-		formUri = formUri.appendSegment(id);
-		formUri = formUri.appendFileExtension(extenstion);
-		return getOrCreateResource(uimRst, formUri);
-	}
 	protected abstract R getResult(S eObject);
 	public Resource getOrCreateResource(ResourceSet uimRst,URI formUri){
 		Resource resource = null;

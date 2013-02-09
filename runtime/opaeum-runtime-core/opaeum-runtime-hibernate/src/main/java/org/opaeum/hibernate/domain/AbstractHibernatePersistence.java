@@ -13,15 +13,23 @@ import org.opaeum.runtime.persistence.Query;
 @SuppressWarnings("unchecked")
 public abstract class AbstractHibernatePersistence implements AbstractPersistence{
 	private Session session;
+	private boolean filterDeletedObjects;
 	protected Environment environment;
 	public static int COUNT;
 	public static int SESSION_COUNT;
 	public AbstractHibernatePersistence(Session session ,Environment environment){
-		super();
+		this(environment);
+		this.setSession(session);
+		setFilterDeletedObjects(true);
+	}
+	public AbstractHibernatePersistence(Environment e){
 		COUNT++;
 		SESSION_COUNT++;
-		this.setSession(session);
-		this.environment=environment;
+		this.environment=e;
+	}
+	@Override
+	public boolean isOpen(){
+		return getSession().isOpen();
 	}
 	public JavaMetaInfoMap getMetaInfoMap(){
 		return environment.getMetaInfoMap();
@@ -74,6 +82,17 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 	}
 	protected Session getSession(){
 		return session;
+	}
+	public boolean isFilterDeletedObjects(){
+		return filterDeletedObjects;
+	}
+	public void setFilterDeletedObjects(boolean filterDeletedObjects){
+		if(filterDeletedObjects){
+			session.enableFilter("noDeletedObjects");
+		}else{
+			session.disableFilter("noDeletedObjects");
+		}
+		this.filterDeletedObjects = filterDeletedObjects;
 	}
 	protected void setSession(Session session){
 		this.session = session;

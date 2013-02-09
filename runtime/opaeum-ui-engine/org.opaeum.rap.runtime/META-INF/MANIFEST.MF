@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Full Opaeum RAP Runtime
-Bundle-SymbolicName: org.opaeum.runtime.jface;singleton:=true
+Bundle-SymbolicName: org.opaeum.runtime.rap.ui;singleton:=true
 Bundle-Version: 1.0.2.qualifier
 Require-Bundle: org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
@@ -12,13 +12,13 @@ Require-Bundle: org.eclipse.core.databinding,
  org.eclipse.nebula.widgets.pagination,
  org.opaeum.rap.metamodels.uim,
  opaeum-runtime-core-dependencies,
- opaeum-runtime-domain,
- opaeum-runtime-hibernate,
- opaeum-runtime-jpa,
+ org.opaeum.runtime.domain,
+ org.opaeum.runtime.hibernate,
+ org.opaeum.runtime.jpa,
  org.eclipse.equinox.supplement,
  org.eclipse.equinox.common,
  org.opaeum.jface.runtime;bundle-version="1.0.0"
-Bundle-Activator: org.opaeum.runtime.jface.internal.Activator
+Bundle-Activator: org.opaeum.rap.runtime.internal.Activator
 Bundle-Localization: plugin
 Bundle-ClassPath: .
 Bundle-ActivationPolicy: lazy

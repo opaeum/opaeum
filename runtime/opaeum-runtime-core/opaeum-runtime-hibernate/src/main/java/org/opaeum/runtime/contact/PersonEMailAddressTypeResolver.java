@@ -1,5 +1,10 @@
 package org.opaeum.runtime.contact;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.hibernate.HibernateException;
 import org.opaeum.hibernate.domain.AbstractEnumResolver;
 import org.opaeum.runtime.domain.EnumResolver;
 import org.opaeum.runtime.domain.IEnum;

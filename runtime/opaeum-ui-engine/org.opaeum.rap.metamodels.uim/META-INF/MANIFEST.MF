@@ -30,4 +30,4 @@ Export-Package: org.opaeum.ecore,
  org.opaeum.uim.swt,
  org.opaeum.uim.wizard
 Require-Bundle: org.eclipse.rap.jface;bundle-version="2.0.0",
- opaeum-runtime-domain
+ org.opaeum.runtime.domain

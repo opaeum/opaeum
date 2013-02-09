@@ -19,7 +19,6 @@ public abstract class AbstractEnumResolver  implements EnumResolver,UserType{
 			Types.BIGINT
 		};
 	}
-	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names,
 			SessionImplementor arg2, Object arg3) throws HibernateException,
 			SQLException {
@@ -30,7 +29,6 @@ public abstract class AbstractEnumResolver  implements EnumResolver,UserType{
 			return fromOpaeumId(object);
 		}
 	}
-	@Override
 	public void nullSafeSet(PreparedStatement st,Object value,int index, SessionImplementor si) throws HibernateException,SQLException{
 		if(value == null){
 			st.setNull(index, Types.BIGINT);
@@ -38,6 +36,23 @@ public abstract class AbstractEnumResolver  implements EnumResolver,UserType{
 			st.setLong(index, toOpaeumId((IEnum) value));
 		}
 	}
+	public Object nullSafeGet(ResultSet rs,String[] names,Object owner) throws HibernateException,SQLException{
+		long object = rs.getLong(names[0]);
+		if(rs.wasNull()){
+			return null;
+		}else{
+			return fromOpaeumId(object);
+		}
+	}
+	public void nullSafeSet(PreparedStatement st,Object value,int index) throws HibernateException,SQLException{
+		if(value == null){
+			st.setNull(index, Types.BIGINT);
+		}else{
+			st.setLong(index, toOpaeumId((IEnum) value));
+		}
+		
+	}
+
 	@Override
 	public boolean equals(Object x,Object y) throws HibernateException{
 		return x==y;

@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.papyrus.infra.core,
  org.eclipse.uml2.uml,
  org.opaeum.transformation.engine,
- org.opaeum.metamodels.emfworkspace
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.eclipse.core
 Bundle-ActivationPolicy: lazy
 Export-Package: org.opaeum.uim.layouts,
  org.opaeum.uim.uml2uim,

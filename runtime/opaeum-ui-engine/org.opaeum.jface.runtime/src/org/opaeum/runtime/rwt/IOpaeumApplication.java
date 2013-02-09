@@ -19,5 +19,5 @@ public interface IOpaeumApplication {
 	IPersonNode findOrCreatePersonByEMailAddress(String id);
 	Validator getValidator();
 	URL getCubeUrl();
-	Class<? extends EntryPoint> getEntrypointType();
+	Class<? extends EntryPoint> getEntryPointType();
 }

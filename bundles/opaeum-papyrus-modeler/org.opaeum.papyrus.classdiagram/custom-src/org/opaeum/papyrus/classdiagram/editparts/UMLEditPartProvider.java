@@ -68,7 +68,7 @@ public class UMLEditPartProvider extends CUMLEditPartProvider{
 							super.refreshVisuals();
 							if((IPapyrusNodeNamedElementFigure) getPrimaryShape() != null && resolveSemanticElement() != null){
 								IPapyrusNodeNamedElementFigure l = (IPapyrusNodeNamedElementFigure) getPrimaryShape();
-								l.getTaggedLabel().setText("<<Business Component>>");
+								l.getTaggedLabel().setText("<Business Component>");
 							}
 						}
 						protected IFigure createNodeShape(){

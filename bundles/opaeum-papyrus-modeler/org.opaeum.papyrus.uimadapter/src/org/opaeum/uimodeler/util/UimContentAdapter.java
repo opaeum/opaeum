@@ -32,10 +32,11 @@ public class UimContentAdapter extends EContentAdapter{
 	public UimContentAdapter(final UimModelSet modelSet){
 		super();
 		this.modelSet = modelSet;
-		URI dirUri = modelSet.getRootObject().eResource().getURI().trimSegments(1);
+		URI dirUri = modelSet.getOpenUmlFile().getEmfWorkspace().getDirectoryUri();
 		perspectiveCreator = new PerspectiveCreator(dirUri, modelSet, false);
 		formSynchronizer = new FormSynchronizer2(dirUri, modelSet, false);
 		umlSwitch = new UmlToUimSwitch(perspectiveCreator, formSynchronizer);
+		modelSet.registerUimResources(perspectiveCreator.getNewResources());
 	}
 	@Override
 	public void notifyChanged(Notification notification){

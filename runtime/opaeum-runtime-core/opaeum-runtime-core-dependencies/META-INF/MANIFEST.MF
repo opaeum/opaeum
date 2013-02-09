@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Opaeum-runtime-core-dependencies
-Bundle-SymbolicName: opaeum-runtime-core-dependencies
+Bundle-SymbolicName: org.opaeum.runtime.core.dependencies
 Bundle-Version: 1.0.0
 Extension-Name: Opaeum-runtime-core-dependencies
 Bundle-ClassPath: freemarker-2.3.18-sources.jar,

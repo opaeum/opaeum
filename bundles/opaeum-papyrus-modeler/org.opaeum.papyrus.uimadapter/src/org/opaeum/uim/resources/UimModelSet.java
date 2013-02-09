@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -214,7 +215,7 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	}
 	private void createInMemoryModel(){
 		UmlModel umlModel = UmlUtils.getUmlModel(this);
-		URI uri = umlModel.getResource().getURI().trimSegments(1).appendSegment("ui").appendSegment("tmp.notation");
+		URI uri = umlModel.getResource().getURI().trimSegments(1).appendSegment("tmp.notation");
 		Resource tmp = super.getResource(uri, false);
 		if(tmp == null){
 			tmp = super.createResource(uri);
@@ -273,5 +274,18 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 				}
 			}
 		});
+	}
+	@Override
+	public IContainer getUimDirectory(){
+		// TODO Auto-generated method stub
+		String o = getOpenUmlFile().getConfig().getProjectNameOverride();
+		if(o!=null &&o.length()>0){
+			IProject p = (IProject) ResourcesPlugin.getWorkspace().getRoot().findMember(o);
+			if(p!=null && p.exists()){
+				return p;
+			}
+		}
+		//TODO think about this case??
+		return null;
 	}
 }

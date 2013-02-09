@@ -33,6 +33,7 @@ import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.proxy.HibernateProxy;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
+import org.opaeum.runtime.domain.ExceptionAnalyser;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -85,7 +86,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 							}
 						}
 					}catch(Throwable t){
-						t.printStackTrace();
+						logger.error(t.getMessage(), t);
 					}
 				}
 			}
@@ -196,18 +197,24 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 	protected SessionAttachment lazyGetAttachment(EventSource session,Object o){
 		SessionAttachment sessionAttachment = sessionAttachments.get(session);
 		if(sessionAttachment == null){
-			sessionAttachment = new SessionAttachment(session, lazyGetJavaMetaInfoMap(session, o));
+			sessionAttachment = new SessionAttachment(session, lazyGetOpaeumEnvironment(session, o));
 			sessionAttachments.put(session, sessionAttachment);
 		}
 		return sessionAttachment;
 	}
-	private Environment lazyGetJavaMetaInfoMap(EventSource session,Object o){
+	private Environment lazyGetOpaeumEnvironment(EventSource session,Object o){
 		Environment environment = opaeumEnvironmentMap.get(session.getFactory());
 		if(environment == null){
 			NumlMetaInfo annotation = IntrospectionUtil.getOriginalClass(o.getClass()).getAnnotation(NumlMetaInfo.class);
 			if(annotation != null && annotation.environment() != Environment.class){
-				environment = IntrospectionUtil.newInstance(annotation.environment());
-				opaeumEnvironmentMap.put(session.getSessionFactory(),  environment);
+				try{
+					Field instance = annotation.environment().getDeclaredField("INSTANCE");
+					environment = (Environment) instance.get(null);
+					opaeumEnvironmentMap.put(session.getSessionFactory(), environment);
+				}catch(Exception e){
+					new ExceptionAnalyser(e).throwRootCause();
+					//will break here
+				}
 			}
 		}
 		return environment;
@@ -264,7 +271,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		Set<EventOccurrence> allEventOccurrences = new HashSet<EventOccurrence>();
 		for(IEventGenerator eg:eventGenerators){
 			for(OutgoingEvent entry:eg.getOutgoingEvents()){
-				if(entry.getTarget() != null && !(entry.getTarget() instanceof Collection && ((Collection) entry.getTarget()).isEmpty())){
+				if(entry.getTarget() != null && !(entry.getTarget() instanceof Collection && ((Collection<?>) entry.getTarget()).isEmpty())){
 					EventOccurrence occurrence = new EventOccurrence(entry.getTarget(), entry.getHandler(), sa.getEnvironment());
 					occurrence.prepareForDispatch(sa.getEnvironment());
 					source.persist(occurrence);
@@ -307,7 +314,6 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		}
 		onPersist(event);
 	}
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void onFlushEntity(FlushEntityEvent event) throws HibernateException{
 		if(event.getEntity() instanceof IPersistentObject){

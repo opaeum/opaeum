@@ -33,18 +33,15 @@ public class PerspectiveCreator extends AbstractUimSynchronizer2{
 	private ExplorerConfiguration explorerPosition;
 	public PerspectiveCreator(URI workspace,ResourceSet resourceSet,boolean regenerate){
 		super(workspace, resourceSet, regenerate);
-		URI uri = super.directoryUri.appendSegment("ui").appendFragment("perspective").appendFileExtension("uim");
-		Resource resource = super.uimRst.getResource(uri, false);
 		boolean isNew = false;
-		if(resource == null){
-			if(!uimRst.getURIConverter().exists(uri, Collections.emptyMap())){
-				resource = super.uimRst.createResource(uri);
-				isNew = true;
-			}else{
-				resource = super.uimRst.getResource(uri, true);
-			}
+		Resource resource;
+		
+		if(UimResourceUtil.hasUimResource(null, resourceSet, workspace, "perspective")){
+			isNew = true;
 		}
+		resource=UimResourceUtil.getUimResource(null, resourceSet, workspace, "perspective");
 		if(isNew){
+			getNewResources().put(null,resource);
 			PerspectiveConfiguration p = null;
 			if(resource.getContents().isEmpty()){
 				p = PerspectiveFactory.eINSTANCE.createPerspectiveConfiguration();

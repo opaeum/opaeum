@@ -6,5 +6,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public interface IOpaeumResourceSet extends ResourceSet{
 	IContainer getModelDirectory();
+	IContainer getUimDirectory();
 	IFile getPrimaryFile();
 }

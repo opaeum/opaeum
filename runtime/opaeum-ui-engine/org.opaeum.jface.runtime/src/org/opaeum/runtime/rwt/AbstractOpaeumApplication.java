@@ -2,7 +2,9 @@ package org.opaeum.runtime.rwt;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +16,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.rap.rwt.application.EntryPoint;
 import org.opaeum.ecore.EObject;
 import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
 import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IBusinessCollaborationBase;
 import org.opaeum.runtime.organization.IBusinessNetwork;
 import org.opaeum.runtime.organization.IPersonNode;
@@ -30,11 +34,31 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
-	Bundle modelBundle;
+	Bundle bundle;
 	Map<String,URL> uimFiles;
-	Map<String,AbstractUserInteractionModel> userInteractionModels;
+	Map<String,AbstractUserInteractionModel> userInteractionModels = Collections
+			.synchronizedMap(new HashMap<String,AbstractUserInteractionModel>());
 	private Validator validator;
 	private ConversationalPersistence applicationPersistence;
+	protected AbstractOpaeumApplication(Bundle bundle){
+		super();
+		this.bundle = bundle;
+	}
+	protected abstract IBusinessNetwork newBusinessNetwork();
+	protected abstract IPersonNode newPersonNode(IBusinessNetwork bn,String emailAddress);
+	protected abstract IBusinessCollaborationBase newBusinessCollaboration(IBusinessNetwork findOrCreateBusinessNetwork);
+	@Override
+	public abstract Environment getEnvironment();
+	@Override
+	public abstract IBusinessCollaborationBase getRootBusinessCollaboration();
+	@Override
+	public synchronized IBusinessCollaborationBase createRootBusinessCollaboration(){
+		IBusinessCollaborationBase result = newBusinessCollaboration(findOrCreateBusinessNetwork());
+		getApplicationPersistence().persist(result);
+		return result;
+	}
+	@Override
+	public abstract Class<? extends EntryPoint> getEntryPointType();
 	@Override
 	public Validator getValidator(){
 		if(validator == null){
@@ -42,7 +66,7 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 		}
 		return validator;
 	}
-	private IBusinessNetwork findOrCreateBusinessNetwork(){
+	protected IBusinessNetwork findOrCreateBusinessNetwork(){
 		ConversationalPersistence persistence = getApplicationPersistence();
 		Collection<IBusinessNetwork> readAll = readAllBusinessNetworks();
 		for(Class<?> clss:getEnvironment().getMetaInfoMap().getAllClasses()){
@@ -73,10 +97,17 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 			return readAll.iterator().next();
 		}
 	}
-	protected abstract IBusinessNetwork newBusinessNetwork();
-	protected abstract Collection<IBusinessNetwork> readAllBusinessNetworks();
+	protected Collection<IBusinessNetwork> readAllBusinessNetworks(){
+		Query q = getApplicationPersistence().createQuery("from BusinessNetwork");
+		Collection<IPersistentObject> people = q.executeQuery();
+		Collection<IBusinessNetwork> result = new ArrayList<IBusinessNetwork>();
+		for(IPersistentObject p:people){
+			result.add((IBusinessNetwork) p);
+		}
+		return result;
+	}
 	@Override
-	public IPersonNode findOrCreatePersonByEMailAddress(String id){
+	public synchronized IPersonNode findOrCreatePersonByEMailAddress(String id){
 		// TODO find email addresses too
 		Query q = getApplicationPersistence().createQuery("from PersonNode where username=:username");
 		q.setParameter("username", id);
@@ -88,8 +119,7 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 		getApplicationPersistence().flush();
 		return newPerson;
 	}
-	protected abstract IPersonNode newPersonNode(IBusinessNetwork findOrCreateBusinessNetwork,String id);
-	public ConversationalPersistence getApplicationPersistence(){
+	private  ConversationalPersistence getApplicationPersistence(){
 		if(applicationPersistence == null){
 			applicationPersistence = getEnvironment().createConversationalPersistence();
 		}
@@ -122,7 +152,7 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 	}
 	protected Map<String,URL> getUimFiles(){
 		if(uimFiles == null){
-			Enumeration<URL> entries = modelBundle.findEntries("/", "*.uim", true);
+			Enumeration<URL> entries = bundle.findEntries("/", "*.uim", true);
 			uimFiles = new HashMap<String,URL>();
 			while(entries.hasMoreElements()){
 				URL url = (URL) entries.nextElement();
@@ -130,5 +160,13 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 			}
 		}
 		return uimFiles;
+	}
+	@Override
+	public String getIdentifier(){
+		return getEnvironment().getApplicationIdentifier();
+	}
+	@Override
+	public URL getCubeUrl(){
+		throw new IllegalStateException("getCubeUrl not implemented yet");
 	}
 }

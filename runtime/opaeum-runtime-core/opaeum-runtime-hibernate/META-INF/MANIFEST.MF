@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: opaeum-runtime-hibernate
-Bundle-SymbolicName: opaeum-runtime-hibernate
+Bundle-SymbolicName: org.opaeum.runtime.hibernate
 Extension-Name: Opaeum-runtime-hibernate
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.opaeum.audit,
@@ -28,6 +28,8 @@ Import-Package: javassist,
  javassist.util.proxy,
  javax.ejb,
  javax.persistence,
+ javax.transaction,
+ javax.transaction.xa,
  org.hibernate,
  org.hibernate.action.internal,
  org.hibernate.action.spi,
@@ -216,5 +218,6 @@ Import-Package: javassist,
  org.hibernate.usertype,
  org.jboss.logging,
  org.slf4j
-Require-Bundle: opaeum-runtime-core-dependencies,
- opaeum-runtime-domain
+Require-Bundle: org.opaeum.runtime.domain,
+ org.opaeum.runtime.core.dependencies
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

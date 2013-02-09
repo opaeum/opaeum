@@ -9,10 +9,11 @@ import javax.persistence.Persistence;
 import org.hibernate.ejb.HibernatePersistence;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
+import org.opaeum.runtime.jpa.AbstractJpaEnvironment;
 import org.opaeum.runtime.jpa.StandaloneJpaEnvironment;
 import org.opeum.demo1.util.Demo1JavaMetaInfoMap;
 
-public class Demo1JpaEnvironment extends StandaloneJpaEnvironment{
+public class Demo1JpaEnvironment extends AbstractJpaEnvironment{
 	public static Demo1JpaEnvironment getInstance(){
 		setContextClassLoader();
 		defaultImplementation = Demo1JpaEnvironment.class;

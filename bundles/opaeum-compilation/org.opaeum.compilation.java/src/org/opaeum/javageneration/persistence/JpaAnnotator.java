@@ -77,6 +77,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 		OJPathName pathName = ojUtil.utilClass(ew, "Environment");
 		OJClass envClass = new OJAnnotatedClass(pathName.getLast());
 		envClass.setSuperclass(new OJPathName(Environment.class.getName()));
+		envClass.getDefaultConstructor().setVisibility(OJVisibilityKind.PRIVATE);
 		findOrCreatePackage(pathName.getHead()).addToClasses(envClass);
 		super.createTextPath(envClass, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 		envClass.addToImports(IPersistentObject.class.getName());
@@ -138,6 +139,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 		getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.IntegerPropertyChange\")");
 		getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.FloatingPointPropertyChange\")");
 		getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.NullPropertyChange\")");
+		getManagedClassNames.getBody().addToStatements("result.add(\"" +ojUtil.utilPackagePath(ew)+"\")");
 		// CLasses across multiple jars need to be registered explicitly
 		TreeIterator<Notifier> iter = workspace.getResourceSet().getAllContents();
 		while(iter.hasNext()){

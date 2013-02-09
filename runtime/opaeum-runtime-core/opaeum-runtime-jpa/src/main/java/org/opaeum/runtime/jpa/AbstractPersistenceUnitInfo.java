@@ -34,7 +34,6 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 		try{
 			return (DataSource) new InitialContext().lookup(getDatasourceUrl());
 		}catch(NamingException e){
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -70,7 +69,7 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 	}
 	public PersistenceUnitTransactionType getTransactionType(){
 		if(env.isInJee()){
-			return PersistenceUnitTransactionType.JTA;
+//			return PersistenceUnitTransactionType.JTA;
 		}
 		return PersistenceUnitTransactionType.RESOURCE_LOCAL;
 	}
@@ -119,7 +118,9 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 			props.put("jboss.entity.manager.factory.jndi.name", "java:/" + getPersistenceUnitName() + "DataSource");
 			props.put("hibernate.transaction.factory_class", "org.hibernate.transaction.JTATransactionFactory");
 			props.put("hibernate.transaction.manager_lookup_class", "org.hibernate.transaction.JBossTransactionManagerLookup");
+			props.put("hibernate.current_session_context_class", "org.hibernate.context.internal.JTASessionContext");
 		}else{
+			props.put("hibernate.transaction.factory_class", "org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory");
 			props.put("hibernate.connection.driver_class", env.getProperty(Environment.JDBC_DRIVER_CLASS));
 			props.put("hibernate.connection.url", env.getProperty(Environment.JDBC_CONNECTION_URL));
 			props.put("hibernate.connection.username", env.getProperty(Environment.DB_USER));

@@ -9,88 +9,35 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.validation.Validation;
 import javax.validation.Validator;
 
-import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.EntryPoint;
 import org.eclipse.swt.graphics.Resource;
 import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.domain.IEnum;
-import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.organization.IBusinessCollaborationBase;
 import org.opaeum.runtime.organization.IBusinessNetwork;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
-import org.opaeum.runtime.persistence.Query;
-import org.opaeum.runtime.rwt.IOpaeumApplication;
-import org.opaeum.uim.model.AbstractUserInteractionModel;
+import org.opaeum.runtime.rwt.AbstractOpaeumApplication;
 import org.opeum.demo1.util.Demo1JavaMetaInfoMap;
 
-public class Demo1OpaeumApplication implements IOpaeumApplication{
+public class Demo1OpaeumApplication extends AbstractOpaeumApplication{
 	Map<String,Resource> tempResources = new HashMap<String,Resource>();
 	// /TODO regularly close and reopen;
 	private ConversationalPersistence applicationPersistence;
 	private Validator validator;
 	public Demo1OpaeumApplication(){
 	}
-	@Override
-	public String getIdentifier(){
-		return "demo1";
-	}
-	@Override
 	public Environment getEnvironment(){
 		Demo1JpaEnvironment i = Demo1JpaEnvironment.getInstance();
 		return i;
 	}
-	@Override
-	public Validator getValidator(){
-		if(validator == null){
-			validator = Validation.buildDefaultValidatorFactory().getValidator();
-		}
-		return validator;
-	}
-	private IBusinessNetwork findOrCreateBusinessNetwork(){
-		ConversationalPersistence persistence = getApplicationPersistence();
-		Collection<BusinessNetwork> readAll = persistence.readAll(BusinessNetwork.class);
-		for(Class<?> clss:getEnvironment().getMetaInfoMap().getAllClasses()){
-			if(clss.isEnum()){
-				try{
-					Class<?> eec = clss.getClassLoader().loadClass(clss.getName() + "Entity");
-					Object[] enumConstants = clss.getEnumConstants();
-					for(Object object:enumConstants){
-						if(object instanceof IEnum){
-							if(persistence.find(eec, ((IEnum) object).getOpaeumId()) == null){
-								Object newInstance = eec.getConstructor(clss).newInstance(object);
-								persistence.persist(newInstance);
-							}
-						}
-					}
-				}catch(Exception e){
-					System.out.println(e);
-				}
-			}
-			persistence.flush();
-		}
-		if(readAll.isEmpty()){
-			BusinessNetwork bn = new BusinessNetwork();
-			persistence.persist(bn);
-			persistence.flush();
-			return bn;
-		}else{
-			return readAll.iterator().next();
-		}
-	}
-	@Override
-	public IBusinessCollaborationBase createRootBusinessCollaboration(){
-		Structuredbusiness result = new Structuredbusiness((BusinessNetwork) findOrCreateBusinessNetwork());
-		getEnvironment().createConversationalPersistence().flush();
-		return result;
-	}
+	
 	@Override
 	public IBusinessCollaborationBase getRootBusinessCollaboration(){
 		BusinessNetwork bn = (BusinessNetwork) findOrCreateBusinessNetwork();
@@ -99,26 +46,6 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 			return bc;
 		}
 		return null;
-	}
-
-	@Override
-	public IPersonNode findOrCreatePersonByEMailAddress(String id){
-		// TODO find email addresses too
-		Query q = getApplicationPersistence().createQuery("from PersonNode where username=:username");
-		q.setParameter("username", id);
-		Collection<IPersistentObject> people = q.executeQuery();
-		for(IPersistentObject p:people){
-			return (IPersonNode) p;
-		}
-		PersonNode newPerson = new PersonNode((BusinessNetwork) findOrCreateBusinessNetwork(), id);
-		getApplicationPersistence().flush();
-		return newPerson;
-	}
-	public ConversationalPersistence getApplicationPersistence(){
-		if(applicationPersistence == null){
-			applicationPersistence = getEnvironment().createConversationalPersistence();
-		}
-		return applicationPersistence;
 	}
 	@Override
 	public Resource getUimResource(String id){
@@ -150,19 +77,20 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 	public URL getCubeUrl(){
 		return getClass().getClassLoader().getResource("cube.xml");
 	}
-	@Override
-	public void configure(Application application){
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public AbstractUserInteractionModel getUserInteractionModel(String id){
-		// TODO Auto-generated method stub
+	public Class<? extends EntryPoint> getEntryPointType(){
 		return null;
 	}
 	@Override
-	public Class<? extends EntryPoint> getEntrypointType(){
-		// TODO Auto-generated method stub
-		return null;
+	protected IBusinessNetwork newBusinessNetwork(){
+		return new BusinessNetwork();
+	}
+
+	@Override
+	protected IPersonNode newPersonNode(IBusinessNetwork findOrCreateBusinessNetwork,String id){
+		return new PersonNode((BusinessNetwork) findOrCreateBusinessNetwork, id);
+	}
+	@Override
+	protected IBusinessCollaborationBase newBusinessCollaboration(IBusinessNetwork bn){
+		return new Structuredbusiness((BusinessNetwork)bn);
 	}
 }

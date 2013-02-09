@@ -255,7 +255,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 			}
 		}
 		mavenGroup.append('.');
-		mavenGroup.append(NameConverter.separateWordsToCamelCase(txtApplicationName.getText()).toLowerCase());
+		mavenGroup.append(NameConverter.separateWordsToCamelCase(txtApplicationIdentifier.getText()).toLowerCase());
 		config.setApplicationName(NameConverter.separateWordsToCamelCase(txtApplicationName.getText()));
 		config.setAdditionalTransformationSteps(new HashSet<String>(Arrays.asList(lstTransformationSteps.getSelection())));
 		config.setMavenGroupId(mavenGroup.toString());

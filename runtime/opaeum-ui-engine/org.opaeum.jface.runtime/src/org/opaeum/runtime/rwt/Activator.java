@@ -201,7 +201,7 @@ public class Activator implements BundleActivator,ServiceListener{
 				@Override
 				public void configure(Application application){
 					Map<String,String> emptyMap = Collections.emptyMap();
-					application.addEntryPoint("/"+  service.getIdentifier(), service.getEntrypointType(), emptyMap);
+					application.addEntryPoint("/"+  service.getIdentifier(), service.getEntryPointType(), emptyMap);
 				}
 			},d));
 		}else if(event.getType()==ServiceEvent.UNREGISTERING){

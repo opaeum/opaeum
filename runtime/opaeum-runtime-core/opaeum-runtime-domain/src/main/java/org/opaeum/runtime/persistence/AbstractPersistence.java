@@ -25,5 +25,9 @@ public interface AbstractPersistence{
 	void refresh(IPersistentObject ... ctx);
 	JavaMetaInfoMap getMetaInfoMap();
 	String getApplicationId();
+	void setFilterDeletedObjects(boolean v);
+	boolean isFilterDeletedObjects();
+	boolean isOpen();
+
 
 }

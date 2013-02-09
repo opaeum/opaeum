@@ -150,18 +150,4 @@ public abstract class AbstractUimGenerationAction extends Action{
 		IEditorInput editorInput = new URIEditorInput(uri, editorName);
 		return editorInput;
 	}
-	// public static IFile getFile(URI fileUri){
-	// String platformString2 = fileUri.toPlatformString(true);
-	// IFile diFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString2));
-	// return diFile;
-	// }
-	// public static URI getFileUri(Element namedElement,EmfWorkspace w){
-	// try{
-	// URI dirUri = w.getDirectoryUri();
-	// URI fileUri = dirUri.appendSegment("ui").appendSegment(EmfWorkspace.getId(namedElement)).appendFileExtension("di");
-	// return fileUri;
-	// }catch(Exception ce){
-	// throw new RuntimeException(ce);
-	// }
-	// }
 }
