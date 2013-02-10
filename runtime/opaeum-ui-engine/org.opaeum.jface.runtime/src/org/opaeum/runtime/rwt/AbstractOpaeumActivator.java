@@ -15,12 +15,14 @@ public abstract class AbstractOpaeumActivator<V> implements BundleActivator{
 	@Override
 	public void start(BundleContext context) throws Exception{
 		this.application=createApplication(context.getBundle());
+		application.getEnvironment().register();
 		Dictionary<String,?> asdf=new Hashtable<String,Object>();
 		registration = context.registerService(IOpaeumApplication.class, application, asdf);
 	}
 	@Override
 	public void stop(BundleContext context) throws Exception{
 		registration.unregister();
+		application.getEnvironment().unregister();
 		application=null;
 	}
 }

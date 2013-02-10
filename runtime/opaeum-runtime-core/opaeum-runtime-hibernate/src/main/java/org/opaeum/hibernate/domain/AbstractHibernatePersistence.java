@@ -102,8 +102,13 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 		SESSION_COUNT--;
 	}
 	@Override
+	public boolean contains(IPersistentObject p){
+		return session.contains(p);
+	}
+	@Override
 	protected void finalize() throws Throwable {
 		super.finalize();
 		COUNT--;
 	}
+	
 }

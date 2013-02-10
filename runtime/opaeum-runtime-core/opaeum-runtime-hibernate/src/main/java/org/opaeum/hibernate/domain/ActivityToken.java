@@ -9,7 +9,6 @@ import org.opaeum.runtime.activities.ActivityNodeActivation;
 import org.opaeum.runtime.activities.IActivityNodeContainerExecution;
 import org.opaeum.runtime.activities.IActivityToken;
 import org.opaeum.runtime.activities.TokenKind;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @MappedSuperclass

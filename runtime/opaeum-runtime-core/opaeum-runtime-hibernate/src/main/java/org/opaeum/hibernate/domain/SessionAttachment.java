@@ -1,9 +1,7 @@
 package org.opaeum.hibernate.domain;
 
 import java.io.PrintWriter;
-import java.io.Serializable;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,15 +27,15 @@ public class SessionAttachment{
 	private Set<IEventGenerator> eventGenerators;
 	private AuditWorkUnit auditWorkUnit;
 	private EventSource session;
-	private AbstractHibernatePersistence persistence;
+	private InternalHibernatePersistence persistence;
 	private long startTime = System.currentTimeMillis();
 	private String startingThread;
 	private boolean hasBeenLogged = false;
 	private Map<ChangedEntity,ChangedEntity> changedEntities = new HashMap<ChangedEntity,ChangedEntity>();
 	private Environment environment;
-	public SessionAttachment(EventSource session, Environment env){
+	public SessionAttachment(EventSource session,Environment env){
 		super();
-		this.environment=env;
+		this.environment = env;
 		this.session = session;
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
@@ -127,10 +125,9 @@ public class SessionAttachment{
 		}
 		return auditWorkUnit;
 	}
-	public AbstractHibernatePersistence getPersistence(){
+	public InternalHibernatePersistence getPersistence(){
 		if(persistence == null){
-			persistence = new AbstractHibernatePersistence(session,environment){
-			};
+			persistence = new InternalHibernatePersistence(session, environment);
 		}
 		return persistence;
 	}
@@ -179,6 +176,7 @@ public class SessionAttachment{
 		return changedEntities;
 	}
 	public void onFlush(){
+		persistence.flushOtherPersistence();
 		this.changedEntities.clear();
 	}
 	public Environment getEnvironment(){

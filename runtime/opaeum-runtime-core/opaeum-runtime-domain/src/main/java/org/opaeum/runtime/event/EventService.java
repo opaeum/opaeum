@@ -29,7 +29,7 @@ public class EventService{
 		public void run(){
 			try{
 				environment.startRequestContext();
-				UmtPersistence umtPersistence = environment.getComponent(UmtPersistence.class);
+				UmtPersistence umtPersistence = environment.createUmtPersistence();
 				handleInTryBlock(umtPersistence);
 				environment.endRequestContext();
 			}catch(Exception e){
@@ -69,14 +69,7 @@ public class EventService{
 					// NB!!! it seems that when a Resource Timeout occurs in
 					// JBoss the bean's environment becomes unstable and ejb
 					// references can't
-					// acquire the necessary locks:
-					// org.opaeum.environment.adaptor.AbstractEventMdb]
-					// (Thread-6
-					// (group:HornetQ-client-global-threads-1274855145)) null:
-					// java.lang.InterruptedException
-					// at
-					// java.util.concurrent.locks.AbstractQueuedSynchronizer.tryAcquireSharedNanos(AbstractQueuedSynchronizer.java:1302)
-					// [:1.6.0_24]
+					// acquire the necessary locks
 					// Redeliver immediately and hope for the best
 					getQueue(event.getEventHandler().getQueueName(), event.getEventHandler().getConsumerPoolSize()).schedule(this, 0, TimeUnit.MILLISECONDS);
 				}else if(ea.isStaleStateException() || ea.isDeadlockException()){
@@ -92,15 +85,10 @@ public class EventService{
 						ea.throwRootCause();
 					}
 				}else{
-					if(ea.stringOccurs("getNodeInstancesRecursively") && ea.stringOccurs("java.lang.NullPointerException")){
-						// swallow this
-						logger.debug("Process had already completed on delivery of {0}", event.getDescription());
-					}else{
 						Throwable rootCause = ea.getRootCause();
 						logger.debug("Exception {0} can not be retried", rootCause);
 						event.markDead();
 						ea.throwRootCause();
-					}
 				}
 			}
 		}

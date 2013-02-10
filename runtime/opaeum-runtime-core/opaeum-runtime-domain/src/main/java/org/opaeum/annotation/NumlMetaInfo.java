@@ -12,5 +12,5 @@ import org.opaeum.runtime.environment.JavaMetaInfoMap;
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 public @interface NumlMetaInfo{
 	String uuid();
-	Class<? extends Environment> environment() default Environment.class;
+	String applicationIdentifier() default "";
 }

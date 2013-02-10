@@ -39,7 +39,6 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.event.ChangedEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +73,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 						for(EventSource eventSource:array){
 							if(eventSource.isClosed()){
 								SessionAttachment att = sessionAttachments.remove(eventSource);
+								//THis is essential as there is no listener for closing a session!
 								att.cleanUp();
 							}else{
 								SessionAttachment sessionAttachment = sessionAttachments.get(eventSource);
@@ -169,7 +169,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		maybeRegisterEventGenerator(event.getEntity(), event.getSession());
 		registerReferencedObjects(event.getSession(), event.getState());
 	}
-	protected AbstractPersistence getPersistence(EventSource session,Object o){
+	protected InternalHibernatePersistence getPersistence(EventSource session,Object o){
 		return lazyGetAttachment(session, o).getPersistence();
 	}
 	@Override
@@ -206,14 +206,12 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		Environment environment = opaeumEnvironmentMap.get(session.getFactory());
 		if(environment == null){
 			NumlMetaInfo annotation = IntrospectionUtil.getOriginalClass(o.getClass()).getAnnotation(NumlMetaInfo.class);
-			if(annotation != null && annotation.environment() != Environment.class){
+			if(annotation != null && annotation.applicationIdentifier().length()>0){
 				try{
-					Field instance = annotation.environment().getDeclaredField("INSTANCE");
-					environment = (Environment) instance.get(null);
-					opaeumEnvironmentMap.put(session.getSessionFactory(), environment);
+					Environment env = Environment.getEnvironment(annotation.applicationIdentifier());
+					opaeumEnvironmentMap.put(session.getSessionFactory(), env);
 				}catch(Exception e){
 					new ExceptionAnalyser(e).throwRootCause();
-					//will break here
 				}
 			}
 		}
@@ -231,9 +229,6 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		// generated
 		dispatchEventsAndSaveProcesses(event, source);
 		postFlush(source);
-	}
-	protected void cleanup(final EventSource source){
-		sessionAttachments.remove(source);
 	}
 	protected void dispatchEventsAndSaveProcesses(FlushEvent event,final EventSource source){
 		SessionAttachment sa = sessionAttachments.get(source);
@@ -319,22 +314,16 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		if(event.getEntity() instanceof IPersistentObject){
 			EventSource session = event.getSession();
 			Object[] propertyValues = event.getPropertyValues();
-			doInterfaceValues(session, event.getEntity(), propertyValues);
+			doAnyValues(session, event.getEntity(), propertyValues);
 		}
 	}
-	@SuppressWarnings("rawtypes")
-	private void doInterfaceValues(EventSource session,Object entity,Object[] propertyValues){
-		SessionAttachment sa = sessionAttachments.get(session);
+	private void doAnyValues(EventSource session,Object entity,Object[] propertyValues){
+		InternalHibernatePersistence pers = getPersistence(session, entity);
 		for(Object object2:propertyValues){
-			if(object2 instanceof AbstractInterfaceValue){
-				AbstractInterfaceValue iv = (AbstractInterfaceValue) object2;
-				if(iv.hasValue() && iv.getIdentifier() == null){
-					IPersistentObject value = iv.getValue(getPersistence(session, entity));
-					if(iv instanceof CascadingInterfaceValue){
-						String entityName = IntrospectionUtil.getOriginalClass(value).getSimpleName();
-						session.persistOnFlush(entityName, value, new HashMap());
-					}
-					iv.setValue(value, sa.getPersistence().getMetaInfoMap());// Populate the id
+			if(object2 instanceof IAnyValue){
+				IAnyValue iv = (IAnyValue) object2;
+				if(iv.getValue()!=null){
+					iv.updateBeforeFlush(pers);
 				}
 			}
 		}
@@ -363,6 +352,6 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		String entityName = event.getEntityName();
 		EntityPersister p = session.getEntityPersister(entityName, event.getObject());
 		Object[] propertyValues = p.getPropertyValues(event.getObject());
-		doInterfaceValues(session, event.getObject(), propertyValues);
+		doAnyValues(session, event.getObject(), propertyValues);
 	}
 }

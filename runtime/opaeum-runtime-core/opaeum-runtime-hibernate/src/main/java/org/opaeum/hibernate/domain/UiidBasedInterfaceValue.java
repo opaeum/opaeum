@@ -9,12 +9,26 @@ import org.opaeum.runtime.environment.JavaMetaInfoMap;
 @AccessType("field")
 
 @Embeddable()
-public class CascadingInterfaceValue extends AbstractAnyValue {
+public class UiidBasedInterfaceValue extends AbstractAnyValue implements IAnyValue{
 	//HACK!! duplicated the state as Hibernate does not seem to handle inheritance in embedabbles
 	private Long identifier;
 	private String classIdentifier;
 	@Transient
 	private IPersistentObject value;
+	@Override
+	protected Class<?> getClass(String classUuid,JavaMetaInfoMap p){
+		return p.getClass(classUuid);
+	}
+	@Override
+	protected String getClassIdentifier(Class<?> c,JavaMetaInfoMap p){
+		return p.getUuidFor(c);
+	}
+	public Long getIdentifier(){
+		return identifier;
+	}
+	public void setIdentifier(Long identifier){
+		this.identifier = identifier;
+	}
 	public String getClassIdentifier(){
 		return classIdentifier;
 	}
@@ -26,27 +40,6 @@ public class CascadingInterfaceValue extends AbstractAnyValue {
 	}
 	public void setValue(IPersistentObject value){
 		this.value = value;
-	}
-	public void setIdentifier(Long identifier){
-		this.identifier = identifier;
-	}
-	public Long getIdentifier(){
-		return identifier;
-	}
-	protected boolean shouldCascade(){
-		return true;
-	}
-	@Override
-	protected String getClassIdentifier(Class<?> c,JavaMetaInfoMap p){
-		return c.getName();
-	}
-	@Override
-	protected Class<?> getClass(String classUuid,JavaMetaInfoMap p){
-		try{
-			return Class.forName(getClassIdentifier());
-		}catch(ClassNotFoundException e){
-			throw new RuntimeException(e);
-		}
 	}
 
 

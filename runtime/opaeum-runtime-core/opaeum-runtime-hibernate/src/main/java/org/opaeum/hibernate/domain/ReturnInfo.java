@@ -6,14 +6,11 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.AccessType;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IToken;
-import org.opaeum.runtime.domain.IntrospectionUtil;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
-import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable
 @AccessType("field")
-public class ReturnInfo extends AbstractInterfaceValue{
+public class ReturnInfo extends AbstractAnyValue implements IAnyValue{
 	// HACK!! duplicated the state as Hibernate does not seem to handle
 	// inheritance in embedabbles
 	private Long identifier;
@@ -28,41 +25,27 @@ public class ReturnInfo extends AbstractInterfaceValue{
 	}
 	@SuppressWarnings("rawtypes")
 	@Override
-	public IToken getValue(AbstractPersistence p){
+	public IToken getValue(InternalHibernatePersistence p){
 		return (IToken) super.getValue(p);
 	}
-	protected IPersistentObject getValue(){
-		return value;
-	}
-	protected String getClassIdentifier(){
-		return classIdentifier;
-	}
-	protected void setClassIdentifier(String classIdentifier){
-		this.classIdentifier = classIdentifier;
-	}
-	protected void setValueImpl(IPersistentObject value){
-		this.value = value;
-	}
-	protected Class<?> getImplementationClass(Environment e){
-		if(getClassIdentifier() == null){
-			return null;
-		}else{
-			JavaMetaInfoMap mim = e.getMetaInfoMap();
-			return mim.getTokenClass(getClassIdentifier());
-		}
+	@Override
+	protected String getClassIdentifier(Class<?> c,JavaMetaInfoMap p){
+		return p.getUuidFor(c);
 	}
 	@Override
-	public void setValue(IPersistentObject value,JavaMetaInfoMap env){
-		if(value == null){
-			setIdentifier(null);
-			setClassIdentifier(null);
-		}else{
-			@SuppressWarnings("rawtypes")
-			IToken token = (IToken) value;
-			setIdentifier(value.getId());
-			Class<?> class1 = IntrospectionUtil.getOriginalClass(token);
-			setClassIdentifier(env.getUuidFor(class1));
-		}
-		setValueImpl(value);
+	protected Class<?> getClass(String classUuid,JavaMetaInfoMap p){
+		return p.getTokenClass(classUuid);
+	}
+	public String getClassIdentifier(){
+		return classIdentifier;
+	}
+	public void setClassIdentifier(String classIdentifier){
+		this.classIdentifier = classIdentifier;
+	}
+	public IPersistentObject getValue(){
+		return value;
+	}
+	public void setValue(IPersistentObject value){
+		this.value = value;
 	}
 }

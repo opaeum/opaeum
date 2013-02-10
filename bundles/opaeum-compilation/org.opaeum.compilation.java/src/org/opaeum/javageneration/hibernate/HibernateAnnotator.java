@@ -49,14 +49,15 @@ import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.oclexpressions.UtilCreator;
 import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.javageneration.persistence.JpaUtil;
+import org.opaeum.javageneration.persistence.PersistentObjectImplementor;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {JpaAnnotator.class,UtilCreator.class},after = {JpaAnnotator.class,
-		UtilCreator.class,CompositionNodeImplementor.class/*
+@StepDependency(phase = JavaTransformationPhase.class,requires = {PersistentObjectImplementor.class,JpaAnnotator.class,UtilCreator.class},after = {JpaAnnotator.class,
+		UtilCreator.class,CompositionNodeImplementor.class,PersistentObjectImplementor.class/*
 																											 * Dependendent on the markDelete method being created
 																											 */
 },before = {})
@@ -86,6 +87,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	protected boolean visitComplexStructure(OJAnnotatedClass owner,Classifier complexType){
 		if(isPersistent(complexType)){
 			addAllInstances(complexType, owner);
+			owner.findField("persistence").setType(new OJPathName("org.opaeum.hibernate.domain.InternalHibernatePersistence"));
 			OJAnnotationValue filter = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Filter"));
 			filter.putAttribute("name", "noDeletedObjects");
 			filter.putAttribute(new OJAnnotationAttributeValue("condition", "deleted_on > " + config.getDbDialect().getCurrentTimeStampString()));

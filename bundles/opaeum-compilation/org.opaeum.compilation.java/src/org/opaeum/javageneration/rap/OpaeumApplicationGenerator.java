@@ -1,4 +1,4 @@
-package org.opaeum.rap;
+package org.opaeum.javageneration.rap;
 
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.visit.VisitBefore;

@@ -28,8 +28,8 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.rap.OpaeumApplicationGenerator;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.rap.OpaeumApplicationGenerator;
 import org.opaeum.rap.RapProjectBuilder;
 import org.opaeum.textmetamodel.TextWorkspace;
 

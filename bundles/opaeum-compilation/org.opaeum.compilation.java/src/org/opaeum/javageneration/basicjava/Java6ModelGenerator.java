@@ -123,9 +123,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			}
 			OJAnnotationValue ann = myClass.findAnnotation(new OJPathName(NumlMetaInfo.class.getName()));
 			if(ann!=null){
-				OJPathName metaInfoMap = ojUtil.utilClass(workspace, "Environment");
-				myClass.addToImports(metaInfoMap);
-				ann.putAttribute("environment", metaInfoMap);
+				ann.putAttribute("applicationIdentifier", workspace.getIdentifier());
 			}
 			// TODO find another place
 			if(c instanceof Signal){

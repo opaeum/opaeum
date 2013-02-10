@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,14 +16,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import org.hibernate.annotations.Entity;
 import org.opaeum.hibernate.domain.InterfaceValue;
+import org.opaeum.hibernate.domain.InternalHibernatePersistence;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.environment.JavaMetaInfoMap;
-import org.opaeum.runtime.persistence.AbstractPersistence;
 
-@Entity
+@Entity(name="DurationBasedCostEntry")
 @Table(name = "duration_based_cost_entry")
 public class DurationBasedCostEntry implements IPersistentObject{
 	private static final long serialVersionUID = 6535252690177290628L;
@@ -42,14 +40,14 @@ public class DurationBasedCostEntry implements IPersistentObject{
 	private InterfaceValue resource;
 	private boolean newMeasurement;
 	@Transient
-	AbstractPersistence persistence;
+	InternalHibernatePersistence persistence;
 	public DurationBasedCostEntry(){
 	}
-	public DurationBasedCostEntry(Date fromDate,Date toDate,ITimedResourceBase resource,boolean newMeasurement,JavaMetaInfoMap env){
+	public DurationBasedCostEntry(Date fromDate,Date toDate,ITimedResourceBase resource,boolean newMeasurement){
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 		this.newMeasurement = newMeasurement;
-		this.resource = new InterfaceValue(resource,env);
+		this.resource = new InterfaceValue(resource);
 	}
 	public Date getFromDate(){
 		return fromDate;

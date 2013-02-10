@@ -7,26 +7,23 @@ import org.hibernate.annotations.AccessType;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 
-@Embeddable
 @AccessType("field")
-public class InterfaceValue extends AbstractAnyValue implements IAnyValue{
+@Embeddable()
+public class UiidBasedCascadingInterfaceValue extends AbstractAnyValue{
+	// HACK!! duplicated the state as Hibernate does not seem to handle inheritance in embedabbles
 	private Long identifier;
 	private String classIdentifier;
 	@Transient
 	private IPersistentObject value;
-	public InterfaceValue(){
-	}
-	public InterfaceValue(IPersistentObject resource){
-		setValue(resource);
-	}
-	public void setIdentifier(Long identifier){
-		this.identifier = identifier;
+	@Override
+	protected boolean shouldCascade(){
+		return true;
 	}
 	public Long getIdentifier(){
 		return identifier;
 	}
-	public IPersistentObject getValue(){
-		return value;
+	public void setIdentifier(Long identifier){
+		this.identifier = identifier;
 	}
 	public String getClassIdentifier(){
 		return classIdentifier;
@@ -34,10 +31,11 @@ public class InterfaceValue extends AbstractAnyValue implements IAnyValue{
 	public void setClassIdentifier(String classIdentifier){
 		this.classIdentifier = classIdentifier;
 	}
-	
-	@Override
-	protected String getClassIdentifier(Class<?> c,JavaMetaInfoMap p){
-		return c.getName();
+	public IPersistentObject getValue(){
+		return value;
+	}
+	public void setValue(IPersistentObject value){
+		this.value = value;
 	}
 	@Override
 	protected Class<?> getClass(String classUuid,JavaMetaInfoMap p){
@@ -48,7 +46,7 @@ public class InterfaceValue extends AbstractAnyValue implements IAnyValue{
 		}
 	}
 	@Override
-	public void setValue(IPersistentObject v){
-		this.value=v;
+	protected String getClassIdentifier(Class<?> c,JavaMetaInfoMap p){
+		return p.getUuidFor(c);
 	}
 }

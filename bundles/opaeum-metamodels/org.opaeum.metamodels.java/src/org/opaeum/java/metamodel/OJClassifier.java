@@ -82,9 +82,6 @@ public class OJClassifier extends OJClassifierGEN{
 		}
 	}
 	public void addToImports(OJPathName path){
-		if(path.toString().equals("com.rorotika.cm.network.report.Mml")&& this instanceof OJEnum){
-			System.out.println();
-		}
 		if(path == null)
 			return;
 		if(path.isSingleName()){

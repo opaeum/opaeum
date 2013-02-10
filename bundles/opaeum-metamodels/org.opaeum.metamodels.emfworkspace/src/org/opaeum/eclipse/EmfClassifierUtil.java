@@ -60,7 +60,7 @@ public class EmfClassifierUtil{
 	}
 	public static boolean conformsTo(CollectionType from,CollectionType to){
 		if(from.getKind() == CollectionKind.COLLECTION_LITERAL || from.getKind() == to.getKind()){
-			return conformsTo(from.getElementType(),to.getElementType());
+			return conformsTo(from.getElementType(), to.getElementType());
 		}else{
 			return false;
 		}
@@ -157,14 +157,14 @@ public class EmfClassifierUtil{
 		return result;
 	}
 	public static boolean conformsTo(Classifier from,Classifier to){
-		if(from.getName()==null){
+		if(from.getName() == null){
 			System.out.println();
 		}
 		if(from.getName().equals("OclVoid")){
 			return true;
 		}
 		if(from instanceof CollectionType && to instanceof CollectionType){
-			return conformsTo((CollectionType)from, (CollectionType)to);
+			return conformsTo((CollectionType) from, (CollectionType) to);
 		}
 		if(from instanceof PrimitiveType && to instanceof PrimitiveType){
 			return comformsToLibraryType(from, to.getName());
@@ -195,7 +195,7 @@ public class EmfClassifierUtil{
 		return false;
 	}
 	public static boolean isSimpleType(Type type){
-		if(type==null){
+		if(type == null){
 			System.out.println();
 		}
 		return type instanceof PrimitiveType
@@ -238,14 +238,14 @@ public class EmfClassifierUtil{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public static <T extends Classifier> Collection<T> getSubClasses(T c){
+	public static <T extends Classifier>Collection<T> getSubClasses(T c){
 		Set<T> result = new TreeSet<T>(new ElementComparator());
 		Collection<Setting> refs = ECrossReferenceAdapter.getCrossReferenceAdapter(c.eResource().getResourceSet())
 				.getNonNavigableInverseReferences(c);
 		for(Setting setting:refs){
 			if(setting.getEObject() instanceof Generalization
 					&& setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getGeneralization_General())){
-				result.add((T)((Generalization) setting.getEObject()).getSpecific());
+				result.add((T) ((Generalization) setting.getEObject()).getSpecific());
 			}
 		}
 		return result;
@@ -312,8 +312,11 @@ public class EmfClassifierUtil{
 		}
 	}
 	public static boolean isComplexStructure(Type type){
-		if(type instanceof Signal || type instanceof Enumeration || type instanceof Class || type instanceof Actor || type instanceof Collaboration
-				|| type instanceof MessageType || isStructuredDataType(type)
+		if(type instanceof PrimitiveType){
+			return false;
+		}
+		if(type instanceof Signal || type instanceof Enumeration || type instanceof Class || type instanceof Actor
+				|| type instanceof Collaboration || type instanceof MessageType || isStructuredDataType(type)
 				|| (type instanceof Association && EmfAssociationUtil.isClass((Association) type))){
 			return true;
 		}

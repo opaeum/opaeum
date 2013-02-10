@@ -14,14 +14,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.opaeum.hibernate.domain.AbstractInterfaceValue;
+import org.opaeum.hibernate.domain.AbstractAnyValue;
+import org.opaeum.hibernate.domain.IAnyValue;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
-import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable
-public class QuantityBasedCost extends AbstractInterfaceValue{
+public class QuantityBasedCost extends AbstractAnyValue implements IAnyValue{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	@Basic
@@ -32,8 +31,6 @@ public class QuantityBasedCost extends AbstractInterfaceValue{
 	private IPersistentObject resource;
 	private Long resourceIdentifier;
 	private String resourceClassIdentifier;
-	@Transient
-	AbstractPersistence persistence;
 	private static ThreadLocal<SimpleDateFormat> simpleDateFormat = new ThreadLocal<SimpleDateFormat>();
 	private static ThreadLocal<NumberFormat> decimalFormat = new ThreadLocal<NumberFormat>();
 	public QuantityBasedCost(){
@@ -53,23 +50,20 @@ public class QuantityBasedCost extends AbstractInterfaceValue{
 		return format(simpleDateFormat, date) + "|" + format(decimalFormat, costToCompany) + "|" + format(decimalFormat, costToCustomer) + "|" + resourceIdentifier
 				+ "|" + resourceClassIdentifier;
 	}
-	public void setPersistence(AbstractPersistence e){
-		this.persistence = e;
-	}
-	public void eventOccurred(IQuantifiedResourceBase resource,boolean firstEvent,Double quantity,JavaMetaInfoMap env){
+	public void eventOccurred(IQuantifiedResourceBase resource,boolean firstEvent,Double quantity){
 		if(firstEvent = false || date == null){
-			takeMeasurement(resource, new Date(), quantity,env);
+			takeMeasurement(resource, new Date(), quantity);
 		}
 	}
 	public IQuantifiedResourceBase getResource(){
-		return (IQuantifiedResourceBase) getValue(persistence);
+		return (IQuantifiedResourceBase) getValue();
 	}
-	private void takeMeasurement(IQuantifiedResourceBase resource,Date date,Double duration,JavaMetaInfoMap e){
+	private void takeMeasurement(IQuantifiedResourceBase resource,Date date,Double duration){
 		IPricePerUnit rate = resource.getPriceEffectiveOn(new Date());
 		if(rate == null){
 			// INVALID measurement -abort;
 		}else{
-			setValue(resource,e);
+			setValue(resource);
 			this.costToCompany += (rate.getPricePaidByCompany() * duration) + (rate.getAdditionalCostToCompany() * duration);
 			this.costToCustomer += (rate.getPricePaidByCustomer() * duration);
 			this.date = date;
@@ -81,17 +75,14 @@ public class QuantityBasedCost extends AbstractInterfaceValue{
 	public Long getIdentifier(){
 		return resourceIdentifier;
 	}
-	protected IPersistentObject getValue(){
+	public IPersistentObject getValue(){
 		return resource;
 	}
-	protected String getClassIdentifier(){
+	public String getClassIdentifier(){
 		return resourceClassIdentifier;
 	}
-	protected void setClassIdentifier(String classIdentifier){
+	public void setClassIdentifier(String classIdentifier){
 		this.resourceClassIdentifier = classIdentifier;
-	}
-	protected void setValueImpl(IPersistentObject value){
-		this.resource = value;
 	}
 	private void initFormats(){
 		if(decimalFormat.get() == null){
@@ -101,4 +92,19 @@ public class QuantityBasedCost extends AbstractInterfaceValue{
 			simpleDateFormat.set(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
 		}
 	}
+	@Override
+	protected String getClassIdentifier(Class<?> c,JavaMetaInfoMap p){
+		return p.getUuidFor(c);
+	}
+	@Override
+	protected Class<?> getClass(String classUuid,JavaMetaInfoMap p){
+		return p.getClass(classUuid);
+	}
+	@Override
+	public void setValue(IPersistentObject v){
+		this.resource=v;
+		
+	}
+
+	
 }

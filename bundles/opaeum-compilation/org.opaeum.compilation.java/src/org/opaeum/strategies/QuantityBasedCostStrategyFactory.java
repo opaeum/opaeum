@@ -31,7 +31,6 @@ public class QuantityBasedCostStrategyFactory extends AbstractStrategyFactory{
 
 		@Override
 		public void applyTo(OJAnnotatedClass owner,AttributeInJava a,PropertyMap property){
-			a.getter.getBody().getStatements().add(new OJSimpleStatement(property.fieldname()+".setPersistence(persistence)"));
 		}
 		
 	}

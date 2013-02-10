@@ -63,6 +63,14 @@ public abstract class Environment{
 	public abstract CmtPersistence getCurrentPersistence();
 	protected abstract <T>T getComponentImpl(Class<T> clazz,Annotation qualifiers);
 	public abstract <T>Class<T> getImplementationClass(T o);
+	protected Environment(){
+	}
+	public void register(){
+		instanceMap.put(getApplicationIdentifier(), this);
+	}
+	public void unregister(){
+		instanceMap.remove(getApplicationIdentifier());
+	}
 	public IPersonNode getCurrentUser(){
 		return currentUser.get();
 	}
@@ -193,6 +201,7 @@ public abstract class Environment{
 		return localeMap;
 	}
 	public static Environment buildInstanceForRelease(String applicationId,VersionNumber from){
+		//TODO fix this-maygenerate an Environmnet per version
 		// TODO Auto-generated method stub
 		String key = applicationId+from.toVersionString();
 		return getEnvironment(key);
@@ -200,5 +209,8 @@ public abstract class Environment{
 	public static Environment getEnvironment(String key){
 		return instanceMap.get(key);
 	}
+//	public static Environment getEnvironment(Class<?> c){
+//		return instanceMap.get(key);
+//	}
 	public abstract String getApplicationIdentifier();
 }

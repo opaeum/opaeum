@@ -2,7 +2,6 @@ package org.opaeum.hibernate.domain;
 
 import javax.persistence.Embeddable;
 
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
