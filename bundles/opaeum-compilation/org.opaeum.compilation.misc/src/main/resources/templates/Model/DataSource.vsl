@@ -1,13 +1,33 @@
 #set($shouldGenerate=true)
 <?xml version="1.0" encoding="UTF-8"?>
-  <datasources>   
-    <local-tx-datasource>   
-    <jndi-name>jdbc/${model.name}DataSource</jndi-name>   
-    <connection-url>${config.datasourceConnectionUrl}</connection-url>  
-    <driver-class>${config.jdbcDriverClassName}</driver-class>   
-    <user-name>${config.DBUsername}</user-name>  
-    <password>${config.DBPassword}</password>   
-    <min-pool-size>5</min-pool-size>  
-  </local-tx-datasource>
+<datasources>
+	<xa-datasource jndi-name="java:/${config.applicationIdentifier}Datasource" pool-name="${config.applicationIdentifier}PostgresXADS">
+		<driver>postgresql</driver>
+		<xa-datasource-property name="ServerName">localhost
+		</xa-datasource-property>
+		<!--xa-datasource-property name="PortNumber">5432
+		</xa-datasource-property-->
+		<xa-datasource-property name="DatabaseName">${config.dbName}</xa-datasource-property>
+		<security>
+			<user-name>${config.dbUserName}</user-name>
+			<password>${config.dbPassword}</password>
+		</security>
+		<!--validation>
+			<valid-connection-checker
+				class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker">
+			</valid-connection-checker>
+			<exception-sorter
+				class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter">
+			</exception-sorter>
+		</validation-->
+	</xa-datasource>
+	<datasource jta = "false" jndi-name="java:/${config.applicationIdentifier}DatasourceNonXA" pool-name="${config.applicationIdentifier}PostgresNonXADS">
+		<connection-url>${config.jdbcConnectionUrl}</connection-url>
+		<driver>${config.dbVendor}</driver>
+		<security>
+			<user-name>${config.dbUserName}</user-name>
+			<password>${config.dbPassword}</password>
+		</security>
+	</datasource>
 </datasources>
-   
+

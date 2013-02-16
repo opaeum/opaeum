@@ -154,7 +154,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		this.features = features;
 	}
 	public void initializeSteps(){
-		ojUtil.initialise(modelWorkspace.getOpaeumLibrary());
+		ojUtil.initialise(modelWorkspace);
 		ojUtil.clearCache();
 		for(JavaTransformationStep f:this.features){
 			f.initialize(javaModel, this.config, textWorkspace, modelWorkspace, ojUtil);

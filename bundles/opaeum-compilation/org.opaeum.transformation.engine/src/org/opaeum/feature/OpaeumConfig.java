@@ -219,7 +219,7 @@ public class OpaeumConfig{
 		return this.props.getProperty(EMAIL_ADDRESS_TYPE);
 	}
 	public void calculateOutputRoot(File modelProjectDir){
-		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(modelProjectDir, getApplicationIdentifier()));
+		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(getConfigFile(), modelProjectDir, getApplicationIdentifier()));
 	}
 	public void setOutputRoot(File destination){
 		this.outputRoot = destination;
@@ -496,7 +496,7 @@ public class OpaeumConfig{
 		props.setProperty(UI_MODULE_ACTIVE, "" + t);
 	}
 	public boolean isJpa2(){
-		return true;
+		return props.getProperty("opaeum.persistence.jpa2","true").equals("true");
 	}
 	public String getDbUserName(){
 		return props.getProperty(DB_USER,getApplicationIdentifier()+"_user");

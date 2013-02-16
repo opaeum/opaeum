@@ -21,4 +21,10 @@ public class ChangedEntity{
 		ChangedEntity other = (ChangedEntity) obj;
 		return other.entityClass == entityClass && other.id==id;
 	}
+	public boolean didVersionIncrement(){
+		return objectVersion!=Integer.MAX_VALUE;
+	}
+	public void versionDidNotIncrement(){
+		objectVersion=Integer.MAX_VALUE;
+	}
 }

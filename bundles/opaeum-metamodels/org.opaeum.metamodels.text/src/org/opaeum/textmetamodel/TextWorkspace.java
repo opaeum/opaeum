@@ -15,6 +15,10 @@ public class TextWorkspace extends TextOutputNode{
 			result = new TextProject(this, name);
 			projects.add(result);
 		}
+		if(!result.isRegenerated()){
+			result.setRegenerated(true);
+		}
+		
 		return result;
 	}
 	public TextProject findTextProject(String name){
@@ -38,5 +42,10 @@ public class TextWorkspace extends TextOutputNode{
 			textProject.appendVersion(suffix, affectedFiles);
 		}
 		return affectedFiles;
+	}
+	public TextProject createExistingTextProject(String name){
+		TextProject result = findOrCreateTextProject(name);
+		result.setRegenerated(false);
+		return result;
 	}
 }

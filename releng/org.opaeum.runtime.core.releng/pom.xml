@@ -12,7 +12,7 @@
 	<artifactId>opaeum-runtime</artifactId>
 	<packaging>pom</packaging>
 	<name>Opaeum Runtime</name>
-	<version>1.0.2.3-SNAPSHOT</version>
+	<version>1.0.3-SNAPSHOT</version>
 	<licenses>
 		<license>
 			<name>Apache 2</name>
@@ -63,11 +63,6 @@
 			<snapshots>
 				<enabled>never</enabled>
 			</snapshots>
-		</repository>
-		<repository>
-			<id>tinkerpop-repository</id>
-			<name>TinkerPop Maven2 Repository</name>
-			<url>http://tinkerpop.com/maven2</url>
 		</repository>
 	</repositories>
 	<profiles>
@@ -180,10 +175,46 @@
 		<module>opaeum-test-tinker</module--> 
 		<module>../../runtime/opaeum-runtime-core/opaeum-runtime-hibernate</module> 
 		<module>../../runtime/opaeum-runtime-core/opaeum-runtime-jpa</module> 
+		<module>../../runtime/opaeum-runtime-core/opaeum-runtime-ejb3</module> 
 		<!--module>../../runtime/opaeum-runtime-core/opaeum-runtime-core-bundle</module--> 
 	</modules>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<!--version>4.0.0.GA</version-->
+				<version>3.1.0.GA</version>
+				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-annotations</artifactId>
+				<version>3.4.0.GA</version>
+				<type>jar</type>
+				<scope>provided</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<!--version>4.1.6.Final</version-->
+				<version>3.4.0.GA</version>
+				<type>jar</type>
+				<scope>provided</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -194,7 +225,8 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
-				<version>4.1.6.Final</version>
+				<!--version>4.1.6.Final</version-->
+				<version>3.3.2.GA</version>
 				<type>jar</type>
 				<scope>provided</scope>
 				<exclusions>
@@ -241,13 +273,6 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>4.0.0.GA</version>
-				<type>jar</type>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>1.5.10</version>
@@ -262,7 +287,7 @@
 			<dependency>
 				<groupId>org.hsqldb</groupId>
 				<artifactId>hsqldb</artifactId>
-				<version>1.8.0.10</version>
+			<version>2.2.9</version>
 				<type>jar</type>
 				<scope>test</scope>
 			</dependency>
@@ -287,13 +312,6 @@
 			</dependency>
 			<dependency>
 				<groupId>org.opaeum</groupId>
-				<artifactId>opaeum-runtime-bpm-hibernate</artifactId>
-				<version>${project.version}</version>
-				<type>jar</type>
-				<scope>compile</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.opaeum</groupId>
 				<artifactId>opaeum-runtime-hibernate</artifactId>
 				<version>${project.version}</version>
 				<type>jar</type>
@@ -306,35 +324,10 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-annotations</artifactId>
-				<version>3.4.0.GA</version>
-				<type>jar</type>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
-				<version>4.1.6.Final</version>
-				<type>jar</type>
-				<scope>provided</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
 				<groupId>hsqldb</groupId>
 				<artifactId>hsqldb</artifactId>
 				<version>1.8.0.10</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>postgresql</groupId>

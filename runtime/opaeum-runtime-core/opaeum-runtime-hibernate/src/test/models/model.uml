@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+  <uml:Model xmi:id="_CHs9AHdmEeKwuLCTwlHMYA" name="model">
+    <packagedElement xmi:type="uml:Class" xmi:id="_2V87UHdnEeK1avyEuWoMVw" name="Hand">
+      <ownedAttribute xmi:id="_7XEr0HdnEeK1avyEuWoMVw" name="finger" type="_5bDEAHdnEeK1avyEuWoMVw" aggregation="composite" association="_7XGhAHdnEeK1avyEuWoMVw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7XEr0XdnEeK1avyEuWoMVw" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9kIZQHdnEeK1avyEuWoMVw" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_-uZ0AHdnEeK1avyEuWoMVw" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_5bDEAHdnEeK1avyEuWoMVw" name="Finger">
+      <ownedAttribute xmi:id="_AbC8AHdoEeK1avyEuWoMVw" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_7XGhAHdnEeK1avyEuWoMVw" name="hand_finger" memberEnd="_7XGhAXdnEeK1avyEuWoMVw _7XEr0HdnEeK1avyEuWoMVw" navigableOwnedEnd="_7XGhAXdnEeK1avyEuWoMVw">
+      <ownedEnd xmi:id="_7XGhAXdnEeK1avyEuWoMVw" name="hand" type="_2V87UHdnEeK1avyEuWoMVw" association="_7XGhAHdnEeK1avyEuWoMVw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7XGhAndnEeK1avyEuWoMVw" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7XGhA3dnEeK1avyEuWoMVw" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <profileApplication xmi:id="_3ODoAHdnEeK1avyEuWoMVw">
+      <eAnnotations xmi:id="_3ONZAHdnEeK1avyEuWoMVw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+  </uml:Model>
+  <OpaeumStandardProfile:Entity xmi:id="_3OOnIHdnEeK1avyEuWoMVw" base_Class="_2V87UHdnEeK1avyEuWoMVw"/>
+  <OpaeumStandardProfile:Entity xmi:id="_5bz5AHdnEeK1avyEuWoMVw" base_Class="_5bDEAHdnEeK1avyEuWoMVw"/>
+</xmi:XMI>

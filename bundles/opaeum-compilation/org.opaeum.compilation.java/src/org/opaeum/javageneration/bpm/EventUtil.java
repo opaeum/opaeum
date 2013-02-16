@@ -1,6 +1,7 @@
 package org.opaeum.javageneration.bpm;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -97,7 +98,7 @@ public class EventUtil{
 			owner.addToOperations(evaluationMethod);
 			OJPathName handler = handlerPathName(ne);
 			owner.addToImports(handler);
-			operation.getBody().addToStatements("getOutgoingEvents().add(new OutgoingEvent(this, new " + handler.getLast() + "(token))");
+			operation.getBody().addToStatements("getOutgoingEvents().add(new OutgoingEvent(this, new " + handler.getLast() + "(token)))");
 		}else{
 			operation.getBody().addToStatements("NO_CHANGE_EXPRESSION_SPECIFIED");
 		}
@@ -142,17 +143,23 @@ public class EventUtil{
 			if(event.isRelative()){
 				EnumerationLiteral timeUnit = EmfEventUtil.getTimeUnit(event);
 				OpaqueExpressionContext businessCalendarToUse = library.getArtificationExpression(event, TagNames.BUSINESS_CALENDAR_TO_USE);
+				operation.getOwner().addToImports(new OJPathName(Date.class.getName()));
+				operation.getOwner().addToImports(new OJPathName(BusinessTimeUnit.class.getName()));
+				String timeUnitConstant = OJUtil.toJavaLiteral(timeUnit);
+				timeUnitConstant=timeUnitConstant==null?"BUSINESSDAY" :timeUnitConstant;
+				operation.getOwner().addToImports(new OJPathName(Date.class.getName()));
+				operation.getOwner().addToImports(new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar"));
 				if(businessCalendarToUse == null || businessCalendarToUse.hasErrors()){
-					block.addToStatements("this.firstOccurrenceScheduledFor=BusinessCalendar.getInstance().addTimeTo(new Date(), timeUnit,delay)");
+					whenExpr="BusinessCalendar.getInstance().addTimeTo(new Date(), BusinessTimeUnit."+timeUnitConstant+","+whenExpr+")";
 				}else{
-					block.addToStatements("this.firstOccurrenceScheduledFor="
-							+ valueSpecificationUtil.expressOcl(businessCalendarToUse, operation, null) + ".addTimeTo(new Date(), timeUnit,delay)");
+					whenExpr=valueSpecificationUtil.expressOcl(businessCalendarToUse, operation, null) + ".addTimeTo(new Date(), BusinessTimeUnit."+timeUnitConstant+","+whenExpr+")";
 				}
-				String timeUnitConstant = timeUnit == null ? "BUSINESSDAY" : OJUtil.toJavaLiteral(timeUnit);
 				owner.addToImports(BusinessTimeUnit.class.getName());
+				owner.addToImports(eventHandler);
 				block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
-						+ whenExpr + ",BusinessTimeUnit." + timeUnitConstant + ",token)))");
+						+ whenExpr + ",token)))");
 			}else{
+				owner.addToImports(eventHandler);
 				// TODO add the timeSpecification INstanceSpecification values
 				block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
 						+ whenExpr + ",token)))");

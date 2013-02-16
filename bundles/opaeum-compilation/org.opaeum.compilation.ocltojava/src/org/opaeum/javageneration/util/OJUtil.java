@@ -96,15 +96,20 @@ public class OJUtil extends OJUtill{
 	private Map<String,ClassifierMap> classifierMaps = new HashMap<String,ClassifierMap>();
 	private Map<Namespace,OJPathName> statePathnames = new HashMap<Namespace,OJPathName>();
 	private Map<Package,Map<String,MappedType>> typeMap = new HashMap<Package,Map<String,MappedType>>();
+	private OJPathName environmentPathname;
 	public OJUtil(){
 		super();
 		instanceCount++;
 	}
-	public void initialise(OpaeumLibrary o){
-		if(library != o){
+	public OJPathName environmentPathname(){
+		return environmentPathname;
+	}
+	public void initialise(EmfWorkspace workspace){
+		if(library != workspace.getOpaeumLibrary()){
 			clearCache();
 		}
-		this.library = o;
+		this.library = workspace.getOpaeumLibrary();
+		this.environmentPathname=utilClass(workspace, "Environment");
 	}
 	public OpaeumLibrary getLibrary(){
 		return library;

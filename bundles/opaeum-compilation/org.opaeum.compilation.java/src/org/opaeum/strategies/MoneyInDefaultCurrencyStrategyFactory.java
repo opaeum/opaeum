@@ -28,6 +28,7 @@ import org.opaeum.javageneration.basicjava.AttributeStrategy;
 import org.opaeum.javageneration.basicjava.FormatterStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.runtime.environment.Environment;
 
@@ -57,13 +58,13 @@ public class MoneyInDefaultCurrencyStrategyFactory extends AbstractStrategyFacto
 	}
 	public static class MyAttributeStrategy implements AttributeStrategy{
 		@Override
-		public void applyTo(OJAnnotatedClass owner,AttributeInJava a,PropertyMap property){
+		public void applyTo(OJUtil ojUtil,OJAnnotatedClass owner,AttributeInJava a, PropertyMap property){
 			owner.addToImports(new OJPathName("org.opaeum.runtime.costing.CurrencyMismatchException"));
 			owner.addToImports(new OJPathName(Environment.class.getName()));
 			String fieldName = a.field.getName() + "Currency";
 			owner.addToFields(new OJAnnotatedField(fieldName, new OJPathName("String")));
-			String cond = fieldName + "!=null && !" + fieldName + ".equals(Environment.getInstance().getDefaultCurrency())";
-			String throwIt = "throw new CurrencyMismatchException(" + fieldName + ",Environment.getInstance().getDefaultCurrency())";
+			String cond = fieldName + "!=null && !" + fieldName + ".equals("+ojUtil.environmentPathname()+ ".INSTANCE.getDefaultCurrency())";
+			String throwIt = "throw new CurrencyMismatchException(" + fieldName + ","+ojUtil.environmentPathname()+ ".INSTANCE.getDefaultCurrency())";
 			if(a.internalAdder != null){
 				a.internalAdder.getBody().getStatements().add(0, new OJIfStatement(cond, throwIt));
 			}else{
@@ -87,8 +88,8 @@ public class MoneyInDefaultCurrencyStrategyFactory extends AbstractStrategyFacto
 			return getDefaultStringValue();
 		}
 		@Override
-		public String parseConfiguredValue(OJAnnotatedClass owner,OJBlock block,Property p,String configuredValue){
-			addCUrrencyFormat(owner, block);
+		public String parseConfiguredValue(OJUtil ojUtil,OJAnnotatedClass owner,OJBlock block,Property p, String configuredValue){
+			addCUrrencyFormat(ojUtil,owner, block);
 			return "currencyFormat.parse(" + configuredValue + ")";
 		}
 		@Override
@@ -110,7 +111,7 @@ public class MoneyInDefaultCurrencyStrategyFactory extends AbstractStrategyFacto
 		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class, MyAttributeStrategy.class,
 				MyFormatterStrategy.class);
 	}
-	private static void addCUrrencyFormat(OJAnnotatedClass owner,OJBlock block){
+	private static void addCUrrencyFormat(OJUtil ojUtil, OJAnnotatedClass owner,OJBlock block){
 		owner.addToImports("java.text.NumberFormat");
 		List<OJField> locals = block.getLocals();
 		boolean hasField = false;
@@ -123,7 +124,7 @@ public class MoneyInDefaultCurrencyStrategyFactory extends AbstractStrategyFacto
 		if(!hasField){
 			OJAnnotatedField dateTimeFormat = new OJAnnotatedField("format", new OJPathName("java.text.NumberFormat"));
 			dateTimeFormat.setInitExp("NumberFormat.getCurrencyInstance()");
-			block.addToStatements("format.setCurrency(Environment.getInstance().getDefaultCurrency())");
+			block.addToStatements("format.setCurrency("+ojUtil.environmentPathname()+ ".INSTANCE.getDefaultCurrency())");
 			block.addToLocals(dateTimeFormat);
 		}
 	}

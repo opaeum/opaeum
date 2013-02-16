@@ -37,6 +37,7 @@ import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJOperation;
@@ -139,7 +140,7 @@ public class ExpressionCreator{
 			result = calcSelfExpression(result, type);
 		}else if(in.getName().equals("currentUser")){
 			myClass.addToImports(new OJPathName(Environment.class.getName()));
-			result = "Environment.getInstance().getCurrentUser()";
+			result = ojUtil.environmentPathname()+ ".INSTANCE.getCurrentUser()";
 			Class pn = this.ojUtil.getLibrary().getPersonNode();
 			if(pn != null){
 				OJPathName pnpn = ojUtil.classifierPathname(pn);
@@ -148,7 +149,7 @@ public class ExpressionCreator{
 			}
 		}else if(in.getName().equals("currentRole")){
 			myClass.addToImports(new OJPathName(Environment.class.getName()));
-			result = "Environment.getInstance().getCurrentRole()";
+			result = ojUtil.environmentPathname()+ ".INSTANCE.getCurrentRole()";
 			Interface pn = this.ojUtil.getLibrary().getParticipant();
 			if(pn != null){
 				OJPathName pnpn = ojUtil.classifierPathname(pn);

@@ -178,7 +178,7 @@ public class ClassifierMap extends PackageableElementMap{
 		if(t.getName().equals(IOclLibrary.StringTypeName))
 			result = "\"\"";
 		if(t.getName().equals(IOclLibrary.RealTypeName))
-			result = "0";
+			result = "0d";
 		if(t.getName().equals(IOclLibrary.IntegerTypeName))
 			result = "0";
 		if(t.getName().equals(IOclLibrary.BooleanTypeName))

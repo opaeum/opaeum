@@ -2,24 +2,30 @@ package org.opaeum.eclipse.uml.propertysections.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.UseCase;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
@@ -43,7 +49,35 @@ public class TypedElementTypeSection extends AbstractChooserPropertySection{
 		return choices.toArray();
 	}
 	public static Collection<EObject> getValidTypeCollection(EObject element){
-		Collection<EObject> types = OpaeumEclipseContext.getReachableObjectsOfType(element, UMLPackage.eINSTANCE.getClassifier());
+		EObject eContainer=element.eContainer();
+		Collection<EObject> types=new TreeSet<EObject>(new Comparator<EObject>(){
+
+			@Override
+			public int compare(EObject o1,EObject o2){
+				return ((org.eclipse.uml2.uml.Type)o1).getQualifiedName().compareTo(((org.eclipse.uml2.uml.Type)o2).getQualifiedName());
+			}
+		});
+		while(eContainer!=null){
+			if(eContainer instanceof Package){
+				types.addAll(((Package) eContainer).getOwnedTypes());
+			}else if(eContainer instanceof Class){
+				types.addAll(((Class) eContainer).getNestedClassifiers());
+				if(eContainer instanceof BehavioredClassifier){
+					types.addAll(((BehavioredClassifier) eContainer).getOwnedBehaviors());
+				}
+			}
+			if(eContainer instanceof Namespace){
+				for(Package package1:((Namespace) eContainer).getImportedPackages()){
+					types.addAll(package1.getOwnedTypes());
+				}
+				for(PackageableElement pe:((Namespace) eContainer).getImportedMembers()){
+					if(pe instanceof Classifier){
+						types.add(pe);
+					}
+				}
+			}
+			eContainer=eContainer.eContainer();
+		}
 		if(((TypedElement) element).getModel() != null){
 			types = UmlMetaTypeRemover.removeAssocations(types);
 		}

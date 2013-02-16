@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.opaeum.audit.AbstractPersistentEnum;
+import org.opaeum.hibernate.domain.AbstractPersistentEnum;
 
 @Table(name="enumeration1")
 @Entity(name="Enumeration1Entity")

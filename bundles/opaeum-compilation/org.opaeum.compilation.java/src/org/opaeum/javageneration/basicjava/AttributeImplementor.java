@@ -162,8 +162,8 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				OJOperation getter = buildGetter(umlOwner, owner, map, false);
 				getter.setBody(new OJBlock());
 				OJIfStatement ifNull = new OJIfStatement(OJAnnotatedOperation.RESULT + "==null", OJAnnotatedOperation.RESULT + "="
-						+ map.fieldname() + "=(" + map.javaBaseType() + ")" + org.opaeum.runtime.environment.Environment.class.getName()
-						+ ".getInstance().getComponent(" + map.javaTypePath() + ".class)");
+						+ map.fieldname() + "=(" + map.javaBaseType() + ")" + ojUtil.environmentPathname()
+						+ ".INSTANCE.getComponent(" + map.javaTypePath() + ".class)");
 				getter.getBody().addToStatements(ifNull);
 				owner.addToImports(map.javaBaseTypePath());
 			}else if(EmfPropertyUtil.isDerived(p)){
@@ -202,6 +202,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}else{
 				getter.initializeResultVariable(getReferencePrefix(owner, map) + map.fieldname());
 			}
+		}
+		if(getter.getReturnType().getElementTypes().size()==1 && map.isMany() && map.getProperty().getSubsettedProperties().size()>0){
+			getter.getReturnType().markAsExtendingElement(getter.getReturnType().getElementTypes().get(0));
 		}
 		getter.setStatic(map.isStatic());
 		Element property = map.getProperty();
@@ -376,7 +379,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(map.getBaseType() instanceof DataType){
 			AttributeStrategy s = EmfClassifierUtil.getStrategy((DataType) map.getBaseType(), AttributeStrategy.class);
 			if(s != null){
-				s.applyTo(owner, a, map);
+				s.applyTo(ojUtil, owner, a, map);
 			}
 		}
 	}
@@ -627,11 +630,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			clear.setStatic(map.isStatic());
 			clear.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
+			iterateAndRemove(map, clear, map.getter() + "()");
 			if(isMap(map.getProperty())){
-				iterateAndRemove(map, clear, map.getter() + "()");
 				clear.getBody().addToStatements(map.fieldname() + ".clear()");
-			}else{
-				clear.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
 			}
 		}
 		owner.addToOperations(clear);

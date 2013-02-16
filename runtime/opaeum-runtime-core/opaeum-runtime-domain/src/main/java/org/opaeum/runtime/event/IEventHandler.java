@@ -11,7 +11,7 @@ public interface IEventHandler{
 	String getHandlerUuid();
 	void unmarshall(Collection<PropertyValue> propertyValues,AbstractPersistence session);
 	Collection<PropertyValue> marshall(Environment env);
-	boolean handleOn(Object target);
+	boolean handleOn(Object target, AbstractPersistence persistence);
 	String getQueueName();
 	int getConsumerPoolSize();
 	Date scheduleNextOccurrence();

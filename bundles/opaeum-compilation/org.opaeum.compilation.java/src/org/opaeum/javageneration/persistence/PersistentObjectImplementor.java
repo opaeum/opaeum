@@ -54,14 +54,14 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 		}
 	}
 	private void visitClass(OJAnnotatedClass ojClassifier,Classifier c){
-		if(c instanceof Class && EmfClassifierUtil.getPrimaryKeyProperties((Class) c).size() > 0){
-			return;
-		}else{
+		if(isPersistent(c)){
 			OJClass ojClass = (OJClass) ojClassifier;
-			if(isPersistent(c)){
-				OJAnnotatedField persistence = new OJAnnotatedField("persistence", new OJPathName(AbstractPersistence.class.getName()));
-				persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
-				ojClass.addToFields(persistence);
+			OJAnnotatedField persistence = new OJAnnotatedField("persistence", new OJPathName(AbstractPersistence.class.getName()));
+			persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
+			ojClass.addToFields(persistence);
+			if(c instanceof Class && EmfClassifierUtil.getPrimaryKeyProperties((Class) c).size() > 0){
+				return;
+			}else{
 				ojClass.addToImports(ABSTRACT_ENTITY);
 				if(ojClass.findOperation("getName", new ArrayList<OJPathName>()) == null){
 					Property nameProperty = EmfPropertyUtil.getNameProperty(c);
@@ -71,9 +71,8 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 						OJOperation getName = new OJAnnotatedOperation("getName");
 						getName.setReturnType(new OJPathName("String"));
 						getName.setBody(new OJBlock());
-						getName.getBody().addToStatements("return " + ojUtil.buildStructuralFeatureMap(nameProperty).getter() + "()") ;
+						getName.getBody().addToStatements("return " + ojUtil.buildStructuralFeatureMap(nameProperty).getter() + "()");
 						ojClass.addToOperations(getName);
-						
 					}
 				}
 				ojClass.addToImplementedInterfaces(ABSTRACT_ENTITY);

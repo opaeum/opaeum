@@ -58,7 +58,7 @@ public class Activator implements BundleActivator{
 							Field sd = StandardContext.class.getDeclaredField("context");
 							sd.setAccessible(true);
 							if(contextFound == null){
-								contextFound = new ApplicationContext("", context){
+								contextFound = new ApplicationContext( context){
 									@Override
 									public void removeAttribute(String name){
 //										super.removeAttribute(name);
@@ -132,7 +132,6 @@ public class Activator implements BundleActivator{
 									NamingException,InstantiationException,ClassNotFoundException{
 								return newInstance(fqcn);
 							}
-							@Override
 							public Object newInstance(Class<?> c) throws IllegalAccessException,InvocationTargetException,NamingException,
 									InstantiationException{
 								// TODO Auto-generated method stub

@@ -11,42 +11,6 @@
       <availablePage>
         <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
       </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_Ejsu8BwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_EjxnfxwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_Ejy1kRwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_EjzcohwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_Ej0DsBwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_Ej9NoBwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_Ej90vxwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_HhO3EBwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_S8kR8BwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_bT1e4BwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_bT2F9xwMEeKmUeoDw80AkA"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="ui/tmp.notation#_bT3UEBwMEeKmUeoDw80AkA"/>
-      </availablePage>
     </pageList>
     <sashModel currentSelection="/0/@sashModel/@windows.0/@children.0">
       <windows>
@@ -55,10 +19,7 @@
             <emfPageIdentifier href="BusinessStructureModel.notation#_tClkEHHgEeGus4aKic9sIg"/>
           </children>
           <children>
-            <emfPageIdentifier href="ui/tmp.notation#_S8kR8BwMEeKmUeoDw80AkA"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="ui/tmp.notation#_Ejsu8BwMEeKmUeoDw80AkA"/>
+            <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
           </children>
         </children>
       </windows>

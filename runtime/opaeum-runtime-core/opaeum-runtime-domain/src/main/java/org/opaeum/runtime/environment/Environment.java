@@ -1,7 +1,9 @@
 package org.opaeum.runtime.environment;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.opaeum.name.NameConverter;
+import org.opaeum.runtime.domain.ExceptionAnalyser;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.event.EventService;
 import org.opaeum.runtime.organization.IParticipantBase;
@@ -37,19 +40,23 @@ public abstract class Environment{
 	public static final String DEFAULT_LOCALE = "opaeum.default.locale";
 	public static final String MESSAGE_FILE_PREFIX = "opaeum.message.file.prefix";
 	public static final String DBMS = "opaeum.database.management.system";
-	protected static final Map<String,Environment> instanceMap=new HashMap<String,Environment>();
-	public static final String JDBC_DRIVER_CLASS = "opaeum.jdbc.driver.class"; 
+	protected static final Map<String,Environment> instanceMap = Collections.synchronizedMap(new HashMap<String,Environment>());
+	protected static final Map<Class<? extends Environment>,Environment> classInstanceMap = Collections
+			.synchronizedMap(new HashMap<Class<? extends Environment>,Environment>());
+	protected static final Map<Class<?>,Environment> classDefaultEnvironmentMap = Collections
+			.synchronizedMap(new HashMap<Class<?>,Environment>());
+	public static final String JDBC_DRIVER_CLASS = "opaeum.jdbc.driver.class";
+	private static final String DEFAULT_ENVIRONMENT = "opaeum.default.environment";
 	private final EventService EVENT_SERVICE = new EventService(this);
 	private long lastRefresh = System.currentTimeMillis();
 	protected Properties properties;
-	
 	private DatabaseManagementSystem dbms;
 	private long refreshInterval = 5000;
 	private Locale defaultLocale;
-	private ThreadLocal<IPersonNode> currentUser=new ThreadLocal<IPersonNode>();
-	private ThreadLocal<IParticipantBase> currentRole=new ThreadLocal<IParticipantBase>();
+	private ThreadLocal<IPersonNode> currentUser = new ThreadLocal<IPersonNode>();
+	private ThreadLocal<IParticipantBase> currentRole = new ThreadLocal<IParticipantBase>();
 	static Map<Locale,Properties> messages = new HashMap<Locale,Properties>();
-//	static private Map<String,Class<?>> classes = new HashMap<String,Class<?>>();
+	// static private Map<String,Class<?>> classes = new HashMap<String,Class<?>>();
 	private static Map<String,Locale> localeMap;
 	static{
 		getLocaleMap();
@@ -67,9 +74,11 @@ public abstract class Environment{
 	}
 	public void register(){
 		instanceMap.put(getApplicationIdentifier(), this);
+		classInstanceMap.put(getClass(), this);
 	}
 	public void unregister(){
 		instanceMap.remove(getApplicationIdentifier());
+		classInstanceMap.remove(getClass());
 	}
 	public IPersonNode getCurrentUser(){
 		return currentUser.get();
@@ -83,11 +92,9 @@ public abstract class Environment{
 	public void setCurrentRole(IParticipantBase currentRole){
 		this.currentRole.set(currentRole);
 	}
-	
 	public void putProperty(String name,String value){
 		properties.put(name, value);
 	}
-
 	public DatabaseManagementSystem getDatabaseManagementSystem(){
 		if(this.dbms == null){
 			this.dbms = DatabaseManagementSystem.valueOf(getProperty(DBMS));
@@ -104,11 +111,11 @@ public abstract class Environment{
 	}
 	private void maybeRefresh(){
 		if(System.currentTimeMillis() - lastRefresh > refreshInterval){
-			properties = loadProperties(PROPERTIES_FILE_NAME,getClass());
+			properties = loadProperties(PROPERTIES_FILE_NAME, getClass());
 			messages.clear();
 		}
 	}
-	protected static Properties loadProperties(String propertiesFileName, Class<?> referenceClass){
+	protected static Properties loadProperties(String propertiesFileName,Class<?> referenceClass){
 		Properties properties;
 		try{
 			properties = new Properties();
@@ -125,10 +132,9 @@ public abstract class Environment{
 	public EventService getEventService(){
 		return EVENT_SERVICE;
 	}
-	public  <T>T getComponent(Class<T> clazz){
-		return getComponentImpl(clazz,null);
+	public <T>T getComponent(Class<T> clazz){
+		return getComponentImpl(clazz, null);
 	}
-	
 	public Currency getDefaultCurrency(){
 		return Currency.getInstance(getProperty(DEFAULT_CURRENCY, "ZAR"));
 	}
@@ -143,7 +149,7 @@ public abstract class Environment{
 		Properties messagesForLocale = messages.get(l);
 		if(messagesForLocale == null){
 			try{
-				messagesForLocale = loadProperties(getMessageFileName(l),getClass());
+				messagesForLocale = loadProperties(getMessageFileName(l), getClass());
 				messages.put(l, messagesForLocale);
 			}catch(Exception e){
 				return getDefaultMessage(string);
@@ -201,16 +207,45 @@ public abstract class Environment{
 		return localeMap;
 	}
 	public static Environment buildInstanceForRelease(String applicationId,VersionNumber from){
-		//TODO fix this-maygenerate an Environmnet per version
+		// TODO fix this-maygenerate an Environmnet per version
 		// TODO Auto-generated method stub
-		String key = applicationId+from.toVersionString();
+		String key = applicationId + from.toVersionString();
 		return getEnvironment(key);
 	}
 	public static Environment getEnvironment(String key){
 		return instanceMap.get(key);
 	}
-//	public static Environment getEnvironment(Class<?> c){
-//		return instanceMap.get(key);
-//	}
+	public static Environment getDefaultEnvironment(Class<?> referenceClass){
+		Environment result = classDefaultEnvironmentMap.get(referenceClass);
+		if(result == null){
+			Properties props = loadProperties(Environment.PROPERTIES_FILE_NAME, referenceClass);
+			String defaultEnv = props.getProperty(DEFAULT_ENVIRONMENT);
+			result=Environment.getEnvironment(defaultEnv);
+			if(result==null){
+				//Maybe a classname
+				try{
+					result= getEnvironment((Class<? extends Environment>)IntrospectionUtil.classForName(defaultEnv));
+				}catch(Exception e){
+					
+				}
+			}
+			classDefaultEnvironmentMap.put(referenceClass, result);
+		}
+		return result;
+	}
+	public static Environment getEnvironment(Class<? extends Environment> clss){
+		Environment result = instanceMap.get(clss);
+		if(result == null){
+			try{
+				Field instance = clss.getDeclaredField("INSTANCE");
+				instance.setAccessible(true);
+				result = (Environment) instance.get(null);
+			}catch(Exception e){
+				new ExceptionAnalyser(e).throwRootCause();
+			}
+			result.register();
+		}
+		return result;
+	}
 	public abstract String getApplicationIdentifier();
 }

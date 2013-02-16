@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: opaeum-runtime-ejb3
+Bundle-SymbolicName: org.opaeum.runtime.ejb3
+EXtension-Name: opaeum-runtime-jpa
+Bundle-Version: 1.0.3.qualifier
+Export-Package: 
+Require-Bundle: org.opaeum.runtime.domain
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

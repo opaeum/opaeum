@@ -31,6 +31,7 @@ import org.opaeum.javageneration.basicjava.FormatterStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
 import org.opaeum.javageneration.persistence.JpaUtil;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.runtime.domain.BusinessTimeUnit;
@@ -39,7 +40,7 @@ import org.opaeum.strategies.DateStrategyFactory.DateTestModelValueStrategy;
 public class DurationBasedCostStrategyFactory extends AbstractStrategyFactory{
 	public static class MyAttributeStrategy implements AttributeStrategy{
 		@Override
-		public void applyTo(OJAnnotatedClass owner,AttributeInJava a,PropertyMap map){
+		public void applyTo(OJUtil ojUtil,OJAnnotatedClass owner,AttributeInJava a, PropertyMap map){
 			OJPathName listOfEntries = new OJPathName("java.util.List");
 			listOfEntries.addToElementTypes(new OJPathName("org.opaeum.runtime.costing.DurationBasedCostEntry"));
 			OJAnnotatedField field = new OJAnnotatedField(a.field.getName() + "Entries", listOfEntries);
@@ -126,7 +127,7 @@ public class DurationBasedCostStrategyFactory extends AbstractStrategyFactory{
 			return getDefaultStringValue();
 		}
 		@Override
-		public String parseConfiguredValue(OJAnnotatedClass owner,OJBlock block,Property p,String configuredValue){
+		public String parseConfiguredValue(OJUtil ojUtil,OJAnnotatedClass owner,OJBlock block,Property p, String configuredValue){
 			return "new DurationBasedCostEntry(" + configuredValue + ")";
 		}
 		@Override

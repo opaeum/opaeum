@@ -34,7 +34,7 @@
 		<link>
 			<name>models</name>
 			<type>2</type>
-			<location>/home/ampie/Workspaces/opaeum/opaeum-linkage/org.opaeum.transformation.engine/models</location>
+			<location>/home/ampie/NewWorkspaces/opaeum/bundles/opaeum-compilation/org.opaeum.transformation.engine/models</location>
 		</link>
 	</linkedResources>
 </projectDescription>

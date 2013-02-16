@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.opaeum.eclipse.EmfConstraintUtil;
 import org.opaeum.eclipse.EmfElementUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;
@@ -31,8 +32,10 @@ public class ConstraintGenerator{
 	NamedElement element;
 	private ExpressionCreator expressionCreator;
 	private IPropertyEmulation library;
+	OJUtil ojUtil;
 	public ConstraintGenerator(OJUtil ojUtil,OJClass context,NamedElement element){
 		super();
+		this.ojUtil=ojUtil;
 		this.library = ojUtil.getLibrary();
 		this.context = context;
 		this.element = element;
@@ -92,11 +95,11 @@ public class ConstraintGenerator{
 						OpaqueExpressionContext argExp = library.getOclExpressionContext(opaqueExpression);
 						sb.append(expressionCreator.makeExpression(argExp, false, parameters));
 					}
-					message.setInitExp("Environment.getInstance().getMessage(\"" + EmfElementUtil.getQualifiedName(post) + "\"" + sb.toString() + ")");
+					message.setInitExp(ojUtil.environmentPathname()+ ".INSTANCE.getMessage(\"" + EmfElementUtil.getQualifiedName(post) + "\"" + sb.toString() + ")");
 					for(Element element:post.getConstrainedElements()){
 						if(element instanceof NamedElement){
 							ifBroken.getThenPart().addToStatements(
-									"failedConstraints.add(new FailedConstraint(\"" + ((NamedElement) element).getName() + "\" ,message)");
+									"failedConstraints.add(new FailedConstraint(\"" + ((NamedElement) element).getName() + "\" ,message))");
 						}
 					}
 					if(post.getConstrainedElements().isEmpty()){

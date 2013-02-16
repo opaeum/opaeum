@@ -2,6 +2,7 @@ package org.opaeum.eclipse.javasync;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
@@ -19,6 +20,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
+import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
@@ -57,6 +61,14 @@ public class CreateApplicationProjectAction extends AbstractDirectoryReadingActi
 						// Create wizard selection wizard.
 						monitor.beginTask("Loading All Models", 1000);
 						p = prepareDirectoryForTransformation(folder, monitor);
+						EmfWorkspace ws = p.findModel(EmfWorkspace.class);
+						Collection<Package> rootObjects = ws.getRootObjects();
+						for(Package package1:rootObjects){
+							if(package1 instanceof Model &&  EmfPackageUtil.isRegeneratingLibrary((Model) package1)){
+								ws.addGeneratingModelOrProfile(package1);
+							}
+							
+						}
 						monitor.subTask("Generating Java Code");
 						p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400), false);
 						if(!(monitor.isCanceled())){
@@ -64,13 +76,13 @@ public class CreateApplicationProjectAction extends AbstractDirectoryReadingActi
 						}
 						monitor.subTask("Generating text files");
 						RapProjectBuilder rpb = new RapProjectBuilder();
-						rpb.initialize(currentContext.getConfig(), p.findModel(TextWorkspace.class), p.findModel(EmfWorkspace.class),
+						rpb.initialize(currentContext.getConfig(), p.findModel(TextWorkspace.class), ws,
 								p.findModel(OJUtil.class));
-						rpb.beforeWorkspace(p.findModel(EmfWorkspace.class));
+						rpb.beforeWorkspace(ws);
 						OpaeumApplicationGenerator oag = new OpaeumApplicationGenerator();
 						oag.initialize(p.findModel(OJWorkspace.class), currentContext.getConfig(), p.findModel(TextWorkspace.class),
-								p.findModel(EmfWorkspace.class), p.findModel(OJUtil.class));
-						oag.beforeWorkspace(p.findModel(EmfWorkspace.class));
+								ws, p.findModel(OJUtil.class));
+						oag.beforeWorkspace(ws);
 						JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p, true);
 						wizard.getNewProject().refreshLocal(IProject.DEPTH_INFINITE, null);
 						currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);

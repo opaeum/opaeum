@@ -55,6 +55,10 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		if(shouldProcessWorkspace()){
 			Collection<Package> rootObjects = (Collection) workspace.getOwnedElements();
 			generateConfigAndEnvironment(rootObjects, TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, workspace);
+			if(config.isJpa2()){
+				processTemplate(workspace, "templates/Model/DataSource.vsl", workspace.getIdentifier() +"-ds.xml", TextSourceFolderIdentifier.WEB_PROJECT_ROOT);
+			}
+			
 		}
 	}
 	protected boolean shouldProcessWorkspace(){
@@ -83,14 +87,15 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		SortedProperties properties = new SortedProperties();
 		HashMap<String,Object> vars = buildVars(models, isAdaptorEnvironment, owner);
 		properties.setProperty(Environment.DBMS, config.getDbms());
-		properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, ojUtil.utilClass(owner, JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX).toJavaString());
+		properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP,
+				ojUtil.utilClass(owner, JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX).toJavaString());
 		properties.setProperty(Environment.JDBC_CONNECTION_URL, config.getJdbcConnectionUrl());
 		properties.setProperty(Environment.DB_USER, config.getDbUser());
 		properties.setProperty(Environment.DB_PASSWORD, config.getDbPassword());
 		properties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? getAdaptorEnvironmentImplementation()
 				: getDomainEnvironmentImplementation());
 		properties.setProperty(Environment.HIBERNATE_CONFIG_NAME, getConfigName(owner));
-//		findOrCreateTextFile(properties, outputRootId, Environment.PROPERTIES_FILE_NAME);
+		// findOrCreateTextFile(properties, outputRootId, Environment.PROPERTIES_FILE_NAME);
 		processTemplate(workspace, getTemplateName(), getOutputPath(owner), outputRootId, vars);
 	}
 	private HashMap<String,Object> buildVars(Collection<? extends Element> models,boolean isAdaptorEnvironment,Element owner){
@@ -103,48 +108,48 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		for(String string:config.getAdditionalPersistentClasses()){
 			persistentClasses.add(new OJPathName(string));
 		}
-			// CLasses across multiple jars need to be registered explicitly
-			TreeIterator<Notifier> iter = workspace.getResourceSet().getAllContents();
-			while(iter.hasNext()){
-				Notifier n = iter.next();
-				if(n instanceof Element){
-					Element e = (Element) n;
-					if(e instanceof Classifier && EmfClassifierUtil.isComplexStructure((Classifier) e) && EmfClassifierUtil.isPersistent((Type) e)
-							&& isGeneratingElement(e)){
-						persistentClasses.add(ojUtil.classifierPathname((Classifier) e));
-						if( e instanceof Behavior){
-							persistentClasses.add(ojUtil.tokenPathName((Behavior)  e));
-						}
-					}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
-						persistentClasses.add(ojUtil.classifierPathname((Operation) e));
-					}else if(e instanceof Enumeration && isGeneratingElement(e)
-							&& ojUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
-							&& !(EmfElementFinder.getRootObject(e) instanceof Profile)){
-						persistentClasses.add(new OJPathName(ojUtil.classifierPathname((Enumeration) e) + "Entity"));
-					}else if(e instanceof Action && EmfActionUtil.isEmbeddedTask((ActivityNode) e) && isGeneratingElement(e)){
-						persistentClasses.add(ojUtil.classifierPathname(((Action) e)));
-					}else if(e instanceof StructuredActivityNode
-							&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e)))
-							&& isGeneratingElement(e)){
-						persistentClasses.add(ojUtil.classifierPathname((StructuredActivityNode) e));
+		// CLasses across multiple jars need to be registered explicitly
+		TreeIterator<Notifier> iter = workspace.getResourceSet().getAllContents();
+		while(iter.hasNext()){
+			Notifier n = iter.next();
+			if(n instanceof Element){
+				Element e = (Element) n;
+				if(e instanceof Classifier && EmfClassifierUtil.isComplexStructure((Classifier) e) && EmfClassifierUtil.isPersistent((Type) e)
+						&& isGeneratingElement(e)){
+					persistentClasses.add(ojUtil.classifierPathname((Classifier) e));
+					if(e instanceof Behavior){
+						persistentClasses.add(ojUtil.tokenPathName((Behavior) e));
 					}
+				}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
+					persistentClasses.add(ojUtil.classifierPathname((Operation) e));
+				}else if(e instanceof Enumeration && isGeneratingElement(e)
+						&& ojUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
+						&& !(EmfElementFinder.getRootObject(e) instanceof Profile)){
+					persistentClasses.add(new OJPathName(ojUtil.classifierPathname((Enumeration) e) + "Entity"));
+				}else if(e instanceof Action && EmfActionUtil.isEmbeddedTask((ActivityNode) e) && isGeneratingElement(e)){
+					persistentClasses.add(ojUtil.classifierPathname(((Action) e)));
+				}else if(e instanceof StructuredActivityNode
+						&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e)))
+						&& isGeneratingElement(e)){
+					persistentClasses.add(ojUtil.classifierPathname((StructuredActivityNode) e));
 				}
+			}
 			vars.put("persistentClasses", persistentClasses);
 			vars.put("pkg", ojUtil.utilPackagePath(owner));
 		}
 		return vars;
 	}
 	@Override
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace, OJUtil ojUtil){
-		super.initialize(config, textWorkspace, workspace,ojUtil);
-		this.ojUtil=ojUtil;
-
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace,OJUtil ojUtil){
+		super.initialize(config, textWorkspace, workspace, ojUtil);
+		this.ojUtil = ojUtil;
 		// TODO Auto-generated method stub
 	}
 	private boolean isGeneratingElement(Element e){
 		Package rootObject = EmfElementFinder.getRootObject(e);
 		if(shouldProcessWorkspace()){
-			return workspace.getRootObjects().contains(rootObject) || (rootObject instanceof Model && EmfPackageUtil.isRegeneratingLibrary((Model) rootObject)) ;
+			return workspace.getRootObjects().contains(rootObject)
+					|| (rootObject instanceof Model && EmfPackageUtil.isRegeneratingLibrary((Model) rootObject));
 		}else{
 			return workspace.getGeneratingModelsOrProfiles().contains(rootObject);
 		}

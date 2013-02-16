@@ -16,6 +16,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.strategies.DateStrategyFactory.DateTestModelValueStrategy;
 
@@ -34,7 +35,7 @@ public class DateTimeStrategyFactory extends AbstractStrategyFactory{
 			return getDefaultStringValue();
 		}
 		@Override
-		public String parseConfiguredValue(OJAnnotatedClass owner,OJBlock block,Property p,String configuredValue){
+		public String parseConfiguredValue(OJUtil ojUtil,OJAnnotatedClass owner,OJBlock block,Property p, String configuredValue){
 			addSimpleDateFormat(owner, block);
 			return "dateTimeFormat.parse(" + configuredValue + ")";
 		}

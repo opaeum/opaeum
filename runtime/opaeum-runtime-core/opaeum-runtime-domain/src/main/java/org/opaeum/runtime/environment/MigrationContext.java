@@ -77,7 +77,7 @@ public class MigrationContext{
 	}
 	@SuppressWarnings("unchecked")
 	public <T extends IMigrator>T getMigratorFor(IPersistentObject po){
-		Class<IPersistentObject> cls = IntrospectionUtil.getOriginalClass(po);
+		Class<? extends IPersistentObject> cls = IntrospectionUtil.getOriginalClass(po);
 		T object = (T) migrators.get(cls);
 		return object;
 	}

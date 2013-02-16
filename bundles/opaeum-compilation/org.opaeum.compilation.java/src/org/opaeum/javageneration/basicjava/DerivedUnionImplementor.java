@@ -6,6 +6,7 @@ import java.util.Collection;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
@@ -26,20 +27,38 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 		return 1;// Does work across multiple models
 	}
 	@Override
+	protected void visitInterfaceProperty(OJAnnotatedClass oj,Interface owner,PropertyMap map){
+//		if(map.getProperty().getSubsettedProperties().size()>0 && map.isMany()){
+//			OJAnnotatedOperation getter = (OJAnnotatedOperation) oj.findOperation(map.getter(), new ArrayList<OJPathName>());
+//			getter.getReturnType().markAsExtendingElement(getter.getReturnType().getElementTypes().get(0));
+//			//Because implementing classes need to override this.
+//			
+//		}
+		
+	}
+	@Override
 	public void visitProperty(OJAnnotatedClass c,Classifier owner,PropertyMap derivedUnionMap){
 		if(derivedUnionMap.getProperty().isNavigable() && derivedUnionMap.getProperty().isDerivedUnion()){
 			Collection<Property> directlyImplementedProperties = getLibrary().getDirectlyImplementedAttributes(owner);
 			OJAnnotatedOperation getter = (OJAnnotatedOperation) c.findOperation(derivedUnionMap.getter(), new ArrayList<OJPathName>());
-			getter.getResultVariable().setType(derivedUnionMap.javaDefaultTypePath());
+			Collection<Property> subsettingProperties = EmfPropertyUtil.getSubsettingProperties(derivedUnionMap.getProperty());
 			if(derivedUnionMap.isMany()){
-				// ENsure the result variable is initialized with the right type and keep the initExpression's value in tact in case something
-				// meaningful was put in there (unlikely, but possible if the subsetting prop has the same name as the derived union and it has a
-				// derivation rule)
-				String initExp = getter.getResultVariable().getInitExp();
-				String javaDefaultValue1 = derivedUnionMap.javaDefaultValue();
-				javaDefaultValue1 = javaDefaultValue1.substring(0, javaDefaultValue1.length() - 2);
-				if(!initExp.startsWith(javaDefaultValue1)){
-					getter.getResultVariable().setInitExp(javaDefaultValue1 + initExp + ")");
+//				if(getter.getReturnType().getElementTypes().size() == 1){
+//					getter.getReturnType().markAsExtendingElement(getter.getReturnType().getElementTypes().get(0));
+//				}
+				if(hasNormalPropertyOverride(derivedUnionMap, subsettingProperties)){
+					//Leave intact.  Can't change anything it may break other code 
+				}else{
+					// ENsure the result variable is initialized with the most common return type, i.e. the union's type
+					// Keep the initExpression's value in tact in case something
+					// meaningful was put in there (unlikely, but possible if the subsetting prop has the same name as the derived union and it has a
+					// derivation rule)
+					String initExp = getter.getResultVariable().getInitExp();
+					String javaDefaultValue1 = derivedUnionMap.javaDefaultValue();
+					javaDefaultValue1 = javaDefaultValue1.substring(0, javaDefaultValue1.length() - 1);
+					if(!initExp.startsWith(javaDefaultValue1)){
+						getter.getResultVariable().setInitExp(javaDefaultValue1 + initExp + ")");
+					}
 				}
 			}
 			if(owner.getGenerals().size() > 0
@@ -56,12 +75,21 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 					getter.getBody().getStatements().add(0, ifNotNull);
 				}
 			}
-			for(Property subsettingProperty:EmfPropertyUtil.getSubsettingProperties(derivedUnionMap.getProperty())){
+			for(Property subsettingProperty:subsettingProperties){
 				if(directlyImplementedProperties.contains(subsettingProperty)){
 					addSubsetToUnion(owner, ojUtil.buildStructuralFeatureMap(subsettingProperty), c, derivedUnionMap, getter);
 				}
 			}
 		}
+	}
+	public boolean hasNormalPropertyOverride(PropertyMap derivedUnionMap,Collection<Property> subsettingProperties){
+		boolean isNormalPropertyOverride = false;
+		for(Property subsettingProperty:subsettingProperties){
+			if(isNormalPropertyOverride(ojUtil.buildStructuralFeatureMap(subsettingProperty), derivedUnionMap)){
+				isNormalPropertyOverride = true;
+			}
+		}
+		return isNormalPropertyOverride;
 	}
 	public void visitAssociationClassProperty(Classifier c,AssociationClassEndMap map){
 		visitProperty(findJavaClass(c), c, map.getMap());
@@ -91,13 +119,11 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 				}else{
 					if(derivedUnionMap.umlName().equals(subsettingMap.umlName())){
 						// We will already be in the getter
-						if(subsettingMap.getProperty().getAssociation() != null
-								&& EmfAssociationUtil.isClass(subsettingMap.getProperty().getAssociation())){
+						if(subsettingMap.getProperty().getAssociation() != null && EmfAssociationUtil.isClass(subsettingMap.getProperty().getAssociation())){
 							// Result would already be extracted from the AssociationClass objects
 						}else{
 							String javaDefaultValue = subsettingMap.javaDefaultValue();
-							sgetter.initializeResultVariable(javaDefaultValue.substring(0, javaDefaultValue.length() - 2) + subsettingMap.fieldname()
-									+ ")");
+							sgetter.initializeResultVariable(javaDefaultValue.substring(0, javaDefaultValue.length() - 2) + subsettingMap.fieldname() + ")");
 						}
 					}else{
 						sgetter.getBody().addToStatements(OJAnnotatedOperation.RESULT + ".addAll(" + expression + ")");

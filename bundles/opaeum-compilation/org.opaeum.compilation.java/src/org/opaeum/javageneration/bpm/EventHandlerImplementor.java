@@ -35,6 +35,7 @@ import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.hibernate.domain.AbstractToken;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJForStatement;
@@ -123,13 +124,13 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			if(EmfClassifierUtil.isNotification(s)){
 				OJForStatement ps = (OJForStatement) unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
 				ps.getBody().addToStatements(
-						new OJIfStatement("p.getId()==-20l", "this.from=(INotificationReceiver)Value.valueOf(p.getValue(),persistence)"));
+						new OJIfStatement("p.getId()==-20l", "this.from=(INotificationReceiver)Value.valueOf(p.getValue(),(InternalHibernatePersistence)persistence)"));
 				ps.getBody().addToStatements(
-						new OJIfStatement("p.getId()==-21l", "this.cc=(Set<INotificationReceiver>)Value.valueOf(p.getValue(),persistence)"));
+						new OJIfStatement("p.getId()==-21l", "this.cc=(Set<INotificationReceiver>)Value.valueOf(p.getValue(),(InternalHibernatePersistence)persistence)"));
 				ps.getBody().addToStatements(
-						new OJIfStatement("p.getId()==-22l", "this.bcc=(Set<INotificationReceiver>)Value.valueOf(p.getValue(),persistence)"));
+						new OJIfStatement("p.getId()==-22l", "this.bcc=(Set<INotificationReceiver>)Value.valueOf(p.getValue(),(InternalHibernatePersistence)persistence)"));
 				ps.getBody().addToStatements(
-						new OJIfStatement("p.getId()==-23l", "this.to=(Set<INotificationReceiver>)Value.valueOf(p.getValue(),persistence)"));
+						new OJIfStatement("p.getId()==-23l", "this.to=(Set<INotificationReceiver>)Value.valueOf(p.getValue(),(InternalHibernatePersistence)persistence)"));
 			}
 			addIsEvent(handler, constr, marshall, unmarshall);
 			OJAnnotatedField result = new OJAnnotatedField("signal", c);
@@ -141,6 +142,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			addGetConsumerPoolSize(handler, listenerPoolSize);
 			OJAnnotatedOperation handleOn = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
 			handleOn.addParam("targets", new OJPathName("Object"));
+			handleOn.addParam("persistence", new OJPathName(AbstractPersistence.class.getName()));
 			handler.addToOperations(handleOn);
 			handleOn.initializeResultVariable("false");
 			handler.addToImports(new OJPathName(IActiveObject.class.getName()));
@@ -206,7 +208,12 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(handlerPathName.getLast());
 		ojClass.addToImplementedInterfaces(new OJPathName(IChangeEventHandler.class.getName()));
 		pkg.addToClasses(ojClass);
+		ojClass.addToConstructors(new OJConstructor());
+		OJConstructor constr = new OJConstructor();
+		ojClass.addToConstructors(constr);
+		constr.addParam("token", new OJPathName(AbstractToken.class.getName()));
 		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+		constr.getBody().addToStatements("this.returnInfo=new ReturnInfo(token)");
 		addNodeId(ojClass);
 		addCommonMethods(e, ojClass);
 		OJAnnotatedOperation marshall = buildMarshall(null, "this", new ArrayList<TypedElement>(), true);
@@ -216,6 +223,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedOperation handleOn = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
 		ojClass.addToOperations(handleOn);
 		handleOn.addParam("object", new OJPathName("Object"));
+		handleOn.addParam("persistence", new OJPathName(AbstractPersistence.class.getName()));
 		OJPathName eventTargetPath = ojUtil.classifierPathname(getLibrary().getEventGeneratingClassifier(e));
 		ojClass.addToImports(eventTargetPath);
 		OJAnnotatedField target = new OJAnnotatedField("target", eventTargetPath);
@@ -223,7 +231,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		handleOn.getBody().addToLocals(target);
 		handleOn.getBody().addToStatements(
 				new OJIfStatement("target." + EventUtil.evaluatorName(e) + "()", "return target." + eventUtil.getEventConsumerName(e)
-						+ "(returnInfo.getValue(persistence)"));
+						+ "(returnInfo.getValue((InternalHibernatePersistence)persistence))"));
 		handleOn.getBody().addToStatements("return false");
 		addGetConsumerPoolSize(ojClass, 5);
 		OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
@@ -241,10 +249,25 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		ojClass.getDefaultConstructor();
 		OJConstructor constr = new OJConstructor();
 		ojClass.addToConstructors(constr);
-		constr.addParam("time", new OJPathName("java.util.Date"));
+//		if(e.isRelative()){
+//			constr.addParam("numberOfUnits", new OJPathName("double"));
+//			constr.addParam("businessCalendar", new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar"));
+//			constr.addParam("timeUnitToUse", new OJPathName("org.opaeum.runtime.domain.BusinessTimeUnit"));
+//		}else{
+			constr.addParam("time", new OJPathName("java.util.Date"));
+//		}
 		constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=time");
-		constr.addParam("returnInfo", BpmUtil.ITOKEN);
-		constr.getBody().addToStatements("this.returnInfo=returnInfo");
+		constr.addParam("token", BpmUtil.ITOKEN);
+		constr.getBody().addToStatements("this.returnInfo=new ReturnInfo(token)");
+//	operation.getOwner().addToImports(new OJPathName(Date.class.getName()));
+//	if(businessCalendarToUse == null || businessCalendarToUse.hasErrors()){
+//		operation.getOwner().addToImports(new OJPathName(Date.class.getName()));
+//		block.addToStatements("this.firstOccurrenceScheduledFor=BusinessCalendar.getInstance().addTimeTo(new Date(), timeUnit,delay)");
+//	}else{
+//		block.addToStatements("this.firstOccurrenceScheduledFor="
+//				+ valueSpecificationUtil.expressOcl(businessCalendarToUse, operation, null) + ".addTimeTo(new Date(), timeUnit,delay)");
+//	}
+		
 		addNodeId(ojClass);
 		pkg.addToClasses(ojClass);
 		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
@@ -256,12 +279,14 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedOperation handleOn = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
 		ojClass.addToOperations(handleOn);
 		handleOn.addParam("object", new OJPathName("Object"));
+		handleOn.addParam("persistence", new OJPathName(AbstractPersistence.class.getName()));
+		
 		OJPathName behaviorPath = ojUtil.classifierPathname(getLibrary().getEventGeneratingClassifier(e));
 		ojClass.addToImports(behaviorPath);
 		OJAnnotatedField target = new OJAnnotatedField("target", behaviorPath);
 		target.setInitExp("(" + behaviorPath.getLast() + ")object");
 		handleOn.getBody().addToLocals(target);
-		handleOn.getBody().addToStatements("return target." + eventUtil.getEventConsumerName(e) + "(returnInfo,firstOccurrenceScheduledFor)");
+		handleOn.getBody().addToStatements("return target." + eventUtil.getEventConsumerName(e) + "(firstOccurrenceScheduledFor,returnInfo.getValue((InternalHibernatePersistence)persistence))");
 		addGetConsumerPoolSize(ojClass, 5);
 		OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
 		ojClass.addToOperations(scheduleNextOccurrence);
@@ -270,7 +295,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	private void addNodeId(OJAnnotatedClass ojClass){
 		ojClass.getDefaultConstructor();
-		ojClass.addToFields(new OJAnnotatedField("returnInfo", BpmUtil.ITOKEN));
+		ojClass.addToFields(new OJAnnotatedField("returnInfo", new OJPathName("org.opaeum.hibernate.domain.ReturnInfo")));
 	}
 	private void addCommonMethods(NamedElement e,OJAnnotatedClass ojClass){
 		OJAnnotatedOperation getHandlerUuid = new OJAnnotatedOperation("getHandlerUuid", new OJPathName("String"));
@@ -289,6 +314,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		new OJPathName("java.util.List").addToElementTypes(propertyValuePath);
 		ojClass.addToImports(new OJPathName("java.util.ArrayList"));
 		ojClass.addToImports(new OJPathName(Value.class.getName()));
+		ojClass.addToImports(new OJPathName("org.opaeum.hibernate.domain.InternalHibernatePersistence"));
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(Operation o){
@@ -362,6 +388,8 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				addCommonMethods(o, handler);
 				OJAnnotatedOperation invoke = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
 				invoke.addParam("t", new OJPathName("Object"));
+				invoke.addParam("persistence", new OJPathName(AbstractPersistence.class.getName()));
+				
 				OJPathName targetPathName = ojUtil.classifierPathname((Classifier) o.getOwner());
 				handler.addToImports(targetPathName);
 				OJAnnotatedField target = new OJAnnotatedField("target", targetPathName);
@@ -408,7 +436,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	private void addIsEventUnmarshall(OJAnnotatedOperation unmarshall){
 		OJForStatement sst = (OJForStatement) unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
-		OJIfStatement sc = new OJIfStatement("p.getId()==-6l", "this.isEvent=(Boolean)Value.valueOf(p.getValue(),persistence)");
+		OJIfStatement sc = new OJIfStatement("p.getId()==-6l", "this.isEvent=(Boolean)Value.valueOf(p.getValue(),(InternalHibernatePersistence)persistence)");
 		sst.getBody().addToStatements(sc);
 	}
 	private void manageInvocation(Operation oper,OperationMap map,OJAnnotatedOperation invoke,OJBlock b,String call){
@@ -478,15 +506,14 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJBlock elseBlock = foreachProperty.getBody();
 		for(TypedElement p:e){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
-			String setValue = target + "." + map.setter() + "((" + map.javaType() + ")Value.valueOf(p.getValue(),persistence))";
+			String setValue = target + "." + map.setter() + "((" + map.javaType() + ")Value.valueOf(p.getValue(),(InternalHibernatePersistence)persistence))";
 			OJIfStatement sst = new OJIfStatement("p.getId()==" + EmfWorkspace.getOpaeumId(p) + "l", setValue);
 			elseBlock.addToStatements(sst);
 			sst.setElsePart(new OJBlock());
 			elseBlock = sst.getElsePart();
 		}
 		if(includeReturnInfo){
-			OJIfStatement sc5 = new OJIfStatement("p.getId()==-5", "this.returnInfo=(" + BpmUtil.ITOKEN.getLast()
-					+ ")Value.valueOf(p.getValue(),persistence)");
+			OJIfStatement sc5 = new OJIfStatement("p.getId()==-5", "this.returnInfo=(ReturnInfo)Value.valueOf(p.getValue(),(InternalHibernatePersistence)persistence)");
 			elseBlock.addToStatements(sc5);
 		}
 		return unmarshall;

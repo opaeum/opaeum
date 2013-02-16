@@ -1,8 +1,11 @@
 package org.opaeum.java.metamodel.generated;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.OJElement;
 import org.opaeum.java.metamodel.OJPathName;
@@ -10,6 +13,7 @@ import org.opaeum.java.metamodel.OJPathName;
 abstract public class OJPathNameGEN extends OJElement{
 	private List<String> names = new ArrayList<String>();
 	private List<OJPathName> elementTypes = new ArrayList<OJPathName>();
+	protected Set<OJPathName> extendsElements=new HashSet<OJPathName>();
 	protected OJPathNameGEN(){
 		super("");
 	}
@@ -138,5 +142,7 @@ abstract public class OJPathNameGEN extends OJElement{
 		elementTypes.clear();
 		
 	}
-
+	public void markAsExtendingElement(OJPathName p){
+		extendsElements.add(p);
+	}
 }

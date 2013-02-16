@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.SessionImplementor;
 import org.hibernate.usertype.UserType;
 import org.opaeum.runtime.domain.EnumResolver;
 import org.opaeum.runtime.domain.IEnum;

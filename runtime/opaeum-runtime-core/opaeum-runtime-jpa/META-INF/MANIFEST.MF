@@ -4,8 +4,6 @@ Bundle-Name: opaeum-runtime-jpa
 Bundle-SymbolicName: org.opaeum.runtime.jpa
 EXtension-Name: opaeum-runtime-jpa
 Bundle-Version: 1.0.0.qualifier
-Export-Package: org.opaeum.audit,
- org.opaeum.runtime.jpa
 Require-Bundle: org.opaeum.runtime.domain,
  org.opaeum.runtime.hibernate,
  org.opaeum.runtime.core.dependencies

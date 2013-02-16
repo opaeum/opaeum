@@ -49,7 +49,7 @@ public class EventService{
 					Emailler emailler = new Emailler(event.getEventTarget(), nh);
 					emailler.sendMail();
 				}
-				if(event.maybeTrigger()){
+				if(event.maybeTrigger(umtPersistence)){
 					umtPersistence.remove(event);
 				}else{
 					ScheduledThreadPoolExecutor queue = getQueue(event.getEventHandler().getQueueName(), event.getEventHandler().getConsumerPoolSize());

@@ -3,7 +3,7 @@ package org.opaeum.runtime.bpm.opaeumsimpletypes;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.opaeum.audit.AbstractPersistentEnum;
+import org.opaeum.hibernate.domain.AbstractPersistentEnum;
 
 @Table(name="month")
 @Entity(name="MonthEntity")

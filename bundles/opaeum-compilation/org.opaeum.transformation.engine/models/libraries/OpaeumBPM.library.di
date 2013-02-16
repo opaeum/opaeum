@@ -61,6 +61,9 @@
     <availablePage>
       <emfPageIdentifier href="OpaeumBPM.library.notation#_H8l1wHaqEeGJmrelahyJag"/>
     </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="OpaeumBPM.library.notation#_saq1gHg5EeKxAvQhnx8-FQ"/>
+    </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
@@ -76,6 +79,9 @@
         </children>
         <children>
           <emfPageIdentifier href="OpaeumBPM.library.notation#_uMlM4FPiEeGhgtp358IFlA"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_saq1gHg5EeKxAvQhnx8-FQ"/>
         </children>
       </children>
     </windows>

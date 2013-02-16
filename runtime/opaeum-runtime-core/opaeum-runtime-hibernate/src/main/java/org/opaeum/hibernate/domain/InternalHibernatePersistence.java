@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import javax.persistence.Entity;
 
 import org.hibernate.Session;
-import org.hibernate.event.spi.EventSource;
+import org.hibernate.event.EventSource;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;

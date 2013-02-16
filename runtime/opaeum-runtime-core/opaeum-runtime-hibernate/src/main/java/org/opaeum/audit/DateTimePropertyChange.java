@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import org.hibernate.event.spi.EventSource;
+import org.hibernate.event.EventSource;
 
 @Entity
 @DiscriminatorValue("D")

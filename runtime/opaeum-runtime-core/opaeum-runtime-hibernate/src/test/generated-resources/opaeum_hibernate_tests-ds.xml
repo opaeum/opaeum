@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+	<xa-datasource jndi-name="java:/opaeum_hibernate_testsDatasource" pool-name="opaeum_hibernate_testsPostgresXADS">
+		<driver>postgresql</driver>
+		<xa-datasource-property name="ServerName">localhost
+		</xa-datasource-property>
+		<!--xa-datasource-property name="PortNumber">5432
+		</xa-datasource-property-->
+		<xa-datasource-property name="DatabaseName">test</xa-datasource-property>
+		<security>
+			<user-name>sa</user-name>
+			<password></password>
+		</security>
+		<!--validation>
+			<valid-connection-checker
+				class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker">
+			</valid-connection-checker>
+			<exception-sorter
+				class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter">
+			</exception-sorter>
+		</validation-->
+	</xa-datasource>
+	<datasource jta = "false" jndi-name="java:/opaeum_hibernate_testsDatasourceNonXA" pool-name="opaeum_hibernate_testsPostgresNonXADS">
+		<connection-url>jdbc:hsqldb:test</connection-url>
+		<driver>HSQLDB</driver>
+		<security>
+			<user-name>sa</user-name>
+			<password></password>
+		</security>
+	</datasource>
+</datasources>
+

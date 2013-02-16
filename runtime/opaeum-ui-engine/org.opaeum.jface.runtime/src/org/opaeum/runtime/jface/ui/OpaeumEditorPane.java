@@ -3,6 +3,7 @@ package org.opaeum.runtime.jface.ui;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -24,6 +25,7 @@ import org.eclipse.swt.widgets.Control;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.jface.entityeditor.EntityFormEditor;
 import org.opaeum.runtime.jface.entityeditor.EntityEditorInputJface;
+import org.opaeum.runtime.persistence.event.ChangedEntity;
 
 public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,FocusListener,ISelectionListener{
 	List<EntityFormEditor> entityEditors = new ArrayList<EntityFormEditor>();
@@ -124,13 +126,14 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 			page.firePartActivated(getActiveEditor());
 			page.fireSelectionChanged(getActiveEditor(), new StructuredSelection(getActiveEditor().getAdapter(IPersistentObject.class)));
 			OpaeumEditor ae = (OpaeumEditor) getActiveEditor();
-			if(ae.getEditorInput().getPersistence().containsStaleObjects()){
+			Map<ChangedEntity,IPersistentObject> conflicts = ae.getEditorInput().getPersistence().synchronizeWithDatabaseAndFindConflicts();
+			if(conflicts.size()>0){
 				if(MessageDialog.openQuestion(cTabFolder.getShell(), "Load Changes?",
 						"The data you are editing has been changed in the database. Would you like to refresh the editor from the database?")){
-					Collection<IPersistentObject> refreshed = ae.getEditorInput().getPersistence().refreshStaleObjects();
+					ae.getEditorInput().getPersistence().overwriteConflictsFromDatabase(conflicts);
 					ae.refresh();
 				}else{
-					ae.getEditorInput().getPersistence().upgradeStaleObjects();
+					ae.getEditorInput().getPersistence().overwriteDatabaseWithConflicts(conflicts);
 				}
 			}
 

@@ -3,23 +3,25 @@ package org.opaeum.audit;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Lifecycle;
-import org.hibernate.engine.internal.Versioning;
-import org.hibernate.event.spi.EventSource;
-import org.hibernate.event.spi.FlushEvent;
-import org.hibernate.event.spi.FlushEventListener;
-import org.hibernate.event.spi.PostInsertEvent;
-import org.hibernate.event.spi.PostInsertEventListener;
-import org.hibernate.event.spi.PostLoadEvent;
-import org.hibernate.event.spi.PostLoadEventListener;
-import org.hibernate.event.spi.PostUpdateEvent;
-import org.hibernate.event.spi.PostUpdateEventListener;
+import org.hibernate.engine.Versioning;
+import org.hibernate.event.EventSource;
+import org.hibernate.event.FlushEvent;
+import org.hibernate.event.FlushEventListener;
+import org.hibernate.event.PostInsertEvent;
+import org.hibernate.event.PostInsertEventListener;
+import org.hibernate.event.PostLoadEvent;
+import org.hibernate.event.PostLoadEventListener;
+import org.hibernate.event.PostUpdateEvent;
+import org.hibernate.event.PostUpdateEventListener;
 import org.hibernate.persister.entity.EntityPersister;
 import org.opaeum.hibernate.domain.EventDispatcher;
 import org.opaeum.hibernate.domain.SessionAttachment;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.environment.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +54,9 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 			}
 		}.start();
 	}
+	protected SessionAttachment newSessionAttachment(EventSource session,Environment env){
+		return new AuditSessionAttachment(session, env);
+	}
 	@Override
 	public void onPostUpdate(PostUpdateEvent event){
 		super.onPostUpdate(event);
@@ -80,7 +85,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 		}
 	}
 	private AuditWorkUnit getWorkUnitForSession(EventSource session,Object o){
-		return lazyGetAttachment(session, o).getAuditWorkUnit();
+		return ((AuditSessionAttachment) lazyGetAttachment(session, o)).getAuditWorkUnit();
 	}
 	@Override
 	public void onFlush(FlushEvent event) throws HibernateException{
@@ -94,7 +99,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 				}catch(InterruptedException e){
 					throw new RuntimeException(e);
 				}
-				sessionAttachment.clearAuditWorkUnit();
+				((AuditSessionAttachment) sessionAttachment).clearAuditWorkUnit();
 			}
 		}
 	}
@@ -102,7 +107,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 	public void onPostLoad(PostLoadEvent event){
 		super.onPostLoad(event);
 		// NB!!! Don't touch this code - copied from hibernate
-		if(event.getPersister().implementsLifecycle()){
+		if(event.getPersister().implementsLifecycle(EntityMode.POJO)){
 			// log.debug( "calling onLoad()" );
 			((Lifecycle) event.getEntity()).onLoad(event.getSession(), event.getId());
 		}

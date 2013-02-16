@@ -7,6 +7,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Dependency;
@@ -39,6 +40,10 @@ public abstract class AbstractEmulatedProperty extends PropertyImpl implements A
 	public abstract int getUpper();
 	public boolean isNavigable(){
 		return true;
+	}
+	@Override
+	public Resource eResource(){
+		return originalElement.eResource();
 	}
 	public EList<EAnnotation> getEAnnotations(){
 		return originalElement.getEAnnotations();

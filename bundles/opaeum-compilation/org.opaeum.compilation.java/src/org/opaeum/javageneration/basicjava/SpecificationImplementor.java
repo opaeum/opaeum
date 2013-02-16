@@ -160,11 +160,11 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		deepCopy.getBody().addToStatements(
 				0,
 				new OJSimpleStatement(
-						"((TaskRequest)result.getRequest()).setPotentialOwners(Environment.getInstance().getCurrentPersistence().readAll("
+						"((TaskRequest)result.getRequest()).setPotentialOwners("+ojUtil.environmentPathname()+ ".INSTANCE.getCurrentPersistence().readAll("
 								+ ojClass.getName() + ".class))"));
 		deepCopy.getBody().removeFromStatements(deepCopy.getBody().getStatements().get(deepCopy.getBody().getStatements().size() - 1));// remove
 																																																																		// event
-		deepCopy.getBody().addToStatements("Environment.getInstance().getCurrentPersistence().persist(result)"); // generator
+		deepCopy.getBody().addToStatements(ojUtil.environmentPathname()+ ".INSTANCE.getCurrentPersistence().persist(result)"); // generator
 		ojClass.addToOperations(deepCopy);
 		oper1.getBody().addToStatements(1, new OJSimpleStatement("((TaskRequest)result.getRequest()).setPotentialOwners(Arrays.asList(this))"));
 		oper1.initializeResultVariable("new " + ojUtil.classifierPathname(o).getLast() + "(this)");

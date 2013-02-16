@@ -14,6 +14,7 @@ import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 public abstract class AbstractDirectoryReadingAction extends AbstractOpaeumAction{
 	public AbstractDirectoryReadingAction(IStructuredSelection selection,String name){
@@ -33,8 +34,11 @@ public abstract class AbstractDirectoryReadingAction extends AbstractOpaeumActio
 		p.initialize(ctx.getConfig(), steps);
 		p.replaceModel(ws);
 		p.replaceModel(new OJUtil());
+		TextWorkspace tws = new TextWorkspace();
+		p.replaceModel(tws);
 		OpaeumConfig config = ctx.getConfig();
 		config.getSourceFolderStrategy().defineSourceFolders(config);
+		JavaProjectGenerator.addExistingSourceFolders(tws);
 		return p;
 	}
 }

@@ -2,6 +2,7 @@ package org.opaeum.runtime.jface.navigator;
 
 import java.lang.reflect.Modifier;
 import java.util.Date;
+import java.util.Map;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -32,6 +33,7 @@ import org.opaeum.runtime.jface.ui.IPartListener;
 import org.opaeum.runtime.jface.ui.IWorkbenchPart;
 import org.opaeum.runtime.jface.ui.OpaeumWorkbenchPage;
 import org.opaeum.runtime.organization.IPersonNode;
+import org.opaeum.runtime.persistence.event.ChangedEntity;
 import org.opaeum.runtime.rwt.Activator;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
 
@@ -120,12 +122,10 @@ public class OpaeumNavigator implements IWorkbenchPart{
 			@Override
 			public void partActivated(final IWorkbenchPart part){
 				if(part == viewer){
-					if(opaeumSession.getPersistence().containsStaleObjects()){
-						for(IPersistentObject po:opaeumSession.getPersistence().refreshStaleObjects()){
-							PersistentObjectTreeItem ti = provider.getTreeItemFor(po);
-							if(ti != null){
-								viewer.refresh(ti);
-							}
+					for(IPersistentObject po:opaeumSession.getPersistence().reloadStaleObjects()){
+						PersistentObjectTreeItem ti = provider.getTreeItemFor(po);
+						if(ti != null){
+							viewer.refresh(ti);
 						}
 					}
 				}else{

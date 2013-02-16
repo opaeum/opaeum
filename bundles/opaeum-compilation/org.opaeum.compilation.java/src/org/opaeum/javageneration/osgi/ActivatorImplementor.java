@@ -24,11 +24,11 @@ public class ActivatorImplementor extends AbstractJavaProducingVisitor{
 		c.addToImplementedInterfaces(new OJPathName("org.osgi.framework.BundleActivator"));
 		OJAnnotatedOperation start = new OJAnnotatedOperation("start");
 		start.addParam("bundle", new OJPathName("org.osgi.framework.BundleContext"));
-		start.getBody().addToStatements(ojUtil.utilClass(workspace, "Environment")+ ".INSTANCE.register()");
+		start.getBody().addToStatements(ojUtil.environmentPathname()+ ".INSTANCE.register()");
 		c.addToOperations(start);
 		OJAnnotatedOperation stop = new OJAnnotatedOperation("stop");
 		stop.addParam("bundle", new OJPathName("org.osgi.framework.BundleContext"));
 		c.addToOperations(stop);
-		stop.getBody().addToStatements(ojUtil.utilClass(workspace, "Environment")+ ".INSTANCE.unregister()");
+		stop.getBody().addToStatements(ojUtil.environmentPathname()+ ".INSTANCE.unregister()");
 	}
 }

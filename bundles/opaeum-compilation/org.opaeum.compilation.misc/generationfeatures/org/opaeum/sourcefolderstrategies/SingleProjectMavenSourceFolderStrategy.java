@@ -52,14 +52,14 @@ public class SingleProjectMavenSourceFolderStrategy implements ISourceFolderStra
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX,
 				"", "src/test/generated-resources");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.WEB_PROJECT_ROOT, ProjectNameStrategy.QUALIFIED_WORKSPACE_NAME_AND_SUFFIX, ".webapp",
-				"src/test/generated-resources");
+				"").dontCleanDirectories();
 	}
 	@Override
 	public boolean isSingleProjectStrategy(){
 		return true;
 	}
 	@Override
-	public File calculateOutputRoot(File projectRoot,String workspaceIdentifier){
+	public File calculateOutputRoot(File configFile,File projectRoot, String workspaceIdentifier){
 		return new File(projectRoot.getParentFile(), workspaceIdentifier);
 	}
 }

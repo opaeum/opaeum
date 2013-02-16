@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
-import org.hibernate.event.spi.EventSource;
+import org.hibernate.event.EventSource;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 

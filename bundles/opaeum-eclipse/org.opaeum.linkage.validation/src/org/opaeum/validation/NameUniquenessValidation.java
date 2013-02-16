@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
@@ -51,6 +52,9 @@ public class NameUniquenessValidation extends AbstractValidator{
 		}
 		if(nc instanceof BehavioredClassifier){
 			ensureUniqueness(nc, "ownedBehaviors", ((BehavioredClassifier) nc).getOwnedBehaviors());
+		}
+		if(nc instanceof Enumeration){
+			ensureUniqueness(nc, "ownedLiterals", ((Enumeration) nc).getOwnedLiterals());
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

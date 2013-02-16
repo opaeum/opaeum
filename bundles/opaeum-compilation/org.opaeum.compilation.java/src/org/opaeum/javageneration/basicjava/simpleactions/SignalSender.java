@@ -23,6 +23,7 @@ import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
@@ -94,7 +95,7 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 				expression = actionMap.targetMap().getter() + "()";
 			}else if(represents instanceof BehavioredClassifier){
 				OJPathName pn = ojUtil.classifierPathname((NamedElement) represents);
-				expression = "Environment.getInstance().getCurrentPersistence().readAll(" + pn.getLast() + ".class)";
+				expression = ojUtil.environmentPathname()+ ".INSTANCE.getCurrentPersistence().readAll(" + pn.getLast() + ".class)";
 				operationContext.getOwner().addToImports(new OJPathName(Environment.class.getName()));
 			}else if(represents instanceof Interface){
 				Collection<BehavioredClassifier> impls = EmfClassifierUtil.getConcreteEntityImplementationsOf((Interface) represents,
@@ -107,8 +108,7 @@ public class SignalSender extends SimpleNodeBuilder<SendSignalAction>{
 				for(BehavioredClassifier behavioredClassifier:impls){
 					target.setInitExp("new HashSet<Object>()");
 					OJPathName pn = ojUtil.classifierPathname(behavioredClassifier);
-					block.addToStatements(target.getName() + ".addAll(Environment.getInstance().getCurrentPersistence().readAll(" + pn.getLast()
-							+ ".class)");
+					block.addToStatements(target.getName() + ".addAll("+ojUtil.environmentPathname()+ ".INSTANCE.getCurrentPersistence().readAll(" + pn.getLast() + ".class)");
 				}
 				operationContext.getOwner().addToImports(new OJPathName(Environment.class.getName()));
 				expression = target.getName();

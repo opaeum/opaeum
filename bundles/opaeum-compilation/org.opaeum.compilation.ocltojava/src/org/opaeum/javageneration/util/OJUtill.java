@@ -170,6 +170,9 @@ public class OJUtill{
 	}
 
 	public static String toJavaLiteral(EnumerationLiteral l){
+		if(l==null){
+			return null;
+		}
 		return NameConverter.toJavaVariableName(l.getName().toUpperCase());
 	}
 

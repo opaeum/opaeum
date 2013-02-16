@@ -4,10 +4,14 @@ SlotSection: for enum values and boolean slots, default to checkboxes/radio butt
 Allow the default values  to be overridden to ocl expressions
 Some of the synching between slots and their values is not working properly.
 Mark the OpaeumEclipseContext when a re-integrate is required, typically when an OJClass is added,removed or renamed  (persistence.xml)
-2. 
+Support contentAssist for AbstractChooesrPropertySection
+Restrict typedElement's types to types in scope
+
+
 
 Transformation
 Make use of Links between instance specifications, useful for compositional enumerations 
+Allow properties' fetch early/lazy to be specified
 
 Cube
 Generate a cube per schema to allow for classes to be easily configured without server restart (add dimensions and measures)
@@ -22,6 +26,8 @@ When a person updates her own profile, mark it as "user approved" and keep this 
 
 
 UIEngine
+Implement login filter that allows for pluggable logins,or maybe even pluggable login filters as such
+Set currentUser and currentRole from filter
 Invoke additional property validations ( invariants)
 Implement radiogroups
 Don't display associationclass properties
@@ -36,9 +42,9 @@ UIM:
 Introduce logic to keep track of all UmlReferences referring to a uml element;
 DEfine an RMI service that takes a bytearray in and updates userinterface resources from it
 Add forcedLabelWidth and sameWidth to AbstractPanel
-Panels should have an optional panelBinding which resolves to the typedElementthat willdefine thecontextof  property expressions of all uimfields and actions on the panel
-Introduce FileUploadControl and MultiFile uploadcontrol
-Let Pages be like Forms with advanced layout only of PAnels on it
+Panels should have an optional panelBinding which resolves to the typedElementthat will define the context of  property expressions of all uimfields and actions on the panel
+Introduce FileUploadControl and MultiFile upload control
+Let Pages be like Forms with advanced layout only of Panels on it
 
 
 Simulation:
@@ -52,3 +58,15 @@ Simulationlinker: Calculate appropriate value strategies
 
 TaskManagement
 Create a calendar just for opaeum tasks schedule them more accurately than google tasks. Display this calendar in a view
+Introduce a "ScheduledTask" (i.e.meetings etc, SLA's etc) for specific date. Calculate latest possible start time for each other task. Show all of these on Google Calendar
+Log work done against a task.
+
+
+
+
+
+
+
+
+
+

@@ -44,7 +44,7 @@ public class PersistentObjectTreeItem implements IAdaptable{
 	}
 	public Object[] getChildren(){
 		Collection<Object> result = new ArrayList<Object>();
-		Class<IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(entity);
+		Class<? extends IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(entity);
 		JavaTypedElementContainer tec = getEnv().getMetaInfoMap()
 				.getTypedElementContainer(originalClass.getAnnotation(NumlMetaInfo.class).uuid());
 		for(JavaTypedElement pd:tec.getTypedElements().values()){

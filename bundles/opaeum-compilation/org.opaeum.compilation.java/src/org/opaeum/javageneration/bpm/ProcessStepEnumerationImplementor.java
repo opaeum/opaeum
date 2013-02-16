@@ -26,6 +26,7 @@ import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.name.NameConverter;
+import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.domain.TriggerMethod;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
@@ -41,6 +42,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		OJEnum e = new OJEnum(c.getName() + "State");
 		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(IProcessStep.class);
 		e.addToImplementedInterfaces(abstractProcessStep);
+		e.addToImplementedInterfaces(new OJPathName(IEnum.class.getName()));
 		OJPackage p = findOrCreatePackage(ojUtil.packagePathname(c.getNamespace()));
 		p.addToClasses(e);
 		super.createTextPath(e, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(true);

@@ -44,7 +44,7 @@ public abstract class AbstractEventConsumptionImplementor extends AbstractJavaPr
 				findJavaClass(cls).addToOperations(intervalCalculator);
 				OpaqueExpressionContext oec = getLibrary().getArtificationExpression(eventActions.getEvent(), TagNames.EVALUATION_INTERVAL);
 				if(oec == null || oec.hasErrors()){
-					intervalCalculator.initializeResultVariable("new Date(System.currentTimeMillis()+1000*60*60*4");// 4 hours
+					intervalCalculator.initializeResultVariable("new Date(System.currentTimeMillis()+1000*60*60*4)");// 4 hours
 				}else{
 					intervalCalculator.initializeResultVariable(valueSpecificationUtil.expressOcl(oec, intervalCalculator, null));
 				}
@@ -109,6 +109,7 @@ public abstract class AbstractEventConsumptionImplementor extends AbstractJavaPr
 		OJAnnotatedOperation eventGenerator = OperationAnnotator.findOrCreateEventGenerator(context, ojContext, map);
 		if(eventGenerator.getBody().getStatements().isEmpty()){
 			ojContext.addToImports(map.eventHandlerPath());
+			
 			eventGenerator.getBody().addToStatements(
 					"this.getOutgoingEvents().add(new OutgoingEvent(this, new " + map.eventHandlerPath().getLast() + "(signal,true)))");
 		}

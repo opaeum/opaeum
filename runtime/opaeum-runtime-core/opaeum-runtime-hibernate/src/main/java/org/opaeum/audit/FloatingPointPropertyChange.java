@@ -7,7 +7,7 @@ import java.text.ParseException;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import org.hibernate.event.spi.EventSource;
+import org.hibernate.event.EventSource;
 
 
 @Entity

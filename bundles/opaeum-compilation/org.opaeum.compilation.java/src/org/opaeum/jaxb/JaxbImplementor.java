@@ -117,18 +117,25 @@ public class JaxbImplementor extends AbstractStructureVisitor{
 			if(c.getGenerals().size() > 0){
 				fixRedefinitionInJaxb.getBody().addToStatements("super.fixJaxbRedefinitionBug()");
 			}
-			if(EmfClassifierUtil.isCompositionParticipant(c)){
-				fixRedefinitionInJaxb.getBody().addToStatements("addToOwningObject()");
-			}
 			for(Property p:diattrs){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
 				if(map.getProperty().isComposite() && EmfClassifierUtil.isCompositionParticipant(map.getBaseType() ) && !EmfPropertyUtil.isDerived(p)){
+					PropertyMap otherMap=null;
+					if(map.getProperty().getOtherEnd()!=null && map.getProperty().getOtherEnd().isNavigable()){
+					otherMap=ojUtil.buildStructuralFeatureMap(map.getProperty().getOtherEnd());
+					}
 					if(map.isOne()){
 						OJIfStatement ifNoNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "().fixJaxbRedefinitionBug()");
+						if(otherMap!=null){
+							ifNoNull.getThenPart().addToStatements(map.getter() + "()." + otherMap.internalAdder()+"(this)");
+						}
 						fixRedefinitionInJaxb.getBody().addToStatements(ifNoNull);
 					}else{
 						OJForStatement ifNoNull = new OJForStatement(map.fieldname() ,map.javaBaseTypePath(), map.getter() + "()");
 						ifNoNull.getBody().addToStatements(map.fieldname() + ".fixJaxbRedefinitionBug()");
+						if(otherMap!=null){
+							ifNoNull.getBody().addToStatements(map.fieldname() + "." + otherMap.internalAdder()+"(this)");
+						}
 						fixRedefinitionInJaxb.getBody().addToStatements(ifNoNull);
 					}
 				}

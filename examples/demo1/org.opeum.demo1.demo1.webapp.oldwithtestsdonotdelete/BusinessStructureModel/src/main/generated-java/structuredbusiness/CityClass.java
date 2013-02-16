@@ -3,7 +3,7 @@ package structuredbusiness;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.opaeum.audit.AbstractPersistentEnum;
+import org.opaeum.hibernate.domain.AbstractPersistentEnum;
 
 @Table(name="city")
 @Entity(name="CityClass")

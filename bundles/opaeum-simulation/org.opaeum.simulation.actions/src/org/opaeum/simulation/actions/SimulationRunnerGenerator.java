@@ -32,6 +32,7 @@ import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedSimpleTypeValue;
 import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
 import org.opaeum.name.NameConverter;
+import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 	@VisitBefore(matchSubclasses = true)
@@ -95,12 +96,15 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 				}
 			}
 			clss.addToImports("org.opaeum.runtime.environment.Environment");
-			main.getBody().addToStatements("Environment.getInstance().getUmtPersistence().beginTransaction()");
-			main.getBody().addToStatements("Environment.getInstance().getUmtPersistence().persist(businessNetwork)");
-			main.getBody().addToStatements("Environment.getInstance().getUmtPersistence().commitTransaction()");
-			main.getBody().addToStatements("Environment.getInstance().getUmtPersistence().beginTransaction()");
+			OJAnnotatedField persistence = new OJAnnotatedField("persistence", new OJPathName(UmtPersistence.class.getName()));
+			main.getBody().addToLocals(persistence);
+			persistence.setInitExp(ojUtil.environmentPathname()+ ".INSTANCE.createUmtPersistence()");
+			main.getBody().addToStatements("persistence.beginTransaction()");
+			main.getBody().addToStatements("persistence.persist(businessNetwork)");
+			main.getBody().addToStatements("persistence.commitTransaction()");
+			main.getBody().addToStatements("persistence.beginTransaction()");
 			main.getBody().addToStatements("SimulationMetaData.getInstance().populateReferences()");
-			main.getBody().addToStatements("Environment.getInstance().getUmtPersistence().commitTransaction()");
+			main.getBody().addToStatements("persistence.commitTransaction()");
 		}
 	}
 	private void processSlot(OJAnnotatedClass clss,OJAnnotatedOperation main,SimulatingSlot slot){

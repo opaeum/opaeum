@@ -57,10 +57,10 @@ public final class PropertyMap extends PackageableElementMap{
 	public OJPathName javaTypePath(){
 		if(isMany()){
 			OJPathName copy = actualTypeMap.javaTypePath().getCopy();
+			OJPathName javaBaseTypePath = javaBaseTypePath();
+			copy.addToElementTypes(javaBaseTypePath);
 			if(property.isDerivedUnion()){
-				copy.addToElementTypes(new OJPathName("? extends " + javaBaseType()));
-			}else{
-				copy.addToElementTypes(javaBaseTypePath());
+				copy.markAsExtendingElement(javaBaseTypePath);
 			}
 			return copy;
 		}else if(isJavaPrimitive()){

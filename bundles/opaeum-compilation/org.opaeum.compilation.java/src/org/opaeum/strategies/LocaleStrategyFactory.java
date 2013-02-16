@@ -18,6 +18,7 @@ import org.opaeum.javageneration.basicjava.AttributeStrategy;
 import org.opaeum.javageneration.basicjava.FormatterStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.jaxb.JaxbAnnotator;
 import org.opaeum.jaxb.JaxbStrategy;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
@@ -46,7 +47,7 @@ public class LocaleStrategyFactory extends AbstractStrategyFactory{
 	}
 	public static class MyAttributeStrategy implements AttributeStrategy{
 		@Override
-		public void applyTo(OJAnnotatedClass owner,AttributeInJava a,PropertyMap property){
+		public void applyTo(OJUtil ojUtil,OJAnnotatedClass owner,AttributeInJava a, PropertyMap property){
 			owner.addToImports(Environment.class.getName());
 			a.field.setType(new OJPathName("String"));
 			owner.addToImports(Environment.class.getName());
@@ -76,7 +77,7 @@ public class LocaleStrategyFactory extends AbstractStrategyFactory{
 			return getDefaultStringValue();
 		}
 		@Override
-		public String parseConfiguredValue(OJAnnotatedClass owner,OJBlock block,Property p,String configuredValue){
+		public String parseConfiguredValue(OJUtil ojUtil,OJAnnotatedClass owner,OJBlock block,Property p, String configuredValue){
 			owner.addToImports(Environment.class.getName());
 			return "Environment.getLocale(" + configuredValue + ")";
 		}

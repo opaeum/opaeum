@@ -21,16 +21,16 @@ public class RapAttributeImplementor extends HibernateAttributeImplementor{
 	@Override
 	protected OJAnnotatedOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map){
 		OJAnnotatedOperation setter = super.buildSetter(umlOwner, owner, map);
-		if(owner.findField("propertyChangeSupport") != null){
-			setter.getBody().addToStatements(
-					0,
-					new OJSimpleStatement("propertyChangeSupport.firePropertyChange(\"" + map.umlName() + "\"," + map.getter() + "(),"
-							+ map.fieldname() + ")"));
+		if(!map.isStatic()){
+			if(owner.findField("propertyChangeSupport") != null){
+				setter.getBody().addToStatements(0,
+						new OJSimpleStatement("propertyChangeSupport.firePropertyChange(\"" + map.umlName() + "\"," + map.getter() + "()," + map.fieldname() + ")"));
+			}
 		}
 		return setter;
 	}
 	@Override
-	protected boolean visitComplexStructure(OJAnnotatedClass ojClass, Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass ojClass,Classifier umlOwner){
 		OJAnnotatedField support = new OJAnnotatedField("propertyChangeSupport", new OJPathName(PropertyChangeSupport.class.getName()));
 		ojClass.addToFields(support);
 		support.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));

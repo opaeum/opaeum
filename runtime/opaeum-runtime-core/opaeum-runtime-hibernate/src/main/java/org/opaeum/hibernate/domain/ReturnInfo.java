@@ -17,6 +17,11 @@ public class ReturnInfo extends AbstractAnyValue implements IAnyValue{
 	private String classIdentifier;
 	@Transient
 	private IPersistentObject value;
+	public ReturnInfo(){
+	}
+	public ReturnInfo(IToken t){
+		setValue(t);
+	}
 	public void setIdentifier(Long identifier){
 		this.identifier = identifier;
 	}

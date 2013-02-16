@@ -66,7 +66,7 @@ public class IntrospectionUtil{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public static <T>Class<T> getOriginalClass(T target){
+	public static <T>Class<? extends T> getOriginalClass(T target){
 		Class<T> c = (Class<T>) target.getClass();
 		return (Class<T>) getOriginalClass(c);
 	}

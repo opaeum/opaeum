@@ -6,7 +6,7 @@ import org.opaeum.runtime.environment.Environment;
 
 public abstract class AbstractAssembler<O extends IPersistentObject,D extends IDataTransferObject, R extends IReference> implements IAssembler<O,D,R>{
 	public static <O1 extends IPersistentObject,D1 extends IDataTransferObject, R1 extends IReference> AbstractAssembler<O1,D1, R1> getAssembler(Environment env, O1 o){
-		Class<O1> originalClass = IntrospectionUtil.getOriginalClass(o);
+		Class<? extends O1> originalClass = IntrospectionUtil.getOriginalClass(o);
 		AbstractAssembler<?,?,?> result = env.getMetaInfoMap().getSecondaryObject(AbstractAssembler.class, originalClass);
 		if(result == null){
 			env.getMetaInfoMap().addSecondaryClass(AbstractAssembler.class, originalClass, "Assembler", true);

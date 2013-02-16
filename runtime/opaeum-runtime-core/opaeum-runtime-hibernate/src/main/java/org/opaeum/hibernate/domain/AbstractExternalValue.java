@@ -13,7 +13,7 @@ public abstract class AbstractExternalValue extends AbstractAnyValue{
 	public abstract String getApplicationIdentifier();
 	public abstract void setApplicationIdentifier(String v);
 	public void updateBeforeFlush(InternalHibernatePersistence hp){
-		Class<IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(getValue());
+		Class<? extends IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(getValue());
 		if(getValue().getId()==null){
 			//Since the order of flush can't be controlled, assume cascading
 			hp.persist(getApplicationIdentifier(originalClass), getValue());

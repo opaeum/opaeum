@@ -100,7 +100,11 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 			// closing bracket
 			result.append("\n}\n");
 		}
-		return result.toString();
+		String string = result.toString();
+		if(string.contains("new ArrayList<IRatePerTimeUnit>new ArrayList<RatePerTimeUnit>())")){
+			System.out.println();
+		}
+		return string;
 	}
 	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
 		super.renameAll(renamePathNames, suffix);
@@ -120,11 +124,10 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		return AnnotationHelper.getAnnotation(this, ojPathName);
 	}
 	public void initializeResultVariable(String initialValue){
-
 		if(initialValue == null){
 			resultVariable = null;
 		}else{
-			resultVariable = new OJAnnotatedField("result", getReturnType());
+			resultVariable = new OJAnnotatedField("result", getReturnType().getCopy());
 			resultVariable.setInitExp(initialValue);
 		}
 	}

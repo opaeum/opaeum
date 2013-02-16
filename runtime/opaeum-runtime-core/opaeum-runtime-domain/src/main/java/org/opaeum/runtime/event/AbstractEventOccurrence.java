@@ -41,8 +41,8 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		return getHandlerUuid() + "$" + getEventTargetUuid() + "$" + getEventTargetClassId();
 	}
 	public abstract String getEventTargetUuid();
-	public boolean maybeTrigger(){
-		return handler.handleOn(eventTarget);
+	public boolean maybeTrigger(AbstractPersistence p){
+		return handler.handleOn(eventTarget,p);
 	}
 	public void markDead(){
 		this.setStatus(EventOccurrenceStatus.DEAD);

@@ -59,6 +59,7 @@ public abstract class TextChangeListener implements Listener{
 		control.addListener(SWT.FocusIn, this);
 		control.addListener(SWT.FocusOut, this);
 		control.addListener(SWT.Modify, this);
+		control.addListener(SWT.KeyDown, this);
 	}
 	private String getText(Control control){
 		if(control instanceof Text){
@@ -76,6 +77,7 @@ public abstract class TextChangeListener implements Listener{
 	}
 	public void stopListeningTo(Control control){
 		if((control != null) && !control.isDisposed()){
+			control.removeListener(SWT.FocusIn, this);
 			control.removeListener(SWT.FocusOut, this);
 			control.removeListener(SWT.Modify, this);
 			control.removeListener(SWT.KeyDown, this);

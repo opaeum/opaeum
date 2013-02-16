@@ -11,12 +11,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import org.hibernate.EntityMode;
 import org.hibernate.LockMode;
-import org.hibernate.engine.spi.EntityEntry;
-import org.hibernate.event.spi.EventSource;
+import org.hibernate.engine.EntityEntry;
+import org.hibernate.event.EventSource;
 import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.proxy.HibernateProxy;
-import org.opaeum.audit.AuditWorkUnit;
+import org.hibernate.type.Type;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -24,9 +25,19 @@ import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.event.ChangedEntity;
 
 public class SessionAttachment{
+	private class ChangedEntityEntry{
+		ChangedEntity changedEntity;
+		EntityEntry entry;
+		private IPersistentObject object;
+		public ChangedEntityEntry(ChangedEntity changedEntity,IPersistentObject object,EntityEntry entry){
+			super();
+			this.changedEntity = changedEntity;
+			this.entry = entry;
+			this.object = object;
+		}
+	}
 	private Set<IEventGenerator> eventGenerators;
-	private AuditWorkUnit auditWorkUnit;
-	private EventSource session;
+	protected EventSource session;
 	private InternalHibernatePersistence persistence;
 	private long startTime = System.currentTimeMillis();
 	private String startingThread;
@@ -44,70 +55,48 @@ public class SessionAttachment{
 		pw.close();
 		startingThread = sw.toString();
 	}
-	public Collection<IPersistentObject> refreshStaleObjects(){
-		Set<IPersistentObject> refreshed = new HashSet<IPersistentObject>();
-		Map<ChangedEntity,Map.Entry<Object,EntityEntry>> changedEntities = findStaleObjects();
-		Set<Entry<ChangedEntity,Entry<Object,EntityEntry>>> entrySet = changedEntities.entrySet();
-		for(Entry<ChangedEntity,Entry<Object,EntityEntry>> entry:entrySet){
-			Object entity = entry.getValue().getKey();
-			session.refresh(entity);
-			EntityEntry entityEntry = entry.getValue().getValue();
-			EntityPersister persister = entityEntry.getPersister();
-			int[] dirty = persister.findDirty(persister.getPropertyValues(entity), entityEntry.getLoadedState(), entity, session);
-			if(dirty != null && dirty.length > 0){
-				refreshed.add((IPersistentObject) entity);
+	/**
+	 * 
+	 * @return
+	 */
+	public Map<ChangedEntity,IPersistentObject> synchronizeWithDatabaseAndFindConflicts(){
+		Map<ChangedEntity,IPersistentObject> conflicts = new HashMap<ChangedEntity,IPersistentObject>();
+		Set<ChangedEntityEntry> changedEntities = findStaleObjects();
+		for(ChangedEntityEntry cee:changedEntities){
+			if(cee.changedEntity.didVersionIncrement() && cee.object.getObjectVersion() < cee.changedEntity.objectVersion && isDirty(cee.object, cee.entry)){
+				conflicts.put(cee.changedEntity, cee.object);
+			}else{
+				session.refresh(cee.object);
 			}
 		}
-		return refreshed;
+		return conflicts;
 	}
-	public boolean containsStaleObjects(){
-		Map<Object,EntityEntry> entries = session.getPersistenceContext().getEntityEntries();
-		synchronized(EventDispatcher.recentlyChangedEntities){
-			for(Entry<Object,EntityEntry> entry:entries.entrySet()){
-				Object entity = entry.getKey();
-				if(!(entity instanceof HibernateProxy && ((HibernateProxy) entity).getHibernateLazyInitializer().isUninitialized())){
-					Long id = (Long) entry.getValue().getId();
-					Class<? extends IPersistentObject> originalClass = (Class<? extends IPersistentObject>) IntrospectionUtil.getOriginalClass(entry
-							.getKey());
-					ChangedEntity changedEntity = EventDispatcher.recentlyChangedEntities.get(new ChangedEntity(originalClass, id));
-					if(changedEntity != null){
-						return true;
-					}
-				}
-			}
-		}
-		return false;
+	private boolean isInitialised(Object entity){
+		return entity instanceof IPersistentObject
+				&& !(entity instanceof HibernateProxy && ((HibernateProxy) entity).getHibernateLazyInitializer().isUninitialized());
 	}
-	protected Map<ChangedEntity,Map.Entry<Object,EntityEntry>> findStaleObjects(){
+	private Set<ChangedEntityEntry> findStaleObjects(){
 		Map<Object,EntityEntry> entries = session.getPersistenceContext().getEntityEntries();
-		Map<ChangedEntity,Map.Entry<Object,EntityEntry>> changedEntities = new HashMap<ChangedEntity,Map.Entry<Object,EntityEntry>>();
-		synchronized(EventDispatcher.recentlyChangedEntities){
-			for(Entry<Object,EntityEntry> entry:entries.entrySet()){
-				Object entity = entry.getKey();
-				if(!(entity instanceof HibernateProxy && ((HibernateProxy) entity).getHibernateLazyInitializer().isUninitialized())){
-					Long id = (Long) entry.getValue().getId();
-					Class<? extends IPersistentObject> originalClass = (Class<? extends IPersistentObject>) IntrospectionUtil.getOriginalClass(entry
-							.getKey());
-					ChangedEntity changedEntity = EventDispatcher.recentlyChangedEntities.get(new ChangedEntity(originalClass, id));
-					if(changedEntity != null){
-						changedEntities.put(changedEntity, entry);
-					}
+		Set<ChangedEntityEntry> changedEntities = new HashSet<SessionAttachment.ChangedEntityEntry>();
+		for(Entry<Object,EntityEntry> entry:entries.entrySet()){
+			Object entity = entry.getKey();
+			if(isInitialised(entity)){
+				Long id = (Long) entry.getValue().getId();
+				Class<? extends IPersistentObject> originalClass = (Class<? extends IPersistentObject>) IntrospectionUtil.getOriginalClass(entry
+						.getKey());
+				ChangedEntity changedEntity = EventDispatcher.recentlyChangedEntities.get(new ChangedEntity(originalClass, id));
+				if(changedEntity != null){
+					changedEntities.add(new ChangedEntityEntry(changedEntity, (IPersistentObject) entity, entry.getValue()));
 				}
 			}
 		}
 		return changedEntities;
 	}
-	public void upgradeStaleObjects(){
-		Map<ChangedEntity,Map.Entry<Object,EntityEntry>> changedEntities = findStaleObjects();
-		Set<Entry<ChangedEntity,Entry<Object,EntityEntry>>> entrySet = changedEntities.entrySet();
-		for(Entry<ChangedEntity,Entry<Object,EntityEntry>> entry:entrySet){
-			int objectVersion = entry.getKey().objectVersion;
-			if(objectVersion != Integer.MAX_VALUE){
-				// Collections may have changed, but not the object itself
-				Object entity = entry.getValue().getKey();
-				entry.getValue().getValue().forceLocked(entity, objectVersion);
-				entry.getValue().getValue().setLockMode(LockMode.NONE);
-			}
+	public void overwriteConflicts(Map<ChangedEntity,IPersistentObject> staleObjects){
+		for(Entry<ChangedEntity,IPersistentObject> mapEntry:staleObjects.entrySet()){
+			EntityEntry entityEntry = session.getPersistenceContext().getEntry(mapEntry.getValue());
+			entityEntry.forceLocked(mapEntry.getValue(), mapEntry.getKey().objectVersion);
+			entityEntry.setLockMode(LockMode.NONE);
 		}
 	}
 	public void addEventGenerator(IEventGenerator entity){
@@ -119,23 +108,13 @@ public class SessionAttachment{
 	public Set<IEventGenerator> getEventGenerators(){
 		return eventGenerators == null ? Collections.<IEventGenerator>emptySet() : eventGenerators;
 	}
-	public AuditWorkUnit getAuditWorkUnit(){
-		if(auditWorkUnit == null){
-			auditWorkUnit = new AuditWorkUnit(session);
-		}
-		return auditWorkUnit;
-	}
 	public InternalHibernatePersistence getPersistence(){
 		if(persistence == null){
 			persistence = new InternalHibernatePersistence(session, environment);
 		}
 		return persistence;
 	}
-	public void clearAuditWorkUnit(){
-		auditWorkUnit = null;
-	}
 	public void cleanUp(){
-		auditWorkUnit = null;
 		if(eventGenerators != null){
 			eventGenerators.clear();
 		}
@@ -163,8 +142,7 @@ public class SessionAttachment{
 	public boolean hasBeenLogged(){
 		return hasBeenLogged;
 	}
-	public ChangedEntity addChangedEntity(Class<? extends IPersistentObject> entity,Long id){
-		ChangedEntity changedEntity = new ChangedEntity(entity, id);
+	public ChangedEntity addChangedEntity(ChangedEntity changedEntity ){
 		ChangedEntity foundChangedEntity = this.changedEntities.get(changedEntity);
 		if(foundChangedEntity == null){
 			foundChangedEntity = changedEntity;
@@ -181,5 +159,27 @@ public class SessionAttachment{
 	}
 	public Environment getEnvironment(){
 		return environment;
+	}
+	private boolean isDirty(IPersistentObject object,EntityEntry entry2){
+		EntityPersister persister = entry2.getPersister();
+		Type[] propertyTypes = persister.getPropertyTypes();
+		Object[] currentState = persister.getPropertyValues(object, EntityMode.POJO);
+		Object[] loadedState = entry2.getLoadedState();
+		for(int i = 0;i < propertyTypes.length;i++){
+			Type type = propertyTypes[i];
+			if(type.isDirty(loadedState[i], currentState[i], session)){
+				return true;
+			}
+		}
+		return false;
+	}
+	public Collection<IPersistentObject> reloadStaleObjects(){
+		Set<ChangedEntityEntry> findStaleObjects = findStaleObjects();
+		Set<IPersistentObject> result=new HashSet<IPersistentObject>();
+		for(ChangedEntityEntry cee:findStaleObjects){
+			session.refresh(cee.object);
+			result.add(cee.object);
+		}
+		return result;
 	}
 }

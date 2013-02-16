@@ -3,7 +3,7 @@ package ocltests;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.opaeum.audit.AbstractPersistentEnum;
+import org.opaeum.hibernate.domain.AbstractPersistentEnum;
 
 @Table(name="sail_position")
 @Entity(name="SailPositionClass")

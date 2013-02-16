@@ -3,7 +3,7 @@ package org.opaeum.runtime.contact;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.opaeum.audit.AbstractPersistentEnum;
+import org.opaeum.hibernate.domain.AbstractPersistentEnum;
 
 @Table(name="person_e_mail_address_type")
 @Entity(name="PersonEMailAddressTypeEntity")

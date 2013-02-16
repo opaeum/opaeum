@@ -14,7 +14,7 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.event.spi.EventSource;
+import org.hibernate.event.EventSource;
 import org.hibernate.jdbc.Work;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;

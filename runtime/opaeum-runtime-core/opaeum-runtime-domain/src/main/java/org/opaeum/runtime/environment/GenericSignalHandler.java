@@ -52,7 +52,7 @@ public class GenericSignalHandler implements IEventHandler{
 		return null;
 	}
 	@Override
-	public boolean handleOn(Object target){
+	public boolean handleOn(Object target, AbstractPersistence p){
 		for(Method method:target.getClass().getMethods()){
 			if(method.getName().startsWith("receive") && method.getParameterTypes().length==1 && method.getParameterTypes()[0].isInstance(signal)){
 				try{

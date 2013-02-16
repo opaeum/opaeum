@@ -62,7 +62,7 @@ public class SingleProjectRapSourceFolderStrategy implements ISourceFolderStrate
 		return true;
 	}
 	@Override
-	public File calculateOutputRoot(File projectRoot,String workspaceIdentifier){
+	public File calculateOutputRoot(File configFile,File projectRoot, String workspaceIdentifier){
 		return new File(projectRoot.getParentFile(), workspaceIdentifier);
 	}
 }

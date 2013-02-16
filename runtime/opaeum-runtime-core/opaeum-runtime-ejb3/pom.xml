@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>opaeum-runtime</artifactId>
+		<groupId>org.opaeum</groupId>
+		<version>1.0.3-SNAPSHOT</version>
+		<relativePath>../../../releng/org.opaeum.runtime.core.releng/pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-runtime-ejb3</artifactId>
+	<packaging>jar</packaging>
+	<name>Opaeum EJB3 Runtime</name>
+	<url>http://github.com/opaeum</url>
+	<properties>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.jboss.javaee</groupId>
+			<artifactId>jboss-ejb-api</artifactId>
+			<version>3.0.0.20070913080910</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.opaeum</groupId>
+			<artifactId>opaeum-runtime-domain</artifactId>
+		</dependency>
+	</dependencies>
+</project>

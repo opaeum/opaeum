@@ -44,7 +44,7 @@ public class OperationInvocationWizard extends Wizard{
 	public boolean performFinish(){
 		boolean result = true;
 		for(IPersistentObject po:target){
-			result &= eventHandler.handleOn(po);
+			result &= eventHandler.handleOn(po,input.getPersistence());
 		}
 		if(result){
 			input.setDirty(true);

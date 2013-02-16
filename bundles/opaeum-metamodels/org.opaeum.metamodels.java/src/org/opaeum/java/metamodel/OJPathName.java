@@ -50,11 +50,13 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 		return getLast();
 	}
 	public String getTypeNameWithTypeArguments(){
+		String result=null;
 		if(getElementTypes().isEmpty()){
-			return getLast();
+			result= getLast();
 		}else{
-			return getLast() + elementTypesToJavaString();
+			result= getLast() + elementTypesToJavaString();
 		}
+			return result;
 	}
 	/******************************************************
 	 * End of implemented operations.
@@ -92,6 +94,9 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 					result.append("<");
 				}else{
 					result.append(", ");
+				}
+				if(extendsElements.contains(elemType)){
+					result.append("? extends ");
 				}
 				result.append(elemType.getTypeNameWithTypeArguments());
 			}

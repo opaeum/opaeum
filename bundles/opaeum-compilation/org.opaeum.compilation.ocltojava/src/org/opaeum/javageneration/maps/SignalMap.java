@@ -15,32 +15,32 @@ public class SignalMap extends ClassifierMap implements IMessageMap{
 	public Signal getSignal(){
 		return signal;
 	}
-	public SignalMap(OJUtil ojUtil, Signal signal){
-		super(ojUtil,signal);
+	public SignalMap(OJUtil ojUtil,Signal signal){
+		super(ojUtil, signal);
 		this.signal = signal;
 	}
 	public OJPathName handlerTypePath(){
-		if(this.handlerTypePath==null){
+		if(this.handlerTypePath == null){
 			this.handlerTypePath = ojUtil.packagePathname(signal.getNamespace()).getCopy().append(signal.getName() + "Handler");
 		}
 		return handlerTypePath;
 	}
 	public OJPathName receiverContractTypePath(){
-		if(receiverTypePath==null){
-			receiverTypePath=ojUtil.packagePathname(signal.getNamespace()).getCopy().append(signal.getName() + "Receiver");
+		if(receiverTypePath == null){
+			receiverTypePath = ojUtil.packagePathname(signal.getNamespace()).getCopy().append(signal.getName() + "Receiver");
 		}
 		return receiverTypePath;
 	}
 	public String receiveMethodName(){
-		return JavaNameGenerator.toJavaName("receive" +  NameConverter.capitalize(signal.getName()));
+		return JavaNameGenerator.toJavaName("receive" + NameConverter.capitalize(signal.getName()));
 	}
 	public OJPathName eventHandlerPath(){
-		return new OJPathName(signal.getName() + "Handler");
+		return javaTypePath().getHead().getCopy().append(signal.getName() + "Handler");
 	}
 	public String eventGeratorMethodName(){
 		return JavaNameGenerator.toJavaName("generate" + signal.getName() + "Event");
 	}
 	public String eventConsumerMethodName(){
-		return  JavaNameGenerator.toJavaName("consume" + signal.getName() + "Event");
+		return JavaNameGenerator.toJavaName("consume" + signal.getName() + "Event");
 	}
 }

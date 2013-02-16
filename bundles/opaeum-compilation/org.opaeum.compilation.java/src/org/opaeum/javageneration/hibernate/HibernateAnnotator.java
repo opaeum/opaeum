@@ -29,6 +29,7 @@ import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPackage;
@@ -56,10 +57,12 @@ import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {PersistentObjectImplementor.class,JpaAnnotator.class,UtilCreator.class},after = {JpaAnnotator.class,
-		UtilCreator.class,CompositionNodeImplementor.class,PersistentObjectImplementor.class/*
-																											 * Dependendent on the markDelete method being created
-																											 */
+@StepDependency(phase = JavaTransformationPhase.class,requires = {PersistentObjectImplementor.class,JpaAnnotator.class,UtilCreator.class},after = {
+		JpaAnnotator.class,UtilCreator.class,CompositionNodeImplementor.class,PersistentObjectImplementor.class/*
+																																																						 * Dependendent on the
+																																																						 * markDelete method being
+																																																						 * created
+																																																						 */
 },before = {})
 public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitBefore(matchSubclasses = true)
@@ -87,12 +90,14 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	protected boolean visitComplexStructure(OJAnnotatedClass owner,Classifier complexType){
 		if(isPersistent(complexType)){
 			addAllInstances(complexType, owner);
-			owner.findField("persistence").setType(new OJPathName("org.opaeum.hibernate.domain.InternalHibernatePersistence"));
+			OJField persistence = owner.findField("persistence");
+			persistence.setType(new OJPathName("org.opaeum.hibernate.domain.InternalHibernatePersistence"));
 			OJAnnotationValue filter = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Filter"));
 			filter.putAttribute("name", "noDeletedObjects");
-			filter.putAttribute(new OJAnnotationAttributeValue("condition", "deleted_on > " + config.getDbDialect().getCurrentTimeStampString()));
+			if(config.isJpa2()){
+				filter.putAttribute(new OJAnnotationAttributeValue("condition", "deleted_on > " + config.getDbDialect().getCurrentTimeStampString()));
+			}
 			owner.putAnnotation(filter);
-
 			if(EmfClassifierUtil.isCompositionParticipant(complexType)){
 				Property endToComposite = getLibrary().getEndToComposite(complexType);
 				if(endToComposite != null

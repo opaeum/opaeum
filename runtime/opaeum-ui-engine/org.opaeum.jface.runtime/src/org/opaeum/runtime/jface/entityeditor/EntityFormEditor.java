@@ -107,7 +107,7 @@ public class EntityFormEditor extends OpaeumEditor implements IDirtyListener{
 	}
 	public Object getRootUimObject(){
 		IOpaeumApplication opaeumApplication = getOpaeumApplication();
-		Class<IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(getEditorInput().getPersistentObject());
+		Class<? extends IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(getEditorInput().getPersistentObject());
 		String uuid = originalClass.getAnnotation(NumlMetaInfo.class).uuid();
 		return opaeumApplication.getUserInteractionModel(uuid);
 	}

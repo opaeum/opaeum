@@ -50,6 +50,7 @@ public class JpaUtil{
 		RESERVED_NAMES.add("date");
 		RESERVED_NAMES.add("int");
 		RESERVED_NAMES.add("timestamp");
+		RESERVED_NAMES.add("datetime");
 	}
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config){
 		return buildTableAnnotation(owner, tableName, config, null);

@@ -77,7 +77,7 @@ public class Activator implements BundleActivator,ServiceListener{
 							Field sd = StandardContext.class.getDeclaredField("context");
 							sd.setAccessible(true);
 							if(contextFound == null){
-								contextFound = new ApplicationContext("", context){
+								contextFound = new ApplicationContext(context){
 									@Override
 									public void removeAttribute(String name){
 										// super.removeAttribute(name);
@@ -114,7 +114,7 @@ public class Activator implements BundleActivator,ServiceListener{
 											chain.doFilter(new HttpServletRequestWrapper((HttpServletRequest) request){
 												@Override
 												public String getPathInfo(){
-													if("/".equals(super.getPathInfo()) && getContextPath().equals("/opaeum")){
+													if("/".equals(super.getPathInfo())){
 														return null;
 													}
 													return super.getPathInfo();
@@ -148,7 +148,6 @@ public class Activator implements BundleActivator,ServiceListener{
 									NamingException,InstantiationException,ClassNotFoundException{
 								return newInstance(fqcn);
 							}
-							@Override
 							public Object newInstance(Class<?> c) throws IllegalAccessException,InvocationTargetException,NamingException,
 									InstantiationException{
 								// TODO Auto-generated method stub

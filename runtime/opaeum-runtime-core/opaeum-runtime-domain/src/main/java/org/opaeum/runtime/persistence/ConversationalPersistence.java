@@ -1,8 +1,10 @@
 package org.opaeum.runtime.persistence;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.persistence.event.ChangedEntity;
 
 
 
@@ -17,8 +19,9 @@ import org.opaeum.runtime.domain.IPersistentObject;
 public interface ConversationalPersistence extends AbstractPersistence{
 	void close();
 	void flush();
-	boolean containsStaleObjects();
-	Collection<IPersistentObject> refreshStaleObjects();
-	void upgradeStaleObjects();
+	Collection<IPersistentObject> reloadStaleObjects();
+	Map<ChangedEntity,IPersistentObject> synchronizeWithDatabaseAndFindConflicts();
+	void overwriteConflictsFromDatabase(Map<ChangedEntity,IPersistentObject> changes);
+	void overwriteDatabaseWithConflicts(Map<ChangedEntity,IPersistentObject> changes);
 	
 }

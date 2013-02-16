@@ -3,7 +3,7 @@ package org.opaeum.runtime.bpm.request;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.opaeum.audit.AbstractPersistentEnum;
+import org.opaeum.hibernate.domain.AbstractPersistentEnum;
 
 @Table(name="request_participation_kind")
 @Entity(name="RequestParticipationKindClass")

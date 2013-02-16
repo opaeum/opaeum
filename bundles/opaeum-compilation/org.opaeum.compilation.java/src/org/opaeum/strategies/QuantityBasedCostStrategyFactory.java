@@ -21,6 +21,7 @@ import org.opaeum.javageneration.basicjava.FormatterStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
 import org.opaeum.javageneration.persistence.JpaUtil;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.runtime.domain.BusinessTimeUnit;
@@ -30,7 +31,7 @@ public class QuantityBasedCostStrategyFactory extends AbstractStrategyFactory{
 	public static class MyAttributeStrategy implements AttributeStrategy{
 
 		@Override
-		public void applyTo(OJAnnotatedClass owner,AttributeInJava a,PropertyMap property){
+		public void applyTo(OJUtil ojUtil,OJAnnotatedClass owner,AttributeInJava a, PropertyMap property){
 		}
 		
 	}
@@ -69,7 +70,7 @@ public class QuantityBasedCostStrategyFactory extends AbstractStrategyFactory{
 			return getDefaultStringValue();
 		}
 		@Override
-		public String parseConfiguredValue(OJAnnotatedClass owner,OJBlock block,Property p,String configuredValue){
+		public String parseConfiguredValue(OJUtil ojUtil,OJAnnotatedClass owner,OJBlock block,Property p, String configuredValue){
 			return "new QuantityBasedCost(" + configuredValue + ")";
 		}
 		@Override

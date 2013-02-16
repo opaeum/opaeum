@@ -22,13 +22,12 @@ public class JpaIdTable implements JpaIdStrategy{
 			OJAnnotationValue generatedValue = new OJAnnotationValue(new OJPathName("javax.persistence.GeneratedValue"));
 			generatedValue.putAttribute(new OJAnnotationAttributeValue("strategy", new OJEnumValue(new OJPathName(
 					"javax.persistence.GenerationType"), "TABLE")));
-			String generatorName = PersistentNameUtil.getPersistentName(complexType) +"_id_generator";
+			String generatorName = "id_generator";
 			generatedValue.putAttribute(new OJAnnotationAttributeValue("generator", generatorName));
 			idField.putAnnotation(generatedValue);
 			OJAnnotationValue generator = new OJAnnotationValue(new OJPathName("javax.persistence.TableGenerator"));
 			generator.putAttribute(new OJAnnotationAttributeValue("name", generatorName));
 			generator.putAttribute(new OJAnnotationAttributeValue("table", "hi_value"));
-			generator.putAttribute(new OJAnnotationAttributeValue("valueColumnName", "sequence_next_hi_value"));
 			generator.putAttribute(new OJAnnotationAttributeValue("pkColumnName", "type"));
 			String tableName = PersistentNameUtil.getPersistentName(complexType).getAsIs();
 			generator.putAttribute(new OJAnnotationAttributeValue("pkColumnValue", tableName));

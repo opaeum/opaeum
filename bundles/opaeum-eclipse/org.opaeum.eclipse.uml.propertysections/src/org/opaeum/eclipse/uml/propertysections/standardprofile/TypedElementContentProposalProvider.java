@@ -31,6 +31,7 @@ public class TypedElementContentProposalProvider extends SimpleContentProposalPr
 		}
 	}
 	public IContentProposal[] getProposals(String contents,int position){
+		System.out.println("TypedElementContentProposalProvider.getProposals()");
 		List<IContentProposal> list = new ArrayList<IContentProposal>();
 		int i = 0;
 		for(i = position;i > 0;i--){
