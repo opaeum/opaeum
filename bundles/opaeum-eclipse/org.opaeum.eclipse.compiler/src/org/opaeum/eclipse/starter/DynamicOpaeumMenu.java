@@ -35,9 +35,9 @@ import org.opaeum.eclipse.simulation.GenerateSimulationModelAction;
 import org.opaeum.eclipse.versioning.CompileVersionAction;
 import org.opaeum.eclipse.versioning.GenerateMigrationProjectAction;
 import org.opaeum.eclipse.versioning.VersionAction;
+import org.opaeum.emf.extraction.AbstractEmfPhase;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.javageneration.MetaModelJavaTransformationStep;
-import org.opaeum.validation.ValidationPhase;
 
 public class DynamicOpaeumMenu extends CompoundContributionItem implements ICompoundContributionItem{
 	private IStructuredSelection selection;
@@ -110,7 +110,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 								actions.add(new ActionContributionItem(new RecompileModelLibraryAction(selection)));
 							}
 						}else if((firstElement instanceof Element)){
-							if(ValidationPhase.canBeProcessedIndividually((EObject) firstElement)){
+							if(AbstractEmfPhase.canBeProcessedIndividually((EObject) firstElement)){
 								actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
 							}
 						}

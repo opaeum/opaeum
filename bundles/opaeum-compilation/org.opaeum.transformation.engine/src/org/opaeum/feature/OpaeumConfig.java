@@ -66,7 +66,6 @@ public class OpaeumConfig{
 	private File file;
 	private SqlDialect sqlDialect;
 	private VersionNumber version;
-	
 	public OpaeumConfig(File file){
 		this.file = file;
 		if(file.exists()){
@@ -142,7 +141,7 @@ public class OpaeumConfig{
 			try{
 				c = Thread.currentThread().getContextClassLoader().loadClass(name);
 			}catch(ClassNotFoundException e){
-				throw new RuntimeException(e);
+				throw new RuntimeException(name, e);
 			}
 		}
 		return c;
@@ -276,8 +275,7 @@ public class OpaeumConfig{
 	public SourceFolderDefinition getSourceFolderDefinition(ISourceFolderIdentifier id){
 		return sourceFolderDefinitions.get(id);
 	}
-	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,ProjectNameStrategy pns,String projectQualifier,
-			String sourceFolderQualifier){
+	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,ProjectNameStrategy pns,String projectQualifier,String sourceFolderQualifier){
 		SourceFolderDefinition sfd = new SourceFolderDefinition(pns, projectQualifier, sourceFolderQualifier);
 		sourceFolderDefinitions.put(id, sfd);
 		String p = getProjectNameOverride();
@@ -321,7 +319,9 @@ public class OpaeumConfig{
 		if(property.trim().length() > 0){
 			String[] split = property.split(";");
 			for(String string:split){
-				result.add((Class<? extends ITransformationStep>) getClass(string));
+				if(string.length() > 0){
+					result.add((Class<? extends ITransformationStep>) getClass(string));
+				}
 			}
 		}
 		return result;
@@ -458,7 +458,7 @@ public class OpaeumConfig{
 		if(getJdbcConnectionUrl().contains("hsql")){
 			return DatabaseManagementSystem.HSQL.name();
 		}
-		//TODO etc
+		// TODO etc
 		return DatabaseManagementSystem.GENERIC.name();
 	}
 	public String getJdbcConnectionUrl(){
@@ -496,41 +496,45 @@ public class OpaeumConfig{
 		props.setProperty(UI_MODULE_ACTIVE, "" + t);
 	}
 	public boolean isJpa2(){
-		return props.getProperty("opaeum.persistence.jpa2","true").equals("true");
+		return props.getProperty("opaeum.persistence.jpa2", "true").equals("true");
 	}
 	public String getDbUserName(){
-		return props.getProperty(DB_USER,getApplicationIdentifier()+"_user");
+		return props.getProperty(DB_USER, getApplicationIdentifier() + "_user");
 	}
 	public void setDbUserName(String dbUserName){
-		this.props.setProperty(DB_USER,dbUserName);
+		this.props.setProperty(DB_USER, dbUserName);
 	}
 	public String getDbVendor(){
 		return props.getProperty(DB_VENDOR, "postgres");
 	}
 	public void setDbVendor(String dbVendor){
-		this.props.setProperty(DB_VENDOR,dbVendor);
+		this.props.setProperty(DB_VENDOR, dbVendor);
 	}
 	public void setDbPassword(String dbPassword){
-		this.props.setProperty(DB_PASSWORD,dbPassword);
+		this.props.setProperty(DB_PASSWORD, dbPassword);
 	}
 	public void setJdbcConnectionUrl(String jdbcConnectionUrl){
-		this.props.setProperty(JDBC_CONNECTION_URL,jdbcConnectionUrl);
+		this.props.setProperty(JDBC_CONNECTION_URL, jdbcConnectionUrl);
 	}
 	public void setJdbcDriver(String driver){
 		this.props.setProperty(JDBC_DRIVER, driver);
-		
 	}
 	public String getJdbcDriver(){
-		return this.props.getProperty(JDBC_DRIVER,"org.postgres.Driver");
-		
+		return this.props.getProperty(JDBC_DRIVER, "org.postgres.Driver");
 	}
 	public void setDbName(String driver){
 		this.props.setProperty(DB_NAME, driver);
-		
 	}
 	public String getDbName(){
-		return this.props.getProperty(DB_NAME,getApplicationIdentifier()+"_db");
-		
+		return this.props.getProperty(DB_NAME, getApplicationIdentifier() + "_db");
 	}
-	
+	public void addAdditionalTransformationStep(Class<?> class1){
+		String property = this.props.getProperty(ADDITIONAL_TRANSFORMATION_STEPS, "");
+		if(!property.contains(class1.getName())){
+			property = property + ";" + class1.getName();
+			this.props.setProperty(ADDITIONAL_TRANSFORMATION_STEPS, property);
+			registerClass(class1);
+			store();
+		}
+	}
 }

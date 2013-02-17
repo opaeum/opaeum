@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +30,7 @@ import org.eclipse.uml2.uml.ControlFlow;
 import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.DecisionNode;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
@@ -50,6 +52,7 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
 import org.eclipse.uml2.uml.ReadVariableAction;
 import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
@@ -697,4 +700,19 @@ public class EmfActivityUtil{
 		}
 		return Collections.emptyList();
 	}
+	public static Set<Event> getTopLevelEvents(Namespace ne){
+		Set<Event> result=new HashSet<Event>();
+		for(ActivityNode node:getActivityNodes(ne)){
+			if(node instanceof AcceptEventAction && EmfActivityUtil.getAllEffectiveIncoming(node).isEmpty()){
+				AcceptEventAction acceptEventAction = (AcceptEventAction) node;
+				for(Trigger t:acceptEventAction.getTriggers()){
+					if(t.getEvent() !=null){
+						result.add(t.getEvent());
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
 }

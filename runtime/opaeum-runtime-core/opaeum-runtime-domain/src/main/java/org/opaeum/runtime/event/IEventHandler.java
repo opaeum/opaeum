@@ -14,6 +14,6 @@ public interface IEventHandler{
 	boolean handleOn(Object target, AbstractPersistence persistence);
 	String getQueueName();
 	int getConsumerPoolSize();
-	Date scheduleNextOccurrence();
+	Date scheduleNextOccurrence(Object evaluationContext);
 	Date getFirstOccurrenceScheduledFor();
 }

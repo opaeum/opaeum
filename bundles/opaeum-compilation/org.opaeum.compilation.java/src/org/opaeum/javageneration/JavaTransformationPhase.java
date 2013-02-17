@@ -7,21 +7,10 @@ import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-import org.eclipse.uml2.uml.Action;
-import org.eclipse.uml2.uml.ActivityNode;
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Event;
-import org.eclipse.uml2.uml.Generalization;
-import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Package;
-import org.eclipse.uml2.uml.Property;
-import org.opaeum.eclipse.EmfActionUtil;
-import org.opaeum.eclipse.EmfAssociationUtil;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.emf.extraction.AbstractEmfPhase;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
@@ -37,12 +26,13 @@ import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.visitor.TextFileGeneratingVisitor;
 
 @PhaseDependency(after = {},before = {})
-public class JavaTransformationPhase implements TransformationPhase<JavaTransformationStep,Element>,IntegrationPhase{
+public class JavaTransformationPhase extends AbstractEmfPhase implements TransformationPhase<JavaTransformationStep,Element>,IntegrationPhase{
 	private static JavaTransformationPhase INSTANCE = new JavaTransformationPhase();
 	@InputModel
-	private TextWorkspace textWorkspace;
+	protected EmfWorkspace modelWorkspace;
+
 	@InputModel
-	private EmfWorkspace modelWorkspace;
+	private TextWorkspace textWorkspace;
 	@InputModel
 	OJWorkspace javaModel;
 	private OpaeumConfig config;
@@ -52,6 +42,10 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	public static final boolean IS_RUNTIME_AVAILABLE = false;
 	private TextWorkspace getTextWorkspaceInternal(){
 		return textWorkspace;
+	}
+	@Override
+	protected EmfWorkspace getModelWorkspace(){
+		return modelWorkspace;
 	}
 	public static TextWorkspace getTextWorkspace(){
 		return INSTANCE.getTextWorkspaceInternal();
@@ -84,46 +78,6 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 			context.featureApplied(f.getClass());
 		}
 		return files;
-	}
-	private Set<Element> calculateEffectiveChanges(Collection<Element> elements){
-		Set<Element> result = new HashSet<Element>();
-		for(Element object:elements){
-			Element ne = (Element) object;
-			if(ne instanceof Property && ((Property) ne).getAssociation() != null){
-				Association ass = (Association) ((Property) ne).getAssociation();
-				addAssociation(result, ass);
-			}else if(ne instanceof Association){
-				addAssociation(result, (Association) ne);
-			}else if(ne instanceof Generalization){
-				addProcessibleElementsRecursively(result, ((Generalization) ne).getSpecific());
-			}else if(ne instanceof InterfaceRealization){
-				addProcessibleElementsRecursively(result, ((InterfaceRealization) ne).getImplementingClassifier());
-			}
-			addProcessibleElementsRecursively(result, ne);
-		}
-		result.remove(null);// Just in case the null element was added
-		return result;
-	}
-	private void addAssociation(Set<Element> result,Association ass){
-		if(EmfAssociationUtil.isClass(ass)){
-			addProcessibleElementsRecursively(result, ass);
-		}
-		for(Property p:ass.getAttributes()){
-			addProcessibleElementsRecursively(result, p);
-		}
-	}
-	private void addProcessibleElementsRecursively(Set<Element> result,Element ne){
-		if(ne != null){
-			Element processibleElement = getProcessibleElement(ne);
-			result.add(processibleElement);
-		}
-	}
-	private Element getProcessibleElement(Element ne){
-		while(!(ne instanceof Classifier || ne instanceof Package || ne instanceof Event || ne == null
-				|| ne instanceof Operation || (ne instanceof Action && EmfActionUtil.isEmbeddedTask((ActivityNode) ne)))){
-			ne = (Element) EmfElementFinder.getContainer(ne);
-		}
-		return ne;
 	}
 	@Override
 	public void execute(TransformationContext context){
@@ -174,4 +128,5 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		}
 		UtilityCreator.setUtilPackage(null);
 	}
+	
 }

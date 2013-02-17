@@ -1,0 +1,3 @@
+#set($shouldGenerate=true)
+target
+bin

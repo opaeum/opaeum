@@ -25,4 +25,11 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>bpm-src</name>
+			<type>2</type>
+			<location>/home/ampie/NewWorkspaces/cm1/cm-entity/opaeum-runtime-bpm/src/main/java</location>
+		</link>
+	</linkedResources>	
 </projectDescription>

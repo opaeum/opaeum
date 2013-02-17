@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmf.runtime.notation.Connector;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.ui.internal.views.properties.tabbed.TabbedPropertyViewPlugin;
 import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyRegistry;
@@ -52,8 +53,11 @@ import org.opaeum.eclipse.uml.filters.bpm.SendNotificationActionFilter;
 import org.opaeum.eclipse.uml.filters.bpm.StakeholderContainerFilter;
 import org.opaeum.eclipse.uml.filters.bpm.TaskFilter;
 import org.opaeum.eclipse.uml.filters.compositestructures.DelegationFilter;
+import org.opaeum.eclipse.uml.filters.compositestructures.InterfacesFilter;
+import org.opaeum.eclipse.uml.filters.compositestructures.PrimaryRoleFilter;
 import org.opaeum.eclipse.uml.filters.core.AbstractFilter;
 import org.opaeum.eclipse.uml.filters.core.AssociationEndFilter;
+import org.opaeum.eclipse.uml.filters.core.BehavioredClassifierNotBehaviorFilter;
 import org.opaeum.eclipse.uml.filters.core.ClassifierNotAssociationFilter;
 import org.opaeum.eclipse.uml.filters.core.ConstraintFilter;
 import org.opaeum.eclipse.uml.filters.core.EscalationFilter;
@@ -89,12 +93,14 @@ import org.opaeum.eclipse.uml.propertysections.bpmprofile.TaskPotentialOwnersSec
 import org.opaeum.eclipse.uml.propertysections.compositestructures.ConnectorSelectionSection;
 import org.opaeum.eclipse.uml.propertysections.compositestructures.PortProvidedInterfaces;
 import org.opaeum.eclipse.uml.propertysections.compositestructures.PortRequiredInterfaces;
+import org.opaeum.eclipse.uml.propertysections.compositestructures.PropertyPrimaryCompositionRole;
 import org.opaeum.eclipse.uml.propertysections.constraints.BehaviorPostconditionsSection;
 import org.opaeum.eclipse.uml.propertysections.constraints.BehaviorPreconditionsSection;
 import org.opaeum.eclipse.uml.propertysections.constraints.ClassInvariantsSection;
 import org.opaeum.eclipse.uml.propertysections.constraints.OperationPostconditionsSection;
 import org.opaeum.eclipse.uml.propertysections.constraints.OperationPreconditionsSection;
 import org.opaeum.eclipse.uml.propertysections.core.BehaviorParametersSection;
+import org.opaeum.eclipse.uml.propertysections.core.BehavioredClassifierClassifierBehaviorSection;
 import org.opaeum.eclipse.uml.propertysections.core.ClassifierIsAbstractSection;
 import org.opaeum.eclipse.uml.propertysections.core.ConstraintValueSpecificationSection;
 import org.opaeum.eclipse.uml.propertysections.core.EObjectErrorSection;
@@ -235,6 +241,7 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		addBasic(Slot.class, new SlotFeatureSection());
 		addBasic(TypedElement.class, new TypedElementTypeSection());
 		addBasic(new AssociationEndFilter(), new AssociationEndNavigabilityAndCompositionSection());
+		addBasic(new BehavioredClassifierNotBehaviorFilter(), new BehavioredClassifierClassifierBehaviorSection());
 		// Constraints
 		addPreconditions(Operation.class, new OperationPreconditionsSection());
 		addPostconditions(Operation.class, new OperationPostconditionsSection());
@@ -309,6 +316,12 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		addExtended(Model.class, new ModelModelTypeSection());
 		addSecondEnd(Association.class, new SecondEndRoleInCubeSection());
 		add(NamedElement.class, new UserInterfaceTextSection()).setTabId("org.opaeum.eclipse.i8nTab");
+		//Composite Structures
+		addBasic(new DelegationFilter(), new ConnectorSelectionSection());
+		addBasic(new InterfacesFilter(), new PortRequiredInterfaces());
+		addBasic(new InterfacesFilter(), new PortProvidedInterfaces());
+		addBasic(new InterfacesFilter(), new PortProvidedInterfaces());
+		addBasic(new PrimaryRoleFilter(), new PropertyPrimaryCompositionRole());
 		// StateMachine
 		addBasic(Transition.class, new TransitionGuardSection());
 		addBasic(Transition.class, new TransitionTriggerSection());

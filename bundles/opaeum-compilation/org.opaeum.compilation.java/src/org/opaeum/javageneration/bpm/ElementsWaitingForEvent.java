@@ -14,6 +14,8 @@ import org.eclipse.uml2.uml.NamedElement;
  * @author ampie
  * 
  */
+//TODO refactor out of existence?
+
 public class ElementsWaitingForEvent{
 	Event event;
 	private Set<NamedElement> waitingNodes = new HashSet<NamedElement>();

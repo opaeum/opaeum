@@ -25,7 +25,7 @@ public class TransitionRedefinedTransitionSection extends AbstractChooserPropert
 		StateMachine sm = EmfStateMachineUtil.getStateMachine(getTransition());
 		for(Classifier psm:sm.getGenerals()){
 			if(psm instanceof StateMachine){
-				result.addAll(EmfStateMachineUtil.getTransitions((StateMachine) psm));
+				result.addAll(EmfStateMachineUtil.getTransitionsRecursively((StateMachine) psm));
 			}
 		}
 		result.add("");

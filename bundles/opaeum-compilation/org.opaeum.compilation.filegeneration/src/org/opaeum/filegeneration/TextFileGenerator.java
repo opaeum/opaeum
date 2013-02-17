@@ -9,6 +9,7 @@ import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.feature.visit.VisitSpec;
+import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextDirectory;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextOutputNode;
@@ -39,7 +40,16 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements ITrans
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitTextFileDirectory(TextDirectory textDir){
-		getDirectoryFor(textDir);
+		if(textDir.getSourceFolder().getProject().getName().equals("org.opeum.demo1.app")){
+			if(textDir.getName().equals("src") || textDir.getName().equals("bpm-src")){
+				System.out.println();
+			}
+		}
+		if(textDir instanceof SourceFolder && !((SourceFolder) textDir).isRegenerated()){
+			// do nothing,nocode generated into this folder
+		}else{
+			getDirectoryFor(textDir);
+		}
 	}
 	private File getDirectoryFor(TextDirectory textDir){
 		try{
@@ -76,7 +86,7 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements ITrans
 	protected void visitParentsRecursively(TextOutputNode node){
 		if(node != null){
 			visitParentsRecursively(node.getParent());
-			for(VisitSpec v:methodInvokers. beforeMethods){
+			for(VisitSpec v:methodInvokers.beforeMethods){
 				maybeVisit(node, v);
 			}
 		}

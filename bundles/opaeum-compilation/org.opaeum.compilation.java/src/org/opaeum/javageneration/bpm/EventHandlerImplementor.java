@@ -159,9 +159,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			ifIsEvent.getElsePart().addToStatements(
 					"((" + map.receiverContractTypePath().getLast() + ")target)." + map.receiveMethodName() + "(signal)");
 			ifIsEvent.getElsePart().addToStatements("result = true");
-			OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
-			handler.addToOperations(scheduleNextOccurrence);
-			handler.addToImports(new OJPathName(Date.class.getName()));
+			OJAnnotatedOperation scheduleNextOccurrence = createScheduleNextOccurrence(handler);
 			scheduleNextOccurrence.getBody().addToStatements("return new Date(System.currentTimeMillis() + 1000*60*60*24)");
 		}
 	}
@@ -205,27 +203,27 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private void visitChangeEvent(NamedElement e){
 		OJPathName handlerPathName = eventUtil.handlerPathName(e);
 		OJPackage pkg = findOrCreatePackage(handlerPathName.getHead());
-		OJAnnotatedClass ojClass = new OJAnnotatedClass(handlerPathName.getLast());
-		ojClass.addToImplementedInterfaces(new OJPathName(IChangeEventHandler.class.getName()));
-		pkg.addToClasses(ojClass);
-		ojClass.addToConstructors(new OJConstructor());
+		OJAnnotatedClass handler = new OJAnnotatedClass(handlerPathName.getLast());
+		handler.addToImplementedInterfaces(new OJPathName(IChangeEventHandler.class.getName()));
+		pkg.addToClasses(handler);
+		handler.addToConstructors(new OJConstructor());
 		OJConstructor constr = new OJConstructor();
-		ojClass.addToConstructors(constr);
+		handler.addToConstructors(constr);
 		constr.addParam("token", new OJPathName(AbstractToken.class.getName()));
-		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+		createTextPath(handler, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		constr.getBody().addToStatements("this.returnInfo=new ReturnInfo(token)");
-		addNodeId(ojClass);
-		addCommonMethods(e, ojClass);
+		addNodeId(handler);
+		addCommonMethods(e, handler);
 		OJAnnotatedOperation marshall = buildMarshall(null, "this", new ArrayList<TypedElement>(), true);
-		ojClass.addToOperations(marshall);
+		handler.addToOperations(marshall);
 		OJAnnotatedOperation unMarshall = buildUnmarshall(null, "this", new ArrayList<TypedElement>(), true);
-		ojClass.addToOperations(unMarshall);
+		handler.addToOperations(unMarshall);
 		OJAnnotatedOperation handleOn = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
-		ojClass.addToOperations(handleOn);
+		handler.addToOperations(handleOn);
 		handleOn.addParam("object", new OJPathName("Object"));
 		handleOn.addParam("persistence", new OJPathName(AbstractPersistence.class.getName()));
 		OJPathName eventTargetPath = ojUtil.classifierPathname(getLibrary().getEventGeneratingClassifier(e));
-		ojClass.addToImports(eventTargetPath);
+		handler.addToImports(eventTargetPath);
 		OJAnnotatedField target = new OJAnnotatedField("target", eventTargetPath);
 		target.setInitExp("(" + eventTargetPath.getLast() + ")object");
 		handleOn.getBody().addToLocals(target);
@@ -233,11 +231,8 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				new OJIfStatement("target." + EventUtil.evaluatorName(e) + "()", "return target." + eventUtil.getEventConsumerName(e)
 						+ "(returnInfo.getValue((InternalHibernatePersistence)persistence))"));
 		handleOn.getBody().addToStatements("return false");
-		addGetConsumerPoolSize(ojClass, 5);
-		OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
-		ojClass.addToOperations(scheduleNextOccurrence);
-		scheduleNextOccurrence.addParam("object", new OJPathName("Object"));
-		ojClass.addToImports(new OJPathName(Date.class.getName()));
+		addGetConsumerPoolSize(handler, 5);
+		OJAnnotatedOperation scheduleNextOccurrence = createScheduleNextOccurrence(handler);
 		scheduleNextOccurrence.getBody().addToStatements(
 				"return ((" + eventTargetPath.getLast() + ")object)." + EventUtil.intervalCalculatorName(e) + "()");
 	}
@@ -286,11 +281,9 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedField target = new OJAnnotatedField("target", behaviorPath);
 		target.setInitExp("(" + behaviorPath.getLast() + ")object");
 		handleOn.getBody().addToLocals(target);
-		handleOn.getBody().addToStatements("return target." + eventUtil.getEventConsumerName(e) + "(firstOccurrenceScheduledFor,returnInfo.getValue((InternalHibernatePersistence)persistence))");
+		handleOn.getBody().addToStatements("return target." + eventUtil.getEventConsumerName(e) + "(returnInfo.getValue((InternalHibernatePersistence)persistence),firstOccurrenceScheduledFor)");
 		addGetConsumerPoolSize(ojClass, 5);
-		OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
-		ojClass.addToOperations(scheduleNextOccurrence);
-		ojClass.addToImports(new OJPathName(Date.class.getName()));
+		OJAnnotatedOperation scheduleNextOccurrence = createScheduleNextOccurrence(ojClass);
 		scheduleNextOccurrence.getBody().addToStatements("return new Date(System.currentTimeMillis() + 1000*60*60*24*10)");
 	}
 	private void addNodeId(OJAnnotatedClass ojClass){
@@ -413,15 +406,20 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				manageInvocation(o, map, invoke, ifEvent.getElsePart(), call);
 				ifEvent.getElsePart().addToStatements("return true");
 				addGetConsumerPoolSize(handler, 5);
-				OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(
-						Date.class.getName()));
-				handler.addToOperations(scheduleNextOccurrence);
-				handler.addToImports(new OJPathName(Date.class.getName()));
+				OJAnnotatedOperation scheduleNextOccurrence = createScheduleNextOccurrence(handler);
 				scheduleNextOccurrence.getBody().addToStatements("return new Date(System.currentTimeMillis() + 1000*60*60*24*10)");
 				ResponsibilityDefinition rd = getLibrary().getResponsibilityDefinition(o, StereotypeNames.RESPONSIBILITY);
 				implementDeadlinesAndEscalations(rd);
 			}
 		}
+	}
+	public OJAnnotatedOperation createScheduleNextOccurrence(OJAnnotatedClass handler){
+		OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(
+				Date.class.getName()));
+		scheduleNextOccurrence.addParam("object", new OJPathName("Object"));
+		handler.addToOperations(scheduleNextOccurrence);
+		handler.addToImports(new OJPathName(Date.class.getName()));
+		return scheduleNextOccurrence;
 	}
 	private void addIsEvent(OJAnnotatedClass handler,OJConstructor argConstr,OJAnnotatedOperation marshall,OJAnnotatedOperation unmarshall){
 		OJUtil.addPersistentProperty(handler, "isEvent", new OJPathName("boolean"), true);

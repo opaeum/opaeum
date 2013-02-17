@@ -53,7 +53,7 @@ public abstract class AbstractRequiredStatesSection extends AbstractUmlReference
 			
 		}
 		if(sm!=null){
-			Collection<State> allStates = EmfStateMachineUtil.getAllStates(sm);
+			Collection<State> allStates = EmfStateMachineUtil.getStatesRecursively(sm);
 			result.addAll(allStates);
 		}
 		return result;

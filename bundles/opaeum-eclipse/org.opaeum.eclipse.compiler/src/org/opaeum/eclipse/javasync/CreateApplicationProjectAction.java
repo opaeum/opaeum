@@ -3,6 +3,8 @@ package org.opaeum.eclipse.javasync;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
@@ -14,7 +16,10 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
@@ -29,11 +34,14 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.rap.OpaeumApplicationGenerator;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.rap.RapCapabilities;
 import org.opaeum.rap.RapProjectBuilder;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -58,6 +66,7 @@ public class CreateApplicationProjectAction extends AbstractDirectoryReadingActi
 				protected IStatus run(final IProgressMonitor monitor){
 					TransformationProcess p = null;
 					try{
+						currentContext.getConfig().addAdditionalTransformationStep(RapCapabilities.class);
 						// Create wizard selection wizard.
 						monitor.beginTask("Loading All Models", 1000);
 						p = prepareDirectoryForTransformation(folder, monitor);
@@ -75,14 +84,15 @@ public class CreateApplicationProjectAction extends AbstractDirectoryReadingActi
 							p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
 						}
 						monitor.subTask("Generating text files");
-						RapProjectBuilder rpb = new RapProjectBuilder();
-						rpb.initialize(currentContext.getConfig(), p.findModel(TextWorkspace.class), ws,
-								p.findModel(OJUtil.class));
-						rpb.beforeWorkspace(ws);
-						OpaeumApplicationGenerator oag = new OpaeumApplicationGenerator();
-						oag.initialize(p.findModel(OJWorkspace.class), currentContext.getConfig(), p.findModel(TextWorkspace.class),
-								ws, p.findModel(OJUtil.class));
-						oag.beforeWorkspace(ws);
+//						RapProjectBuilder rpb = new RapProjectBuilder();
+//						rpb.initialize(currentContext.getConfig(), p.findModel(TextWorkspace.class), ws,
+//								p.findModel(OJUtil.class));
+//						rpb.setTransformationContext(new TransformationContext());
+//						rpb.beforeWorkspace(ws);
+//						OpaeumApplicationGenerator oag = new OpaeumApplicationGenerator();
+//						oag.initialize(p.findModel(OJWorkspace.class), currentContext.getConfig(), p.findModel(TextWorkspace.class),
+//								ws, p.findModel(OJUtil.class));
+//						oag.beforeWorkspace(ws);
 						JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p, true);
 						wizard.getNewProject().refreshLocal(IProject.DEPTH_INFINITE, null);
 						currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
@@ -117,9 +127,14 @@ public class CreateApplicationProjectAction extends AbstractDirectoryReadingActi
 					Field f = WizardNewProjectCreationPage.class.getDeclaredField("locationArea");
 					f.setAccessible(true);
 					ProjectContentsLocationArea pla = (ProjectContentsLocationArea) f.get(p);
-					Method m = ProjectContentsLocationArea.class.getDeclaredMethod("setUserAreaEnabled", boolean.class);
+					Field bf = ProjectContentsLocationArea.class.getDeclaredField("useDefaultsButton");
+					bf.setAccessible(true);
+					Button b=(Button) bf.get(pla);
+					b.setSelection(false);
+					Method m = Widget.class.getDeclaredMethod("sendSelectionEvent", int.class);
 					m.setAccessible(true);
-					m.invoke(pla, true);
+					m.invoke(b, SWT.Selection);
+				
 				}catch(Exception e){
 					System.out.println(e);
 				}

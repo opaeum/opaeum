@@ -14,6 +14,7 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Generalization;
@@ -129,6 +130,9 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 	public static void implementInterfacesIfNecessary(Object newValue){
 		if(newValue instanceof Activity){
 			implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINES_PROCESS, StereotypeNames.PKG_REQUEST_OBJECT);
+		}
+		if(newValue instanceof Collaboration){
+			implementAppropriateInterface((Element) newValue, StereotypeNames.BUSINESS_COLLABORATION, StereotypeNames.PKG_ORGANIZATION);
 		}
 		if(newValue instanceof OpaqueBehavior){
 			implementAppropriateInterface((Element) newValue, StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK, StereotypeNames.PKG_REQUEST_OBJECT);

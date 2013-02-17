@@ -98,7 +98,7 @@ public class EmfEventUtil{
 	}
 	public static Collection<Event> getAllEvents(StateMachine sm){
 		Collection<Event> events = new TreeSet<Event>(new ElementComparator());
-		Collection<Transition> transitions = EmfStateMachineUtil.getTransitions(sm);
+		Collection<Transition> transitions = EmfStateMachineUtil.getTransitionsRecursively(sm);
 		for(Transition transition:transitions){
 			EList<Trigger> triggers = transition.getTriggers();
 			for(Trigger trigger:triggers){

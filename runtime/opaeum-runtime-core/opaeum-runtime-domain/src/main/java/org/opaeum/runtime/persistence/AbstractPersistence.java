@@ -1,10 +1,12 @@
 package org.opaeum.runtime.persistence;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IPersistentStringEnum;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
+import org.opaeum.runtime.organization.IParticipantBase;
+import org.opaeum.runtime.organization.IPersonNode;
 
 public interface AbstractPersistence{
 	<T>T getReference(Class<T> t,Long id);
@@ -15,7 +17,7 @@ public interface AbstractPersistence{
 	<T extends IPersistentStringEnum>T find(Class<T> t,String id);
 	boolean contains(IPersistentObject p);
 	Query createQuery(String q);
-	<T> Collection<T> readAll(Class<T> c);
+	<T> List<T> readAll(Class<T> c);
 	/**
 	 * Primarily for tests
 	 * @param ctx
@@ -26,6 +28,6 @@ public interface AbstractPersistence{
 	void setFilterDeletedObjects(boolean v);
 	boolean isFilterDeletedObjects();
 	boolean isOpen();
-
-
+	IPersonNode getCurrentUser();
+	IParticipantBase getCurrentRole();
 }

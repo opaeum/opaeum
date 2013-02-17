@@ -1,12 +1,16 @@
 package org.opaeum.hibernate.domain;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IPersistentStringEnum;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
+import org.opaeum.runtime.organization.IBusinessRoleBase;
+import org.opaeum.runtime.organization.IParticipantBase;
+import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.Query;
 
@@ -17,6 +21,8 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 	protected Environment environment;
 	public static int COUNT;
 	public static int SESSION_COUNT;
+	private IParticipantBase currentRole;
+	private IPersonNode currentUser;
 	public AbstractHibernatePersistence(Session session ,Environment environment){
 		this(environment);
 		this.setSession(session);
@@ -26,6 +32,20 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 		COUNT++;
 		SESSION_COUNT++;
 		this.environment=e;
+	}
+	@Override
+	public IParticipantBase getCurrentRole(){
+		if(environment.getCurrentRole()!=null && (currentRole==null || (environment.getCurrentRole().getValue()!=null && !environment.getCurrentRole().getValue().equals(currentRole)))){
+			currentRole=(IParticipantBase) environment.getCurrentRole().retrieveValue(this);
+		}
+		return currentRole;
+	}
+	@Override
+	public IPersonNode getCurrentUser(){
+		if(currentUser==null){
+			currentUser=(IPersonNode) environment.getCurrentUser().retrieveValue(this);
+		}
+		return currentUser;
 	}
 	@Override
 	public boolean isOpen(){
@@ -73,7 +93,7 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 		return new HibernateQuery(createQuery);
 	}
 	@Override
-	public <T>Collection<T> readAll(Class<T> c){
+	public <T>List<T> readAll(Class<T> c){
 		return getSession().createCriteria(c).list();
 	}
 	@Override

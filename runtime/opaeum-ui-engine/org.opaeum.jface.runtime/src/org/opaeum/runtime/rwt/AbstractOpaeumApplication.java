@@ -39,7 +39,7 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 	Map<String,AbstractUserInteractionModel> userInteractionModels = Collections
 			.synchronizedMap(new HashMap<String,AbstractUserInteractionModel>());
 	private Validator validator;
-	private ConversationalPersistence applicationPersistence;
+	protected ConversationalPersistence applicationPersistence;
 	protected AbstractOpaeumApplication(Bundle bundle){
 		super();
 		this.bundle = bundle;

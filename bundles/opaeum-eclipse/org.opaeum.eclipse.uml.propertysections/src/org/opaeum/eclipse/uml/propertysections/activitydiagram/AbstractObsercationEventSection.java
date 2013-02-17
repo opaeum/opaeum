@@ -71,7 +71,7 @@ public abstract class AbstractObsercationEventSection extends AbstractChooserPro
 		EObject container = EmfElementFinder.getContainer(getEObject());
 		Collection<Object> result = new HashSet<Object>();
 		if(container instanceof StateMachine){
-			result.addAll(EmfStateMachineUtil.getAllStates((StateMachine) container));
+			result.addAll(EmfStateMachineUtil.getStatesRecursively((StateMachine) container));
 		}else if(container instanceof StructuredActivityNode){
 			result.addAll(((StructuredActivityNode) container).getNodes());
 		}else if(container instanceof Activity){
@@ -83,7 +83,7 @@ public abstract class AbstractObsercationEventSection extends AbstractChooserPro
 				OpenUmlFile ouf = OpaeumEclipseContext.getContextFor(observation).getEditingContextFor(observation);
 				StateMachine to = ouf.getEmfWorkspace().getOpaeumLibrary().getTaskRequest();
 				if(to != null){
-					result.addAll(EmfStateMachineUtil.getAllStates(to));
+					result.addAll(EmfStateMachineUtil.getStatesRecursively(to));
 				}
 			}
 		}

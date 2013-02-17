@@ -112,7 +112,7 @@ public class NameUniquenessValidation extends AbstractValidator{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitStateMachine(StateMachine nc){
-		ensureUniqueness(nc, "all states recursively", EmfStateMachineUtil.getAllStates(nc));
+		ensureUniqueness(nc, "all states recursively", EmfStateMachineUtil.getStatesRecursively(nc));
 	}
 	private void ensureUniqueness(NamedElement context,String feature,Collection<? extends NamedElement> ownedRules){
 		for(NamedElement c1:ownedRules){

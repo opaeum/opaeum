@@ -8,16 +8,20 @@ Export-Package: org.eclipse.papyrus.uml.diagram.usecase,
  org.eclipse.papyrus.uml.diagram.usecase.edit.policies,
  org.eclipse.papyrus.uml.diagram.usecase.expressions,
  org.eclipse.papyrus.uml.diagram.usecase.figure,
+ org.eclipse.papyrus.uml.diagram.usecase.handler,
  org.eclipse.papyrus.uml.diagram.usecase.helper,
  org.eclipse.papyrus.uml.diagram.usecase.navigator,
  org.eclipse.papyrus.uml.diagram.usecase.parsers,
  org.eclipse.papyrus.uml.diagram.usecase.part,
  org.eclipse.papyrus.uml.diagram.usecase.preferences,
  org.eclipse.papyrus.uml.diagram.usecase.providers,
- org.eclipse.papyrus.uml.diagram.usecase.sheet
+ org.eclipse.papyrus.uml.diagram.usecase.sheet,
+ org.eclipse.papyrus.uml.diagram.usecase.ui,
+ org.opaeum.papyrus.usecasediagram.part,
+ org.opaeum.papyrus.usecasediagram.providers
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- plugins/org.eclipse.papyrus.uml.diagram.usecase_0.9.0.opaeum.jar
+ plugins/org.eclipse.papyrus.uml.diagram.usecase_0.9.1.opaeum.jar
 Bundle-Name: Opaeum Use Case Diagram
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,

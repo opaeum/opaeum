@@ -1,7 +1,6 @@
 package org.opaeum.runtime.environment;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.URL;
@@ -18,10 +17,9 @@ import java.util.Properties;
 
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.ExceptionAnalyser;
+import org.opaeum.runtime.domain.IAnyValue;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.event.EventService;
-import org.opaeum.runtime.organization.IParticipantBase;
-import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.DatabaseManagementSystem;
@@ -53,8 +51,9 @@ public abstract class Environment{
 	private DatabaseManagementSystem dbms;
 	private long refreshInterval = 5000;
 	private Locale defaultLocale;
-	private ThreadLocal<IPersonNode> currentUser = new ThreadLocal<IPersonNode>();
-	private ThreadLocal<IParticipantBase> currentRole = new ThreadLocal<IParticipantBase>();
+	private ThreadLocal<IAnyValue> currentUser = new ThreadLocal<IAnyValue>();
+	private ThreadLocal<IAnyValue> currentRole = new ThreadLocal<IAnyValue>();
+	private ThreadLocal<Locale> userPreferredLocal=new ThreadLocal<Locale>();
 	static Map<Locale,Properties> messages = new HashMap<Locale,Properties>();
 	// static private Map<String,Class<?>> classes = new HashMap<String,Class<?>>();
 	private static Map<String,Locale> localeMap;
@@ -80,16 +79,16 @@ public abstract class Environment{
 		instanceMap.remove(getApplicationIdentifier());
 		classInstanceMap.remove(getClass());
 	}
-	public IPersonNode getCurrentUser(){
+	public IAnyValue getCurrentUser(){
 		return currentUser.get();
 	}
-	public IParticipantBase getCurrentRole(){
+	public IAnyValue getCurrentRole(){
 		return currentRole.get();
 	}
-	public void setCurrentUser(IPersonNode currentUser){
+	public void setCurrentUser(IAnyValue currentUser){
 		this.currentUser.set(currentUser);
 	}
-	public void setCurrentRole(IParticipantBase currentRole){
+	public void setCurrentRole(IAnyValue currentRole){
 		this.currentRole.set(currentRole);
 	}
 	public void putProperty(String name,String value){
@@ -141,8 +140,8 @@ public abstract class Environment{
 	public String getMessage(String string,Object...args){
 		maybeRefresh();
 		Locale l = Locale.getDefault();
-		if(getCurrentUser().getPreferredLocale() != null){
-			l = getCurrentUser().getPreferredLocale();
+		if(getUserPreferredLocale() != null){
+			l = getUserPreferredLocale();
 		}else if(getDefaultLocale() != null){
 			l = getDefaultLocale();
 		}
@@ -161,6 +160,9 @@ public abstract class Environment{
 		}else{
 			return MessageFormat.format(message, args);
 		}
+	}
+	public Locale getUserPreferredLocale(){
+		return userPreferredLocal.get();
 	}
 	private String getDefaultMessage(String string){
 		String[] split = string.split("\\:\\:");

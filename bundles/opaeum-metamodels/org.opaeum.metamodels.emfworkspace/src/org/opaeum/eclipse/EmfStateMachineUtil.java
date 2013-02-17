@@ -53,7 +53,7 @@ public class EmfStateMachineUtil{
 		}
 		return results;
 	}
-	public static Collection<State> getAllStates(StateMachine stateMachine){
+	public static Collection<State> getStatesRecursively(StateMachine stateMachine){
 		Collection<State> results = new TreeSet<State>(new ElementComparator());
 		addStatesRecursively(results, stateMachine.getRegions());
 		return results;
@@ -215,18 +215,18 @@ public class EmfStateMachineUtil{
 		}
 		return false;
 	}
-	public static Collection<Transition> getTransitions(StateMachine ns){
+	public static Collection<Transition> getTransitionsRecursively(StateMachine ns){
 		Collection<Transition> result = new TreeSet<Transition>(new ElementComparator());
 		EList<Region> regions = ns.getRegions();
-		addTransitions(result, regions);
+		addTransitionsRecursively(result, regions);
 		return result;
 	}
-	private static void addTransitions(Collection<Transition> result,EList<Region> regions){
+	private static void addTransitionsRecursively(Collection<Transition> result,EList<Region> regions){
 		for(Region region:regions){
 			result.addAll(region.getTransitions());
 			for(Vertex vertex:region.getSubvertices()){
 				if(vertex instanceof State){
-					addTransitions(result, ((State) vertex).getRegions());
+					addTransitionsRecursively(result, ((State) vertex).getRegions());
 				}
 			}
 		}

@@ -4,6 +4,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.AccessType;
+import org.opaeum.runtime.domain.IAnyValue;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 

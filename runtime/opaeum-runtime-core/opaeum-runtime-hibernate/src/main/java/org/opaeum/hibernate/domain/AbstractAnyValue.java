@@ -2,9 +2,11 @@ package org.opaeum.hibernate.domain;
 
 import javax.persistence.Embeddable;
 
+import org.opaeum.runtime.domain.IAnyValue;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable()
 public abstract class AbstractAnyValue implements IAnyValue{
@@ -21,20 +23,26 @@ public abstract class AbstractAnyValue implements IAnyValue{
 	public abstract void setValue(IPersistentObject v);
 	public abstract String getClassIdentifier();
 	public abstract void setClassIdentifier(String classIdentifier);
-	public void updateBeforeFlush(InternalHibernatePersistence hp){
+	public void updateBeforeFlush(AbstractPersistence hp){
 		if(shouldCascade() && getValue().getId()==null){
-			hp.persistBeforeFlush(getValue());
+			((InternalHibernatePersistence)hp).persistBeforeFlush(getValue());
 		}
 		setClassIdentifier(getClassIdentifier(IntrospectionUtil.getOriginalClass(getValue()),hp.getMetaInfoMap()));
 		setIdentifier(getValue().getId());
 	}
 
-	public IPersistentObject getValue(InternalHibernatePersistence p){
+	public IPersistentObject getValue(AbstractPersistence p){
 		if(hasValue() && (getValue() == null)){
-			Class<?> implementationClass = getImplementationClass(p.getMetaInfoMap());
-			setValue((IPersistentObject) p.getReference(implementationClass, getIdentifier()));
+			IPersistentObject reference = retrieveValue(p);
+			setValue(reference);
 		}
 		return getValue();
+	}
+	@Override
+	public IPersistentObject retrieveValue(AbstractPersistence p){
+		Class<?> implementationClass = getImplementationClass(p.getMetaInfoMap());
+		IPersistentObject reference = (IPersistentObject) p.getReference(implementationClass, getIdentifier());
+		return reference;
 	}
 	public boolean hasValue(){
 		return getIdentifier() != null || getValue() != null;

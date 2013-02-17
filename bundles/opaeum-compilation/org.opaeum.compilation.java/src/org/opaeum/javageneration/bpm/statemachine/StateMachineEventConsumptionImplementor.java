@@ -5,14 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.Vertex;
+import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -34,10 +37,22 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 	public void visitStateMachine(StateMachine umlStateMachine){
 		OJAnnotatedClass javaStateMachine = findJavaClass(umlStateMachine);
 		super.implementEventConsumption(javaStateMachine, umlStateMachine, getWaitForEventElements(umlStateMachine));
+		for(Transition transition:EmfStateMachineUtil.getTransitionsRecursively(umlStateMachine)){
+			Collection<Trigger> triggers = transition.getTriggers();
+			for(Trigger trigger:triggers){
+				Event event = trigger.getEvent();
+				if(event instanceof ChangeEvent){
+					ChangeEvent ce = (ChangeEvent) event;
+					if(ce.getChangeExpression() instanceof OpaqueExpression){
+						eventUtil.addChangeEventEvaluator(javaStateMachine, ce, (OpaqueExpression) ce.getChangeExpression());
+					}
+				}
+			}
+		}
 	}
 	private Collection<ElementsWaitingForEvent> getWaitForEventElements(StateMachine ns){
 		Map<Element,ElementsWaitingForEvent> results = new HashMap<Element,ElementsWaitingForEvent>();
-		for(Transition transition:EmfStateMachineUtil.getTransitions(ns)){
+		for(Transition transition:EmfStateMachineUtil.getTransitionsRecursively(ns)){
 			Collection<Trigger> triggers = transition.getTriggers();
 			for(Trigger trigger:triggers){
 				Event event = trigger.getEvent();
@@ -73,7 +88,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 				for(Trigger trigger:transition.getTriggers()){
 					if(trigger.getEvent() == eventActions.getEvent()){
 						OJPathName tpn = ojUtil.classifierPathname(transition);
-						OJIfStatement ifAccept = new OJIfStatement("result==false &&  state.get" + tpn.getLast() + "()."  + eventConsumer.getName() + "("
+						OJIfStatement ifAccept = new OJIfStatement("result==false &&  state.get" + tpn.getLast() + "()." + eventConsumer.getName() + "("
 								+ OperationAnnotator.delegateParameters(eventConsumer) + ")");
 						ifMatchFound.getThenPart().addToStatements(ifAccept);
 						ifAccept.getThenPart().addToStatements("result=true");

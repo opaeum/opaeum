@@ -38,6 +38,7 @@ import org.hibernate.type.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.ExceptionAnalyser;
+import org.opaeum.runtime.domain.IAnyValue;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -102,7 +103,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 			IPersistentObject entity = (IPersistentObject) event.getEntity();
 			EventSource session = event.getSession();
 			SessionAttachment sa = lazyGetAttachment(session, entity);
-			addChangedEntity(sa, entity, (Long) event.getId(),true);
+			addChangedEntity(sa, entity, (Long) event.getId(), true);
 			Type[] propertyTypes = event.getPersister().getPropertyTypes();
 			Object[] newState = event.getState();
 			Object[] oldState = event.getOldState();
@@ -117,10 +118,10 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 				// May need to reload the inverse references,i.e. collections in the affected objects
 				// TODO optimise: check for existence of inverse reference
 				if(oldValue != null){
-					addChangedEntity(sa, (IPersistentObject) oldValue, (Long) sa.session.getIdentifier(oldValue),false);
+					addChangedEntity(sa, (IPersistentObject) oldValue, (Long) sa.session.getIdentifier(oldValue), false);
 				}
 				if(newValue != null){
-					addChangedEntity(sa, (IPersistentObject) newValue, (Long) sa.session.getIdentifier(newValue),false);
+					addChangedEntity(sa, (IPersistentObject) newValue, (Long) sa.session.getIdentifier(newValue), false);
 				}
 			}
 		}else if(type instanceof CollectionType){
@@ -138,14 +139,14 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 				Map<?,?> coll = (Map<?,?>) oldValue;
 				for(Object referencedObject:coll.values()){
 					if(referencedObject instanceof IPersistentObject){
-						addChangedEntity(sa, (IPersistentObject) referencedObject, (Long) sa.session.getIdentifier(referencedObject),false);
+						addChangedEntity(sa, (IPersistentObject) referencedObject, (Long) sa.session.getIdentifier(referencedObject), false);
 					}
 				}
 			}else{
 				Collection<?> coll = (Collection<?>) oldValue;
 				for(Object referencedObject:coll){
 					if(referencedObject instanceof IPersistentObject){
-						addChangedEntity(sa, (IPersistentObject) referencedObject, (Long) sa.session.getIdentifier(referencedObject),false);
+						addChangedEntity(sa, (IPersistentObject) referencedObject, (Long) sa.session.getIdentifier(referencedObject), false);
 					}
 				}
 			}
@@ -195,10 +196,14 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 	public void onPostLoad(PostLoadEvent event){
 		maybeRegisterEventGenerator(event.getEntity(), event.getSession());
 		try{
-			Field declaredField = event.getPersister().getMappedClass(EntityMode.POJO).getDeclaredField("persistence");
-			if(declaredField != null){
-				declaredField.setAccessible(true);
-				declaredField.set(event.getEntity(), getPersistence(event.getSession(), event.getEntity()));
+			Class<?> cls = event.getPersister().getMappedClass(EntityMode.POJO);
+			while(cls != Object.class){
+				Field declaredField = cls.getDeclaredField("persistence");
+				if(declaredField != null){
+					declaredField.setAccessible(true);
+					declaredField.set(event.getEntity(), getPersistence(event.getSession(), event.getEntity()));
+				}
+				cls=cls.getSuperclass();
 			}
 		}catch(NoSuchFieldException e){
 		}catch(RuntimeException re){

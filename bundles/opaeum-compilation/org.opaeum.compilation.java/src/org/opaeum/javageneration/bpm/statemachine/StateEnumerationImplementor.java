@@ -56,7 +56,7 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 		}
 	}
 	private boolean hasStateComposition(StateMachine sm){
-		for(State s:EmfStateMachineUtil.getAllStates(sm)){
+		for(State s:EmfStateMachineUtil.getStatesRecursively(sm)){
 			if(s.getContainer().getState() != null){
 				return true;
 			}

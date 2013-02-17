@@ -1,6 +1,7 @@
 package org.opaeum.runtime.jpa;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -60,7 +61,7 @@ public class JpaUmtPersistence extends AbstractHibernatePersistence implements U
 		return super.createQuery(q);
 	}
 	@Override
-	public <T>Collection<T> readAll(Class<T> c){
+	public <T>List<T> readAll(Class<T> c){
 		checkActive();
 		return super.readAll(c);
 	}

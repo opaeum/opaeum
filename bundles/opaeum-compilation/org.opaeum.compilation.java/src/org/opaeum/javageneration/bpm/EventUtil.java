@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
+
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.CallEvent;
@@ -19,6 +21,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
+import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.Vertex;
 import org.opaeum.eclipse.EmfActivityUtil;
@@ -90,18 +93,23 @@ public class EventUtil{
 		return ojUtil.packagePathname(ctx).getCopy().append(NameConverter.capitalize(ne.getName()) + "Handler");
 	}
 	public void implementChangeEventRequest(OJOperation operation,NamedElement ne,OpaqueExpression when){
-		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
 		if(when != null){
-			String changeExpr = valueSpecificationUtil.expressOcl(library.getOclExpressionContext(when), operation, library.getBooleanType());
-			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation(evaluatorName(ne), new OJPathName("boolean"));
-			evaluationMethod.getBody().addToStatements("return " + changeExpr);
-			owner.addToOperations(evaluationMethod);
 			OJPathName handler = handlerPathName(ne);
-			owner.addToImports(handler);
+			operation.getOwner().addToImports(handler);
 			operation.getBody().addToStatements("getOutgoingEvents().add(new OutgoingEvent(this, new " + handler.getLast() + "(token)))");
 		}else{
 			operation.getBody().addToStatements("NO_CHANGE_EXPRESSION_SPECIFIED");
 		}
+	}
+	public void addChangeEventEvaluator(OJAnnotatedClass evaluationContext,NamedElement ne,OpaqueExpression when){
+		OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation(evaluatorName(ne), new OJPathName("boolean"));
+		evaluationContext.addToOperations(evaluationMethod);
+//		for(TypedElement typedElement:parameters){
+//			PropertyMap map = ojUtil.buildStructuralFeatureMap(typedElement);
+//			evaluationMethod.addParam(map.fieldname(), map.javaTypePath());
+//		}
+		String changeExpr = valueSpecificationUtil.expressOcl(library.getOclExpressionContext(when), evaluationMethod, library.getBooleanType());
+		evaluationMethod.getBody().addToStatements("return " + changeExpr);
 	}
 	public static String evaluatorName(NamedElement event){
 		return "evaluate" + NameConverter.capitalize(event.getName());
@@ -146,23 +154,24 @@ public class EventUtil{
 				operation.getOwner().addToImports(new OJPathName(Date.class.getName()));
 				operation.getOwner().addToImports(new OJPathName(BusinessTimeUnit.class.getName()));
 				String timeUnitConstant = OJUtil.toJavaLiteral(timeUnit);
-				timeUnitConstant=timeUnitConstant==null?"BUSINESSDAY" :timeUnitConstant;
+				timeUnitConstant = timeUnitConstant == null ? "BUSINESSDAY" : timeUnitConstant;
 				operation.getOwner().addToImports(new OJPathName(Date.class.getName()));
 				operation.getOwner().addToImports(new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar"));
 				if(businessCalendarToUse == null || businessCalendarToUse.hasErrors()){
-					whenExpr="BusinessCalendar.getInstance().addTimeTo(new Date(), BusinessTimeUnit."+timeUnitConstant+","+whenExpr+")";
+					whenExpr = "BusinessCalendar.getInstance().addTimeTo(new Date(), BusinessTimeUnit." + timeUnitConstant + "," + whenExpr + ")";
 				}else{
-					whenExpr=valueSpecificationUtil.expressOcl(businessCalendarToUse, operation, null) + ".addTimeTo(new Date(), BusinessTimeUnit."+timeUnitConstant+","+whenExpr+")";
+					whenExpr = valueSpecificationUtil.expressOcl(businessCalendarToUse, operation, null) + ".addTimeTo(new Date(), BusinessTimeUnit." + timeUnitConstant
+							+ "," + whenExpr + ")";
 				}
 				owner.addToImports(BusinessTimeUnit.class.getName());
 				owner.addToImports(eventHandler);
-				block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
-						+ whenExpr + ",token)))");
+				block
+						.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "(" + whenExpr + ",token)))");
 			}else{
 				owner.addToImports(eventHandler);
 				// TODO add the timeSpecification INstanceSpecification values
-				block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "("
-						+ whenExpr + ",token)))");
+				block
+						.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "(" + whenExpr + ",token)))");
 			}
 		}
 	}
@@ -175,19 +184,14 @@ public class EventUtil{
 	public static String getInvokerName(Operation o){
 		return ((NamedElement) o.getOwner()).getName() + NameConverter.capitalize(o.getName()) + EmfWorkspace.getOpaeumId(o) + "Invoker";
 	}
-	public void requestTokenCreatingEvents(OJAnnotatedOperation operation,Collection<ActivityNode> activityNodes,boolean businessCalendarAvailable){
-		for(ActivityNode node:activityNodes){
-			if(node instanceof AcceptEventAction && EmfActivityUtil.getAllEffectiveIncoming(node).isEmpty()){
-				AcceptEventAction acceptEventAction = (AcceptEventAction) node;
-				for(Trigger t:acceptEventAction.getTriggers()){
-					if(t.getEvent() instanceof TimeEvent){
-						implementTimeEventRequest(operation, operation.getBody(), (TimeEvent) t.getEvent(), businessCalendarAvailable);
-					}else if(t.getEvent() instanceof ChangeEvent){
-						ChangeEvent ce = (ChangeEvent) t.getEvent();
-						if(ce.getChangeExpression() instanceof OpaqueExpression){
-							implementChangeEventRequest(operation, ce, (OpaqueExpression) ce.getChangeExpression());
-						}
-					}
+	public void requestTokenCreatingEvents(OJAnnotatedOperation operation,Collection<Event> topLevelEvents,boolean businessCalendarAvailable){
+		for(Event event:topLevelEvents){
+			if(event instanceof TimeEvent){
+				implementTimeEventRequest(operation, operation.getBody(), (TimeEvent) event, businessCalendarAvailable);
+			}else if(event instanceof ChangeEvent){
+				ChangeEvent ce = (ChangeEvent) event;
+				if(ce.getChangeExpression() instanceof OpaqueExpression){
+					implementChangeEventRequest(operation, ce, (OpaqueExpression) ce.getChangeExpression());
 				}
 			}
 		}

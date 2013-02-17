@@ -1,3 +1,6 @@
+RAP
+Set currentRole when opening an entity,starting a task
+
 Eclipse
 Take all model modifications out of the transformation so that we can do stuf asynchronously without a transaction
 SlotSection: for enum values and boolean slots, default to checkboxes/radio buttons. For these slots, generate the appropriate slot value by default and not ocl expressions. 

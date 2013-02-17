@@ -3,6 +3,8 @@ package org.opaeum.javageneration.bpm.activity;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
@@ -15,15 +17,18 @@ import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallOperationAction;
+import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.DecisionNode;
+import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ReplyAction;
@@ -142,8 +147,14 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		activityClass.addToImports(new OJPathName(ExceptionHolder.class.getName()));
 		OJAnnotatedOperation execute = super.implementExecute(activityClass, isProcess, hasSuperClass);
 		if(isProcess){
-			eventUtil.requestTokenCreatingEvents(execute, EmfActivityUtil.getActivityNodes(container),
+			Set<Event> topLevelEvents = EmfActivityUtil.getTopLevelEvents(container);
+			eventUtil.requestTokenCreatingEvents(execute, topLevelEvents,
 					getLibrary().getBusinessRole() != null);
+			for(Event event:topLevelEvents){
+				if(event instanceof ChangeEvent && ((ChangeEvent)event).getChangeExpression() instanceof OpaqueExpression){
+					eventUtil.addChangeEventEvaluator(activityClass, event, (OpaqueExpression) ((ChangeEvent)event).getChangeExpression());
+				}
+			}
 		}
 		OJUtil.addTransientProperty(activityClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
 				OJVisibilityKind.PROTECTED);

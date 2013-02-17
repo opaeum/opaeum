@@ -153,19 +153,19 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	private void implementTaskCreation(Behavior o,OJAnnotatedClass ojClass,OJAnnotatedOperation oper1, OperationMap operationMap){
 		ojClass.addToImports("java.util.Arrays");
 		oper1.getBody().addToStatements(0, new OJSimpleStatement("result.setRequest(new TaskRequest())"));
-		OJAnnotatedOperation deepCopy = (OJAnnotatedOperation) oper1.getDeepCopy(operationMap.multiName());
-		deepCopy.setStatic(true);
-		deepCopy.initializeResultVariable("new " + ojUtil.classifierPathname(o).getLast() + "()");
+		OJAnnotatedOperation staticOperation = (OJAnnotatedOperation) oper1.getDeepCopy(operationMap.multiName());
+		staticOperation.setStatic(true);
+		staticOperation.initializeResultVariable("new " + ojUtil.classifierPathname(o).getLast() + "()");
 		ojClass.addToImports(ojUtil.classifierPathname(getLibrary().getTaskRequest()));
-		deepCopy.getBody().addToStatements(
+		staticOperation.getBody().addToStatements(
 				0,
 				new OJSimpleStatement(
 						"((TaskRequest)result.getRequest()).setPotentialOwners("+ojUtil.environmentPathname()+ ".INSTANCE.getCurrentPersistence().readAll("
 								+ ojClass.getName() + ".class))"));
-		deepCopy.getBody().removeFromStatements(deepCopy.getBody().getStatements().get(deepCopy.getBody().getStatements().size() - 1));// remove
+		staticOperation.getBody().removeFromStatements(staticOperation.getBody().getStatements().get(staticOperation.getBody().getStatements().size() - 1));// remove
 																																																																		// event
-		deepCopy.getBody().addToStatements(ojUtil.environmentPathname()+ ".INSTANCE.getCurrentPersistence().persist(result)"); // generator
-		ojClass.addToOperations(deepCopy);
+		staticOperation.getBody().addToStatements(ojUtil.environmentPathname()+ ".INSTANCE.getCurrentPersistence().persist(result)"); // generator
+		ojClass.addToOperations(staticOperation);
 		oper1.getBody().addToStatements(1, new OJSimpleStatement("((TaskRequest)result.getRequest()).setPotentialOwners(Arrays.asList(this))"));
 		oper1.initializeResultVariable("new " + ojUtil.classifierPathname(o).getLast() + "(this)");
 		oper1.getResultVariable().setType(ojUtil.classifierPathname(o));

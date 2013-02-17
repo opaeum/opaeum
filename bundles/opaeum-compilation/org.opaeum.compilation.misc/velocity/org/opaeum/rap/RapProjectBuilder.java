@@ -44,6 +44,7 @@ public class RapProjectBuilder extends AbstractBootstrapStep{
 			processTemplate(workspace, "templates/Model/RapProjectClasspath.vsl", ".classpath", outputRootId, vars);
 			processTemplate(workspace, "templates/Model/RapLaunch.vsl", workspace.getName() + ".launch", outputRootId, vars);
 			processTemplate(workspace, "templates/Model/RapBuildProperties.vsl", "build.properties", outputRootId, vars);
+			processTemplate(workspace, "templates/Model/gitignore.vsl", ".gitignore", outputRootId, vars);
 		}
 	}
 }

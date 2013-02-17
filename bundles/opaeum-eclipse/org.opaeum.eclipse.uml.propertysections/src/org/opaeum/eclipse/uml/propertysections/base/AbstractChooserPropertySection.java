@@ -93,6 +93,7 @@ public abstract class AbstractChooserPropertySection extends AbstractOpaeumPrope
 	}
 	protected void handleComboModified(){
 		updateModel(cSingleObjectChooser.getSelectedObject());
+		decorator.refresh();
 	}
 	@Override
 	protected void setEnabled(boolean enabled){

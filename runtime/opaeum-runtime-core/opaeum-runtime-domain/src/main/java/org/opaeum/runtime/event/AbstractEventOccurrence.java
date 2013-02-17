@@ -116,7 +116,7 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		return getNextOccurrenceScheduledFor();
 	}
 	public Date scheduleNextOccurrence(){
-		Date d = getEventHandler().scheduleNextOccurrence();
+		Date d = getEventHandler().scheduleNextOccurrence(eventTarget);
 		setNextOccurrenceScheduledFor(d);
 		return d;
 	}

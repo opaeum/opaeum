@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.opaeum.hibernate.domain.AbstractAnyValue;
-import org.opaeum.hibernate.domain.IAnyValue;
+import org.opaeum.runtime.domain.IAnyValue;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 
@@ -105,6 +105,5 @@ public class QuantityBasedCost extends AbstractAnyValue implements IAnyValue{
 		this.resource=v;
 		
 	}
-
 	
 }

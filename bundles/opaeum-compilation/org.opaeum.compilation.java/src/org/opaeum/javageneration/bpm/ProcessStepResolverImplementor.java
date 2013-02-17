@@ -48,7 +48,7 @@ public class ProcessStepResolverImplementor extends AbstractEnumResolverImplemen
 	}
 	@VisitBefore
 	public void visitStateMachine(StateMachine sm){
-		Collection<State> allStates = EmfStateMachineUtil.getAllStates(sm);
+		Collection<State> allStates = EmfStateMachineUtil.getStatesRecursively(sm);
 		List<State> restingStates = new ArrayList<State>();
 		for(State s:allStates){
 			restingStates.add(s);

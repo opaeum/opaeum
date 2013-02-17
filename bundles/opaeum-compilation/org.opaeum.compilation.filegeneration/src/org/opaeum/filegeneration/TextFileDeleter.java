@@ -5,6 +5,7 @@ import java.io.File;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextDirectory;
 import org.opaeum.textmetamodel.TextProject;
 
@@ -18,15 +19,19 @@ public class TextFileDeleter extends AbstractTextNodeVisitor implements ITransfo
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitTextFileDirectory(TextDirectory textDir){
-		File dir = getDirectoryFor(textDir);
-		if(!dir.exists()){
-			if(textDir.hasContent()){
-				dir.mkdir();
-			}
+		if(textDir instanceof SourceFolder && !((SourceFolder) textDir).isRegenerated()){
+			// Do nothing - no new code generated into this folder
 		}else{
-			for(File child:dir.listFiles()){
-				if(textDir.getSourceFolder().shouldClean() && !textDir.hasChild(child.getName()) && isSourceDirectory(child)){
-					deleteTree(child);
+			File dir = getDirectoryFor(textDir);
+			if(!dir.exists()){
+				if(textDir.hasContent()){
+					dir.mkdir();
+				}
+			}else{
+				for(File child:dir.listFiles()){
+					if(textDir.getSourceFolder().shouldClean() && !textDir.hasChild(child.getName()) && isSourceDirectory(child)){
+						deleteTree(child);
+					}
 				}
 			}
 		}

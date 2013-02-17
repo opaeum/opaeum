@@ -1,0 +1,371 @@
+
+   <extension point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders" id="ep-provider">
+      <?gmfgen generated="true"?>
+      <editpartProvider class="org.opaeum.papyrus.usecasediagram.providers.UMLEditPartProvider">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.gmf.runtime.notation.Diagram" id="generated-diagram">
+            <method name="getType()" value="UseCase"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
+            <method name="getType()" value="2011,2012,2013,2014,2015,2016,2017,2018,2019,3007,3008,3009,3016,3015,3017,3018,3010,3011,3012,3013,3014"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
+            <method name="getType()" value="4008,4009,4010,4011,4012,4013,4014,4015,4016,4017,4018,4019"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
+            <method name="getType()" value="5014,6029,5015,5016,5017,5019,5025,5026,5027,5032,5018,5030,5028,5029,5031,6027,5020,5021,6028,5022,5023,5024"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
+            <method name="getType()" value="7009,7010,7011,7012,7017,7014,7015,7016,7013"/>
+         </object>
+         <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
+      </editpartProvider>
+   </extension>
+
+
+<extension
+		id="Papyrus useCase editor Plugin.palettedefinition"
+		name="Papyrus useCase editor Plugin Predefined Entries"
+		point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders"> 
+		
+		<?gmfgen generated="true"?>	
+		<paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
+			<Priority name="Lowest"/>
+      		<contribution
+            	factoryClass="org.opaeum.papyrus.usecasediagram.part.UseCasePaletteFactory">
+     			<predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> 
+				<predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
+				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
+					<entry
+       defineOnly="true"
+       description="Create Package"
+       id="usecase.tool.package"
+       kind="tool"
+       label="Package"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Package.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Package.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Business Under Discussion"
+       id="usecase.tool.businesscomponent"
+       kind="tool"
+       label="Business Under Discussion"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Component.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Component.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Business Actor"
+       id="usecase.tool.businessactor"
+       kind="tool"
+       label="Business Actor"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Actor.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Actor.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Business Use Case"
+       id="usecase.tool.businessusecase"
+       kind="tool"
+       label="Business Use Case"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/UseCase.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/UseCase.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Constraint"
+       id="usecase.tool.constraint"
+       kind="tool"
+       label="Constraint"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Constraint.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Constraint.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Comment"
+       id="usecase.tool.comment"
+       kind="tool"
+       label="Comment"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Comment.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Comment.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Extension Point"
+       id="usecase.tool.extensionpoint"
+       kind="tool"
+       label="Extension Point"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/ExtensionPoint.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/ExtensionPoint.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Association Link"
+       id="usecase.tool.association"
+       kind="tool"
+       label="Association"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Association.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Association.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Generalization Link"
+       id="usecase.tool.generalization"
+       kind="tool"
+       label="Generalization"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Generalization.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Generalization.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Dependency Link"
+       id="usecase.tool.dependency"
+       kind="tool"
+       label="Dependency"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Dependency.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Dependency.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Abstraction Link"
+       id="usecase.tool.abstraction"
+       kind="tool"
+       label="Abstraction"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Abstraction.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Abstraction.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Realization Link"
+       id="usecase.tool.realization"
+       kind="tool"
+       label="Realization"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Realization.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Realization.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Usage Link"
+       id="usecase.tool.usage"
+       kind="tool"
+       label="Usage"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Usage.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Usage.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create PackageMerge Link"
+       id="usecase.tool.packagemerge"
+       kind="tool"
+       label="PackageMerge"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/PackageMerge.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/PackageMerge.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create PackageImport Link"
+       id="usecase.tool.packageimport"
+       kind="tool"
+       label="PackageImport"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/PackageImport.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/PackageImport.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Include Link"
+       id="usecase.tool.include"
+       kind="tool"
+       label="Include"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Include.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Include.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Extend"
+       id="usecase.tool.extend"
+       kind="tool"
+       label="Extend"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Extend.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Extend.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Constrained Element"
+       id="usecase.tool.constraintlink"
+       kind="tool"
+       label="Constrained Element"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Constraint.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Constraint.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Comment Link"
+       id="usecase.tool.commentlink"
+       kind="tool"
+       label="Comment link"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Comment.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Comment.gif">
+ 	</entry>
+
+			</contribution>
+		</paletteProvider>	
+			
+	</extension>
+
+<extension
+		id="Papyrus useCase editor Plugin.standard"
+		name="Papyrus useCase editor Plugin Standard Palette"
+		point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders"> 
+		
+		<?gmfgen generated="true"?>	
+		<paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
+			<Priority name="Low"/>
+      		<contribution
+            	factoryClass="org.eclipse.papyrus.uml.diagram.usecase.part.UMLPaletteFactory">
+     			<predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> 
+				<predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
+				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
+					<entry
+       description="Diagram Nodes"
+       id="usecase.group.nodes"
+       kind="drawer"
+       label="Nodes"
+       large_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif"
+       path="/"
+       small_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif">
+       <expand
+              force="true">
+       </expand>
+ 	</entry>
+ 	 
+ 	 	<predefinedEntry
+          id="usecase.tool.package"
+          path="/usecase.group.nodes">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.businesscomponent"
+          path="/usecase.group.nodes">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.businessactor"
+          path="/usecase.group.nodes">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.businessusecase"
+          path="/usecase.group.nodes">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.constraint"
+          path="/usecase.group.nodes">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.comment"
+          path="/usecase.group.nodes">
+    </predefinedEntry>
+
+	<entry
+       description="Child Elements of the Diagram Nodes"
+       id="usecase.group.children"
+       kind="drawer"
+       label="Children"
+       large_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif"
+       path="/"
+       small_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif">
+       <expand
+              force="true">
+       </expand>
+ 	</entry>
+ 	 
+ 	 	<predefinedEntry
+          id="usecase.tool.extensionpoint"
+          path="/usecase.group.children">
+    </predefinedEntry>
+
+	<entry
+       description="Diagram Links"
+       id="usecase.group.links"
+       kind="drawer"
+       label="Links"
+       large_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif"
+       path="/"
+       small_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif">
+       <expand
+              force="true">
+       </expand>
+ 	</entry>
+ 	 
+ 	 	<predefinedEntry
+          id="usecase.tool.association"
+          path="/usecase.group.links">
+    </predefinedEntry>
+ 	<!--predefinedEntry
+          id="usecase.tool.generalization"
+          path="/usecase.group.links">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.dependency"
+          path="/usecase.group.links">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.abstraction"
+          path="/usecase.group.links">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.realization"
+          path="/usecase.group.links">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.usage"
+          path="/usecase.group.links">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.packagemerge"
+          path="/usecase.group.links">
+    </predefinedEntry-->
+ 	<predefinedEntry
+          id="usecase.tool.packageimport"
+          path="/usecase.group.links">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.include"
+          path="/usecase.group.links">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="usecase.tool.extend"
+          path="/usecase.group.links">
+    </predefinedEntry>
+ 	<!--predefinedEntry
+          id="usecase.tool.constraintlink"
+          path="/usecase.group.links">
+    </predefinedEntry-->
+ 	<predefinedEntry
+          id="usecase.tool.commentlink"
+          path="/usecase.group.links">
+    </predefinedEntry>
+
+
+			</contribution>
+			<editor id="org.eclipse.papyrus.uml.diagram.usecase"/>
+		</paletteProvider>	
+			
+	</extension>

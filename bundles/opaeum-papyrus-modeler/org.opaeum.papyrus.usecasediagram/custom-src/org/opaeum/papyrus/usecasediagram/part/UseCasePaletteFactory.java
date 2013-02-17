@@ -16,21 +16,21 @@ public class UseCasePaletteFactory extends UMLPaletteFactory{
 	@Override
 	public Tool createTool(String toolId){
 		if(toolId.equals("usecase.tool.businessactor")){
-			List<IElementType> types = new ArrayList<IElementType>(3);
+			List<IElementType> types = new ArrayList<IElementType>();
 			types.add(UMLElementTypes.Actor_2011);
 			types.add(UMLElementTypes.Actor_3018);
 			types.add(UMLElementTypes.Actor_3011);
 			Tool tool = new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSINESS_ACTOR);
 			return tool;
 		}else if(toolId.equals("usecase.tool.businessusecase")){
-			List<IElementType> types = new ArrayList<IElementType>(3);
+			List<IElementType> types = new ArrayList<IElementType>();
 			types.add(UMLElementTypes.UseCase_2013);
 			types.add(UMLElementTypes.UseCase_3009);
 			types.add(UMLElementTypes.UseCase_3012);
 			Tool tool = new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSINESS_USE_CASE);
 			return tool;
 		}else if(toolId.equals("usecase.tool.businesscomponent")){
-			List<IElementType> types = new ArrayList<IElementType>(3);
+			List<IElementType> types = new ArrayList<IElementType>();
 			types.add(UMLElementTypes.Component_3016);
 			types.add(UMLElementTypes.Component_3013);
 			Tool tool = new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSINESS_COMPONENT);

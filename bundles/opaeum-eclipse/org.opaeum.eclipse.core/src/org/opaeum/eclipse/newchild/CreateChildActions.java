@@ -127,6 +127,7 @@ public class CreateChildActions implements ICreateChildActionProvider{
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getPrimitiveType());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getDataType(), StereotypeNames.VALUE_TYPE);
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getSignal(), StereotypeNames.NOTIFICATION);
+		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getCollaboration(), StereotypeNames.BUSINESS_COLLABORATION);
 		add(INVARIANT_OWNERS, pkg.getNamespace_OwnedRule().getName(), pkg.getConstraint());
 		add(ATTRIBUTE_OWNERS, pkg.getStructuredClassifier_OwnedAttribute().getName(), pkg.getProperty());
 		add(CLASSIFIER_BEHAVIOR_OWNERS, pkg.getBehavioredClassifier_ClassifierBehavior().getName(), pkg.getStateMachine(),

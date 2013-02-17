@@ -74,7 +74,7 @@ public class GenericSignalHandler implements IEventHandler{
 		return 0;
 	}
 	@Override
-	public Date scheduleNextOccurrence(){
+	public Date scheduleNextOccurrence(Object b){
 		return null;
 	}
 	@Override
