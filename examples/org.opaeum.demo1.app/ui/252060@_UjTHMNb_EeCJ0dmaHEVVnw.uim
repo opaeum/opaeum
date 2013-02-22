@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ex1NoHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_UjTHMNb_EeCJ0dmaHEVVnw" name="Time of day User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_ex1NoXzhEeK4RO8Gc0PbkA" name="Edit TimeOfDay" umlElementUid="252060@_UjTHMNb_EeCJ0dmaHEVVnw">
+    <pageOrdering xmi:id="_ex1No3zhEeK4RO8Gc0PbkA" page="_ex1NonzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_ex1NonzhEeK4RO8Gc0PbkA" umlElementUid="252060@_UjTHMNb_EeCJ0dmaHEVVnw" name="Edit Time of day">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ex1NpHzhEeK4RO8Gc0PbkA" name="TimeOfDay" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_ex1NpXzhEeK4RO8Gc0PbkA" name="Hours" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_ex1NpnzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_ex1Np3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_WB_50Nb_EeCJ0dmaHEVVnw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_ex1NqHzhEeK4RO8Gc0PbkA" name="Minutes" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_ex1NqXzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_ex1NqnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_XW53QNb_EeCJ0dmaHEVVnw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_ex1Nq3zhEeK4RO8Gc0PbkA" name="Minute of day" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_ex1NrHzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_ex1NrXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_MUFl4NcGEeCOrPzFUqsJFw"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar xmi:id="_ex1NrnzhEeK4RO8Gc0PbkA" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ex1Nr3zhEeK4RO8Gc0PbkA" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ex1NsHzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_ex1NsXzhEeK4RO8Gc0PbkA" name="Create TimeOfDay" umlElementUid="252060@_UjTHMNb_EeCJ0dmaHEVVnw">
+    <pageOrdering xmi:id="_ex1Ns3zhEeK4RO8Gc0PbkA" page="_ex1NsnzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_ex1NsnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_UjTHMNb_EeCJ0dmaHEVVnw" name="CreateTime of day">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ex1NtHzhEeK4RO8Gc0PbkA" name="TimeOfDay" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_ex1NtXzhEeK4RO8Gc0PbkA" name="Hours" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_ex1NtnzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_ex1Nt3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_WB_50Nb_EeCJ0dmaHEVVnw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_ex1NuHzhEeK4RO8Gc0PbkA" name="Minutes" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_ex1NuXzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_ex1NunzhEeK4RO8Gc0PbkA" umlElementUid="252060@_XW53QNb_EeCJ0dmaHEVVnw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_ex1Nu3zhEeK4RO8Gc0PbkA" name="Minute of day" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_ex1NvHzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_ex1NvXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_MUFl4NcGEeCOrPzFUqsJFw"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

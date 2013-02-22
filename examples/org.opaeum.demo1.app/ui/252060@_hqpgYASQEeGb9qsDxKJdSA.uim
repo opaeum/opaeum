@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eyG6cHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_hqpgYASQEeGb9qsDxKJdSA" name="Cron expression User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_eyG6cXzhEeK4RO8Gc0PbkA" name="Edit CronExpression" umlElementUid="252060@_hqpgYASQEeGb9qsDxKJdSA">
+    <pageOrdering xmi:id="_eyG6c3zhEeK4RO8Gc0PbkA" page="_eyG6cnzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_eyG6cnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_hqpgYASQEeGb9qsDxKJdSA" name="Edit Cron expression">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyG6dHzhEeK4RO8Gc0PbkA" name="CronExpression" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_eyG6dXzhEeK4RO8Gc0PbkA" name="Minutes" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6dnzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6d3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_m6UqQASQEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_eyG6eHzhEeK4RO8Gc0PbkA" name="Hours" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6eXzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6enzhEeK4RO8Gc0PbkA" umlElementUid="252060@_nh_HMASQEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_eyG6e3zhEeK4RO8Gc0PbkA" name="Day of month" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6fHzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6fXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pCvIQASQEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_eyG6fnzhEeK4RO8Gc0PbkA" name="Month" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6f3zhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6gHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_qpRBMASQEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_eyG6gXzhEeK4RO8Gc0PbkA" name="Day of week" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6gnzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6g3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_sJLUwASQEeGb9qsDxKJdSA"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar xmi:id="_eyG6hHzhEeK4RO8Gc0PbkA" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyG6hXzhEeK4RO8Gc0PbkA" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyG6hnzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_eyG6h3zhEeK4RO8Gc0PbkA" name="Create CronExpression" umlElementUid="252060@_hqpgYASQEeGb9qsDxKJdSA">
+    <pageOrdering xmi:id="_eyG6iXzhEeK4RO8Gc0PbkA" page="_eyG6iHzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_eyG6iHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_hqpgYASQEeGb9qsDxKJdSA" name="CreateCron expression">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyG6inzhEeK4RO8Gc0PbkA" name="CronExpression" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_eyG6i3zhEeK4RO8Gc0PbkA" name="Minutes" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6jHzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6jXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_m6UqQASQEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_eyG6jnzhEeK4RO8Gc0PbkA" name="Hours" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6j3zhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6kHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_nh_HMASQEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_eyG6kXzhEeK4RO8Gc0PbkA" name="Day of month" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6knzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6k3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_pCvIQASQEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_eyG6lHzhEeK4RO8Gc0PbkA" name="Month" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6lXzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6lnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_qpRBMASQEeGb9qsDxKJdSA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_eyG6l3zhEeK4RO8Gc0PbkA" name="Day of week" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_eyG6mHzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyG6mXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_sJLUwASQEeGb9qsDxKJdSA"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

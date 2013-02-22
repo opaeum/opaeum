@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eyZ1YXzhEeK4RO8Gc0PbkA" name="revoke" umlElementUid="252060@_LlMOIIobEeCPduia_-NbFw" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_ezeManzhEeK4RO8Gc0PbkA" page="_ezeMaXzhEeK4RO8Gc0PbkA"/>
+  <pages xmi:id="_ezeMaXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_LlMOIIobEeCPduia_-NbFw" name="Operation: Revoke">
+    <panel xsi:type="panel:GridPanel" xmi:id="_ezeMa3zhEeK4RO8Gc0PbkA" name="Revoke" numberOfColumns="1"/>
+  </pages>
+</model:OperationInvocationWizard>

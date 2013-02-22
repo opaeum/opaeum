@@ -22,6 +22,12 @@
 				id="org.opaeum.uim.userinteractionproperties.control"
 				afterTab="org.opaeum.eclipse.opaeumTab"
 				label="Control"/>    
+			<propertyTab
+				category="domain"
+				indented="true"
+				id="org.opaeum.uim.userinteractionproperties.navigation"
+				afterTab="org.opaeum.eclipse.opaeumTab"
+				label="UI Navigation"/>    
 		</propertyTabs>
 	</extension>
 
@@ -204,6 +210,28 @@
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyPropertySection"
 				filter="org.opaeum.uim.userinteractionproperties.filters.MeasurePropertyFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyAggregationFormulaSection">
+			</propertySection>
+			
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementConstraintBooleanFeaturesSection"
+				tab="org.opaeum.uim.userinteractionproperties.navigation"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyPropertySection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.NavigableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementConstraintBooleanFeaturesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredRolesSection"
+				tab="org.opaeum.uim.userinteractionproperties.navigation"
+				afterSection="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementConstraintBooleanFeaturesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.NavigableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredRolesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredStatesSection"
+				tab="org.opaeum.uim.userinteractionproperties.navigation"
+				afterSection="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredRolesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.NavigableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredStatesSection">
 			</propertySection>
 		</propertySections>
 	</extension>

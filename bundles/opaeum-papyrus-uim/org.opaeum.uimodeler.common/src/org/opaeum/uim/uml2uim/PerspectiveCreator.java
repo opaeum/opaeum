@@ -1,25 +1,32 @@
 package org.opaeum.uim.uml2uim;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.perspective.EditorConfiguration;
 import org.opaeum.uim.perspective.ExplorerBehaviorConstraint;
 import org.opaeum.uim.perspective.ExplorerClassConstraint;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
+import org.opaeum.uim.perspective.ExplorerConstraint;
 import org.opaeum.uim.perspective.ExplorerOperationConstraint;
 import org.opaeum.uim.perspective.ExplorerPropertyConstraint;
 import org.opaeum.uim.perspective.InboxConfiguration;
@@ -28,20 +35,21 @@ import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectiveFactory;
 import org.opaeum.uim.perspective.PositionInPerspective;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
+import org.opaeum.uim.util.UmlUimLinks;
 
 public class PerspectiveCreator extends AbstractUimSynchronizer2{
 	private ExplorerConfiguration explorerPosition;
-	public PerspectiveCreator(URI workspace,ResourceSet resourceSet,boolean regenerate){
+	private Map<Element,ExplorerConstraint> map =new HashMap<Element,ExplorerConstraint>();
+	public PerspectiveCreator(URI workspace,ResourceSet resourceSet,boolean regenerate,EmfWorkspace emfWorkspace){
 		super(workspace, resourceSet, regenerate);
 		boolean isNew = false;
 		Resource resource;
-		
-		if(UimResourceUtil.hasUimResource(null, resourceSet, workspace, "perspective")){
+		if(!UimResourceUtil.hasUimResource(null, resourceSet, workspace, "perspective")){
 			isNew = true;
 		}
-		resource=UimResourceUtil.getUimResource(null, resourceSet, workspace, "perspective");
+		resource = UimResourceUtil.getUimResource(null, resourceSet, workspace, "perspective");
 		if(isNew){
-			getNewResources().put(null,resource);
+			getNewResources().put(null, resource);
 			PerspectiveConfiguration p = null;
 			if(resource.getContents().isEmpty()){
 				p = PerspectiveFactory.eINSTANCE.createPerspectiveConfiguration();
@@ -92,14 +100,24 @@ public class PerspectiveCreator extends AbstractUimSynchronizer2{
 					p.getOutbox().setHeight(300);
 				}
 			}
+			visitRecursively(emfWorkspace);
 		}else{
-			//TODO findexplorer
+			TreeIterator<EObject> allContents = resource.getAllContents();
+			while(allContents.hasNext()){
+				EObject eObject = allContents.next();
+				if(eObject instanceof ExplorerConstraint){
+					ExplorerConstraint ec = (ExplorerConstraint) eObject;
+					Element e = emfWorkspace.getModelElement(ec.getUmlElementUid());
+					if(e!=null){
+						map.put(e, ec);
+					}
+				}
+			}
 		}
-	}
-	public void visitWorkspace(EmfWorkspace ws){
+		new UmlUimLinks(resource,emfWorkspace);
 	}
 	public void visitOperation(Operation o){
-		if(!UserInterfaceUtil.isUnderUserControl(explorerPosition) &&explorerPosition!=null){
+		if(!UserInterfaceUtil.isUnderUserControl(explorerPosition) && explorerPosition != null){
 			Classifier owner = (Classifier) o.getOwner();
 			if(canDisplayInTree(owner)){
 				ExplorerClassConstraint ecc = findOrCreateClassConstraint(owner);
@@ -117,38 +135,42 @@ public class PerspectiveCreator extends AbstractUimSynchronizer2{
 					eoc.setRequiresGroupOwnership(true);
 					eoc.setRequiresOwnership(false);
 				}
+				map.put(o, eoc);
 			}
 		}
 	}
 	public void visitProperty(Property p){
-		if(!UserInterfaceUtil.isUnderUserControl(explorerPosition) &&explorerPosition!=null){
-			Classifier classifier = EmfPropertyUtil.getOwningClassifier(p);
-			if(canDisplayInTree(classifier)){
-				ExplorerClassConstraint ecc = findOrCreateClassConstraint(classifier);
-				ExplorerPropertyConstraint eoc = (ExplorerPropertyConstraint) UserInterfaceUtil.findRepresentingElement(p, ecc.getProperties());
-				if(eoc == null){
-					eoc = PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint();
-					eoc.setUmlElementUid(EmfWorkspace.getId(p));
-					ecc.getProperties().add(eoc);
-				}
-				if(!eoc.isUnderUserControl()){
-					eoc.setOpenToPublic(false);
-					eoc.setHidden(!p.isComposite());
-					eoc.setInheritFromParent(false);
-					eoc.setName(p.getName());
-					eoc.setRequiresGroupOwnership(true);
-					eoc.setRequiresOwnership(false);
+		if(!UserInterfaceUtil.isUnderUserControl(explorerPosition) && explorerPosition != null){
+			if(p.getAssociationEnd() == null){// Qualifier
+				Classifier classifier = EmfPropertyUtil.getOwningClassifier(p);
+				if(canDisplayInTree(classifier)){
+					ExplorerClassConstraint ecc = findOrCreateClassConstraint(classifier);
+					ExplorerPropertyConstraint eoc = (ExplorerPropertyConstraint) UserInterfaceUtil.findRepresentingElement(p, ecc.getProperties());
+					if(eoc == null){
+						eoc = PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint();
+						eoc.setUmlElementUid(EmfWorkspace.getId(p));
+						ecc.getProperties().add(eoc);
+					}
+					if(!eoc.isUnderUserControl()){
+						eoc.setOpenToPublic(false);
+						eoc.setHidden(!p.isComposite());
+						eoc.setInheritFromParent(false);
+						eoc.setName(p.getName());
+						eoc.setRequiresGroupOwnership(true);
+						eoc.setRequiresOwnership(false);
+					}
+					map.put(p, eoc);
 				}
 			}
 		}
 	}
 	public void visitClassifier(Classifier c){
-		if(!UserInterfaceUtil.isUnderUserControl(explorerPosition) &&explorerPosition!=null){
+		if(!UserInterfaceUtil.isUnderUserControl(explorerPosition) && explorerPosition != null){
 			if(canDisplayInTree(c)){
 				String id = EmfWorkspace.getId(c);
 				if(c instanceof Behavior){
 					Behavior b = (Behavior) c;
-					if(EmfBehaviorUtil.isStandaloneTask(b) || EmfBehaviorUtil.isProcess(b)){
+					if(EmfBehaviorUtil.isStandaloneTask(b) || EmfBehaviorUtil.isProcess(b) && EmfBehaviorUtil.getContext(b) != null){
 						ExplorerClassConstraint ecc = findOrCreateClassConstraint(EmfBehaviorUtil.getContext(b));
 						ExplorerBehaviorConstraint ebc = (ExplorerBehaviorConstraint) UserInterfaceUtil.findRepresentingElement(b, ecc.getBehaviors());
 						if(ebc == null){
@@ -168,6 +190,8 @@ public class PerspectiveCreator extends AbstractUimSynchronizer2{
 							ebc.getInvocationConstraint().setRequiresGroupOwnership(true);
 							ebc.getInvocationConstraint().setRequiresOwnership(false);
 						}
+						map.put(b, ebc);
+
 					}
 				}else{
 					ExplorerClassConstraint ecc = findOrCreateClassConstraint(c);
@@ -185,6 +209,8 @@ public class PerspectiveCreator extends AbstractUimSynchronizer2{
 						ecc.getNewObjectConstraint().setRequiresGroupOwnership(true);
 						ecc.getNewObjectConstraint().setRequiresOwnership(false);
 					}
+					map.put(c, ecc);
+
 				}
 			}
 		}
@@ -194,8 +220,7 @@ public class PerspectiveCreator extends AbstractUimSynchronizer2{
 	}
 	private ExplorerClassConstraint findOrCreateClassConstraint(Classifier c){
 		String id = EmfWorkspace.getId(c);
-		ExplorerClassConstraint ecc = (ExplorerClassConstraint) UserInterfaceUtil
-				.findRepresentingElement(c, this.explorerPosition.getClasses());
+		ExplorerClassConstraint ecc = (ExplorerClassConstraint) UserInterfaceUtil.findRepresentingElement(c, this.explorerPosition.getClasses());
 		if(ecc == null){
 			ecc = PerspectiveFactory.eINSTANCE.createExplorerClassConstraint();
 			this.explorerPosition.getClasses().add(ecc);
@@ -203,4 +228,23 @@ public class PerspectiveCreator extends AbstractUimSynchronizer2{
 		}
 		return ecc;
 	}
+	public void visitOnly(Element element){
+		if(element instanceof Operation){
+			visitOperation((Operation) element);
+		}else if(element instanceof Property){
+			visitProperty((Property) element);
+		}else if(element instanceof Classifier){
+			visitClassifier((Classifier) element);
+		}
+	}
+	public void visitRecursively(Element modelElement){
+		visitOnly(modelElement);
+		for(Element eObject:EmfElementFinder.getCorrectOwnedElements(modelElement)){
+			visitRecursively(eObject);
+		}
+	}
+	public ExplorerConstraint getConstraintFor(Element e){
+		return map.get(e);
+	}
+	
 }

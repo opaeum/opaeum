@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eyPdUHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_nSqy4PNQEeGhGoYzbfvy4A" name="I business state machine User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_eyPdUXzhEeK4RO8Gc0PbkA" name="Edit IBusinessStateMachine" umlElementUid="252060@_nSqy4PNQEeGhGoYzbfvy4A">
+    <superUserInterfaces href="252060@_5DVD4I3oEeCfQedkc0TCdA.uim#_exq1kXzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_eyQEZ3zhEeK4RO8Gc0PbkA" page="_eyQEZnzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_eyQEaXzhEeK4RO8Gc0PbkA" position="1">
+      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_exoZV3zhEeK4RO8Gc0PbkA"/>
+    </pageOrdering>
+    <pageOrdering xmi:id="_eyQEcHzhEeK4RO8Gc0PbkA" position="2">
+      <page href="252060@_5DVD4I3oEeCfQedkc0TCdA.uim#_exrcpHzhEeK4RO8Gc0PbkA"/>
+    </pageOrdering>
+    <pages xmi:id="_eyQEZnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_nSqy4PNQEeGhGoYzbfvy4A" name="Edit I business state machine">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyQEaHzhEeK4RO8Gc0PbkA" name="IBusinessStateMachine" numberOfColumns="1"/>
+    </pages>
+    <actionBar xmi:id="_eyQEd3zhEeK4RO8Gc0PbkA" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyQEeHzhEeK4RO8Gc0PbkA" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyQEeXzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyQEenzhEeK4RO8Gc0PbkA" name="On failure" umlElementUid="252060@_CDJHUEuCEeGElKTCe2jfDw">
+        <popup href="252060@_CDJHUEuCEeGElKTCe2jfDw.uim#_exrct3zhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyQEe3zhEeK4RO8Gc0PbkA" name="On activated" umlElementUid="252060@_XbPZkK0OEeCK48ywUpk_rg">
+        <popup href="252060@_XbPZkK0OEeCK48ywUpk_rg.uim#_expAYHzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyQEfHzhEeK4RO8Gc0PbkA" name="On completed" umlElementUid="252060@_a_82cK0OEeCK48ywUpk_rg">
+        <popup href="252060@_a_82cK0OEeCK48ywUpk_rg.uim#_expAYnzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyQEfXzhEeK4RO8Gc0PbkA" name="On started" umlElementUid="252060@_iBCwEK0NEeCK48ywUpk_rg">
+        <popup href="252060@_iBCwEK0NEeCK48ywUpk_rg.uim#_expAZHzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyQEfnzhEeK4RO8Gc0PbkA" name="On started" umlElementUid="252060@_v7N4oEuBEeGElKTCe2jfDw">
+        <popup href="252060@_v7N4oEuBEeGElKTCe2jfDw.uim#_exrcvHzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyQEf3zhEeK4RO8Gc0PbkA" name="On suspended" umlElementUid="252060@_xCSOYEuBEeGElKTCe2jfDw">
+        <popup href="252060@_xCSOYEuBEeGElKTCe2jfDw.uim#_exrcvnzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyQEgHzhEeK4RO8Gc0PbkA" name="On resumed" umlElementUid="252060@_xd064EuBEeGElKTCe2jfDw">
+        <popup href="252060@_xd064EuBEeGElKTCe2jfDw.uim#_exsDsXzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyQEgXzhEeK4RO8Gc0PbkA" name="On completed" umlElementUid="252060@_yDSYYEuBEeGElKTCe2jfDw">
+        <popup href="252060@_yDSYYEuBEeGElKTCe2jfDw.uim#_exsDs3zhEeK4RO8Gc0PbkA"/>
+      </children>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_eyQEgnzhEeK4RO8Gc0PbkA" name="Create IBusinessStateMachine" umlElementUid="252060@_nSqy4PNQEeGhGoYzbfvy4A">
+    <superUserInterfaces href="252060@_5DVD4I3oEeCfQedkc0TCdA.uim#_exsDtHzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_eyQrd3zhEeK4RO8Gc0PbkA" page="_eyQrdnzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_eyQreXzhEeK4RO8Gc0PbkA" position="1">
+      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_expAenzhEeK4RO8Gc0PbkA"/>
+    </pageOrdering>
+    <pageOrdering xmi:id="_eyQrgHzhEeK4RO8Gc0PbkA" position="2">
+      <page href="252060@_5DVD4I3oEeCfQedkc0TCdA.uim#_exsDyXzhEeK4RO8Gc0PbkA"/>
+    </pageOrdering>
+    <pages xmi:id="_eyQrdnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_nSqy4PNQEeGhGoYzbfvy4A" name="CreateI business state machine">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyQreHzhEeK4RO8Gc0PbkA" name="IBusinessStateMachine" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

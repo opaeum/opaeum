@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.uml2.uml.edit,
  org.eclipse.ocl.uml,
  org.opaeum.compilation.ocltojava,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.eclipse.ui.views.properties.tabbed
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6 
 Export-Package: org.opaeum.eclipse,
@@ -29,5 +30,7 @@ Export-Package: org.opaeum.eclipse,
  org.opaeum.eclipse.context,
  org.opaeum.eclipse.menu,
  org.opaeum.eclipse.newchild,
+ org.opaeum.eclipse.uml.filters.core,
+ org.opaeum.propertysections,
  org.opaeum.topcased.uml.editor
 Bundle-ClassPath: .

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ex77XHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_G-a2oF-bEeGSPaWW9iQb9Q" name="I notification User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_ex77XXzhEeK4RO8Gc0PbkA" name="Edit INotification" umlElementUid="252060@_G-a2oF-bEeGSPaWW9iQb9Q">
+    <pageOrdering xmi:id="_ex77X3zhEeK4RO8Gc0PbkA" page="_ex77XnzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_ex77XnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_G-a2oF-bEeGSPaWW9iQb9Q" name="Edit I notification">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ex77YHzhEeK4RO8Gc0PbkA" name="INotification" numberOfColumns="1"/>
+    </pages>
+    <actionBar xmi:id="_ex77YXzhEeK4RO8Gc0PbkA" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ex77YnzhEeK4RO8Gc0PbkA" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ex77Y3zhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_ex8iYHzhEeK4RO8Gc0PbkA" name="Create INotification" umlElementUid="252060@_G-a2oF-bEeGSPaWW9iQb9Q">
+    <pageOrdering xmi:id="_ex8iYnzhEeK4RO8Gc0PbkA" page="_ex8iYXzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_ex8iYXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_G-a2oF-bEeGSPaWW9iQb9Q" name="CreateI notification">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ex8iY3zhEeK4RO8Gc0PbkA" name="INotification" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

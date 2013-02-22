@@ -68,7 +68,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 						synchronized(recentlyChangedEntities){
 							Iterator<Entry<ChangedEntity,ChangedEntity>> iter = recentlyChangedEntities.entrySet().iterator();
 							while(iter.hasNext()){
-								ChangedEntity changedEntity = (ChangedEntity) iter.next();
+								ChangedEntity changedEntity = iter.next().getKey();
 								if(changedEntity.changedOn < System.currentTimeMillis() - (1000l * 60 * 30)){
 									iter.remove();
 								}

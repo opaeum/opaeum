@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:QueryInvoker xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ezbwIHzhEeK4RO8Gc0PbkA" name="getInitiator" umlElementUid="252060@_VJyB4I6REeCrtavWRHwoHg" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_ezbwInzhEeK4RO8Gc0PbkA" page="_ezbwIXzhEeK4RO8Gc0PbkA"/>
+  <pages xmi:id="_ezbwIXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_VJyB4I6REeCrtavWRHwoHg" name="Query: Get initiator">
+    <panel xsi:type="panel:GridPanel" xmi:id="_ezbwI3zhEeK4RO8Gc0PbkA" name="GetInitiator" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_ezbwJHzhEeK4RO8Gc0PbkA" name="Result" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_ezbwJXzhEeK4RO8Gc0PbkA"/>
+        <binding xmi:id="_ezbwJnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_40qxAI6REeCrtavWRHwoHg"/>
+      </children>
+    </panel>
+  </pages>
+  <actionBar xmi:id="_ezbwJ3zhEeK4RO8Gc0PbkA" name="ActionBar">
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_ezbwKHzhEeK4RO8Gc0PbkA" name="Execute" kind="execute"/>
+  </actionBar>
+</model:QueryInvoker>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eyxBwHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Rj0BAFYkEeGJUqEGX7bKSg" name="BusinessCollaboration Business User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_eyxBwXzhEeK4RO8Gc0PbkA" name="Edit BusinessCollaboration_Business" umlElementUid="252060@_Rj0BAFYkEeGJUqEGX7bKSg">
+    <pageOrdering xmi:id="_eyxo0XzhEeK4RO8Gc0PbkA" page="_eyxo0HzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_eyxo0HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Rj0BAFYkEeGJUqEGX7bKSg" name="Edit BusinessCollaboration Business">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyxo0nzhEeK4RO8Gc0PbkA" name="BusinessCollaboration_Business" numberOfColumns="1"/>
+    </pages>
+    <actionBar xmi:id="_eyxo03zhEeK4RO8Gc0PbkA" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyxo1HzhEeK4RO8Gc0PbkA" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyxo1XzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_eyxo1nzhEeK4RO8Gc0PbkA" name="Create BusinessCollaboration_Business" umlElementUid="252060@_Rj0BAFYkEeGJUqEGX7bKSg">
+    <pageOrdering xmi:id="_eyxo2HzhEeK4RO8Gc0PbkA" page="_eyxo13zhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_eyxo13zhEeK4RO8Gc0PbkA" umlElementUid="252060@_Rj0BAFYkEeGJUqEGX7bKSg" name="CreateBusinessCollaboration Business">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyxo2XzhEeK4RO8Gc0PbkA" name="BusinessCollaboration_Business" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

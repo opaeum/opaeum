@@ -75,7 +75,7 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	protected InboxConfiguration inbox;
 
 	/**
-	 * The cached value of the '{@link #getOutbox() <em>Outbox</em>}' reference.
+	 * The cached value of the '{@link #getOutbox() <em>Outbox</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getOutbox()
@@ -281,14 +281,6 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	 * @generated
 	 */
 	public OutboxConfiguration getOutbox() {
-		if (outbox != null && outbox.eIsProxy()) {
-			InternalEObject oldOutbox = (InternalEObject)outbox;
-			outbox = (OutboxConfiguration)eResolveProxy(oldOutbox);
-			if (outbox != oldOutbox) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerspectivePackage.PERSPECTIVE_CONFIGURATION__OUTBOX, oldOutbox, outbox));
-			}
-		}
 		return outbox;
 	}
 
@@ -297,8 +289,14 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OutboxConfiguration basicGetOutbox() {
-		return outbox;
+	public NotificationChain basicSetOutbox(OutboxConfiguration newOutbox, NotificationChain msgs) {
+		OutboxConfiguration oldOutbox = outbox;
+		outbox = newOutbox;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerspectivePackage.PERSPECTIVE_CONFIGURATION__OUTBOX, oldOutbox, newOutbox);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -307,10 +305,17 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	 * @generated
 	 */
 	public void setOutbox(OutboxConfiguration newOutbox) {
-		OutboxConfiguration oldOutbox = outbox;
-		outbox = newOutbox;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerspectivePackage.PERSPECTIVE_CONFIGURATION__OUTBOX, oldOutbox, outbox));
+		if (newOutbox != outbox) {
+			NotificationChain msgs = null;
+			if (outbox != null)
+				msgs = ((InternalEObject)outbox).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PerspectivePackage.PERSPECTIVE_CONFIGURATION__OUTBOX, null, msgs);
+			if (newOutbox != null)
+				msgs = ((InternalEObject)newOutbox).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PerspectivePackage.PERSPECTIVE_CONFIGURATION__OUTBOX, null, msgs);
+			msgs = basicSetOutbox(newOutbox, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerspectivePackage.PERSPECTIVE_CONFIGURATION__OUTBOX, newOutbox, newOutbox));
 	}
 
 	/**
@@ -329,6 +334,8 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 				return basicSetProperties(null, msgs);
 			case PerspectivePackage.PERSPECTIVE_CONFIGURATION__INBOX:
 				return basicSetInbox(null, msgs);
+			case PerspectivePackage.PERSPECTIVE_CONFIGURATION__OUTBOX:
+				return basicSetOutbox(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -350,8 +357,7 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 			case PerspectivePackage.PERSPECTIVE_CONFIGURATION__INBOX:
 				return getInbox();
 			case PerspectivePackage.PERSPECTIVE_CONFIGURATION__OUTBOX:
-				if (resolve) return getOutbox();
-				return basicGetOutbox();
+				return getOutbox();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

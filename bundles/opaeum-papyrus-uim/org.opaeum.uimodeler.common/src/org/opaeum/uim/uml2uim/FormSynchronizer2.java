@@ -72,7 +72,7 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 			editor.getPages().clear();
 			editor.getPageOrdering().clear();
 			if(editor instanceof AbstractEditor){
-				((AbstractEditor) editor).setActionBar(EditorFactory.eINSTANCE.createActionBar());
+				((AbstractEditor) editor).getActionBar().getChildren().clear();
 			}
 		}
 	}
@@ -82,7 +82,7 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 			if(EmfBehaviorUtil.isStandaloneTask(b) || EmfBehaviorUtil.isProcess(b)){
 				return populateBehaviorUserInteractionModel(b);
 			}
-		}else if(EmfClassifierUtil.isPersistentComplexStructure(c)){
+		}else if(EmfClassifierUtil.isPersistentComplexStructure(c) || (c instanceof Interface && !EmfClassifierUtil.isHelper(c))){
 			return populateClassUserInteractionModel(c, ActionKind.UPDATE, ActionKind.DELETE);
 		}
 		return null;
@@ -103,6 +103,7 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 			if(!model.getEditor().isUnderUserControl()){
 				model.getEditor().setName(o.getName());
 				model.getEditor().setUmlElementUid(resourceUri);
+				applyRegenerate(model.getEditor());
 				EditorCreator ec = new EditorCreator(this, model.getEditor());
 				List<TypedElement> typedElements = new ArrayList<TypedElement>();
 				typedElements.addAll(o.getOwnedParameters());
@@ -122,9 +123,9 @@ public class FormSynchronizer2 extends AbstractUimSynchronizer2{
 				model.setInvocationWizard(WizardFactory.eINSTANCE.createBehaviorInvocationWizard());
 			}
 			if(!model.getInvocationWizard().isUnderUserControl()){
-				model.setInvocationWizard(WizardFactory.eINSTANCE.createBehaviorInvocationWizard());
 				model.getInvocationWizard().setName("Request" + o.getName());
 				model.getInvocationWizard().setUmlElementUid(resourceUri);
+				applyRegenerate(model.getInvocationWizard());
 				WizardCreator wc = new WizardCreator(this, model.getInvocationWizard());
 				wc.populateUserInterface(o, NameConverter.separateWords(o.getName()), EmfBehaviorUtil.getArgumentParameters(o));
 			}

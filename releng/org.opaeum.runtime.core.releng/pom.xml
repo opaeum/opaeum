@@ -39,22 +39,7 @@
 		</developer>
 	</developers>
 	<repositories>
-		<repository>
-			<snapshots>
-				<enabled>never</enabled>
-			</snapshots>
-			<id>pentaho</id>
-			<name>Pentaho</name>
-			<url>http://repository.pentaho.org/artifactory/pentaho</url>
-		</repository>
-		<repository>
-			<snapshots>
-				<enabled>never</enabled>
-			</snapshots>
-			<id>pentaho3rd</id>
-			<name>Pentaho3rd</name>
-			<url>http://repository.pentaho.org/artifactory/third-party/</url>
-		</repository>
+
 
 		<repository>
 			<id>repository.jboss.org</id>
@@ -65,7 +50,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	<profiles>
+	<!--profiles>
 		<profile>
 			<id>sign</id>
 			<build>
@@ -87,7 +72,7 @@
 				</plugins>
 			</build>
 		</profile>
-	</profiles>
+	</profiles-->
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -151,16 +136,68 @@
 						<projectNameTemplate>[artifactId]</projectNameTemplate>
 					</configuration>
 				</plugin>
-				<plugin>
+				<!--plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.1</version>
-				</plugin>
+				</plugin-->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>build-helper-maven-plugin</artifactId>
 					<version>1.5</version>
 				</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-source-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>plugin-source</id>
+						<goals>
+							<goal>plugin-source</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <environments>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+          </environments>
+        </configuration>
+      	</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<format>yyyyMMdd-HHmm</format>
+				</configuration>
+			</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -174,7 +211,7 @@
 		<module>opaeum-runtime-tinker-neo4j</module>
 		<module>opaeum-test-tinker</module--> 
 		<module>../../runtime/opaeum-runtime-core/opaeum-runtime-hibernate</module> 
-		<module>../../runtime/opaeum-runtime-core/opaeum-runtime-jpa</module> 
+		<!--module>../../runtime/opaeum-runtime-core/opaeum-runtime-jpa</module--> 
 		<module>../../runtime/opaeum-runtime-core/opaeum-runtime-ejb3</module> 
 		<!--module>../../runtime/opaeum-runtime-core/opaeum-runtime-core-bundle</module--> 
 	</modules>
@@ -353,5 +390,7 @@
 	<properties>
 		<eclipse.home>/home/ampie/EclipseProducts/JunoModelling4.2.1</eclipse.home>
 		<eclipse.build>1.3.0.v20120522-1813</eclipse.build>
+		<tycho-version>0.16.0</tycho-version>
+
 	</properties>
 </project>

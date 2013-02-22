@@ -2,24 +2,15 @@ package org.opaeum.propertysections;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmf.runtime.notation.Connector;
 import org.eclipse.jface.viewers.IFilter;
-import org.eclipse.ui.internal.views.properties.tabbed.TabbedPropertyViewPlugin;
-import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyRegistry;
-import org.eclipse.ui.views.properties.tabbed.AbstractSectionDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptorProvider;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InstanceSpecification;
@@ -55,7 +46,6 @@ import org.opaeum.eclipse.uml.filters.bpm.TaskFilter;
 import org.opaeum.eclipse.uml.filters.compositestructures.DelegationFilter;
 import org.opaeum.eclipse.uml.filters.compositestructures.InterfacesFilter;
 import org.opaeum.eclipse.uml.filters.compositestructures.PrimaryRoleFilter;
-import org.opaeum.eclipse.uml.filters.core.AbstractFilter;
 import org.opaeum.eclipse.uml.filters.core.AssociationEndFilter;
 import org.opaeum.eclipse.uml.filters.core.BehavioredClassifierNotBehaviorFilter;
 import org.opaeum.eclipse.uml.filters.core.ClassifierNotAssociationFilter;
@@ -165,51 +155,8 @@ import org.opaeum.eclipse.uml.propertysections.statemachine.TransitionGuardSecti
 import org.opaeum.eclipse.uml.propertysections.statemachine.TransitionRedefinedTransitionSection;
 import org.opaeum.eclipse.uml.propertysections.statemachine.TransitionTriggerSection;
 
-public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry implements ISectionDescriptorProvider{
+public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorProvider implements ISectionDescriptorProvider{
 	OpaeumTypeMapper typeMapper = new OpaeumTypeMapper();
-	private static final class FilterBasedDescriptor extends AbstractSectionDescriptor{
-		private final ISection s;
-		private final IFilter f;
-		private String tabId;
-		private String afterSection;
-		private FilterBasedDescriptor(ISection s,IFilter f){
-			this.s = s;
-			this.f = f;
-		}
-		@Override
-		public IFilter getFilter(){
-			return f;
-		}
-		@Override
-		public String getTargetTab(){
-			return getTabId();
-		}
-		@Override
-		public ISection getSectionClass(){
-			return s;
-		}
-		@Override
-		public String getId(){
-			return s.getClass().getName();
-		}
-		public String getTabId(){
-			return tabId;
-		}
-		public void setTabId(String tabId){
-			this.tabId = tabId;
-		}
-		public String getAfterSection(){
-			if(afterSection == null){
-				return super.getAfterSection();
-			}
-			return afterSection;
-		}
-		public void setAfterSection(String afterSection){
-			this.afterSection = afterSection;
-		}
-	}
-	private ArrayList<ISectionDescriptor> result;
-	ISection previousSection;
 	@SuppressWarnings("restriction")
 	public OpaeumSectionDescriptorProvider(){
 		super("dummytoavoidrecursion");
@@ -275,8 +222,6 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		addBasic(new TaskFilter(), new TaskPotentialOwnersSection());
 		// addBasic(new ??(), new TimeEventTimeUnitSection());
 		addBasic(new DelegationFilter(), new ConnectorSelectionSection());
-		addInterfaces(Port.class, new PortProvidedInterfaces());
-		addInterfaces(Port.class, new PortRequiredInterfaces());
 		// Event
 		addBasic(TimeEvent.class, new TimeEventIsRelativeSection());
 		// addBasic(TimeEvent.class, new TimeEventWhenSection());
@@ -319,7 +264,6 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 		//Composite Structures
 		addBasic(new DelegationFilter(), new ConnectorSelectionSection());
 		addBasic(new InterfacesFilter(), new PortRequiredInterfaces());
-		addBasic(new InterfacesFilter(), new PortProvidedInterfaces());
 		addBasic(new InterfacesFilter(), new PortProvidedInterfaces());
 		addBasic(new PrimaryRoleFilter(), new PropertyPrimaryCompositionRole());
 		// StateMachine
@@ -364,50 +308,8 @@ public class OpaeumSectionDescriptorProvider extends TabbedPropertyRegistry impl
 	private void addDeadlines(IFilter deadlineContainerFilter,ISection section){
 		add(deadlineContainerFilter, section).setTabId("org.opaeum.eclipse.deadlinesTab");
 	}
-	private FilterBasedDescriptor add(IFilter filter,ISection section){
-		FilterBasedDescriptor result = new FilterBasedDescriptor(section, filter);
-		this.result.add(result);
-		if(previousSection != null){
-			result.setAfterSection(previousSection.getClass().getName());
-		}
-		previousSection = section;
-		return result;
-	}
 	private void addBasic(Class<? extends EObject> class1,ISection namedElementNameSection){
 		add(class1, namedElementNameSection).setTabId("org.opaeum.eclipse.opaeumTab");
 	}
-	private FilterBasedDescriptor add(final Class<? extends EObject> c,final ISection s){
-		return add(new AbstractFilter(){
-			@Override
-			public boolean select(EObject e){
-				return c.isInstance(e);
-			}
-			@Override
-			public boolean select(Element e){
-				return c.isInstance(e);
-			}
-		}, s);
-	}
-	@SuppressWarnings({"restriction","unchecked","rawtypes"})
-	protected IConfigurationElement[] getConfigurationElements(String extensionPointId){
-		if(contributorId == null){
-			return new IConfigurationElement[0];
-		}
-		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(
-				TabbedPropertyViewPlugin.getPlugin().getBundle().getSymbolicName(), extensionPointId);
-		IConfigurationElement[] extensions = point.getConfigurationElements();
-		List unordered = new ArrayList(extensions.length);
-		for(int i = 0;i < extensions.length;i++){
-			IConfigurationElement extension = extensions[i];
-			if(!extension.getName().equals(extensionPointId)){
-				continue;
-			}
-			String contributor = extension.getAttribute("contributorId");
-			if(!contributorId.equals(contributor)){
-				continue;
-			}
-			unordered.add(extension);
-		}
-		return (IConfigurationElement[]) unordered.toArray(new IConfigurationElement[unordered.size()]);
-	}
+	
 }

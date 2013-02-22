@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>org.opaeum.runtime.ui.engine-parent</artifactId>
+		<groupId>org.opaeum</groupId>
+		<version>1.0.3-SNAPSHOT</version>
+		<relativePath>../../../releng/org.opaeum.runtime.ui.engine.releng/pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.opaeum</groupId>
+	<artifactId>org.opaeum.rap.metamodels.uim</artifactId>
+	<packaging>jar</packaging>
+	<name>Opaeum Rap UIM Runtime</name>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opaeum</groupId>
+			<artifactId>opaeum-runtime-domain</artifactId>
+		</dependency>
+	</dependencies>
+	<properties>
+	</properties>
+</project>

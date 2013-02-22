@@ -90,7 +90,7 @@ public abstract class AbstractUmlReferenceLookupSection extends AbstractReferenc
 			@SuppressWarnings({"rawtypes","unchecked"})
 			public List<?> getCurrentValues(){
 				List<? extends UmlReference> requiredRoles = (List) super.getCurrentValues();
-				UmlUimLinks links = UmlUimLinks.getCurrentUmlLinks((UserInteractionElement) getSelectedObject());
+				UmlUimLinks links = UmlUimLinks.getCurrentUmlLinks((UserInteractionElement) getFeatureOwner(getSelectedObject()));
 				List<EObject> result = new ArrayList<EObject>();
 				for(UmlReference requiredRole:requiredRoles){
 					Element umlElement = links.getUmlElement(requiredRole);

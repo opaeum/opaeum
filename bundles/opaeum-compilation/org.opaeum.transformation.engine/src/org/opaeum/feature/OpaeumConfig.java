@@ -462,7 +462,7 @@ public class OpaeumConfig{
 		return DatabaseManagementSystem.GENERIC.name();
 	}
 	public String getJdbcConnectionUrl(){
-		return props.getProperty(JDBC_CONNECTION_URL, "jdbc:postgresql://localhost:5433/" + getApplicationIdentifier());
+		return props.getProperty(JDBC_CONNECTION_URL, "jdbc:postgresql://localhost:5432/" + getApplicationIdentifier());
 	}
 	public String getDbPassword(){
 		return props.getProperty(DB_PASSWORD, "postgres");
@@ -520,7 +520,7 @@ public class OpaeumConfig{
 		this.props.setProperty(JDBC_DRIVER, driver);
 	}
 	public String getJdbcDriver(){
-		return this.props.getProperty(JDBC_DRIVER, "org.postgres.Driver");
+		return this.props.getProperty(JDBC_DRIVER, "org.postgresql.Driver");
 	}
 	public void setDbName(String driver){
 		this.props.setProperty(DB_NAME, driver);

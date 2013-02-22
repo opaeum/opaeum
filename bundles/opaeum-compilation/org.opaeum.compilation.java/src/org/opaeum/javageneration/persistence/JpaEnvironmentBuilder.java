@@ -154,7 +154,7 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 					if(e instanceof Classifier && EmfClassifierUtil.isComplexStructure((Classifier) e) && EmfClassifierUtil.isPersistent((Type) e)
 							&& isGeneratingElement(e)){
 						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.classifierPathname((Classifier) e) + "\")");
-						if(e instanceof Behavior){
+						if(e instanceof Behavior && EmfBehaviorUtil.isProcess((Behavior) e)){
 							getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.tokenPathName((Behavior) e) + "\")");
 						}
 					}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
@@ -170,6 +170,7 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 							&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e)))
 							&& isGeneratingElement(e)){
 						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.classifierPathname((StructuredActivityNode) e) + "\")");
+						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.tokenPathName((StructuredActivityNode) e) + "\")");
 					}
 				}
 			}

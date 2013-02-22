@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Interface;
 import org.opaeum.eclipse.newchild.IOpaeumResourceSet;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.util.UimResourceImpl;
@@ -20,6 +21,9 @@ public class UimResourceUtil{
 		return getUimResource(e, rst, dirUri3, id);
 	}
 	public static Resource getUimResource(Element e,ResourceSet rst,URI dirUri3,String id){
+		if(e instanceof Interface){
+			System.out.println();
+		}
 		URI[] dirUris = buildPotentialDirectoriesByPriority(e, rst, dirUri3);
 		URI formUri = null;
 		for(URI uri:dirUris){

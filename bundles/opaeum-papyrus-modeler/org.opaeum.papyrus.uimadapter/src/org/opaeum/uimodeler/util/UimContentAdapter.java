@@ -33,7 +33,7 @@ public class UimContentAdapter extends EContentAdapter{
 		super();
 		this.modelSet = modelSet;
 		URI dirUri = modelSet.getOpenUmlFile().getEmfWorkspace().getDirectoryUri();
-		perspectiveCreator = new PerspectiveCreator(dirUri, modelSet, false);
+		perspectiveCreator = new PerspectiveCreator(dirUri, modelSet, false,modelSet.getOpenUmlFile().getEmfWorkspace());
 		formSynchronizer = new FormSynchronizer2(dirUri, modelSet, false);
 		umlSwitch = new UmlToUimSwitch(perspectiveCreator, formSynchronizer);
 		modelSet.registerUimResources(perspectiveCreator.getNewResources());
@@ -92,5 +92,9 @@ public class UimContentAdapter extends EContentAdapter{
 		}else{
 			umlSwitch.goForIt(notification);
 		}
+	}
+	public PerspectiveCreator getPerspectiveCreator(){
+		// TODO Auto-generated method stub
+		return perspectiveCreator;
 	}
 }

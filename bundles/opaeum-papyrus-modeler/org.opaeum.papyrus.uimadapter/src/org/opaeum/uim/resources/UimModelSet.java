@@ -50,13 +50,17 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.newchild.IOpaeumResourceSet;
 import org.opaeum.papyrus.PapyrusEObjectSelectorUI;
+import org.opaeum.uim.perspective.ExplorerConstraint;
 import org.opaeum.uim.uml2uim.FormSynchronizer2;
+import org.opaeum.uim.uml2uim.PerspectiveCreator;
 import org.opaeum.uim.uml2uim.UimResourceUtil;
 import org.opaeum.uim.util.UmlUimLinks;
+import org.opaeum.uimodeler.common.IExplorerMap;
 import org.opaeum.uimodeler.util.InMemoryNotationCommandQueue;
 import org.opaeum.uimodeler.util.UimContentAdapter;
 
-public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResourceSet{
+public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResourceSet,IExplorerMap{
+	private PerspectiveCreator perspectiveCreator;
 	private InMemoryNotationResource inMemoryNotationModel;
 	private IFile primaryFile;
 	private Map<Element,Resource> uiResourceMap = new HashMap<Element,Resource>();
@@ -174,9 +178,6 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 			@Override
 			public void notifyChanged(Notification notification){
 				super.notifyChanged(notification);
-				if(notification.getNotifier() instanceof TabFolder && notification.getNewValue() instanceof PageRef){
-					System.out.println();
-				}
 			}
 		});
 		TreeIterator<EObject> eAllContents = model.getResource().getAllContents();
@@ -187,8 +188,6 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 				PageRef pr = (PageRef) eObject;
 				if(pr.getEmfPageIdentifier() == null || pr.getEmfPageIdentifier().eIsProxy()){
 					remove.add(pr);
-				}else{
-					System.out.println();
 				}
 			}
 		}
@@ -243,7 +242,9 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 			@Override
 			public void run(){
 				try{
-					getOpenUmlFile().setAdditionalContentAdapter(new UimContentAdapter(UimModelSet.this));
+					UimContentAdapter additionalContentAdapter = new UimContentAdapter(UimModelSet.this);
+					perspectiveCreator=additionalContentAdapter.getPerspectiveCreator();
+					getOpenUmlFile().setAdditionalContentAdapter(additionalContentAdapter);
 					URI dirUri = getOpenUmlFile().getEmfWorkspace().getDirectoryUri();
 					FormSynchronizer2 fs = new FormSynchronizer2(dirUri, UimModelSet.this, false);
 					Collection<EObject> clsses = getOpenUmlFile().getTypeCacheAdapter().getReachableObjectsOfType(getRootObject(),
@@ -287,5 +288,12 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 		}
 		//TODO think about this case??
 		return null;
+	}
+	@Override
+	public ExplorerConstraint getConstraintFor(Element e){
+		if(perspectiveCreator==null){
+			return null;
+		}
+		return perspectiveCreator.getConstraintFor(e);
 	}
 }

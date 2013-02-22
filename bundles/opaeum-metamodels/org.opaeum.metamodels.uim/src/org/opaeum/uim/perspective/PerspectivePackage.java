@@ -123,7 +123,7 @@ public interface PerspectivePackage extends EPackage {
 	int PERSPECTIVE_CONFIGURATION__INBOX = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Outbox</b></em>' reference.
+	 * The feature id for the '<em><b>Outbox</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1270,10 +1270,10 @@ public interface PerspectivePackage extends EPackage {
 	EReference getPerspectiveConfiguration_Inbox();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opaeum.uim.perspective.PerspectiveConfiguration#getOutbox <em>Outbox</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.PerspectiveConfiguration#getOutbox <em>Outbox</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Outbox</em>'.
+	 * @return the meta object for the containment reference '<em>Outbox</em>'.
 	 * @see org.opaeum.uim.perspective.PerspectiveConfiguration#getOutbox()
 	 * @see #getPerspectiveConfiguration()
 	 * @generated
@@ -1619,7 +1619,7 @@ public interface PerspectivePackage extends EPackage {
 		EReference PERSPECTIVE_CONFIGURATION__INBOX = eINSTANCE.getPerspectiveConfiguration_Inbox();
 
 		/**
-		 * The meta object literal for the '<em><b>Outbox</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Outbox</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

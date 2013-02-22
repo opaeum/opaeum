@@ -6,6 +6,12 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
+			<name>org.eclipse.wst.common.project.facet.core.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	
+		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
@@ -24,12 +30,7 @@
 	<natures>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+		<nature>org.eclipse.virgo.ide.facet.core.plannature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>bpm-src</name>
-			<type>2</type>
-			<location>/home/ampie/NewWorkspaces/cm1/cm-entity/opaeum-runtime-bpm/src/main/java</location>
-		</link>
-	</linkedResources>	
 </projectDescription>

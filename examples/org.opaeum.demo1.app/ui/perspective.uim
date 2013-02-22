@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="ASCII"?>
+<persp:PerspectiveConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:persp="http://opaeum.org/uimetamodel/perspective/1.0" xmi:id="_dRpNQHzhEeK4RO8Gc0PbkA">
+  <explorer xmi:id="_dRpNQXzhEeK4RO8Gc0PbkA" width="200">
+    <classes xmi:id="_exDKgHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_vZOC4I6UEeCne5ArYLDbiA">
+      <properties xmi:id="_exDKgXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_2tlBVI6UEeCne5ArYLDbiA" name="kind" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exDKgnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw" name="ParticipationParticipant" hidden="true">
+      <newObjectConstraint xmi:id="_exDKg3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exDKhHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg">
+      <properties xmi:id="_exDKhXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw" name="participant" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exDKhnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <operations xmi:id="_exDKh3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_-PsMoIoaEeCPduia_-NbFw" name="start"/>
+    </classes>
+    <classes xmi:id="_exDKiHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <operations xmi:id="_exDKiXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_3USwcKDGEeCv9IRqC7lfYw" name="activate"/>
+    </classes>
+    <classes xmi:id="_exDxkHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <operations xmi:id="_exDxkXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_4RNcAIoaEeCPduia_-NbFw" name="complete"/>
+    </classes>
+    <classes xmi:id="_exDxknzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <operations xmi:id="_exDxk3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Nl5kQI6SEeCrtavWRHwoHg" name="removeRequestParticipant"/>
+    </classes>
+    <classes xmi:id="_exDxlHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <operations xmi:id="_exDxlXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Qo338I6QEeCrtavWRHwoHg" name="addRequestParticipant"/>
+    </classes>
+    <classes xmi:id="_exEYoHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <properties xmi:id="_exEYoXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_ROT18O6REeGtc9wBJ1VReA" name="stakeholders" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exEYonzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <operations xmi:id="_exEYo3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_VJyB4I6REeCrtavWRHwoHg" name="getInitiator"/>
+    </classes>
+    <classes xmi:id="_exEYpHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <properties xmi:id="_exEYpXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_XLHkUI6NEeCrtavWRHwoHg" name="participationInRequest"/>
+    </classes>
+    <classes xmi:id="_exEYpnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <properties xmi:id="_exEYp3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_lw17UO6QEeGtc9wBJ1VReA" name="initiator" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exEYqHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <operations xmi:id="_exEYqXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_ov5DMIoaEeCPduia_-NbFw" name="suspend"/>
+    </classes>
+    <classes xmi:id="_exEYqnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <operations xmi:id="_exEYq3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_qwWfEIoaEeCPduia_-NbFw" name="resume"/>
+    </classes>
+    <classes xmi:id="_exEYrHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <properties xmi:id="_exEYrXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_84NrDrRZEeCilvbXE8KmHA" name="delegation" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exEYrnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_vZOC4I6UEeCne5ArYLDbiA">
+      <properties xmi:id="_exEYr3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_BCPvEY6VEeCne5ArYLDbiA" name="taskRequest" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exEYsHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_GVhgMI6NEeCrtavWRHwoHg" name="ParticipationInRequest">
+      <newObjectConstraint xmi:id="_exEYsXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exEYsnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_ciiWAI2-EeCrtavWRHwoHg">
+      <properties xmi:id="_exEYs3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_JY15xI3pEeCfQedkc0TCdA" name="processObject" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exEYtHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_GVhgMI6NEeCrtavWRHwoHg">
+      <properties xmi:id="_exEYtXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_XLVmwY6NEeCrtavWRHwoHg" name="request" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exE_sHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_GVhgMI6NEeCrtavWRHwoHg">
+      <properties xmi:id="_exE_sXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_cATKlI6NEeCrtavWRHwoHg" name="kind" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exE_snzhEeK4RO8Gc0PbkA" umlElementUid="252060@_ciiWAI2-EeCrtavWRHwoHg">
+      <operations xmi:id="_exE_s3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_4zDaYK0wEeCTTvcJZSDicw" name="abort"/>
+    </classes>
+    <classes xmi:id="_exE_tHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_jRjnII6MEeCrtavWRHwoHg" name="Participation">
+      <newObjectConstraint xmi:id="_exE_tXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exE_tnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <properties xmi:id="_exE_t3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_lEGvZI53EeCfQedkc0TCdA" name="requestObject" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exE_uHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6MA8UI2-EeCrtavWRHwoHg">
+      <properties xmi:id="_exE_uXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_towFgY29EeCrtavWRHwoHg" name="parentTask" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exE_unzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_vZOC4I6UEeCne5ArYLDbiA" name="ParticipationInTask">
+      <newObjectConstraint xmi:id="_exE_u3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exE_vHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <operations xmi:id="_exE_vXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_0lAQAIoaEeCPduia_-NbFw" name="delegate"/>
+    </classes>
+    <classes xmi:id="_exE_vnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <operations xmi:id="_exE_v3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_1gF8AKDTEeCi16HgBnUGFw" name="skip"/>
+    </classes>
+    <classes xmi:id="_exE_wHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <properties xmi:id="_exE_wXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_BB8NEI6VEeCne5ArYLDbiA" name="participationInTask"/>
+    </classes>
+    <classes xmi:id="_exE_wnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <operations xmi:id="_exE_w3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_GRVH0IobEeCPduia_-NbFw" name="stop"/>
+    </classes>
+    <classes xmi:id="_exE_xHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <operations xmi:id="_exE_xXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_LlMOIIobEeCPduia_-NbFw" name="revoke"/>
+    </classes>
+    <classes xmi:id="_exE_xnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <operations xmi:id="_exE_x3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Nk_isIobEeCPduia_-NbFw" name="claim"/>
+    </classes>
+    <classes xmi:id="_exE_yHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <operations xmi:id="_exFmwHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@__6uyIIoaEeCPduia_-NbFw" name="forward"/>
+    </classes>
+    <classes xmi:id="_exFmwXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <operations xmi:id="_exFmwnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_cQs8sOj8EeGqMbZBSj5Rng" name="setPotentialOwners"/>
+    </classes>
+    <classes xmi:id="_exFmw3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <properties xmi:id="_exFmxHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_sLVasPWwEeG3AqMTRXQUEA" name="taskObject" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exFmxXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <properties xmi:id="_exFmxnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_sMysAKDQEeCEB8xJMe8jaA" name="potentialOwners" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exFmx3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <properties xmi:id="_exFmyHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_tog08I29EeCrtavWRHwoHg" name="subRequests" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exFmyXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <operations xmi:id="_exFmynzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_v52VoI6SEeCrtavWRHwoHg" name="addTaskRequestParticipant"/>
+    </classes>
+    <classes xmi:id="_exFmy3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <operations xmi:id="_exFmzHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_wuzAoI6SEeCrtavWRHwoHg" name="removeTaskRequestParticipant"/>
+    </classes>
+    <classes xmi:id="_exFmzXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zFmsEIoVEeCLqpffVZYAlw">
+      <properties xmi:id="_exFmznzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_wy5fAKDREeCi16HgBnUGFw" name="owner" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exG04HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Ca9wQEtoEeGd4cpyhpib9Q">
+      <properties xmi:id="_exG04XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_1i74dEtoEeGd4cpyhpib9Q" name="type" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exG04nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q" name="PersonPhoneNumber">
+      <newObjectConstraint xmi:id="_exG043zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exG05HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
+      <properties xmi:id="_exG05XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_fjrTsHr7EeGX8L_MMRBizg" name="phoneNumber" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exG05nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Ca9wQEtoEeGd4cpyhpib9Q" name="OrganizationPhoneNumber">
+      <newObjectConstraint xmi:id="_exG053zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exG06HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Ca9wQEtoEeGd4cpyhpib9Q">
+      <properties xmi:id="_exG06XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_ls8YAHr7EeGX8L_MMRBizg" name="hponeNumber" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exG06nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_GfviYEtqEeGd4cpyhpib9Q" name="OrganizationEMailAddress">
+      <newObjectConstraint xmi:id="_exG063zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exG07HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_GfviYEtqEeGd4cpyhpib9Q">
+      <properties xmi:id="_exG07XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_jaw6AHr7EeGX8L_MMRBizg" name="emailAddress" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exG07nzhEeK4RO8Gc0PbkA" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
+      <properties xmi:id="_exG073zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Gjz08EtoEeGd4cpyhpib9Q" name="person" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exHb8HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Ca9wQEtoEeGd4cpyhpib9Q">
+      <properties xmi:id="_exHb8XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_HGK7IUtoEeGd4cpyhpib9Q" name="organization" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exHb8nzhEeK4RO8Gc0PbkA" umlElementUid="252060@_GfviYEtqEeGd4cpyhpib9Q">
+      <properties xmi:id="_exHb83zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_JGNOUUtqEeGd4cpyhpib9Q" name="organization" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exHb9HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_GfviYEtqEeGd4cpyhpib9Q">
+      <properties xmi:id="_exHb9XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Ju-ehEtqEeGd4cpyhpib9Q" name="type" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exHb9nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_LSLzIEtpEeGd4cpyhpib9Q" name="PersonEMailAddress">
+      <newObjectConstraint xmi:id="_exHb93zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exHb-HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_LSLzIEtpEeGd4cpyhpib9Q">
+      <properties xmi:id="_exHb-XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_XkOw4Hr7EeGX8L_MMRBizg" name="emailAddress" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exHb-nzhEeK4RO8Gc0PbkA" umlElementUid="252060@_LSLzIEtpEeGd4cpyhpib9Q">
+      <properties xmi:id="_exHb-3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_NrUNtEtpEeGd4cpyhpib9Q" name="type" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exHb_HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_3E_9kEtnEeGd4cpyhpib9Q">
+      <properties xmi:id="_exHb_XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_TR9ilEtoEeGd4cpyhpib9Q" name="type" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exHb_nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q" name="PostalAddress">
+      <newObjectConstraint xmi:id="_exHb_3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exIDAHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_cD7-MF-jEeGSPaWW9iQb9Q" name="PhysicalAddress">
+      <newObjectConstraint xmi:id="_exIDAXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exIDAnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_eIdasF-jEeGSPaWW9iQb9Q" name="Address">
+      <newObjectConstraint xmi:id="_exIDA3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exIDBHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_eIdasF-jEeGSPaWW9iQb9Q">
+      <properties xmi:id="_exIDBXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_gaGtMF-jEeGSPaWW9iQb9Q" name="unitNumber" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exIDBnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_eIdasF-jEeGSPaWW9iQb9Q">
+      <properties xmi:id="_exIDB3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_l4XFoF-jEeGSPaWW9iQb9Q" name="complexName" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exIDCHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_eIdasF-jEeGSPaWW9iQb9Q">
+      <properties xmi:id="_exIDCXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_nqLokF-jEeGSPaWW9iQb9Q" name="streetName" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exIDCnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_eIdasF-jEeGSPaWW9iQb9Q">
+      <properties xmi:id="_exIDC3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_rXXsAF-jEeGSPaWW9iQb9Q" name="streetNumber" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exIDDHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_LSLzIEtpEeGd4cpyhpib9Q">
+      <properties xmi:id="_exIDDXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_fNvioUtpEeGd4cpyhpib9Q" name="person" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exIqEHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_3lcZgFYuEeGj5_I7bIwNoA" name="PersonInBusinessRole" hidden="true">
+      <newObjectConstraint xmi:id="_exIqEXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exIqEnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exIqE3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_3lspsUvREeGmqIr8YsFD4g" name="businessNetwork" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exIqFHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exJRIHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_4uxKkUvREeGmqIr8YsFD4g" name="businessNetwork" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exJRIXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exJRInzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_8YuD0VZFEeGj5_I7bIwNoA" name="organization" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exJRI3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg" name="BusinessNetwork">
+      <newObjectConstraint xmi:id="_exJRJHzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exJRJXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg">
+      <properties xmi:id="_exJRJnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_3lOvoEvREeGmqIr8YsFD4g" name="person"/>
+    </classes>
+    <classes xmi:id="_exJRJ3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg">
+      <properties xmi:id="_exJRKHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_4uZ-MEvREeGmqIr8YsFD4g" name="organization"/>
+    </classes>
+    <classes xmi:id="_exJ4MHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_NRu9QFYjEeGJUqEGX7bKSg">
+      <properties xmi:id="_exJ4MXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_YJETMFYjEeGJUqEGX7bKSg" name="businessCollaboration"/>
+    </classes>
+    <classes xmi:id="_exJ4MnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Pybi0Et3EeGElKTCe2jfDw" name="Leave">
+      <newObjectConstraint xmi:id="_exJ4M3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exJ4NHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Pybi0Et3EeGElKTCe2jfDw">
+      <properties xmi:id="_exJ4NXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_RZHMwEt3EeGElKTCe2jfDw" name="fromDate" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exJ4NnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Pybi0Et3EeGElKTCe2jfDw">
+      <properties xmi:id="_exJ4N3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_TCe-UEt3EeGElKTCe2jfDw" name="toDate" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exJ4OHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Rj0BAFYkEeGJUqEGX7bKSg" name="BusinessCollaboration_Business" hidden="true">
+      <newObjectConstraint xmi:id="_exJ4OXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exJ4OnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_cD7-MF-jEeGSPaWW9iQb9Q">
+      <properties xmi:id="_exJ4O3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_U_inAF-mEeGSPaWW9iQb9Q" name="person" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exJ4PHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_anU2QF-jEeGSPaWW9iQb9Q">
+      <properties xmi:id="_exJ4PXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_UeiLsV-mEeGSPaWW9iQb9Q" name="person" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exJ4PnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Pybi0Et3EeGElKTCe2jfDw">
+      <properties xmi:id="_exJ4P3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_UvR3UUt3EeGElKTCe2jfDw" name="person" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exJ4QHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_WjvQ0EtyEeGElKTCe2jfDw" name="OrganizationFullfillsActorRole" hidden="true">
+      <newObjectConstraint xmi:id="_exJ4QXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exJ4QnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exJ4Q3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_WjvQ0UtyEeGElKTCe2jfDw" name="businessActor" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exJ4RHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw" name="PersonFullfillsActorRole" hidden="true">
+      <newObjectConstraint xmi:id="_exJ4RXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exKfQHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfQXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_X4_MgEtyEeGElKTCe2jfDw" name="businessActor" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfQnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_YJGvcFYjEeGJUqEGX7bKSg" name="BusinessNetworkFacilatatesCollaboration" hidden="true">
+      <newObjectConstraint xmi:id="_exKfQ3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exKfRHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q" name="PersonNode">
+      <newObjectConstraint xmi:id="_exKfRXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exKfRnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfR3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_3lakUFYuEeGj5_I7bIwNoA" name="businessRole" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfSHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <operations xmi:id="_exKfSXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_BVmDYO0pEeGN-aZ7URyUbw" name="getPersonNode"/>
+    </classes>
+    <classes xmi:id="_exKfSnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfS3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Bih5IEt4EeGElKTCe2jfDw" name="authenticationToken" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfTHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfTXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_DNbUsEt4EeGElKTCe2jfDw" name="username" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfTnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfT3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_EjZvcIRrEeGh1KS-l3XAqQ" name="name" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfUHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfUXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_GjivMEtoEeGd4cpyhpib9Q" name="phoneNumber"/>
+    </classes>
+    <classes xmi:id="_exKfUnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfU3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_HGMIcPjvEeGEN6Fz86uBYA" name="preferredLocale" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfVHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfVXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_U9amkHaQEeGv4aLPxieKNg" name="refreshToken" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfVnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfV3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_U_gx0F-mEeGSPaWW9iQb9Q" name="physicalAddress"/>
+    </classes>
+    <classes xmi:id="_exKfWHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfWXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Ueg9kF-mEeGSPaWW9iQb9Q" name="postalAddress"/>
+    </classes>
+    <classes xmi:id="_exKfWnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfW3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_UvAxkEt3EeGElKTCe2jfDw" name="leave"/>
+    </classes>
+    <classes xmi:id="_exKfXHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfXXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_WDO_IHaQEeGv4aLPxieKNg" name="tokenExpiryDateTime" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfXnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfX3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_fNec4EtpEeGd4cpyhpib9Q" name="eMailAddress"/>
+    </classes>
+    <classes xmi:id="_exKfYHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfYXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_oRHdEEtoEeGd4cpyhpib9Q" name="fullName" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfYnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfY3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_wwPQYEtmEeGd4cpyhpib9Q" name="firstName" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exKfZHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_k23OoEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exKfZXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_xcB_YEtmEeGd4cpyhpib9Q" name="surname" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLGUHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA" name="BusinessCollaboration_BusinessActor" hidden="true">
+      <newObjectConstraint xmi:id="_exLGUXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exLGUnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q" name="OrganizationNode">
+      <newObjectConstraint xmi:id="_exLGU3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exLGVHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exLGVXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_8YsOoFZFEeGj5_I7bIwNoA" name="businessCalendar"/>
+    </classes>
+    <classes xmi:id="_exLGVnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exLGV3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_HF7DgEtoEeGd4cpyhpib9Q" name="phoneNumber"/>
+    </classes>
+    <classes xmi:id="_exLGWHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exLGWXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_JF99wEtqEeGd4cpyhpib9Q" name="eMailAddress"/>
+    </classes>
+    <classes xmi:id="_exLGWnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exLGW3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_OorfwEtnEeGd4cpyhpib9Q" name="name" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLGXHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pZdQEEtmEeGd4cpyhpib9Q">
+      <properties xmi:id="_exLGXXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_vf2LYFYuEeGj5_I7bIwNoA" name="businessComponent" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLGXnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA" name="OrganizationAsBusinessComponent" hidden="true">
+      <newObjectConstraint xmi:id="_exLGX3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exLGYHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw" name="OnceOffHoliday">
+      <newObjectConstraint xmi:id="_exLGYXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exLGYnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLGY3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_94Gk0NcCEeCJ0dmaHEVVnw" name="name" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLGZHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLGZXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@__KuDQNcCEeCJ0dmaHEVVnw" name="date" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLGZnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_5rW3kNcCEeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLGZ3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_7Uk4IdcCEeCJ0dmaHEVVnw" name="businessCalendar" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLtYHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw" name="WorkDay">
+      <newObjectConstraint xmi:id="_exLtYXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exLtYnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLtY3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_5xvo4NcBEeCJ0dmaHEVVnw" name="endTime"/>
+    </classes>
+    <classes xmi:id="_exLtZHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLtZXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_vEgCENcMEeCnccVVb6bGDQ" name="minutesPerDay" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLtZnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLtZ3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_xyUUMNcBEeCJ0dmaHEVVnw" name="startTime"/>
+    </classes>
+    <classes xmi:id="_exLtaHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLtaXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_LAOD4db-EeCJ0dmaHEVVnw" name="businessCalendar" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLtanzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLta3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_LrAGRNb-EeCJ0dmaHEVVnw" name="kind" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLtbHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw" name="RecurringHoliday">
+      <newObjectConstraint xmi:id="_exLtbXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exLtbnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLtb3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_8kV24NcCEeCJ0dmaHEVVnw" name="name" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLtcHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLtcXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_DtECgNcCEeCJ0dmaHEVVnw" name="day" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLtcnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLtc3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_EgnmYNcCEeCJ0dmaHEVVnw" name="month" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLtdHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw" name="BusinessCalendar">
+      <newObjectConstraint xmi:id="_exLtdXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exLtdnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLtd3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw" name="businessHoursPerDay" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLteHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLteXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_7UFI4NcCEeCJ0dmaHEVVnw" name="onceOffHoliday"/>
+    </classes>
+    <classes xmi:id="_exLtenzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLte3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw" name="workDay"/>
+    </classes>
+    <classes xmi:id="_exLtfHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <operations xmi:id="_exLtfXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_NTccANcEEeCJ0dmaHEVVnw" name="addTimeTo"/>
+    </classes>
+    <classes xmi:id="_exLtfnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exLtf3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_QLpNoNcDEeCJ0dmaHEVVnw" name="businessHoursPerWeek" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exLtgHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <operations xmi:id="_exLtgXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_dXLYsASTEeGb9qsDxKJdSA" name="convertDuration"/>
+    </classes>
+    <classes xmi:id="_exLtgnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <operations xmi:id="_exLtg3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_mOhZgNcEEeCJ0dmaHEVVnw" name="calculateTimeBetween"/>
+    </classes>
+    <classes xmi:id="_exMUcHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exMUcXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_szTxoNcDEeCJ0dmaHEVVnw" name="businessDaysPerMonth" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exMUcnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exMUc3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_xucEUNcCEeCJ0dmaHEVVnw" name="recurringHoliday"/>
+    </classes>
+    <classes xmi:id="_exMUdHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_x9fmQNb9EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exMUdXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_zSLd8OxiEeG5LLWI6G0Dyg" name="instance" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exMUdnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_TFKVQNb_EeCJ0dmaHEVVnw">
+      <properties xmi:id="_exMUd3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_xu4wQdcCEeCJ0dmaHEVVnw" name="businessCalendar" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exMUeHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_dIQKEPjyEeGEN6Fz86uBYA" name="TimedResourceRatePerTimeUnit" hidden="true">
+      <newObjectConstraint xmi:id="_exMUeXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exMUenzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zQphYPjuEeGEN6Fz86uBYA">
+      <properties xmi:id="_exMUe3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_dIQKEfjyEeGEN6Fz86uBYA" name="timedResource" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exMUfHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_gDOkoPl6EeGYn9aDKdPmKA" name="QuantifiedResourcePricePerUnit" hidden="true">
+      <newObjectConstraint xmi:id="_exMUfXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exMUfnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_p2yl4Pl5EeGYn9aDKdPmKA">
+      <properties xmi:id="_exMUf3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_gDOkofl6EeGYn9aDKdPmKA" name="quantifiedResource" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exMUgHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_p2yl4Pl5EeGYn9aDKdPmKA" name="PricePerUnit">
+      <newObjectConstraint xmi:id="_exMUgXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exMUgnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="252060@_zQphYPjuEeGEN6Fz86uBYA" name="RatePerTimeUnit">
+      <newObjectConstraint xmi:id="_exMUg3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exM7gHzhEeK4RO8Gc0PbkA" umlElementUid="UML.metamodel.uml@DataType">
+      <properties xmi:id="_exM7gXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_HIM2IMPxEd-SNsUNWzjz5A" name="extension_ValueType"/>
+    </classes>
+    <classes xmi:id="_exM7gnzhEeK4RO8Gc0PbkA" umlElementUid="UML.metamodel.uml@Classifier">
+      <properties xmi:id="_exM7g3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_X_iige15Ed-YtrI3G6ybsA" name="extension_Helper"/>
+    </classes>
+    <classes xmi:id="_exNikHzhEeK4RO8Gc0PbkA" umlElementUid="UML.metamodel.uml@Trigger">
+      <properties xmi:id="_exNikXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_lzPd0f3eEd-uA4oh6NA2Cw" name="extension_Trigger"/>
+    </classes>
+    <classes xmi:id="_exNiknzhEeK4RO8Gc0PbkA" umlElementUid="UML.metamodel.uml@Class">
+      <properties xmi:id="_exNik3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_r5B4ETsuEeC5OLJvkS0EWA" name="extension_Entity"/>
+    </classes>
+    <classes xmi:id="_exNilHzhEeK4RO8Gc0PbkA" umlElementUid="UML.metamodel.uml@PrimitiveType">
+      <properties xmi:id="_exNilXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="48e3a22b_66a7_4f76_8d14_662244361cc9@_rMycQcbyEd-qWtMD5IZMIA" name="extension_PrimitiveType"/>
+    </classes>
+    <classes xmi:id="_exNilnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_-N6PwGK6EeGNuoaMwaBk1w" name="Supplier">
+      <newObjectConstraint xmi:id="_exNil3zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exNimHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_DlV9oJLCEeGnpuq6_ber_Q" name="Activity">
+      <newObjectConstraint xmi:id="_exNimXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exNimnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_DlV9oJLCEeGnpuq6_ber_Q">
+      <properties xmi:id="_exNim3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_XPTyUJN8EeGzUIOTq-3iUg" name="durationInHours" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exNinHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_DlV9oJLCEeGnpuq6_ber_Q">
+      <properties xmi:id="_exNinXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_cHpaQJN8EeGzUIOTq-3iUg" name="costToCustomer" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exNinnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_DlV9oJLCEeGnpuq6_ber_Q">
+      <properties xmi:id="_exNin3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_d_KVgJN8EeGzUIOTq-3iUg" name="costToCompany" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exNioHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_DlV9oJLCEeGnpuq6_ber_Q">
+      <properties xmi:id="_exNioXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_ehuEgJLCEeGnpuq6_ber_Q" name="technician" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exNionzhEeK4RO8Gc0PbkA" umlElementUid="914890@_DlV9oJLCEeGnpuq6_ber_Q">
+      <properties xmi:id="_exNio3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_u863IJN8EeGzUIOTq-3iUg" name="dateOfWork" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exNipHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_DlV9oJLCEeGnpuq6_ber_Q">
+      <properties xmi:id="_exNipXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_F6R0sZLCEeGnpuq6_ber_Q" name="job" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJoHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q" name="Job">
+      <newObjectConstraint xmi:id="_exOJoXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exOJonzhEeK4RO8Gc0PbkA" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJo3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_F6QmkJLCEeGnpuq6_ber_Q" name="activity"/>
+    </classes>
+    <classes xmi:id="_exOJpHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJpXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_YMgg0JLAEeGnpuq6_ber_Q" name="customerAssistant" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJpnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJp3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_dbubkJQcEeGJg4MkDnRIeA" name="timeInHours" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJqHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJqXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_eQfxoJLCEeGnpuq6_ber_Q" name="foreman" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJqnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJq3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_oF8YAJQbEeGJg4MkDnRIeA" name="costToCompany" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJrHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJrXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_sd0zsJQaEeGTXL33HwWNwQ" name="totalCost" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJrnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJr3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_w1NfcJLBEeGnpuq6_ber_Q" name="applianceComponentSale"/>
+    </classes>
+    <classes xmi:id="_exOJsHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_PgzU8JLAEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJsXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_QcPpgZLAEeGnpuq6_ber_Q" name="branch" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJsnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_bX-ooJJPEeGW4L5IejZxpA">
+      <properties xmi:id="_exOJs3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_YMhu8ZLAEeGnpuq6_ber_Q" name="job" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJtHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_tGMQAJLBEeGnpuq6_ber_Q" name="ApplianceComponentSale">
+      <newObjectConstraint xmi:id="_exOJtXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exOJtnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_tGMQAJLBEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJt3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_0sbXoJN8EeGzUIOTq-3iUg" name="costPriceOfComponent" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJuHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_tGMQAJLBEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJuXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_kXRuIJN8EeGzUIOTq-3iUg" name="dateOfSale" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJunzhEeK4RO8Gc0PbkA" umlElementUid="914890@_tGMQAJLBEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJu3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_nD2CEJN8EeGzUIOTq-3iUg" name="costToCustomer" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJvHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_tGMQAJLBEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJvXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_xHDdYJLBEeGnpuq6_ber_Q" name="applianceComponent" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJvnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_tGMQAJLBEeGnpuq6_ber_Q">
+      <properties xmi:id="_exOJv3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_w1OtkZLBEeGnpuq6_ber_Q" name="job" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJwHzhEeK4RO8Gc0PbkA" openToPublic="true" inheritFromParent="false" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA" name="ApplianceDoctor">
+      <newObjectConstraint xmi:id="_exOJwXzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exOJwnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOJw3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_-IPNcJJNEeGW4L5IejZxpA" name="branch"/>
+    </classes>
+    <classes xmi:id="_exOJxHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOJxXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_0XGTgHHgEeGus4aKic9sIg" name="manager"/>
+    </classes>
+    <classes xmi:id="_exOJxnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <operations xmi:id="_exOJx3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_FGOJ8H4bEeGW5bASaRr7SQ" name="addAccountant"/>
+    </classes>
+    <classes xmi:id="_exOJyHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOJyXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_VSJmQHsLEeGBGZr9IpIa3A" name="vatNumber" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJynzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOJy3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_gfQZsBIuEeKet5Gm_LksyQ" name="Property1" hidden="true">
+        <requiredRoles xmi:id="_hT0YgHz9EeK_ZpbX33-x-g" umlElementUid="914890@_bX-ooJJPEeGW4L5IejZxpA"/>
+      </properties>
+    </classes>
+    <classes xmi:id="_exOJzHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOJzXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_h6e00BIeEeKr5f-zTsG0Vg" name="name" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJznzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOJz3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_kin8IHsKEeGBGZr9IpIa3A" name="supportNumber" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJ0HzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOJ0XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_nyJ_kBIuEeKet5Gm_LksyQ" name="Attribute1" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJ0nzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOJ03zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_okhEQHsKEeGBGZr9IpIa3A" name="supportEMailAddress" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOJ1HzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOwsHzhEeK4RO8Gc0PbkA" requiresOwnership="true" inheritFromParent="false" umlElementUid="914890@_rZMyYHsKEeGBGZr9IpIa3A" name="initiationDatell" hidden="true">
+        <requiredRoles xmi:id="_MLQ_gHz_EeKE7J58d6fBcg" umlElementUid="914890@_loLrkJHrEeGtApeO0lzlHQ"/>
+      </properties>
+    </classes>
+    <classes xmi:id="_exOwsXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_CQTWAGOeEeGwMNo027LgxA">
+      <properties xmi:id="_exOwsnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_wtFJEJK_EeGnpuq6_ber_Q" name="applianceModel"/>
+    </classes>
+    <classes xmi:id="_exOws3zhEeK4RO8Gc0PbkA" openToPublic="true" inheritFromParent="false" umlElementUid="914890@_J3MS8HkAEeKsL8ZaFiY2TQ" name="ApplianceCollaboration">
+      <newObjectConstraint xmi:id="_exOwtHzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exOwtXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_J3MS8HkAEeKsL8ZaFiY2TQ">
+      <properties xmi:id="_exOwtnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_RcqPgHkAEeKsL8ZaFiY2TQ" name="applianceDoctor"/>
+    </classes>
+    <classes xmi:id="_exOwt3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_J3MS8HkAEeKsL8ZaFiY2TQ">
+      <properties xmi:id="_exOwuHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_S_5j4HkAEeKsL8ZaFiY2TQ" name="onlineCustomer"/>
+    </classes>
+    <classes xmi:id="_exOwuXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_J3MS8HkAEeKsL8ZaFiY2TQ">
+      <properties xmi:id="_exOwunzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_U8lTAHkAEeKsL8ZaFiY2TQ" name="supplier"/>
+    </classes>
+    <classes xmi:id="_exOwu3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ">
+      <properties xmi:id="_exOwvHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_4_Vb8HJ6EeG5aYCQXxe9BQ" name="appliance" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOwvXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg" name="ApplianceModel">
+      <newObjectConstraint xmi:id="_exOwvnzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exOwv3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exOwwHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ" name="component"/>
+    </classes>
+    <classes xmi:id="_exOwwXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exOwwnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_7RIUYHsKEeGBGZr9IpIa3A" name="vendor" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOww3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exOwxHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_Ek7dQJLAEeGnpuq6_ber_Q" name="applianceType" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOwxXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exOwxnzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_Kid8QHpiEeGlh5y8zQdYBA" name="partNumberl" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOwx3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exOwyHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_ht9n8HphEeGlh5y8zQdYBA" name="name" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOwyXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exOwynzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_ku-8YBknEeKmaYAq-i-IvQ" name="namaell" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOwy3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_nhV7IGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exOwzHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_wtIMYZK_EeGnpuq6_ber_Q" name="applianceDoctor" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOwzXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ" name="ApplianceComponent">
+      <newObjectConstraint xmi:id="_exOwznzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exOwz3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ">
+      <properties xmi:id="_exOw0HzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ" name="partNumber" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOw0XzhEeK4RO8Gc0PbkA" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ">
+      <properties xmi:id="_exOw0nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ" name="price" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOw03zhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <properties xmi:id="_exOw1HzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_-IRCoZJNEeGW4L5IejZxpA" name="dishwashersInc" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOw1XzhEeK4RO8Gc0PbkA" umlElementUid="914890@_u7lZEGQWEeGbL9nlXe9lTQ">
+      <properties xmi:id="_exOw1nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_0XIvwXHgEeGus4aKic9sIg" name="dishwashersInc" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exOw13zhEeK4RO8Gc0PbkA" openToPublic="true" inheritFromParent="false" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA" name="Branch">
+      <newObjectConstraint xmi:id="_exOw2HzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exPXwHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <properties xmi:id="_exPXwXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_59AMMJKGEeGFkOm2e1MJNQ" name="city" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exPXwnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <properties xmi:id="_exPXw3zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_AgMuwBUxEeKjqLZFOgkVYQ" name="surname" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exPXxHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <behaviors xmi:id="_exPXxXzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw" name="PrepareQuote">
+        <invocationConstraint xmi:id="_exPXxnzhEeK4RO8Gc0PbkA"/>
+      </behaviors>
+    </classes>
+    <classes xmi:id="_exPXx3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw">
+      <properties xmi:id="_exPXyHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_JUKJwBYYEeKsDbmQL25eBw" name="property1ll" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exPXyXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw">
+      <properties xmi:id="_exPXynzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_Nv-xoBYUEeKsDbmQL25eBw" name="ll" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exPXy3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw">
+      <operations xmi:id="_exPXzHzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_SvOOoBYbEeKsDbmQL25eBw" name="submit"/>
+    </classes>
+    <classes xmi:id="_exPXzXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw">
+      <operations xmi:id="_exPXznzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_Y9DC0BYbEeKsDbmQL25eBw" name="approve"/>
+    </classes>
+    <classes xmi:id="_exPXz3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw">
+      <properties xmi:id="_exPX0HzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_wk6wkHgGEeKNG8mFSp3Ijg" name="customerApproved" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exPX0XzhEeK4RO8Gc0PbkA" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw">
+      <properties xmi:id="_exPX0nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_zEyr8BYUEeKsDbmQL25eBw" name="lll" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exPX03zhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <properties xmi:id="_exPX1HzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_JaIUoJKfEeGiJMBDeZRymA" name="technician"/>
+    </classes>
+    <classes xmi:id="_exPX1XzhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <properties xmi:id="_exPX1nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_P2OvAHgVEeKYp4vzVCSoPA" name="numberOfOpenPositions" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exPX13zhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <properties xmi:id="_exPX2HzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_QcN0UJLAEeGnpuq6_ber_Q" name="job"/>
+    </classes>
+    <classes xmi:id="_exPX2XzhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <operations xmi:id="_exPX2nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1"/>
+    </classes>
+    <classes xmi:id="_exPX23zhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <properties xmi:id="_exPX3HzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_ea2-cJT6EeG_oLv6jKpgkw" name="name" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exPX3XzhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <properties xmi:id="_exPX3nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_pNEJIJJPEeGW4L5IejZxpA" name="customerAssistant"/>
+    </classes>
+    <classes xmi:id="_exPX33zhEeK4RO8Gc0PbkA" umlElementUid="914890@_0l-NAJJNEeGW4L5IejZxpA">
+      <behaviors xmi:id="_exPX4HzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_ylMisBYQEeKIFJAOfPz88A" name="StandaloneSingleScreenTask1">
+        <invocationConstraint xmi:id="_exPX4XzhEeK4RO8Gc0PbkA"/>
+      </behaviors>
+    </classes>
+    <classes xmi:id="_exP-0HzhEeK4RO8Gc0PbkA" umlElementUid="914890@_loLrkJHrEeGtApeO0lzlHQ">
+      <properties xmi:id="_exP-0XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_JaKw4ZKfEeGiJMBDeZRymA" name="branch" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exP-0nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_bX-ooJJPEeGW4L5IejZxpA" name="CustomerAssistant">
+      <newObjectConstraint xmi:id="_exP-03zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exP-1HzhEeK4RO8Gc0PbkA" umlElementUid="914890@_bX-ooJJPEeGW4L5IejZxpA">
+      <operations xmi:id="_exP-1XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_A1hu8JKiEeGiJMBDeZRymA" name="followLead"/>
+    </classes>
+    <classes xmi:id="_exP-1nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_loLrkJHrEeGtApeO0lzlHQ" name="Technician">
+      <newObjectConstraint xmi:id="_exP-13zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exP-2HzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="IdBook">
+      <newObjectConstraint xmi:id="_exP-2XzhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exP-2nzhEeK4RO8Gc0PbkA" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exP-23zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_SoyjIHpiEeGlh5y8zQdYBA" name="idNumber" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exP-3HzhEeK4RO8Gc0PbkA" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exP-3XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_U5_wwHpiEeGlh5y8zQdYBA" name="fullNames" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exP-3nzhEeK4RO8Gc0PbkA" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+      <properties xmi:id="_exP-33zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA" name="dateOfBirth" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exP-4HzhEeK4RO8Gc0PbkA" umlElementUid="914890@_bX-ooJJPEeGW4L5IejZxpA">
+      <properties xmi:id="_exP-4XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_pNF-UZJPEeGW4L5IejZxpA" name="branch" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exP-4nzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_u7lZEGQWEeGbL9nlXe9lTQ" name="Manager">
+      <newObjectConstraint xmi:id="_exP-43zhEeK4RO8Gc0PbkA"/>
+    </classes>
+    <classes xmi:id="_exP-5HzhEeK4RO8Gc0PbkA" umlElementUid="914890@_u7lZEGQWEeGbL9nlXe9lTQ">
+      <properties xmi:id="_exP-5XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_JMxWcIPrEeGccYWaoIFIyQ" name="yearsInPosition" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exP-5nzhEeK4RO8Gc0PbkA" umlElementUid="914890@_u7lZEGQWEeGbL9nlXe9lTQ">
+      <properties xmi:id="_exP-53zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_M_kSoIPrEeGccYWaoIFIyQ" name="contactNumber" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exP-6HzhEeK4RO8Gc0PbkA" umlElementUid="914890@_u7lZEGQWEeGbL9nlXe9lTQ">
+      <properties xmi:id="_exP-6XzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_ROTj8IPrEeGccYWaoIFIyQ" name="hourlyRate" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exP-6nzhEeK4RO8Gc0PbkA" umlElementUid="914890@_u7lZEGQWEeGbL9nlXe9lTQ">
+      <properties xmi:id="_exP-63zhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_hU8D8HphEeGlh5y8zQdYBA" name="name" hidden="true"/>
+    </classes>
+    <classes xmi:id="_exP-7HzhEeK4RO8Gc0PbkA" inheritFromParent="false" umlElementUid="914890@_xQY8oGFKEeG2AvOqZt1NZQ" name="OnlineCustomer">
+      <newObjectConstraint xmi:id="_exP-7XzhEeK4RO8Gc0PbkA"/>
+    </classes>
+  </explorer>
+  <editor xmi:id="_dRpNQnzhEeK4RO8Gc0PbkA" width="300"/>
+  <properties xmi:id="_dRpNQ3zhEeK4RO8Gc0PbkA" height="200" position="bottom"/>
+  <inbox xmi:id="_dRpNRHzhEeK4RO8Gc0PbkA" width="200" height="300" position="leftTop"/>
+  <outbox xmi:id="_dRpNRXzhEeK4RO8Gc0PbkA" width="200" height="300" position="leftBottom"/>
+</persp:PerspectiveConfiguration>

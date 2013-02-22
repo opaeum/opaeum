@@ -12,20 +12,15 @@ import java.util.Set;
 
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Table;
 import javax.persistence.spi.PersistenceUnitInfo;
 
-import org.hibernate.JDBCException;
-import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.ejb.Ejb3Configuration;
 import org.hibernate.ejb.EntityManagerFactoryImpl;
 import org.hibernate.ejb.HibernateEntityManagerFactory;
-import org.hibernate.ejb.HibernatePersistence;
 import org.hibernate.tool.hbm2ddl.DatabaseMetadata;
-import org.hibernate.tool.hbm2ddl.SchemaUpdate;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
@@ -57,6 +52,8 @@ public abstract class AbstractJpaEnvironment extends Environment{
 			}
 			schemas.remove(null);
 			schemas.remove("");
+			ClassLoader oldCcl = Thread.currentThread().getContextClassLoader();
+			Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
 			try{
 				Connection connection = getUnmanagedConnection();
 				connection.setAutoCommit(true);
@@ -98,6 +95,7 @@ public abstract class AbstractJpaEnvironment extends Environment{
 				System.out.println(e);
 			}
 			entityManagerFactory = (EntityManagerFactoryImpl) configured.buildEntityManagerFactory();
+			Thread.currentThread().setContextClassLoader(oldCcl);
 		}
 		return entityManagerFactory;
 	}
@@ -127,6 +125,12 @@ public abstract class AbstractJpaEnvironment extends Environment{
 		try{
 			Class.forName(driver);
 		}catch(ClassNotFoundException e1){
+			try {
+				getClass().getClassLoader().loadClass(driver);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	@SuppressWarnings("unchecked")
@@ -164,10 +168,9 @@ public abstract class AbstractJpaEnvironment extends Environment{
 		if(isInJee == null){
 			try{
 				new InitialContext().lookup("java:comp");
-				Class.forName("org.opaeum.audit.ChildAuditedObject");
-				isInJee = false;
-			}catch(Exception e){
 				isInJee = true;
+			}catch(Throwable e){
+				isInJee = false;
 				System.out.println("AbstractJpaEnvironment.isInJee()");
 			}
 		}

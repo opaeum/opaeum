@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ezDVoHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_mKcP8Pl5EeGYn9aDKdPmKA" name="I quantified resource User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_ezDVoXzhEeK4RO8Gc0PbkA" name="Edit IQuantifiedResource" umlElementUid="252060@_mKcP8Pl5EeGYn9aDKdPmKA">
+    <superUserInterfaces href="252060@_lrcFQPp1EeGJLNuVcmxRow.uim#_eyLL4XzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_ezD8snzhEeK4RO8Gc0PbkA" page="_ezD8sXzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_ezD8uHzhEeK4RO8Gc0PbkA" page="_ezD8t3zhEeK4RO8Gc0PbkA" position="1"/>
+    <pages xmi:id="_ezD8sXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_mKcP8Pl5EeGYn9aDKdPmKA" name="Edit I quantified resource">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ezD8s3zhEeK4RO8Gc0PbkA" name="IQuantifiedResource" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_ezD8tHzhEeK4RO8Gc0PbkA" name="Price per unit" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox" xmi:id="_ezD8tXzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_ezD8tnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_NlM5EPr5EeGnRe9t6rw1GA"/>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_ezD8t3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_gDOkpPl6EeGYn9aDKdPmKA" name="Price per unit">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ezD8uXzhEeK4RO8Gc0PbkA">
+        <children xsi:type="comp:UimDataTable" xmi:id="_ezD8unzhEeK4RO8Gc0PbkA" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" xmi:id="_ezD8vHzhEeK4RO8Gc0PbkA" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" xmi:id="_ezD8vXzhEeK4RO8Gc0PbkA" name="Additional cost to company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText" xmi:id="_ezD8vnzhEeK4RO8Gc0PbkA"/>
+            <binding xmi:id="_ezD8v3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_Gm8XgPl6EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" xmi:id="_ezD8wHzhEeK4RO8Gc0PbkA" name="Price paid by customer" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText" xmi:id="_ezD8wXzhEeK4RO8Gc0PbkA"/>
+            <binding xmi:id="_ezD8wnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_PCPI0Pl6EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" xmi:id="_ezD8w3zhEeK4RO8Gc0PbkA" name="Price paid by company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText" xmi:id="_ezD8xHzhEeK4RO8Gc0PbkA"/>
+            <binding xmi:id="_ezD8xXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_R4yfMPl6EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" xmi:id="_ezD8xnzhEeK4RO8Gc0PbkA" name="Effective from" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="0">
+            <binding xmi:id="_ezD8x3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_bQkG4Pl6EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" xmi:id="_ezD8yHzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+          <binding xmi:id="_ezD8u3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_gDOkpPl6EeGYn9aDKdPmKA"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" xmi:id="_ezD8yXzhEeK4RO8Gc0PbkA" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar xmi:id="_ezD8ynzhEeK4RO8Gc0PbkA" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ezD8y3zhEeK4RO8Gc0PbkA" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ezD8zHzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_ezD8zXzhEeK4RO8Gc0PbkA" name="Create IQuantifiedResource" umlElementUid="252060@_mKcP8Pl5EeGYn9aDKdPmKA">
+    <superUserInterfaces href="252060@_lrcFQPp1EeGJLNuVcmxRow.uim#_eyLL63zhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_ezD80HzhEeK4RO8Gc0PbkA" page="_ezD8z3zhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_ezD81nzhEeK4RO8Gc0PbkA" page="_ezD81XzhEeK4RO8Gc0PbkA" position="1"/>
+    <pages xmi:id="_ezD8z3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_mKcP8Pl5EeGYn9aDKdPmKA" name="CreateI quantified resource">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ezD80XzhEeK4RO8Gc0PbkA" name="IQuantifiedResource" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_ezD80nzhEeK4RO8Gc0PbkA" name="Price per unit" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox" xmi:id="_ezD803zhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_ezD81HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_NlM5EPr5EeGnRe9t6rw1GA"/>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_ezD81XzhEeK4RO8Gc0PbkA" umlElementUid="252060@_gDOkpPl6EeGYn9aDKdPmKA" name="Price per unit">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ezD813zhEeK4RO8Gc0PbkA">
+        <children xsi:type="comp:UimDataTable" xmi:id="_ezD82HzhEeK4RO8Gc0PbkA" fillHorizontally="true" fillVertically="true">
+          <children xsi:type="action:BuiltInLink" xmi:id="_ezD82nzhEeK4RO8Gc0PbkA" name="Edit" preferredWidth="30" kind="edit"/>
+          <children xsi:type="comp:UimField" xmi:id="_ezD823zhEeK4RO8Gc0PbkA" name="Additional cost to company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText" xmi:id="_ezD83HzhEeK4RO8Gc0PbkA"/>
+            <binding xmi:id="_ezD83XzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Gm8XgPl6EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" xmi:id="_ezD83nzhEeK4RO8Gc0PbkA" name="Price paid by customer" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText" xmi:id="_ezD833zhEeK4RO8Gc0PbkA"/>
+            <binding xmi:id="_ezD84HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_PCPI0Pl6EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" xmi:id="_ezD84XzhEeK4RO8Gc0PbkA" name="Price paid by company" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="0">
+            <control xsi:type="ctl:UimText" xmi:id="_ezD84nzhEeK4RO8Gc0PbkA"/>
+            <binding xmi:id="_ezD843zhEeK4RO8Gc0PbkA" umlElementUid="252060@_R4yfMPl6EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="comp:UimField" xmi:id="_ezD85HzhEeK4RO8Gc0PbkA" name="Effective from" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="0">
+            <binding xmi:id="_ezD85XzhEeK4RO8Gc0PbkA" umlElementUid="252060@_bQkG4Pl6EeGYn9aDKdPmKA"/>
+          </children>
+          <children xsi:type="action:BuiltInActionButton" xmi:id="_ezD85nzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+          <binding xmi:id="_ezD82XzhEeK4RO8Gc0PbkA" umlElementUid="252060@_gDOkpPl6EeGYn9aDKdPmKA"/>
+          <actionsOnMultipleSelection xsi:type="action:BuiltInActionButton" xmi:id="_ezD853zhEeK4RO8Gc0PbkA" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

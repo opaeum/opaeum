@@ -22,9 +22,9 @@ public abstract class AbstractUserInteractionConstraintBooleanFeaturesSection ex
 		inheritFromParent = createBoolean(ConstraintPackage.eINSTANCE.getUserInteractionConstraint_InheritFromParent(), "Inherit from parent", 140);
 		inheritFromParent.setDefaultValue(true);
 		requiresGroupOwnership = createBoolean(ConstraintPackage.eINSTANCE.getRootUserInteractionConstraint_RequiresGroupOwnership(), "Requires Group Ownership",
-				140);
+				180);
 		requiresGroupOwnership.setDefaultValue(true);
-		requiresOwnership = createBoolean(ConstraintPackage.eINSTANCE.getRootUserInteractionConstraint_RequiresOwnership(), "Requires User Ownership", 140);
+		requiresOwnership = createBoolean(ConstraintPackage.eINSTANCE.getRootUserInteractionConstraint_RequiresOwnership(), "Requires User Ownership", 180);
 	}
 	@Override
 	public BooleanSubsection createBoolean(EStructuralFeature feature,String labelText,int labelWidth){

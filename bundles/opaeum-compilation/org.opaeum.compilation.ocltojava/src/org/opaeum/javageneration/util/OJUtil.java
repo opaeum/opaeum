@@ -431,7 +431,7 @@ public class OJUtil extends OJUtill{
 		}
 		return map;
 	}
-	public OJPathName tokenPathName(Behavior b){
+	public OJPathName tokenPathName(Namespace b){
 		OJPathName copy = classifierPathname(b).getCopy();
 		copy.replaceTail(copy.getLast() + "Token");
 		return copy;

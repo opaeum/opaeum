@@ -332,11 +332,11 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="editor" eType="#//perspective/EditorConfiguration"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="properties" eType="#//perspective/PropertiesConfiguration"
+      <eStructuralFeatures xsi:type="ecore:EReference"  name="properties" eType="#//perspective/PropertiesConfiguration"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="inbox" eType="#//perspective/InboxConfiguration"
+      <eStructuralFeatures xsi:type="ecore:EReference"  name="inbox" eType="#//perspective/InboxConfiguration"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="outbox" eType="#//perspective/OutboxConfiguration"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" containment="true" name="outbox" eType="#//perspective/OutboxConfiguration"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ViewAllocation" abstract="true" eSuperTypes="#//UserInteractionElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: opaeum-runtime-hibernate
-Bundle-SymbolicName: org.opaeum.runtime.hibernate
+Bundle-SymbolicName: opaeum-runtime-hibernate
 Bundle-Version: 1.0.0.qualifier
 Export-Package: model,
  model.util,
@@ -11,10 +11,11 @@ Export-Package: model,
  org.opaeum.runtime.bpm.opaeumsimpletypes,
  org.opaeum.runtime.contact,
  org.opaeum.runtime.costing,
+ org.opaeum.runtime.domain,
+ org.opaeum.runtime.event,
  org.opaeum.runtime.hibernate.test,
  org.opaeum.runtime.jpa
-Require-Bundle: org.opaeum.runtime.domain,
- org.opaeum.runtime.core.dependencies
+Require-Bundle: opaeum-runtime-domain
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: javassist,
  javassist.bytecode,
@@ -31,6 +32,20 @@ Import-Package: javassist,
  javassist.tools.web,
  javassist.util,
  javassist.util.proxy,
+ javax.ejb,
+ javax.naming,
+ javax.naming.directory,
+ javax.naming.event,
+ javax.naming.ldap,
+ javax.naming.spi,
+ javax.persistence,
+ javax.persistence.spi,
+ javax.sql,
+ javax.sql.rowset,
+ javax.sql.rowset.serial,
+ javax.sql.rowset.spi,
+ javax.transaction,
+ javax.transaction.xa,
  org.hibernate,
  org.hibernate.action,
  org.hibernate.annotations,
@@ -131,5 +146,5 @@ Import-Package: javassist,
  org.hibernate.type,
  org.hibernate.usertype,
  org.hibernate.util,
- org.slf4j
+ org.slf4j;version="1.5.8"
 Extension-Name: Opaeum-runtime-hibernate

@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>opaeum-runtime</artifactId>
 		<groupId>org.opaeum</groupId>
-		<version>1.0.2.3-SNAPSHOT</version>
+		<version>1.0.3-SNAPSHOT</version>
 		<relativePath>../org.opaeum.runtime.core.releng/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -29,9 +29,9 @@
 
 	<modules>
 		<!-- Runtime projects -->
-		<module>../../runtime/opaeum-ui-engine/org.opaeum.rap.runtime</module>
+		<module>../../runtime/opaeum-ui-engine/org.opaeum.runtime.jface</module>
 		<module>../../runtime/opaeum-ui-engine/org.eclipse.nebula.widgets.pagination</module>
-		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.uim</module>
+		<module>../../bundles/opaeum-ui-engine/org.opaeum.rap.metamodels.uim</module>
 		<module>../org.opaeum.runtime.target</module>
 		<!-- Packaging projects -->
 		<module>../../features/org.opaeum.rap.runtime.feature</module>
@@ -160,11 +160,6 @@
 	</build>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.opaeum</groupId>
-			<artifactId>opaeum-runtime-core-bundle</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

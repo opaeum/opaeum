@@ -2505,35 +2505,6 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
          </propertySection>
       </propertySections>
    </extension>
-   <extension
-         point="org.eclipse.papyrus.uml.diagram.common.groups.groupcontainment"
-         name="ActivityGroup"
-         id="org.eclipse.papyrus.uml.diagram.activity.activitygroup">
-         <modelContainer editPartType="org.eclipse.papyrus.uml.diagram.activity.edit.parts.StructuredActivityNodeStructuredActivityNodeContentCompartmentEditPart"
-          descriptor="org.eclipse.papyrus.uml.diagram.activity.groupcontainment.StructuredActivityNodeContainment"/>
-         <modelContainer
-               descriptor="org.eclipse.papyrus.uml.diagram.activity.groupcontainment.ConditionalNodeContainment"
-               editPartType="org.eclipse.papyrus.uml.diagram.activity.edit.parts.ConditionalNodeStructuredActivityNodeContentCompartmentEditPart">
-         </modelContainer>
-         <modelContainer
-               descriptor="org.eclipse.papyrus.uml.diagram.activity.groupcontainment.ExpansionRegionContainment"
-               editPartType="org.eclipse.papyrus.uml.diagram.activity.edit.parts.ExpansionRegionStructuredActivityNodeContentCompartmentEditPart">
-         </modelContainer>
-         <modelContainer
-               descriptor="org.eclipse.papyrus.uml.diagram.activity.groupcontainment.LoopNodeContainment"
-               editPartType="org.eclipse.papyrus.uml.diagram.activity.edit.parts.LoopNodeStructuredActivityNodeContentCompartmentEditPart">
-         </modelContainer>
-         <modelContainer
-               descriptor="org.eclipse.papyrus.uml.diagram.activity.groupcontainment.SequenceNodeContainment"
-               editPartType="org.eclipse.papyrus.uml.diagram.activity.edit.parts.SequenceNodeStructuredActivityNodeContentCompartmentEditPart">
-         </modelContainer>
-         <referenceContainer
-               descriptor="org.eclipse.papyrus.uml.diagram.activity.groupcontainment.InterruptibleActivityRegionContainment"
-               editPartType="org.eclipse.papyrus.uml.diagram.activity.edit.parts.InterruptibleActivityRegionInterruptibleActivityRegionContentCompartmentEditPart"/>
-         <referenceContainer
-               descriptor="org.eclipse.papyrus.uml.diagram.activity.groupcontainment.ActivityPartitionContainment"
-               editPartType="org.eclipse.papyrus.uml.diagram.activity.edit.parts.ActivityPartitionActivityPartitionContentCompartmentEditPart"/>
-   </extension>
 <extension id="validationDecoratorProvider" name="ValidationDecorations" point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
       <?gmfgen generated="true"?>
       <decoratorProvider class="org.eclipse.papyrus.uml.diagram.activity.providers.UMLValidationDecoratorProvider">

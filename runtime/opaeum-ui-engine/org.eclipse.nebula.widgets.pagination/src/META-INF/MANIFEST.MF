@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Export-Package: org.eclipse.nebula.widgets.pagination;uses:="org.eclip
+ se.jface.viewers,org.eclipse.nebula.widgets.pagination.renderers,org.
+ eclipse.swt.events,org.eclipse.swt.graphics,org.eclipse.swt.widgets",
+ org.eclipse.nebula.widgets.pagination.collections;uses:="org.eclipse.
+ nebula.widgets.pagination",org.eclipse.nebula.widgets.pagination.rend
+ erers;uses:="org.eclipse.nebula.widgets.pagination,org.eclipse.swt.wi
+ dgets",org.eclipse.nebula.widgets.pagination.renderers.navigation;use
+ s:="org.eclipse.nebula.widgets.pagination,org.eclipse.nebula.widgets.
+ pagination.renderers,org.eclipse.nebula.widgets.pagination.renderers.
+ navigation.graphics,org.eclipse.swt.events,org.eclipse.swt.graphics,o
+ rg.eclipse.swt.widgets",org.eclipse.nebula.widgets.pagination.rendere
+ rs.navigation.graphics;uses:="org.eclipse.swt.events,org.eclipse.swt.
+ graphics,org.eclipse.swt.widgets",org.eclipse.nebula.widgets.paginati
+ on.renderers.pagesize;uses:="org.eclipse.jface.viewers,org.eclipse.ne
+ bula.widgets.pagination,org.eclipse.nebula.widgets.pagination.rendere
+ rs,org.eclipse.swt.events,org.eclipse.swt.widgets",org.eclipse.nebula
+ .widgets.pagination.table;uses:="org.eclipse.jface.viewers,org.eclips
+ e.nebula.widgets.pagination,org.eclipse.nebula.widgets.pagination.ren
+ derers,org.eclipse.swt.events,org.eclipse.swt.widgets",org.eclipse.ne
+ bula.widgets.pagination.tree;uses:="org.eclipse.nebula.widgets.pagina
+ tion,org.eclipse.swt.events,org.eclipse.swt.widgets"
+Tool: Bundlor 1.1.0.RELEASE
+Import-Package: org.eclipse.core.runtime,org.eclipse.jface.resource,or
+ g.eclipse.jface.viewers,org.eclipse.swt.events,org.eclipse.swt.graphi
+ cs,org.eclipse.swt.layout,org.eclipse.swt.widgets
+

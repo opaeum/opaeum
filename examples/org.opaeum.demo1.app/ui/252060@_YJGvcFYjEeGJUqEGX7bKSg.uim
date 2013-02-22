@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eyHhgHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_YJGvcFYjEeGJUqEGX7bKSg" name="Business network facilatates collaboration User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_eyHhgXzhEeK4RO8Gc0PbkA" name="Edit BusinessNetworkFacilatatesCollaboration" umlElementUid="252060@_YJGvcFYjEeGJUqEGX7bKSg">
+    <pageOrdering xmi:id="_eyHhg3zhEeK4RO8Gc0PbkA" page="_eyHhgnzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_eyHhgnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_YJGvcFYjEeGJUqEGX7bKSg" name="Edit Business network facilatates collaboration">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyHhhHzhEeK4RO8Gc0PbkA" name="BusinessNetworkFacilatatesCollaboration" numberOfColumns="1"/>
+    </pages>
+    <actionBar xmi:id="_eyHhhXzhEeK4RO8Gc0PbkA" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyHhhnzhEeK4RO8Gc0PbkA" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyHhh3zhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_eyHhiHzhEeK4RO8Gc0PbkA" name="Create BusinessNetworkFacilatatesCollaboration" umlElementUid="252060@_YJGvcFYjEeGJUqEGX7bKSg">
+    <pageOrdering xmi:id="_eyHhinzhEeK4RO8Gc0PbkA" page="_eyHhiXzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_eyHhiXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_YJGvcFYjEeGJUqEGX7bKSg" name="CreateBusiness network facilatates collaboration">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyHhi3zhEeK4RO8Gc0PbkA" name="BusinessNetworkFacilatatesCollaboration" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

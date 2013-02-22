@@ -36,6 +36,10 @@ public class Duration{
 	public Duration(BusinessTimeUnit tu){
 		this.timeUnit = tu;
 	}
+	public Duration(BusinessTimeUnit tu, double q){
+		this.timeUnit = tu;
+		this.quantity=q;
+	}
 	public Duration(String s){
 		initFormats();
 		fromDate = new Date();

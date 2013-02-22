@@ -130,26 +130,26 @@ public interface PerspectiveConfiguration extends UserInteractionElement {
 	void setInbox(InboxConfiguration value);
 
 	/**
-	 * Returns the value of the '<em><b>Outbox</b></em>' reference.
+	 * Returns the value of the '<em><b>Outbox</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Outbox</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Outbox</em>' reference.
+	 * @return the value of the '<em>Outbox</em>' containment reference.
 	 * @see #setOutbox(OutboxConfiguration)
 	 * @see org.opaeum.uim.perspective.PerspectivePackage#getPerspectiveConfiguration_Outbox()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	OutboxConfiguration getOutbox();
 
 	/**
-	 * Sets the value of the '{@link org.opaeum.uim.perspective.PerspectiveConfiguration#getOutbox <em>Outbox</em>}' reference.
+	 * Sets the value of the '{@link org.opaeum.uim.perspective.PerspectiveConfiguration#getOutbox <em>Outbox</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Outbox</em>' reference.
+	 * @param value the new value of the '<em>Outbox</em>' containment reference.
 	 * @see #getOutbox()
 	 * @generated
 	 */

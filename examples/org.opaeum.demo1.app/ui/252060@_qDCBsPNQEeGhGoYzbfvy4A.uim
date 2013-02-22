@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eytXYHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_qDCBsPNQEeGhGoYzbfvy4A" name="I standalone single screen task User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_eytXYXzhEeK4RO8Gc0PbkA" name="Edit IStandaloneSingleScreenTask" umlElementUid="252060@_qDCBsPNQEeGhGoYzbfvy4A">
+    <superUserInterfaces href="252060@_2tdYsI3oEeCfQedkc0TCdA.uim#_eyEeMXzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_eyt-cXzhEeK4RO8Gc0PbkA" page="_eyt-cHzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_eyt-dnzhEeK4RO8Gc0PbkA" position="1">
+      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_exoZV3zhEeK4RO8Gc0PbkA"/>
+    </pageOrdering>
+    <pages xmi:id="_eyt-cHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_qDCBsPNQEeGhGoYzbfvy4A" name="Edit I standalone single screen task">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyt-cnzhEeK4RO8Gc0PbkA" name="IStandaloneSingleScreenTask" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_eyt-c3zhEeK4RO8Gc0PbkA" name="Task request" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_eyt-dHzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyt-dXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_RczxwOtsEeGT0cXodbXPYg"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar xmi:id="_eyt-fXzhEeK4RO8Gc0PbkA" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyt-fnzhEeK4RO8Gc0PbkA" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyt-f3zhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-gHzhEeK4RO8Gc0PbkA" name="On resumed" umlElementUid="252060@_8ba9IK0NEeCK48ywUpk_rg">
+        <popup href="252060@_8ba9IK0NEeCK48ywUpk_rg.uim#_eyFFRnzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-gXzhEeK4RO8Gc0PbkA" name="On delegated" umlElementUid="252060@_EE4B0K0OEeCK48ywUpk_rg">
+        <popup href="252060@_EE4B0K0OEeCK48ywUpk_rg.uim#_eyFFSHzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-gnzhEeK4RO8Gc0PbkA" name="On forwarded" umlElementUid="252060@_NdLN8K0OEeCK48ywUpk_rg">
+        <popup href="252060@_NdLN8K0OEeCK48ywUpk_rg.uim#_eyFFSnzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-g3zhEeK4RO8Gc0PbkA" name="On activated" umlElementUid="252060@_XbPZkK0OEeCK48ywUpk_rg">
+        <popup href="252060@_XbPZkK0OEeCK48ywUpk_rg.uim#_expAYHzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-hHzhEeK4RO8Gc0PbkA" name="On revoked" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg">
+        <popup href="252060@__imwgK0NEeCK48ywUpk_rg.uim#_eyFsUHzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-hXzhEeK4RO8Gc0PbkA" name="On completed" umlElementUid="252060@_a_82cK0OEeCK48ywUpk_rg">
+        <popup href="252060@_a_82cK0OEeCK48ywUpk_rg.uim#_expAYnzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-hnzhEeK4RO8Gc0PbkA" name="On skipped" umlElementUid="252060@_fdkRQK0OEeCK48ywUpk_rg">
+        <popup href="252060@_fdkRQK0OEeCK48ywUpk_rg.uim#_eyFsU3zhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-h3zhEeK4RO8Gc0PbkA" name="On started" umlElementUid="252060@_iBCwEK0NEeCK48ywUpk_rg">
+        <popup href="252060@_iBCwEK0NEeCK48ywUpk_rg.uim#_expAZHzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-iHzhEeK4RO8Gc0PbkA" name="On claimed" umlElementUid="252060@_qTa18K0NEeCK48ywUpk_rg">
+        <popup href="252060@_qTa18K0NEeCK48ywUpk_rg.uim#_eyFsVnzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-iXzhEeK4RO8Gc0PbkA" name="On suspended" umlElementUid="252060@_ug7_QK0NEeCK48ywUpk_rg">
+        <popup href="252060@_ug7_QK0NEeCK48ywUpk_rg.uim#_eyFsWHzhEeK4RO8Gc0PbkA"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_eyt-inzhEeK4RO8Gc0PbkA" name="On stopped" umlElementUid="252060@_zwcxEK0NEeCK48ywUpk_rg">
+        <popup href="252060@_zwcxEK0NEeCK48ywUpk_rg.uim#_eyGTYHzhEeK4RO8Gc0PbkA"/>
+      </children>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_eyt-i3zhEeK4RO8Gc0PbkA" name="Create IStandaloneSingleScreenTask" umlElementUid="252060@_qDCBsPNQEeGhGoYzbfvy4A">
+    <superUserInterfaces href="252060@_2tdYsI3oEeCfQedkc0TCdA.uim#_eyGTYXzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_eyt-mnzhEeK4RO8Gc0PbkA" page="_eyt-mXzhEeK4RO8Gc0PbkA"/>
+    <pageOrdering xmi:id="_eyt-n3zhEeK4RO8Gc0PbkA" position="1">
+      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_expAenzhEeK4RO8Gc0PbkA"/>
+    </pageOrdering>
+    <pages xmi:id="_eyt-mXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_qDCBsPNQEeGhGoYzbfvy4A" name="CreateI standalone single screen task">
+      <panel xsi:type="panel:GridPanel" xmi:id="_eyt-m3zhEeK4RO8Gc0PbkA" name="IStandaloneSingleScreenTask" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_eyt-nHzhEeK4RO8Gc0PbkA" name="Task request" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_eyt-nXzhEeK4RO8Gc0PbkA"/>
+          <binding xmi:id="_eyt-nnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_RczxwOtsEeGT0cXodbXPYg"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>
